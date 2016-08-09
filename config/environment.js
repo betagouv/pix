@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'pix-live',
     environment: environment,
-    baseURL: '/',
+    baseURL: '/pix-live/',
     locationType: 'auto',
     EmberENV: {
       // XXX because of a deprecation notice in the console
