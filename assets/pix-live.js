@@ -650,7 +650,7 @@ define("pix-live/mirage/factories/course", ["exports", "ember-cli-mirage"], func
     },
     description: _emberCliMirage.faker.lorem.paragraph(),
     duration: _emberCliMirage.faker.random.number(),
-    imgUrl: _emberCliMirage.faker.list.cycle("/images/test1.png", "/images/test2.png", "/images/test3.png", "/images/test4.png")
+    imgUrl: _emberCliMirage.faker.list.cycle("/pix-live/images/test1.png", "/pix-live/images/test2.png", "/pix-live/images/test3.png", "/pix-live/images/test4.png")
   });
 });
 define('pix-live/mirage/models/assessment', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
@@ -2388,8 +2388,8 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 20,
-            "column": 6
+            "line": 21,
+            "column": 0
           }
         },
         "moduleName": "pix-live/templates/components/app-header.hbs"
@@ -2452,7 +2452,7 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("img");
-        dom.setAttribute(el5, "src", "/images/pix-logo.png");
+        dom.setAttribute(el5, "src", "/pix-live/images/pix-logo.png");
         dom.setAttribute(el5, "alt", "Logo PIX");
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -2486,6 +2486,8 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
@@ -6672,7 +6674,7 @@ define("pix-live/templates/courses", ["exports"], function (exports) {
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("img");
           dom.setAttribute(el3, "class", "course-picture");
-          dom.setAttribute(el3, "src", "/images/course-default-image.png");
+          dom.setAttribute(el3, "src", "/pix-live/images/course-default-image.png");
           dom.appendChild(el2, el3);
           var el3 = dom.createTextNode("\n                      ");
           dom.appendChild(el2, el3);
@@ -6743,8 +6745,8 @@ define("pix-live/templates/courses", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 29,
-            "column": 6
+            "line": 30,
+            "column": 0
           }
         },
         "moduleName": "pix-live/templates/courses.hbs"
@@ -6789,6 +6791,8 @@ define("pix-live/templates/courses", ["exports"], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
@@ -7011,8 +7015,8 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 75,
-            "column": 6
+            "line": 76,
+            "column": 0
           }
         },
         "moduleName": "pix-live/templates/home.hbs"
@@ -7056,7 +7060,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("img");
         dom.setAttribute(el5, "class", "course-picture");
-        dom.setAttribute(el5, "src", "/images/test7.png");
+        dom.setAttribute(el5, "src", "/pix-live/images/test7.png");
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n\n                ");
         dom.appendChild(el4, el5);
@@ -7102,7 +7106,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("img");
         dom.setAttribute(el5, "class", "course-picture");
-        dom.setAttribute(el5, "src", "/images/course-default-image.png");
+        dom.setAttribute(el5, "src", "/pix-live/images/course-default-image.png");
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n\n                ");
         dom.appendChild(el4, el5);
@@ -7144,6 +7148,8 @@ define("pix-live/templates/home", ["exports"], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
@@ -7601,7 +7607,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"PIX_API_NAMESPACE":"api/live","LOG_RESOLVER":true,"LOG_ACTIVE_GENERATION":true,"LOG_TRANSITIONS":true,"LOG_TRANSITIONS_INTERNAL":true,"LOG_VIEW_LOOKUPS":true,"PIX_API_HOST":"http://localhost:4200","name":"pix-live","version":"0.0.0+6942a808"});
+  require("pix-live/app")["default"].create({"PIX_API_NAMESPACE":"api/live","LOG_RESOLVER":true,"LOG_ACTIVE_GENERATION":true,"LOG_TRANSITIONS":true,"LOG_TRANSITIONS_INTERNAL":true,"LOG_VIEW_LOOKUPS":true,"PIX_API_HOST":"http://localhost:4200","name":"pix-live","version":"0.0.0+02a794f0"});
 }
 
 /* jshint ignore:end */
