@@ -7601,7 +7601,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"PIX_API_NAMESPACE":"api/live","LOG_RESOLVER":true,"LOG_ACTIVE_GENERATION":true,"LOG_TRANSITIONS":true,"LOG_TRANSITIONS_INTERNAL":true,"LOG_VIEW_LOOKUPS":true,"PIX_API_HOST":"http://localhost:4200","name":"pix-live","version":"0.0.0+f840d643"});
+  require("pix-live/app")["default"].create({"PIX_API_NAMESPACE":"api/live","LOG_RESOLVER":true,"LOG_ACTIVE_GENERATION":true,"LOG_TRANSITIONS":true,"LOG_TRANSITIONS_INTERNAL":true,"LOG_VIEW_LOOKUPS":true,"PIX_API_HOST":"http://localhost:4200","name":"pix-live","version":"0.0.0+6942a808"});
 }
 
 /* jshint ignore:end */
