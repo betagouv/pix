@@ -11,7 +11,8 @@
     "build": "ember build",
     "start": "ember server",
     "test": "ember test",
-    "ci:test": "ember test | tee out.log ; tap-xunit < out.log > $CIRCLE_TEST_REPORTS/junit/test-results.xml"
+    "ci:test": "ember test | tee out.log ; tap-xunit < out.log > $CIRCLE_TEST_REPORTS/junit/test-results.xml",
+    "deploy:github": "ember github-pages:commit --message \"new gh-pages release\" --environment=development  && git push origin gh-pages:gh-pages"
   },
   "repository": "",
   "engines": {
