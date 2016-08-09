@@ -58,8 +58,11 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
+    ENV.locationType = 'hash';
+    ENV.baseUrl = '/pix-live/';
     // PIX-API
-    ENV.APP.PIX_API_HOST = 'https://api.pix-app.ovh';
+    //ENV.APP.PIX_API_HOST = 'https://api.pix-app.ovh';
+    ENV.APP.PIX_API_HOST = 'http://localhost:4200';
   }
 
   return ENV;
