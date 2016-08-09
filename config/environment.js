@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'pix-live',
     environment: environment,
-    baseURL: '/',
+    baseURL: '/pix-live/',
     locationType: 'auto',
     EmberENV: {
       // XXX because of a deprecation notice in the console
@@ -58,8 +58,11 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
+    ENV.locationType = 'hash';
+    ENV.baseUrl = '/pix-live/';
     // PIX-API
-    ENV.APP.PIX_API_HOST = 'https://api.pix-app.ovh';
+    //ENV.APP.PIX_API_HOST = 'https://api.pix-app.ovh';
+    ENV.APP.PIX_API_HOST = 'http://localhost:4200';
   }
 
   return ENV;
