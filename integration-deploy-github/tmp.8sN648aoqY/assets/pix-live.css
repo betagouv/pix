@@ -1,0 +1,72 @@
+/* fonts */
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+/* globals */
+@import url('globals/buttons.css');
+@import url('globals/form.css');
+@import url('globals/groupped-input.css');
+@import url('globals/rounded-panel.css');
+/* components */
+@import url('components/app-header.css');
+@import url('components/app-footer.css');
+@import url('components/identification-form.css');
+@import url('components/user-menu.css');
+/* views */
+@import url('assessment.css');
+@import url('home.css');
+@import url('index.css');
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 900px;
+  }
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #f2f3f4;
+}
+
+.body {
+  padding-top: 20px;
+  margin-bottom: 60px;
+}
+
+.component-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.title {
+  display: block;
+  text-rendering: optimizeLegibility;
+  color: #484c58;
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.courses > ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.course {
+  margin: 0;
+  display: inline-block;
+  background-color: #fff;
+  border-radius: 0.3125em;
+  border-left: 1px solid #dedfe2;
+  border-right: 1px solid #dedfe2;
+  border-bottom: 1px solid #D0D1D5;
+  box-shadow: 0 1px 0 0 #dedfe2;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+  margin-bottom: 20px;
+  padding: 15px 15px 15px 15px;
+}
+
