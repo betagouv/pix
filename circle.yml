@@ -1,0 +1,32 @@
+machine:
+  node:
+    version: v6.2.1
+
+dependencies:
+  pre:
+    - npm install -g bower
+    - npm install
+    - bower install
+test:
+  override:
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit
+    - npm run ci:test
+
+deployment:
+  staging:
+    branch: master
+    commands:
+      - git config --global user.email 'mackwic@gmail.com'
+      - git config --global user.name 'Thomas Wickham'
+      - npm run deploy:staging
+  autodeploy-dev:
+    branch: /.*/
+    commands:
+      - git config --global user.email 'mackwic@gmail.com'
+      - git config --global user.name 'Thomas Wickham'
+      - npm run deploy:branch-dev
+
+general:
+  branches:
+    ignore:
+      - gh-pages
