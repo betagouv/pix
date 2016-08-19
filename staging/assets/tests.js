@@ -1,3 +1,75 @@
+define('pix-live/tests/acceptance/1-accedder-a-la-plateforme-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)('Acceptance | 1 - Accéder à la plateforme pour démarrer un test', function () {
+    var application = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/home');
+    });
+
+    (0, _mocha.it)('2.0 peut visiter /home', function () {
+      (0, _chai.expect)(currentPath()).to.equal('home');
+    });
+
+    (0, _mocha.it)('2.1 la liste des tests apparaît', function () {
+      (0, _chai.expect)(findWithAssert('.title').text()).to.contains('Liste des tests');
+    });
+
+    (0, _mocha.it)('2.2 on affiche autant de tests que remontés par AirTable', function () {
+      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(6);
+    });
+
+    (0, _mocha.describe)('2.3 pour un test donné avec toutes les informations', function () {
+
+      var $course = undefined;
+
+      (0, _mocha.before)(function () {
+        $course = find('.course[data-id="rec5duNNrPqbSzQ8o"]');
+      });
+
+      (0, _mocha.it)('2.3.1 on affiche son nom', function () {
+        (0, _chai.expect)($course.find('.course-name').text()).to.contains('Test #1');
+      });
+
+      (0, _mocha.it)('2.3.2 on affiche sa description', function () {
+        (0, _chai.expect)($course.find('.course-description').text()).to.contains('Libero eum excepturi');
+      });
+
+      (0, _mocha.it)('2.3.3 on affiche son image', function () {
+        (0, _chai.expect)($course.find('img')[0].src).to.equal('https://dl.airtable.com/oLRaj7sTbCGzsLNwiur1_test1.png');
+      });
+
+      (0, _mocha.it)('2.3.4 on affiche un bouton "démarrer le test"', function () {
+        (0, _chai.expect)($course.find('a.btn').text()).to.contains('Démarrer le test');
+      });
+    });
+
+    (0, _mocha.it)('2.4 pour un test dont il manque l\'image, on affiche une image placeholder', function () {
+      var $course = find('.course[data-id="recOouHLk00aMWJH2"]');
+      (0, _chai.expect)($course.find('img')[0].src).to.contains('images/course-default-image.png');
+    });
+  });
+});
+define('pix-live/tests/acceptance/1-accedder-a-la-plateforme-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/1-accedder-a-la-plateforme-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/1-accedder-a-la-plateforme-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 2 - voir la liste des tests', function () {
@@ -58,13 +130,13 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
     });
   });
 });
-define('pix-live/tests/acceptance/2-voir-liste-tests-test.jshint', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/2-voir-liste-tests-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | acceptance/2-voir-liste-tests-test.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - acceptance/2-voir-liste-tests-test.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/2-voir-liste-tests-test.js should pass jshint.');
+        var error = new chai.AssertionError('acceptance/2-voir-liste-tests-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -104,13 +176,13 @@ define('pix-live/tests/acceptance/3-demarrer-test-test', ['exports', 'mocha', 'c
     });
   });
 });
-define('pix-live/tests/acceptance/3-demarrer-test-test.jshint', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/3-demarrer-test-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | acceptance/3-demarrer-test-test.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - acceptance/3-demarrer-test-test.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/3-demarrer-test-test.js should pass jshint.');
+        var error = new chai.AssertionError('acceptance/3-demarrer-test-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -166,13 +238,13 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'm
     });
   });
 });
-define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test.jshint', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | acceptance/32-creer-une-epreuve-qcu-test.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - acceptance/32-creer-une-epreuve-qcu-test.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/32-creer-une-epreuve-qcu-test.js should pass jshint.');
+        var error = new chai.AssertionError('acceptance/32-creer-une-epreuve-qcu-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -233,13 +305,13 @@ define('pix-live/tests/acceptance/4-demarrer-epreuve-test', ['exports', 'mocha',
     });
   });
 });
-define('pix-live/tests/acceptance/4-demarrer-epreuve-test.jshint', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/4-demarrer-epreuve-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | acceptance/4-demarrer-epreuve-test.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - acceptance/4-demarrer-epreuve-test.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/4-demarrer-epreuve-test.js should pass jshint.');
+        var error = new chai.AssertionError('acceptance/4-demarrer-epreuve-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -267,121 +339,121 @@ define('pix-live/tests/acceptance/home-test', ['exports', 'pix-live/tests/test-h
     });
   });
 });
-define('pix-live/tests/acceptance/home-test.jshint', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/home-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | acceptance/home-test.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - acceptance/home-test.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/home-test.js should pass jshint.');
+        var error = new chai.AssertionError('acceptance/home-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/adapters/application.jshint', ['exports'], function (exports) {
+define('pix-live/tests/adapters/application.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | adapters/application.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - adapters/application.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('adapters/application.js should pass jshint.');
+        var error = new chai.AssertionError('adapters/application.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/adapters/challenge.jshint', ['exports'], function (exports) {
+define('pix-live/tests/adapters/challenge.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | adapters/challenge.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - adapters/challenge.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('adapters/challenge.js should pass jshint.');
+        var error = new chai.AssertionError('adapters/challenge.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/adapters/course.jshint', ['exports'], function (exports) {
+define('pix-live/tests/adapters/course.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | adapters/course.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - adapters/course.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('adapters/course.js should pass jshint.');
+        var error = new chai.AssertionError('adapters/course.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/app.jshint', ['exports'], function (exports) {
+define('pix-live/tests/app.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | app.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - app.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('app.js should pass jshint.');
+        var error = new chai.AssertionError('app.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/components/app-footer.jshint', ['exports'], function (exports) {
+define('pix-live/tests/components/app-footer.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | components/app-footer.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - components/app-footer.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('components/app-footer.js should pass jshint.');
+        var error = new chai.AssertionError('components/app-footer.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/components/app-header.jshint', ['exports'], function (exports) {
+define('pix-live/tests/components/app-header.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | components/app-header.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - components/app-header.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('components/app-header.js should pass jshint.');
+        var error = new chai.AssertionError('components/app-header.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/components/identification-form.jshint', ['exports'], function (exports) {
+define('pix-live/tests/components/identification-form.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | components/identification-form.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - components/identification-form.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('components/identification-form.js should pass jshint.');
+        var error = new chai.AssertionError('components/identification-form.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/components/user-menu.jshint', ['exports'], function (exports) {
+define('pix-live/tests/components/user-menu.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | components/user-menu.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - components/user-menu.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('components/user-menu.js should pass jshint.');
+        var error = new chai.AssertionError('components/user-menu.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/controllers/challenge-show.jshint', ['exports'], function (exports) {
+define('pix-live/tests/controllers/challenge-show.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | controllers/challenge-show.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - controllers/challenge-show.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('controllers/challenge-show.js should pass jshint.');
+        var error = new chai.AssertionError('controllers/challenge-show.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -425,13 +497,13 @@ define('pix-live/tests/helpers/describe-visiting', ['exports', 'pix-live/tests/h
   };
 });
 /* globals describe, beforeEach, afterEach */
-define('pix-live/tests/helpers/describe-visiting.jshint', ['exports'], function (exports) {
+define('pix-live/tests/helpers/describe-visiting.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | helpers/describe-visiting.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - helpers/describe-visiting.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('helpers/describe-visiting.js should pass jshint.');
+        var error = new chai.AssertionError('helpers/describe-visiting.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -445,13 +517,13 @@ define('pix-live/tests/helpers/destroy-app', ['exports', 'ember'], function (exp
     server.shutdown();
   }
 });
-define('pix-live/tests/helpers/destroy-app.jshint', ['exports'], function (exports) {
+define('pix-live/tests/helpers/destroy-app.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | helpers/destroy-app.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - helpers/destroy-app.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('helpers/destroy-app.js should pass jshint.');
+        var error = new chai.AssertionError('helpers/destroy-app.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1130,13 +1202,13 @@ define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-
 
   exports['default'] = resolver;
 });
-define('pix-live/tests/helpers/resolver.jshint', ['exports'], function (exports) {
+define('pix-live/tests/helpers/resolver.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | helpers/resolver.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - helpers/resolver.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('helpers/resolver.js should pass jshint.');
+        var error = new chai.AssertionError('helpers/resolver.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1160,181 +1232,181 @@ define('pix-live/tests/helpers/start-app', ['exports', 'ember', 'pix-live/app', 
     return application;
   }
 });
-define('pix-live/tests/helpers/start-app.jshint', ['exports'], function (exports) {
+define('pix-live/tests/helpers/start-app.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | helpers/start-app.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - helpers/start-app.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('helpers/start-app.js should pass jshint.');
+        var error = new chai.AssertionError('helpers/start-app.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/models/assessment.jshint', ['exports'], function (exports) {
+define('pix-live/tests/models/assessment.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | models/assessment.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - models/assessment.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('models/assessment.js should pass jshint.');
+        var error = new chai.AssertionError('models/assessment.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/models/challenge.jshint', ['exports'], function (exports) {
+define('pix-live/tests/models/challenge.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | models/challenge.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - models/challenge.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('models/challenge.js should pass jshint.');
+        var error = new chai.AssertionError('models/challenge.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/models/course.jshint', ['exports'], function (exports) {
+define('pix-live/tests/models/course.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | models/course.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - models/course.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('models/course.js should pass jshint.');
+        var error = new chai.AssertionError('models/course.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/resolver.jshint', ['exports'], function (exports) {
+define('pix-live/tests/resolver.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | resolver.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - resolver.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('resolver.js should pass jshint.');
+        var error = new chai.AssertionError('resolver.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/router.jshint', ['exports'], function (exports) {
+define('pix-live/tests/router.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | router.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - router.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('router.js should pass jshint.');
+        var error = new chai.AssertionError('router.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/routes/assessment-create.jshint', ['exports'], function (exports) {
+define('pix-live/tests/routes/assessment-create.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | routes/assessment-create.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - routes/assessment-create.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('routes/assessment-create.js should pass jshint.');
+        var error = new chai.AssertionError('routes/assessment-create.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/routes/challenge-show.jshint', ['exports'], function (exports) {
+define('pix-live/tests/routes/challenge-show.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | routes/challenge-show.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - routes/challenge-show.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('routes/challenge-show.js should pass jshint.');
+        var error = new chai.AssertionError('routes/challenge-show.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/routes/challenges/preview.jshint', ['exports'], function (exports) {
+define('pix-live/tests/routes/challenges/preview.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | routes/challenges/preview.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - routes/challenges/preview.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('routes/challenges/preview.js should pass jshint.');
+        var error = new chai.AssertionError('routes/challenges/preview.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/routes/courses.jshint', ['exports'], function (exports) {
+define('pix-live/tests/routes/courses.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | routes/courses.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - routes/courses.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('routes/courses.js should pass jshint.');
+        var error = new chai.AssertionError('routes/courses.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/routes/home.jshint', ['exports'], function (exports) {
+define('pix-live/tests/routes/home.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | routes/home.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - routes/home.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('routes/home.js should pass jshint.');
+        var error = new chai.AssertionError('routes/home.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/routes/index.jshint', ['exports'], function (exports) {
+define('pix-live/tests/routes/index.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | routes/index.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - routes/index.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('routes/index.js should pass jshint.');
+        var error = new chai.AssertionError('routes/index.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/routes/preferences.jshint', ['exports'], function (exports) {
+define('pix-live/tests/routes/preferences.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | routes/preferences.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - routes/preferences.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('routes/preferences.js should pass jshint.');
+        var error = new chai.AssertionError('routes/preferences.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/serializers/challenge.jshint', ['exports'], function (exports) {
+define('pix-live/tests/serializers/challenge.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | serializers/challenge.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - serializers/challenge.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('serializers/challenge.js should pass jshint.');
+        var error = new chai.AssertionError('serializers/challenge.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/serializers/course.jshint', ['exports'], function (exports) {
+define('pix-live/tests/serializers/course.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | serializers/course.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - serializers/course.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('serializers/course.js should pass jshint.');
+        var error = new chai.AssertionError('serializers/course.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1346,13 +1418,13 @@ define('pix-live/tests/test-helper', ['exports', 'pix-live/tests/helpers/resolve
   (0, _emberMocha.setResolver)(_pixLiveTestsHelpersResolver['default']);
 });
 /* globals mocha */
-define('pix-live/tests/test-helper.jshint', ['exports'], function (exports) {
+define('pix-live/tests/test-helper.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | test-helper.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - test-helper.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('test-helper.js should pass jshint.');
+        var error = new chai.AssertionError('test-helper.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1371,13 +1443,13 @@ define('pix-live/tests/unit/controllers/challenge-show-test', ['exports', 'chai'
     });
   });
 });
-define('pix-live/tests/unit/controllers/challenge-show-test.jshint', ['exports'], function (exports) {
+define('pix-live/tests/unit/controllers/challenge-show-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | unit/controllers/challenge-show-test.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - unit/controllers/challenge-show-test.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('unit/controllers/challenge-show-test.js should pass jshint.');
+        var error = new chai.AssertionError('unit/controllers/challenge-show-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1445,13 +1517,13 @@ define('pix-live/tests/unit/models/challenge-test', ['exports', 'chai', 'ember-m
     });
   });
 });
-define('pix-live/tests/unit/models/challenge-test.jshint', ['exports'], function (exports) {
+define('pix-live/tests/unit/models/challenge-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | unit/models/challenge-test.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - unit/models/challenge-test.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('unit/models/challenge-test.js should pass jshint.');
+        var error = new chai.AssertionError('unit/models/challenge-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1477,13 +1549,13 @@ define('pix-live/tests/unit/models/course-test', ['exports', 'pix-live/tests/tes
     });
   });
 });
-define('pix-live/tests/unit/models/course-test.jshint', ['exports'], function (exports) {
+define('pix-live/tests/unit/models/course-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | unit/models/course-test.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - unit/models/course-test.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('unit/models/course-test.js should pass jshint.');
+        var error = new chai.AssertionError('unit/models/course-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1501,13 +1573,13 @@ define('pix-live/tests/unit/routes/challenge-show-test', ['exports', 'chai', 'em
     });
   });
 });
-define('pix-live/tests/unit/routes/challenge-show-test.jshint', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/challenge-show-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | unit/routes/challenge-show-test.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - unit/routes/challenge-show-test.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('unit/routes/challenge-show-test.js should pass jshint.');
+        var error = new chai.AssertionError('unit/routes/challenge-show-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1525,13 +1597,13 @@ define('pix-live/tests/unit/routes/challenges/preview-test', ['exports', 'chai',
     });
   });
 });
-define('pix-live/tests/unit/routes/challenges/preview-test.jshint', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/challenges/preview-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | unit/routes/challenges/preview-test.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - unit/routes/challenges/preview-test.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('unit/routes/challenges/preview-test.js should pass jshint.');
+        var error = new chai.AssertionError('unit/routes/challenges/preview-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1546,13 +1618,13 @@ define('pix-live/tests/unit/routes/courses-test', ['exports', 'pix-live/tests/te
     });
   });
 });
-define('pix-live/tests/unit/routes/courses-test.jshint', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/courses-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | unit/routes/courses-test.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - unit/routes/courses-test.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('unit/routes/courses-test.js should pass jshint.');
+        var error = new chai.AssertionError('unit/routes/courses-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1567,13 +1639,13 @@ define('pix-live/tests/unit/routes/home-test', ['exports', 'pix-live/tests/test-
     });
   });
 });
-define('pix-live/tests/unit/routes/home-test.jshint', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/home-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | unit/routes/home-test.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - unit/routes/home-test.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('unit/routes/home-test.js should pass jshint.');
+        var error = new chai.AssertionError('unit/routes/home-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1588,13 +1660,13 @@ define('pix-live/tests/unit/routes/index-test', ['exports', 'pix-live/tests/test
     });
   });
 });
-define('pix-live/tests/unit/routes/index-test.jshint', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/index-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | unit/routes/index-test.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - unit/routes/index-test.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('unit/routes/index-test.js should pass jshint.');
+        var error = new chai.AssertionError('unit/routes/index-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1609,13 +1681,13 @@ define('pix-live/tests/unit/routes/preferences-test', ['exports', 'pix-live/test
     });
   });
 });
-define('pix-live/tests/unit/routes/preferences-test.jshint', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/preferences-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | unit/routes/preferences-test.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - unit/routes/preferences-test.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('unit/routes/preferences-test.js should pass jshint.');
+        var error = new chai.AssertionError('unit/routes/preferences-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1717,13 +1789,13 @@ define('pix-live/tests/unit/serializers/course-test', ['exports', 'chai', 'ember
     });
   });
 });
-define('pix-live/tests/unit/serializers/course-test.jshint', ['exports'], function (exports) {
+define('pix-live/tests/unit/serializers/course-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('JSHint | unit/serializers/course-test.js', function () {
-    it('should pass jshint', function () {
+  describe('ESLint - unit/serializers/course-test.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('unit/serializers/course-test.js should pass jshint.');
+        var error = new chai.AssertionError('unit/serializers/course-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });

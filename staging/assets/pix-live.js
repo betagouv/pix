@@ -6469,111 +6469,111 @@ define("pix-live/templates/preferences", ["exports"], function (exports) {
     };
   })());
 });
-define('pix-live/tests/mirage/mirage/config.jshint', ['exports'], function (exports) {
-  describe('JSHint | mirage/config.js', function () {
-    it('should pass jshint', function () {
+define('pix-live/tests/mirage/mirage/config.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/config.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/config.js should pass jshint.');
+        var error = new chai.AssertionError('mirage/config.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/mirage/mirage/factories/assessment.jshint', ['exports'], function (exports) {
-  describe('JSHint | mirage/factories/assessment.js', function () {
-    it('should pass jshint', function () {
+define('pix-live/tests/mirage/mirage/factories/assessment.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/factories/assessment.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/factories/assessment.js should pass jshint.');
+        var error = new chai.AssertionError('mirage/factories/assessment.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/mirage/mirage/factories/challenge.jshint', ['exports'], function (exports) {
-  describe('JSHint | mirage/factories/challenge.js', function () {
-    it('should pass jshint', function () {
+define('pix-live/tests/mirage/mirage/factories/challenge.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/factories/challenge.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/factories/challenge.js should pass jshint.');
+        var error = new chai.AssertionError('mirage/factories/challenge.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/mirage/mirage/factories/course.jshint', ['exports'], function (exports) {
-  describe('JSHint | mirage/factories/course.js', function () {
-    it('should pass jshint', function () {
+define('pix-live/tests/mirage/mirage/factories/course.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/factories/course.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/factories/course.js should pass jshint.');
+        var error = new chai.AssertionError('mirage/factories/course.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/mirage/mirage/fixtures/courses.jshint', ['exports'], function (exports) {
-  describe('JSHint | mirage/fixtures/courses.js', function () {
-    it('should pass jshint', function () {
+define('pix-live/tests/mirage/mirage/fixtures/courses.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/fixtures/courses.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/fixtures/courses.js should pass jshint.');
+        var error = new chai.AssertionError('mirage/fixtures/courses.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/mirage/mirage/models/assessment.jshint', ['exports'], function (exports) {
-  describe('JSHint | mirage/models/assessment.js', function () {
-    it('should pass jshint', function () {
+define('pix-live/tests/mirage/mirage/models/assessment.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/models/assessment.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/models/assessment.js should pass jshint.');
+        var error = new chai.AssertionError('mirage/models/assessment.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/mirage/mirage/models/challenge.jshint', ['exports'], function (exports) {
-  describe('JSHint | mirage/models/challenge.js', function () {
-    it('should pass jshint', function () {
+define('pix-live/tests/mirage/mirage/models/challenge.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/models/challenge.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/models/challenge.js should pass jshint.');
+        var error = new chai.AssertionError('mirage/models/challenge.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/mirage/mirage/models/course.jshint', ['exports'], function (exports) {
-  describe('JSHint | mirage/models/course.js', function () {
-    it('should pass jshint', function () {
+define('pix-live/tests/mirage/mirage/models/course.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/models/course.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/models/course.js should pass jshint.');
+        var error = new chai.AssertionError('mirage/models/course.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/mirage/mirage/scenarios/default.jshint', ['exports'], function (exports) {
-  describe('JSHint | mirage/scenarios/default.js', function () {
-    it('should pass jshint', function () {
+define('pix-live/tests/mirage/mirage/scenarios/default.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/scenarios/default.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/scenarios/default.js should pass jshint.');
+        var error = new chai.AssertionError('mirage/scenarios/default.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/mirage/mirage/serializers/application.jshint', ['exports'], function (exports) {
-  describe('JSHint | mirage/serializers/application.js', function () {
-    it('should pass jshint', function () {
+define('pix-live/tests/mirage/mirage/serializers/application.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/serializers/application.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/serializers/application.js should pass jshint.');
+        var error = new chai.AssertionError('mirage/serializers/application.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/mirage/mirage/serializers/assessment.jshint', ['exports'], function (exports) {
-  describe('JSHint | mirage/serializers/assessment.js', function () {
-    it('should pass jshint', function () {
+define('pix-live/tests/mirage/mirage/serializers/assessment.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/serializers/assessment.js', function () {
+    it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/serializers/assessment.js should pass jshint.');
+        var error = new chai.AssertionError('mirage/serializers/assessment.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -6611,7 +6611,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+0a033ffc"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+a73ba49d"});
 }
 
 /* jshint ignore:end */
