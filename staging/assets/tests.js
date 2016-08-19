@@ -2,11 +2,9 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
 
   (0, _mocha.describe)('Acceptance | 2 - voir la liste des tests', function () {
     var application = undefined;
-    var courses = undefined;
 
     (0, _mocha.before)(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
-      courses = server.createList('course', 5);
     });
 
     (0, _mocha.after)(function () {
@@ -23,23 +21,40 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
 
     (0, _mocha.it)('2.1 la liste des tests apparaît', function () {
       (0, _chai.expect)(findWithAssert('.title').text()).to.contains('Liste des tests');
-      (0, _chai.expect)(findWithAssert('.course')).to.have.length.above(1);
     });
 
-    (0, _mocha.it)('2.2 chaque test possède un intitulé', function () {
-      (0, _chai.expect)(findWithAssert('.course:nth(0) .course-name').text()).to.contains(courses[0].attrs.name);
+    (0, _mocha.it)('2.2 on affiche autant de tests que remontés par AirTable', function () {
+      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(6);
     });
 
-    (0, _mocha.it)('2.3 chaque test possède une description courte', function () {
-      (0, _chai.expect)(findWithAssert('.course:nth(0) .course-description').text()).to.contains(courses[0].attrs.description);
+    (0, _mocha.describe)('2.3 pour un test donné avec toutes les informations', function () {
+
+      var $course = undefined;
+
+      (0, _mocha.before)(function () {
+        $course = find('.course[data-id="rec5duNNrPqbSzQ8o"]');
+      });
+
+      (0, _mocha.it)('2.3.1 on affiche son nom', function () {
+        (0, _chai.expect)($course.find('.course-name').text()).to.contains('Test #1');
+      });
+
+      (0, _mocha.it)('2.3.2 on affiche sa description', function () {
+        (0, _chai.expect)($course.find('.course-description').text()).to.contains('Libero eum excepturi');
+      });
+
+      (0, _mocha.it)('2.3.3 on affiche son image', function () {
+        (0, _chai.expect)($course.find('img')[0].src).to.equal('https://dl.airtable.com/oLRaj7sTbCGzsLNwiur1_test1.png');
+      });
+
+      (0, _mocha.it)('2.3.4 on affiche un bouton "démarrer le test"', function () {
+        (0, _chai.expect)($course.find('a.btn').text()).to.contains('Démarrer le test');
+      });
     });
 
-    (0, _mocha.it)('2.4 chaque test possède une image', function () {
-      (0, _chai.expect)(findWithAssert('.course:nth(0) img')).to.be.ok;
-    });
-
-    (0, _mocha.it)('2.5 chaque test possède un bouton démarrer le test', function () {
-      (0, _chai.expect)(findWithAssert('.course:nth(0) a.btn').text()).to.contains('Démarrer le Test');
+    (0, _mocha.it)('2.4 pour un test dont il manque l\'image, on affiche une image placeholder', function () {
+      var $course = find('.course[data-id="recOouHLk00aMWJH2"]');
+      (0, _chai.expect)($course.find('img')[0].src).to.contains('images/course-default-image.png');
     });
   });
 });
@@ -57,7 +72,7 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test.jshint', ['exports'], 
 });
 define('pix-live/tests/acceptance/3-demarrer-test-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)('Acceptance: 3 - démarrer un test', function () {
+  _mocha.describe.skip('Acceptance | 3 - démarrer un test', function () {
     var application = undefined;
 
     (0, _mocha.before)(function () {
@@ -71,19 +86,19 @@ define('pix-live/tests/acceptance/3-demarrer-test-test', ['exports', 'mocha', 'c
     });
 
     (0, _mocha.before)(function () {
-      visit('/home');
+      return visit('/home');
     });
 
-    (0, _mocha.it)('2.0 démarrer  sur /home', function () {
+    (0, _mocha.it)('3.0 démarrer  sur /home', function () {
       (0, _chai.expect)(currentPath()).to.equal('home');
     });
 
-    (0, _mocha.it)('2.1 je peux lancer le test en cliquant sur “Démarrer le Test”', function () {
+    (0, _mocha.it)('3.1 je peux lancer le test en cliquant sur “Démarrer le Test”', function () {
       findWithAssert(".course:nth(0) a");
       return click(".course:nth(0) a");
     });
 
-    (0, _mocha.it)('2.2 je suis redirigé vers la première épreuve du test', function () {
+    (0, _mocha.it)('3.2 je suis redirigé vers la première épreuve du test', function () {
       (0, _chai.expect)(currentURL()).to.contains('challenge');
       (0, _chai.expect)(findWithAssert('.course-progression').text()).to.contains('1 /');
     });
@@ -101,9 +116,71 @@ define('pix-live/tests/acceptance/3-demarrer-test-test.jshint', ['exports'], fun
     });
   });
 });
+define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)('Acceptance | 32 - Créer une épreuve de type QCU', function () {
+
+    var application = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.describe)('Prévisualiser une épreuve', function () {
+
+      var challengeId = "recLt9uwa2dR3IYpi";
+
+      (0, _mocha.before)(function () {
+        return visit('/challenges/' + challengeId + '/preview');
+      });
+
+      (0, _mocha.it)('Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
+        (0, _chai.expect)(currentURL()).to.equal('/challenges/' + challengeId + '/preview');
+      });
+
+      (0, _mocha.describe)('les informations visibles sont :', function () {
+
+        var $challenge = undefined;
+
+        (0, _mocha.before)(function () {
+          $challenge = findWithAssert('#challenge-preview');
+        });
+
+        (0, _mocha.it)('l\'identifiant de l\'épreuve', function () {
+          (0, _chai.expect)($challenge.find('.title').text()).to.contains('Prévisualisation de l\'épreuve #' + challengeId);
+        });
+
+        (0, _mocha.it)('la consigne de l\'épreuve', function () {
+          (0, _chai.expect)($challenge.find('.challenge-instruction').text()).to.contains('Que peut-on dire des œufs de catégorie A ?');
+        });
+
+        (0, _mocha.it)('les propositions sous forme de boutons radio', function () {
+          var $proposals = findWithAssert('.challenge-proposals input[type="radio"][name="proposals"]');
+          (0, _chai.expect)($proposals).to.have.lengthOf(5);
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  describe('JSHint | acceptance/32-creer-une-epreuve-qcu-test.js', function () {
+    it('should pass jshint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/32-creer-une-epreuve-qcu-test.js should pass jshint.');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/acceptance/4-demarrer-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)('Acceptance: 4-DemarrerEpreuve', function () {
+  _mocha.describe.skip('Acceptance: 4-DemarrerEpreuve', function () {
     var application = undefined;
     var assessment = undefined;
     var challenge = undefined;
@@ -168,28 +245,28 @@ define('pix-live/tests/acceptance/4-demarrer-epreuve-test.jshint', ['exports'], 
     });
   });
 });
-define('pix-live/tests/acceptance/home-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/home-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'mocha', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _pixLiveTestsTestHelper, _chai, _mocha, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  describe('Acceptance | /home', function () {
-    beforeEach(function () {
+  (0, _mocha.describe)('Acceptance | /home', function () {
+
+    (0, _mocha.beforeEach)(function () {
       this.application = (0, _pixLiveTestsHelpersStartApp['default'])();
     });
 
-    afterEach(function () {
+    (0, _mocha.afterEach)(function () {
       return (0, _pixLiveTestsHelpersDestroyApp['default'])(this.application);
     });
 
-    (0, _emberMocha.it)('should display the title', function () {
+    (0, _mocha.it)('should display the title', function () {
       visit('/home');
 
       andThen(function () {
         (0, _chai.expect)(currentURL()).to.be.eq('/home');
-        (0, _chai.expect)(find('.title').text().trim()).to.be.equal('Liste des tests');
+        (0, _chai.expect)(find('.title').text()).to.contains('Liste des tests');
       });
     });
   });
 });
-/* globals currentURL, describe, beforeEach, afterEach, visit, andThen */
 define('pix-live/tests/acceptance/home-test.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -209,6 +286,30 @@ define('pix-live/tests/adapters/application.jshint', ['exports'], function (expo
     it('should pass jshint', function () {
       if (!true) {
         var error = new chai.AssertionError('adapters/application.js should pass jshint.');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/adapters/challenge.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  describe('JSHint | adapters/challenge.js', function () {
+    it('should pass jshint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('adapters/challenge.js should pass jshint.');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/adapters/course.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  describe('JSHint | adapters/course.js', function () {
+    it('should pass jshint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('adapters/course.js should pass jshint.');
         error.stack = undefined;throw error;
       }
     });
@@ -1143,42 +1244,6 @@ define('pix-live/tests/routes/assessment-create.jshint', ['exports'], function (
     });
   });
 });
-define('pix-live/tests/routes/challenge-123.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  describe('JSHint | routes/challenge-123.js', function () {
-    it('should pass jshint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('routes/challenge-123.js should pass jshint.');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/routes/challenge-456.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  describe('JSHint | routes/challenge-456.js', function () {
-    it('should pass jshint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('routes/challenge-456.js should pass jshint.');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/routes/challenge-789.jshint', ['exports'], function (exports) {
-  'use strict';
-
-  describe('JSHint | routes/challenge-789.js', function () {
-    it('should pass jshint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('routes/challenge-789.js should pass jshint.');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/routes/challenge-show.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -1186,6 +1251,18 @@ define('pix-live/tests/routes/challenge-show.jshint', ['exports'], function (exp
     it('should pass jshint', function () {
       if (!true) {
         var error = new chai.AssertionError('routes/challenge-show.js should pass jshint.');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/routes/challenges/preview.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  describe('JSHint | routes/challenges/preview.js', function () {
+    it('should pass jshint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('routes/challenges/preview.js should pass jshint.');
         error.stack = undefined;throw error;
       }
     });
@@ -1239,6 +1316,30 @@ define('pix-live/tests/routes/preferences.jshint', ['exports'], function (export
     });
   });
 });
+define('pix-live/tests/serializers/challenge.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  describe('JSHint | serializers/challenge.js', function () {
+    it('should pass jshint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('serializers/challenge.js should pass jshint.');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/serializers/course.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  describe('JSHint | serializers/course.js', function () {
+    it('should pass jshint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('serializers/course.js should pass jshint.');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/test-helper', ['exports', 'pix-live/tests/helpers/resolver', 'ember-mocha', 'pix-live/tests/helpers/ember-cli-mocha-reporter'], function (exports, _pixLiveTestsHelpersResolver, _emberMocha, _pixLiveTestsHelpersEmberCliMochaReporter) {
 
   mocha.reporter(_pixLiveTestsHelpersEmberCliMochaReporter['default']);
@@ -1270,7 +1371,6 @@ define('pix-live/tests/unit/controllers/challenge-show-test', ['exports', 'chai'
     });
   });
 });
-/* jshint expr:true */
 define('pix-live/tests/unit/controllers/challenge-show-test.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -1283,23 +1383,65 @@ define('pix-live/tests/unit/controllers/challenge-show-test.jshint', ['exports']
     });
   });
 });
-define('pix-live/tests/unit/models/challenge-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/unit/models/challenge-test', ['exports', 'chai', 'ember-mocha', 'mocha'], function (exports, _chai, _emberMocha, _mocha) {
 
   (0, _emberMocha.describeModel)('challenge', 'Unit | Model | challenge', {
-    // Specify the other units that are required for this test.
     needs: ['model:assessment']
   }, function () {
-    // Replace this with your real tests.
     (0, _emberMocha.it)('exists', function () {
       var model = this.subject();
-      // var store = this.store();
       (0, _chai.expect)(model).to.be.ok;
     });
 
-    (0, _emberMocha.it)('has an instruction', function () {
-      var model = this.subject({ instruction: 'Sucrez les fraises.' });
+    (0, _mocha.describe)('#proposalsAsArray', function () {
 
-      (0, _chai.expect)(model.get('instruction')).to.eq('Sucrez les fraises.');
+      function getProposalsAsArray(subject) {
+        return subject.get('proposalsAsArray');
+      }
+
+      (0, _emberMocha.it)('"" retourne []', function () {
+        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '' }))).to.be.empty;
+      });
+
+      (0, _emberMocha.it)('"malformed proposals" retourne []', function () {
+        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: 'foo' }))).to.be.empty;
+      });
+
+      (0, _emberMocha.it)('"- foo", retourne ["foo"] ', function () {
+        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- foo' }))).to.deep.equal(['foo']);
+      });
+
+      (0, _emberMocha.it)('"- foo\n- bar", retourne ["foo", "bar"] ', function () {
+        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- foo\n- bar' }))).to.deep.equal(['foo', 'bar']);
+      });
+
+      (0, _emberMocha.it)('"- cerf-volant", retourne ["cerf-volant"] ', function () {
+        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- cerf-volant' }))).to.deep.equal(['cerf-volant']);
+      });
+
+      (0, _emberMocha.it)('"- shi\n- foo mi", retourne ["shi", "foo mi"] ', function () {
+        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- shi\n- foo mi' }))).to.deep.equal(['shi', 'foo mi']);
+      });
+
+      (0, _emberMocha.it)('"- joli\n- cerf-volant", retourne ["joli", "cerf-volant"] ', function () {
+        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- joli\n- cerf-volant' }))).to.deep.equal(['joli', 'cerf-volant']);
+      });
+
+      (0, _emberMocha.it)('"-foo\n-bar", retourne ["foo", "bar"] ', function () {
+        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '-foo\n-bar' }))).to.deep.equal(['foo', 'bar']);
+      });
+
+      (0, _emberMocha.it)('"- shi\n- foo\n- mi", retourne ["shi", "foo", "mi"] ', function () {
+        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- shi\n- foo\n- mi' }))).to.deep.equal(['shi', 'foo', 'mi']);
+      });
+
+      (0, _emberMocha.it)('"-- foo", retourne ["- foo"] ', function () {
+        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '-- foo' }))).to.deep.equal(['- foo']);
+      });
+
+      (0, _emberMocha.it)('"- foo\n\r\t\n\r\t\n\r\t\n- bar", retourne ["foo", "bar"] ', function () {
+        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- foo\n\r\t\n\r\t\n\r\t\n- bar' }))).to.deep.equal(['foo', 'bar']);
+      });
     });
   });
 });
@@ -1359,7 +1501,6 @@ define('pix-live/tests/unit/routes/challenge-show-test', ['exports', 'chai', 'em
     });
   });
 });
-/* jshint expr:true */
 define('pix-live/tests/unit/routes/challenge-show-test.jshint', ['exports'], function (exports) {
   'use strict';
 
@@ -1367,6 +1508,30 @@ define('pix-live/tests/unit/routes/challenge-show-test.jshint', ['exports'], fun
     it('should pass jshint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/routes/challenge-show-test.js should pass jshint.');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/routes/challenges/preview-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeModule)('route:challenges.preview', 'Unit | Route | challenges.preview', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  }, function () {
+    (0, _emberMocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/challenges/preview-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  describe('JSHint | unit/routes/challenges/preview-test.js', function () {
+    it('should pass jshint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/routes/challenges/preview-test.js should pass jshint.');
         error.stack = undefined;throw error;
       }
     });
@@ -1451,6 +1616,114 @@ define('pix-live/tests/unit/routes/preferences-test.jshint', ['exports'], functi
     it('should pass jshint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/routes/preferences-test.js should pass jshint.');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/serializers/course-test', ['exports', 'chai', 'ember-mocha', 'mocha', 'pretender'], function (exports, _chai, _emberMocha, _mocha, _pretender) {
+
+  (0, _emberMocha.describeModel)('course', 'Unit | Serializer | course', {
+    needs: ['adapter:course', 'serializer:course']
+  }, function () {
+
+    var server = undefined;
+    var airTableSheetName = 'Tests';
+    var airTableResponse = {
+      "records": [{
+        "id": "rec5duNNrPqbSzQ8o",
+        "fields": {
+          "Nom": "Nom du test",
+          "Description": "Description du test",
+          "Image": [{
+            "id": "attuCagYzFRtMjciZ",
+            "url": "https://test.image.png",
+            "filename": "test1.png",
+            "size": 81948,
+            "type": "image/png",
+            "thumbnails": {
+              "small": {
+                "url": "https://dl.airtable.com/GbJKDkkCTP6xVjmrgsEr_small_test1.png",
+                "width": 53,
+                "height": 36
+              },
+              "large": {
+                "url": "https://dl.airtable.com/AikVbSPbROiK5apOrj0u_large_test1.png",
+                "width": 500,
+                "height": 338
+              }
+            }
+          }],
+          "Durée": 20
+        },
+        "createdTime": "2016-08-09T15:17:53.000Z"
+      }]
+    };
+
+    (0, _mocha.before)(function () {
+      server = new _pretender['default'](function () {
+        this.get('https://api.airtable.com/v0/appHAIFk9u1qqglhX/' + airTableSheetName, function () {
+          return [200, { "Content-Type": "application/json" }, JSON.stringify(airTableResponse)];
+        });
+      });
+    });
+
+    (0, _mocha.after)(function () {
+      server.shutdown();
+    });
+
+    (0, _mocha.describe)('serializer:course', function () {
+
+      (0, _emberMocha.it)('convertie la colonne "Nom" en attribut "name" pour le modèle Course', function () {
+        return this.store().findAll('course').then(function (people) {
+          (0, _chai.expect)(people.get('firstObject.name')).to.eq('Nom du test');
+        });
+      });
+
+      (0, _emberMocha.it)('convertie la colonne "Description" en attribut "description" pour le modèle Course', function () {
+        return this.store().findAll('course').then(function (people) {
+          (0, _chai.expect)(people.get('firstObject.description')).to.eq('Description du test');
+        });
+      });
+
+      (0, _emberMocha.it)('convertie la colonne "Image" en attribut "imageUrl" pour le modèle Course', function () {
+        return this.store().findAll('course').then(function (people) {
+          (0, _chai.expect)(people.get('firstObject.imageUrl')).to.eq('https://test.image.png');
+        });
+      });
+
+      (0, _emberMocha.it)('convertie la colonne "Durée" en attribut "duration" pour le modèle Course', function () {
+        return this.store().findAll('course').then(function (people) {
+          (0, _chai.expect)(people.get('firstObject.duration')).to.eq(20);
+        });
+      });
+
+      (0, _emberMocha.it)('gère le cas où aucune image n\'a été spécifiée par le contributeur', function () {
+        airTableResponse = {
+          "records": [{
+            "id": "rec5duNNrPqbSzQ8o",
+            "fields": {
+              "Nom": "Nom du test",
+              "Description": "Description du test",
+              "Duration": 20
+            }
+          }],
+          "createdTime": "2016-08-09T15:17:53.000Z"
+        };
+        return this.store().findAll('course').then(function (people) {
+          (0, _chai.expect)(people.get('firstObject.imageUrl')).to.be.undefined;
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/serializers/course-test.jshint', ['exports'], function (exports) {
+  'use strict';
+
+  describe('JSHint | unit/serializers/course-test.js', function () {
+    it('should pass jshint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/serializers/course-test.js should pass jshint.');
         error.stack = undefined;throw error;
       }
     });
