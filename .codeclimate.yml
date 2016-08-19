@@ -1,0 +1,24 @@
+engines:
+  csslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+  watson:
+    enabled: true
+
+
+ratings:
+  paths:
+    - "**.css"
+    - "**.js"
+
+exclude_paths:
+
+
