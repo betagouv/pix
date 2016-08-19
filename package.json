@@ -12,7 +12,7 @@
     "start": "ember server",
     "test": "ember test",
     "ci:test": "COVERAGE=true ember test | tee out.log && tap-xunit < out.log > $CIRCLE_TEST_REPORTS/junit/test-results.xml && rm out.log",
-    "ci:coverage": "COVERALLS_REPO_TOKEN=4N0uyZhpJrg7ta7KAR3rz54qeOoHOmXqL ./node_modules/.bin/coveralls < coverage/lcov.info ; rm -rf coverage/",
+    "ci:coverage": "COVERALLS_REPO_TOKEN=4N0uyZhpJrg7ta7KAR3rz54qeOoHOmXqL ./node_modules/.bin/coveralls < coverage/lcov.info ; CODECLIMATE_REPO_TOKEN=4be8413753f290bf2f907800f8fe4da302d6e8c35c3d969f5c1ee39e003a14eb codeclimate-test-reporter < coverage/lcov.info ; rm -rf coverage/",
     "deploy:prod": "./scripts/deploy.sh production prod",
     "deploy:dev": "./scripts/deploy.sh development dev",
     "deploy:staging": "./scripts/deploy.sh staging staging",
@@ -27,6 +27,7 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
+    "codeclimate-test-reporter": "^0.3.3",
     "coveralls": "^2.11.12",
     "ember-airtable": "^0.0.2",
     "ember-ajax": "^2.0.1",
