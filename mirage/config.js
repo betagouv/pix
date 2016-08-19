@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash/lodash';
 
 function pickChallengesAtRandom(schema, nbOfChallenges) {
   return _.range(1, nbOfChallenges).map((number) => {
@@ -189,6 +189,18 @@ export function testConfig() {
           "createdTime": "2016-08-09T15:17:53.000Z"
         }
       ]
+    };
+  });
+  this.get(encodeURI('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Epreuves/:id'), function () {
+    return {
+      "id": "recLt9uwa2dR3IYpi",
+      "fields": {
+        "Consigne": "Que peut-on dire des œufs de catégorie A ?",
+        "description": "catégorie oeuf",
+        "Propositions QCU / QCM": "- Ils sont bio\n- Ils pèsent plus de 63 grammes\n- Ce sont des oeufs frais\n- Ils sont destinés aux consommateurs\n- Ils ne sont pas lavés\n",
+        "Type d'épreuve": "QCU"
+      },
+      "createdTime": "2016-08-09T15:17:53.000Z"
     };
   });
 }

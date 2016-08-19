@@ -1,11 +1,16 @@
-/* globals currentURL, describe, beforeEach, afterEach, visit, andThen */
 import '../test-helper';
 import { expect } from 'chai';
-import { it } from 'ember-mocha';
+import {
+  describe,
+  it,
+  beforeEach,
+  afterEach
+} from 'mocha';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
 describe('Acceptance | /home', function () {
+
   beforeEach(function () {
     this.application = startApp();
   });
