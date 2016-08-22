@@ -5547,7 +5547,7 @@ define("pix-live/templates/components/identification-form", ["exports"], functio
             "column": 0
           },
           "end": {
-            "line": 18,
+            "line": 23,
             "column": 0
           }
         },
@@ -5564,14 +5564,16 @@ define("pix-live/templates/components/identification-form", ["exports"], functio
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "form-title");
-        var el3 = dom.createTextNode("\n        Identifiez-vous\n    ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n    ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "id", "firstname");
         dom.setAttribute(el2, "class", "form-group");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("label");
+        dom.setAttribute(el3, "class", "control-label");
+        dom.setAttribute(el3, "for", "firstname_input");
+        var el4 = dom.createTextNode("Prénom");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
@@ -5582,8 +5584,17 @@ define("pix-live/templates/components/identification-form", ["exports"], functio
         var el2 = dom.createTextNode("\n\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "id", "lastname");
         dom.setAttribute(el2, "class", "form-group");
-        var el3 = dom.createTextNode("\n      ");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("label");
+        dom.setAttribute(el3, "class", "control-label");
+        dom.setAttribute(el3, "for", "lastname_input");
+        var el4 = dom.createTextNode("Nom");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
@@ -5593,12 +5604,32 @@ define("pix-live/templates/components/identification-form", ["exports"], functio
         var el2 = dom.createTextNode("\n\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "identification-form-actions");
+        dom.setAttribute(el2, "id", "email");
+        dom.setAttribute(el2, "class", "form-group");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("label");
+        dom.setAttribute(el3, "class", "control-label");
+        dom.setAttribute(el3, "for", "email_input");
+        var el4 = dom.createTextNode("Email");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "identification-form-actions pull-right");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("button");
         dom.setAttribute(el3, "class", "button button-primary");
-        var el4 = dom.createTextNode("Valider");
+        var el4 = dom.createTextNode("\n            Identifiez-vous\n        ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -5614,13 +5645,14 @@ define("pix-live/templates/components/identification-form", ["exports"], functio
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element0 = dom.childAt(fragment, [0]);
         var element1 = dom.childAt(element0, [7, 1]);
-        var morphs = new Array(3);
-        morphs[0] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
-        morphs[1] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
-        morphs[2] = dom.createElementMorph(element1);
+        var morphs = new Array(4);
+        morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 3, 3);
+        morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 3, 3);
+        morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]), 3, 3);
+        morphs[3] = dom.createElementMorph(element1);
         return morphs;
       },
-      statements: [["inline", "input", [], ["class", "form-control", "type", "text", "id", "firstname", "placeholder", "Prénom", "autocomplete", "on"], ["loc", [null, [7, 8], [7, 104]]], 0, 0], ["inline", "input", [], ["class", "form-control", "type", "text", "id", "lastname", "placeholder", "Nom de famille", "autocomplete", "on"], ["loc", [null, [11, 6], [11, 109]]], 0, 0], ["element", "action", ["identify"], [], ["loc", [null, [15, 16], [15, 37]]], 0, 0]],
+      statements: [["inline", "input", [], ["id", "firstname_input", "class", "form-control", "type", "text", "placeholder", "Benjamin", "autocomplete", "on"], ["loc", [null, [4, 8], [4, 112]]], 0, 0], ["inline", "input", [], ["id", "lastname_input", "class", "form-control", "type", "text", "placeholder", "Marteau", "autocomplete", "on"], ["loc", [null, [9, 8], [9, 110]]], 0, 0], ["inline", "input", [], ["id", "email_input", "class", "form-control", "type", "email", "placeholder", "benjamin.marteau@wanadoo.fr", "autocomplete", "on"], ["loc", [null, [14, 8], [14, 128]]], 0, 0], ["element", "action", ["identify"], [], ["loc", [null, [18, 16], [18, 37]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -6189,7 +6221,7 @@ define("pix-live/templates/index", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 20,
+            "line": 24,
             "column": 0
           }
         },
@@ -6231,7 +6263,8 @@ define("pix-live/templates/index", ["exports"], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("h2");
-        var el6 = dom.createTextNode("Grâce à PIX, mesurez, développez et valorisez vos compétences numériques.");
+        dom.setAttribute(el5, "class", "sales-pitch");
+        var el6 = dom.createTextNode("\n                    PIX est un projet public de plateforme en ligne d'évaluation et de certification des compétences\n                    numériques, en cours de développement.  Rejoignez la communauté des premiers testeurs pour nous\n                    aider à le construire !\n                ");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -6273,7 +6306,7 @@ define("pix-live/templates/index", ["exports"], function (exports) {
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 3, 3, 1]), 1, 1);
         return morphs;
       },
-      statements: [["content", "identification-form", ["loc", [null, [14, 16], [14, 39]]], 0, 0, 0, 0]],
+      statements: [["content", "identification-form", ["loc", [null, [18, 16], [18, 39]]], 0, 0, 0, 0]],
       locals: [],
       templates: []
     };
@@ -6611,7 +6644,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+a73ba49d"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+b57203a7"});
 }
 
 /* jshint ignore:end */

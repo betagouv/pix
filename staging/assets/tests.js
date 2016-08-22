@@ -12,49 +12,21 @@ define('pix-live/tests/acceptance/1-accedder-a-la-plateforme-test', ['exports', 
     });
 
     (0, _mocha.before)(function () {
-      return visit('/home');
+      return visit('/');
     });
 
-    (0, _mocha.it)('2.0 peut visiter /home', function () {
-      (0, _chai.expect)(currentPath()).to.equal('home');
+    (0, _mocha.it)('1.0 peut visiter /', function () {
+      (0, _chai.expect)(currentURL()).to.equal('/');
     });
 
-    (0, _mocha.it)('2.1 la liste des tests apparaît', function () {
-      (0, _chai.expect)(findWithAssert('.title').text()).to.contains('Liste des tests');
+    (0, _mocha.it)('1.1 la landing page contient un pitch de présentation', function () {
+      (0, _chai.expect)(findWithAssert('.sales-pitch').text()).to.contains('PIX est un projet public de plateforme en ligne d\'évaluation');
     });
 
-    (0, _mocha.it)('2.2 on affiche autant de tests que remontés par AirTable', function () {
-      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(6);
-    });
-
-    (0, _mocha.describe)('2.3 pour un test donné avec toutes les informations', function () {
-
-      var $course = undefined;
-
-      (0, _mocha.before)(function () {
-        $course = find('.course[data-id="rec5duNNrPqbSzQ8o"]');
-      });
-
-      (0, _mocha.it)('2.3.1 on affiche son nom', function () {
-        (0, _chai.expect)($course.find('.course-name').text()).to.contains('Test #1');
-      });
-
-      (0, _mocha.it)('2.3.2 on affiche sa description', function () {
-        (0, _chai.expect)($course.find('.course-description').text()).to.contains('Libero eum excepturi');
-      });
-
-      (0, _mocha.it)('2.3.3 on affiche son image', function () {
-        (0, _chai.expect)($course.find('img')[0].src).to.equal('https://dl.airtable.com/oLRaj7sTbCGzsLNwiur1_test1.png');
-      });
-
-      (0, _mocha.it)('2.3.4 on affiche un bouton "démarrer le test"', function () {
-        (0, _chai.expect)($course.find('a.btn').text()).to.contains('Démarrer le test');
-      });
-    });
-
-    (0, _mocha.it)('2.4 pour un test dont il manque l\'image, on affiche une image placeholder', function () {
-      var $course = find('.course[data-id="recOouHLk00aMWJH2"]');
-      (0, _chai.expect)($course.find('img')[0].src).to.contains('images/course-default-image.png');
+    (0, _mocha.it)('1.3 la page d\'accueil contient un formulaire Nom / Prénom / Email et un bouton valider', function () {
+      (0, _chai.expect)(findWithAssert('#lastname').text()).to.contains('Nom');
+      (0, _chai.expect)(findWithAssert('#firstname').text()).to.contains('Prénom');
+      (0, _chai.expect)(findWithAssert('#email').text()).to.contains('Email');
     });
   });
 });
@@ -1483,7 +1455,7 @@ define('pix-live/tests/unit/models/challenge-test', ['exports', 'chai', 'ember-m
         (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- foo' }))).to.deep.equal(['foo']);
       });
 
-      (0, _emberMocha.it)('"- foo\n- bar", retourne ["foo", "bar"] ', function () {
+      (0, _emberMocha.it)('"- foo\\n- bar", retourne ["foo", "bar"] ', function () {
         (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- foo\n- bar' }))).to.deep.equal(['foo', 'bar']);
       });
 
@@ -1491,19 +1463,19 @@ define('pix-live/tests/unit/models/challenge-test', ['exports', 'chai', 'ember-m
         (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- cerf-volant' }))).to.deep.equal(['cerf-volant']);
       });
 
-      (0, _emberMocha.it)('"- shi\n- foo mi", retourne ["shi", "foo mi"] ', function () {
+      (0, _emberMocha.it)('"- shi\\n- foo mi", retourne ["shi", "foo mi"] ', function () {
         (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- shi\n- foo mi' }))).to.deep.equal(['shi', 'foo mi']);
       });
 
-      (0, _emberMocha.it)('"- joli\n- cerf-volant", retourne ["joli", "cerf-volant"] ', function () {
+      (0, _emberMocha.it)('"- joli\\n- cerf-volant", retourne ["joli", "cerf-volant"] ', function () {
         (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- joli\n- cerf-volant' }))).to.deep.equal(['joli', 'cerf-volant']);
       });
 
-      (0, _emberMocha.it)('"-foo\n-bar", retourne ["foo", "bar"] ', function () {
+      (0, _emberMocha.it)('"-foo\\n-bar", retourne ["foo", "bar"] ', function () {
         (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '-foo\n-bar' }))).to.deep.equal(['foo', 'bar']);
       });
 
-      (0, _emberMocha.it)('"- shi\n- foo\n- mi", retourne ["shi", "foo", "mi"] ', function () {
+      (0, _emberMocha.it)('"- shi\\n- foo\\n- mi", retourne ["shi", "foo", "mi"] ', function () {
         (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- shi\n- foo\n- mi' }))).to.deep.equal(['shi', 'foo', 'mi']);
       });
 
@@ -1511,7 +1483,7 @@ define('pix-live/tests/unit/models/challenge-test', ['exports', 'chai', 'ember-m
         (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '-- foo' }))).to.deep.equal(['- foo']);
       });
 
-      (0, _emberMocha.it)('"- foo\n\r\t\n\r\t\n\r\t\n- bar", retourne ["foo", "bar"] ', function () {
+      (0, _emberMocha.it)('"- foo\\n\\r\\t\n\\r\\t\\n\\r\\t\\n- bar", retourne ["foo", "bar"] ', function () {
         (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- foo\n\r\t\n\r\t\n\r\t\n- bar' }))).to.deep.equal(['foo', 'bar']);
       });
     });
