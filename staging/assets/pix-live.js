@@ -1703,7 +1703,7 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 20,
+            "line": 15,
             "column": 6
           }
         },
@@ -1776,26 +1776,6 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
         var el4 = dom.createTextNode("\n        ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "collapse navbar-collapse");
-        var el4 = dom.createTextNode("\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("ul");
-        dom.setAttribute(el4, "class", "nav navbar-nav navbar-right");
-        var el5 = dom.createTextNode("\n                ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n            ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n        ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("/.navbar-collapse ");
-        dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
@@ -1804,12 +1784,10 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
         dom.appendChild(el0, el1);
         return el0;
       },
-      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1, 3, 1]), 1, 1);
-        return morphs;
+      buildRenderNodes: function buildRenderNodes() {
+        return [];
       },
-      statements: [["inline", "user-menu", [], ["id", "user-menu"], ["loc", [null, [16, 16], [16, 45]]], 0, 0]],
+      statements: [],
       locals: [],
       templates: []
     };
@@ -5652,7 +5630,7 @@ define("pix-live/templates/components/identification-form", ["exports"], functio
         morphs[3] = dom.createElementMorph(element1);
         return morphs;
       },
-      statements: [["inline", "input", [], ["id", "firstname_input", "class", "form-control", "type", "text", "placeholder", "Benjamin", "autocomplete", "on"], ["loc", [null, [4, 8], [4, 112]]], 0, 0], ["inline", "input", [], ["id", "lastname_input", "class", "form-control", "type", "text", "placeholder", "Marteau", "autocomplete", "on"], ["loc", [null, [9, 8], [9, 110]]], 0, 0], ["inline", "input", [], ["id", "email_input", "class", "form-control", "type", "email", "placeholder", "benjamin.marteau@wanadoo.fr", "autocomplete", "on"], ["loc", [null, [14, 8], [14, 128]]], 0, 0], ["element", "action", ["identify"], [], ["loc", [null, [18, 16], [18, 37]]], 0, 0]],
+      statements: [["inline", "input", [], ["id", "firstname_input", "class", "form-control", "type", "text", "placeholder", "Jon", "autocomplete", "on"], ["loc", [null, [4, 8], [4, 107]]], 0, 0], ["inline", "input", [], ["id", "lastname_input", "class", "form-control", "type", "text", "placeholder", "Snow", "autocomplete", "on"], ["loc", [null, [9, 8], [9, 107]]], 0, 0], ["inline", "input", [], ["id", "email_input", "class", "form-control", "type", "email", "placeholder", "jon.snow@winterfell.got", "autocomplete", "on"], ["loc", [null, [14, 8], [14, 124]]], 0, 0], ["element", "action", ["identify"], [], ["loc", [null, [18, 16], [18, 37]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -6644,7 +6622,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+395ee33f"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+f9124660"});
 }
 
 /* jshint ignore:end */
