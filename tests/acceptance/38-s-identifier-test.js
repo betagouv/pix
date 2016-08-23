@@ -38,9 +38,24 @@ describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
   });
 
   it('38.2 Quand je valide mon identité, je suis redirigé vers la page des tests', function () {
+    return RSVP.all([
+      fillIn('#firstname_input', 'Jérémy'),
+      fillIn('#lastname_input', 'Buget'),
+      fillIn('#email_input', 'jbu@octo.com')
+
+    ]).then(() => {
+      return click('.identification-form-actions button')
+
+    }).then(() => {
+      expect(currentURL()).to.eq('/home');
+
+    });
   });
 
   it('38.3 Quand je suis identifié, je vois apparaître le libellé “Bonjour Prénom” (via session utilisateur)', function () {
+
+    // Assert that 38.2 went OK
+    expect(currentURL()).to.eq('/home');
   });
 
   it("38.4 En cas de champs manquant, un message d'erreur apparaît", function () {
