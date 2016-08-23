@@ -5,17 +5,13 @@ export default Ember.Route.extend({
   model(params) {
     const store = this.get('store');
 
-    let assessment = store.createRecord('assessment');
-
-    return store
-      .findRecord('course', params.course_id)
-      .then((course) => {
-        assessment.set('course', course);
+    return store.findRecord('course', params.course_id)
+      .then((results) => {
+        const course = results.course;
+        const assessment = store.createRecord('assessment', { course: course });
         return assessment.save();
       })
-      .then((assessment) => {
-        return assessment.get('challenges');
-      });
+      .then((assessment) => assessment.course);
   },
 
   afterModel(challenges) {

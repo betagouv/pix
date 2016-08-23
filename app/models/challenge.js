@@ -6,6 +6,7 @@ export default DS.Model.extend({
 
   instruction: DS.attr('string'),
   proposals: DS.attr('string'),
+  course: DS.belongsTo('course'),
 
   proposalsAsArray: Ember.computed('proposals', function () {
     const proposals = '\n' + this.get('proposals');
