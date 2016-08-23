@@ -16,7 +16,5 @@ describeModule(
       let route = this.subject();
       expect(route).to.be.ok;
     });
-
-    it('')
   }
 );
