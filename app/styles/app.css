@@ -13,6 +13,7 @@
 /* views */
 @import url('assessment.css');
 @import url('home.css');
+@import url('home-loading.css');
 @import url('index.css');
 @import url('courses/preview.css');
 

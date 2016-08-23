@@ -2,7 +2,6 @@ import {
   describe,
   it,
   before,
-  beforeEach,
   after
 } from 'mocha';
 import { expect } from 'chai';
@@ -21,7 +20,7 @@ describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
     destroyApp(application);
   });
 
-  beforeEach(function () {
+  before(function () {
     return visit('/');
   });
 
