@@ -8,13 +8,19 @@ export default Ember.Service.extend({
 
   init() {
     this._super(...arguments);
-    let session = localStorage.getItem('pix-app.session');
+    let session = localStorage.getItem('pix-live.session');
     if (!Ember.isEmpty(session)) {
-      const session = JSON.parse(session);
-      this.set('firstname', session.firstname);
-      this.set('lastname', session.lastname);
-      this.set('email', session.email);
-      this.set('isIdentified', true);
+      try {
+        session = JSON.parse(session);
+        this.setProperties({
+          firstname: session.firstname,
+          lastname: session.lastname,
+          email: session.email,
+          isIdentified: true
+        });
+      } catch(SyntaxError) {
+        Ember.Logger.warn('bad session. Continuing with an empty session');
+      }
     }
   },
 
