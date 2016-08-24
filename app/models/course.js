@@ -1,12 +1,13 @@
 import DS from 'ember-data';
 
-export default DS.Model.extend({
+const { Model, attr, hasMany } = DS;
 
-  name: DS.attr('string'),
-  description: DS.attr('string'),
-  duration: DS.attr('number'),
-  imageUrl: DS.attr('string'),
-  challenges: DS.hasMany('challenge'),
-  assessments: DS.hasMany('assessment')
+export default Model.extend({
+
+  name: attr('string'),
+  description: attr('string'),
+  duration: attr('number'),
+  imageUrl: attr('string'),
+  challenges: hasMany('challenge', { inverse: null })
 
 });

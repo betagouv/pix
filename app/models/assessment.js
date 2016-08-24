@@ -1,7 +1,9 @@
 import DS from 'ember-data';
 
-export default DS.Model.extend({
+const { Model, belongsTo } = DS;
 
-  course: DS.belongsTo('course')
+export default Model.extend({
+
+  course: belongsTo('course', { inverse: null })
 
 });

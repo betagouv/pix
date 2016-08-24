@@ -1,1 +1,23 @@
-{{outlet}}
+<div id="assessment-challenge">
+    <div class="container">
+
+        <div class="title">
+            Évaluation #{{ model.assessment.id }}
+        </div>
+
+        <p>Consigne :</p>
+        <div class="rounded-panel challenge-instruction">
+            <p>{{ model.challenge.instruction }}</p>
+        </div>
+
+        <p>Réponse :</p>
+        <div class="rounded-panel challenge-proposals">
+          {{#each model.challenge.proposalsAsArray as |proposal|}}
+              <p>
+                  <label>{{input type="radio" name="proposals"}} {{ proposal }}</label>
+              </p>
+          {{/each}}
+        </div>
+
+    </div>
+</div>

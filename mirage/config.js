@@ -56,7 +56,11 @@ export function testConfig() {
                 }
               }
             ],
-            "Durée": 20
+            "Durée": 20,
+            "Épreuves": [
+              "recLt9uwa2dR3IYpi",
+              "recub31NerwonPVwX"
+            ]
           },
           "createdTime": "2016-08-09T15:17:53.000Z"
         },
@@ -218,8 +222,11 @@ export function testConfig() {
           "id": "recLt9uwa2dR3IYpi",
           "fields": {
             "Consigne": "Que peut-on dire des œufs de catégorie A ?",
-            "Propositions QCU / QCM": "- Ils sont bio\n- Ils pèsent plus de 63 grammes\n- Ce sont des oeufs frais\n- Ils sont destinés aux consommateurs\n- Ils ne sont pas lavés\n",
-            "Type d'épreuve": "QCU"
+            "Propositions": "- Ils sont bio\n- Ils pèsent plus de 63 grammes\n- Ce sont des oeufs frais\n- Ils sont destinés aux consommateurs\n- Ils ne sont pas lavés\n",
+            "Type d'épreuve": "QCU",
+            "Tests": [
+              "rec5duNNrPqbSzQ8o"
+            ]
           }
         };
       case "recub31NerwonPVwX":
@@ -228,10 +235,27 @@ export function testConfig() {
           "id": "recub31NerwonPVwX",
           "fields": {
             "Consigne": "Exemple de question QCU\n\n",
-            "Propositions QCU / QCM": "- option 1\n- option 2\n- option 3\n- option 4\n- option 5\n\n",
-            "Type d'épreuve": "QCU"
+            "Propositions": "- option 1\n- option 2\n- option 3\n- option 4\n- option 5\n\n",
+            "Type d'épreuve": "QCU",
+            "Tests": [
+              "rec5duNNrPqbSzQ8o"
+            ]
           }
         }
     }
   });
+
+  this.post('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Evaluations', function (_, request) {
+    return {
+      "id": "recqE9kA4VRqFcEgK",
+      "fields": {
+        "Nom": 21,
+        "Test": [
+          "rec5duNNrPqbSzQ8o"
+        ]
+      },
+      "createdTime": "2016-08-24T10:27:21.408Z"
+    };
+  });
+
 }

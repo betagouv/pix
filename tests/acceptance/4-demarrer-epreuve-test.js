@@ -27,14 +27,6 @@ describe.skip('Acceptance: 4-DemarrerEpreuve', function() {
     return visit(`/challenges/${challenge.id}`);
   });
 
-  /* US4 CA:
-    1. La zone de consigne s'affiche (texte simple)
-    2. La zone de réponse s'affiche
-    3. L'intitulé du test est rappelé
-    4. L'état d'avancement dans le test est visible (# épreuve / # total d'épreuves)
-    5. Deux boutons s'affichent : "Passer" ; "Valider" (UX: attention à l'affordance, passer ne valide pas les réponses)
-  */
-
   it('4.0 doit être sur l\'URL /challenges/:id', function () {
     expect(currentURL()).to.equal(`/challenges/${challenge.id}`);
   });
