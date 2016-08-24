@@ -1,6 +1,5 @@
 <div id="home">
     <div class="container">
-
         <div class="title">
             Liste des tests
         </div>
@@ -9,11 +8,11 @@
 
           {{#each model as |course|}}
               <li class="rounded-panel course animated fadeIn" data-id="{{ course.id }}">
-                  {{#if course.imageUrl}}
+                {{#if course.imageUrl}}
                     <img class="course-picture" src="{{ course.imageUrl }}" alt="Illustration du test">
-                  {{else}}
-                      <img class="course-picture" src="images/course-default-image.png" alt="Illustration du test">
-                  {{/if}}
+                {{else}}
+                    <img class="course-picture" src="images/course-default-image.png" alt="Illustration du test">
+                {{/if}}
 
                   <h3 class="course-name">{{ course.name }}</h3>
 

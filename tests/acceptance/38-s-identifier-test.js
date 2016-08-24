@@ -56,6 +56,8 @@ describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
 
     // Assert that 38.2 went OK
     expect(currentURL()).to.eq('/home');
+
+    expect(findWithAssert('.profile').text()).to.contains('Jérémy');
   });
 
   it("38.4 En cas de champs manquant, un message d'erreur apparaît", function () {
