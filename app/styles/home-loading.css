@@ -1,9 +1,41 @@
-#home-loading .rounded-panel {
+#home-loading .loader-container {
+  width: 1em;
+  height: 3em;
+  margin: 0 auto;
+  padding-top: 180px;
 }
 
-#home-loading h1 {
-  text-align: center;
-  height: 3em;
-  position: relative;
-  top: 0.8em;
+#home-loading .ball-zig-zag-deflect > div:nth-child(2) {
+  background-color: #2F70FB;
 }
+
+#home-loading .ball-zig-zag-deflect > div:nth-child(1) {
+  background-color: #FDBD2C;
+}
+
+/* Pacman ready to take over
+
+#home-loading .pacman > div:nth-child(3) {
+  background-color: #2F70FB;
+}
+
+#home-loading .pacman > div:nth-child(1) {
+  border-color: #2F70FB;
+  border-right-color: transparent;
+}
+
+#home-loading .pacman > div:nth-child(2) {
+  border-color: #2F70FB;
+  border-right-color: transparent;
+}
+
+#home-loading .pacman > div:nth-child(3) {
+  background-color: #2F70FB;
+}
+#home-loading .pacman > div:nth-child(4) {
+  background-color: #2F70FB;
+}
+#home-loading .pacman > div:nth-child(5) {
+  background-color: #2F70FB;
+}
+*/
