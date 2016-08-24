@@ -61,5 +61,11 @@ describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
   });
 
   it("38.4 En cas de champs manquant, un message d'erreur apparaît", function () {
+    return visit('/')
+      .then(() => {
+        expect(findWithAssert('#firstname_input').prop('required')).to.be.true;
+        expect(findWithAssert('#lastname_input').prop('required')).to.be.true;
+        expect(findWithAssert('#email_input').prop('required')).to.be.true;
+      });
   });
 });

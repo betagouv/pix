@@ -18,7 +18,7 @@ export default Ember.Service.extend({
           email: session.email,
           isIdentified: true
         });
-      } catch(SyntaxError) {
+      } catch(e) {
         Ember.Logger.warn('bad session. Continuing with an empty session');
       }
     }
