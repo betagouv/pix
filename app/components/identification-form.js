@@ -16,6 +16,12 @@ export default Ember.Component.extend({
     return this;
   },
 
+  hasErrors: Ember.computed('user.errors.firstname', 'user.errors.lastname', 'user.errors.email', function () {
+    return false === (Ember.isEmpty(this.get('user.errors.firstname')) &&
+      Ember.isEmpty(this.get('user.errors.lastname')) &&
+      Ember.isEmpty(this.get('user.errors.email')))
+  }),
+
   actions: {
     identify() {
       this.set('session.isIdentified', true);

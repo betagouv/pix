@@ -103,7 +103,13 @@ describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
           expect(find('#email')[0].classList.contains('has-error')).to.be.true;
           expect(findWithAssert('#email .help-block').text()).to.contains('Entrez un email correct');
         });
+    });
 
+    it("can't submit a form when an error is present", function () {
+      return fillIn('.firstname_input', '')
+        .then(() => expect(find('.identification-form-actions button')[0].disabled).to.be.true)
+        .then(() => click('.identification-form-actions button'))
+        .then(() => expect(currentURL()).to.eq('/'))
     })
 
   });
