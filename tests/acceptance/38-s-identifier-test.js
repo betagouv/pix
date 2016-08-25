@@ -110,6 +110,13 @@ describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
         .then(() => expect(find('.identification-form-actions button')[0].disabled).to.be.true)
         .then(() => click('.identification-form-actions button'))
         .then(() => expect(currentURL()).to.eq('/'))
+    });
+
+    it("if the form is empty and the page has just been loaded, it can't submit the form", function () {
+      return visit('/')
+        .then(() => { expect(find('.identification-form-actions button')[0].disabled).to.be.true })
+        .then(() => { click('.identification-form-actions button') })
+        .then(() => { expect(currentURL()).to.eq('/') })
     })
 
   });

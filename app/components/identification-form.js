@@ -17,9 +17,18 @@ export default Ember.Component.extend({
   },
 
   hasErrors: Ember.computed('user.errors.firstname', 'user.errors.lastname', 'user.errors.email', function () {
-    return false === (Ember.isEmpty(this.get('user.errors.firstname')) &&
-      Ember.isEmpty(this.get('user.errors.lastname')) &&
-      Ember.isEmpty(this.get('user.errors.email')))
+    return false === (Ember.isEmpty(this.get('user.errors.firstname'))
+      && Ember.isEmpty(this.get('user.errors.lastname'))
+      && Ember.isEmpty(this.get('user.errors.email')));
+  }),
+
+  isSubmitDisabled: Ember.computed('user.content.firstname', 'user.content.lastname', 'user.content.email', 'hasErrors', function () {
+    return (
+      Ember.isEmpty(this.get('user.content.firstname'))
+      || Ember.isEmpty(this.get('user.content.lastname'))
+      || Ember.isEmpty(this.get('user.content.email'))
+      || this.get('hasErrors')
+    );
   }),
 
   actions: {
@@ -40,7 +49,10 @@ export default Ember.Component.extend({
 
       if (propertyPath === 'email' && false === $('.email_input')[0].checkValidity()) {
         this.set('user.errors.email', ['Entrez un email correct']);
+        return;
       }
+
+      object.set(propertyPath, value);
     }
   }
 
