@@ -1,20 +1,33 @@
-<form id="identification-form">
-    <div id="firstname" class="form-group">
-        <label class="control-label" for="firstname_input">Prénom</label>
-        {{input id="firstname_input" class="form-control" value=session.firstname type="text" placeholder="Jon" autocomplete="on" required="true"}}
+{{#form-for user
+    id="identification-form"
+    submit=(action "identify")
+    update=(action "update")
+    as |f|
+}}
+    <div id="firstname" class="form-group {{if user.errors.firstname "has-error"}}">
+      {{f.text-field "firstname" label="Prénom" placeholder="Jon"
+        inputClasses="firstname_input form-control" labelClasses="control-label" errorClasses="help-block animated flash" hintClasses="help-block"
+        autocomplete="on" required="true"
+      }}
     </div>
 
-    <div id="lastname" class="form-group">
-        <label class="control-label" for="lastname_input">Nom</label>
-        {{input id="lastname_input" class="form-control" value=session.lastname type="text" placeholder="Snow" autocomplete="on" required="true"}}
+    <div id="lastname" class="form-group {{if user.errors.lastname "has-error"}}">
+      {{f.text-field "lastname" label="Nom" placeholder="Snow"
+        inputClasses="lastname_input form-control" labelClasses="control-label" errorClasses="help-block animated flash" hintClasses="help-block"
+        autocomplete="on" required="true"
+      }}
     </div>
 
-    <div id="email" class="form-group">
-        <label class="control-label" for="email_input">Email</label>
-        {{input id="email_input" class="form-control" value=session.email type="email" placeholder="jon.snow@winterfell.got" autocomplete="on" required="true"}}
+    <div id="email" class="form-group {{if user.errors.email "has-error"}}">
+      {{f.email-field "email" label="Email" placeholder="jon.snow@winterfell.got"
+        inputClasses="email_input form-control" labelClasses="control-label" errorClasses="help-block animated flash" hintClasses="help-block"
+        autocomplete="on" required="true"
+      }}
     </div>
 
     <div class="identification-form-actions pull-right">
-        {{input action="identify" type="submit" class="button button-primary" value="Identifiez-vous"}}
+      {{f.submit "Identifiez-vous" class="button button-primary" }}
     </div>
-</form>
+
+{{/form-for}}
+
