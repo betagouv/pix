@@ -1,17 +1,17 @@
-<div id="course-preview" data-id="{{ course.id }}">
+<div id="course-preview" data-id="{{ model.course.id }}">
     <div class="container">
 
         <div class="title">
-            Prévisualisation du test #{{ course.id }}
+            Prévisualisation du test #{{ model.course.id }}
         </div>
 
         <div class="rounded-panel course-information">
-            <h3 class="course-name">{{ course.name }}</h3>
-            <p class="course-description">{{ course.description }}</p>
+            <h3 class="course-name">{{ model.course.name }}</h3>
+            <p class="course-description">{{ model.course.description }}</p>
         </div>
 
 
-      {{#link-to "courses.get-challenge-preview" course.id nextChallenge.id class="btn btn-primary simulate-button"}}Simuler le test{{/link-to}}
+      {{#link-to "courses.get-challenge-preview" model.course.id model.nextChallenge.id class="btn btn-primary simulate-button"}}Simuler le test{{/link-to}}
 
     </div>
 </div>
