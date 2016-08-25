@@ -162,7 +162,7 @@ define('pix-live/tests/acceptance/3-demarrer-test-test.lint-test', ['exports'], 
 });
 define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)('Acceptance | 32 - Créer une épreuve de type QCU', function () {
+  (0, _mocha.describe)('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
 
     var application = undefined;
 
@@ -174,7 +174,7 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'm
       (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
     });
 
-    (0, _mocha.describe)('Prévisualiser une épreuve', function () {
+    (0, _mocha.describe)('Prévisualiser une épreuve |', function () {
 
       var challengeId = "recLt9uwa2dR3IYpi";
 
@@ -186,7 +186,7 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'm
         (0, _chai.expect)(currentURL()).to.equal('/challenges/' + challengeId + '/preview');
       });
 
-      (0, _mocha.describe)('les informations visibles sont :', function () {
+      (0, _mocha.describe)('On affiche', function () {
 
         var $challenge = undefined;
 
@@ -217,6 +217,126 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test.lint-test', ['ex
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('acceptance/32-creer-une-epreuve-qcu-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)('Acceptance | 37 - Prévisualiser un test |', function () {
+
+    var courseId = 'rec5duNNrPqbSzQ8o';
+    var firstChallengeId = 'recub31NerwonPVwX';
+    var secondChallengeId = 'recLt9uwa2dR3IYpi';
+    var lastChallengeId = 'recLt9uwa2dR3IYpi';
+
+    var application = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.describe)("Prévisualiser la première page d'un test |", function () {
+
+      (0, _mocha.before)(function () {
+        return visit('/courses/' + courseId + '/preview');
+      });
+
+      (0, _mocha.it)("L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
+        (0, _chai.expect)(currentURL()).to.equal('/courses/' + courseId + '/preview');
+      });
+
+      var $preview = undefined;
+
+      (0, _mocha.describe)('On affiche', function () {
+
+        (0, _mocha.before)(function () {
+          $preview = findWithAssert('#course-preview');
+        });
+
+        (0, _mocha.it)("le titre de la page avec l'identifiant du test", function () {
+          (0, _chai.expect)($preview.find('.title').text()).to.contains('Prévisualisation du test #' + courseId);
+        });
+
+        (0, _mocha.it)('le nom du test', function () {
+          (0, _chai.expect)($preview.find('.course-name').text()).to.contains('course_name');
+        });
+
+        (0, _mocha.it)('la description du test', function () {
+          (0, _chai.expect)($preview.find('.course-description').text()).to.contains('course_description');
+        });
+
+        (0, _mocha.it)('un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
+          var $playButton = findWithAssert('.simulate-button');
+          (0, _chai.expect)($playButton.text()).to.be.equals('Simuler le test');
+          (0, _chai.expect)($playButton.attr('href')).to.be.equals('/courses/' + courseId + '/preview/challenges/' + firstChallengeId);
+        });
+      });
+    });
+
+    (0, _mocha.describe)("Prévisualiser une épreuve dans le cadre d'un test |", function () {
+
+      (0, _mocha.before)(function () {
+        return visit('/courses/' + courseId + '/preview/challenges/' + firstChallengeId);
+      });
+
+      (0, _mocha.it)("L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
+        (0, _chai.expect)(currentURL()).to.equal('/courses/' + courseId + '/preview/challenges/' + firstChallengeId);
+      });
+
+      (0, _mocha.describe)('On affiche', function () {
+
+        var $challenge = undefined;
+
+        (0, _mocha.before)(function () {
+          $challenge = findWithAssert('.challenge-preview');
+        });
+
+        (0, _mocha.it)("l'identifiant de l'épreuve", function () {
+          (0, _chai.expect)($challenge.find('.title').text()).to.contains('Prévisualisation de l\'épreuve #' + firstChallengeId);
+        });
+
+        (0, _mocha.it)("la consigne de l'épreuve", function () {
+          (0, _chai.expect)($challenge.find('.challenge-instruction').text()).to.contains('Exemple de question QCU');
+        });
+
+        (0, _mocha.it)('les propositions sous forme de boutons radio pour un QCU', function () {
+          var $proposals = findWithAssert('.challenge-proposals input[type="radio"][name="proposals"]');
+          (0, _chai.expect)($proposals).to.have.lengthOf(5);
+        });
+
+        (0, _mocha.it)("un bouton pour accéder à l'épreuve suivante", function () {
+          var $nextChallengeButton = findWithAssert('.next-challenge-button');
+          (0, _chai.expect)($nextChallengeButton.text()).to.be.equals('Épreuve suivante');
+          (0, _chai.expect)($nextChallengeButton.attr('href')).to.be.equals('/courses/' + courseId + '/preview/challenges/' + secondChallengeId);
+        });
+      });
+    });
+
+    (0, _mocha.describe)("Prévisualiser la dernière épreuve dans le cadre d'un test |", function () {
+
+      (0, _mocha.before)(function () {
+        return visit('/courses/' + courseId + '/preview/challenges/' + lastChallengeId);
+      });
+
+      (0, _mocha.it)("on n'affiche pas de bouton “Épreuve suivante”", function () {
+        (0, _chai.expect)(find('.challenge-preview a.next-challenge-button')).to.have.lengthOf(0);
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/37-prévisualiser-un-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/37-prévisualiser-un-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/37-prévisualiser-un-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -431,6 +551,30 @@ define('pix-live/tests/controllers/challenge-show.lint-test', ['exports'], funct
     });
   });
 });
+define('pix-live/tests/controllers/courses/challenge-preview.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - controllers/courses/challenge-preview.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('controllers/courses/challenge-preview.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/controllers/courses/course-preview.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - controllers/courses/course-preview.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('controllers/courses/course-preview.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/helpers/describe-visiting', ['exports', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   /*
@@ -501,7 +645,7 @@ define('pix-live/tests/helpers/destroy-app.lint-test', ['exports'], function (ex
     });
   });
 });
-define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'pix-live/tests/helpers/monkey-patch-mocha'], function (exports, _pixLiveTestsHelpersMonkeyPatchMocha) {
+define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'npm:urljs'], function (exports, _npmUrljs) {
     var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
 
     var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -512,7 +656,7 @@ define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'pix-live/
     var OriginalDate = Date;
 
     function hasQueryParam(name) {
-        var result = Url.queryString(name);
+        var result = _npmUrljs['default'].queryString(name);
         return typeof result === 'string' || result;
     }
 
@@ -528,10 +672,7 @@ define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'pix-live/
             this.setupEvents(runner);
             this.setupBlanket();
 
-            if (options && hasQueryParam('no_try_catch')) {
-                options.allowUncaught = true;
-                (0, _pixLiveTestsHelpersMonkeyPatchMocha['default'])();
-            }
+            options.allowUncaught = hasQueryParam('no_try_catch');
         }
 
         _createClass(Reporter, [{
@@ -547,13 +688,7 @@ define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'pix-live/
 
                 $rootNode.append(template);
 
-                $('#test-title').text(document.title).on('click', function (e) {
-                    e.preventDefault();
-                    if (Url.queryString("grep")) {
-                        Url.updateSearchParam("grep");
-                        window.location.reload();
-                    }
-                });
+                $('#test-title').text(document.title);
 
                 this.setupCanvas();
 
@@ -709,14 +844,14 @@ define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'pix-live/
             value: function updateCoverageEnabled() {
                 if (this.$stats.find('#enable-coverage').is(':checked')) {
                     if (!hasQueryParam('coverage')) {
-                        Url.updateSearchParam("coverage", 'true');
-                        Url.updateSearchParam("no_try_catch");
+                        _npmUrljs['default'].updateSearchParam("coverage", 'true');
+                        _npmUrljs['default'].updateSearchParam("no_try_catch");
                         this.$noTryCatch.attr('checked', false);
                         window.location.reload();
                     }
                 } else {
                     if (hasQueryParam('coverage')) {
-                        Url.updateSearchParam("coverage");
+                        _npmUrljs['default'].updateSearchParam("coverage");
                         window.location.reload();
                     }
                 }
@@ -726,14 +861,14 @@ define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'pix-live/
             value: function updateNoTryCatch() {
                 if (this.$stats.find('#no-try-catch').is(':checked')) {
                     if (!hasQueryParam('no_try_catch')) {
-                        Url.updateSearchParam("no_try_catch", 'true');
-                        Url.updateSearchParam("coverage");
+                        _npmUrljs['default'].updateSearchParam("no_try_catch", 'true');
+                        _npmUrljs['default'].updateSearchParam("coverage");
                         this.$coverage.attr('checked', false);
                         window.location.reload();
                     }
                 } else {
                     if (hasQueryParam('no_try_catch')) {
-                        Url.updateSearchParam("no_try_catch");
+                        _npmUrljs['default'].updateSearchParam("no_try_catch");
                         window.location.reload();
                     }
                 }
@@ -760,7 +895,6 @@ define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'pix-live/
                 }
 
                 groupDescribes('JSHint');
-                groupDescribes('ESLint');
                 groupDescribes('JSCS');
             }
         }, {
@@ -840,14 +974,6 @@ define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'pix-live/
                 var $title = $blanket.find('.bl-title > .bl-file');
 
                 $title.text('Code Coverage');
-
-                // fixme: horrendously ugly workaround for double-escaping happening in
-                // bower_components/blanket/dist/{mocha,qunit}/blanket.js
-                $blanket.find('.bl-source > div').contents().filter(function () {
-                    return this.nodeType === 3;
-                }).each(function (index, element) {
-                    element.nodeValue = element.nodeValue.replace(/&dollar;/g, '$').replace(/&grave;/g, '`').replace(/&apos;/g, "'").replace(/&quot;/g, '"').replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g, '&');
-                });
 
                 this.updateHidePassed();
             }
@@ -997,7 +1123,7 @@ define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'pix-live/
             var $suite = $(suite);
             var suiteTitle = $suite.find('h1').text();
 
-            var _suiteTitle$match = suiteTitle.match('^' + linter + ' [\\|-] (.*)$');
+            var _suiteTitle$match = suiteTitle.match('^' + linter + ' - (.*)$');
 
             var _suiteTitle$match2 = _slicedToArray(_suiteTitle$match, 2);
 
@@ -1006,8 +1132,6 @@ define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'pix-live/
             var $test = $suite.find('.test');
 
             $test.find('.title').text(fileName);
-
-            $test.find('pre:eq(1)').hide();
 
             $linter.find('ul').append($test);
             $suite.remove();
@@ -1042,127 +1166,7 @@ define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'pix-live/
  * <https://github.com/mmelvin0/ember-cli-mocha-reporter>
  */
 
-/* global $, Date, Url */
-define('pix-live/tests/helpers/monkey-patch-mocha', ['exports'], function (exports) {
-    /* global Mocha, mocha, chai */
-
-    exports['default'] = function () {
-        Mocha.Runnable.prototype.run = function (fn) {
-            var self = this;
-            var start = new Date();
-            var ctx = this.ctx;
-            var finished;
-            var emitted;
-
-            // Sometimes the ctx exists, but it is not runnable
-            if (ctx && ctx.runnable) {
-                ctx.runnable(this);
-            }
-
-            // called multiple times
-            function multiple(err) {
-                if (emitted) {
-                    return;
-                }
-                emitted = true;
-                self.emit('error', err || new Error('done() called multiple times; stacktrace may be inaccurate'));
-            }
-
-            // finished
-            function done(err) {
-                var ms = self.timeout();
-                if (self.timedOut) {
-                    return;
-                }
-                if (finished) {
-                    return multiple(err || self._trace);
-                }
-
-                self.clearTimeout();
-                self.duration = new Date() - start;
-                finished = true;
-                if (!err && self.duration > ms && self._enableTimeouts) {
-                    err = new Error('timeout of ' + ms + 'ms exceeded. Ensure the done() callback is being called in this test.');
-                }
-                fn(err);
-            }
-
-            // for .resetTimeout()
-            this.callback = done;
-
-            // explicit async with `done` argument
-            if (this.async) {
-                this.resetTimeout();
-
-                if (this.allowUncaught) {
-                    return callFnAsync(this.fn);
-                }
-                try {
-                    callFnAsync(this.fn);
-                } catch (err) {
-                    done(Mocha.utils.getError(err));
-                }
-                return;
-            }
-
-            if (this.allowUncaught) {
-                callFn(this.fn);
-                done();
-                return;
-            }
-
-            // sync or promise-returning
-            try {
-                if (this.pending) {
-                    done();
-                } else {
-                    callFn(this.fn);
-                }
-            } catch (err) {
-                done(Mocha.utils.getError(err));
-            }
-
-            function callFn(fn) {
-                var result = fn.call(ctx);
-                if (result && typeof result.then === 'function') {
-                    self.resetTimeout();
-                    result.then(function () {
-                        done();
-                        // Return null so libraries like bluebird do not warn about
-                        // subsequently constructed Promises.
-                        return null;
-                    }, function (reason) {
-                        done(reason || new Error('Promise rejected with no or falsy reason'));
-                    });
-                } else {
-                    if (self.asyncOnly) {
-                        return done(new Error('--async-only option in use without declaring `done()` or returning a promise'));
-                    }
-
-                    done();
-                }
-            }
-
-            function callFnAsync(fn) {
-                fn.call(ctx, function (err) {
-                    if (err instanceof Error || Object.prototype.toString.call(err) === '[object Error]') {
-                        if (mocha.options.allowUncaught && !(err instanceof chai.AssertionError)) {
-                            throw err;
-                        }
-                        return done(err);
-                    }
-                    if (err) {
-                        if (Object.prototype.toString.call(err) === '[object Object]') {
-                            return done(new Error('done() invoked with non-Error: ' + JSON.stringify(err)));
-                        }
-                        return done(new Error('done() invoked with non-Error: ' + err));
-                    }
-                    done();
-                });
-            }
-        };
-    };
-});
+/* global $, Date */
 define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-live/config/environment'], function (exports, _pixLiveResolver, _pixLiveConfigEnvironment) {
 
   var resolver = _pixLiveResolver['default'].create();
@@ -1324,6 +1328,30 @@ define('pix-live/tests/routes/courses.lint-test', ['exports'], function (exports
     });
   });
 });
+define('pix-live/tests/routes/courses/challenge-preview.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - routes/courses/challenge-preview.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('routes/courses/challenge-preview.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/routes/courses/course-preview.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - routes/courses/course-preview.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('routes/courses/course-preview.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/routes/home.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -1384,12 +1412,10 @@ define('pix-live/tests/serializers/course.lint-test', ['exports'], function (exp
     });
   });
 });
-define('pix-live/tests/test-helper', ['exports', 'pix-live/tests/helpers/resolver', 'ember-mocha', 'pix-live/tests/helpers/ember-cli-mocha-reporter'], function (exports, _pixLiveTestsHelpersResolver, _emberMocha, _pixLiveTestsHelpersEmberCliMochaReporter) {
+define('pix-live/tests/test-helper', ['exports', 'pix-live/tests/helpers/resolver', 'ember-mocha'], function (exports, _pixLiveTestsHelpersResolver, _emberMocha) {
 
-  mocha.reporter(_pixLiveTestsHelpersEmberCliMochaReporter['default']);
   (0, _emberMocha.setResolver)(_pixLiveTestsHelpersResolver['default']);
 });
-/* globals mocha */
 define('pix-live/tests/test-helper.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -1404,11 +1430,7 @@ define('pix-live/tests/test-helper.lint-test', ['exports'], function (exports) {
 });
 define('pix-live/tests/unit/controllers/challenge-show-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('controller:challenge-show', 'ChallengeShowController', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  }, function () {
-    // Replace this with your real tests.
+  (0, _emberMocha.describeModule)('controller:challenge-show', 'ChallengeShowController', function () {
     (0, _emberMocha.it)('exists', function () {
       var controller = this.subject();
       (0, _chai.expect)(controller).to.be.ok;
@@ -1503,21 +1525,11 @@ define('pix-live/tests/unit/models/challenge-test.lint-test', ['exports'], funct
 });
 define('pix-live/tests/unit/models/course-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
 
-  (0, _emberMocha.describeModel)('course', 'Unit | Model | course', function () {
+  (0, _emberMocha.describeModel)('course', 'Unit | Model | course', { needs: ['model:challenge'] }, function () {
 
     (0, _emberMocha.it)('exists', function () {
       var model = this.subject();
       (0, _chai.expect)(model).to.be.ok;
-    });
-
-    (0, _emberMocha.it)('should have a name', function () {
-      var model = this.subject({ name: 'My super test' });
-      (0, _chai.expect)(model.get('name')).to.equal('My super test');
-    });
-
-    (0, _emberMocha.it)('may have a description', function () {
-      var model = this.subject({ description: '<p>Coucou les tests</p>' });
-      (0, _chai.expect)(model.get('description')).to.equal('<p>Coucou les tests</p>');
     });
   });
 });
@@ -1597,6 +1609,54 @@ define('pix-live/tests/unit/routes/courses-test.lint-test', ['exports'], functio
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/routes/courses-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/routes/courses/challenge-preview-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeModule)('route:courses/challenge-preview', 'ChallengePreviewRoute', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  }, function () {
+    (0, _emberMocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/courses/challenge-preview-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/routes/courses/challenge-preview-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/routes/courses/challenge-preview-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/routes/courses/course-preview-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeModule)('route:courses/course-preview', 'CoursePreviewRoute', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  }, function () {
+    (0, _emberMocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/courses/course-preview-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/routes/courses/course-preview-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/routes/courses/course-preview-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
