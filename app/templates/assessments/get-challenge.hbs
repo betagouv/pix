@@ -1,22 +1,30 @@
 <div id="assessment-challenge">
     <div class="container">
 
-        <div class="title">
+        <div class="title assessment-title">
             Évaluation #{{ model.assessment.id }}
         </div>
 
-        <p>Consigne :</p>
-        <div class="rounded-panel challenge-instruction">
-            <p>{{ model.challenge.instruction }}</p>
+        <div class="rounded-panel challenge-statement">
+            <p class="challenge-instruction">{{ model.challenge.instruction }}</p>
         </div>
 
-        <p>Réponse :</p>
-        <div class="rounded-panel challenge-proposals">
-          {{#each model.challenge.proposalsAsArray as |proposal|}}
-              <p>
-                  <label>{{input type="radio" name="proposals"}} {{ proposal }}</label>
-              </p>
-          {{/each}}
+        <div class="rounded-panel challenge-response">
+            <div class="challenge-proposals">
+              {{#each model.challenge.proposalsAsArray as |proposal|}}
+                  <p class="challenge-proposal">
+                      <label>{{input type="radio" name="proposals"}} {{ proposal }}</label>
+                  </p>
+              {{/each}}
+            </div>
+
+            <hr />
+
+            <div class="actions">
+                <a class="btn btn-primary action-skip">Passer</a>
+                <a class="btn btn-primary action-validate">Valider</a>
+            </div>
+
         </div>
 
     </div>

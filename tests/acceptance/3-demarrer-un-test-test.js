@@ -14,8 +14,6 @@ describe('Acceptance | 3 - Démarrer un test |', function () {
 
   before(function () {
     application = startApp();
-    server.createList('challenge', 5);
-    server.create('course');
   });
 
   after(function () {
