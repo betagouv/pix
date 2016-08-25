@@ -50,10 +50,10 @@ describe('Acceptance | 4 - Démarrer une épreuve |', function() {
   });
 
   it('4.4. affiche le bouton "Valider" permettant de sauvegarder la réponse saisie et de passer à l\'épreuve suivante ', function() {
-    expect(findWithAssert('.action-validate').text()).to.eq('Valider');
+    expect(findWithAssert('.validate-button').text()).to.eq('Valider');
   });
 
   it('4.5. affiche le bouton "Passer" permettant de passer à l\'épreuve suivante sans avoir saisi de réponse', function() {
-    expect(findWithAssert('.action-skip').text()).to.eq('Passer');
+    expect(findWithAssert('.skip-button').text()).to.eq('Passer');
   });
 });
