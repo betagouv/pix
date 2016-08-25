@@ -222,7 +222,7 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test.lint-test', ['ex
     });
   });
 });
-define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 37 - Prévisualiser un test |', function () {
 
@@ -330,13 +330,13 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'moch
     });
   });
 });
-define('pix-live/tests/acceptance/37-prévisualiser-un-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/37-prévisualiser-un-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - acceptance/37-prévisualiser-un-test.js', function () {
+  describe('ESLint - acceptance/37-prévisualiser-un-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/37-prévisualiser-un-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('acceptance/37-prévisualiser-un-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
