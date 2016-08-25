@@ -56,8 +56,7 @@ export function testConfig() {
             ],
             "Durée": 15,
             "Épreuves": []
-          },
-          "createdTime": "2016-08-09T15:17:53.000Z"
+          }
         },
         {
           "id": "recgfTczeaXYoBLpw",

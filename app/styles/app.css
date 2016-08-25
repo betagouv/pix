@@ -1,5 +1,3 @@
-/* fonts */
-/*@import url('https://fonts.googleapis.com/css?family=Open+Sans');*/
 /* globals */
 @import url('globals/buttons.css');
 @import url('globals/form.css');
@@ -10,12 +8,11 @@
 @import url('components/app-footer.css');
 @import url('components/identification-form.css');
 @import url('components/user-menu.css');
+@import url('components/challenge-item.css');
 /* views */
-@import url('assessment.css');
 @import url('home.css');
 @import url('index.css');
-@import url('courses/preview.css');
-@import url('assessments/get-challenge.css');
+@import url('courses/get-preview.css');
 
 @media (min-width: 1200px) {
   .container {
