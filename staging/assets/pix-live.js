@@ -6,15 +6,8 @@
 
 /* jshint ignore:end */
 
-define('pix-live/adapters/application', ['exports', 'ember-data/adapters/rest'], function (exports, _emberDataAdaptersRest) {
-  exports['default'] = _emberDataAdaptersRest['default'].extend({});
-});
-define('pix-live/adapters/challenge', ['exports', 'ember-airtable/adapter'], function (exports, _emberAirtableAdapter) {
+define('pix-live/adapters/airtable', ['exports', 'ember-airtable/adapter'], function (exports, _emberAirtableAdapter) {
   exports['default'] = _emberAirtableAdapter['default'].extend({
-
-    pathForType: function pathForType() {
-      return 'Epreuves';
-    },
 
     namespace: 'v0/appHAIFk9u1qqglhX',
 
@@ -24,19 +17,34 @@ define('pix-live/adapters/challenge', ['exports', 'ember-airtable/adapter'], fun
     }
   });
 });
-define('pix-live/adapters/course', ['exports', 'ember-airtable/adapter'], function (exports, _emberAirtableAdapter) {
-  exports['default'] = _emberAirtableAdapter['default'].extend({
+define('pix-live/adapters/application', ['exports', 'ember-data/adapters/rest'], function (exports, _emberDataAdaptersRest) {
+  exports['default'] = _emberDataAdaptersRest['default'].extend({});
+});
+define("pix-live/adapters/assessment", ["exports", "pix-live/adapters/airtable"], function (exports, _pixLiveAdaptersAirtable) {
+  exports["default"] = _pixLiveAdaptersAirtable["default"].extend({
+
+    pathForType: function pathForType() {
+      return 'Evaluations';
+    }
+
+  });
+});
+define("pix-live/adapters/challenge", ["exports", "pix-live/adapters/airtable"], function (exports, _pixLiveAdaptersAirtable) {
+  exports["default"] = _pixLiveAdaptersAirtable["default"].extend({
+
+    pathForType: function pathForType() {
+      return 'Epreuves';
+    }
+
+  });
+});
+define("pix-live/adapters/course", ["exports", "pix-live/adapters/airtable"], function (exports, _pixLiveAdaptersAirtable) {
+  exports["default"] = _pixLiveAdaptersAirtable["default"].extend({
 
     pathForType: function pathForType() {
       return 'Tests';
-    },
-
-    namespace: 'v0/appHAIFk9u1qqglhX',
-
-    headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer keyEgu8JYhXaOhjbd'
     }
+
   });
 });
 define('pix-live/app', ['exports', 'ember', 'pix-live/resolver', 'ember-load-initializers', 'pix-live/config/environment'], function (exports, _ember, _pixLiveResolver, _emberLoadInitializers, _pixLiveConfigEnvironment) {
@@ -305,6 +313,35 @@ define('pix-live/components/bs-textarea', ['exports', 'ember-bootstrap/component
     get: function get() {
       return _emberBootstrapComponentsBsTextarea['default'];
     }
+  });
+});
+define('pix-live/components/challenge-item', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({
+
+    tagName: 'article',
+    classNames: ['challenge-item'],
+    attributeBindings: ['challenge.id:data-challenge-id'],
+
+    mode: 'live',
+    challenge: null,
+    isLiveMode: _ember['default'].computed.equal('mode', 'live'),
+    isCoursePreviewMode: _ember['default'].computed.equal('mode', 'course-preview'),
+
+    course: null,
+    hasNextChallenge: _ember['default'].computed('challenge', 'course', function () {
+      var course = this.get('course');
+      var challenge = this.get('challenge');
+      var challenges = course.get('challenges');
+      var currentChallengeIndex = challenges.indexOf(challenge);
+      return currentChallengeIndex + 1 < challenges.get('length');
+    }),
+    nextChallenge: _ember['default'].computed('challenge', 'course', function () {
+      var course = this.get('course');
+      var challenge = this.get('challenge');
+      var challenges = course.get('challenges');
+      return challenges.objectAt(challenges.indexOf(challenge) + 1);
+    })
+
   });
 });
 define('pix-live/components/ember-wormhole', ['exports', 'ember-wormhole/components/ember-wormhole'], function (exports, _emberWormholeComponentsEmberWormhole) {
@@ -812,15 +849,6 @@ define('pix-live/components/user-menu', ['exports', 'ember'], function (exports,
     classNames: ['dropdown']
   });
 });
-define('pix-live/controllers/challenge-show', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Controller.extend({});
-});
-define('pix-live/controllers/courses/challenge-preview', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Controller.extend({});
-});
-define('pix-live/controllers/courses/course-preview', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Controller.extend({});
-});
 define('pix-live/controllers/home', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller.extend({
     session: _ember['default'].inject.service()
@@ -1214,32 +1242,10 @@ define("pix-live/instance-initializers/ember-data", ["exports", "ember-data/-pri
     initialize: _emberDataPrivateInstanceInitializersInitializeStoreService["default"]
   };
 });
-define('pix-live/mirage/config', ['exports', 'lodash/lodash'], function (exports, _lodashLodash) {
+define('pix-live/mirage/config', ['exports'], function (exports) {
   exports.testConfig = testConfig;
 
-  function pickChallengesAtRandom(schema, nbOfChallenges) {
-    return _lodashLodash['default'].range(1, nbOfChallenges).map(function (number) {
-      var challenges = schema.challenges.where({ number: number }).models;
-      var randomIndex = _lodashLodash['default'].random(0, challenges.length - 1);
-      var challenge = challenges[randomIndex];
-      return challenge.id;
-    });
-  }
-
   exports['default'] = function () {
-
-    this.get('/courses/:id');
-    this.post('/assessments', function (schema) {
-      var payload = this.normalizedRequestAttrs();
-      var challengeIds = pickChallengesAtRandom(schema, 5);
-      return schema.assessments.create({ course: schema.courses.find(payload.course), challengeIds: challengeIds });
-    });
-    this.get('/assessments/:id');
-    this.get('/assessments/:id/challenges', function (schema, request) {
-      return schema.challenges.where({ assessmentId: request.params.id });
-    });
-    this.get('/challenges/:id');
-
     this.passthrough('https://api.airtable.com/**');
   };
 
@@ -1252,141 +1258,60 @@ define('pix-live/mirage/config', ['exports', 'lodash/lodash'], function (exports
             "Nom": "Test #1",
             "Description": "Libero eum excepturi occaecati sed quod veniam odit id. Et voluptas accusamus sit neque. Et ut voluptatem ut omnis. Eveniet et voluptate magni corporis dolores sapiente voluptatem.",
             "Image": [{
-              "id": "attuCagYzFRtMjciZ",
-              "url": "https://dl.airtable.com/oLRaj7sTbCGzsLNwiur1_test1.png",
-              "filename": "test1.png",
-              "size": 81948,
-              "type": "image/png",
-              "thumbnails": {
-                "small": {
-                  "url": "https://dl.airtable.com/GbJKDkkCTP6xVjmrgsEr_small_test1.png",
-                  "width": 53,
-                  "height": 36
-                },
-                "large": {
-                  "url": "https://dl.airtable.com/AikVbSPbROiK5apOrj0u_large_test1.png",
-                  "width": 500,
-                  "height": 338
-                }
-              }
+              "url": "https://dl.airtable.com/oLRaj7sTbCGzsLNwiur1_test1.png"
             }],
-            "Durée": 20
-          },
-          "createdTime": "2016-08-09T15:17:53.000Z"
+            "Durée": 20,
+            "Épreuves": ["recLt9uwa2dR3IYpi", "recub31NerwonPVwX"]
+          }
         }, {
           "id": "recHqnPdLdXthJBY5",
           "fields": {
             "Nom": "Tests sans durée",
             "Description": "Bla bla bla",
             "Image": [{
-              "id": "attvYECSzpchqiYa9",
-              "url": "https://dl.airtable.com/p8NfvjfvRWGPJTfLsiO1_Wolverine_kawaii.jpg",
-              "filename": "Wolverine_kawaii.jpg",
-              "size": 122094,
-              "type": "image/jpeg",
-              "thumbnails": {
-                "small": {
-                  "url": "https://dl.airtable.com/URbFhHwxRYGy3UN71bhA_small_Wolverine_kawaii.jpg",
-                  "width": 36,
-                  "height": 36
-                },
-                "large": {
-                  "url": "https://dl.airtable.com/8O0oN8iYT5gtTavtSVvg_large_Wolverine_kawaii.jpg",
-                  "width": 500,
-                  "height": 500
-                }
-              }
+              "url": "https://dl.airtable.com/p8NfvjfvRWGPJTfLsiO1_Wolverine_kawaii.jpg"
             }]
-          },
-          "createdTime": "2016-08-11T13:48:28.221Z"
+          }
         }, {
           "id": "recOouHLk00aMWJH2",
           "fields": {
             "Nom": "Test sans image",
             "Description": "Lorem ipsum dolor sit amet",
-            "Durée": 25
-          },
-          "createdTime": "2016-08-11T08:59:51.000Z"
+            "Durée": 25,
+            "Épreuves": []
+          }
         }, {
           "id": "recgCojOs6ykwak43",
           "fields": {
             "Nom": "Test #3",
             "Description": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
             "Image": [{
-              "id": "attjEQyQht6zRytuc",
-              "url": "https://dl.airtable.com/kfH1ge2oTHCKvtkG910W_test3.png",
-              "filename": "test3.png",
-              "size": 72436,
-              "type": "image/png",
-              "thumbnails": {
-                "small": {
-                  "url": "https://dl.airtable.com/VSHtJEr0TsOGNk093svJ_small_test3.png",
-                  "width": 56,
-                  "height": 36
-                },
-                "large": {
-                  "url": "https://dl.airtable.com/yzxmbzMQJW3d6MqaPgwX_large_test3.png",
-                  "width": 500,
-                  "height": 324
-                }
-              }
+              "url": "https://dl.airtable.com/kfH1ge2oTHCKvtkG910W_test3.png"
             }],
-            "Durée": 15
-          },
-          "createdTime": "2016-08-09T15:17:53.000Z"
+            "Durée": 15,
+            "Épreuves": []
+          }
         }, {
           "id": "recgfTczeaXYoBLpw",
           "fields": {
             "Nom": "Test sans description",
             "Image": [{
-              "id": "atthKQGve2bSn6xgv",
-              "url": "https://dl.airtable.com/mrzNpuOQuKlqTCY2yL5o_Ninja_Turtles_kawaii.jpg",
-              "filename": "Ninja_Turtles_kawaii.jpg",
-              "size": 48064,
-              "type": "image/jpeg",
-              "thumbnails": {
-                "small": {
-                  "url": "https://dl.airtable.com/u5SZ9pcYQTCbyCKUGQM1_small_Ninja_Turtles_kawaii.jpg",
-                  "width": 56,
-                  "height": 36
-                },
-                "large": {
-                  "url": "https://dl.airtable.com/QYGBBJMxRmyoUQ39tvfY_large_Ninja_Turtles_kawaii.jpg",
-                  "width": 512,
-                  "height": 395
-                }
-              }
+              "url": "https://dl.airtable.com/mrzNpuOQuKlqTCY2yL5o_Ninja_Turtles_kawaii.jpg"
             }],
-            "Durée": 10
-          },
-          "createdTime": "2016-08-11T13:47:51.658Z"
+            "Durée": 10,
+            "Épreuves": []
+          }
         }, {
           "id": "recqBFUffy0sCq6ah",
           "fields": {
             "Nom": "Test #2",
             "Description": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
             "Image": [{
-              "id": "attRAWHK5rpge3l7O",
-              "url": "https://dl.airtable.com/pSWiObyPT9mBCCmTH3AN_test2.png",
-              "filename": "test2.png",
-              "size": 119119,
-              "type": "image/png",
-              "thumbnails": {
-                "small": {
-                  "url": "https://dl.airtable.com/ehK9hFDCS0elu41z7wHk_small_test2.png",
-                  "width": 49,
-                  "height": 36
-                },
-                "large": {
-                  "url": "https://dl.airtable.com/VQgDQ8M3T9CidPTp5lZI_large_test2.png",
-                  "width": 500,
-                  "height": 365
-                }
-              }
+              "url": "https://dl.airtable.com/pSWiObyPT9mBCCmTH3AN_test2.png"
             }],
-            "Durée": 30
-          },
-          "createdTime": "2016-08-09T15:17:53.000Z"
+            "Durée": 30,
+            "Épreuves": []
+          }
         }]
       };
     });
@@ -1402,13 +1327,11 @@ define('pix-live/mirage/config', ['exports', 'lodash/lodash'], function (exports
           }],
           "Durée": 20,
           "Épreuves": ["recLt9uwa2dR3IYpi", "recub31NerwonPVwX"]
-        },
-        "createdTime": "2016-08-09T15:17:53.000Z"
+        }
       };
     });
 
     this.get('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Epreuves/:id', function (_, request) {
-
       switch (request.params.id) {
         case "recLt9uwa2dR3IYpi":
           return {
@@ -1416,7 +1339,8 @@ define('pix-live/mirage/config', ['exports', 'lodash/lodash'], function (exports
             "fields": {
               "Consigne": "Que peut-on dire des œufs de catégorie A ?",
               "Propositions QCU / QCM": "- Ils sont bio\n- Ils pèsent plus de 63 grammes\n- Ce sont des oeufs frais\n- Ils sont destinés aux consommateurs\n- Ils ne sont pas lavés\n",
-              "Type d'épreuve": "QCU"
+              "Type d'épreuve": "QCU",
+              "Tests": ["rec5duNNrPqbSzQ8o"]
             }
           };
         case "recub31NerwonPVwX":
@@ -1426,10 +1350,31 @@ define('pix-live/mirage/config', ['exports', 'lodash/lodash'], function (exports
             "fields": {
               "Consigne": "Exemple de question QCU\n\n",
               "Propositions QCU / QCM": "- option 1\n- option 2\n- option 3\n- option 4\n- option 5\n\n",
-              "Type d'épreuve": "QCU"
+              "Type d'épreuve": "QCU",
+              "Tests": ["rec5duNNrPqbSzQ8o"]
             }
           };
       }
+    });
+
+    this.get('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Evaluations/:id', function (_, request) {
+      return {
+        "id": "recqE9kA4VRqFcEgK",
+        "fields": {
+          "Nom": 21,
+          "Test": ["rec5duNNrPqbSzQ8o"]
+        }
+      };
+    });
+
+    this.post('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Evaluations', function (_, request) {
+      return {
+        "id": "recqE9kA4VRqFcEgK",
+        "fields": {
+          "Nom": 21,
+          "Test": ["rec5duNNrPqbSzQ8o"]
+        }
+      };
     });
   }
 });
@@ -1490,27 +1435,6 @@ define("pix-live/mirage/factories/course", ["exports", "ember-cli-mirage"], func
 define("pix-live/mirage/fixtures/courses", ["exports"], function (exports) {
   exports["default"] = [];
 });
-define('pix-live/mirage/models/assessment', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
-  exports['default'] = _emberCliMirage.Model.extend({
-    course: (0, _emberCliMirage.belongsTo)('course'),
-    challenges: (0, _emberCliMirage.hasMany)('challenge')
-  });
-});
-define('pix-live/mirage/models/challenge', ['exports', 'ember-cli-mirage', 'ember-data/attr'], function (exports, _emberCliMirage, _emberDataAttr) {
-  exports['default'] = _emberCliMirage.Model.extend({
-
-    instruction: (0, _emberDataAttr['default'])('string'),
-    proposals: (0, _emberDataAttr['default'])('string')
-
-  });
-});
-define('pix-live/mirage/models/course', ['exports', 'ember-cli-mirage', 'ember-data/attr'], function (exports, _emberCliMirage, _emberDataAttr) {
-  exports['default'] = _emberCliMirage.Model.extend({
-    name: (0, _emberDataAttr['default'])('string'),
-    description: (0, _emberDataAttr['default'])('string'),
-    imageUrl: (0, _emberDataAttr['default'])('string')
-  });
-});
 define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
   exports['default'] = function (server) {
 
@@ -1524,40 +1448,26 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
     server.createList('assessment', 10);
   };
 });
-define('pix-live/mirage/serializers/application', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
-  exports['default'] = _emberCliMirage.RestSerializer.extend({});
-});
-define('pix-live/mirage/serializers/assessment', ['exports', 'pix-live/mirage/serializers/application'], function (exports, _pixLiveMirageSerializersApplication) {
-  exports['default'] = _pixLiveMirageSerializersApplication['default'].extend({
-    serialize: function serialize() {
-
-      // XXX from https://github.com/samselikoff/ember-cli-mirage/issues/584
-
-      // This is how to call super, as Mirage borrows [Backbone's implementation of extend](http://backbonejs.org/#Model-extend)
-      var json = _pixLiveMirageSerializersApplication['default'].prototype.serialize.apply(this, arguments);
-
-      json.assessment.links = {
-        course: '/courses/' + json.assessment.courseId,
-        challenges: '/assessments/' + json.assessment.id + '/challenges'
-      };
-
-      return json;
-    }
-  });
-});
 define('pix-live/models/assessment', ['exports', 'ember-data'], function (exports, _emberData) {
-  exports['default'] = _emberData['default'].Model.extend({
-    course: _emberData['default'].belongsTo('course'),
-    challenges: _emberData['default'].hasMany('challenge')
+  var Model = _emberData['default'].Model;
+  var belongsTo = _emberData['default'].belongsTo;
+  exports['default'] = Model.extend({
+
+    course: belongsTo('course', { inverse: null })
+
   });
 });
 define('pix-live/models/challenge', ['exports', 'ember-data', 'ember', 'lodash/lodash'], function (exports, _emberData, _ember, _lodashLodash) {
-  exports['default'] = _emberData['default'].Model.extend({
+  var Model = _emberData['default'].Model;
+  var attr = _emberData['default'].attr;
+  var belongsTo = _emberData['default'].belongsTo;
+  var computed = _ember['default'].computed;
+  exports['default'] = Model.extend({
 
-    instruction: _emberData['default'].attr('string'),
-    proposals: _emberData['default'].attr('string'),
+    instruction: attr('string'),
+    proposals: attr('string'),
 
-    proposalsAsArray: _ember['default'].computed('proposals', function () {
+    proposalsAsArray: computed('proposals', function () {
       var proposals = '\n' + this.get('proposals');
 
       if (_lodashLodash['default'].isEmpty(proposals)) {
@@ -1571,13 +1481,16 @@ define('pix-live/models/challenge', ['exports', 'ember-data', 'ember', 'lodash/l
   });
 });
 define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _emberData) {
-  exports['default'] = _emberData['default'].Model.extend({
+  var Model = _emberData['default'].Model;
+  var attr = _emberData['default'].attr;
+  var hasMany = _emberData['default'].hasMany;
+  exports['default'] = Model.extend({
 
-    name: _emberData['default'].attr('string'),
-    description: _emberData['default'].attr('string'),
-    duration: _emberData['default'].attr('number'),
-    imageUrl: _emberData['default'].attr('string'),
-    challenges: _emberData['default'].hasMany('challenge', { inverse: null })
+    name: attr('string'),
+    description: attr('string'),
+    duration: attr('number'),
+    imageUrl: attr('string'),
+    challenges: hasMany('challenge', { inverse: null })
 
   });
 });
@@ -1595,56 +1508,43 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('index', { path: '/' });
     this.route('home');
     this.route('preferences');
-    this.route('assessment-create', { path: '/course/:id_course/create_assessment' });
-    this.route('challenge-show', { path: '/challenges/:id_challenge' });
-    this.route('challenges.preview', { path: '/challenges/:challenge_id/preview' });
-    this.route('courses.course-preview', { path: '/courses/:course_id/preview' });
-    this.route('courses.challenge-preview', { path: '/courses/:course_id/preview/challenges/:challenge_id' });
+
+    this.route('challenges.get-preview', { path: '/challenges/:challenge_id/preview' });
+
+    this.route('courses.get-course-preview', { path: '/courses/:course_id/preview' });
+    this.route('courses.get-challenge-preview', { path: '/courses/:course_id/preview/challenges/:challenge_id' });
+    this.route('courses.create-assessment', { path: '/courses/:course_id/assessment' });
+
+    this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
   });
 
   exports['default'] = Router;
 });
-define('pix-live/routes/assessment-create', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
   exports['default'] = _ember['default'].Route.extend({
+
     model: function model(params) {
       var store = this.get('store');
-
-      var assessment = store.createRecord('assessment');
-
-      return store.findRecord('course', params.id_course).then(function (course) {
-        assessment.set('course', course);
-        return assessment.save();
-      }).then(function (assessment) {
-        return assessment.get('challenges');
+      return _rsvp['default'].hash({
+        assessment: store.findRecord('assessment', params.assessment_id),
+        challenge: store.findRecord('challenge', params.challenge_id)
       });
     },
 
-    afterModel: function afterModel(challenges) {
-      var firstChallengeId = challenges.sortBy('number').get('firstObject').id;
-      this.transitionTo('challenge-show', firstChallengeId);
+    /*
+     * This method is called when transitionTo is called with a context in order to populate the URL.
+     * – http://emberjs.com/api/classes/Ember.Route.html#method_serialize
+     */
+    serialize: function serialize(model) {
+      return {
+        assessment_id: model.assessment.id,
+        challenge_id: model.challenge.id
+      };
     }
+
   });
 });
-define('pix-live/routes/challenge-show', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Route.extend({
-    model: function model(params) {
-
-      var store = this.get('store');
-      var controller = this.controllerFor(this.routeName);
-
-      return store.findRecord('challenge', params.id_challenge).then(function (challenge) {
-        controller.set('challenge', challenge);
-        return challenge.get('assessment');
-      }).then(function (assessment) {
-        controller.set('assessment', assessment);
-        return assessment.get('course');
-      }).then(function (course) {
-        controller.set('course', course);
-      });
-    }
-  });
-});
-define('pix-live/routes/challenges/preview', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/routes/challenges/get-preview', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
 
     model: function model(params) {
@@ -1653,56 +1553,66 @@ define('pix-live/routes/challenges/preview', ['exports', 'ember'], function (exp
 
   });
 });
-define('pix-live/routes/courses', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/routes/courses/create-assessment', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
   exports['default'] = _ember['default'].Route.extend({
 
-    model: function model() {
-      return this.get('store').findAll('course');
+    model: function model(params) {
+      var store = this.get('store');
+      return store.findRecord('course', params.course_id).then(function (course) {
+        var assessment = store.createRecord('assessment', { course: course });
+        return _rsvp['default'].hash({
+          assessment: assessment.save(),
+          challenge: course.get('challenges.firstObject')
+        });
+      });
+    },
+
+    afterModel: function afterModel(model) {
+      this.transitionTo('assessments.get-challenge', model);
     }
 
   });
 });
-define('pix-live/routes/courses/challenge-preview', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
+define('pix-live/routes/courses/get-challenge-preview', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
   exports['default'] = _ember['default'].Route.extend({
 
     model: function model(params) {
 
       var store = this.get('store');
-      var controller = this.controllerFor(this.routeName);
 
       var promises = {
         course: store.findRecord('course', params.course_id),
         challenge: store.findRecord('challenge', params.challenge_id)
       };
 
-      _rsvp['default'].hash(promises).then(function (results) {
+      return _rsvp['default'].hash(promises).then(function (results) {
 
         var course = results.course;
         var challenge = results.challenge;
         var challenges = course.get('challenges');
         var currentChallengeIndex = challenges.indexOf(challenge);
-        var hasNextChallenge = currentChallengeIndex + 1 < challenges.get('length');
         var nextChallenge = challenges.objectAt(challenges.indexOf(challenge) + 1);
+        var hasNextChallenge = currentChallengeIndex + 1 < challenges.get('length');
 
-        controller.set('course', course);
-        controller.set('challenge', challenge);
-        controller.set('nextChallenge', nextChallenge);
-        controller.set('hasNextChallenge', hasNextChallenge);
+        return {
+          course: course,
+          challenge: challenge,
+          hasNextChallenge: hasNextChallenge,
+          nextChallenge: nextChallenge
+        };
       });
     }
   });
 });
-define('pix-live/routes/courses/course-preview', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/routes/courses/get-course-preview', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
   exports['default'] = _ember['default'].Route.extend({
 
     model: function model(params) {
-
-      var store = this.get('store');
-      var controller = this.controllerFor(this.routeName);
-
-      return store.findRecord('course', params.course_id).then(function (course) {
-        controller.set('course', course);
-        controller.set('nextChallenge', course.get('challenges.firstObject'));
+      return this.get('store').findRecord('course', params.course_id).then(function (course) {
+        return _rsvp['default'].hash({
+          course: course,
+          nextChallenge: course.get('challenges.firstObject')
+        });
       });
     }
 
@@ -1724,6 +1634,27 @@ define('pix-live/routes/index', ['exports', 'ember'], function (exports, _ember)
 });
 define('pix-live/routes/preferences', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
+});
+define('pix-live/serializers/assessment', ['exports', 'ember-airtable/serializer'], function (exports, _emberAirtableSerializer) {
+  exports['default'] = _emberAirtableSerializer['default'].extend({
+
+    normalizeResponse: function normalizeResponse(store, type, payload) {
+      payload.fields.name = payload.fields['Nom'];
+      payload.fields.course = payload.fields['Test'];
+      return this._super.apply(this, arguments);
+    },
+
+    serializeIntoHash: function serializeIntoHash(data, type, record, options) {
+      data['fields'] = this.serialize(record, options);
+    },
+
+    serialize: function serialize(snapshot, options) {
+      return {
+        "Test": [snapshot.belongsTo('course', { id: true })]
+      };
+    }
+
+  });
 });
 define('pix-live/serializers/challenge', ['exports', 'ember-airtable/serializer'], function (exports, _emberAirtableSerializer) {
   exports['default'] = _emberAirtableSerializer['default'].extend({
@@ -1880,78 +1811,8 @@ define("pix-live/templates/application", ["exports"], function (exports) {
     };
   })());
 });
-define("pix-live/templates/challenge-show", ["exports"], function (exports) {
+define("pix-live/templates/assessments/get-challenge", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
-    var child0 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.7.1",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 26,
-              "column": 14
-            },
-            "end": {
-              "line": 26,
-              "column": 76
-            }
-          },
-          "moduleName": "pix-live/templates/challenge-show.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("Passer");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
-        },
-        statements: [],
-        locals: [],
-        templates: []
-      };
-    })();
-    var child1 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.7.1",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 27,
-              "column": 14
-            },
-            "end": {
-              "line": 27,
-              "column": 90
-            }
-          },
-          "moduleName": "pix-live/templates/challenge-show.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("Valider");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
-        },
-        statements: [],
-        locals: [],
-        templates: []
-      };
-    })();
     return {
       meta: {
         "revision": "Ember@2.7.1",
@@ -1962,11 +1823,11 @@ define("pix-live/templates/challenge-show", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 33,
+            "line": 8,
             "column": 0
           }
         },
-        "moduleName": "pix-live/templates/challenge-show.hbs"
+        "moduleName": "pix-live/templates/assessments/get-challenge.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -1975,187 +1836,38 @@ define("pix-live/templates/challenge-show", ["exports"], function (exports) {
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "id", "assessment");
+        dom.setAttribute(el1, "id", "assessment-challenge");
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "container");
-        var el3 = dom.createTextNode("\n        ");
+        var el3 = dom.createTextNode("\n\n      ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "title course-name");
-        var el4 = dom.createTextNode("\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("span");
-        dom.setAttribute(el4, "class", "course-progression");
-        var el5 = dom.createTextNode("\n                Épreuve ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode(" / ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n            ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n        ");
-        dom.appendChild(el3, el4);
+        var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "rounded-panel challenge-instruction");
-        var el4 = dom.createTextNode("\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("label");
-        var el5 = dom.createTextNode("Consigne :");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("p");
-        dom.setAttribute(el4, "class", "challenge-title");
-        var el5 = dom.createTextNode("\n            ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n            ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n        ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "rounded-panel challenge-answer");
-        var el4 = dom.createTextNode("\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "challenge-propositions");
-        var el5 = dom.createTextNode("\n                ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("label");
-        var el6 = dom.createTextNode("Réponse :");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n            ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("hr");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "challenge-actions");
-        var el5 = dom.createTextNode("\n              ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n              ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n            ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n        ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
+        var el3 = dom.createTextNode("\n\n    ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
+        var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [0, 1]);
-        var element1 = dom.childAt(element0, [1]);
-        var element2 = dom.childAt(element1, [3]);
-        var element3 = dom.childAt(element0, [5, 5]);
-        var morphs = new Array(6);
-        morphs[0] = dom.createMorphAt(element1, 1, 1);
-        morphs[1] = dom.createMorphAt(element2, 1, 1);
-        morphs[2] = dom.createMorphAt(element2, 3, 3);
-        morphs[3] = dom.createMorphAt(dom.childAt(element0, [3, 3]), 1, 1);
-        morphs[4] = dom.createMorphAt(element3, 1, 1);
-        morphs[5] = dom.createMorphAt(element3, 3, 3);
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]), 1, 1);
         return morphs;
       },
-      statements: [["content", "course.name", ["loc", [null, [4, 12], [4, 29]]], 0, 0, 0, 0], ["content", "challenge.number", ["loc", [null, [7, 24], [7, 46]]], 0, 0, 0, 0], ["content", "assessment.challenges.length", ["loc", [null, [7, 49], [7, 83]]], 0, 0, 0, 0], ["content", "challenge.instruction", ["loc", [null, [14, 12], [14, 39]]], 0, 0, 0, 0], ["block", "link-to", ["home"], ["class", "action-skip button-secondary"], 0, null, ["loc", [null, [26, 14], [26, 88]]]], ["block", "link-to", ["home"], ["class", "action-validate button-primary pull-right"], 1, null, ["loc", [null, [27, 14], [27, 102]]]]],
+      statements: [["inline", "challenge-item", [], ["challenge", ["subexpr", "@mut", [["get", "model.challenge", ["loc", [null, [4, 33], [4, 48]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [4, 6], [4, 50]]], 0, 0]],
       locals: [],
-      templates: [child0, child1]
+      templates: []
     };
   })());
 });
-define("pix-live/templates/challenges/preview", ["exports"], function (exports) {
+define("pix-live/templates/challenges/get-preview", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
-    var child0 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.7.1",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 15,
-              "column": 10
-            },
-            "end": {
-              "line": 19,
-              "column": 10
-            }
-          },
-          "moduleName": "pix-live/templates/challenges/preview.hbs"
-        },
-        isEmpty: false,
-        arity: 1,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("              ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("p");
-          var el2 = dom.createTextNode("\n                  ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("label");
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode(" ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n              ");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1, 1]);
-          var morphs = new Array(2);
-          morphs[0] = dom.createMorphAt(element0, 0, 0);
-          morphs[1] = dom.createMorphAt(element0, 2, 2);
-          return morphs;
-        },
-        statements: [["inline", "input", [], ["type", "radio", "name", "proposals"], ["loc", [null, [17, 25], [17, 64]]], 0, 0], ["content", "proposal", ["loc", [null, [17, 65], [17, 79]]], 0, 0, 0, 0]],
-        locals: ["proposal"],
-        templates: []
-      };
-    })();
     return {
       meta: {
         "revision": "Ember@2.7.1",
@@ -2166,11 +1878,11 @@ define("pix-live/templates/challenges/preview", ["exports"], function (exports) 
             "column": 0
           },
           "end": {
-            "line": 24,
+            "line": 8,
             "column": 0
           }
         },
-        "moduleName": "pix-live/templates/challenges/preview.hbs"
+        "moduleName": "pix-live/templates/challenges/get-preview.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -2184,52 +1896,9 @@ define("pix-live/templates/challenges/preview", ["exports"], function (exports) 
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "container");
-        var el3 = dom.createTextNode("\n\n        ");
+        var el3 = dom.createTextNode("\n\n      ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "title");
-        var el4 = dom.createTextNode("\n            Prévisualisation de l'épreuve #");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n        ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("p");
-        var el4 = dom.createTextNode("Consigne :");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "rounded-panel challenge-instruction");
-        var el4 = dom.createTextNode("\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("p");
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n        ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("p");
-        var el4 = dom.createTextNode("Réponse :");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "rounded-panel challenge-proposals");
-        var el4 = dom.createTextNode("\n");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("        ");
-        dom.appendChild(el3, el4);
+        var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n\n    ");
         dom.appendChild(el2, el3);
@@ -2242,18 +1911,13 @@ define("pix-live/templates/challenges/preview", ["exports"], function (exports) 
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element1 = dom.childAt(fragment, [0]);
-        var element2 = dom.childAt(element1, [1]);
-        var morphs = new Array(4);
-        morphs[0] = dom.createAttrMorph(element1, 'data-id');
-        morphs[1] = dom.createMorphAt(dom.childAt(element2, [1]), 1, 1);
-        morphs[2] = dom.createMorphAt(dom.childAt(element2, [5, 1]), 0, 0);
-        morphs[3] = dom.createMorphAt(dom.childAt(element2, [9]), 1, 1);
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]), 1, 1);
         return morphs;
       },
-      statements: [["attribute", "data-id", ["concat", [["get", "model.id", ["loc", [null, [1, 40], [1, 48]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "model.id", ["loc", [null, [5, 43], [5, 57]]], 0, 0, 0, 0], ["content", "model.instruction", ["loc", [null, [10, 15], [10, 38]]], 0, 0, 0, 0], ["block", "each", [["get", "model.proposalsAsArray", ["loc", [null, [15, 18], [15, 40]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [15, 10], [19, 19]]]]],
+      statements: [["inline", "challenge-item", [], ["challenge", ["subexpr", "@mut", [["get", "model", ["loc", [null, [4, 33], [4, 38]]], 0, 0, 0, 0]], [], [], 0, 0], "mode", "challenge-preview"], ["loc", [null, [4, 6], [4, 65]]], 0, 0]],
       locals: [],
-      templates: [child0]
+      templates: []
     };
   })());
 });
@@ -4534,6 +4198,365 @@ define("pix-live/templates/components/bs-select", ["exports"], function (exports
     };
   })());
 });
+define("pix-live/templates/components/challenge-item", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.1",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 7,
+              "column": 6
+            },
+            "end": {
+              "line": 11,
+              "column": 6
+            }
+          },
+          "moduleName": "pix-live/templates/components/challenge-item.hbs"
+        },
+        isEmpty: false,
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("          ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("p");
+          dom.setAttribute(el1, "class", "challenge-proposal");
+          var el2 = dom.createTextNode("\n              ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("label");
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode(" ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n          ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [1, 1]);
+          var morphs = new Array(2);
+          morphs[0] = dom.createMorphAt(element0, 0, 0);
+          morphs[1] = dom.createMorphAt(element0, 2, 2);
+          return morphs;
+        },
+        statements: [["inline", "input", [], ["type", "radio", "name", "proposals"], ["loc", [null, [9, 21], [9, 60]]], 0, 0], ["content", "proposal", ["loc", [null, [9, 61], [9, 75]]], 0, 0, 0, 0]],
+        locals: ["proposal"],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.1",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 14,
+              "column": 2
+            },
+            "end": {
+              "line": 20,
+              "column": 2
+            }
+          },
+          "moduleName": "pix-live/templates/components/challenge-item.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("      ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("hr");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n      ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "actions pull-right");
+          var el2 = dom.createTextNode("\n          ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("button");
+          dom.setAttribute(el2, "class", "button button-secondary skip-button");
+          var el3 = dom.createTextNode("Passer");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n          ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("button");
+          dom.setAttribute(el2, "class", "button button-primary validate-button");
+          var el3 = dom.createTextNode("Valider");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child2 = (function () {
+      var child0 = (function () {
+        var child0 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.7.1",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 24,
+                    "column": 12
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 145
+                  }
+                },
+                "moduleName": "pix-live/templates/components/challenge-item.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("Épreuve suivante");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes() {
+                return [];
+              },
+              statements: [],
+              locals: [],
+              templates: []
+            };
+          })();
+          return {
+            meta: {
+              "revision": "Ember@2.7.1",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 23,
+                  "column": 10
+                },
+                "end": {
+                  "line": 25,
+                  "column": 10
+                }
+              },
+              "moduleName": "pix-live/templates/components/challenge-item.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("            ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+              return morphs;
+            },
+            statements: [["block", "link-to", ["courses.get-challenge-preview", ["get", "course.id", ["loc", [null, [24, 55], [24, 64]]], 0, 0, 0, 0], ["get", "nextChallenge.id", ["loc", [null, [24, 65], [24, 81]]], 0, 0, 0, 0]], ["class", "btn btn-primary next-challenge-button"], 0, null, ["loc", [null, [24, 12], [24, 157]]]]],
+            locals: [],
+            templates: [child0]
+          };
+        })();
+        return {
+          meta: {
+            "revision": "Ember@2.7.1",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 20,
+                "column": 2
+              },
+              "end": {
+                "line": 27,
+                "column": 2
+              }
+            },
+            "moduleName": "pix-live/templates/components/challenge-item.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("      ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("hr");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n      ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "class", "actions pull-right");
+            var el2 = dom.createTextNode("\n");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("      ");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n  ");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [3]), 1, 1);
+            return morphs;
+          },
+          statements: [["block", "if", [["get", "hasNextChallenge", ["loc", [null, [23, 16], [23, 32]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [23, 10], [25, 17]]]]],
+          locals: [],
+          templates: [child0]
+        };
+      })();
+      return {
+        meta: {
+          "revision": "Ember@2.7.1",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 20,
+              "column": 2
+            },
+            "end": {
+              "line": 27,
+              "column": 2
+            }
+          },
+          "moduleName": "pix-live/templates/components/challenge-item.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["block", "if", [["get", "isCoursePreviewMode", ["loc", [null, [20, 12], [20, 31]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [20, 2], [27, 2]]]]],
+        locals: [],
+        templates: [child0]
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.7.1",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 30,
+            "column": 0
+          }
+        },
+        "moduleName": "pix-live/templates/components/challenge-item.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "rounded-panel challenge-statement");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("p");
+        dom.setAttribute(el2, "class", "challenge-instruction");
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "rounded-panel challenge-response");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "challenge-proposals");
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element1 = dom.childAt(fragment, [2]);
+        var morphs = new Array(3);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]), 0, 0);
+        morphs[1] = dom.createMorphAt(dom.childAt(element1, [1]), 1, 1);
+        morphs[2] = dom.createMorphAt(element1, 3, 3);
+        return morphs;
+      },
+      statements: [["content", "challenge.instruction", ["loc", [null, [2, 37], [2, 64]]], 0, 0, 0, 0], ["block", "each", [["get", "challenge.proposalsAsArray", ["loc", [null, [7, 14], [7, 40]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 6], [11, 15]]]], ["block", "if", [["get", "isLiveMode", ["loc", [null, [14, 8], [14, 18]]], 0, 0, 0, 0]], [], 1, 2, ["loc", [null, [14, 2], [27, 9]]]]],
+      locals: [],
+      templates: [child0, child1, child2]
+    };
+  })());
+});
 define("pix-live/templates/components/form-element/errors", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
@@ -6537,136 +6560,8 @@ define("pix-live/templates/components/user-menu", ["exports"], function (exports
     };
   })());
 });
-define("pix-live/templates/courses", ["exports"], function (exports) {
+define("pix-live/templates/courses/get-challenge-preview", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
-    var child0 = (function () {
-      var child0 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.7.1",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 19,
-                "column": 24
-              },
-              "end": {
-                "line": 21,
-                "column": 24
-              }
-            },
-            "moduleName": "pix-live/templates/courses.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("                            Démarrer le Test\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes() {
-            return [];
-          },
-          statements: [],
-          locals: [],
-          templates: []
-        };
-      })();
-      return {
-        meta: {
-          "revision": "Ember@2.7.1",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 8,
-              "column": 10
-            },
-            "end": {
-              "line": 25,
-              "column": 10
-            }
-          },
-          "moduleName": "pix-live/templates/courses.hbs"
-        },
-        isEmpty: false,
-        arity: 1,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("              ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("li");
-          dom.setAttribute(el1, "class", "col-md-3");
-          var el2 = dom.createTextNode("\n                  ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("div");
-          dom.setAttribute(el2, "class", "course");
-          var el3 = dom.createTextNode("\n                      ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createElement("img");
-          dom.setAttribute(el3, "class", "course-picture");
-          dom.setAttribute(el3, "src", "/images/course-default-image.png");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n                      ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createElement("h3");
-          dom.setAttribute(el3, "class", "course-name");
-          var el4 = dom.createTextNode("\n                        ");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createComment("");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode("\n                      ");
-          dom.appendChild(el3, el4);
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n                      ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createElement("p");
-          dom.setAttribute(el3, "class", "course-description");
-          var el4 = dom.createTextNode("\n                        ");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createComment("");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode("\n                      ");
-          dom.appendChild(el3, el4);
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n                      ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createElement("div");
-          dom.setAttribute(el3, "class", "course-actions");
-          var el4 = dom.createTextNode("\n");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createComment("");
-          dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode("                      ");
-          dom.appendChild(el3, el4);
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n                  ");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n              ");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1, 1]);
-          var morphs = new Array(3);
-          morphs[0] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
-          morphs[1] = dom.createUnsafeMorphAt(dom.childAt(element0, [5]), 1, 1);
-          morphs[2] = dom.createMorphAt(dom.childAt(element0, [7]), 1, 1);
-          return morphs;
-        },
-        statements: [["content", "course.name", ["loc", [null, [13, 24], [13, 39]]], 0, 0, 0, 0], ["content", "course.description", ["loc", [null, [16, 24], [16, 48]]], 0, 0, 0, 0], ["block", "link-to", ["assessment-create", ["get", "course.id", ["loc", [null, [19, 55], [19, 64]]], 0, 0, 0, 0]], ["class", "btn btn-primary btn-small"], 0, null, ["loc", [null, [19, 24], [21, 36]]]]],
-        locals: ["course"],
-        templates: [child0]
-      };
-    })();
     return {
       meta: {
         "revision": "Ember@2.7.1",
@@ -6677,214 +6572,11 @@ define("pix-live/templates/courses", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 29,
-            "column": 6
-          }
-        },
-        "moduleName": "pix-live/templates/courses.hbs"
-      },
-      isEmpty: false,
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "container");
-        var el2 = dom.createTextNode("\n    ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "courses-view");
-        var el3 = dom.createTextNode("\n\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("h2");
-        var el4 = dom.createTextNode("Liste des tests");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "courses row");
-        var el4 = dom.createTextNode("\n        ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("ul");
-        var el5 = dom.createTextNode("\n");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("        ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1, 3, 1]), 1, 1);
-        return morphs;
-      },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [8, 18], [8, 23]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [8, 10], [25, 19]]]]],
-      locals: [],
-      templates: [child0]
-    };
-  })());
-});
-define("pix-live/templates/courses/challenge-preview", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template((function () {
-    var child0 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.7.1",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 15,
-              "column": 10
-            },
-            "end": {
-              "line": 19,
-              "column": 10
-            }
-          },
-          "moduleName": "pix-live/templates/courses/challenge-preview.hbs"
-        },
-        isEmpty: false,
-        arity: 1,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("              ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("p");
-          var el2 = dom.createTextNode("\n                  ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("label");
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode(" ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n              ");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1, 1]);
-          var morphs = new Array(2);
-          morphs[0] = dom.createMorphAt(element0, 0, 0);
-          morphs[1] = dom.createMorphAt(element0, 2, 2);
-          return morphs;
-        },
-        statements: [["inline", "input", [], ["type", "radio", "name", "proposals"], ["loc", [null, [17, 25], [17, 64]]], 0, 0], ["content", "proposal", ["loc", [null, [17, 65], [17, 79]]], 0, 0, 0, 0]],
-        locals: ["proposal"],
-        templates: []
-      };
-    })();
-    var child1 = (function () {
-      var child0 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.7.1",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 23,
-                "column": 8
-              },
-              "end": {
-                "line": 23,
-                "column": 137
-              }
-            },
-            "moduleName": "pix-live/templates/courses/challenge-preview.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("Épreuve suivante");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes() {
-            return [];
-          },
-          statements: [],
-          locals: [],
-          templates: []
-        };
-      })();
-      return {
-        meta: {
-          "revision": "Ember@2.7.1",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 22,
-              "column": 6
-            },
-            "end": {
-              "line": 24,
-              "column": 6
-            }
-          },
-          "moduleName": "pix-live/templates/courses/challenge-preview.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-          return morphs;
-        },
-        statements: [["block", "link-to", ["courses.challenge-preview", ["get", "course.id", ["loc", [null, [23, 47], [23, 56]]], 0, 0, 0, 0], ["get", "nextChallenge.id", ["loc", [null, [23, 57], [23, 73]]], 0, 0, 0, 0]], ["class", "btn btn-primary next-challenge-button"], 0, null, ["loc", [null, [23, 8], [23, 149]]]]],
-        locals: [],
-        templates: [child0]
-      };
-    })();
-    return {
-      meta: {
-        "revision": "Ember@2.7.1",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 27,
+            "line": 8,
             "column": 0
           }
         },
-        "moduleName": "pix-live/templates/courses/challenge-preview.hbs"
+        "moduleName": "pix-live/templates/courses/get-challenge-preview.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -6899,58 +6591,11 @@ define("pix-live/templates/courses/challenge-preview", ["exports"], function (ex
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "container");
-        var el3 = dom.createTextNode("\n\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "title");
-        var el4 = dom.createTextNode("\n            Prévisualisation de l'épreuve #");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n        ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("p");
-        var el4 = dom.createTextNode("Consigne :");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "rounded-panel challenge-instruction");
-        var el4 = dom.createTextNode("\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("p");
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n        ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("p");
-        var el4 = dom.createTextNode("Réponse :");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "rounded-panel challenge-proposals");
-        var el4 = dom.createTextNode("\n");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("        ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n");
+        var el3 = dom.createTextNode("\n\n      ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("    ");
+        var el3 = dom.createTextNode("\n\n    ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -6961,23 +6606,19 @@ define("pix-live/templates/courses/challenge-preview", ["exports"], function (ex
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element1 = dom.childAt(fragment, [0]);
-        var element2 = dom.childAt(element1, [1]);
-        var morphs = new Array(5);
-        morphs[0] = dom.createAttrMorph(element1, 'data-id');
-        morphs[1] = dom.createMorphAt(dom.childAt(element2, [1]), 1, 1);
-        morphs[2] = dom.createMorphAt(dom.childAt(element2, [5, 1]), 0, 0);
-        morphs[3] = dom.createMorphAt(dom.childAt(element2, [9]), 1, 1);
-        morphs[4] = dom.createMorphAt(element2, 11, 11);
+        var element0 = dom.childAt(fragment, [0]);
+        var morphs = new Array(2);
+        morphs[0] = dom.createAttrMorph(element0, 'data-id');
+        morphs[1] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
         return morphs;
       },
-      statements: [["attribute", "data-id", ["concat", [["get", "challenge.id", ["loc", [null, [1, 40], [1, 52]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "challenge.id", ["loc", [null, [5, 43], [5, 61]]], 0, 0, 0, 0], ["content", "challenge.instruction", ["loc", [null, [10, 15], [10, 42]]], 0, 0, 0, 0], ["block", "each", [["get", "challenge.proposalsAsArray", ["loc", [null, [15, 18], [15, 44]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [15, 10], [19, 19]]]], ["block", "if", [["get", "hasNextChallenge", ["loc", [null, [22, 12], [22, 28]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [22, 6], [24, 13]]]]],
+      statements: [["attribute", "data-id", ["concat", [["get", "model.challenge.id", ["loc", [null, [1, 40], [1, 58]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "challenge-item", [], ["challenge", ["subexpr", "@mut", [["get", "model.challenge", ["loc", [null, [4, 33], [4, 48]]], 0, 0, 0, 0]], [], [], 0, 0], "mode", "course-preview", "course", ["subexpr", "@mut", [["get", "model.course", ["loc", [null, [4, 78], [4, 90]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [4, 6], [4, 92]]], 0, 0]],
       locals: [],
-      templates: [child0, child1]
+      templates: []
     };
   })());
 });
-define("pix-live/templates/courses/course-preview", ["exports"], function (exports) {
+define("pix-live/templates/courses/get-course-preview", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
       return {
@@ -6991,10 +6632,10 @@ define("pix-live/templates/courses/course-preview", ["exports"], function (expor
             },
             "end": {
               "line": 14,
-              "column": 128
+              "column": 144
             }
           },
-          "moduleName": "pix-live/templates/courses/course-preview.hbs"
+          "moduleName": "pix-live/templates/courses/get-course-preview.hbs"
         },
         isEmpty: false,
         arity: 0,
@@ -7028,7 +6669,7 @@ define("pix-live/templates/courses/course-preview", ["exports"], function (expor
             "column": 0
           }
         },
-        "moduleName": "pix-live/templates/courses/course-preview.hbs"
+        "moduleName": "pix-live/templates/courses/get-course-preview.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -7100,7 +6741,7 @@ define("pix-live/templates/courses/course-preview", ["exports"], function (expor
         morphs[4] = dom.createMorphAt(element1, 5, 5);
         return morphs;
       },
-      statements: [["attribute", "data-id", ["concat", [["get", "course.id", ["loc", [null, [1, 37], [1, 46]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "course.id", ["loc", [null, [5, 38], [5, 53]]], 0, 0, 0, 0], ["content", "course.name", ["loc", [null, [9, 36], [9, 53]]], 0, 0, 0, 0], ["content", "course.description", ["loc", [null, [10, 42], [10, 66]]], 0, 0, 0, 0], ["block", "link-to", ["courses.challenge-preview", ["get", "course.id", ["loc", [null, [14, 45], [14, 54]]], 0, 0, 0, 0], ["get", "nextChallenge.id", ["loc", [null, [14, 55], [14, 71]]], 0, 0, 0, 0]], ["class", "btn btn-primary simulate-button"], 0, null, ["loc", [null, [14, 6], [14, 140]]]]],
+      statements: [["attribute", "data-id", ["concat", [["get", "model.course.id", ["loc", [null, [1, 37], [1, 52]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "model.course.id", ["loc", [null, [5, 38], [5, 59]]], 0, 0, 0, 0], ["content", "model.course.name", ["loc", [null, [9, 36], [9, 59]]], 0, 0, 0, 0], ["content", "model.course.description", ["loc", [null, [10, 42], [10, 72]]], 0, 0, 0, 0], ["block", "link-to", ["courses.get-challenge-preview", ["get", "model.course.id", ["loc", [null, [14, 49], [14, 64]]], 0, 0, 0, 0], ["get", "model.nextChallenge.id", ["loc", [null, [14, 65], [14, 87]]], 0, 0, 0, 0]], ["class", "btn btn-primary simulate-button"], 0, null, ["loc", [null, [14, 6], [14, 156]]]]],
       locals: [],
       templates: [child0]
     };
@@ -7377,7 +7018,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
           morphs[4] = dom.createMorphAt(dom.childAt(element1, [7]), 1, 1);
           return morphs;
         },
-        statements: [["attribute", "data-id", ["concat", [["get", "course.id", ["loc", [null, [10, 75], [10, 84]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "course.imageUrl", ["loc", [null, [11, 22], [11, 37]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [11, 16], [15, 23]]]], ["content", "course.name", ["loc", [null, [17, 42], [17, 59]]], 0, 0, 0, 0], ["content", "course.description", ["loc", [null, [20, 20], [20, 44]]], 0, 0, 0, 0], ["block", "link-to", ["assessment-create", ["get", "course.id", ["loc", [null, [24, 51], [24, 60]]], 0, 0, 0, 0]], ["class", "btn btn-primary btn-small"], 2, null, ["loc", [null, [24, 20], [26, 32]]]]],
+        statements: [["attribute", "data-id", ["concat", [["get", "course.id", ["loc", [null, [10, 75], [10, 84]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "course.imageUrl", ["loc", [null, [11, 22], [11, 37]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [11, 16], [15, 23]]]], ["content", "course.name", ["loc", [null, [17, 42], [17, 59]]], 0, 0, 0, 0], ["content", "course.description", ["loc", [null, [20, 20], [20, 44]]], 0, 0, 0, 0], ["block", "link-to", ["courses.create-assessment", ["get", "course.id", ["loc", [null, [24, 59], [24, 68]]], 0, 0, 0, 0]], ["class", "btn btn-primary btn-small start-button"], 2, null, ["loc", [null, [24, 20], [26, 32]]]]],
         locals: ["course"],
         templates: [child0, child1, child2]
       };
@@ -7790,61 +7431,11 @@ define('pix-live/tests/mirage/mirage/fixtures/courses.lint-test', ['exports'], f
     });
   });
 });
-define('pix-live/tests/mirage/mirage/models/assessment.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/models/assessment.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/models/assessment.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/models/challenge.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/models/challenge.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/models/challenge.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/models/course.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/models/course.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/models/course.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/mirage/mirage/scenarios/default.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/scenarios/default.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('mirage/scenarios/default.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/serializers/application.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/serializers/application.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/serializers/application.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/serializers/assessment.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/serializers/assessment.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/serializers/assessment.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -7882,7 +7473,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+9e3999f8"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+876163b8"});
 }
 
 /* jshint ignore:end */

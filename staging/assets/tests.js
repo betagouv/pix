@@ -114,15 +114,14 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test.lint-test', ['exports'
     });
   });
 });
-define('pix-live/tests/acceptance/3-demarrer-test-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/3-demarrer-un-test-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  _mocha.describe.skip('Acceptance | 3 - démarrer un test', function () {
+  (0, _mocha.describe)('Acceptance | 3 - Démarrer un test |', function () {
+
     var application = undefined;
 
     (0, _mocha.before)(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
-      server.createList('challenge', 5);
-      server.create('course');
     });
 
     (0, _mocha.after)(function () {
@@ -133,28 +132,31 @@ define('pix-live/tests/acceptance/3-demarrer-test-test', ['exports', 'mocha', 'c
       return visit('/home');
     });
 
-    (0, _mocha.it)('3.0 démarrer  sur /home', function () {
-      (0, _chai.expect)(currentPath()).to.equal('home');
+    (0, _mocha.it)('3.1. Je peux démarrer un test depuis la liste des tests de la page d\'accueil', function () {
+      var courseId = 'rec5duNNrPqbSzQ8o';
+      var $startLink = findWithAssert('.start-button')[0];
+      (0, _chai.expect)($startLink.text).to.contains('Démarrer le test');
+      (0, _chai.expect)($startLink.href).to.contains('/courses/' + courseId + '/assessment');
     });
 
-    (0, _mocha.it)('3.1 je peux lancer le test en cliquant sur “Démarrer le Test”', function () {
-      findWithAssert(".course:nth(0) a");
-      return click(".course:nth(0) a");
-    });
-
-    (0, _mocha.it)('3.2 je suis redirigé vers la première épreuve du test', function () {
-      (0, _chai.expect)(currentURL()).to.contains('challenge');
-      (0, _chai.expect)(findWithAssert('.course-progression').text()).to.contains('1 /');
+    (0, _mocha.it)('3.2. Quand je démarre un test, je suis redirigé vers la première épreuve du test', function () {
+      var assessmentId = 'recqE9kA4VRqFcEgK';
+      var challengeId = 'recub31NerwonPVwX';
+      var $startLink = findWithAssert('.start-button')[0];
+      return click($startLink).then(function () {
+        findWithAssert('#assessment-challenge');
+        (0, _chai.expect)(currentURL()).to.contains('/assessments/' + assessmentId + '/challenges/' + challengeId);
+      });
     });
   });
 });
-define('pix-live/tests/acceptance/3-demarrer-test-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/3-demarrer-un-test-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - acceptance/3-demarrer-test-test.js', function () {
+  describe('ESLint - acceptance/3-demarrer-un-test-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/3-demarrer-test-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('acceptance/3-demarrer-un-test-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -174,7 +176,7 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'm
       (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
     });
 
-    (0, _mocha.describe)('Prévisualiser une épreuve |', function () {
+    (0, _mocha.describe)('32 - Prévisualiser une épreuve |', function () {
 
       var challengeId = "recLt9uwa2dR3IYpi";
 
@@ -182,7 +184,7 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'm
         return visit('/challenges/' + challengeId + '/preview');
       });
 
-      (0, _mocha.it)('Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
+      (0, _mocha.it)('32.1. Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
         (0, _chai.expect)(currentURL()).to.equal('/challenges/' + challengeId + '/preview');
       });
 
@@ -194,15 +196,11 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'm
           $challenge = findWithAssert('#challenge-preview');
         });
 
-        (0, _mocha.it)('l\'identifiant de l\'épreuve', function () {
-          (0, _chai.expect)($challenge.find('.title').text()).to.contains('Prévisualisation de l\'épreuve #' + challengeId);
-        });
-
-        (0, _mocha.it)('la consigne de l\'épreuve', function () {
+        (0, _mocha.it)('32.2. la consigne de l\'épreuve', function () {
           (0, _chai.expect)($challenge.find('.challenge-instruction').text()).to.contains('Que peut-on dire des œufs de catégorie A ?');
         });
 
-        (0, _mocha.it)('les propositions sous forme de boutons radio', function () {
+        (0, _mocha.it)('32.3. les propositions sous forme de boutons radio', function () {
           var $proposals = findWithAssert('.challenge-proposals input[type="radio"][name="proposals"]');
           (0, _chai.expect)($proposals).to.have.lengthOf(5);
         });
@@ -259,10 +257,6 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
           $preview = findWithAssert('#course-preview');
         });
 
-        (0, _mocha.it)("le titre de la page avec l'identifiant du test", function () {
-          (0, _chai.expect)($preview.find('.title').text()).to.contains('Prévisualisation du test #' + courseId);
-        });
-
         (0, _mocha.it)('le nom du test', function () {
           (0, _chai.expect)($preview.find('.course-name').text()).to.contains('course_name');
         });
@@ -295,10 +289,6 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
 
         (0, _mocha.before)(function () {
           $challenge = findWithAssert('.challenge-preview');
-        });
-
-        (0, _mocha.it)("l'identifiant de l'épreuve", function () {
-          (0, _chai.expect)($challenge.find('.title').text()).to.contains('Prévisualisation de l\'épreuve #' + firstChallengeId);
         });
 
         (0, _mocha.it)("la consigne de l'épreuve", function () {
@@ -474,15 +464,14 @@ define('pix-live/tests/acceptance/38-s-identifier-test.lint-test', ['exports'], 
 });
 define('pix-live/tests/acceptance/4-demarrer-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  _mocha.describe.skip('Acceptance: 4-DemarrerEpreuve', function () {
+  (0, _mocha.describe)('Acceptance | 4 - Démarrer une épreuve |', function () {
+
     var application = undefined;
-    var assessment = undefined;
-    var challenge = undefined;
+    var assessmentId = 'appHAIFk9u1qqglhX';
+    var challengeId = 'recLt9uwa2dR3IYpi';
 
     (0, _mocha.before)(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
-      assessment = server.create('assessment');
-      challenge = assessment.challenges.models[0];
     });
 
     (0, _mocha.after)(function () {
@@ -490,40 +479,37 @@ define('pix-live/tests/acceptance/4-demarrer-epreuve-test', ['exports', 'mocha',
     });
 
     (0, _mocha.before)(function () {
-      return visit('/challenges/' + challenge.id);
+      return visit('/assessments/' + assessmentId + '/challenges/' + challengeId);
     });
 
-    /* US4 CA:
-      1. La zone de consigne s'affiche (texte simple)
-      2. La zone de réponse s'affiche
-      3. L'intitulé du test est rappelé
-      4. L'état d'avancement dans le test est visible (# épreuve / # total d'épreuves)
-      5. Deux boutons s'affichent : "Passer" ; "Valider" (UX: attention à l'affordance, passer ne valide pas les réponses)
-    */
-
-    (0, _mocha.it)('4.0 doit être sur l\'URL /challenges/:id', function () {
-      (0, _chai.expect)(currentURL()).to.equal('/challenges/' + challenge.id);
+    (0, _mocha.it)('4.1. doit être sur l\'URL /assessments/:assessment_id/challenges/:challenge_id', function () {
+      (0, _chai.expect)(currentURL()).to.equal('/assessments/' + assessmentId + '/challenges/' + challengeId);
     });
 
-    (0, _mocha.it)('4.1 affiche la zone de consigne', function () {
-      (0, _chai.expect)(find('.challenge-instruction').text()).to.contains(challenge.attrs.instruction);
+    (0, _mocha.describe)('Les informations visibles pour une épreuve de type QCU sont :', function () {
+
+      (0, _mocha.it)('4.2. la consigne de l\'épreuve', function () {
+        var $instruction = findWithAssert('.challenge-instruction');
+        (0, _chai.expect)($instruction.text()).to.contains("Que peut-on dire des œufs de catégorie A ?");
+      });
+
+      (0, _mocha.it)('4.3. les propositions de l\'épreuve', function () {
+        var $proposals = findWithAssert('.challenge-proposal');
+        (0, _chai.expect)($proposals).to.have.lengthOf(5);
+        (0, _chai.expect)($proposals.eq(0).text()).to.contains('Ils sont bio');
+        (0, _chai.expect)($proposals.eq(1).text()).to.contains('Ils pèsent plus de 63 grammes');
+        (0, _chai.expect)($proposals.eq(2).text()).to.contains('Ce sont des oeufs frais');
+        (0, _chai.expect)($proposals.eq(3).text()).to.contains('Ils sont destinés aux consommateurs');
+        (0, _chai.expect)($proposals.eq(4).text()).to.contains('Ils ne sont pas lavés');
+      });
     });
 
-    (0, _mocha.it)('4.2 affiche la zone de réponse', function () {
-      (0, _chai.expect)(find('.challenge-answer').text()).to.contains('Réponse');
+    (0, _mocha.it)('4.4. affiche le bouton "Valider" permettant de sauvegarder la réponse saisie et de passer à l\'épreuve suivante ', function () {
+      (0, _chai.expect)(findWithAssert('.validate-button').text()).to.eq('Valider');
     });
 
-    (0, _mocha.it)('4.3 rappelle l\'intitulé du test', function () {
-      (0, _chai.expect)(find('.course-name').text()).to.contains(assessment.course.attrs.name);
-    });
-
-    (0, _mocha.it)("4.4 affiche l'état d'avancement du test", function () {
-      (0, _chai.expect)(find('.course-progression').text()).to.contains('Épreuve 1 / ' + assessment.challenges.models.length);
-    });
-
-    (0, _mocha.it)("4.5 affiche les deux boutons Passer et Valider", function () {
-      (0, _chai.expect)(find('.action-skip').text()).to.eq('Passer');
-      (0, _chai.expect)(find('.action-validate').text()).to.eq('Valider');
+    (0, _mocha.it)('4.5. affiche le bouton "Passer" permettant de passer à l\'épreuve suivante sans avoir saisi de réponse', function () {
+      (0, _chai.expect)(findWithAssert('.skip-button').text()).to.eq('Passer');
     });
   });
 });
@@ -573,6 +559,18 @@ define('pix-live/tests/acceptance/home-test.lint-test', ['exports'], function (e
     });
   });
 });
+define('pix-live/tests/adapters/airtable.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - adapters/airtable.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('adapters/airtable.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/adapters/application.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -580,6 +578,18 @@ define('pix-live/tests/adapters/application.lint-test', ['exports'], function (e
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('adapters/application.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/adapters/assessment.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - adapters/assessment.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('adapters/assessment.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -633,6 +643,18 @@ define('pix-live/tests/components/app-header.lint-test', ['exports'], function (
     });
   });
 });
+define('pix-live/tests/components/challenge-item.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/challenge-item.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('components/challenge-item.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/components/identification-form.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -652,42 +674,6 @@ define('pix-live/tests/components/user-menu.lint-test', ['exports'], function (e
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('components/user-menu.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/controllers/challenge-show.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - controllers/challenge-show.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('controllers/challenge-show.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/controllers/courses/challenge-preview.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - controllers/courses/challenge-preview.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('controllers/courses/challenge-preview.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/controllers/courses/course-preview.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - controllers/courses/course-preview.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('controllers/courses/course-preview.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1350,6 +1336,472 @@ define('pix-live/tests/helpers/start-app.lint-test', ['exports'], function (expo
     });
   });
 });
+define('pix-live/tests/integration/components/challenge-item-test', ['exports', 'chai', 'ember-mocha', 'mocha', 'ember'], function (exports, _chai, _emberMocha, _mocha, _ember) {
+
+  (0, _emberMocha.describeComponent)('challenge-item', 'Integration: ChallengeItemComponent', {
+    integration: true
+  }, function () {
+
+    /*
+     * TODO: find a way to make `this` works in mocha hooks such as `before` in order to mutualize and reduce code
+     */
+
+    (0, _mocha.describe)('when used with a given challenge', function () {
+
+      function renderChallengeItemWithASimpleChallenge(context, challengeAttributes) {
+
+        var challenge = _ember['default'].Object.create(challengeAttributes);
+        context.set('challenge', challenge);
+        context.render(_ember['default'].HTMLBars.template((function () {
+          return {
+            meta: {
+              'revision': 'Ember@2.7.1',
+              'loc': {
+                'source': null,
+                'start': {
+                  'line': 1,
+                  'column': 0
+                },
+                'end': {
+                  'line': 1,
+                  'column': 38
+                }
+              }
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment('');
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
+            },
+            statements: [['inline', 'challenge-item', [], ['challenge', ['subexpr', '@mut', [['get', 'challenge', ['loc', [null, [1, 27], [1, 36]]], 0, 0, 0, 0]], [], [], 0, 0]], ['loc', [null, [1, 0], [1, 38]]], 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })()));
+      }
+
+      (0, _emberMocha.it)('should render challenge instruction', function () {
+        // given
+        var instruction = 'My challenge instruction';
+
+        // when
+        renderChallengeItemWithASimpleChallenge(this, { instruction: instruction });
+
+        // then
+        (0, _chai.expect)(this.$('.challenge-instruction').text()).to.contains(instruction);
+      });
+
+      (0, _emberMocha.it)('should render challenge proposals', function () {
+        // when
+        renderChallengeItemWithASimpleChallenge(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
+
+        // then
+        var $proposals = this.$('.challenge-proposal');
+        (0, _chai.expect)($proposals).to.have.lengthOf(3);
+        (0, _chai.expect)($proposals.eq(0).text()).to.contains('Xi');
+        (0, _chai.expect)($proposals.eq(1).text()).to.contains('Fu');
+        (0, _chai.expect)($proposals.eq(2).text()).to.contains('Mi');
+      });
+    });
+
+    (0, _mocha.describe)('when used with default mode (a.k.a. "live")', function () {
+
+      (0, _emberMocha.it)('should display "Skip" button ', function () {
+        // when
+        this.render(_ember['default'].HTMLBars.template((function () {
+          return {
+            meta: {
+              'revision': 'Ember@2.7.1',
+              'loc': {
+                'source': null,
+                'start': {
+                  'line': 1,
+                  'column': 0
+                },
+                'end': {
+                  'line': 1,
+                  'column': 18
+                }
+              }
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment('');
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
+            },
+            statements: [['content', 'challenge-item', ['loc', [null, [1, 0], [1, 18]]], 0, 0, 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })()));
+
+        // then
+        (0, _chai.expect)(this.$('.skip-button')).to.have.lengthOf(1);
+      });
+
+      (0, _emberMocha.it)('should display "Validate" button ', function () {
+        // when
+        this.render(_ember['default'].HTMLBars.template((function () {
+          return {
+            meta: {
+              'revision': 'Ember@2.7.1',
+              'loc': {
+                'source': null,
+                'start': {
+                  'line': 1,
+                  'column': 0
+                },
+                'end': {
+                  'line': 1,
+                  'column': 18
+                }
+              }
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment('');
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
+            },
+            statements: [['content', 'challenge-item', ['loc', [null, [1, 0], [1, 18]]], 0, 0, 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })()));
+
+        // then
+        (0, _chai.expect)(this.$('.validate-button')).to.have.lengthOf(1);
+      });
+
+      (0, _emberMocha.it)('should not display "Next" button ', function () {
+        // when
+        this.render(_ember['default'].HTMLBars.template((function () {
+          return {
+            meta: {
+              'revision': 'Ember@2.7.1',
+              'loc': {
+                'source': null,
+                'start': {
+                  'line': 1,
+                  'column': 0
+                },
+                'end': {
+                  'line': 1,
+                  'column': 18
+                }
+              }
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment('');
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
+            },
+            statements: [['content', 'challenge-item', ['loc', [null, [1, 0], [1, 18]]], 0, 0, 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })()));
+
+        // then
+        (0, _chai.expect)(this.$('.next-challenge-button')).to.have.lengthOf(0);
+      });
+    });
+
+    (0, _mocha.describe)('when used with mode "challenge-preview"', function () {
+
+      (0, _emberMocha.it)('should not display "Skip" button', function () {
+        // when
+        this.render(_ember['default'].HTMLBars.template((function () {
+          return {
+            meta: {
+              'revision': 'Ember@2.7.1',
+              'loc': {
+                'source': null,
+                'start': {
+                  'line': 1,
+                  'column': 0
+                },
+                'end': {
+                  'line': 1,
+                  'column': 43
+                }
+              }
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment('');
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
+            },
+            statements: [['inline', 'challenge-item', [], ['mode', 'challenge-preview'], ['loc', [null, [1, 0], [1, 43]]], 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })()));
+
+        // then
+        (0, _chai.expect)(this.$('.skip-button')).to.have.lengthOf(0);
+      });
+
+      (0, _emberMocha.it)('should not display "Validate" button', function () {
+        // when
+        this.render(_ember['default'].HTMLBars.template((function () {
+          return {
+            meta: {
+              'revision': 'Ember@2.7.1',
+              'loc': {
+                'source': null,
+                'start': {
+                  'line': 1,
+                  'column': 0
+                },
+                'end': {
+                  'line': 1,
+                  'column': 43
+                }
+              }
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment('');
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
+            },
+            statements: [['inline', 'challenge-item', [], ['mode', 'challenge-preview'], ['loc', [null, [1, 0], [1, 43]]], 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })()));
+
+        // then
+        (0, _chai.expect)(this.$('.validate-button')).to.have.lengthOf(0);
+      });
+
+      (0, _emberMocha.it)('should not display "Next" button ', function () {
+        // when
+        this.render(_ember['default'].HTMLBars.template((function () {
+          return {
+            meta: {
+              'revision': 'Ember@2.7.1',
+              'loc': {
+                'source': null,
+                'start': {
+                  'line': 1,
+                  'column': 0
+                },
+                'end': {
+                  'line': 1,
+                  'column': 43
+                }
+              }
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment('');
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
+            },
+            statements: [['inline', 'challenge-item', [], ['mode', 'challenge-preview'], ['loc', [null, [1, 0], [1, 43]]], 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })()));
+
+        // then
+        (0, _chai.expect)(this.$('.next-challenge-button')).to.have.lengthOf(0);
+      });
+    });
+
+    (0, _mocha.describe)('when used with mode "course-preview"', function () {
+
+      function renderChallengeItemWithCoursePreviewMode(context, challenge, challenges) {
+
+        var course = _ember['default'].Object.create({
+          challenges: challenges
+        });
+        context.set('course', course);
+        context.render(_ember['default'].HTMLBars.template((function () {
+          return {
+            meta: {
+              'revision': 'Ember@2.7.1',
+              'loc': {
+                'source': null,
+                'start': {
+                  'line': 1,
+                  'column': 0
+                },
+                'end': {
+                  'line': 1,
+                  'column': 74
+                }
+              }
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment('');
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
+            },
+            statements: [['inline', 'challenge-item', [], ['mode', 'course-preview', 'challenge', ['subexpr', '@mut', [['get', 'challenge', ['loc', [null, [1, 49], [1, 58]]], 0, 0, 0, 0]], [], [], 0, 0], 'course', ['subexpr', '@mut', [['get', 'course', ['loc', [null, [1, 66], [1, 72]]], 0, 0, 0, 0]], [], [], 0, 0]], ['loc', [null, [1, 0], [1, 74]]], 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })()));
+      }
+
+      function renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(context) {
+
+        var challenge = _ember['default'].Object.create({ id: '1' });
+        context.set('challenge', challenge);
+
+        var nextChallenge = _ember['default'].Object.create({ id: '2' });
+
+        renderChallengeItemWithCoursePreviewMode(context, challenge, [challenge, nextChallenge]);
+      }
+
+      function renderChallengeItemWithCoursePreviewModeAndWithNoChallengeNext(context) {
+
+        var challenge = _ember['default'].Object.create({ id: '1' });
+        context.set('challenge', challenge);
+
+        renderChallengeItemWithCoursePreviewMode(context, challenge, [challenge]);
+      }
+
+      (0, _emberMocha.it)('should not display "Skip" button ', function () {
+        // when
+        renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(this);
+
+        // then
+        (0, _chai.expect)(this.$('.skip-button')).to.have.lengthOf(0);
+      });
+
+      (0, _emberMocha.it)('should not display "Validate" button ', function () {
+        // when
+        renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(this);
+
+        // then
+        (0, _chai.expect)(this.$('.validate-button')).to.have.lengthOf(0);
+      });
+
+      (0, _emberMocha.it)('should display "Next" button when there is a challenge next', function () {
+        // when
+        renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(this);
+        // then
+        (0, _chai.expect)(this.$('.next-challenge-button')).to.have.lengthOf(1);
+      });
+
+      (0, _emberMocha.it)('should not display "Next" button when there is no challenge next', function () {
+        // when
+        renderChallengeItemWithCoursePreviewModeAndWithNoChallengeNext(this);
+        // then
+        (0, _chai.expect)(this.$('.next-challenge-button')).to.have.lengthOf(0);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/challenge-item-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/challenge-item-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('integration/components/challenge-item-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/models/assessment.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -1410,73 +1862,61 @@ define('pix-live/tests/router.lint-test', ['exports'], function (exports) {
     });
   });
 });
-define('pix-live/tests/routes/assessment-create.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/assessments/get-challenge.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - routes/assessment-create.js', function () {
+  describe('ESLint - routes/assessments/get-challenge.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('routes/assessment-create.js should pass ESLint.\n');
+        var error = new chai.AssertionError('routes/assessments/get-challenge.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/routes/challenge-show.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/challenges/get-preview.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - routes/challenge-show.js', function () {
+  describe('ESLint - routes/challenges/get-preview.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('routes/challenge-show.js should pass ESLint.\n');
+        var error = new chai.AssertionError('routes/challenges/get-preview.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/routes/challenges/preview.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/courses/create-assessment.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - routes/challenges/preview.js', function () {
+  describe('ESLint - routes/courses/create-assessment.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('routes/challenges/preview.js should pass ESLint.\n');
+        var error = new chai.AssertionError('routes/courses/create-assessment.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/routes/courses.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/courses/get-challenge-preview.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - routes/courses.js', function () {
+  describe('ESLint - routes/courses/get-challenge-preview.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('routes/courses.js should pass ESLint.\n');
+        var error = new chai.AssertionError('routes/courses/get-challenge-preview.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/routes/courses/challenge-preview.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/courses/get-course-preview.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - routes/courses/challenge-preview.js', function () {
+  describe('ESLint - routes/courses/get-course-preview.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('routes/courses/challenge-preview.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/routes/courses/course-preview.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - routes/courses/course-preview.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('routes/courses/course-preview.js should pass ESLint.\n');
+        var error = new chai.AssertionError('routes/courses/get-course-preview.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1513,6 +1953,18 @@ define('pix-live/tests/routes/preferences.lint-test', ['exports'], function (exp
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('routes/preferences.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/serializers/assessment.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - serializers/assessment.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('serializers/assessment.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1582,27 +2034,6 @@ define('pix-live/tests/test-helper.lint-test', ['exports'], function (exports) {
     });
   });
 });
-define('pix-live/tests/unit/controllers/challenge-show-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
-
-  (0, _emberMocha.describeModule)('controller:challenge-show', 'ChallengeShowController', function () {
-    (0, _emberMocha.it)('exists', function () {
-      var controller = this.subject();
-      (0, _chai.expect)(controller).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/controllers/challenge-show-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - unit/controllers/challenge-show-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/controllers/challenge-show-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/unit/controllers/home-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
   (0, _emberMocha.describeModule)('controller:home', 'HomeController', {
@@ -1629,10 +2060,34 @@ define('pix-live/tests/unit/controllers/home-test.lint-test', ['exports'], funct
     });
   });
 });
+define('pix-live/tests/unit/models/assessment-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeModel)('assessment', 'Unit | Model | Assessment', {
+    needs: ['model:course']
+  }, function () {
+
+    (0, _emberMocha.it)('exists', function () {
+      var model = this.subject();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/models/assessment-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/models/assessment-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/models/assessment-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/unit/models/challenge-test', ['exports', 'chai', 'ember-mocha', 'mocha'], function (exports, _chai, _emberMocha, _mocha) {
 
-  (0, _emberMocha.describeModel)('challenge', 'Unit | Model | challenge', {
-    needs: ['model:assessment']
+  (0, _emberMocha.describeModel)('challenge', 'Unit | Model | Challenge', {
+    needs: ['model:course']
   }, function () {
     (0, _emberMocha.it)('exists', function () {
       var model = this.subject();
@@ -1705,7 +2160,9 @@ define('pix-live/tests/unit/models/challenge-test.lint-test', ['exports'], funct
 });
 define('pix-live/tests/unit/models/course-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
 
-  (0, _emberMocha.describeModel)('course', 'Unit | Model | course', { needs: ['model:challenge'] }, function () {
+  (0, _emberMocha.describeModel)('course', 'Unit | Model | Course', {
+    needs: ['model:assessment', 'model:challenge']
+  }, function () {
 
     (0, _emberMocha.it)('exists', function () {
       var model = this.subject();
@@ -1725,9 +2182,9 @@ define('pix-live/tests/unit/models/course-test.lint-test', ['exports'], function
     });
   });
 });
-define('pix-live/tests/unit/routes/challenge-show-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/unit/routes/assessments/assessments.get-challenge-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('route:challenge-show', 'Unit | Routes | challenge-show', {
+  (0, _emberMocha.describeModule)('route:assessments.get-challenge', 'Assessments.ChallengeRoute', {
     // Specify the other units that are required for this test.
     // needs: ['controller:foo']
   }, function () {
@@ -1737,21 +2194,22 @@ define('pix-live/tests/unit/routes/challenge-show-test', ['exports', 'chai', 'em
     });
   });
 });
-define('pix-live/tests/unit/routes/challenge-show-test.lint-test', ['exports'], function (exports) {
+/* jshint expr:true */
+define('pix-live/tests/unit/routes/assessments/assessments.get-challenge-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - unit/routes/challenge-show-test.js', function () {
+  describe('ESLint - unit/routes/assessments/assessments.get-challenge-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('unit/routes/challenge-show-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('unit/routes/assessments/assessments.get-challenge-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/unit/routes/challenges/preview-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/unit/routes/challenges/get-preview-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('route:challenges.preview', 'Unit | Route | challenges.preview', {
+  (0, _emberMocha.describeModule)('route:challenges.get-preview', 'Unit | Route | challenges.get-preview', {
     // Specify the other units that are required for this test.
     // needs: ['controller:foo']
   }, function () {
@@ -1761,42 +2219,21 @@ define('pix-live/tests/unit/routes/challenges/preview-test', ['exports', 'chai',
     });
   });
 });
-define('pix-live/tests/unit/routes/challenges/preview-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/challenges/get-preview-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - unit/routes/challenges/preview-test.js', function () {
+  describe('ESLint - unit/routes/challenges/get-preview-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('unit/routes/challenges/preview-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('unit/routes/challenges/get-preview-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/unit/routes/courses-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
+define('pix-live/tests/unit/routes/courses/get-challenge-preview-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('route:courses', 'Unit | Route | courses', function () {
-    (0, _emberMocha.it)("exists", function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/courses-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - unit/routes/courses-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/routes/courses-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/unit/routes/courses/challenge-preview-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
-
-  (0, _emberMocha.describeModule)('route:courses/challenge-preview', 'ChallengePreviewRoute', {
+  (0, _emberMocha.describeModule)('route:courses/get-challenge-preview', 'ChallengePreviewRoute', {
     // Specify the other units that are required for this test.
     // needs: ['controller:foo']
   }, function () {
@@ -1806,21 +2243,21 @@ define('pix-live/tests/unit/routes/courses/challenge-preview-test', ['exports', 
     });
   });
 });
-define('pix-live/tests/unit/routes/courses/challenge-preview-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/courses/get-challenge-preview-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - unit/routes/courses/challenge-preview-test.js', function () {
+  describe('ESLint - unit/routes/courses/get-challenge-preview-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('unit/routes/courses/challenge-preview-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('unit/routes/courses/get-challenge-preview-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/unit/routes/courses/course-preview-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/unit/routes/courses/get-course-preview-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('route:courses/course-preview', 'CoursePreviewRoute', {
+  (0, _emberMocha.describeModule)('route:courses/get-course-preview', 'CoursePreviewRoute', {
     // Specify the other units that are required for this test.
     // needs: ['controller:foo']
   }, function () {
@@ -1830,13 +2267,13 @@ define('pix-live/tests/unit/routes/courses/course-preview-test', ['exports', 'ch
     });
   });
 });
-define('pix-live/tests/unit/routes/courses/course-preview-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/courses/get-course-preview-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - unit/routes/courses/course-preview-test.js', function () {
+  describe('ESLint - unit/routes/courses/get-course-preview-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('unit/routes/courses/course-preview-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('unit/routes/courses/get-course-preview-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
