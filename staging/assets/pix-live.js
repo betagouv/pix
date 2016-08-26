@@ -55,14 +55,10 @@ define('pix-live/app', ['exports', 'ember', 'pix-live/resolver', 'ember-load-ini
 
   exports['default'] = App;
 });
-define('pix-live/components/app-footer', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Component.extend({
-    tagName: 'footer'
-  });
-});
 define('pix-live/components/app-header', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
-    tagName: 'header'
+    tagName: 'header',
+    session: _ember['default'].inject.service()
   });
 });
 define('pix-live/components/bs-accordion-item', ['exports', 'ember-bootstrap/components/bs-accordion-item'], function (exports, _emberBootstrapComponentsBsAccordionItem) {
@@ -319,17 +315,495 @@ define('pix-live/components/ember-wormhole', ['exports', 'ember-wormhole/compone
     }
   });
 });
+define('pix-live/components/fieldset-for', ['exports', 'ember-form-for/components/fieldset-for'], function (exports, _emberFormForComponentsFieldsetFor) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFieldsetFor['default'];
+    }
+  });
+});
+define('pix-live/components/form-controls/button', ['exports', 'ember-form-for/components/form-controls/button'], function (exports, _emberFormForComponentsFormControlsButton) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormControlsButton['default'];
+    }
+  });
+});
+define('pix-live/components/form-controls/reset', ['exports', 'ember-form-for/components/form-controls/reset'], function (exports, _emberFormForComponentsFormControlsReset) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormControlsReset['default'];
+    }
+  });
+});
+define('pix-live/components/form-controls/submit', ['exports', 'ember-form-for/components/form-controls/submit'], function (exports, _emberFormForComponentsFormControlsSubmit) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormControlsSubmit['default'];
+    }
+  });
+});
+define('pix-live/components/form-errors', ['exports', 'ember-form-for/components/form-errors'], function (exports, _emberFormForComponentsFormErrors) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormErrors['default'];
+    }
+  });
+});
+define('pix-live/components/form-field', ['exports', 'ember-form-for/components/form-field'], function (exports, _emberFormForComponentsFormField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/checkbox-field', ['exports', 'ember-form-for/components/form-fields/checkbox-field'], function (exports, _emberFormForComponentsFormFieldsCheckboxField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsCheckboxField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/color-field', ['exports', 'ember-form-for/components/form-fields/color-field'], function (exports, _emberFormForComponentsFormFieldsColorField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsColorField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/custom-field', ['exports', 'ember-form-for/components/form-fields/custom-field'], function (exports, _emberFormForComponentsFormFieldsCustomField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsCustomField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/date-field', ['exports', 'ember-form-for/components/form-fields/date-field'], function (exports, _emberFormForComponentsFormFieldsDateField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsDateField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/datetime-field', ['exports', 'ember-form-for/components/form-fields/datetime-field'], function (exports, _emberFormForComponentsFormFieldsDatetimeField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsDatetimeField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/datetime-local-field', ['exports', 'ember-form-for/components/form-fields/datetime-local-field'], function (exports, _emberFormForComponentsFormFieldsDatetimeLocalField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsDatetimeLocalField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/email-field', ['exports', 'ember-form-for/components/form-fields/email-field'], function (exports, _emberFormForComponentsFormFieldsEmailField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsEmailField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/file-field', ['exports', 'ember-form-for/components/form-fields/file-field'], function (exports, _emberFormForComponentsFormFieldsFileField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsFileField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/hidden-field', ['exports', 'ember-form-for/components/form-fields/hidden-field'], function (exports, _emberFormForComponentsFormFieldsHiddenField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsHiddenField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/month-field', ['exports', 'ember-form-for/components/form-fields/month-field'], function (exports, _emberFormForComponentsFormFieldsMonthField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsMonthField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/number-field', ['exports', 'ember-form-for/components/form-fields/number-field'], function (exports, _emberFormForComponentsFormFieldsNumberField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsNumberField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/password-field', ['exports', 'ember-form-for/components/form-fields/password-field'], function (exports, _emberFormForComponentsFormFieldsPasswordField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsPasswordField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/power-select-field', ['exports', 'ember-form-for/components/form-fields/power-select-field'], function (exports, _emberFormForComponentsFormFieldsPowerSelectField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsPowerSelectField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/radio-field', ['exports', 'ember-form-for/components/form-fields/radio-field'], function (exports, _emberFormForComponentsFormFieldsRadioField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsRadioField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/radio-group', ['exports', 'ember-form-for/components/form-fields/radio-group'], function (exports, _emberFormForComponentsFormFieldsRadioGroup) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsRadioGroup['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/range-field', ['exports', 'ember-form-for/components/form-fields/range-field'], function (exports, _emberFormForComponentsFormFieldsRangeField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsRangeField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/search-field', ['exports', 'ember-form-for/components/form-fields/search-field'], function (exports, _emberFormForComponentsFormFieldsSearchField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsSearchField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/select-field', ['exports', 'ember-form-for/components/form-fields/select-field'], function (exports, _emberFormForComponentsFormFieldsSelectField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsSelectField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/tel-field', ['exports', 'ember-form-for/components/form-fields/tel-field'], function (exports, _emberFormForComponentsFormFieldsTelField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsTelField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/text-field', ['exports', 'ember-form-for/components/form-fields/text-field'], function (exports, _emberFormForComponentsFormFieldsTextField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsTextField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/textarea-field', ['exports', 'ember-form-for/components/form-fields/textarea-field'], function (exports, _emberFormForComponentsFormFieldsTextareaField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsTextareaField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/time-field', ['exports', 'ember-form-for/components/form-fields/time-field'], function (exports, _emberFormForComponentsFormFieldsTimeField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsTimeField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/url-field', ['exports', 'ember-form-for/components/form-fields/url-field'], function (exports, _emberFormForComponentsFormFieldsUrlField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsUrlField['default'];
+    }
+  });
+});
+define('pix-live/components/form-fields/week-field', ['exports', 'ember-form-for/components/form-fields/week-field'], function (exports, _emberFormForComponentsFormFieldsWeekField) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFieldsWeekField['default'];
+    }
+  });
+});
+define('pix-live/components/form-for', ['exports', 'ember-form-for/components/form-for'], function (exports, _emberFormForComponentsFormFor) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormFor['default'];
+    }
+  });
+});
+define('pix-live/components/form-hint', ['exports', 'ember-form-for/components/form-hint'], function (exports, _emberFormForComponentsFormHint) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormHint['default'];
+    }
+  });
+});
+define('pix-live/components/form-label', ['exports', 'ember-form-for/components/form-label'], function (exports, _emberFormForComponentsFormLabel) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForComponentsFormLabel['default'];
+    }
+  });
+});
 define('pix-live/components/identification-form', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
 
     routing: _ember['default'].inject.service('-routing'),
+    session: _ember['default'].inject.service('session'),
+    user: null,
+
+    init: function init() {
+      this._super.apply(this, arguments);
+      this.set('session.isIdentified', false);
+      this.set('user', _ember['default'].ObjectProxy.create({
+        content: this.get('session'),
+        errors: {}
+      }));
+      return this;
+    },
+
+    hasErrors: _ember['default'].computed('user.errors.{firstname,lastname,email}', function () {
+      return false === (_ember['default'].isEmpty(this.get('user.errors.firstname')) && _ember['default'].isEmpty(this.get('user.errors.lastname')) && _ember['default'].isEmpty(this.get('user.errors.email')));
+    }),
+
+    isSubmitDisabled: _ember['default'].computed('session.{firstname,lastname,email}', 'hasErrors', function () {
+      return _ember['default'].isEmpty(this.get('session.firstname')) || _ember['default'].isEmpty(this.get('session.lastname')) || _ember['default'].isEmpty(this.get('session.email')) || this.get('hasErrors');
+    }),
 
     actions: {
       identify: function identify() {
+        this.set('session.isIdentified', true);
+        this.get('session').save();
         this.get('routing').transitionTo('home');
+      },
+
+      update: function update(object, propertyPath, value) {
+        if (_ember['default'].isEmpty(value)) {
+          this.set('user.errors.' + propertyPath, ['Champ requis']);
+          return;
+        }
+
+        this.set('user.errors.' + propertyPath, null);
+
+        if (propertyPath === 'email' && false === $('.email_input')[0].checkValidity()) {
+          this.set('user.errors.email', ['Entrez un email correct']);
+          return;
+        }
+
+        object.set(propertyPath, value);
       }
     }
 
+  });
+});
+define('pix-live/components/one-way-checkbox', ['exports', 'ember-one-way-controls/components/one-way-checkbox'], function (exports, _emberOneWayControlsComponentsOneWayCheckbox) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayCheckbox['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-color', ['exports', 'ember-one-way-controls/components/one-way-color'], function (exports, _emberOneWayControlsComponentsOneWayColor) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayColor['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-date', ['exports', 'ember-one-way-controls/components/one-way-date'], function (exports, _emberOneWayControlsComponentsOneWayDate) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayDate['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-datetime-local', ['exports', 'ember-one-way-controls/components/one-way-datetime-local'], function (exports, _emberOneWayControlsComponentsOneWayDatetimeLocal) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayDatetimeLocal['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-email', ['exports', 'ember-one-way-controls/components/one-way-email'], function (exports, _emberOneWayControlsComponentsOneWayEmail) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayEmail['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-file', ['exports', 'ember-one-way-controls/components/one-way-file'], function (exports, _emberOneWayControlsComponentsOneWayFile) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayFile['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-hidden', ['exports', 'ember-one-way-controls/components/one-way-hidden'], function (exports, _emberOneWayControlsComponentsOneWayHidden) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayHidden['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-input', ['exports', 'ember-one-way-controls/components/one-way-input'], function (exports, _emberOneWayControlsComponentsOneWayInput) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayInput['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-month', ['exports', 'ember-one-way-controls/components/one-way-month'], function (exports, _emberOneWayControlsComponentsOneWayMonth) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayMonth['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-number', ['exports', 'ember-one-way-controls/components/one-way-number'], function (exports, _emberOneWayControlsComponentsOneWayNumber) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayNumber['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-password', ['exports', 'ember-one-way-controls/components/one-way-password'], function (exports, _emberOneWayControlsComponentsOneWayPassword) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayPassword['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-radio', ['exports', 'ember-one-way-controls/components/one-way-radio'], function (exports, _emberOneWayControlsComponentsOneWayRadio) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayRadio['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-range', ['exports', 'ember-one-way-controls/components/one-way-range'], function (exports, _emberOneWayControlsComponentsOneWayRange) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayRange['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-search', ['exports', 'ember-one-way-controls/components/one-way-search'], function (exports, _emberOneWayControlsComponentsOneWaySearch) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWaySearch['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-select', ['exports', 'ember-one-way-controls/components/one-way-select'], function (exports, _emberOneWayControlsComponentsOneWaySelect) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWaySelect['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-select/option', ['exports', 'ember-one-way-controls/components/one-way-select/option'], function (exports, _emberOneWayControlsComponentsOneWaySelectOption) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWaySelectOption['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-tel', ['exports', 'ember-one-way-controls/components/one-way-tel'], function (exports, _emberOneWayControlsComponentsOneWayTel) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayTel['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-text', ['exports', 'ember-one-way-controls/components/one-way-text'], function (exports, _emberOneWayControlsComponentsOneWayText) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayText['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-textarea', ['exports', 'ember-one-way-controls/components/one-way-textarea'], function (exports, _emberOneWayControlsComponentsOneWayTextarea) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayTextarea['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-time', ['exports', 'ember-one-way-controls/components/one-way-time'], function (exports, _emberOneWayControlsComponentsOneWayTime) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayTime['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-url', ['exports', 'ember-one-way-controls/components/one-way-url'], function (exports, _emberOneWayControlsComponentsOneWayUrl) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayUrl['default'];
+    }
+  });
+});
+define('pix-live/components/one-way-week', ['exports', 'ember-one-way-controls/components/one-way-week'], function (exports, _emberOneWayControlsComponentsOneWayWeek) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsComponentsOneWayWeek['default'];
+    }
   });
 });
 define('pix-live/components/user-menu', ['exports', 'ember'], function (exports, _ember) {
@@ -346,6 +820,11 @@ define('pix-live/controllers/courses/challenge-preview', ['exports', 'ember'], f
 });
 define('pix-live/controllers/courses/course-preview', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller.extend({});
+});
+define('pix-live/controllers/home', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Controller.extend({
+    session: _ember['default'].inject.service()
+  });
 });
 define('pix-live/helpers/app-version', ['exports', 'ember', 'pix-live/config/environment'], function (exports, _ember, _pixLiveConfigEnvironment) {
   exports.appVersion = appVersion;
@@ -410,6 +889,42 @@ define('pix-live/helpers/bs-read-path', ['exports', 'ember-bootstrap/helpers/bs-
     enumerable: true,
     get: function get() {
       return _emberBootstrapHelpersBsReadPath.readPath;
+    }
+  });
+});
+define('pix-live/helpers/contains', ['exports', 'ember-form-for/helpers/contains'], function (exports, _emberFormForHelpersContains) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForHelpersContains['default'];
+    }
+  });
+  Object.defineProperty(exports, 'contains', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForHelpersContains.contains;
+    }
+  });
+});
+define('pix-live/helpers/is-equal', ['exports', 'ember-form-for/helpers/is-equal'], function (exports, _emberFormForHelpersIsEqual) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberFormForHelpersIsEqual['default'];
+    }
+  });
+});
+define('pix-live/helpers/one-way-select/contains', ['exports', 'ember-one-way-controls/helpers/one-way-select/contains'], function (exports, _emberOneWayControlsHelpersOneWaySelectContains) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsHelpersOneWaySelectContains['default'];
+    }
+  });
+  Object.defineProperty(exports, 'contains', {
+    enumerable: true,
+    get: function get() {
+      return _emberOneWayControlsHelpersOneWaySelectContains.contains;
     }
   });
 });
@@ -584,6 +1099,52 @@ define('pix-live/initializers/export-application-global', ['exports', 'ember', '
   exports['default'] = {
     name: 'export-application-global',
 
+    initialize: initialize
+  };
+});
+define('pix-live/initializers/form-for-initializer', ['exports', 'ember', 'pix-live/config/environment', 'ember-form-for/components/form-field', 'ember-form-for/components/form-controls/button', 'ember-form-for/components/form-controls/submit', 'ember-form-for/components/form-controls/reset'], function (exports, _ember, _pixLiveConfigEnvironment, _emberFormForComponentsFormField, _emberFormForComponentsFormControlsButton, _emberFormForComponentsFormControlsSubmit, _emberFormForComponentsFormControlsReset) {
+  exports.initialize = initialize;
+  var merge = _ember['default'].merge;
+
+  var DEFAULT_CONFIG = {
+    buttonClasses: ['form-button'],
+    fieldClasses: ['form-field'],
+    fieldErrorClass: 'form-field--has-errors',
+    errorClasses: ['form-field--errors'],
+    hintClasses: ['form-field--hint'],
+    inputClasses: ['form-field--control'],
+    labelClasses: ['form-field--label'],
+    resetClasses: ['form-button--reset'],
+    submitClasses: ['form-button--submit']
+  };
+
+  function initialize() /* application */{
+    var formForConfig = merge(DEFAULT_CONFIG, _pixLiveConfigEnvironment['default']['ember-form-for']);
+
+    _emberFormForComponentsFormField['default'].reopen({
+      classNames: formForConfig.fieldClasses,
+      classNameBindings: ['hasErrors:' + formForConfig.fieldErrorClass],
+      errorClasses: formForConfig.errorClasses,
+      hintClasses: formForConfig.hintClasses,
+      inputClasses: formForConfig.inputClasses,
+      labelClasses: formForConfig.labelClasses
+    });
+
+    _emberFormForComponentsFormControlsButton['default'].reopen({
+      classNames: formForConfig.buttonClasses
+    });
+
+    _emberFormForComponentsFormControlsSubmit['default'].reopen({
+      classNames: formForConfig.submitClasses
+    });
+
+    _emberFormForComponentsFormControlsReset['default'].reopen({
+      classNames: formForConfig.resetClasses
+    });
+  }
+
+  exports['default'] = {
+    name: 'form-for-initializer',
     initialize: initialize
   };
 });
@@ -1147,11 +1708,14 @@ define('pix-live/routes/courses/course-preview', ['exports', 'ember'], function 
 
   });
 });
-define('pix-live/routes/home', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/routes/home', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
   exports['default'] = _ember['default'].Route.extend({
+    delay: _ember['default'].inject.service(),
 
     model: function model() {
-      return this.store.findAll('course');
+      return _rsvp['default'].all([this.store.findAll('course'), this.get('delay').ms(500)]).then(function (arr) {
+        return arr[0];
+      });
     }
   });
 });
@@ -1217,6 +1781,51 @@ define('pix-live/services/ajax', ['exports', 'ember-ajax/services/ajax'], functi
     }
   });
 });
+define('pix-live/services/delay', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
+  exports['default'] = _ember['default'].Service.extend({
+    ms: function ms(_ms) {
+      if (EmberENV.useDelay) {
+        return new _rsvp['default'].Promise(function (resolve) {
+          setTimeout(resolve, _ms);
+        });
+      } else return new _rsvp['default'].resolve();
+    }
+  });
+});
+define('pix-live/services/session', ['exports', 'ember'], function (exports, _ember) {
+  var SESSION_KEY = 'pix-live.session';
+
+  exports.SESSION_KEY = SESSION_KEY;
+  exports['default'] = _ember['default'].Service.extend({
+    firstname: "",
+    lastname: "",
+    email: "",
+    isIdentified: false,
+
+    init: function init() {
+      this._super.apply(this, arguments);
+      var session = localStorage.getItem(SESSION_KEY);
+      if (!_ember['default'].isEmpty(session)) {
+        try {
+          session = JSON.parse(session);
+          this.setProperties({
+            firstname: session.firstname,
+            lastname: session.lastname,
+            email: session.email,
+            isIdentified: true
+          });
+        } catch (e) {
+          _ember['default'].Logger.warn('bad session. Continuing with an empty session');
+        }
+      }
+    },
+
+    save: function save() {
+      var session = this.getProperties('firstname', 'lastname', 'email');
+      localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    }
+  });
+});
 define("pix-live/templates/application", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
@@ -1229,7 +1838,7 @@ define("pix-live/templates/application", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 8,
+            "line": 6,
             "column": 0
           }
         },
@@ -1254,23 +1863,18 @@ define("pix-live/templates/application", ["exports"], function (exports) {
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(3);
+        var morphs = new Array(2);
         morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]), 1, 1);
-        morphs[2] = dom.createMorphAt(fragment, 4, 4, contextualElement);
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["inline", "app-header", [], ["id", "app-header"], ["loc", [null, [1, 0], [1, 31]]], 0, 0], ["content", "outlet", ["loc", [null, [4, 2], [4, 12]]], 0, 0, 0, 0], ["inline", "app-footer", [], ["id", "app-footer"], ["loc", [null, [7, 0], [7, 30]]], 0, 0]],
+      statements: [["inline", "app-header", [], ["id", "app-header"], ["loc", [null, [1, 0], [1, 31]]], 0, 0], ["content", "outlet", ["loc", [null, [4, 2], [4, 12]]], 0, 0, 0, 0]],
       locals: [],
       templates: []
     };
@@ -1830,6 +2434,69 @@ define("pix-live/templates/components/app-footer", ["exports"], function (export
 });
 define("pix-live/templates/components/app-header", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.1",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 15,
+              "column": 6
+            },
+            "end": {
+              "line": 23,
+              "column": 6
+            }
+          },
+          "moduleName": "pix-live/templates/components/app-header.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("          ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "profile nav navbar-nav navbar-right");
+          var el2 = dom.createTextNode("\n              ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("p");
+          dom.setAttribute(el2, "class", "navbar-text");
+          var el3 = dom.createTextNode("\n                  ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("a");
+          dom.setAttribute(el3, "href", "#");
+          dom.setAttribute(el3, "role", "button");
+          var el4 = dom.createTextNode("\n                    Bonjour ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n                  ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n              ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n          ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1, 1]), 1, 1);
+          return morphs;
+        },
+        statements: [["content", "session.firstname", ["loc", [null, [19, 28], [19, 51]]], 0, 0, 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
     return {
       meta: {
         "revision": "Ember@2.7.1",
@@ -1840,7 +2507,7 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 15,
+            "line": 25,
             "column": 6
           }
         },
@@ -1913,7 +2580,11 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
         var el4 = dom.createTextNode("\n        ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("    ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -1921,12 +2592,14 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
         dom.appendChild(el0, el1);
         return el0;
       },
-      buildRenderNodes: function buildRenderNodes() {
-        return [];
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]), 3, 3);
+        return morphs;
       },
-      statements: [],
+      statements: [["block", "if", [["get", "session.isIdentified", ["loc", [null, [15, 12], [15, 32]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [15, 6], [23, 13]]]]],
       locals: [],
-      templates: []
+      templates: [child0]
     };
   })());
 });
@@ -5652,6 +6325,97 @@ define("pix-live/templates/components/form-element/vertical/textarea", ["exports
 });
 define("pix-live/templates/components/identification-form", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.1",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 31,
+              "column": 0
+            }
+          },
+          "moduleName": "pix-live/templates/components/identification-form.hbs"
+        },
+        isEmpty: false,
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "id", "firstname");
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "id", "lastname");
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "id", "email");
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [1]);
+          var element1 = dom.childAt(fragment, [3]);
+          var element2 = dom.childAt(fragment, [5]);
+          var element3 = dom.childAt(fragment, [7]);
+          var morphs = new Array(8);
+          morphs[0] = dom.createAttrMorph(element0, 'class');
+          morphs[1] = dom.createMorphAt(element0, 1, 1);
+          morphs[2] = dom.createAttrMorph(element1, 'class');
+          morphs[3] = dom.createMorphAt(element1, 1, 1);
+          morphs[4] = dom.createAttrMorph(element2, 'class');
+          morphs[5] = dom.createMorphAt(element2, 1, 1);
+          morphs[6] = dom.createAttrMorph(element3, 'class');
+          morphs[7] = dom.createMorphAt(element3, 1, 1);
+          return morphs;
+        },
+        statements: [["attribute", "class", ["concat", ["form-group ", ["subexpr", "if", [["get", "user.errors.firstname", ["loc", [null, [7, 47], [7, 68]]], 0, 0, 0, 0], "has-error"], [], ["loc", [null, [7, 42], [7, 82]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "form.text-field", ["firstname"], ["label", "Prénom", "placeholder", "Jon", "inputClasses", "firstname_input form-control", "labelClasses", "control-label", "errorClasses", "help-block animated flash", "hintClasses", "help-block", "autocomplete", "on", "required", "true"], ["loc", [null, [8, 6], [11, 8]]], 0, 0], ["attribute", "class", ["concat", ["form-group ", ["subexpr", "if", [["get", "user.errors.lastname", ["loc", [null, [14, 46], [14, 66]]], 0, 0, 0, 0], "has-error"], [], ["loc", [null, [14, 41], [14, 80]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "form.text-field", ["lastname"], ["label", "Nom", "placeholder", "Snow", "inputClasses", "lastname_input form-control", "labelClasses", "control-label", "errorClasses", "help-block animated flash", "hintClasses", "help-block", "autocomplete", "on", "required", "true"], ["loc", [null, [15, 6], [18, 8]]], 0, 0], ["attribute", "class", ["concat", ["form-group ", ["subexpr", "if", [["get", "user.errors.email", ["loc", [null, [21, 43], [21, 60]]], 0, 0, 0, 0], "has-error"], [], ["loc", [null, [21, 38], [21, 74]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "form.email-field", ["email"], ["label", "Email", "placeholder", "jon.snow@winterfell.got", "inputClasses", "email_input form-control", "labelClasses", "control-label", "errorClasses", "help-block animated flash", "hintClasses", "help-block", "autocomplete", "on", "required", "true"], ["loc", [null, [22, 6], [25, 8]]], 0, 0], ["attribute", "class", ["concat", ["identification-form-actions pull-right ", ["subexpr", "if", [["get", "hasErrors", ["loc", [null, [28, 60], [28, 69]]], 0, 0, 0, 0], "has-error"], [], ["loc", [null, [28, 55], [28, 83]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "form.submit", ["Identifiez-vous"], ["disabled", ["subexpr", "@mut", [["get", "isSubmitDisabled", ["loc", [null, [29, 47], [29, 63]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "button button-primary"], ["loc", [null, [29, 6], [29, 96]]], 0, 0]],
+        locals: ["form"],
+        templates: []
+      };
+    })();
     return {
       meta: {
         "revision": "Ember@2.7.1",
@@ -5662,7 +6426,7 @@ define("pix-live/templates/components/identification-form", ["exports"], functio
             "column": 0
           },
           "end": {
-            "line": 23,
+            "line": 33,
             "column": 0
           }
         },
@@ -5674,102 +6438,21 @@ define("pix-live/templates/components/identification-form", ["exports"], functio
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("form");
-        dom.setAttribute(el1, "id", "identification-form");
-        var el2 = dom.createTextNode("\n    ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "id", "firstname");
-        dom.setAttribute(el2, "class", "form-group");
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("label");
-        dom.setAttribute(el3, "class", "control-label");
-        dom.setAttribute(el3, "for", "firstname_input");
-        var el4 = dom.createTextNode("Prénom");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n    ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "id", "lastname");
-        dom.setAttribute(el2, "class", "form-group");
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("label");
-        dom.setAttribute(el3, "class", "control-label");
-        dom.setAttribute(el3, "for", "lastname_input");
-        var el4 = dom.createTextNode("Nom");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n    ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "id", "email");
-        dom.setAttribute(el2, "class", "form-group");
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("label");
-        dom.setAttribute(el3, "class", "control-label");
-        dom.setAttribute(el3, "for", "email_input");
-        var el4 = dom.createTextNode("Email");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n    ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "identification-form-actions pull-right");
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("button");
-        dom.setAttribute(el3, "class", "button button-primary");
-        var el4 = dom.createTextNode("\n            Identifiez-vous\n        ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
+        var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [0]);
-        var element1 = dom.childAt(element0, [7, 1]);
-        var morphs = new Array(4);
-        morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 3, 3);
-        morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 3, 3);
-        morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]), 3, 3);
-        morphs[3] = dom.createElementMorph(element1);
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["inline", "input", [], ["id", "firstname_input", "class", "form-control", "type", "text", "placeholder", "Jon", "autocomplete", "on"], ["loc", [null, [4, 8], [4, 107]]], 0, 0], ["inline", "input", [], ["id", "lastname_input", "class", "form-control", "type", "text", "placeholder", "Snow", "autocomplete", "on"], ["loc", [null, [9, 8], [9, 107]]], 0, 0], ["inline", "input", [], ["id", "email_input", "class", "form-control", "type", "email", "placeholder", "jon.snow@winterfell.got", "autocomplete", "on"], ["loc", [null, [14, 8], [14, 124]]], 0, 0], ["element", "action", ["identify"], [], ["loc", [null, [18, 16], [18, 37]]], 0, 0]],
+      statements: [["block", "form-for", [["get", "user", ["loc", [null, [1, 12], [1, 16]]], 0, 0, 0, 0]], ["id", "identification-form", "submit", ["subexpr", "action", ["identify"], [], ["loc", [null, [3, 11], [3, 30]]], 0, 0], "update", ["subexpr", "action", ["update"], [], ["loc", [null, [4, 11], [4, 28]]], 0, 0]], 0, null, ["loc", [null, [1, 0], [31, 13]]]]],
       locals: [],
-      templates: []
+      templates: [child0]
     };
   })());
 });
@@ -6423,6 +7106,77 @@ define("pix-live/templates/courses/course-preview", ["exports"], function (expor
     };
   })());
 });
+define("pix-live/templates/home-loading", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.7.1",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 10,
+            "column": 6
+          }
+        },
+        "moduleName": "pix-live/templates/home-loading.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "id", "home-loading");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "loader-container");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "loader");
+        var el4 = dom.createTextNode("\n            ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "loader-inner ball-zig-zag-deflect");
+        var el5 = dom.createTextNode("\n                ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("div");
+        dom.setAttribute(el5, "class", "ball-spinner");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n                ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("div");
+        dom.setAttribute(el5, "class", "ball-spinner");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n            ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n        ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() {
+        return [];
+      },
+      statements: [],
+      locals: [],
+      templates: []
+    };
+  })());
+});
 define("pix-live/templates/home", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
@@ -6433,12 +7187,12 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 12,
-                "column": 18
+                "line": 11,
+                "column": 16
               },
               "end": {
-                "line": 14,
-                "column": 18
+                "line": 13,
+                "column": 16
               }
             },
             "moduleName": "pix-live/templates/home.hbs"
@@ -6465,7 +7219,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             morphs[0] = dom.createAttrMorph(element0, 'src');
             return morphs;
           },
-          statements: [["attribute", "src", ["concat", [["get", "course.imageUrl", ["loc", [null, [13, 56], [13, 71]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+          statements: [["attribute", "src", ["concat", [["get", "course.imageUrl", ["loc", [null, [12, 56], [12, 71]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
           locals: [],
           templates: []
         };
@@ -6477,12 +7231,12 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 14,
-                "column": 18
+                "line": 13,
+                "column": 16
               },
               "end": {
-                "line": 16,
-                "column": 18
+                "line": 15,
+                "column": 16
               }
             },
             "moduleName": "pix-live/templates/home.hbs"
@@ -6493,7 +7247,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("                      ");
+            var el1 = dom.createTextNode("                    ");
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("img");
             dom.setAttribute(el1, "class", "course-picture");
@@ -6519,11 +7273,11 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 25,
+                "line": 24,
                 "column": 20
               },
               "end": {
-                "line": 27,
+                "line": 26,
                 "column": 20
               }
             },
@@ -6553,11 +7307,11 @@ define("pix-live/templates/home", ["exports"], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 10,
+              "line": 9,
               "column": 10
             },
             "end": {
-              "line": 30,
+              "line": 29,
               "column": 10
             }
           },
@@ -6572,7 +7326,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
           var el1 = dom.createTextNode("              ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("li");
-          dom.setAttribute(el1, "class", "rounded-panel course");
+          dom.setAttribute(el1, "class", "rounded-panel course animated fadeIn");
           var el2 = dom.createTextNode("\n");
           dom.appendChild(el1, el2);
           var el2 = dom.createComment("");
@@ -6623,7 +7377,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
           morphs[4] = dom.createMorphAt(dom.childAt(element1, [7]), 1, 1);
           return morphs;
         },
-        statements: [["attribute", "data-id", ["concat", [["get", "course.id", ["loc", [null, [11, 59], [11, 68]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "course.imageUrl", ["loc", [null, [12, 24], [12, 39]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [12, 18], [16, 25]]]], ["content", "course.name", ["loc", [null, [18, 42], [18, 59]]], 0, 0, 0, 0], ["content", "course.description", ["loc", [null, [21, 20], [21, 44]]], 0, 0, 0, 0], ["block", "link-to", ["assessment-create", ["get", "course.id", ["loc", [null, [25, 51], [25, 60]]], 0, 0, 0, 0]], ["class", "btn btn-primary btn-small"], 2, null, ["loc", [null, [25, 20], [27, 32]]]]],
+        statements: [["attribute", "data-id", ["concat", [["get", "course.id", ["loc", [null, [10, 75], [10, 84]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "course.imageUrl", ["loc", [null, [11, 22], [11, 37]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [11, 16], [15, 23]]]], ["content", "course.name", ["loc", [null, [17, 42], [17, 59]]], 0, 0, 0, 0], ["content", "course.description", ["loc", [null, [20, 20], [20, 44]]], 0, 0, 0, 0], ["block", "link-to", ["assessment-create", ["get", "course.id", ["loc", [null, [24, 51], [24, 60]]], 0, 0, 0, 0]], ["class", "btn btn-primary btn-small"], 2, null, ["loc", [null, [24, 20], [26, 32]]]]],
         locals: ["course"],
         templates: [child0, child1, child2]
       };
@@ -6638,7 +7392,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 35,
+            "line": 34,
             "column": 6
           }
         },
@@ -6656,7 +7410,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "container");
-        var el3 = dom.createTextNode("\n\n        ");
+        var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
         dom.setAttribute(el3, "class", "title");
@@ -6687,7 +7441,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1, 3]), 1, 1);
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [10, 18], [10, 23]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [10, 10], [30, 19]]]]],
+      statements: [["block", "each", [["get", "model", ["loc", [null, [9, 18], [9, 23]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [9, 10], [29, 19]]]]],
       locals: [],
       templates: [child0]
     };
@@ -7128,7 +7882,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+85a27d51"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+9e3999f8"});
 }
 
 /* jshint ignore:end */

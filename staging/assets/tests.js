@@ -342,6 +342,136 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test.lint-test', ['export
     });
   });
 });
+define('pix-live/tests/acceptance/38-s-identifier-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'rsvp'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _rsvp) {
+
+  (0, _mocha.describe)("Acceptance | 38 - S'identifier sur la plateforme", function () {
+    var application = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/');
+    });
+
+    var firstname_css = '.firstname_input';
+    var lastname_css = '.lastname_input';
+    var email_css = '.email_input';
+    var submit_css = '.identification-form-actions button';
+    var $firstname = undefined;
+    var $lastname = undefined;
+    var $email = undefined;
+    var $submit = undefined;
+
+    (0, _mocha.before)(function () {
+      $firstname = findWithAssert(firstname_css).first();
+      $lastname = findWithAssert(lastname_css).first();
+      $email = findWithAssert(email_css).first();
+      $submit = findWithAssert(submit_css).first();
+    });
+
+    function fillForm(firstname, lastname, email) {
+      return _rsvp['default'].all([fillIn(firstname_css, firstname), fillIn(lastname_css, lastname), fillIn(email_css, email)]);
+    }
+
+    (0, _mocha.it)("38.1 Depuis la page d'accueil, je saisie mon prénom + nom + email", function () {
+      return fillForm('Jérémy', 'Buget', 'jbu@octo.com').then(function () {
+        (0, _chai.expect)($firstname.val()).to.contains('Jérémy');
+        (0, _chai.expect)($lastname.val()).to.eq('Buget');
+        (0, _chai.expect)($email.val()).to.eq('jbu@octo.com');
+      });
+    });
+
+    (0, _mocha.it)('38.2 Quand je valide mon identité, je suis redirigé vers la page des tests', function () {
+      return fillForm('Jérémy', 'Buget', 'jbu@octo.com').then(function () {
+        return click(submit_css);
+      }).then(function () {
+        return (0, _chai.expect)(currentURL()).to.eq('/home');
+      });
+    });
+
+    (0, _mocha.it)('38.3 Quand je suis identifié, je vois apparaître le libellé “Bonjour Prénom” (via session utilisateur)', function () {
+
+      // Assert that 38.2 went OK
+      (0, _chai.expect)(currentURL()).to.eq('/home');
+
+      (0, _chai.expect)(findWithAssert('.profile').text()).to.contains('Bonjour Jérémy');
+    });
+
+    (0, _mocha.describe)("38.4 En cas de champs manquant, un message d'erreur apparaît", function () {
+      (0, _mocha.beforeEach)(function () {
+        return visit('/').then(function () {
+          return fillForm('Thomas', 'Wickham', 'twi@octo.com');
+        });
+      });
+
+      (0, _mocha.it)('missing firstname', function () {
+        return fillIn(firstname_css, '').then(function () {
+          (0, _chai.expect)(find('#firstname').hasClass('has-error')).to.be['true'];
+          (0, _chai.expect)(findWithAssert('#firstname .help-block').text()).to.contains('Champ requis');
+        });
+      });
+
+      (0, _mocha.it)('missing lastname', function () {
+        return fillIn(lastname_css, '').then(function () {
+          (0, _chai.expect)(find('#lastname').hasClass('has-error')).to.be['true'];
+          (0, _chai.expect)(findWithAssert('#lastname .help-block').text()).to.contains('Champ requis');
+        });
+      });
+
+      (0, _mocha.it)('missing email', function () {
+        return fillIn(email_css, '').then(function () {
+          (0, _chai.expect)(find('#email').hasClass('has-error')).to.be['true'];
+          (0, _chai.expect)(findWithAssert('#email .help-block').text()).to.contains('Champ requis');
+        });
+      });
+
+      (0, _mocha.it)('bad email', function () {
+        return fillIn(email_css, 'bad email').then(function () {
+          (0, _chai.expect)(find('#email').hasClass('has-error')).to.be['true'];
+          (0, _chai.expect)(findWithAssert('#email .help-block').text()).to.contains('Entrez un email correct');
+        });
+      });
+
+      (0, _mocha.it)("can't submit a form when an error is present", function () {
+        return fillIn(firstname_css, '').then(function () {
+          return (0, _chai.expect)(find(submit_css)[0].disabled).to.be['true'];
+        }).then(function () {
+          return click(submit_css);
+        }).then(function () {
+          return (0, _chai.expect)(currentURL()).to.eq('/');
+        });
+      });
+
+      (0, _mocha.it)("if the form is empty and the page has just been loaded, it can't submit the form", function () {
+        return visit('/').then(function () {
+          return (0, _chai.expect)(find(submit_css)[0].disabled).to.be['true'];
+        }).then(function () {
+          return click(submit_css);
+        }).then(function () {
+          return (0, _chai.expect)(currentURL()).to.eq('/');
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/38-s-identifier-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/38-s-identifier-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/38-s-identifier-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/acceptance/4-demarrer-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   _mocha.describe.skip('Acceptance: 4-DemarrerEpreuve', function () {
@@ -491,18 +621,6 @@ define('pix-live/tests/app.lint-test', ['exports'], function (exports) {
     });
   });
 });
-define('pix-live/tests/components/app-footer.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - components/app-footer.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/app-footer.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/components/app-header.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -570,6 +688,18 @@ define('pix-live/tests/controllers/courses/course-preview.lint-test', ['exports'
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('controllers/courses/course-preview.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/controllers/home.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - controllers/home.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('controllers/home.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1412,6 +1542,30 @@ define('pix-live/tests/serializers/course.lint-test', ['exports'], function (exp
     });
   });
 });
+define('pix-live/tests/services/delay.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - services/delay.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('services/delay.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/services/session.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - services/session.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('services/session.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/test-helper', ['exports', 'pix-live/tests/helpers/resolver', 'ember-mocha'], function (exports, _pixLiveTestsHelpersResolver, _emberMocha) {
 
   (0, _emberMocha.setResolver)(_pixLiveTestsHelpersResolver['default']);
@@ -1444,6 +1598,32 @@ define('pix-live/tests/unit/controllers/challenge-show-test.lint-test', ['export
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/controllers/challenge-show-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/controllers/home-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeModule)('controller:home', 'HomeController', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  }, function () {
+    // Replace this with your real tests.
+    (0, _emberMocha.it)('exists', function () {
+      var controller = this.subject();
+      (0, _chai.expect)(controller).to.be.ok;
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/unit/controllers/home-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/controllers/home-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/controllers/home-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1828,6 +2008,136 @@ define('pix-live/tests/unit/serializers/course-test.lint-test', ['exports'], fun
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/serializers/course-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/services/delay-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeModule)('service:delay', 'DelayService', {
+    // Specify the other units that are required for this test.
+    // needs: ['service:foo']
+  }, function () {
+    // Replace this with your real tests.
+    (0, _emberMocha.it)('exists', function () {
+      var service = this.subject();
+      (0, _chai.expect)(service).to.be.ok;
+    });
+
+    (0, _emberMocha.it)('has delay#ms() which return a promise', function () {
+      var delay = this.subject();
+      (0, _chai.expect)(delay).to.respondsTo('ms');
+      var promise = delay.ms(0);
+      (0, _chai.expect)(promise).to.respondsTo('then');
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/unit/services/delay-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/services/delay-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/services/delay-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/services/session-test', ['exports', 'chai', 'ember-mocha', 'mocha'], function (exports, _chai, _emberMocha, _mocha) {
+
+  (0, _emberMocha.describeModule)('service:session', 'SessionService', {
+    // Specify the other units that are required for this test.
+    // needs: ['service:foo']
+  }, function () {
+    // Replace this with your real tests.
+    (0, _emberMocha.it)('exists', function () {
+      var service = this.subject();
+      (0, _chai.expect)(service).to.be.ok;
+    });
+
+    var store = {};
+    var localStorageStub = {
+      getItem: function getItem(itemName) {
+        return store[itemName];
+      },
+      setItem: function setItem(itemName, value) {
+        store[itemName] = value.toString();
+      }
+    };
+    var originalLocalStorage = window.localStorage;
+
+    (0, _mocha.beforeEach)(function () {
+      window.localStorage.getItem = localStorageStub.getItem;
+      window.localStorage.setItem = localStorageStub.setItem;
+    });
+
+    (0, _mocha.afterEach)(function () {
+      window.localStorage.getItem = originalLocalStorage.getItem;
+      window.localStorage.setItem = originalLocalStorage.setItem;
+    });
+
+    (0, _emberMocha.it)('starts empty', function () {
+      var session = this.subject();
+      (0, _chai.expect)(session.get('firstname')).to.be.empty;
+      (0, _chai.expect)(session.get('lastname')).to.be.empty;
+      (0, _chai.expect)(session.get('email')).to.be.empty;
+      (0, _chai.expect)(session.get('isIdentified')).to.be['false'];
+    });
+
+    (0, _emberMocha.it)('#save() save data to localStorage', function () {
+      var session = this.subject();
+      var values = {
+        firstname: 'firstname',
+        lastname: 'lastname',
+        email: 'email'
+      };
+      session.setProperties(values);
+
+      session.save();
+
+      (0, _chai.expect)(store['pix-live.session']).to.eq(JSON.stringify(values));
+    });
+
+    (0, _emberMocha.it)('#init() restore data from localStorage', function () {
+      var values = {
+        firstname: 'Thomas',
+        lastname: 'Wickham',
+        email: 'twi@octo.com'
+      };
+      localStorageStub.setItem('pix-live.session', JSON.stringify(values));
+      var session = this.subject();
+
+      values.isIdentified = true;
+      var sut = session.getProperties('firstname', 'lastname', 'email', 'isIdentified');
+      (0, _chai.expect)(sut).to.deep.eq(values);
+    });
+
+    (0, _emberMocha.it)('#init() use an empty session is JSON parsing failed', function () {
+      localStorageStub.setItem('pix-live.session', '[object Object]');
+      var session = this.subject();
+
+      var expected = {
+        firstname: "",
+        lastname: "",
+        email: "",
+        isIdentified: false
+      };
+      var sut = session.getProperties('firstname', 'lastname', 'email', 'isIdentified');
+      (0, _chai.expect)(sut).to.deep.eq(expected);
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/unit/services/session-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/services/session-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/services/session-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
