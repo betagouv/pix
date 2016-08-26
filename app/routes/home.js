@@ -7,7 +7,6 @@ export default Ember.Route.extend({
   model() {
     return RSVP.all([
       this.store.findAll('course'),
-      // wait at least 500ms
       this.get('delay').ms(500)
     ]).then((arr) => arr[0]);
   }

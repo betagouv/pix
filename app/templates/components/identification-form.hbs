@@ -2,31 +2,31 @@
     id="identification-form"
     submit=(action "identify")
     update=(action "update")
-    as |f|
+    as |form|
 }}
     <div id="firstname" class="form-group {{if user.errors.firstname "has-error"}}">
-      {{f.text-field "firstname" label="Prénom" placeholder="Jon"
+      {{form.text-field "firstname" label="Prénom" placeholder="Jon"
         inputClasses="firstname_input form-control" labelClasses="control-label" errorClasses="help-block animated flash" hintClasses="help-block"
         autocomplete="on" required="true"
       }}
     </div>
 
     <div id="lastname" class="form-group {{if user.errors.lastname "has-error"}}">
-      {{f.text-field "lastname" label="Nom" placeholder="Snow"
+      {{form.text-field "lastname" label="Nom" placeholder="Snow"
         inputClasses="lastname_input form-control" labelClasses="control-label" errorClasses="help-block animated flash" hintClasses="help-block"
         autocomplete="on" required="true"
       }}
     </div>
 
     <div id="email" class="form-group {{if user.errors.email "has-error"}}">
-      {{f.email-field "email" label="Email" placeholder="jon.snow@winterfell.got"
+      {{form.email-field "email" label="Email" placeholder="jon.snow@winterfell.got"
         inputClasses="email_input form-control" labelClasses="control-label" errorClasses="help-block animated flash" hintClasses="help-block"
         autocomplete="on" required="true"
       }}
     </div>
 
     <div class="identification-form-actions pull-right {{if hasErrors "has-error"}}">
-      {{f.submit "Identifiez-vous" disabled=isSubmitDisabled class="button button-primary" }}
+      {{form.submit "Identifiez-vous" disabled=isSubmitDisabled class="button button-primary" }}
     </div>
 {{/form-for}}
 

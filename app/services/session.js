@@ -1,5 +1,8 @@
 import Ember from 'ember';
 
+
+export const SESSION_KEY = 'pix-live.session';
+
 export default Ember.Service.extend({
   firstname: "",
   lastname: "",
@@ -8,7 +11,7 @@ export default Ember.Service.extend({
 
   init() {
     this._super(...arguments);
-    let session = localStorage.getItem('pix-live.session');
+    let session = localStorage.getItem(SESSION_KEY);
     if (!Ember.isEmpty(session)) {
       try {
         session = JSON.parse(session);
@@ -25,12 +28,7 @@ export default Ember.Service.extend({
   },
 
   save() {
-    const session = {
-      firstname: this.get('firstname'),
-      lastname: this.get('lastname'),
-      email: this.get('email')
-    };
-
-    localStorage.setItem('pix-live.session', JSON.stringify(session));
+    const session = this.getProperties('firstname', 'lastname', 'email');
+    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
   }
 });

@@ -46,9 +46,7 @@ module.exports = function(environment) {
 
   if (environment === 'test') {
     ENV.EmberENV.useDelay = false;
-  }
 
-  if (environment === 'test') {
     // Testem prefers this...
     ENV.baseURL = '/';
     ENV.locationType = 'none';

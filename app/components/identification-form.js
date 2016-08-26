@@ -16,17 +16,17 @@ export default Ember.Component.extend({
     return this;
   },
 
-  hasErrors: Ember.computed('user.errors.firstname', 'user.errors.lastname', 'user.errors.email', function () {
+  hasErrors: Ember.computed('user.errors.{firstname,lastname,email}', function () {
     return false === (Ember.isEmpty(this.get('user.errors.firstname'))
       && Ember.isEmpty(this.get('user.errors.lastname'))
       && Ember.isEmpty(this.get('user.errors.email')));
   }),
 
-  isSubmitDisabled: Ember.computed('user.content.firstname', 'user.content.lastname', 'user.content.email', 'hasErrors', function () {
+  isSubmitDisabled: Ember.computed('session.{firstname,lastname,email}', 'hasErrors', function () {
     return (
-      Ember.isEmpty(this.get('user.content.firstname'))
-      || Ember.isEmpty(this.get('user.content.lastname'))
-      || Ember.isEmpty(this.get('user.content.email'))
+      Ember.isEmpty(this.get('session.firstname'))
+      || Ember.isEmpty(this.get('session.lastname'))
+      || Ember.isEmpty(this.get('session.email'))
       || this.get('hasErrors')
     );
   }),
@@ -36,16 +36,15 @@ export default Ember.Component.extend({
       this.set('session.isIdentified', true);
       this.get('session').save();
       this.get('routing').transitionTo('home');
-      return false;
     },
 
     update(object, propertyPath, value) {
       if (Ember.isEmpty(value)) {
         this.set(`user.errors.${propertyPath}`, ['Champ requis']);
         return;
-      } else {
-        this.set(`user.errors.${propertyPath}`, null);
       }
+
+      this.set(`user.errors.${propertyPath}`, null);
 
       if (propertyPath === 'email' && false === $('.email_input')[0].checkValidity()) {
         this.set('user.errors.email', ['Entrez un email correct']);
