@@ -6,7 +6,7 @@ export default Ember.Route.extend({
   model(params) {
     const store = this.get('store');
     return store.findRecord('course', params.course_id).then((course) => {
-      const assessment = store.createRecord('assessment', { course: course });
+      const assessment = store.createRecord('assessment', { course });
       return RSVP.hash({
         assessment: assessment.save(),
         challenge: course.get('challenges.firstObject')

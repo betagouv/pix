@@ -28,20 +28,16 @@ describe('Acceptance | 3 - Démarrer un test |', function () {
     const courseId = 'rec5duNNrPqbSzQ8o';
     const $startLink = findWithAssert('.start-button')[0];
     expect($startLink.text).to.contains('Démarrer le test');
-    expect($startLink.href).to.be.contains(`/courses/${courseId}/assessment`);
+    expect($startLink.href).to.contains(`/courses/${courseId}/assessment`);
   });
 
-  it('3.2. Quand je démarre un test, ça crée une instance d\'Evaluation dans le BO (i.e. onglet "Evaluations" dans AirTable)', function() {
-
-  });
-
-  it('3.3. Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {
+  it('3.2. Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {
     const assessmentId = 'recqE9kA4VRqFcEgK';
-    const challengeId = 'recLt9uwa2dR3IYpi';
+    const challengeId = 'recub31NerwonPVwX';
     const $startLink = findWithAssert('.start-button')[0];
     return click($startLink).then(function() {
       findWithAssert('#assessment-challenge');
-      //expect(currentURL()).to.contains(`/assessments/${assessmentId}/challenges/${challengeId}`);
+      expect(currentURL()).to.contains(`/assessments/${assessmentId}/challenges/${challengeId}`);
     });
   });
 
