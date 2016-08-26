@@ -4,4 +4,5 @@
 
 .challenge-item .challenge-proposal label {
   font-weight: 400;
+  width: 100%;
 }
