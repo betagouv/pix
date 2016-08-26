@@ -1338,7 +1338,7 @@ define('pix-live/mirage/config', ['exports'], function (exports) {
             "id": "recLt9uwa2dR3IYpi",
             "fields": {
               "Consigne": "Que peut-on dire des œufs de catégorie A ?",
-              "Propositions QCU / QCM": "- Ils sont bio\n- Ils pèsent plus de 63 grammes\n- Ce sont des oeufs frais\n- Ils sont destinés aux consommateurs\n- Ils ne sont pas lavés\n",
+              "Propositions": "- Ils sont bio\n- Ils pèsent plus de 63 grammes\n- Ce sont des oeufs frais\n- Ils sont destinés aux consommateurs\n- Ils ne sont pas lavés\n",
               "Type d'épreuve": "QCU",
               "Tests": ["rec5duNNrPqbSzQ8o"]
             }
@@ -1349,7 +1349,7 @@ define('pix-live/mirage/config', ['exports'], function (exports) {
             "id": "recub31NerwonPVwX",
             "fields": {
               "Consigne": "Exemple de question QCU\n\n",
-              "Propositions QCU / QCM": "- option 1\n- option 2\n- option 3\n- option 4\n- option 5\n\n",
+              "Propositions": "- option 1\n- option 2\n- option 3\n- option 4\n- option 5\n\n",
               "Type d'épreuve": "QCU",
               "Tests": ["rec5duNNrPqbSzQ8o"]
             }
@@ -1661,7 +1661,7 @@ define('pix-live/serializers/challenge', ['exports', 'ember-airtable/serializer'
 
     normalizeResponse: function normalizeResponse(store, type, payload) {
       payload.fields.instruction = payload.fields['Consigne'];
-      payload.fields.proposals = payload.fields['Propositions QCU / QCM'];
+      payload.fields.proposals = payload.fields['Propositions'];
       return this._super.apply(this, arguments);
     }
 
@@ -7473,7 +7473,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+876163b8"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+1caa0516"});
 }
 
 /* jshint ignore:end */
