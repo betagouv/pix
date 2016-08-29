@@ -24,13 +24,21 @@ module.exports = function (defaults) {
           {
             module: cssnext,
             options: {
-              browsers: ['last 2 version']
+              browsers: ['last 2 version'],
+              calc: true,
+              colorFunction: true,
+              colorGray: true,
+              nesting: true,
+              pseudoClassMatches: true,
+              pseudoClassAnyLink: true,
+              pseudoClassNot: true,
+
             }
           },
           // linters
           { module: colorGuard },
           // reporters at the end
-          { module: browserReporter },
+          //{ module: browserReporter },
           { module: reporter }
         ]
       },

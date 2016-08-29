@@ -10,14 +10,14 @@
   padding: 20px;
   margin-bottom: 50px;
   overflow: hidden;
-}
 
-.rounded-panel > hr {
-  height: 1px;
-  border: none;
-  background: var(--light-grey5);
-  margin: 20px -29px;
-  box-sizing: content-box;
+  & > hr {
+    height: 1px;
+    border: none;
+    background: var(--light-grey5);
+    margin: 20px -29px;
+    box-sizing: content-box;
+  }
 }
 
 .rounded-panel-title {

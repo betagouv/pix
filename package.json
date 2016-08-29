@@ -71,6 +71,7 @@
     "postcss-browser-reporter": "^0.5.0",
     "postcss-cssnext": "^2.7.0",
     "postcss-import": "^8.1.2",
+    "postcss-nesting": "^2.3.1",
     "postcss-reporter": "^1.4.1",
     "tap-xunit": "^1.4.0",
     "urljs": "^2.3.1"
