@@ -6,6 +6,7 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var postcssImport = require('postcss-import');
 var cssnext = require('postcss-cssnext');
 var colorGuard = require('colorguard');
+var stylelint = require("stylelint");
 var browserReporter = require('postcss-browser-reporter');
 var reporter = require('postcss-reporter');
 
@@ -15,7 +16,11 @@ module.exports = function (defaults) {
       compile: {
         enabled: true,
         plugins: [
-          // multiple-file transformation first (eg: imports)
+          // first linter
+          {
+            module: stylelint
+          },
+          // multiple-file transformation (eg: imports)
           {
             module: postcssImport,
             options: {}
@@ -31,8 +36,7 @@ module.exports = function (defaults) {
               nesting: true,
               pseudoClassMatches: true,
               pseudoClassAnyLink: true,
-              pseudoClassNot: true,
-
+              pseudoClassNot: true
             }
           },
           // linters
