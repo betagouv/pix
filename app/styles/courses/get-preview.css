@@ -1,6 +1,9 @@
+@import url('../globals/palette.css');
+
+
 #course-preview {}
 
 #course-preview strong {
-  color: #2F70FB;
+  color: var(--pix-blue);
   font-weight: 600;
 }

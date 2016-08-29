@@ -25,7 +25,7 @@
   text-align: center;
   padding-top: 30px;
   padding-bottom: 30px;
-  color: #2F70FB;
+  color: var(--pix-blue);
   color: #FFF;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

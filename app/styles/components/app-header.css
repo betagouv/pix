@@ -1,3 +1,5 @@
+@import url('../globals/palette.css');
+
 #app-header .navbar {
   background-color: #fff;
   box-shadow: 0 1px 0 0 #dedfe2;
@@ -47,10 +49,10 @@
 
 #app-header a:hover,
 #app-header a:focus {
-  color: #2F70FB;
+  color: var(--pix-blue);
 }
 
 #app-header a:active {
-  color: #FDBD2C;
+  color: var(--pix-yellow);
 }
 
