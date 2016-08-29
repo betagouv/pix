@@ -166,5 +166,23 @@ describeComponent(
 
     });
 
+    describe('when given an illustraction', function () {
+      it('should display an img tag with “ceci est une image” alt text', function () {
+        this.set('challenge', Ember.Object.create({ illustrationUrl: 'yo' }));
+        this.render(hbs`{{challenge-item challenge=challenge}}`);
+
+        let $img = this.$('.challenge-statement img');
+        expect($img.attr('alt')).to.contains('ceci est une image');
+      });
+
+      it('should display an img tag with src attribute equals to the challenge.illustrationUrl property', function () {
+        this.set('challenge', Ember.Object.create({ illustrationUrl: 'yo' }));
+        this.render(hbs`{{challenge-item challenge=challenge}}`);
+
+        let $img = this.$('.challenge-statement img');
+        expect($img.attr('src')).to.equals('yo');
+      });
+    });
+
   }
 );
