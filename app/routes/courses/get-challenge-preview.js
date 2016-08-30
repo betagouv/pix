@@ -14,18 +14,12 @@ export default Ember.Route.extend({
 
     return RSVP.hash(promises).then(function (results) {
 
-      const course = results.course;
       const challenge = results.challenge;
-      const challenges = course.get('challenges');
-      const currentChallengeIndex = challenges.indexOf(challenge);
-      const nextChallenge = challenges.objectAt(challenges.indexOf(challenge) + 1);
-      const hasNextChallenge = currentChallengeIndex + 1 < challenges.get('length');
+      const previewedCourse = results.course;
 
       return {
-        course,
         challenge,
-        hasNextChallenge,
-        nextChallenge
+        previewedCourse
       };
     });
   }

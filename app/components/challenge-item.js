@@ -1,29 +1,58 @@
 import Ember from 'ember';
 
-export default Ember.Component.extend({
+const ChallengeItem = Ember.Component.extend({
 
   tagName: 'article',
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
-  mode: 'live',
-  challenge: null,
-  isLiveMode: Ember.computed.equal('mode', 'live'),
-  isCoursePreviewMode: Ember.computed.equal('mode', 'course-preview'),
+  assessmentService: Ember.inject.service('assessment'),
+  router: Ember.inject.service('router'),
 
-  course: null,
-  hasNextChallenge: Ember.computed('challenge', 'course', function () {
-    const course = this.get('course');
-    const challenge = this.get('challenge');
-    const challenges = course.get('challenges');
-    const currentChallengeIndex = challenges.indexOf(challenge);
-    return currentChallengeIndex + 1 < challenges.get('length');
+  challenge: null,
+  assessment: null,
+  previewedCourse: null,
+
+
+  course: Ember.computed('assessment', 'previewedCourse', function () {
+    const assessment = this.get('assessment');
+    return assessment ? assessment.get('course') : this.get('previewedCourse');
   }),
-  nextChallenge: Ember.computed('challenge', 'course', function () {
-    const course = this.get('course');
+
+  isLiveMode: Ember.computed.notEmpty('assessment'),
+  isCoursePreviewMode: Ember.computed.notEmpty('course'),
+  isChallengePreviewMode: Ember.computed('isLiveMode', 'isCoursePreviewMode', function() {
+    return !this.get('isLiveMode') && !this.get('isCoursePreviewMode');
+  }),
+  nextChallenge: Ember.computed('challenge', 'assessment', 'course', function() {
     const challenge = this.get('challenge');
-    const challenges = course.get('challenges');
-    return challenges.objectAt(challenges.indexOf(challenge) + 1);
-  })
+    const assessment = this.get('assessment');
+    const course = this.get('course');
+
+    if (assessment) {
+      return this.get('assessmentService').getNextChallenge(challenge, assessment);
+    }
+    if (course) {
+      return this.get('assessmentService').getCourseNextChallenge(challenge, course);
+    }
+  }),
+
+  actions: {
+    validate(challenge, assessment) {
+      Ember.Logger.info('coucou');
+      return true;
+    }
+  }
 
 });
+
+/*
+ * Notice that the positionalParams property is added to the class as a static variable via reopenClass.
+ * Positional params are always declared on the component class and cannot be changed while an application runs.
+ * – https://guides.emberjs.com/v2.7.0/components/passing-properties-to-a-component/#toc_positional-params
+ */
+ChallengeItem.reopenClass({
+  positionalParams: ['challenge', 'assessment', 'course']
+});
+
+export default ChallengeItem;

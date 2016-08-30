@@ -6,7 +6,7 @@ import Ember from 'ember';
 
 describeComponent(
   'challenge-item',
-  'Integration: ChallengeItemComponent',
+  'Integration | ChallengeItem component',
   {
     integration: true
   },
@@ -16,21 +16,33 @@ describeComponent(
      * TODO: find a way to make `this` works in mocha hooks such as `before` in order to mutualize and reduce code
      */
 
-    describe('when used with a given challenge', function () {
+    function renderChallengeItem_WithASimpleChallenge(context, challengeAttributes = {}) {
 
-      function renderChallengeItemWithASimpleChallenge(context, challengeAttributes) {
+      const challenge = Ember.Object.create(challengeAttributes);
+      context.set('challenge', challenge);
 
-        const challenge = Ember.Object.create(challengeAttributes);
-        context.set('challenge', challenge);
-        context.render(hbs`{{challenge-item challenge=challenge}}`);
-      }
+      const assessment = Ember.Object.create({});
+      context.set('assessment', assessment);
+
+      context.render(hbs`{{challenge-item challenge assessment}}`);
+    }
+
+    function renderChallengeItem_WithChallengePreviewMode(context, challengeAttributes = {}) {
+
+      const challenge = Ember.Object.create(challengeAttributes);
+      context.set('challenge', challenge);
+
+      context.render(hbs`{{challenge-item challenge}}`);
+    }
+
+    describe('for a given challenge', function () {
 
       it('should render challenge instruction', function () {
         // given
         const instruction = 'My challenge instruction';
 
         // when
-        renderChallengeItemWithASimpleChallenge(this, { instruction });
+        renderChallengeItem_WithASimpleChallenge(this, { instruction });
 
         // then
         expect(this.$('.challenge-instruction').text()).to.contains(instruction);
@@ -38,7 +50,7 @@ describeComponent(
 
       it('should render challenge proposals', function () {
         // when
-        renderChallengeItemWithASimpleChallenge(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
+        renderChallengeItem_WithASimpleChallenge(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
         // then
         const $proposals = this.$('.challenge-proposal');
@@ -48,13 +60,9 @@ describeComponent(
         expect($proposals.eq(2).text()).to.contains('Mi');
       });
 
-    });
-
-    describe('when used with default mode (a.k.a. "live")', function () {
-
       it('should display "Skip" button ', function () {
         // when
-        this.render(hbs`{{challenge-item}}`);
+        renderChallengeItem_WithASimpleChallenge(this);
 
         // then
         expect(this.$('.skip-button')).to.have.lengthOf(1);
@@ -62,18 +70,11 @@ describeComponent(
 
       it('should display "Validate" button ', function () {
         // when
-        this.render(hbs`{{challenge-item}}`);
+        renderChallengeItem_WithASimpleChallenge(this);
 
         // then
+
         expect(this.$('.validate-button')).to.have.lengthOf(1);
-      });
-
-      it('should not display "Next" button ', function () {
-        // when
-        this.render(hbs`{{challenge-item}}`);
-
-        // then
-        expect(this.$('.next-challenge-button')).to.have.lengthOf(0);
       });
 
     });
@@ -82,7 +83,7 @@ describeComponent(
 
       it('should not display "Skip" button', function () {
         // when
-        this.render(hbs`{{challenge-item mode="challenge-preview"}}`);
+        renderChallengeItem_WithChallengePreviewMode(this);
 
         // then
         expect(this.$('.skip-button')).to.have.lengthOf(0);
@@ -90,78 +91,10 @@ describeComponent(
 
       it('should not display "Validate" button', function () {
         // when
-        this.render(hbs`{{challenge-item mode="challenge-preview"}}`);
+        renderChallengeItem_WithChallengePreviewMode(this);
 
         // then
         expect(this.$('.validate-button')).to.have.lengthOf(0);
-      });
-
-      it('should not display "Next" button ', function () {
-        // when
-        this.render(hbs`{{challenge-item mode="challenge-preview"}}`);
-
-        // then
-        expect(this.$('.next-challenge-button')).to.have.lengthOf(0);
-      });
-    });
-
-    describe('when used with mode "course-preview"', function () {
-
-      function renderChallengeItemWithCoursePreviewMode(context, challenge, challenges) {
-
-        const course = Ember.Object.create({
-          challenges: challenges
-        });
-        context.set('course', course);
-        context.render(hbs`{{challenge-item mode="course-preview" challenge=challenge course=course}}`);
-      }
-
-      function renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(context) {
-
-        const challenge = Ember.Object.create({ id: '1' });
-        context.set('challenge', challenge);
-
-        const nextChallenge = Ember.Object.create({ id: '2' });
-
-        renderChallengeItemWithCoursePreviewMode(context, challenge, [challenge, nextChallenge]);
-      }
-
-      function renderChallengeItemWithCoursePreviewModeAndWithNoChallengeNext(context) {
-
-        const challenge = Ember.Object.create({ id: '1' });
-        context.set('challenge', challenge);
-
-        renderChallengeItemWithCoursePreviewMode(context, challenge, [challenge]);
-      }
-
-      it('should not display "Skip" button ', function () {
-        // when
-        renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(this);
-
-        // then
-        expect(this.$('.skip-button')).to.have.lengthOf(0);
-      });
-
-      it('should not display "Validate" button ', function () {
-        // when
-        renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(this);
-
-        // then
-        expect(this.$('.validate-button')).to.have.lengthOf(0);
-      });
-
-      it('should display "Next" button when there is a challenge next', function () {
-        // when
-        renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(this);
-        // then
-        expect(this.$('.next-challenge-button')).to.have.lengthOf(1);
-      });
-
-      it('should not display "Next" button when there is no challenge next', function () {
-        // when
-        renderChallengeItemWithCoursePreviewModeAndWithNoChallengeNext(this);
-        // then
-        expect(this.$('.next-challenge-button')).to.have.lengthOf(0);
       });
 
     });

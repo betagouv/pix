@@ -31,7 +31,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
       return visit(`/courses/${courseId}/preview`);
     });
 
-    it("L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
+    it("37.1. L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
       expect(currentURL()).to.equal(`/courses/${courseId}/preview`);
     });
 
@@ -43,15 +43,15 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
         $preview = findWithAssert('#course-preview');
       });
 
-      it('le nom du test', function () {
+      it('37.2. le nom du test', function () {
         expect($preview.find('.course-name').text()).to.contains('course_name');
       });
 
-      it('la description du test', function () {
+      it('37.3. la description du test', function () {
         expect($preview.find('.course-description').text()).to.contains('course_description');
       });
 
-      it('un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
+      it('37.4. un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
         const $playButton = findWithAssert('.simulate-button');
         expect($playButton.text()).to.be.equals('Simuler le test');
         expect($playButton.attr('href')).to.be.equals(`/courses/${courseId}/preview/challenges/${firstChallengeId}`);
@@ -65,7 +65,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
       return visit(`/courses/${courseId}/preview/challenges/${firstChallengeId}`);
     });
 
-    it("L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
+    it("37.5. L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
       expect(currentURL()).to.equal(`/courses/${courseId}/preview/challenges/${firstChallengeId}`);
     });
 
@@ -77,19 +77,18 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
          $challenge = findWithAssert('.challenge-preview');
       });
 
-      it("la consigne de l'épreuve", function () {
+      it("37.6. la consigne de l'épreuve", function () {
         expect($challenge.find('.challenge-instruction').text()).to.contains('Exemple de question QCU');
       });
 
-      it('les propositions sous forme de boutons radio pour un QCU', function () {
+      it('37.7. les propositions sous forme de boutons radio pour un QCU', function () {
         const $proposals = findWithAssert('.challenge-proposals input[type="radio"][name="proposals"]');
         expect($proposals).to.have.lengthOf(5);
       });
 
-      it("un bouton pour accéder à l'épreuve suivante", function() {
-        const $nextChallengeButton = findWithAssert('.next-challenge-button');
-        expect($nextChallengeButton.text()).to.be.equals('Épreuve suivante');
-        expect($nextChallengeButton.attr('href')).to.be.equals(`/courses/${courseId}/preview/challenges/${secondChallengeId}`);
+      it("37.8. un bouton pour accéder à l'épreuve suivante", function() {
+        const $validateButton = findWithAssert('.validate-button');
+        expect($validateButton.text()).to.be.equals('Valider');
       });
     });
   });
@@ -100,7 +99,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
       return visit(`/courses/${courseId}/preview/challenges/${lastChallengeId}`);
     });
 
-    it("on n'affiche pas de bouton “Épreuve suivante”", function () {
+    it("37.9. on n'affiche pas de bouton “Épreuve suivante”", function () {
       expect(find('.challenge-preview a.next-challenge-button')).to.have.lengthOf(0);
     })
   })
