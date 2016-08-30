@@ -114,6 +114,46 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test.lint-test', ['exports'
     });
   });
 });
+define('pix-live/tests/acceptance/25-image-sous-la-consigne-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'rsvp'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _rsvp) {
+
+  (0, _mocha.describe)("Acceptance | 25 - Afficher une image sous la consigne | ", function () {
+    var application = undefined;
+    var challenge = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+      challenge = {
+        id: 'test_id_FIXME_remove_it'
+      };
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/challenges/' + challenge.id + '/preview');
+    });
+
+    (0, _mocha.it)('25.1 Une image unique peut être affichée sous la consigne', function () {});
+
+    (0, _mocha.it)('25.2 Cette image a un alt text “ceci est une image”', function () {
+      (0, _chai.expect)(findWithAssert('.challenge-statement img').attr('alt')).to.contains('ceci est une image');
+    });
+  });
+});
+define('pix-live/tests/acceptance/25-image-sous-la-consigne-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/25-image-sous-la-consigne-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/25-image-sous-la-consigne-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/acceptance/3-demarrer-un-test-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 3 - Démarrer un test |', function () {
@@ -302,7 +342,7 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
 
         (0, _mocha.it)("un bouton pour accéder à l'épreuve suivante", function () {
           var $nextChallengeButton = findWithAssert('.next-challenge-button');
-          (0, _chai.expect)($nextChallengeButton.text()).to.be.equals('Épreuve suivante');
+          (0, _chai.expect)($nextChallengeButton.text()).to.contains('Épreuve suivante');
           (0, _chai.expect)($nextChallengeButton.attr('href')).to.be.equals('/courses/' + courseId + '/preview/challenges/' + secondChallengeId);
         });
       });
@@ -1786,6 +1826,98 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         renderChallengeItemWithCoursePreviewModeAndWithNoChallengeNext(this);
         // then
         (0, _chai.expect)(this.$('.next-challenge-button')).to.have.lengthOf(0);
+      });
+    });
+
+    (0, _mocha.describe)('when given an illustraction', function () {
+      (0, _emberMocha.it)('should display an img tag with “ceci est une image” alt text', function () {
+        this.set('challenge', _ember['default'].Object.create({ illustrationUrl: 'yo' }));
+        this.render(_ember['default'].HTMLBars.template((function () {
+          return {
+            meta: {
+              'revision': 'Ember@2.7.1',
+              'loc': {
+                'source': null,
+                'start': {
+                  'line': 1,
+                  'column': 0
+                },
+                'end': {
+                  'line': 1,
+                  'column': 38
+                }
+              }
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment('');
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
+            },
+            statements: [['inline', 'challenge-item', [], ['challenge', ['subexpr', '@mut', [['get', 'challenge', ['loc', [null, [1, 27], [1, 36]]], 0, 0, 0, 0]], [], [], 0, 0]], ['loc', [null, [1, 0], [1, 38]]], 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })()));
+
+        var $illustration = this.$('.challenge-illustration');
+        (0, _chai.expect)($illustration.attr('alt')).to.contains('ceci est une image');
+      });
+
+      (0, _emberMocha.it)('should display an img tag with src attribute equals to the challenge.illustrationUrl property', function () {
+        this.set('challenge', _ember['default'].Object.create({ illustrationUrl: 'yo' }));
+        this.render(_ember['default'].HTMLBars.template((function () {
+          return {
+            meta: {
+              'revision': 'Ember@2.7.1',
+              'loc': {
+                'source': null,
+                'start': {
+                  'line': 1,
+                  'column': 0
+                },
+                'end': {
+                  'line': 1,
+                  'column': 38
+                }
+              }
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment('');
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
+            },
+            statements: [['inline', 'challenge-item', [], ['challenge', ['subexpr', '@mut', [['get', 'challenge', ['loc', [null, [1, 27], [1, 36]]], 0, 0, 0, 0]], [], [], 0, 0]], ['loc', [null, [1, 0], [1, 38]]], 0, 0]],
+            locals: [],
+            templates: []
+          };
+        })()));
+
+        var $illustration = this.$('.challenge-illustration');
+        (0, _chai.expect)($illustration.attr('src')).to.equals('yo');
       });
     });
   });

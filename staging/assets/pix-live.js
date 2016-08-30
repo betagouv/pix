@@ -326,6 +326,7 @@ define('pix-live/components/challenge-item', ['exports', 'ember'], function (exp
     challenge: null,
     isLiveMode: _ember['default'].computed.equal('mode', 'live'),
     isCoursePreviewMode: _ember['default'].computed.equal('mode', 'course-preview'),
+    hasIllustration: _ember['default'].computed.notEmpty('challenge.illustrationUrl'),
 
     course: null,
     hasNextChallenge: _ember['default'].computed('challenge', 'course', function () {
@@ -335,13 +336,13 @@ define('pix-live/components/challenge-item', ['exports', 'ember'], function (exp
       var currentChallengeIndex = challenges.indexOf(challenge);
       return currentChallengeIndex + 1 < challenges.get('length');
     }),
+
     nextChallenge: _ember['default'].computed('challenge', 'course', function () {
       var course = this.get('course');
       var challenge = this.get('challenge');
       var challenges = course.get('challenges');
       return challenges.objectAt(challenges.indexOf(challenge) + 1);
     })
-
   });
 });
 define('pix-live/components/ember-wormhole', ['exports', 'ember-wormhole/components/ember-wormhole'], function (exports, _emberWormholeComponentsEmberWormhole) {
@@ -1343,6 +1344,19 @@ define('pix-live/mirage/config', ['exports'], function (exports) {
               "Tests": ["rec5duNNrPqbSzQ8o"]
             }
           };
+        case 'test_id_FIXME_remove_it':
+          return {
+            "id": "test_id_FIXME_remove_it",
+            "fields": {
+              "Consigne": "Exemple de question QCU\n\n",
+              "Propositions": "- option 1\n- option 2\n- option 3\n- option 4\n- option 5\n\n",
+              "Type d'épreuve": "QCU",
+              "Tests": ["rec5duNNrPqbSzQ8o"],
+              "Illustration de la consigne": [{
+                "url": "https://dl.airtable.com/SX1UCYMHQZ2ovVswb510_Tuvalu%20chif..png"
+              }]
+            }
+          };
         case "recub31NerwonPVwX":
         default:
           return {
@@ -1466,6 +1480,7 @@ define('pix-live/models/challenge', ['exports', 'ember-data', 'ember', 'lodash/l
 
     instruction: attr('string'),
     proposals: attr('string'),
+    illustrationUrl: attr('string'),
 
     proposalsAsArray: computed('proposals', function () {
       var proposals = '\n' + this.get('proposals');
@@ -1662,6 +1677,11 @@ define('pix-live/serializers/challenge', ['exports', 'ember-airtable/serializer'
     normalizeResponse: function normalizeResponse(store, type, payload) {
       payload.fields.instruction = payload.fields['Consigne'];
       payload.fields.proposals = payload.fields['Propositions'];
+
+      if (payload.fields['Illustration de la consigne']) {
+        payload.fields.illustrationUrl = payload.fields['Illustration de la consigne'][0].url;
+      }
+
       return this._super.apply(this, arguments);
     }
 
@@ -4207,11 +4227,59 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           "loc": {
             "source": null,
             "start": {
-              "line": 7,
+              "line": 3,
+              "column": 2
+            },
+            "end": {
+              "line": 6,
+              "column": 2
+            }
+          },
+          "moduleName": "pix-live/templates/components/challenge-item.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("      ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("hr");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n      ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("img");
+          dom.setAttribute(el1, "class", "challenge-illustration");
+          dom.setAttribute(el1, "alt", "ceci est une image");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element1 = dom.childAt(fragment, [3]);
+          var morphs = new Array(1);
+          morphs[0] = dom.createAttrMorph(element1, 'src');
+          return morphs;
+        },
+        statements: [["attribute", "src", ["concat", [["get", "challenge.illustrationUrl", ["loc", [null, [5, 50], [5, 75]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.1",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 11,
               "column": 6
             },
             "end": {
-              "line": 11,
+              "line": 15,
               "column": 6
             }
           },
@@ -4251,23 +4319,23 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           morphs[1] = dom.createMorphAt(element0, 2, 2);
           return morphs;
         },
-        statements: [["inline", "input", [], ["type", "radio", "name", "proposals"], ["loc", [null, [9, 21], [9, 60]]], 0, 0], ["content", "proposal", ["loc", [null, [9, 61], [9, 75]]], 0, 0, 0, 0]],
+        statements: [["inline", "input", [], ["type", "radio", "name", "proposals"], ["loc", [null, [13, 21], [13, 60]]], 0, 0], ["content", "proposal", ["loc", [null, [13, 61], [13, 75]]], 0, 0, 0, 0]],
         locals: ["proposal"],
         templates: []
       };
     })();
-    var child1 = (function () {
+    var child2 = (function () {
       return {
         meta: {
           "revision": "Ember@2.7.1",
           "loc": {
             "source": null,
             "start": {
-              "line": 14,
+              "line": 18,
               "column": 2
             },
             "end": {
-              "line": 20,
+              "line": 24,
               "column": 2
             }
           },
@@ -4316,7 +4384,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
         templates: []
       };
     })();
-    var child2 = (function () {
+    var child3 = (function () {
       var child0 = (function () {
         var child0 = (function () {
           var child0 = (function () {
@@ -4326,12 +4394,12 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 24,
-                    "column": 12
+                    "line": 28,
+                    "column": 10
                   },
                   "end": {
-                    "line": 24,
-                    "column": 145
+                    "line": 29,
+                    "column": 30
                   }
                 },
                 "moduleName": "pix-live/templates/components/challenge-item.hbs"
@@ -4342,7 +4410,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
               hasRendered: false,
               buildFragment: function buildFragment(dom) {
                 var el0 = dom.createDocumentFragment();
-                var el1 = dom.createTextNode("Épreuve suivante");
+                var el1 = dom.createTextNode("              Épreuve suivante");
                 dom.appendChild(el0, el1);
                 return el0;
               },
@@ -4360,12 +4428,12 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 23,
-                  "column": 10
+                  "line": 27,
+                  "column": 8
                 },
                 "end": {
-                  "line": 25,
-                  "column": 10
+                  "line": 30,
+                  "column": 8
                 }
               },
               "moduleName": "pix-live/templates/components/challenge-item.hbs"
@@ -4376,8 +4444,6 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
             hasRendered: false,
             buildFragment: function buildFragment(dom) {
               var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("            ");
-              dom.appendChild(el0, el1);
               var el1 = dom.createComment("");
               dom.appendChild(el0, el1);
               var el1 = dom.createTextNode("\n");
@@ -4386,10 +4452,11 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
             },
             buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
               var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
               return morphs;
             },
-            statements: [["block", "link-to", ["courses.get-challenge-preview", ["get", "course.id", ["loc", [null, [24, 55], [24, 64]]], 0, 0, 0, 0], ["get", "nextChallenge.id", ["loc", [null, [24, 65], [24, 81]]], 0, 0, 0, 0]], ["class", "btn btn-primary next-challenge-button"], 0, null, ["loc", [null, [24, 12], [24, 157]]]]],
+            statements: [["block", "link-to", ["courses.get-challenge-preview", ["get", "course.id", ["loc", [null, [28, 53], [28, 62]]], 0, 0, 0, 0], ["get", "nextChallenge.id", ["loc", [null, [28, 63], [28, 79]]], 0, 0, 0, 0]], ["class", "btn btn-primary next-challenge-button"], 0, null, ["loc", [null, [28, 10], [29, 42]]]]],
             locals: [],
             templates: [child0]
           };
@@ -4400,11 +4467,11 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
             "loc": {
               "source": null,
               "start": {
-                "line": 20,
+                "line": 24,
                 "column": 2
               },
               "end": {
-                "line": 27,
+                "line": 32,
                 "column": 2
               }
             },
@@ -4440,7 +4507,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
             morphs[0] = dom.createMorphAt(dom.childAt(fragment, [3]), 1, 1);
             return morphs;
           },
-          statements: [["block", "if", [["get", "hasNextChallenge", ["loc", [null, [23, 16], [23, 32]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [23, 10], [25, 17]]]]],
+          statements: [["block", "if", [["get", "hasNextChallenge", ["loc", [null, [27, 14], [27, 30]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [27, 8], [30, 15]]]]],
           locals: [],
           templates: [child0]
         };
@@ -4451,11 +4518,11 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           "loc": {
             "source": null,
             "start": {
-              "line": 20,
+              "line": 24,
               "column": 2
             },
             "end": {
-              "line": 27,
+              "line": 32,
               "column": 2
             }
           },
@@ -4478,7 +4545,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "if", [["get", "isCoursePreviewMode", ["loc", [null, [20, 12], [20, 31]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [20, 2], [27, 2]]]]],
+        statements: [["block", "if", [["get", "isCoursePreviewMode", ["loc", [null, [24, 12], [24, 31]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 2], [32, 2]]]]],
         locals: [],
         templates: [child0]
       };
@@ -4493,7 +4560,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
             "column": 0
           },
           "end": {
-            "line": 30,
+            "line": 35,
             "column": 0
           }
         },
@@ -4515,6 +4582,8 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
@@ -4544,16 +4613,18 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element1 = dom.childAt(fragment, [2]);
-        var morphs = new Array(3);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]), 0, 0);
-        morphs[1] = dom.createMorphAt(dom.childAt(element1, [1]), 1, 1);
-        morphs[2] = dom.createMorphAt(element1, 3, 3);
+        var element2 = dom.childAt(fragment, [0]);
+        var element3 = dom.childAt(fragment, [2]);
+        var morphs = new Array(4);
+        morphs[0] = dom.createMorphAt(dom.childAt(element2, [1]), 0, 0);
+        morphs[1] = dom.createMorphAt(element2, 3, 3);
+        morphs[2] = dom.createMorphAt(dom.childAt(element3, [1]), 1, 1);
+        morphs[3] = dom.createMorphAt(element3, 3, 3);
         return morphs;
       },
-      statements: [["content", "challenge.instruction", ["loc", [null, [2, 37], [2, 64]]], 0, 0, 0, 0], ["block", "each", [["get", "challenge.proposalsAsArray", ["loc", [null, [7, 14], [7, 40]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 6], [11, 15]]]], ["block", "if", [["get", "isLiveMode", ["loc", [null, [14, 8], [14, 18]]], 0, 0, 0, 0]], [], 1, 2, ["loc", [null, [14, 2], [27, 9]]]]],
+      statements: [["content", "challenge.instruction", ["loc", [null, [2, 37], [2, 64]]], 0, 0, 0, 0], ["block", "if", [["get", "hasIllustration", ["loc", [null, [3, 8], [3, 23]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [3, 2], [6, 9]]]], ["block", "each", [["get", "challenge.proposalsAsArray", ["loc", [null, [11, 14], [11, 40]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [11, 6], [15, 15]]]], ["block", "if", [["get", "isLiveMode", ["loc", [null, [18, 8], [18, 18]]], 0, 0, 0, 0]], [], 2, 3, ["loc", [null, [18, 2], [32, 9]]]]],
       locals: [],
-      templates: [child0, child1, child2]
+      templates: [child0, child1, child2, child3]
     };
   })());
 });
@@ -7473,7 +7544,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+6c2e6356"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+84fba0be"});
 }
 
 /* jshint ignore:end */
