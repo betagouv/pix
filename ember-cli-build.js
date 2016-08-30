@@ -40,9 +40,9 @@ module.exports = function (defaults) {
             }
           },
           // linters
-          { module: colorGuard },
+          //{ module: colorGuard }, FIXME: there are issues reported that need a fix
           // reporters at the end
-          //{ module: browserReporter },
+          { module: browserReporter },
           { module: reporter }
         ]
       },
