@@ -1,11 +1,22 @@
 #! /bin/bash
 
-[ -z $GITHUB_TOKEN ] && { echo 'FATAL: $GITHUB_TOKEN is absent !'; exit 1}
-[ -z $CIRCLE_PR_NUMBER ] && { echo 'FATAL: $CIRCLE_PR_NUMBER is absent !'; exit 1}
-[ -z $CIRCLE_BRANCH ] && { echo 'FATAL: $CIRCLE_BRANCH is absent !'; exit 1}
+[ -z $GITHUB_TOKEN ] && {
+	echo 'FATAL: $GITHUB_TOKEN is absent'
+	exit 1
+}
+[ -z $CI_PULL_REQUEST ] && {
+	echo 'FATAL: $CI_PULL_REQUEST is absent'
+	exit 1
+}
+[ -z $CIRCLE_BRANCH ] && {
+	echo 'FATAL: $CIRCLE_BRANCH is absent'
+	exit 1
+}
 
-curl \
-	-u twickham:$GITHUB_TOKEN \
-	-X POST "https://api.github.com/repos/sgmap/pix-live/issues/${CIRCLE_PR_NUMBER}/comments" \
-	--data "{\"body\":\"Holly joly ! I've deployed this PR to http://${CIRCLE_BRANCH}.pix.beta.gouv.fr. Please check it out !\"}"\
-	--verbose
+PR_NUMBER=`echo $CI_PULL_REQUEST | grep -Po '(?<=pix-live/pull/)(\d+)'`
+
+curl -u twickham:$GITHUB_TOKEN --verbose \
+	-X POST "https://api.github.com/repos/sgmap/pix-live/issues/${PR_NUMBER}/comments" \
+	--data "{\"body\":\"I've deployed this PR to http://${CIRCLE_BRANCH}.pix.beta.gouv.fr. Please check it out\"}"
+
+
