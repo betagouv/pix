@@ -28,7 +28,7 @@ deployment:
       - git config --global user.email 'mackwic@gmail.com'
       - git config --global user.name 'Thomas Wickham'
       - npm run deploy:branch
-      - curl -u "${CIRCLE_USERNAME}:${GITHUB_TOKEN}" -X POST "github.com/repos/sgmap/pix-live/issues/${CIRCLE_PR_NUMBER}/comments" --data "{\"body\":\"Holly joly ! I've deployed this PR to http://${CIRCLE_BRANCH}.pix.beta.gouv.fr. Please check it out !\"}"
+      - curl -u "twickham:${GITHUB_TOKEN}" -X POST "github.com/repos/sgmap/pix-live/issues/${CIRCLE_PR_NUMBER}/comments" --data "{\"body\":\"Holly joly ! I've deployed this PR to http://${CIRCLE_BRANCH}.pix.beta.gouv.fr. Please check it out !\"}"
 
 general:
   branches:
