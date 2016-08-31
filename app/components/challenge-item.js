@@ -9,22 +9,17 @@ const ChallengeItem = Ember.Component.extend({
   assessmentService: Ember.inject.service('assessment'),
   router: Ember.inject.service('router'),
 
+  hasIllustration: Ember.computed.notEmpty('challenge.illustrationUrl'),
   challenge: null,
   assessment: null,
   previewedCourse: null,
 
-
-  course: Ember.computed('assessment', 'previewedCourse', function () {
-    const assessment = this.get('assessment');
-    return assessment ? assessment.get('course') : this.get('previewedCourse');
-  }),
-
   isLiveMode: Ember.computed.notEmpty('assessment'),
   isCoursePreviewMode: Ember.computed.notEmpty('course'),
-  isChallengePreviewMode: Ember.computed('isLiveMode', 'isCoursePreviewMode', function() {
+  isChallengePreviewMode: Ember.computed('isLiveMode', 'isCoursePreviewMode', function () {
     return !this.get('isLiveMode') && !this.get('isCoursePreviewMode');
   }),
-  nextChallenge: Ember.computed('challenge', 'assessment', 'course', function() {
+  nextChallenge: Ember.computed('challenge', 'assessment', 'course', function () {
     const challenge = this.get('challenge');
     const assessment = this.get('assessment');
     const course = this.get('course');
@@ -43,7 +38,6 @@ const ChallengeItem = Ember.Component.extend({
       return true;
     }
   }
-
 });
 
 /*
