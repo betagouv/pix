@@ -20,12 +20,6 @@ export default Ember.Route.extend({
       assessment_id: model.assessment.id,
       challenge_id: model.challenge.id
     };
-  },
-
-  actions: {
-    validate(challenge, assessment) {
-      Ember.Logger.info('coucou');
-    }
   }
 
 });

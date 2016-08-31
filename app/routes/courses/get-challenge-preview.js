@@ -22,5 +22,11 @@ export default Ember.Route.extend({
         previewedCourse
       };
     });
+  },
+
+  actions: {
+    validate() {
+      Ember.Logger.info('Yeah !');
+    }
   }
 });

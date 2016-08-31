@@ -4,11 +4,18 @@ export default Ember.Service.extend({
 
   getNextChallenge(currentChallenge, assessment) {
 
-    const challenges = assessment.get('course.challenges');
-    if (challenges.get('lastObject.id') === currentChallenge.get('id')) {
-      return null;
-    }
-    return challenges.objectAt(challenges.indexOf(currentChallenge) + 1);
+    return assessment
+      .get('course')
+      .then((course) => course.get('challenges'))
+      .then((challenges) => {
+        if (!challenges) {
+          throw new Error();
+        }
+        if (challenges.get('lastObject.id') === currentChallenge.get('id')) {
+          return null;
+        }
+        return challenges.objectAt(challenges.indexOf(currentChallenge) + 1);
+      });
   }
 
 });

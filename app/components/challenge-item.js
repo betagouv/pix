@@ -14,30 +14,8 @@ const ChallengeItem = Ember.Component.extend({
   assessment: null,
   previewedCourse: null,
 
-  isLiveMode: Ember.computed.notEmpty('assessment'),
-  isCoursePreviewMode: Ember.computed.notEmpty('course'),
-  isChallengePreviewMode: Ember.computed('isLiveMode', 'isCoursePreviewMode', function () {
-    return !this.get('isLiveMode') && !this.get('isCoursePreviewMode');
-  }),
-  nextChallenge: Ember.computed('challenge', 'assessment', 'course', function () {
-    const challenge = this.get('challenge');
-    const assessment = this.get('assessment');
-    const course = this.get('course');
+  isChallengePreviewMode: Ember.computed.empty('assessment'),
 
-    if (assessment) {
-      return this.get('assessmentService').getNextChallenge(challenge, assessment);
-    }
-    if (course) {
-      return this.get('assessmentService').getCourseNextChallenge(challenge, course);
-    }
-  }),
-
-  actions: {
-    validate(challenge, assessment) {
-      Ember.Logger.info('coucou');
-      return true;
-    }
-  }
 });
 
 /*
