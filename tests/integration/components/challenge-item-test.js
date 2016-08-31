@@ -27,7 +27,7 @@ describeComponent(
       context.set('assessment', assessment);
       context.set('validateHandler', (validateHandler || (() => null)));
 
-      context.render(hbs`{{challenge-item challenge assessment validate=(action validateHandler)}}`);
+      context.render(hbs`{{challenge-item challenge assessment onValidated=(action validateHandler)}}`);
     }
 
     function renderChallengeItem_challengePreview(context, challengeAttributes = {}) {

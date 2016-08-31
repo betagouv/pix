@@ -9,11 +9,10 @@ const ChallengeItem = Ember.Component.extend({
   assessmentService: Ember.inject.service('assessment'),
   router: Ember.inject.service('router'),
 
-  hasIllustration: Ember.computed.notEmpty('challenge.illustrationUrl'),
   challenge: null,
   assessment: null,
-  previewedCourse: null,
 
+  hasIllustration: Ember.computed.notEmpty('challenge.illustrationUrl'),
   isChallengePreviewMode: Ember.computed.empty('assessment')
 });
 
@@ -23,7 +22,7 @@ const ChallengeItem = Ember.Component.extend({
  * – https://guides.emberjs.com/v2.7.0/components/passing-properties-to-a-component/#toc_positional-params
  */
 ChallengeItem.reopenClass({
-  positionalParams: ['challenge', 'assessment', 'course']
+  positionalParams: ['challenge', 'assessment']
 });
 
 export default ChallengeItem;
