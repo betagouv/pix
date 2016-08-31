@@ -15,18 +15,17 @@ export default Ember.Route.extend({
     return RSVP.hash(promises).then(function (results) {
 
       const challenge = results.challenge;
-      const previewedCourse = results.course;
+      const course = RSVP.resolve(results.course);
+
+      const assessment = Ember.Object.create({
+        id: 'fake',
+        course
+      });
 
       return {
         challenge,
-        previewedCourse
+        assessment
       };
     });
-  },
-
-  actions: {
-    validate() {
-      Ember.Logger.info('Yeah !');
-    }
   }
 });

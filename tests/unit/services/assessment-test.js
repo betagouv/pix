@@ -28,20 +28,30 @@ describeModule(
 
     describe('#getNextChallenge', function () {
 
+      it('returns a promise', function () {
+        return Ember.run(() => {
+          const store = this.container.lookup('service:store');
+          const { challenges, assessment } = instantiateModels(store, [{ id: 1 }, { id: 2 }]);
+
+          expect(this.subject().getNextChallenge(challenges[0], assessment)).to.respondsTo('then');
+        })
+      });
+
       it("return the next challenge when current challenge is not the assessment's last one", function () {
 
         return Ember.run(() => {
           // given
           const store = this.container.lookup('service:store');
-          const { challenges, assessment } = instantiateModels(store, [{ id:1 }, { id: 2 }]);
+          const { challenges, assessment } = instantiateModels(store, [{ id: 1 }, { id: 2 }]);
 
           // when
-          const actual = this.subject().getNextChallenge(challenges[0], assessment);
-
-          // then
-          expect(actual.get('id')).to.equal(challenges[1].get('id'));
+          return this.subject()
+            .getNextChallenge(challenges[0], assessment)
+            .then((actual) => {
+              // then
+              expect(actual.get('id')).to.equal(challenges[1].get('id'));
+            });
         });
-
       });
 
       it("return the next challenge when current challenge is the assessment's latest", function () {
@@ -49,15 +59,16 @@ describeModule(
         return Ember.run(() => {
           // given
           const store = this.container.lookup('service:store');
-          const { challenges, assessment } = instantiateModels(store, [{ id:1 }, { id: 2 }]);
+          const { challenges, assessment } = instantiateModels(store, [{ id: 1 }, { id: 2 }]);
 
           // when
-          const actual = this.subject().getNextChallenge(challenges[1], assessment);
-
-          // then
-          expect(actual).to.be.null;
+          return this.subject()
+            .getNextChallenge(challenges[1], assessment)
+            .then((actual) => {
+              // then
+              expect(actual).to.be.null;
+            });
         });
-
       });
 
       it("return challenge model objects well formed", function () {
@@ -65,17 +76,27 @@ describeModule(
         return Ember.run(() => {
           // given
           const store = this.container.lookup('service:store');
-          const { challenges, assessment } = instantiateModels(store, [{ id:1 }, { id: 2 }, { id: 3 }]);
+          const { challenges, assessment } = instantiateModels(store, [{ id: 1 }, { id: 2 }, { id: 3 }]);
 
           // when
-          const actual1 = this.subject().getNextChallenge(challenges[0], assessment);
-          const actual2 = this.subject().getNextChallenge(actual1, assessment);
-          const actual3 = this.subject().getNextChallenge(actual2, assessment);
+          return this.subject()
+            .getNextChallenge(challenges[0], assessment)
+            .then((challenge1) => {
 
-          // then
-          expect(actual1.get('id')).to.equal(challenges[1].get('id'));
-          expect(actual2.get('id')).to.equal(challenges[2].get('id'));
-          expect(actual3).to.be.null;
+              expect(challenge1.get('id')).to.equal(challenges[1].get('id'));
+
+              return this.subject().getNextChallenge(challenge1, assessment);
+            })
+            .then((challenge2) => {
+
+              expect(challenge2.get('id')).to.equal(challenges[2].get('id'));
+
+              return this.subject().getNextChallenge(challenge2, assessment);
+            })
+            .then((challenge3) => {
+
+              expect(challenge3).to.be.null;
+            });
         });
       });
     });

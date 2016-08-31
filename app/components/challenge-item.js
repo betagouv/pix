@@ -14,8 +14,7 @@ const ChallengeItem = Ember.Component.extend({
   assessment: null,
   previewedCourse: null,
 
-  isChallengePreviewMode: Ember.computed.empty('assessment'),
-
+  isChallengePreviewMode: Ember.computed.empty('assessment')
 });
 
 /*
