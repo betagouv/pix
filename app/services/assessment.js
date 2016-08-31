@@ -8,8 +8,8 @@ export default Ember.Service.extend({
       .get('course')
       .then((course) => course.get('challenges'))
       .then((challenges) => {
-        if (!challenges) {
-          throw new Error();
+        if (challenges.get('length') === 0 ) {
+          return null;
         }
         if (challenges.get('lastObject.id') === currentChallenge.get('id')) {
           return null;

@@ -23,9 +23,9 @@ describe('Acceptance | 4 - Démarrer une épreuve |', function() {
     challenge = server.create('challenge-airtable');
     challenge.attrs.fields['Propositions'] = propositions.map((p) => `- ${p}`).reduce((e1, e2) => `${e1}\n${e2}`);
     course = server.create('course-airtable');
-    course.fields['Épreuves'] = [ challenge.attrs.id ];
+    course.attrs.fields['Épreuves'] = [ challenge.attrs.id ];
     assessment = server.create('assessment-airtable');
-    assessment.fields['Test'] = [ course.attrs.id ];
+    assessment.attrs.fields['Test'] = [ course.attrs.id ];
   });
 
   after(function() {
