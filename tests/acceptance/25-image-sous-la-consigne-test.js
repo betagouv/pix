@@ -16,10 +16,8 @@ describe("Acceptance | 25 - Afficher une image sous la consigne | ", function ()
 
   before(function () {
     application = startApp();
-    challenge = {
-      id: 'test_id_FIXME_remove_it'
-    }
-
+    challenge = server.create('challenge-airtable');
+    challenge.attrs.fields['Illustration de la consigne'] = [{ url: 'http://example.com' }];
   });
 
   after(function () {
