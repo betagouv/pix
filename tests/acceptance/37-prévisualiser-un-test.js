@@ -10,15 +10,26 @@ import destroyApp from '../helpers/destroy-app';
 
 describe('Acceptance | 37 - Prévisualiser un test |', function () {
 
-  const courseId = 'rec5duNNrPqbSzQ8o';
-  const firstChallengeId = 'recub31NerwonPVwX';
-  const secondChallengeId = 'recLt9uwa2dR3IYpi';
-  const lastChallengeId = 'recLt9uwa2dR3IYpi';
+  let challenges;
+  let course;
+  let courseId;
+  let firstChallengeId;
+  let secondChallengeId;
+  let lastChallengeId;
 
   let application;
 
   before(function () {
     application = startApp();
+    challenges = server.createList('challenge-airtable', 3);
+    course = server.create('course-airtable');
+    course.attrs.fields['Épreuves'] = challenges.map((c) => c.attrs.id);
+
+    courseId = course.attrs.id;
+    // XXX order is reversed
+    firstChallengeId = challenges[2].attrs.id;
+    secondChallengeId = challenges[1].attrs.id;
+    lastChallengeId = challenges[0].attrs.id;
   });
 
   after(function () {
@@ -44,11 +55,11 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
       });
 
       it('37.2. le nom du test', function () {
-        expect($preview.find('.course-name').text()).to.contains('course_name');
+        expect($preview.find('.course-name').text()).to.contains(course.attrs.fields.Nom);
       });
 
       it('37.3. la description du test', function () {
-        expect($preview.find('.course-description').text()).to.contains('course_description');
+        expect($preview.find('.course-description').text()).to.contains(course.attrs.fields.Description);
       });
 
       it('37.4. un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
@@ -61,7 +72,10 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
 
   describe("Prévisualiser une épreuve dans le cadre d'un test |", function () {
 
+    let currentChallenge;
+
     before(function () {
+      currentChallenge = challenges[2];
       return visit(`/courses/${courseId}/preview/challenges/${firstChallengeId}`);
     });
 
@@ -78,12 +92,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
       });
 
       it("37.6. la consigne de l'épreuve", function () {
-        expect($challenge.find('.challenge-instruction').text()).to.contains('Exemple de question QCU');
-      });
-
-      it('37.7. les propositions sous forme de boutons radio pour un QCU', function () {
-        const $proposals = findWithAssert('.challenge-proposals input[type="radio"][name="proposals"]');
-        expect($proposals).to.have.lengthOf(5);
+        expect($challenge.find('.challenge-instruction').text()).to.contains(currentChallenge.attrs.fields.Consigne);
       });
 
       it("37.8. un bouton pour accéder à l'épreuve suivante", function() {
