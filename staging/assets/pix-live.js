@@ -1251,216 +1251,133 @@ define('pix-live/mirage/config', ['exports'], function (exports) {
   };
 
   function testConfig() {
-    this.get('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Tests', function () {
-      return {
-        "records": [{
-          "id": "rec5duNNrPqbSzQ8o",
-          "fields": {
-            "Nom": "Test #1",
-            "Description": "Libero eum excepturi occaecati sed quod veniam odit id. Et voluptas accusamus sit neque. Et ut voluptatem ut omnis. Eveniet et voluptate magni corporis dolores sapiente voluptatem.",
-            "Image": [{
-              "url": "https://dl.airtable.com/oLRaj7sTbCGzsLNwiur1_test1.png"
-            }],
-            "Durée": 20,
-            "Épreuves": ["recLt9uwa2dR3IYpi", "recub31NerwonPVwX"]
-          }
-        }, {
-          "id": "recHqnPdLdXthJBY5",
-          "fields": {
-            "Nom": "Tests sans durée",
-            "Description": "Bla bla bla",
-            "Image": [{
-              "url": "https://dl.airtable.com/p8NfvjfvRWGPJTfLsiO1_Wolverine_kawaii.jpg"
-            }]
-          }
-        }, {
-          "id": "recOouHLk00aMWJH2",
-          "fields": {
-            "Nom": "Test sans image",
-            "Description": "Lorem ipsum dolor sit amet",
-            "Durée": 25,
-            "Épreuves": []
-          }
-        }, {
-          "id": "recgCojOs6ykwak43",
-          "fields": {
-            "Nom": "Test #3",
-            "Description": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-            "Image": [{
-              "url": "https://dl.airtable.com/kfH1ge2oTHCKvtkG910W_test3.png"
-            }],
-            "Durée": 15,
-            "Épreuves": []
-          }
-        }, {
-          "id": "recgfTczeaXYoBLpw",
-          "fields": {
-            "Nom": "Test sans description",
-            "Image": [{
-              "url": "https://dl.airtable.com/mrzNpuOQuKlqTCY2yL5o_Ninja_Turtles_kawaii.jpg"
-            }],
-            "Durée": 10,
-            "Épreuves": []
-          }
-        }, {
-          "id": "recqBFUffy0sCq6ah",
-          "fields": {
-            "Nom": "Test #2",
-            "Description": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            "Image": [{
-              "url": "https://dl.airtable.com/pSWiObyPT9mBCCmTH3AN_test2.png"
-            }],
-            "Durée": 30,
-            "Épreuves": []
-          }
-        }]
-      };
+
+    var AIRTABLE_ROOT = 'https://api.airtable.com/v0';
+    var AIRTABLE_DATABASE = 'appHAIFk9u1qqglhX';
+
+    this.get(AIRTABLE_ROOT + '/' + AIRTABLE_DATABASE + '/Tests', function (schema) {
+      return schema.courseAirtables.all();
     });
 
-    this.get('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Tests/:id', function () {
-      return {
-        "id": "rec5duNNrPqbSzQ8o",
-        "fields": {
-          "Nom": "course_name",
-          "Description": "course_description",
-          "Image": [{
-            "url": "https://course_image.png"
-          }],
-          "Durée": 20,
-          "Épreuves": ["recLt9uwa2dR3IYpi", "recub31NerwonPVwX"]
-        }
-      };
+    this.get(AIRTABLE_ROOT + '/' + AIRTABLE_DATABASE + '/Tests/:id', function (schema, request) {
+      return schema.courseAirtables.find(request.params.id);
     });
 
-    this.get('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Epreuves/:id', function (_, request) {
-      switch (request.params.id) {
-        case "recLt9uwa2dR3IYpi":
-          return {
-            "id": "recLt9uwa2dR3IYpi",
-            "fields": {
-              "Consigne": "Que peut-on dire des œufs de catégorie A ?",
-              "Propositions": "- Ils sont bio\n- Ils pèsent plus de 63 grammes\n- Ce sont des oeufs frais\n- Ils sont destinés aux consommateurs\n- Ils ne sont pas lavés\n",
-              "Type d'épreuve": "QCU",
-              "Tests": ["rec5duNNrPqbSzQ8o"]
-            }
-          };
-        case 'test_id_FIXME_remove_it':
-          return {
-            "id": "test_id_FIXME_remove_it",
-            "fields": {
-              "Consigne": "Exemple de question QCU\n\n",
-              "Propositions": "- option 1\n- option 2\n- option 3\n- option 4\n- option 5\n\n",
-              "Type d'épreuve": "QCU",
-              "Tests": ["rec5duNNrPqbSzQ8o"],
-              "Illustration de la consigne": [{
-                "url": "https://dl.airtable.com/SX1UCYMHQZ2ovVswb510_Tuvalu%20chif..png"
-              }]
-            }
-          };
-        case "recub31NerwonPVwX":
-        default:
-          return {
-            "id": "recub31NerwonPVwX",
-            "fields": {
-              "Consigne": "Exemple de question QCU\n\n",
-              "Propositions": "- option 1\n- option 2\n- option 3\n- option 4\n- option 5\n\n",
-              "Type d'épreuve": "QCU",
-              "Tests": ["rec5duNNrPqbSzQ8o"]
-            }
-          };
-      }
+    this.get(AIRTABLE_ROOT + '/' + AIRTABLE_DATABASE + '/Epreuves/:id', function (schema, request) {
+      return schema.challengeAirtables.find(request.params.id);
     });
 
-    this.get('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Evaluations/:id', function (_, request) {
-      return {
-        "id": "recqE9kA4VRqFcEgK",
-        "fields": {
-          "Nom": 21,
-          "Test": ["rec5duNNrPqbSzQ8o"]
-        }
-      };
+    this.get(AIRTABLE_ROOT + '/' + AIRTABLE_DATABASE + '/Evaluations/:id', function (schema, request) {
+      return schema.assessmentAirtables.find(request.params.id);
     });
 
-    this.post('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Evaluations', function (_, request) {
-      return {
-        "id": "recqE9kA4VRqFcEgK",
-        "fields": {
-          "Nom": 21,
-          "Test": ["rec5duNNrPqbSzQ8o"]
-        }
-      };
+    this.post(AIRTABLE_ROOT + '/' + AIRTABLE_DATABASE + '/Evaluations', function (schema) {
+      return schema.assessmentAirtables.all();
     });
   }
 });
-define('pix-live/mirage/factories/assessment', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
+define('pix-live/mirage/factories/airtable-record', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
   exports['default'] = _emberCliMirage.Factory.extend({
-    afterCreate: function afterCreate(assessment, server) {
-      assessment.course = server.create('course');
-
-      var challenges = server.createList('challenge', 5, { assessmentId: assessment.id });
-      challenges.forEach(function (challenge, index) {
-        challenge.number = 1 + index;
-        server.db.challenges.update(challenge.id, { number: challenge.number });
-      });
-      assessment.challenges = challenges;
-
-      server.db.assessments.update(assessment.id, {
-        courseId: assessment.course.id
-      });
-    }
-  });
-});
-define('pix-live/mirage/factories/challenge', ['exports', 'ember-cli-mirage', 'lodash/lodash'], function (exports, _emberCliMirage, _lodashLodash) {
-  exports['default'] = _emberCliMirage.Factory.extend({
-    instruction: _emberCliMirage.faker.lorem.sentences(3),
-    number: _emberCliMirage.faker.list.cycle.apply(this, _lodashLodash['default'].range(1, 10)),
-
-    afterCreate: function afterCreate(challenge, server) {
-      var db = server.db;
-      var assessment = undefined;
-
-      if (db.assessments.length === 0) {
-        assessment = server.create('assessment');
-      } else {
-        assessment = db.assessments[0];
-      }
-
-      db.challenges.update(challenge.id, {
-        assessmentId: assessment.id
-      });
-    }
-  });
-});
-define("pix-live/mirage/factories/course", ["exports", "ember-cli-mirage"], function (exports, _emberCliMirage) {
-  exports["default"] = _emberCliMirage.Factory.extend({
-    name: function name(i) {
-      return "Test #" + (i + 1);
+    id: function id() {
+      return _emberCliMirage.faker.random.uuid();
     },
-    description: _emberCliMirage.faker.lorem.paragraph(),
-    duration: _emberCliMirage.faker.random.number(),
-    imageUrl: function imageUrl(emptyImage) {
-      if (emptyImage) {
-        return null;
-      }
-      return _emberCliMirage.faker.list.cycle("/images/test1.png", "/images/test2.png", "/images/test3.png", "/images/test4.png");
+    createdTime: function createdTime() {
+      return _emberCliMirage.faker.date.past();
     }
   });
 });
-define("pix-live/mirage/fixtures/courses", ["exports"], function (exports) {
-  exports["default"] = [];
+define('pix-live/mirage/factories/assessment-airtable', ['exports', 'ember-cli-mirage', 'pix-live/mirage/factories/airtable-record'], function (exports, _emberCliMirage, _pixLiveMirageFactoriesAirtableRecord) {
+  exports['default'] = _pixLiveMirageFactoriesAirtableRecord['default'].extend({
+    fields: function fields() {
+      return {
+        Nom: _emberCliMirage.faker.random.number()
+      };
+    }
+  });
 });
-define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
-  exports['default'] = function (server) {
+define('pix-live/mirage/factories/challenge-airtable', ['exports', 'ember-cli-mirage', 'pix-live/mirage/factories/airtable-record'], function (exports, _emberCliMirage, _pixLiveMirageFactoriesAirtableRecord) {
+  exports['default'] = _pixLiveMirageFactoriesAirtableRecord['default'].extend({
+    fields: function fields() {
+      return {
+        Consigne: _emberCliMirage.faker.lorem.paragraphs(2),
+        "Propositions QCU / QCM": "- yo \n - yo yo \n - yo yo yo",
+        "Type d'épreuve": _emberCliMirage.faker.list.cycle('QCU', 'QCM', 'QROC')
+      };
+    }
+  });
+});
+define('pix-live/mirage/factories/course-airtable', ['exports', 'ember-cli-mirage', 'pix-live/mirage/factories/airtable-record'], function (exports, _emberCliMirage, _pixLiveMirageFactoriesAirtableRecord) {
+  exports['default'] = _pixLiveMirageFactoriesAirtableRecord['default'].extend({
+    fields: function fields() {
+      return {
+        Nom: _emberCliMirage.faker.lorem.words(3),
+        Description: _emberCliMirage.faker.lorem.paragraph(),
+        Image: [{
+          url: _emberCliMirage.faker.image.imageUrl()
+        }]
+      };
+    }
+  });
+});
+define('pix-live/mirage/models/airtable-record', ['exports', 'ember-cli-mirage', 'ember-data/attr'], function (exports, _emberCliMirage, _emberDataAttr) {
+  exports['default'] = _emberCliMirage.Model.extend({
+    id: (0, _emberDataAttr['default'])('string'),
+    createdTime: (0, _emberDataAttr['default'])('string'),
+    fields: {}
+  });
+});
+define('pix-live/mirage/models/assessment-airtable', ['exports', 'pix-live/mirage/models/airtable-record', 'ember-data/attr', 'ember-cli-mirage'], function (exports, _pixLiveMirageModelsAirtableRecord, _emberDataAttr, _emberCliMirage) {
+  exports['default'] = _pixLiveMirageModelsAirtableRecord['default'].extend({
+    fields: {
+      Nom: (0, _emberDataAttr['default'])('number'),
+      Test: (0, _emberCliMirage.hasMany)('course-airtable')
+    }
+  });
+});
+define('pix-live/mirage/models/challenge-airtable', ['exports', 'pix-live/mirage/models/airtable-record', 'ember-data/attr'], function (exports, _pixLiveMirageModelsAirtableRecord, _emberDataAttr) {
+  exports['default'] = _pixLiveMirageModelsAirtableRecord['default'].extend({
+    fields: {
+      Consigne: (0, _emberDataAttr['default'])('string'),
+      "Propositions QCU / QCM": (0, _emberDataAttr['default'])('string'),
+      "Type d'épreuve": (0, _emberDataAttr['default'])('string')
+    }
+  });
+});
+define('pix-live/mirage/models/course-airtable', ['exports', 'pix-live/mirage/models/airtable-record', 'ember-data/attr', 'ember-cli-mirage'], function (exports, _pixLiveMirageModelsAirtableRecord, _emberDataAttr, _emberCliMirage) {
+  exports['default'] = _pixLiveMirageModelsAirtableRecord['default'].extend({
+    fields: {
+      Nom: (0, _emberDataAttr['default'])('string'),
+      Description: (0, _emberDataAttr['default'])('string'),
+      Image: [(0, _emberDataAttr['default'])('string')],
+      "Épreuves": (0, _emberCliMirage.hasMany)('challenge-airtable')
+    }
+  });
+});
+define('pix-live/mirage/serializers/airtable-record', ['exports', 'ember-cli-mirage', 'ember'], function (exports, _emberCliMirage, _ember) {
+  exports['default'] = _emberCliMirage.RestSerializer.extend({
+    serialize: function serialize(result) {
+      var _this = this;
 
-    /*
-     Seed your development database using your factories.
-     This data will not be loaded in your tests.
-      Make sure to define a factory for each model you want to create.
-     */
-
-    // assessments will create associated courses and challenges
-    server.createList('assessment', 10);
-  };
+      if (_ember['default'].isArray(result.models)) {
+        return {
+          records: result.models.map(function (record) {
+            return _this.serialize(record);
+          })
+        };
+      } else {
+        return result.toJSON();
+      }
+    }
+  });
+});
+define('pix-live/mirage/serializers/assessment-airtable', ['exports', 'pix-live/mirage/serializers/airtable-record'], function (exports, _pixLiveMirageSerializersAirtableRecord) {
+  exports['default'] = _pixLiveMirageSerializersAirtableRecord['default'].extend({});
+});
+define('pix-live/mirage/serializers/challenge-airtable', ['exports', 'pix-live/mirage/serializers/airtable-record'], function (exports, _pixLiveMirageSerializersAirtableRecord) {
+  exports['default'] = _pixLiveMirageSerializersAirtableRecord['default'].extend({});
+});
+define('pix-live/mirage/serializers/course-airtable', ['exports', 'pix-live/mirage/serializers/airtable-record'], function (exports, _pixLiveMirageSerializersAirtableRecord) {
+  exports['default'] = _pixLiveMirageSerializersAirtableRecord['default'].extend({});
 });
 define('pix-live/models/assessment', ['exports', 'ember-data'], function (exports, _emberData) {
   var Model = _emberData['default'].Model;
@@ -1483,11 +1400,11 @@ define('pix-live/models/challenge', ['exports', 'ember-data', 'ember', 'lodash/l
     illustrationUrl: attr('string'),
 
     proposalsAsArray: computed('proposals', function () {
-      var proposals = '\n' + this.get('proposals');
-
-      if (_lodashLodash['default'].isEmpty(proposals)) {
+      if (_lodashLodash['default'].isEmpty(this.get('proposals'))) {
         return [];
       }
+
+      var proposals = '\n' + this.get('proposals');
 
       var elements = proposals.split(/\n\s*-\s*/);
       elements.shift();
@@ -1650,13 +1567,58 @@ define('pix-live/routes/index', ['exports', 'ember'], function (exports, _ember)
 define('pix-live/routes/preferences', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
 });
-define('pix-live/serializers/assessment', ['exports', 'ember-airtable/serializer'], function (exports, _emberAirtableSerializer) {
-  exports['default'] = _emberAirtableSerializer['default'].extend({
+define('pix-live/serializers/airtable-serializer', ['exports', 'ember', 'ember-data'], function (exports, _ember, _emberData) {
 
+  var inflector = _ember['default'].Inflector.inflector;
+
+  exports['default'] = _emberData['default'].RESTSerializer.extend({
     normalizeResponse: function normalizeResponse(store, type, payload) {
-      payload.fields.name = payload.fields['Nom'];
-      payload.fields.course = payload.fields['Test'];
+      var _this = this;
+
+      var modelNamePlural = inflector.pluralize(type.modelName);
+
+      if (payload.records) {
+        payload[modelNamePlural] = payload.records;
+        delete payload.records;
+
+        payload.meta = {
+          offset: payload.offset
+        };
+        delete payload.offset;
+
+        payload[modelNamePlural].forEach(function (record) {
+          record.fields = _this.transformFields(record.fields);
+          _ember['default'].merge(record, record.fields);
+          delete record.fields;
+          record.created = record.createdTime;
+          delete record.createdTime;
+        });
+      } else {
+        payload.fields = this.transformFields(payload.fields);
+        payload[type.modelName] = payload.fields;
+        payload[type.modelName].id = payload.id;
+        payload[type.modelName].created = payload.createdTime;
+        delete payload.id;
+        delete payload.fields;
+        delete payload.createdTime;
+      }
+
       return this._super.apply(this, arguments);
+    },
+
+    transformFields: function transformFields(fields) {
+      return fields;
+    }
+  });
+});
+define('pix-live/serializers/assessment', ['exports', 'pix-live/serializers/airtable-serializer'], function (exports, _pixLiveSerializersAirtableSerializer) {
+  exports['default'] = _pixLiveSerializersAirtableSerializer['default'].extend({
+
+    transformFields: function transformFields(fields) {
+      return {
+        name: fields['Nom'],
+        course: fields['Test']
+      };
     },
 
     serializeIntoHash: function serializeIntoHash(data, type, record, options) {
@@ -1668,58 +1630,43 @@ define('pix-live/serializers/assessment', ['exports', 'ember-airtable/serializer
         "Test": [snapshot.belongsTo('course', { id: true })]
       };
     }
-
   });
 });
-define('pix-live/serializers/challenge', ['exports', 'ember-airtable/serializer'], function (exports, _emberAirtableSerializer) {
-  exports['default'] = _emberAirtableSerializer['default'].extend({
+define('pix-live/serializers/challenge', ['exports', 'pix-live/serializers/airtable-serializer'], function (exports, _pixLiveSerializersAirtableSerializer) {
+  exports['default'] = _pixLiveSerializersAirtableSerializer['default'].extend({
+    transformFields: function transformFields(fields) {
+      var res = {
+        instruction: fields['Consigne'],
+        proposals: fields['Propositions']
+      };
 
-    normalizeResponse: function normalizeResponse(store, type, payload) {
-      payload.fields.instruction = payload.fields['Consigne'];
-      payload.fields.proposals = payload.fields['Propositions'];
-
-      if (payload.fields['Illustration de la consigne']) {
-        payload.fields.illustrationUrl = payload.fields['Illustration de la consigne'][0].url;
+      if (fields['Illustration de la consigne']) {
+        res.illustrationUrl = fields['Illustration de la consigne'][0].url;
       }
 
-      return this._super.apply(this, arguments);
+      return res;
     }
-
   });
 });
-define('pix-live/serializers/course', ['exports', 'ember-airtable/serializer', 'lodash/lodash'], function (exports, _emberAirtableSerializer, _lodashLodash) {
-  exports['default'] = _emberAirtableSerializer['default'].extend({
+define('pix-live/serializers/course', ['exports', 'ember', 'pix-live/serializers/airtable-serializer', 'lodash/lodash'], function (exports, _ember, _pixLiveSerializersAirtableSerializer, _lodashLodash) {
+  exports['default'] = _pixLiveSerializersAirtableSerializer['default'].extend({
+    transformFields: function transformFields(fields) {
+      var result = {
+        name: fields['Nom'],
+        description: fields['Description'],
+        duration: fields['Durée'],
+        challenges: fields['Épreuves']
+      };
 
-    normalizeResponse: function normalizeResponse(store, type, payload) {
-
-      if (payload.records) {
-        payload.records.forEach(function (_ref) {
-          var fields = _ref.fields;
-
-          fields.name = fields['Nom'];
-          fields.description = fields['Description'];
-          fields.duration = fields['Durée'];
-          fields.challenges = fields['Épreuves'];
-
-          if (_lodashLodash['default'].isArray(fields.challenges)) {
-            fields.challenges.reverse();
-          }
-
-          if (fields['Image'] && fields['Image'].length > 0) {
-            fields.imageUrl = fields['Image'][0].url;
-          }
-        });
-      } else {
-        payload.fields.name = payload.fields['Nom'];
-        payload.fields.description = payload.fields['Description'];
-        payload.fields.duration = payload.fields['Durée'];
-        payload.fields.challenges = payload.fields['Épreuves'];
-
-        if (_lodashLodash['default'].isArray(payload.fields.challenges)) {
-          payload.fields.challenges.reverse();
-        }
+      if (_ember['default'].isArray(result.challenges)) {
+        result.challenges.reverse();
       }
-      return this._super.apply(this, arguments);
+
+      if (fields['Image'] && fields['Image'].length > 0) {
+        result.imageUrl = fields['Image'][0].url;
+      }
+
+      return result;
     }
 
   });
@@ -7462,51 +7409,121 @@ define('pix-live/tests/mirage/mirage/config.lint-test', ['exports'], function (e
     });
   });
 });
-define('pix-live/tests/mirage/mirage/factories/assessment.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/factories/assessment.js', function () {
+define('pix-live/tests/mirage/mirage/factories/airtable-record.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/factories/airtable-record.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/factories/assessment.js should pass ESLint.\n');
+        var error = new chai.AssertionError('mirage/factories/airtable-record.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/mirage/mirage/factories/challenge.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/factories/challenge.js', function () {
+define('pix-live/tests/mirage/mirage/factories/assessment-airtable.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/factories/assessment-airtable.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/factories/challenge.js should pass ESLint.\n');
+        var error = new chai.AssertionError('mirage/factories/assessment-airtable.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/mirage/mirage/factories/course.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/factories/course.js', function () {
+define('pix-live/tests/mirage/mirage/factories/challenge-airtable.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/factories/challenge-airtable.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/factories/course.js should pass ESLint.\n');
+        var error = new chai.AssertionError('mirage/factories/challenge-airtable.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/mirage/mirage/fixtures/courses.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/fixtures/courses.js', function () {
+define('pix-live/tests/mirage/mirage/factories/course-airtable.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/factories/course-airtable.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/fixtures/courses.js should pass ESLint.\n');
+        var error = new chai.AssertionError('mirage/factories/course-airtable.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/mirage/mirage/scenarios/default.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/scenarios/default.js', function () {
+define('pix-live/tests/mirage/mirage/models/airtable-record.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/models/airtable-record.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('mirage/scenarios/default.js should pass ESLint.\n');
+        var error = new chai.AssertionError('mirage/models/airtable-record.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/models/assessment-airtable.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/models/assessment-airtable.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/models/assessment-airtable.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/models/challenge-airtable.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/models/challenge-airtable.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/models/challenge-airtable.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/models/course-airtable.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/models/course-airtable.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/models/course-airtable.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/serializers/airtable-record.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/serializers/airtable-record.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/serializers/airtable-record.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/serializers/assessment-airtable.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/serializers/assessment-airtable.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/serializers/assessment-airtable.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/serializers/challenge-airtable.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/serializers/challenge-airtable.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/serializers/challenge-airtable.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/serializers/course-airtable.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/serializers/course-airtable.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/serializers/course-airtable.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -7544,7 +7561,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+f6aed912"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+3d421b00"});
 }
 
 /* jshint ignore:end */
