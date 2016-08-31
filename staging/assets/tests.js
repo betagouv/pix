@@ -122,9 +122,8 @@ define('pix-live/tests/acceptance/25-image-sous-la-consigne-test', ['exports', '
 
     (0, _mocha.before)(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
-      challenge = {
-        id: 'test_id_FIXME_remove_it'
-      };
+      challenge = server.create('challenge-airtable');
+      challenge.attrs.fields['Illustration de la consigne'] = [{ url: 'http://example.com' }];
     });
 
     (0, _mocha.after)(function () {
@@ -138,7 +137,7 @@ define('pix-live/tests/acceptance/25-image-sous-la-consigne-test', ['exports', '
     (0, _mocha.it)('25.1 Une image unique peut être affichée sous la consigne', function () {});
 
     (0, _mocha.it)('25.2 Cette image a un alt text “ceci est une image”', function () {
-      (0, _chai.expect)(findWithAssert('.challenge-statement img').attr('alt')).to.contains('ceci est une image');
+      (0, _chai.expect)(findWithAssert('.challenge-illustration').attr('alt')).to.contains('ceci est une image');
     });
   });
 });
