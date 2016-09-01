@@ -27,5 +27,14 @@ export default Ember.Route.extend({
         assessment
       };
     });
+  },
+
+  serialize: function(model) {
+    return {
+      course_id: model.assessment.get('course').id,
+      challenge_id: model.challenge.id
+    };
   }
+
+
 });
