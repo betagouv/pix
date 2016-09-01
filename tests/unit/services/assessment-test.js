@@ -11,7 +11,7 @@ describeModule(
   'service:assessment',
   'AssessmentService',
   {
-    needs: ['model:assessment', 'model:challenge', 'model:course']
+    needs: ['model:assessment', 'model:challenge', 'model:course', 'model:answer']
   },
   function () {
 

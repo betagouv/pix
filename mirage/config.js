@@ -27,4 +27,8 @@ export function testConfig() {
     return schema.assessmentAirtables.all();
   });
 
+  this.post(`${AIRTABLE_ROOT}/${AIRTABLE_DATABASE}/Reponses`, function (schema) {
+    return schema.answerAirtables.all();
+  });
+
 }
