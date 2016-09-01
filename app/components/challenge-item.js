@@ -12,11 +12,14 @@ const ChallengeItem = Ember.Component.extend({
   challenge: null,
   assessment: null,
   selectedProposal: null,
+  error: null,
 
   hasIllustration: Ember.computed.notEmpty('challenge.illustrationUrl'),
   isChallengePreviewMode: Ember.computed.empty('assessment'),
-  selectedProposalValue: Ember.computed('selectedProposal', function() {
-    return this.get('selectedProposal') + 1
+  hasError: Ember.computed.notEmpty('error'),
+
+  onSelectedProposalChanged: Ember.observer('selectedProposal', function() {
+      this.set('error', null);
   }),
 
   /*
@@ -32,7 +35,11 @@ const ChallengeItem = Ember.Component.extend({
 
   actions: {
     validate(challenge, assessment) {
-      const value = String(this.get('selectedProposalValue'));
+      if (Ember.isEmpty(this.get('selectedProposal'))) {
+        this.set('error', 'Vous devez sélectionner une réponse.');
+        return;
+      }
+      const value = String(this.get('selectedProposal') + 1);
       this.sendAction('onValidated', challenge, assessment, value);
     }
   }

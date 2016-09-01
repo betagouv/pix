@@ -7,22 +7,26 @@
 </div>
 
 <div class="rounded-panel challenge-response">
-  <form>
-      <div class="challenge-proposals">
-        {{#each challenge.proposalsAsArray as |proposal index|}}
-            <p class="challenge-proposal">
-                <label>{{radio-button name="proposals" value=index checked=selectedProposal}} {{ proposal }}</label>
-            </p>
-        {{/each}}
-      </div>
+    <div class="challenge-proposals">
+      {{#each challenge.proposalsAsArray as |proposal index|}}
+          <p class="challenge-proposal">
+              <label>{{radio-button name="proposals" value=index checked=selectedProposal}} {{ proposal }}</label>
+          </p>
+      {{/each}}
+    </div>
 
-    {{#unless isChallengePreviewMode}}
-        <hr/>
-        <div class="actions pull-right">
-            <button class="button button-secondary skip-button">Passer</button>
-            <button class="button button-primary validate-button" {{action "validate" challenge assessment}}>Valider
-            </button>
+  {{#unless isChallengePreviewMode}}
+      <hr/>
+    {{#if hasError}}
+        <div class="alert alert-danger" role="alert">
+          {{error}}
         </div>
-    {{/unless}}
-  </form>
+    {{/if}}
+
+      <div class="actions pull-right">
+          <button class="button button-secondary skip-button">Passer</button>
+          <button class="button button-primary validate-button" {{action "validate" challenge assessment}}>Valider
+          </button>
+      </div>
+  {{/unless}}
 </div>
