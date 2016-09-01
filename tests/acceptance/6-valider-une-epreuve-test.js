@@ -7,6 +7,7 @@ import {
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
+import { beforeEach } from "mocha";
 
 describe('Acceptance | 6 - Valider une épreuve |', function() {
 
@@ -48,6 +49,10 @@ describe('Acceptance | 6 - Valider une épreuve |', function() {
   });
 
   describe("quand je valide ma réponse à une épreuve", function () {
+
+    beforeEach(function () {
+      return click('.challenge-proposal:first input[type="radio"]');
+    });
 
     it("6.2. Ma réponse est sauvegardée dans le BO", function () {
 

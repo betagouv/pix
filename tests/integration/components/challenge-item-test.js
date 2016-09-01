@@ -121,9 +121,9 @@ describeComponent(
 
     describe('validation', function () {
       it('should callback the validate action when the user click on validate', function (done) {
-        renderChallengeItem(this, {}, () => done());
+        renderChallengeItem(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => done());
+        this.$('.challenge-proposal:first input[type="radio"]').click();
         this.$('.validate-button').click();
-        // callback should have been called
       });
     });
   }
