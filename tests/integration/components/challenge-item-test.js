@@ -3,30 +3,42 @@ import { describeComponent, it } from 'ember-mocha';
 import { describe, before } from 'mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
+import RSVP from 'rsvp';
 
-
-function renderChallengeItem(context, challengeAttributes = {}, validateHandler = null) {
+function renderChallengeItem(challengeAttributes = {}, validateHandler = null) {
 
   const challenge = Ember.Object.create(challengeAttributes);
-  context.set('challenge', challenge);
+  this.set('challenge', challenge);
 
   const assessment = Ember.Object.create({});
-  context.set('assessment', assessment);
-  context.set('validateHandler', (validateHandler || (() => null)));
+  this.set('assessment', assessment);
+  this.set('validateHandler', (validateHandler || (() => null)));
 
-  context.render(hbs`{{challenge-item challenge assessment onValidated=(action validateHandler)}}`);
+  this.render(hbs`{{challenge-item challenge assessment onValidated=(action validateHandler)}}`);
 }
 
-function renderChallengeItem_challengePreview(context, challengeAttributes = {}) {
+function renderChallengeItem_challengePreview(challengeAttributes = {}) {
 
   const challenge = Ember.Object.create(challengeAttributes);
-  context.set('challenge', challenge);
-  context.render(hbs`{{challenge-item challenge}}`);
+  this.set('challenge', challenge);
+  this.render(hbs`{{challenge-item challenge}}`);
 }
 
-function selectFirstProposal(context) {
+function selectFirstProposal() {
 
-  context.$('.challenge-proposal:first input[type="radio"]').click();
+  return new RSVP.Promise(function(resolve) {
+    return this.$('.challenge-proposal:first input[type="radio"]').click(() => {
+      return resolve();
+    });
+  });
+}
+
+function validateChallenge() {
+  this.$('.validate-button').click();
+}
+
+function assertAlertErrorToBeHidden() {
+  expect(this.$('.alert-error')).to.have.lengthOf(0);
 }
 
 describeComponent(
@@ -37,10 +49,6 @@ describeComponent(
   },
   function () {
 
-    /*
-     * TODO: find a way to make `this` works in mocha hooks such as `before` in order to mutualize and reduce code
-     */
-
     describe('for a given challenge', function () {
 
       it('should render challenge instruction', function () {
@@ -48,7 +56,7 @@ describeComponent(
         const instruction = 'My challenge instruction';
 
         // when
-        renderChallengeItem(this, { instruction });
+        renderChallengeItem.call(this, { instruction });
 
         // then
         expect(this.$('.challenge-instruction').text()).to.contains(instruction);
@@ -56,7 +64,7 @@ describeComponent(
 
       it('should render challenge proposals', function () {
         // when
-        renderChallengeItem(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
+        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
         // then
         const $proposals = this.$('.challenge-proposal');
@@ -68,7 +76,7 @@ describeComponent(
 
       it('should display "Skip" button ', function () {
         // when
-        renderChallengeItem(this);
+        renderChallengeItem.call(this);
 
         // then
         expect(this.$('.skip-button')).to.have.lengthOf(1);
@@ -76,7 +84,7 @@ describeComponent(
 
       it('should display "Validate" button ', function () {
         // when
-        renderChallengeItem(this);
+        renderChallengeItem.call(this);
 
         // then
         expect(this.$('.validate-button')).to.have.lengthOf(1);
@@ -84,7 +92,7 @@ describeComponent(
 
       it('should display an img tag with “ceci est une image” alt text', function () {
         // when
-        renderChallengeItem(this, { illustrationUrl: 'http://my.illustration.png' });
+        renderChallengeItem.call(this, { illustrationUrl: 'http://my.illustration.png' });
 
         // then
         const $illustration = this.$('.challenge-illustration');
@@ -94,7 +102,7 @@ describeComponent(
       it('should display an img tag with src attribute equals to the challenge.illustrationUrl property', function () {
         // given
         const illustrationUrl = 'http://my.illustration.png';
-        renderChallengeItem(this, { illustrationUrl });
+        renderChallengeItem.call(this, { illustrationUrl });
 
         let $illustration = this.$('.challenge-illustration');
         expect($illustration.attr('src')).to.equals(illustrationUrl);
@@ -106,7 +114,7 @@ describeComponent(
 
       it('should not display "Skip" button', function () {
         // when
-        renderChallengeItem_challengePreview(this);
+        renderChallengeItem_challengePreview.call(this);
 
         // then
         expect(this.$('.skip-button')).to.have.lengthOf(0);
@@ -114,7 +122,7 @@ describeComponent(
 
       it('should not display "Validate" button', function () {
         // when
-        renderChallengeItem_challengePreview(this);
+        renderChallengeItem_challengePreview.call(this);
 
         // then
         expect(this.$('.validate-button')).to.have.lengthOf(0);
@@ -122,15 +130,83 @@ describeComponent(
 
     });
 
-    describe('validation', function () {
+    describe('Validating the challenge', function () {
 
       it('should callback the validate action when the user click on validate', function (done) {
+        // given
+        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => done());
+
         // when
-        renderChallengeItem(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => done());
-        selectFirstProposal(this);
+        this.$('.challenge-proposal:first input[type="radio"]').click();
+        this.$('.validate-button').click();
+      });
+
+      it('should call "onValidated" callback with good value for QCU (i.e. proposal index + 1)', function(done) {
+        // given
+        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, (challenge, assessment, answerValue) => {
+
+          // then
+          expect(answerValue).to.equal("1");
+          done();
+        });
+
+        // when
+        this.$('.challenge-proposal:first input[type="radio"]').click();
+        this.$('.validate-button').click();
+
+      });
+    });
+
+    describe('Error alert box', function () {
+
+      it("should be hidden by default", function () {
+        // when
+        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => done());
 
         // then
-        this.$('.validate-button').click();
+        expect(this.$('.alert-error')).to.have.lengthOf(0);
+      });
+
+      describe('when validating a challenge without having selected a proposal', function () {
+
+        it("should be displayed", function () {
+          // given
+          renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => {
+
+            // then
+            const $alertError = this.$('.alert-error');
+            expect($alertError).to.have.lengthOf(1);
+          });
+
+          // when
+          validateChallenge.call(this);
+        });
+
+        it('should contains "Vous devez saisir une réponse"', function() {
+          // given
+          renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => {
+
+            // then
+            const $alertError = this.$('.alert-error');
+            expect($alertError.text()).to.contains("Vous devez saisir une réponse");
+          });
+
+          // when
+          validateChallenge.call(this);
+        });
+
+      });
+
+      describe('when a proposal is selected', function () {
+
+        it("should be removed", function () {
+          // when
+          selectFirstProposal.call(this);
+
+          // then
+          assertAlertErrorToBeHidden.call(this);
+        });
+
       });
     });
   }
