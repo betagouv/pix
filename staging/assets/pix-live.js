@@ -1728,7 +1728,7 @@ define("pix-live/templates/application", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -1782,7 +1782,7 @@ define("pix-live/templates/assessments/get-challenge", ["exports"], function (ex
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -1837,7 +1837,7 @@ define("pix-live/templates/challenges/get-preview", ["exports"], function (expor
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -1892,7 +1892,7 @@ define("pix-live/templates/components/app-footer", ["exports"], function (export
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -2068,7 +2068,7 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -2130,7 +2130,7 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -2239,7 +2239,7 @@ define("pix-live/templates/components/bs-accordion-item", ["exports"], function 
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -2286,7 +2286,7 @@ define("pix-live/templates/components/bs-accordion-item", ["exports"], function 
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -2357,7 +2357,7 @@ define("pix-live/templates/components/bs-alert", ["exports"], function (exports)
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -2406,7 +2406,7 @@ define("pix-live/templates/components/bs-alert", ["exports"], function (exports)
       })();
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -2448,7 +2448,7 @@ define("pix-live/templates/components/bs-alert", ["exports"], function (exports)
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -2490,7 +2490,7 @@ define("pix-live/templates/components/bs-button", ["exports"], function (exports
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -2529,7 +2529,7 @@ define("pix-live/templates/components/bs-button", ["exports"], function (exports
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -2576,7 +2576,7 @@ define("pix-live/templates/components/bs-form-element", ["exports"], function (e
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -2618,7 +2618,7 @@ define("pix-live/templates/components/bs-form-group", ["exports"], function (exp
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -2660,7 +2660,7 @@ define("pix-live/templates/components/bs-form-group", ["exports"], function (exp
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -2706,7 +2706,7 @@ define("pix-live/templates/components/bs-form", ["exports"], function (exports) 
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -2748,7 +2748,7 @@ define("pix-live/templates/components/bs-modal-dialog", ["exports"], function (e
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -2790,7 +2790,7 @@ define("pix-live/templates/components/bs-modal-dialog", ["exports"], function (e
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -2830,7 +2830,7 @@ define("pix-live/templates/components/bs-modal-dialog", ["exports"], function (e
       })();
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -2869,7 +2869,7 @@ define("pix-live/templates/components/bs-modal-dialog", ["exports"], function (e
     var child2 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -2910,7 +2910,7 @@ define("pix-live/templates/components/bs-modal-dialog", ["exports"], function (e
     var child3 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -2950,7 +2950,7 @@ define("pix-live/templates/components/bs-modal-dialog", ["exports"], function (e
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -3014,7 +3014,7 @@ define("pix-live/templates/components/bs-modal-footer", ["exports"], function (e
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -3057,7 +3057,7 @@ define("pix-live/templates/components/bs-modal-footer", ["exports"], function (e
         var child0 = (function () {
           return {
             meta: {
-              "revision": "Ember@2.7.1",
+              "revision": "Ember@2.7.2",
               "loc": {
                 "source": null,
                 "start": {
@@ -3096,7 +3096,7 @@ define("pix-live/templates/components/bs-modal-footer", ["exports"], function (e
         var child1 = (function () {
           return {
             meta: {
-              "revision": "Ember@2.7.1",
+              "revision": "Ember@2.7.2",
               "loc": {
                 "source": null,
                 "start": {
@@ -3134,7 +3134,7 @@ define("pix-live/templates/components/bs-modal-footer", ["exports"], function (e
         })();
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -3181,7 +3181,7 @@ define("pix-live/templates/components/bs-modal-footer", ["exports"], function (e
         var child0 = (function () {
           return {
             meta: {
-              "revision": "Ember@2.7.1",
+              "revision": "Ember@2.7.2",
               "loc": {
                 "source": null,
                 "start": {
@@ -3219,7 +3219,7 @@ define("pix-live/templates/components/bs-modal-footer", ["exports"], function (e
         })();
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -3259,7 +3259,7 @@ define("pix-live/templates/components/bs-modal-footer", ["exports"], function (e
       })();
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -3297,7 +3297,7 @@ define("pix-live/templates/components/bs-modal-footer", ["exports"], function (e
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -3339,7 +3339,7 @@ define("pix-live/templates/components/bs-modal-header", ["exports"], function (e
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -3389,7 +3389,7 @@ define("pix-live/templates/components/bs-modal-header", ["exports"], function (e
     var child1 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -3430,7 +3430,7 @@ define("pix-live/templates/components/bs-modal-header", ["exports"], function (e
     var child2 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -3473,7 +3473,7 @@ define("pix-live/templates/components/bs-modal-header", ["exports"], function (e
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -3519,7 +3519,7 @@ define("pix-live/templates/components/bs-modal", ["exports"], function (exports)
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -3560,7 +3560,7 @@ define("pix-live/templates/components/bs-modal", ["exports"], function (exports)
       var child1 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -3602,7 +3602,7 @@ define("pix-live/templates/components/bs-modal", ["exports"], function (exports)
       })();
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -3647,7 +3647,7 @@ define("pix-live/templates/components/bs-modal", ["exports"], function (exports)
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -3690,7 +3690,7 @@ define("pix-live/templates/components/bs-progress-bar", ["exports"], function (e
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -3731,7 +3731,7 @@ define("pix-live/templates/components/bs-progress-bar", ["exports"], function (e
       var child1 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -3771,7 +3771,7 @@ define("pix-live/templates/components/bs-progress-bar", ["exports"], function (e
       })();
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -3811,7 +3811,7 @@ define("pix-live/templates/components/bs-progress-bar", ["exports"], function (e
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -3855,7 +3855,7 @@ define("pix-live/templates/components/bs-progress-bar", ["exports"], function (e
       var child1 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -3900,7 +3900,7 @@ define("pix-live/templates/components/bs-progress-bar", ["exports"], function (e
       })();
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -3939,7 +3939,7 @@ define("pix-live/templates/components/bs-progress-bar", ["exports"], function (e
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -3981,7 +3981,7 @@ define("pix-live/templates/components/bs-progress", ["exports"], function (expor
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -4024,7 +4024,7 @@ define("pix-live/templates/components/bs-select", ["exports"], function (exports
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -4074,7 +4074,7 @@ define("pix-live/templates/components/bs-select", ["exports"], function (exports
     var child1 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -4123,7 +4123,7 @@ define("pix-live/templates/components/bs-select", ["exports"], function (exports
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -4170,7 +4170,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -4218,7 +4218,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
     var child1 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -4274,7 +4274,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
     var child2 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -4337,7 +4337,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           var child0 = (function () {
             return {
               meta: {
-                "revision": "Ember@2.7.1",
+                "revision": "Ember@2.7.2",
                 "loc": {
                   "source": null,
                   "start": {
@@ -4371,7 +4371,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           })();
           return {
             meta: {
-              "revision": "Ember@2.7.1",
+              "revision": "Ember@2.7.2",
               "loc": {
                 "source": null,
                 "start": {
@@ -4410,7 +4410,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
         })();
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -4461,7 +4461,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
       })();
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -4499,7 +4499,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -4580,7 +4580,7 @@ define("pix-live/templates/components/form-element/errors", ["exports"], functio
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -4623,7 +4623,7 @@ define("pix-live/templates/components/form-element/errors", ["exports"], functio
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -4665,7 +4665,7 @@ define("pix-live/templates/components/form-element/feedback-icon", ["exports"], 
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -4707,7 +4707,7 @@ define("pix-live/templates/components/form-element/feedback-icon", ["exports"], 
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -4748,7 +4748,7 @@ define("pix-live/templates/components/form-element/horizontal/checkbox", ["expor
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -4821,7 +4821,7 @@ define("pix-live/templates/components/form-element/horizontal/default", ["export
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -4862,7 +4862,7 @@ define("pix-live/templates/components/form-element/horizontal/default", ["export
       var child1 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -4902,7 +4902,7 @@ define("pix-live/templates/components/form-element/horizontal/default", ["export
       })();
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -4972,7 +4972,7 @@ define("pix-live/templates/components/form-element/horizontal/default", ["export
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -5013,7 +5013,7 @@ define("pix-live/templates/components/form-element/horizontal/default", ["export
       var child1 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -5053,7 +5053,7 @@ define("pix-live/templates/components/form-element/horizontal/default", ["export
       })();
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -5111,7 +5111,7 @@ define("pix-live/templates/components/form-element/horizontal/default", ["export
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -5153,7 +5153,7 @@ define("pix-live/templates/components/form-element/horizontal/select", ["exports
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -5222,7 +5222,7 @@ define("pix-live/templates/components/form-element/horizontal/select", ["exports
     var child1 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -5280,7 +5280,7 @@ define("pix-live/templates/components/form-element/horizontal/select", ["exports
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -5322,7 +5322,7 @@ define("pix-live/templates/components/form-element/horizontal/textarea", ["expor
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -5391,7 +5391,7 @@ define("pix-live/templates/components/form-element/horizontal/textarea", ["expor
     var child1 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -5449,7 +5449,7 @@ define("pix-live/templates/components/form-element/horizontal/textarea", ["expor
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -5490,7 +5490,7 @@ define("pix-live/templates/components/form-element/inline/checkbox", ["exports"]
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -5549,7 +5549,7 @@ define("pix-live/templates/components/form-element/inline/default", ["exports"],
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -5595,7 +5595,7 @@ define("pix-live/templates/components/form-element/inline/default", ["exports"],
     var child1 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -5636,7 +5636,7 @@ define("pix-live/templates/components/form-element/inline/default", ["exports"],
     var child2 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -5676,7 +5676,7 @@ define("pix-live/templates/components/form-element/inline/default", ["exports"],
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -5725,7 +5725,7 @@ define("pix-live/templates/components/form-element/inline/select", ["exports"], 
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -5770,7 +5770,7 @@ define("pix-live/templates/components/form-element/inline/select", ["exports"], 
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -5821,7 +5821,7 @@ define("pix-live/templates/components/form-element/inline/textarea", ["exports"]
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -5866,7 +5866,7 @@ define("pix-live/templates/components/form-element/inline/textarea", ["exports"]
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -5921,7 +5921,7 @@ define("pix-live/templates/components/form-element/vertical/checkbox", ["exports
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -5986,7 +5986,7 @@ define("pix-live/templates/components/form-element/vertical/default", ["exports"
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -6032,7 +6032,7 @@ define("pix-live/templates/components/form-element/vertical/default", ["exports"
     var child1 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -6073,7 +6073,7 @@ define("pix-live/templates/components/form-element/vertical/default", ["exports"
     var child2 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -6113,7 +6113,7 @@ define("pix-live/templates/components/form-element/vertical/default", ["exports"
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -6167,7 +6167,7 @@ define("pix-live/templates/components/form-element/vertical/select", ["exports"]
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -6212,7 +6212,7 @@ define("pix-live/templates/components/form-element/vertical/select", ["exports"]
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -6268,7 +6268,7 @@ define("pix-live/templates/components/form-element/vertical/textarea", ["exports
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -6313,7 +6313,7 @@ define("pix-live/templates/components/form-element/vertical/textarea", ["exports
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -6369,7 +6369,7 @@ define("pix-live/templates/components/identification-form", ["exports"], functio
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -6459,7 +6459,7 @@ define("pix-live/templates/components/identification-form", ["exports"], functio
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -6501,7 +6501,7 @@ define("pix-live/templates/components/user-menu", ["exports"], function (exports
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -6582,7 +6582,7 @@ define("pix-live/templates/courses/get-challenge-preview", ["exports"], function
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -6641,7 +6641,7 @@ define("pix-live/templates/courses/get-course-preview", ["exports"], function (e
     var child0 = (function () {
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -6675,7 +6675,7 @@ define("pix-live/templates/courses/get-course-preview", ["exports"], function (e
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -6769,7 +6769,7 @@ define("pix-live/templates/home-loading", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -6842,7 +6842,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
       var child0 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -6886,7 +6886,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
       var child1 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -6928,7 +6928,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
       var child2 = (function () {
         return {
           meta: {
-            "revision": "Ember@2.7.1",
+            "revision": "Ember@2.7.2",
             "loc": {
               "source": null,
               "start": {
@@ -6962,7 +6962,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
       })();
       return {
         meta: {
-          "revision": "Ember@2.7.1",
+          "revision": "Ember@2.7.2",
           "loc": {
             "source": null,
             "start": {
@@ -7043,7 +7043,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
     })();
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -7110,7 +7110,7 @@ define("pix-live/templates/index", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -7213,7 +7213,7 @@ define("pix-live/templates/preferences", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.7.1",
+        "revision": "Ember@2.7.2",
         "loc": {
           "source": null,
           "start": {
@@ -7561,7 +7561,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+3d421b00"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+2332ec69"});
 }
 
 /* jshint ignore:end */

@@ -1438,7 +1438,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         context.render(_ember['default'].HTMLBars.template((function () {
           return {
             meta: {
-              'revision': 'Ember@2.7.1',
+              'revision': 'Ember@2.7.2',
               'loc': {
                 'source': null,
                 'start': {
@@ -1506,7 +1506,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         this.render(_ember['default'].HTMLBars.template((function () {
           return {
             meta: {
-              'revision': 'Ember@2.7.1',
+              'revision': 'Ember@2.7.2',
               'loc': {
                 'source': null,
                 'start': {
@@ -1551,7 +1551,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         this.render(_ember['default'].HTMLBars.template((function () {
           return {
             meta: {
-              'revision': 'Ember@2.7.1',
+              'revision': 'Ember@2.7.2',
               'loc': {
                 'source': null,
                 'start': {
@@ -1596,7 +1596,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         this.render(_ember['default'].HTMLBars.template((function () {
           return {
             meta: {
-              'revision': 'Ember@2.7.1',
+              'revision': 'Ember@2.7.2',
               'loc': {
                 'source': null,
                 'start': {
@@ -1644,7 +1644,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         this.render(_ember['default'].HTMLBars.template((function () {
           return {
             meta: {
-              'revision': 'Ember@2.7.1',
+              'revision': 'Ember@2.7.2',
               'loc': {
                 'source': null,
                 'start': {
@@ -1689,7 +1689,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         this.render(_ember['default'].HTMLBars.template((function () {
           return {
             meta: {
-              'revision': 'Ember@2.7.1',
+              'revision': 'Ember@2.7.2',
               'loc': {
                 'source': null,
                 'start': {
@@ -1734,7 +1734,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         this.render(_ember['default'].HTMLBars.template((function () {
           return {
             meta: {
-              'revision': 'Ember@2.7.1',
+              'revision': 'Ember@2.7.2',
               'loc': {
                 'source': null,
                 'start': {
@@ -1786,7 +1786,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         context.render(_ember['default'].HTMLBars.template((function () {
           return {
             meta: {
-              'revision': 'Ember@2.7.1',
+              'revision': 'Ember@2.7.2',
               'loc': {
                 'source': null,
                 'start': {
@@ -1878,7 +1878,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         this.render(_ember['default'].HTMLBars.template((function () {
           return {
             meta: {
-              'revision': 'Ember@2.7.1',
+              'revision': 'Ember@2.7.2',
               'loc': {
                 'source': null,
                 'start': {
@@ -1923,7 +1923,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         this.render(_ember['default'].HTMLBars.template((function () {
           return {
             meta: {
-              'revision': 'Ember@2.7.1',
+              'revision': 'Ember@2.7.2',
               'loc': {
                 'source': null,
                 'start': {
@@ -2287,48 +2287,16 @@ define('pix-live/tests/unit/models/challenge-test', ['exports', 'chai', 'ember-m
         return subject.get('proposalsAsArray');
       }
 
-      (0, _emberMocha.it)('"" retourne []', function () {
-        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '' }))).to.be.empty;
-      });
+      var testData = [{ data: '', expected: [] }, { data: 'foo', expected: [] }, { data: '- foo', expected: ['foo'] }, { data: '-foo\n- bar', expected: ['foo', 'bar'] }, { data: '- cerf-volant', expected: ['cerf-volant'] }, { data: '- xi\n- foo mi', expected: ['xi', 'foo mi'] }, { data: '- joli\n- cerf-volant', expected: ['joli', 'cerf-volant'] }, { data: '- xi\n- foo\n- mi', expected: ['xi', 'foo', 'mi'] }, { data: '-- foo', expected: ['- foo'] }, { data: '- foo\n\r\t\n\r\t\n\r\t\n- bar', expected: ['foo', 'bar'] }];
 
-      (0, _emberMocha.it)('"malformed proposals" retourne []', function () {
-        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: 'foo' }))).to.be.empty;
-      });
+      testData.forEach(function (_ref) {
+        var data = _ref.data;
+        var expected = _ref.expected;
 
-      (0, _emberMocha.it)('"- foo", retourne ["foo"] ', function () {
-        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- foo' }))).to.deep.equal(['foo']);
-      });
-
-      (0, _emberMocha.it)('"- foo\\n- bar", retourne ["foo", "bar"] ', function () {
-        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- foo\n- bar' }))).to.deep.equal(['foo', 'bar']);
-      });
-
-      (0, _emberMocha.it)('"- cerf-volant", retourne ["cerf-volant"] ', function () {
-        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- cerf-volant' }))).to.deep.equal(['cerf-volant']);
-      });
-
-      (0, _emberMocha.it)('"- shi\\n- foo mi", retourne ["shi", "foo mi"] ', function () {
-        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- shi\n- foo mi' }))).to.deep.equal(['shi', 'foo mi']);
-      });
-
-      (0, _emberMocha.it)('"- joli\\n- cerf-volant", retourne ["joli", "cerf-volant"] ', function () {
-        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- joli\n- cerf-volant' }))).to.deep.equal(['joli', 'cerf-volant']);
-      });
-
-      (0, _emberMocha.it)('"-foo\\n-bar", retourne ["foo", "bar"] ', function () {
-        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '-foo\n-bar' }))).to.deep.equal(['foo', 'bar']);
-      });
-
-      (0, _emberMocha.it)('"- shi\\n- foo\\n- mi", retourne ["shi", "foo", "mi"] ', function () {
-        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- shi\n- foo\n- mi' }))).to.deep.equal(['shi', 'foo', 'mi']);
-      });
-
-      (0, _emberMocha.it)('"-- foo", retourne ["- foo"] ', function () {
-        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '-- foo' }))).to.deep.equal(['- foo']);
-      });
-
-      (0, _emberMocha.it)('"- foo\\n\\r\\t\n\\r\\t\\n\\r\\t\\n- bar", retourne ["foo", "bar"] ', function () {
-        (0, _chai.expect)(getProposalsAsArray(this.subject({ proposals: '- foo\n\r\t\n\r\t\n\r\t\n- bar' }))).to.deep.equal(['foo', 'bar']);
+        (0, _emberMocha.it)('"' + data.toString() + '" retourne [' + expected + ']', function () {
+          var sut = this.subject({ proposals: data });
+          (0, _chai.expect)(getProposalsAsArray(sut)).to.deep.equal(expected);
+        });
       });
     });
   });
