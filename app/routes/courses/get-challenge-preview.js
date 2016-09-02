@@ -30,10 +30,12 @@ export default Ember.Route.extend({
   },
 
   serialize: function(model) {
-    return {
-      course_id: model.assessment.get('course').id,
-      challenge_id: model.challenge.id
-    };
+    return model.assessment.get('course').then((course) => {
+      return {
+        course_id: course.id,
+        challenge_id: model.challenge.id
+      };
+    });
   }
 
 
