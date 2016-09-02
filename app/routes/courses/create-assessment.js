@@ -15,9 +15,7 @@ export default Ember.Route.extend({
   },
 
   afterModel(model) {
-    /*
-     * FIXME: manage the case when assessment's course has no challenge
-     */
+    // FIXME: manage the case when assessment's course has no challenge
     this.transitionTo('assessments.get-challenge', model);
   }
 

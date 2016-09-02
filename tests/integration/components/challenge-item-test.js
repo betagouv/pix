@@ -43,7 +43,7 @@ function assertAlertErrorToBeHidden() {
 
 describeComponent(
   'challenge-item',
-  'Integration | ChallengeItem component',
+  'Integration | Component | ChallengeItem',
   {
     integration: true
   },

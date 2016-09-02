@@ -10,6 +10,7 @@ export default AirtableSerializer.extend({
     };
   },
 
+  // FIXME: see how to move in AirtableSerializer
   serializeIntoHash: function (data, type, record, options) {
     data['fields'] = this.serialize(record, options);
   },

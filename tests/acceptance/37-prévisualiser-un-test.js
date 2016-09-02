@@ -95,7 +95,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
         expect($challenge.find('.challenge-instruction').text()).to.contains(currentChallenge.attrs.fields.Consigne);
       });
 
-      it("37.8. un bouton pour accéder à l'épreuve suivante", function() {
+      it("37.7. un bouton pour accéder à l'épreuve suivante", function() {
         const $validateButton = findWithAssert('.validate-button');
         expect($validateButton.text()).to.contains('Valider');
       });
@@ -108,7 +108,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
       return visit(`/courses/${courseId}/preview/challenges/${lastChallengeId}`);
     });
 
-    it("37.9. on n'affiche pas de bouton “Épreuve suivante”", function () {
+    it("37.8. on n'affiche pas de bouton “Épreuve suivante”", function () {
       expect(find('.challenge-preview a.next-challenge-button')).to.have.lengthOf(0);
     })
   })

@@ -7,7 +7,6 @@ const ChallengeItem = Ember.Component.extend({
   attributeBindings: ['challenge.id:data-challenge-id'],
 
   assessmentService: Ember.inject.service('assessment'),
-  router: Ember.inject.service('router'),
 
   challenge: null,
   assessment: null,
@@ -33,9 +32,13 @@ const ChallengeItem = Ember.Component.extend({
         this.set('error', 'Vous devez sélectionner une réponse.');
         return;
       }
-      const value = String(this.get('selectedProposal') + 1);
+      const value = this._adaptSelectedProposalValueToBackendValue(this.get('selectedProposal'));
       this.sendAction('onValidated', challenge, assessment, value);
     }
+  },
+
+  _adaptSelectedProposalValueToBackendValue(value) {
+    return `${value + 1}`;
   }
 });
 
