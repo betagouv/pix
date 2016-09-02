@@ -174,9 +174,9 @@ define('pix-live/tests/acceptance/3-demarrer-un-test-test', ['exports', 'mocha',
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
       challenge = server.create('challenge-airtable');
       course = server.create('course-airtable');
-      course.attrs.fields['Épreuves'] = [challenge.attrs.id];
+      course.attachOne('Épreuves', challenge);
       assessment = server.create('assessment-airtable');
-      assessment.attrs.fields['Test'] = [course.attrs.id];
+      assessment.attachOne('Test', course);
     });
 
     (0, _mocha.after)(function () {
@@ -293,9 +293,7 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
       challenges = server.createList('challenge-airtable', 3);
       course = server.create('course-airtable');
-      course.attrs.fields['Épreuves'] = challenges.map(function (c) {
-        return c.attrs.id;
-      });
+      course.attachMany('Épreuves', challenges);
 
       courseId = course.attrs.id;
       // XXX order is reversed
@@ -314,7 +312,7 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
         return visit('/courses/' + courseId + '/preview');
       });
 
-      (0, _mocha.it)("L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
+      (0, _mocha.it)("37.1. L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
         (0, _chai.expect)(currentURL()).to.equal('/courses/' + courseId + '/preview');
       });
 
@@ -326,15 +324,15 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
           $preview = findWithAssert('#course-preview');
         });
 
-        (0, _mocha.it)('le nom du test', function () {
+        (0, _mocha.it)('37.2. le nom du test', function () {
           (0, _chai.expect)($preview.find('.course-name').text()).to.contains(course.attrs.fields.Nom);
         });
 
-        (0, _mocha.it)('la description du test', function () {
+        (0, _mocha.it)('37.3. la description du test', function () {
           (0, _chai.expect)($preview.find('.course-description').text()).to.contains(course.attrs.fields.Description);
         });
 
-        (0, _mocha.it)('un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
+        (0, _mocha.it)('37.4. un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
           var $playButton = findWithAssert('.simulate-button');
           (0, _chai.expect)($playButton.text()).to.be.equals('Simuler le test');
           (0, _chai.expect)($playButton.attr('href')).to.be.equals('/courses/' + courseId + '/preview/challenges/' + firstChallengeId);
@@ -351,7 +349,7 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
         return visit('/courses/' + courseId + '/preview/challenges/' + firstChallengeId);
       });
 
-      (0, _mocha.it)("L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
+      (0, _mocha.it)("37.5. L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
         (0, _chai.expect)(currentURL()).to.equal('/courses/' + courseId + '/preview/challenges/' + firstChallengeId);
       });
 
@@ -363,20 +361,13 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
           $challenge = findWithAssert('.challenge-preview');
         });
 
-        (0, _mocha.it)("la consigne de l'épreuve", function () {
+        (0, _mocha.it)("37.6. la consigne de l'épreuve", function () {
           (0, _chai.expect)($challenge.find('.challenge-instruction').text()).to.contains(currentChallenge.attrs.fields.Consigne);
         });
 
-        // FIXME: this should be removed as it's not part of the US (wait for PR validation_
-        //it('les propositions sous forme de boutons radio pour un QCU', function () {
-        //  const $proposals = findWithAssert('.challenge-proposals input[type="radio"][name="proposals"]');
-        //  expect($proposals).to.have.lengthOf(5);
-        //});
-
-        (0, _mocha.it)("un bouton pour accéder à l'épreuve suivante", function () {
-          var $nextChallengeButton = findWithAssert('.next-challenge-button');
-          (0, _chai.expect)($nextChallengeButton.text()).to.contains('Épreuve suivante');
-          (0, _chai.expect)($nextChallengeButton.attr('href')).to.be.equals('/courses/' + courseId + '/preview/challenges/' + secondChallengeId);
+        (0, _mocha.it)("37.7. un bouton pour accéder à l'épreuve suivante", function () {
+          var $validateButton = findWithAssert('.validate-button');
+          (0, _chai.expect)($validateButton.text()).to.contains('Valider');
         });
       });
     });
@@ -387,7 +378,7 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
         return visit('/courses/' + courseId + '/preview/challenges/' + lastChallengeId);
       });
 
-      (0, _mocha.it)("on n'affiche pas de bouton “Épreuve suivante”", function () {
+      (0, _mocha.it)("37.8. on n'affiche pas de bouton “Épreuve suivante”", function () {
         (0, _chai.expect)(find('.challenge-preview a.next-challenge-button')).to.have.lengthOf(0);
       });
     });
@@ -554,9 +545,9 @@ define('pix-live/tests/acceptance/4-demarrer-epreuve-test', ['exports', 'mocha',
         return e1 + '\n' + e2;
       });
       course = server.create('course-airtable');
-      course.fields['Épreuves'] = [challenge.attrs.id];
+      course.attachOne('Épreuves', challenge);
       assessment = server.create('assessment-airtable');
-      assessment.fields['Test'] = [course.attrs.id];
+      assessment.attachOne('Test', course);
     });
 
     (0, _mocha.after)(function () {
@@ -588,11 +579,11 @@ define('pix-live/tests/acceptance/4-demarrer-epreuve-test', ['exports', 'mocha',
     });
 
     (0, _mocha.it)('4.4. affiche le bouton "Valider" permettant de sauvegarder la réponse saisie et de passer à l\'épreuve suivante ', function () {
-      (0, _chai.expect)(findWithAssert('.validate-button').text()).to.eq('Valider');
+      (0, _chai.expect)(findWithAssert('.validate-button').text()).to.contains('Valider');
     });
 
     (0, _mocha.it)('4.5. affiche le bouton "Passer" permettant de passer à l\'épreuve suivante sans avoir saisi de réponse', function () {
-      (0, _chai.expect)(findWithAssert('.skip-button').text()).to.eq('Passer');
+      (0, _chai.expect)(findWithAssert('.skip-button').text()).to.contains('Passer');
     });
   });
 });
@@ -603,6 +594,82 @@ define('pix-live/tests/acceptance/4-demarrer-epreuve-test.lint-test', ['exports'
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('acceptance/4-demarrer-epreuve-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/6-valider-une-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)('Acceptance | 6 - Valider une épreuve |', function () {
+
+    var application = undefined;
+    var assessment = undefined;
+    var challenges = undefined;
+    var course = undefined;
+
+    var assessmentId = undefined;
+    var firstChallengeId = undefined;
+    var lastChallengeId = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+
+      challenges = server.createList('challenge-airtable', 2);
+      firstChallengeId = challenges[1].attrs.id;
+      lastChallengeId = challenges[0].attrs.id;
+
+      course = server.create('course-airtable');
+      course.attachMany('Épreuves', challenges);
+
+      assessment = server.create('assessment-airtable');
+      assessment.attachOne('Test', course);
+      assessmentId = assessment.attrs.id;
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/assessments/' + assessmentId + '/challenges/' + firstChallengeId);
+    });
+
+    (0, _mocha.it)("6.1. Je peux valider ma réponse à une épreuve via un bouton 'Valider'", function () {
+      (0, _chai.expect)(findWithAssert('.validate-button')).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.describe)("quand je valide ma réponse à une épreuve", function () {
+
+      (0, _mocha.beforeEach)(function () {
+        return click('.challenge-proposal:first input[type="radio"]');
+      });
+
+      (0, _mocha.it)("6.2. Ma réponse est sauvegardée dans le BO", function () {});
+
+      (0, _mocha.it)("6.3. Si l'épreuve que je viens de valider n'était pas la dernière du test, je suis redirigé vers l'épreuve suivante", function () {
+        var $validateButton = $('.validate-button')[0];
+        return click($validateButton).then(function () {
+          (0, _chai.expect)(currentURL()).to.contains('/assessments/' + assessmentId + '/challenges/' + lastChallengeId);
+        });
+      });
+
+      (0, _mocha.it)("6.4. Si l'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test", function () {
+        var $validateButton = $('.validate-button')[0];
+        return click($validateButton).then(function () {
+          (0, _chai.expect)(currentURL()).to.contains('/assessments/' + assessmentId + '/results');
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/6-valider-une-epreuve-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/6-valider-une-epreuve-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/6-valider-une-epreuve-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -649,6 +716,18 @@ define('pix-live/tests/adapters/airtable.lint-test', ['exports'], function (expo
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('adapters/airtable.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/adapters/answer.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - adapters/answer.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('adapters/answer.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -757,6 +836,30 @@ define('pix-live/tests/components/user-menu.lint-test', ['exports'], function (e
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('components/user-menu.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/controllers/assessments/get-challenge.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - controllers/assessments/get-challenge.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('controllers/assessments/get-challenge.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/controllers/courses/get-challenge-preview.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - controllers/courses/get-challenge-preview.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('controllers/courses/get-challenge-preview.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1419,68 +1522,135 @@ define('pix-live/tests/helpers/start-app.lint-test', ['exports'], function (expo
     });
   });
 });
-define('pix-live/tests/integration/components/challenge-item-test', ['exports', 'chai', 'ember-mocha', 'mocha', 'ember'], function (exports, _chai, _emberMocha, _mocha, _ember) {
+define('pix-live/tests/integration/components/challenge-item-test', ['exports', 'chai', 'ember-mocha', 'mocha', 'ember', 'rsvp'], function (exports, _chai, _emberMocha, _mocha, _ember, _rsvp) {
 
-  (0, _emberMocha.describeComponent)('challenge-item', 'Integration: ChallengeItemComponent', {
+  function renderChallengeItem() {
+    var challengeAttributes = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var validateHandler = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+    var challenge = _ember['default'].Object.create(challengeAttributes);
+    this.set('challenge', challenge);
+
+    var assessment = _ember['default'].Object.create({});
+    this.set('assessment', assessment);
+    this.set('validateHandler', validateHandler || function () {
+      return null;
+    });
+
+    this.render(_ember['default'].HTMLBars.template((function () {
+      return {
+        meta: {
+          'revision': 'Ember@2.7.2',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 1,
+              'column': 76
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [['inline', 'challenge-item', [['get', 'challenge', ['loc', [null, [1, 17], [1, 26]]], 0, 0, 0, 0], ['get', 'assessment', ['loc', [null, [1, 27], [1, 37]]], 0, 0, 0, 0]], ['onValidated', ['subexpr', 'action', [['get', 'validateHandler', ['loc', [null, [1, 58], [1, 73]]], 0, 0, 0, 0]], [], ['loc', [null, [1, 50], [1, 74]]], 0, 0]], ['loc', [null, [1, 0], [1, 76]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })()));
+  }
+
+  function renderChallengeItem_challengePreview() {
+    var challengeAttributes = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+    var challenge = _ember['default'].Object.create(challengeAttributes);
+    this.set('challenge', challenge);
+    this.render(_ember['default'].HTMLBars.template((function () {
+      return {
+        meta: {
+          'revision': 'Ember@2.7.2',
+          'loc': {
+            'source': null,
+            'start': {
+              'line': 1,
+              'column': 0
+            },
+            'end': {
+              'line': 1,
+              'column': 28
+            }
+          }
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment('');
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [['inline', 'challenge-item', [['get', 'challenge', ['loc', [null, [1, 17], [1, 26]]], 0, 0, 0, 0]], [], ['loc', [null, [1, 0], [1, 28]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })()));
+  }
+
+  function selectFirstProposal() {
+
+    return new _rsvp['default'].Promise(function (resolve) {
+      return this.$('.challenge-proposal:first input[type="radio"]').click(function () {
+        return resolve();
+      });
+    });
+  }
+
+  function validateChallenge() {
+    this.$('.validate-button').click();
+  }
+
+  function assertAlertErrorToBeHidden() {
+    (0, _chai.expect)(this.$('.alert-error')).to.have.lengthOf(0);
+  }
+
+  (0, _emberMocha.describeComponent)('challenge-item', 'Integration | Component | ChallengeItem', {
     integration: true
   }, function () {
 
-    /*
-     * TODO: find a way to make `this` works in mocha hooks such as `before` in order to mutualize and reduce code
-     */
-
-    (0, _mocha.describe)('when used with a given challenge', function () {
-
-      function renderChallengeItemWithASimpleChallenge(context, challengeAttributes) {
-
-        var challenge = _ember['default'].Object.create(challengeAttributes);
-        context.set('challenge', challenge);
-        context.render(_ember['default'].HTMLBars.template((function () {
-          return {
-            meta: {
-              'revision': 'Ember@2.7.2',
-              'loc': {
-                'source': null,
-                'start': {
-                  'line': 1,
-                  'column': 0
-                },
-                'end': {
-                  'line': 1,
-                  'column': 38
-                }
-              }
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createComment('');
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-              dom.insertBoundary(fragment, 0);
-              dom.insertBoundary(fragment, null);
-              return morphs;
-            },
-            statements: [['inline', 'challenge-item', [], ['challenge', ['subexpr', '@mut', [['get', 'challenge', ['loc', [null, [1, 27], [1, 36]]], 0, 0, 0, 0]], [], [], 0, 0]], ['loc', [null, [1, 0], [1, 38]]], 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })()));
-      }
+    (0, _mocha.describe)('for a given challenge', function () {
 
       (0, _emberMocha.it)('should render challenge instruction', function () {
         // given
         var instruction = 'My challenge instruction';
 
         // when
-        renderChallengeItemWithASimpleChallenge(this, { instruction: instruction });
+        renderChallengeItem.call(this, { instruction: instruction });
 
         // then
         (0, _chai.expect)(this.$('.challenge-instruction').text()).to.contains(instruction);
@@ -1488,7 +1658,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
 
       (0, _emberMocha.it)('should render challenge proposals', function () {
         // when
-        renderChallengeItemWithASimpleChallenge(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
+        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
         // then
         var $proposals = this.$('.challenge-proposal');
@@ -1497,50 +1667,10 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         (0, _chai.expect)($proposals.eq(1).text()).to.contains('Fu');
         (0, _chai.expect)($proposals.eq(2).text()).to.contains('Mi');
       });
-    });
-
-    (0, _mocha.describe)('when used with default mode (a.k.a. "live")', function () {
 
       (0, _emberMocha.it)('should display "Skip" button ', function () {
         // when
-        this.render(_ember['default'].HTMLBars.template((function () {
-          return {
-            meta: {
-              'revision': 'Ember@2.7.2',
-              'loc': {
-                'source': null,
-                'start': {
-                  'line': 1,
-                  'column': 0
-                },
-                'end': {
-                  'line': 1,
-                  'column': 18
-                }
-              }
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createComment('');
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-              dom.insertBoundary(fragment, 0);
-              dom.insertBoundary(fragment, null);
-              return morphs;
-            },
-            statements: [['content', 'challenge-item', ['loc', [null, [1, 0], [1, 18]]], 0, 0, 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })()));
+        renderChallengeItem.call(this);
 
         // then
         (0, _chai.expect)(this.$('.skip-button')).to.have.lengthOf(1);
@@ -1548,92 +1678,28 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
 
       (0, _emberMocha.it)('should display "Validate" button ', function () {
         // when
-        this.render(_ember['default'].HTMLBars.template((function () {
-          return {
-            meta: {
-              'revision': 'Ember@2.7.2',
-              'loc': {
-                'source': null,
-                'start': {
-                  'line': 1,
-                  'column': 0
-                },
-                'end': {
-                  'line': 1,
-                  'column': 18
-                }
-              }
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createComment('');
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-              dom.insertBoundary(fragment, 0);
-              dom.insertBoundary(fragment, null);
-              return morphs;
-            },
-            statements: [['content', 'challenge-item', ['loc', [null, [1, 0], [1, 18]]], 0, 0, 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })()));
+        renderChallengeItem.call(this);
 
         // then
         (0, _chai.expect)(this.$('.validate-button')).to.have.lengthOf(1);
       });
 
-      (0, _emberMocha.it)('should not display "Next" button ', function () {
+      (0, _emberMocha.it)('should display an img tag with “ceci est une image” alt text', function () {
         // when
-        this.render(_ember['default'].HTMLBars.template((function () {
-          return {
-            meta: {
-              'revision': 'Ember@2.7.2',
-              'loc': {
-                'source': null,
-                'start': {
-                  'line': 1,
-                  'column': 0
-                },
-                'end': {
-                  'line': 1,
-                  'column': 18
-                }
-              }
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createComment('');
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-              dom.insertBoundary(fragment, 0);
-              dom.insertBoundary(fragment, null);
-              return morphs;
-            },
-            statements: [['content', 'challenge-item', ['loc', [null, [1, 0], [1, 18]]], 0, 0, 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })()));
+        renderChallengeItem.call(this, { illustrationUrl: 'http://my.illustration.png' });
 
         // then
-        (0, _chai.expect)(this.$('.next-challenge-button')).to.have.lengthOf(0);
+        var $illustration = this.$('.challenge-illustration');
+        (0, _chai.expect)($illustration.attr('alt')).to.contains('ceci est une image');
+      });
+
+      (0, _emberMocha.it)('should display an img tag with src attribute equals to the challenge.illustrationUrl property', function () {
+        // given
+        var illustrationUrl = 'http://my.illustration.png';
+        renderChallengeItem.call(this, { illustrationUrl: illustrationUrl });
+
+        var $illustration = this.$('.challenge-illustration');
+        (0, _chai.expect)($illustration.attr('src')).to.equals(illustrationUrl);
       });
     });
 
@@ -1641,44 +1707,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
 
       (0, _emberMocha.it)('should not display "Skip" button', function () {
         // when
-        this.render(_ember['default'].HTMLBars.template((function () {
-          return {
-            meta: {
-              'revision': 'Ember@2.7.2',
-              'loc': {
-                'source': null,
-                'start': {
-                  'line': 1,
-                  'column': 0
-                },
-                'end': {
-                  'line': 1,
-                  'column': 43
-                }
-              }
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createComment('');
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-              dom.insertBoundary(fragment, 0);
-              dom.insertBoundary(fragment, null);
-              return morphs;
-            },
-            statements: [['inline', 'challenge-item', [], ['mode', 'challenge-preview'], ['loc', [null, [1, 0], [1, 43]]], 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })()));
+        renderChallengeItem_challengePreview.call(this);
 
         // then
         (0, _chai.expect)(this.$('.skip-button')).to.have.lengthOf(0);
@@ -1686,281 +1715,95 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
 
       (0, _emberMocha.it)('should not display "Validate" button', function () {
         // when
-        this.render(_ember['default'].HTMLBars.template((function () {
-          return {
-            meta: {
-              'revision': 'Ember@2.7.2',
-              'loc': {
-                'source': null,
-                'start': {
-                  'line': 1,
-                  'column': 0
-                },
-                'end': {
-                  'line': 1,
-                  'column': 43
-                }
-              }
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createComment('');
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-              dom.insertBoundary(fragment, 0);
-              dom.insertBoundary(fragment, null);
-              return morphs;
-            },
-            statements: [['inline', 'challenge-item', [], ['mode', 'challenge-preview'], ['loc', [null, [1, 0], [1, 43]]], 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })()));
+        renderChallengeItem_challengePreview.call(this);
 
         // then
         (0, _chai.expect)(this.$('.validate-button')).to.have.lengthOf(0);
       });
-
-      (0, _emberMocha.it)('should not display "Next" button ', function () {
-        // when
-        this.render(_ember['default'].HTMLBars.template((function () {
-          return {
-            meta: {
-              'revision': 'Ember@2.7.2',
-              'loc': {
-                'source': null,
-                'start': {
-                  'line': 1,
-                  'column': 0
-                },
-                'end': {
-                  'line': 1,
-                  'column': 43
-                }
-              }
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createComment('');
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-              dom.insertBoundary(fragment, 0);
-              dom.insertBoundary(fragment, null);
-              return morphs;
-            },
-            statements: [['inline', 'challenge-item', [], ['mode', 'challenge-preview'], ['loc', [null, [1, 0], [1, 43]]], 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })()));
-
-        // then
-        (0, _chai.expect)(this.$('.next-challenge-button')).to.have.lengthOf(0);
-      });
     });
 
-    (0, _mocha.describe)('when used with mode "course-preview"', function () {
+    (0, _mocha.describe)('Validating the challenge', function () {
 
-      function renderChallengeItemWithCoursePreviewMode(context, challenge, challenges) {
-
-        var course = _ember['default'].Object.create({
-          challenges: challenges
+      (0, _emberMocha.it)('should callback the validate action when the user click on validate', function (done) {
+        // given
+        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, function () {
+          return done();
         });
-        context.set('course', course);
-        context.render(_ember['default'].HTMLBars.template((function () {
-          return {
-            meta: {
-              'revision': 'Ember@2.7.2',
-              'loc': {
-                'source': null,
-                'start': {
-                  'line': 1,
-                  'column': 0
-                },
-                'end': {
-                  'line': 1,
-                  'column': 74
-                }
-              }
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createComment('');
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-              dom.insertBoundary(fragment, 0);
-              dom.insertBoundary(fragment, null);
-              return morphs;
-            },
-            statements: [['inline', 'challenge-item', [], ['mode', 'course-preview', 'challenge', ['subexpr', '@mut', [['get', 'challenge', ['loc', [null, [1, 49], [1, 58]]], 0, 0, 0, 0]], [], [], 0, 0], 'course', ['subexpr', '@mut', [['get', 'course', ['loc', [null, [1, 66], [1, 72]]], 0, 0, 0, 0]], [], [], 0, 0]], ['loc', [null, [1, 0], [1, 74]]], 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })()));
-      }
 
-      function renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(context) {
-
-        var challenge = _ember['default'].Object.create({ id: '1' });
-        context.set('challenge', challenge);
-
-        var nextChallenge = _ember['default'].Object.create({ id: '2' });
-
-        renderChallengeItemWithCoursePreviewMode(context, challenge, [challenge, nextChallenge]);
-      }
-
-      function renderChallengeItemWithCoursePreviewModeAndWithNoChallengeNext(context) {
-
-        var challenge = _ember['default'].Object.create({ id: '1' });
-        context.set('challenge', challenge);
-
-        renderChallengeItemWithCoursePreviewMode(context, challenge, [challenge]);
-      }
-
-      (0, _emberMocha.it)('should not display "Skip" button ', function () {
         // when
-        renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(this);
-
-        // then
-        (0, _chai.expect)(this.$('.skip-button')).to.have.lengthOf(0);
+        this.$('.challenge-proposal:first input[type="radio"]').click();
+        this.$('.validate-button').click();
       });
 
-      (0, _emberMocha.it)('should not display "Validate" button ', function () {
-        // when
-        renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(this);
+      (0, _emberMocha.it)('should call "onValidated" callback with good value for QCU (i.e. proposal index + 1)', function (done) {
+        // given
+        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, function (challenge, assessment, answerValue) {
 
-        // then
-        (0, _chai.expect)(this.$('.validate-button')).to.have.lengthOf(0);
-      });
+          // then
+          (0, _chai.expect)(answerValue).to.equal("1");
+          done();
+        });
 
-      (0, _emberMocha.it)('should display "Next" button when there is a challenge next', function () {
         // when
-        renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(this);
-        // then
-        (0, _chai.expect)(this.$('.next-challenge-button')).to.have.lengthOf(1);
-      });
-
-      (0, _emberMocha.it)('should not display "Next" button when there is no challenge next', function () {
-        // when
-        renderChallengeItemWithCoursePreviewModeAndWithNoChallengeNext(this);
-        // then
-        (0, _chai.expect)(this.$('.next-challenge-button')).to.have.lengthOf(0);
+        this.$('.challenge-proposal:first input[type="radio"]').click();
+        this.$('.validate-button').click();
       });
     });
 
-    (0, _mocha.describe)('when given an illustraction', function () {
-      (0, _emberMocha.it)('should display an img tag with “ceci est une image” alt text', function () {
-        this.set('challenge', _ember['default'].Object.create({ illustrationUrl: 'yo' }));
-        this.render(_ember['default'].HTMLBars.template((function () {
-          return {
-            meta: {
-              'revision': 'Ember@2.7.2',
-              'loc': {
-                'source': null,
-                'start': {
-                  'line': 1,
-                  'column': 0
-                },
-                'end': {
-                  'line': 1,
-                  'column': 38
-                }
-              }
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createComment('');
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-              dom.insertBoundary(fragment, 0);
-              dom.insertBoundary(fragment, null);
-              return morphs;
-            },
-            statements: [['inline', 'challenge-item', [], ['challenge', ['subexpr', '@mut', [['get', 'challenge', ['loc', [null, [1, 27], [1, 36]]], 0, 0, 0, 0]], [], [], 0, 0]], ['loc', [null, [1, 0], [1, 38]]], 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })()));
+    (0, _mocha.describe)('Error alert box', function () {
 
-        var $illustration = this.$('.challenge-illustration');
-        (0, _chai.expect)($illustration.attr('alt')).to.contains('ceci est une image');
+      (0, _emberMocha.it)("should be hidden by default", function () {
+        // when
+        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, function () {
+          return done();
+        });
+
+        // then
+        (0, _chai.expect)(this.$('.alert-error')).to.have.lengthOf(0);
       });
 
-      (0, _emberMocha.it)('should display an img tag with src attribute equals to the challenge.illustrationUrl property', function () {
-        this.set('challenge', _ember['default'].Object.create({ illustrationUrl: 'yo' }));
-        this.render(_ember['default'].HTMLBars.template((function () {
-          return {
-            meta: {
-              'revision': 'Ember@2.7.2',
-              'loc': {
-                'source': null,
-                'start': {
-                  'line': 1,
-                  'column': 0
-                },
-                'end': {
-                  'line': 1,
-                  'column': 38
-                }
-              }
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createComment('');
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-              dom.insertBoundary(fragment, 0);
-              dom.insertBoundary(fragment, null);
-              return morphs;
-            },
-            statements: [['inline', 'challenge-item', [], ['challenge', ['subexpr', '@mut', [['get', 'challenge', ['loc', [null, [1, 27], [1, 36]]], 0, 0, 0, 0]], [], [], 0, 0]], ['loc', [null, [1, 0], [1, 38]]], 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })()));
+      (0, _mocha.describe)('when validating a challenge without having selected a proposal', function () {
 
-        var $illustration = this.$('.challenge-illustration');
-        (0, _chai.expect)($illustration.attr('src')).to.equals('yo');
+        (0, _emberMocha.it)("should be displayed", function () {
+          var _this = this;
+
+          // given
+          renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, function () {
+
+            // then
+            var $alertError = _this.$('.alert-error');
+            (0, _chai.expect)($alertError).to.have.lengthOf(1);
+          });
+
+          // when
+          validateChallenge.call(this);
+        });
+
+        (0, _emberMocha.it)('should contains "Vous devez saisir une réponse"', function () {
+          var _this2 = this;
+
+          // given
+          renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, function () {
+
+            // then
+            var $alertError = _this2.$('.alert-error');
+            (0, _chai.expect)($alertError.text()).to.contains("Vous devez saisir une réponse");
+          });
+
+          // when
+          validateChallenge.call(this);
+        });
+      });
+
+      (0, _mocha.describe)('when a proposal is selected', function () {
+
+        (0, _emberMocha.it)("should be removed", function () {
+          // when
+          selectFirstProposal.call(this);
+
+          // then
+          assertAlertErrorToBeHidden.call(this);
+        });
       });
     });
   });
@@ -1972,6 +1815,18 @@ define('pix-live/tests/integration/components/challenge-item-test.lint-test', ['
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('integration/components/challenge-item-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/models/answer.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - models/answer.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('models/answer.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -2044,6 +1899,18 @@ define('pix-live/tests/routes/assessments/get-challenge.lint-test', ['exports'],
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('routes/assessments/get-challenge.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/routes/assessments/get-results.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - routes/assessments/get-results.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('routes/assessments/get-results.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -2145,6 +2012,18 @@ define('pix-live/tests/serializers/airtable-serializer.lint-test', ['exports'], 
     });
   });
 });
+define('pix-live/tests/serializers/answer.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - serializers/answer.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('serializers/answer.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/serializers/assessment.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2176,6 +2055,18 @@ define('pix-live/tests/serializers/course.lint-test', ['exports'], function (exp
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('serializers/course.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/services/assessment.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - services/assessment.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('services/assessment.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -2221,6 +2112,44 @@ define('pix-live/tests/test-helper.lint-test', ['exports'], function (exports) {
     });
   });
 });
+define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai', 'ember-mocha', 'mocha'], function (exports, _chai, _emberMocha, _mocha) {
+
+  (0, _emberMocha.describeModule)('component:challenge-item', 'ChallengeItem', {}, function () {
+
+    (0, _emberMocha.it)('exists', function () {
+      var challengeItem = this.subject();
+      (0, _chai.expect)(challengeItem).to.be.ok;
+    });
+
+    describe('#onSelectedProposalChanged', function () {
+
+      (0, _emberMocha.it)('is called when selectedProposal value has been changed', function () {
+        // given
+        var challengeItem = this.subject();
+        challengeItem.set('error', 'an error');
+
+        // when
+        challengeItem.set('selectedProposal', 1);
+
+        // then
+        (0, _chai.expect)(challengeItem.get('error')).to.be['null'];
+      });
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/unit/components/challenge-item-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/components/challenge-item-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/components/challenge-item-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/unit/controllers/home-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
   (0, _emberMocha.describeModule)('controller:home', 'HomeController', {
@@ -2247,10 +2176,34 @@ define('pix-live/tests/unit/controllers/home-test.lint-test', ['exports'], funct
     });
   });
 });
+define('pix-live/tests/unit/models/answer-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeModel)('answer', 'Unit | Model | Answer', {
+    needs: ['model:assessment', 'model:challenge']
+  }, function () {
+
+    (0, _emberMocha.it)('exists', function () {
+      var model = this.subject();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/models/answer-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/models/answer-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/models/answer-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/unit/models/assessment-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
 
   (0, _emberMocha.describeModel)('assessment', 'Unit | Model | Assessment', {
-    needs: ['model:course']
+    needs: ['model:course', 'model:answer']
   }, function () {
 
     (0, _emberMocha.it)('exists', function () {
@@ -2337,7 +2290,7 @@ define('pix-live/tests/unit/models/course-test.lint-test', ['exports'], function
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/assessments.get-challenge-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
   (0, _emberMocha.describeModule)('route:assessments.get-challenge', 'Assessments.ChallengeRoute', {
     // Specify the other units that are required for this test.
@@ -2350,13 +2303,38 @@ define('pix-live/tests/unit/routes/assessments/assessments.get-challenge-test', 
   });
 });
 /* jshint expr:true */
-define('pix-live/tests/unit/routes/assessments/assessments.get-challenge-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/assessments/get-challenge-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - unit/routes/assessments/assessments.get-challenge-test.js', function () {
+  describe('ESLint - unit/routes/assessments/get-challenge-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('unit/routes/assessments/assessments.get-challenge-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('unit/routes/assessments/get-challenge-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/routes/assessments/get-results-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeModule)('route:assessments.get-results', 'Assessments.ResultsRoute', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  }, function () {
+    (0, _emberMocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/unit/routes/assessments/get-results-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/routes/assessments/get-results-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/routes/assessments/get-results-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -2499,6 +2477,59 @@ define('pix-live/tests/unit/routes/preferences-test.lint-test', ['exports'], fun
     });
   });
 });
+define('pix-live/tests/unit/serializers/answer-test', ['exports', 'chai', 'ember-mocha', 'pix-live/models/answer', 'pix-live/serializers/answer'], function (exports, _chai, _emberMocha, _pixLiveModelsAnswer, _pixLiveSerializersAnswer) {
+
+  (0, _emberMocha.describeModule)('serializer:answer', 'Unit | Serializer | answer', {}, function () {
+
+    var serializer = new _pixLiveSerializersAnswer['default']();
+    var Answer = _pixLiveModelsAnswer['default'].extend({}); // copy the class to avoid side effects
+    Answer.modelName = 'answer';
+
+    function normalizePayload(payload) {
+      serializer.normalizeResponse(null, Answer, payload, payload.id, null);
+      return payload;
+    }
+
+    (0, _emberMocha.it)('normalizes correctly', function () {
+
+      var payload = {
+        "id": "recnGZFG9zeroKXLP",
+        "fields": {
+          "Epreuve": ["rechEFdIiOlMNMQEu"],
+          "Evaluation": ["recT57K8NPRjQ3Jyh"],
+          "Nom": "recnGZFG9zeroKXLP",
+          "Valeur": "1"
+        },
+        "createdTime": "2016-09-01T12:45:08.000Z"
+      };
+
+      var expected = {
+        answer: {
+          id: payload.id,
+          created: payload.createdTime,
+          value: payload.fields['Valeur'],
+          challenge: payload.fields['Epreuve'],
+          assessment: payload.fields['Evaluation']
+        }
+      };
+      var answer = normalizePayload(payload);
+
+      (0, _chai.expect)(answer).to.be.deep.equal(expected);
+    });
+  });
+});
+define('pix-live/tests/unit/serializers/answer-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/serializers/answer-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/serializers/answer-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/unit/serializers/course-test', ['exports', 'chai', 'ember-mocha', 'mocha', 'pretender'], function (exports, _chai, _emberMocha, _mocha, _pretender) {
 
   (0, _emberMocha.describeModel)('course', 'Unit | Serializer | course', {
@@ -2602,6 +2633,125 @@ define('pix-live/tests/unit/serializers/course-test.lint-test', ['exports'], fun
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/serializers/course-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/services/assessment-test', ['exports', 'chai', 'ember-mocha', 'mocha', 'ember'], function (exports, _chai, _emberMocha, _mocha, _ember) {
+
+  (0, _emberMocha.describeModule)('service:assessment', 'AssessmentService', {
+    needs: ['model:assessment', 'model:challenge', 'model:course', 'model:answer']
+  }, function () {
+
+    function instantiateModels(store, challengesArray) {
+      var challenges = challengesArray.map(function (challenge) {
+        return store.createRecord('challenge', challenge);
+      });
+      var course = store.createRecord('course');
+      course.get('challenges').pushObjects(challenges);
+      var assessment = store.createRecord('assessment', { course: course });
+
+      return { challenges: challenges, assessment: assessment };
+    }
+
+    (0, _mocha.describe)('#getNextChallenge', function () {
+
+      (0, _emberMocha.it)('returns a promise', function () {
+        var _this = this;
+
+        return _ember['default'].run(function () {
+          var store = _this.container.lookup('service:store');
+
+          var _instantiateModels = instantiateModels(store, [{ id: 1 }, { id: 2 }]);
+
+          var challenges = _instantiateModels.challenges;
+          var assessment = _instantiateModels.assessment;
+
+          (0, _chai.expect)(_this.subject().getNextChallenge(challenges[0], assessment)).to.respondsTo('then');
+        });
+      });
+
+      (0, _emberMocha.it)("return the next challenge when current challenge is not the assessment's last one", function () {
+        var _this2 = this;
+
+        return _ember['default'].run(function () {
+          // given
+          var store = _this2.container.lookup('service:store');
+
+          var _instantiateModels2 = instantiateModels(store, [{ id: 1 }, { id: 2 }]);
+
+          var challenges = _instantiateModels2.challenges;
+          var assessment = _instantiateModels2.assessment;
+
+          // when
+          return _this2.subject().getNextChallenge(challenges[0], assessment).then(function (actual) {
+            // then
+            (0, _chai.expect)(actual.get('id')).to.equal(challenges[1].get('id'));
+          });
+        });
+      });
+
+      (0, _emberMocha.it)("return the next challenge when current challenge is the assessment's latest", function () {
+        var _this3 = this;
+
+        return _ember['default'].run(function () {
+          // given
+          var store = _this3.container.lookup('service:store');
+
+          var _instantiateModels3 = instantiateModels(store, [{ id: 1 }, { id: 2 }]);
+
+          var challenges = _instantiateModels3.challenges;
+          var assessment = _instantiateModels3.assessment;
+
+          // when
+          return _this3.subject().getNextChallenge(challenges[1], assessment).then(function (actual) {
+            // then
+            (0, _chai.expect)(actual).to.be['null'];
+          });
+        });
+      });
+
+      (0, _emberMocha.it)("return challenge model objects well formed", function () {
+        var _this4 = this;
+
+        return _ember['default'].run(function () {
+          // given
+          var store = _this4.container.lookup('service:store');
+
+          var _instantiateModels4 = instantiateModels(store, [{ id: 1 }, { id: 2 }, { id: 3 }]);
+
+          var challenges = _instantiateModels4.challenges;
+          var assessment = _instantiateModels4.assessment;
+
+          // when
+          return _this4.subject().getNextChallenge(challenges[0], assessment).then(function (challenge1) {
+
+            (0, _chai.expect)(challenge1.get('id')).to.equal(challenges[1].get('id'));
+
+            return _this4.subject().getNextChallenge(challenge1, assessment);
+          }).then(function (challenge2) {
+
+            (0, _chai.expect)(challenge2.get('id')).to.equal(challenges[2].get('id'));
+
+            return _this4.subject().getNextChallenge(challenge2, assessment);
+          }).then(function (challenge3) {
+
+            (0, _chai.expect)(challenge3).to.be['null'];
+          });
+        });
+      });
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/unit/services/assessment-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/services/assessment-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/services/assessment-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
