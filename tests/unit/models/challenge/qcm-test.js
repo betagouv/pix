@@ -1,36 +1,30 @@
-import Ember from 'ember';
 import { describe, before } from 'mocha';
 import { it } from 'ember-mocha';
 import QCMChallenge from 'pix-live/models/challenge/qcm';
 
 describe('Unit | Model | Challenge/QCM', function () {
 
-  describe('#init', function () {
-    it('detect wrong instanciations', function () {
-      expect(() => QCMChallenge.create()).to.throw(Error);
+  describe('#proposalsAsArray', function () {
+
+    const testData = [
+      {data: '', expected: []},
+      {data: 'foo', expected: []},
+      {data: '- foo', expected: ['foo']},
+      {data: '-foo\n- bar', expected: ['foo', 'bar']},
+      {data: '- cerf-volant', expected: ['cerf-volant']},
+      {data: '- xi\n- foo mi', expected: ['xi', 'foo mi']},
+      {data: '- joli\n- cerf-volant', expected: ['joli', 'cerf-volant']},
+      {data: '- xi\n- foo\n- mi', expected: ['xi', 'foo', 'mi']},
+      {data: '-- foo', expected: ['- foo']},
+      {data: '- foo\n\r\t\n\r\t\n\r\t\n- bar', expected: ['foo', 'bar']}
+    ];
+
+    testData.forEach(({ data, expected }) => {
+      it(`"${data.toString()}" retourne [${expected}]`, function() {
+        const sut = QCMChallenge.create({ content: { proposals: data, type: 'QCM' } });
+        expect(sut.get('proposalsAsArray')).to.deep.equal(expected);
+      });
     });
-
-    it('can be instantiated with a correct challenge', function () {
-      const challenge = {
-        instruction: 'hello',
-        proposals: '- yo\n - yoyo\n - yoyoyo',
-        type: 'QCM'
-      };
-      const qcm = QCMChallenge.create({ content: challenge });
-      expect(qcm).to.be.ok;
-      expect(qcm.get('instruction')).to.eq(challenge.instruction);
-      expect(qcm.get('proposals')).to.eq(challenge.proposals);
-    });
-
-    it('will raise an exception if instanciated with another type than QCM', function () {
-      const challenge = {
-        instruction: 'hello',
-        proposals: '- yo\n - yoyo\n - yoyoyo',
-        type: 'QCU'
-      };
-
-      expect(() => QCMChallenge.create({content: challenge })).to.throw(Error);
-    })
   });
 });
 

@@ -3,7 +3,7 @@ import Base from './base';
 import _ from 'lodash/lodash';
 
 export default Base.extend({
-  challengeType: 'QCM',
+  challengeType: 'QCU',
 
   proposalsAsArray: Ember.computed('proposals', function () {
     if (_.isEmpty(this.get('proposals'))) {

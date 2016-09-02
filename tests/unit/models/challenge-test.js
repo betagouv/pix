@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import { describeModel, it } from 'ember-mocha';
 import { describe } from "mocha";
+import QCMChallenge from 'pix-live/models/challenge/qcm';
+import QCUChallenge from 'pix-live/models/challenge/qcu';
 
 describeModel(
   'challenge',
@@ -14,31 +16,30 @@ describeModel(
       expect(model).to.be.ok;
     });
 
-    describe('#proposalsAsArray', function () {
-
-      function getProposalsAsArray(subject) {
-        return subject.get('proposalsAsArray');
-      }
-
-      const testData = [
-        {data: '', expected: []},
-        {data: 'foo', expected: []},
-        {data: '- foo', expected: ['foo']},
-        {data: '-foo\n- bar', expected: ['foo', 'bar']},
-        {data: '- cerf-volant', expected: ['cerf-volant']},
-        {data: '- xi\n- foo mi', expected: ['xi', 'foo mi']},
-        {data: '- joli\n- cerf-volant', expected: ['joli', 'cerf-volant']},
-        {data: '- xi\n- foo\n- mi', expected: ['xi', 'foo', 'mi']},
-        {data: '-- foo', expected: ['- foo']},
-        {data: '- foo\n\r\t\n\r\t\n\r\t\n- bar', expected: ['foo', 'bar']}
-      ];
-
-      testData.forEach(({ data, expected }) => {
-        it(`"${data.toString()}" retourne [${expected}]`, function() {
-          const sut = this.subject({ proposals: data });
-          expect(getProposalsAsArray(sut)).to.deep.equal(expected);
+    describe('#toTypedChallenge', function () {
+      it('knows QCM', function () {
+        const qcmChallenge = this.subject({
+          type: 'QCM'
         });
+
+        expect(qcmChallenge.toTypedChallenge()).to.be.an.instanceOf(QCMChallenge);
       });
+
+      it('knows QCU', function () {
+        const qcuChallenge = this.subject({
+          type: 'QCU'
+        });
+
+        expect(qcuChallenge.toTypedChallenge()).to.be.an.instanceOf(QCUChallenge);
+      });
+
+      it("when it doesn't know the type, it choose QCU", function () {
+        const unknonwChallengeType = this.subject({
+          type: 'TaTaROC'
+        });
+
+        expect(unknonwChallengeType.toTypedChallenge()).to.be.an.instanceOf(QCUChallenge);
+      })
     });
   }
 );
