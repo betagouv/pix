@@ -28,12 +28,11 @@ describe('Acceptance | 6 - Valider une épreuve |', function() {
     lastChallengeId = challenges[0].attrs.id;
 
     course = server.create('course-airtable');
-    course.attrs.fields['Épreuves'] = challenges.map((challenge) => challenge.attrs.id);
+    course.attachMany('Épreuves', challenges);
 
     assessment = server.create('assessment-airtable');
-    assessment.attrs.fields["Test"] = [ course.attrs.id ];
+    assessment.attachOne('Test', course);
     assessmentId = assessment.attrs.id;
-
   });
 
   after(function() {

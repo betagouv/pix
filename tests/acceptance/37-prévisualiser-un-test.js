@@ -23,7 +23,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
     application = startApp();
     challenges = server.createList('challenge-airtable', 3);
     course = server.create('course-airtable');
-    course.attrs.fields['Épreuves'] = challenges.map((c) => c.attrs.id);
+    course.attachMany('Épreuves', challenges);
 
     courseId = course.attrs.id;
     // XXX order is reversed
