@@ -1,8 +1,7 @@
 import Ember from 'ember';
-import Base from './base';
 import _ from 'lodash/lodash';
 
-export default Base.extend({
+export default Ember.Mixin.create({
   challengeType: 'QCU',
 
   proposalsAsArray: Ember.computed('proposals', function () {

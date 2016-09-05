@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.ObjectProxy.extend({
+export default Ember.Mixin.create({
   init() {
     if (!this.content || this.content.type !== 'QCM') {
       throw new Error('Bad instanciation');

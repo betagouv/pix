@@ -26,6 +26,11 @@ const ChallengeItem = Ember.Component.extend({
     this.set('selectedProposal', null);
   },
 
+  init() {
+    this._super(...arguments);
+    this.get('challenge').toTypedChallenge();
+  },
+
   actions: {
     validate(challenge, assessment) {
       if (Ember.isEmpty(this.get('selectedProposal'))) {
