@@ -1,36 +1,25 @@
 import Ember from 'ember';
 import { describe, before } from 'mocha';
 import { it } from 'ember-mocha';
-import QCMChallenge from 'pix-live/models/challenge/qcm';
+import QROCChallenge from 'pix-live/models/challenge/qroc';
 
-describe.skip('Unit | Model | Challenge/QROC', function () {
+describe.skip('Unit | Model | Challenge/QR  OC', function () {
 
-  describe('#init', function () {
-    it('detect wrong instanciations', function () {
-      expect(() => QCMChallenge.create()).to.throw(Error);
+  describe('#proposalsAsBlocks', function () {
+
+    const testData = [
+      {data: 'Text', expected: [{text: 'Text'}]}
+    ];
+
+    const Challenge = Ember.Object.extend(QROCChallenge, {});
+
+    testData.forEach(function ({ data, expected }) {
+
+      it(`"${data.toString()}" retourne [${expected}]`, function () {
+        const sut = Challenge.create({ proposal: data });
+        expect(sut.get('proposalsAsBlocks')).to.deep.equals(expected);
+      });
     });
-
-    it('can be instantiated with a correct challenge', function () {
-      const challenge = {
-        instruction: 'hello',
-        proposals: '- yo\n - yoyo\n - yoyoyo',
-        type: 'QCM'
-      };
-      const qcm = QCMChallenge.create({ content: challenge });
-      expect(qcm).to.be.ok;
-      expect(qcm.get('instruction')).to.eq(challenge.instruction);
-      expect(qcm.get('proposals')).to.eq(challenge.proposals);
-    });
-
-    it('will raise an exception if instanciated with another type than QCM', function () {
-      const challenge = {
-        instruction: 'hello',
-        proposals: '- yo\n - yoyo\n - yoyoyo',
-        type: 'QCU'
-      };
-
-      expect(() => QCMChallenge.create({content: challenge })).to.throw(Error);
-    })
   });
 });
 

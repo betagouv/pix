@@ -19,11 +19,13 @@ describe('Unit | Model | Challenge/QCM', function () {
       {data: '- foo\n\r\t\n\r\t\n\r\t\n- bar', expected: ['foo', 'bar']}
     ];
 
-    Challenge = Ember.Object.extend(QCMChallenge, {});
+    const Challenge = Ember.Object.extend(QCMChallenge, {});
 
     testData.forEach(({ data, expected }) => {
+
       it(`"${data.toString()}" retourne [${expected}]`, function() {
         const sut = Challenge.create({ proposals: data });
+        expect(sut.get('challengeType')).to.eq('QCM');
         expect(sut.get('proposalsAsArray')).to.deep.equal(expected);
       });
     });

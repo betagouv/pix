@@ -5,9 +5,13 @@ import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import RSVP from 'rsvp';
 
+const FakeChallenge = Ember.Object.extend({
+  toTypedChallenge() {}
+});
+
 function renderChallengeItem(challengeAttributes = {}, validateHandler = null) {
 
-  const challenge = Ember.Object.create(challengeAttributes);
+  const challenge = FakeChallenge.create(challengeAttributes);
   this.set('challenge', challenge);
 
   const assessment = Ember.Object.create({});
@@ -19,7 +23,7 @@ function renderChallengeItem(challengeAttributes = {}, validateHandler = null) {
 
 function renderChallengeItem_challengePreview(challengeAttributes = {}) {
 
-  const challenge = Ember.Object.create(challengeAttributes);
+  const challenge = FakeChallenge.create(challengeAttributes);
   this.set('challenge', challenge);
   this.render(hbs`{{challenge-item challenge}}`);
 }

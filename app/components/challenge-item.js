@@ -21,14 +21,12 @@ const ChallengeItem = Ember.Component.extend({
       this.set('error', null);
   }),
 
-  didUpdateAttrs() {
+  didReceiveAttrs() {
     this._super(...arguments);
     this.set('selectedProposal', null);
-  },
-
-  init() {
-    this._super(...arguments);
-    this.get('challenge').toTypedChallenge();
+    if (this.get('challenge')) {
+      this.get('challenge').toTypedChallenge();
+    }
   },
 
   actions: {
