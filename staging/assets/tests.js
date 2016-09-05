@@ -42,6 +42,126 @@ define('pix-live/tests/acceptance/1-accedder-a-la-plateforme-test.lint-test', ['
     });
   });
 });
+define('pix-live/tests/acceptance/10-consulter-l-ecran-de-fin-de-test-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'ember'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _ember) {
+
+  (0, _mocha.describe)("Acceptance | 10 - Consulter l'écran de fin d'un test ", function () {
+
+    var application = undefined;
+    var assessment = undefined;
+    var course = undefined;
+    var challenges = undefined;
+    var answers = undefined;
+    var $assessmentResults = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+
+      assessment = server.create('assessment-airtable');
+      course = server.create('course-airtable');
+      challenges = server.createList('challenge-airtable', 5);
+      answers = server.createList('answer-airtable', 5);
+
+      assessment.attachOne('Test', course);
+      course.attachMany('Épreuves', challenges);
+      for (var i = 0; i < answers.length; i++) {
+        var answer = answers[i];
+        var challenge = challenges[i];
+        answer.attachOne('Evaluation', assessment);
+        answer.attachOne('Epreuve', challenge);
+      }
+      assessment.attachMany('Reponses', answers);
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/assessments/' + assessment.attrs.id + '/results');
+    });
+
+    (0, _mocha.before)(function () {
+      $assessmentResults = findWithAssert('#assessment-results');
+    });
+
+    (0, _mocha.it)("10.1. se fait en accédant à l'URL /assessments/:assessment_id/results", function () {
+      (0, _chai.expect)(currentURL()).to.equal('/assessments/' + assessment.attrs.id + '/results');
+    });
+
+    (0, _mocha.it)("10.2. affiche un titre", function () {
+      (0, _chai.expect)($assessmentResults.text()).to.contains('Mercix !');
+    });
+
+    (0, _mocha.it)("10.3. affiche un texte explicatif", function () {
+      var expectedText = "Un PixMaster va étudier vos réponses et échanger avec vous pour recueillir vos impressions.";
+      (0, _chai.expect)($assessmentResults.text()).to.contains(expectedText);
+    });
+
+    (0, _mocha.it)("10.4. affiche l'intitulé du test", function () {
+      (0, _chai.expect)($assessmentResults.text()).to.contains(course.attrs.fields["Nom"]);
+    });
+
+    (0, _mocha.it)("10.5. affiche le rapport nombre de réponses saisies sur nombre d'épreuves du test", function () {
+      var expectedString = answers.length + ' question(s) sur ' + challenges.length;
+      (0, _chai.expect)($assessmentResults.text()).to.contains(expectedString);
+    });
+
+    (0, _mocha.it)("11.1. propose un moyen pour revenir à la liste des tests", function () {
+      var $homeLink = findWithAssert('.home-link');
+      (0, _chai.expect)($homeLink.attr('href')).to.equal('/home');
+    });
+  });
+});
+define('pix-live/tests/acceptance/10-consulter-l-ecran-de-fin-de-test-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/10-consulter-l-ecran-de-fin-de-test-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/10-consulter-l-ecran-de-fin-de-test-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/11-revenir-a-la-liste-des-tests-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)("Acceptance | 10 - Consulter l'écran de fin d'un test ", function () {
+
+    var application = undefined;
+    var assessment = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+      assessment = server.create('assessment-airtable');
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/assessments/' + assessment.attrs.id + '/results');
+    });
+
+    (0, _mocha.it)("11.1. propose un moyen pour revenir à la liste des tests", function () {
+      var $homeLink = findWithAssert('.home-link');
+      (0, _chai.expect)($homeLink.attr('href')).to.equal('/home');
+    });
+  });
+});
+define('pix-live/tests/acceptance/11-revenir-a-la-liste-des-tests-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/11-revenir-a-la-liste-des-tests-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/11-revenir-a-la-liste-des-tests-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 2 - voir la liste des tests', function () {
@@ -122,7 +242,7 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test.lint-test', ['exports'
     });
   });
 });
-define('pix-live/tests/acceptance/25-image-sous-la-consigne-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'rsvp'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _rsvp) {
+define('pix-live/tests/acceptance/25-image-sous-la-consigne-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)("Acceptance | 25 - Afficher une image sous la consigne | ", function () {
     var application = undefined;
@@ -436,8 +556,8 @@ define('pix-live/tests/acceptance/38-s-identifier-test', ['exports', 'mocha', 'c
     (0, _mocha.it)("38.1 Depuis la page d'accueil, je saisie mon prénom + nom + email", function () {
       return fillForm('Jérémy', 'Buget', 'jbu@octo.com').then(function () {
         (0, _chai.expect)($firstname.val()).to.contains('Jérémy');
-        (0, _chai.expect)($lastname.val()).to.eq('Buget');
-        (0, _chai.expect)($email.val()).to.eq('jbu@octo.com');
+        (0, _chai.expect)($lastname.val()).to.equal('Buget');
+        (0, _chai.expect)($email.val()).to.equal('jbu@octo.com');
       });
     });
 
@@ -445,14 +565,14 @@ define('pix-live/tests/acceptance/38-s-identifier-test', ['exports', 'mocha', 'c
       return fillForm('Jérémy', 'Buget', 'jbu@octo.com').then(function () {
         return click(submit_css);
       }).then(function () {
-        return (0, _chai.expect)(currentURL()).to.eq('/home');
+        return (0, _chai.expect)(currentURL()).to.equal('/home');
       });
     });
 
     (0, _mocha.it)('38.3 Quand je suis identifié, je vois apparaître le libellé “Bonjour Prénom” (via session utilisateur)', function () {
 
       // Assert that 38.2 went OK
-      (0, _chai.expect)(currentURL()).to.eq('/home');
+      (0, _chai.expect)(currentURL()).to.equal('/home');
 
       (0, _chai.expect)(findWithAssert('.profile').text()).to.contains('Bonjour Jérémy');
     });
@@ -2525,6 +2645,57 @@ define('pix-live/tests/unit/serializers/answer-test.lint-test', ['exports'], fun
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/serializers/answer-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/serializers/assessment-test', ['exports', 'chai', 'ember-mocha', 'pix-live/models/assessment', 'pix-live/serializers/assessment'], function (exports, _chai, _emberMocha, _pixLiveModelsAssessment, _pixLiveSerializersAssessment) {
+
+  (0, _emberMocha.describeModule)('serializer:assessment', 'Unit | Serializer | assessment', {}, function () {
+
+    var serializer = new _pixLiveSerializersAssessment['default']();
+    var Assessment = _pixLiveModelsAssessment['default'].extend({}); // copy the class to avoid side effects
+    Assessment.modelName = 'assessment';
+
+    function normalizePayload(payload) {
+      serializer.normalizeResponse(null, Assessment, payload, payload.id, null);
+      return payload;
+    }
+
+    (0, _emberMocha.it)('normalizes correctly', function () {
+
+      var payload = {
+        "id": "recgS0TFyy0bXTjIL",
+        "fields": {
+          "Test": ["rec5duNNrPqbSzQ8o"],
+          "Reponses": ["rec1234567ABCDEFG", "rec8910111HIJKLMN"],
+          "Référence": "recgS0TFyy0bXTjIL"
+        },
+        "createdTime": "2016-08-31T23:22:04.000Z"
+      };
+
+      var expected = {
+        assessment: {
+          id: payload.id,
+          created: payload.createdTime,
+          course: payload.fields['Test'],
+          answers: payload.fields['Reponses']
+        }
+      };
+      var assessment = normalizePayload(payload);
+
+      (0, _chai.expect)(assessment).to.be.deep.equal(expected);
+    });
+  });
+});
+define('pix-live/tests/unit/serializers/assessment-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/serializers/assessment-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/serializers/assessment-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
