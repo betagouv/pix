@@ -15,44 +15,5 @@ describeModel(
       let model = this.subject();
       expect(model).to.be.ok;
     });
-
-    describe('#toTypedChallenge', function () {
-      it('knows QCM', function () {
-        const qcmChallenge = this.subject({
-          type: 'QCM'
-        });
-        qcmChallenge.toTypedChallenge();
-
-        expect(qcmChallenge.challengeType).to.eq('QCM');
-      });
-
-      it('knows QCU', function () {
-        const qcuChallenge = this.subject({
-          type: 'QCU'
-        });
-        qcuChallenge.toTypedChallenge();
-
-        expect(qcuChallenge.challengeType).to.eq('QCU');
-      });
-
-      it("when it doesn't know the type, it choose QCU", function () {
-        const unknonwChallengeType = this.subject({
-          type: 'TaTaROC'
-        });
-        unknonwChallengeType.toTypedChallenge();
-
-        expect(unknonwChallengeType.challengeType).to.eq('QCU');
-      });
-
-      it('preserves the id', function () {
-        const qcu = this.subject({
-          id: 'recrecrec',
-          type: 'QCU'
-        });
-        qcu.toTypedChallenge();
-
-        expect(qcu.get('id')).to.equal(qcu.id);
-      });
-    });
   }
 );

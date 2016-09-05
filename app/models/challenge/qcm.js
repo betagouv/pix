@@ -2,9 +2,7 @@ import Ember from 'ember';
 import _ from 'lodash/lodash';
 
 export default Ember.Mixin.create({
-  challengeType: 'QCM',
-
-  proposalsAsArray: Ember.computed('proposals', function () {
+  _QCM_proposalsAsArray: Ember.computed('proposals', function () {
     if (_.isEmpty(this.get('proposals'))) {
       return [];
     }

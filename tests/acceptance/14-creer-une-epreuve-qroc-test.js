@@ -20,7 +20,7 @@ describe("Acceptance | 14 - Créer une épreuve de type QROC | ", function () {
     challenge = server.create('challenge-airtable', {
       fields: {
         'Consigne': 'Quel est le score du match Stade de Reims - LOSC du championnat de France de football 1954-1955 ?',
-        'Propositions': 'Stade de Reims ${Stade de Reims-LOSC} LOSC (ex : 1-1)',
+        'Propositions': 'Stade de Reims ${reims} - ${LOSC} LOSC (ex : 1-1)',
         "Type d'épreuve": 'QROC'
       }
     });
@@ -35,6 +35,6 @@ describe("Acceptance | 14 - Créer une épreuve de type QROC | ", function () {
   });
 
   it('14.1 un champ input text est affiché', function () {
-    findWithAssert('.challenge-proposal input[type="text"]');
+    findWithAssert('.challenge-proposals input[type="text"]');
   });
 });

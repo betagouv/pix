@@ -25,8 +25,7 @@ describe('Unit | Model | Challenge/QCM', function () {
 
       it(`"${data.toString()}" retourne [${expected}]`, function() {
         const sut = Challenge.create({ proposals: data });
-        expect(sut.get('challengeType')).to.eq('QCM');
-        expect(sut.get('proposalsAsArray')).to.deep.equal(expected);
+        expect(sut.get('_QCM_proposalsAsArray')).to.deep.equal(expected);
       });
     });
   });

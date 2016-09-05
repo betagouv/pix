@@ -57,7 +57,8 @@ describeModule(
           id: payload.id,
           created: payload.createdTime,
           instruction: payload.fields.Consigne,
-          proposals: payload.fields.Propositions
+          proposals: payload.fields.Propositions,
+          type: 'QCU'
         }
       };
       const challenge = normalizePayload(payload);
