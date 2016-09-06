@@ -1521,13 +1521,17 @@ define('pix-live/models/answer', ['exports', 'ember-data'], function (exports, _
   });
 });
 define('pix-live/models/assessment', ['exports', 'ember-data'], function (exports, _emberData) {
+  var attr = _emberData['default'].attr;
   var Model = _emberData['default'].Model;
   var belongsTo = _emberData['default'].belongsTo;
   var hasMany = _emberData['default'].hasMany;
   exports['default'] = Model.extend({
 
     course: belongsTo('course', { inverse: null }),
-    answers: hasMany('answer')
+    answers: hasMany('answer'),
+
+    userName: attr('string'),
+    userEmail: attr('string')
 
   });
 });
@@ -1808,19 +1812,26 @@ define('pix-live/serializers/assessment', ['exports', 'pix-live/serializers/airt
   exports['default'] = _pixLiveSerializersAirtableSerializer['default'].extend({
 
     transformFields: function transformFields(fields) {
+
       return {
         course: fields['Test'],
-        answers: fields['Reponses']
+        answers: fields['Reponses'],
+        userName: fields["Nom de l'usager"],
+        userEmail: fields["Courriel de l'usager"]
       };
     },
 
     serializeIntoHash: function serializeIntoHash(data, type, record, options) {
+
       data['fields'] = this.serialize(record, options);
     },
 
     serialize: function serialize(snapshot) {
+
       return {
-        "Test": [snapshot.belongsTo('course', { id: true })]
+        "Test": [snapshot.belongsTo('course', { id: true })],
+        "Nom de l'usager": snapshot.attr('userName'),
+        "Courriel de l'usager": snapshot.attr('userEmail')
       };
     }
   });
@@ -7831,7 +7842,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+25021e43"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+43377e20"});
 }
 
 /* jshint ignore:end */

@@ -2323,12 +2323,47 @@ define('pix-live/tests/unit/models/answer-test.lint-test', ['exports'], function
 define('pix-live/tests/unit/models/assessment-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
 
   (0, _emberMocha.describeModel)('assessment', 'Unit | Model | Assessment', {
-    needs: ['model:course', 'model:answer']
+    needs: ['model:course', 'model:answer', 'model:challenge', 'serializer:assessment']
   }, function () {
 
     (0, _emberMocha.it)('exists', function () {
       var model = this.subject();
       (0, _chai.expect)(model).to.be.ok;
+    });
+
+    describe('#serialize', function () {
+
+      (0, _emberMocha.it)('includes course ID', function () {
+        var _this = this;
+
+        Ember.run(function () {
+          // given
+          var courseId = 'rec1234567890';
+          var course = _this.store().createRecord('course', { id: courseId });
+          var assessment = _this.subject({ course: course });
+
+          // when
+          var serializedData = assessment.serialize();
+
+          // then
+          (0, _chai.expect)(serializedData["Test"]).to.deep.equal([courseId]);
+        });
+      });
+
+      (0, _emberMocha.it)("includes user's name and email", function () {
+        // given
+        var assessment = this.subject({
+          userEmail: 'toto@plop.com',
+          userName: 'Toto'
+        });
+
+        // when
+        var serializedData = assessment.serialize();
+
+        // then
+        (0, _chai.expect)(serializedData["Nom de l'usager"]).to.equal('Toto');
+        (0, _chai.expect)(serializedData["Courriel de l'usager"]).to.equal('toto@plop.com');
+      });
     });
   });
 });
@@ -2652,7 +2687,9 @@ define('pix-live/tests/unit/serializers/answer-test.lint-test', ['exports'], fun
 });
 define('pix-live/tests/unit/serializers/assessment-test', ['exports', 'chai', 'ember-mocha', 'pix-live/models/assessment', 'pix-live/serializers/assessment'], function (exports, _chai, _emberMocha, _pixLiveModelsAssessment, _pixLiveSerializersAssessment) {
 
-  (0, _emberMocha.describeModule)('serializer:assessment', 'Unit | Serializer | assessment', {}, function () {
+  (0, _emberMocha.describeModel)('assessment', 'Unit | Serializer | assessment', {
+    needs: ['model:answer']
+  }, function () {
 
     var serializer = new _pixLiveSerializersAssessment['default']();
     var Assessment = _pixLiveModelsAssessment['default'].extend({}); // copy the class to avoid side effects
@@ -2670,7 +2707,9 @@ define('pix-live/tests/unit/serializers/assessment-test', ['exports', 'chai', 'e
         "fields": {
           "Test": ["rec5duNNrPqbSzQ8o"],
           "Reponses": ["rec1234567ABCDEFG", "rec8910111HIJKLMN"],
-          "Référence": "recgS0TFyy0bXTjIL"
+          "Référence": "recgS0TFyy0bXTjIL",
+          "Nom de l'usager": "Jérémy le Grand",
+          "Courriel de l'usager": "jbu@octo.com"
         },
         "createdTime": "2016-08-31T23:22:04.000Z"
       };
@@ -2680,7 +2719,9 @@ define('pix-live/tests/unit/serializers/assessment-test', ['exports', 'chai', 'e
           id: payload.id,
           created: payload.createdTime,
           course: payload.fields['Test'],
-          answers: payload.fields['Reponses']
+          answers: payload.fields['Reponses'],
+          userName: payload.fields["Nom de l'usager"],
+          userEmail: payload.fields["Courriel de l'usager"]
         }
       };
       var assessment = normalizePayload(payload);
