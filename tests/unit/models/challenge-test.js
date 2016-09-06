@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 import { describeModel, it } from 'ember-mocha';
 import { describe } from "mocha";
-import QCMChallenge from 'pix-live/models/challenge/qcm';
-import QCUChallenge from 'pix-live/models/challenge/qcu';
 
 describeModel(
   'challenge',

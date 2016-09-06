@@ -1,6 +1,6 @@
-import {expect} from 'chai';
-import {describeComponent, it} from 'ember-mocha';
-import {describe, before} from 'mocha';
+import { expect } from 'chai';
+import { describeComponent, it } from 'ember-mocha';
+import { describe, before } from 'mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import RSVP from 'rsvp';
@@ -56,7 +56,7 @@ describeComponent(
         const instruction = 'My challenge instruction';
 
         // when
-        renderChallengeItem.call(this, {instruction});
+        renderChallengeItem.call(this, { instruction });
 
         // then
         expect(this.$('.challenge-instruction').text()).to.contains(instruction);
@@ -80,7 +80,7 @@ describeComponent(
 
       it('should display an img tag with “ceci est une image” alt text', function () {
         // when
-        renderChallengeItem.call(this, {illustrationUrl: 'http://my.illustration.png'});
+        renderChallengeItem.call(this, { illustrationUrl: 'http://my.illustration.png' });
 
         // then
         const $illustration = this.$('.challenge-illustration');
@@ -90,7 +90,7 @@ describeComponent(
       it('should display an img tag with src attribute equals to the challenge.illustrationUrl property', function () {
         // given
         const illustrationUrl = 'http://my.illustration.png';
-        renderChallengeItem.call(this, {illustrationUrl});
+        renderChallengeItem.call(this, { illustrationUrl });
 
         let $illustration = this.$('.challenge-illustration');
         expect($illustration.attr('src')).to.equals(illustrationUrl);
@@ -122,7 +122,7 @@ describeComponent(
 
       it('should callback the validate action when the user click on validate', function (done) {
         // given
-        renderChallengeItem.call(this, {type: 'QCU', _QCU_proposalsAsArray: ['Xi', 'Fu', 'Mi']}, () => done());
+        renderChallengeItem.call(this, { type: 'QCU', _proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => done());
 
         // when
         this.$('.challenge-proposal:first input[type="radio"]').click();
@@ -131,7 +131,10 @@ describeComponent(
 
       it('should call "onValidated" callback with good value for QCU (i.e. proposal index + 1)', function (done) {
         // given
-        renderChallengeItem.call(this, {type: 'QCU', _QCU_proposalsAsArray: ['Xi', 'Fu', 'Mi']}, (challenge, assessment, answerValue) => {
+        renderChallengeItem.call(this, {
+          type: 'QCU',
+          _proposalsAsArray: ['Xi', 'Fu', 'Mi']
+        }, (challenge, assessment, answerValue) => {
 
           // then
           expect(answerValue).to.equal("1");
@@ -149,7 +152,7 @@ describeComponent(
 
       it("should be hidden by default", function () {
         // when
-        renderChallengeItem.call(this, {proposalsAsArray: ['Xi', 'Fu', 'Mi']}, () => done());
+        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => done());
 
         // then
         expect(this.$('.alert-error')).to.have.lengthOf(0);
@@ -159,7 +162,7 @@ describeComponent(
 
         it("should be displayed", function () {
           // given
-          renderChallengeItem.call(this, {proposalsAsArray: ['Xi', 'Fu', 'Mi']}, () => {
+          renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => {
 
             // then
             const $alertError = this.$('.alert-error');
@@ -172,7 +175,7 @@ describeComponent(
 
         it('should contains "Vous devez saisir une réponse"', function () {
           // given
-          renderChallengeItem.call(this, {proposalsAsArray: ['Xi', 'Fu', 'Mi']}, () => {
+          renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => {
 
             // then
             const $alertError = this.$('.alert-error');
@@ -204,7 +207,7 @@ describeComponent(
 
         it('should render challenge proposals as different text blocks', function () {
           // when
-          renderChallengeItem.call(this, {_QCU_proposalsAsArray: ['Xi', 'Fu', 'Mi']});
+          renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
           // then
           const $proposals = this.$('.challenge-proposal');
@@ -216,7 +219,7 @@ describeComponent(
 
         it('should render challenge proposals as different radios buttons', function () {
           // when
-          renderChallengeItem.call(this, {_QCU_proposalsAsArray: ['Xi', 'Fu', 'Mi']});
+          renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
           // then
           const $proposals = this.$('.challenge-proposal input[type="radio"]');
@@ -228,13 +231,15 @@ describeComponent(
 
         it('should render challenge proposals as different text blocks', function () {
           // when
-          renderChallengeItem.call(this, {type: 'QROC', _QROC_proposalsAsBlocks: [
-            {text: 'Reims'},
-            {input: 'reims'},
-            {text: '-'},
-            {input: 'losc'},
-            {text: 'Losc'}
-          ]});
+          renderChallengeItem.call(this, {
+            type: 'QROC', _proposalsAsBlocks: [
+              { text: 'Reims' },
+              { input: 'reims' },
+              { text: '-' },
+              { input: 'losc' },
+              { text: 'Losc' }
+            ]
+          });
 
           // then
           const $proposalsText = this.$('.challenge-proposals span');
@@ -244,13 +249,15 @@ describeComponent(
 
         it('should render challenge propsals as different input blocks', function () {
           // when
-          renderChallengeItem.call(this, {type: 'QROC', _QROC_proposalsAsBlocks: [
-            {text: 'Reims'},
-            {input: 'reims'},
-            {text: '-'},
-            {input: 'losc'},
-            {text: 'Losc'}
-          ]});
+          renderChallengeItem.call(this, {
+            type: 'QROC', _proposalsAsBlocks: [
+              { text: 'Reims' },
+              { input: 'reims' },
+              { text: '-' },
+              { input: 'losc' },
+              { text: 'Losc' }
+            ]
+          });
 
           // then
           const $proposalsInput = this.$('.challenge-proposals input[type="text"]');

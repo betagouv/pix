@@ -2,7 +2,7 @@ import Ember from 'ember';
 import _ from 'lodash/lodash';
 
 export default Ember.Mixin.create({
-  _QCM_proposalsAsArray: Ember.computed('proposals', function () {
+  _proposalsAsArray: Ember.computed('proposals', function () {
     if (_.isEmpty(this.get('proposals'))) {
       return [];
     }

@@ -10,20 +10,20 @@
     <div class="challenge-proposals">
 
       {{#if challengeIsTypeQROC}}
-        {{#each challenge._QROC_proposalsAsBlocks as |block|}}
+        {{#each challenge._proposalsAsBlocks as |block|}}
 
           {{#if block.text}}
-            <span>{{block.text}}</span>
+              <span>{{block.text}}</span>
           {{/if}}
 
           {{#if block.input}}
-              {{input type="text" placeholder=block.input}}
+            {{input type="text" placeholder=block.input}}
           {{/if}}
 
         {{/each}}
 
       {{else}}
-        {{#each challenge._QCU_proposalsAsArray as |proposal index|}}
+        {{#each challenge._proposalsAsArray as |proposal index|}}
             <p class="challenge-proposal">
                 <label>{{radio-button name="proposals" value=index checked=selectedProposal}} {{ proposal }}</label>
             </p>

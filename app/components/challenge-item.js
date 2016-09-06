@@ -21,8 +21,8 @@ const ChallengeItem = Ember.Component.extend({
   challengeIsTypeQCM: Ember.computed.equal('challenge.type', 'QCM'),
   challengeIsTypeQCU: Ember.computed.equal('challenge.type', 'QCU'),
 
-  onSelectedProposalChanged: Ember.observer('selectedProposal', function() {
-      this.set('error', null);
+  onSelectedProposalChanged: Ember.observer('selectedProposal', function () {
+    this.set('error', null);
   }),
 
   didUpdateAttrs() {

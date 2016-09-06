@@ -5,8 +5,7 @@ export default Ember.Route.extend({
   model(params) {
     return this
       .get('store')
-      .findRecord('challenge', params.challenge_id)
-      .then((challenge) => challenge);
+      .findRecord('challenge', params.challenge_id);
   }
 
 });

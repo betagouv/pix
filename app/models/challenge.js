@@ -1,14 +1,11 @@
 import DS from 'ember-data';
-import Ember from 'ember';
 
-import QCMChallenge from './challenge/qcm';
-import QCUChallenge from './challenge/qcu';
-import QROCChallenge from './challenge/qroc';
+import ProposalsAsArrayMixin from './challenge/proposals-as-array-mixin';
+import ProposalsAsBlocksMixin from './challenge/proposals-as-blocks-mixin';
 
-const {Model, attr} = DS;
-const {computed} = Ember;
+const { Model, attr } = DS;
 
-const ChallengeModel = Model.extend(QCUChallenge, QCMChallenge, QROCChallenge,
+const ChallengeModel = Model.extend(ProposalsAsArrayMixin, ProposalsAsBlocksMixin,
   {
     instruction: attr('string'),
     proposals: attr('string'),
