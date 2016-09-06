@@ -162,6 +162,49 @@ define('pix-live/tests/acceptance/11-revenir-a-la-liste-des-tests-test.lint-test
     });
   });
 });
+define('pix-live/tests/acceptance/14-creer-une-epreuve-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'rsvp'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _rsvp) {
+
+  (0, _mocha.describe)("Acceptance | 14 - Créer une épreuve de type QROC | ", function () {
+
+    var application = undefined;
+    var challenge = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+      challenge = server.create('challenge-airtable', {
+        fields: {
+          'Consigne': 'Quel est le score du match Stade de Reims - LOSC du championnat de France de football 1954-1955 ?',
+          'Propositions': 'Stade de Reims ${reims} - ${LOSC} LOSC (ex : 1-1)',
+          "Type d'épreuve": 'QROC'
+        }
+      });
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/challenges/' + challenge.attrs.id + '/preview');
+    });
+
+    (0, _mocha.it)('14.1 un champ input text est affiché', function () {
+      findWithAssert('.challenge-proposals input[type="text"]');
+    });
+  });
+});
+define('pix-live/tests/acceptance/14-creer-une-epreuve-qroc-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/14-creer-une-epreuve-qroc-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/14-creer-une-epreuve-qroc-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 2 - voir la liste des tests', function () {
@@ -1776,18 +1819,6 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         (0, _chai.expect)(this.$('.challenge-instruction').text()).to.contains(instruction);
       });
 
-      (0, _emberMocha.it)('should render challenge proposals', function () {
-        // when
-        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
-
-        // then
-        var $proposals = this.$('.challenge-proposal');
-        (0, _chai.expect)($proposals).to.have.lengthOf(3);
-        (0, _chai.expect)($proposals.eq(0).text()).to.contains('Xi');
-        (0, _chai.expect)($proposals.eq(1).text()).to.contains('Fu');
-        (0, _chai.expect)($proposals.eq(2).text()).to.contains('Mi');
-      });
-
       (0, _emberMocha.it)('should display "Skip" button ', function () {
         // when
         renderChallengeItem.call(this);
@@ -1846,7 +1877,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
 
       (0, _emberMocha.it)('should callback the validate action when the user click on validate', function (done) {
         // given
-        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, function () {
+        renderChallengeItem.call(this, { type: 'QCU', _proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, function () {
           return done();
         });
 
@@ -1857,7 +1888,10 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
 
       (0, _emberMocha.it)('should call "onValidated" callback with good value for QCU (i.e. proposal index + 1)', function (done) {
         // given
-        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, function (challenge, assessment, answerValue) {
+        renderChallengeItem.call(this, {
+          type: 'QCU',
+          _proposalsAsArray: ['Xi', 'Fu', 'Mi']
+        }, function (challenge, assessment, answerValue) {
 
           // then
           (0, _chai.expect)(answerValue).to.equal("1");
@@ -1926,6 +1960,59 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         });
       });
     });
+
+    (0, _mocha.describe)('Challenges types', function () {
+
+      (0, _mocha.describe)('QCU', function () {
+
+        (0, _emberMocha.it)('should render challenge proposals as different text blocks', function () {
+          // when
+          renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
+
+          // then
+          var $proposals = this.$('.challenge-proposal');
+          (0, _chai.expect)($proposals).to.have.lengthOf(3);
+          (0, _chai.expect)($proposals.eq(0).text()).to.contains('Xi');
+          (0, _chai.expect)($proposals.eq(1).text()).to.contains('Fu');
+          (0, _chai.expect)($proposals.eq(2).text()).to.contains('Mi');
+        });
+
+        (0, _emberMocha.it)('should render challenge proposals as different radios buttons', function () {
+          // when
+          renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
+
+          // then
+          var $proposals = this.$('.challenge-proposal input[type="radio"]');
+          (0, _chai.expect)($proposals).to.have.lengthOf(3);
+        });
+      });
+
+      (0, _mocha.describe)('QROC', function () {
+
+        (0, _emberMocha.it)('should render challenge proposals as different text blocks', function () {
+          // when
+          renderChallengeItem.call(this, {
+            type: 'QROC', _proposalsAsBlocks: [{ text: 'Reims' }, { input: 'reims' }, { text: '-' }, { input: 'losc' }, { text: 'Losc' }]
+          });
+
+          // then
+          var $proposalsText = this.$('.challenge-proposals span');
+          (0, _chai.expect)($proposalsText).to.have.lengthOf(3);
+          (0, _chai.expect)($proposalsText.text()).to.contains('Reims-Losc');
+        });
+
+        (0, _emberMocha.it)('should render challenge propsals as different input blocks', function () {
+          // when
+          renderChallengeItem.call(this, {
+            type: 'QROC', _proposalsAsBlocks: [{ text: 'Reims' }, { input: 'reims' }, { text: '-' }, { input: 'losc' }, { text: 'Losc' }]
+          });
+
+          // then
+          var $proposalsInput = this.$('.challenge-proposals input[type="text"]');
+          (0, _chai.expect)($proposalsInput).to.have.lengthOf(2);
+        });
+      });
+    });
   });
 });
 define('pix-live/tests/integration/components/challenge-item-test.lint-test', ['exports'], function (exports) {
@@ -1971,6 +2058,30 @@ define('pix-live/tests/models/challenge.lint-test', ['exports'], function (expor
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('models/challenge.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/models/challenge/proposals-as-array-mixin.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - models/challenge/proposals-as-array-mixin.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('models/challenge/proposals-as-array-mixin.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/models/challenge/proposals-as-blocks-mixin.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - models/challenge/proposals-as-blocks-mixin.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('models/challenge/proposals-as-blocks-mixin.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -2388,25 +2499,6 @@ define('pix-live/tests/unit/models/challenge-test', ['exports', 'chai', 'ember-m
       var model = this.subject();
       (0, _chai.expect)(model).to.be.ok;
     });
-
-    (0, _mocha.describe)('#proposalsAsArray', function () {
-
-      function getProposalsAsArray(subject) {
-        return subject.get('proposalsAsArray');
-      }
-
-      var testData = [{ data: '', expected: [] }, { data: 'foo', expected: [] }, { data: '- foo', expected: ['foo'] }, { data: '-foo\n- bar', expected: ['foo', 'bar'] }, { data: '- cerf-volant', expected: ['cerf-volant'] }, { data: '- xi\n- foo mi', expected: ['xi', 'foo mi'] }, { data: '- joli\n- cerf-volant', expected: ['joli', 'cerf-volant'] }, { data: '- xi\n- foo\n- mi', expected: ['xi', 'foo', 'mi'] }, { data: '-- foo', expected: ['- foo'] }, { data: '- foo\n\r\t\n\r\t\n\r\t\n- bar', expected: ['foo', 'bar'] }];
-
-      testData.forEach(function (_ref) {
-        var data = _ref.data;
-        var expected = _ref.expected;
-
-        (0, _emberMocha.it)('"' + data.toString() + '" retourne [' + expected + ']', function () {
-          var sut = this.subject({ proposals: data });
-          (0, _chai.expect)(getProposalsAsArray(sut)).to.deep.equal(expected);
-        });
-      });
-    });
   });
 });
 define('pix-live/tests/unit/models/challenge-test.lint-test', ['exports'], function (exports) {
@@ -2416,6 +2508,75 @@ define('pix-live/tests/unit/models/challenge-test.lint-test', ['exports'], funct
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/models/challenge-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/models/challenge/proposals-as-array-mixin-test', ['exports', 'mocha', 'ember-mocha', 'pix-live/models/challenge/proposals-as-array-mixin'], function (exports, _mocha, _emberMocha, _pixLiveModelsChallengeProposalsAsArrayMixin) {
+
+  (0, _mocha.describe)('Unit | Model | Challenge/Propsals As Array Mixin', function () {
+
+    var testData = [{ data: '', expected: [] }, { data: 'foo', expected: [] }, { data: '- foo', expected: ['foo'] }, { data: '-foo\n- bar', expected: ['foo', 'bar'] }, { data: '- cerf-volant', expected: ['cerf-volant'] }, { data: '- xi\n- foo mi', expected: ['xi', 'foo mi'] }, { data: '- joli\n- cerf-volant', expected: ['joli', 'cerf-volant'] }, { data: '- xi\n- foo\n- mi', expected: ['xi', 'foo', 'mi'] }, { data: '-- foo', expected: ['- foo'] }, { data: '- foo\n\r\t\n\r\t\n\r\t\n- bar', expected: ['foo', 'bar'] }];
+
+    var Challenge = Ember.Object.extend(_pixLiveModelsChallengeProposalsAsArrayMixin['default'], {});
+
+    testData.forEach(function (_ref) {
+      var data = _ref.data;
+      var expected = _ref.expected;
+
+      (0, _emberMocha.it)('"' + data.toString() + '" retourne [' + expected + ']', function () {
+        var sut = Challenge.create({ proposals: data });
+        expect(sut.get('_proposalsAsArray')).to.deep.equal(expected);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/models/challenge/proposals-as-array-mixin-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/models/challenge/proposals-as-array-mixin-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/models/challenge/proposals-as-array-mixin-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/models/challenge/proposals-as-blocks-mixin-test', ['exports', 'ember', 'mocha', 'ember-mocha', 'pix-live/models/challenge/proposals-as-blocks-mixin'], function (exports, _ember, _mocha, _emberMocha, _pixLiveModelsChallengeProposalsAsBlocksMixin) {
+
+  (0, _mocha.describe)('Unit | Model | Challenge/Proposal As Blocks Mixin', function () {
+
+    var testData = [{ data: '', expected: [] }, { data: 'Text', expected: [{ text: 'Text' }] }, { data: 'Text test plop', expected: [{ text: 'Text test plop' }] }, { data: '${qroc}', expected: [{ input: 'qroc' }] }, { data: 'Test: ${test}', expected: [{ text: 'Test:' }, { input: 'test' }] }, {
+      data: 'Test: ${test} (kilometres)',
+      expected: [{ text: 'Test:' }, { input: 'test' }, { text: '(kilometres)' }]
+    }, {
+      data: '${plop}, ${plop} ${plop}',
+      expected: [{ input: 'plop' }, { text: ',' }, { input: 'plop' }, { input: 'plop' }]
+    }];
+
+    var Challenge = _ember['default'].Object.extend(_pixLiveModelsChallengeProposalsAsBlocksMixin['default'], {});
+
+    testData.forEach(function (_ref) {
+      var data = _ref.data;
+      var expected = _ref.expected;
+
+      (0, _emberMocha.it)('"' + data + '" retourne ' + JSON.stringify(expected), function () {
+        var sut = Challenge.create({ proposals: data });
+        var blocks = sut.get('_proposalsAsBlocks');
+        expect(blocks, JSON.stringify(blocks)).to.deep.equals(expected);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/models/challenge/proposals-as-blocks-mixin-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/models/challenge/proposals-as-blocks-mixin-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/models/challenge/proposals-as-blocks-mixin-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -2737,6 +2898,72 @@ define('pix-live/tests/unit/serializers/assessment-test.lint-test', ['exports'],
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/serializers/assessment-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/serializers/challenge-test', ['exports', 'chai', 'ember-mocha', 'pix-live/models/challenge', 'pix-live/serializers/challenge'], function (exports, _chai, _emberMocha, _pixLiveModelsChallenge, _pixLiveSerializersChallenge) {
+
+  (0, _emberMocha.describeModule)('serializer:challenge', 'Unit | Serializer | challenge', {}, function () {
+
+    var serializer = new _pixLiveSerializersChallenge['default']();
+    var Challenge = _pixLiveModelsChallenge['default'].extend({}); // copy the class to avoid side effects
+    Challenge.modelName = 'challenge';
+
+    function normalizePayload(payload) {
+      serializer.normalizeResponse(null, Challenge, payload, payload.id, null);
+      return payload;
+    }
+
+    (0, _emberMocha.it)('it normalize correctly', function () {
+      var payload = {
+        "createdTime": "2016-08-24T16:05:16.000Z",
+        "fields": {
+          "Auteur": ["SPS"],
+          "Bonnes réponses": "2",
+          "Consigne": "Quel signe précède toujours une formule dans une cellule de feuille de calcul ?",
+          "Licence image": "no",
+          "Preview": "http://staging.pix.beta.gouv.fr/challenges/rec1LvIU9OZ2sXyuy/preview",
+          "Propositions": "- #\r\n- =\r\n- !\r\n- :\r\n- $\r",
+          "Record ID": "rec1LvIU9OZ2sXyuy",
+          "Reponses": [],
+          "Type d'épreuve": "QCU",
+          "Type péda": "q-situation",
+          "_Niveau": ["3"],
+          "_Preview Temp": "https://docs.google.com/presentation/d/1aEn-VH5_ijVBRmsLDvtQmG83BZihE37PnCz5g2mEbWk/edit#slide=id.g15ad5fc552_0_4",
+          "_Statut": "proposé",
+          "acquis": ["#formuleSimple"],
+          "compétence": "1.3. Traiter des données",
+          "description": "Signe précédant une formule",
+          "domaine": "1.3. Traiter des données",
+          "id": 98,
+          "versions Alter": ["recgPPjKpxqAMaAeX"]
+        },
+        "id": "rec1LvIU9OZ2sXyuy"
+      };
+      var expected = {
+        challenge: {
+          id: payload.id,
+          created: payload.createdTime,
+          instruction: payload.fields.Consigne,
+          proposals: payload.fields.Propositions,
+          type: 'QCU'
+        }
+      };
+      var challenge = normalizePayload(payload);
+
+      (0, _chai.expect)(challenge).to.be.deep.equal(expected);
+    });
+  });
+});
+define('pix-live/tests/unit/serializers/challenge-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/serializers/challenge-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/serializers/challenge-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
