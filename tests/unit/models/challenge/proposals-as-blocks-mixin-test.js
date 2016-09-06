@@ -25,9 +25,10 @@ describe('Unit | Model | Challenge/Proposal As Blocks Mixin', function () {
 
   testData.forEach(function ({ data, expected }) {
 
-    it(`"${data.toString()}" retourne ${JSON.stringify(expected)}`, function () {
+    it(`"${data}" retourne ${JSON.stringify(expected)}`, function () {
       const sut = Challenge.create({ proposals: data });
-      expect(sut.get('_proposalsAsBlocks')).to.deep.equals(expected);
+      const blocks = sut.get('_proposalsAsBlocks');
+      expect(blocks, JSON.stringify(blocks)).to.deep.equals(expected);
     });
   });
 });

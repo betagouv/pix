@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 function parseInput(lastIsOpening, input) {
-  let block = null;
+  let block = false;
 
   switch (input) {
     case '${':
@@ -36,8 +36,8 @@ export default Ember.Mixin.create({
     const parts = proposals.split(/\s*(\${)|}\s*/);
     let result = [];
 
-    for (const part of parts) {
-      let { lastIsOpening, block } = parseInput((lastIsOpening || false), part);
+    for (let index = 0; index < parts.length; index += 1) {
+      let { lastIsOpening, block } = parseInput((lastIsOpening || false), parts[index]);
       if (block) {
         result.push(block);
       }
