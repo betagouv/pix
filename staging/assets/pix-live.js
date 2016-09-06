@@ -1649,10 +1649,19 @@ define('pix-live/routes/challenges/get-preview', ['exports', 'ember'], function 
 define('pix-live/routes/courses/create-assessment', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
   exports['default'] = _ember['default'].Route.extend({
 
+    session: _ember['default'].inject.service(),
+
     model: function model(params) {
+      var _this = this;
+
       var store = this.get('store');
       return store.findRecord('course', params.course_id).then(function (course) {
-        var assessment = store.createRecord('assessment', { course: course });
+
+        // FIXME : add (route?) tests
+        var userName = _this.get('session.firstname') + ' ' + _this.get('session.lastname');
+        var userEmail = _this.get('session.email');
+
+        var assessment = store.createRecord('assessment', { course: course, userName: userName, userEmail: userEmail });
         return _rsvp['default'].hash({
           assessment: assessment.save(),
           challenge: course.get('challenges.firstObject')
@@ -7842,7 +7851,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+43377e20"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+c7519728"});
 }
 
 /* jshint ignore:end */
