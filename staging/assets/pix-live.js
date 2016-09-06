@@ -364,6 +364,9 @@ define('pix-live/components/challenge-item', ['exports', 'ember'], function (exp
         }
         var value = this._adaptSelectedProposalValueToBackendValue(this.get('selectedProposal'));
         this.sendAction('onValidated', challenge, assessment, value);
+      },
+      skip: function skip() {
+        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#');
       }
     },
 
@@ -4633,9 +4636,9 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element2 = dom.childAt(fragment, [3]);
+          var element4 = dom.childAt(fragment, [3]);
           var morphs = new Array(1);
-          morphs[0] = dom.createAttrMorph(element2, 'src');
+          morphs[0] = dom.createAttrMorph(element4, 'src');
           return morphs;
         },
         statements: [["attribute", "src", ["concat", [["get", "challenge.illustrationUrl", ["loc", [null, [5, 50], [5, 75]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
@@ -4859,10 +4862,10 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var element1 = dom.childAt(fragment, [1, 1]);
+            var element3 = dom.childAt(fragment, [1, 1]);
             var morphs = new Array(2);
-            morphs[0] = dom.createMorphAt(element1, 0, 0);
-            morphs[1] = dom.createMorphAt(element1, 2, 2);
+            morphs[0] = dom.createMorphAt(element3, 0, 0);
+            morphs[1] = dom.createMorphAt(element3, 2, 2);
             return morphs;
           },
           statements: [["inline", "radio-button", [], ["name", "proposals", "value", ["subexpr", "@mut", [["get", "index", ["loc", [null, [28, 61], [28, 66]]], 0, 0, 0, 0]], [], [], 0, 0], "checked", ["subexpr", "@mut", [["get", "selectedProposal", ["loc", [null, [28, 75], [28, 91]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [28, 23], [28, 93]]], 0, 0], ["content", "proposal", ["loc", [null, [28, 94], [28, 108]]], 0, 0, 0, 0]],
@@ -5014,13 +5017,16 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [5, 3]);
-          var morphs = new Array(2);
+          var element0 = dom.childAt(fragment, [5]);
+          var element1 = dom.childAt(element0, [1]);
+          var element2 = dom.childAt(element0, [3]);
+          var morphs = new Array(3);
           morphs[0] = dom.createMorphAt(fragment, 3, 3, contextualElement);
-          morphs[1] = dom.createElementMorph(element0);
+          morphs[1] = dom.createElementMorph(element1);
+          morphs[2] = dom.createElementMorph(element2);
           return morphs;
         },
-        statements: [["block", "if", [["get", "hasError", ["loc", [null, [36, 10], [36, 18]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [36, 4], [40, 11]]]], ["element", "action", ["validate", ["get", "challenge", ["loc", [null, [44, 84], [44, 93]]], 0, 0, 0, 0], ["get", "assessment", ["loc", [null, [44, 94], [44, 104]]], 0, 0, 0, 0]], [], ["loc", [null, [44, 64], [44, 106]]], 0, 0]],
+        statements: [["block", "if", [["get", "hasError", ["loc", [null, [36, 10], [36, 18]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [36, 4], [40, 11]]]], ["element", "action", ["skip"], [], ["loc", [null, [43, 62], [43, 79]]], 0, 0], ["element", "action", ["validate", ["get", "challenge", ["loc", [null, [44, 84], [44, 93]]], 0, 0, 0, 0], ["get", "assessment", ["loc", [null, [44, 94], [44, 104]]], 0, 0, 0, 0]], [], ["loc", [null, [44, 64], [44, 106]]], 0, 0]],
         locals: [],
         templates: [child0]
       };
@@ -5086,13 +5092,13 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element3 = dom.childAt(fragment, [0]);
-        var element4 = dom.childAt(fragment, [2]);
+        var element5 = dom.childAt(fragment, [0]);
+        var element6 = dom.childAt(fragment, [2]);
         var morphs = new Array(4);
-        morphs[0] = dom.createMorphAt(dom.childAt(element3, [1]), 0, 0);
-        morphs[1] = dom.createMorphAt(element3, 3, 3);
-        morphs[2] = dom.createMorphAt(dom.childAt(element4, [1]), 1, 1);
-        morphs[3] = dom.createMorphAt(element4, 3, 3);
+        morphs[0] = dom.createMorphAt(dom.childAt(element5, [1]), 0, 0);
+        morphs[1] = dom.createMorphAt(element5, 3, 3);
+        morphs[2] = dom.createMorphAt(dom.childAt(element6, [1]), 1, 1);
+        morphs[3] = dom.createMorphAt(element6, 3, 3);
         return morphs;
       },
       statements: [["content", "challenge.instruction", ["loc", [null, [2, 37], [2, 64]]], 0, 0, 0, 0], ["block", "if", [["get", "hasIllustration", ["loc", [null, [3, 8], [3, 23]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [3, 2], [6, 9]]]], ["block", "if", [["get", "challengeIsTypeQROC", ["loc", [null, [12, 12], [12, 31]]], 0, 0, 0, 0]], [], 1, 2, ["loc", [null, [12, 6], [31, 13]]]], ["block", "unless", [["get", "isChallengePreviewMode", ["loc", [null, [34, 12], [34, 34]]], 0, 0, 0, 0]], [], 3, null, ["loc", [null, [34, 2], [47, 13]]]]],
@@ -8121,7 +8127,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+dcbf76ed"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+abd6ab19"});
 }
 
 /* jshint ignore:end */

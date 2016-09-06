@@ -1904,6 +1904,20 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
       });
     });
 
+    (0, _mocha.describe)('Skipping the challenge', function () {
+
+      (0, _emberMocha.it)('save #ABAND# as value when clicked', function (done) {
+
+        renderChallengeItem.call(this, { proposalsAsArray: ['1', '2', '3'] }, function (_challenge, _assessment, answerValue) {
+
+          (0, _chai.expect)(answerValue).to.equal('#ABAND#');
+          done();
+        });
+
+        this.$('.skip-button').click();
+      });
+    });
+
     (0, _mocha.describe)('Error alert box', function () {
 
       (0, _emberMocha.it)("should be hidden by default", function () {
