@@ -25,21 +25,8 @@ function renderChallengeItem_challengePreview(challengeAttributes = {}) {
   this.render(hbs`{{challenge-item challenge}}`);
 }
 
-function selectFirstProposal() {
-
-  return new RSVP.Promise(function (resolve) {
-    return this.$('.challenge-proposal:first input[type="radio"]').click(() => {
-      return resolve();
-    });
-  });
-}
-
 function validateChallenge() {
   this.$('.validate-button').click();
-}
-
-function assertAlertErrorToBeHidden() {
-  expect(this.$('.alert-error')).to.have.lengthOf(0);
 }
 
 describeComponent(
@@ -153,7 +140,7 @@ describeComponent(
 
       it('save #ABAND# as value when clicked', function (done) {
 
-        renderChallengeItem.call(this, { proposalsAsArray: ['1', '2', '3'] }, (_challenge, _assessment, answerValue) => {
+        renderChallengeItem.call(this, { _proposalsAsArray: ['1', '2', '3'] }, (_challenge, _assessment, answerValue) => {
 
           expect(answerValue).to.equal('#ABAND#');
           done()
@@ -167,11 +154,11 @@ describeComponent(
 
       it("should be hidden by default", function (done) {
         // when
-        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
+        renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
         // then
         Ember.run.next(() => {
-          expect(this.$('.alert-error')).to.have.lengthOf(0);
+          expect(this.$('.alert')).to.have.lengthOf(0);
           done();
         })
       });
@@ -180,28 +167,17 @@ describeComponent(
 
         it("should be displayed", function (done) {
           // given
-          renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => {
+          renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
+          // when
+          validateChallenge.call(this);
+
+          Ember.run.next(() => {
             // then
-            const $alertError = this.$('.alert-error');
+            const $alertError = this.$('.alert');
             expect($alertError).to.have.lengthOf(1);
-	    done();
-          });
-
-          // when
-          validateChallenge.call(this);
-        });
-
-        it('should contains "Vous devez saisir une réponse"', function () {
-          // given
-          renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, null, (errorMsg) => {
-            // then
-            expect(errorMsg).to.contains('Vous devez saisir une réponse');
             done();
-          });
-
-          // when
-          validateChallenge.call(this);
+          })
         });
       });
     });
