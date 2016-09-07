@@ -38,9 +38,21 @@ export default Ember.Mixin.create({
 
     for (let index = 0; index < parts.length; index += 1) {
       let { lastIsOpening, block } = parseInput((lastIsOpening || false), parts[index]);
-      if (block) {
-        result.push(block);
+      if (!block) {
+        continue;
       }
+
+      if (block.input && 1 <= block.input.indexOf('#')) {
+
+        const tmp_parts = block.input.split('#');
+        const variable = tmp_parts[0];
+        const placeholder = tmp_parts[1];
+
+        block.input = variable;
+        block.placeholder = placeholder;
+      }
+
+      result.push(block);
     }
 
     return result;
