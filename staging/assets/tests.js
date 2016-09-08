@@ -1690,6 +1690,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
   function renderChallengeItem() {
     var challengeAttributes = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
     var validateHandler = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+    var errorHandler = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
 
     var challenge = _ember['default'].Object.create(challengeAttributes);
     this.set('challenge', challenge);
@@ -1697,6 +1698,9 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
     var assessment = _ember['default'].Object.create({});
     this.set('assessment', assessment);
     this.set('validateHandler', validateHandler || function () {
+      return null;
+    });
+    this.set('errorHandler', errorHandler || function () {
       return null;
     });
 
@@ -1712,7 +1716,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
             },
             'end': {
               'line': 1,
-              'column': 76
+              'column': 106
             }
           }
         },
@@ -1733,7 +1737,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [['inline', 'challenge-item', [['get', 'challenge', ['loc', [null, [1, 17], [1, 26]]], 0, 0, 0, 0], ['get', 'assessment', ['loc', [null, [1, 27], [1, 37]]], 0, 0, 0, 0]], ['onValidated', ['subexpr', 'action', [['get', 'validateHandler', ['loc', [null, [1, 58], [1, 73]]], 0, 0, 0, 0]], [], ['loc', [null, [1, 50], [1, 74]]], 0, 0]], ['loc', [null, [1, 0], [1, 76]]], 0, 0]],
+        statements: [['inline', 'challenge-item', [['get', 'challenge', ['loc', [null, [1, 17], [1, 26]]], 0, 0, 0, 0], ['get', 'assessment', ['loc', [null, [1, 27], [1, 37]]], 0, 0, 0, 0]], ['onValidated', ['subexpr', 'action', [['get', 'validateHandler', ['loc', [null, [1, 58], [1, 73]]], 0, 0, 0, 0]], [], ['loc', [null, [1, 50], [1, 74]]], 0, 0], 'onError', ['subexpr', 'action', [['get', 'errorHandler', ['loc', [null, [1, 91], [1, 103]]], 0, 0, 0, 0]], [], ['loc', [null, [1, 83], [1, 104]]], 0, 0]], ['loc', [null, [1, 0], [1, 106]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -1785,21 +1789,8 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
     })()));
   }
 
-  function selectFirstProposal() {
-
-    return new _rsvp['default'].Promise(function (resolve) {
-      return this.$('.challenge-proposal:first input[type="radio"]').click(function () {
-        return resolve();
-      });
-    });
-  }
-
   function validateChallenge() {
     this.$('.validate-button').click();
-  }
-
-  function assertAlertErrorToBeHidden() {
-    (0, _chai.expect)(this.$('.alert-error')).to.have.lengthOf(0);
   }
 
   (0, _emberMocha.describeComponent)('challenge-item', 'Integration | Component | ChallengeItem', {
@@ -1891,7 +1882,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         renderChallengeItem.call(this, {
           type: 'QCU',
           _proposalsAsArray: ['Xi', 'Fu', 'Mi']
-        }, function (challenge, assessment, answerValue) {
+        }, function (_challenge, _assessment, answerValue) {
 
           // then
           (0, _chai.expect)(answerValue).to.equal("1");
@@ -1908,7 +1899,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
 
       (0, _emberMocha.it)('save #ABAND# as value when clicked', function (done) {
 
-        renderChallengeItem.call(this, { proposalsAsArray: ['1', '2', '3'] }, function (_challenge, _assessment, answerValue) {
+        renderChallengeItem.call(this, { _proposalsAsArray: ['1', '2', '3'] }, function (_challenge, _assessment, answerValue) {
 
           (0, _chai.expect)(answerValue).to.equal('#ABAND#');
           done();
@@ -1920,57 +1911,36 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
 
     (0, _mocha.describe)('Error alert box', function () {
 
-      (0, _emberMocha.it)("should be hidden by default", function () {
+      (0, _emberMocha.it)("should be hidden by default", function (done) {
+        var _this = this;
+
         // when
-        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, function () {
-          return done();
-        });
+        renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
         // then
-        (0, _chai.expect)(this.$('.alert-error')).to.have.lengthOf(0);
+        _ember['default'].run.next(function () {
+          (0, _chai.expect)(_this.$('.alert')).to.have.lengthOf(0);
+          done();
+        });
       });
 
       (0, _mocha.describe)('when validating a challenge without having selected a proposal', function () {
 
-        (0, _emberMocha.it)("should be displayed", function () {
-          var _this = this;
-
-          // given
-          renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, function () {
-
-            // then
-            var $alertError = _this.$('.alert-error');
-            (0, _chai.expect)($alertError).to.have.lengthOf(1);
-          });
-
-          // when
-          validateChallenge.call(this);
-        });
-
-        (0, _emberMocha.it)('should contains "Vous devez saisir une réponse"', function () {
+        (0, _emberMocha.it)("should be displayed", function (done) {
           var _this2 = this;
 
           // given
-          renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, function () {
-
-            // then
-            var $alertError = _this2.$('.alert-error');
-            (0, _chai.expect)($alertError.text()).to.contains("Vous devez saisir une réponse");
-          });
+          renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
           // when
           validateChallenge.call(this);
-        });
-      });
 
-      (0, _mocha.describe)('when a proposal is selected', function () {
-
-        (0, _emberMocha.it)("should be removed", function () {
-          // when
-          selectFirstProposal.call(this);
-
-          // then
-          assertAlertErrorToBeHidden.call(this);
+          _ember['default'].run.next(function () {
+            // then
+            var $alertError = _this2.$('.alert');
+            (0, _chai.expect)($alertError).to.have.lengthOf(1);
+            done();
+          });
         });
       });
     });
@@ -2359,7 +2329,7 @@ define('pix-live/tests/test-helper.lint-test', ['exports'], function (exports) {
 });
 define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai', 'ember-mocha', 'mocha'], function (exports, _chai, _emberMocha, _mocha) {
 
-  (0, _emberMocha.describeModule)('component:challenge-item', 'ChallengeItem', {}, function () {
+  (0, _emberMocha.describeModule)('component:challenge-item', 'Unit | Component | ChallengeItem', {}, function () {
 
     (0, _emberMocha.it)('exists', function () {
       var challengeItem = this.subject();
@@ -2378,6 +2348,33 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
 
         // then
         (0, _chai.expect)(challengeItem.get('error')).to.be['null'];
+      });
+    });
+
+    describe('#onError is called when an error is raised', function () {
+
+      (0, _emberMocha.it)('is called when no proposal has been selected with the message “Vous devez sélectionner une réponse”', function (done) {
+        var challengeItem = this.subject();
+        challengeItem.set('onError', function (message) {
+          (0, _chai.expect)(message).to.contains('Vous devez sélectionner une réponse');
+          done();
+        });
+
+        challengeItem.actions.validate.call(challengeItem);
+      });
+    });
+
+    describe('#skip', function () {
+
+      (0, _emberMocha.it)('should clear the error property', function (done) {
+        var challengeItem = this.subject();
+        challengeItem.set('error', 'an error');
+        challengeItem.set('onValidated', function () {
+          (0, _chai.expect)(challengeItem.get('error')).to.be['null'];
+          done();
+        });
+
+        challengeItem.actions.skip.call(challengeItem);
       });
     });
   });

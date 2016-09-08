@@ -359,13 +359,17 @@ define('pix-live/components/challenge-item', ['exports', 'ember'], function (exp
     actions: {
       validate: function validate(challenge, assessment) {
         if (_ember['default'].isEmpty(this.get('selectedProposal'))) {
-          this.set('error', 'Vous devez sélectionner une réponse.');
+
+          var errorMessage = 'Vous devez sélectionner une réponse.';
+          this.set('error', errorMessage);
+          this.sendAction('onError', errorMessage);
           return;
         }
         var value = this._adaptSelectedProposalValueToBackendValue(this.get('selectedProposal'));
         this.sendAction('onValidated', challenge, assessment, value);
       },
       skip: function skip() {
+        this.set('error', null);
         this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#');
       }
     },
@@ -8135,7 +8139,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+d9f899e0"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+5d91eaf8"});
 }
 
 /* jshint ignore:end */
