@@ -325,6 +325,8 @@ define('pix-live/components/bs-textarea', ['exports', 'ember-bootstrap/component
   });
 });
 define('pix-live/components/challenge-item', ['exports', 'ember'], function (exports, _ember) {
+  var computed = _ember['default'].computed;
+  var inject = _ember['default'].inject;
 
   var ChallengeItem = _ember['default'].Component.extend({
 
@@ -332,20 +334,22 @@ define('pix-live/components/challenge-item', ['exports', 'ember'], function (exp
     classNames: ['challenge-item'],
     attributeBindings: ['challenge.id:data-challenge-id'],
 
-    assessmentService: _ember['default'].inject.service('assessment'),
+    assessmentService: inject.service('assessment'),
 
     challenge: null,
     assessment: null,
     selectedProposal: null,
     error: null,
 
-    hasIllustration: _ember['default'].computed.notEmpty('challenge.illustrationUrl'),
-    isChallengePreviewMode: _ember['default'].computed.empty('assessment'),
-    hasError: _ember['default'].computed.notEmpty('error'),
+    hasIllustration: computed.notEmpty('challenge.illustrationUrl'),
+    isChallengePreviewMode: computed.empty('assessment'),
+    hasError: computed.notEmpty('error'),
 
-    challengeIsTypeQROC: _ember['default'].computed.equal('challenge.type', 'QROC'),
-    challengeIsTypeQCM: _ember['default'].computed.equal('challenge.type', 'QCM'),
-    challengeIsTypeQCU: _ember['default'].computed.equal('challenge.type', 'QCU'),
+    challengeIsTypeQROC: computed('challenge.type', function () {
+      return this.get('challenge.type') === 'QROC' || this.get('challenge.type') === 'QROCM';
+    }),
+    challengeIsTypeQCM: computed.equal('challenge.type', 'QCM'),
+    challengeIsTypeQCU: computed.equal('challenge.type', 'QCU'),
 
     onSelectedProposalChanged: _ember['default'].observer('selectedProposal', function () {
       this.set('error', null);
@@ -1607,6 +1611,10 @@ define('pix-live/models/challenge/proposals-as-blocks-mixin', ['exports', 'ember
     return { lastIsOpening: lastIsOpening, block: block };
   }
 
+  function stringHasPlaceholder(input) {
+    return 1 <= input.indexOf('#');
+  }
+
   exports['default'] = _ember['default'].Mixin.create({
 
     _proposalsAsBlocks: _ember['default'].computed('proposals', function () {
@@ -1625,9 +1633,21 @@ define('pix-live/models/challenge/proposals-as-blocks-mixin', ['exports', 'ember
         var lastIsOpening = _parseInput.lastIsOpening;
         var block = _parseInput.block;
 
-        if (block) {
-          result.push(block);
+        if (!block) {
+          continue;
         }
+
+        if (block.input && stringHasPlaceholder(block.input)) {
+
+          var inputParts = block.input.split('#');
+          var variable = inputParts[0];
+          var placeholder = inputParts[1];
+
+          block.input = variable;
+          block.placeholder = placeholder;
+        }
+
+        result.push(block);
       }
 
       return result;
@@ -4739,7 +4759,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
               morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
               return morphs;
             },
-            statements: [["inline", "input", [], ["type", "text", "placeholder", ["subexpr", "@mut", [["get", "block.input", ["loc", [null, [20, 44], [20, 55]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [20, 12], [20, 57]]], 0, 0]],
+            statements: [["inline", "input", [], ["type", "text", "placeholder", ["subexpr", "@mut", [["get", "block.placeholder", ["loc", [null, [20, 44], [20, 61]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [20, 12], [20, 63]]], 0, 0]],
             locals: [],
             templates: []
           };
@@ -8139,7 +8159,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+5d91eaf8"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+aa15be2d"});
 }
 
 /* jshint ignore:end */

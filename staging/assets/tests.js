@@ -2617,7 +2617,7 @@ define('pix-live/tests/unit/models/challenge/proposals-as-blocks-mixin-test', ['
     }, {
       data: '${plop}, ${plop} ${plop}',
       expected: [{ input: 'plop' }, { text: ',' }, { input: 'plop' }, { input: 'plop' }]
-    }];
+    }, { data: '${plop#var}', expected: [{ input: 'plop', placeholder: 'var' }] }];
 
     var Challenge = _ember['default'].Object.extend(_pixLiveModelsChallengeProposalsAsBlocksMixin['default'], {});
 
