@@ -1703,7 +1703,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
     this.render(_ember['default'].HTMLBars.template((function () {
       return {
         meta: {
-          'revision': 'Ember@2.7.2',
+          'revision': 'Ember@2.7.3',
           'loc': {
             'source': null,
             'start': {
@@ -1748,7 +1748,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
     this.render(_ember['default'].HTMLBars.template((function () {
       return {
         meta: {
-          'revision': 'Ember@2.7.2',
+          'revision': 'Ember@2.7.3',
           'loc': {
             'source': null,
             'start': {
@@ -2456,16 +2456,68 @@ define('pix-live/tests/unit/models/assessment-test', ['exports', 'pix-live/tests
       (0, _chai.expect)(model).to.be.ok;
     });
 
-    describe('#serialize', function () {
+    describe('#numberOfValidatedAnswers', function () {
 
-      (0, _emberMocha.it)('includes course ID', function () {
+      (0, _emberMocha.it)('should return 0 if there is no answers', function () {
+        // given
+        var assessment = this.subject();
+
+        // when
+        var answers = assessment.get('numberOfValidatedAnswers');
+
+        //then
+        (0, _chai.expect)(answers).to.equal(0);
+      });
+
+      (0, _emberMocha.it)('should count all validated answers', function () {
         var _this = this;
 
         Ember.run(function () {
           // given
+          var store = _this.store();
+          var assessment = _this.subject();
+          store.createRecord('answer', { value: "Xi", assessment: assessment });
+          store.createRecord('answer', { value: "Fu", assessment: assessment });
+          store.createRecord('answer', { value: "Mi", assessment: assessment });
+
+          // when
+          var answers = assessment.get('numberOfValidatedAnswers');
+
+          //then
+          (0, _chai.expect)(answers).to.equal(3);
+        });
+      });
+
+      (0, _emberMocha.it)('should not include skipped challenge answers', function () {
+        var _this2 = this;
+
+        Ember.run(function () {
+          // given
+          var store = _this2.store();
+          var assessment = _this2.subject();
+          store.createRecord('answer', { value: "Xi", assessment: assessment });
+          store.createRecord('answer', { value: "#ABAND#", assessment: assessment });
+          store.createRecord('answer', { value: "Mi", assessment: assessment });
+
+          // when
+          var answers = assessment.get('numberOfValidatedAnswers');
+
+          //then
+          (0, _chai.expect)(answers).to.equal(2);
+        });
+      });
+    });
+
+    describe('#serialize', function () {
+
+      (0, _emberMocha.it)('includes course ID', function () {
+        var _this3 = this;
+
+        Ember.run(function () {
+          // given
           var courseId = 'rec1234567890';
-          var course = _this.store().createRecord('course', { id: courseId });
-          var assessment = _this.subject({ course: course });
+          var course = _this3.store().createRecord('course', { id: courseId });
+          var assessment = _this3.subject({ course: course });
 
           // when
           var serializedData = assessment.serialize();
