@@ -162,6 +162,50 @@ define('pix-live/tests/acceptance/11-revenir-a-la-liste-des-tests-test.lint-test
     });
   });
 });
+define('pix-live/tests/acceptance/13-creer-une-epreuve-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'rsvp'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _rsvp) {
+
+  (0, _mocha.describe)("Acceptance | 13 - Créer une épreuve de type QCM | ", function () {
+
+    var application = undefined;
+    var challenge = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+      challenge = server.create('challenge-airtable', {
+        fields: {
+          'Consigne': 'Quel sont les meilleurs jours de la semaine ?',
+          'Propositions': '- lundi\n - mardi\n- samedi\n- jeudi\n- dimanche',
+          "Type d'épreuve": 'QCM'
+        }
+      });
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/challenges/' + challenge.attrs.id + '/preview');
+    });
+
+    (0, _mocha.it)('14.1 les propositions checkbox sont affichées', function () {
+      var $proposals = findWithAssert('.challenge-proposals input[type="checkbox"]');
+      (0, _chai.expect)($proposals).to.have.lengthOf(5);
+    });
+  });
+});
+define('pix-live/tests/acceptance/13-creer-une-epreuve-qcm-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/13-creer-une-epreuve-qcm-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/13-creer-une-epreuve-qcm-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/acceptance/14-creer-une-epreuve-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'rsvp'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _rsvp) {
 
   (0, _mocha.describe)("Acceptance | 14 - Créer une épreuve de type QROC | ", function () {
@@ -1949,7 +1993,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
 
       (0, _mocha.describe)('QCU', function () {
 
-        (0, _emberMocha.it)('should render challenge proposals as different text blocks', function () {
+        (0, _emberMocha.it)('should render challenge proposals as a list of proposal', function () {
           // when
           renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
@@ -1971,9 +2015,18 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         });
       });
 
+      (0, _mocha.describe)('QCM', function () {
+        (0, _emberMocha.it)('should render challenge proposals as a list of checkboxes', function () {
+          renderChallengeItem.call(this, { type: 'QCM', _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
+
+          var $proposals = this.$('.challenge-proposal input[type="checkbox"]');
+          (0, _chai.expect)($proposals).to.have.lengthOf(3);
+        });
+      });
+
       (0, _mocha.describe)('QROC', function () {
 
-        (0, _emberMocha.it)('should render challenge proposals as different text blocks', function () {
+        (0, _emberMocha.it)('should render challenge proposals as different text span', function () {
           // when
           renderChallengeItem.call(this, {
             type: 'QROC', _proposalsAsBlocks: [{ text: 'Reims' }, { input: 'reims' }, { text: '-' }, { input: 'losc' }, { text: 'Losc' }]
