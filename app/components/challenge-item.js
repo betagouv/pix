@@ -34,9 +34,9 @@ const ChallengeItem = Ember.Component.extend({
     validate(challenge, assessment) {
       if (Ember.isEmpty(this.get('selectedProposal'))) {
 
-        const errorMsg = 'Vous devez sélectionner une réponse.';
-        this.set('error', errorMsg);
-        this.sendAction('onError', errorMsg);
+        const errorMessage = 'Vous devez sélectionner une réponse.';
+        this.set('error', errorMessage);
+        this.sendAction('onError', errorMessage);
         return;
       }
       const value = this._adaptSelectedProposalValueToBackendValue(this.get('selectedProposal'));
