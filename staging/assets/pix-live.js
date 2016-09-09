@@ -324,7 +324,9 @@ define('pix-live/components/bs-textarea', ['exports', 'ember-bootstrap/component
     }
   });
 });
-define('pix-live/components/challenge-item', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash'], function (exports, _ember, _lodashLodash) {
+  var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+
   var computed = _ember['default'].computed;
   var inject = _ember['default'].inject;
 
@@ -339,11 +341,12 @@ define('pix-live/components/challenge-item', ['exports', 'ember'], function (exp
     challenge: null,
     assessment: null,
     selectedProposal: null,
-    error: null,
+    errorMessage: null,
+    answers: {},
 
     hasIllustration: computed.notEmpty('challenge.illustrationUrl'),
     isChallengePreviewMode: computed.empty('assessment'),
-    hasError: computed.notEmpty('error'),
+    hasError: computed.notEmpty('errorMessage'),
 
     challengeIsTypeQROC: computed('challenge.type', function () {
       return this.get('challenge.type') === 'QROC' || this.get('challenge.type') === 'QROCM';
@@ -352,34 +355,94 @@ define('pix-live/components/challenge-item', ['exports', 'ember'], function (exp
     challengeIsTypeQCU: computed.equal('challenge.type', 'QCU'),
 
     onSelectedProposalChanged: _ember['default'].observer('selectedProposal', function () {
-      this.set('error', null);
+      this.set('errorMessage', null);
     }),
 
     didUpdateAttrs: function didUpdateAttrs() {
       this._super.apply(this, arguments);
       this.set('selectedProposal', null);
+      this.set('answers', {});
     },
-
     actions: {
-      validate: function validate(challenge, assessment) {
-        if (_ember['default'].isEmpty(this.get('selectedProposal'))) {
 
-          var errorMessage = 'Vous devez sélectionner une réponse.';
-          this.set('error', errorMessage);
-          this.sendAction('onError', errorMessage);
-          return;
-        }
-        var value = this._adaptSelectedProposalValueToBackendValue(this.get('selectedProposal'));
-        this.sendAction('onValidated', challenge, assessment, value);
+      updateQrocAnswer: function updateQrocAnswer(event) {
+        var _event$currentTarget = event.currentTarget;
+        var name = _event$currentTarget.name;
+        var value = _event$currentTarget.value;
+
+        this.set('answers.' + name, value);
+        this.set('errorMessage', null);
       },
+
+      validate: function validate() {
+
+        if (this._hasError()) {
+          return this.sendAction('onError', this.get('errorMessage'));
+        }
+        var value = this._getAnswerValue();
+        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
+      },
+
       skip: function skip() {
-        this.set('error', null);
+
+        this.set('errorMessage', null);
         this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#');
       }
     },
 
-    _adaptSelectedProposalValueToBackendValue: function _adaptSelectedProposalValueToBackendValue(value) {
-      return '' + (value + 1);
+    _getAnswerValue: function _getAnswerValue() {
+      var challengeType = this.get('challenge.type');
+
+      switch (challengeType) {
+        case 'QCU':
+          {
+            var selectedValue = this.get('selectedProposal');
+            return '' + (selectedValue + 1);
+          }
+        case 'QROC':
+        case 'QROCM':
+          {
+            var answers = this.get('answers');
+            return _lodashLodash['default'].pairs(answers).map(function (_ref) {
+              var _ref2 = _slicedToArray(_ref, 2);
+
+              var key = _ref2[0];
+              var value = _ref2[1];
+              return key + ' = "' + value + '"';
+            }).join(', ');
+          }
+        default:
+          return null;
+      }
+    },
+
+    // eslint-disable-next-line complexity
+    _hasError: function _hasError() {
+      switch (this.get('challenge.type')) {
+        case 'QCU':
+          {
+            var hasError = _ember['default'].isEmpty(this.get('selectedProposal'));
+            if (hasError) {
+              this.set('errorMessage', "Vous devez sélectionner une proposition.");
+            }
+            return hasError;
+          }
+        case 'QROC':
+        case 'QROCM':
+          {
+            var expectedAnswers = this.get('challenge._proposalsAsBlocks').filter(function (proposal) {
+              return proposal.input !== undefined;
+            }).get('length');
+            var values = _lodashLodash['default'].values(this.get('answers'));
+            var hasError = _ember['default'].isEmpty(values) || values.length < expectedAnswers || values.any(_ember['default'].isBlank);
+            if (hasError) {
+              this.set('errorMessage', "Vous devez saisir une réponse dans tous les champs.");
+            }
+            return hasError;
+          }
+        default:
+          return false;
+      }
     }
   });
 
@@ -4759,7 +4822,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
               morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
               return morphs;
             },
-            statements: [["inline", "input", [], ["type", "text", "placeholder", ["subexpr", "@mut", [["get", "block.placeholder", ["loc", [null, [20, 44], [20, 61]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [20, 12], [20, 63]]], 0, 0]],
+            statements: [["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "block.input", ["loc", [null, [20, 25], [20, 36]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "text", "placeholder", ["subexpr", "@mut", [["get", "block.placeholder", ["loc", [null, [20, 61], [20, 78]]], 0, 0, 0, 0]], [], [], 0, 0], "change", ["subexpr", "action", ["updateQrocAnswer"], [], ["loc", [null, [20, 86], [20, 113]]], 0, 0]], ["loc", [null, [20, 12], [20, 116]]], 0, 0]],
             locals: [],
             templates: []
           };
@@ -5129,7 +5192,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
             morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
             return morphs;
           },
-          statements: [["content", "error", ["loc", [null, [48, 10], [48, 19]]], 0, 0, 0, 0]],
+          statements: [["content", "errorMessage", ["loc", [null, [48, 10], [48, 26]]], 0, 0, 0, 0]],
           locals: [],
           templates: []
         };
@@ -5199,7 +5262,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           morphs[2] = dom.createElementMorph(element2);
           return morphs;
         },
-        statements: [["block", "if", [["get", "hasError", ["loc", [null, [46, 10], [46, 18]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [46, 4], [50, 11]]]], ["element", "action", ["skip"], [], ["loc", [null, [53, 62], [53, 79]]], 0, 0], ["element", "action", ["validate", ["get", "challenge", ["loc", [null, [54, 84], [54, 93]]], 0, 0, 0, 0], ["get", "assessment", ["loc", [null, [54, 94], [54, 104]]], 0, 0, 0, 0]], [], ["loc", [null, [54, 64], [54, 106]]], 0, 0]],
+        statements: [["block", "if", [["get", "hasError", ["loc", [null, [46, 10], [46, 18]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [46, 4], [50, 11]]]], ["element", "action", ["skip"], [], ["loc", [null, [53, 62], [53, 79]]], 0, 0], ["element", "action", ["validate"], [], ["loc", [null, [54, 64], [54, 85]]], 0, 0]],
         locals: [],
         templates: [child0]
       };
@@ -8300,7 +8363,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+7cc687dc"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+2a9b90d0"});
 }
 
 /* jshint ignore:end */

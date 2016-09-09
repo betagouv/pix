@@ -1974,7 +1974,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
           var _this2 = this;
 
           // given
-          renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
+          renderChallengeItem.call(this, { type: 'QCU', _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
           // when
           validateChallenge.call(this);
@@ -1983,6 +1983,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
             // then
             var $alertError = _this2.$('.alert');
             (0, _chai.expect)($alertError).to.have.lengthOf(1);
+            (0, _chai.expect)($alertError.text()).to.contains('Vous devez');
             done();
           });
         });
@@ -2394,22 +2395,46 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
       (0, _emberMocha.it)('is called when selectedProposal value has been changed', function () {
         // given
         var challengeItem = this.subject();
-        challengeItem.set('error', 'an error');
+        challengeItem.set('errorMessage', 'an error');
 
         // when
         challengeItem.set('selectedProposal', 1);
 
         // then
-        (0, _chai.expect)(challengeItem.get('error')).to.be['null'];
+        (0, _chai.expect)(challengeItem.get('errorMessage')).to.be['null'];
+      });
+    });
+
+    describe('#_hasError', function () {
+
+      ['QCU'].forEach(function (challengeType) {
+        (0, _emberMocha.it)(challengeType, function () {
+          var challengeItem = this.subject({ challenge: { type: challengeType }, selectedProposal: null });
+
+          (0, _chai.expect)(challengeItem._hasError()).to.be['true'];
+          (0, _chai.expect)(challengeItem.get('errorMessage')).to.equal('Vous devez sélectionner une proposition.');
+        });
+      });
+
+      ['QROC', 'QROCM'].forEach(function (challengeType) {
+        (0, _emberMocha.it)(challengeType, function () {
+          var challengeItem = this.subject({
+            challenge: { type: challengeType, _proposalsAsBlocks: [] },
+            answers: {}
+          });
+
+          (0, _chai.expect)(challengeItem._hasError()).to.be['true'];
+          (0, _chai.expect)(challengeItem.get('errorMessage')).to.equal('Vous devez saisir une réponse dans tous les champs.');
+        });
       });
     });
 
     describe('#onError is called when an error is raised', function () {
 
-      (0, _emberMocha.it)('is called when no proposal has been selected with the message “Vous devez sélectionner une réponse”', function (done) {
-        var challengeItem = this.subject();
+      (0, _emberMocha.it)('is called when no proposal has been selected with the message “Vous devez sélectionner une proposition.”', function (done) {
+        var challengeItem = this.subject({ challenge: Ember.Object.create({ type: 'QCU' }) });
         challengeItem.set('onError', function (message) {
-          (0, _chai.expect)(message).to.contains('Vous devez sélectionner une réponse');
+          (0, _chai.expect)(message).to.contains('Vous devez sélectionner une proposition.');
           done();
         });
 
@@ -2417,17 +2442,213 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
       });
     });
 
-    describe('#skip', function () {
+    describe('#skip action', function () {
 
       (0, _emberMocha.it)('should clear the error property', function (done) {
+        // given
         var challengeItem = this.subject();
-        challengeItem.set('error', 'an error');
+        challengeItem.set('errorMessage', 'an error');
         challengeItem.set('onValidated', function () {
-          (0, _chai.expect)(challengeItem.get('error')).to.be['null'];
+          // then
+          (0, _chai.expect)(challengeItem.get('errorMessage')).to.be['null'];
           done();
         });
 
+        // when
         challengeItem.actions.skip.call(challengeItem);
+      });
+    });
+
+    describe('#_getAnswerValue', function () {
+
+      (0, _emberMocha.it)("should return value + 1 when challenge's type is QCU in order to be easier to treat by PixMasters", function () {
+        // given
+        var challengeItem = this.subject();
+        var challenge = Ember.Object.create({ type: 'QCU' });
+        challengeItem.set('challenge', challenge);
+        challengeItem.set('selectedProposal', 1);
+
+        // when
+        var answer = challengeItem._getAnswerValue();
+
+        // then
+        (0, _chai.expect)(answer).to.equal('2');
+      });
+
+      (0, _emberMocha.it)("should return simple answer value as string when challenge's type is QROQ", function () {
+        // given
+        var challengeItem = this.subject();
+        var challenge = Ember.Object.create({ type: 'QROC' });
+        challengeItem.set('challenge', challenge);
+        var answers = {
+          'variable1': 'value_1'
+        };
+        challengeItem.set('answers', answers);
+
+        // when
+        var answer = challengeItem._getAnswerValue();
+
+        // then
+        (0, _chai.expect)(answer).to.equal('variable1 = "value_1"');
+      });
+
+      (0, _emberMocha.it)("should return answer's values concatenated as string when challenge's type is QROQM", function () {
+        // given
+        var challengeItem = this.subject();
+        var challenge = Ember.Object.create({ type: 'QROCM' });
+        challengeItem.set('challenge', challenge);
+        var answers = {
+          'var_1': 'value_1',
+          'var_2': 'value_2',
+          'var_3': 'value_3'
+        };
+        challengeItem.set('answers', answers);
+
+        // when
+        var answer = challengeItem._getAnswerValue();
+
+        // then
+        (0, _chai.expect)(answer).to.equal('var_1 = "value_1", var_2 = "value_2", var_3 = "value_3"');
+      });
+
+      (0, _emberMocha.it)("should return answer's values concatenated as string when challenge's type is QROQM and with one null answer", function () {
+        // given
+        var challengeItem = this.subject();
+        var challenge = Ember.Object.create({ type: 'QROCM' });
+        challengeItem.set('challenge', challenge);
+        var answers = {
+          'var_1': 'value_1',
+          'var_2': null,
+          'var_3': 'value_3'
+        };
+        challengeItem.set('answers', answers);
+
+        // when
+        var answer = challengeItem._getAnswerValue();
+
+        // then
+        (0, _chai.expect)(answer).to.equal('var_1 = "value_1", var_2 = "null", var_3 = "value_3"');
+      });
+    });
+
+    describe('#updateQrocAnswer action', function () {
+
+      (0, _emberMocha.it)('should add new answer when a new value is set', function () {
+        // given
+        var challengeItem = this.subject();
+        challengeItem.set('answers', {});
+
+        // when
+        challengeItem.actions.updateQrocAnswer.call(challengeItem, {
+          currentTarget: {
+            name: 'my_var',
+            value: 'my_val'
+          }
+        });
+
+        // then
+        (0, _chai.expect)(challengeItem.get('answers.my_var')).to.equal('my_val');
+      });
+
+      (0, _emberMocha.it)('should update answer when a new value is set', function () {
+        // given
+        var challengeItem = this.subject();
+        challengeItem.set('answers', { 'my_var': 'old_value' });
+
+        // when
+        challengeItem.actions.updateQrocAnswer.call(challengeItem, {
+          currentTarget: {
+            name: 'my_var',
+            value: 'new_value'
+          }
+        });
+
+        // then
+        (0, _chai.expect)(challengeItem.get('answers.my_var')).to.equal('new_value');
+      });
+
+      (0, _emberMocha.it)('should null the error property', function () {
+        var challengeItem = this.subject();
+        challengeItem.set('errorMessage', 'an error');
+
+        challengeItem.actions.updateQrocAnswer.call(challengeItem, { currentTarget: { name: 'toto', value: 'plop' } });
+
+        (0, _chai.expect)(challengeItem.get('errorMessage')).to.be['null'];
+      });
+    });
+
+    describe('#validate action', function () {
+      var assessment = Ember.Object.create({});
+
+      describe('when challenge is type QCU/QCM', function () {
+
+        var challenge = Ember.Object.create({ type: 'QCU' });
+
+        (0, _emberMocha.it)('send event onValidated when a proposal is selected', function (done) {
+          var challengeItem = this.subject({ challenge: challenge, assessment: assessment });
+
+          challengeItem.set('onValidated', function () {
+            return done();
+          });
+          challengeItem.set('selectedProposal', 2);
+          challengeItem.actions.validate.call(challengeItem);
+        });
+
+        (0, _emberMocha.it)('send event onError when no proposal is selected', function (done) {
+          var challengeItem = this.subject({ challenge: challenge, assessment: assessment });
+
+          challengeItem.set('onError', function () {
+            return done();
+          });
+          challengeItem.actions.validate.call(challengeItem);
+        });
+      });
+
+      describe('when challenge type is QROC/QROCM', function () {
+
+        var challenge = Ember.Object.create({ type: 'QROC', _proposalsAsBlocks: [] });
+
+        (0, _emberMocha.it)('trigger onValidated event', function (done) {
+          var challengeItem = this.subject({ challenge: challenge, assessment: assessment });
+
+          challengeItem.set('answers', { toto: 'plop' });
+          challengeItem.set('onValidated', function () {
+            return done();
+          });
+
+          challengeItem.actions.validate.call(challengeItem);
+        });
+
+        (0, _emberMocha.it)('QROC: trigger onError event when the input text is not set', function (done) {
+          var challengeItem = this.subject({ challenge: challenge, assessment: assessment, answers: null });
+
+          challengeItem.set('onError', function () {
+            return done();
+          });
+          challengeItem.actions.validate.call(challengeItem);
+        });
+
+        (0, _emberMocha.it)('QROC: trigger onError event when the input text is "" (empty)', function (done) {
+          var challengeItem = this.subject({ challenge: challenge, assessment: assessment, answers: { toto: "" } });
+
+          challengeItem.set('onError', function () {
+            return done();
+          });
+          challengeItem.actions.validate.call(challengeItem);
+        });
+
+        (0, _emberMocha.it)('QROCM: trigger onError event when one of the input is not set or empty', function (done) {
+          var challenge = Ember.Object.create({
+            type: 'QROCM',
+            _proposalsAsBlocks: [{ input: '1' }, { input: '2' }]
+          });
+          var challengeItem = this.subject({ challenge: challenge, assessment: assessment, answers: { "1": 'yo' } });
+
+          challengeItem.set('onError', function () {
+            return done();
+          });
+          challengeItem.actions.validate.call(challengeItem);
+        });
       });
     });
   });
