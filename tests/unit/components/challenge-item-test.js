@@ -35,14 +35,14 @@ describeModule(
     describe('#_getErrorMessage', function () {
 
       [
-        {type: 'QCU', message: "Vous devez sélectionner une proposition, ou passer l'épreuve."},
-        {type: 'QROC', message: "Vous devez saisir une réponse dans tous les champs, ou passer l'épreuve."},
-        {type: 'QROCM', message: "Vous devez saisir une réponse dans tous les champs, ou passer l'épreuve."}
+        { type: 'QCU', message: "Vous devez sélectionner une proposition, ou passer l'épreuve." },
+        { type: 'QROC', message: "Vous devez saisir une réponse, ou passer l'épreuve." },
+        { type: 'QROCM', message: "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve." }
       ].forEach(({ type, message }) => {
 
         it(`type ${type}: expect error message to be "${message}"`, function () {
 
-          const challengeItem = this.subject({ challenge: { type }});
+          const challengeItem = this.subject({ challenge: { type } });
           expect(challengeItem._getErrorMessage()).to.equal(message);
         });
       });
@@ -59,7 +59,7 @@ describeModule(
       });
 
       ['QROC', 'QROCM'].forEach((challengeType) => {
-        it(challengeType, function () {
+        it(`${challengeType} has erorr`, function () {
           const challengeItem = this.subject({
             challenge: { type: challengeType, _proposalsAsBlocks: [] },
             answers: {}
@@ -67,6 +67,16 @@ describeModule(
 
           expect(challengeItem._hasError()).to.be.true;
         });
+
+        it(`${challengeType} has no error`, function () {
+          const challengeItem = this.subject({
+            challenge: { type: challengeType, _proposalsAsBlocks: [{ input: 'yo' }, { input: 'yoyo' }] },
+            answers: { yo: 'yo' }
+          });
+
+          expect(challengeItem._hasError()).to.be.false;
+        });
+
       });
     });
 
@@ -265,17 +275,6 @@ describeModule(
 
         it('QROC: trigger onError event when the input text is "" (empty)', function (done) {
           const challengeItem = this.subject({ challenge, assessment, answers: { toto: "" } });
-
-          challengeItem.set('onError', () => done());
-          challengeItem.actions.validate.call(challengeItem);
-        });
-
-        it('QROCM: trigger onError event when one of the input is not set or empty', function (done) {
-          const challenge = Ember.Object.create({
-            type: 'QROCM',
-            _proposalsAsBlocks: [{ input: '1' }, { input: '2' }]
-          });
-          const challengeItem = this.subject({ challenge, assessment, answers: { "1": 'yo' } });
 
           challengeItem.set('onError', () => done());
           challengeItem.actions.validate.call(challengeItem);

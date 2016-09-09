@@ -86,12 +86,8 @@ const ChallengeItem = Ember.Component.extend({
         return Ember.isEmpty(this.get('selectedProposal'));
       case 'QROC':
       case 'QROCM': {
-        const expectedAnswers = this
-          .get('challenge._proposalsAsBlocks')
-          .filter((proposal) => proposal.input !== undefined)
-          .get('length');
         const values = _.values(this.get('answers'));
-        return (Ember.isEmpty(values) || values.length < expectedAnswers || values.any(Ember.isBlank));
+        return (Ember.isEmpty(values) || values.length < 1 || values.every(Ember.isBlank));
       }
       default:
         return false;
@@ -103,8 +99,9 @@ const ChallengeItem = Ember.Component.extend({
       case 'QCU':
         return "Vous devez sélectionner une proposition, ou passer l'épreuve.";
       case 'QROC':
+        return "Vous devez saisir une réponse, ou passer l'épreuve.";
       case 'QROCM':
-        return "Vous devez saisir une réponse dans tous les champs, ou passer l'épreuve.";
+        return "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve.";
       default:
         return "Répondez correctement à l'épreuve, ou passez l'épreuve."
     }
