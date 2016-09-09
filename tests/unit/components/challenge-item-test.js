@@ -51,15 +51,21 @@ describeModule(
     describe('#_hasError', function () {
 
       ['QCU'].forEach((challengeType) => {
-        it(challengeType, function () {
+        it(`${challengeType} has error when no proposal has been selected`, function () {
           const challengeItem = this.subject({ challenge: { type: challengeType }, selectedProposal: null });
 
           expect(challengeItem._hasError()).to.be.true;
         });
+
+        it(`${challengeType} has no error when a proposal has been selected`, function () {
+          const challengeItem = this.subject({ challenge: { type: challengeType }, selectedProposal: 1 });
+
+          expect(challengeItem._hasError()).to.be.false;
+        });
       });
 
       ['QROC', 'QROCM'].forEach((challengeType) => {
-        it(`${challengeType} has erorr`, function () {
+        it(`${challengeType} has error when no answer has been given`, function () {
           const challengeItem = this.subject({
             challenge: { type: challengeType, _proposalsAsBlocks: [] },
             answers: {}
@@ -68,7 +74,7 @@ describeModule(
           expect(challengeItem._hasError()).to.be.true;
         });
 
-        it(`${challengeType} has no error`, function () {
+        it(`${challengeType} has no error when at least one answer has been given`, function () {
           const challengeItem = this.subject({
             challenge: { type: challengeType, _proposalsAsBlocks: [{ input: 'yo' }, { input: 'yoyo' }] },
             answers: { yo: 'yo' }
