@@ -2405,27 +2405,64 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
       });
     });
 
+    describe('#_getErrorMessage', function () {
+
+      [{ type: 'QCU', message: "Vous devez sélectionner une proposition, ou passer l'épreuve." }, { type: 'QROC', message: "Vous devez saisir une réponse, ou passer l'épreuve." }, { type: 'QROCM', message: "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve." }, { type: '🎩🗿👻', message: "Répondez correctement à l'épreuve, ou passez la réponse." }].forEach(function (_ref) {
+        var type = _ref.type;
+        var message = _ref.message;
+
+        (0, _emberMocha.it)('type ' + type + ': expect error message to be "' + message + '"', function () {
+
+          var challengeItem = this.subject({ challenge: { type: type } });
+          (0, _chai.expect)(challengeItem._getErrorMessage()).to.equal(message);
+        });
+      });
+    });
+
     describe('#_hasError', function () {
 
       ['QCU'].forEach(function (challengeType) {
-        (0, _emberMocha.it)(challengeType, function () {
+        (0, _emberMocha.it)(challengeType + ' has error when no proposal has been selected', function () {
           var challengeItem = this.subject({ challenge: { type: challengeType }, selectedProposal: null });
 
           (0, _chai.expect)(challengeItem._hasError()).to.be['true'];
-          (0, _chai.expect)(challengeItem.get('errorMessage')).to.equal('Vous devez sélectionner une proposition.');
+        });
+
+        (0, _emberMocha.it)(challengeType + ' has no error when a proposal has been selected', function () {
+          var challengeItem = this.subject({ challenge: { type: challengeType }, selectedProposal: 1 });
+
+          (0, _chai.expect)(challengeItem._hasError()).to.be['false'];
         });
       });
 
       ['QROC', 'QROCM'].forEach(function (challengeType) {
-        (0, _emberMocha.it)(challengeType, function () {
+        (0, _emberMocha.it)(challengeType + ' has error when no answer has been given', function () {
           var challengeItem = this.subject({
             challenge: { type: challengeType, _proposalsAsBlocks: [] },
             answers: {}
           });
 
           (0, _chai.expect)(challengeItem._hasError()).to.be['true'];
-          (0, _chai.expect)(challengeItem.get('errorMessage')).to.equal('Vous devez saisir une réponse dans tous les champs.');
         });
+
+        (0, _emberMocha.it)(challengeType + ' has no error when at least one answer has been given', function () {
+          var challengeItem = this.subject({
+            challenge: { type: challengeType, _proposalsAsBlocks: [{ input: 'yo' }, { input: 'yoyo' }] },
+            answers: { yo: 'yo' }
+          });
+
+          (0, _chai.expect)(challengeItem._hasError()).to.be['false'];
+        });
+      });
+
+      (0, _emberMocha.it)('invalid challenge type has no error', function () {
+        var challengeItem = this.subject({
+          challenge: {
+            type: 'Celui dont le PIXCosmos atteint son paroxysme est en mesure de le faire exploser pour créer un Big Bang'
+          }
+        });
+
+        (0, _chai.expect)(challengeItem._hasError()).to.be['false'];
       });
     });
 
@@ -2434,7 +2471,7 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
       (0, _emberMocha.it)('is called when no proposal has been selected with the message “Vous devez sélectionner une proposition.”', function (done) {
         var challengeItem = this.subject({ challenge: Ember.Object.create({ type: 'QCU' }) });
         challengeItem.set('onError', function (message) {
-          (0, _chai.expect)(message).to.contains('Vous devez sélectionner une proposition.');
+          (0, _chai.expect)(message).to.contains("Vous devez sélectionner une proposition, ou passer l'épreuve.");
           done();
         });
 
@@ -2528,6 +2565,16 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
 
         // then
         (0, _chai.expect)(answer).to.equal('var_1 = "value_1", var_2 = "null", var_3 = "value_3"');
+      });
+
+      (0, _emberMocha.it)('return null when challenge type is invalid', function () {
+        var challengeItem = this.subject({
+          challenge: {
+            type: 'Celui dont le PIXCosmos atteint son paroxysme est en mesure de le faire exploser pour créer un Big Bang'
+          }
+        });
+
+        (0, _chai.expect)(challengeItem._getAnswerValue()).to.be['null'];
       });
     });
 
@@ -2630,19 +2677,6 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
 
         (0, _emberMocha.it)('QROC: trigger onError event when the input text is "" (empty)', function (done) {
           var challengeItem = this.subject({ challenge: challenge, assessment: assessment, answers: { toto: "" } });
-
-          challengeItem.set('onError', function () {
-            return done();
-          });
-          challengeItem.actions.validate.call(challengeItem);
-        });
-
-        (0, _emberMocha.it)('QROCM: trigger onError event when one of the input is not set or empty', function (done) {
-          var challenge = Ember.Object.create({
-            type: 'QROCM',
-            _proposalsAsBlocks: [{ input: '1' }, { input: '2' }]
-          });
-          var challengeItem = this.subject({ challenge: challenge, assessment: assessment, answers: { "1": 'yo' } });
 
           challengeItem.set('onError', function () {
             return done();

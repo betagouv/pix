@@ -377,6 +377,7 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
       validate: function validate() {
 
         if (this._hasError()) {
+          this.set('errorMessage', this._getErrorMessage());
           return this.sendAction('onError', this.get('errorMessage'));
         }
         var value = this._getAnswerValue();
@@ -420,28 +421,28 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
     _hasError: function _hasError() {
       switch (this.get('challenge.type')) {
         case 'QCU':
-          {
-            var hasError = _ember['default'].isEmpty(this.get('selectedProposal'));
-            if (hasError) {
-              this.set('errorMessage', "Vous devez sélectionner une proposition.");
-            }
-            return hasError;
-          }
+          return _ember['default'].isEmpty(this.get('selectedProposal'));
         case 'QROC':
         case 'QROCM':
           {
-            var expectedAnswers = this.get('challenge._proposalsAsBlocks').filter(function (proposal) {
-              return proposal.input !== undefined;
-            }).get('length');
             var values = _lodashLodash['default'].values(this.get('answers'));
-            var hasError = _ember['default'].isEmpty(values) || values.length < expectedAnswers || values.any(_ember['default'].isBlank);
-            if (hasError) {
-              this.set('errorMessage', "Vous devez saisir une réponse dans tous les champs.");
-            }
-            return hasError;
+            return _ember['default'].isEmpty(values) || values.length < 1 || values.every(_ember['default'].isBlank);
           }
         default:
           return false;
+      }
+    },
+
+    _getErrorMessage: function _getErrorMessage() {
+      switch (this.get('challenge.type')) {
+        case 'QCU':
+          return "Vous devez sélectionner une proposition, ou passer l'épreuve.";
+        case 'QROC':
+          return "Vous devez saisir une réponse, ou passer l'épreuve.";
+        case 'QROCM':
+          return "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve.";
+        default:
+          return "Répondez correctement à l'épreuve, ou passez la réponse.";
       }
     }
   });
@@ -8363,7 +8364,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+2a9b90d0"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+b54b6de9"});
 }
 
 /* jshint ignore:end */
