@@ -32,6 +32,22 @@ describeModule(
       });
     });
 
+    describe('#_getErrorMessage', function () {
+
+      [
+        {type: 'QCU', message: "Vous devez sélectionner une proposition, ou passer l'épreuve."},
+        {type: 'QROC', message: "Vous devez saisir une réponse dans tous les champs, ou passer l'épreuve."},
+        {type: 'QROCM', message: "Vous devez saisir une réponse dans tous les champs, ou passer l'épreuve."}
+      ].forEach(({ type, message }) => {
+
+        it(`type ${type}: expect error message to be "${message}"`, function () {
+
+          const challengeItem = this.subject({ challenge: { type }});
+          expect(challengeItem._getErrorMessage()).to.equal(message);
+        });
+      });
+    });
+
     describe('#_hasError', function () {
 
       ['QCU'].forEach((challengeType) => {
@@ -39,7 +55,6 @@ describeModule(
           const challengeItem = this.subject({ challenge: { type: challengeType }, selectedProposal: null });
 
           expect(challengeItem._hasError()).to.be.true;
-          expect(challengeItem.get('errorMessage')).to.equal('Vous devez sélectionner une proposition.');
         });
       });
 
@@ -51,7 +66,6 @@ describeModule(
           });
 
           expect(challengeItem._hasError()).to.be.true;
-          expect(challengeItem.get('errorMessage')).to.equal('Vous devez saisir une réponse dans tous les champs.');
         });
       });
     });
@@ -61,7 +75,7 @@ describeModule(
       it('is called when no proposal has been selected with the message “Vous devez sélectionner une proposition.”', function (done) {
         const challengeItem = this.subject({ challenge: Ember.Object.create({ type: 'QCU' }) });
         challengeItem.set('onError', (message) => {
-          expect(message).to.contains('Vous devez sélectionner une proposition.');
+          expect(message).to.contains("Vous devez sélectionner une proposition, ou passer l'épreuve.");
           done();
         });
 
