@@ -37,7 +37,8 @@ describeModule(
       [
         { type: 'QCU', message: "Vous devez sélectionner une proposition, ou passer l'épreuve." },
         { type: 'QROC', message: "Vous devez saisir une réponse, ou passer l'épreuve." },
-        { type: 'QROCM', message: "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve." }
+        { type: 'QROCM', message: "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve." },
+        { type: '🎩🗿👻', message: "Répondez correctement à l'épreuve, ou passez la réponse." }
       ].forEach(({ type, message }) => {
 
         it(`type ${type}: expect error message to be "${message}"`, function () {
@@ -82,7 +83,16 @@ describeModule(
 
           expect(challengeItem._hasError()).to.be.false;
         });
+      });
 
+      it('invalid challenge type has no error', function () {
+        const challengeItem = this.subject({
+          challenge: {
+            type: 'Celui dont le PIXCosmos atteint son paroxysme est en mesure de le faire exploser pour créer un Big Bang'
+          }
+        });
+
+        expect(challengeItem._hasError()).to.be.false;
       });
     });
 
@@ -187,6 +197,15 @@ describeModule(
         expect(answer).to.equal('var_1 = "value_1", var_2 = "null", var_3 = "value_3"');
       });
 
+      it('return null when challenge type is invalid', function () {
+        const challengeItem = this.subject({
+          challenge: {
+            type: 'Celui dont le PIXCosmos atteint son paroxysme est en mesure de le faire exploser pour créer un Big Bang'
+          }
+        });
+
+        expect(challengeItem._getAnswerValue()).to.be.null;
+      });
     });
 
     describe('#updateQrocAnswer action', function () {

@@ -103,7 +103,7 @@ const ChallengeItem = Ember.Component.extend({
       case 'QROCM':
         return "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve.";
       default:
-        return "Répondez correctement à l'épreuve, ou passez l'épreuve."
+        return "Répondez correctement à l'épreuve, ou passez la réponse."
     }
   }
 });
