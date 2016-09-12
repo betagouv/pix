@@ -294,6 +294,63 @@ describeModule(
 
     });
 
+    describe('#updateQcmAnser action', function () {
+
+      it('should use the answers property as an array and push the value when a new value is checked', function () {
+        // given
+        const challengeItem = this.subject();
+        challengeItem.set('answers', {});
+
+        // when
+        challengeItem.actions.updateQcmAnswer.call(challengeItem, {
+          currentTarget: {
+            name: 'my_var',
+            checked: true
+          }
+        });
+
+        // then
+        const answers = challengeItem.get('answers');
+        expect(answers, JSON.stringify(answers)).to.deep.equal(['my_var']);
+      });
+
+      it('should add new answers when a new value is set', function () {
+        // given
+        const challengeItem = this.subject();
+        challengeItem.set('answers', ['some var']);
+
+        // when
+        challengeItem.actions.updateQcmAnswer.call(challengeItem, {
+          currentTarget: {
+            name: 'another var',
+            checked: true
+          }
+        });
+
+        // then
+        const answers = challengeItem.get('answers');
+        expect(answers, JSON.stringify(answers)).to.deep.equal(['some var', 'another var']);
+      });
+
+      it('should remove an answer when it is unchecked', function () {
+        // given
+        const challengeItem = this.subject();
+        challengeItem.set('answers', ['some var']);
+
+        // when
+        challengeItem.actions.updateQcmAnswer.call(challengeItem, {
+          currentTarget: {
+            name: 'some var',
+            checked: false
+          }
+        });
+
+        // then
+        const answers = challengeItem.get('answers');
+        expect(answers, JSON.stringify(answers)).to.deep.equal([]);
+      });
+    });
+
     describe('#validate action', function () {
       const assessment = Ember.Object.create({});
 

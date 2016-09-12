@@ -48,10 +48,16 @@ const ChallengeItem = Ember.Component.extend({
       const { name, checked } = event.currentTarget;
       let answers = this.get('answers');
 
-      if (Ember.isArray(answers)) {
-        answers.push(name);
-      } else {
-        answers = [name];
+      if (checked) {
+        if (Ember.isArray(answers)) {
+          answers.push(name);
+        }
+        else {
+          answers = [name];
+        }
+      }
+      else {
+        _.remove(answers, (answer) => answer === name);
       }
 
       this.set('answers', answers);
@@ -89,7 +95,8 @@ const ChallengeItem = Ember.Component.extend({
           const proposals = this.get('challenge._proposalsAsArray');
           let answerValue = answers.map((answer) => `"${proposals[answer]}"`).join(', ');
           return answerValue;
-        } else {
+        }
+        else {
           return null;
         }
       }
