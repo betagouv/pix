@@ -91,14 +91,12 @@ const ChallengeItem = Ember.Component.extend({
       }
       case 'QCM': {
         const answers = this.get('answers');
-        if (Ember.isArray(answers)) {
-          const proposals = this.get('challenge._proposalsAsArray');
-          let answerValue = answers.map((answer) => `"${proposals[answer]}"`).join(', ');
-          return answerValue;
-        }
-        else {
+        if (!Ember.isArray(answers)) {
           return null;
         }
+        const proposals = this.get('challenge._proposalsAsArray');
+        let answerValue = answers.map((answer) => `"${proposals[answer]}"`).join(', ');
+        return answerValue;
       }
       case 'QROC':
       case 'QROCM': {
