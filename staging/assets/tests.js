@@ -421,7 +421,7 @@ define('pix-live/tests/acceptance/3-demarrer-un-test-test.lint-test', ['exports'
     });
   });
 });
-define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'markdown-it'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _markdownIt) {
 
   (0, _mocha.describe)('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
 
@@ -459,14 +459,9 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'm
         });
 
         (0, _mocha.it)('32.2 la consigne de l\'épreuve', function () {
-          (0, _chai.expect)($challenge.find('.challenge-instruction').text()).to.contains(challenge.attrs.fields.Consigne);
+          var markdownInstruction = (0, _markdownIt['default'])().render(challenge.attrs.fields.Consigne);
+          (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.equal(markdownInstruction);
         });
-
-        // FIXME: this is not part of the US. This should be removed (need validation in PR)
-        //it('32.3 les propositions sous forme de boutons radio', function () {
-        //  const $proposals = findWithAssert('.challenge-proposals input[type="radio"][name="proposals"]');
-        //  expect($proposals).to.have.lengthOf(5);
-        //});
       });
     });
   });
@@ -483,7 +478,7 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test.lint-test', ['ex
     });
   });
 });
-define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'markdown-it'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _markdownIt) {
 
   (0, _mocha.describe)('Acceptance | 37 - Prévisualiser un test |', function () {
 
@@ -569,7 +564,8 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
         });
 
         (0, _mocha.it)("37.6. la consigne de l'épreuve", function () {
-          (0, _chai.expect)($challenge.find('.challenge-instruction').text()).to.contains(currentChallenge.attrs.fields.Consigne);
+          var expectedMarkdown = (0, _markdownIt['default'])().render(currentChallenge.attrs.fields.Consigne);
+          (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.equal(expectedMarkdown);
         });
 
         (0, _mocha.it)("37.7. un bouton pour accéder à l'épreuve suivante", function () {
@@ -733,7 +729,7 @@ define('pix-live/tests/acceptance/38-s-identifier-test.lint-test', ['exports'], 
     });
   });
 });
-define('pix-live/tests/acceptance/4-demarrer-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/4-demarrer-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'markdown-it'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _markdownIt) {
 
   (0, _mocha.describe)('Acceptance | 4 - Démarrer une épreuve |', function () {
 
@@ -772,8 +768,9 @@ define('pix-live/tests/acceptance/4-demarrer-epreuve-test', ['exports', 'mocha',
     (0, _mocha.describe)('Les informations visibles pour une épreuve de type QCU sont :', function () {
 
       (0, _mocha.it)('4.2. la consigne de l\'épreuve', function () {
+        var expectedMarkdown = (0, _markdownIt['default'])().render(challenge.attrs.fields['Consigne']);
         var $instruction = findWithAssert('.challenge-instruction');
-        (0, _chai.expect)($instruction.text()).to.contains(challenge.attrs.fields['Consigne']);
+        (0, _chai.expect)($instruction.html()).to.equal(expectedMarkdown);
       });
 
       (0, _mocha.it)('4.3. les propositions de l\'épreuve', function () {
@@ -2060,6 +2057,17 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
           var $proposalsInput = this.$('.challenge-proposals input[type="text"]');
           (0, _chai.expect)($proposalsInput).to.have.lengthOf(2);
         });
+
+        (0, _emberMocha.it)('should render challenge propsals as different breakline blocks', function () {
+          // when
+          renderChallengeItem.call(this, {
+            type: 'QROC', _proposalsAsBlocks: [{ text: 'Reims' }, { breakline: true }, { input: 'reims' }, { breakline: true }, { text: '-' }, { input: 'losc' }, { breakline: true }, { text: 'Losc' }]
+          });
+
+          // then
+          var $breaklines = this.$('.challenge-proposals hr');
+          (0, _chai.expect)($breaklines).to.have.lengthOf(3);
+        });
       });
     });
   });
@@ -3031,7 +3039,7 @@ define('pix-live/tests/unit/models/challenge/proposals-as-blocks-mixin-test', ['
     }, {
       data: '${plop}, ${plop} ${plop}',
       expected: [{ input: 'plop' }, { text: ',' }, { input: 'plop' }, { input: 'plop' }]
-    }, { data: '${plop#var}', expected: [{ input: 'plop', placeholder: 'var' }] }];
+    }, { data: '${plop#var}', expected: [{ input: 'plop', placeholder: 'var' }] }, { data: 'line1\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\r\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\n\rline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\n\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }];
 
     var Challenge = _ember['default'].Object.extend(_pixLiveModelsChallengeProposalsAsBlocksMixin['default'], {});
 
