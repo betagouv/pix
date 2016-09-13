@@ -236,7 +236,7 @@ describeModule(
         expect(answer).to.equal('"yo", "pix"');
       });
 
-      it('return null when challenge type is invalid', function () {
+      it('return null when challenge type is invalid', function ()  {
         const challengeItem = this.subject({
           challenge: {
             type: 'Celui dont le PIXCosmos atteint son paroxysme est en mesure de le faire exploser pour créer un Big Bang'
