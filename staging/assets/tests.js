@@ -2023,6 +2023,17 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
           var $proposals = this.$('.challenge-proposal input[type="checkbox"]');
           (0, _chai.expect)($proposals).to.have.lengthOf(3);
         });
+
+        (0, _emberMocha.it)('should add checked proposals in the answer property as an array', function (done) {
+          renderChallengeItem.call(this, { type: 'QCM', _proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, function (_challenge, _assessment, answer) {
+            (0, _chai.expect)(answer).to.equal('"Xi", "Mi"');
+            done();
+          });
+
+          this.$('.challenge-proposal:nth(0) input[type="checkbox"]').click();
+          this.$('.challenge-proposal:nth(2) input[type="checkbox"]').click();
+          this.$('.validate-button').click();
+        });
       });
 
       (0, _mocha.describe)('QROC', function () {
@@ -2407,7 +2418,7 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
 
     describe('#_getErrorMessage', function () {
 
-      [{ type: 'QCU', message: "Vous devez sélectionner une proposition, ou passer l'épreuve." }, { type: 'QROC', message: "Vous devez saisir une réponse, ou passer l'épreuve." }, { type: 'QROCM', message: "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve." }, { type: '🎩🗿👻', message: "Répondez correctement à l'épreuve, ou passez la réponse." }].forEach(function (_ref) {
+      [{ type: 'QCU', message: "Vous devez sélectionner une proposition, ou passer l'épreuve." }, { type: 'QROC', message: "Vous devez saisir une réponse, ou passer l'épreuve." }, { type: 'QROCM', message: "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve." }, { type: '🎩🗿👻', message: "Répondez correctement à l'épreuve, ou passez la réponse." }, { type: 'QCM', message: "Vous devez sélectionner au moins une proposition, ou passer l'épreuve." }].forEach(function (_ref) {
         var type = _ref.type;
         var message = _ref.message;
 
@@ -2421,18 +2432,28 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
 
     describe('#_hasError', function () {
 
-      ['QCU'].forEach(function (challengeType) {
-        (0, _emberMocha.it)(challengeType + ' has error when no proposal has been selected', function () {
-          var challengeItem = this.subject({ challenge: { type: challengeType }, selectedProposal: null });
+      (0, _emberMocha.it)('QCU has error when no proposal has been selected', function () {
+        var challengeItem = this.subject({ challenge: { type: 'QCU' }, selectedProposal: null });
 
-          (0, _chai.expect)(challengeItem._hasError()).to.be['true'];
-        });
+        (0, _chai.expect)(challengeItem._hasError()).to.be['true'];
+      });
 
-        (0, _emberMocha.it)(challengeType + ' has no error when a proposal has been selected', function () {
-          var challengeItem = this.subject({ challenge: { type: challengeType }, selectedProposal: 1 });
+      (0, _emberMocha.it)('QCU has no error when a proposal has been selected', function () {
+        var challengeItem = this.subject({ challenge: { type: 'QCU' }, selectedProposal: 1 });
 
-          (0, _chai.expect)(challengeItem._hasError()).to.be['false'];
-        });
+        (0, _chai.expect)(challengeItem._hasError()).to.be['false'];
+      });
+
+      (0, _emberMocha.it)('QCM has error when no proposal has been selected', function () {
+        var challengeItem = this.subject({ challenge: { type: 'QCM' }, answers: null });
+
+        (0, _chai.expect)(challengeItem._hasError()).to.be['true'];
+      });
+
+      (0, _emberMocha.it)("QCM has no error when a proposal has been selected", function () {
+        var challengeItem = this.subject({ challenge: { type: 'QCM' }, answers: [1] });
+
+        (0, _chai.expect)(challengeItem._hasError()).to.be['false'];
       });
 
       ['QROC', 'QROCM'].forEach(function (challengeType) {
@@ -2498,7 +2519,7 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
 
     describe('#_getAnswerValue', function () {
 
-      (0, _emberMocha.it)("should return value + 1 when challenge's type is QCU in order to be easier to treat by PixMasters", function () {
+      (0, _emberMocha.it)("QCU: should return value + 1 in order to be easier to treat by PixMasters", function () {
         // given
         var challengeItem = this.subject();
         var challenge = Ember.Object.create({ type: 'QCU' });
@@ -2512,7 +2533,7 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
         (0, _chai.expect)(answer).to.equal('2');
       });
 
-      (0, _emberMocha.it)("should return simple answer value as string when challenge's type is QROQ", function () {
+      (0, _emberMocha.it)("QROC: should return simple answer value as string", function () {
         // given
         var challengeItem = this.subject();
         var challenge = Ember.Object.create({ type: 'QROC' });
@@ -2529,7 +2550,7 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
         (0, _chai.expect)(answer).to.equal('variable1 = "value_1"');
       });
 
-      (0, _emberMocha.it)("should return answer's values concatenated as string when challenge's type is QROQM", function () {
+      (0, _emberMocha.it)("QROCM: should return answer's values concatenated as string", function () {
         // given
         var challengeItem = this.subject();
         var challenge = Ember.Object.create({ type: 'QROCM' });
@@ -2548,7 +2569,7 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
         (0, _chai.expect)(answer).to.equal('var_1 = "value_1", var_2 = "value_2", var_3 = "value_3"');
       });
 
-      (0, _emberMocha.it)("should return answer's values concatenated as string when challenge's type is QROQM and with one null answer", function () {
+      (0, _emberMocha.it)("QROCM: should return answer's values concatenated as string when there is a null answer", function () {
         // given
         var challengeItem = this.subject();
         var challenge = Ember.Object.create({ type: 'QROCM' });
@@ -2565,6 +2586,34 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
 
         // then
         (0, _chai.expect)(answer).to.equal('var_1 = "value_1", var_2 = "null", var_3 = "value_3"');
+      });
+
+      (0, _emberMocha.it)("QCM: should return the value quoted, when one value has been selected", function () {
+        var challengeItem = this.subject();
+        var challenge = Ember.Object.create({ type: 'QCM', _proposalsAsArray: ['yo', 'oy', 'pix'] });
+        challengeItem.set('challenge', challenge);
+        var answers = [2];
+        challengeItem.set('answers', answers);
+
+        // when
+        var answer = challengeItem._getAnswerValue();
+
+        // then
+        (0, _chai.expect)(answer).to.equal('"pix"');
+      });
+
+      (0, _emberMocha.it)("QCM: should return the values quoted, separated by commas, when one value has been selected", function () {
+        var challengeItem = this.subject();
+        var challenge = Ember.Object.create({ type: 'QCM', _proposalsAsArray: ['yo', 'oy', 'pix'] });
+        challengeItem.set('challenge', challenge);
+        var answers = [0, 2];
+        challengeItem.set('answers', answers);
+
+        // when
+        var answer = challengeItem._getAnswerValue();
+
+        // then
+        (0, _chai.expect)(answer).to.equal('"yo", "pix"');
       });
 
       (0, _emberMocha.it)('return null when challenge type is invalid', function () {
@@ -2621,6 +2670,63 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
         challengeItem.actions.updateQrocAnswer.call(challengeItem, { currentTarget: { name: 'toto', value: 'plop' } });
 
         (0, _chai.expect)(challengeItem.get('errorMessage')).to.be['null'];
+      });
+    });
+
+    describe('#updateQcmAnser action', function () {
+
+      (0, _emberMocha.it)('should use the answers property as an array and push the value when a new value is checked', function () {
+        // given
+        var challengeItem = this.subject();
+        challengeItem.set('answers', {});
+
+        // when
+        challengeItem.actions.updateQcmAnswer.call(challengeItem, {
+          currentTarget: {
+            name: 'my_var',
+            checked: true
+          }
+        });
+
+        // then
+        var answers = challengeItem.get('answers');
+        (0, _chai.expect)(answers, JSON.stringify(answers)).to.deep.equal(['my_var']);
+      });
+
+      (0, _emberMocha.it)('should add new answers when a new value is set', function () {
+        // given
+        var challengeItem = this.subject();
+        challengeItem.set('answers', ['some var']);
+
+        // when
+        challengeItem.actions.updateQcmAnswer.call(challengeItem, {
+          currentTarget: {
+            name: 'another var',
+            checked: true
+          }
+        });
+
+        // then
+        var answers = challengeItem.get('answers');
+        (0, _chai.expect)(answers, JSON.stringify(answers)).to.deep.equal(['some var', 'another var']);
+      });
+
+      (0, _emberMocha.it)('should remove an answer when it is unchecked', function () {
+        // given
+        var challengeItem = this.subject();
+        challengeItem.set('answers', ['some var']);
+
+        // when
+        challengeItem.actions.updateQcmAnswer.call(challengeItem, {
+          currentTarget: {
+            name: 'some var',
+            checked: false
+          }
+        });
+
+        // then
+        var answers = challengeItem.get('answers');
+        (0, _chai.expect)(answers, JSON.stringify(answers)).to.deep.equal([]);
       });
     });
 
