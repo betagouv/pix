@@ -1980,7 +1980,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
             // then
             var $alertError = _this2.$('.alert');
             (0, _chai.expect)($alertError).to.have.lengthOf(1);
-            (0, _chai.expect)($alertError.text()).to.contains('Vous devez');
+            (0, _chai.expect)($alertError.text()).to.contains('Pour valider');
             done();
           });
         });
@@ -2433,7 +2433,7 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
 
     describe('#_getErrorMessage', function () {
 
-      [{ type: 'QCU', message: "Vous devez sélectionner une proposition, ou passer l'épreuve." }, { type: 'QCUIMG', message: "Vous devez sélectionner une proposition, ou passer l'épreuve." }, { type: 'QROC', message: "Pour valider, saisir une réponse. Sinon, passer." }, { type: 'QROCM', message: "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve." }, { type: '🎩🗿👻', message: "Répondez correctement à l'épreuve, ou passez la réponse." }, { type: 'QCM', message: "Vous devez sélectionner au moins une proposition, ou passer l'épreuve." }, { type: 'QCMIMG', message: "Vous devez sélectionner au moins une proposition, ou passer l'épreuve." }].forEach(function (_ref) {
+      [{ type: 'QCU', message: "Pour valider, sélectionner une réponse. Sinon, passer." }, { type: 'QCUIMG', message: "Pour valider, sélectionner une réponse. Sinon, passer." }, { type: 'QROC', message: "Pour valider, saisir une réponse. Sinon, passer." }, { type: 'QROCM', message: "Pour valider, saisir au moins une réponse. Sinon, passer." }, { type: '🎩🗿👻', message: "Pour valider, répondez correctement à l'épreuve. Sinon passer." }, { type: 'QCM', message: "Pour valider, sélectionner au moins une réponse. Sinon, passer." }, { type: 'QCMIMG', message: "Pour valider, sélectionner au moins une réponse. Sinon, passer." }].forEach(function (_ref) {
         var type = _ref.type;
         var message = _ref.message;
 
@@ -2508,10 +2508,10 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
 
     describe('#onError is called when an error is raised', function () {
 
-      (0, _emberMocha.it)('is called when no proposal has been selected with the message “Vous devez sélectionner une proposition.”', function (done) {
+      (0, _emberMocha.it)('is called when no proposal has been selected with the message “Pour valider, sélectionner une réponse. Sinon, passer.”', function (done) {
         var challengeItem = this.subject({ challenge: Ember.Object.create({ type: 'QCU' }) });
         challengeItem.set('onError', function (message) {
-          (0, _chai.expect)(message).to.contains("Vous devez sélectionner une proposition, ou passer l'épreuve.");
+          (0, _chai.expect)(message).to.contains("Pour valider, sélectionner une réponse. Sinon, passer.");
           done();
         });
 

@@ -489,16 +489,16 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
       switch (this.get('challenge.type')) {
         case 'QCUIMG':
         case 'QCU':
-          return "Vous devez sélectionner une proposition, ou passer l'épreuve.";
+          return "Pour valider, sélectionner une réponse. Sinon, passer.";
         case 'QCMIMG':
         case 'QCM':
-          return "Vous devez sélectionner au moins une proposition, ou passer l'épreuve.";
+          return "Pour valider, sélectionner au moins une réponse. Sinon, passer.";
         case 'QROC':
           return "Pour valider, saisir une réponse. Sinon, passer.";
         case 'QROCM':
-          return "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve.";
+          return "Pour valider, saisir au moins une réponse. Sinon, passer.";
         default:
-          return "Répondez correctement à l'épreuve, ou passez la réponse.";
+          return "Pour valider, répondez correctement à l'épreuve. Sinon passer.";
       }
     }
   });
@@ -8609,7 +8609,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+dc0d9997"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+ec121933"});
 }
 
 /* jshint ignore:end */
