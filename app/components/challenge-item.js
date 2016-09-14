@@ -103,9 +103,7 @@ const ChallengeItem = Ember.Component.extend({
       case 'QCMIMG':
       case 'QCM': {
         const answers = this.get('answers');
-        const proposals = this.get('challenge._proposalsAsArray');
-        let answerValue = answers.map((answer) => `"${proposals[answer]}"`).join(', ');
-        return answerValue;
+        return `${answers.map((answer) => parseInt(answer, 10) + 1).join(', ')}`;
       }
       case 'QROC':
       case 'QROCM': {

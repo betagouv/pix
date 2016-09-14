@@ -225,7 +225,7 @@ describeComponent(
               type: qcmType,
               _proposalsAsArray: ['Xi', 'Fu', 'Mi']
             }, (_challenge, _assessment, answer) => {
-              expect(answer).to.equal('"Xi", "Mi"');
+              expect(answer).to.equal('1, 3');
               done();
             });
 

@@ -208,7 +208,7 @@ describeModule(
         expect(answer).to.equal('var_1 = "value_1", var_2 = "null", var_3 = "value_3"');
       });
 
-      it("QCM: should return the value quoted, when one value has been selected", function () {
+      it("QCM: should return the index of the value +1", function () {
         const challengeItem = this.subject();
         const challenge = Ember.Object.create({ type: 'QCM', _proposalsAsArray: ['yo', 'oy', 'pix'] });
         challengeItem.set('challenge', challenge);
@@ -219,10 +219,10 @@ describeModule(
         const answer = challengeItem._getAnswerValue();
 
         // then
-        expect(answer).to.equal('"pix"');
+        expect(answer).to.equal('3');
       });
 
-      it("QCM: should return the values quoted, separated by commas, when one value has been selected", function () {
+      it("QCM: should return the indexes of the values, separated by commas, when one value has been selected", function () {
         const challengeItem = this.subject();
         const challenge = Ember.Object.create({ type: 'QCM', _proposalsAsArray: ['yo', 'oy', 'pix'] });
         challengeItem.set('challenge', challenge);
@@ -233,7 +233,7 @@ describeModule(
         const answer = challengeItem._getAnswerValue();
 
         // then
-        expect(answer).to.equal('"yo", "pix"');
+        expect(answer).to.equal('1, 3');
       });
 
       it('return null when challenge type is invalid', function ()  {
