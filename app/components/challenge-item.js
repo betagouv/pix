@@ -21,11 +21,19 @@ const ChallengeItem = Ember.Component.extend({
   isChallengePreviewMode: computed.empty('assessment'),
   hasError: computed.notEmpty('errorMessage'),
 
+  // FIXME: too much duplication :x
   challengeIsTypeQROC: computed('challenge.type', function () {
-    return this.get('challenge.type') === 'QROC' || this.get('challenge.type') === 'QROCM';
+    const challengeType = this.get('challenge.type');
+    return ['QROC', 'QROCM'].any((type) => type === challengeType);
   }),
-  challengeIsTypeQCM: computed.equal('challenge.type', 'QCM'),
-  challengeIsTypeQCU: computed.equal('challenge.type', 'QCU'),
+  challengeIsTypeQCM: computed('challenge.type', function () {
+    const challengeType = this.get('challenge.type');
+    return ['QCM', 'QCMIMG'].any((type) => type === challengeType);
+  }),
+  challengeIsTypeQCU: computed('challenge.type', function () {
+    const challengeType = this.get('challenge.type');
+    return ['QCU', 'QCUIMG'].any((type) => type === challengeType);
+  }),
 
   onSelectedProposalChanged: Ember.observer('selectedProposal', function () {
     this.set('errorMessage', null);
@@ -82,14 +90,17 @@ const ChallengeItem = Ember.Component.extend({
     }
   },
 
+  // eslint-disable-next-line complexity
   _getAnswerValue() {
     const challengeType = this.get('challenge.type');
 
     switch (challengeType) {
+      case 'QCUIMG':
       case 'QCU': {
         const selectedValue = this.get('selectedProposal');
         return `${selectedValue + 1}`;
       }
+      case 'QCMIMG':
       case 'QCM': {
         const answers = this.get('answers');
         const proposals = this.get('challenge._proposalsAsArray');
@@ -109,8 +120,10 @@ const ChallengeItem = Ember.Component.extend({
   // eslint-disable-next-line complexity
   _hasError: function () {
     switch (this.get('challenge.type')) {
+      case 'QCUIMG':
       case 'QCU':
         return Ember.isEmpty(this.get('selectedProposal'));
+      case 'QCMIMG':
       case 'QCM':
         return !(this.get('answers.length') >= 1);
       case 'QROC':
@@ -123,10 +136,13 @@ const ChallengeItem = Ember.Component.extend({
     }
   },
 
+  // eslint-disable-next-line complexity
   _getErrorMessage: function () {
     switch (this.get('challenge.type')) {
+      case 'QCUIMG':
       case 'QCU':
         return "Vous devez sélectionner une proposition, ou passer l'épreuve.";
+      case 'QCMIMG':
       case 'QCM':
         return "Vous devez sélectionner au moins une proposition, ou passer l'épreuve.";
       case 'QROC':
