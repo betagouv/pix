@@ -115,10 +115,10 @@ describeModule(
 
     describe('#onError is called when an error is raised', function () {
 
-      it('is called when no proposal has been selected with the message “Vous devez sélectionner une proposition.”', function (done) {
+      it('is called when no proposal has been selected with the message “Pour valider, sélectionner une réponse. Sinon, passer.”', function (done) {
         const challengeItem = this.subject({ challenge: Ember.Object.create({ type: 'QCU' }) });
         challengeItem.set('onError', (message) => {
-          expect(message).to.contains("Vous devez sélectionner une proposition, ou passer l'épreuve.");
+          expect(message).to.contains("Pour valider, sélectionner une réponse. Sinon, passer.");
           done();
         });
 
