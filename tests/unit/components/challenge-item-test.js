@@ -35,11 +35,11 @@ describeModule(
     describe('#_getErrorMessage', function () {
 
       [
-        { type: 'QCU', message: "Vous devez sélectionner une proposition, ou passer l'épreuve." },
+        { type: 'QCU', message: "Pour valider, sélectionner une réponse. Sinon, passer." },
         { type: 'QROC', message: "Pour valider, saisir une réponse. Sinon, passer." },
-        { type: 'QROCM', message: "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve." },
+        { type: 'QROCM', message: "Pour valider, saisir au moins une réponse. Sinon, passer." },
         { type: '🎩🗿👻', message: "Répondez correctement à l'épreuve, ou passez la réponse." },
-        { type: 'QCM', message: "Vous devez sélectionner au moins une proposition, ou passer l'épreuve." }
+        { type: 'QCM', message: "Pour valider, sélectionner au moins une réponse. Sinon, passer." }
       ].forEach(({ type, message }) => {
 
         it(`type ${type}: expect error message to be "${message}"`, function () {
