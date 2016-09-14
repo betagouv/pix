@@ -307,7 +307,7 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
       });
 
       (0, _mocha.it)('2.3.4 on affiche un bouton "démarrer le test"', function () {
-        (0, _chai.expect)($course.find('a.btn').text()).to.contains('Démarrer le test');
+        (0, _chai.expect)($course.find('a.button').text()).to.contains('Démarrer le test');
       });
     });
 

@@ -2245,8 +2245,8 @@ define("pix-live/templates/assessments/get-challenge-loading", ["exports"], func
             "column": 0
           },
           "end": {
-            "line": 8,
-            "column": 0
+            "line": 10,
+            "column": 6
           }
         },
         "moduleName": "pix-live/templates/assessments/get-challenge-loading.hbs"
@@ -2258,31 +2258,47 @@ define("pix-live/templates/assessments/get-challenge-loading", ["exports"], func
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "id", "assessment-challenge");
+        dom.setAttribute(el1, "id", "assessment-challenge-loading");
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "container");
-        var el3 = dom.createTextNode("\n\n      ");
+        dom.setAttribute(el2, "class", "loader-container");
+        var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "loader");
+        var el4 = dom.createTextNode("\n            ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "loader-inner ball-zig-zag");
+        var el5 = dom.createTextNode("\n                ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("div");
+        dom.setAttribute(el5, "class", "ball-spinner");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n                ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("div");
+        dom.setAttribute(el5, "class", "ball-spinner");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n            ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n        ");
+        dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n    ");
+        var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
         return el0;
       },
-      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]), 1, 1);
-        return morphs;
+      buildRenderNodes: function buildRenderNodes() {
+        return [];
       },
-      statements: [["inline", "challenge-item", [["get", "model.challenge", ["loc", [null, [4, 23], [4, 38]]], 0, 0, 0, 0], ["get", "model.assessment", ["loc", [null, [4, 39], [4, 55]]], 0, 0, 0, 0]], ["onValidated", ["subexpr", "action", [["get", "saveAnswerAndNavigate", ["loc", [null, [4, 76], [4, 97]]], 0, 0, 0, 0]], [], ["loc", [null, [4, 68], [4, 98]]], 0, 0]], ["loc", [null, [4, 6], [4, 100]]], 0, 0]],
+      statements: [],
       locals: [],
       templates: []
     };
@@ -2795,7 +2811,7 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("nav");
-        dom.setAttribute(el1, "class", "navbar");
+        dom.setAttribute(el1, "class", "navbar navbar-fixed-top");
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
@@ -7821,12 +7837,12 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 11,
-                "column": 16
+                "line": 12,
+                "column": 20
               },
               "end": {
-                "line": 13,
-                "column": 16
+                "line": 14,
+                "column": 20
               }
             },
             "moduleName": "pix-live/templates/home.hbs"
@@ -7837,7 +7853,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("                    ");
+            var el1 = dom.createTextNode("                        ");
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("img");
             dom.setAttribute(el1, "class", "course-picture");
@@ -7853,7 +7869,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             morphs[0] = dom.createAttrMorph(element0, 'src');
             return morphs;
           },
-          statements: [["attribute", "src", ["concat", [["get", "course.imageUrl", ["loc", [null, [12, 56], [12, 71]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+          statements: [["attribute", "src", ["concat", [["get", "course.imageUrl", ["loc", [null, [13, 60], [13, 75]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
           locals: [],
           templates: []
         };
@@ -7865,12 +7881,12 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 13,
-                "column": 16
+                "line": 14,
+                "column": 20
               },
               "end": {
-                "line": 15,
-                "column": 16
+                "line": 16,
+                "column": 20
               }
             },
             "moduleName": "pix-live/templates/home.hbs"
@@ -7881,7 +7897,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("                    ");
+            var el1 = dom.createTextNode("                        ");
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("img");
             dom.setAttribute(el1, "class", "course-picture");
@@ -7907,12 +7923,12 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 24,
-                "column": 20
+                "line": 26,
+                "column": 24
               },
               "end": {
-                "line": 26,
-                "column": 20
+                "line": 28,
+                "column": 24
               }
             },
             "moduleName": "pix-live/templates/home.hbs"
@@ -7923,7 +7939,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("                        Démarrer le test\n");
+            var el1 = dom.createTextNode("                            Démarrer le test\n");
             dom.appendChild(el0, el1);
             return el0;
           },
@@ -7945,7 +7961,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
               "column": 10
             },
             "end": {
-              "line": 29,
+              "line": 32,
               "column": 10
             }
           },
@@ -7960,38 +7976,52 @@ define("pix-live/templates/home", ["exports"], function (exports) {
           var el1 = dom.createTextNode("              ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("li");
-          dom.setAttribute(el1, "class", "rounded-panel course animated fadeIn");
-          var el2 = dom.createTextNode("\n");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createComment("");
-          dom.appendChild(el1, el2);
+          dom.setAttribute(el1, "class", "col-md-4 course-item animated fadeIn");
           var el2 = dom.createTextNode("\n                  ");
           dom.appendChild(el1, el2);
-          var el2 = dom.createElement("h3");
-          dom.setAttribute(el2, "class", "course-name");
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n\n                  ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("p");
-          dom.setAttribute(el2, "class", "course-description");
-          var el3 = dom.createTextNode("\n                    ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n                  ");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n\n                  ");
-          dom.appendChild(el1, el2);
           var el2 = dom.createElement("div");
-          dom.setAttribute(el2, "class", "course-actions");
+          dom.setAttribute(el2, "class", "rounded-panel course");
           var el3 = dom.createTextNode("\n");
           dom.appendChild(el2, el3);
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("                  ");
+          var el3 = dom.createTextNode("\n                      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "course-content");
+          var el4 = dom.createTextNode("\n                          ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("h4");
+          dom.setAttribute(el4, "class", "course-name");
+          var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n                          ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "course-description");
+          var el5 = dom.createTextNode("\n                            ");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n                          ");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n                      ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n\n                      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "course-actions");
+          var el4 = dom.createTextNode("\n");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("                      ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n                  ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n              ");
@@ -8002,16 +8032,17 @@ define("pix-live/templates/home", ["exports"], function (exports) {
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element1 = dom.childAt(fragment, [1]);
+          var element1 = dom.childAt(fragment, [1, 1]);
+          var element2 = dom.childAt(element1, [3]);
           var morphs = new Array(5);
           morphs[0] = dom.createAttrMorph(element1, 'data-id');
           morphs[1] = dom.createMorphAt(element1, 1, 1);
-          morphs[2] = dom.createMorphAt(dom.childAt(element1, [3]), 0, 0);
-          morphs[3] = dom.createMorphAt(dom.childAt(element1, [5]), 1, 1);
-          morphs[4] = dom.createMorphAt(dom.childAt(element1, [7]), 1, 1);
+          morphs[2] = dom.createMorphAt(dom.childAt(element2, [1]), 0, 0);
+          morphs[3] = dom.createMorphAt(dom.childAt(element2, [3]), 1, 1);
+          morphs[4] = dom.createMorphAt(dom.childAt(element1, [5]), 1, 1);
           return morphs;
         },
-        statements: [["attribute", "data-id", ["concat", [["get", "course.id", ["loc", [null, [10, 75], [10, 84]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "course.imageUrl", ["loc", [null, [11, 22], [11, 37]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [11, 16], [15, 23]]]], ["content", "course.name", ["loc", [null, [17, 42], [17, 59]]], 0, 0, 0, 0], ["content", "course.description", ["loc", [null, [20, 20], [20, 44]]], 0, 0, 0, 0], ["block", "link-to", ["courses.create-assessment", ["get", "course.id", ["loc", [null, [24, 59], [24, 68]]], 0, 0, 0, 0]], ["class", "btn btn-primary btn-small start-button"], 2, null, ["loc", [null, [24, 20], [26, 32]]]]],
+        statements: [["attribute", "data-id", ["concat", [["get", "course.id", ["loc", [null, [11, 64], [11, 73]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "course.imageUrl", ["loc", [null, [12, 26], [12, 41]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [12, 20], [16, 27]]]], ["content", "course.name", ["loc", [null, [19, 50], [19, 67]]], 0, 0, 0, 0], ["content", "course.description", ["loc", [null, [21, 28], [21, 52]]], 0, 0, 0, 0], ["block", "link-to", ["courses.create-assessment", ["get", "course.id", ["loc", [null, [26, 63], [26, 72]]], 0, 0, 0, 0]], ["class", "button button-primary start-button"], 2, null, ["loc", [null, [26, 24], [28, 36]]]]],
         locals: ["course"],
         templates: [child0, child1, child2]
       };
@@ -8026,7 +8057,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 34,
+            "line": 37,
             "column": 6
           }
         },
@@ -8075,7 +8106,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1, 3]), 1, 1);
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [9, 18], [9, 23]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [9, 10], [29, 19]]]]],
+      statements: [["block", "each", [["get", "model", ["loc", [null, [9, 18], [9, 23]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [9, 10], [32, 19]]]]],
       locals: [],
       templates: [child0]
     };
@@ -8566,7 +8597,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+bd68c829"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+447ab223"});
 }
 
 /* jshint ignore:end */
