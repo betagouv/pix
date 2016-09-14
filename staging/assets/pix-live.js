@@ -348,11 +348,25 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
     isChallengePreviewMode: computed.empty('assessment'),
     hasError: computed.notEmpty('errorMessage'),
 
+    // FIXME: too much duplication :x
     challengeIsTypeQROC: computed('challenge.type', function () {
-      return this.get('challenge.type') === 'QROC' || this.get('challenge.type') === 'QROCM';
+      var challengeType = this.get('challenge.type');
+      return ['QROC', 'QROCM'].any(function (type) {
+        return type === challengeType;
+      });
     }),
-    challengeIsTypeQCM: computed.equal('challenge.type', 'QCM'),
-    challengeIsTypeQCU: computed.equal('challenge.type', 'QCU'),
+    challengeIsTypeQCM: computed('challenge.type', function () {
+      var challengeType = this.get('challenge.type');
+      return ['QCM', 'QCMIMG'].any(function (type) {
+        return type === challengeType;
+      });
+    }),
+    challengeIsTypeQCU: computed('challenge.type', function () {
+      var challengeType = this.get('challenge.type');
+      return ['QCU', 'QCUIMG'].any(function (type) {
+        return type === challengeType;
+      });
+    }),
 
     onSelectedProposalChanged: _ember['default'].observer('selectedProposal', function () {
       this.set('errorMessage', null);
@@ -414,31 +428,24 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
       }
     },
 
+    // eslint-disable-next-line complexity
     _getAnswerValue: function _getAnswerValue() {
-      var _this = this;
-
       var challengeType = this.get('challenge.type');
 
       switch (challengeType) {
+        case 'QCUIMG':
         case 'QCU':
           {
             var selectedValue = this.get('selectedProposal');
             return '' + (selectedValue + 1);
           }
+        case 'QCMIMG':
         case 'QCM':
           {
-            var _ret = (function () {
-              var answers = _this.get('answers');
-              var proposals = _this.get('challenge._proposalsAsArray');
-              var answerValue = answers.map(function (answer) {
-                return '"' + proposals[answer] + '"';
-              }).join(', ');
-              return {
-                v: answerValue
-              };
-            })();
-
-            if (typeof _ret === 'object') return _ret.v;
+            var answers = this.get('answers');
+            return '' + answers.map(function (answer) {
+              return parseInt(answer, 10) + 1;
+            }).join(', ');
           }
         case 'QROC':
         case 'QROCM':
@@ -460,8 +467,10 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
     // eslint-disable-next-line complexity
     _hasError: function _hasError() {
       switch (this.get('challenge.type')) {
+        case 'QCUIMG':
         case 'QCU':
           return _ember['default'].isEmpty(this.get('selectedProposal'));
+        case 'QCMIMG':
         case 'QCM':
           return !(this.get('answers.length') >= 1);
         case 'QROC':
@@ -475,10 +484,13 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
       }
     },
 
+    // eslint-disable-next-line complexity
     _getErrorMessage: function _getErrorMessage() {
       switch (this.get('challenge.type')) {
+        case 'QCUIMG':
         case 'QCU':
           return "Vous devez sélectionner une proposition, ou passer l'épreuve.";
+        case 'QCMIMG':
         case 'QCM':
           return "Vous devez sélectionner au moins une proposition, ou passer l'épreuve.";
         case 'QROC':
@@ -8597,7 +8609,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+beb95771"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+dc0d9997"});
 }
 
 /* jshint ignore:end */
