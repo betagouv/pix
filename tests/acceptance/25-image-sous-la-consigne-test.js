@@ -30,12 +30,12 @@ describe("Acceptance | 25 - Afficher une image sous la consigne | ", function ()
     });
 
     it('25.1 Une image unique peut être affichée sous la consigne', function () {
-      const $illustration = findWithAssert('.challenge-illustration');
+      const $illustration = findWithAssert('.challenge-illustration > img');
       expect($illustration.length).to.equal(1);
     });
 
     it('25.2 Cette image a un alt text “ceci est une image”', function () {
-      const $illustration = findWithAssert('.challenge-illustration');
+      const $illustration = findWithAssert('.challenge-illustration > img');
       expect($illustration.attr('alt')).to.contains('ceci est une image');
     });
   });

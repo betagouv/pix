@@ -6,11 +6,19 @@
 
   {{#if hasIllustration}}
       <hr>
-      <img class="challenge-illustration" src="{{ challenge.illustrationUrl }}" alt="ceci est une image">
+      <div class=" challenge-illustration">
+          <img src="{{ challenge.illustrationUrl }}" alt="ceci est une image">
+      </div>
   {{/if}}
   {{#if hasAttachment}}
       <hr>
-      <a href="{{challenge.attachmentUrl}}" class="challenge-attachment">{{challenge.attachmentFilename}}</a>
+      <div class="challenge-attachment">
+          <a href="{{challenge.attachmentUrl}}" class="button" target="_blank">
+              <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+              Télécharger le fichier<br>
+            {{challenge.attachmentFilename}}
+          </a>
+      </div>
   {{/if}}
 </div>
 
