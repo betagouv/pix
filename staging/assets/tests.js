@@ -2426,7 +2426,7 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
 
     describe('#_getErrorMessage', function () {
 
-      [{ type: 'QCU', message: "Vous devez sélectionner une proposition, ou passer l'épreuve." }, { type: 'QROC', message: "Vous devez saisir une réponse, ou passer l'épreuve." }, { type: 'QROCM', message: "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve." }, { type: '🎩🗿👻', message: "Répondez correctement à l'épreuve, ou passez la réponse." }, { type: 'QCM', message: "Vous devez sélectionner au moins une proposition, ou passer l'épreuve." }].forEach(function (_ref) {
+      [{ type: 'QCU', message: "Vous devez sélectionner une proposition, ou passer l'épreuve." }, { type: 'QROC', message: "Pour valider, saisir une réponse. Sinon, passer." }, { type: 'QROCM', message: "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve." }, { type: '🎩🗿👻', message: "Répondez correctement à l'épreuve, ou passez la réponse." }, { type: 'QCM', message: "Vous devez sélectionner au moins une proposition, ou passer l'épreuve." }].forEach(function (_ref) {
         var type = _ref.type;
         var message = _ref.message;
 
