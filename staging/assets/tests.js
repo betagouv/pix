@@ -276,10 +276,6 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
       (0, _chai.expect)(currentPath()).to.equal('home');
     });
 
-    (0, _mocha.it)('2.1 la liste des tests apparaît', function () {
-      (0, _chai.expect)(findWithAssert('.title').text()).to.contains('Liste des tests');
-    });
-
     (0, _mocha.it)('2.2 on affiche autant de tests que remontés par AirTable', function () {
       (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(6);
     });
@@ -337,22 +333,43 @@ define('pix-live/tests/acceptance/25-image-sous-la-consigne-test', ['exports', '
 
     (0, _mocha.before)(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
-      challenge = server.create('challenge-airtable');
-      challenge.attrs.fields['Illustration de la consigne'] = [{ url: 'http://example.beta.gouv.fr' }];
     });
 
     (0, _mocha.after)(function () {
       (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
     });
 
-    (0, _mocha.before)(function () {
-      return visit('/challenges/' + challenge.attrs.id + '/preview');
+    (0, _mocha.describe)("Quand l'épreuve contient une illustration en consigne", function () {
+
+      (0, _mocha.before)(function () {
+        challenge = server.create('challenge-airtable');
+        challenge.attrs.fields['Illustration de la consigne'] = [{ url: 'http://example.beta.gouv.fr' }];
+        return visit('/challenges/' + challenge.attrs.id + '/preview');
+      });
+
+      (0, _mocha.it)('25.1 Une image unique peut être affichée sous la consigne', function () {
+        var $illustration = findWithAssert('.challenge-illustration > img');
+        (0, _chai.expect)($illustration.length).to.equal(1);
+      });
+
+      (0, _mocha.it)('25.2 Cette image a un alt text “ceci est une image”', function () {
+        var $illustration = findWithAssert('.challenge-illustration > img');
+        (0, _chai.expect)($illustration.attr('alt')).to.contains('ceci est une image');
+      });
     });
 
-    (0, _mocha.it)('25.1 Une image unique peut être affichée sous la consigne', function () {});
+    (0, _mocha.describe)("Quand l'épreuve ne contient pas d'illustration en consigne", function () {
 
-    (0, _mocha.it)('25.2 Cette image a un alt text “ceci est une image”', function () {
-      (0, _chai.expect)(findWithAssert('.challenge-illustration').attr('alt')).to.contains('ceci est une image');
+      (0, _mocha.before)(function () {
+        challenge = server.create('challenge-airtable');
+        challenge.attrs.fields['Illustration de la consigne'] = null;
+        return visit('/challenges/' + challenge.attrs.id + '/preview');
+      });
+
+      (0, _mocha.it)("25.3 La section d'illustration est cachée", function () {
+        var $attachmentLink = $('.challenge-illustration');
+        (0, _chai.expect)($attachmentLink.length).to.equal(0);
+      });
     });
   });
 });
@@ -363,6 +380,76 @@ define('pix-live/tests/acceptance/25-image-sous-la-consigne-test.lint-test', ['e
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('acceptance/25-image-sous-la-consigne-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/27-telecharger-une-piece-jointe-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)("Acceptance | 27 - Télécharger une pièce jointe depuis la consigne d'une épreuve | ", function () {
+    var application = undefined;
+    var challenge = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.describe)("Quand l'épreuve contient une pièce jointe en consigne", function () {
+
+      (0, _mocha.before)(function () {
+        challenge = server.create('challenge-airtable');
+        challenge.attrs.fields['Pièce jointe'] = [{
+          "url": "https://dl.airtable.com/IqgzfJisSRC6rrR4KFBz_test.pdf",
+          "filename": "test.pdf"
+        }];
+        return visit('/challenges/' + challenge.attrs.id + '/preview');
+      });
+
+      (0, _mocha.it)("27.1 Il existe un moyen pour télécharger la pièce jointe d'une épreuve dans la zone de consigne", function () {
+        var $attachmentLink = findWithAssert('.challenge-attachment > a');
+        (0, _chai.expect)($attachmentLink.length).to.equal(1);
+      });
+
+      (0, _mocha.it)("27.2 Le lien de la pièce jointe contient le nom du fichier et son extension", function () {
+        var $attachmentLink = $('.challenge-attachment > a');
+        (0, _chai.expect)($attachmentLink.text()).to.contains('Télécharger le fichier');
+        (0, _chai.expect)($attachmentLink.text()).to.contains('test.pdf');
+        (0, _chai.expect)($attachmentLink.attr('href')).to.equal('https://dl.airtable.com/IqgzfJisSRC6rrR4KFBz_test.pdf');
+      });
+
+      (0, _mocha.it)("27.3 Il n'y a qu'un seul fichier téléchargeable", function () {
+        var $attachment = findWithAssert('.challenge-attachment > a');
+        (0, _chai.expect)($attachment.length).to.equal(1);
+      });
+    });
+
+    (0, _mocha.describe)("Quand l'épreuve ne contient pas de pièce jointe en consigne", function () {
+
+      (0, _mocha.before)(function () {
+        challenge = server.create('challenge-airtable');
+        challenge.attrs.fields['Pièce jointe'] = null;
+        return visit('/challenges/' + challenge.attrs.id + '/preview');
+      });
+
+      (0, _mocha.it)("27.4 La section de téléchargement des pièces jointes est cachée", function () {
+        var $attachmentLink = $('.challenge-attachment > a');
+        (0, _chai.expect)($attachmentLink.length).to.equal(0);
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/27-telecharger-une-piece-jointe-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/27-telecharger-une-piece-jointe-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/27-telecharger-une-piece-jointe-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -601,6 +688,12 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test.lint-test', ['export
 });
 define('pix-live/tests/acceptance/38-s-identifier-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'rsvp'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _rsvp) {
 
+  function checkMissingInput(cssClass, fieldId) {
+    return fillIn(cssClass, '').then(function () {
+      (0, _chai.expect)(find(fieldId).hasClass('has-error')).to.be['true'];
+      (0, _chai.expect)(findWithAssert(fieldId + ' .help-block').text()).to.contains('Champ requis');
+    });
+  }
   (0, _mocha.describe)("Acceptance | 38 - S'identifier sur la plateforme", function () {
     var application = undefined;
 
@@ -668,24 +761,15 @@ define('pix-live/tests/acceptance/38-s-identifier-test', ['exports', 'mocha', 'c
       });
 
       (0, _mocha.it)('missing firstname', function () {
-        return fillIn(firstname_css, '').then(function () {
-          (0, _chai.expect)(find('#firstname').hasClass('has-error')).to.be['true'];
-          (0, _chai.expect)(findWithAssert('#firstname .help-block').text()).to.contains('Champ requis');
-        });
+        return checkMissingInput(firstname_css, '#firstname');
       });
 
       (0, _mocha.it)('missing lastname', function () {
-        return fillIn(lastname_css, '').then(function () {
-          (0, _chai.expect)(find('#lastname').hasClass('has-error')).to.be['true'];
-          (0, _chai.expect)(findWithAssert('#lastname .help-block').text()).to.contains('Champ requis');
-        });
+        return checkMissingInput(lastname_css, '#lastname');
       });
 
       (0, _mocha.it)('missing email', function () {
-        return fillIn(email_css, '').then(function () {
-          (0, _chai.expect)(find('#email').hasClass('has-error')).to.be['true'];
-          (0, _chai.expect)(findWithAssert('#email .help-block').text()).to.contains('Champ requis');
-        });
+        return checkMissingInput(email_css, '#email');
       });
 
       (0, _mocha.it)('bad email', function () {
@@ -874,40 +958,6 @@ define('pix-live/tests/acceptance/6-valider-une-epreuve-test.lint-test', ['expor
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('acceptance/6-valider-une-epreuve-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/acceptance/home-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'mocha', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _pixLiveTestsTestHelper, _chai, _mocha, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)('Acceptance | /home', function () {
-
-    (0, _mocha.beforeEach)(function () {
-      this.application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.afterEach)(function () {
-      return (0, _pixLiveTestsHelpersDestroyApp['default'])(this.application);
-    });
-
-    (0, _mocha.it)('should display the title', function () {
-      visit('/home');
-
-      andThen(function () {
-        (0, _chai.expect)(currentURL()).to.be.eq('/home');
-        (0, _chai.expect)(find('.title').text()).to.contains('Liste des tests');
-      });
-    });
-  });
-});
-define('pix-live/tests/acceptance/home-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/home-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/home-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1872,7 +1922,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         renderChallengeItem.call(this, { illustrationUrl: 'http://my.illustration.png' });
 
         // then
-        var $illustration = this.$('.challenge-illustration');
+        var $illustration = this.$('.challenge-illustration > img');
         (0, _chai.expect)($illustration.attr('alt')).to.contains('ceci est une image');
       });
 
@@ -1881,7 +1931,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         var illustrationUrl = 'http://my.illustration.png';
         renderChallengeItem.call(this, { illustrationUrl: illustrationUrl });
 
-        var $illustration = this.$('.challenge-illustration');
+        var $illustration = this.$('.challenge-illustration > img');
         (0, _chai.expect)($illustration.attr('src')).to.equals(illustrationUrl);
       });
     });
@@ -3295,7 +3345,7 @@ define('pix-live/tests/unit/routes/preferences-test.lint-test', ['exports'], fun
 });
 define('pix-live/tests/unit/serializers/answer-test', ['exports', 'chai', 'ember-mocha', 'pix-live/models/answer', 'pix-live/serializers/answer'], function (exports, _chai, _emberMocha, _pixLiveModelsAnswer, _pixLiveSerializersAnswer) {
 
-  (0, _emberMocha.describeModule)('serializer:answer', 'Unit | Serializer | answer', {}, function () {
+  (0, _emberMocha.describeModule)('serializer:answer', 'Unit | Serializer | Answer', {}, function () {
 
     var serializer = new _pixLiveSerializersAnswer['default']();
     var Answer = _pixLiveModelsAnswer['default'].extend({}); // copy the class to avoid side effects
@@ -3348,7 +3398,7 @@ define('pix-live/tests/unit/serializers/answer-test.lint-test', ['exports'], fun
 });
 define('pix-live/tests/unit/serializers/assessment-test', ['exports', 'chai', 'ember-mocha', 'pix-live/models/assessment', 'pix-live/serializers/assessment'], function (exports, _chai, _emberMocha, _pixLiveModelsAssessment, _pixLiveSerializersAssessment) {
 
-  (0, _emberMocha.describeModel)('assessment', 'Unit | Serializer | assessment', {
+  (0, _emberMocha.describeModel)('assessment', 'Unit | Serializer | Assessment', {
     needs: ['model:answer']
   }, function () {
 
@@ -3416,44 +3466,79 @@ define('pix-live/tests/unit/serializers/challenge-test', ['exports', 'chai', 'em
       return payload;
     }
 
-    (0, _emberMocha.it)('it normalize correctly', function () {
-      var payload = {
-        "createdTime": "2016-08-24T16:05:16.000Z",
-        "fields": {
-          "Auteur": ["SPS"],
-          "Bonnes réponses": "2",
-          "Consigne": "Quel signe précède toujours une formule dans une cellule de feuille de calcul ?",
-          "Licence image": "no",
-          "Preview": "http://staging.pix.beta.gouv.fr/challenges/rec1LvIU9OZ2sXyuy/preview",
-          "Propositions": "- #\r\n- =\r\n- !\r\n- :\r\n- $\r",
-          "Record ID": "rec1LvIU9OZ2sXyuy",
-          "Reponses": [],
-          "Type d'épreuve": "QCU",
-          "Type péda": "q-situation",
-          "_Niveau": ["3"],
-          "_Preview Temp": "https://docs.google.com/presentation/d/1aEn-VH5_ijVBRmsLDvtQmG83BZihE37PnCz5g2mEbWk/edit#slide=id.g15ad5fc552_0_4",
-          "_Statut": "proposé",
-          "acquis": ["#formuleSimple"],
-          "compétence": "1.3. Traiter des données",
-          "description": "Signe précédant une formule",
-          "domaine": "1.3. Traiter des données",
-          "id": 98,
-          "versions Alter": ["recgPPjKpxqAMaAeX"]
-        },
-        "id": "rec1LvIU9OZ2sXyuy"
-      };
-      var expected = {
-        challenge: {
-          id: payload.id,
-          created: payload.createdTime,
-          instruction: payload.fields.Consigne,
-          proposals: payload.fields.Propositions,
-          type: 'QCU'
-        }
-      };
-      var challenge = normalizePayload(payload);
+    (0, _emberMocha.it)('#normalizeResponse', function () {
 
-      (0, _chai.expect)(challenge).to.be.deep.equal(expected);
+      describe('when challenge is complete', function () {
+
+        (0, _emberMocha.it)('serializes all the fields', function () {
+          var payload = {
+            "createdTime": "2016-08-24T16:05:16.000Z",
+            "fields": {
+              "Consigne": "Quel signe précède toujours une formule dans une cellule de feuille de calcul ?",
+              "Propositions": "- #\r\n- =\r\n- !\r\n- :\r\n- $\r",
+              "Type d'épreuve": "QCU",
+              "Illustration de la consigne": [{
+                "url": "https://dl.airtable.com/OvrobamORSOy3O44sSEu_Clipboard04.png"
+              }],
+              "Pièce jointe": [{
+                "url": "https://dl.airtable.com/IqgzfJisSRC6rrR4KFBz_test.pdf",
+                "filename": "test.pdf"
+              }]
+            },
+            "id": "rec1LvIU9OZ2sXyuy"
+          };
+          var expected = {
+            challenge: {
+              id: payload.id,
+              created: payload.createdTime,
+              instruction: payload.fields.Consigne,
+              proposals: payload.fields.Propositions,
+              type: 'QCU',
+              illustrationUrl: payload.fields['Illustration de la consigne'][0].url,
+              attachmentUrl: payload.fields['Pièce jointe'][0].url,
+              attachmentFilename: payload.fields['Pièce jointe'][0].filename
+            }
+          };
+          var challenge = normalizePayload(payload);
+
+          (0, _chai.expect)(challenge).to.deep.equal(expected);
+        });
+      });
+
+      describe('when challenge has no illustration', function () {
+
+        (0, _emberMocha.it)('set illustration URL to undefined', function () {
+
+          var payload = {
+            "createdTime": "2016-08-24T16:05:16.000Z",
+            "fields": {
+              "Illustration de la consigne": null
+            },
+            "id": "rec1LvIU9OZ2sXyuy"
+          };
+          var challenge = normalizePayload(payload);
+
+          (0, _chai.expect)(challenge.illustrationUrl).to.be.undefined;
+        });
+      });
+
+      describe('when challenge has no illustration', function () {
+
+        (0, _emberMocha.it)('set attachemnt data to undefined', function () {
+
+          var payload = {
+            "createdTime": "2016-08-24T16:05:16.000Z",
+            "fields": {
+              "Pièce jointe": null
+            },
+            "id": "rec1LvIU9OZ2sXyuy"
+          };
+          var challenge = normalizePayload(payload);
+
+          (0, _chai.expect)(challenge.attachmentUrl).to.be.undefined;
+          (0, _chai.expect)(challenge.attachmentFilename).to.be.undefined;
+        });
+      });
     });
   });
 });
@@ -3471,7 +3556,7 @@ define('pix-live/tests/unit/serializers/challenge-test.lint-test', ['exports'], 
 });
 define('pix-live/tests/unit/serializers/course-test', ['exports', 'chai', 'ember-mocha', 'mocha', 'pretender'], function (exports, _chai, _emberMocha, _mocha, _pretender) {
 
-  (0, _emberMocha.describeModel)('course', 'Unit | Serializer | course', {
+  (0, _emberMocha.describeModel)('course', 'Unit | Serializer | Course', {
     needs: ['adapter:course', 'serializer:course']
   }, function () {
 
