@@ -276,10 +276,6 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
       (0, _chai.expect)(currentPath()).to.equal('home');
     });
 
-    (0, _mocha.it)('2.1 la liste des tests apparaît', function () {
-      (0, _chai.expect)(findWithAssert('.title').text()).to.contains('Liste des tests');
-    });
-
     (0, _mocha.it)('2.2 on affiche autant de tests que remontés par AirTable', function () {
       (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(6);
     });
@@ -569,7 +565,7 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test.lint-test', ['ex
     });
   });
 });
-define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'markdown-it'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _markdownIt) {
+define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'markdown-it'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _markdownIt) {
 
   (0, _mocha.describe)('Acceptance | 37 - Prévisualiser un test |', function () {
 
@@ -678,13 +674,13 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
     });
   });
 });
-define('pix-live/tests/acceptance/37-prévisualiser-un-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/37-prévisualiser-un-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - acceptance/37-prévisualiser-un-test.js', function () {
+  describe('ESLint - acceptance/37-prévisualiser-un-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/37-prévisualiser-un-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('acceptance/37-prévisualiser-un-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -962,40 +958,6 @@ define('pix-live/tests/acceptance/6-valider-une-epreuve-test.lint-test', ['expor
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('acceptance/6-valider-une-epreuve-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/acceptance/home-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'mocha', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _pixLiveTestsTestHelper, _chai, _mocha, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)('Acceptance | /home', function () {
-
-    (0, _mocha.beforeEach)(function () {
-      this.application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.afterEach)(function () {
-      return (0, _pixLiveTestsHelpersDestroyApp['default'])(this.application);
-    });
-
-    (0, _mocha.it)('should display the title', function () {
-      visit('/home');
-
-      andThen(function () {
-        (0, _chai.expect)(currentURL()).to.be.eq('/home');
-        (0, _chai.expect)(find('.title').text()).to.contains('Liste des tests');
-      });
-    });
-  });
-});
-define('pix-live/tests/acceptance/home-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/home-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/home-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1836,7 +1798,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
     this.render(_ember['default'].HTMLBars.template((function () {
       return {
         meta: {
-          'revision': 'Ember@2.7.3',
+          'revision': 'Ember@2.7.1',
           'loc': {
             'source': null,
             'start': {
@@ -1881,7 +1843,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
     this.render(_ember['default'].HTMLBars.template((function () {
       return {
         meta: {
-          'revision': 'Ember@2.7.3',
+          'revision': 'Ember@2.7.1',
           'loc': {
             'source': null,
             'start': {
