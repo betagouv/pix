@@ -17,6 +17,14 @@ function extSkip () {
   this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
 }
 
+let partialThrottle = (targetFunction) => {
+  if (EmberENV.useDelay) {
+    return _.partial (_.throttle, targetFunction, 2000, { leading: true, trailing: false});
+  } else {
+    return targetFunction;
+  }
+}
+
 const ChallengeItem = Ember.Component.extend({
 
   tagName: 'article',
@@ -89,33 +97,9 @@ const ChallengeItem = Ember.Component.extend({
     },
 
     // XXX: prevent double-clicking from creating double record.
-    validate: (function() {
-      if (EmberENV.useDelay) {
-        return _.throttle(
-          extValidate,
-          2000,
-          {
-            leading: true,
-            trailing: false
-          }
-        )
-      }
-      return extValidate;
-    }()),
+    validate: partialThrottle(extValidate),
 
-    skip: (function() {
-      if (EmberENV.useDelay) {
-        return _.throttle(
-          extSkip,
-          2000,
-          {
-            leading: true,
-            trailing: false
-          }
-        )
-      }
-      return extSkip;
-    }())
+    skip: partialThrottle(extSkip)
   },
 
   // eslint-disable-next-line complexity
