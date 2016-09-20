@@ -74,21 +74,32 @@ const ChallengeItem = Ember.Component.extend({
       this.set('errorMessage', null);
     },
 
-    validate() {
+    // XXX: prevent double-clicking from creating double record.
+    validate: _.throttle(
+      function () {
+        if (this._hasError()) {
+          this.set('errorMessage', this._getErrorMessage());
+          return this.sendAction('onError', this.get('errorMessage'));
+        }
+        const value = this._getAnswerValue();
+        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
+      },
+      2000,
+      {
+        leading: true,
+        trailing: false
+      }),
 
-      if (this._hasError()) {
-        this.set('errorMessage', this._getErrorMessage());
-        return this.sendAction('onError', this.get('errorMessage'));
-      }
-      const value = this._getAnswerValue();
-      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
-    },
-
-    skip() {
-
-      this.set('errorMessage', null);
-      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
-    }
+    skip: _.throttle(
+      function () {
+        this.set('errorMessage', null);
+        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
+      },
+      2000,
+      {
+        leading: true,
+        trailing: false
+      })
   },
 
   // eslint-disable-next-line complexity
