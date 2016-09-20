@@ -3,6 +3,20 @@ import _ from 'lodash/lodash';
 
 const { computed, inject } = Ember;
 
+function extValidate () {
+  if (this._hasError()) {
+    this.set('errorMessage', this._getErrorMessage());
+    return this.sendAction('onError', this.get('errorMessage'));
+  }
+  const value = this._getAnswerValue();
+  this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
+}
+
+function extSkip () {
+  this.set('errorMessage', null);
+  this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
+}
+
 const ChallengeItem = Ember.Component.extend({
 
   tagName: 'article',
@@ -75,31 +89,33 @@ const ChallengeItem = Ember.Component.extend({
     },
 
     // XXX: prevent double-clicking from creating double record.
-    validate: _.throttle(
-      function () {
-        if (this._hasError()) {
-          this.set('errorMessage', this._getErrorMessage());
-          return this.sendAction('onError', this.get('errorMessage'));
-        }
-        const value = this._getAnswerValue();
-        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
-      },
-      2000,
-      {
-        leading: true,
-        trailing: false
-      }),
+    validate: (function() {
+      if (EmberENV.useDelay) {
+        return _.throttle(
+          extValidate,
+          2000,
+          {
+            leading: true,
+            trailing: false
+          }
+        )
+      }
+      return extValidate;
+    }()),
 
-    skip: _.throttle(
-      function () {
-        this.set('errorMessage', null);
-        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
-      },
-      2000,
-      {
-        leading: true,
-        trailing: false
-      })
+    skip: (function() {
+      if (EmberENV.useDelay) {
+        return _.throttle(
+          extSkip,
+          2000,
+          {
+            leading: true,
+            trailing: false
+          }
+        )
+      }
+      return extSkip;
+    }())
   },
 
   // eslint-disable-next-line complexity
