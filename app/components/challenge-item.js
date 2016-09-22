@@ -3,7 +3,7 @@ import _ from 'lodash/lodash';
 
 const { computed, inject } = Ember;
 
-function extValidate () {
+function actionValidate () {
   if (this._hasError()) {
     this.set('errorMessage', this._getErrorMessage());
     return this.sendAction('onError', this.get('errorMessage'));
@@ -12,12 +12,12 @@ function extValidate () {
   this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
 }
 
-function extSkip () {
+function actionSkip () {
   this.set('errorMessage', null);
   this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
 }
 
-let partialThrottle = (targetFunction) => {
+function callOnlyOnce (targetFunction) {
   if (EmberENV.useDelay) {
     return _.partial (_.throttle, targetFunction, 2000, { leading: true, trailing: false});
   } else {
@@ -97,9 +97,9 @@ const ChallengeItem = Ember.Component.extend({
     },
 
     // XXX: prevent double-clicking from creating double record.
-    validate: partialThrottle(extValidate),
+    validate: callOnlyOnce(actionValidate),
 
-    skip: partialThrottle(extSkip)
+    skip: callOnlyOnce(actionSkip)
   },
 
   // eslint-disable-next-line complexity
