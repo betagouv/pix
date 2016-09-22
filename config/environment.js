@@ -21,8 +21,8 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      AIRTABLE_NAMESPACE: 'v0/appHAIFk9u1qqglhX',
-      AIRTABLE_BEARER:'keyEgu8JYhXaOhjbd'
+      AIRTABLE_NAMESPACE: 'v0/applPXbxI1JPjCECG',
+      AIRTABLE_BEARER:'keyCMcapnQ8YAyzBn'
     },
 
     googleFonts: [
@@ -44,8 +44,6 @@ module.exports = function(environment) {
     ENV.APP.LOG_TRANSITIONS = false;
     ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
-    ENV.APP.AIRTABLE_NAMESPACE = 'v0/applPXbxI1JPjCECG'
-    ENV.APP.AIRTABLE_BEARER = 'keyCMcapnQ8YAyzBn';
   }
 
   if (environment === 'test') {
@@ -62,6 +60,9 @@ module.exports = function(environment) {
     ENV.APP.rootElement = '#ember-testing';
     ENV.googleFonts = [];
   }
-
+  if (ENV.environment === 'production') {
+    ENV.APP.AIRTABLE_NAMESPACE = 'v0/appHAIFk9u1qqglhX'
+    ENV.APP.AIRTABLE_BEARER = 'keyEgu8JYhXaOhjbd';
+  }
   return ENV;
 };
