@@ -19,7 +19,10 @@ function actionSkip () {
 
 function callOnlyOnce (targetFunction) {
   if (EmberENV.useDelay) {
-    return _.partial (_.throttle, targetFunction, 2000, { leading: true, trailing: false});
+    // leading:true means the targetFunction will fire right on click.
+    // 2000 is the waiting time : targetFunction cannot be fired even if user click multiple times.
+    // trailing: false means the targetFunction will not fire once the waiting time is over.
+    return _.throttle(targetFunction, 2000, { leading: true, trailing: false});
   } else {
     return targetFunction;
   }
