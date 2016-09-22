@@ -21,7 +21,7 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      AIRTABLE_NAMESPACE: 'http://192.168.1.37:3000',
+      AIRTABLE_NAMESPACE: 'v0/appHAIFk9u1qqglhX',
       AIRTABLE_BEARER:'keyEgu8JYhXaOhjbd'
     },
 
@@ -44,8 +44,8 @@ module.exports = function(environment) {
     ENV.APP.LOG_TRANSITIONS = false;
     ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
-    ENV.APP.AIRTABLE_NAMESPACE = 'a'
-    ENV.APP.AIRTABLE_BEARER = 'b';
+    ENV.APP.AIRTABLE_NAMESPACE = 'v0/applPXbxI1JPjCECG'
+    ENV.APP.AIRTABLE_BEARER = 'keyCMcapnQ8YAyzBn';
   }
 
   if (environment === 'test') {
