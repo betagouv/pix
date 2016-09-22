@@ -21,6 +21,8 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+      AIRTABLE_NAMESPACE: 'http://192.168.1.37:3000',
+      AIRTABLE_BEARER:'keyEgu8JYhXaOhjbd'
     },
 
     googleFonts: [
@@ -42,6 +44,8 @@ module.exports = function(environment) {
     ENV.APP.LOG_TRANSITIONS = false;
     ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
+    ENV.APP.AIRTABLE_NAMESPACE = 'a'
+    ENV.APP.AIRTABLE_BEARER = 'b';
   }
 
   if (environment === 'test') {
