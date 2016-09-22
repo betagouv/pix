@@ -2891,9 +2891,8 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createElement("a");
+        var el4 = dom.createElement("div");
         dom.setAttribute(el4, "class", "navbar-brand");
-        dom.setAttribute(el4, "href", "/");
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("img");
@@ -8706,7 +8705,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+db899951"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"0.0.0+97d211a1"});
 }
 
 /* jshint ignore:end */
