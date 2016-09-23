@@ -1,7 +1,9 @@
 <div id="assessment-challenge">
     <div class="container">
 
-      {{challenge-item model.challenge model.assessment onValidated=(action saveAnswerAndNavigate)}}
+      {{model.assessment.course.challenges.length}}
 
+      {{challenge-item model.challenge model.assessment onValidated=(action saveAnswerAndNavigate)}}
+      
     </div>
 </div>
