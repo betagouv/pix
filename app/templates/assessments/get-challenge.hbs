@@ -1,7 +1,9 @@
 <div id="assessment-challenge">
     <div class="container">
-      {{currentChallenge.progress}} / {{model.assessment.course.challenges.length}}
-
+      question numéro {{currentChallenge.progress}} sur {{model.assessment.course.challenges.length}}
+      {{#bs-progress}}
+        {{bs-progress-bar value=currentChallenge.progress minValue=0 maxValue=model.assessment.course.challenges.length showLabel=true type="info"}}
+      {{/bs-progress}}
       {{challenge-item model.challenge model.assessment onValidated=(action saveAnswerAndNavigate)}}
 
     </div>

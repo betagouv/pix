@@ -6,3 +6,9 @@
     font-weight: 600;
   }
 }
+
+#assessment-challenge  {
+  & .progress-bar-info  {
+    background-color: var(--pix-blue);
+  }
+}
