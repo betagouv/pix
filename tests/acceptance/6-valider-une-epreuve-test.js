@@ -44,7 +44,7 @@ describe('Acceptance | 6 - Valider une épreuve |', function() {
   });
 
   before(function () {
-    $progressBar = findWithAssert('.progress-bar');
+    $progressBar = findWithAssert('.pix-progress-bar');
   });
 
   it("6.0. La barre de progression commence à 1", function () {

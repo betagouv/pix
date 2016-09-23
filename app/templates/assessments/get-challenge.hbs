@@ -1,6 +1,6 @@
 <div id="assessment-challenge">
     <div class="container">
-      question numéro {{currentChallenge.progress}} sur {{model.assessment.course.challenges.length}}
+      question numéro <span class="pix-progress-bar">{{currentChallenge.progress}}</span> sur {{model.assessment.course.challenges.length}}
       {{#bs-progress}}
         {{bs-progress-bar value=currentChallenge.progress minValue=0 maxValue=model.assessment.course.challenges.length showLabel=true type="info"}}
       {{/bs-progress}}
