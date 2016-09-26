@@ -63,7 +63,6 @@
     "ember-lodash": "0.0.10",
     "ember-markdown-it": "0.0.4",
     "ember-resolver": "^2.0.3",
-    "ember-welcome-page": "^1.0.1",
     "eslint": "^3.3.1",
     "loader.js": "^4.0.11",
     "markdown-it": "https://registry.npmjs.org/markdown-it/-/markdown-it-6.0.4.tgz",
