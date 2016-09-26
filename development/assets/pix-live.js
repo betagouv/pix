@@ -334,6 +334,28 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
   var computed = _ember['default'].computed;
   var inject = _ember['default'].inject;
 
+  function actionValidate() {
+    if (this._hasError()) {
+      this.set('errorMessage', this._getErrorMessage());
+      return this.sendAction('onError', this.get('errorMessage'));
+    }
+    var value = this._getAnswerValue();
+    this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
+  }
+
+  function actionSkip() {
+    this.set('errorMessage', null);
+    this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#');
+  }
+
+  function callOnlyOnce(targetFunction) {
+    if (EmberENV.useDelay) {
+      return _lodashLodash['default'].throttle(targetFunction, 2000, { leading: true, trailing: false });
+    } else {
+      return targetFunction;
+    }
+  }
+
   var ChallengeItem = _ember['default'].Component.extend({
 
     tagName: 'article',
@@ -416,21 +438,10 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
         this.set('errorMessage', null);
       },
 
-      validate: function validate() {
+      // XXX: prevent double-clicking from creating double record.
+      validate: callOnlyOnce(actionValidate),
 
-        if (this._hasError()) {
-          this.set('errorMessage', this._getErrorMessage());
-          return this.sendAction('onError', this.get('errorMessage'));
-        }
-        var value = this._getAnswerValue();
-        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
-      },
-
-      skip: function skip() {
-
-        this.set('errorMessage', null);
-        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#');
-      }
+      skip: callOnlyOnce(actionSkip)
     },
 
     // eslint-disable-next-line complexity
@@ -8705,7 +8716,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+7473af67"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+ee09f337"});
 }
 
 /* jshint ignore:end */
