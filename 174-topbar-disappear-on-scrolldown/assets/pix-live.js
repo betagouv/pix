@@ -401,18 +401,19 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
 
     scrolled: function scrolled() {
       console.log('scrolled');
+      _ember['default'].$('body').addClass('no-nav');
+    },
+    resetScroll: function resetScroll() {
+      this.unbindScrolling();
+      this.bindScrolling();
+      window.scrollTo(0, 0);
+      _ember['default'].$('body').removeClass('no-nav');
     },
     didUpdateAttrs: function didUpdateAttrs() {
       this._super.apply(this, arguments);
       this.set('selectedProposal', null);
       this.set('answers', {});
-      this.unbindScrolling();
-      window.scrollTo(0, 0);
-      console.log('didUpdateAttrs');
-    },
-    didRender: function didRender() {
-      this.bindScrolling();
-      console.log('didRender');
+      this.resetScroll();
     },
     actions: {
 
@@ -8752,7 +8753,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+7fe0acda"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+34580232"});
 }
 
 /* jshint ignore:end */
