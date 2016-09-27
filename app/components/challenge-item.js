@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import _ from 'lodash/lodash';
+import Scrolling from '../mixins/scrolling';
 
 const { computed, inject } = Ember;
 
@@ -25,7 +26,7 @@ function callOnlyOnce (targetFunction) {
   }
 }
 
-const ChallengeItem = Ember.Component.extend({
+const ChallengeItem = Ember.Component.extend(Scrolling, {
 
   tagName: 'article',
   classNames: ['challenge-item'],
@@ -62,10 +63,20 @@ const ChallengeItem = Ember.Component.extend({
     this.set('errorMessage', null);
   }),
 
+  scrolled: function() {
+    console.log('scrolled');
+  },
   didUpdateAttrs() {
     this._super(...arguments);
     this.set('selectedProposal', null);
     this.set('answers', {});
+    this.unbindScrolling();
+    window.scrollTo(0,0);
+    console.log('didUpdateAttrs');
+  },
+  didRender() {
+    this.bindScrolling();
+    console.log('didRender');
   },
   actions: {
 
