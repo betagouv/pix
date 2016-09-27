@@ -5,8 +5,8 @@ export default Ember.Controller.extend({
   assessmentService: Ember.inject.service('assessment'),
 
   currentChallenge: Ember.computed('model', function() {
-      let currentChallenge = this.get('model').challenge;
-      let promiseNumber = this.get('model').assessment
+      const currentChallenge = this.get('model').challenge;
+      const promiseNumber = this.get('model').assessment
         .get('course')
         .then((course) => course.get('challenges'))
         .then((challenges) => {
