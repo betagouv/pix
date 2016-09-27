@@ -64,21 +64,28 @@ const ChallengeItem = Ember.Component.extend(Scrolling, {
   }),
 
   scrolled: function() {
-    console.log('scrolled');
+    //XXX : access to global-scope property from a contained component.
+    // Not beautiful, but easy enough to avoid over-engineering.
     Ember.$('body').addClass('no-nav');
   },
+
   resetScroll: function() {
     this.unbindScrolling();
     this.bindScrolling();
     window.scrollTo(0,0);
     Ember.$('body').removeClass('no-nav');
   },
+
+  didRender: function() {
+    this.resetScroll();
+  },
+
   didUpdateAttrs() {
     this._super(...arguments);
     this.set('selectedProposal', null);
     this.set('answers', {});
-    this.resetScroll();
   },
+
   actions: {
 
     updateQrocAnswer(event) {

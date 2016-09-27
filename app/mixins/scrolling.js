@@ -6,8 +6,8 @@ export default Ember.Mixin.create({
 
   bindScrolling: function(opts) {
 
-    const onScroll = () => {
-      console.log($(window).scrollTop());
+    const onScroll = (e, a) => {
+
       if ($(window).scrollTop() === 0) {
         return 0;
       } else {
@@ -15,7 +15,7 @@ export default Ember.Mixin.create({
       }
     };
 
-    $(document).bind('touchmove', onScroll);
+    $(document).bind('touchmove',  onScroll);
     $(window).bind('scroll', onScroll);
   },
 

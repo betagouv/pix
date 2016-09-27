@@ -55,6 +55,20 @@ describe('Acceptance | 6 - Valider une épreuve |', function() {
 
     it("6.2. Ma réponse est sauvegardée dans le BO", function () {
 
+      // find(window).scrollTop(10000)
+
+      triggerEvent('.skip-button', 'scroll' )
+
+      triggerEvent('.skip-button', 'scrollTo').then(() => {
+        expect($('body.no-nav')).to.have.lengthOf(1);
+      });
+
+      //Mimics a user that scrolls down
+      // $('html, body').animate({ scrollTop: 2000 }, 0);
+      // keyEvent('.skip-button', 'keypress', 34).then(function() {
+      //   // assert something
+      //   expect($('body.no-nav')).to.have.lengthOf(1);
+      // });
     });
 
     it("6.3. Si l'épreuve que je viens de valider n'était pas la dernière du test, je suis redirigé vers l'épreuve suivante", function () {
