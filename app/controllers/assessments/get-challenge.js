@@ -6,17 +6,18 @@ export default Ember.Controller.extend({
   assessmentService: Ember.inject.service('assessment'),
 
   currentChallenge: Ember.computed('model', function() {
-      const currentChallenge = this.get('model').challenge;
-      const promiseNumber = this.get('model').assessment
-        .get('course')
-        .then((course) => course.get('challenges'))
-        .then((challenges) => {
-          return {
-            progress: challenges.indexOf(currentChallenge) + 1,
-            progressPercentage : ((challenges.indexOf(currentChallenge) + 1) / (challenges.length)) * 100
-           };
-        });
-    return DS.PromiseObject.create({ promise: promiseNumber });
+    const currentChallenge = this.get('model').challenge;
+    const promiseChallenge = this.get('model').assessment
+      .get('course')
+      .then((course) => course.get('challenges'))
+      .then((challenges) => {
+        return {
+          progress: challenges.indexOf(currentChallenge) + 1,
+          progressPercentage : ((challenges.indexOf(currentChallenge) + 1) / (challenges.length)) * 100,
+          maxValue : challenges.length
+         };
+    });
+    return DS.PromiseObject.create({ promise: promiseChallenge });
   }),
 
 

@@ -1,12 +1,6 @@
 <div id="assessment-challenge">
     <div class="container">
-      <div class="progress">
-        <div class="progress-bar" role="progressbar" aria-valuenow="{{currentChallenge.progressPercentage}}"
-        aria-valuemin="0" aria-valuemax="100" style="width:{{currentChallenge.progressPercentage}}%">
-          Épreuve {{currentChallenge.progress}} / {{model.assessment.course.challenges.length}}
-        </div>
-      </div>
+      {{progress-bar currentChallenge=currentChallenge}}
       {{challenge-item model.challenge model.assessment onValidated=(action saveAnswerAndNavigate)}}
-
     </div>
 </div>
