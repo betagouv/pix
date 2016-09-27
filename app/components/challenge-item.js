@@ -65,18 +65,19 @@ const ChallengeItem = Ember.Component.extend(Scrolling, {
 
   scrolled: function() {
     console.log('scrolled');
+    Ember.$('body').addClass('no-nav');
+  },
+  resetScroll: function() {
+    this.unbindScrolling();
+    this.bindScrolling();
+    window.scrollTo(0,0);
+    Ember.$('body').removeClass('no-nav');
   },
   didUpdateAttrs() {
     this._super(...arguments);
     this.set('selectedProposal', null);
     this.set('answers', {});
-    this.unbindScrolling();
-    window.scrollTo(0,0);
-    console.log('didUpdateAttrs');
-  },
-  didRender() {
-    this.bindScrolling();
-    console.log('didRender');
+    this.resetScroll();
   },
   actions: {
 
