@@ -1,9 +1,11 @@
 <div id="assessment-challenge">
     <div class="container">
-      question numéro <span class="pix-progress-bar">{{currentChallenge.progress}}</span> sur {{model.assessment.course.challenges.length}}
-      {{#bs-progress}}
-        {{bs-progress-bar value=currentChallenge.progress minValue=0 maxValue=model.assessment.course.challenges.length showLabel=true type="info"}}
-      {{/bs-progress}}
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{currentChallenge.progressPercentage}}"
+        aria-valuemin="0" aria-valuemax="100" style="width:{{currentChallenge.progressPercentage}}%">
+          Épreuve {{currentChallenge.progress}} / {{model.assessment.course.challenges.length}}
+        </div>
+      </div>
       {{challenge-item model.challenge model.assessment onValidated=(action saveAnswerAndNavigate)}}
 
     </div>

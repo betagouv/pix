@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import DS from 'ember-data';
 
 export default Ember.Controller.extend({
 
@@ -10,7 +11,10 @@ export default Ember.Controller.extend({
         .get('course')
         .then((course) => course.get('challenges'))
         .then((challenges) => {
-          return { progress: challenges.indexOf(currentChallenge) + 1 };
+          return {
+            progress: challenges.indexOf(currentChallenge) + 1,
+            progressPercentage : ((challenges.indexOf(currentChallenge) + 1) / (challenges.length)) * 100
+           };
         });
     return DS.PromiseObject.create({ promise: promiseNumber });
   }),
