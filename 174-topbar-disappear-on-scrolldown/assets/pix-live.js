@@ -400,21 +400,29 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
     }),
 
     scrolled: function scrolled() {
-      console.log('scrolled');
+      //XXX : access to global-scope property from a contained component.
+      // Not beautiful, but easy enough to avoid over-engineering.
       _ember['default'].$('body').addClass('no-nav');
     },
+
     resetScroll: function resetScroll() {
       this.unbindScrolling();
       this.bindScrolling();
-      window.scrollTo(0, 0);
+      //XXX : again, access to global-scope property from a contained component.
+      $(window).scrollTop(0);
       _ember['default'].$('body').removeClass('no-nav');
     },
+
+    didRender: function didRender() {
+      this.resetScroll();
+    },
+
     didUpdateAttrs: function didUpdateAttrs() {
       this._super.apply(this, arguments);
       this.set('selectedProposal', null);
       this.set('answers', {});
-      this.resetScroll();
     },
+
     actions: {
 
       updateQrocAnswer: function updateQrocAnswer(event) {
@@ -1584,7 +1592,7 @@ define('pix-live/mirage/factories/challenge-airtable', ['exports', 'ember-cli-mi
   exports['default'] = _pixLiveMirageFactoriesAirtableRecord['default'].extend({
     fields: function fields() {
       return {
-        "Consigne": _emberCliMirage.faker.lorem.paragraphs(2),
+        "Consigne": _emberCliMirage.faker.lorem.paragraphs(230),
         "Propositions": "- yo \n - yo yo \n - yo yo yo",
         "Type d'épreuve": 'QCU'
       };
@@ -1694,17 +1702,30 @@ define('pix-live/mixins/scrolling', ['exports', 'ember', 'lodash/lodash'], funct
     bindScrolling: function bindScrolling(opts) {
       var _this = this;
 
-      var onScroll = function onScroll() {
-        console.log($(window).scrollTop());
-        if ($(window).scrollTop() === 0) {
-          return 0;
-        } else {
+      var onScrollFiltered = function onScrollFiltered(e) {
+        if (_this._isEventComeFromTestEnvironment(e) || _this._isEventTriggeredByUser()) {
           return _this.scrolled();
         }
       };
 
-      $(document).bind('touchmove', onScroll);
-      $(window).bind('scroll', onScroll);
+      $(document).bind('touchmove', onScrollFiltered);
+      $(window).bind('scroll', onScrollFiltered);
+    },
+
+    _isScrollFiredByActualUser: function _isScrollFiredByActualUser(e) {
+      return this._isEventComeFromTestEnvironment || this._isTriggeredOnEachTransition;
+    },
+
+    //XXX : tech debt, as of now only way to simulate a user-triggered event (other than click)
+    _isEventComeFromTestEnvironment: function _isEventComeFromTestEnvironment(e) {
+      return e && e.originalEvent && e.originalEvent[0] && e.originalEvent[0].isInTestEnvironment;
+    },
+
+    _isEventTriggeredByUser: function _isEventTriggeredByUser() {
+      //XXX : quick win : the only case where system scrolls and not the user
+      // is when new a challenge is displayed, window is scrolled to top,
+      // in this case $(window).scrollTop() === 0
+      return $(window).scrollTop() > 0;
     },
 
     unbindScrolling: function unbindScrolling() {
@@ -2289,6 +2310,7 @@ define("pix-live/templates/application", ["exports"], function (exports) {
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
         dom.setAttribute(el1, "class", "body");
+        dom.setAttribute(el1, "id", "body");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
@@ -8753,7 +8775,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+34580232"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+cc501f44"});
 }
 
 /* jshint ignore:end */

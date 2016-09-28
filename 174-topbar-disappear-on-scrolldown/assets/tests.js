@@ -927,13 +927,32 @@ define('pix-live/tests/acceptance/6-valider-une-epreuve-test', ['exports', 'moch
       (0, _chai.expect)(findWithAssert('.validate-button')).to.have.lengthOf(1);
     });
 
+    (0, _mocha.describe)("quand je navigue dans au sein de l'épreuve", function () {
+
+      (0, _mocha.it)("6.2.a La barre de navigation est affichée par défaut", function () {
+        (0, _chai.expect)($('body.no-nav')).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)("6.2.b la barre de navigation se cache si l'utilisateur scroll vers le bas", function () {
+        triggerEvent('.skip-button', 'scroll', [{ isInTestEnvironment: true }]).then(function () {
+          (0, _chai.expect)($('body.no-nav')).to.have.lengthOf(1);
+        });
+      });
+
+      (0, _mocha.it)("6.2.c Si je passe à l'épreuve suivante, la barre de navigation réapparaît", function () {
+        var $validateButton = $('.validate-button')[0];
+        (0, _chai.expect)($('body.no-nav')).to.have.lengthOf(1);
+        return click($validateButton).then(function () {
+          (0, _chai.expect)($('body.no-nav')).to.have.lengthOf(0);
+        });
+      });
+    });
+
     (0, _mocha.describe)("quand je valide ma réponse à une épreuve", function () {
 
       (0, _mocha.beforeEach)(function () {
         return click('.challenge-proposal:first input[type="radio"]');
       });
-
-      (0, _mocha.it)("6.2. Ma réponse est sauvegardée dans le BO", function () {});
 
       (0, _mocha.it)("6.3. Si l'épreuve que je viens de valider n'était pas la dernière du test, je suis redirigé vers l'épreuve suivante", function () {
         var $validateButton = $('.validate-button')[0];
