@@ -50,7 +50,6 @@ describe('Acceptance | 6 - Valider une épreuve |', function() {
   describe("quand je navigue dans au sein de l'épreuve", function () {
 
     it("6.2.a La barre de navigation est affichée par défaut", function () {
-
       expect($('body.no-nav')).to.have.lengthOf(0);
     });
 

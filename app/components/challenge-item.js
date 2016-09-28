@@ -72,12 +72,8 @@ const ChallengeItem = Ember.Component.extend(Scrolling, {
   resetScroll: function() {
     this.unbindScrolling();
     this.bindScrolling();
-    // window.scrollTo(0,0);
-    $(window).scrollTop(0, { text: 'blablabla' });
-    // $('window').trigger('scrollTop', [0, 'blablabla']);
-    // $('window').scrollTop.apply(0, 'eeeBlabla');
-    // var e = jQuery.Event( "scrollTop", { which: 'blablabla' } );
-    // $('window').trigger(e);
+    //XXX : again, access to global-scope property from a contained component.
+    $(window).scrollTop(0);
     Ember.$('body').removeClass('no-nav');
   },
 

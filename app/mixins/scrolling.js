@@ -6,37 +6,30 @@ export default Ember.Mixin.create({
 
   bindScrolling: function(opts) {
 
-    const onScroll = (e) => {
-      // console.log('data.isInTestEnvironment');
-      // console.log(data.isInTestEnvironment);
-      // console.log(e.originalEvent[0].isInTestEnvironment);
-      console.log(e);
-      // if (e.originalEvent[0].isInTestEnvironment) {
-      //   return this.scrolled();
-      // }
-      if (this._isEventComeFromTestEnvironment(e)) {
-        return this.scrolled();
-      } else if (this._isTriggeredByTransition()) {
-        return 0;
-      } else {
+    const onScrollFiltered = (e) => {
+      if (this._isEventComeFromTestEnvironment(e) || this._isEventTriggeredByUser()) {
         return this.scrolled();
       }
     };
 
-    $(document).bind('touchmove',  onScroll);
-    $(window).bind('scroll', {data:'e'}, onScroll);
+    $(document).bind('touchmove',  onScrollFiltered);
+    $(window).bind('scroll', onScrollFiltered);
   },
 
   _isScrollFiredByActualUser: function(e) {
     return this._isEventComeFromTestEnvironment || this._isTriggeredOnEachTransition;
   },
 
+  //XXX : tech debt, as of now only way to simulate a user-triggered event (other than click)
   _isEventComeFromTestEnvironment: function(e) {
     return (e && e.originalEvent && e.originalEvent[0] && e.originalEvent[0].isInTestEnvironment);
   },
 
-  _isTriggeredByTransition: function() {
-    return $(window).scrollTop() === 0;
+  _isEventTriggeredByUser: function() {
+    //XXX : quick win : the only case where system scrolls and not the user
+    // is when new a challenge is displayed, window is scrolled to top,
+    // in this case $(window).scrollTop() === 0
+    return $(window).scrollTop() > 0;
   },
 
 
