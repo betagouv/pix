@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import _ from 'lodash/lodash';
+import Scrolling from '../mixins/scrolling';
 
 const { computed, inject } = Ember;
 
@@ -25,7 +26,7 @@ function callOnlyOnce (targetFunction) {
   }
 }
 
-const ChallengeItem = Ember.Component.extend({
+const ChallengeItem = Ember.Component.extend(Scrolling, {
 
   tagName: 'article',
   classNames: ['challenge-item'],
@@ -62,11 +63,39 @@ const ChallengeItem = Ember.Component.extend({
     this.set('errorMessage', null);
   }),
 
+  scrolled: function() {
+    //XXX : access to global-scope property from a contained component.
+    // Not beautiful, but easy enough to avoid over-engineering.
+    Ember.$('body').addClass('no-nav');
+  },
+
+  resetScroll: function() {
+    //XXX : again, access to global-scope property from a contained component.
+    $(window).scrollTop(0);
+    Ember.$('body').removeClass('no-nav');
+  },
+
+  // Occurs once per component instantiation
+  didInsertElement: function () {
+    this.bindScrolling();
+  },
+
+  // Occurs once per component de-instantiation
+  willDestroyElement: function () {
+    this.unbindScrolling();
+  },
+
+  // Occurs each time component renders
+  didRender: function() {
+    this.resetScroll();
+  },
+
   didUpdateAttrs() {
     this._super(...arguments);
     this.set('selectedProposal', null);
     this.set('answers', {});
   },
+
   actions: {
 
     updateQrocAnswer(event) {

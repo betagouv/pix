@@ -29,6 +29,16 @@ body {
   padding-top: 108px;
 }
 
+body.no-nav {
+  padding-top: 0;
+  transition: padding-top linear 0.5s, width linear 0.5s;
+}
+
+body.no-nav nav {
+  opacity: 0;
+  transition: opacity linear 0.5s, width linear 0.5s;
+}
+
 .body {
   padding-top: 12px;
 }

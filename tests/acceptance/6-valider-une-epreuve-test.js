@@ -47,15 +47,36 @@ describe('Acceptance | 6 - Valider une épreuve |', function() {
     expect(findWithAssert('.validate-button')).to.have.lengthOf(1);
   });
 
+  describe("quand je navigue dans au sein de l'épreuve", function () {
+
+    it("6.2.a La barre de navigation est affichée par défaut", function () {
+      expect($('body.no-nav')).to.have.lengthOf(0);
+    });
+
+
+    it("6.2.b la barre de navigation se cache si l'utilisateur scroll vers le bas", function () {
+      triggerEvent('.skip-button', 'scroll', [{isInTestEnvironment:true}] ).then(() => {
+        expect($('body.no-nav')).to.have.lengthOf(1);
+      });
+    });
+
+    it("6.2.c Si je passe à l'épreuve suivante, la barre de navigation réapparaît", function () {
+      const $validateButton = $('.validate-button')[0];
+      expect($('body.no-nav')).to.have.lengthOf(1);
+      return click($validateButton).then(() => {
+        expect($('body.no-nav')).to.have.lengthOf(0);
+      });
+    });
+
+
+  });
+
   describe("quand je valide ma réponse à une épreuve", function () {
 
     beforeEach(function () {
       return click('.challenge-proposal:first input[type="radio"]');
     });
 
-    it("6.2. Ma réponse est sauvegardée dans le BO", function () {
-
-    });
 
     it("6.3. Si l'épreuve que je viens de valider n'était pas la dernière du test, je suis redirigé vers l'épreuve suivante", function () {
       const $validateButton = $('.validate-button')[0];
