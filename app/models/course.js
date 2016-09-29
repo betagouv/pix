@@ -17,9 +17,14 @@ export default Model.extend({
       throw new RangeError('challenge ne fait pas partie de course');
     }
 
+    const currentStep = 1 + challengeIndex;
+    const maxStep = this.get('challenges.length');
+    const stepPercentage = currentStep / maxStep * 100;
+
     return {
-      currentStep: 1 + challengeIndex,
-      maxStep: this.get('challenges.length')
+      currentStep: currentStep,
+      maxStep: maxStep,
+      stepPercentage: stepPercentage
     };
   }
 });

@@ -49,10 +49,7 @@ describeModel('course', 'Unit | Model | Course', {
         const challenge2 = store.createRecord('challenge', {});
         const course = this.subject({ challenges: [ challenge1, challenge2 ] });
 
-        expect(course.getProgress(challenge2)).to.deep.equal({
-          currentStep: 2,
-          maxStep: 2
-        });
+        expect(course.getProgress(challenge2)).to.have.property('currentStep', 2);
       });
     });
 
