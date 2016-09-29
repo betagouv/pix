@@ -70,13 +70,22 @@ const ChallengeItem = Ember.Component.extend(Scrolling, {
   },
 
   resetScroll: function() {
-    this.unbindScrolling();
-    this.bindScrolling();
     //XXX : again, access to global-scope property from a contained component.
     $(window).scrollTop(0);
     Ember.$('body').removeClass('no-nav');
   },
 
+  // Occurs once per component instantiation
+  didInsertElement: function () {
+    this.bindScrolling();
+  },
+
+  // Occurs once per component de-instantiation
+  willDestroyElement: function () {
+    this.unbindScrolling();
+  },
+
+  // Occurs each time component renders
   didRender: function() {
     this.resetScroll();
   },
