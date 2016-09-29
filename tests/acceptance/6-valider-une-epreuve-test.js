@@ -73,7 +73,7 @@ describe('Acceptance | 6 - Valider une épreuve |', function() {
         expect(currentURL()).to.contains(`/assessments/${assessmentId}/challenges/${lastChallengeId}`);
       });
     });
-    it("6.4. La barre de progression est affichée en conséquence", function () {
+    it("6.4. La barre de progression avance d'une unité, de 1 à 2.", function () {
       const expectedText = "2";
       expect($progressBar.text()).to.contains(expectedText);
     });
