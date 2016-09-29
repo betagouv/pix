@@ -8,6 +8,18 @@ export default Model.extend({
   description: attr('string'),
   duration: attr('number'),
   imageUrl: attr('string'),
-  challenges: hasMany('challenge', { inverse: null })
+  challenges: hasMany('challenge', { inverse: null }),
 
+  getProgress(challenge) {
+    const challengeIndex = this.get('challenges').indexOf(challenge);
+
+    if (challengeIndex === -1) {
+      throw new RangeError('challenge ne fait pas partie de course');
+    }
+
+    return {
+      currentStep: 1 + challengeIndex,
+      maxStep: this.get('challenges.length')
+    };
+  }
 });
