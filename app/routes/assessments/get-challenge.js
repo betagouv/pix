@@ -11,6 +11,16 @@ export default Ember.Route.extend({
     });
   },
 
+  setupController: function(controller, model) {
+    this._super(controller, model);
+
+    const progressToSet = model.assessment
+      .get('course')
+      .then((course) => course.getProgress(model.challenge));
+
+    controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
+  },
+
   serialize: function (model) {
     return {
       assessment_id: model.assessment.id,

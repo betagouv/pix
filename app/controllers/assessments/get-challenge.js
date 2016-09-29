@@ -5,14 +5,6 @@ export default Ember.Controller.extend({
 
   assessmentService: Ember.inject.service('assessment'),
 
-  progress: Ember.computed('model', function() {
-    const currentChallenge = this.get('model.challenge');
-    const progress = this
-      .get('model.assessment.course')
-      .then((course) => course.getProgress(currentChallenge));
-    return DS.PromiseObject.create({ promise: progress });
-  }),
-
 
 
   saveAnswerAndNavigate(currentChallenge, assessment, answerValue) {
