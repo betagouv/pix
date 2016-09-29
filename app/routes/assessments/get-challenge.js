@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
+import DS from 'ember-data';
 
 export default Ember.Route.extend({
 
