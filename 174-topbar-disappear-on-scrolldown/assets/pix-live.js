@@ -406,13 +406,22 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
     },
 
     resetScroll: function resetScroll() {
-      this.unbindScrolling();
-      this.bindScrolling();
       //XXX : again, access to global-scope property from a contained component.
       $(window).scrollTop(0);
       _ember['default'].$('body').removeClass('no-nav');
     },
 
+    // Occurs once per component instantiation
+    didInsertElement: function didInsertElement() {
+      this.bindScrolling();
+    },
+
+    // Occurs once per component de-instantiation
+    willDestroyElement: function willDestroyElement() {
+      this.unbindScrolling();
+    },
+
+    // Occurs each time component renders
     didRender: function didRender() {
       this.resetScroll();
     },
@@ -8774,7 +8783,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+7f505447"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+66a8d618"});
 }
 
 /* jshint ignore:end */
