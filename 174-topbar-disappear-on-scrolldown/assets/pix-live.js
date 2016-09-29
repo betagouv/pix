@@ -1592,7 +1592,7 @@ define('pix-live/mirage/factories/challenge-airtable', ['exports', 'ember-cli-mi
   exports['default'] = _pixLiveMirageFactoriesAirtableRecord['default'].extend({
     fields: function fields() {
       return {
-        "Consigne": _emberCliMirage.faker.lorem.paragraphs(230),
+        "Consigne": _emberCliMirage.faker.lorem.paragraphs(2),
         "Propositions": "- yo \n - yo yo \n - yo yo yo",
         "Type d'épreuve": 'QCU'
       };
@@ -2310,7 +2310,6 @@ define("pix-live/templates/application", ["exports"], function (exports) {
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
         dom.setAttribute(el1, "class", "body");
-        dom.setAttribute(el1, "id", "body");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
@@ -8775,7 +8774,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+cc501f44"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+7f505447"});
 }
 
 /* jshint ignore:end */

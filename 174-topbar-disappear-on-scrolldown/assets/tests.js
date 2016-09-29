@@ -2936,30 +2936,6 @@ define('pix-live/tests/unit/controllers/home-test.lint-test', ['exports'], funct
     });
   });
 });
-define('pix-live/tests/unit/mixins/scrolling-test', ['exports', 'chai', 'mocha', 'ember', 'pix-live/mixins/scrolling'], function (exports, _chai, _mocha, _ember, _pixLiveMixinsScrolling) {
-
-  (0, _mocha.describe)('ScrollingMixin', function () {
-    // Replace this with your real tests.
-    (0, _mocha.it)('works', function () {
-      var ScrollingObject = _ember['default'].Object.extend(_pixLiveMixinsScrolling['default']);
-      var subject = ScrollingObject.create();
-      (0, _chai.expect)(subject).to.be.ok;
-    });
-  });
-});
-/* jshint expr:true */
-define('pix-live/tests/unit/mixins/scrolling-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - unit/mixins/scrolling-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/mixins/scrolling-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/unit/models/answer-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
 
   (0, _emberMocha.describeModel)('answer', 'Unit | Model | Answer', {
