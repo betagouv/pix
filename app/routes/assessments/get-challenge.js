@@ -7,9 +7,12 @@ export default Ember.Route.extend({
 
   model(params) {
     const store = this.get('store');
+    const assessmentPromise = store.findRecord('assessment', params.assessment_id);
+    const challengePromise = store.findRecord('challenge', params.challenge_id);
+
     return RSVP.hash({
-      assessment: store.findRecord('assessment', params.assessment_id),
-      challenge: store.findRecord('challenge', params.challenge_id)
+      assessment: assessmentPromise,
+      challenge: challengePromise
     });
   },
 
