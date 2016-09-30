@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
+import DS from 'ember-data';
 
 export default Ember.Route.extend({
 
@@ -43,6 +44,16 @@ export default Ember.Route.extend({
       }
       return this.transitionTo('assessments.get-results', { assessment });
     });
+  },
+
+  setupController: function(controller, model) {
+    this._super(controller, model);
+
+    const progressToSet = model.assessment
+      .get('course')
+      .then((course) => course.getProgress(model.challenge));
+
+    controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
   },
 
   serialize: function (model) {
