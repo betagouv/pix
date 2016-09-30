@@ -4,6 +4,12 @@ serve:   serve-api   serve-live
 start:   start-api   start-live
 ci-test: ci-test-api ci-test-live
 
+deploy:
+	cd live && npm run deploy:development
+deploy-branch:
+	cd live && npm run deploy:branch
+	./live/scripts/signal_deploy_to_pr.sh
+
 install-api:
 	cd api && npm install
 install-live:
