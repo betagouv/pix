@@ -923,6 +923,14 @@ define('pix-live/tests/acceptance/6-valider-une-epreuve-test', ['exports', 'moch
       return visit('/assessments/' + assessmentId + '/challenges/' + firstChallengeId);
     });
 
+    (0, _mocha.before)(function () {
+      $progressBar = findWithAssert('.pix-progress-bar');
+    });
+
+    (0, _mocha.it)("6.0. La barre de progression commence à 1", function () {
+      var expectedText = "1";
+      (0, _chai.expect)($progressBar.text()).to.contains(expectedText);
+    });
     (0, _mocha.it)("6.1. Je peux valider ma réponse à une épreuve via un bouton 'Valider'", function () {
       (0, _chai.expect)(findWithAssert('.validate-button')).to.have.lengthOf(1);
     });
@@ -941,8 +949,12 @@ define('pix-live/tests/acceptance/6-valider-une-epreuve-test', ['exports', 'moch
           (0, _chai.expect)(currentURL()).to.contains('/assessments/' + assessmentId + '/challenges/' + lastChallengeId);
         });
       });
+      (0, _mocha.it)("6.4. La barre de progression avance d'une unité, de 1 à 2.", function () {
+        var expectedText = "2";
+        (0, _chai.expect)($progressBar.text()).to.contains(expectedText);
+      });
 
-      (0, _mocha.it)("6.4. Si l'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test", function () {
+      (0, _mocha.it)("6.5. Si l'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test", function () {
         var $validateButton = $('.validate-button')[0];
         return click($validateButton).then(function () {
           (0, _chai.expect)(currentURL()).to.contains('/assessments/' + assessmentId + '/results');
@@ -1078,6 +1090,18 @@ define('pix-live/tests/components/identification-form.lint-test', ['exports'], f
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('components/identification-form.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/components/progress-bar.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/progress-bar.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('components/progress-bar.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -3132,7 +3156,7 @@ define('pix-live/tests/unit/models/challenge/proposals-as-blocks-mixin-test.lint
     });
   });
 });
-define('pix-live/tests/unit/models/course-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
+define('pix-live/tests/unit/models/course-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha', 'mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha, _mocha) {
 
   (0, _emberMocha.describeModel)('course', 'Unit | Model | Course', {
     needs: ['model:assessment', 'model:challenge']
@@ -3141,6 +3165,67 @@ define('pix-live/tests/unit/models/course-test', ['exports', 'pix-live/tests/tes
     (0, _emberMocha.it)('exists', function () {
       var model = this.subject();
       (0, _chai.expect)(model).to.be.ok;
+    });
+
+    (0, _mocha.describe)('getProgress', function () {
+
+      (0, _emberMocha.it)('currentStep start at 1', function () {
+        var _this = this;
+
+        Ember.run(function () {
+          // given
+          var store = _this.store();
+          var challenge = store.createRecord('challenge', {});
+          var course = _this.subject({ challenges: [challenge] });
+
+          (0, _chai.expect)(course.getProgress(challenge)).to.have.property('currentStep', 1);
+        });
+      });
+
+      (0, _emberMocha.it)('maxStep is 2 when there is 2 challenges in the course', function () {
+        var _this2 = this;
+
+        Ember.run(function () {
+          // given
+          var store = _this2.store();
+          var challenge1 = store.createRecord('challenge', {});
+          var challenge2 = store.createRecord('challenge', {});
+          var course = _this2.subject({ challenges: [challenge1, challenge2] });
+
+          (0, _chai.expect)(course.getProgress(challenge1)).to.have.property('maxStep', 2);
+          (0, _chai.expect)(course.getProgress(challenge2)).to.have.property('maxStep', 2);
+        });
+      });
+
+      (0, _emberMocha.it)('currentStep is 2 when there is 2 challenges in the course and called with 2nd test', function () {
+        var _this3 = this;
+
+        Ember.run(function () {
+          // given
+          var store = _this3.store();
+          var challenge1 = store.createRecord('challenge', {});
+          var challenge2 = store.createRecord('challenge', {});
+          var course = _this3.subject({ challenges: [challenge1, challenge2] });
+
+          (0, _chai.expect)(course.getProgress(challenge2)).to.have.property('currentStep', 2);
+        });
+      });
+
+      (0, _emberMocha.it)('throw an Error when challenge is not part of course', function () {
+        var _this4 = this;
+
+        Ember.run(function () {
+          // given
+          var store = _this4.store();
+          var challengeInCourse = store.createRecord('challenge', {});
+          var challengeOutsideCourse = store.createRecord('challenge', {});
+          var course = _this4.subject({ challenges: [challengeInCourse] });
+
+          (0, _chai.expect)(function () {
+            return course.getProgress(challengeOutsideCourse);
+          }).to['throw'](RangeError);
+        });
+      });
     });
   });
 });
