@@ -1042,40 +1042,7 @@ define('pix-live/components/user-menu', ['exports', 'ember'], function (exports,
   });
 });
 define('pix-live/controllers/assessments/get-challenge', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Controller.extend({
-
-    assessmentService: _ember['default'].inject.service('assessment'),
-
-    saveAnswerAndNavigate: function saveAnswerAndNavigate(currentChallenge, assessment, answerValue) {
-      var _this = this;
-
-      var answer = this._createAnswer(answerValue, currentChallenge, assessment);
-      answer.save().then(function () {
-        _this._navigateToNextView(currentChallenge, assessment);
-      });
-    },
-
-    _createAnswer: function _createAnswer(answerValue, currentChallenge, assessment) {
-
-      return this.get('store').createRecord('answer', {
-        value: answerValue,
-        challenge: currentChallenge,
-        assessment: assessment
-      });
-    },
-
-    _navigateToNextView: function _navigateToNextView(currentChallenge, assessment) {
-      var _this2 = this;
-
-      this.get('assessmentService').getNextChallenge(currentChallenge, assessment).then(function (challenge) {
-        if (challenge) {
-          return _this2.transitionToRoute('assessments.get-challenge', { challenge: challenge, assessment: assessment });
-        }
-        return _this2.transitionToRoute('assessments.get-results', { assessment: assessment });
-      });
-    }
-
-  });
+  exports['default'] = _ember['default'].Controller.extend({});
 });
 define('pix-live/controllers/courses/get-challenge-preview', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller.extend({
@@ -1878,11 +1845,48 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
 define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp', 'ember-data'], function (exports, _ember, _rsvp, _emberData) {
   exports['default'] = _ember['default'].Route.extend({
 
+    assessmentService: _ember['default'].inject.service('assessment'),
+
     model: function model(params) {
       var store = this.get('store');
+      var assessmentPromise = store.findRecord('assessment', params.assessment_id);
+      var challengePromise = store.findRecord('challenge', params.challenge_id);
+
       return _rsvp['default'].hash({
-        assessment: store.findRecord('assessment', params.assessment_id),
-        challenge: store.findRecord('challenge', params.challenge_id)
+        assessment: assessmentPromise,
+        challenge: challengePromise
+      });
+    },
+
+    actions: {
+
+      saveAnswerAndNavigate: function saveAnswerAndNavigate(currentChallenge, assessment, answerValue) {
+        var _this = this;
+
+        var answer = this._createAnswer(answerValue, currentChallenge, assessment);
+        answer.save().then(function () {
+          _this._navigateToNextView(currentChallenge, assessment);
+        });
+      }
+    },
+
+    _createAnswer: function _createAnswer(answerValue, currentChallenge, assessment) {
+
+      return this.get('store').createRecord('answer', {
+        value: answerValue,
+        challenge: currentChallenge,
+        assessment: assessment
+      });
+    },
+
+    _navigateToNextView: function _navigateToNextView(currentChallenge, assessment) {
+      var _this2 = this;
+
+      this.get('assessmentService').getNextChallenge(currentChallenge, assessment).then(function (challenge) {
+        if (challenge) {
+          return _this2.transitionTo('assessments.get-challenge', { challenge: challenge, assessment: assessment });
+        }
+        return _this2.transitionTo('assessments.get-results', { assessment: assessment });
       });
     },
 
@@ -2432,7 +2436,7 @@ define("pix-live/templates/assessments/get-challenge", ["exports"], function (ex
         morphs[1] = dom.createMorphAt(element0, 3, 3);
         return morphs;
       },
-      statements: [["inline", "progress-bar", [], ["progress", ["subexpr", "@mut", [["get", "progress", ["loc", [null, [3, 30], [3, 38]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 6], [3, 40]]], 0, 0], ["inline", "challenge-item", [["get", "model.challenge", ["loc", [null, [4, 23], [4, 38]]], 0, 0, 0, 0], ["get", "model.assessment", ["loc", [null, [4, 39], [4, 55]]], 0, 0, 0, 0]], ["onValidated", ["subexpr", "action", [["get", "saveAnswerAndNavigate", ["loc", [null, [4, 76], [4, 97]]], 0, 0, 0, 0]], [], ["loc", [null, [4, 68], [4, 98]]], 0, 0]], ["loc", [null, [4, 6], [4, 100]]], 0, 0]],
+      statements: [["inline", "progress-bar", [], ["progress", ["subexpr", "@mut", [["get", "progress", ["loc", [null, [3, 30], [3, 38]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 6], [3, 40]]], 0, 0], ["inline", "challenge-item", [["get", "model.challenge", ["loc", [null, [4, 23], [4, 38]]], 0, 0, 0, 0], ["get", "model.assessment", ["loc", [null, [4, 39], [4, 55]]], 0, 0, 0, 0]], ["onValidated", "saveAnswerAndNavigate"], ["loc", [null, [4, 6], [4, 93]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -8818,7 +8822,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+3f7f3fa1"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+e776ed13"});
 }
 
 /* jshint ignore:end */
