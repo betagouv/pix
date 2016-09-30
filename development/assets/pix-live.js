@@ -1024,6 +1024,9 @@ define('pix-live/components/one-way-week', ['exports', 'ember-one-way-controls/c
     }
   });
 });
+define('pix-live/components/progress-bar', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({});
+});
 define('pix-live/components/radio-button', ['exports', 'ember-radio-buttons/components/radio-button'], function (exports, _emberRadioButtonsComponentsRadioButton) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -1824,8 +1827,25 @@ define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _
     description: attr('string'),
     duration: attr('number'),
     imageUrl: attr('string'),
-    challenges: hasMany('challenge', { inverse: null })
+    challenges: hasMany('challenge', { inverse: null }),
 
+    getProgress: function getProgress(challenge) {
+      var challengeIndex = this.get('challenges').indexOf(challenge);
+
+      if (challengeIndex === -1) {
+        throw new RangeError('challenge ne fait pas partie de course');
+      }
+
+      var currentStep = 1 + challengeIndex;
+      var maxStep = this.get('challenges.length');
+      var stepPercentage = currentStep / maxStep * 100;
+
+      return {
+        currentStep: currentStep,
+        maxStep: maxStep,
+        stepPercentage: stepPercentage
+      };
+    }
   });
 });
 define('pix-live/resolver', ['exports', 'ember-resolver'], function (exports, _emberResolver) {
@@ -1855,7 +1875,7 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
 
   exports['default'] = Router;
 });
-define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
+define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp', 'ember-data'], function (exports, _ember, _rsvp, _emberData) {
   exports['default'] = _ember['default'].Route.extend({
 
     model: function model(params) {
@@ -1864,6 +1884,16 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp']
         assessment: store.findRecord('assessment', params.assessment_id),
         challenge: store.findRecord('challenge', params.challenge_id)
       });
+    },
+
+    setupController: function setupController(controller, model) {
+      this._super(controller, model);
+
+      var progressToSet = model.assessment.get('course').then(function (course) {
+        return course.getProgress(model.challenge);
+      });
+
+      controller.set('progress', _emberData['default'].PromiseObject.create({ promise: progressToSet }));
     },
 
     serialize: function serialize(model) {
@@ -2359,7 +2389,7 @@ define("pix-live/templates/assessments/get-challenge", ["exports"], function (ex
             "column": 0
           },
           "end": {
-            "line": 8,
+            "line": 7,
             "column": 0
           }
         },
@@ -2377,11 +2407,15 @@ define("pix-live/templates/assessments/get-challenge", ["exports"], function (ex
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "container");
-        var el3 = dom.createTextNode("\n\n      ");
+        var el3 = dom.createTextNode("\n      ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n    ");
+        var el3 = dom.createTextNode("\n      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -2392,11 +2426,13 @@ define("pix-live/templates/assessments/get-challenge", ["exports"], function (ex
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]), 1, 1);
+        var element0 = dom.childAt(fragment, [0, 1]);
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(element0, 1, 1);
+        morphs[1] = dom.createMorphAt(element0, 3, 3);
         return morphs;
       },
-      statements: [["inline", "challenge-item", [["get", "model.challenge", ["loc", [null, [4, 23], [4, 38]]], 0, 0, 0, 0], ["get", "model.assessment", ["loc", [null, [4, 39], [4, 55]]], 0, 0, 0, 0]], ["onValidated", ["subexpr", "action", [["get", "saveAnswerAndNavigate", ["loc", [null, [4, 76], [4, 97]]], 0, 0, 0, 0]], [], ["loc", [null, [4, 68], [4, 98]]], 0, 0]], ["loc", [null, [4, 6], [4, 100]]], 0, 0]],
+      statements: [["inline", "progress-bar", [], ["progress", ["subexpr", "@mut", [["get", "progress", ["loc", [null, [3, 30], [3, 38]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 6], [3, 40]]], 0, 0], ["inline", "challenge-item", [["get", "model.challenge", ["loc", [null, [4, 23], [4, 38]]], 0, 0, 0, 0], ["get", "model.assessment", ["loc", [null, [4, 39], [4, 55]]], 0, 0, 0, 0]], ["onValidated", ["subexpr", "action", [["get", "saveAnswerAndNavigate", ["loc", [null, [4, 76], [4, 97]]], 0, 0, 0, 0]], [], ["loc", [null, [4, 68], [4, 98]]], 0, 0]], ["loc", [null, [4, 6], [4, 100]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -7610,6 +7646,72 @@ define("pix-live/templates/components/identification-form", ["exports"], functio
     };
   })());
 });
+define("pix-live/templates/components/progress-bar", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.7.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 7,
+            "column": 0
+          }
+        },
+        "moduleName": "pix-live/templates/components/progress-bar.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "progress pix-progress-bar");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "progress-bar progress-bar-info");
+        dom.setAttribute(el2, "role", "progressbar");
+        dom.setAttribute(el2, "aria-valuemin", "0");
+        dom.setAttribute(el2, "aria-valuemax", "100");
+        var el3 = dom.createTextNode("\n    Épreuve ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode(" / ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element0 = dom.childAt(fragment, [0, 1]);
+        var morphs = new Array(4);
+        morphs[0] = dom.createAttrMorph(element0, 'aria-valuenow');
+        morphs[1] = dom.createAttrMorph(element0, 'style');
+        morphs[2] = dom.createMorphAt(element0, 1, 1);
+        morphs[3] = dom.createMorphAt(element0, 3, 3);
+        return morphs;
+      },
+      statements: [["attribute", "aria-valuenow", ["concat", [["get", "progress.currentStep", ["loc", [null, [2, 82], [2, 102]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "style", ["concat", ["width:", ["get", "progress.stepPercentage", ["loc", [null, [3, 55], [3, 78]]], 0, 0, 0, 0], "%"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "progress.currentStep", ["loc", [null, [4, 12], [4, 36]]], 0, 0, 0, 0], ["content", "progress.maxStep", ["loc", [null, [4, 39], [4, 59]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
 define("pix-live/templates/components/user-menu", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
@@ -8716,7 +8818,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+4b918528"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+3f7f3fa1"});
 }
 
 /* jshint ignore:end */
