@@ -1,11 +1,11 @@
-const models = require('../models/user');
+const User = require('../models/user');
 
 module.exports = {
 
   list: {
     handler: (request, reply) => {
 
-      models.User.fetchAll().then((users) => {
+      User.fetchAll().then((users) => {
 
         reply(`{"users": ${JSON.stringify(users)} }`).type('application/json');
       });
@@ -15,7 +15,7 @@ module.exports = {
   get: {
     handler: (request, reply) => {
 
-      new models.User({ id: request.params.id }).fetch().then((user) => {
+      new User({ id: request.params.id }).fetch().then((user) => {
 
         reply(`{"user": ${JSON.stringify(user)} }`).type('application/json');
       });

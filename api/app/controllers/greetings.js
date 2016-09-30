@@ -1,7 +1,6 @@
 module.exports = {
 
   world: {
-
     handler: function (request, reply) {
 
       reply('Hello, world!');
@@ -9,7 +8,6 @@ module.exports = {
   },
 
   buddy: {
-
     handler: function (request, reply) {
 
       reply(`Hello, ${encodeURIComponent(request.params.name)}!`);

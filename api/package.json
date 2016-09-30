@@ -4,7 +4,7 @@
   "description": "Middleware for the PIX platform project",
   "main": "server.js",
   "scripts": {
-    "serve": "./node_modules/nodemon/bin/nodemon server.js",
+    "serve": "node ./node_modules/nodemon/bin/nodemon server.js",
     "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha",
     "knex": "node node_modules/knex/bin/cli --knexfile db/knexfile.js"
   },
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/sgmap/pix-api#readme",
   "dependencies": {
+    "airtable": "^0.4.2",
     "blipp": "^2.3.0",
     "bookshelf": "^0.10.2",
     "boom": "^4.1.0",

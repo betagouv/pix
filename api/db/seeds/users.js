@@ -1,10 +1,12 @@
 'use strict';
 
+const TABLE_NAME = 'users';
+
 exports.seed = function (knex, Promise) {
 
-  knex('users').del();
+  knex(TABLE_NAME).del();
 
-  return knex('users').insert([{
+  return knex(TABLE_NAME).insert([{
 
     first_name: 'Jon',
     last_name: 'Snow',
@@ -14,6 +16,7 @@ exports.seed = function (knex, Promise) {
     created_at: new Date(),
     updated_at: new Date()
   }, {
+
     first_name: 'Daenerys',
     last_name: 'Targaryen',
     email: 'dtargaryen@targaryen.got',
@@ -22,6 +25,7 @@ exports.seed = function (knex, Promise) {
     created_at: new Date(),
     updated_at: new Date()
   }, {
+
     first_name: 'Tyron',
     last_name: 'Lannister',
     email: 'tlannister@lannister.got',
