@@ -53,8 +53,20 @@ export default Ember.Route.extend({
       .get('course')
       .then((course) => course.getProgress(model.challenge));
 
+    try {
+      const challengeType =  model.challenge.get('type').toLowerCase();
+      if (challengeType === 'qrocm') {
+        controller.set('challengeItemType', 'challenge-item-' + challengeType);
+      } else {
+        controller.set('challengeItemType', 'challenge-item');
+      }
+      console.log('challengeType is ' + challengeType);
+    } catch (e) {
+      controller.set('challengeItemType', 'challenge-item');
+    }
+      // controller.set('challengeItemType', 'challenge-item');
+
     controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
-    controller.set('challengeItemType', 'challenge-item');
   },
 
   serialize: function (model) {
