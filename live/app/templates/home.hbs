@@ -19,7 +19,7 @@
                       </div>
 
                       <div class="course-number-of-challenges">
-                        3 épreuves
+                        {{ course.challenges.length }} épreuves
                       </div>
                       <div class="course-actions">
                         {{#link-to "courses.create-assessment" course.id class="button button-primary start-button"}}
