@@ -1071,6 +1071,30 @@ define('pix-live/tests/components/app-header.lint-test', ['exports'], function (
     });
   });
 });
+define('pix-live/tests/components/challenge-item-generic.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/challenge-item-generic.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('components/challenge-item-generic.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/components/challenge-item-qrocm.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/challenge-item-qrocm.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('components/challenge-item-qrocm.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/components/challenge-item.lint-test', ['exports'], function (exports) {
   'use strict';
 
