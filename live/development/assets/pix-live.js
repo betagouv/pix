@@ -2884,8 +2884,8 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 25,
-            "column": 6
+            "line": 26,
+            "column": 0
           }
         },
         "moduleName": "pix-live/templates/components/app-header.hbs"
@@ -2897,7 +2897,7 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("nav");
-        dom.setAttribute(el1, "class", "navbar navbar-fixed-top");
+        dom.setAttribute(el1, "class", "navbar");
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
@@ -2965,6 +2965,8 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
@@ -8822,7 +8824,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+81d9ac24"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+e1700d5a"});
 }
 
 /* jshint ignore:end */
