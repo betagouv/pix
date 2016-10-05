@@ -4,11 +4,8 @@ serve:   serve-api   serve-live
 start:   start-api   start-live
 ci-test: ci-test-api ci-test-live
 
-deploy:
-	cd live && npm run deploy:development
-deploy-branch:
-	cd live && npm run deploy:branch
-	./live/scripts/signal_deploy_to_pr.sh
+deploy:        deploy-live-development 	deploy-api-development
+deploy-branch: deploy-live-branch 	deploy-api-branch
 
 install-api:
 	cd api && npm install
@@ -39,7 +36,15 @@ ci-test-api: test-api
 ci-test-live:
 	cd live && npm run ci:test
 
+deploy-live-development:
+	cd live && npm run deploy:development
+deploy-live-branch:
+	cd live && npm run deploy:branch
+	./live/scripts/signal_deploy_to_pr.sh
 deploy-api-production:
-	git subtree push --prefix api api-prod master
+	./api/scripts/deploy.sh api-prod
 deploy-api-development:
-	git subtree push --prefix api api-development master
+	./api/scripts/deploy.sh api-development
+deploy-api-branch:
+	./api/scripts/deploy.sh
+
