@@ -20,5 +20,10 @@
         {{/each}}
 
     </div>
-    {{challenge-actionbar model=model action="skip" action="validate"}}
+    <hr/>
+    <div class="actions pull-right">
+      <button class="button button-secondary skip-button" {{action "skip"}}>Passer</button>
+      <button class="button button-primary validate-button" {{action "validate"}}>Valider
+      </button>
+    </div>
 </div>

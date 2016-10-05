@@ -13,6 +13,7 @@ function actionValidate () {
 }
 
 function actionSkip () {
+  console.log('skip, inside generic component');
   this.set('errorMessage', null);
   this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
 }
