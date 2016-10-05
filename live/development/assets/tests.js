@@ -1,6 +1,9 @@
+'use strict';
+
 define('pix-live/tests/acceptance/1-accedder-a-la-plateforme-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 1 - Accéder à la plateforme pour démarrer un test', function () {
+
     var application = undefined;
 
     (0, _mocha.before)(function () {
@@ -12,7 +15,7 @@ define('pix-live/tests/acceptance/1-accedder-a-la-plateforme-test', ['exports', 
     });
 
     (0, _mocha.before)(function () {
-      return visit('/');
+      visit('/');
     });
 
     (0, _mocha.it)('1.0 peut visiter /', function () {
@@ -24,9 +27,14 @@ define('pix-live/tests/acceptance/1-accedder-a-la-plateforme-test', ['exports', 
     });
 
     (0, _mocha.it)('1.3 la page d\'accueil contient un formulaire Nom / Prénom / Email et un bouton valider', function () {
-      (0, _chai.expect)(findWithAssert('#lastname').text()).to.contains('Nom');
-      (0, _chai.expect)(findWithAssert('#firstname').text()).to.contains('Prénom');
-      (0, _chai.expect)(findWithAssert('#email').text()).to.contains('Email');
+      (0, _chai.expect)(findWithAssert('label[for="firstName"]').text()).to.contains('Prénom');
+      (0, _chai.expect)(findWithAssert('#firstName'));
+
+      (0, _chai.expect)(findWithAssert('label[for="lastName"]').text()).to.contains('Nom');
+      (0, _chai.expect)(findWithAssert('#lastName'));
+
+      (0, _chai.expect)(findWithAssert('label[for="lastName"]').text()).to.contains('Nom');
+      (0, _chai.expect)(findWithAssert('#email'));
     });
   });
 });
@@ -598,7 +606,7 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
     (0, _mocha.describe)("Prévisualiser la première page d'un test |", function () {
 
       (0, _mocha.before)(function () {
-        return visit('/courses/' + courseId + '/preview');
+        visit('/courses/' + courseId + '/preview');
       });
 
       (0, _mocha.it)("37.1. L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
@@ -635,7 +643,7 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
 
       (0, _mocha.before)(function () {
         currentChallenge = challenges[2];
-        return visit('/courses/' + courseId + '/preview/challenges/' + firstChallengeId);
+        visit('/courses/' + courseId + '/preview/challenges/' + firstChallengeId);
       });
 
       (0, _mocha.it)("37.5. L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
@@ -665,7 +673,7 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
     (0, _mocha.describe)("Prévisualiser la dernière épreuve dans le cadre d'un test |", function () {
 
       (0, _mocha.before)(function () {
-        return visit('/courses/' + courseId + '/preview/challenges/' + lastChallengeId);
+        visit('/courses/' + courseId + '/preview/challenges/' + lastChallengeId);
       });
 
       (0, _mocha.it)("37.8. on n'affiche pas de bouton “Épreuve suivante”", function () {
@@ -686,15 +694,10 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test.lint-test', ['export
     });
   });
 });
-define('pix-live/tests/acceptance/38-s-identifier-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'rsvp'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _rsvp) {
+define('pix-live/tests/acceptance/38-s-identifier-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  function checkMissingInput(cssClass, fieldId) {
-    return fillIn(cssClass, '').then(function () {
-      (0, _chai.expect)(find(fieldId).hasClass('has-error')).to.be['true'];
-      (0, _chai.expect)(findWithAssert(fieldId + ' .help-block').text()).to.contains('Champ requis');
-    });
-  }
   (0, _mocha.describe)("Acceptance | 38 - S'identifier sur la plateforme", function () {
+
     var application = undefined;
 
     (0, _mocha.before)(function () {
@@ -709,93 +712,89 @@ define('pix-live/tests/acceptance/38-s-identifier-test', ['exports', 'mocha', 'c
       return visit('/');
     });
 
-    var firstname_css = '.firstname_input';
-    var lastname_css = '.lastname_input';
-    var email_css = '.email_input';
-    var submit_css = '.identification-form-actions button';
-    var $firstname = undefined;
-    var $lastname = undefined;
+    var $firstName = undefined;
+    var $lastName = undefined;
     var $email = undefined;
-    var $submit = undefined;
 
     (0, _mocha.before)(function () {
-      $firstname = findWithAssert(firstname_css).first();
-      $lastname = findWithAssert(lastname_css).first();
-      $email = findWithAssert(email_css).first();
-      $submit = findWithAssert(submit_css).first();
+      $firstName = findWithAssert('#firstName');
+      $lastName = findWithAssert('#lastName');
+      $email = findWithAssert('#email');
     });
 
-    function fillForm(firstname, lastname, email) {
-      return _rsvp['default'].all([fillIn(firstname_css, firstname), fillIn(lastname_css, lastname), fillIn(email_css, email)]);
+    function getErrorMessageDiv() {
+      return findWithAssert('.alert-danger').first();
     }
 
-    (0, _mocha.it)("38.1 Depuis la page d'accueil, je saisie mon prénom + nom + email", function () {
-      return fillForm('Jérémy', 'Buget', 'jbu@octo.com').then(function () {
-        (0, _chai.expect)($firstname.val()).to.contains('Jérémy');
-        (0, _chai.expect)($lastname.val()).to.equal('Buget');
-        (0, _chai.expect)($email.val()).to.equal('jbu@octo.com');
+    function fillForm(firstName, lastName, email) {
+      fillIn('#firstName', firstName);
+      fillIn('#lastName', lastName);
+      fillIn('#email', email);
+    }
+
+    function submitIdentificationForm() {
+      var $submit = findWithAssert('button[type="submit"]').first();
+      click($submit);
+    }
+
+    function checkMissingInput(selector, errorMessage) {
+      fillIn(selector, '');
+      submitIdentificationForm();
+      andThen(function () {
+        (0, _chai.expect)(getErrorMessageDiv().text()).to.contains(errorMessage);
+      });
+    }
+
+    (0, _mocha.it)("38.1 Depuis la page d'accueil, je peux saisir mon prénom + nom + e-mail", function () {
+      fillForm('Jon', 'Snow', 'jsnow@winterfell.got');
+      andThen(function () {
+        (0, _chai.expect)($firstName.val()).to.contains('Jon');
+        (0, _chai.expect)($lastName.val()).to.equal('Snow');
+        (0, _chai.expect)($email.val()).to.equal('jsnow@winterfell.got');
       });
     });
 
-    (0, _mocha.it)('38.2 Quand je valide mon identité, je suis redirigé vers la page des tests', function () {
-      return fillForm('Jérémy', 'Buget', 'jbu@octo.com').then(function () {
-        return click(submit_css);
-      }).then(function () {
-        return (0, _chai.expect)(currentURL()).to.equal('/home');
+    (0, _mocha.describe)('38.2 Quand je valide mon identité', function () {
+
+      (0, _mocha.before)(function () {
+        visit('/');
+        fillForm('Thomas', 'Wickham', 'twi@octo.com');
+        submitIdentificationForm();
+      });
+
+      (0, _mocha.it)("je suis redirigé vers la page d'accueil", function () {
+        (0, _chai.expect)(currentURL()).to.equal('/home');
+      });
+
+      (0, _mocha.it)("je vois apparaître 'Bonjour Prénom' dans le header", function () {
+        (0, _chai.expect)(findWithAssert('.profile').text()).to.contains('Bonjour Thomas');
       });
     });
 
-    (0, _mocha.it)('38.3 Quand je suis identifié, je vois apparaître le libellé “Bonjour Prénom” (via session utilisateur)', function () {
+    (0, _mocha.describe)("38.4 En cas de champs vide ou invalide, un message d'erreur apparaît", function () {
 
-      // Assert that 38.2 went OK
-      (0, _chai.expect)(currentURL()).to.equal('/home');
-
-      (0, _chai.expect)(findWithAssert('.profile').text()).to.contains('Bonjour Jérémy');
-    });
-
-    (0, _mocha.describe)("38.4 En cas de champs manquant, un message d'erreur apparaît", function () {
       (0, _mocha.beforeEach)(function () {
-        return visit('/').then(function () {
-          return fillForm('Thomas', 'Wickham', 'twi@octo.com');
-        });
+        visit('/');
+        fillForm('Thomas', 'Wickham', 'twi@octo.com');
       });
 
-      (0, _mocha.it)('missing firstname', function () {
-        return checkMissingInput(firstname_css, '#firstname');
+      (0, _mocha.it)('Prénom vide', function () {
+        checkMissingInput('#firstName', 'Vous devez saisir votre prénom.');
       });
 
-      (0, _mocha.it)('missing lastname', function () {
-        return checkMissingInput(lastname_css, '#lastname');
+      (0, _mocha.it)('Nom vide', function () {
+        checkMissingInput('#lastName', 'Vous devez saisir votre nom.');
       });
 
-      (0, _mocha.it)('missing email', function () {
-        return checkMissingInput(email_css, '#email');
+      (0, _mocha.it)('E-mail vide', function () {
+        checkMissingInput('#email', 'Vous devez saisir une adresse e-mail valide.');
       });
 
-      (0, _mocha.it)('bad email', function () {
-        return fillIn(email_css, 'bad email').then(function () {
-          (0, _chai.expect)(find('#email').hasClass('has-error')).to.be['true'];
-          (0, _chai.expect)(findWithAssert('#email .help-block').text()).to.contains('Entrez un email correct');
-        });
-      });
-
-      (0, _mocha.it)("can't submit a form when an error is present", function () {
-        return fillIn(firstname_css, '').then(function () {
-          return (0, _chai.expect)(find(submit_css)[0].disabled).to.be['true'];
-        }).then(function () {
-          return click(submit_css);
-        }).then(function () {
-          return (0, _chai.expect)(currentURL()).to.eq('/');
-        });
-      });
-
-      (0, _mocha.it)("if the form is empty and the page has just been loaded, it can't submit the form", function () {
-        return visit('/').then(function () {
-          return (0, _chai.expect)(find(submit_css)[0].disabled).to.be['true'];
-        }).then(function () {
-          return click(submit_css);
-        }).then(function () {
-          return (0, _chai.expect)(currentURL()).to.eq('/');
+      (0, _mocha.it)('E-mail invalide', function () {
+        fillIn('#email', '// bademail //');
+        submitIdentificationForm();
+        andThen(function () {
+          (0, _chai.expect)(getErrorMessageDiv().text()).to.contains('Vous devez saisir une adresse e-mail valide');
         });
       });
     });
@@ -899,6 +898,8 @@ define('pix-live/tests/acceptance/6-valider-une-epreuve-test', ['exports', 'moch
     var assessmentId = undefined;
     var firstChallengeId = undefined;
     var lastChallengeId = undefined;
+
+    var $progressBar = undefined;
 
     (0, _mocha.before)(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
@@ -1822,7 +1823,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
     this.render(_ember['default'].HTMLBars.template((function () {
       return {
         meta: {
-          'revision': 'Ember@2.7.3',
+          'revision': 'Ember@2.8.1',
           'loc': {
             'source': null,
             'start': {
@@ -1867,7 +1868,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
     this.render(_ember['default'].HTMLBars.template((function () {
       return {
         meta: {
-          'revision': 'Ember@2.7.3',
+          'revision': 'Ember@2.8.1',
           'loc': {
             'source': null,
             'start': {
@@ -3901,11 +3902,8 @@ define('pix-live/tests/unit/services/delay-test.lint-test', ['exports'], functio
 });
 define('pix-live/tests/unit/services/session-test', ['exports', 'chai', 'ember-mocha', 'mocha'], function (exports, _chai, _emberMocha, _mocha) {
 
-  (0, _emberMocha.describeModule)('service:session', 'SessionService', {
-    // Specify the other units that are required for this test.
-    // needs: ['service:foo']
-  }, function () {
-    // Replace this with your real tests.
+  (0, _emberMocha.describeModule)('service:session', 'SessionService', {}, function () {
+
     (0, _emberMocha.it)('exists', function () {
       var service = this.subject();
       (0, _chai.expect)(service).to.be.ok;
@@ -3913,9 +3911,11 @@ define('pix-live/tests/unit/services/session-test', ['exports', 'chai', 'ember-m
 
     var store = {};
     var localStorageStub = {
+
       getItem: function getItem(itemName) {
         return store[itemName];
       },
+
       setItem: function setItem(itemName, value) {
         store[itemName] = value.toString();
       }
@@ -3932,54 +3932,84 @@ define('pix-live/tests/unit/services/session-test', ['exports', 'chai', 'ember-m
       window.localStorage.setItem = originalLocalStorage.setItem;
     });
 
-    (0, _emberMocha.it)('starts empty', function () {
-      var session = this.subject();
-      (0, _chai.expect)(session.get('firstname')).to.be.empty;
-      (0, _chai.expect)(session.get('lastname')).to.be.empty;
-      (0, _chai.expect)(session.get('email')).to.be.empty;
-      (0, _chai.expect)(session.get('isIdentified')).to.be['false'];
+    (0, _emberMocha.it)('contains no user by default', function () {
+      (0, _chai.expect)(this.subject().get('user')).to.not.exist;
     });
 
-    (0, _emberMocha.it)('#save() save data to localStorage', function () {
-      var session = this.subject();
-      var values = {
-        firstname: 'firstname',
-        lastname: 'lastname',
-        email: 'email'
-      };
-      session.setProperties(values);
+    describe('#save', function () {
 
-      session.save();
+      (0, _emberMocha.it)('persists data to Local Storage', function () {
+        var session = this.subject();
+        var user = {
+          firstName: 'firstName',
+          lastName: 'lastName',
+          email: 'email'
+        };
+        session.set('user', user);
 
-      (0, _chai.expect)(store['pix-live.session']).to.eq(JSON.stringify(values));
+        session.save();
+
+        (0, _chai.expect)(store['pix-live.session']).to.equal(JSON.stringify({ user: user }));
+      });
     });
 
-    (0, _emberMocha.it)('#init() restore data from localStorage', function () {
-      var values = {
-        firstname: 'Thomas',
-        lastname: 'Wickham',
-        email: 'twi@octo.com'
-      };
-      localStorageStub.setItem('pix-live.session', JSON.stringify(values));
-      var session = this.subject();
+    describe('#init', function () {
 
-      values.isIdentified = true;
-      var sut = session.getProperties('firstname', 'lastname', 'email', 'isIdentified');
-      (0, _chai.expect)(sut).to.deep.eq(values);
+      (0, _emberMocha.it)('restores data from Local Storage', function () {
+        // given
+        var storedData = {
+          user: {
+            firstName: 'Thomas',
+            lastName: 'Wickham',
+            email: 'twi@octo.com'
+          }
+        };
+        localStorageStub.setItem('pix-live.session', JSON.stringify(storedData));
+
+        // when
+        var session = this.subject();
+
+        // then
+        var user = session.get('user');
+        (0, _chai.expect)(user).to.deep.equal(storedData.user);
+      });
+
+      (0, _emberMocha.it)('uses an empty session if JSON parsing failed', function () {
+        // given
+        localStorageStub.setItem('pix-live.session', JSON.stringify({}));
+
+        // when
+        var session = this.subject();
+
+        // then
+        (0, _chai.expect)(session.get('user')).to.not.exist;
+      });
     });
 
-    (0, _emberMocha.it)('#init() use an empty session is JSON parsing failed', function () {
-      localStorageStub.setItem('pix-live.session', '[object Object]');
-      var session = this.subject();
+    describe('#isIdentified', function () {
 
-      var expected = {
-        firstname: "",
-        lastname: "",
-        email: "",
-        isIdentified: false
-      };
-      var sut = session.getProperties('firstname', 'lastname', 'email', 'isIdentified');
-      (0, _chai.expect)(sut).to.deep.eq(expected);
+      (0, _emberMocha.it)('returns true if user is set in session', function () {
+        // given
+        var session = this.subject();
+        var user = {
+          firstName: 'firstName',
+          lastName: 'lastName',
+          email: 'email'
+        };
+        session.set('user', user);
+
+        // then
+        (0, _chai.expect)(session.isIdentified()).to.be['true'];
+      });
+
+      (0, _emberMocha.it)('returns false if user is not set in session', function () {
+        // given
+        var session = this.subject();
+        session.set('user', null);
+
+        // then
+        (0, _chai.expect)(session.isIdentified()).to.be['false'];
+      });
     });
   });
 });
