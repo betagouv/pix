@@ -21,5 +21,11 @@
         {{/each}}
 
     </div>
-    {{challenge-actionbar model=model skip="skip" validate="validate"}}
+
+    {{challenge-actionbar
+        errorMessage=errorMessage
+        isChallengePreviewMode=isChallengePreviewMode
+        skip="skip"
+        validate="validate"}}
+        
 </div>

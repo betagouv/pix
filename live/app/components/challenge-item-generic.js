@@ -51,7 +51,6 @@ const ChallengeItemGeneric = Ember.Component.extend({
   }),
 
   isChallengePreviewMode: computed.empty('assessment'),
-  hasError: computed.notEmpty('errorMessage'),
 
   // FIXME: too much duplication :x
   challengeIsTypeQROC: computed('challenge.type', function () {

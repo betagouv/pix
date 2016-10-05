@@ -1,14 +1,13 @@
-{{#unless model.isChallengePreviewMode}}
+{{#unless isChallengePreviewMode}}
     <hr/>
-  {{#if model.hasError}}
+  {{#if errorMessage}}
       <div class="alert alert-danger" role="alert">
-        {{model.errorMessage}}
+        {{errorMessage}}
       </div>
   {{/if}}
 
-    <div class="actions pull-right">
-        <button class="button button-secondary skip-button" {{action "skip"}}>Passer2</button>
-        <button class="button button-primary validate-button" {{action "validate"}}>Valider2
-        </button>
-    </div>
+  <div class="actions pull-right">
+      <button class="button button-secondary skip-button" {{action "skip"}}>Passer2</button>
+      <button class="button button-primary validate-button" {{action "validate"}}>Valider2</button>
+  </div>
 {{/unless}}
