@@ -7,7 +7,9 @@
     "serve": "./node_modules/.bin/nodemon server.js",
     "test": "NODE_ENV=test ./node_modules/mocha/bin/mocha",
     "test:watch": "./node_modules/.bin/mocha --watch",
-    "knex": "node node_modules/knex/bin/cli --knexfile db/knexfile.js"
+    "knex": "node node_modules/knex/bin/cli --knexfile db/knexfile.js",
+    "db:migrate": "npm run knex migrate:latest",
+    "db:seed": "npm run knex seed:run"
   },
   "repository": {
     "type": "git",

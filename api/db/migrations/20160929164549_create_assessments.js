@@ -5,8 +5,9 @@ const TABLE_NAME = 'assessments';
 function table(t) {
 
   t.increments().primary();
-  t.integer('user_id').unsigned().references('users.id');
-  t.timestamps();
+  t.integer('userId').unsigned().references('users.id');
+  t.dateTime('createdAt').notNullable().defaultTo(new Date());
+  t.dateTime('updatedAt').notNullable().defaultTo(new Date());
 }
 
 exports.up = (knex) => {

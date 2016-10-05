@@ -5,10 +5,11 @@ const TABLE_NAME = 'answers';
 function table(t) {
 
   t.increments().primary();
-  t.integer('assessment_id').unsigned().references('assessments.id');
-  t.string('challenge_ref').notNull();
+  t.integer('assessmentId').unsigned().references('assessments.id');
+  t.string('challengeRef').notNull();
   t.string('value').notNull();
-  t.timestamps();
+  t.dateTime('createdAt').notNullable().defaultTo(new Date());
+  t.dateTime('updatedAt').notNullable().defaultTo(new Date());
 }
 
 exports.up = (knex) => {

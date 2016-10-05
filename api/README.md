@@ -3,12 +3,12 @@
 Prerequesites: you must have [Node.js](https://nodejs.org/) correctly installed.
 
 ```
-§ git clone git@github.com:sgmap/pix-api.git
-$ cd pix-api
-§ npm install
-§ npm run serve
-§ open http://localhost:3000/api/users
+$ npm install
+$ npm run db:migrate
+$ npm run db:seed
+$ curl http://localhost:3000/api/users
 ```
+
 ## Usage
 
 ### `$ npm start`

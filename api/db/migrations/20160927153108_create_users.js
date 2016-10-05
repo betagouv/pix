@@ -5,12 +5,14 @@ const TABLE_NAME = 'users';
 function table(t) {
 
   t.increments().primary();
-  t.string('first_name').notNull();
-  t.string('last_name').notNull();
-  t.string('email').notNull();
-  t.string('login').notNull();
-  t.string('password').notNull();
-  t.timestamps();
+  t.string('firstName').notNullable();
+  t.string('lastName').notNullable();
+  t.string('email').unique().notNullable();
+  t.string('login').notNullable();
+  t.string('password').notNullable();
+  t.dateTime('createdAt').notNullable().defaultTo(new Date());
+  t.dateTime('updatedAt').notNullable().defaultTo(new Date());
+
 }
 
 exports.up = (knex) => {
