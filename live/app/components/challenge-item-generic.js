@@ -4,6 +4,7 @@ import _ from 'lodash/lodash';
 const { computed, inject } = Ember;
 
 function actionValidate () {
+  console.log('actionValidate !!!!!! inside generic component');
   if (this._hasError()) {
     this.set('errorMessage', this._getErrorMessage());
     return this.sendAction('onError', this.get('errorMessage'));
@@ -13,7 +14,7 @@ function actionValidate () {
 }
 
 function actionSkip () {
-  console.log('skip, inside generic component');
+  console.log('skip !!!!!! inside generic component');
   this.set('errorMessage', null);
   this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
 }

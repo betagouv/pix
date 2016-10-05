@@ -20,6 +20,7 @@ export default Ember.Route.extend({
   actions : {
 
     saveAnswerAndNavigate: function (currentChallenge, assessment, answerValue) {
+      console.log("ok, save answer and navigate");
       const answer = this._createAnswer(answerValue, currentChallenge, assessment);
       answer.save().then(() => {
         this._navigateToNextView(currentChallenge, assessment);

@@ -6,10 +6,11 @@ export default Ember.Component.extend({
 
     skip: function () {
       console.log('skip, inside challenge-actionbar');
-      this.sendAction();
+      this.sendAction('skip');
     },
     validate: function () {
-      this.sendAction();
+      console.log('validate, inside challenge-actionbar');
+      this.sendAction('validate');
     }
   }
 
