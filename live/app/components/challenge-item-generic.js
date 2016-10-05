@@ -79,13 +79,6 @@ const ChallengeItemGeneric = Ember.Component.extend({
   },
   actions: {
 
-    updateQrocAnswer(event) {
-
-      const { name, value } = event.currentTarget;
-      this.set(`answers.${name}`, value);
-      this.set('errorMessage', null);
-    },
-
     updateQcmAnswer(event) {
       const { name, checked } = event.currentTarget;
       let answers = this.get('answers');

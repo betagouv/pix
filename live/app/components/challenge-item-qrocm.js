@@ -15,6 +15,16 @@ const ChallengeItemQrocm = ChallengeItemGeneric.extend({
 
   _getErrorMessage() {
     return "Pour valider, saisir au moins une réponse. Sinon, passer.";
+  },
+
+  actions: {
+
+    updateQrocAnswer(event) {
+
+      const { name, value } = event.currentTarget;
+      this.set(`answers.${name}`, value);
+      this.set('errorMessage', null);
+    }
   }
 
 });
