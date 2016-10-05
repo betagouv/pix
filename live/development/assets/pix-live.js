@@ -7685,7 +7685,7 @@ define("pix-live/templates/components/progress-bar", ["exports"], function (expo
         dom.setAttribute(el2, "role", "progressbar");
         dom.setAttribute(el2, "aria-valuemin", "0");
         dom.setAttribute(el2, "aria-valuemax", "100");
-        var el3 = dom.createTextNode("\n    Épreuve ");
+        var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
@@ -7712,7 +7712,7 @@ define("pix-live/templates/components/progress-bar", ["exports"], function (expo
         morphs[3] = dom.createMorphAt(element0, 3, 3);
         return morphs;
       },
-      statements: [["attribute", "aria-valuenow", ["concat", [["get", "progress.currentStep", ["loc", [null, [2, 82], [2, 102]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "style", ["concat", ["width:", ["get", "progress.stepPercentage", ["loc", [null, [3, 55], [3, 78]]], 0, 0, 0, 0], "%"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "progress.currentStep", ["loc", [null, [4, 12], [4, 36]]], 0, 0, 0, 0], ["content", "progress.maxStep", ["loc", [null, [4, 39], [4, 59]]], 0, 0, 0, 0]],
+      statements: [["attribute", "aria-valuenow", ["concat", [["get", "progress.currentStep", ["loc", [null, [2, 82], [2, 102]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "style", ["concat", ["width:", ["get", "progress.stepPercentage", ["loc", [null, [3, 55], [3, 78]]], 0, 0, 0, 0], "%"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "progress.currentStep", ["loc", [null, [4, 4], [4, 28]]], 0, 0, 0, 0], ["content", "progress.maxStep", ["loc", [null, [4, 31], [4, 51]]], 0, 0, 0, 0]],
       locals: [],
       templates: []
     };
@@ -8824,7 +8824,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+c84eec64"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+5ae94e0a"});
 }
 
 /* jshint ignore:end */
