@@ -101,7 +101,7 @@ const ChallengeItem = Ember.Component.extend({
     skip: callOnlyOnce(actionSkip)
   },
 
-  // eslint-disable-next-line complexity.
+  // eslint-disable-next-line complexity
   _getAnswerValue() {
     const challengeType = this.get('challenge.type');
 
