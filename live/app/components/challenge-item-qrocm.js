@@ -6,6 +6,8 @@ import ChallengeItemGeneric from './challenge-item-generic';
 
 const ChallengeItemQrocm = ChallengeItemGeneric.extend({
 
+
+
   _getAnswerValue() {
     const answers = this.get('answers');
     return _.pairs(answers).map(([key, value]) => `${key} = "${value}"`).join(', ');

@@ -39,8 +39,18 @@ const ChallengeItemGeneric = Ember.Component.extend({
   errorMessage: null,
   answers: {},
 
+  instruction: Ember.computed('challenge', function() {
+    return {
+      text: this.get('challenge.instruction'),
+      illustrationUrl: this.get('challenge.illustrationUrl'),
+      attachmentUrl: this.get('challenge.attachmentUrl'),
+      attachmentFilename: this.get('challenge.attachmentFilename')
+    }
+  }),
+
   hasIllustration: computed.notEmpty('challenge.illustrationUrl'),
   hasAttachment: computed.notEmpty('challenge.attachmentUrl'),
+  hasInstruction: computed.notEmpty('challenge.instruction'),
   isChallengePreviewMode: computed.empty('assessment'),
   hasError: computed.notEmpty('errorMessage'),
 
@@ -135,8 +145,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
       case 'QCMIMG':
       case 'QCM':
         return !(this.get('answers.length') >= 1);
-      case 'QROC':
-      case 'QROCM': {
+      case 'QROC': {
         const values = _.values(this.get('answers'));
         return (Ember.isEmpty(values) || values.length < 1 || values.every(Ember.isBlank));
       }
