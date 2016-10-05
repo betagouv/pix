@@ -6,7 +6,10 @@ import ChallengeItemGeneric from './challenge-item-generic';
 
 const ChallengeItemQrocm = ChallengeItemGeneric.extend({
 
-
+  _hasError: function () {
+    const values = _.values(this.get('answers'));
+    return (Ember.isEmpty(values) || values.length < 1 || values.every(Ember.isBlank));
+  },
 
   _getAnswerValue() {
     const answers = this.get('answers');
