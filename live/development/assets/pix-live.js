@@ -7725,11 +7725,11 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 22,
+                "line": 25,
                 "column": 24
               },
               "end": {
-                "line": 24,
+                "line": 27,
                 "column": 24
               }
             },
@@ -7763,7 +7763,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
               "column": 10
             },
             "end": {
-              "line": 28,
+              "line": 31,
               "column": 10
             }
           },
@@ -7815,6 +7815,17 @@ define("pix-live/templates/home", ["exports"], function (exports) {
           var el3 = dom.createTextNode("\n\n                      ");
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "course-number-of-challenges");
+          var el4 = dom.createTextNode("\n                        ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createComment("");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode(" épreuves\n                      ");
+          dom.appendChild(el3, el4);
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n                      ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("div");
           dom.setAttribute(el3, "class", "course-actions");
           var el4 = dom.createTextNode("\n");
           dom.appendChild(el3, el4);
@@ -7836,15 +7847,16 @@ define("pix-live/templates/home", ["exports"], function (exports) {
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var element1 = dom.childAt(fragment, [1, 1]);
           var element2 = dom.childAt(element1, [3]);
-          var morphs = new Array(5);
+          var morphs = new Array(6);
           morphs[0] = dom.createAttrMorph(element1, 'data-id');
           morphs[1] = dom.createMorphAt(element1, 1, 1);
           morphs[2] = dom.createMorphAt(dom.childAt(element2, [1]), 0, 0);
           morphs[3] = dom.createMorphAt(dom.childAt(element2, [3]), 1, 1);
           morphs[4] = dom.createMorphAt(dom.childAt(element1, [5]), 1, 1);
+          morphs[5] = dom.createMorphAt(dom.childAt(element1, [7]), 1, 1);
           return morphs;
         },
-        statements: [["attribute", "data-id", ["concat", [["get", "course.id", ["loc", [null, [7, 64], [7, 73]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "course.imageUrl", ["loc", [null, [8, 26], [8, 41]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [8, 20], [12, 27]]]], ["content", "course.name", ["loc", [null, [15, 50], [15, 67]]], 0, 0, 0, 0], ["content", "course.description", ["loc", [null, [17, 28], [17, 52]]], 0, 0, 0, 0], ["block", "link-to", ["courses.create-assessment", ["get", "course.id", ["loc", [null, [22, 63], [22, 72]]], 0, 0, 0, 0]], ["class", "button button-primary start-button"], 2, null, ["loc", [null, [22, 24], [24, 36]]]]],
+        statements: [["attribute", "data-id", ["concat", [["get", "course.id", ["loc", [null, [7, 64], [7, 73]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "course.imageUrl", ["loc", [null, [8, 26], [8, 41]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [8, 20], [12, 27]]]], ["content", "course.name", ["loc", [null, [15, 50], [15, 67]]], 0, 0, 0, 0], ["content", "course.description", ["loc", [null, [17, 28], [17, 52]]], 0, 0, 0, 0], ["content", "course.challenges.length", ["loc", [null, [22, 24], [22, 54]]], 0, 0, 0, 0], ["block", "link-to", ["courses.create-assessment", ["get", "course.id", ["loc", [null, [25, 63], [25, 72]]], 0, 0, 0, 0]], ["class", "button button-primary start-button"], 2, null, ["loc", [null, [25, 24], [27, 36]]]]],
         locals: ["course"],
         templates: [child0, child1, child2]
       };
@@ -7859,8 +7871,8 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 33,
-            "column": 6
+            "line": 37,
+            "column": 0
           }
         },
         "moduleName": "pix-live/templates/home.hbs"
@@ -7894,6 +7906,8 @@ define("pix-live/templates/home", ["exports"], function (exports) {
         var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
@@ -7901,7 +7915,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1, 1]), 1, 1);
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [5, 18], [5, 23]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [5, 10], [28, 19]]]]],
+      statements: [["block", "each", [["get", "model", ["loc", [null, [5, 18], [5, 23]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [5, 10], [31, 19]]]]],
       locals: [],
       templates: [child0]
     };
@@ -8396,7 +8410,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+8219c1d0"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+10ee9ebf"});
 }
 
 /* jshint ignore:end */

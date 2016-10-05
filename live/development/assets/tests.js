@@ -260,13 +260,21 @@ define('pix-live/tests/acceptance/14-creer-une-epreuve-qroc-test.lint-test', ['e
 define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 2 - voir la liste des tests', function () {
+
     var application = undefined;
     var courses = undefined;
     var courseWithoutImage = undefined;
+    var numberOfCourses = 4;
+    var courseWithAllData = undefined;
 
     (0, _mocha.before)(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
       courses = server.createList('course-airtable', 6);
+      var challenges = server.createList('challenge-airtable', numberOfCourses);
+
+      courseWithAllData = courses[1];
+      courseWithAllData.attachMany('Épreuves', challenges);
+
       courseWithoutImage = courses[5];
       courseWithoutImage.attrs.fields.Image[0].url = '';
       courseWithoutImage.save();
@@ -294,7 +302,7 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
       var course = undefined;
 
       (0, _mocha.before)(function () {
-        course = courses[1];
+        course = courseWithAllData;
         $course = findWithAssert('.course[data-id="' + course.attrs.id + '"]');
       });
 
@@ -306,11 +314,15 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
         (0, _chai.expect)($course.find('.course-description').text()).to.contains(course.attrs.fields.Description);
       });
 
-      (0, _mocha.it)('2.3.3 on affiche son image', function () {
+      (0, _mocha.it)('2.3.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
+        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains(numberOfCourses);
+      });
+
+      (0, _mocha.it)('2.3.4 on affiche son image', function () {
         (0, _chai.expect)($course.find('img')[0].src).to.equal(course.attrs.fields.Image[0].url);
       });
 
-      (0, _mocha.it)('2.3.4 on affiche un bouton "démarrer le test"', function () {
+      (0, _mocha.it)('2.3.5 on affiche un bouton "démarrer le test"', function () {
         (0, _chai.expect)($course.find('a.button').text()).to.contains('Démarrer le test');
       });
     });
