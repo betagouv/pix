@@ -49,9 +49,6 @@ const ChallengeItemGeneric = Ember.Component.extend({
     }
   }),
 
-  hasIllustration: computed.notEmpty('challenge.illustrationUrl'),
-  hasAttachment: computed.notEmpty('challenge.attachmentUrl'),
-  hasInstruction: computed.notEmpty('challenge.instruction'),
   isChallengePreviewMode: computed.empty('assessment'),
   hasError: computed.notEmpty('errorMessage'),
 
