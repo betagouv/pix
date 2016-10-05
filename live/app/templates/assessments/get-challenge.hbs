@@ -1,6 +1,10 @@
 <div id="assessment-challenge">
     <div class="container">
+
       {{progress-bar progress=progress}}
+
+      {{challenge-instruction instruction=instruction}}
+      
       {{component challengeItemType model.challenge model.assessment onValidated="saveAnswerAndNavigate"}}
     </div>
 </div>
