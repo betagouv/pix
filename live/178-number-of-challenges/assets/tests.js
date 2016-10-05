@@ -252,15 +252,17 @@ define('pix-live/tests/acceptance/14-creer-une-epreuve-qroc-test.lint-test', ['e
 define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 2 - voir la liste des tests', function () {
+
     var application = undefined;
     var courses = undefined;
     var courseWithoutImage = undefined;
     var numberOfCourses = 4;
+    var courseWithAllData = undefined;
 
     (0, _mocha.before)(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
       courses = server.createList('course-airtable', 6);
-      challenges = server.createList('challenge-airtable', numberOfCourses);
+      var challenges = server.createList('challenge-airtable', numberOfCourses);
 
       courseWithAllData = courses[1];
       courseWithAllData.attachMany('Épreuves', challenges);
