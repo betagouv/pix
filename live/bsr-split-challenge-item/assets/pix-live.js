@@ -4794,14 +4794,14 @@ define("pix-live/templates/components/challenge-actionbar", ["exports"], functio
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("button");
           dom.setAttribute(el2, "class", "button button-secondary skip-button");
-          var el3 = dom.createTextNode("Passer2");
+          var el3 = dom.createTextNode("Passer");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n      ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("button");
           dom.setAttribute(el2, "class", "button button-primary validate-button");
-          var el3 = dom.createTextNode("Valider2");
+          var el3 = dom.createTextNode("Valider");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n  ");
@@ -5092,180 +5092,6 @@ define("pix-live/templates/components/challenge-instruction", ["exports"], funct
 });
 define("pix-live/templates/components/challenge-item-generic", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
-    var child0 = (function () {
-      var child0 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.8.1",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 7,
-                "column": 10
-              },
-              "end": {
-                "line": 9,
-                "column": 10
-              }
-            },
-            "moduleName": "pix-live/templates/components/challenge-item-generic.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("              ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("span");
-            var el2 = dom.createComment("");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
-            return morphs;
-          },
-          statements: [["content", "block.text", ["loc", [null, [8, 20], [8, 34]]], 0, 0, 0, 0]],
-          locals: [],
-          templates: []
-        };
-      })();
-      var child1 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.8.1",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 11,
-                "column": 10
-              },
-              "end": {
-                "line": 13,
-                "column": 10
-              }
-            },
-            "moduleName": "pix-live/templates/components/challenge-item-generic.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("            ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createComment("");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-            return morphs;
-          },
-          statements: [["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "block.input", ["loc", [null, [12, 25], [12, 36]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "text", "placeholder", ["subexpr", "@mut", [["get", "block.placeholder", ["loc", [null, [12, 61], [12, 78]]], 0, 0, 0, 0]], [], [], 0, 0], "change", ["subexpr", "action", ["updateQrocAnswer"], [], ["loc", [null, [12, 86], [12, 113]]], 0, 0]], ["loc", [null, [12, 12], [12, 116]]], 0, 0]],
-          locals: [],
-          templates: []
-        };
-      })();
-      var child2 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.8.1",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 15,
-                "column": 10
-              },
-              "end": {
-                "line": 17,
-                "column": 10
-              }
-            },
-            "moduleName": "pix-live/templates/components/challenge-item-generic.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("              ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("hr");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes() {
-            return [];
-          },
-          statements: [],
-          locals: [],
-          templates: []
-        };
-      })();
-      return {
-        meta: {
-          "revision": "Ember@2.8.1",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 5,
-              "column": 8
-            },
-            "end": {
-              "line": 19,
-              "column": 8
-            }
-          },
-          "moduleName": "pix-live/templates/components/challenge-item-generic.hbs"
-        },
-        isEmpty: false,
-        arity: 1,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(3);
-          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-          morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
-          morphs[2] = dom.createMorphAt(fragment, 5, 5, contextualElement);
-          return morphs;
-        },
-        statements: [["block", "if", [["get", "block.text", ["loc", [null, [7, 16], [7, 26]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 10], [9, 17]]]], ["block", "if", [["get", "block.input", ["loc", [null, [11, 16], [11, 27]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [11, 10], [13, 17]]]], ["block", "if", [["get", "block.breakline", ["loc", [null, [15, 16], [15, 31]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [15, 10], [17, 17]]]]],
-        locals: ["block"],
-        templates: [child0, child1, child2]
-      };
-    })();
     return {
       meta: {
         "revision": "Ember@2.8.1",
@@ -5276,7 +5102,7 @@ define("pix-live/templates/components/challenge-item-generic", ["exports"], func
             "column": 0
           },
           "end": {
-            "line": 24,
+            "line": 2,
             "column": 0
           }
         },
@@ -5290,34 +5116,14 @@ define("pix-live/templates/components/challenge-item-generic", ["exports"], func
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "rounded-panel challenge-response");
-        var el2 = dom.createTextNode("\n    ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "challenge-proposals");
-        var el3 = dom.createTextNode("\n\n");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
         return el0;
       },
-      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 1, 1);
-        return morphs;
+      buildRenderNodes: function buildRenderNodes() {
+        return [];
       },
-      statements: [["block", "each", [["get", "challenge._proposalsAsBlocks", ["loc", [null, [5, 16], [5, 44]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [5, 8], [19, 17]]]]],
+      statements: [],
       locals: [],
-      templates: [child0]
+      templates: []
     };
   })());
 });
@@ -10030,7 +9836,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+ac70d9ff"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+7f52ce7c"});
 }
 
 /* jshint ignore:end */
