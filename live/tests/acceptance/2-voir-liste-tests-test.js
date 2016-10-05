@@ -12,12 +12,12 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
   let application;
   let courses;
   let courseWithoutImage;
+  let numberOfCourses = 4;
 
   before(function () {
     application = startApp();
     courses = server.createList('course-airtable', 6);
-    numberOfCourse = 4;
-    challenges = server.createList('challenge-airtable', numberOfCourse);
+    challenges = server.createList('challenge-airtable', numberOfCourses);
 
     courseWithAllData = courses[1];
     courseWithAllData.attachMany('Épreuves', challenges);
@@ -62,7 +62,7 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
     });
 
     it('2.3.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-      expect($course.find('.course-number-of-challenges').text()).to.contains(numberOfCourse);
+      expect($course.find('.course-number-of-challenges').text()).to.contains(numberOfCourses);
     });
 
     it('2.3.4 on affiche son image', function () {
