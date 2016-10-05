@@ -3,6 +3,7 @@
 define('pix-live/tests/acceptance/1-accedder-a-la-plateforme-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 1 - Accéder à la plateforme pour démarrer un test', function () {
+
     var application = undefined;
 
     (0, _mocha.before)(function () {
@@ -14,7 +15,7 @@ define('pix-live/tests/acceptance/1-accedder-a-la-plateforme-test', ['exports', 
     });
 
     (0, _mocha.before)(function () {
-      return visit('/');
+      visit('/');
     });
 
     (0, _mocha.it)('1.0 peut visiter /', function () {
@@ -27,13 +28,13 @@ define('pix-live/tests/acceptance/1-accedder-a-la-plateforme-test', ['exports', 
 
     (0, _mocha.it)('1.3 la page d\'accueil contient un formulaire Nom / Prénom / Email et un bouton valider', function () {
       (0, _chai.expect)(findWithAssert('label[for="firstName"]').text()).to.contains('Prénom');
-      (0, _chai.expect)(findWithAssert('#firstName')).to.exist;
+      (0, _chai.expect)(findWithAssert('#firstName'));
 
       (0, _chai.expect)(findWithAssert('label[for="lastName"]').text()).to.contains('Nom');
-      (0, _chai.expect)(findWithAssert('#lastName')).to.exist;
+      (0, _chai.expect)(findWithAssert('#lastName'));
 
       (0, _chai.expect)(findWithAssert('label[for="lastName"]').text()).to.contains('Nom');
-      (0, _chai.expect)(findWithAssert('#email')).to.exist;
+      (0, _chai.expect)(findWithAssert('#email'));
     });
   });
 });
@@ -3982,6 +3983,32 @@ define('pix-live/tests/unit/services/session-test', ['exports', 'chai', 'ember-m
 
         // then
         (0, _chai.expect)(session.get('user')).to.not.exist;
+      });
+    });
+
+    describe('#isIdentified', function () {
+
+      (0, _emberMocha.it)('returns true if user is set in session', function () {
+        // given
+        var session = this.subject();
+        var user = {
+          firstName: 'firstName',
+          lastName: 'lastName',
+          email: 'email'
+        };
+        session.set('user', user);
+
+        // then
+        (0, _chai.expect)(session.isIdentified()).to.be['true'];
+      });
+
+      (0, _emberMocha.it)('returns false if user is not set in session', function () {
+        // given
+        var session = this.subject();
+        session.set('user', null);
+
+        // then
+        (0, _chai.expect)(session.isIdentified()).to.be['false'];
       });
     });
   });

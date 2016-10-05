@@ -537,6 +537,7 @@ define('pix-live/components/identification-form', ['exports', 'ember', 'lodash/l
 
   // XXX from http://stackoverflow.com/a/46181/2120773
   function validateEmail(email) {
+
     var regExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return regExp.test(email);
   }
@@ -546,15 +547,12 @@ define('pix-live/components/identification-form', ['exports', 'ember', 'lodash/l
     var errors = [];
 
     if (_ember['default'].isEmpty(user.firstName)) {
-
       errors.push('Vous devez saisir votre prénom.');
     }
     if (_ember['default'].isEmpty(user.lastName)) {
-
       errors.push('Vous devez saisir votre nom.');
     }
     if (_ember['default'].isEmpty(user.email) || !validateEmail(user.email)) {
-
       errors.push('Vous devez saisir une adresse e-mail valide.');
     }
     return errors;
@@ -593,17 +591,13 @@ define('pix-live/components/identification-form', ['exports', 'ember', 'lodash/l
 
         var user = this.get('user');
 
-        _ember['default'].Logger.info('user.firstName=' + user.get('firstName'));
-
         var errors = getInputErrors(user);
 
         if (_ember['default'].isEmpty(errors)) {
-
           removeErrorMessage(this);
           setUserInSession(this, user);
           callActionOnUserIdentified(this);
         } else {
-
           this.set('errorMessage', _lodashLodash['default'].first(errors));
         }
       }
@@ -1331,7 +1325,7 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     rootURL: _pixLiveConfigEnvironment['default'].rootURL
   });
 
-  Router.map(function () {
+  exports['default'] = Router.map(function () {
 
     this.route('index', { path: '/' });
     this.route('home');
@@ -1346,8 +1340,6 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
     this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
   });
-
-  exports['default'] = Router;
 });
 define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp', 'ember-data'], function (exports, _ember, _rsvp, _emberData) {
   exports['default'] = _ember['default'].Route.extend({
@@ -1547,6 +1539,7 @@ define('pix-live/routes/index', ['exports', 'ember'], function (exports, _ember)
         this.transitionTo('home');
       }
     }
+
   });
 });
 define('pix-live/routes/preferences', ['exports', 'ember'], function (exports, _ember) {
@@ -8403,7 +8396,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+ea24a678"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+1eeb5a88"});
 }
 
 /* jshint ignore:end */
