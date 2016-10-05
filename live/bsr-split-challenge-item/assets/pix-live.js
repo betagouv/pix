@@ -335,10 +335,11 @@ define('pix-live/components/challenge-actionbar', ['exports', 'ember'], function
 
       skip: function skip() {
         console.log('skip, inside challenge-actionbar');
-        this.sendAction();
+        this.sendAction('skip');
       },
       validate: function validate() {
-        this.sendAction();
+        console.log('validate, inside challenge-actionbar');
+        this.sendAction('validate');
       }
     }
 
@@ -354,6 +355,7 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'lodas
   var inject = _ember['default'].inject;
 
   function actionValidate() {
+    console.log('actionValidate !!!!!! inside generic component');
     if (this._hasError()) {
       this.set('errorMessage', this._getErrorMessage());
       return this.sendAction('onError', this.get('errorMessage'));
@@ -363,7 +365,7 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'lodas
   }
 
   function actionSkip() {
-    console.log('skip, inside generic component');
+    console.log('skip !!!!!! inside generic component');
     this.set('errorMessage', null);
     this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#');
   }
@@ -2110,6 +2112,7 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp',
       saveAnswerAndNavigate: function saveAnswerAndNavigate(currentChallenge, assessment, answerValue) {
         var _this = this;
 
+        console.log("ok, save answer and navigate");
         var answer = this._createAnswer(answerValue, currentChallenge, assessment);
         answer.save().then(function () {
           _this._navigateToNextView(currentChallenge, assessment);
@@ -6057,7 +6060,7 @@ define("pix-live/templates/components/challenge-item-qrocm", ["exports"], functi
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "instruction", ["loc", [null, [1, 36], [1, 47]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [1, 0], [1, 49]]], 0, 0], ["block", "each", [["get", "challenge._proposalsAsBlocks", ["loc", [null, [6, 16], [6, 44]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [6, 8], [20, 17]]]], ["inline", "challenge-actionbar", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [23, 32], [23, 37]]], 0, 0, 0, 0]], [], [], 0, 0], "action", "skip", "action", "validate"], ["loc", [null, [23, 4], [23, 71]]], 0, 0]],
+      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "instruction", ["loc", [null, [1, 36], [1, 47]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [1, 0], [1, 49]]], 0, 0], ["block", "each", [["get", "challenge._proposalsAsBlocks", ["loc", [null, [6, 16], [6, 44]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [6, 8], [20, 17]]]], ["inline", "challenge-actionbar", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [23, 32], [23, 37]]], 0, 0, 0, 0]], [], [], 0, 0], "skip", "skip", "validate", "validate"], ["loc", [null, [23, 4], [23, 71]]], 0, 0]],
       locals: [],
       templates: [child0]
     };
@@ -9975,7 +9978,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+7984b8a8"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+717a4316"});
 }
 
 /* jshint ignore:end */
