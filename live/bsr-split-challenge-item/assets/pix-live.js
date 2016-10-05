@@ -419,19 +419,10 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'lodas
     },
     actions: {
 
-      updateQrocAnswer: function updateQrocAnswer(event) {
+      updateQcmAnswer: function updateQcmAnswer(event) {
         var _event$currentTarget = event.currentTarget;
         var name = _event$currentTarget.name;
-        var value = _event$currentTarget.value;
-
-        this.set('answers.' + name, value);
-        this.set('errorMessage', null);
-      },
-
-      updateQcmAnswer: function updateQcmAnswer(event) {
-        var _event$currentTarget2 = event.currentTarget;
-        var name = _event$currentTarget2.name;
-        var checked = _event$currentTarget2.checked;
+        var checked = _event$currentTarget.checked;
 
         var answers = this.get('answers');
 
@@ -552,6 +543,18 @@ define('pix-live/components/challenge-item-qrocm', ['exports', 'ember', 'lodash/
 
     _getErrorMessage: function _getErrorMessage() {
       return "Pour valider, saisir au moins une réponse. Sinon, passer.";
+    },
+
+    actions: {
+
+      updateQrocAnswer: function updateQrocAnswer(event) {
+        var _event$currentTarget = event.currentTarget;
+        var name = _event$currentTarget.name;
+        var value = _event$currentTarget.value;
+
+        this.set('answers.' + name, value);
+        this.set('errorMessage', null);
+      }
     }
 
   });
@@ -9525,7 +9528,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+b36aa4c9"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"0.0.0+89dc44e7"});
 }
 
 /* jshint ignore:end */
