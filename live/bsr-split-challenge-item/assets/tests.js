@@ -1071,6 +1071,18 @@ define('pix-live/tests/components/app-header.lint-test', ['exports'], function (
     });
   });
 });
+define('pix-live/tests/components/challenge-instruction.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/challenge-instruction.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('components/challenge-instruction.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/components/challenge-item-generic.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -1819,6 +1831,76 @@ define('pix-live/tests/helpers/start-app.lint-test', ['exports'], function (expo
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('helpers/start-app.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/integration/components/challenge-instruction-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeComponent)('challenge-instruction', 'Integration: ChallengeInstructionComponent', {
+    integration: true
+  }, function () {
+    (0, _emberMocha.it)('renders', function () {
+      // Set any properties with this.set('myProperty', 'value');
+      // Handle any actions with this.on('myAction', function(val) { ... });
+      // Template block usage:
+      // this.render(hbs`
+      //   {{#challenge-instruction}}
+      //     template content
+      //   {{/challenge-instruction}}
+      // `);
+
+      this.render(Ember.HTMLBars.template((function () {
+        return {
+          meta: {
+            'revision': 'Ember@2.7.3',
+            'loc': {
+              'source': null,
+              'start': {
+                'line': 1,
+                'column': 0
+              },
+              'end': {
+                'line': 1,
+                'column': 25
+              }
+            }
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment('');
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [['content', 'challenge-instruction', ['loc', [null, [1, 0], [1, 25]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })()));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/integration/components/challenge-instruction-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/challenge-instruction-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('integration/components/challenge-instruction-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
