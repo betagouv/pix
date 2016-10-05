@@ -9,15 +9,17 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
 describe('Acceptance | 2 - voir la liste des tests', function () {
+
   let application;
   let courses;
   let courseWithoutImage;
-  let numberOfCourses = 4;
+  const numberOfCourses = 4;
+  let courseWithAllData;
 
   before(function () {
     application = startApp();
     courses = server.createList('course-airtable', 6);
-    challenges = server.createList('challenge-airtable', numberOfCourses);
+    let challenges = server.createList('challenge-airtable', numberOfCourses);
 
     courseWithAllData = courses[1];
     courseWithAllData.attachMany('Épreuves', challenges);
