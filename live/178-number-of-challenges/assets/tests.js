@@ -255,12 +255,12 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
     var application = undefined;
     var courses = undefined;
     var courseWithoutImage = undefined;
+    var numberOfCourses = 4;
 
     (0, _mocha.before)(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
       courses = server.createList('course-airtable', 6);
-      numberOfCourse = 4;
-      challenges = server.createList('challenge-airtable', numberOfCourse);
+      challenges = server.createList('challenge-airtable', numberOfCourses);
 
       courseWithAllData = courses[1];
       courseWithAllData.attachMany('Épreuves', challenges);
@@ -305,7 +305,7 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
       });
 
       (0, _mocha.it)('2.3.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains(numberOfCourse);
+        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains(numberOfCourses);
       });
 
       (0, _mocha.it)('2.3.4 on affiche son image', function () {
