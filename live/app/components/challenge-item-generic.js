@@ -4,7 +4,6 @@ import _ from 'lodash/lodash';
 const { computed, inject } = Ember;
 
 function actionValidate () {
-  console.log('actionValidate !!!!!! inside generic component');
   if (this._hasError()) {
     this.set('errorMessage', this._getErrorMessage());
     return this.sendAction('onError', this.get('errorMessage'));
@@ -14,7 +13,6 @@ function actionValidate () {
 }
 
 function actionSkip () {
-  console.log('skip !!!!!! inside generic component');
   this.set('errorMessage', null);
   this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
 }
@@ -52,19 +50,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
   isChallengePreviewMode: computed.empty('assessment'),
 
-  // FIXME: too much duplication :x
-  challengeIsTypeQROC: computed('challenge.type', function () {
-    const challengeType = this.get('challenge.type');
-    return ['QROC', 'QROCM'].any((type) => type === challengeType);
-  }),
-  challengeIsTypeQCM: computed('challenge.type', function () {
-    const challengeType = this.get('challenge.type');
-    return ['QCM', 'QCMIMG'].any((type) => type === challengeType);
-  }),
-  challengeIsTypeQCU: computed('challenge.type', function () {
-    const challengeType = this.get('challenge.type');
-    return ['QCU', 'QCUIMG'].any((type) => type === challengeType);
-  }),
+
 
   onSelectedProposalChanged: Ember.observer('selectedProposal', function () {
     this.set('errorMessage', null);
@@ -75,91 +61,15 @@ const ChallengeItemGeneric = Ember.Component.extend({
     this.set('selectedProposal', null);
     this.set('answers', {});
   },
+
   actions: {
-
-    updateQcmAnswer(event) {
-      const { name, checked } = event.currentTarget;
-      let answers = this.get('answers');
-
-      if (checked) {
-        if (Ember.isArray(answers)) {
-          answers.push(name);
-        }
-        else {
-          answers = [name];
-        }
-      }
-      else {
-        _.remove(answers, (answer) => answer === name);
-      }
-
-      this.set('answers', answers);
-      this.set('errorMessage', null);
-    },
 
     // XXX: prevent double-clicking from creating double record.
     validate: callOnlyOnce(actionValidate),
 
     skip: callOnlyOnce(actionSkip)
-  },
-
-  // eslint-disable-next-line complexity
-  _getAnswerValue() {
-    const challengeType = this.get('challenge.type');
-
-    switch (challengeType) {
-      case 'QCUIMG':
-      case 'QCU': {
-        const selectedValue = this.get('selectedProposal');
-        return `${selectedValue + 1}`;
-      }
-      case 'QCMIMG':
-      case 'QCM': {
-        const answers = this.get('answers');
-        return `${answers.map((answer) => parseInt(answer, 10) + 1).join(', ')}`;
-      }
-      case 'QROC': {
-        const answers = this.get('answers');
-        return _.pairs(answers).map(([key, value]) => `${key} = "${value}"`).join(', ');
-      }
-      default:
-        return null;
-    }
-  },
-
-  // eslint-disable-next-line complexity
-  _hasError: function () {
-    switch (this.get('challenge.type')) {
-      case 'QCUIMG':
-      case 'QCU':
-        return Ember.isEmpty(this.get('selectedProposal'));
-      case 'QCMIMG':
-      case 'QCM':
-        return !(this.get('answers.length') >= 1);
-      case 'QROC': {
-        const values = _.values(this.get('answers'));
-        return (Ember.isEmpty(values) || values.length < 1 || values.every(Ember.isBlank));
-      }
-      default:
-        return false;
-    }
-  },
-
-  // eslint-disable-next-line complexity
-  _getErrorMessage: function () {
-    switch (this.get('challenge.type')) {
-      case 'QCUIMG':
-      case 'QCU':
-        return "Pour valider, sélectionner une réponse. Sinon, passer.";
-      case 'QCMIMG':
-      case 'QCM':
-        return "Pour valider, sélectionner au moins une réponse. Sinon, passer.";
-      case 'QROC':
-        return "Pour valider, saisir une réponse. Sinon, passer.";
-      default:
-        return "Pour valider, répondez correctement à l'épreuve. Sinon passer.";
-    }
   }
+
 });
 
 ChallengeItemGeneric.reopenClass({
