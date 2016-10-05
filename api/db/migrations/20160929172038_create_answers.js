@@ -2,17 +2,17 @@
 
 const TABLE_NAME = 'answers';
 
-function table(t) {
-
-  t.increments().primary();
-  t.integer('assessmentId').unsigned().references('assessments.id');
-  t.string('challengeRef').notNull();
-  t.string('value').notNull();
-  t.dateTime('createdAt').notNullable().defaultTo(new Date());
-  t.dateTime('updatedAt').notNullable().defaultTo(new Date());
-}
-
 exports.up = (knex) => {
+
+  function table(t) {
+
+    t.increments().primary();
+    t.integer('assessmentId').unsigned().references('assessments.id');
+    t.string('challengeRef').notNull();
+    t.string('value').notNull();
+    t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
+    t.dateTime('updatedAt').notNullable().defaultTo(knex.fn.now());
+  }
 
   return knex.schema
     .createTable(TABLE_NAME, table)
