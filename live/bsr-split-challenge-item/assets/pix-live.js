@@ -349,13 +349,10 @@ define('pix-live/components/challenge-instruction', ['exports', 'ember'], functi
   exports['default'] = _ember['default'].Component.extend({});
 });
 define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'lodash/lodash'], function (exports, _ember, _lodashLodash) {
-  var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
-
   var computed = _ember['default'].computed;
   var inject = _ember['default'].inject;
 
   function actionValidate() {
-    console.log('actionValidate !!!!!! inside generic component');
     if (this._hasError()) {
       this.set('errorMessage', this._getErrorMessage());
       return this.sendAction('onError', this.get('errorMessage'));
@@ -365,7 +362,6 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'lodas
   }
 
   function actionSkip() {
-    console.log('skip !!!!!! inside generic component');
     this.set('errorMessage', null);
     this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#');
   }
@@ -403,26 +399,6 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'lodas
 
     isChallengePreviewMode: computed.empty('assessment'),
 
-    // FIXME: too much duplication :x
-    challengeIsTypeQROC: computed('challenge.type', function () {
-      var challengeType = this.get('challenge.type');
-      return ['QROC', 'QROCM'].any(function (type) {
-        return type === challengeType;
-      });
-    }),
-    challengeIsTypeQCM: computed('challenge.type', function () {
-      var challengeType = this.get('challenge.type');
-      return ['QCM', 'QCMIMG'].any(function (type) {
-        return type === challengeType;
-      });
-    }),
-    challengeIsTypeQCU: computed('challenge.type', function () {
-      var challengeType = this.get('challenge.type');
-      return ['QCU', 'QCUIMG'].any(function (type) {
-        return type === challengeType;
-      });
-    }),
-
     onSelectedProposalChanged: _ember['default'].observer('selectedProposal', function () {
       this.set('errorMessage', null);
     }),
@@ -432,106 +408,15 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'lodas
       this.set('selectedProposal', null);
       this.set('answers', {});
     },
+
     actions: {
-
-      updateQcmAnswer: function updateQcmAnswer(event) {
-        var _event$currentTarget = event.currentTarget;
-        var name = _event$currentTarget.name;
-        var checked = _event$currentTarget.checked;
-
-        var answers = this.get('answers');
-
-        if (checked) {
-          if (_ember['default'].isArray(answers)) {
-            answers.push(name);
-          } else {
-            answers = [name];
-          }
-        } else {
-          _lodashLodash['default'].remove(answers, function (answer) {
-            return answer === name;
-          });
-        }
-
-        this.set('answers', answers);
-        this.set('errorMessage', null);
-      },
 
       // XXX: prevent double-clicking from creating double record.
       validate: callOnlyOnce(actionValidate),
 
       skip: callOnlyOnce(actionSkip)
-    },
-
-    // eslint-disable-next-line complexity
-    _getAnswerValue: function _getAnswerValue() {
-      var challengeType = this.get('challenge.type');
-
-      switch (challengeType) {
-        case 'QCUIMG':
-        case 'QCU':
-          {
-            var selectedValue = this.get('selectedProposal');
-            return '' + (selectedValue + 1);
-          }
-        case 'QCMIMG':
-        case 'QCM':
-          {
-            var answers = this.get('answers');
-            return '' + answers.map(function (answer) {
-              return parseInt(answer, 10) + 1;
-            }).join(', ');
-          }
-        case 'QROC':
-          {
-            var answers = this.get('answers');
-            return _lodashLodash['default'].pairs(answers).map(function (_ref) {
-              var _ref2 = _slicedToArray(_ref, 2);
-
-              var key = _ref2[0];
-              var value = _ref2[1];
-              return key + ' = "' + value + '"';
-            }).join(', ');
-          }
-        default:
-          return null;
-      }
-    },
-
-    // eslint-disable-next-line complexity
-    _hasError: function _hasError() {
-      switch (this.get('challenge.type')) {
-        case 'QCUIMG':
-        case 'QCU':
-          return _ember['default'].isEmpty(this.get('selectedProposal'));
-        case 'QCMIMG':
-        case 'QCM':
-          return !(this.get('answers.length') >= 1);
-        case 'QROC':
-          {
-            var values = _lodashLodash['default'].values(this.get('answers'));
-            return _ember['default'].isEmpty(values) || values.length < 1 || values.every(_ember['default'].isBlank);
-          }
-        default:
-          return false;
-      }
-    },
-
-    // eslint-disable-next-line complexity
-    _getErrorMessage: function _getErrorMessage() {
-      switch (this.get('challenge.type')) {
-        case 'QCUIMG':
-        case 'QCU':
-          return "Pour valider, sélectionner une réponse. Sinon, passer.";
-        case 'QCMIMG':
-        case 'QCM':
-          return "Pour valider, sélectionner au moins une réponse. Sinon, passer.";
-        case 'QROC':
-          return "Pour valider, saisir une réponse. Sinon, passer.";
-        default:
-          return "Pour valider, répondez correctement à l'épreuve. Sinon passer.";
-      }
     }
+
   });
 
   ChallengeItemGeneric.reopenClass({
@@ -559,7 +444,32 @@ define('pix-live/components/challenge-item-qcm', ['exports', 'ember', 'lodash/lo
       return "Pour valider, sélectionner une réponse. Sinon, passer.";
     },
 
-    actions: {}
+    actions: {
+
+      updateQcmAnswer: function updateQcmAnswer(event) {
+        var _event$currentTarget = event.currentTarget;
+        var name = _event$currentTarget.name;
+        var checked = _event$currentTarget.checked;
+
+        var answers = this.get('answers');
+
+        if (checked) {
+          if (_ember['default'].isArray(answers)) {
+            answers.push(name);
+          } else {
+            answers = [name];
+          }
+        } else {
+          _lodashLodash['default'].remove(answers, function (answer) {
+            return answer === name;
+          });
+        }
+
+        this.set('answers', answers);
+        this.set('errorMessage', null);
+      }
+
+    }
 
   });
 
@@ -10120,7 +10030,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+0b846637"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+ac70d9ff"});
 }
 
 /* jshint ignore:end */
