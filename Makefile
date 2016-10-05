@@ -39,4 +39,7 @@ ci-test-api: test-api
 ci-test-live:
 	cd live && npm run ci:test
 
-
+deploy-api-production:
+	git subtree push --prefix api api-prod master
+deploy-api-development:
+	git subtree push --prefix api api-development master
