@@ -5,7 +5,6 @@ const Answer = require('./answer');
 module.exports = Bookshelf.Model.extend({
 
   tableName: 'assessments',
-  hasTimestamps: true,
 
   user: () => {
     return this.belongsTo(User);

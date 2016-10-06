@@ -8,14 +8,11 @@ describe('/api/greetings', function () {
     server.stop(done);
   });
 
-  describe('route /', function (done) {
+  describe('route /', function () {
 
     it('/ should return "Hello, world!"', function (done) {
 
-      const options = {
-        method: "GET",
-        url: "/"
-      };
+      const options = { method: "GET", url: "/" };
 
       server.inject(options, (response) => {
 
@@ -27,14 +24,11 @@ describe('/api/greetings', function () {
     });
   });
 
-  describe('route /{name}', function (done) {
+  describe('route /{name}', function () {
 
     it('/ should return "Hello, {name}!"', function (done) {
 
-      const options = {
-        method: "GET",
-        url: "/test_name"
-      };
+      const options = { method: "GET", url: "/test_name" };
 
       server.inject(options, (response) => {
 

@@ -25,7 +25,6 @@ module.exports = {
   save: {
     handler: (request, reply) => {
 
-      console.log('coucou');
       const user = new User(request.payload);
       user.save().then(() => {
         reply(`{"user": ${JSON.stringify(user)} }`).type('application/json');

@@ -10,6 +10,10 @@ module.exports = {
 
   hapi: {
     options: {}
+  },
+
+  airtable: {
+    apiKey: 'keyEgu8JYhXaOhjbd'
   }
 
 };
