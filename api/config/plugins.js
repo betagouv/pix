@@ -1,8 +1,5 @@
-const Good = require('good');
-const Blipp = require('blipp');
-
 module.exports = [{
-  register: Good,
+  register: require('good'),
   options: {
     reporters: {
       console: [{
@@ -18,5 +15,7 @@ module.exports = [{
     }
   }
 }, {
-  register: Blipp, options: {}
+  register: require('blipp')
+}, {
+  register: require('inject-then')
 }];

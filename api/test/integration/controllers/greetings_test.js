@@ -1,5 +1,6 @@
 const server = require('../../../server');
 const after = require('mocha').after;
+const expect = require('chai').expect;
 
 describe('/api/greetings', function () {
 
@@ -14,11 +15,11 @@ describe('/api/greetings', function () {
 
       const options = { method: "GET", url: "/" };
 
-      server.inject(options, (response) => {
+      server.injectThen(options).then((response) => {
 
-        response.statusCode.should.be.equal(200);
-        response.result.should.have.lengthOf(13);
-        response.result.should.be.equal('Hello, world!');
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.have.lengthOf(13);
+        expect(response.result).to.equal('Hello, world!');
         done();
       });
     });
@@ -30,10 +31,10 @@ describe('/api/greetings', function () {
 
       const options = { method: "GET", url: "/test_name" };
 
-      server.inject(options, (response) => {
+      server.injectThen(options).then((response) => {
 
-        response.statusCode.should.be.equal(200);
-        response.result.should.be.equal('Hello, test_name!');
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.equal('Hello, test_name!');
         done();
       });
     });

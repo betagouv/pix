@@ -14,23 +14,24 @@ describe('API Courses', function () {
     const options = { method: "GET", url: "/api/courses" };
 
     it("should return 200 HTTP status code", function (done) {
-      server.inject(options, (response) => {
-        response.statusCode.should.be.equal(200);
+      server.injectThen(options).then((response) => {
+        expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it("should return application/json", function (done) {
-      server.inject(options, (response) => {
+      server.injectThen(options).then((response) => {
         const contentType = response.headers['content-type'];
-        server.log('contentType=' + contentType);
-        contentType.should.contain('application/json');
+        expect(contentType).to.contain('application/json');
         done();
       });
     });
 
-    it.skip("should return all the courses from the tests referential", function (done) {
-      server.inject(options, (response) => {
+    it("should return all the courses from the tests referential", function (done) {
+      server.injectThen(options).then((response) => {
+        const courses = response.result.courses;
+        expect(courses.length).to.equal(5);
         done();
       });
     });

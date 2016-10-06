@@ -6,20 +6,20 @@ module.exports = {
   list: {
     handler: (request, reply) => {
 
-      const courses = [];
+      let courses = [];
 
       base('Tests')
         .select({ view: "PIX view" })
         .eachPage((records, fetchNextPage) => {
 
-          courses.push(records);
+          courses = courses.concat(records);
           fetchNextPage();
         }, (error) => {
 
           if (error) {
             return reply(Boom.badImplementation(error));
           }
-          return reply(`{"courses":${JSON.stringify(courses)}}`).type('application/json');
+          return reply({ courses });
         });
     }
   },
