@@ -1,12 +1,18 @@
-const server = require('../../../server');
-
+const pixApiServer = require('../../../server');
 const expect = require('chai').expect;
+const sinon = require('sinon');
 
 describe('API Courses', function () {
 
-  after(function (done) {
+  let xhr, airTableFakeServer;
 
-    server.stop(done);
+  before(function (done) {
+    sinon.useFakeXMLHttpRequest();
+    done();
+  });
+
+  after(function (done) {
+    pixApiServer.stop(done);
   });
 
   describe('GET /api/courses', function (done) {
@@ -14,14 +20,15 @@ describe('API Courses', function () {
     const options = { method: "GET", url: "/api/courses" };
 
     it("should return 200 HTTP status code", function (done) {
-      server.injectThen(options).then((response) => {
+      pixApiServer.injectThen(options).then((response) => {
         expect(response.statusCode).to.equal(200);
+        expect(requests.length).to.equal(1);//
         done();
       });
     });
 
     it("should return application/json", function (done) {
-      server.injectThen(options).then((response) => {
+      pixApiServer.injectThen(options).then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -29,7 +36,7 @@ describe('API Courses', function () {
     });
 
     it("should return all the courses from the tests referential", function (done) {
-      server.injectThen(options).then((response) => {
+      pixApiServer.injectThen(options).then((response) => {
         const courses = response.result.courses;
         expect(courses.length).to.equal(5);
         done();
