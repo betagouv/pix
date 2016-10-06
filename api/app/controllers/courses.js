@@ -11,7 +11,6 @@ module.exports = {
       base('Tests')
         .select({ view: "PIX view" })
         .eachPage((records, fetchNextPage) => {
-
           courses = courses.concat(records);
           fetchNextPage();
         }, (error) => {
