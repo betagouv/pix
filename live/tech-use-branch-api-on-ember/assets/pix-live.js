@@ -1008,6 +1008,8 @@ define('pix-live/mirage/config', ['exports'], function (exports) {
   exports['default'] = function () {
     this.passthrough('https://api.airtable.com/**');
     this.passthrough('http://localhost:3000/**');
+    this.passthrough('http://**.pix-app.ovh/**');
+    this.passthrough('https://api-prod.pix-app.ovh/**');
 
     this.post('https://sentry.io/**', function () {
       return 200;
@@ -8574,7 +8576,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+ef8df92a"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+89d958fb"});
 }
 
 /* jshint ignore:end */
