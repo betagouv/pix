@@ -1,6 +1,8 @@
 export default function () {
   this.passthrough('https://api.airtable.com/**');
   this.passthrough('http://localhost:3000/**');
+  this.passthrough('http://**.pix-app.ovh/**');
+  this.passthrough('https://api-prod.pix-app.ovh/**');
 
   this.post('https://sentry.io/**', () => {
     return 200;
