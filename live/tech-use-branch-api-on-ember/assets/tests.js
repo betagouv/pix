@@ -2418,6 +2418,18 @@ define('pix-live/tests/routes/preferences.lint-test', ['exports'], function (exp
     });
   });
 });
+define('pix-live/tests/routes/secret-yo.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - routes/secret-yo.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('routes/secret-yo.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/serializers/airtable-serializer.lint-test', ['exports'], function (exports) {
   'use strict';
 

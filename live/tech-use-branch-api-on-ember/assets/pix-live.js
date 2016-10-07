@@ -1373,7 +1373,6 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
   });
 
   exports['default'] = Router.map(function () {
-
     this.route('index', { path: '/' });
     this.route('home');
     this.route('preferences');
@@ -1386,6 +1385,7 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
 
     this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
     this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
+    this.route('secret-yo');
   });
 });
 define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp', 'ember-data'], function (exports, _ember, _rsvp, _emberData) {
@@ -1591,6 +1591,13 @@ define('pix-live/routes/index', ['exports', 'ember'], function (exports, _ember)
 });
 define('pix-live/routes/preferences', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
+});
+define('pix-live/routes/secret-yo', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Route.extend({
+    model: function model() {
+      return this.store.findAll('user');
+    }
+  });
 });
 define('pix-live/serializers/airtable-serializer', ['exports', 'ember', 'ember-data'], function (exports, _ember, _emberData) {
 
@@ -8268,6 +8275,109 @@ define("pix-live/templates/preferences", ["exports"], function (exports) {
     };
   })());
 });
+define("pix-live/templates/secret-yo", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.2",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 6,
+              "column": 0
+            }
+          },
+          "moduleName": "pix-live/templates/secret-yo.hbs"
+        },
+        isEmpty: false,
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "container");
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("h3");
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode(" ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n        email: ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [1]);
+          var element1 = dom.childAt(element0, [1]);
+          var morphs = new Array(3);
+          morphs[0] = dom.createMorphAt(element1, 0, 0);
+          morphs[1] = dom.createMorphAt(element1, 2, 2);
+          morphs[2] = dom.createMorphAt(element0, 3, 3);
+          return morphs;
+        },
+        statements: [["content", "user.firstName", ["loc", [null, [3, 12], [3, 30]]], 0, 0, 0, 0], ["content", "user.lastName", ["loc", [null, [3, 31], [3, 48]]], 0, 0, 0, 0], ["content", "user.email", ["loc", [null, [4, 15], [4, 31]]], 0, 0, 0, 0]],
+        locals: ["user"],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.2",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 7,
+            "column": 0
+          }
+        },
+        "moduleName": "pix-live/templates/secret-yo.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["block", "each", [["get", "model", ["loc", [null, [1, 8], [1, 13]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [1, 0], [6, 9]]]]],
+      locals: [],
+      templates: [child0]
+    };
+  })());
+});
 define('pix-live/tests/mirage/mirage/config.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/config.js', function () {
     it('should pass ESLint', function () {
@@ -8464,7 +8574,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+12c57580"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+c67241b5"});
 }
 
 /* jshint ignore:end */
