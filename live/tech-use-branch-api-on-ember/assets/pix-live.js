@@ -66,7 +66,7 @@ define('pix-live/adapters/user', ['exports', 'ember-data'], function (exports, _
   exports['default'] = _emberData['default'].RESTAdapter.extend({
 
     namespace: 'api',
-    host: 'http://localhost:3000'
+    host: EmberENV.apiHost.current
 
   });
 });
@@ -8574,7 +8574,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+c67241b5"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+ef8df92a"});
 }
 
 /* jshint ignore:end */
