@@ -1,5 +1,6 @@
 export default function () {
   this.passthrough('https://api.airtable.com/**');
+  this.passthrough('http://localhost:3000/**');
 
   this.post('https://sentry.io/**', () => {
     return 200;

@@ -15,7 +15,11 @@ module.exports = function(environment) {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
       },
-      useDelay: true
+      useDelay: true,
+      apiHost: {
+        localhost: 'localhost:3000',
+        pix: 'pix-app.ovh'
+      }
     },
 
     APP: {
