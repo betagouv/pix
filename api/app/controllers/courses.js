@@ -1,3 +1,5 @@
+'use strict';
+
 const base = require('../../config/airtable').base;
 const Boom = require('boom');
 
