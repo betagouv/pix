@@ -8410,7 +8410,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+29cf39c3"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+31834424"});
 }
 
 /* jshint ignore:end */
