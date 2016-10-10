@@ -1825,6 +1825,18 @@ define('pix-live/tests/helpers/start-app.lint-test', ['exports'], function (expo
     });
   });
 });
+define('pix-live/tests/initializers/enable-sentry.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - initializers/enable-sentry.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('initializers/enable-sentry.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/initializers/infer-api-host.lint-test', ['exports'], function (exports) {
   'use strict';
 

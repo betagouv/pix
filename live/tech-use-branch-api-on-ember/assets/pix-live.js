@@ -876,6 +876,20 @@ define('pix-live/initializers/ember-data', ['exports', 'ember-data/setup-contain
     initialize: _emberDataSetupContainer['default']
   };
 });
+define('pix-live/initializers/enable-sentry', ['exports'], function (exports) {
+  exports.initialize = initialize;
+
+  function initialize() {
+    if (window.location.hostname === 'pix.beta.gouv.fr') {
+      Raven.config('https://4b60c9f39a844832956f840b9d0d1359@sentry.io/99479').install();
+    }
+  }
+
+  exports['default'] = {
+    name: 'enable-sentry',
+    initialize: initialize
+  };
+});
 define('pix-live/initializers/export-application-global', ['exports', 'ember', 'pix-live/config/environment'], function (exports, _ember, _pixLiveConfigEnvironment) {
   exports.initialize = initialize;
 
@@ -1005,16 +1019,7 @@ define("pix-live/instance-initializers/ember-data", ["exports", "ember-data/-pri
 define('pix-live/mirage/config', ['exports'], function (exports) {
   exports.testConfig = testConfig;
 
-  exports['default'] = function () {
-    this.passthrough('https://api.airtable.com/**');
-    this.passthrough('http://localhost:3000/**');
-    this.passthrough('http://**.pix-app.ovh/**');
-    this.passthrough('https://api-prod.pix-app.ovh/**');
-
-    this.post('https://sentry.io/**', function () {
-      return 200;
-    });
-  };
+  exports['default'] = function () {};
 
   function testConfig() {
 
@@ -8576,7 +8581,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+89d958fb"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+808d3520"});
 }
 
 /* jshint ignore:end */
