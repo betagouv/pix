@@ -880,7 +880,7 @@ define('pix-live/initializers/enable-sentry', ['exports'], function (exports) {
   exports.initialize = initialize;
 
   function initialize() {
-    if (window.location.hostname === 'pix.beta.gouv.fr') {
+    if (EmberENV.environment) {
       Raven.config('https://4b60c9f39a844832956f840b9d0d1359@sentry.io/99479').install();
     }
   }
@@ -8581,7 +8581,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+808d3520"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+0f4e15d9"});
 }
 
 /* jshint ignore:end */
