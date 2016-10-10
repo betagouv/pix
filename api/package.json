@@ -30,6 +30,7 @@
     "good-console": "6.1.2",
     "good-squeeze": "5.0.0",
     "hapi": "15.1.0",
+    "inject-then": "2.0.7",
     "knex": "0.12.1",
     "lodash": "4.16.3",
     "moment": "2.15.1",
@@ -41,7 +42,6 @@
   },
   "devDependencies": {
     "chai": "3.5.0",
-    "inject-then": "2.0.7",
     "mocha": "3.1.0",
     "nock": "8.0.0",
     "nodemon": "1.10.2",
