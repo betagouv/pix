@@ -11,7 +11,7 @@
     "db:migrate": "npm run knex migrate:latest",
     "db:seed": "npm run knex seed:run",
     "coverage": "NODE_ENV=test ./node_modules/.bin/istanbul cover _mocha -- -r tests/setup --recursive tests",
-    "eslint": "./node_modules/.bin/eslint app/**/*.js"
+    "lint": "./node_modules/.bin/eslint app/**/*.js"
   },
   "repository": {
     "type": "git",
