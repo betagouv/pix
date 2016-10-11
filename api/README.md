@@ -39,6 +39,10 @@ Run the tests in development mode, with sources watching.
 
 Run the test with code coverage (via Istanbul engine) and generate a report in `/coverage` folder.
 
+### `$ npm run lint`
+
+Run ESLint linter on `/app` source folder.
+
 
 ## Database
 
