@@ -1,0 +1,9 @@
+.challenge-tools-authorized {
+
+  text-align: center;
+
+  & .label-help {
+    font-size: 16px;
+  }
+
+}

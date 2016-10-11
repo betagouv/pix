@@ -66,6 +66,7 @@ const ChallengeItem = Ember.Component.extend({
     this._super(...arguments);
     this.set('selectedProposal', null);
     this.set('answers', {});
+    this.set('isAuthorized', Math.random() >= 0.5)
   },
   actions: {
 

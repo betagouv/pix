@@ -8,18 +8,23 @@
     border-radius: 0;
     border: none;
     border-bottom: 1px solid #dedfe2;
-    min-height: 80px;
+    /*min-height: 80px;*/
     margin-top: 0;
     overflow: visible;
     z-index: 4;
   }
 
+  & .navbar-text {
+     margin-top: 0px; 
+    margin-bottom: 0px;
+  }
+
   & .navbar-brand {
     padding: 5px 10px;
-    line-height: 80px;
+    /*line-height: 80px;*/
 
     & > img {
-      max-height: 80px;
+      max-height: 60px;
       padding-bottom: 8px;
       padding-top: 2px;
     }
@@ -57,4 +62,3 @@
     }
   }
 }
-
