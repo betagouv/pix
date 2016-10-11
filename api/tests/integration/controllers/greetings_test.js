@@ -1,17 +1,17 @@
 const server = require('../../../server');
 
-describe('/api/greetings', function () {
+describe('API | Greetings', function () {
 
   after(function (done) {
 
     server.stop(done);
   });
 
-  describe('route /', function () {
+  describe('GET /', function () {
+
+    const options = { method: "GET", url: "/" };
 
     it('/ should return "Hello, world!"', function (done) {
-
-      const options = { method: "GET", url: "/" };
 
       server.injectThen(options).then((response) => {
 
@@ -23,9 +23,9 @@ describe('/api/greetings', function () {
     });
   });
 
-  describe('route /{name}', function () {
+  describe('GET /:name', function () {
 
-    it('/ should return "Hello, {name}!"', function (done) {
+    it('should return "Hello, {name}!"', function (done) {
 
       const options = { method: "GET", url: "/test_name" };
 

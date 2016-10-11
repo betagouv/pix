@@ -1,21 +1,30 @@
-module.exports = [{
-  register: require('good'),
-  options: {
-    reporters: {
-      console: [{
-        module: 'good-squeeze',
-        name: 'Squeeze',
-        args: [{
-          response: '*',
-          log: '*'
-        }]
-      }, {
-        module: 'good-console'
-      }, 'stdout']
+'use strict';
+
+let plugins = [{ register: require('blipp') }];
+
+if (process.env.NODE_ENV === 'test') {
+
+  plugins.push({ register: require('inject-then') });
+
+} else {
+
+  plugins.push({
+    register: require('good'),
+    options: {
+      reporters: {
+        console: [{
+          module: 'good-squeeze',
+          name: 'Squeeze',
+          args: [{
+            response: '*',
+            log: '*'
+          }]
+        }, {
+          module: 'good-console'
+        }, 'stdout']
+      }
     }
-  }
-}, {
-  register: require('blipp')
-}, {
-  register: require('inject-then')
-}];
+  });
+}
+
+module.exports = plugins;

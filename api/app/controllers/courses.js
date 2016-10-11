@@ -33,7 +33,7 @@ module.exports = {
         if (error) {
           return reply(Boom.badImplementation(error));
         }
-        return reply(`{"course":${JSON.stringify(record)}}`).type('application/json');
+        return reply({ course: record });
       });
     }
   }
