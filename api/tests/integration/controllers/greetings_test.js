@@ -1,6 +1,4 @@
 const server = require('../../../server');
-const after = require('mocha').after;
-const expect = require('chai').expect;
 
 describe('/api/greetings', function () {
 

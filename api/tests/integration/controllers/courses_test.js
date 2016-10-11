@@ -1,9 +1,6 @@
 const pixApiServer = require('../../../server');
-const expect = require('chai').expect;
-const sinon = require('sinon');
-const nock = require('nock');
 
-describe('API Courses', function () {
+describe('Courses API', function () {
 
   let airTableFakeServer;
 

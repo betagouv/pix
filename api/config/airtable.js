@@ -1,8 +1,8 @@
 const Airtable = require('airtable');
-const settings = require('./settings');
+const airtableConfig = require('./settings').airtable;
 
 module.exports = {
 
-  base: new Airtable({ apiKey: settings.airtable.apiKey }).base(settings.airtable.base)
+  base: new Airtable({ apiKey: airtableConfig.apiKey }).base(airtableConfig.base)
 
 };
