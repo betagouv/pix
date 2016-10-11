@@ -15,29 +15,29 @@ $ curl http://localhost:3000/api/users
 
 Run the application in development mode.
 
-### `$ npm test`
-
-Run the tests.
-
 ### `$ npm run serve`
 
 Run the application in development mode, with sources watching (via [nodemon](http://nodemon.io/)).
 
-### `$ npm run knex migrate:make <migration_name>`
+### `$ npm run db:migrate`
 
-Create a database migration file.
+Update the database by applying new migration scripts  (cf. `/db/migration` files).
 
-### `$ npm run knex migrate:latest`
+### `$ npm run db:seed`
 
-Update the database.
+Seed the database with some data (cf. `/db/seed` files).
 
-### `$ npm run knex seed:make <seed_name>`
+### `$ npm test`
 
-Create a seed file for adding some data.
+Run the tests.
 
-### `$ npm run knex seed:run`
+### `$ npm run test:serve`
 
-Run the seed file.
+Run the tests in development mode, with sources watching.
+
+### `$ npm run coverage`
+
+Run the test with code coverage (via Istanbul engine) and generate a report in `/coverage` folder.
 
 
 ## Database
