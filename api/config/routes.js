@@ -23,7 +23,6 @@ module.exports = [
   { method: 'GET',  path: '/api/courses', config: Courses.list },
   { method: 'GET',  path: '/api/courses/{id}', config: Courses.get },
 
-  { method: 'GET',  path: '/api/challenges', config: Challenges.list },
   { method: 'GET',  path: '/api/challenges/{id}', config: Challenges.get }
 
 ].map((route) => {
