@@ -7,7 +7,7 @@
     "serve": "./node_modules/.bin/nodemon server.js",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha -r tests/setup --recursive tests",
     "test:serve": "NODE_ENV=test ./node_modules/.bin/mocha -r tests/setup --recursive tests --watch",
-    "knex": "node node_modules/knex/bin/cli --knexfile db/knexfile.js",
+    "knex": "node node_modules/.bin/knex --knexfile db/knexfile.js",
     "db:migrate": "npm run knex migrate:latest",
     "db:seed": "npm run knex seed:run"
   },
