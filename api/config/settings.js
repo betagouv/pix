@@ -27,7 +27,7 @@ module.exports = (function () {
     config.airtable = {
       apiKey: 'test-api-key',
       base: 'test-base'
-    }
+    };
   }
 
   return config;

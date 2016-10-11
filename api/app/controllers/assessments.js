@@ -1,7 +1,5 @@
 const Assessment = require('../models/assessment');
 
-const Boom = require('boom');
-
 module.exports = {
 
   list: {
@@ -9,7 +7,7 @@ module.exports = {
 
       Assessment.fetchAll().then((assessments) => {
 
-        reply(`{"assessments": ${JSON.stringify(assessments)} }`).type('application/json');
+        reply({ assessments });
       });
     }
   },
@@ -19,7 +17,7 @@ module.exports = {
       new Assessment(request.payload)
         .save()
         .then((assessment) => {
-          reply(`{"assessment": ${JSON.stringify(assessment)} }`).type('application/json');
+          reply({ assessment });
         });
     }
   },
