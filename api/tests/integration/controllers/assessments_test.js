@@ -2,11 +2,18 @@
 
 const server = require('../../../server');
 const Assessment = require('../../../app/models/assessment');
+const knexConfig = require('../../../db/knexfile');
+const knex = require('knex')(knexConfig['test']);
 
 describe('API | Assessments', function () {
 
-  after(function (done) {
+  before(function (done) {
+    knex.migrate.latest()
+      .then(function() { return knex.seed.run(); })
+      .then(function() { done(); });
+  });
 
+  after(function (done) {
     server.stop(done);
   });
 
@@ -38,7 +45,7 @@ describe('API | Assessments', function () {
         server.injectThen(options).then((response) => {
           Assessment.count().then(function (afterAssessmentsNumber) {
             // then
-            expect(actualAssessmentsNumber).to.equal(beforeAssessmentsNumber + 1);
+            expect(afterAssessmentsNumber).to.equal(beforeAssessmentsNumber + 1);
             done();
           });
         });

@@ -22,4 +22,4 @@
 *.iml
 
 # SQLite3 local dev file
-dev.sqlite3
+*.sqlite3

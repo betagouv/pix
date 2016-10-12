@@ -35,11 +35,12 @@ module.exports = {
       filename: './test.sqlite3'
     },
     migrations: {
-      directory: './migrations'
+      directory: `${__dirname}/migrations`
     },
     seeds: {
-      directory: './seeds'
-    }
+      directory: `${__dirname}/seeds`
+    },
+    useNullAsDefault: true
   }
 
 };
