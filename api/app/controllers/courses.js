@@ -2,6 +2,7 @@
 
 const base = require('../../config/airtable').base;
 const Boom = require('boom');
+const Course = require('../models/course');
 
 module.exports = {
 
@@ -13,7 +14,9 @@ module.exports = {
       base('Tests')
         .select({ view: 'PIX view' })
         .eachPage((records, fetchNextPage) => {
-          courses = courses.concat(records);
+          for (let record of records) {
+            courses.push(new Course(record));
+          }
           fetchNextPage();
         }, (error) => {
 
