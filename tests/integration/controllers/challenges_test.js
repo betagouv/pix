@@ -1,9 +1,9 @@
-const pixApiServer = require('../../../server');
+const server = require('../../../server');
 
 describe('API | Challenges', function () {
 
   after(function (done) {
-    pixApiServer.stop(done);
+    server.stop(done);
   });
 
   describe('GET /api/challenges/:challenge_id', function () {
@@ -62,14 +62,14 @@ describe('API | Challenges', function () {
     const options = { method: "GET", url: "/api/challenges/recLt9uwa2dR3IYpi" };
 
     it("should return 200 HTTP status code", function (done) {
-      pixApiServer.injectThen(options).then((response) => {
+      server.injectThen(options).then((response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it("should return application/json", function (done) {
-      pixApiServer.injectThen(options).then((response) => {
+      server.injectThen(options).then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -77,7 +77,7 @@ describe('API | Challenges', function () {
     });
 
     it("should return the expected challenge", function (done) {
-      pixApiServer.injectThen(options).then((response) => {
+      server.injectThen(options).then((response) => {
         const challenge = response.result.challenge;
         expect(challenge).to.exist;
         expect(challenge['id']).to.equal("recLt9uwa2dR3IYpi");

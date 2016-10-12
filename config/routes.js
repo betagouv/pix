@@ -15,10 +15,10 @@ module.exports = [
   { method: 'GET',  path: '/api/users/{id}', config: Users.get },
   { method: 'POST', path: '/api/users', config: Users.save },
 
-  { method: 'GET',  path: '/api/assessments', config: Assessments.list },
-
   { method: 'GET',  path: '/api/answers', config: Answers.list },
   { method: 'POST', path: '/api/answers', config: Answers.save },
+
+  { method: 'POST', path: '/api/assessments', config: Assessments.save },
 
   { method: 'GET',  path: '/api/courses', config: Courses.list },
   { method: 'GET',  path: '/api/courses/{id}', config: Courses.get },

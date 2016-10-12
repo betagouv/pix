@@ -1,9 +1,9 @@
-const pixApiServer = require('../../../server');
+const server = require('../../../server');
 
 describe('API | Courses', function () {
 
   after(function (done) {
-    pixApiServer.stop(done);
+    server.stop(done);
   });
 
   describe('GET /api/courses', function () {
@@ -41,14 +41,14 @@ describe('API | Courses', function () {
     const options = { method: "GET", url: "/api/courses" };
 
     it("should return 200 HTTP status code", function (done) {
-      pixApiServer.injectThen(options).then((response) => {
+      server.injectThen(options).then((response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it("should return application/json", function (done) {
-      pixApiServer.injectThen(options).then((response) => {
+      server.injectThen(options).then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -56,7 +56,7 @@ describe('API | Courses', function () {
     });
 
     it("should return all the courses from the tests referential", function (done) {
-      pixApiServer.injectThen(options).then((response) => {
+      server.injectThen(options).then((response) => {
         const courses = response.result.courses;
         expect(courses.length).to.equal(5);
         done();
@@ -112,14 +112,14 @@ describe('API | Courses', function () {
     const options = { method: "GET", url: "/api/courses/rec5duNNrPqbSzQ8o" };
 
     it("should return 200 HTTP status code", function (done) {
-      pixApiServer.injectThen(options).then((response) => {
+      server.injectThen(options).then((response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it("should return application/json", function (done) {
-      pixApiServer.injectThen(options).then((response) => {
+      server.injectThen(options).then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -127,7 +127,7 @@ describe('API | Courses', function () {
     });
 
     it("should return the expected course", function (done) {
-      pixApiServer.injectThen(options).then((response) => {
+      server.injectThen(options).then((response) => {
         const course = response.result.course;
         expect(course).to.exist;
         expect(course.fields['Nom']).to.equal("A la recherche de l'information #01");
