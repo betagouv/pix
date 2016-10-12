@@ -896,6 +896,18 @@ define('pix-live/initializers/export-application-global', ['exports', 'ember', '
   function initialize() {
     var application = arguments[1] || arguments[0];
     if (_pixLiveConfigEnvironment['default'].exportApplicationGlobal !== false) {
+      var theGlobal;
+      if (typeof window !== 'undefined') {
+        theGlobal = window;
+      } else if (typeof global !== 'undefined') {
+        theGlobal = global;
+      } else if (typeof self !== 'undefined') {
+        theGlobal = self;
+      } else {
+        // no reasonable global, just bail
+        return;
+      }
+
       var value = _pixLiveConfigEnvironment['default'].exportApplicationGlobal;
       var globalName;
 
@@ -905,13 +917,13 @@ define('pix-live/initializers/export-application-global', ['exports', 'ember', '
         globalName = _ember['default'].String.classify(_pixLiveConfigEnvironment['default'].modulePrefix);
       }
 
-      if (!window[globalName]) {
-        window[globalName] = application;
+      if (!theGlobal[globalName]) {
+        theGlobal[globalName] = application;
 
         application.reopen({
           willDestroy: function willDestroy() {
             this._super.apply(this, arguments);
-            delete window[globalName];
+            delete theGlobal[globalName];
           }
         });
       }
@@ -1756,11 +1768,7 @@ define('pix-live/serializers/course', ['exports', 'ember', 'pix-live/serializers
   });
 });
 define('pix-live/serializers/user', ['exports', 'ember-data'], function (exports, _emberData) {
-  exports['default'] = _emberData['default'].RESTSerializer.extend({
-    keyForAttribute: function keyForAttribute(attr) {
-      return Ember.String.underscore(attr);
-    }
-  });
+  exports['default'] = _emberData['default'].RESTSerializer.extend({});
 });
 define('pix-live/services/ajax', ['exports', 'ember-ajax/services/ajax'], function (exports, _emberAjaxServicesAjax) {
   Object.defineProperty(exports, 'default', {
@@ -4668,12 +4676,13 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var element5 = dom.childAt(fragment, [3, 1]);
-          var morphs = new Array(2);
+          var morphs = new Array(3);
           morphs[0] = dom.createAttrMorph(element5, 'href');
-          morphs[1] = dom.createMorphAt(element5, 5, 5);
+          morphs[1] = dom.createAttrMorph(element5, 'download');
+          morphs[2] = dom.createMorphAt(element5, 5, 5);
           return morphs;
         },
-        statements: [["attribute", "href", ["concat", [["get", "challenge.attachmentUrl", ["loc", [null, [16, 21], [16, 44]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "challenge.attachmentFilename", ["loc", [null, [19, 12], [19, 44]]], 0, 0, 0, 0]],
+        statements: [["attribute", "href", ["concat", [["get", "challenge.attachmentUrl", ["loc", [null, [16, 21], [16, 44]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "download", ["concat", [["get", "challenge.attachmentFilename", ["loc", [null, [16, 91], [16, 119]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "challenge.attachmentFilename", ["loc", [null, [19, 12], [19, 44]]], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
@@ -8581,7 +8590,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+0aa63546"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+f7478619"});
 }
 
 /* jshint ignore:end */
