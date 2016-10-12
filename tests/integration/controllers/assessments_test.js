@@ -39,7 +39,7 @@ describe('API | Assessments', function () {
       });
     });
 
-    it("should persist new Assessment entity into the database", function (done) {
+    it("should persist add a new assessment into the database", function (done) {
       // given
       Assessment.count().then(function (beforeAssessmentsNumber) {
         // when
@@ -50,21 +50,6 @@ describe('API | Assessments', function () {
             done();
           });
         });
-      });
-    });
-
-    it("should return persisted assessement", function (done) {
-
-      // when
-      server.injectThen(options).then((response) => {
-        const assessment = response.result.assessment;
-
-        // then
-        expect(assessment.get('userId')).to.equal(options.payload.userId);
-        expect(assessment.get('courseId')).to.equal(options.payload.courseId);
-        expect(assessment.get('id')).to.exist;
-
-        done();
       });
     });
 
@@ -84,55 +69,20 @@ describe('API | Assessments', function () {
       });
     });
 
-    // it("should persisted assessement with course fetched from PIX-REF", function (done) {
-    //
-    //
-    //   // when
-    //   server.injectThen(options).then((response) => {
-    //     const assessment = response.result;
-    //
-    //     console.log(`assessment: ${JSON.stringify(assessment)}`);
-    //
-    //
-    //     // then
-    //     expect(assessment.id).to.exist;
-    //     expect(assessment.get('userId')).to.equal(options.payload.userId);
-    //
-    //     // expect(assessment.get('userId')).to.equal(234);
-    //     // expect(assessment.get('courseId')).to.be.defined;
-    //     done();
-    //   });
-    // });
+    it("should return persisted assessement", function (done) {
 
+      // when
+      server.injectThen(options).then((response) => {
+        const assessment = response.result.assessment.toJSON();
 
-    // it("should return persisted assessement with attributes well saved", function (done) {
-    //   // given
-    //   options.payload = {
-    //     courseId: '',
-    //     userId: 1
-    //   };
+        // then
+        expect(assessment.userId).to.equal(options.payload.userId);
+        expect(assessment.courseId).to.equal(options.payload.courseId);
+        expect(assessment.id).to.exist;
 
-    //
-    //   // when
-    //   server.injectThen(options).then((response) => {
-    //     const assessment = response.result;//
-    //
-    //     console.log(`assessment: ${JSON.stringify(assessment)}`);
-    //
-    //     // then
-    //     // expect(assessment.id).to.exist;
-    //     expect(assessment.get('id')).to.be.defined;
-    //     expect(assessment.get('answers')).to.be.undefined;
-    //       // expect(assessment.course).to.deep.equal();
-    //     done();
-    //   });
-    // });
-
-
-
-
-
-
+        done();
+      });
+    });
 
   });
 
