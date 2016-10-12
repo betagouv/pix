@@ -7,7 +7,7 @@ module.exports = {
 
       User.fetchAll().then((users) => {
 
-        reply(`{"users": ${JSON.stringify(users)} }`).type('application/json');
+        reply(users);
       });
     }
   },
@@ -17,7 +17,7 @@ module.exports = {
 
       new User({ id: request.params.id }).fetch().then((user) => {
 
-        reply(`{"user": ${JSON.stringify(user)} }`).type('application/json');
+        reply(user);
       });
     }
   },
@@ -27,7 +27,7 @@ module.exports = {
 
       const user = new User(request.payload);
       user.save().then(() => {
-        reply(`{"user": ${JSON.stringify(user)} }`).type('application/json');
+        reply(user);
       });
 
     }

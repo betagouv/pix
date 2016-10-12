@@ -12,7 +12,7 @@ module.exports = {
         if (error) {
           return reply(Boom.badImplementation(error));
         }
-        return reply({ challenge: record });
+        return reply(record);
       });
     }
   }

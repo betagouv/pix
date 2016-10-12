@@ -9,7 +9,7 @@ module.exports = {
         courseId: request.payload.courseId
       });
       newAssessment.save().then(function (assessment) {
-        return reply({assessment}).code(201);
+        return reply(assessment).code(201);
       });
     }
   }

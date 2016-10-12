@@ -23,7 +23,7 @@ module.exports = {
           if (error) {
             return reply(Boom.badImplementation(error));
           }
-          return reply({ courses });
+          return reply(courses);
         });
     }
   },
@@ -36,7 +36,7 @@ module.exports = {
         if (error) {
           return reply(Boom.badImplementation(error));
         }
-        return reply({ course: record });
+        return reply(record);
       });
     }
   }

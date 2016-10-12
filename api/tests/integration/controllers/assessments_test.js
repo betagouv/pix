@@ -58,7 +58,7 @@ describe('API | Assessments', function () {
       // when
       server.injectThen(options).then((response) => {
 
-        new Assessment({ id: response.result.assessment.id })
+        new Assessment({ id: response.result.id })
           .fetch()
           .then(function (model) {
             expect(model.get('userId')).to.equal(options.payload.userId);
@@ -73,7 +73,7 @@ describe('API | Assessments', function () {
 
       // when
       server.injectThen(options).then((response) => {
-        const assessment = response.result.assessment.toJSON();
+        const assessment = response.result.toJSON();
 
         // then
         expect(assessment.userId).to.equal(options.payload.userId);

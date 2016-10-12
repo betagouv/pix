@@ -78,7 +78,7 @@ describe('API | Challenges', function () {
 
     it("should return the expected challenge", function (done) {
       server.injectThen(options).then((response) => {
-        const challenge = response.result.challenge;
+        const challenge = response.result;
         expect(challenge).to.exist;
         expect(challenge['id']).to.equal("recLt9uwa2dR3IYpi");
         expect(challenge.fields['Consigne']).to.equal("Que peut-on dire des œufs de catégorie A ?\n");

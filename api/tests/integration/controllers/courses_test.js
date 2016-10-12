@@ -57,7 +57,7 @@ describe('API | Courses', function () {
 
     it("should return all the courses from the tests referential", function (done) {
       server.injectThen(options).then((response) => {
-        const courses = response.result.courses;
+        const courses = response.result;
         expect(courses.length).to.equal(5);
         done();
       });
@@ -128,7 +128,7 @@ describe('API | Courses', function () {
 
     it("should return the expected course", function (done) {
       server.injectThen(options).then((response) => {
-        const course = response.result.course;
+        const course = response.result;
         expect(course).to.exist;
         expect(course.fields['Nom']).to.equal("A la recherche de l'information #01");
         expect(course.fields['Description']).to.equal("Mener une recherche et une veille d'information");
