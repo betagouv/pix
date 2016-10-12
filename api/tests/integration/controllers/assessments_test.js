@@ -20,7 +20,8 @@ describe('API | Assessments', function () {
   describe('POST /api/assessments', function () {
 
     const options = { method: "POST", url: "/api/assessments", payload: {
-
+      userId: 1,
+      courseId: 'testedCourseId'
     }};
 
     it("should return 201 HTTP status code", function (done) {
@@ -51,6 +52,87 @@ describe('API | Assessments', function () {
         });
       });
     });
+
+    it("should return persisted assessement", function (done) {
+
+      // when
+      server.injectThen(options).then((response) => {
+        const assessment = response.result.assessment;
+
+        // then
+        expect(assessment.get('userId')).to.equal(options.payload.userId);
+        expect(assessment.get('courseId')).to.equal(options.payload.courseId);
+        expect(assessment.get('id')).to.exist;
+
+        done();
+      });
+    });
+
+    it("should persist the given course ID and user ID", function (done) {
+
+      // when
+      server.injectThen(options).then((response) => {
+
+        new Assessment({id: response.result.assessment.id})
+          .fetch()
+          .then(function(model) {
+            expect(model.get('userId')).to.equal(options.payload.userId);
+            expect(model.get('courseId')).to.equal(options.payload.courseId);
+            done();
+          });
+
+      });
+    });
+
+    // it("should persisted assessement with course fetched from PIX-REF", function (done) {
+    //
+    //
+    //   // when
+    //   server.injectThen(options).then((response) => {
+    //     const assessment = response.result;
+    //
+    //     console.log(`assessment: ${JSON.stringify(assessment)}`);
+    //
+    //
+    //     // then
+    //     expect(assessment.id).to.exist;
+    //     expect(assessment.get('userId')).to.equal(options.payload.userId);
+    //
+    //     // expect(assessment.get('userId')).to.equal(234);
+    //     // expect(assessment.get('courseId')).to.be.defined;
+    //     done();
+    //   });
+    // });
+
+
+    // it("should return persisted assessement with attributes well saved", function (done) {
+    //   // given
+    //   options.payload = {
+    //     courseId: '',
+    //     userId: 1
+    //   };
+
+    //
+    //   // when
+    //   server.injectThen(options).then((response) => {
+    //     const assessment = response.result;//
+    //
+    //     console.log(`assessment: ${JSON.stringify(assessment)}`);
+    //
+    //     // then
+    //     // expect(assessment.id).to.exist;
+    //     expect(assessment.get('id')).to.be.defined;
+    //     expect(assessment.get('answers')).to.be.undefined;
+    //       // expect(assessment.course).to.deep.equal();
+    //     done();
+    //   });
+    // });
+
+
+
+
+
+
 
   });
 
