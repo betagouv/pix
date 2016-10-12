@@ -2,15 +2,13 @@
 
 const server = require('../../../server');
 const Assessment = require('../../../app/models/assessment');
-const knexConfig = require('../../../db/knexfile');
-const knex = require('knex')(knexConfig['test']);
 
 describe('API | Assessments', function () {
 
   before(function (done) {
-    knex.migrate.latest()
-      .then(function() { return knex.seed.run(); })
-      .then(function() { done(); });
+    knex.seed.run().then(() => {
+      done();
+    });
   });
 
   after(function (done) {
@@ -19,10 +17,12 @@ describe('API | Assessments', function () {
 
   describe('POST /api/assessments', function () {
 
-    const options = { method: "POST", url: "/api/assessments", payload: {
-      userId: 1,
-      courseId: 'testedCourseId'
-    }};
+    const options = {
+      method: "POST", url: "/api/assessments", payload: {
+        userId: 1,
+        courseId: 'testedCourseId'
+      }
+    };
 
     it("should return 201 HTTP status code", function (done) {
       server.injectThen(options).then((response) => {
@@ -58,9 +58,9 @@ describe('API | Assessments', function () {
       // when
       server.injectThen(options).then((response) => {
 
-        new Assessment({id: response.result.assessment.id})
+        new Assessment({ id: response.result.assessment.id })
           .fetch()
-          .then(function(model) {
+          .then(function (model) {
             expect(model.get('userId')).to.equal(options.payload.userId);
             expect(model.get('courseId')).to.equal(options.payload.courseId);
             done();
