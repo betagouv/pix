@@ -9,7 +9,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
+describe.skip("Acceptance | 38 - S'identifier sur la plateforme", function () {
 
   let application;
 

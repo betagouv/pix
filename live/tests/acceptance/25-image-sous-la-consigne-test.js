@@ -9,7 +9,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe("Acceptance | 25 - Afficher une image sous la consigne | ", function () {
+describe.skip("Acceptance | 25 - Afficher une image sous la consigne | ", function () {
   let application;
   let challenge;
 

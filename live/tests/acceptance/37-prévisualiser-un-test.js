@@ -9,7 +9,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import markdownit from 'markdown-it';
 
-describe('Acceptance | 37 - Prévisualiser un test |', function () {
+describe.skip('Acceptance | 37 - Prévisualiser un test |', function () {
 
   let challenges;
   let course;

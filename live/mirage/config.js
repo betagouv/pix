@@ -4,13 +4,14 @@ export default function () {
 export function testConfig() {
 
   const AIRTABLE_ROOT = 'https://api.airtable.com/v0';
+  const PIX_API_ROOT = 'http://localhost:3000/api';
   const AIRTABLE_DATABASE = 'appHAIFk9u1qqglhX';
 
-  this.get(`${AIRTABLE_ROOT}/${AIRTABLE_DATABASE}/Tests`, function (schema) {
+  this.get(`${PIX_API_ROOT}/courses`, function (schema) {
     return schema.courseAirtables.all();
   });
 
-  this.get(`${AIRTABLE_ROOT}/${AIRTABLE_DATABASE}/Tests/:id`, function (schema, request) {
+  this.get(`${PIX_API_ROOT}/courses/:id`, function (schema, request) {
     return schema.courseAirtables.find(request.params.id);
   });
 

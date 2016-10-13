@@ -1,12 +1,9 @@
-import { faker } from 'ember-cli-mirage';
-import AirtableFactory from './airtable-record';
+import { Factory, faker } from 'ember-cli-mirage';
 
-export default AirtableFactory.extend({
-  fields() {
-    return {
-      "Consigne": faker.lorem.paragraphs(2),
-      "Propositions": "- yo \n - yo yo \n - yo yo yo",
-      "Type d'épreuve": 'QCU'
-    }
-  }
+export default Factory.extend({
+  id: faker.random.uuid(),
+  instruction: faker.lorem.paragraphs(2),
+  proposals: "- yo \n - yo yo \n - yo yo yo",
+  type: 'QCU'
+
 });

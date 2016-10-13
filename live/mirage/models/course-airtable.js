@@ -1,12 +1,11 @@
-import AirtableRecord from './airtable-record';
-import attr from 'ember-data/attr';
+import { Model } from 'ember-cli-mirage';
 import { hasMany } from "ember-cli-mirage";
+import attr from 'ember-data/attr';
 
-export default AirtableRecord.extend({
-  fields: {
-    Nom: attr('string'),
-    Description: attr('string'),
-    Image: [attr('string')],
-    "Épreuves": hasMany('challenge-airtable')
-  }
+export default Model.extend({
+  id: attr('string'),
+  name: attr('string'),
+  description: attr('string'),
+  imageUrl: [attr('string')],
+  challenges: hasMany('challenge-airtable')
 });

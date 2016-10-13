@@ -1,10 +1,10 @@
-import AirtableRecord from './airtable-record';
+import { Model } from 'ember-cli-mirage';
+import { hasMany } from "ember-cli-mirage";
 import attr from 'ember-data/attr';
 
-export default AirtableRecord.extend({
-  fields: {
-    "Consigne": attr('string'),
-    "Propositions QCU / QCM": attr('string'),
-    "Type d'épreuve": attr('string')
-  }
+export default Model.extend({
+  id: attr('string'),
+  instruction: attr('string'),
+  type: attr('string'),
+  proposals: attr('string')
 });

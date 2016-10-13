@@ -9,7 +9,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import markdownit from 'markdown-it';
 
-describe('Acceptance | 4 - Démarrer une épreuve |', function() {
+describe.skip('Acceptance | 4 - Démarrer une épreuve |', function() {
 
   const propositions = [
     'proposition 1', 'proposition 2', 'proposition 3'

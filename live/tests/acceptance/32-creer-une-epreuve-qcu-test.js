@@ -9,7 +9,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import markdownit from 'markdown-it';
 
-describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
+describe.skip('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
 
   let application;
   let challenge;

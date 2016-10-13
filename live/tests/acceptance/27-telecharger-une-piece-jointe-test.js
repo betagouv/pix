@@ -9,7 +9,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe("Acceptance | 27 - Télécharger une pièce jointe depuis la consigne d'une épreuve | ", function () {
+describe.skip("Acceptance | 27 - Télécharger une pièce jointe depuis la consigne d'une épreuve | ", function () {
   let application;
   let challenge;
 

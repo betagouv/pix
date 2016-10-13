@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
+describe.skip("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
 
   let application;
   let assessment;
