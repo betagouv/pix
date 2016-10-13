@@ -1,4 +1,6 @@
 const server = require('../../../server');
+const _ = require('lodash');
+const util = require('util');
 
 describe('API | Courses', function () {
 
@@ -128,10 +130,9 @@ describe('API | Courses', function () {
 
     it("should return the expected course", function (done) {
       server.injectThen(options).then((response) => {
-        const course = response.result;
-        expect(course).to.exist;
-        expect(course.fields['Nom']).to.equal("A la recherche de l'information #01");
-        expect(course.fields['Description']).to.equal("Mener une recherche et une veille d'information");
+        const course = response.result.toJSON();
+        expect(course.name).to.equal("A la recherche de l'information #01");
+        expect(course.description).to.equal("Mener une recherche et une veille d'information");
         done();
       });
     });

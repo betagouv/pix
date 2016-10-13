@@ -36,7 +36,7 @@ module.exports = {
         if (error) {
           return reply(Boom.badImplementation(error));
         }
-        return reply(record);
+        return reply(new Course(record));
       });
     }
   }
