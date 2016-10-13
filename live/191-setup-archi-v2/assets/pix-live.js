@@ -26,9 +26,12 @@ define("pix-live/adapters/answer", ["exports", "pix-live/adapters/airtable"], fu
 
   });
 });
-define('pix-live/adapters/application', ['exports', 'ember-data/adapters/rest'], function (exports, _emberDataAdaptersRest) {
-  exports['default'] = _emberDataAdaptersRest['default'].extend({
+define('pix-live/adapters/application', ['exports', 'ember-data'], function (exports, _emberData) {
+  exports['default'] = _emberData['default'].RESTAdapter.extend({
+
+    namespace: 'api',
     host: EmberENV.apiHost.current
+
   });
 });
 define("pix-live/adapters/assessment", ["exports", "pix-live/adapters/airtable"], function (exports, _pixLiveAdaptersAirtable) {
@@ -46,27 +49,6 @@ define("pix-live/adapters/challenge", ["exports", "pix-live/adapters/airtable"],
     pathForType: function pathForType() {
       return 'Epreuves';
     }
-
-  });
-});
-define('pix-live/adapters/course', ['exports', 'pix-live/adapters/airtable'], function (exports, _pixLiveAdaptersAirtable) {
-  exports['default'] = _pixLiveAdaptersAirtable['default'].extend({
-
-    pathForType: function pathForType() {
-      return 'Tests';
-    },
-
-    urlForFindAll: function urlForFindAll() {
-      var url = this._super.apply(this, arguments);
-      return url + '?view=' + encodeURIComponent('PIX view');
-    }
-  });
-});
-define('pix-live/adapters/user', ['exports', 'ember-data'], function (exports, _emberData) {
-  exports['default'] = _emberData['default'].RESTAdapter.extend({
-
-    namespace: 'api',
-    host: EmberENV.apiHost.current
 
   });
 });
@@ -1688,6 +1670,9 @@ define('pix-live/serializers/answer', ['exports', 'pix-live/serializers/airtable
     }
   });
 });
+define('pix-live/serializers/application', ['exports', 'ember-data'], function (exports, _emberData) {
+  exports['default'] = _emberData['default'].JSONSerializer.extend({});
+});
 define('pix-live/serializers/assessment', ['exports', 'pix-live/serializers/airtable-serializer'], function (exports, _pixLiveSerializersAirtableSerializer) {
   exports['default'] = _pixLiveSerializersAirtableSerializer['default'].extend({
 
@@ -1741,30 +1726,6 @@ define('pix-live/serializers/challenge', ['exports', 'pix-live/serializers/airta
 
       return result;
     }
-  });
-});
-define('pix-live/serializers/course', ['exports', 'ember', 'pix-live/serializers/airtable-serializer'], function (exports, _ember, _pixLiveSerializersAirtableSerializer) {
-  exports['default'] = _pixLiveSerializersAirtableSerializer['default'].extend({
-
-    transformFields: function transformFields(fields) {
-      var result = {
-        name: fields['Nom'],
-        description: fields['Description'],
-        duration: fields['Durée'],
-        challenges: fields['Épreuves']
-      };
-
-      if (_ember['default'].isArray(result.challenges)) {
-        result.challenges.reverse();
-      }
-
-      if (fields['Image'] && fields['Image'].length > 0) {
-        result.imageUrl = fields['Image'][0].url;
-      }
-
-      return result;
-    }
-
   });
 });
 define('pix-live/serializers/user', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -8590,7 +8551,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+c2680202"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+a99ac89c"});
 }
 
 /* jshint ignore:end */

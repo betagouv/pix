@@ -1048,30 +1048,6 @@ define('pix-live/tests/adapters/challenge.lint-test', ['exports'], function (exp
     });
   });
 });
-define('pix-live/tests/adapters/course.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - adapters/course.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('adapters/course.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/adapters/user.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - adapters/user.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('adapters/user.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/app.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2466,6 +2442,18 @@ define('pix-live/tests/serializers/answer.lint-test', ['exports'], function (exp
     });
   });
 });
+define('pix-live/tests/serializers/application.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - serializers/application.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('serializers/application.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/serializers/assessment.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2485,18 +2473,6 @@ define('pix-live/tests/serializers/challenge.lint-test', ['exports'], function (
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('serializers/challenge.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/serializers/course.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - serializers/course.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('serializers/course.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -2561,31 +2537,6 @@ define('pix-live/tests/test-helper.lint-test', ['exports'], function (exports) {
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('test-helper.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/unit/adapters/user-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
-
-  (0, _emberMocha.describeModule)('adapter:user', 'Unit | Adapter | user', {
-    // Specify the other units that are required for this test.
-    // needs: ['serializer:foo']
-  }, function () {
-    // Replace this with your real tests.
-    (0, _emberMocha.it)('exists', function () {
-      var adapter = this.subject();
-      (0, _chai.expect)(adapter).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/adapters/user-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - unit/adapters/user-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/adapters/user-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
