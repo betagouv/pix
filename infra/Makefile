@@ -1,7 +1,7 @@
 FQDN=pix-app.ovh
 
 REMOTE=ubuntu@$(FQDN)
-REMOTE_CMD=pssh -P --user ubuntu --host pix-app.ovh 
+REMOTE_CMD=ssh -l ubuntu pix-app.ovh
 REMOTE_INSTALL_DIR=/home/ubuntu/install
 
 renew-ssh:
@@ -19,9 +19,9 @@ install_dokku_client:
 
 reset-database-development:
 	scp ./administrative_tasks/reboot_database.sh $(REMOTE):/tmp/
-	$(REMOTE_CMD) sudo bash /tmp/reboot_database.sh pg-development
+	$(REMOTE_CMD) sudo bash /tmp/reboot_database.sh pg-development api-development
 
 reset-database-production:
 	scp ./administrative_tasks/reboot_database.sh $(REMOTE):/tmp/
-	$(REMOTE_CMD) sudo bash /tmp/reboot_database.sh pg-prod
+	$(REMOTE_CMD) sudo bash /tmp/reboot_database.sh pg-prod api-prod
 
