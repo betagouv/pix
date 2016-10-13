@@ -3,19 +3,22 @@ const AirtableModel = require('./airtable-model');
 class Course extends AirtableModel {
 
   toJSON() {
-    let imageUrl;
-    if (this.record.fields['Image'] && this.record.fields['Image'].length > 0) {
-      imageUrl = this.record.fields['Image'][0].url;
+
+    const fields = this.record.fields;
+
+    const result = {
+      id: this.record.id,
+      name: fields['Nom'],
+      description: fields['Description'],
+      duration: fields['Durée'],
+      challenges: fields['Épreuves'],
+    };
+
+    if (fields['Image'] && fields['Image'].length > 0) {
+      result.imageUrl = fields['Image'][0].url;
     }
 
-    return {
-      id: this.record.id,
-      name: this.record.fields['Nom'],
-      description: this.record.fields['Description'],
-      duration: this.record.fields['Durée'],
-      challenges: this.record.fields['Épreuves'],
-      imageUrl
-    };
+    return result;
   }
 
 }
