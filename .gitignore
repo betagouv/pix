@@ -23,3 +23,6 @@
 
 # SQLite3 local dev file
 *.sqlite3
+
+# system
+.DS_Store
