@@ -1,21 +1,29 @@
+'use strict';
+
 const base = require('../../config/airtable').base;
 const Boom = require('boom');
-const Challenge = require('../models/challenge');
+const challengeRepository = require('../repositories/challenge-repository');
+
 
 module.exports = {
 
-  get: {
-
+  list: {
     handler: (request, reply) => {
 
-      base('Epreuves').find(request.params.id, (error, record) => {
+      challengeRepository
+        .list()
+        .then((challenges) => reply(challenges))
+        .catch((error) => reply(Boom.badImplementation(error)));
+    }
+  },
 
-        if (error) {
-          return reply(Boom.badImplementation(error));
-        }
-        return reply(new Challenge(record));
-      });
+  get: {
+    handler: (request, reply) => {
+
+      challengeRepository
+        .get(request.params.id)
+        .then((challenge) => reply(challenge))
+        .catch((error) => reply(Boom.badImplementation(error)));
     }
   }
-
 };

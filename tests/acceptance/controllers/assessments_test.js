@@ -1,7 +1,7 @@
 'use strict';
 
 const server = require('../../../server');
-const Assessment = require('../../../app/models/assessment');
+const Assessment = require('../../../app/models/data/assessment');
 
 describe('API | Assessments', function () {
 
@@ -39,7 +39,7 @@ describe('API | Assessments', function () {
       });
     });
 
-    it("should persist add a new assessment into the database", function (done) {
+    it("should add a new assessment into the database", function (done) {
       // given
       Assessment.count().then(function (beforeAssessmentsNumber) {
         // when

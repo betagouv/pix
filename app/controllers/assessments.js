@@ -1,16 +1,34 @@
-const Assessment = require('../models/assessment');
+'use strict';
+
+const Boom = require('boom');
+const Assessment = require('../models/data/assessment');
+const Answer = require('../models/data/answer');
+const assessmentService = require('../services/assessment-service');
 
 module.exports = {
 
   save: {
     handler: (request, reply) => {
-      const newAssessment = new Assessment({
+
+      return new Assessment({
         userId: request.payload.userId,
         courseId: request.payload.courseId
-      });
-      newAssessment.save().then(function (assessment) {
-        return reply(assessment).code(201);
-      });
+      })
+        .save()
+        .then((assessment) => reply(assessment).code(201))
+        .catch((error) => reply(Boom.badImplementation(error)));
+    }
+  },
+
+  saveAnswer: {
+    handler: (request, reply) => {
+      let assessment;
+      let challengeId;
+      return new Answer(request.payload)
+        .save()
+        .then((answer) => assessmentService.getAssessmentNextChallengeId(assessment, challengeId))
+        .then((nextChallengeId) => reply(nextChallengeId).code(201))
+        .catch((error) => reply(Boom.badImplementation(error)));
     }
   }
 

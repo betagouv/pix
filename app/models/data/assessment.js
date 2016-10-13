@@ -1,4 +1,6 @@
-const Bookshelf = require('../../config/bookshelf');
+'use strict';
+
+const Bookshelf = require('../../../config/bookshelf');
 const User = require('./user');
 const Answer = require('./answer');
 
