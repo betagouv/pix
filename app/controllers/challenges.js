@@ -1,5 +1,6 @@
 const base = require('../../config/airtable').base;
 const Boom = require('boom');
+const Challenge = require('../models/challenge');
 
 module.exports = {
 
@@ -12,7 +13,7 @@ module.exports = {
         if (error) {
           return reply(Boom.badImplementation(error));
         }
-        return reply(record);
+        return reply(new Challenge(record));
       });
     }
   }

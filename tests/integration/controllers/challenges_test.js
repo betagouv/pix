@@ -78,12 +78,12 @@ describe('API | Challenges', function () {
 
     it("should return the expected challenge", function (done) {
       server.injectThen(options).then((response) => {
-        const challenge = response.result;
+        const challenge = response.result.toJSON();
         expect(challenge).to.exist;
         expect(challenge['id']).to.equal("recLt9uwa2dR3IYpi");
-        expect(challenge.fields['Consigne']).to.equal("Que peut-on dire des œufs de catégorie A ?\n");
-        expect(challenge.fields['description']).to.equal("catégorie oeuf");
-        expect(challenge.fields['domaine']).to.equal("1. Information et données");
+        expect(challenge.instruction).to.equal("Que peut-on dire des œufs de catégorie A ?\n");
+        expect(challenge.proposals).to.equal("- Ils sont bio.\n- Ils pèsent plus de 63 grammes.\n- Ce sont des oeufs frais.\n- Ils sont destinés aux consommateurs.\n- Ils ne sont pas lavés.\n");
+        expect(challenge.type).to.equal("QCM");
         done();
       });
     });

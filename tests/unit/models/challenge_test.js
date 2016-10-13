@@ -17,16 +17,16 @@ describe('Model | Challenge', function () {
     });
 
     [
-      { airtableField: 'Consigne', airtableValue: 'challenge_instruction', modelProperty: 'instruction' },
-      { airtableField: 'Propositions', airtableValue: 'challenge_proposals', modelProperty: 'proposals' },
-      { airtableField: "Type d'épreuve", airtableValue: 'challenge_type', modelProperty: 'type' }
+      { airtableField: 'Consigne', modelProperty: 'instruction' },
+      { airtableField: 'Propositions', modelProperty: 'proposals' },
+      { airtableField: "Type d'épreuve", modelProperty: 'type' }
 
-    ].forEach(({ airtableField, airtableValue, modelProperty }) => {
+    ].forEach(({ airtableField, modelProperty }) => {
 
       it(`should convert record "${airtableField}" field into "${modelProperty}" property`, function () {
         // given
         fields = [];
-        fields[airtableField] = airtableValue;
+        fields[airtableField] = 'testedValue';
         const airtableRecord = { fields };
         const challenge = new Challenge(airtableRecord);
 
