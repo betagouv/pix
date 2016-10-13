@@ -3,8 +3,9 @@ export default function () {
 
 export function testConfig() {
 
-  const AIRTABLE_ROOT = 'https://api.airtable.com/v0';
   const PIX_API_ROOT = 'http://localhost:3000/api';
+
+  const AIRTABLE_ROOT = 'https://api.airtable.com/v0';
   const AIRTABLE_DATABASE = 'appHAIFk9u1qqglhX';
 
   this.get(`${PIX_API_ROOT}/courses`, function (schema) {
@@ -15,11 +16,11 @@ export function testConfig() {
     return schema.courseAirtables.find(request.params.id);
   });
 
-  this.get(`${AIRTABLE_ROOT}/${AIRTABLE_DATABASE}/Epreuves/:id`, function (schema, request) {
+  this.get(`${PIX_API_ROOT}/challenges/:id`, function (schema, request) {
     return schema.challengeAirtables.find(request.params.id);
   });
 
-  this.get(`${AIRTABLE_ROOT}/${AIRTABLE_DATABASE}/Evaluations/:id`, function (schema, request) {
+  this.get(`${PIX_API_ROOT}/challenges/:id`, function (schema, request) {
     return schema.assessmentAirtables.find(request.params.id);
   });
 
