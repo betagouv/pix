@@ -1,4 +1,6 @@
-const User = require('../models/user');
+'use strict';
+
+const User = require('../models/data/user');
 
 module.exports = {
 

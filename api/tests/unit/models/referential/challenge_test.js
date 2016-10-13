@@ -1,19 +1,18 @@
-const Challenge = require('../../../app/models/challenge');
+const Challenge = require('../../../../app/models/referential/challenge');
 
 describe('Model | Challenge', function () {
 
-  describe('#toJSON', function () {
+  describe('#initialize()', function () {
 
     it(`should convert record "id" into "id" property`, function () {
       // given
       const airtableRecord = { id: 'rec123', fields: {} };
-      const challenge = new Challenge(airtableRecord);
 
       // when
-      const json = challenge.toJSON();
+      const challenge = new Challenge(airtableRecord);
 
       // then
-      expect(json.id).to.equal(airtableRecord.id);
+      expect(challenge.id).to.equal(airtableRecord.id);
     });
 
     [
@@ -26,15 +25,14 @@ describe('Model | Challenge', function () {
       it(`should convert record "${airtableField}" field into "${modelProperty}" property`, function () {
         // given
         fields = [];
-        fields[airtableField] = 'testedValue';
+        fields[airtableField] = `${modelProperty}_value`;
         const airtableRecord = { fields };
-        const challenge = new Challenge(airtableRecord);
 
         // when
-        const json = challenge.toJSON();
+        const challenge = new Challenge(airtableRecord);
 
         // then
-        expect(json[modelProperty]).to.equal(airtableRecord.fields[airtableField]);
+        expect(challenge[modelProperty]).to.equal(airtableRecord.fields[airtableField]);
       });
 
     });
@@ -48,13 +46,12 @@ describe('Model | Challenge', function () {
           }]
         }
       };
-      const challenge = new Challenge(airtableRecord);
 
       // when
-      const json = challenge.toJSON();
+      const challenge = new Challenge(airtableRecord);
 
       // then
-      expect(json.illustrationUrl).to.equal(airtableRecord.fields['Illustration de la consigne'][0].url);
+      expect(challenge.illustrationUrl).to.equal(airtableRecord.fields['Illustration de la consigne'][0].url);
     });
 
     it(`should convert record "Pièce jointe" into "attachmentUrl" and "attachmentFilename" properties`, function () {
@@ -67,14 +64,13 @@ describe('Model | Challenge', function () {
           }]
         }
       };
-      const challenge = new Challenge(airtableRecord);
 
       // when
-      const json = challenge.toJSON();
+      const challenge = new Challenge(airtableRecord);
 
       // then
-      expect(json.attachmentUrl).to.equal(airtableRecord.fields['Pièce jointe'][0].url);
-      expect(json.attachmentFilename).to.equal(airtableRecord.fields['Pièce jointe'][0].filename);
+      expect(challenge.attachmentUrl).to.equal(airtableRecord.fields['Pièce jointe'][0].url);
+      expect(challenge.attachmentFilename).to.equal(airtableRecord.fields['Pièce jointe'][0].filename);
     });
 
   });

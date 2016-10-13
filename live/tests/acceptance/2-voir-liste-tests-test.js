@@ -8,21 +8,17 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe.skip('Acceptance | 2 - voir la liste des tests', function () {
-this.timeout(450000);
+describe('Acceptance | 2 - voir la liste des tests', function () {
+  this.timeout(450000);
   let application;
   let courses;
   let courseWithoutImage;
-  const numberOfChallenges = 4;
   let courseWithAllData;
 
   before(function () {
     application = startApp();
-    let challenges = server.createList('challenge-airtable', numberOfChallenges);
-    courses = server.createList('course-airtable', 6, {challenges});
-
+    courses = server.createList('course-airtable', 6);
     courseWithAllData = courses[1];
-    // courseWithAllData.update('challenges', challenges);
 
     // courseWithoutImage = courses[5];
     // courseWithoutImage.attrs.fields.Image[0].url = '';
@@ -56,7 +52,6 @@ this.timeout(450000);
     });
 
     it('2.3.1 on affiche son nom', function () {
-      // console.log('JSON.stringify(courseWithAllData) ' + JSON.stringify(courseWithAllData));
       expect($course.find('.course-name').text()).to.contains(courseWithAllData.attrs.name);
     });
 
@@ -65,7 +60,7 @@ this.timeout(450000);
     });
 
     it('2.3.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-      expect($course.find('.course-number-of-challenges').text()).to.contains(numberOfChallenges);
+      expect($course.find('.course-number-of-challenges').text()).to.contains(courseWithAllData.attrs.challenges.length;
     });
 
     // it('2.3.4 on affiche son image', function () {

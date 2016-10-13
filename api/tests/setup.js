@@ -5,6 +5,8 @@ global.nock = require('nock');
 nock.disableNetConnect();
 
 global.sinon = require('sinon');
+require('sinon-as-promised');
+
 global.chai = require('chai');
 global.expect = chai.expect;
 
