@@ -1086,7 +1086,8 @@ define('pix-live/mirage/factories/course-airtable', ['exports', 'ember-cli-mirag
     },
     name: _emberCliMirage.faker.lorem.words(3),
     description: _emberCliMirage.faker.lorem.paragraph(),
-    imageUrl: _emberCliMirage.faker.image.imageUrl()
+    imageUrl: _emberCliMirage.faker.image.imageUrl(),
+    challenges: ['abc', 'def', 'ghi']
 
   });
 });
@@ -1141,7 +1142,7 @@ define('pix-live/mirage/models/course-airtable', ['exports', 'ember-cli-mirage',
     id: (0, _emberDataAttr['default'])('string'),
     name: (0, _emberDataAttr['default'])('string'),
     description: (0, _emberDataAttr['default'])('string'),
-    imageUrl: [(0, _emberDataAttr['default'])('string')],
+    imageUrl: (0, _emberDataAttr['default'])('string'),
     challenges: [(0, _emberDataAttr['default'])('string')]
 
   });
@@ -1325,7 +1326,7 @@ define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _
     description: attr('string'),
     duration: attr('number'),
     imageUrl: attr('string'),
-    challenges: hasMany('challenge', { inverse: null }),
+    challenges: [attr('string')],
 
     getProgress: function getProgress(challenge) {
       var challengeIndex = this.get('challenges').indexOf(challenge);
@@ -8507,7 +8508,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+f1ba838b"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+3dc9520c"});
 }
 
 /* jshint ignore:end */
