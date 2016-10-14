@@ -16,3 +16,12 @@ GIT_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD | tr -d "\n"`
 git subtree push --prefix api $APP master
 
 
+tmpdir=`mktemp -d`
+git clone . $tmpdir
+pushd $tmpdir
+git filter-branch --prune-empty --subdirectory-filter api master
+git push $APP --force .
+
+popd
+rm -rf $tmpdir
+
