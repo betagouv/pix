@@ -8,7 +8,7 @@ export default Model.extend({
   description: attr('string'),
   duration: attr('number'),
   imageUrl: attr('string'),
-  challenges: hasMany('challenge', { inverse: null }),
+  challenges: [attr('string')],
 
   getProgress(challenge) {
     const challengeIndex = this.get('challenges').indexOf(challenge);
