@@ -12,7 +12,7 @@
  *            Portions Copyright 2008-2011 Apple Inc. All rights reserved.
  * @license   Licensed under MIT license
  *            See https://raw.github.com/emberjs/ember.js/master/LICENSE
- * @version   2.8.2
+ * @version   2.8.1
  */
 
 var enifed, requireModule, require, Ember;
@@ -22273,15 +22273,11 @@ define('ember-test-helpers/abstract-test-module', ['exports', 'klassy', 'ember-t
     },
 
     setupTestElements: function setupTestElements() {
-      var testEl = document.querySelector('#ember-testing');
-      if (!testEl) {
+      if (!document.querySelector('#ember-testing')) {
         var element = document.createElement('div');
         element.setAttribute('id', 'ember-testing');
 
         document.body.appendChild(element);
-        this.fixtureResetValue = '';
-      } else {
-        this.fixtureResetValue = testEl.innerHTML;
       }
     },
 
@@ -22319,7 +22315,7 @@ define('ember-test-helpers/abstract-test-module', ['exports', 'klassy', 'ember-t
     },
 
     teardownTestElements: function teardownTestElements() {
-      document.getElementById('ember-testing').innerHTML = this.fixtureResetValue;
+      document.getElementById('ember-testing').innerHTML = '';
 
       // Ember 2.0.0 removed Ember.View as public API, so only do this when
       // Ember.View is present
