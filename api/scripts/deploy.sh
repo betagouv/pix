@@ -13,6 +13,5 @@ GIT_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD | tr -d "\n"`
     git remote add $APP dokku@pix-app.ovh:${APP}
 } && true
 
-git subtree push --prefix api $APP master
-
+git subtree push --prefix api $APP $GIT_CURRENT_BRANCH:master
 
