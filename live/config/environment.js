@@ -47,9 +47,11 @@ module.exports = function (environment) {
     ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
+/*
     ENV['ember-cli-mirage'] = {
       enabled: false
     };
+*/
   }
 
   if (environment === 'test') {
