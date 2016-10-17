@@ -2,6 +2,7 @@
 
 const Boom = require('boom');
 const courseRepository = require('../repositories/course-repository');
+const courseSerializer = require('../serializers/course-serializer');
 
 module.exports = {
 
@@ -10,7 +11,7 @@ module.exports = {
 
       courseRepository
         .list()
-        .then((courses) => reply(courses))
+        .then((courses) => reply(courseSerializer.serializeArray(courses)))
         .catch((error) => reply(Boom.badImplementation(error)));
     }
   },
@@ -20,7 +21,7 @@ module.exports = {
 
       courseRepository
         .get(request.params.id)
-        .then((course) => reply(course))
+        .then((course) => reply(courseSerializer.serialize((course))))
         .catch((error) => reply(Boom.badImplementation(error)));
     }
   }

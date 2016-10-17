@@ -1,6 +1,15 @@
 import DS from 'ember-data';
 
 export default DS.JSONSerializer.extend({
+
+  normalize(modelClass, hash) {
+    hash['course'] = {
+      id: hash['courseId'],
+      type: 'course'
+    };
+    delete hash['courseId'];
+    return this._super.apply(this, arguments);
+  }
 });
 
 /*
