@@ -1,13 +1,13 @@
 let courseNominalCase = {
-  id: "course_nominal_case",
+  id: "course_nominal_case_id",
   name: "Name of the course",
   description: "A short description of the course",
   duration: 10,
   imageUrl: "https://dl.airtable.com/L8AQwmIURNu79XmKFoPO_storage-1209059_960_720.jpg",
   challenges: [
-    "challenge_qcm",
-    "challenge_qcu",
-    "challenge_qrocm"
+    "challenge_qcm_id",
+    "challenge_qcu_id",
+    "challenge_qrocm_id"
   ]
 };
 
@@ -101,27 +101,60 @@ export default function () {
       type: "QCM",
       proposals: "- Ils sont bio. - Ils pèsent plus de 63 grammes. - Ce sont des oeufs frais. - Ils sont destinés aux consommateurs. - Ils ne sont pas lavés. ",
       instruction: "Que peut-on dire des œufs de catégorie A ? ",
-      id: "challenge_qcm"
+      id: "challenge_qcm_id"
     }, {
       type: "QCU",
       proposals: "- J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt - Ci-joint le document que j’ai déposé dans l’espace partagé - J’ai déposé le document intro.odt dans l’espace partagé - J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail",
       instruction: "Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?",
-      id: "challenge_qcu"
+      id: "challenge_qcu_id"
     }, {
       type: "QROCM",
       proposals: "Réponses : ${logiciel} ${logiciel} ${logiciel} ",
       instruction: "Citez un ou plusieurs logiciel(s) permettant de réaliser un montage vidéo.",
-      id: "challenge_qrocm"
+      id: "challenge_qrocm_id"
     }]
   });
 
   this.get('/challenges/:id', function (schema, request) {
+
+    const challengeId = request.params.id;
+    if (challengeId === 'challenge_qcu_id') {
+      return {
+        type: "QCU",
+        proposals: "- J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt - Ci-joint le document que j’ai déposé dans l’espace partagé - J’ai déposé le document intro.odt dans l’espace partagé - J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail",
+        instruction: "Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?",
+        id: "challenge_qcu_id"
+      };
+    }
+
     return {
       type: "QCM",
       proposals: "- Ils sont bio. - Ils pèsent plus de 63 grammes. - Ce sont des oeufs frais. - Ils sont destinés aux consommateurs. - Ils ne sont pas lavés. ",
       instruction: "Que peut-on dire des œufs de catégorie A ? ",
       id: "challenge_qcm"
+    };
+  });
+
+  this.post('/assessments', function (schema, request) {
+    return {
+      id:"new_assessment",
+      userId: "an_user_id",
+      courseId: "course_nominal_case_id",
+      userName: "a_username",
+      userEmail: "a_user@email.com"
     }
   });
+
+  this.get('/assessments/:id', function (schema, request) {
+
+    return {
+      id:"an_assessment_id",
+      userId: "an_user_id",
+      courseId: "course_nominal_case_id",
+      userName: "a_username",
+      userEmail: "a_user@email.com"
+    }
+  });
+
 
 }

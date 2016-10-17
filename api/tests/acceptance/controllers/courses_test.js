@@ -59,7 +59,7 @@ describe('API | Courses', function () {
 
     it("should return all the courses from the tests referential", function (done) {
       server.injectThen(options).then((response) => {
-        const courses = response.result;
+        const courses = response.result.data;
         expect(courses.length).to.equal(5);
         done();
       });
@@ -130,9 +130,10 @@ describe('API | Courses', function () {
 
     it("should return the expected course", function (done) {
       server.injectThen(options).then((response) => {
-        const course = response.result.toJSON();
-        expect(course.name).to.equal("A la recherche de l'information #01");
-        expect(course.description).to.equal("Mener une recherche et une veille d'information");
+        const course = response.result.data;
+        expect(course.id).to.equal("rec5duNNrPqbSzQ8o");
+        expect(course.attributes.name).to.equal("A la recherche de l'information #01");
+        expect(course.attributes.description).to.equal("Mener une recherche et une veille d'information");
         done();
       });
     });

@@ -7,12 +7,12 @@ class AirtableModel {
   constructor(record) {
     if (record) {
       this.record = record;
+      this.id = this.record.id;
       this.initialize();
     }
   }
 
   initialize() {
-    this.id = this.record.id;
   }
 
   toJSON() {

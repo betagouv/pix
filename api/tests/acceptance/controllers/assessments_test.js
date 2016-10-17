@@ -19,10 +19,20 @@ describe('API | Assessments', function () {
 
     const options = {
       method: "POST", url: "/api/assessments", payload: {
-        userId: 1,
-        courseId: 'testedCourseId',
-        userName: 'Jon Snow',
-        userEmail: 'jsnow@winterfell.got'
+        data: {
+          type: "assessment",
+          attributes: {
+            userId: 1,
+            userName: 'Jon Snow',
+            userEmail: 'jsnow@winterfell.got'
+          },
+          relationships: {
+            course: {
+              type: 'course',
+              id: 'testedCourseId'
+            }
+          }
+        }
       }
     };
 
@@ -63,10 +73,10 @@ describe('API | Assessments', function () {
         new Assessment({ id: response.result.id })
           .fetch()
           .then(function (model) {
-            expect(model.get('userId')).to.equal(options.payload.userId);
-            expect(model.get('courseId')).to.equal(options.payload.courseId);
-            expect(model.get('userName')).to.equal(options.payload.userName);
-            expect(model.get('userEmail')).to.equal(options.payload.userEmail);
+            expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.id);
+            expect(model.get('userId')).to.equal(options.payload.data.attributes.userId);
+            expect(model.get('userName')).to.equal(options.payload.data.attributes.userName);
+            expect(model.get('userEmail')).to.equal(options.payload.data.attributes.userEmail);
             done();
           });
 
@@ -81,10 +91,10 @@ describe('API | Assessments', function () {
 
         // then
         expect(assessment.id).to.exist;
-        expect(assessment.userId).to.equal(options.payload.userId);
-        expect(assessment.courseId).to.equal(options.payload.courseId);
-        expect(assessment.userName).to.equal(options.payload.userName);
-        expect(assessment.userEmail).to.equal(options.payload.userEmail);
+        expect(assessment.courseId).to.equal(options.payload.data.relationships.course.id);
+        expect(assessment.userId).to.equal(options.payload.data.attributes.userId);
+        expect(assessment.userName).to.equal(options.payload.data.attributes.userName);
+        expect(assessment.userEmail).to.equal(options.payload.data.attributes.userEmail);
 
         done();
       });

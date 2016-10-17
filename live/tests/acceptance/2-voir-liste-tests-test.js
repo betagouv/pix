@@ -37,7 +37,7 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
     let $course;
 
     before(function () {
-      $course = findWithAssert('.course[data-id="course_nominal_case"]');
+      $course = findWithAssert('.course[data-id="course_nominal_case_id"]');
     });
 
     it('2.3.1 on affiche son nom', function () {
