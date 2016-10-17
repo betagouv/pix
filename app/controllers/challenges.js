@@ -1,9 +1,8 @@
 'use strict';
 
-const base = require('../../config/airtable').base;
 const Boom = require('boom');
 const challengeRepository = require('../repositories/challenge-repository');
-
+const challengeSerializer = require('../serializers/challenge-serializer');
 
 module.exports = {
 
@@ -12,7 +11,7 @@ module.exports = {
 
       challengeRepository
         .list()
-        .then((challenges) => reply(challenges))
+        .then((challenges) => reply(challengeSerializer.serializeArray(challenges)))
         .catch((error) => reply(Boom.badImplementation(error)));
     }
   },
@@ -22,7 +21,7 @@ module.exports = {
 
       challengeRepository
         .get(request.params.id)
-        .then((challenge) => reply(challenge))
+        .then((challenge) => reply(challengeSerializer.serialize(challenge)))
         .catch((error) => reply(Boom.badImplementation(error)));
     }
   }
