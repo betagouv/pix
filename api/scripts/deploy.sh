@@ -23,4 +23,3 @@ git push $APP HEAD:master --force
 
 popd
 rm -rf $tmpdir
-
