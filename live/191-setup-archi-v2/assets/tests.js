@@ -259,7 +259,7 @@ define('pix-live/tests/acceptance/14-creer-une-epreuve-qroc-test.lint-test', ['e
 });
 define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)('Acceptance | 2 - voir la liste des tests', function () {
+  _mocha.describe.skip('Acceptance | 2 - voir la liste des tests', function () {
 
     var application = undefined;
     var courses = undefined;
@@ -2453,6 +2453,30 @@ define('pix-live/tests/serializers/assessment.lint-test', ['exports'], function 
     });
   });
 });
+define('pix-live/tests/serializers/challenge.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - serializers/challenge.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('serializers/challenge.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/serializers/course.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - serializers/course.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('serializers/course.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/serializers/user.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -3652,6 +3676,116 @@ define('pix-live/tests/unit/serializers/assessment-test.lint-test', ['exports'],
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/serializers/assessment-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/serializers/challenge-test', ['exports', 'chai', 'ember-mocha', 'pix-live/models/challenge', 'pix-live/serializers/challenge'], function (exports, _chai, _emberMocha, _pixLiveModelsChallenge, _pixLiveSerializersChallenge) {
+
+  (0, _emberMocha.describeModel)('challenge', 'Unit | Serializer | Challenge', {}, function () {
+
+    var serializer = new _pixLiveSerializersChallenge['default']();
+    var Challenge = _pixLiveModelsChallenge['default'].extend({}); // copy the class to avoid side effects
+    Challenge.modelName = 'challenge';
+
+    function normalizePayload(payload) {
+      serializer.normalizeResponse(null, Challenge, payload, payload.id, null);
+      return payload;
+    }
+
+    (0, _emberMocha.it)('normalizes correctly', function () {
+
+      var payload = {
+        id: 'recgS0TFyy0bXTjIL',
+        type: 'QCM',
+        instruction: "Que peut-on dire des œufs de catégorie A ?",
+        proposals: "- Ils sont bio. - Ils pèsent plus de 63 grammes. - Ce sont des oeufs frais. - Ils sont destinés aux consommateurs. - Ils ne sont pas lavés."
+      };
+
+      var expected = {
+        id: payload.id,
+        type: payload.type,
+        instruction: payload.instruction,
+        proposals: payload.proposals
+      };
+      var challenge = normalizePayload(payload);
+
+      (0, _chai.expect)(challenge).to.be.deep.equal(expected);
+    });
+  });
+});
+define('pix-live/tests/unit/serializers/challenge-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/serializers/challenge-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/serializers/challenge-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/serializers/course-test', ['exports', 'chai', 'ember-mocha', 'pix-live/models/course', 'pix-live/serializers/course'], function (exports, _chai, _emberMocha, _pixLiveModelsCourse, _pixLiveSerializersCourse) {
+
+  (0, _emberMocha.describeModel)('course', 'Unit | Serializer | Course', {
+    needs: ['model:challenge']
+  }, function () {
+
+    var serializer = new _pixLiveSerializersCourse['default']();
+    var Course = _pixLiveModelsCourse['default'].extend({}); // copy the class to avoid side effects
+    Course.modelName = 'course';
+
+    function normalizePayload(payload) {
+      serializer.normalizeResponse(null, Course, payload, payload.id, null);
+      return payload;
+    }
+
+    (0, _emberMocha.it)('normalizes correctly', function () {
+
+      var payload = {
+        id: 'rec5duNNrPqbSzQ8o',
+        name: "A la recherche de l'information #01",
+        description: "Mener une recherche et une veille d'information",
+        duration: 13,
+        imageUrl: "https://dl.airtable.com/x5gtLtMTpyJBg9dJov82_keyboard-824317_960_720.jpg"
+        /*
+                challenges: [
+                  "recphb0Gowk6hcXdp",
+                  "recB9k5U9GUCSVTuP",
+                  "rectN26toxkJmt9S4",
+                  "recj0g7zZF5LTxij5",
+                  "recFxCIKMhdRF6C0d",
+                  "recT0Ks2EDgoDgEKc",
+                  "recwWzTquPlvIl4So",
+                  "recUcM3s9DFvpnFqj",
+                  "recge9Mkog1drln4i",
+                  "recdTpx4c0kPPDTtf"
+                ]
+        */
+      };
+
+      var expected = {
+        id: payload.id,
+        name: payload.name,
+        description: payload.description,
+        duration: payload.duration,
+        imageUrl: payload.imageUrl
+      };
+      var course = normalizePayload(payload);
+
+      (0, _chai.expect)(course).to.be.deep.equal(expected);
+    });
+  });
+});
+define('pix-live/tests/unit/serializers/course-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/serializers/course-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/serializers/course-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });

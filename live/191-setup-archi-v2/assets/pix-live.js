@@ -1201,6 +1201,7 @@ define('pix-live/models/assessment', ['exports', 'ember-data'], function (export
 
     course: belongsTo('course', { inverse: null }),
     answers: hasMany('answer'),
+    userId: attr('string'),
     userName: attr('string'),
     userEmail: attr('string'),
 
@@ -1326,7 +1327,7 @@ define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _
     description: attr('string'),
     duration: attr('number'),
     imageUrl: attr('string'),
-    challenges: [attr('string')],
+    challenges: hasMany('challenge', { inverse: null }),
 
     getProgress: function getProgress(challenge) {
       var challengeIndex = this.get('challenges').indexOf(challenge);
@@ -1482,6 +1483,10 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'ember', 'rsvp']
 
     session: _ember['default'].inject.service(),
 
+    _getAssessmentFirstChallenge: function _getAssessmentFirstChallenge(assessment) {
+      return assessment.get('course').then();
+    },
+
     model: function model(params) {
       var _this = this;
 
@@ -1492,7 +1497,10 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'ember', 'rsvp']
         var userName = _this.get('session.firstname') + ' ' + _this.get('session.lastname');
         var userEmail = _this.get('session.email');
 
-        var assessment = store.createRecord('assessment', { course: course, userName: userName, userEmail: userEmail });
+        var assessment = store.createRecord('assessment', { course: course, userId: 1, userName: userName, userEmail: userEmail }).save().then(function () {
+          return _this._getAssessmentFirstChallenge;
+        });
+
         return _rsvp['default'].hash({
           assessment: assessment.save(),
           challenge: course.get('challenges.firstObject')
@@ -1694,6 +1702,12 @@ define('pix-live/serializers/assessment', ['exports', 'pix-live/serializers/airt
       };
     }
   });
+});
+define('pix-live/serializers/challenge', ['exports', 'ember-data'], function (exports, _emberData) {
+  exports['default'] = _emberData['default'].JSONSerializer.extend({});
+});
+define('pix-live/serializers/course', ['exports', 'ember-data'], function (exports, _emberData) {
+  exports['default'] = _emberData['default'].JSONSerializer.extend({});
 });
 define('pix-live/serializers/user', ['exports', 'ember-data'], function (exports, _emberData) {
   exports['default'] = _emberData['default'].RESTSerializer.extend({});
@@ -8508,7 +8522,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+9c418f2f"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+7244f58d"});
 }
 
 /* jshint ignore:end */
