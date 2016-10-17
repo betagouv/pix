@@ -259,24 +259,12 @@ define('pix-live/tests/acceptance/14-creer-une-epreuve-qroc-test.lint-test', ['e
 });
 define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  _mocha.describe.skip('Acceptance | 2 - voir la liste des tests', function () {
+  (0, _mocha.describe)('Acceptance | 2 - voir la liste des tests', function () {
 
     var application = undefined;
-    var courses = undefined;
-    var courseWithoutImage = undefined;
-    var courseWithAllData = undefined;
 
     (0, _mocha.before)(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
-
-      server.logging = true;
-
-      courses = server.createList('course-airtable', 6);
-      courseWithAllData = courses['1'];
-
-      courseWithoutImage = courses[5];
-      courseWithoutImage.attrs.imageUrl = '';
-      courseWithoutImage.save();
     });
 
     (0, _mocha.after)(function () {
@@ -292,33 +280,31 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
     });
 
     (0, _mocha.it)("2.2 on affiche autant de tests que remontés par l'API", function () {
-      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(6);
+      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(5);
     });
 
     (0, _mocha.describe)('2.3 pour un test donné avec toutes les informations', function () {
 
       var $course = undefined;
-      var course = undefined;
 
       (0, _mocha.before)(function () {
-        course = courseWithAllData;
-        $course = findWithAssert('.course[data-id="' + course.attrs.id + '"]');
+        $course = findWithAssert('.course[data-id="course_nominal_case"]');
       });
 
       (0, _mocha.it)('2.3.1 on affiche son nom', function () {
-        (0, _chai.expect)($course.find('.course-name').text()).to.contains(courseWithAllData.attrs.name);
+        (0, _chai.expect)($course.find('.course-name').text()).to.contains('Name of the course');
       });
 
       (0, _mocha.it)('2.3.2 on affiche sa description', function () {
-        (0, _chai.expect)($course.find('.course-description').text()).to.contains(courseWithAllData.attrs.description);
+        (0, _chai.expect)($course.find('.course-description').text()).to.contains('A short description of the course');
       });
 
-      _mocha.it.skip('2.3.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains(courseWithAllData.attrs.challenges.length);
+      (0, _mocha.it)('2.3.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
+        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains('3 épreuves');
       });
 
       (0, _mocha.it)('2.3.4 on affiche son image', function () {
-        (0, _chai.expect)($course.find('img')[0].src).to.equal(course.attrs.imageUrl);
+        (0, _chai.expect)($course.find('img')[0].src).to.equal('https://dl.airtable.com/L8AQwmIURNu79XmKFoPO_storage-1209059_960_720.jpg');
       });
 
       (0, _mocha.it)('2.3.5 on affiche un bouton "démarrer le test"', function () {
@@ -327,7 +313,7 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
     });
 
     (0, _mocha.it)('2.4 pour un test dont il manque l\'image, on affiche une image placeholder', function () {
-      var $course = findWithAssert('.course[data-id="' + courseWithoutImage.attrs.id + '"]');
+      var $course = findWithAssert('.course[data-id="course_with_no_image"]');
       (0, _chai.expect)($course.find('img')[0].src).to.contains('images/course-default-image.png');
     });
   });
@@ -1018,18 +1004,6 @@ define('pix-live/tests/adapters/application.lint-test', ['exports'], function (e
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('adapters/application.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/adapters/assessment.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - adapters/assessment.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('adapters/assessment.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -3070,117 +3044,6 @@ define('pix-live/tests/unit/models/answer-test.lint-test', ['exports'], function
     });
   });
 });
-define('pix-live/tests/unit/models/assessment-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
-
-  (0, _emberMocha.describeModel)('assessment', 'Unit | Model | Assessment', {
-    needs: ['model:course', 'model:answer', 'model:challenge', 'serializer:assessment']
-  }, function () {
-
-    (0, _emberMocha.it)('exists', function () {
-      var model = this.subject();
-      (0, _chai.expect)(model).to.be.ok;
-    });
-
-    describe('#numberOfValidatedAnswers', function () {
-
-      (0, _emberMocha.it)('should return 0 if there is no answers', function () {
-        // given
-        var assessment = this.subject();
-
-        // when
-        var answers = assessment.get('numberOfValidatedAnswers');
-
-        //then
-        (0, _chai.expect)(answers).to.equal(0);
-      });
-
-      (0, _emberMocha.it)('should count all validated answers', function () {
-        var _this = this;
-
-        Ember.run(function () {
-          // given
-          var store = _this.store();
-          var assessment = _this.subject();
-          store.createRecord('answer', { value: "Xi", assessment: assessment });
-          store.createRecord('answer', { value: "Fu", assessment: assessment });
-          store.createRecord('answer', { value: "Mi", assessment: assessment });
-
-          // when
-          var answers = assessment.get('numberOfValidatedAnswers');
-
-          //then
-          (0, _chai.expect)(answers).to.equal(3);
-        });
-      });
-
-      (0, _emberMocha.it)('should not include skipped challenge answers', function () {
-        var _this2 = this;
-
-        Ember.run(function () {
-          // given
-          var store = _this2.store();
-          var assessment = _this2.subject();
-          store.createRecord('answer', { value: "Xi", assessment: assessment });
-          store.createRecord('answer', { value: "#ABAND#", assessment: assessment });
-          store.createRecord('answer', { value: "Mi", assessment: assessment });
-
-          // when
-          var answers = assessment.get('numberOfValidatedAnswers');
-
-          //then
-          (0, _chai.expect)(answers).to.equal(2);
-        });
-      });
-    });
-
-    describe('#serialize', function () {
-
-      (0, _emberMocha.it)('includes course ID', function () {
-        var _this3 = this;
-
-        Ember.run(function () {
-          // given
-          var courseId = 'rec1234567890';
-          var course = _this3.store().createRecord('course', { id: courseId });
-          var assessment = _this3.subject({ course: course });
-
-          // when
-          var serializedData = assessment.serialize();
-
-          // then
-          (0, _chai.expect)(serializedData["Test"]).to.deep.equal([courseId]);
-        });
-      });
-
-      (0, _emberMocha.it)("includes user's name and email", function () {
-        // given
-        var assessment = this.subject({
-          userEmail: 'toto@plop.com',
-          userName: 'Toto'
-        });
-
-        // when
-        var serializedData = assessment.serialize();
-
-        // then
-        (0, _chai.expect)(serializedData["Nom de l'usager"]).to.equal('Toto');
-        (0, _chai.expect)(serializedData["Courriel de l'usager"]).to.equal('toto@plop.com');
-      });
-    });
-  });
-});
-define('pix-live/tests/unit/models/assessment-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - unit/models/assessment-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/models/assessment-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/unit/models/challenge-test', ['exports', 'chai', 'ember-mocha', 'mocha'], function (exports, _chai, _emberMocha, _mocha) {
 
   (0, _emberMocha.describeModel)('challenge', 'Unit | Model | Challenge', {
@@ -3619,63 +3482,6 @@ define('pix-live/tests/unit/serializers/answer-test.lint-test', ['exports'], fun
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/serializers/answer-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/unit/serializers/assessment-test', ['exports', 'chai', 'ember-mocha', 'pix-live/models/assessment', 'pix-live/serializers/assessment'], function (exports, _chai, _emberMocha, _pixLiveModelsAssessment, _pixLiveSerializersAssessment) {
-
-  (0, _emberMocha.describeModel)('assessment', 'Unit | Serializer | Assessment', {
-    needs: ['model:answer']
-  }, function () {
-
-    var serializer = new _pixLiveSerializersAssessment['default']();
-    var Assessment = _pixLiveModelsAssessment['default'].extend({}); // copy the class to avoid side effects
-    Assessment.modelName = 'assessment';
-
-    function normalizePayload(payload) {
-      serializer.normalizeResponse(null, Assessment, payload, payload.id, null);
-      return payload;
-    }
-
-    (0, _emberMocha.it)('normalizes correctly', function () {
-
-      var payload = {
-        "id": "recgS0TFyy0bXTjIL",
-        "fields": {
-          "Test": ["rec5duNNrPqbSzQ8o"],
-          "Reponses": ["rec1234567ABCDEFG", "rec8910111HIJKLMN"],
-          "Référence": "recgS0TFyy0bXTjIL",
-          "Nom de l'usager": "Jérémy le Grand",
-          "Courriel de l'usager": "jbu@octo.com"
-        },
-        "createdTime": "2016-08-31T23:22:04.000Z"
-      };
-
-      var expected = {
-        assessment: {
-          id: payload.id,
-          created: payload.createdTime,
-          course: payload.fields['Test'],
-          answers: payload.fields['Reponses'],
-          userName: payload.fields["Nom de l'usager"],
-          userEmail: payload.fields["Courriel de l'usager"]
-        }
-      };
-      var assessment = normalizePayload(payload);
-
-      (0, _chai.expect)(assessment).to.be.deep.equal(expected);
-    });
-  });
-});
-define('pix-live/tests/unit/serializers/assessment-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - unit/serializers/assessment-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/serializers/assessment-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
