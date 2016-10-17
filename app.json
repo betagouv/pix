@@ -1,7 +1,0 @@
-{
-  "scripts": {
-    "dokku": {
-      "postdeploy": "npm run knex migrate:latest"
-    }
-  }
-}
