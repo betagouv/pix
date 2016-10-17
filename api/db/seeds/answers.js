@@ -2,7 +2,7 @@
 
 const TABLE_NAME = 'answers';
 
-exports.seed = function (knex, Promise) {
+exports.seed = (knex) => {
 
   return knex(TABLE_NAME).del().then(() => {
 

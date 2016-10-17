@@ -12,7 +12,9 @@ module.exports = {
 
       return new Assessment({
         userId: request.payload.userId,
-        courseId: request.payload.courseId
+        courseId: request.payload.courseId,
+        userName: request.payload.userName,
+        userEmail: request.payload.userEmail,
       })
         .save()
         .then((assessment) => reply(assessment).code(201))
