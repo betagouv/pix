@@ -20,7 +20,9 @@ describe('API | Assessments', function () {
     const options = {
       method: "POST", url: "/api/assessments", payload: {
         userId: 1,
-        courseId: 'testedCourseId'
+        courseId: 'testedCourseId',
+        userName: 'Jon Snow',
+        userEmail: 'jsnow@winterfell.got'
       }
     };
 
@@ -63,6 +65,8 @@ describe('API | Assessments', function () {
           .then(function (model) {
             expect(model.get('userId')).to.equal(options.payload.userId);
             expect(model.get('courseId')).to.equal(options.payload.courseId);
+            expect(model.get('userName')).to.equal(options.payload.userName);
+            expect(model.get('userEmail')).to.equal(options.payload.userEmail);
             done();
           });
 
@@ -76,9 +80,11 @@ describe('API | Assessments', function () {
         const assessment = response.result.toJSON();
 
         // then
+        expect(assessment.id).to.exist;
         expect(assessment.userId).to.equal(options.payload.userId);
         expect(assessment.courseId).to.equal(options.payload.courseId);
-        expect(assessment.id).to.exist;
+        expect(assessment.userName).to.equal(options.payload.userName);
+        expect(assessment.userEmail).to.equal(options.payload.userEmail);
 
         done();
       });
