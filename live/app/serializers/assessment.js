@@ -1,3 +1,9 @@
+import DS from 'ember-data';
+
+export default DS.JSONSerializer.extend({
+});
+
+/*
 import AirtableSerializer from "./airtable-serializer";
 
 export default AirtableSerializer.extend({
@@ -28,3 +34,4 @@ export default AirtableSerializer.extend({
     };
   }
 });
+*/

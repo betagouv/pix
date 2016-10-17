@@ -19,7 +19,7 @@ export default Ember.Route.extend({
         .save()
         .then((assessment) => {
           return RSVP.hash({
-            assessment: assessment,
+            assessment,
             challenge: assessment.get('firstChallenge')
           });
         });
