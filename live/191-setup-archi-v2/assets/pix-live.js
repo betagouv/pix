@@ -993,7 +993,7 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
 define('pix-live/mirage/data/answers/qcm-answer', ['exports', 'pix-live/mirage/data/challenges/qcm-challenge'], function (exports, _pixLiveMirageDataChallengesQcmChallenge) {
   exports['default'] = {
     data: {
-      type: 'answer',
+      type: 'answers',
       id: 'answer_qcm_id',
       attributes: {
         value: '1,2,5'
@@ -1001,7 +1001,7 @@ define('pix-live/mirage/data/answers/qcm-answer', ['exports', 'pix-live/mirage/d
       relationships: {
         challenge: {
           data: {
-            type: 'challenge',
+            type: 'challenges',
             id: _pixLiveMirageDataChallengesQcmChallenge['default'].data.id
           }
         }
@@ -1012,7 +1012,7 @@ define('pix-live/mirage/data/answers/qcm-answer', ['exports', 'pix-live/mirage/d
 define('pix-live/mirage/data/answers/qcu-answer', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallenge) {
   exports['default'] = {
     data: {
-      type: 'answer',
+      type: 'answers',
       id: 'answer_qcu_id',
       attributes: {
         value: '3'
@@ -1020,7 +1020,7 @@ define('pix-live/mirage/data/answers/qcu-answer', ['exports', 'pix-live/mirage/d
       relationships: {
         challenge: {
           data: {
-            type: 'challenge',
+            type: 'challenges',
             id: _pixLiveMirageDataChallengesQcuChallenge['default'].data.id
           }
         }
@@ -1031,7 +1031,7 @@ define('pix-live/mirage/data/answers/qcu-answer', ['exports', 'pix-live/mirage/d
 define('pix-live/mirage/data/answers/qrocm-answer', ['exports', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQrocmChallenge) {
   exports['default'] = {
     data: {
-      type: 'answer',
+      type: 'answers',
       id: 'answer_qrocm_id',
       attributes: {
         value: 'logiciel 1 = "LOTUS", logiciel 2 = "FIREFOX", logiciel 3 = "GOOGLE"'
@@ -1039,7 +1039,7 @@ define('pix-live/mirage/data/answers/qrocm-answer', ['exports', 'pix-live/mirage
       relationships: {
         challenge: {
           data: {
-            type: 'challenge',
+            type: 'challenges',
             id: _pixLiveMirageDataChallengesQrocmChallenge['default'].data.id
           }
         }
@@ -1050,7 +1050,7 @@ define('pix-live/mirage/data/answers/qrocm-answer', ['exports', 'pix-live/mirage
 define('pix-live/mirage/data/assessments/completed-assessment', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qrocm-answer'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQrocmAnswer) {
   exports['default'] = {
     data: {
-      type: 'assessment',
+      type: 'assessments',
       id: 'completed_assessment_id',
       attributes: {
         userId: 1,
@@ -1060,19 +1060,19 @@ define('pix-live/mirage/data/assessments/completed-assessment', ['exports', 'pix
       relationships: {
         course: {
           data: {
-            type: 'course',
+            type: 'courses',
             id: _pixLiveMirageDataCoursesSimpleCourse['default'].data.id
           }
         },
         answers: {
           data: [{
-            type: 'answer',
+            type: 'answers',
             id: _pixLiveMirageDataAnswersQcuAnswer['default'].data.id
           }, {
-            type: 'answer',
+            type: 'answers',
             id: _pixLiveMirageDataAnswersQcmAnswer['default'].data.id
           }, {
-            type: 'answer',
+            type: 'answers',
             id: _pixLiveMirageDataAnswersQrocmAnswer['default'].data.id
           }]
         }
@@ -1083,7 +1083,7 @@ define('pix-live/mirage/data/assessments/completed-assessment', ['exports', 'pix
 define('pix-live/mirage/data/assessments/in-progress-assessment', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/answers/qcm-answer'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataAnswersQcmAnswer) {
   exports['default'] = {
     data: {
-      type: 'assessment',
+      type: 'assessments',
       id: 'in_progress_assessment_id',
       attributes: {
         userId: 1,
@@ -1093,13 +1093,13 @@ define('pix-live/mirage/data/assessments/in-progress-assessment', ['exports', 'p
       relationships: {
         course: {
           data: {
-            type: 'course',
+            type: 'courses',
             id: _pixLiveMirageDataCoursesSimpleCourse['default'].data.id
           }
         },
         answers: {
           data: [{
-            type: 'answer',
+            type: 'answers',
             id: _pixLiveMirageDataAnswersQcmAnswer['default'].data.id
           }]
         }
@@ -1110,7 +1110,7 @@ define('pix-live/mirage/data/assessments/in-progress-assessment', ['exports', 'p
 define('pix-live/mirage/data/assessments/new-assessment', ['exports', 'pix-live/mirage/data/courses/simple-course'], function (exports, _pixLiveMirageDataCoursesSimpleCourse) {
   exports['default'] = {
     data: {
-      type: 'assessment',
+      type: 'assessments',
       id: 'new_assessment_id',
       attributes: {
         userId: 1,
@@ -1120,7 +1120,7 @@ define('pix-live/mirage/data/assessments/new-assessment', ['exports', 'pix-live/
       relationships: {
         course: {
           data: {
-            type: 'course',
+            type: 'courses',
             id: _pixLiveMirageDataCoursesSimpleCourse['default'].data.id
           }
         }
@@ -1131,7 +1131,7 @@ define('pix-live/mirage/data/assessments/new-assessment', ['exports', 'pix-live/
 define('pix-live/mirage/data/challenges/qcm-challenge', ['exports'], function (exports) {
   exports['default'] = {
     data: {
-      type: 'challenge',
+      type: 'challenges',
       id: 'qcm_challenge_id',
       attributes: {
         type: 'QCM',
@@ -1144,7 +1144,7 @@ define('pix-live/mirage/data/challenges/qcm-challenge', ['exports'], function (e
 define('pix-live/mirage/data/challenges/qcu-challenge-with-attachment', ['exports'], function (exports) {
   exports['default'] = {
     data: {
-      type: 'challenge',
+      type: 'challenges',
       id: 'qcu_challenge_with_attachment_id',
       attributes: {
         type: 'QCU',
@@ -1159,7 +1159,7 @@ define('pix-live/mirage/data/challenges/qcu-challenge-with-attachment', ['export
 define('pix-live/mirage/data/challenges/qcu-challenge-with-image', ['exports'], function (exports) {
   exports['default'] = {
     data: {
-      type: 'challenge',
+      type: 'challenges',
       id: 'qcu_challenge_with_image_id',
       attributes: {
         type: 'QCU',
@@ -1173,7 +1173,7 @@ define('pix-live/mirage/data/challenges/qcu-challenge-with-image', ['exports'], 
 define('pix-live/mirage/data/challenges/qcu-challenge', ['exports'], function (exports) {
   exports['default'] = {
     data: {
-      type: 'challenge',
+      type: 'challenges',
       id: 'qcu_challenge_id',
       attributes: {
         type: 'QCU',
@@ -1186,7 +1186,7 @@ define('pix-live/mirage/data/challenges/qcu-challenge', ['exports'], function (e
 define('pix-live/mirage/data/challenges/qrocm-challenge', ['exports'], function (exports) {
   exports['default'] = {
     data: {
-      type: 'challenge',
+      type: 'challenges',
       id: 'qrocm_challenge_id',
       attributes: {
         type: 'QROCM',
@@ -1199,7 +1199,7 @@ define('pix-live/mirage/data/challenges/qrocm-challenge', ['exports'], function 
 define("pix-live/mirage/data/courses/another-course", ["exports"], function (exports) {
   exports["default"] = {
     data: {
-      type: "course",
+      type: 'courses',
       id: "another_course_id",
       attributes: {
         name: "Les données, je gère ! #01",
@@ -1209,7 +1209,7 @@ define("pix-live/mirage/data/courses/another-course", ["exports"], function (exp
       },
       relationships: {
         challenges: {
-          data: [{ type: "challenge", id: "recopA530N2rlxYLt" }, { type: "challenge", id: "recb35pFRQyyXzZUM" }, { type: "challenge", id: "recttWm9LAfDeqcxk" }, { type: "challenge", id: "rec9M8rp0Y8uDWzKQ" }, { type: "challenge", id: "recCIGio3ASSocMXx" }]
+          data: [{ type: "challenges", id: "recopA530N2rlxYLt" }, { type: "challenges", id: "recb35pFRQyyXzZUM" }, { type: "challenges", id: "recttWm9LAfDeqcxk" }, { type: "challenges", id: "rec9M8rp0Y8uDWzKQ" }, { type: "challenges", id: "recCIGio3ASSocMXx" }]
         }
       }
     }
@@ -1218,7 +1218,7 @@ define("pix-live/mirage/data/courses/another-course", ["exports"], function (exp
 define("pix-live/mirage/data/courses/no-image-course", ["exports"], function (exports) {
   exports["default"] = {
     data: {
-      type: "course",
+      type: "courses",
       id: "course_with_no_image",
       attributes: {
         name: "Test sans image",
@@ -1227,7 +1227,7 @@ define("pix-live/mirage/data/courses/no-image-course", ["exports"], function (ex
       },
       relationships: {
         challenges: {
-          data: [{ type: "challenge", id: "recOJjFzL0I6QDvJl" }, { type: "challenge", id: "recmt1vM0Dl3X0CIQ" }, { type: "challenge", id: "rectkDBolVTyEkoHX" }, { type: "challenge", id: "recvaILCv8mtzqB2m" }, { type: "challenge", id: "recLrixSqRxL5vJ54" }, { type: "challenge", id: "recqxUz6DYwLPVCWh" }, { type: "challenge", id: "reco9l7yVkQTscB3A" }, { type: "challenge", id: "recADRNFqsgjIG9Zj" }, { type: "challenge", id: "rec3mXgYY9E32ShNf" }, { type: "challenge", id: "recs1xp2Ik6Akrwsp" }, { type: "challenge", id: "rec8FzKzBkjDYiE8c" }]
+          data: [{ type: "challenges", id: "recOJjFzL0I6QDvJl" }, { type: "challenges", id: "recmt1vM0Dl3X0CIQ" }, { type: "challenges", id: "rectkDBolVTyEkoHX" }, { type: "challenges", id: "recvaILCv8mtzqB2m" }, { type: "challenges", id: "recLrixSqRxL5vJ54" }, { type: "challenges", id: "recqxUz6DYwLPVCWh" }, { type: "challenges", id: "reco9l7yVkQTscB3A" }, { type: "challenges", id: "recADRNFqsgjIG9Zj" }, { type: "challenges", id: "rec3mXgYY9E32ShNf" }, { type: "challenges", id: "recs1xp2Ik6Akrwsp" }, { type: "challenges", id: "rec8FzKzBkjDYiE8c" }]
         }
       }
     }
@@ -1236,7 +1236,7 @@ define("pix-live/mirage/data/courses/no-image-course", ["exports"], function (ex
 define('pix-live/mirage/data/courses/simple-course', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
   exports['default'] = {
     data: {
-      type: "course",
+      type: "courses",
       id: "simple_course_id",
       attributes: {
         name: "Name of the course",
@@ -1247,13 +1247,13 @@ define('pix-live/mirage/data/courses/simple-course', ['exports', 'pix-live/mirag
       relationships: {
         challenges: {
           data: [{
-            type: "challenge",
+            type: "challenges",
             id: _pixLiveMirageDataChallengesQcmChallenge['default'].data.id
           }, {
-            type: "challenge",
+            type: "challenges",
             id: _pixLiveMirageDataChallengesQcuChallenge['default'].data.id
           }, {
-            type: "challenge",
+            type: "challenges",
             id: _pixLiveMirageDataChallengesQrocmChallenge['default'].data.id
           }]
         }
@@ -8564,7 +8564,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+d48d6cfb"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+71d07434"});
 }
 
 /* jshint ignore:end */
