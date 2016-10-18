@@ -4,6 +4,14 @@ const util = require('util');
 
 describe('API | Courses', function () {
 
+  before(function (done) {
+    knex.migrate.latest().then(() => {
+      knex.seed.run().then(() => {
+        done();
+      });
+    });
+  });
+
   after(function (done) {
     server.stop(done);
   });

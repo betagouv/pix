@@ -1,5 +1,6 @@
 const server = require('../server');
 const Assessments = require('../app/controllers/assessments');
+const Answers = require('../app/controllers/answers');
 const Users = require('../app/controllers/users');
 const Courses = require('../app/controllers/courses');
 const Challenges = require('../app/controllers/challenges');
@@ -11,7 +12,8 @@ module.exports = [
   { method: 'POST', path: '/api/users', config: Users.save },
 
   { method: 'POST', path: '/api/assessments', config: Assessments.save },
-  { method: 'POST', path: '/api/assessments/{assessmentId}/answers', config: Assessments.saveAnswer },
+
+  { method: 'POST', path: '/api/answers', config: Answers.save },
 
   { method: 'GET',  path: '/api/courses', config: Courses.list },
   { method: 'GET',  path: '/api/courses/{id}', config: Courses.get },

@@ -2,6 +2,14 @@ const server = require('../../../server');
 
 describe('API | Challenges', function () {
 
+  before(function (done) {
+    knex.migrate.latest().then(() => {
+      knex.seed.run().then(() => {
+        done();
+      });
+    });
+  });
+
   after(function (done) {
     server.stop(done);
   });

@@ -30,7 +30,7 @@ describe('Serializer | CourseSerializer', function () {
       // then
       expect(json).to.deep.equal({
         "data": {
-          "type": "course",
+          "type": "courses",
           "id": course.id,
           "attributes": {
             "name": course.name,
@@ -41,9 +41,9 @@ describe('Serializer | CourseSerializer', function () {
           "relationships": {
             "challenges": {
               "data": [
-                { "type": "challenge", "id": "challenge_qcu_id" },
-                { "type": "challenge", "id": "challenge_qcm_id" },
-                { "type": "challenge", "id": "challenge_qrocm_id" }
+                { "type": "challenges", "id": "challenge_qcu_id" },
+                { "type": "challenges", "id": "challenge_qcm_id" },
+                { "type": "challenges", "id": "challenge_qrocm_id" }
               ]
             }
           }

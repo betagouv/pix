@@ -13,19 +13,7 @@ module.exports = {
       const assessment = assessmentSerializer.deserialize(request.payload);
 
       return assessment.save()
-        .then((assessment) => reply(assessment).code(201))
-        .catch((error) => reply(Boom.badImplementation(error)));
-    }
-  },
-
-  saveAnswer: {
-    handler: (request, reply) => {
-      let assessment;
-      let challengeId;
-      return new Answer(request.payload)
-        .save()
-        .then((answer) => assessmentService.getAssessmentNextChallengeId(assessment, challengeId))
-        .then((nextChallengeId) => reply(nextChallengeId).code(201))
+        .then((assessment) => reply(assessmentSerializer.serialize(assessment)).code(201))
         .catch((error) => reply(Boom.badImplementation(error)));
     }
   }

@@ -38,7 +38,7 @@ class JSONAPISerializer {
   serializeRelationships(model, data) {
   }
 
-  deserialize(data) {
+  deserialize(json) {
   }
 
 }
