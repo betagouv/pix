@@ -3,7 +3,7 @@ import qcmAnswer from '../answers/qcm-answer';
 
 export default {
   data: {
-    type: 'assessment',
+    type: 'assessments',
     id: 'in_progress_assessment_id',
     attributes: {
       userId: 1,
@@ -13,13 +13,13 @@ export default {
     relationships: {
       course: {
         data: {
-          type: 'course',
+          type: 'courses',
           id: simpleCourse.data.id
         }
       },
       answers: {
         data: [{
-          type: 'answer',
+          type: 'answers',
           id: qcmAnswer.data.id
         }]
       }

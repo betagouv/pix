@@ -5,7 +5,7 @@ import qrocmAnswer from '../answers/qrocm-answer';
 
 export default {
   data: {
-    type: 'assessment',
+    type: 'assessments',
     id: 'completed_assessment_id',
     attributes: {
       userId: 1,
@@ -15,19 +15,19 @@ export default {
     relationships: {
       course: {
         data: {
-          type: 'course',
+          type: 'courses',
           id: simpleCourse.data.id
         }
       },
       answers: {
         data: [{
-          type: 'answer',
+          type: 'answers',
           id: qcuAnswer.data.id
         }, {
-          type: 'answer',
+          type: 'answers',
           id: qcmAnswer.data.id
         }, {
-          type: 'answer',
+          type: 'answers',
           id: qrocmAnswer.data.id
         }]
       }

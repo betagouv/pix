@@ -1,6 +1,6 @@
 export default {
   data: {
-    type: "course",
+    type: "courses",
     id: "course_with_no_image",
     attributes: {
       name: "Test sans image",
@@ -10,17 +10,17 @@ export default {
     relationships: {
       challenges: {
         data: [
-          { type: "challenge", id: "recOJjFzL0I6QDvJl" },
-          { type: "challenge", id: "recmt1vM0Dl3X0CIQ" },
-          { type: "challenge", id: "rectkDBolVTyEkoHX" },
-          { type: "challenge", id: "recvaILCv8mtzqB2m" },
-          { type: "challenge", id: "recLrixSqRxL5vJ54" },
-          { type: "challenge", id: "recqxUz6DYwLPVCWh" },
-          { type: "challenge", id: "reco9l7yVkQTscB3A" },
-          { type: "challenge", id: "recADRNFqsgjIG9Zj" },
-          { type: "challenge", id: "rec3mXgYY9E32ShNf" },
-          { type: "challenge", id: "recs1xp2Ik6Akrwsp" },
-          { type: "challenge", id: "rec8FzKzBkjDYiE8c" }
+          { type: "challenges", id: "recOJjFzL0I6QDvJl" },
+          { type: "challenges", id: "recmt1vM0Dl3X0CIQ" },
+          { type: "challenges", id: "rectkDBolVTyEkoHX" },
+          { type: "challenges", id: "recvaILCv8mtzqB2m" },
+          { type: "challenges", id: "recLrixSqRxL5vJ54" },
+          { type: "challenges", id: "recqxUz6DYwLPVCWh" },
+          { type: "challenges", id: "reco9l7yVkQTscB3A" },
+          { type: "challenges", id: "recADRNFqsgjIG9Zj" },
+          { type: "challenges", id: "rec3mXgYY9E32ShNf" },
+          { type: "challenges", id: "recs1xp2Ik6Akrwsp" },
+          { type: "challenges", id: "rec8FzKzBkjDYiE8c" }
         ]
       }
     }

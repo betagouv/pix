@@ -6,8 +6,10 @@ const Assessment = require('../../../app/models/data/assessment');
 describe('API | Assessments', function () {
 
   before(function (done) {
-    knex.seed.run().then(() => {
-      done();
+    knex.migrate.latest().then(() => {
+      knex.seed.run().then(() => {
+        done();
+      });
     });
   });
 
@@ -22,14 +24,16 @@ describe('API | Assessments', function () {
         data: {
           type: "assessment",
           attributes: {
-            userId: 1,
-            userName: 'Jon Snow',
-            userEmail: 'jsnow@winterfell.got'
+            "user-id": 'user_id',
+            "user-name": 'Jon Snow',
+            "user-email": 'jsnow@winterfell.got'
           },
           relationships: {
             course: {
-              type: 'course',
-              id: 'testedCourseId'
+              data: {
+                type: 'course',
+                id: 'course_id'
+              }
             }
           }
         }
@@ -70,13 +74,13 @@ describe('API | Assessments', function () {
       // when
       server.injectThen(options).then((response) => {
 
-        new Assessment({ id: response.result.id })
+        new Assessment({ id: response.result.data.id })
           .fetch()
           .then(function (model) {
-            expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.id);
-            expect(model.get('userId')).to.equal(options.payload.data.attributes.userId);
-            expect(model.get('userName')).to.equal(options.payload.data.attributes.userName);
-            expect(model.get('userEmail')).to.equal(options.payload.data.attributes.userEmail);
+            expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.data.id);
+            expect(model.get('userId')).to.equal(options.payload.data.attributes["user-id"]);
+            expect(model.get('userName')).to.equal(options.payload.data.attributes["user-name"]);
+            expect(model.get('userEmail')).to.equal(options.payload.data.attributes["user-email"]);
             done();
           });
 
@@ -87,14 +91,14 @@ describe('API | Assessments', function () {
 
       // when
       server.injectThen(options).then((response) => {
-        const assessment = response.result.toJSON();
+        const assessment = response.result.data;
 
         // then
         expect(assessment.id).to.exist;
-        expect(assessment.courseId).to.equal(options.payload.data.relationships.course.id);
-        expect(assessment.userId).to.equal(options.payload.data.attributes.userId);
-        expect(assessment.userName).to.equal(options.payload.data.attributes.userName);
-        expect(assessment.userEmail).to.equal(options.payload.data.attributes.userEmail);
+        expect(assessment.attributes["user-id"]).to.equal(options.payload.data.attributes["user-id"]);
+        expect(assessment.attributes["user-name"]).to.equal(options.payload.data.attributes["user-name"]);
+        expect(assessment.attributes["user-email"]).to.equal(options.payload.data.attributes["user-email"]);
+        expect(assessment.relationships.course.data.id).to.equal(options.payload.data.relationships.course.data.id);
 
         done();
       });

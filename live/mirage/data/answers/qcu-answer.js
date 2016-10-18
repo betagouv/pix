@@ -2,7 +2,7 @@ import qcuChallenge from '../challenges/qcu-challenge';
 
 export default {
   data: {
-    type: 'answer',
+    type: 'answers',
     id: 'answer_qcu_id',
     attributes: {
       value: '3'
@@ -10,7 +10,7 @@ export default {
     relationships: {
       challenge: {
         data: {
-          type: 'challenge',
+          type: 'challenges',
           id: qcuChallenge.data.id
         }
       }

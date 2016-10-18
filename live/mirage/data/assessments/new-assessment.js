@@ -2,7 +2,7 @@ import simpleCourse from '../courses/simple-course';
 
 export default {
   data: {
-    type: 'assessment',
+    type: 'assessments',
     id: 'new_assessment_id',
     attributes: {
       userId: 1,
@@ -12,7 +12,7 @@ export default {
     relationships: {
       course: {
         data: {
-          type: 'course',
+          type: 'courses',
           id: simpleCourse.data.id
         }
       }

@@ -29,7 +29,7 @@ describe('Serializer | ChallengeSerializer', function () {
       // then
       expect(json).to.deep.equal({
         "data": {
-          "type": "challenge",
+          "type": "challenges",
           "id": challenge.id,
           "attributes": {
             "instruction": challenge.instruction,

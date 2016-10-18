@@ -1,6 +1,6 @@
 export default {
   data: {
-    type: 'challenge',
+    type: 'challenges',
     id: 'qcm_challenge_id',
     attributes: {
       type: 'QCM',

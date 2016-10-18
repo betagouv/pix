@@ -5,7 +5,7 @@ const JSONAPISerializer = require('./jsonapi-serializer');
 class CourseSerializer extends JSONAPISerializer {
 
   constructor() {
-    super('course');
+    super('courses');
   }
 
   serializeAttributes(model, data) {
@@ -27,7 +27,7 @@ class CourseSerializer extends JSONAPISerializer {
       };
       for (let challengeId of model.challenges) {
         data.relationships.challenges.data.push({
-          "type": 'challenge',
+          "type": 'challenges',
           "id": challengeId
         });
       }

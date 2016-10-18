@@ -2,7 +2,7 @@ import qcmChallenge from '../challenges/qcm-challenge';
 
 export default {
   data: {
-    type: 'answer',
+    type: 'answers',
     id: 'answer_qcm_id',
     attributes: {
       value: '1,2,5'
@@ -10,7 +10,7 @@ export default {
     relationships: {
       challenge: {
         data: {
-          type: 'challenge',
+          type: 'challenges',
           id: qcmChallenge.data.id
         }
       }

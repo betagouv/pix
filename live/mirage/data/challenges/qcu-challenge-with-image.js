@@ -1,6 +1,6 @@
 export default  {
   data: {
-    type: 'challenge',
+    type: 'challenges',
     id: 'qcu_challenge_with_image_id',
     attributes: {
       type: 'QCU',

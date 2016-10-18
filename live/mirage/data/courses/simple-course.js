@@ -4,7 +4,7 @@ import qrocmChallenge from '../challenges/qrocm-challenge';
 
 export default {
   data: {
-    type: "course",
+    type: "courses",
     id: "simple_course_id",
     attributes: {
       name: "Name of the course",
@@ -15,13 +15,13 @@ export default {
     relationships: {
       challenges: {
         data: [{
-          type: "challenge",
+          type: "challenges",
           id: qcmChallenge.data.id
         }, {
-          type: "challenge",
+          type: "challenges",
           id: qcuChallenge.data.id
         }, {
-          type: "challenge",
+          type: "challenges",
           id: qrocmChallenge.data.id
         }]
       }

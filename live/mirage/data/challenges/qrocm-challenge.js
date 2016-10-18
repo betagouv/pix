@@ -1,6 +1,6 @@
 export default {
   data: {
-    type: 'challenge',
+    type: 'challenges',
     id: 'qrocm_challenge_id',
     attributes: {
       type: 'QROCM',

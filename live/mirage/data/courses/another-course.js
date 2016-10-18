@@ -1,6 +1,6 @@
 export default {
   data: {
-    type: "course",
+    type: 'courses',
     id: "another_course_id",
     attributes: {
       name: "Les données, je gère ! #01",
@@ -11,11 +11,11 @@ export default {
     relationships: {
       challenges: {
         data: [
-          { type: "challenge", id: "recopA530N2rlxYLt" },
-          { type: "challenge", id: "recb35pFRQyyXzZUM" },
-          { type: "challenge", id: "recttWm9LAfDeqcxk" },
-          { type: "challenge", id: "rec9M8rp0Y8uDWzKQ" },
-          { type: "challenge", id: "recCIGio3ASSocMXx" }
+          { type: "challenges", id: "recopA530N2rlxYLt" },
+          { type: "challenges", id: "recb35pFRQyyXzZUM" },
+          { type: "challenges", id: "recttWm9LAfDeqcxk" },
+          { type: "challenges", id: "rec9M8rp0Y8uDWzKQ" },
+          { type: "challenges", id: "recCIGio3ASSocMXx" }
         ]
       }
     }

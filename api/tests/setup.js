@@ -1,6 +1,9 @@
 'use strict';
 
-// Global variables used int tests.
+/*
+ Global variables used int tests.
+ */
+
 global.nock = require('nock');
 nock.disableNetConnect();
 
@@ -10,7 +13,9 @@ require('sinon-as-promised');
 global.chai = require('chai');
 global.expect = chai.expect;
 
-// Setup Test database (generate api/db/test.sqlite3)
+/*
+ Setup Test database (generate api/db/test.sqlite3)
+ */
+
 const knexConfig = require('../db/knexfile');
 global.knex = require('knex')(knexConfig['test']);
-knex.migrate.latest();
