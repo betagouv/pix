@@ -1,7 +1,7 @@
 export default {
   data: {
     type: "course",
-    id: "course_nominal_case_id",
+    id: "simple_course_id",
     attributes: {
       name: "Name of the course",
       description: "A short description of the course",

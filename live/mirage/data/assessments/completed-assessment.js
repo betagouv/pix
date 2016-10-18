@@ -6,7 +6,7 @@ import qrocmAnswer from '../answers/qrocm-answer';
 export default {
   data: {
     type: 'assessment',
-    id: 'simple_assessment_id',
+    id: 'completed_assessment_id',
     attributes: {
       userId: 1,
       "user-name": 'Jon Snow',
