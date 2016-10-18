@@ -465,14 +465,13 @@ define('pix-live/tests/acceptance/3-demarrer-un-test-test.lint-test', ['exports'
 });
 define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'markdown-it'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _markdownIt) {
 
-  _mocha.describe.skip('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
+  (0, _mocha.describe)('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
 
     var application = undefined;
     var challenge = undefined;
 
     (0, _mocha.before)(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
-      challenge = server.create('challenge-airtable');
     });
 
     (0, _mocha.after)(function () {
@@ -484,12 +483,12 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'm
       var challengeId = undefined;
 
       (0, _mocha.before)(function () {
-        challengeId = challenge.attrs.id;
-        return visit('/challenges/' + challengeId + '/preview');
+        return visit('/challenges/challenge_qcu_id/preview');
       });
 
       (0, _mocha.it)('32.1. Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
-        (0, _chai.expect)(currentURL()).to.equal('/challenges/' + challengeId + '/preview');
+        (0, _chai.expect)(currentURL()).to.equal('/challenges/challenge_qcu_id/preview');
+        (0, _chai.expect)(findWithAssert('#challenge-preview'));
       });
 
       (0, _mocha.describe)('On affiche', function () {
@@ -501,8 +500,7 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'm
         });
 
         (0, _mocha.it)('32.2 la consigne de l\'épreuve', function () {
-          var markdownInstruction = (0, _markdownIt['default'])().render(challenge.attrs.fields.Consigne);
-          (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.equal(markdownInstruction);
+          (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.equal('<p>Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?</p>\n');
         });
       });
     });
@@ -522,7 +520,7 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test.lint-test', ['ex
 });
 define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'markdown-it'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _markdownIt) {
 
-  _mocha.describe.skip('Acceptance | 37 - Prévisualiser un test |', function () {
+  (0, _mocha.describe)('Acceptance | 37 - Prévisualiser un test |', function () {
 
     var challenges = undefined;
     var course = undefined;
@@ -535,15 +533,6 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
 
     (0, _mocha.before)(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
-      challenges = server.createList('challenge-airtable', 3);
-      course = server.create('course-airtable');
-      course.attachMany('Épreuves', challenges);
-
-      courseId = course.attrs.id;
-      // XXX order is reversed
-      firstChallengeId = challenges[2].attrs.id;
-      secondChallengeId = challenges[1].attrs.id;
-      lastChallengeId = challenges[0].attrs.id;
     });
 
     (0, _mocha.after)(function () {
@@ -553,11 +542,11 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
     (0, _mocha.describe)("Prévisualiser la première page d'un test |", function () {
 
       (0, _mocha.before)(function () {
-        visit('/courses/' + courseId + '/preview');
+        visit('/courses/simple_course_id/preview');
       });
 
       (0, _mocha.it)("37.1. L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
-        (0, _chai.expect)(currentURL()).to.equal('/courses/' + courseId + '/preview');
+        (0, _chai.expect)(currentURL()).to.equal('/courses/simple_course_id/preview');
       });
 
       var $preview = undefined;
@@ -569,32 +558,29 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
         });
 
         (0, _mocha.it)('37.2. le nom du test', function () {
-          (0, _chai.expect)($preview.find('.course-name').text()).to.contains(course.attrs.fields.Nom);
+          (0, _chai.expect)($preview.find('.course-name').text()).to.contains("Name of the course");
         });
 
         (0, _mocha.it)('37.3. la description du test', function () {
-          (0, _chai.expect)($preview.find('.course-description').text()).to.contains(course.attrs.fields.Description);
+          (0, _chai.expect)($preview.find('.course-description').text()).to.contains("A short description of the course");
         });
 
         (0, _mocha.it)('37.4. un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
           var $playButton = findWithAssert('.simulate-button');
           (0, _chai.expect)($playButton.text()).to.be.equals('Simuler le test');
-          (0, _chai.expect)($playButton.attr('href')).to.be.equals('/courses/' + courseId + '/preview/challenges/' + firstChallengeId);
+          (0, _chai.expect)($playButton.attr('href')).to.be.equals('/courses/simple_course_id/preview/challenges/qcm_challenge_id');
         });
       });
     });
 
     (0, _mocha.describe)("Prévisualiser une épreuve dans le cadre d'un test |", function () {
 
-      var currentChallenge = undefined;
-
       (0, _mocha.before)(function () {
-        currentChallenge = challenges[2];
-        visit('/courses/' + courseId + '/preview/challenges/' + firstChallengeId);
+        visit('/courses/simple_course_id/preview/challenges/qcm_challenge_id');
       });
 
       (0, _mocha.it)("37.5. L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
-        (0, _chai.expect)(currentURL()).to.equal('/courses/' + courseId + '/preview/challenges/' + firstChallengeId);
+        (0, _chai.expect)(currentURL()).to.equal('/courses/simple_course_id/preview/challenges/qcm_challenge_id');
       });
 
       (0, _mocha.describe)('On affiche', function () {
@@ -606,7 +592,7 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
         });
 
         (0, _mocha.it)("37.6. la consigne de l'épreuve", function () {
-          var expectedMarkdown = (0, _markdownIt['default'])().render(currentChallenge.attrs.fields.Consigne);
+          var expectedMarkdown = (0, _markdownIt['default'])().render("Que peut-on dire des œufs de catégorie A ?");
           (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.equal(expectedMarkdown);
         });
 
@@ -620,7 +606,7 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
     (0, _mocha.describe)("Prévisualiser la dernière épreuve dans le cadre d'un test |", function () {
 
       (0, _mocha.before)(function () {
-        visit('/courses/' + courseId + '/preview/challenges/' + lastChallengeId);
+        visit('/courses/simple_course_id/preview/challenges/' + lastChallengeId);
       });
 
       (0, _mocha.it)("37.8. on n'affiche pas de bouton “Épreuve suivante”", function () {
