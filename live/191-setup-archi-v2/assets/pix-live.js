@@ -6,28 +6,8 @@
 
 /* jshint ignore:end */
 
-define('pix-live/adapters/airtable', ['exports', 'ember-airtable/adapter'], function (exports, _emberAirtableAdapter) {
-  exports['default'] = _emberAirtableAdapter['default'].extend({
-
-    namespace: 'v0/appHAIFk9u1qqglhX',
-
-    headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer keyEgu8JYhXaOhjbd'
-    }
-  });
-});
-define("pix-live/adapters/answer", ["exports", "pix-live/adapters/airtable"], function (exports, _pixLiveAdaptersAirtable) {
-  exports["default"] = _pixLiveAdaptersAirtable["default"].extend({
-
-    pathForType: function pathForType() {
-      return 'Reponses';
-    }
-
-  });
-});
 define('pix-live/adapters/application', ['exports', 'ember-data'], function (exports, _emberData) {
-  exports['default'] = _emberData['default'].RESTAdapter.extend({
+  exports['default'] = _emberData['default'].JSONAPIAdapter.extend({
 
     namespace: 'api',
     host: EmberENV.apiHost.current
@@ -821,7 +801,7 @@ define('pix-live/initializers/ember-data', ['exports', 'ember-data/setup-contain
       adapter: 'custom'
     });
   
-    App.PostsController = Ember.ArrayController.extend({
+    App.PostsController = Ember.Controller.extend({
       // ...
     });
   
@@ -992,87 +972,392 @@ define("pix-live/instance-initializers/ember-data", ["exports", "ember-data/-pri
     initialize: _emberDataPrivateInstanceInitializersInitializeStoreService["default"]
   };
 });
-define("pix-live/mirage/config", ["exports"], function (exports) {
-  var courseNominalCase = {
-    id: "course_nominal_case",
-    name: "Name of the course",
-    description: "A short description of the course",
-    duration: 10,
-    imageUrl: "https://dl.airtable.com/L8AQwmIURNu79XmKFoPO_storage-1209059_960_720.jpg",
-    challenges: ["challenge_qcm", "challenge_qcu", "challenge_qrocm"]
-  };
-
-  var courseWithNoImage = {
-    challenges: ["recOJjFzL0I6QDvJl", "recmt1vM0Dl3X0CIQ", "rectkDBolVTyEkoHX", "recvaILCv8mtzqB2m", "recLrixSqRxL5vJ54", "recqxUz6DYwLPVCWh", "reco9l7yVkQTscB3A", "recADRNFqsgjIG9Zj", "rec3mXgYY9E32ShNf", "recs1xp2Ik6Akrwsp", "rec8FzKzBkjDYiE8c"],
-    duration: 20,
-    description: "Description d'un test sans image",
-    name: "Test sans image",
-    id: "course_with_no_image"
-  };
-
-  exports["default"] = function () {
+define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments'], function (exports, _pixLiveMirageRoutesGetChallenge, _pixLiveMirageRoutesGetChallenges, _pixLiveMirageRoutesGetCourse, _pixLiveMirageRoutesGetCourses, _pixLiveMirageRoutesGetAnswer, _pixLiveMirageRoutesPostAnswers, _pixLiveMirageRoutesGetAssessment, _pixLiveMirageRoutesPostAssessments) {
+  exports['default'] = function () {
 
     this.namespace = 'http://localhost:3000/api';
 
-    this.get('/courses', function (schema) {
-      return [courseNominalCase, courseWithNoImage, {
-        imageUrl: "https://dl.airtable.com/L8AQwmIURNu79XmKFoPO_storage-1209059_960_720.jpg",
-        challenges: ["recopA530N2rlxYLt", "recb35pFRQyyXzZUM", "recttWm9LAfDeqcxk", "rec9M8rp0Y8uDWzKQ", "recCIGio3ASSocMXx", "rec5WobQ3QkC07jt4", "recyNr3bZvwZNY3Is"],
-        duration: 10,
-        description: "Stocker et organiser des données pour les retrouver, les conserver et en faciliter l'accès et la gestion",
-        name: "Les données, je gère ! #01",
-        id: "recqBFUffy0sCq6ah"
-      }, {
-        imageUrl: "https://dl.airtable.com/JVqXboM4THi4s4LphLZa_challenger-space-shuttle-1102029_960_720.jpg",
-        challenges: ["recin0ZPtJyNNrBoy", "recyRNeHrvhUBgunU", "recr6dEmRR24Y4DqO", "recceHsyX1AnV3kdW", "recCI6TqfMF8isLhp", "recNrZgtDdxDJUyGc"],
-        description: "Un test regroupant des idées d'épreuves nouvelles",
-        name: "France Strategy Experimental Challenge",
-        id: "recURdA2VWp4TD30H"
-      }, {
-        imageUrl: "https://dl.airtable.com/UvNdR6gpQY2C2su9zSaR_online-942410_640.jpg",
-        challenges: ["rec7Mxf1sJtM6arxn", "rec18uKPBdNiCoj5o", "rec2cTjc7hEVgLov8", "recnG44mATYoymcZQ", "recc4uJS8p5RZJFzT", "rec9OW8LijTWUpQOL", "recuOF3usxmx6paw8", "rectcCOXbKJT3ottj", "rec0I61XwUNnPBs0e", "recT8Oo8DO2SZzfvt", "recSCxxKQyeJ2Xclz"],
-        description: "Produire et éditer des documents image, son et vidéo",
-        name: "Développer des documents multimédia #01",
-        id: "recSPxMZX653ZhUqS"
-      }];
-    });
+    this.get('/courses', _pixLiveMirageRoutesGetCourses['default']);
+    this.get('/courses/:id', _pixLiveMirageRoutesGetCourse['default']);
 
-    this.get('/courses/:id', function (schema, request) {
+    this.get('/challenges', _pixLiveMirageRoutesGetChallenges['default']);
+    this.get('/challenges/:id', _pixLiveMirageRoutesGetChallenge['default']);
 
-      var courseId = request.params.id;
-      if (courseId === 'course_with_no_image') {
-        return courseWithNoImage;
+    this.post('/assessments', _pixLiveMirageRoutesPostAssessments['default']);
+    this.get('/assessments/:id', _pixLiveMirageRoutesGetAssessment['default']);
+
+    this.post('/answers', _pixLiveMirageRoutesPostAnswers['default']);
+    this.get('/answers/:id', _pixLiveMirageRoutesGetAnswer['default']);
+  };
+});
+define('pix-live/mirage/data/answers/qcm-answer', ['exports', 'pix-live/mirage/data/challenges/qcm-challenge'], function (exports, _pixLiveMirageDataChallengesQcmChallenge) {
+  exports['default'] = {
+    data: {
+      type: 'answer',
+      id: 'answer_qcm_id',
+      attributes: {
+        value: '1,2,5'
+      },
+      relationships: {
+        challenge: {
+          data: {
+            type: 'challenge',
+            id: _pixLiveMirageDataChallengesQcmChallenge['default'].data.id
+          }
+        }
       }
-      return courseNominalCase;
-    });
-
-    this.get('/challenges', function (schema, request) {
-      return [{
-        type: "QCM",
-        proposals: "- Ils sont bio. - Ils pèsent plus de 63 grammes. - Ce sont des oeufs frais. - Ils sont destinés aux consommateurs. - Ils ne sont pas lavés. ",
-        instruction: "Que peut-on dire des œufs de catégorie A ? ",
-        id: "challenge_qcm"
-      }, {
-        type: "QCU",
-        proposals: "- J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt - Ci-joint le document que j’ai déposé dans l’espace partagé - J’ai déposé le document intro.odt dans l’espace partagé - J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail",
+    }
+  };
+});
+define('pix-live/mirage/data/answers/qcu-answer', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallenge) {
+  exports['default'] = {
+    data: {
+      type: 'answer',
+      id: 'answer_qcu_id',
+      attributes: {
+        value: '3'
+      },
+      relationships: {
+        challenge: {
+          data: {
+            type: 'challenge',
+            id: _pixLiveMirageDataChallengesQcuChallenge['default'].data.id
+          }
+        }
+      }
+    }
+  };
+});
+define('pix-live/mirage/data/answers/qrocm-answer', ['exports', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQrocmChallenge) {
+  exports['default'] = {
+    data: {
+      type: 'answer',
+      id: 'answer_qrocm_id',
+      attributes: {
+        value: 'logiciel 1 = "LOTUS", logiciel 2 = "FIREFOX", logiciel 3 = "GOOGLE"'
+      },
+      relationships: {
+        challenge: {
+          data: {
+            type: 'challenge',
+            id: _pixLiveMirageDataChallengesQrocmChallenge['default'].data.id
+          }
+        }
+      }
+    }
+  };
+});
+define('pix-live/mirage/data/assessments/completed-assessment', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qrocm-answer'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQrocmAnswer) {
+  exports['default'] = {
+    data: {
+      type: 'assessment',
+      id: 'completed_assessment_id',
+      attributes: {
+        userId: 1,
+        "user-name": 'Jon Snow',
+        "user-email": 'jsnow@winterfell.got'
+      },
+      relationships: {
+        course: {
+          data: {
+            type: 'course',
+            id: _pixLiveMirageDataCoursesSimpleCourse['default'].data.id
+          }
+        },
+        answers: {
+          data: [{
+            type: 'answer',
+            id: _pixLiveMirageDataAnswersQcuAnswer['default'].data.id
+          }, {
+            type: 'answer',
+            id: _pixLiveMirageDataAnswersQcmAnswer['default'].data.id
+          }, {
+            type: 'answer',
+            id: _pixLiveMirageDataAnswersQrocmAnswer['default'].data.id
+          }]
+        }
+      }
+    }
+  };
+});
+define('pix-live/mirage/data/assessments/in-progress-assessment', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/answers/qcm-answer'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataAnswersQcmAnswer) {
+  exports['default'] = {
+    data: {
+      type: 'assessment',
+      id: 'in_progress_assessment_id',
+      attributes: {
+        userId: 1,
+        "user-name": 'Jon Snow',
+        "user-email": 'jsnow@winterfell.got'
+      },
+      relationships: {
+        course: {
+          data: {
+            type: 'course',
+            id: _pixLiveMirageDataCoursesSimpleCourse['default'].data.id
+          }
+        },
+        answers: {
+          data: [{
+            type: 'answer',
+            id: _pixLiveMirageDataAnswersQcmAnswer['default'].data.id
+          }]
+        }
+      }
+    }
+  };
+});
+define('pix-live/mirage/data/assessments/new-assessment', ['exports', 'pix-live/mirage/data/courses/simple-course'], function (exports, _pixLiveMirageDataCoursesSimpleCourse) {
+  exports['default'] = {
+    data: {
+      type: 'assessment',
+      id: 'new_assessment_id',
+      attributes: {
+        userId: 1,
+        "user-name": 'Jon Snow',
+        "user-email": 'jsnow@winterfell.got'
+      },
+      relationships: {
+        course: {
+          data: {
+            type: 'course',
+            id: _pixLiveMirageDataCoursesSimpleCourse['default'].data.id
+          }
+        }
+      }
+    }
+  };
+});
+define('pix-live/mirage/data/challenges/qcm-challenge', ['exports'], function (exports) {
+  exports['default'] = {
+    data: {
+      type: 'challenge',
+      id: 'qcm_challenge_id',
+      attributes: {
+        type: 'QCM',
+        instruction: "Que peut-on dire des œufs de catégorie A ?",
+        proposals: "- Ils sont bio.\n - Ils pèsent plus de 63 grammes.\n - Ce sont des oeufs frais.\n - Ils sont destinés aux consommateurs.\n - Ils ne sont pas lavés."
+      }
+    }
+  };
+});
+define('pix-live/mirage/data/challenges/qcu-challenge-with-attachment', ['exports'], function (exports) {
+  exports['default'] = {
+    data: {
+      type: 'challenge',
+      id: 'qcu_challenge_with_attachment_id',
+      attributes: {
+        type: 'QCU',
+        'attachment-url': 'http://example_of_url',
+        'attachment-filename': 'example_of_filename.pdf',
         instruction: "Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?",
-        id: "challenge_qcu"
-      }, {
-        type: "QROCM",
-        proposals: "Réponses : ${logiciel} ${logiciel} ${logiciel} ",
+        proposals: "" + "- J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt\n " + "- Ci-joint le document que j’ai déposé dans l’espace partagé\n " + "- J’ai déposé le document intro.odt dans l’espace partagé\n" + "- J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail"
+      }
+    }
+  };
+});
+define('pix-live/mirage/data/challenges/qcu-challenge-with-image', ['exports'], function (exports) {
+  exports['default'] = {
+    data: {
+      type: 'challenge',
+      id: 'qcu_challenge_with_image_id',
+      attributes: {
+        type: 'QCU',
+        'illustration-url': 'http://fakeimg.pl/350x200/?text=DavidB&font=lobster',
+        instruction: "Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?",
+        proposals: "" + "- J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt\n " + "- Ci-joint le document que j’ai déposé dans l’espace partagé\n " + "- J’ai déposé le document intro.odt dans l’espace partagé\n" + "- J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail"
+      }
+    }
+  };
+});
+define('pix-live/mirage/data/challenges/qcu-challenge', ['exports'], function (exports) {
+  exports['default'] = {
+    data: {
+      type: 'challenge',
+      id: 'qcu_challenge_id',
+      attributes: {
+        type: 'QCU',
+        instruction: "Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?",
+        proposals: "" + "- J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt\n " + "- Ci-joint le document que j’ai déposé dans l’espace partagé\n " + "- J’ai déposé le document intro.odt dans l’espace partagé\n" + "- J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail"
+      }
+    }
+  };
+});
+define('pix-live/mirage/data/challenges/qrocm-challenge', ['exports'], function (exports) {
+  exports['default'] = {
+    data: {
+      type: 'challenge',
+      id: 'qrocm_challenge_id',
+      attributes: {
+        type: 'QROCM',
         instruction: "Citez un ou plusieurs logiciel(s) permettant de réaliser un montage vidéo.",
-        id: "challenge_qrocm"
-      }];
-    });
+        proposals: "Réponses : ${logiciel} ${logiciel} ${logiciel}"
+      }
+    }
+  };
+});
+define("pix-live/mirage/data/courses/another-course", ["exports"], function (exports) {
+  exports["default"] = {
+    data: {
+      type: "course",
+      id: "another_course_id",
+      attributes: {
+        name: "Les données, je gère ! #01",
+        description: "Stocker et organiser des données pour les retrouver, les conserver et en faciliter l'accès et la gestion",
+        duration: 10,
+        "image-url": 'https://dl.airtable.com/L8AQwmIURNu79XmKFoPO_storage-1209059_960_720.jpg'
+      },
+      relationships: {
+        challenges: {
+          data: [{ type: "challenge", id: "recopA530N2rlxYLt" }, { type: "challenge", id: "recb35pFRQyyXzZUM" }, { type: "challenge", id: "recttWm9LAfDeqcxk" }, { type: "challenge", id: "rec9M8rp0Y8uDWzKQ" }, { type: "challenge", id: "recCIGio3ASSocMXx" }]
+        }
+      }
+    }
+  };
+});
+define("pix-live/mirage/data/courses/no-image-course", ["exports"], function (exports) {
+  exports["default"] = {
+    data: {
+      type: "course",
+      id: "course_with_no_image",
+      attributes: {
+        name: "Test sans image",
+        description: "Description d'un test sans image",
+        duration: 20
+      },
+      relationships: {
+        challenges: {
+          data: [{ type: "challenge", id: "recOJjFzL0I6QDvJl" }, { type: "challenge", id: "recmt1vM0Dl3X0CIQ" }, { type: "challenge", id: "rectkDBolVTyEkoHX" }, { type: "challenge", id: "recvaILCv8mtzqB2m" }, { type: "challenge", id: "recLrixSqRxL5vJ54" }, { type: "challenge", id: "recqxUz6DYwLPVCWh" }, { type: "challenge", id: "reco9l7yVkQTscB3A" }, { type: "challenge", id: "recADRNFqsgjIG9Zj" }, { type: "challenge", id: "rec3mXgYY9E32ShNf" }, { type: "challenge", id: "recs1xp2Ik6Akrwsp" }, { type: "challenge", id: "rec8FzKzBkjDYiE8c" }]
+        }
+      }
+    }
+  };
+});
+define('pix-live/mirage/data/courses/simple-course', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
+  exports['default'] = {
+    data: {
+      type: "course",
+      id: "simple_course_id",
+      attributes: {
+        name: "Name of the course",
+        description: "A short description of the course",
+        duration: 10,
+        "image-url": 'https://dl.airtable.com/L8AQwmIURNu79XmKFoPO_storage-1209059_960_720.jpg'
+      },
+      relationships: {
+        challenges: {
+          data: [{
+            type: "challenge",
+            id: _pixLiveMirageDataChallengesQcmChallenge['default'].data.id
+          }, {
+            type: "challenge",
+            id: _pixLiveMirageDataChallengesQcuChallenge['default'].data.id
+          }, {
+            type: "challenge",
+            id: _pixLiveMirageDataChallengesQrocmChallenge['default'].data.id
+          }]
+        }
+      }
+    }
+  };
+});
+define('pix-live/mirage/routes/get-answer', ['exports', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qrocm-answer'], function (exports, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQrocmAnswer) {
+  exports['default'] = function (schema, request) {
 
-    this.get('/challenges/:id', function (schema, request) {
-      return {
-        type: "QCM",
-        proposals: "- Ils sont bio. - Ils pèsent plus de 63 grammes. - Ce sont des oeufs frais. - Ils sont destinés aux consommateurs. - Ils ne sont pas lavés. ",
-        instruction: "Que peut-on dire des œufs de catégorie A ? ",
-        id: "challenge_qcm"
-      };
-    });
+    switch (request.params.id) {
+
+      case _pixLiveMirageDataAnswersQcmAnswer['default'].data.id:
+        return _pixLiveMirageDataAnswersQcmAnswer['default'];
+      case _pixLiveMirageDataAnswersQcuAnswer['default'].data.id:
+        return _pixLiveMirageDataAnswersQcuAnswer['default'];
+      case _pixLiveMirageDataAnswersQrocmAnswer['default'].data.id:
+        return _pixLiveMirageDataAnswersQrocmAnswer['default'];
+      default:
+        throw new Error();
+    }
+  };
+});
+define('pix-live/mirage/routes/get-assessment', ['exports', 'pix-live/mirage/data/assessments/completed-assessment', 'pix-live/mirage/data/assessments/in-progress-assessment'], function (exports, _pixLiveMirageDataAssessmentsCompletedAssessment, _pixLiveMirageDataAssessmentsInProgressAssessment) {
+  exports['default'] = function (schema, request) {
+
+    switch (request.params.id) {
+      case _pixLiveMirageDataAssessmentsInProgressAssessment['default'].data.id:
+        return _pixLiveMirageDataAssessmentsInProgressAssessment['default'];
+      case _pixLiveMirageDataAssessmentsCompletedAssessment['default'].data.id:
+        return _pixLiveMirageDataAssessmentsCompletedAssessment['default'];
+      default:
+        return _pixLiveMirageDataAssessmentsCompletedAssessment['default'];
+    }
+  };
+});
+define('pix-live/mirage/routes/get-challenge', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge-with-image', 'pix-live/mirage/data/challenges/qcu-challenge-with-attachment', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallengeWithImage, _pixLiveMirageDataChallengesQcuChallengeWithAttachment, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
+  exports['default'] = function (schema, request) {
+
+    switch (request.params.id) {
+
+      case _pixLiveMirageDataChallengesQcmChallenge['default'].data.id:
+        return _pixLiveMirageDataChallengesQcmChallenge['default'];
+      case _pixLiveMirageDataChallengesQcuChallenge['default'].data.id:
+        return _pixLiveMirageDataChallengesQcuChallenge['default'];
+      case _pixLiveMirageDataChallengesQrocmChallenge['default'].data.id:
+        return _pixLiveMirageDataChallengesQrocmChallenge['default'];
+      case _pixLiveMirageDataChallengesQcuChallengeWithImage['default'].data.id:
+        return _pixLiveMirageDataChallengesQcuChallengeWithImage['default'];
+      case _pixLiveMirageDataChallengesQcuChallengeWithAttachment['default'].data.id:
+        return _pixLiveMirageDataChallengesQcuChallengeWithAttachment['default'];
+      default:
+        return _pixLiveMirageDataChallengesQcuChallenge['default'];
+    }
+  };
+});
+define('pix-live/mirage/routes/get-challenges', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
+  exports['default'] = function () {
+
+    return {
+      data: [_pixLiveMirageDataChallengesQcuChallenge['default'].data, _pixLiveMirageDataChallengesQcmChallenge['default'].data, _pixLiveMirageDataChallengesQrocmChallenge['default'].data]
+    };
+  };
+});
+define('pix-live/mirage/routes/get-course', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/courses/no-image-course'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataCoursesNoImageCourse) {
+  exports['default'] = function (schema, request) {
+
+    var courseId = request.params.id;
+
+    if (courseId === 'course_with_no_image') {
+      return _pixLiveMirageDataCoursesNoImageCourse['default'];
+    }
+    return _pixLiveMirageDataCoursesSimpleCourse['default'];
+  };
+});
+define('pix-live/mirage/routes/get-courses', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/courses/another-course', 'pix-live/mirage/data/courses/no-image-course'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataCoursesAnotherCourse, _pixLiveMirageDataCoursesNoImageCourse) {
+  exports['default'] = function () {
+    return {
+      data: [_pixLiveMirageDataCoursesSimpleCourse['default'].data, _pixLiveMirageDataCoursesAnotherCourse['default'].data, _pixLiveMirageDataCoursesNoImageCourse['default'].data]
+    };
+  };
+});
+define('pix-live/mirage/routes/post-answers', ['exports', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qrocm-answer'], function (exports, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQrocmChallenge, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQrocmAnswer) {
+  exports['default'] = function (schema, request) {
+
+    var answer = JSON.parse(request.requestBody);
+
+    switch (answer.data.relationships.challenge.data.id) {
+
+      case _pixLiveMirageDataChallengesQcmChallenge['default'].data.id:
+        return _pixLiveMirageDataAnswersQcmAnswer['default'];
+      case _pixLiveMirageDataChallengesQcuChallenge['default'].data.id:
+        return _pixLiveMirageDataAnswersQcuAnswer['default'];
+      case _pixLiveMirageDataChallengesQrocmChallenge['default'].data.id:
+        return _pixLiveMirageDataAnswersQrocmAnswer['default'];
+      default:
+        throw new Error();
+    }
+  };
+});
+define('pix-live/mirage/routes/post-assessments', ['exports', 'pix-live/mirage/data/assessments/new-assessment'], function (exports, _pixLiveMirageDataAssessmentsNewAssessment) {
+  exports['default'] = function () {
+
+    return _pixLiveMirageDataAssessmentsNewAssessment['default'];
   };
 });
 define('pix-live/models/answer', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -1281,7 +1566,6 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
 
     this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
     this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
-    this.route('secret-yo');
   });
 });
 define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp', 'ember-data'], function (exports, _ember, _rsvp, _emberData) {
@@ -1298,6 +1582,10 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp',
         assessment: assessmentPromise,
         challenge: challengePromise
       });
+    },
+
+    afterModel: function afterModel(model) {
+      _ember['default'].debug('model = ' + JSON.stringify(model));
     },
 
     actions: {
@@ -1488,131 +1776,6 @@ define('pix-live/routes/index', ['exports', 'ember'], function (exports, _ember)
 });
 define('pix-live/routes/preferences', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({});
-});
-define('pix-live/routes/secret-yo', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Route.extend({
-    model: function model() {
-      return this.store.findAll('user');
-    }
-  });
-});
-define('pix-live/serializers/airtable-serializer', ['exports', 'ember', 'ember-data'], function (exports, _ember, _emberData) {
-
-  var inflector = _ember['default'].Inflector.inflector;
-
-  exports['default'] = _emberData['default'].RESTSerializer.extend({
-
-    normalizeResponse: function normalizeResponse(store, type, payload) {
-      var _this = this;
-
-      var modelNamePlural = inflector.pluralize(type.modelName);
-
-      if (payload.records) {
-        payload[modelNamePlural] = payload.records;
-        delete payload.records;
-
-        payload.meta = {
-          offset: payload.offset
-        };
-        delete payload.offset;
-
-        payload[modelNamePlural].forEach(function (record) {
-          record.fields = _this.transformFields(record.fields);
-          _ember['default'].merge(record, record.fields);
-          delete record.fields;
-          record.created = record.createdTime;
-          delete record.createdTime;
-        });
-      } else {
-        payload.fields = this.transformFields(payload.fields);
-        payload[type.modelName] = payload.fields;
-        payload[type.modelName].id = payload.id;
-        payload[type.modelName].created = payload.createdTime;
-        delete payload.id;
-        delete payload.fields;
-        delete payload.createdTime;
-      }
-
-      return this._super.apply(this, arguments);
-    },
-
-    transformFields: function transformFields(fields) {
-      return fields;
-    }
-  });
-});
-define('pix-live/serializers/answer', ['exports', 'pix-live/serializers/airtable-serializer'], function (exports, _pixLiveSerializersAirtableSerializer) {
-  exports['default'] = _pixLiveSerializersAirtableSerializer['default'].extend({
-
-    transformFields: function transformFields(fields) {
-      return {
-        value: fields['Valeur'],
-        challenge: fields['Epreuve'],
-        assessment: fields['Evaluation']
-      };
-    },
-
-    // FIXME: see how to move in AirtableSerializer
-    serializeIntoHash: function serializeIntoHash(data, type, record, options) {
-      data['fields'] = this.serialize(record, options);
-    },
-
-    serialize: function serialize(snapshot) {
-      return {
-        "Valeur": snapshot.attr('value'),
-        "Epreuve": [snapshot.belongsTo('challenge', { id: true })],
-        "Evaluation": [snapshot.belongsTo('assessment', { id: true })]
-      };
-    }
-  });
-});
-define('pix-live/serializers/application', ['exports', 'ember-data'], function (exports, _emberData) {
-  exports['default'] = _emberData['default'].JSONSerializer.extend({});
-});
-define('pix-live/serializers/assessment', ['exports', 'ember-data'], function (exports, _emberData) {
-  exports['default'] = _emberData['default'].JSONSerializer.extend({});
-
-  /*
-  import AirtableSerializer from "./airtable-serializer";
-  
-  export default AirtableSerializer.extend({
-  
-    transformFields(fields) {
-  
-      return {
-        course: fields['Test'],
-        answers: fields['Reponses'],
-        userName: fields["Nom de l'usager"],
-        userEmail: fields["Courriel de l'usager"]
-      };
-    },
-  
-    serializeIntoHash: function (data, type, record, options) {
-  
-      data['fields'] = this.serialize(record, options);
-    },
-  
-    serialize: function (snapshot) {
-  
-      return {
-        "Test": [
-          snapshot.belongsTo('course', { id: true })
-        ],
-        "Nom de l'usager": snapshot.attr('userName'),
-        "Courriel de l'usager": snapshot.attr('userEmail')
-      };
-    }
-  });
-  */
-});
-define('pix-live/serializers/challenge', ['exports', 'ember-data'], function (exports, _emberData) {
-  exports['default'] = _emberData['default'].JSONSerializer.extend({});
-});
-define('pix-live/serializers/course', ['exports', 'ember-data'], function (exports, _emberData) {
-  exports['default'] = _emberData['default'].JSONSerializer.extend({});
-});
-define('pix-live/serializers/user', ['exports', 'ember-data'], function (exports, _emberData) {
-  exports['default'] = _emberData['default'].RESTSerializer.extend({});
 });
 define('pix-live/services/ajax', ['exports', 'ember-ajax/services/ajax'], function (exports, _emberAjaxServicesAjax) {
   Object.defineProperty(exports, 'default', {
@@ -8135,114 +8298,231 @@ define("pix-live/templates/preferences", ["exports"], function (exports) {
     };
   })());
 });
-define("pix-live/templates/secret-yo", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template((function () {
-    var child0 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.8.2",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 1,
-              "column": 0
-            },
-            "end": {
-              "line": 6,
-              "column": 0
-            }
-          },
-          "moduleName": "pix-live/templates/secret-yo.hbs"
-        },
-        isEmpty: false,
-        arity: 1,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("    ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("div");
-          dom.setAttribute(el1, "class", "container");
-          var el2 = dom.createTextNode("\n        ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("h3");
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode(" ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n        email: ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createComment("");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n    ");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1]);
-          var element1 = dom.childAt(element0, [1]);
-          var morphs = new Array(3);
-          morphs[0] = dom.createMorphAt(element1, 0, 0);
-          morphs[1] = dom.createMorphAt(element1, 2, 2);
-          morphs[2] = dom.createMorphAt(element0, 3, 3);
-          return morphs;
-        },
-        statements: [["content", "user.firstName", ["loc", [null, [3, 12], [3, 30]]], 0, 0, 0, 0], ["content", "user.lastName", ["loc", [null, [3, 31], [3, 48]]], 0, 0, 0, 0], ["content", "user.email", ["loc", [null, [4, 15], [4, 31]]], 0, 0, 0, 0]],
-        locals: ["user"],
-        templates: []
-      };
-    })();
-    return {
-      meta: {
-        "revision": "Ember@2.8.2",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 7,
-            "column": 0
-          }
-        },
-        "moduleName": "pix-live/templates/secret-yo.hbs"
-      },
-      isEmpty: false,
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-        dom.insertBoundary(fragment, 0);
-        dom.insertBoundary(fragment, null);
-        return morphs;
-      },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [1, 8], [1, 13]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [1, 0], [6, 9]]]]],
-      locals: [],
-      templates: [child0]
-    };
-  })());
-});
 define('pix-live/tests/mirage/mirage/config.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/config.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('mirage/config.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/answers/qcm-answer.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/answers/qcm-answer.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/answers/qcm-answer.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/answers/qcu-answer.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/answers/qcu-answer.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/answers/qcu-answer.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/answers/qrocm-answer.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/answers/qrocm-answer.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/answers/qrocm-answer.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/assessments/completed-assessment.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/assessments/completed-assessment.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/assessments/completed-assessment.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/assessments/in-progress-assessment.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/assessments/in-progress-assessment.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/assessments/in-progress-assessment.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/assessments/new-assessment.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/assessments/new-assessment.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/assessments/new-assessment.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/challenges/qcm-challenge.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/challenges/qcm-challenge.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/challenges/qcm-challenge.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge-with-attachment.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/challenges/qcu-challenge-with-attachment.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/challenges/qcu-challenge-with-attachment.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge-with-image.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/challenges/qcu-challenge-with-image.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/challenges/qcu-challenge-with-image.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/challenges/qcu-challenge.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/challenges/qcu-challenge.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/challenges/qrocm-challenge.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/challenges/qrocm-challenge.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/challenges/qrocm-challenge.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/courses/another-course.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/courses/another-course.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/courses/another-course.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/courses/no-image-course.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/courses/no-image-course.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/courses/no-image-course.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/courses/simple-course.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/courses/simple-course.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/courses/simple-course.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/routes/get-answer.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/routes/get-answer.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/routes/get-answer.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/routes/get-assessment.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/routes/get-assessment.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/routes/get-assessment.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/routes/get-challenge.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/routes/get-challenge.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/routes/get-challenge.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/routes/get-challenges.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/routes/get-challenges.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/routes/get-challenges.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/routes/get-course.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/routes/get-course.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/routes/get-course.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/routes/get-courses.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/routes/get-courses.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/routes/get-courses.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/routes/post-answers.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/routes/post-answers.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/routes/post-answers.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/routes/post-assessments.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/routes/post-assessments.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/routes/post-assessments.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -8284,7 +8564,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+35640de1"});
+  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+d1c145b3"});
 }
 
 /* jshint ignore:end */
