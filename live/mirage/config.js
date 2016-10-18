@@ -1,51 +1,13 @@
-import simpleCourse from './data/courses/simple-course';
-import anotherCourse from './data/courses/another-course';
-import noImageCourse from './data/course/no-image-course';
-import courseWithNoImage from './data/courses/no-image-course';
-import newAssessment from './data/assessments/new-assessment';
+import simpleCourse from './data/course/simpleCourse';
+import anotherCourse from './data/course/anotherCourse';
+import noImageCourse from './data/course/noImageCourse';
+import challengeQcu from './data/challenges/challenge-qcu';
+import challengeQcm from './data/challenges/challenge-qcm';
+import challengeQrocm from './data/challenges/challenge-qrocm';
 import completedAssessment from './data/assessments/completed-assessment';
+import newAssessment from './data/assessments/new-assessment';
+import getCourses from './route/get-courses';
 
-import getCourses from './routes/get-courses';
-
-let challengeQcu = {
-  data: {
-    type: 'challenge',
-    id: 'challenge_qcu_id',
-    attributes: {
-      type: 'QCU',
-      instruction: "Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?",
-      proposals: "" +
-      "- J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt\n " +
-      "- Ci-joint le document que j’ai déposé dans l’espace partagé\n " +
-      "- J’ai déposé le document intro.odt dans l’espace partagé\n" +
-      "- J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail"
-    }
-  }
-};
-
-let challengeQcm = {
-  data: {
-    type: 'challenge',
-    id: 'challenge_qcm_id',
-    attributes: {
-      type: 'QCM',
-      instruction: "Que peut-on dire des œufs de catégorie A ?",
-      proposals: "- Ils sont bio.\n - Ils pèsent plus de 63 grammes.\n - Ce sont des oeufs frais.\n - Ils sont destinés aux consommateurs.\n - Ils ne sont pas lavés."
-    }
-  }
-};
-
-let challengeQrocm = {
-  data: {
-    type: 'challenge',
-    id: 'challenge_qrocm_id',
-    attributes: {
-      type: 'QROCM',
-      instruction: "Citez un ou plusieurs logiciel(s) permettant de réaliser un montage vidéo.",
-      proposals: "Réponses : ${logiciel} ${logiciel} ${logiciel}"
-    }
-  }
-};
 
 export default function () {
 
