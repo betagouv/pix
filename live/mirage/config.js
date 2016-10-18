@@ -3,7 +3,6 @@ import anotherCourse from './data-course-another';
 import courseWithNoImage from './data-course-no-image';
 import getCourses from './GET-courses';
 
-
 let challengeQcu = {
   data: {
     type: 'challenge',
@@ -11,7 +10,11 @@ let challengeQcu = {
     attributes: {
       type: 'QCU',
       instruction: "Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?",
-      proposals: "- J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt\n - Ci-joint le document que j’ai déposé dans l’espace partagé\n - J’ai déposé le document intro.odt dans l’espace partagé\n - J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail"
+      proposals: "" +
+      "- J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt\n " +
+      "- Ci-joint le document que j’ai déposé dans l’espace partagé\n " +
+      "- J’ai déposé le document intro.odt dans l’espace partagé\n" +
+      "- J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail"
     }
   }
 };
@@ -36,6 +39,46 @@ let challengeQrocm = {
       type: 'QROCM',
       instruction: "Citez un ou plusieurs logiciel(s) permettant de réaliser un montage vidéo.",
       proposals: "Réponses : ${logiciel} ${logiciel} ${logiciel}"
+    }
+  }
+};
+
+let newAssessment = {
+  data: {
+    type: 'assessment',
+    id: 'new_assessment_id',
+    attributes: {
+      userId: 1,
+      "user-name": 'Jon Snow',
+      "user-email": 'jsnow@winterfell.got'
+    },
+    relationships: {
+      course: {
+        data: {
+          type: 'course',
+          id: 'simple_course_id'
+        }
+      }
+    }
+  }
+};
+
+let simpleAssessment = {
+  data: {
+    type: 'assessment',
+    id: 'simple_assessment_id',
+    attributes: {
+      userId: 1,
+      "user-name": 'Jon Snow',
+      "user-email": 'jsnow@winterfell.got'
+    },
+    relationships: {
+      course: {
+        data: {
+          type: 'course',
+          id: 'simple_course_id'
+        }
+      }
     }
   }
 };
@@ -66,7 +109,7 @@ export default function () {
   });
 
   this.get('/challenges/:id', function (schema, request) {
-    switch(request.params.id) {
+    switch (request.params.id) {
       case 'challenge_qrocm_id':
         return challengeQrocm;
       case 'challenge_qcm_id':
@@ -78,24 +121,10 @@ export default function () {
   });
 
   this.post('/assessments', function (schema, request) {
-    return {
-      id: "new_assessment",
-      userId: "an_user_id",
-      courseId: "course_nominal_case_id",
-      userName: "a_username",
-      userEmail: "a_user@email.com"
-    }
+    return newAssessment;
   });
 
   this.get('/assessments/:id', function (schema, request) {
-
-    return {
-      id: "an_assessment_id",
-      userId: "an_user_id",
-      courseId: "course_nominal_case_id",
-      userName: "a_username",
-      userEmail: "a_user@email.com"
-    }
+    return simpleAssessment;
   });
-
 }

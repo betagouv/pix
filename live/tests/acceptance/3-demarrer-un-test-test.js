@@ -29,14 +29,14 @@ describe('Acceptance | 3 - Démarrer un test |', function () {
   it('3.1. Je peux démarrer un test depuis la liste des tests de la page d\'accueil', function() {
     const $startLink = findWithAssert('.start-button')[0];
     expect($startLink.text).to.contains('Démarrer le test');
-    expect($startLink.href).to.contains(`/courses/course_nominal_case_id/assessment`);
+    expect($startLink.href).to.contains(`/courses/simple_course_id/assessment`);
   });
 
   it('3.2. Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {
     const $startLink = findWithAssert('.start-button')[0];
     return click($startLink).then(function() {
       findWithAssert('#assessment-challenge');
-      expect(currentURL()).to.contains('/assessments/new_assessment/challenges/challenge_qcm_id');
+      expect(currentURL()).to.contains('/assessments/new_assessment_id/challenges/challenge_qcm_id');
     });
   });
 

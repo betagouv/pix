@@ -29,7 +29,7 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
   });
 
   it("2.2 on affiche autant de tests que remontés par l'API", function () {
-    expect(findWithAssert('.course')).to.have.lengthOf(5);
+    expect(findWithAssert('.course')).to.have.lengthOf(3);
   });
 
   describe('2.3 pour un test donné avec toutes les informations', function () {
@@ -37,7 +37,7 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
     let $course;
 
     before(function () {
-      $course = findWithAssert('.course[data-id="course_nominal_case_id"]');
+      $course = findWithAssert('.course[data-id="simple_course_id"]');
     });
 
     it('2.3.1 on affiche son nom', function () {
