@@ -24,7 +24,7 @@ describe("Acceptance | 14 - Créer une épreuve de type QROC | ", function () {
   });
 
   before(function () {
-    return visit(`/challenges/challenge_qrocm_id/preview`);
+    return visit(`/challenges/qrocm_challenge_id/preview`);
   });
 
   it('14.1 un champ input text est affiché', function () {
