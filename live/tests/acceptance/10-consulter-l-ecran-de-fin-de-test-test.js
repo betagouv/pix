@@ -49,7 +49,7 @@ describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
   });
 
   it("10.4. affiche l'intitulé du test", function () {
-    expect($assessmentResults.text()).to.contains(course.attrs.fields["Nom"]);
+    expect($assessmentResults.text()).to.contains("Name of the course");
   });
 
   it("10.5. affiche le rapport nombre de réponses saisies sur nombre d'épreuves du test", function () {

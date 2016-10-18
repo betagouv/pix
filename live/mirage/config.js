@@ -1,7 +1,11 @@
-import simpleCourse from './data/course/simpleCourse';
-import anotherCourse from './data/course/anotherCourse';
-import noImageCourse from './data/course/noImageCourse';
-import getCourses from './route/get-courses';
+import simpleCourse from './data/courses/simple-course';
+import anotherCourse from './data/courses/another-course';
+import noImageCourse from './data/course/no-image-course';
+import courseWithNoImage from './data/courses/no-image-course';
+import newAssessment from './data/assessments/new-assessment';
+import completedAssessment from './data/assessments/completed-assessment';
+
+import getCourses from './routes/get-courses';
 
 let challengeQcu = {
   data: {
@@ -43,46 +47,6 @@ let challengeQrocm = {
   }
 };
 
-let newAssessment = {
-  data: {
-    type: 'assessment',
-    id: 'new_assessment_id',
-    attributes: {
-      userId: 1,
-      "user-name": 'Jon Snow',
-      "user-email": 'jsnow@winterfell.got'
-    },
-    relationships: {
-      course: {
-        data: {
-          type: 'course',
-          id: 'simple_course_id'
-        }
-      }
-    }
-  }
-};
-
-let simpleAssessment = {
-  data: {
-    type: 'assessment',
-    id: 'simple_assessment_id',
-    attributes: {
-      userId: 1,
-      "user-name": 'Jon Snow',
-      "user-email": 'jsnow@winterfell.got'
-    },
-    relationships: {
-      course: {
-        data: {
-          type: 'course',
-          id: 'simple_course_id'
-        }
-      }
-    }
-  }
-};
-
 export default function () {
 
   this.namespace = 'http://localhost:3000/api';
@@ -120,11 +84,11 @@ export default function () {
     }
   });
 
-  this.post('/assessments', function (schema, request) {
+  this.post('/assessments', function () {
     return newAssessment;
   });
 
-  this.get('/assessments/:id', function (schema, request) {
-    return simpleAssessment;
+  this.get('/assessments/:id', function () {
+    return completedAssessment;
   });
 }
