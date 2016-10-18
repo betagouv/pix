@@ -1,3 +1,5 @@
+import qrocmChallenge from '../challenges/challenge-qrocm';
+
 export default {
   data: {
     type: 'answer',
@@ -9,7 +11,7 @@ export default {
       challenge: {
         data: {
           type: 'challenge',
-          id: 'challenge_qrocm_id'
+          id: qrocmChallenge.data.id
         }
       }
     }

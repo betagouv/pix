@@ -1,3 +1,5 @@
+import qcmChallenge from '../challenges/challenge-qcm';
+
 export default {
   data: {
     type: 'answer',
@@ -9,7 +11,7 @@ export default {
       challenge: {
         data: {
           type: 'challenge',
-          id: 'challenge_qcm_id'
+          id: qcmChallenge.data.id
         }
       }
     }
