@@ -16,7 +16,10 @@ describe('Serializer | CourseSerializer', function () {
             "challenge_qcu_id",
             "challenge_qcm_id",
             "challenge_qrocm_id"
-          ]
+          ],
+          "Image": [{
+            "url": "http://image.url",
+          }]
         }
       };
       const course = new Course(record);
@@ -32,7 +35,8 @@ describe('Serializer | CourseSerializer', function () {
           "attributes": {
             "name": course.name,
             "description": course.description,
-            "duration": course.duration
+            "duration": course.duration,
+            "image-url": "http://image.url"
           },
           "relationships": {
             "challenges": {
