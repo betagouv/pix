@@ -12,12 +12,13 @@ import markdownit from 'markdown-it';
 describe('Acceptance | 4 - Démarrer une épreuve |', function() {
 
   const propositions = [
-    'proposition 1', 'proposition 2', 'proposition 3'
+    "J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt",
+    "Ci-joint le document que j’ai déposé dans l’espace partagé",
+    "J’ai déposé le document intro.odt dans l’espace partagé",
+    "J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail"
   ];
   let application;
-  let assessment;
   let challenge;
-  let course;
 
   before(function() {
     application = startApp();
@@ -34,14 +35,14 @@ describe('Acceptance | 4 - Démarrer une épreuve |', function() {
   describe('Les informations visibles pour une épreuve de type QCU sont :', function () {
 
     it('4.2. la consigne de l\'épreuve', function () {
-      const expectedMarkdown = markdownit().render(challenge.attrs.fields['Consigne']);
+      const expectedMarkdown = markdownit().render("Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?");
       const $instruction = findWithAssert('.challenge-instruction');
       expect($instruction.html()).to.equal(expectedMarkdown);
     });
 
     it('4.3. les propositions de l\'épreuve', function () {
       const $proposals = findWithAssert('.challenge-proposal');
-      expect($proposals).to.have.lengthOf(3);
+      expect($proposals).to.have.lengthOf(4);
       expect($proposals.eq(0).text()).to.contains(propositions[0]);
       expect($proposals.eq(1).text()).to.contains(propositions[1]);
       expect($proposals.eq(2).text()).to.contains(propositions[2]);

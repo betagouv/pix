@@ -9,7 +9,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import Ember from 'ember';
 
-describe.skip("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
+describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
 
   let application;
   let assessment;
@@ -20,21 +20,6 @@ describe.skip("Acceptance | 10 - Consulter l'écran de fin d'un test ", function
 
   before(function() {
     application = startApp();
-
-    assessment = server.create('assessment-airtable');
-    course = server.create('course-airtable');
-    challenges = server.createList('challenge-airtable', 5);
-    answers = server.createList('answer-airtable', 5);
-
-    assessment.attachOne('Test', course);
-    course.challenges = challenges;
-    for (let i = 0 ; i < answers.length ; i++) {
-      const answer = answers[i];
-      const challenge = challenges[i];
-      answer.attachOne('Evaluation', assessment);
-      answer.attachOne('Epreuve', challenge);
-    }
-    assessment.attachMany('Reponses', answers);
   });
 
   after(function() {
@@ -42,7 +27,7 @@ describe.skip("Acceptance | 10 - Consulter l'écran de fin d'un test ", function
   });
 
   before(function() {
-    return visit(`/assessments/${assessment.attrs.id}/results`);
+    return visit(`/assessments/an_assessment_id/results`);
   });
 
   before(function () {
@@ -51,7 +36,7 @@ describe.skip("Acceptance | 10 - Consulter l'écran de fin d'un test ", function
 
 
   it("10.1. se fait en accédant à l'URL /assessments/:assessment_id/results", function () {
-    expect(currentURL()).to.equal(`/assessments/${assessment.attrs.id}/results`);
+    expect(currentURL()).to.equal(`/assessments/an_assessment_id/results`);
   });
 
   it("10.2. affiche un titre", function () {
