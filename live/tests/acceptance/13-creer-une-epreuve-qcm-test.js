@@ -24,10 +24,10 @@ describe("Acceptance | 13 - Créer une épreuve de type QCM | ", function () {
   });
 
   before(function () {
-    return visit('/challenges/challenge_qcm_id/preview');
+    return visit('/challenges/qcm_challenge_id/preview');
   });
 
-  it('14.1 les propositions checkbox sont affichées', function () {
+  it('13 les propositions checkbox sont affichées', function () {
     const $proposals = findWithAssert('.challenge-proposals input[type="checkbox"]');
     expect($proposals).to.have.lengthOf(5);
   });

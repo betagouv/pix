@@ -1,7 +1,11 @@
+import qcuChallenge from '../challenges/qcu-challenge';
+import qcmChallenge from '../challenges/qcm-challenge';
+import qrocmChallenge from '../challenges/qrocm-challenge';
+
 export default {
   data: {
     type: "course",
-    id: "course_nominal_case_id",
+    id: "simple_course_id",
     attributes: {
       name: "Name of the course",
       description: "A short description of the course",
@@ -10,11 +14,16 @@ export default {
     },
     relationships: {
       challenges: {
-        data: [
-          { type: "challenge", id: "challenge_qcm_id" },
-          { type: "challenge", id: "challenge_qcu_id" },
-          { type: "challenge", id: "challenge_qrocm_id" }
-        ]
+        data: [{
+          type: "challenge",
+          id: qcmChallenge.data.id
+        }, {
+          type: "challenge",
+          id: qcuChallenge.data.id
+        }, {
+          type: "challenge",
+          id: qrocmChallenge.data.id
+        }]
       }
     }
   }

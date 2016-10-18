@@ -8,16 +8,18 @@ export default function (schema, request) {
 
   switch (request.params.id) {
 
-    case 'challenge_qrocm_id':
+    case qcmChallenge.data.id:
+      return qcmChallenge;
+    case qcuChallenge.data.id:
+      return qcuChallenge;
+    case qrocmChallenge.data.id:
       return qrocmChallenge;
-    case 'challenge_qcm_id':
-      return qcmChallenge;    
-    case 'qcu_challenge_with_image_id':
+    case qcuChallengeWithImage.data.id:
       return qcuChallengeWithImage;
-    case 'qcu_challenge_with_attachment_id':
+    case qcuChallengeWithAttachment.data.id:
       return qcuChallengeWithAttachment;
-    case 'challenge_qcu_id':
     default:
       return qcuChallenge;
   }
+
 }

@@ -7,15 +7,12 @@ import {
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import Ember from 'ember';
 
 describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
 
   let application;
   let assessment;
   let course;
-  let challenges;
-  let answers;
   let $assessmentResults;
 
   before(function() {
@@ -27,7 +24,7 @@ describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
   });
 
   before(function() {
-    return visit(`/assessments/an_assessment_id/results`);
+    return visit(`/assessments/completed_assessment_id/results`);
   });
 
   before(function () {
@@ -36,7 +33,7 @@ describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
 
 
   it("10.1. se fait en accédant à l'URL /assessments/:assessment_id/results", function () {
-    expect(currentURL()).to.equal(`/assessments/an_assessment_id/results`);
+    expect(currentURL()).to.equal(`/assessments/completed_assessment_id/results`);
   });
 
   it("10.2. affiche un titre", function () {
@@ -53,7 +50,7 @@ describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
   });
 
   it("10.5. affiche le rapport nombre de réponses saisies sur nombre d'épreuves du test", function () {
-    const expectedString = `${answers.length} question(s) sur ${challenges.length}`;
+    const expectedString = `3 question(s) sur 3`;
     expect($assessmentResults.text()).to.contains(expectedString);
   });
 
