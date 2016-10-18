@@ -3,6 +3,7 @@ import getChallenges from './routes/get-challenges';
 import getCourse from './routes/get-course';
 import getCourses from './routes/get-courses';
 import getAnswer from './routes/get-answer';
+import postAnswers from './routes/post-answers';
 import getAssessment from './routes/get-assessment';
 import postAssessments from './routes/post-assessments';
 
@@ -19,6 +20,7 @@ export default function () {
   this.post('/assessments', postAssessments);
   this.get('/assessments/:id', getAssessment);
 
+  this.post('/answers', postAnswers);
   this.get('/answers/:id', getAnswer);
 
 }

@@ -1,7 +1,7 @@
 export default {
   data: {
     type: 'challenge',
-    id: 'challenge_qcm_id',
+    id: 'qcm_challenge_id',
     attributes: {
       type: 'QCM',
       instruction: "Que peut-on dire des œufs de catégorie A ?",

@@ -6,13 +6,14 @@ export default function (schema, request) {
 
   switch (request.params.id) {
 
-    case 'answer_qrocm_id':
-      return qrocmAnswer;
-    case 'answer_qcm_id':
+    case qcmAnswer.data.id:
       return qcmAnswer;
-    case 'answer_qcu_id':
-    default:
+    case qcuAnswer.data.id:
       return qcuAnswer;
+    case qrocmAnswer.data.id:
+      return qrocmAnswer;
+    default:
+      throw new Error();
   }
 
 }

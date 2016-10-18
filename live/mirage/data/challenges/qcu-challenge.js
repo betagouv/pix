@@ -1,7 +1,7 @@
 export default  {
   data: {
     type: 'challenge',
-    id: 'challenge_qcu_id',
+    id: 'qcu_challenge_id',
     attributes: {
       type: 'QCU',
       instruction: "Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?",
