@@ -1,11 +1,9 @@
 import simpleCourse from './data/courses/simple-course';
-import anotherCourse from './data/courses/another-course';
 import noImageCourse from './data/course/no-image-course';
-import courseWithNoImage from './data/courses/no-image-course';
-import newAssessment from './data/assessments/new-assessment';
-import completedAssessment from './data/assessments/completed-assessment';
 
 import getCourses from './routes/get-courses';
+import getAssessment from './routes/get-assessment';
+import postAssessments from './routes/post-assessments';
 
 let challengeQcu = {
   data: {
@@ -84,11 +82,6 @@ export default function () {
     }
   });
 
-  this.post('/assessments', function () {
-    return newAssessment;
-  });
-
-  this.get('/assessments/:id', function () {
-    return completedAssessment;
-  });
+  this.post('/assessments', postAssessments);
+  this.get('/assessments/:id', getAssessment);
 }
