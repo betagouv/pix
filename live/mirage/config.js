@@ -1,7 +1,7 @@
-import simpleCourse from './data-course-simple';
-import anotherCourse from './data-course-another';
-import courseWithNoImage from './data-course-no-image';
-import getCourses from './get-courses';
+import simpleCourse from './data/course/simpleCourse';
+import anotherCourse from './data/course/anotherCourse';
+import noImageCourse from './data/course/noImageCourse';
+import getCourses from './route/get-courses';
 
 let challengeQcu = {
   data: {
@@ -93,7 +93,7 @@ export default function () {
 
     const courseId = request.params.id;
     if (courseId === 'course_with_no_image') {
-      return courseWithNoImage;
+      return noImageCourse;
     }
     return simpleCourse;
   });
