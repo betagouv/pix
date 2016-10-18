@@ -1,7 +1,7 @@
 import simpleCourse from './data-course-simple';
 import anotherCourse from './data-course-another';
 import courseWithNoImage from './data-course-no-image';
-import getCourses from './GET-courses';
+import getCourses from './get-courses';
 
 let challengeQcu = {
   data: {
