@@ -1,4 +1,4 @@
-import qcmChallenge from '../challenges/challenge-qcm';
+import qcmChallenge from '../challenges/qcm-challenge';
 
 export default {
   data: {

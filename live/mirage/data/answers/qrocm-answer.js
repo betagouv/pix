@@ -1,4 +1,4 @@
-import qrocmChallenge from '../challenges/challenge-qrocm';
+import qrocmChallenge from '../challenges/qrocm-challenge';
 
 export default {
   data: {

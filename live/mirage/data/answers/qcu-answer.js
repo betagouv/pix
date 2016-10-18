@@ -1,4 +1,4 @@
-import qcuChallenge from '../challenges/challenge-qcu';
+import qcuChallenge from '../challenges/qcu-challenge';
 
 export default {
   data: {
