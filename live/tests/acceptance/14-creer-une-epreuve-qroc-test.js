@@ -10,20 +10,13 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import RSVP from 'rsvp';
 
-describe.skip("Acceptance | 14 - Créer une épreuve de type QROC | ", function () {
+describe("Acceptance | 14 - Créer une épreuve de type QROC | ", function () {
 
   let application;
   let challenge;
 
   before(function () {
     application = startApp();
-    challenge = server.create('challenge-airtable', {
-      fields: {
-        'Consigne': 'Quel est le score du match Stade de Reims - LOSC du championnat de France de football 1954-1955 ?',
-        'Propositions': 'Stade de Reims ${reims} - ${LOSC} LOSC (ex : 1-1)',
-        "Type d'épreuve": 'QROC'
-      }
-    });
   });
 
   after(function () {
@@ -31,7 +24,7 @@ describe.skip("Acceptance | 14 - Créer une épreuve de type QROC | ", function 
   });
 
   before(function () {
-    return visit(`/challenges/${challenge.attrs.id}/preview`);
+    return visit(`/challenges/challenge_qrocm_id/preview`);
   });
 
   it('14.1 un champ input text est affiché', function () {

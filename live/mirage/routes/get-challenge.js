@@ -14,4 +14,4 @@ export default function (schema, request) {
     default:
       return qcuChallenge;
   }
-};
+}

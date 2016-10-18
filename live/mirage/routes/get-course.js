@@ -10,4 +10,4 @@ export default function (schema, request) {
   }
   return simpleCourse;
 
-};
+}
