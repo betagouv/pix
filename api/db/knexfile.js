@@ -14,6 +14,20 @@ module.exports = {
     useNullAsDefault: true
   },
 
+  branch: {
+    client: 'sqlite3',
+    connection: {
+      filename: `${__dirname}/branch.sqlite3`
+    },
+    migrations: {
+      directory: './migrations'
+    },
+    seeds: {
+      directory: './seeds'
+    },
+    useNullAsDefault: true
+  },
+
   production: {
     client: 'postgresql',
     connection: process.env.DATABASE_URL,
