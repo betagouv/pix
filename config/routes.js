@@ -1,3 +1,5 @@
+'use strict';
+
 const server = require('../server');
 const Assessments = require('../app/controllers/assessments');
 const Answers = require('../app/controllers/answers');

@@ -1,8 +1,6 @@
 'use strict';
 
 const Boom = require('boom');
-const Answer = require('../models/data/answer');
-const assessmentService = require('../services/assessment-service');
 const assessmentSerializer = require('../serializers/assessment-serializer');
 
 module.exports = {
