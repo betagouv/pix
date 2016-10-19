@@ -531,7 +531,6 @@ define('pix-live/components/identification-form', ['exports', 'ember', 'lodash/l
 
   exports['default'] = _ember['default'].Component.extend({
 
-    routing: _ember['default'].inject.service('-routing'),
     session: _ember['default'].inject.service('session'),
 
     user: _ember['default'].Object.create(),
@@ -886,11 +885,17 @@ define('pix-live/initializers/infer-api-host', ['exports'], function (exports) {
 
   function inferApiHost(locationObject) {
 
-    if (/localhost/.test(locationObject.hostname)) return 'http://' + EmberENV.apiHost.localhost;
+    if (/localhost/.test(locationObject.hostname)) {
+      return 'http://' + EmberENV.apiHost.localhost;
+    }
 
-    if ('pix.beta.gouv.fr' === locationObject.hostname) return 'https://api-prod.' + EmberENV.apiHost.pix;
+    if ('pix.beta.gouv.fr' === locationObject.hostname) {
+      return 'https://api-prod.' + EmberENV.apiHost.pix;
+    }
 
-    if ('development.pix.beta.gouv.fr' === locationObject.hostname) return 'http://api-development.' + EmberENV.apiHost.pix;
+    if ('development.pix.beta.gouv.fr' === locationObject.hostname) {
+      return 'http://api-development.' + EmberENV.apiHost.pix;
+    }
 
     var matches = /^(.*).pix.beta.gouv.fr/.exec(locationObject.hostname);
     return 'http://' + matches[1] + '.' + EmberENV.apiHost.pix;
@@ -8564,7 +8569,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+71d07434"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+055e129b"});
 }
 
 /* jshint ignore:end */
