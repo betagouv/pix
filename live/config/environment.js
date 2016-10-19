@@ -62,8 +62,10 @@ module.exports = function (environment) {
     ENV.googleFonts = [];
   }
 
-  if (environment === 'production') {
-
+  if (environment === 'branch') {
+    ENV['ember-cli-mirage'] = {
+      enabled: false
+    };
   }
 
   return ENV;
