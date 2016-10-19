@@ -1,3 +1,7 @@
+import qcuChallenge from '../challenges/qcu-challenge';
+import qcmChallenge from '../challenges/qcm-challenge';
+import qrocmChallenge from '../challenges/qrocm-challenge';
+
 export default {
   data: {
     type: "courses",
@@ -9,19 +13,16 @@ export default {
     },
     relationships: {
       challenges: {
-        data: [
-          { type: "challenges", id: "recOJjFzL0I6QDvJl" },
-          { type: "challenges", id: "recmt1vM0Dl3X0CIQ" },
-          { type: "challenges", id: "rectkDBolVTyEkoHX" },
-          { type: "challenges", id: "recvaILCv8mtzqB2m" },
-          { type: "challenges", id: "recLrixSqRxL5vJ54" },
-          { type: "challenges", id: "recqxUz6DYwLPVCWh" },
-          { type: "challenges", id: "reco9l7yVkQTscB3A" },
-          { type: "challenges", id: "recADRNFqsgjIG9Zj" },
-          { type: "challenges", id: "rec3mXgYY9E32ShNf" },
-          { type: "challenges", id: "recs1xp2Ik6Akrwsp" },
-          { type: "challenges", id: "rec8FzKzBkjDYiE8c" }
-        ]
+        data: [{
+          type: "challenges",
+          id: qcmChallenge.data.id
+        }, {
+          type: "challenges",
+          id: qcuChallenge.data.id
+        }, {
+          type: "challenges",
+          id: qrocmChallenge.data.id
+        }]
       }
     }
   }
