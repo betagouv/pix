@@ -1058,7 +1058,7 @@ define('pix-live/mirage/data/assessments/completed-assessment', ['exports', 'pix
       type: 'assessments',
       id: 'completed_assessment_id',
       attributes: {
-        userId: 1,
+        "user-id": 'user_id',
         "user-name": 'Jon Snow',
         "user-email": 'jsnow@winterfell.got'
       },
@@ -1091,7 +1091,7 @@ define('pix-live/mirage/data/assessments/in-progress-assessment', ['exports', 'p
       type: 'assessments',
       id: 'in_progress_assessment_id',
       attributes: {
-        userId: 1,
+        "user-id": 'user_id',
         "user-name": 'Jon Snow',
         "user-email": 'jsnow@winterfell.got'
       },
@@ -1118,7 +1118,7 @@ define('pix-live/mirage/data/assessments/new-assessment', ['exports', 'pix-live/
       type: 'assessments',
       id: 'new_assessment_id',
       attributes: {
-        userId: 1,
+        "user-id": 'user_id',
         "user-name": 'Jon Snow',
         "user-email": 'jsnow@winterfell.got'
       },
@@ -8584,7 +8584,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+35e824ab"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+bf224505"});
 }
 
 /* jshint ignore:end */
