@@ -6,7 +6,7 @@ export default {
     type: 'assessments',
     id: 'in_progress_assessment_id',
     attributes: {
-      userId: 1,
+      "user-id": 'user_id',
       "user-name": 'Jon Snow',
       "user-email": 'jsnow@winterfell.got'
     },

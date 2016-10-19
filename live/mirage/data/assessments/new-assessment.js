@@ -5,7 +5,7 @@ export default {
     type: 'assessments',
     id: 'new_assessment_id',
     attributes: {
-      "user-id": 1,
+      "user-id": 'user_id',
       "user-name": 'Jon Snow',
       "user-email": 'jsnow@winterfell.got'
     },
