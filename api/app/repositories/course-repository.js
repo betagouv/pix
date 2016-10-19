@@ -1,7 +1,9 @@
+'use strict';
+
 const base = require('../../config/airtable').base;
 const Course = require('../models/referential/course');
 
-AIRTABLE_TABLE_NAME = 'Tests';
+const AIRTABLE_TABLE_NAME = 'Tests';
 
 module.exports = {
 
