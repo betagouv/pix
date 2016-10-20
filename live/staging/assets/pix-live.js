@@ -719,7 +719,7 @@ define('pix-live/initializers/configure-pix-api-host', ['exports', 'pix-live/con
     }
 
     if (_pixLiveConfigEnvironment['default'].environment === 'staging') {
-      return 'https://api-development.pix-app.ovh';
+      return 'https://api-staging.pix-app.ovh';
     }
 
     if (/localhost/.test(locationObject.hostname)) {
@@ -8584,7 +8584,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+01b1c1ba"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+f58ba6b5"});
 }
 
 /* jshint ignore:end */
