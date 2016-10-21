@@ -1404,7 +1404,6 @@ define('pix-live/models/assessment', ['exports', 'ember-data'], function (export
 
     course: belongsTo('course', { inverse: null }),
     answers: hasMany('answer'),
-    userId: attr('string'),
     userName: attr('string'),
     userEmail: attr('string'),
 
@@ -1701,7 +1700,7 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'ember', 'rsvp']
         var userName = _this.get('session.user.firstName') + ' ' + _this.get('session.user.lastName');
         var userEmail = _this.get('session.user.email');
 
-        return store.createRecord('assessment', { course: course, userId: 1, userName: userName, userEmail: userEmail }).save().then(function (assessment) {
+        return store.createRecord('assessment', { course: course, userName: userName, userEmail: userEmail }).save().then(function (assessment) {
           return _rsvp['default'].hash({
             assessment: assessment,
             challenge: assessment.get('firstChallenge')
@@ -8584,7 +8583,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+916b0511"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+afaef526"});
 }
 
 /* jshint ignore:end */
