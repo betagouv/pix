@@ -24,6 +24,7 @@ export default Ember.Route.extend({
   actions : {
 
     saveAnswerAndNavigate: function (currentChallenge, assessment, answerValue) {
+      console.log("ok, save answer and navigate");
       const answer = this._createAnswer(answerValue, currentChallenge, assessment);
       answer.save().then(() => {
         this._navigateToNextView(currentChallenge, assessment);
@@ -56,6 +57,10 @@ export default Ember.Route.extend({
     const progressToSet = model.assessment
       .get('course')
       .then((course) => course.getProgress(model.challenge));
+
+    const challengeType =  model.challenge.get('type').toLowerCase();
+    console.log('challengeType is ' + challengeType);
+    controller.set('challengeItemType', 'challenge-item-' + challengeType);
 
     controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
   },
