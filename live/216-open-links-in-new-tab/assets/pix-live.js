@@ -716,12 +716,12 @@ define('pix-live/initializers/configure-pix-api-host', ['exports', 'pix-live/con
       return 'http://api-staging.pix-app.ovh';
     }
 
-    if (/localhost/.test(locationObject.hostname)) {
-      return 'http://localhost:3000';
+    if (_pixLiveConfigEnvironment['default'].environment === 'integration') {
+      var matches = /^(.*).pix.beta.gouv.fr/.exec(locationObject.hostname);
+      return 'http://' + matches[1] + '.pix-app.ovh';
     }
 
-    var matches = /^(.*).pix.beta.gouv.fr/.exec(locationObject.hostname);
-    return 'http://' + matches[1] + '.pix-app.ovh';
+    return 'http://localhost:3000';
   }
 
   function initialize() {
@@ -8573,7 +8573,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"LOG_RESOLVER":false,"LOG_ACTIVE_GENERATION":false,"LOG_TRANSITIONS":false,"LOG_TRANSITIONS_INTERNAL":false,"LOG_VIEW_LOOKUPS":false,"name":"pix-live","version":"1.0.0+c33c3143"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+8b11b881"});
 }
 
 /* jshint ignore:end */

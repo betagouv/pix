@@ -2770,17 +2770,6 @@ define('pix-live/tests/unit/initializers/configure-pix-api-host-test', ['exports
 
     (0, _mocha.describe)('configurePixApiHost', function () {
 
-      (0, _mocha.it)('should detect localhost', function () {
-        // given
-        var location = { hostname: 'localhost:4200' };
-
-        // when
-        var pixApiHost = (0, _pixLiveInitializersConfigurePixApiHost.configurePixApiHost)(location);
-
-        // then
-        (0, _chai.expect)(pixApiHost).to.equal('http://localhost:3000');
-      });
-
       (0, _mocha.it)('should detect Pix production', function () {
         // given
         _pixLiveConfigEnvironment['default'].environment = 'production';
@@ -2803,8 +2792,9 @@ define('pix-live/tests/unit/initializers/configure-pix-api-host-test', ['exports
         (0, _chai.expect)(pixApiHost).to.equal('http://api-staging.pix-app.ovh');
       });
 
-      (0, _mocha.it)('should detect feature branches environment', function () {
+      (0, _mocha.it)('should detect Pix integration', function () {
         // given
+        _pixLiveConfigEnvironment['default'].environment = 'integration';
         var location = { hostname: '123-user-stories-are-magic.pix.beta.gouv.fr' };
 
         // when
@@ -2812,6 +2802,17 @@ define('pix-live/tests/unit/initializers/configure-pix-api-host-test', ['exports
 
         // then
         (0, _chai.expect)(pixApiHost).to.equal('http://123-user-stories-are-magic.pix-app.ovh');
+      });
+
+      (0, _mocha.it)('should detect localhost', function () {
+        // given
+        var location = { hostname: 'localhost:4200' };
+
+        // when
+        var pixApiHost = (0, _pixLiveInitializersConfigurePixApiHost.configurePixApiHost)(location);
+
+        // then
+        (0, _chai.expect)(pixApiHost).to.equal('http://localhost:3000');
       });
     });
   });
