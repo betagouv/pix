@@ -43,7 +43,7 @@ deploy-live-development:
 deploy-live-staging:
 	cd live && npm run deploy:staging
 deploy-live-production:
-	cd live && npm run deploy:prod
+	cd live && npm run deploy:production
 
 deploy-api-development:
 	(cd api && npm run deploy:development)
