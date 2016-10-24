@@ -15,6 +15,8 @@ export default Model.extend({
       .get('answers')
       .filter((answer) => answer.get('value') !== '#ABAND#')
       .get('length');
-  })
+  }),
+
+  firstChallenge: computed.alias('course.challenges.firstObject')
 
 });

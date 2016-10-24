@@ -1,6 +1,6 @@
 machine:
   node:
-    version: v6.6.0
+    version: v6.9.0
 
 dependencies:
   override:
@@ -12,14 +12,14 @@ test:
     - make ci-test
 
 deployment:
-  development:
+  staging:
     branch: master
     commands:
       - git config --global user.email 'mackwic@gmail.com'
       - git config --global user.name 'Thomas Wickham'
-      - make deploy
+      - make deploy-staging
 
-  in-progress:
+  development:
     branch: /.*/
     commands:
       - git config --global user.email 'mackwic@gmail.com'
