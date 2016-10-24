@@ -25,7 +25,7 @@
   },
   "repository": "",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 6.9.0"
   },
   "author": "",
   "license": "MIT",
@@ -54,6 +54,7 @@
     "ember-cli-mocha-reporter": "0.0.2",
     "ember-cli-postcss": "3.0.4",
     "ember-cli-release": "^0.2.9",
+    "ember-cli-showdown": "2.8.0",
     "ember-cli-sri": "^2.1.0",
     "ember-cli-test-loader": "1.1.0",
     "ember-cli-uglify": "^1.2.0",
@@ -61,11 +62,10 @@
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
     "ember-lodash": "0.0.10",
-    "ember-markdown-it": "0.0.4",
+    "ember-radio-buttons": "^4.0.1",
     "ember-resolver": "^2.0.3",
     "eslint": "^3.3.1",
     "loader.js": "^4.0.11",
-    "markdown-it": "https://registry.npmjs.org/markdown-it/-/markdown-it-6.0.4.tgz",
     "mocha": "^3.0.0",
     "postcss-browser-reporter": "^0.5.0",
     "postcss-cssnext": "^2.7.0",
@@ -75,8 +75,5 @@
     "stylelint": "^7.2.0",
     "stylelint-config-standard": "^13.0.0",
     "tap-xunit": "^1.4.0"
-  },
-  "dependencies": {
-    "ember-radio-buttons": "^4.0.1"
   }
 }
