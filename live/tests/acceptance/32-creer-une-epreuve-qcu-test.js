@@ -43,8 +43,13 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
       });
 
       it('32.2 la consigne de l\'épreuve', function () {
-        expect($challenge.find('.challenge-instruction').html()).to.contain('<p>Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?</p>');
+        expect($challenge.find('.challenge-instruction').text()).to.contain('Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?');
       });
+
+      it('32.3 les liens dans la consigne de l\'épreuve qui seront ouvert dans un nouvel onglet', function () {
+        expect($challenge.find('.challenge-instruction').html()).to.contain('<a target="_blank" href="https://fr.wikipedia.org/wiki/Stockage">stockage</a> ');
+      });
+
     });
   });
 });

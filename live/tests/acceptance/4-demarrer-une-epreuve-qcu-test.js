@@ -35,7 +35,7 @@ describe('Acceptance | 4 - Démarrer une épreuve |', function() {
 
     it('4.2. la consigne de l\'épreuve', function () {
       const $instruction = findWithAssert('.challenge-instruction');
-      expect($instruction.html()).to.contain("Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?");
+      expect($instruction.html()).to.contain('Julie a déposé un document dans un espace de <a target="_blank" href="https://fr.wikipedia.org/wiki/Stockage">stockage</a> partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?');
     });
 
     it('4.3. les propositions de l\'épreuve', function () {
