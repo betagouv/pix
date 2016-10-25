@@ -1106,32 +1106,11 @@ define('pix-live/mirage/data/assessments/in-progress-assessment', ['exports', 'p
     }
   };
 });
-define('pix-live/mirage/data/assessments/new-assessment-of-another-course', ['exports', 'pix-live/mirage/data/courses/another-course'], function (exports, _pixLiveMirageDataCoursesAnotherCourse) {
-  exports['default'] = {
-    data: {
-      type: 'assessments',
-      id: 'new_assessment_of_another_course_id',
-      attributes: {
-        "user-id": 'user_id',
-        "user-name": 'Jon Snow',
-        "user-email": 'jsnow@winterfell.got'
-      },
-      relationships: {
-        course: {
-          data: {
-            type: 'courses',
-            id: _pixLiveMirageDataCoursesAnotherCourse['default'].data.id
-          }
-        }
-      }
-    }
-  };
-});
 define('pix-live/mirage/data/assessments/new-assessment-of-noimage-course', ['exports', 'pix-live/mirage/data/courses/no-image-course'], function (exports, _pixLiveMirageDataCoursesNoImageCourse) {
   exports['default'] = {
     data: {
       type: 'assessments',
-      id: 'new_assessment_of_another_course_id',
+      id: 'new_assessment_of_noimage_course_id',
       attributes: {
         'user-id': 'user_id',
         'user-name': 'Jon Snow',
@@ -1271,31 +1250,6 @@ define('pix-live/mirage/data/challenges/qrocm-challenge', ['exports'], function 
     }
   };
 });
-define('pix-live/mirage/data/courses/another-course', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
-  exports['default'] = {
-    data: {
-      type: 'courses',
-      id: "another_course_id",
-      attributes: {
-        name: "Les données, je gère ! #01",
-        description: "Stocker et organiser des données pour les retrouver, les conserver et en faciliter l'accès et la gestion",
-        duration: 10,
-        "image-url": 'https://dl.airtable.com/L8AQwmIURNu79XmKFoPO_storage-1209059_960_720.jpg'
-      },
-      relationships: {
-        challenges: {
-          data: [{
-            type: "challenges",
-            id: _pixLiveMirageDataChallengesQcuChallenge['default'].data.id
-          }, {
-            type: "challenges",
-            id: _pixLiveMirageDataChallengesQrocmChallenge['default'].data.id
-          }]
-        }
-      }
-    }
-  };
-});
 define('pix-live/mirage/data/courses/no-image-course', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
   exports['default'] = {
     data: {
@@ -1421,7 +1375,7 @@ define('pix-live/mirage/routes/get-course', ['exports', 'pix-live/mirage/data/co
     return _pixLiveMirageDataCoursesSimpleCourse['default'];
   };
 });
-define('pix-live/mirage/routes/get-courses', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/courses/another-course', 'pix-live/mirage/data/courses/no-image-course'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataCoursesAnotherCourse, _pixLiveMirageDataCoursesNoImageCourse) {
+define('pix-live/mirage/routes/get-courses', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/courses/no-image-course'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataCoursesNoImageCourse) {
   exports['default'] = function () {
     return {
       data: [_pixLiveMirageDataCoursesSimpleCourse['default'].data, _pixLiveMirageDataCoursesNoImageCourse['default'].data]
@@ -1446,7 +1400,7 @@ define('pix-live/mirage/routes/post-answers', ['exports', 'pix-live/mirage/data/
     }
   };
 });
-define('pix-live/mirage/routes/post-assessments', ['exports', 'pix-live/mirage/data/assessments/new-assessment-of-simple-course', 'pix-live/mirage/data/assessments/new-assessment-of-another-course', 'pix-live/mirage/data/assessments/new-assessment-of-noimage-course'], function (exports, _pixLiveMirageDataAssessmentsNewAssessmentOfSimpleCourse, _pixLiveMirageDataAssessmentsNewAssessmentOfAnotherCourse, _pixLiveMirageDataAssessmentsNewAssessmentOfNoimageCourse) {
+define('pix-live/mirage/routes/post-assessments', ['exports', 'pix-live/mirage/data/assessments/new-assessment-of-simple-course', 'pix-live/mirage/data/assessments/new-assessment-of-noimage-course'], function (exports, _pixLiveMirageDataAssessmentsNewAssessmentOfSimpleCourse, _pixLiveMirageDataAssessmentsNewAssessmentOfNoimageCourse) {
   exports['default'] = function (schema, request) {
 
     var answer = JSON.parse(request.requestBody);
@@ -1455,12 +1409,10 @@ define('pix-live/mirage/routes/post-assessments', ['exports', 'pix-live/mirage/d
 
       case _pixLiveMirageDataAssessmentsNewAssessmentOfSimpleCourse['default'].data.relationships.course.data.id:
         return _pixLiveMirageDataAssessmentsNewAssessmentOfSimpleCourse['default'];
-      case _pixLiveMirageDataAssessmentsNewAssessmentOfAnotherCourse['default'].data.relationships.course.data.id:
-        return _pixLiveMirageDataAssessmentsNewAssessmentOfAnotherCourse['default'];
       case _pixLiveMirageDataAssessmentsNewAssessmentOfNoimageCourse['default'].data.relationships.course.data.id:
         return _pixLiveMirageDataAssessmentsNewAssessmentOfNoimageCourse['default'];
       default:
-        throw new Error('undefined new assessment, should be derived from either simpleCourse of anotherCourse');
+        throw new Error('undefined new assessment, sorry');
     }
   };
 });
@@ -8625,16 +8577,6 @@ define('pix-live/tests/mirage/mirage/data/assessments/in-progress-assessment.lin
     });
   });
 });
-define('pix-live/tests/mirage/mirage/data/assessments/new-assessment-of-another-course.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/assessments/new-assessment-of-another-course.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/assessments/new-assessment-of-another-course.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/mirage/mirage/data/assessments/new-assessment-of-noimage-course.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/assessments/new-assessment-of-noimage-course.js', function () {
     it('should pass ESLint', function () {
@@ -8720,16 +8662,6 @@ define('pix-live/tests/mirage/mirage/data/challenges/qrocm-challenge.lint-test',
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('mirage/data/challenges/qrocm-challenge.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/courses/another-course.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/courses/another-course.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/courses/another-course.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -8871,7 +8803,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+869bb784"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+23899c6d"});
 }
 
 /* jshint ignore:end */
