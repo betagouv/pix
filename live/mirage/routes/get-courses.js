@@ -6,7 +6,6 @@ export default function () {
   return {
     data: [
       simpleCourse.data,
-      anotherCourse.data,
       courseWithNoImage.data
     ]
   }
