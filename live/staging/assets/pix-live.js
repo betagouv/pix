@@ -559,6 +559,14 @@ define('pix-live/components/identification-form', ['exports', 'ember', 'lodash/l
 
   });
 });
+define('pix-live/components/markdown-to-html', ['exports', 'ember-cli-showdown/components/markdown-to-html'], function (exports, _emberCliShowdownComponentsMarkdownToHtml) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberCliShowdownComponentsMarkdownToHtml['default'];
+    }
+  });
+});
 define('pix-live/components/progress-bar', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({});
 });
@@ -665,20 +673,6 @@ define('pix-live/helpers/bs-read-path', ['exports', 'ember-bootstrap/helpers/bs-
     }
   });
 });
-define('pix-live/helpers/markdown-render', ['exports', 'ember-markdown-it/helpers/markdown-render'], function (exports, _emberMarkdownItHelpersMarkdownRender) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberMarkdownItHelpersMarkdownRender['default'];
-    }
-  });
-  Object.defineProperty(exports, 'markdownRender', {
-    enumerable: true,
-    get: function get() {
-      return _emberMarkdownItHelpersMarkdownRender.markdownRender;
-    }
-  });
-});
 define('pix-live/helpers/pluralize', ['exports', 'ember-inflector/lib/helpers/pluralize'], function (exports, _emberInflectorLibHelpersPluralize) {
   exports['default'] = _emberInflectorLibHelpersPluralize['default'];
 });
@@ -722,12 +716,12 @@ define('pix-live/initializers/configure-pix-api-host', ['exports', 'pix-live/con
       return 'http://api-staging.pix-app.ovh';
     }
 
-    if (/localhost/.test(locationObject.hostname)) {
-      return 'http://localhost:3000';
+    if (_pixLiveConfigEnvironment['default'].environment === 'integration') {
+      var matches = /^(.*).pix.beta.gouv.fr/.exec(locationObject.hostname);
+      return 'http://' + matches[1] + '.pix-app.ovh';
     }
 
-    var matches = /^(.*).pix.beta.gouv.fr/.exec(locationObject.hostname);
-    return 'http://' + matches[1] + '.pix-app.ovh';
+    return 'http://localhost:3000';
   }
 
   function initialize() {
@@ -1175,6 +1169,19 @@ define('pix-live/mirage/data/challenges/qcu-challenge-with-image', ['exports'], 
     }
   };
 });
+define('pix-live/mirage/data/challenges/qcu-challenge-with-links-in-instruction', ['exports'], function (exports) {
+  exports['default'] = {
+    data: {
+      type: 'challenges',
+      id: 'qcu_challenge_id_with_links_in_instruction',
+      attributes: {
+        type: 'QCU',
+        instruction: "" + "Une consigne avec plusieurs liens : \n" + "- [Lien #1](http://lien.1.url)\n" + "- [Lien #2](http://lien.2.url)\n" + "- [Lien #3](http://lien.3.url)",
+        proposals: "" + "- Choix #1\n " + "- Choix #2\n " + "- Choix #3"
+      }
+    }
+  };
+});
 define('pix-live/mirage/data/challenges/qcu-challenge', ['exports'], function (exports) {
   exports['default'] = {
     data: {
@@ -1182,7 +1189,7 @@ define('pix-live/mirage/data/challenges/qcu-challenge', ['exports'], function (e
       id: 'qcu_challenge_id',
       attributes: {
         type: 'QCU',
-        instruction: "Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?",
+        instruction: "Julie a déposé un document dans un espace de [stockage](https://fr.wikipedia.org/wiki/Stockage) partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?",
         proposals: "" + "- J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt\n " + "- Ci-joint le document que j’ai déposé dans l’espace partagé\n " + "- J’ai déposé le document intro.odt dans l’espace partagé\n" + "- J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail"
       }
     }
@@ -1310,7 +1317,10 @@ define('pix-live/mirage/routes/get-assessment', ['exports', 'pix-live/mirage/dat
     }
   };
 });
-define('pix-live/mirage/routes/get-challenge', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge-with-image', 'pix-live/mirage/data/challenges/qcu-challenge-with-attachment', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallengeWithImage, _pixLiveMirageDataChallengesQcuChallengeWithAttachment, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
+define('pix-live/mirage/routes/get-challenge', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge-with-image', 'pix-live/mirage/data/challenges/qcu-challenge-with-attachment', 'pix-live/mirage/data/challenges/qcu-challenge-with-links-in-instruction', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallengeWithImage, _pixLiveMirageDataChallengesQcuChallengeWithAttachment, _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
+
+  // eslint-disable-next-line complexity
+
   exports['default'] = function (schema, request) {
 
     switch (request.params.id) {
@@ -1325,6 +1335,8 @@ define('pix-live/mirage/routes/get-challenge', ['exports', 'pix-live/mirage/data
         return _pixLiveMirageDataChallengesQcuChallengeWithImage['default'];
       case _pixLiveMirageDataChallengesQcuChallengeWithAttachment['default'].data.id:
         return _pixLiveMirageDataChallengesQcuChallengeWithAttachment['default'];
+      case _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction['default'].data.id:
+        return _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction['default'];
       default:
         return _pixLiveMirageDataChallengesQcuChallenge['default'];
     }
@@ -1601,10 +1613,6 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp',
         assessment: assessmentPromise,
         challenge: challengePromise
       });
-    },
-
-    afterModel: function afterModel(model) {
-      _ember['default'].debug('model = ' + JSON.stringify(model));
     },
 
     actions: {
@@ -4581,7 +4589,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
           return morphs;
         },
-        statements: [["inline", "markdown-render", [["get", "challenge.instruction", ["loc", [null, [4, 60], [4, 81]]], 0, 0, 0, 0]], [], ["loc", [null, [4, 41], [4, 84]]], 0, 0]],
+        statements: [["inline", "markdown-to-html", [], ["extensions", "targetBlank", "markdown", ["subexpr", "@mut", [["get", "challenge.instruction", ["loc", [null, [4, 95], [4, 116]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [4, 41], [4, 119]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -8417,6 +8425,16 @@ define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge-with-image.li
     });
   });
 });
+define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge-with-links-in-instruction.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/challenges/qcu-challenge-with-links-in-instruction.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/challenges/qcu-challenge-with-links-in-instruction.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/challenges/qcu-challenge.js', function () {
     it('should pass ESLint', function () {
@@ -8583,7 +8601,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+dff88d12"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+8b376603"});
 }
 
 /* jshint ignore:end */

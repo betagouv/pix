@@ -188,7 +188,7 @@ define('pix-live/tests/acceptance/13-creer-une-epreuve-qcm-test.lint-test', ['ex
     });
   });
 });
-define('pix-live/tests/acceptance/14-creer-une-epreuve-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'rsvp'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _rsvp) {
+define('pix-live/tests/acceptance/14-creer-une-epreuve-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)("Acceptance | 14 - Créer une épreuve de type QROC | ", function () {
 
@@ -292,6 +292,52 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test.lint-test', ['exports'
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('acceptance/2-voir-liste-tests-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/216-gestion-des-liens-dans-l-ennonce-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)("Acceptance | 216 - Gestion des liens dans l'énoncé d'une épreuve |", function () {
+
+    var application = undefined;
+    var $links = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function (done) {
+      visit('/challenges/qcu_challenge_id_with_links_in_instruction/preview');
+      andThen(function () {
+        $links = findWithAssert('.challenge-instruction a');
+        done();
+      });
+    });
+
+    (0, _mocha.it)("Le contenu de type [foo](bar) doit être converti sous forme de lien", function () {
+      (0, _chai.expect)($links.length).to.equal(3);
+    });
+
+    (0, _mocha.it)("Les liens doivent s'ouvrir dans un nouvel onglet", function () {
+      for (var i = 0; i < $links.length; i++) {
+        (0, _chai.expect)($links[i].getAttribute('target')).to.equal('_blank');
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/216-gestion-des-liens-dans-l-ennonce-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/216-gestion-des-liens-dans-l-ennonce-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/216-gestion-des-liens-dans-l-ennonce-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -463,7 +509,7 @@ define('pix-live/tests/acceptance/3-demarrer-un-test-test.lint-test', ['exports'
     });
   });
 });
-define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'markdown-it'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _markdownIt) {
+define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
 
@@ -500,7 +546,11 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'm
         });
 
         (0, _mocha.it)('32.2 la consigne de l\'épreuve', function () {
-          (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.equal('<p>Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?</p>\n');
+          (0, _chai.expect)($challenge.find('.challenge-instruction').text()).to.contain('Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?');
+        });
+
+        (0, _mocha.it)('32.3 les liens dans la consigne de l\'épreuve qui seront ouvert dans un nouvel onglet', function () {
+          (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.contain('<a target="_blank" href="https://fr.wikipedia.org/wiki/Stockage">stockage</a> ');
         });
       });
     });
@@ -518,15 +568,12 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test.lint-test', ['ex
     });
   });
 });
-define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'markdown-it'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _markdownIt) {
+define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 37 - Prévisualiser un test |', function () {
 
     var challenges = undefined;
     var course = undefined;
-    var courseId = undefined;
-    var firstChallengeId = undefined;
-    var secondChallengeId = undefined;
     var lastChallengeId = undefined;
 
     var application = undefined;
@@ -592,8 +639,7 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
         });
 
         (0, _mocha.it)("37.6. la consigne de l'épreuve", function () {
-          var expectedMarkdown = (0, _markdownIt['default'])().render("Que peut-on dire des œufs de catégorie A ?");
-          (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.equal(expectedMarkdown);
+          (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.contain("Que peut-on dire des œufs de catégorie A ?");
         });
 
         (0, _mocha.it)("37.7. un bouton pour accéder à l'épreuve suivante", function () {
@@ -745,7 +791,7 @@ define('pix-live/tests/acceptance/38-s-identifier-test.lint-test', ['exports'], 
     });
   });
 });
-define('pix-live/tests/acceptance/4-demarrer-une-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'markdown-it'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _markdownIt) {
+define('pix-live/tests/acceptance/4-demarrer-une-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 4 - Démarrer une épreuve |', function () {
 
@@ -768,9 +814,8 @@ define('pix-live/tests/acceptance/4-demarrer-une-epreuve-qcu-test', ['exports', 
     (0, _mocha.describe)('Les informations visibles pour une épreuve de type QCU sont :', function () {
 
       (0, _mocha.it)('4.2. la consigne de l\'épreuve', function () {
-        var expectedMarkdown = (0, _markdownIt['default'])().render("Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?");
         var $instruction = findWithAssert('.challenge-instruction');
-        (0, _chai.expect)($instruction.html()).to.equal(expectedMarkdown);
+        (0, _chai.expect)($instruction.text()).to.contain('Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?');
       });
 
       (0, _mocha.it)('4.3. les propositions de l\'épreuve', function () {
@@ -2775,17 +2820,6 @@ define('pix-live/tests/unit/initializers/configure-pix-api-host-test', ['exports
 
     (0, _mocha.describe)('configurePixApiHost', function () {
 
-      (0, _mocha.it)('should detect localhost', function () {
-        // given
-        var location = { hostname: 'localhost:4200' };
-
-        // when
-        var pixApiHost = (0, _pixLiveInitializersConfigurePixApiHost.configurePixApiHost)(location);
-
-        // then
-        (0, _chai.expect)(pixApiHost).to.equal('http://localhost:3000');
-      });
-
       (0, _mocha.it)('should detect Pix production', function () {
         // given
         _pixLiveConfigEnvironment['default'].environment = 'production';
@@ -2808,8 +2842,9 @@ define('pix-live/tests/unit/initializers/configure-pix-api-host-test', ['exports
         (0, _chai.expect)(pixApiHost).to.equal('http://api-staging.pix-app.ovh');
       });
 
-      (0, _mocha.it)('should detect feature branches environment', function () {
+      (0, _mocha.it)('should detect Pix integration', function () {
         // given
+        _pixLiveConfigEnvironment['default'].environment = 'integration';
         var location = { hostname: '123-user-stories-are-magic.pix.beta.gouv.fr' };
 
         // when
@@ -2817,6 +2852,17 @@ define('pix-live/tests/unit/initializers/configure-pix-api-host-test', ['exports
 
         // then
         (0, _chai.expect)(pixApiHost).to.equal('http://123-user-stories-are-magic.pix-app.ovh');
+      });
+
+      (0, _mocha.it)('should detect localhost', function () {
+        // given
+        var location = { hostname: 'localhost:4200' };
+
+        // when
+        var pixApiHost = (0, _pixLiveInitializersConfigurePixApiHost.configurePixApiHost)(location);
+
+        // then
+        (0, _chai.expect)(pixApiHost).to.equal('http://localhost:3000');
       });
     });
   });
