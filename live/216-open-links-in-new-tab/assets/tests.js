@@ -500,7 +500,11 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'm
         });
 
         (0, _mocha.it)('32.2 la consigne de l\'épreuve', function () {
-          (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.contain('<p>Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?</p>');
+          (0, _chai.expect)($challenge.find('.challenge-instruction').text()).to.contain('Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?');
+        });
+
+        (0, _mocha.it)('32.3 les liens dans la consigne de l\'épreuve qui seront ouvert dans un nouvel onglet', function () {
+          (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.contain('<a target="_blank" href="https://fr.wikipedia.org/wiki/Stockage">stockage</a> ');
         });
       });
     });
@@ -765,7 +769,7 @@ define('pix-live/tests/acceptance/4-demarrer-une-epreuve-qcu-test', ['exports', 
 
       (0, _mocha.it)('4.2. la consigne de l\'épreuve', function () {
         var $instruction = findWithAssert('.challenge-instruction');
-        (0, _chai.expect)($instruction.html()).to.contain("Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?");
+        (0, _chai.expect)($instruction.html()).to.contain('Julie a déposé un document dans un espace de <a target="_blank" href="https://fr.wikipedia.org/wiki/Stockage">stockage</a> partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?');
       });
 
       (0, _mocha.it)('4.3. les propositions de l\'épreuve', function () {
