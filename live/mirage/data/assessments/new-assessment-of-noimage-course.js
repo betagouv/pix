@@ -3,7 +3,7 @@ import noImageCourse from '../courses/no-image-course';
 export default {
   data: {
     type: 'assessments',
-    id: 'new_assessment_of_another_course_id',
+    id: 'new_assessment_of_noimage_course_id',
     attributes: {
       'user-id': 'user_id',
       'user-name': 'Jon Snow',
