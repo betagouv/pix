@@ -1,6 +1,7 @@
 import qcuChallenge from '../challenges/qcu-challenge';
 import qrocmChallenge from '../challenges/qrocm-challenge';
 
+
 export default {
   data: {
     type: 'courses',
