@@ -54,17 +54,6 @@ describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
     expect($assessmentResults.text()).to.contains(expectedString);
   });
 
-  it("10.6. affiche un tableau récapitulatif des réponses", function () {
-    findWithAssert('.table#summary');
-  });
-
-  it("10.7. le tableau récapitulatif contient les instructions ", function () {
-    const $proposals = findWithAssert('.table#summary tbody tr');
-    expect($proposals.text()).to.contains('Que peut-on dire des œufs');
-    expect($proposals.text()).to.contains('Julie a déposé un document');
-    expect($proposals.text()).to.contains('Citez un ou plusieurs logiciel(s)');
-  });
-
   it("11.1. propose un moyen pour revenir à la liste des tests", function () {
     const $homeLink = findWithAssert('.home-link');
     expect($homeLink.attr('href')).to.equal('/home');
