@@ -188,7 +188,7 @@ define('pix-live/tests/acceptance/13-creer-une-epreuve-qcm-test.lint-test', ['ex
     });
   });
 });
-define('pix-live/tests/acceptance/14-creer-une-epreuve-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'rsvp'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _rsvp) {
+define('pix-live/tests/acceptance/14-creer-une-epreuve-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)("Acceptance | 14 - Créer une épreuve de type QROC | ", function () {
 
@@ -292,6 +292,52 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test.lint-test', ['exports'
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('acceptance/2-voir-liste-tests-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/216-gestion-des-liens-dans-l-ennonce-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)("Acceptance | 216 - Gestion des liens dans l'énoncé d'une épreuve |", function () {
+
+    var application = undefined;
+    var $links = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function (done) {
+      visit('/challenges/qcu_challenge_id_with_links_in_instruction/preview');
+      andThen(function () {
+        $links = findWithAssert('.challenge-instruction a');
+        done();
+      });
+    });
+
+    (0, _mocha.it)("Le contenu de type [foo](bar) doit être converti sous forme de lien", function () {
+      (0, _chai.expect)($links.length).to.equal(3);
+    });
+
+    (0, _mocha.it)("Les liens doivent s'ouvrir dans un nouvel onglet", function () {
+      for (var i = 0; i < $links.length; i++) {
+        (0, _chai.expect)($links[i].getAttribute('target')).to.equal('_blank');
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/216-gestion-des-liens-dans-l-ennonce-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/216-gestion-des-liens-dans-l-ennonce-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/216-gestion-des-liens-dans-l-ennonce-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });

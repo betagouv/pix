@@ -1169,6 +1169,19 @@ define('pix-live/mirage/data/challenges/qcu-challenge-with-image', ['exports'], 
     }
   };
 });
+define('pix-live/mirage/data/challenges/qcu-challenge-with-links-in-instruction', ['exports'], function (exports) {
+  exports['default'] = {
+    data: {
+      type: 'challenges',
+      id: 'qcu_challenge_id_with_links_in_instruction',
+      attributes: {
+        type: 'QCU',
+        instruction: "" + "Une consigne avec plusieurs liens : \n" + "- [Lien #1](http://lien.1.url)\n" + "- [Lien #2](http://lien.2.url)\n" + "- [Lien #3](http://lien.3.url)",
+        proposals: "" + "- Choix #1\n " + "- Choix #2\n " + "- Choix #3"
+      }
+    }
+  };
+});
 define('pix-live/mirage/data/challenges/qcu-challenge', ['exports'], function (exports) {
   exports['default'] = {
     data: {
@@ -1304,7 +1317,10 @@ define('pix-live/mirage/routes/get-assessment', ['exports', 'pix-live/mirage/dat
     }
   };
 });
-define('pix-live/mirage/routes/get-challenge', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge-with-image', 'pix-live/mirage/data/challenges/qcu-challenge-with-attachment', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallengeWithImage, _pixLiveMirageDataChallengesQcuChallengeWithAttachment, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
+define('pix-live/mirage/routes/get-challenge', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge-with-image', 'pix-live/mirage/data/challenges/qcu-challenge-with-attachment', 'pix-live/mirage/data/challenges/qcu-challenge-with-links-in-instruction', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallengeWithImage, _pixLiveMirageDataChallengesQcuChallengeWithAttachment, _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
+
+  // eslint-disable-next-line complexity
+
   exports['default'] = function (schema, request) {
 
     switch (request.params.id) {
@@ -1319,6 +1335,8 @@ define('pix-live/mirage/routes/get-challenge', ['exports', 'pix-live/mirage/data
         return _pixLiveMirageDataChallengesQcuChallengeWithImage['default'];
       case _pixLiveMirageDataChallengesQcuChallengeWithAttachment['default'].data.id:
         return _pixLiveMirageDataChallengesQcuChallengeWithAttachment['default'];
+      case _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction['default'].data.id:
+        return _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction['default'];
       default:
         return _pixLiveMirageDataChallengesQcuChallenge['default'];
     }
@@ -8407,6 +8425,16 @@ define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge-with-image.li
     });
   });
 });
+define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge-with-links-in-instruction.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/challenges/qcu-challenge-with-links-in-instruction.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/challenges/qcu-challenge-with-links-in-instruction.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/challenges/qcu-challenge.js', function () {
     it('should pass ESLint', function () {
@@ -8573,7 +8601,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+47c206ab"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+e4d77c9e"});
 }
 
 /* jshint ignore:end */
