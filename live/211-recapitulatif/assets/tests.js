@@ -97,6 +97,17 @@ define('pix-live/tests/acceptance/10-consulter-l-ecran-de-fin-de-test-test', ['e
       (0, _chai.expect)($assessmentResults.text()).to.contains(expectedString);
     });
 
+    (0, _mocha.it)("10.6. affiche un tableau récapitulatif des réponses", function () {
+      findWithAssert('.table#summary');
+    });
+
+    (0, _mocha.it)("10.7. le tableau récapitulatif contient les instructions ", function () {
+      var $proposals = findWithAssert('.table#summary tbody tr');
+      (0, _chai.expect)($proposals.text()).to.contains('Que peut-on dire des œufs');
+      (0, _chai.expect)($proposals.text()).to.contains('Julie a déposé un document');
+      (0, _chai.expect)($proposals.text()).to.contains('Citez un ou plusieurs logiciel(s)');
+    });
+
     (0, _mocha.it)("11.1. propose un moyen pour revenir à la liste des tests", function () {
       var $homeLink = findWithAssert('.home-link');
       (0, _chai.expect)($homeLink.attr('href')).to.equal('/home');

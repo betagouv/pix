@@ -2354,6 +2354,7 @@ define("pix-live/templates/assessments/get-results", ["exports"], function (expo
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("table");
         dom.setAttribute(el4, "class", "table table-bordered");
+        dom.setAttribute(el4, "id", "summary");
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("thead");
@@ -2375,7 +2376,7 @@ define("pix-live/templates/assessments/get-results", ["exports"], function (expo
         var el7 = dom.createTextNode("\n                        ");
         dom.appendChild(el6, el7);
         var el7 = dom.createElement("th");
-        var el8 = dom.createTextNode("Status");
+        var el8 = dom.createTextNode("Statut");
         dom.appendChild(el7, el8);
         dom.appendChild(el6, el7);
         var el7 = dom.createTextNode("\n                    ");
@@ -8870,7 +8871,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+ec37ac41"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+ca5cd277"});
 }
 
 /* jshint ignore:end */
