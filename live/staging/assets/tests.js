@@ -247,7 +247,7 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
     });
 
     (0, _mocha.it)("2.2 on affiche autant de tests que remontés par l'API", function () {
-      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(3);
+      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(2);
     });
 
     (0, _mocha.describe)('2.3 pour un test donné avec toutes les informations', function () {
@@ -292,6 +292,48 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test.lint-test', ['exports'
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('acceptance/2-voir-liste-tests-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/211-recapitulatif-de-l-ecran-de-fin-de-test-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)("Acceptance | 10 - Consulter l'écran de fin d'un test ", function () {
+
+    var application = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/assessments/completed_assessment_id/results');
+    });
+
+    (0, _mocha.it)("211.1. affiche un tableau récapitulatif des réponses", function () {
+      findWithAssert('.table#summary');
+    });
+
+    (0, _mocha.it)("211.2. le tableau récapitulatif contient les instructions ", function () {
+      var $proposals = findWithAssert('.table#summary tbody tr');
+      (0, _chai.expect)($proposals.text()).to.contains('Que peut-on dire des œufs');
+      (0, _chai.expect)($proposals.text()).to.contains('Julie a déposé un document');
+      (0, _chai.expect)($proposals.text()).to.contains('Citez un ou plusieurs logiciel(s)');
+    });
+  });
+});
+define('pix-live/tests/acceptance/211-recapitulatif-de-l-ecran-de-fin-de-test-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/211-recapitulatif-de-l-ecran-de-fin-de-test-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/211-recapitulatif-de-l-ecran-de-fin-de-test-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
