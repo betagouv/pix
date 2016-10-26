@@ -10,13 +10,10 @@ export default Model.extend({
   assessment: belongsTo('assessment'),
   challenge: belongsTo('challenge'),
   
-  isPending: computed('result', function () {
-    return this.get('result') === 'pending'
-  }),
-  isOk: computed('result', function () {
+  isResultOk: computed('result', function () {
     return this.get('result') === 'ok'
   }),
-  isNotOk: computed('result', function () {
+  isResultNotOk: computed('result', function () {
     return this.get('result') === 'ko'
   })
 
