@@ -22,6 +22,21 @@ class AssessmentSerializer extends JSONAPISerializer {
         id: model.courseId
       }
     }
+
+    if (model.answers) {
+      data.relationships = {
+        answers: {
+          data: []
+        }
+      };
+      for (let answerId of model.answers) {
+        data.relationships.answers.data.push({
+          "type": 'answers',
+          "id": answerId
+        });
+      }
+    }
+
   }
 
   deserialize(json) {

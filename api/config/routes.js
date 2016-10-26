@@ -14,6 +14,7 @@ module.exports = [
   { method: 'POST', path: '/api/users', config: Users.save },
 
   { method: 'POST', path: '/api/assessments', config: Assessments.save },
+  { method: 'GET', path: '/api/assessments/{id}', config: Assessments.get },
 
   { method: 'POST', path: '/api/answers', config: Answers.save },
 
