@@ -1231,7 +1231,7 @@ define('pix-live/mirage/data/challenges/qcu-challenge-with-image', ['exports'], 
       attributes: {
         type: 'QCU',
         'illustration-url': 'http://fakeimg.pl/350x200/?text=DavidB&font=lobster',
-        instruction: "Stéphanie a mis  dans un espace de stockage partagé avec Roger. Comment pourrait-elle le communiquer à Roger ?",
+        instruction: "Stéphanie a mis une information dans un espace de stockage partagé avec Roger. Comment pourrait-elle le communiquer à Roger ?",
         proposals: "" + "- J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt\n " + "- Ci-joint le document que j’ai déposé dans l’espace partagé\n " + "- J’ai déposé le document intro.odt dans l’espace partagé\n" + "- J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail"
       }
     }
@@ -1460,13 +1460,10 @@ define('pix-live/models/answer', ['exports', 'ember-data'], function (exports, _
     assessment: belongsTo('assessment'),
     challenge: belongsTo('challenge'),
 
-    isPending: computed('result', function () {
-      return this.get('result') === 'pending';
-    }),
-    isOk: computed('result', function () {
+    isResultOk: computed('result', function () {
       return this.get('result') === 'ok';
     }),
-    isNotOk: computed('result', function () {
+    isResultNotOk: computed('result', function () {
       return this.get('result') === 'ko';
     })
 
@@ -2391,7 +2388,7 @@ define("pix-live/templates/assessments/get-results", ["exports"], function (expo
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "if", [["get", "answer.isNotOk", ["loc", [null, [30, 34], [30, 48]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [30, 24], [40, 24]]]]],
+          statements: [["block", "if", [["get", "answer.isResultNotOk", ["loc", [null, [30, 34], [30, 54]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [30, 24], [40, 24]]]]],
           locals: [],
           templates: [child0, child1]
         };
@@ -2458,7 +2455,7 @@ define("pix-live/templates/assessments/get-results", ["exports"], function (expo
           morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
           return morphs;
         },
-        statements: [["content", "index", ["loc", [null, [22, 26], [22, 35]]], 0, 0, 0, 0], ["content", "answer.challenge.instruction", ["loc", [null, [23, 26], [23, 58]]], 0, 0, 0, 0], ["block", "if", [["get", "answer.isOk", ["loc", [null, [25, 30], [25, 41]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [25, 24], [40, 31]]]]],
+        statements: [["content", "index", ["loc", [null, [22, 26], [22, 35]]], 0, 0, 0, 0], ["content", "answer.challenge.instruction", ["loc", [null, [23, 26], [23, 58]]], 0, 0, 0, 0], ["block", "if", [["get", "answer.isResultOk", ["loc", [null, [25, 30], [25, 47]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [25, 24], [40, 31]]]]],
         locals: ["answer", "index"],
         templates: [child0, child1]
       };
@@ -9068,7 +9065,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+a3c6f231"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+cc7de911"});
 }
 
 /* jshint ignore:end */

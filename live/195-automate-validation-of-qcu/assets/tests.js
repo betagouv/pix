@@ -224,6 +224,50 @@ define('pix-live/tests/acceptance/14-creer-une-epreuve-qroc-test.lint-test', ['e
     });
   });
 });
+define('pix-live/tests/acceptance/195-validation-automatique-des-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)("Acceptance | 195 - Validation automatique d'un QCU, visualisation du résultat ", function () {
+
+    var application = undefined;
+    var $summary = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/assessments/completed_assessment_id/results');
+    });
+
+    (0, _mocha.before)(function () {
+      $summary = findWithAssert('.table#summary tbody tr');
+    });
+
+    (0, _mocha.it)("195.1. Pour un QCU avec une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
+      (0, _chai.expect)($summary.text()).to.contains('réponse correcte');
+    });
+
+    (0, _mocha.it)("195.2. Pour un QCU avec une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
+      (0, _chai.expect)($summary.text()).to.contains('réponse incorrecte');
+    });
+  });
+});
+define('pix-live/tests/acceptance/195-validation-automatique-des-qcu-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/195-validation-automatique-des-qcu-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/195-validation-automatique-des-qcu-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 2 - voir la liste des tests', function () {
@@ -323,6 +367,7 @@ define('pix-live/tests/acceptance/211-recapitulatif-de-l-ecran-de-fin-de-test-te
       var $proposals = findWithAssert('.table#summary tbody tr');
       (0, _chai.expect)($proposals.text()).to.contains('Que peut-on dire des œufs');
       (0, _chai.expect)($proposals.text()).to.contains('Julie a déposé un document');
+      (0, _chai.expect)($proposals.text()).to.contains('Stéphanie a mis une information');
       (0, _chai.expect)($proposals.text()).to.contains('Citez un ou plusieurs logiciel(s)');
     });
   });
