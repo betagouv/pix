@@ -28,8 +28,6 @@ module.exports = {
         reply(serializedAssessment);
       });
 
-
-
     }
  }
 
