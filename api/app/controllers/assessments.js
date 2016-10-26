@@ -49,8 +49,6 @@ module.exports = {
         reply(serializedAssessment);
       });
 
-
-
     }
  }
 
