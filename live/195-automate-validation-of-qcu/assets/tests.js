@@ -93,7 +93,7 @@ define('pix-live/tests/acceptance/10-consulter-l-ecran-de-fin-de-test-test', ['e
     });
 
     (0, _mocha.it)("10.5. affiche le rapport nombre de réponses saisies sur nombre d'épreuves du test", function () {
-      var expectedString = '3 question(s) sur 3';
+      var expectedString = '4 question(s) sur 4';
       (0, _chai.expect)($assessmentResults.text()).to.contains(expectedString);
     });
 
@@ -267,7 +267,7 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
       });
 
       (0, _mocha.it)('2.3.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains('3 épreuves');
+        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains('4 épreuves');
       });
 
       (0, _mocha.it)('2.3.4 on affiche son image', function () {
