@@ -19,7 +19,7 @@
                 <tbody>
                   {{#each model.assessment.answers as |answer index|}}
                   <tr>
-                      <td>{{index}}</td>
+                      <td>{{add index 1}}</td>
                       <td>{{answer.challenge.instruction}}</td>
                       <td>
                         {{#if answer.isResultOk}}
