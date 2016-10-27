@@ -17,6 +17,7 @@ module.exports = {
       solutionRepository
         .get(answer.attributes.challengeId)
         .then((solution) => {
+          console.log('found solution ' + JSON.stringify(solution));
           const answerCorrectness = solutionService.matchUserAnswerWithActualSolution(answer, solution);
           answer.attributes.result = answerCorrectness;
           return answer.save()
