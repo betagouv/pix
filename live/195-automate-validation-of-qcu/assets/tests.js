@@ -1127,6 +1127,18 @@ define('pix-live/tests/controllers/home.lint-test', ['exports'], function (expor
     });
   });
 });
+define('pix-live/tests/helpers/convert-to-html.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - helpers/convert-to-html.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('helpers/convert-to-html.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/helpers/describe-visiting', ['exports', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   /*
@@ -1767,6 +1779,18 @@ define('pix-live/tests/helpers/start-app.lint-test', ['exports'], function (expo
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('helpers/start-app.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/helpers/strip-instruction.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - helpers/strip-instruction.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('helpers/strip-instruction.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -2872,6 +2896,53 @@ define('pix-live/tests/unit/controllers/home-test.lint-test', ['exports'], funct
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/controllers/home-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/helpers/convert-to-html-test', ['exports', 'chai', 'mocha', 'pix-live/helpers/convert-to-html'], function (exports, _chai, _mocha, _pixLiveHelpersConvertToHtml) {
+
+  (0, _mocha.describe)('ConvertToHtmlHelper', function () {
+    // Replace this with your real tests.
+    (0, _mocha.it)('works', function () {
+      var conversion = (0, _pixLiveHelpersConvertToHtml.convertToHtml)('**a bold sentence**');
+      var boldSentence = conversion[0];
+      (0, _chai.expect)(boldSentence).to.equal('<div class="paragraph"><strong>a bold sentence</strong></div>');
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/unit/helpers/convert-to-html-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/helpers/convert-to-html-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/helpers/convert-to-html-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/helpers/strip-instruction-test', ['exports', 'chai', 'mocha', 'pix-live/helpers/strip-instruction'], function (exports, _chai, _mocha, _pixLiveHelpersStripInstruction) {
+
+  (0, _mocha.describe)('StripInstructionHelper', function () {
+    // Replace this with your real tests.
+    (0, _mocha.it)('works', function () {
+      var result = (0, _pixLiveHelpersStripInstruction.stripInstruction)([['<div class="paragraph"><strong>a bold sentence</strong></div>']]);
+      (0, _chai.expect)(result).to.equal('a bold sentence...');
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/unit/helpers/strip-instruction-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/helpers/strip-instruction-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/helpers/strip-instruction-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });

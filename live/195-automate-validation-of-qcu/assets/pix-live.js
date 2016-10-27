@@ -701,6 +701,28 @@ define('pix-live/helpers/ceil', ['exports', 'ember-math-helpers/helpers/ceil'], 
     }
   });
 });
+define('pix-live/helpers/convert-to-html', ['exports', 'ember'], function (exports, _ember) {
+  exports.convertToHtml = convertToHtml;
+
+  function convertToHtml(params) {
+    var rules = SimpleMarkdown.defaultRules; // for example
+
+    var parser = SimpleMarkdown.parserFor(rules);
+    var reactOutput = SimpleMarkdown.reactFor(SimpleMarkdown.ruleOutput(rules, 'react'));
+    var htmlOutput = SimpleMarkdown.reactFor(SimpleMarkdown.ruleOutput(rules, 'html'));
+
+    var blockParseAndOutput = function blockParseAndOutput(source) {
+      var blockSource = source + "\n\n";
+      var parseTree = parser(blockSource, { inline: false });
+      var outputResult = htmlOutput(parseTree);
+      return outputResult;
+    };
+
+    return blockParseAndOutput(params);
+  }
+
+  exports['default'] = _ember['default'].Helper.helper(convertToHtml);
+});
 define('pix-live/helpers/div', ['exports', 'ember-math-helpers/helpers/div'], function (exports, _emberMathHelpersHelpersDiv) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -846,6 +868,19 @@ define('pix-live/helpers/sqrt', ['exports', 'ember-math-helpers/helpers/sqrt'], 
       return _emberMathHelpersHelpersSqrt.sqrt;
     }
   });
+});
+define('pix-live/helpers/strip-instruction', ['exports', 'ember'], function (exports, _ember) {
+  exports.stripInstruction = stripInstruction;
+
+  function stripInstruction(params /*, hash*/) {
+    var result = $(params[0][0]).text();
+    result = result.substr(0, 70);
+    result += '...';
+    console.log(JSON.stringify(result));
+    return result;
+  }
+
+  exports['default'] = _ember['default'].Helper.helper(stripInstruction);
 });
 define('pix-live/helpers/sub', ['exports', 'ember-math-helpers/helpers/sub'], function (exports, _emberMathHelpersHelpersSub) {
   Object.defineProperty(exports, 'default', {
@@ -1413,7 +1448,7 @@ define('pix-live/mirage/data/challenges/qcu-challenge-with-image', ['exports'], 
       attributes: {
         type: 'QCU',
         'illustration-url': 'http://fakeimg.pl/350x200/?text=DavidB&font=lobster',
-        instruction: "Stéphanie a mis une information dans un espace de stockage partagé avec Roger. Comment pourrait-elle le communiquer à Roger ?",
+        instruction: "Stéphanie a mis une **information** dans un espace de stockage partagé avec Roger. Comment pourrait-elle le communiquer à Roger ?",
         proposals: "" + "- J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt\n " + "- Ci-joint le document que j’ai déposé dans l’espace partagé\n " + "- J’ai déposé le document intro.odt dans l’espace partagé\n" + "- J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail"
       }
     }
@@ -2637,7 +2672,7 @@ define("pix-live/templates/assessments/get-results", ["exports"], function (expo
           morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
           return morphs;
         },
-        statements: [["inline", "add", [["get", "index", ["loc", [null, [22, 32], [22, 37]]], 0, 0, 0, 0], 1], [], ["loc", [null, [22, 26], [22, 41]]], 0, 0], ["content", "answer.challenge.instruction", ["loc", [null, [23, 26], [23, 58]]], 0, 0, 0, 0], ["block", "if", [["get", "answer.isResultOk", ["loc", [null, [25, 30], [25, 47]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [25, 24], [40, 31]]]]],
+        statements: [["inline", "add", [["get", "index", ["loc", [null, [22, 32], [22, 37]]], 0, 0, 0, 0], 1], [], ["loc", [null, [22, 26], [22, 41]]], 0, 0], ["inline", "strip-instruction", [["subexpr", "convert-to-html", [["get", "answer.challenge.instruction", ["loc", [null, [23, 63], [23, 91]]], 0, 0, 0, 0]], [], ["loc", [null, [23, 46], [23, 92]]], 0, 0]], [], ["loc", [null, [23, 26], [23, 94]]], 0, 0], ["block", "if", [["get", "answer.isResultOk", ["loc", [null, [25, 30], [25, 47]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [25, 24], [40, 31]]]]],
         locals: ["answer", "index"],
         templates: [child0, child1]
       };
@@ -9247,7 +9282,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+42ac81a9"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+269a4cd1"});
 }
 
 /* jshint ignore:end */
