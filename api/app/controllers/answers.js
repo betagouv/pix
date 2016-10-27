@@ -2,7 +2,7 @@
 
 const Boom = require('boom');
 const answerSerializer = require('../serializers/answer-serializer');
-const solutionRepository = require('../repositories/challenge-repository');
+const solutionRepository = require('../repositories/solution-repository');
 const solutionService = require('../services/solution-service');
 const Answer = require('../models/data/answer');
 
@@ -17,7 +17,6 @@ module.exports = {
       solutionRepository
         .get(answer.attributes.challengeId)
         .then((solution) => {
-          console.log('found solution ' + JSON.stringify(solution));
           const answerCorrectness = solutionService.matchUserAnswerWithActualSolution(answer, solution);
           answer.attributes.result = answerCorrectness;
           return answer.save()
