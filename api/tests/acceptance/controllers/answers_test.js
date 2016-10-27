@@ -19,6 +19,51 @@ describe('API | Answers', function () {
 
   describe('POST /api/answers', function () {
 
+    before(function (done) {
+      nock('https://api.airtable.com')
+        .get('/v0/test-base/Epreuves/challenge_id')
+        .times(5)
+        .reply(200, {
+          "id": "recLt9uwa2dR3IYpi",
+          "fields": {
+            "Consigne": "Que peut-on dire des œufs de catégorie A ?\n",
+            "description": "catégorie oeuf",
+            "domaine": "1. Information et données",
+            "compétence": "1.1. Mener une recherche d'information",
+            "acquis": [
+              "#menerUneRecherche"
+            ],
+            "Propositions": "- Ils sont bio.\n- Ils pèsent plus de 63 grammes.\n- Ce sont des oeufs frais.\n- Ils sont destinés aux consommateurs.\n- Ils ne sont pas lavés.\n",
+            "id": 1,
+            "Type d'épreuve": "QCM",
+            "Tests": [
+              "recgfTczeaXYoBLpw"
+            ],
+            "Reponses": [
+              "rec9jYnyhKVY8GfzT",
+              "recUGVxm7trYNtrd6",
+              "rec26WCyBU11QqnC2"
+            ],
+            "_Preview Temp": "https://docs.google.com/presentation/d/11gVqLG0a6lCd-Vpw23nJGXGkxN-78B_nNnoMO4Xlui8/edit#slide=id.g147b5b7b8e_0_124",
+            "_Statut": "validé",
+            "Bonnes réponses": "3, 4, 5",
+            "_Niveau": [
+              "3"
+            ],
+            "Type péda": "e-preuve",
+            "Auteur": [
+              "NDE"
+            ],
+            "Déclinable": "facilement",
+            "Internet et outils": "Oui",
+            "Prototype d'épreuve": "oui",
+            "Record ID": "recLt9uwa2dR3IYpi",
+            "Preview": "http://development.pix.beta.gouv.fr/challenges/recLt9uwa2dR3IYpi/preview"
+          },
+          "createdTime": "2016-08-09T09:08:57.000Z"
+        });
+      done();
+    });
     const options = {
       method: "POST", url: "/api/answers", payload: {
         data: {
@@ -90,7 +135,7 @@ describe('API | Answers', function () {
       });
     });
 
-    it("should return persisted assessement", function (done) {
+    it("should return persisted answer", function (done) {
       // when
       server.injectThen(options).then((response) => {
         const answer = response.result.data;
