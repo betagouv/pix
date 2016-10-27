@@ -118,7 +118,7 @@ describe('API | Answers', function () {
       });
     });
 
-    it("should persist the given course ID and user ID", function (done) {
+    it("should persist the given course ID, the user ID, and the correctness of the answer", function (done) {
 
       // when
       server.injectThen(options).then((response) => {
@@ -127,6 +127,7 @@ describe('API | Answers', function () {
           .fetch()
           .then(function (model) {
             expect(model.get('value')).to.equal(options.payload.data.attributes.value);
+            expect(model.get('result')).to.have.length.above(1);
             expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
             expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
             done();
@@ -143,6 +144,7 @@ describe('API | Answers', function () {
         // then
         expect(answer.id).to.exist;
         expect(answer.attributes.value).to.equal(options.payload.data.attributes.value);
+        expect(answer.attributes.result).to.have.length.above(1);
         expect(answer.relationships.assessment.data.id).to.equal(options.payload.data.relationships.assessment.data.id);
         expect(answer.relationships.challenge.data.id).to.equal(options.payload.data.relationships.challenge.data.id);
 
