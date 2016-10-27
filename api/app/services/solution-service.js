@@ -1,19 +1,20 @@
 'use strict';
 
 
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 module.exports = {
 
   matchUserAnswerWithActualSolution (answer, solution) {
 
-    let random = getRandomInt(1, 3);
-    if (random === 1) {
-      return 'ok';
-    } else if (random === 2) {
-      return 'ko';
+    console.log('answer is ' + JSON.stringify(answer));
+    console.log('solution is ' +  JSON.stringify(solution));
+
+    if (solution.type === 'QCU') {
+      if (answer.attributes.value === solution.value) {
+        return 'ok';
+      } else {
+        return 'ko';
+      }
     } else {
       return 'pending';
     }

@@ -19,4 +19,4 @@ class Solution extends AirtableModel {
 
 }
 
-module.exports = Challenge;
+module.exports = Solution;
