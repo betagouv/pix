@@ -26,7 +26,9 @@ describe('API | Answers', function () {
         .reply(200, {
           "id": "recLt9uwa2dR3IYpi",
           "fields": {
-            // a bunch of fields
+            "Type d'épreuve": "QCU",
+            "Bonnes réponses": "1"
+            //other fields not represented
           }
         });
       done();
@@ -111,7 +113,7 @@ describe('API | Answers', function () {
         // then
         expect(answer.id).to.exist;
         expect(answer.attributes.value).to.equal(options.payload.data.attributes.value);
-        expect(answer.attributes.result).to.have.length.above(1);
+        expect(answer.attributes.result).to.equal('ok');
         expect(answer.relationships.assessment.data.id).to.equal(options.payload.data.relationships.assessment.data.id);
         expect(answer.relationships.challenge.data.id).to.equal(options.payload.data.relationships.challenge.data.id);
 
