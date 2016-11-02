@@ -54,4 +54,30 @@ describe('Service | Solution :', function () {
     });
   });
 
+  describe('The correctness of a QCM', function () {
+
+    const solution = new Solution({ id: "solution_id" });
+    solution.type = 'QCM';
+    solution.value = '1,2';
+    const goodAnswer = new Answer({ id: 'good_answer_id' });
+    goodAnswer.attributes = { value: '2,1' }
+    const badAnswer = new Answer({ id: 'bad_answer_id' });
+    badAnswer.attributes = { value: '1,3' }
+
+    before(function (done) {
+      done();
+    });
+
+    it("should be 'ok' for a correct answer", function () {
+      const result = service.matchUserAnswerWithActualSolution(goodAnswer, solution);
+      expect(result).to.equal('ok');
+    });
+
+    it("should be 'ko' for a incorrect answer", function () {
+      const result = service.matchUserAnswerWithActualSolution(badAnswer, solution);
+      expect(result).to.equal('ko');
+    });
+  });
+
+
 });
