@@ -243,16 +243,14 @@ define('pix-live/tests/acceptance/195-validation-automatique-des-qcu-test', ['ex
       return visit('/assessments/completed_assessment_id/results');
     });
 
-    (0, _mocha.before)(function () {
-      $summary = findWithAssert('.table#summary tbody tr');
-    });
-
     (0, _mocha.it)("195.1. Pour un QCU avec une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
-      (0, _chai.expect)($summary.text()).to.contains('réponse correcte');
+      var $cell = findWithAssert('.table#summary tbody tr:nth-child(1) td:nth-child(3)');
+      (0, _chai.expect)($cell.text()).to.contains('réponse correcte');
     });
 
     (0, _mocha.it)("195.2. Pour un QCU avec une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
-      (0, _chai.expect)($summary.text()).to.contains('réponse incorrecte');
+      var $cell = findWithAssert('.table#summary tbody tr:nth-child(2) td:nth-child(3)');
+      (0, _chai.expect)($cell.text()).to.contains('réponse incorrecte');
     });
   });
 });
