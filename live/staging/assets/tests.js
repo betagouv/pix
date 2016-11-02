@@ -1777,7 +1777,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
     this.render(_ember['default'].HTMLBars.template((function () {
       return {
         meta: {
-          'revision': 'Ember@2.8.2',
+          'revision': 'Ember@2.8.3',
           'loc': {
             'source': null,
             'start': {
@@ -1822,7 +1822,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
     this.render(_ember['default'].HTMLBars.template((function () {
       return {
         meta: {
-          'revision': 'Ember@2.8.2',
+          'revision': 'Ember@2.8.3',
           'loc': {
             'source': null,
             'start': {
