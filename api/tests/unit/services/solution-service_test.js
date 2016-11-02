@@ -6,12 +6,12 @@ describe('Service | Solution :', function () {
 
   describe('The correctness of a QCU', function () {
 
-    const solution = new Solution({ id:"solution_id"});
+    const solution = new Solution({ id:"solution_id" });
     solution.type = 'QCU';
     solution.value = '2';
-    const goodAnswer = new Answer({id:'good_answer_id'});
+    const goodAnswer = new Answer({ id:'good_answer_id' });
     goodAnswer.attributes = {value:'2'}
-    const badAnswer = new Answer({id:'bad_answer_id'});
+    const badAnswer = new Answer({ id:'bad_answer_id' });
     badAnswer.attributes = {value:'1'}
 
     before(function (done) {
@@ -34,21 +34,21 @@ describe('Service | Solution :', function () {
     const solution = new Solution({ id:"solution_id"});
     solution.type = 'QROC';
     solution.value = '2';
-    const goodAnswer = new Answer({id:'good_answer_id'});
+    const goodAnswer = new Answer({ id:'good_answer_id' });
     goodAnswer.attributes = {value:'2'}
-    const badAnswer = new Answer({id:'bad_answer_id'});
+    const badAnswer = new Answer({ id:'bad_answer_id' });
     badAnswer.attributes = {value:'1'}
 
     before(function (done) {
       done();
     });
 
-    it("should return the 'pending' if the question is not a QCU, even if the answer is correct", function () {
+    it("should return 'pending' if the question is not a QCU, even if the answer is correct", function () {
       const result = service.matchUserAnswerWithActualSolution(badAnswer, solution);
       expect(result).to.equal('pending');
     });
 
-    it("should return the 'pending' if the question is not a QCU, even if the answer is incorrect", function () {
+    it("should return 'pending' if the question is not a QCU, even if the answer is incorrect", function () {
       const result = service.matchUserAnswerWithActualSolution(badAnswer, solution);
       expect(result).to.equal('pending');
     });

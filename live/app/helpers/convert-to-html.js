@@ -4,7 +4,6 @@ export function convertToHtml(params) {
   let rules = SimpleMarkdown.defaultRules; // for example
 
   let parser = SimpleMarkdown.parserFor(rules);
-  let reactOutput = SimpleMarkdown.reactFor(SimpleMarkdown.ruleOutput(rules, 'react'));
   let htmlOutput = SimpleMarkdown.reactFor(SimpleMarkdown.ruleOutput(rules, 'html'));
 
   let blockParseAndOutput = function(source) {
