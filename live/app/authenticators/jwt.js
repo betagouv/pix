@@ -7,7 +7,7 @@ const { RSVP: { Promise }, $: { ajax }, run } = Ember;
 
 export default Base.extend({  
 
-  tokenEndpoint: `${EmberENV.pixApiHost}/api/users/create`,
+  tokenEndpoint: `${EmberENV.pixApiHost}/api/tokens/user_token`,
 
   restore(data) {
     return new Promise((resolve, reject) => {

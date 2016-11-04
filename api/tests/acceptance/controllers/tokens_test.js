@@ -39,8 +39,10 @@ describe('API | Challenges', function () {
           //ok, the right user
           expect(model.get('email')).to.equal('anae.dasilva@gmail.com');
           // now check the password was salted.
-          // XXX : no way to strictly check it, but let's consider that the password saved is not the one of the user.
+          // XXX : no way to strictly check it, 
+          //but let's consider that the password saved is not the one of the user.
           expect(model.get('password')).not.to.equal('my_password');
+          //... and that the saved stuff is long enough
           expect(model.get('password')).to.have.length.above(40);
 
           done();
