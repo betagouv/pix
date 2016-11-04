@@ -81,7 +81,6 @@ describe('API | Answers', function () {
         new Answer({ id: response.result.data.id })
           .fetch()
           .then(function (model) {
-
             expect(model.get('value')).to.equal(options.payload.data.attributes.value);
             expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
             expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);

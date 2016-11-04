@@ -44,8 +44,7 @@ module.exports = {
  get: {
     handler: (request, reply) => {
 
-
-      new Assessment({ id: request.params.id }).fetch().then((assessment) => {
+       new Assessment({ id: request.params.id }).fetch().then((assessment) => {
         Answer.query('where', 'assessmentId', '=', assessment.id).fetchAll().then((allAnswers) => {
           
           let serializedAnswers = [];
@@ -53,8 +52,8 @@ module.exports = {
             serializedAnswers.push(
 
                   {
-                  "type":"answers",
-                  "id":oneAnswer.attributes.id
+                    "type":"answers",
+                    "id":oneAnswer.attributes.id
                   }
                 
             );   
