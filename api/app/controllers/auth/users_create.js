@@ -31,21 +31,7 @@ module.exports = {
         user.save().then(() => {
           reply(user);
         });
-        // user.save((err, user) => {
-        //   if (err) {
-        //     throw Boom.badRequest(err);
-        //   }
-        //   // If the user is saved successfully, issue a JWT
-        //   // res({ id_token: createToken(user) }).code(201);
-        //   reply(user);
-        // });
       });
-
-      
-      // user.save().then(() => {
-      //   reply(user);
-      // });
-
     }
   }
 };
