@@ -13,7 +13,7 @@ export default function (schema, request) {
     'qcu_answer_id': qcuAnswer,
     'qrocm_answer_id': qrocmAnswer,
     'qcm_answer_ko_id': qcmAnswerKo,
-    'qcm_answer_ok_id': qcmAnswerOk,
+    'qcm_answer_ok_id': qcmAnswerOk
   };
 
   const answer = answers[request.params.id];
