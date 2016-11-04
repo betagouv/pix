@@ -23,8 +23,24 @@ export default Ember.Component.extend({
     identify() {
 
       const user = this.get('user');
-      setUserInSession(this, user);
-      callActionOnUserIdentified(this);
+      const authenticator = 'authenticator:jwt';
+
+      //XXX : I need this shortcut to get shit done
+      user.firstName = $('#inputFirstName').val();
+      user.lastName  = $('#inputLastName').val();
+      user.email     = $('#inputEmail').val();
+      user.password  = $('#inputPassword').val();
+
+      this.get('session').authenticate(authenticator, user)
+        .then(()=>{
+          setUserInSession(this, user);
+          callActionOnUserIdentified(this);
+        })
+        .catch((reason)=>{
+          this.set('errorMessage', [{detail: "incorrect email or password"}]);
+        });
+
+
 
     }
 
