@@ -8,7 +8,10 @@ const assessmentService = require('../services/assessment-service');
 const challengeRepository = require('../repositories/challenge-repository');
 const challengeSerializer = require('../serializers/challenge-serializer');
 
+const answerSerializer = require('../serializers/answer-serializer');
+
 const Assessment = require('../models/data/assessment');
+const Answer = require('../models/data/answer');
 
 module.exports = {
 
@@ -41,9 +44,40 @@ module.exports = {
  get: {
     handler: (request, reply) => {
 
-      new Assessment({ id: request.params.id }).fetch({withRelated: 'answers'}).then((assessment) => {
-        reply(assessmentSerializer.serialize(assessment));
+
+      new Assessment({ id: request.params.id }).fetch().then((assessment) => {
+        Answer.query('where', 'assessmentId', '=', assessment.id).fetchAll().then((allAnswers) => {
+          
+          let serializedAnswers = [];
+          allAnswers.forEach(function (oneAnswer) {
+            serializedAnswers.push(
+
+                  {
+                  "type":"answers",
+                  "id":oneAnswer.attributes.id
+                  }
+                
+            );   
+          });
+
+          let serializedAssessment = assessmentSerializer.serialize(assessment);
+          if (!serializedAssessment.data.relationships) {
+            serializedAssessment.data.relationships = {};
+          }
+          if (!serializedAssessment.data.relationships.answers) {
+            serializedAssessment.data.relationships.answers = {};
+          }
+          if (!serializedAssessment.data.relationships.answers.data) {
+            serializedAssessment.data.relationships.answers.data = {};
+          }
+          serializedAssessment.data.relationships.answers.data = serializedAnswers;
+          reply(serializedAssessment);
+
+        });
       });
+
+
+
     }
  }
 
