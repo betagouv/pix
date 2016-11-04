@@ -53,9 +53,6 @@ describe('API | Assessments', function () {
 
   describe('GET /api/assessments/:id', function () {
 
-
-
-
     it("should return 200 HTTP status code", function (done) {
 
       knex.select('id')
@@ -67,7 +64,6 @@ describe('API | Assessments', function () {
           done();
         });
       });
-
 
     });
 
@@ -89,7 +85,6 @@ describe('API | Assessments', function () {
 
 
    it("should return the expected assessment", function (done) {
-
 
      knex.select('id')
       .from('assessments')
