@@ -37,19 +37,17 @@ module.exports = {
         .then((challenge) => reply(challengeSerializer.serialize(challenge)))
         .catch((error) => reply(Boom.badImplementation(error)));
     }
+  },
+
+  get: {
+     handler: (request, reply) => {
+  
+          new Assessment({ id: request.params.id }).fetch({ withRelated: ['answers'] }).then((assessment) => {
+           let serializedAssessment = assessmentSerializer.serialize(assessment);
+           reply(serializedAssessment);
+         });
+  
+       }
   }
-
- },
-
- get: {
-    handler: (request, reply) => {
-
-       new Assessment({ id: request.params.id }).fetch({ withRelated: ['answers'] }).then((assessment) => {
-        let serializedAssessment = assessmentSerializer.serialize(assessment);
-        reply(serializedAssessment);
-      });
-
-    }
- }
 
 };
