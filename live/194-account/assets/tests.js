@@ -1029,6 +1029,18 @@ define('pix-live/tests/app.lint-test', ['exports'], function (exports) {
     });
   });
 });
+define('pix-live/tests/authenticators/jwt.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - authenticators/jwt.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('authenticators/jwt.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/components/app-header.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -1729,6 +1741,47 @@ define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'npm:urljs
  */
 
 /* global $, Date */
+define('pix-live/tests/helpers/ember-simple-auth', ['exports', 'ember-simple-auth/authenticators/test'], function (exports, _emberSimpleAuthAuthenticatorsTest) {
+  exports.authenticateSession = authenticateSession;
+  exports.currentSession = currentSession;
+  exports.invalidateSession = invalidateSession;
+
+  var TEST_CONTAINER_KEY = 'authenticator:test';
+
+  function ensureAuthenticator(app, container) {
+    var authenticator = container.lookup(TEST_CONTAINER_KEY);
+    if (!authenticator) {
+      app.register(TEST_CONTAINER_KEY, _emberSimpleAuthAuthenticatorsTest['default']);
+    }
+  }
+
+  function authenticateSession(app, sessionData) {
+    var container = app.__container__;
+
+    var session = container.lookup('service:session');
+    ensureAuthenticator(app, container);
+    session.authenticate(TEST_CONTAINER_KEY, sessionData);
+    return wait();
+  }
+
+  ;
+
+  function currentSession(app) {
+    return app.__container__.lookup('service:session');
+  }
+
+  ;
+
+  function invalidateSession(app) {
+    var session = app.__container__.lookup('service:session');
+    if (session.get('isAuthenticated')) {
+      session.invalidate();
+    }
+    return wait();
+  }
+
+  ;
+});
 define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-live/config/environment'], function (exports, _pixLiveResolver, _pixLiveConfigEnvironment) {
 
   var resolver = _pixLiveResolver['default'].create();

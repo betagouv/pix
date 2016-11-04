@@ -30,6 +30,67 @@ define('pix-live/app', ['exports', 'ember', 'pix-live/resolver', 'ember-load-ini
 
   exports['default'] = App;
 });
+define('pix-live/authenticators/jwt', ['exports', 'ember', 'ember-simple-auth/authenticators/base', 'pix-live/config/environment'], function (exports, _ember, _emberSimpleAuthAuthenticatorsBase, _pixLiveConfigEnvironment) {
+  var Promise = _ember['default'].RSVP.Promise;
+  var ajax = _ember['default'].$.ajax;
+  var run = _ember['default'].run;
+  exports['default'] = _emberSimpleAuthAuthenticatorsBase['default'].extend({
+
+    tokenEndpoint: EmberENV.pixApiHost + '/api/users/create',
+
+    restore: function restore(data) {
+      return new Promise(function (resolve, reject) {
+        if (!_ember['default'].isEmpty(data.token)) {
+          resolve(data);
+        } else {
+          reject();
+        }
+      });
+    },
+
+    authenticate: function authenticate(creds) {
+      var identification = creds.identification;
+      var password = creds.password;
+
+      var data = JSON.stringify({
+        auth: {
+          email: identification,
+          password: password
+        }
+      });
+      var requestOptions = {
+        url: this.tokenEndpoint,
+        type: 'POST',
+        data: data,
+        contentType: 'application/json',
+        dataType: 'json'
+      };
+      return new Promise(function (resolve, reject) {
+        ajax(requestOptions).then(function (response) {
+          var jwt = response.jwt;
+
+          // Wrapping aync operation in Ember.run
+          run(function () {
+            resolve({
+              token: jwt
+            });
+          });
+        }, function (error) {
+          // Wrapping aync operation in Ember.run
+          run(function () {
+            reject(error);
+          });
+        });
+      });
+    },
+
+    invalidate: function invalidate(data) {
+      return Promise.resolve(data);
+    }
+
+  });
+});
+// taken from http://www.thegreatcodeadventure.com/jwt-authentication-with-rails-ember-part-ii-custom-ember-simple-auth/
 define('pix-live/components/app-header', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     tagName: 'header',
@@ -1060,6 +1121,19 @@ define('pix-live/initializers/ember-data', ['exports', 'ember-data/setup-contain
     initialize: _emberDataSetupContainer['default']
   };
 });
+define('pix-live/initializers/ember-simple-auth', ['exports', 'ember', 'pix-live/config/environment', 'ember-simple-auth/configuration', 'ember-simple-auth/initializers/setup-session', 'ember-simple-auth/initializers/setup-session-service'], function (exports, _ember, _pixLiveConfigEnvironment, _emberSimpleAuthConfiguration, _emberSimpleAuthInitializersSetupSession, _emberSimpleAuthInitializersSetupSessionService) {
+  exports['default'] = {
+    name: 'ember-simple-auth',
+    initialize: function initialize(registry) {
+      var config = _pixLiveConfigEnvironment['default']['ember-simple-auth'] || {};
+      config.baseURL = _pixLiveConfigEnvironment['default'].baseURL;
+      _emberSimpleAuthConfiguration['default'].load(config);
+
+      (0, _emberSimpleAuthInitializersSetupSession['default'])(registry);
+      (0, _emberSimpleAuthInitializersSetupSessionService['default'])(registry);
+    }
+  };
+});
 define('pix-live/initializers/enable-sentry', ['exports'], function (exports) {
   exports.initialize = initialize;
 
@@ -1184,6 +1258,14 @@ define("pix-live/instance-initializers/ember-data", ["exports", "ember-data/-pri
   exports["default"] = {
     name: "ember-data",
     initialize: _emberDataPrivateInstanceInitializersInitializeStoreService["default"]
+  };
+});
+define('pix-live/instance-initializers/ember-simple-auth', ['exports', 'ember-simple-auth/instance-initializers/setup-session-restoration'], function (exports, _emberSimpleAuthInstanceInitializersSetupSessionRestoration) {
+  exports['default'] = {
+    name: 'ember-simple-auth',
+    initialize: function initialize(instance) {
+      (0, _emberSimpleAuthInstanceInitializersSetupSessionRestoration['default'])(instance);
+    }
   };
 });
 define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments'], function (exports, _pixLiveMirageRoutesGetChallenge, _pixLiveMirageRoutesGetChallenges, _pixLiveMirageRoutesGetCourse, _pixLiveMirageRoutesGetCourses, _pixLiveMirageRoutesGetAnswer, _pixLiveMirageRoutesPostAnswers, _pixLiveMirageRoutesGetAssessment, _pixLiveMirageRoutesPostAssessments) {
@@ -1879,6 +1961,9 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
   });
 });
+define('pix-live/routes/application', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Route.extend();
+});
 define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp', 'ember-data'], function (exports, _ember, _rsvp, _emberData) {
   exports['default'] = _ember['default'].Route.extend({
 
@@ -2156,6 +2241,9 @@ define('pix-live/services/session', ['exports', 'ember'], function (exports, _em
     }
 
   });
+});
+define('pix-live/session-stores/application', ['exports', 'ember-simple-auth/session-stores/adaptive'], function (exports, _emberSimpleAuthSessionStoresAdaptive) {
+  exports['default'] = _emberSimpleAuthSessionStoresAdaptive['default'].extend();
 });
 define("pix-live/templates/application", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
@@ -9280,7 +9368,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+2485e466"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+69ffd4d4"});
 }
 
 /* jshint ignore:end */
