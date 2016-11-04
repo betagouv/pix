@@ -1,4 +1,5 @@
-<nav class="navbar">
+{{#if session.user }}
+  <nav class="navbar">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
@@ -12,7 +13,6 @@
                 <img src="{{rootURL}}images/pix-logo.png" alt="Logo PIX">
             </div>
         </div>
-      {{#if session.isIdentified }}
           <div class="profile nav navbar-nav navbar-right">
               <p class="navbar-text">
                   <a href="#" role="button">
@@ -20,6 +20,6 @@
                   </a>
               </p>
           </div>
-      {{/if}}
     </div>
-</nav>
+  </nav>
+{{/if}}

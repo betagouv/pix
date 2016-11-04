@@ -15,9 +15,36 @@
 
         <div class="row identification-form">
             <div class="col-md-12">
-                {{identification-form onUserIdentified="navigateToHome"}}
+
+                <div id="accordion" class="panel-group">
+                    <div class="panel panel-default" data-toggle="collapse" data-target="#collapseOne">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a  data-parent="#accordion" href="#collapseOne">Enregistrez-vous</a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                {{registration-form onUserIdentified="navigateToHome"}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default" data-toggle="collapse" data-target="#collapseTwo">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a  data-parent="#accordion" href="#collapseTwo">Connectez-vous</a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                {{login-form onUserIdentified="navigateToHome"}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-  </div>
+    </div>
 </div>
 
