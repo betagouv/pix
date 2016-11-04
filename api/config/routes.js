@@ -1,12 +1,12 @@
 'use strict';
 
-const server = require('../server');
+const server      = require('../server');
 const Assessments = require('../app/controllers/assessments');
-const Answers = require('../app/controllers/answers');
-const Users = require('../app/controllers/users');
+const Answers     = require('../app/controllers/answers');
+const Users       = require('../app/controllers/users');
 const UsersCreate = require('../app/controllers/auth/users_create');
-const Courses = require('../app/controllers/courses');
-const Challenges = require('../app/controllers/challenges');
+const Courses     = require('../app/controllers/courses');
+const Challenges  = require('../app/controllers/challenges');
 
 module.exports = [
 
