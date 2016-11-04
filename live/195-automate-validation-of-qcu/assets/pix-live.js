@@ -9280,7 +9280,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+c6c10e1d"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+68344902"});
 }
 
 /* jshint ignore:end */
