@@ -40,6 +40,7 @@
     "good-squeeze": "5.0.0",
     "hapi": "15.1.1",
     "inject-then": "2.0.7",
+    "jsonwebtoken": "7.1.9",
     "knex": "0.12.3",
     "lodash": "4.16.4",
     "moment": "2.15.1",
