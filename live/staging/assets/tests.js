@@ -93,7 +93,7 @@ define('pix-live/tests/acceptance/10-consulter-l-ecran-de-fin-de-test-test', ['e
     });
 
     (0, _mocha.it)("10.5. affiche le rapport nombre de réponses saisies sur nombre d'épreuves du test", function () {
-      var expectedString = '3 question(s) sur 3';
+      var expectedString = '4 question(s) sur 4';
       (0, _chai.expect)($assessmentResults.text()).to.contains(expectedString);
     });
 
@@ -224,6 +224,48 @@ define('pix-live/tests/acceptance/14-creer-une-epreuve-qroc-test.lint-test', ['e
     });
   });
 });
+define('pix-live/tests/acceptance/195-validation-automatique-des-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)("Acceptance | 195 - Validation automatique d'un QCU, visualisation du résultat ", function () {
+
+    var application = undefined;
+    var $summary = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/assessments/completed_assessment_id/results');
+    });
+
+    (0, _mocha.it)("195.1. Pour un QCU avec une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
+      var $cell = findWithAssert('.table#summary tbody tr:nth-child(1) td:nth-child(3)');
+      (0, _chai.expect)($cell.text()).to.contains('réponse correcte');
+    });
+
+    (0, _mocha.it)("195.2. Pour un QCU avec une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
+      var $cell = findWithAssert('.table#summary tbody tr:nth-child(2) td:nth-child(3)');
+      (0, _chai.expect)($cell.text()).to.contains('réponse incorrecte');
+    });
+  });
+});
+define('pix-live/tests/acceptance/195-validation-automatique-des-qcu-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/195-validation-automatique-des-qcu-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/195-validation-automatique-des-qcu-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 2 - voir la liste des tests', function () {
@@ -267,7 +309,7 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
       });
 
       (0, _mocha.it)('2.3.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains('3 épreuves');
+        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains('4 épreuves');
       });
 
       (0, _mocha.it)('2.3.4 on affiche son image', function () {
@@ -323,6 +365,7 @@ define('pix-live/tests/acceptance/211-recapitulatif-de-l-ecran-de-fin-de-test-te
       var $proposals = findWithAssert('.table#summary tbody tr');
       (0, _chai.expect)($proposals.text()).to.contains('Que peut-on dire des œufs');
       (0, _chai.expect)($proposals.text()).to.contains('Julie a déposé un document');
+      (0, _chai.expect)($proposals.text()).to.contains('Stéphanie a mis une information');
       (0, _chai.expect)($proposals.text()).to.contains('Citez un ou plusieurs logiciel(s)');
     });
   });
@@ -589,10 +632,6 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'm
 
         (0, _mocha.it)('32.2 la consigne de l\'épreuve', function () {
           (0, _chai.expect)($challenge.find('.challenge-instruction').text()).to.contain('Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?');
-        });
-
-        (0, _mocha.it)('32.3 les liens dans la consigne de l\'épreuve qui seront ouvert dans un nouvel onglet', function () {
-          (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.contain('<a target="_blank" href="https://fr.wikipedia.org/wiki/Stockage">stockage</a> ');
         });
       });
     });
@@ -1081,6 +1120,18 @@ define('pix-live/tests/controllers/home.lint-test', ['exports'], function (expor
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('controllers/home.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/helpers/convert-to-html.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - helpers/convert-to-html.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('helpers/convert-to-html.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1726,6 +1777,18 @@ define('pix-live/tests/helpers/start-app.lint-test', ['exports'], function (expo
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('helpers/start-app.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/helpers/strip-instruction.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - helpers/strip-instruction.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('helpers/strip-instruction.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -2831,6 +2894,53 @@ define('pix-live/tests/unit/controllers/home-test.lint-test', ['exports'], funct
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/controllers/home-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/helpers/convert-to-html-test', ['exports', 'chai', 'mocha', 'pix-live/helpers/convert-to-html'], function (exports, _chai, _mocha, _pixLiveHelpersConvertToHtml) {
+
+  (0, _mocha.describe)('ConvertToHtmlHelper', function () {
+    // Replace this with your real tests.
+    (0, _mocha.it)('works', function () {
+      var conversion = (0, _pixLiveHelpersConvertToHtml.convertToHtml)('**a bold sentence**');
+      var boldSentence = conversion[0];
+      (0, _chai.expect)(boldSentence).to.equal('<div class="paragraph"><strong>a bold sentence</strong></div>');
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/unit/helpers/convert-to-html-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/helpers/convert-to-html-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/helpers/convert-to-html-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/helpers/strip-instruction-test', ['exports', 'chai', 'mocha', 'pix-live/helpers/strip-instruction'], function (exports, _chai, _mocha, _pixLiveHelpersStripInstruction) {
+
+  (0, _mocha.describe)('StripInstructionHelper', function () {
+    // Replace this with your real tests.
+    (0, _mocha.it)('works', function () {
+      var result = (0, _pixLiveHelpersStripInstruction.stripInstruction)([['<div class="paragraph"><strong>a bold sentence</strong></div>']]);
+      (0, _chai.expect)(result).to.equal('a bold sentence...');
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/unit/helpers/strip-instruction-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/helpers/strip-instruction-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/helpers/strip-instruction-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
