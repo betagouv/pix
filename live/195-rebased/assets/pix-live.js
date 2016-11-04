@@ -1560,7 +1560,7 @@ define('pix-live/mirage/routes/get-answer', ['exports', 'pix-live/mirage/data/an
       case _pixLiveMirageDataAnswersQrocmAnswer['default'].data.id:
         return _pixLiveMirageDataAnswersQrocmAnswer['default'];
       default:
-        throw new Error('The answer you requested in the fake server does not exists');
+        throw new Error('The answer you requested in the fake server does not exist');
     }
   };
 });
@@ -9280,7 +9280,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+cca408fd"});
+  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+e57abeaf"});
 }
 
 /* jshint ignore:end */
