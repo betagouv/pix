@@ -16,7 +16,7 @@ export default function (schema, request) {
     case qrocmAnswer.data.id:
       return qrocmAnswer;
     default:
-      throw new Error('The answer you requested in the fake server does not exists');
+      throw new Error('The answer you requested in the fake server does not exist');
   }
 
 }
