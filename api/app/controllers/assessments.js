@@ -3,9 +3,12 @@
 const Boom = require('boom');
 const assessmentRepository = require('../repositories/assessment-repository');
 const assessmentSerializer = require('../serializers/assessment-serializer');
+
 const assessmentService = require('../services/assessment-service');
 const challengeRepository = require('../repositories/challenge-repository');
 const challengeSerializer = require('../serializers/challenge-serializer');
+
+const Assessment = require('../models/data/assessment');
 
 module.exports = {
 
@@ -18,6 +21,7 @@ module.exports = {
         .then((assessment) => reply(assessmentSerializer.serialize(assessment)).code(201))
         .catch((error) => reply(Boom.badImplementation(error)));
     }
+
   },
 
   getNextChallenge: {
@@ -31,5 +35,16 @@ module.exports = {
         .catch((error) => reply(Boom.badImplementation(error)));
     }
   }
+
+ },
+
+ get: {
+    handler: (request, reply) => {
+
+      new Assessment({ id: request.params.id }).fetch({withRelated: 'answers'}).then((assessment) => {
+        reply(assessmentSerializer.serialize(assessment));
+      });
+    }
+ }
 
 };
