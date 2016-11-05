@@ -20,10 +20,12 @@ export default Base.extend({
   },
 
   authenticate(creds) {
-    const { identification, password } = creds;
+    const { firstName, lastName, email, password } = creds;
     const data = JSON.stringify({
       auth: {
-        email: identification,
+        firstName,
+        lastName,
+        email,
         password
       }
     });

@@ -22,13 +22,15 @@ module.exports = {
     handler: (request, reply) => {
       const user = new User();
 
-      // XXX : random login, firstname and lastname, just email + password as of now
-      user.attributes.login = Math.random().toString(36).substr(2, 5);
-      user.attributes.firstName = Math.random().toString(36).substr(2, 5);
-      user.attributes.lastName = Math.random().toString(36).substr(2, 5);
-      user.attributes.email = request.payload.email;
+      console.log(JSON.stringify(request.payload));
 
-      hashPassword(request.payload.password, (err, hash) => {
+      // XXX : random login, should be delete from database
+      user.attributes.login = Math.random().toString(36).substr(2, 5);
+      user.attributes.email = request.payload.auth.email;
+      user.attributes.firstName = request.payload.auth.firstName;
+      user.attributes.lastName = request.payload.auth.lastName;
+
+      hashPassword(request.payload.auth.password, (err, hash) => {
         if (err) {
           reply({ message:'invalid query' }).code(400);
         }
