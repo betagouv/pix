@@ -32,6 +32,7 @@ function removeErrorMessage(component) {
 function setUserInSession(component, user) {
 
   const session = component.get('session');
+  console.log('session.authenticate is ' + session.authenticate);
   session.set('user', user);
   session.save();
 }

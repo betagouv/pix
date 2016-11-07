@@ -1,0 +1,31 @@
+<form data-toggle="validator" role="form" {{action "identify" on="submit"}}>
+  <div class="form-group">
+    <label for="inputName" class="control-label">Prénom</label>
+    <input type="text" class="form-control" id="inputFirstName" placeholder="Votre prénom" required="true">
+  </div>
+  <div class="form-group">
+    <label for="inputName" class="control-label">Nom</label>
+    <input type="text" class="form-control" id="inputLastName" placeholder="Votre nom" required>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail" class="control-label">Email</label>
+    <input type="email" class="form-control" id="inputEmail" placeholder="Email" data-error="Cette adresse e-mail n'est pas valide" required>
+    <div class="help-block with-errors"></div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword" class="control-label">Mot de passe</label>
+    <div class="form-inline row">
+      <div class="form-group col-sm-6">
+        <input style="width:100%" type="password" data-minlength="6" class="form-control" id="inputPassword" placeholder="Mot de passe" required>
+        <div class="help-block">Au moins 6 caractères</div>
+      </div>
+      <div class="form-group col-sm-6">
+        <input style="width:100%" type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Non, les mots de passe ne correspondent pas" placeholder="Confirmation du mot de passe" required>
+        <div class="help-block with-errors"></div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary button button-primary">Enregistrez-vous</button>
+  </div>
+</form>

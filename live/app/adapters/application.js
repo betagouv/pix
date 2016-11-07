@@ -1,8 +1,8 @@
 import DS from 'ember-data'
-
-export default DS.JSONAPIAdapter.extend({
+import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin'; 
+export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
 
   namespace: 'api',
-  host: EmberENV.pixApiHost
-
+  host: EmberENV.pixApiHost,
+  authorizer: 'authorizer:custom'
 });
