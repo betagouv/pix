@@ -27,14 +27,14 @@ module.exports = {
   current: {
     handler: (request, reply) => {
       
-      console.log(request);
+      // console.log(request);
 
       reply({
         data: {
           type: 'users',
           id: 'user_id',
           attributes: {
-            firstName: 'Bob',
+            'first-name': 'Bob',
             email:'bob@dylan.com'
           }
         }
