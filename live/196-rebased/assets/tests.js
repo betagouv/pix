@@ -266,6 +266,52 @@ define('pix-live/tests/acceptance/195-validation-automatique-des-qcu-test.lint-t
     });
   });
 });
+define('pix-live/tests/acceptance/196-validation-automatique-des-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)("Acceptance | 196 - Validation automatique d'un QCM, visualisation du résultat ", function () {
+
+    var application = undefined;
+    var $summary = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/assessments/completed_assessment_qcm_id/results');
+    });
+
+    (0, _mocha.before)(function () {
+      $summary = findWithAssert('.table#summary tbody tr');
+    });
+
+    (0, _mocha.it)("196.1. Pour un QCM avec toutes les réponses attendues, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
+      var $cell = findWithAssert('.table#summary tbody tr:nth-child(1) td:nth-child(3)');
+      (0, _chai.expect)($cell.text()).to.contains('réponse correcte');
+    });
+
+    (0, _mocha.it)("196.2. Pour un QCM avec une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
+      var $cell = findWithAssert('.table#summary tbody tr:nth-child(2) td:nth-child(3)');
+      (0, _chai.expect)($cell.text()).to.contains('réponse incorrecte');
+    });
+  });
+});
+define('pix-live/tests/acceptance/196-validation-automatique-des-qcm-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/196-validation-automatique-des-qcm-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/196-validation-automatique-des-qcm-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 2 - voir la liste des tests', function () {
