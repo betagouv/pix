@@ -38,14 +38,29 @@ module.exports = {
         user.attributes.password = hash;
 
         user.save()
-          .then((createdUser) => {
-            reply({ jwt: createToken(user) }).code(201);
-          })
-          .catch((error) => {
-            console.log(error);
-            reply({ message:'unable to create user' }).code(400);
-          });
+        .then((createdUser) => {
+          reply({ jwt: createToken(user) }).code(201);
+        })
+        .catch((error) => {
+          console.log(error);
+          reply({ message:'unable to create user' }).code(400);
+        });
 
+      });
+    }
+  },
+
+  get: {
+    handler: (request, reply) => {
+      // TODO
+      reply({
+        data: {
+          type: 'users',
+          id: 'user_id',
+          attributes: {
+            firstName: 'Bob',
+          }
+        }
       });
     }
   },

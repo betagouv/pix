@@ -15,7 +15,8 @@ export default Ember.Route.extend(UnauthenticatedRouteMixin, {
   session: Ember.inject.service(),
 
   beforeModel: function(){
-    listPropsOf(this.get('session'));
+    let session = this.get('session');
+    listPropsOf(session.data);
   },
 
   actions: {
