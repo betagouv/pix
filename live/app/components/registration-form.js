@@ -12,6 +12,7 @@ function callActionOnUserIdentified(component) {
   component.sendAction('onUserIdentified');
 }
 
+
 export default Ember.Component.extend({
 
   session: Ember.inject.service('session'),
@@ -22,8 +23,8 @@ export default Ember.Component.extend({
 
     identify() {
 
-      const user = this.get('user');
       const authenticator = 'authenticator:jwt';
+      const user = this.get('user');
 
       //XXX : I need this shortcut to get shit done
       user.firstName = $('#inputFirstName').val();
@@ -33,6 +34,7 @@ export default Ember.Component.extend({
 
       // console.log('this.get("session.isAuthenticated") ' + this.get('session.isAuthenticated'));      
 
+
       this.get('session').authenticate(authenticator, user)
         .then(()=>{
           // setUserInSession(this, user);
@@ -40,9 +42,7 @@ export default Ember.Component.extend({
         })
         .catch((reason)=>{
           this.set('errorMessage', [{detail: "incorrect email or password"}]);
-        });
-
-
+        });        
 
     }
 
