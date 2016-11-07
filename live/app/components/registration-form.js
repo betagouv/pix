@@ -35,7 +35,7 @@ export default Ember.Component.extend({
 
       this.get('session').authenticate(authenticator, user)
         .then(()=>{
-          setUserInSession(this, user);
+          // setUserInSession(this, user);
           callActionOnUserIdentified(this);
         })
         .catch((reason)=>{
