@@ -31,7 +31,7 @@ export default Ember.Component.extend({
       user.email     = $('#inputEmail').val();
       user.password  = $('#inputPassword').val();
 
-      
+      // console.log('this.get("session.isAuthenticated") ' + this.get('session.isAuthenticated'));      
 
       this.get('session').authenticate(authenticator, user)
         .then(()=>{

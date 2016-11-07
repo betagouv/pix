@@ -11,7 +11,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   },
 
   sessionAuthenticated() {
-    this._loadCurrentUser().catch(() => this.get('session').invalidate());
+    this._loadCurrentUser().then(()=>{
+      this.transitionTo('/home');
+    }).catch(() => this.get('session').invalidate());
   },
 
   _loadCurrentUser() {
