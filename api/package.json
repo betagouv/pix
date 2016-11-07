@@ -39,6 +39,7 @@
     "good-console": "6.1.2",
     "good-squeeze": "5.0.0",
     "hapi": "15.1.1",
+    "hapi-auth-jwt2": "^7.1.3",
     "inject-then": "2.0.7",
     "jsonwebtoken": "7.1.9",
     "knex": "0.12.3",

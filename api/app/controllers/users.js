@@ -26,7 +26,9 @@ module.exports = {
 
   current: {
     handler: (request, reply) => {
-      // TODO
+      
+      console.log(request);
+
       reply({
         data: {
           type: 'users',

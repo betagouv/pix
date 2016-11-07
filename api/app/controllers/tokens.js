@@ -19,6 +19,7 @@ function hashPassword(password, callback) {
 module.exports = {
 
   create: {
+    auth: false,
     handler: (request, reply) => {
       const user = new User();
 
