@@ -35,6 +35,7 @@ module.exports = {
           id: 'user_id',
           attributes: {
             firstName: 'Bob',
+            email:'bob@dylan.com'
           }
         }
       });
