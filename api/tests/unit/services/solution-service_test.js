@@ -43,12 +43,12 @@ describe('Service | Solution :', function () {
       done();
     });
 
-    it("should return the 'pending' if the question is not a QCU, even if the answer is correct", function () {
+    it("should return 'pending' if the question is not a QCU, even if the answer is correct", function () {
       const result = service.matchUserAnswerWithActualSolution(badAnswer, solution);
       expect(result).to.equal('pending');
     });
 
-    it("should return the 'pending' if the question is not a QCU, even if the answer is incorrect", function () {
+    it("should return 'pending' if the question is not a QCU, even if the answer is incorrect", function () {
       const result = service.matchUserAnswerWithActualSolution(badAnswer, solution);
       expect(result).to.equal('pending');
     });
@@ -63,10 +63,6 @@ describe('Service | Solution :', function () {
     goodAnswer.attributes = { value: '2,1' }
     const badAnswer = new Answer({ id: 'bad_answer_id' });
     badAnswer.attributes = { value: '1,3' }
-
-    before(function (done) {
-      done();
-    });
 
     it("should be 'ok' for a correct answer", function () {
       const result = service.matchUserAnswerWithActualSolution(goodAnswer, solution);
