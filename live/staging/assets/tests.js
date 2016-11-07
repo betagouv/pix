@@ -3026,7 +3026,7 @@ define('pix-live/tests/unit/initializers/configure-pix-api-host-test', ['exports
         var pixApiHost = (0, _pixLiveInitializersConfigurePixApiHost.configurePixApiHost)();
 
         // then
-        (0, _chai.expect)(pixApiHost).to.equal('https://api-production.pix-app.ovh');
+        (0, _chai.expect)(pixApiHost).to.equal('https://api-production.pix.beta.gouv.fr');
       });
 
       (0, _mocha.it)('should detect Pix staging', function () {
