@@ -1,6 +1,7 @@
 'use strict';
 
 const User = require('../models/data/user');
+const userSerializer = require('../serializers/user-serializer');
 
 module.exports = {
 
@@ -26,20 +27,23 @@ module.exports = {
 
   current: {
     handler: (request, reply) => {
-      
-      // console.log(request);
+
+      // new User({ id: request.auth.credentials.id })
+      //   .fetch()
+      //   .then((user) => reply(userSerializer.serialize(user)).code(200))
 
       reply({
         data: {
           type: 'users',
           id: 'user_id',
           attributes: {
-            'first-name': 'Bob',
-            'last-name': 'Dylan',
+            'firstname': 'Bob',
+            'lastname': 'Dylan',
             email:'bob@dylan.com'
           }
         }
       });
+
     }
   },
 

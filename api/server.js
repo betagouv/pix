@@ -11,6 +11,7 @@ server.connection({ port: config.port });
 var validate = function (decoded, request, callback) {
 
   // TODO : implement something real
+  console.log(decoded);
   return callback(null, true);
     
 };
