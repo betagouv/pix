@@ -3,16 +3,16 @@ import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
 
-  session: Ember.inject.service(),
-
+  sessionAccount: Ember.inject.service('session-account'),
+  
   model(params) {
 
     const store = this.get('store');
     return store.findRecord('course', params.course_id).then((course) => {
 
       // FIXME : add (route?) tests
-      const userName = `${this.get('session.user.firstName')} ${this.get('session.user.lastName')}`;
-      const userEmail = this.get('session.user.email');
+      const userName = `${this.get('sessionAccount.account.firstName')} ${this.get('sessionAccount.account.firstName')}`;
+      const userEmail = this.get('sessionAccount.account.email');
 
       return store
         .createRecord('assessment', { course, userName, userEmail })
