@@ -24,6 +24,6 @@ export default function () {
   this.post('/answers', postAnswers);
   this.get('/answers/:id', getAnswer);
 
-  this.post('/tokens/user_token', postUserToken, 200);
+  this.post('/tokens/user_token', postUserToken);
 
 }

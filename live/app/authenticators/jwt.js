@@ -2,12 +2,13 @@
 import Ember from 'ember';  
 import Base from 'ember-simple-auth/authenticators/base';  
 import config from '../config/environment';
+import ENV from 'pix-live/config/environment';
 
 const { RSVP: { Promise }, $: { ajax }, run } = Ember;
 
 export default Base.extend({  
 
-  tokenEndpoint: `${EmberENV.pixApiHost}/api/tokens/user_token`,
+  tokenEndpoint: `${ENV.APP.API_HOST}/api/tokens/user_token`,
 
   restore(data) {
     return new Promise((resolve, reject) => {
