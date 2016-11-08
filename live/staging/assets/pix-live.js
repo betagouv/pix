@@ -6,11 +6,11 @@
 
 /* jshint ignore:end */
 
-define('pix-live/adapters/application', ['exports', 'ember-data'], function (exports, _emberData) {
+define('pix-live/adapters/application', ['exports', 'ember-data', 'pix-live/config/environment'], function (exports, _emberData, _pixLiveConfigEnvironment) {
   exports['default'] = _emberData['default'].JSONAPIAdapter.extend({
 
     namespace: 'api',
-    host: EmberENV.pixApiHost
+    host: _pixLiveConfigEnvironment['default'].APP.API_HOST
 
   });
 });
@@ -916,38 +916,6 @@ define('pix-live/initializers/bootstrap-linkto', ['exports', 'ember-bootstrap/in
       return _emberBootstrapInitializersBootstrapLinkto.initialize;
     }
   });
-});
-define('pix-live/initializers/configure-pix-api-host', ['exports', 'pix-live/config/environment'], function (exports, _pixLiveConfigEnvironment) {
-  exports.configurePixApiHost = configurePixApiHost;
-  exports.initialize = initialize;
-
-  function configurePixApiHost(locationObject) {
-
-    if (_pixLiveConfigEnvironment['default'].environment === 'production') {
-      return 'https://api-production.pix.beta.gouv.fr';
-    }
-
-    if (_pixLiveConfigEnvironment['default'].environment === 'staging') {
-      return 'http://api-staging.pix-app.ovh';
-    }
-
-    if (_pixLiveConfigEnvironment['default'].environment === 'integration') {
-      var matches = /^(.*).pix.beta.gouv.fr/.exec(locationObject.hostname);
-      return 'http://' + matches[1] + '.pix-app.ovh';
-    }
-
-    return 'http://localhost:3000';
-  }
-
-  function initialize() {
-
-    EmberENV.pixApiHost = configurePixApiHost(window.location);
-  }
-
-  exports['default'] = {
-    name: 'configure-pix-api-host',
-    initialize: initialize
-  };
 });
 define('pix-live/initializers/container-debug-adapter', ['exports', 'ember-resolver/container-debug-adapter'], function (exports, _emberResolverContainerDebugAdapter) {
   exports['default'] = {
@@ -9385,7 +9353,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"name":"pix-live","version":"1.0.0+ec189781"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+4c4c5106"});
 }
 
 /* jshint ignore:end */

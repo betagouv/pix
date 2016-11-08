@@ -1840,18 +1840,6 @@ define('pix-live/tests/helpers/strip-instruction.lint-test', ['exports'], functi
     });
   });
 });
-define('pix-live/tests/initializers/configure-pix-api-host.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - initializers/configure-pix-api-host.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('initializers/configure-pix-api-host.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/initializers/enable-sentry.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2987,92 +2975,6 @@ define('pix-live/tests/unit/helpers/strip-instruction-test.lint-test', ['exports
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/helpers/strip-instruction-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/unit/initializers/configure-pix-api-host-test', ['exports', 'chai', 'mocha', 'ember', 'pix-live/initializers/configure-pix-api-host', 'pix-live/config/environment'], function (exports, _chai, _mocha, _ember, _pixLiveInitializersConfigurePixApiHost, _pixLiveConfigEnvironment) {
-
-  (0, _mocha.describe)('ConfigurePixApiHostInitializer', function () {
-    var container = undefined,
-        application = undefined;
-
-    (0, _mocha.beforeEach)(function () {
-      _ember['default'].run(function () {
-        application = _ember['default'].Application.create();
-        container = application.__container__;
-        application.deferReadiness();
-      });
-    });
-
-    (0, _mocha.afterEach)(function () {
-      _pixLiveConfigEnvironment['default'].environment = 'test';
-    });
-
-    (0, _mocha.it)('works on the EmberENV global', function () {
-      (0, _pixLiveInitializersConfigurePixApiHost.initialize)(application);
-
-      (0, _chai.expect)(EmberENV.pixApiHost).to.be.ok;
-    });
-
-    (0, _mocha.describe)('configurePixApiHost', function () {
-
-      (0, _mocha.it)('should detect Pix production', function () {
-        // given
-        _pixLiveConfigEnvironment['default'].environment = 'production';
-
-        // when
-        var pixApiHost = (0, _pixLiveInitializersConfigurePixApiHost.configurePixApiHost)();
-
-        // then
-        (0, _chai.expect)(pixApiHost).to.equal('https://api-production.pix.beta.gouv.fr');
-      });
-
-      (0, _mocha.it)('should detect Pix staging', function () {
-        // given
-        _pixLiveConfigEnvironment['default'].environment = 'staging';
-
-        // when
-        var pixApiHost = (0, _pixLiveInitializersConfigurePixApiHost.configurePixApiHost)();
-
-        // then
-        (0, _chai.expect)(pixApiHost).to.equal('http://api-staging.pix-app.ovh');
-      });
-
-      (0, _mocha.it)('should detect Pix integration', function () {
-        // given
-        _pixLiveConfigEnvironment['default'].environment = 'integration';
-        var location = { hostname: '123-user-stories-are-magic.pix.beta.gouv.fr' };
-
-        // when
-        var pixApiHost = (0, _pixLiveInitializersConfigurePixApiHost.configurePixApiHost)(location);
-
-        // then
-        (0, _chai.expect)(pixApiHost).to.equal('http://123-user-stories-are-magic.pix-app.ovh');
-      });
-
-      (0, _mocha.it)('should detect localhost', function () {
-        // given
-        var location = { hostname: 'localhost:4200' };
-
-        // when
-        var pixApiHost = (0, _pixLiveInitializersConfigurePixApiHost.configurePixApiHost)(location);
-
-        // then
-        (0, _chai.expect)(pixApiHost).to.equal('http://localhost:3000');
-      });
-    });
-  });
-});
-/* jshint expr:true */
-define('pix-live/tests/unit/initializers/configure-pix-api-host-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - unit/initializers/configure-pix-api-host-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/initializers/configure-pix-api-host-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
