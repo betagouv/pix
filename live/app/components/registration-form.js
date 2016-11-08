@@ -13,6 +13,9 @@ function callActionOnUserIdentified(component) {
   component.sendAction('onUserIdentified');
 }
 
+function removeAllNotices() {
+  PNotify.removeAll();
+}
 
 export default Ember.Component.extend({
 
@@ -46,12 +49,13 @@ export default Ember.Component.extend({
 
       this.get('session').authenticate(authenticator, credentials)
       .then(()=>{
+          removeAllNotices();
           callActionOnUserIdentified(this);
       })
       .catch((reason)=>{
         $(function(){
           
-          PNotify.removeAll();
+          removeAllNotices();
 
           let arrayOfErrors = JSON.parse(reason.responseText);
           let errorsAsString = '';
@@ -59,19 +63,19 @@ export default Ember.Component.extend({
             errorsAsString += '• ' + currentError + '\n';
           });
 
-
+          // eslint-disable-next-line
           new PNotify({
             title: 'Quelque(s) erreur(s)...',
             text: errorsAsString,
             type: 'error',
             hide: false,
-            animate_speed: "slow",
-            animation: "fade",
-            after_init: function(notice){              
-              setTimeout(function() {
-                notice.attention('tada');
-              }, 1200);
-            }
+            // animate_speed: "slow",
+            // animation: "fade",
+            // after_init: function(notice){              
+            //   setTimeout(function() {
+            //     notice.attention('tada');
+            //   }, 1200);
+            // }
           });
 
         });
