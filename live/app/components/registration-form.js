@@ -39,16 +39,15 @@ export default Ember.Component.extend({
         lastName:        $('#inputLastName').val(),
         email:           $('#inputEmail').val(),
         password:        $('#inputPassword').val(),
-        passwordConfirm: $('#inputPasswordConfirm').val()
+        passwordConfirm: $('#inputPasswordConfirm').val(),
+        hasAcceptedCGU:  $('#inputHasAcceptedCGU').is(":checked")
       }
-
-      // console.log('this.get("session.isAuthenticated") ' + this.get('session.isAuthenticated'));      
 
 
       this.get('session').authenticate(authenticator, credentials)
       .then(()=>{
           callActionOnUserIdentified(this);
-        })
+      })
       .catch((reason)=>{
         $(function(){
           

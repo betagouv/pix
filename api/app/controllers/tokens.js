@@ -48,20 +48,20 @@ function validatePasswordConfirm(password, passwordConfirm) {
 
 function validateCredentials(credentials) {
   let errors = [];
-  if (!validatePassword(credentials.password)) {
-    errors.push('Le mot de passe doit faire au moins 6 caractères');
-  }
-  if (!validatePasswordConfirm(credentials.password, credentials.passwordConfirm)) {
-    errors.push('Les 2 mots de passe ne correspondent pas');
-  }
-  // if (!validateHasAcceptedCGU(credentials.hasAcceptedCGU)) {
-  //   errors.push('Vous devez acceptez les CGU');
-  // }
   if (!validateFirstName(credentials.firstName)) {
     errors.push('Le prénom est obligatoire');
   }
   if (!validateLastName(credentials.lastName)) {
     errors.push('Le nom de famille est obligatoire');
+  }
+  if (!validatePassword(credentials.password)) {
+    errors.push('Le mot de passe doit faire au moins 6 caractères');
+  }
+  if (!validatePasswordConfirm(credentials.password, credentials.passwordConfirm)) {
+    errors.push('La confirmation du mot de passe doit correspondre exactement au mot de passe');
+  }
+  if (!validateHasAcceptedCGU(credentials.hasAcceptedCGU)) {
+    errors.push('Vous devez accepter les CGU');
   }
   return errors;
 };
