@@ -733,8 +733,6 @@ define('pix-live/components/registration-form', ['exports', 'ember', 'lodash/lod
         })['catch'](function (reason) {
           $(function () {
 
-            PNotify.prototype.options.styling = "brighttheme";
-
             removeAllNotices();
 
             var arrayOfErrors = JSON.parse(reason.responseText);
@@ -1103,6 +1101,18 @@ define('pix-live/initializers/bootstrap-linkto', ['exports', 'ember-bootstrap/in
       return _emberBootstrapInitializersBootstrapLinkto.initialize;
     }
   });
+});
+define("pix-live/initializers/configure-pnotify", ["exports"], function (exports) {
+  exports.initialize = initialize;
+
+  function initialize() {
+    PNotify.prototype.options.styling = "brighttheme";
+  }
+
+  exports["default"] = {
+    name: 'configure-pnotify',
+    initialize: initialize
+  };
 });
 define('pix-live/initializers/container-debug-adapter', ['exports', 'ember-resolver/container-debug-adapter'], function (exports, _emberResolverContainerDebugAdapter) {
   exports['default'] = {
@@ -9980,7 +9990,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+391fc939"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+dcc86393"});
 }
 
 /* jshint ignore:end */

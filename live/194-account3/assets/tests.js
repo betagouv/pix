@@ -224,27 +224,24 @@ define('pix-live/tests/acceptance/194-enregistrement-sur-la-plateforme-test', ['
 
     (0, _mocha.it)('1.3 Si on valide et que le serveur réponds par un message d\'erreur, on reste sur la même URL, et on affiche le message d\'erreur du serveur', function (done) {
       fillIn('#inputEmail', 'an_invalid_email').then(function () {
+
         var $buttonRegister = $('#buttonRegister')[0];
-        return click($buttonRegister).then(function () {
-          setTimeout(function () {
-            (0, _chai.expect)(currentURL()).to.equal('/');
-            done();
-          }, 300);
-          // BELOW : do not work. Probably the test environment is unable to reach the displayed notification container.
-          // expect(findWithAssert('.ui-pnotify-container').text()).to.contains('erreurs');
+        click($buttonRegister);
+        andThen(function () {
+          (0, _chai.expect)(currentURL()).to.equal('/');
+          done();
         });
       });
     });
 
     (0, _mocha.it)('1.4 Si on valide et que le serveur est d\'accord, on affiche la page /home', function (done) {
       fillIn('#inputEmail', 'valid@email.com').then(function () {
+
         var $buttonRegister = $('#buttonRegister')[0];
-        return click($buttonRegister).then(function () {
-          // XXX: really icky test, but fail sometimes if no timeout
-          setTimeout(function () {
-            (0, _chai.expect)(currentURL()).to.equal('/home');
-            done();
-          }, 300);
+        click($buttonRegister);
+        andThen(function () {
+          (0, _chai.expect)(currentURL()).to.equal('/home');
+          done();
         });
       });
     });
@@ -1967,6 +1964,18 @@ define('pix-live/tests/helpers/strip-instruction.lint-test', ['exports'], functi
     });
   });
 });
+define('pix-live/tests/initializers/configure-pnotify.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - initializers/configure-pnotify.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('initializers/configure-pnotify.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/initializers/enable-sentry.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -3254,6 +3263,42 @@ define('pix-live/tests/unit/helpers/strip-instruction-test.lint-test', ['exports
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/helpers/strip-instruction-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/initializers/configure-pnotify-test', ['exports', 'chai', 'mocha', 'ember', 'pix-live/initializers/configure-pnotify'], function (exports, _chai, _mocha, _ember, _pixLiveInitializersConfigurePnotify) {
+
+  (0, _mocha.describe)('ConfigurePnotifyInitializer', function () {
+    var container = undefined,
+        application = undefined;
+
+    (0, _mocha.beforeEach)(function () {
+      _ember['default'].run(function () {
+        application = _ember['default'].Application.create();
+        container = application.__container__;
+        application.deferReadiness();
+      });
+    });
+
+    // Replace this with your real tests.
+    (0, _mocha.it)('works', function () {
+      (0, _pixLiveInitializersConfigurePnotify.initialize)(container, application);
+
+      // you would normally confirm the results of the initializer here
+      (0, _chai.expect)(true).to.be.ok;
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/unit/initializers/configure-pnotify-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/initializers/configure-pnotify-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/initializers/configure-pnotify-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
