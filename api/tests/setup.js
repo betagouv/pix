@@ -20,3 +20,14 @@ global.expect = chai.expect;
 const knexConfig = require('../db/knexfile');
 global.knex = require('knex')(knexConfig['test']);
 
+global.defineProp = function ( obj, key, value ) {
+  var config = {
+    value: value,
+    writable: true,
+    enumerable: true,
+    configurable: true
+  };
+  Object.defineProperty( obj, key, config );
+  return obj;
+};
+

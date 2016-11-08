@@ -3,14 +3,16 @@
 const server = require('../../../server');
 const Assessment = require('../../../app/models/data/assessment');
 const createToken = require('../../helper/createToken');
-const headers = { Authorization: createToken() };
 
 describe('API | Assessments', function () {
 
+  let headers;
 
   before(function (done) {
     knex.migrate.latest().then(() => {
       knex.seed.run().then(() => {
+
+
         nock('https://api.airtable.com')
           .get('/v0/test-base/Tests/assessment_id')
           .times(4)
@@ -44,7 +46,16 @@ describe('API | Assessments', function () {
             },
           }
         );
-        done();
+        
+        knex.select('id')
+        .from('users')
+        .where({email:'jsnow@winterfell.got'})
+        .limit(1)
+        .then(function(rows) {
+          headers = { Authorization: createToken(rows[0].id) };
+          done();
+        });
+
       });
     });
   });
@@ -56,6 +67,7 @@ describe('API | Assessments', function () {
   describe('GET /api/assessments/:id', function () {
 
     it("should return 200 HTTP status code", function (done) {
+
 
       knex.select('id')
       .from('assessments')
@@ -118,7 +130,6 @@ describe('API | Assessments', function () {
   describe('POST /api/assessments', function () {
 
     const options = {
-      headers,
       method: "POST", 
       url: "/api/assessments", 
       payload: {
@@ -141,6 +152,7 @@ describe('API | Assessments', function () {
     };
 
     it("should return 201 HTTP status code", function (done) {
+      options.headers = headers;
       server.injectThen(options).then((response) => {
         expect(response.statusCode).to.equal(201);
         done();
@@ -231,6 +243,7 @@ describe('API | Assessments', function () {
     };
 
     it("should return 200 HTTP status code", function (done) {
+      assessmentData.headers = headers;
       server.injectThen(assessmentData).then((response) => {
         const challengeData = { headers, method: "GET", url: "/api/assessments/" + response.result.data.id + "/next" };
         server.injectThen(challengeData).then((response) => {

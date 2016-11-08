@@ -1,9 +1,11 @@
 'use strict';
 
 const server = require('../../../server');
+const helper = require('../../helper');
 const Answer = require('../../../app/models/data/answer');
 const createToken = require('../../helper/createToken');
 const createAuthentifiedToken = require('../../helper/createAuthentifiedToken');
+const _ = require('lodash');
 
 describe('API | Answers', function () {
 
@@ -12,7 +14,14 @@ describe('API | Answers', function () {
   before(function (done) {
     knex.migrate.latest().then(() => {
       knex.seed.run().then(() => {
-        done();
+        knex.select('id')
+        .from('users')
+        .where({email:'jsnow@winterfell.got'})
+        .limit(1)
+        .then(function(rows) {
+          headers = { Authorization: createToken(rows[0].id) };
+          done();
+        });
       });
     });
   });
@@ -38,43 +47,37 @@ describe('API | Answers', function () {
       done();
     });
 
-    let options;
-
-    before(function (done) {
-
-      createAuthentifiedToken((headers) => {
-      options = {
-        headers,
-        method: "POST", url: "/api/answers", payload: {
-          data: {
-            type: 'answer',
-            attributes: {
-              value: "1"
+    const options = {
+      method: "POST", 
+      url: "/api/answers", 
+      payload: {
+        data: {
+          type: 'answer',
+          attributes: {
+            value: "1"
+          },
+          relationships: {
+            assessment: {
+              data: {
+                type: 'assessment',
+                id: 'assessment_id'
+              }
             },
-            relationships: {
-              assessment: {
-                data: {
-                  type: 'assessment',
-                  id: 'assessment_id'
-                }
-              },
-              challenge: {
-                data: {
-                  type: 'challenge',
-                  id: 'challenge_id'
-                }
+            challenge: {
+              data: {
+                type: 'challenge',
+                id: 'challenge_id'
               }
             }
           }
         }
-      };
-      done();
+      }
+    };
 
-      });
 
-    })
 
     it("should return 201 HTTP status code", function (done) {
+      options.headers = headers;
       server.injectThen(options).then((response) => {
 
         expect(response.statusCode).to.equal(201);
