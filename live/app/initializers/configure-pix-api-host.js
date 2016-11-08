@@ -2,6 +2,9 @@ import ENV from 'pix-live/config/environment';
 
 export function configurePixApiHost(locationObject) {
 
+  PNotify.prototype.options.styling = "brighttheme";
+  
+
   if (ENV.environment === 'production') {
     return 'https://api-production.pix.beta.gouv.fr';
   }

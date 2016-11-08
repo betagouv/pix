@@ -34,7 +34,7 @@
     padding-bottom: 30px;
   }
 
-  & a {
+  & .header-user {
     font-smoothing: antialiased;
     font-weight: 700;
     font-size: 13px;
@@ -47,14 +47,14 @@
     background-color: #fff;
     width: 100%;
 
-    &:hover,
+/*    &:hover,
     &:focus {
        color: var(--pix-blue);
-    }
+    }*/
 
-    &:active {
+/*    &:active {
        color: var(--pix-yellow);
-    }
+    }*/
   }
 }
 

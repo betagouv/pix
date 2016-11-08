@@ -67,6 +67,8 @@ module.exports = function (defaults) {
   app.import('bower_components/showdown/dist/showdown.js');
   app.import('bower_components/simple-markdown/simple-markdown.js');
   app.import('bower_components/showdown-target-blank/dist/showdown-target-blank.js');
+  app.import('vendor/pnotify.custom.js');
+  app.import('vendor/pnotify.custom.css');
 
   if (app.env !== 'test') {
     // css animations

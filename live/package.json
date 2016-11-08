@@ -76,5 +76,8 @@
     "stylelint": "^7.2.0",
     "stylelint-config-standard": "^13.0.0",
     "tap-xunit": "^1.4.0"
+  },
+  "dependencies": {
+    "ember-simple-auth": "1.1.0"
   }
 }
