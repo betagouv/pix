@@ -56,29 +56,27 @@ describe('Acceptance | 194 - S\'enregistrer sur la plateforme', function () {
 
   it('1.3 Si on valide et que le serveur réponds par un message d\'erreur, on reste sur la même URL, et on affiche le message d\'erreur du serveur', function (done) {
     fillIn('#inputEmail', 'an_invalid_email').then(() => {
+      
       const $buttonRegister = $('#buttonRegister')[0];
-      return click($buttonRegister).then(() => {
-        setTimeout(function () {
-            expect(currentURL()).to.equal('/');
-            done();
-        }, 300);
-        // BELOW : do not work. Probably the test environment is unable to reach the displayed notification container.
-        // expect(findWithAssert('.ui-pnotify-container').text()).to.contains('erreurs');
+      click($buttonRegister);
+      andThen(function() {
+        expect(currentURL()).to.equal('/');
+        done();
       });
+
     });
   });
 
   it('1.4 Si on valide et que le serveur est d\'accord, on affiche la page /home', function (done) {
     fillIn('#inputEmail', 'valid@email.com').then(() => {
+      
       const $buttonRegister = $('#buttonRegister')[0];
-      return click($buttonRegister).then(() => {
-        // XXX: really icky test, but fail sometimes if no timeout
-        setTimeout(function () {
-            expect(currentURL()).to.equal('/home');
-            done();
-        }, 300);
-
+      click($buttonRegister);
+      andThen(function() {
+        expect(currentURL()).to.equal('/home');
+        done();
       });
+
     });
   });
 

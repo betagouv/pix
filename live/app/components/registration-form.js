@@ -55,8 +55,6 @@ export default Ember.Component.extend({
       .catch((reason)=>{
         $(function(){
           
-          PNotify.prototype.options.styling = "brighttheme";
-
           removeAllNotices();
 
           let arrayOfErrors = JSON.parse(reason.responseText);
