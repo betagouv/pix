@@ -33,7 +33,7 @@ describe('API | Challenges', function () {
       }
     };
 
-    it("should return 201 HTTP status code, an application/json format, a jwt token in response, and a persisted encrypted password", function (done) {
+    it("should return 201 HTTP status code, an application/json format, a jwt token in response", function (done) {
       server.injectThen(options).then((response) => {
         expect(response.statusCode).to.equal(201);
         const contentType = response.headers['content-type'];
@@ -41,7 +41,11 @@ describe('API | Challenges', function () {
         const token = JSON.parse(response.payload).jwt;
         // Regexp for JSON Web Token. See https://github.com/auth0/node-jsonwebtoken/issues/162
         expect(token).to.match(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/);
+        done();
+      });
+    });
 
+    it("should persist an bcrypt-encrypted password", function (done) {
         new User({ email: 'anae.dasilva@caramail.com' })
         .fetch()
         .then(function (model) {
@@ -56,8 +60,8 @@ describe('API | Challenges', function () {
 
           done();
         });
-      });
     });
+
 
 
 
