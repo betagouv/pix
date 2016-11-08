@@ -121,6 +121,8 @@ describe('API | Courses', function () {
       done();
     });
 
+
+
     const options = { headers, method: "GET", url: "/api/courses/rec5duNNrPqbSzQ8o" };
 
     it("should return 200 HTTP status code", function (done) {
@@ -147,6 +149,8 @@ describe('API | Courses', function () {
         done();
       });
     });
+
+
   });
 
 });

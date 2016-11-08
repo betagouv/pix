@@ -1,32 +1,29 @@
-const Hapi = require('hapi');
+const Hapi            = require('hapi');
 
-const config = require('./config/settings');
-const plugins = require('./config/plugins');
-const routes = require('./config/routes');
+const config          = require('./config/settings');
+const plugins         = require('./config/plugins');
+const routes          = require('./config/routes');
+
+const {validateToken} = require('./app/services/token-service');
 
 const server = new Hapi.Server();
 server.connection({ port: config.port });
 
-
-var validate = function (decoded, request, callback) {
-
-  // TODO : implement something real
-  return callback(null, true);
-    
-};
-
-
 server.register(plugins, (err) => {
 
   if (err) {
-    throw err; // something bad happened loading the plugin
+    throw err; 
   }
 
-  server.auth.strategy('jwt', 'jwt',
-    { key: 'secret',          // Never Share your secret key
-      validateFunc: validate,            // validate function defined above
-      verifyOptions: { algorithms: [ 'HS256' ] } // pick a strong algorithm
-    });
+  server.auth.strategy(
+    'jwt', 
+    'jwt',
+    { 
+      key: 'secret',
+      validateFunc: validateToken,
+      verifyOptions: { algorithms: [ 'HS256' ] }
+    }
+  );
 
   server.auth.default('jwt');
 

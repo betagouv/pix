@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const Boom = require('boom');
 const _ = require('lodash');
 
-const createToken = require('../services/token-service');
+const {createToken} = require('../services/token-service');
 
 
 function hashPassword(password, callback) {
@@ -102,12 +102,12 @@ module.exports = {
           user.attributes.password = hash;
 
           user.save()
-          .then((createdUser) => {
-            reply({ jwt: createToken(user) }).code(201);
-          })
-          .catch((error) => {
-            reply(['Un utilisateur avec cet email existe déjà']).code(422);
-          });
+            .then((createdUser) => {
+              reply({ jwt: createToken(user) }).code(201);
+            })
+            .catch((error) => { // XXX : could be better, since another error could occur.
+              reply(['Un utilisateur avec cet email existe déjà']).code(422);
+            });
 
         });
       }
