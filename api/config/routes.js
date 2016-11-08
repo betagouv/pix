@@ -13,6 +13,7 @@ module.exports = [
   { method: 'GET',  path: '/api/users',                               config: Users.list },
   { method: 'GET',  path: '/api/users/{id}',                          config: Users.get },
   { method: 'POST', path: '/api/users',                               config: Users.save },
+  { method: 'GET', path: '/api/users/current-user',                   config: Users.current },
 
   { method: 'POST', path: '/api/tokens/user_token',                   config: Tokens.create },
   { method: 'POST', path: '/api/tokens/token',                        config: Tokens.authenticate },

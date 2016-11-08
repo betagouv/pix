@@ -5,5 +5,5 @@ export default DS.JSONAPIAdapter.extend({
 
   namespace: 'api',
   host: ENV.APP.API_HOST
-
+  authorizer: 'authorizer:custom'
 });

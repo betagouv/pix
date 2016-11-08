@@ -24,6 +24,21 @@ module.exports = {
     }
   },
 
+  current: {
+    handler: (request, reply) => {
+      // TODO
+      reply({
+        data: {
+          type: 'users',
+          id: 'user_id',
+          attributes: {
+            firstName: 'Bob',
+          }
+        }
+      });
+    }
+  },
+
   save: {
     handler: (request, reply) => {
 
