@@ -47,11 +47,9 @@ export default Ember.Component.extend({
 
       this.get('session').authenticate(authenticator, credentials)
       .then(()=>{
-          // setUserInSession(this, user);
           callActionOnUserIdentified(this);
         })
       .catch((reason)=>{
-        console.log('K-BOOOOOOM!!!!' + JSON.stringify(reason));
         $(function(){
           
           PNotify.removeAll();

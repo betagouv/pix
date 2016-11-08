@@ -51,9 +51,9 @@ function validateCredentials(credentials) {
   if (!validatePassword(credentials.password)) {
     errors.push('Le mot de passe doit faire au moins 6 caractères');
   }
-  // if (!validatePasswordConfirm(credentials.passwordConfirm)) {
-  //   errors.push('Les 2 mots de passe ne correspondent pas');
-  // }
+  if (!validatePasswordConfirm(credentials.password, credentials.passwordConfirm)) {
+    errors.push('Les 2 mots de passe ne correspondent pas');
+  }
   // if (!validateHasAcceptedCGU(credentials.hasAcceptedCGU)) {
   //   errors.push('Vous devez acceptez les CGU');
   // }
@@ -108,7 +108,7 @@ module.exports = {
             reply({ jwt: createToken(user) }).code(201);
           })
           .catch((error) => {
-            reply(['L\'utilisateur existe déjà']).code(422);
+            reply(['Un utilisateur avec cet email existe déjà']).code(422);
           });
 
         });
