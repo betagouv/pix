@@ -106,6 +106,7 @@ module.exports = {
               reply({ jwt: createToken(user) }).code(201);
             })
             .catch((error) => { // XXX : could be better, since another error could occur.
+              console.log(error);
               reply(['Un utilisateur avec cet email existe déjà']).code(422);
             });
 

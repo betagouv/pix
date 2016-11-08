@@ -19,3 +19,4 @@ global.expect = chai.expect;
 
 const knexConfig = require('../db/knexfile');
 global.knex = require('knex')(knexConfig['test']);
+

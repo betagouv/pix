@@ -3,9 +3,11 @@
 const server = require('../../../server');
 const Answer = require('../../../app/models/data/answer');
 const createToken = require('../../helper/createToken');
-const headers = { Authorization: createToken() };
+const createAuthentifiedToken = require('../../helper/createAuthentifiedToken');
 
 describe('API | Answers', function () {
+
+  let headers;
 
   before(function (done) {
     knex.migrate.latest().then(() => {
@@ -23,47 +25,58 @@ describe('API | Answers', function () {
 
     before(function (done) {
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Epreuves/challenge_id')
-        .times(5)
-        .reply(200, {
-          "id": "recLt9uwa2dR3IYpi",
-          "fields": {
-            "Type d'épreuve": "QCU",
-            "Bonnes réponses": "1"
+      .get('/v0/test-base/Epreuves/challenge_id')
+      .times(5)
+      .reply(200, {
+        "id": "recLt9uwa2dR3IYpi",
+        "fields": {
+          "Type d'épreuve": "QCU",
+          "Bonnes réponses": "1"
             //other fields not represented
           }
         });
       done();
     });
 
-    const options = {
-      headers,
-      method: "POST", url: "/api/answers", payload: {
-        data: {
-          type: 'answer',
-          attributes: {
-            value: "1"
-          },
-          relationships: {
-            assessment: {
-              data: {
-                type: 'assessment',
-                id: 'assessment_id'
-              }
+    let options;
+
+    before(function (done) {
+
+      createAuthentifiedToken((headers) => {
+      options = {
+        headers,
+        method: "POST", url: "/api/answers", payload: {
+          data: {
+            type: 'answer',
+            attributes: {
+              value: "1"
             },
-            challenge: {
-              data: {
-                type: 'challenge',
-                id: 'challenge_id'
+            relationships: {
+              assessment: {
+                data: {
+                  type: 'assessment',
+                  id: 'assessment_id'
+                }
+              },
+              challenge: {
+                data: {
+                  type: 'challenge',
+                  id: 'challenge_id'
+                }
               }
             }
           }
         }
-      }
-    };
+      };
+      done();
+
+      });
+
+    })
 
     it("should return 201 HTTP status code", function (done) {
       server.injectThen(options).then((response) => {
+
         expect(response.statusCode).to.equal(201);
         done();
       });
@@ -97,14 +110,14 @@ describe('API | Answers', function () {
       server.injectThen(options).then((response) => {
 
         new Answer({ id: response.result.data.id })
-          .fetch()
-          .then(function (model) {
-            expect(model.get('value')).to.equal(options.payload.data.attributes.value);
-            expect(model.get('result')).to.equal('ok');
-            expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
-            expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
-            done();
-          });
+        .fetch()
+        .then(function (model) {
+          expect(model.get('value')).to.equal(options.payload.data.attributes.value);
+          expect(model.get('result')).to.equal('ok');
+          expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
+          expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
+          done();
+        });
 
       });
     });
