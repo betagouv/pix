@@ -4,6 +4,7 @@ import getCourse from './routes/get-course';
 import getCourses from './routes/get-courses';
 import getAnswer from './routes/get-answer';
 import postAnswers from './routes/post-answers';
+import postUserToken from './routes/post-user-token';
 import getAssessment from './routes/get-assessment';
 import postAssessments from './routes/post-assessments';
 
@@ -22,5 +23,7 @@ export default function () {
 
   this.post('/answers', postAnswers);
   this.get('/answers/:id', getAnswer);
+
+  this.post('/tokens/user_token', postUserToken);
 
 }

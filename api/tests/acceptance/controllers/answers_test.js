@@ -1,14 +1,27 @@
 'use strict';
 
 const server = require('../../../server');
+const helper = require('../../helper');
 const Answer = require('../../../app/models/data/answer');
+const createToken = require('../../helper/createToken');
+const createAuthentifiedToken = require('../../helper/createAuthentifiedToken');
+const _ = require('lodash');
 
 describe('API | Answers', function () {
+
+  let headers;
 
   before(function (done) {
     knex.migrate.latest().then(() => {
       knex.seed.run().then(() => {
-        done();
+        knex.select('id')
+        .from('users')
+        .where({email:'jsnow@winterfell.got'})
+        .limit(1)
+        .then(function(rows) {
+          headers = { Authorization: createToken(rows[0].id) };
+          done();
+        });
       });
     });
   });
@@ -21,20 +34,23 @@ describe('API | Answers', function () {
 
     before(function (done) {
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Epreuves/challenge_id')
-        .times(5)
-        .reply(200, {
-          "id": "recLt9uwa2dR3IYpi",
-          "fields": {
-            "Type d'épreuve": "QCU",
-            "Bonnes réponses": "1"
+      .get('/v0/test-base/Epreuves/challenge_id')
+      .times(5)
+      .reply(200, {
+        "id": "recLt9uwa2dR3IYpi",
+        "fields": {
+          "Type d'épreuve": "QCU",
+          "Bonnes réponses": "1"
             //other fields not represented
           }
         });
       done();
     });
+
     const options = {
-      method: "POST", url: "/api/answers", payload: {
+      method: "POST", 
+      url: "/api/answers", 
+      payload: {
         data: {
           type: 'answer',
           attributes: {
@@ -58,8 +74,12 @@ describe('API | Answers', function () {
       }
     };
 
+
+
     it("should return 201 HTTP status code", function (done) {
+      options.headers = headers;
       server.injectThen(options).then((response) => {
+
         expect(response.statusCode).to.equal(201);
         done();
       });
@@ -93,14 +113,14 @@ describe('API | Answers', function () {
       server.injectThen(options).then((response) => {
 
         new Answer({ id: response.result.data.id })
-          .fetch()
-          .then(function (model) {
-            expect(model.get('value')).to.equal(options.payload.data.attributes.value);
-            expect(model.get('result')).to.equal('ok');
-            expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
-            expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
-            done();
-          });
+        .fetch()
+        .then(function (model) {
+          expect(model.get('value')).to.equal(options.payload.data.attributes.value);
+          expect(model.get('result')).to.equal('ok');
+          expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
+          expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
+          done();
+        });
 
       });
     });

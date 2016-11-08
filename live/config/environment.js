@@ -37,6 +37,11 @@ module.exports = function (environment) {
     }
   };
 
+  ENV['ember-simple-auth'] = {  
+    authorizer: 'authorizer:custom',
+    routeAfterAuthentication: '/'
+  };
+
   if (environment === 'development') {
     // LOG
     ENV.APP.LOG_RESOLVER = false;

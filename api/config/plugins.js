@@ -1,6 +1,6 @@
 'use strict';
 
-let plugins = [{ register: require('blipp') }];
+let plugins = [{ register: require('blipp') }, {register: require('hapi-auth-jwt2')}];
 
 if (process.env.NODE_ENV === 'test') {
 

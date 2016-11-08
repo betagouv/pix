@@ -4,24 +4,29 @@ import qcmAnswer from '../data/answers/qcm-answer';
 import qrocmAnswer from '../data/answers/qrocm-answer';
 import qcmAnswerKo from '../data/answers/qcm-answer-ko';
 import qcmAnswerOk from '../data/answers/qcm-answer-ok';
+import _ from 'lodash/lodash';
 
 export default function (schema, request) {
 
-  const answers = {
-    'qcm_answer_id': qcmAnswer,
-    'qcu_answer_with_image_id': qcuAnswerWithImage,
-    'qcu_answer_id': qcuAnswer,
-    'qrocm_answer_id': qrocmAnswer,
-    'qcm_answer_ko_id': qcmAnswerKo,
-    'qcm_answer_ok_id': qcmAnswerOk
-  };
+  const allAnswers = [
+    qcuAnswer,
+    qcuAnswerWithImage,
+    qcmAnswer,
+    qrocmAnswer,
+    qcmAnswerKo,
+    qcmAnswerOk
+  ];
 
-  const answer = answers[request.params.id];
+  const answers = _.map(allAnswers, function(oneAnswer) {
+    return {id: oneAnswer.data.id, obj: oneAnswer}
+  });
+
+  const answer = _.find(answers, {id:request.params.id});
 
   if (answer) {
-    return answer;
+    return answer.obj;
   } else {
-    throw new Error('The answer you required in the fake server does not exist');
+    throw new Error('The answer you required in the fake server does not exist ' + request.params.id);
   }
 
 
