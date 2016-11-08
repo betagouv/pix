@@ -2,6 +2,8 @@
 
 const server = require('../../../server');
 const Answer = require('../../../app/models/data/answer');
+const createToken = require('../../helper/createToken');
+const headers = { Authorization: createToken() };
 
 describe('API | Answers', function () {
 
@@ -33,7 +35,9 @@ describe('API | Answers', function () {
         });
       done();
     });
+
     const options = {
+      headers,
       method: "POST", url: "/api/answers", payload: {
         data: {
           type: 'answer',
