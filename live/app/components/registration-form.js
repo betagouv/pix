@@ -55,6 +55,8 @@ export default Ember.Component.extend({
       .catch((reason)=>{
         $(function(){
           
+          PNotify.prototype.options.styling = "brighttheme";
+
           removeAllNotices();
 
           let arrayOfErrors = JSON.parse(reason.responseText);
@@ -69,13 +71,13 @@ export default Ember.Component.extend({
             text: errorsAsString,
             type: 'error',
             hide: false,
-            // animate_speed: "slow",
-            // animation: "fade",
-            // after_init: function(notice){              
-            //   setTimeout(function() {
-            //     notice.attention('tada');
-            //   }, 1200);
-            // }
+            animate_speed: "slow",
+            animation: "fade",
+            after_init: function(notice){              
+              setTimeout(function() {
+                notice.attention('tada');
+              }, 1200);
+            }
           });
 
         });
