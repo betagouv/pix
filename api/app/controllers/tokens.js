@@ -88,8 +88,6 @@ module.exports = {
         reply(credentialsErrors).code(400);
       } else {
 
-        console.log(JSON.stringify(request.payload));
-
         // XXX : random login, should be delete from database
         user.attributes.login = Math.random().toString(36).substr(2, 5);
         user.attributes.email = request.payload.auth.email;

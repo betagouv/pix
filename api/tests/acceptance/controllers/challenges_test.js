@@ -1,4 +1,6 @@
 const server = require('../../../server');
+const createToken = require('../../helper/createToken');
+const headers = { Authorization: createToken() };
 
 describe('API | Challenges', function () {
 
@@ -67,7 +69,7 @@ describe('API | Challenges', function () {
       done();
     });
 
-    const options = { method: "GET", url: "/api/challenges/recLt9uwa2dR3IYpi" };
+    const options = { headers, method: "GET", url: "/api/challenges/recLt9uwa2dR3IYpi" };
 
     it("should return 200 HTTP status code", function (done) {
       server.injectThen(options).then((response) => {

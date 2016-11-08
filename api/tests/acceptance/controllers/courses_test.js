@@ -1,6 +1,8 @@
 const server = require('../../../server');
 const _ = require('lodash');
 const util = require('util');
+const createToken = require('../../helper/createToken');
+const headers = { Authorization: createToken() };
 
 describe('API | Courses', function () {
 
@@ -48,7 +50,7 @@ describe('API | Courses', function () {
       done();
     });
 
-    const options = { method: "GET", url: "/api/courses" };
+    const options = { headers, method: "GET", url: "/api/courses" };
 
     it("should return 200 HTTP status code", function (done) {
       server.injectThen(options).then((response) => {
@@ -119,7 +121,7 @@ describe('API | Courses', function () {
       done();
     });
 
-    const options = { method: "GET", url: "/api/courses/rec5duNNrPqbSzQ8o" };
+    const options = { headers, method: "GET", url: "/api/courses/rec5duNNrPqbSzQ8o" };
 
     it("should return 200 HTTP status code", function (done) {
       server.injectThen(options).then((response) => {

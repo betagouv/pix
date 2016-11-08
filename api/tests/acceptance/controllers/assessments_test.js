@@ -2,6 +2,8 @@
 
 const server = require('../../../server');
 const Assessment = require('../../../app/models/data/assessment');
+const createToken = require('../../helper/createToken');
+const headers = { Authorization: createToken() };
 
 describe('API | Assessments', function () {
 
@@ -59,7 +61,10 @@ describe('API | Assessments', function () {
       .from('assessments')
       .limit(1)
       .then(function(rows) {
-        server.injectThen({ method: "GET", url: `/api/assessments/${rows[0].id}` }).then((response) => {
+        server.injectThen({
+          headers,
+          method: "GET", 
+          url: `/api/assessments/${rows[0].id}` }).then((response) => {
           expect(response.statusCode).to.equal(200);
           done();
         });
@@ -74,7 +79,10 @@ describe('API | Assessments', function () {
       .from('assessments')
       .limit(1)
       .then(function(rows) {
-        server.injectThen({ method: "GET", url: `/api/assessments/${rows[0].id}` }).then((response) => {
+        server.injectThen({ 
+          headers,
+          method: "GET", 
+          url: `/api/assessments/${rows[0].id}` }).then((response) => {
           const contentType = response.headers['content-type'];
           expect(contentType).to.contain('application/json');
           done();
@@ -90,7 +98,11 @@ describe('API | Assessments', function () {
       .from('assessments')
       .limit(1)
       .then(function(rows) {
-        server.injectThen({ method: "GET", url: `/api/assessments/${rows[0].id}` }).then((response) => {
+        server.injectThen(
+          { 
+          headers,
+          method: "GET", 
+          url: `/api/assessments/${rows[0].id}` }).then((response) => {
           const expectedAssessment = {"type":"assessments","id":rows[0].id,"attributes":{"user-name":"Jon Snow","user-email":"jsnow@winterfell.got"},"relationships":{"course":{"data":{"type":"courses","id":"anyFromAirTable"}},"answers":{"data":[]}}};
           const assessment = response.result.data;
           expect(assessment).to.deep.equal(expectedAssessment);
@@ -106,7 +118,10 @@ describe('API | Assessments', function () {
   describe('POST /api/assessments', function () {
 
     const options = {
-      method: "POST", url: "/api/assessments", payload: {
+      headers,
+      method: "POST", 
+      url: "/api/assessments", 
+      payload: {
         data: {
           type: "assessment",
           attributes: {
@@ -193,7 +208,10 @@ describe('API | Assessments', function () {
   describe('GET /api/assessments/:assessment_id/next', function () {
 
     const assessmentData = {
-      method: "POST", url: "/api/assessments", payload: {
+      headers: { Authorization: createToken() },
+      method: "POST", 
+      url: "/api/assessments", 
+      payload: {
         data: {
           type: "assessment",
           attributes: {
@@ -214,7 +232,7 @@ describe('API | Assessments', function () {
 
     it("should return 200 HTTP status code", function (done) {
       server.injectThen(assessmentData).then((response) => {
-        const challengeData = { method: "GET", url: "/api/assessments/" + response.result.data.id + "/next" };
+        const challengeData = { headers, method: "GET", url: "/api/assessments/" + response.result.data.id + "/next" };
         server.injectThen(challengeData).then((response) => {
           expect(response.statusCode).to.equal(200);
           done();
@@ -224,7 +242,7 @@ describe('API | Assessments', function () {
 
     it("should return application/json", function (done) {
       server.injectThen(assessmentData).then((response) => {
-        const challengeData = { method: "GET", url: "/api/assessments/" + response.result.data.id + "/next" };
+        const challengeData = { headers, method: "GET", url: "/api/assessments/" + response.result.data.id + "/next" };
         server.injectThen(challengeData).then((response) => {
           const contentType = response.headers['content-type'];
           expect(contentType).to.contain('application/json');
@@ -235,7 +253,7 @@ describe('API | Assessments', function () {
 
     it("should return the first challenge if no challenge specified", function (done) {
       server.injectThen(assessmentData).then((response) => {
-        const challengeData = { method: "GET", url: "/api/assessments/" + response.result.data.id + "/next" };
+        const challengeData = { headers, method: "GET", url: "/api/assessments/" + response.result.data.id + "/next" };
         server.injectThen(challengeData).then((response) => {
           expect(response.result.data.id).to.equal('first_challenge');
           done();
@@ -245,7 +263,7 @@ describe('API | Assessments', function () {
 
     it("should return the next challenge otherwise", function (done) {
       server.injectThen(assessmentData).then((response) => {
-        const challengeData = { method: "GET", url: "/api/assessments/" + response.result.data.id + "/next/first_challenge" };
+        const challengeData = { headers, method: "GET", url: "/api/assessments/" + response.result.data.id + "/next/first_challenge" };
         server.injectThen(challengeData).then((response) => {
           expect(response.result.data.id).to.equal('second_challenge');
           done();

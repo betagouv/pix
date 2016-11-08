@@ -13,7 +13,6 @@ module.exports = {
 
       const answer = answerSerializer.deserialize(request.payload);
 
-
       solutionRepository
         .get(answer.attributes.challengeId)
         .then((solution) => {
