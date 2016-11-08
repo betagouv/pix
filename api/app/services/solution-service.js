@@ -21,6 +21,27 @@ function areStringListEquivalent (listA, listB) {
   return result;
 };
 
+function removeAccentsSpacesUppercase (s) {
+  // Remove accents/diacritics in a string in JavaScript
+  // http://stackoverflow.com/a/37511463/827989
+  return s.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"");
+}
+
+function fuzzyMatchingWithAnswers (userAnswer, correctAnswers) {
+  userAnswer = removeAccentsSpacesUppercase(userAnswer);
+  let correctAnswersList = correctAnswers.split('\n');
+  for(var i = 0; i < correctAnswersList.length; i++) {
+    let correctAnswer = correctAnswersList[i];
+    if(correctAnswer[0] != '$') { // Represents sometimes the first line of good answers
+      if(correctAnswer[0] == '-') // Represents an item
+        correctAnswer = correctAnswer.substr(1);
+      if(userAnswer == removeAccentsSpacesUppercase(correctAnswer))
+        return true;
+    }
+  }
+  return false;
+}
+
 module.exports = {
 
   matchUserAnswerWithActualSolution (answer, solution) {
@@ -33,6 +54,12 @@ module.exports = {
       }
     } else if (solution.type === 'QCM') {
       if (areStringListEquivalent(answer.attributes.value, solution.value)) {
+        return 'ok';
+      } else {
+        return 'ko';
+      }
+    } else if (solution.type === 'QROC') {
+      if (fuzzyMatchingWithAnswers(answer.attributes.value, solution.value)) {
         return 'ok';
       } else {
         return 'ko';
