@@ -27,17 +27,17 @@ describe('Acceptance | 176 - Affichage du bandeau d\'une épreuve |', function (
     });
 
     it('Le nom du test est affiché', function() {
-      expect(findWithAssert('.course-name').text()).to.contains('Name of the course');
+      expect(findWithAssert('.course-banner-name').text()).to.contains('Name of the course');
     });
 
     it('Il existe un bouton "Revenir à la liste des tests"', function () {
-      const $courseListButton = findWithAssert('.course-list-btn a');
+      const $courseListButton = findWithAssert('.course-banner-home-link');
       expect($courseListButton.text()).to.equal('Retour à la liste des tests');
     });
 
     it('Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers la liste des tests', function () {
       // when
-      click('.course-list-btn a');
+      click('.course-banner-home-link');
 
       // then
       andThen(() => expect(find('#home')).to.have.lengthOf(1));
@@ -51,11 +51,11 @@ describe('Acceptance | 176 - Affichage du bandeau d\'une épreuve |', function (
     });
 
     it('Le nom du test est affiché', function() {
-      expect(findWithAssert('.course-name').text()).to.contains('Name of the course');
+      expect(findWithAssert('.course-banner-name').text()).to.contains('Name of the course');
     });
 
     it('Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
-      expect(find('.course-list-btn a')).to.have.lengthOf(0);
+      expect(find('.course-banner-home-link')).to.have.lengthOf(0);
     });
   });
 

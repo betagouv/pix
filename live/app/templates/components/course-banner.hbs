@@ -1,17 +1,13 @@
-<div id="course-banner" class="row">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-9">
-        <div class="course-name"><span>{{course.name}}</span></div>
-      </div>
+<div class="course-banner row">
 
-      {{#if withHomeLink}}
-        <div class="col-md-3">
-          <div class="course-list-btn pull-right">
-            {{#link-to "home"}}Retour à la liste des tests{{/link-to}}
-          </div>
-        </div>
-      {{/if}}
-    </div>
+  <div class="container course-banner-wrapper">
+
+    <span class="course-banner-name">{{course.name}}</span>
+
+    {{#if withHomeLink}}
+      {{#link-to "home" class="course-banner-home-link"}}Retour à la liste des tests{{/link-to}}
+    {{/if}}
+
   </div>
+
 </div>
