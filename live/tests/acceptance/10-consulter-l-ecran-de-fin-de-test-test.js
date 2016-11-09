@@ -50,7 +50,7 @@ describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
   });
 
   it("10.5. affiche le rapport nombre de réponses saisies sur nombre d'épreuves du test", function () {
-    const expectedString = `4 question(s) sur 4`;
+    const expectedString = `5 question(s) sur 5`;
     expect($assessmentResults.text()).to.contains(expectedString);
   });
 
