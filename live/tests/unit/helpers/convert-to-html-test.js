@@ -11,8 +11,8 @@ import {
 describe('ConvertToHtmlHelper', function() {
   // Replace this with your real tests.
   it('works', function() {
-    let conversion = convertToHtml('**a bold sentence**');
-    let boldSentence = conversion[0];
-    expect(boldSentence).to.equal('<div class="paragraph"><strong>a bold sentence</strong></div>');
+    let conversion = convertToHtml(['**a bold sentence**']);
+    let boldSentence = conversion;
+    expect(boldSentence).to.equal('<p><strong>a bold sentence</strong></p>');
   });
 });
