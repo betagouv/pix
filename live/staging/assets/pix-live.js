@@ -36,13 +36,6 @@ define('pix-live/components/app-header', ['exports', 'ember'], function (exports
     session: _ember['default'].inject.service()
   });
 });
-define('pix-live/components/beta-logo', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Component.extend({
-
-    tagName: 'div',
-    classNames: ['beta-logo']
-  });
-});
 define('pix-live/components/bs-accordion-item', ['exports', 'ember-bootstrap/components/bs-accordion-item'], function (exports, _emberBootstrapComponentsBsAccordionItem) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -2229,7 +2222,7 @@ define("pix-live/templates/application", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 8,
+            "line": 6,
             "column": 0
           }
         },
@@ -2241,10 +2234,6 @@ define("pix-live/templates/application", ["exports"], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
@@ -2263,14 +2252,13 @@ define("pix-live/templates/application", ["exports"], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(3);
+        var morphs = new Array(2);
         morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-        morphs[1] = dom.createMorphAt(fragment, 2, 2, contextualElement);
-        morphs[2] = dom.createMorphAt(dom.childAt(fragment, [4]), 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]), 1, 1);
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["inline", "app-header", [], ["id", "app-header"], ["loc", [null, [1, 0], [1, 31]]], 0, 0], ["content", "beta-logo", ["loc", [null, [3, 0], [3, 13]]], 0, 0, 0, 0], ["content", "outlet", ["loc", [null, [6, 2], [6, 12]]], 0, 0, 0, 0]],
+      statements: [["inline", "app-header", [], ["id", "app-header"], ["loc", [null, [1, 0], [1, 31]]], 0, 0], ["content", "outlet", ["loc", [null, [4, 2], [4, 12]]], 0, 0, 0, 0]],
       locals: [],
       templates: []
     };
@@ -3319,45 +3307,6 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
       statements: [["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [12, 28], [12, 35]]], 0, 0, 0, 0], "images/pix-logo.png"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "session.isIdentified", ["loc", [null, [15, 12], [15, 32]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [15, 6], [23, 13]]]]],
       locals: [],
       templates: [child0]
-    };
-  })());
-});
-define("pix-live/templates/components/beta-logo", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template((function () {
-    return {
-      meta: {
-        "revision": "Ember@2.8.3",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 15
-          }
-        },
-        "moduleName": "pix-live/templates/components/beta-logo.hbs"
-      },
-      isEmpty: false,
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("div");
-        var el2 = dom.createTextNode("Bêta");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes() {
-        return [];
-      },
-      statements: [],
-      locals: [],
-      templates: []
     };
   })());
 });
@@ -9535,7 +9484,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+cb113b6d"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+73ed9e6d"});
 }
 
 /* jshint ignore:end */

@@ -589,54 +589,6 @@ define('pix-live/tests/acceptance/25-image-sous-la-consigne-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/acceptance/259-afficher-logo-beta-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)('Acceptance | 259 - Afficher le logo BETA | ', function () {
-
-    var application = undefined;
-
-    (0, _mocha.before)(function () {
-      application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.after)(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.it)('Le logo est présent sur la page index', function () {
-      visit('/');
-      andThen(function () {
-        findWithAssert('.beta-logo');
-      });
-    });
-
-    (0, _mocha.it)('Le logo est présent sur la page de liste des tests', function () {
-      visit('/home');
-      andThen(function () {
-        findWithAssert('.beta-logo');
-      });
-    });
-
-    (0, _mocha.it)('Le logo est présent sur la page d\'une épreuve', function () {
-      visit('/assessments/new_assessment_id/challenges/qcu_challenge');
-      andThen(function () {
-        findWithAssert('.beta-logo');
-      });
-    });
-  });
-});
-define('pix-live/tests/acceptance/259-afficher-logo-beta-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/259-afficher-logo-beta-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/259-afficher-logo-beta-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/acceptance/27-telecharger-une-piece-jointe-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)("Acceptance | 27 - Télécharger une pièce jointe depuis la consigne d'une épreuve | ", function () {
@@ -1189,18 +1141,6 @@ define('pix-live/tests/components/app-header.lint-test', ['exports'], function (
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('components/app-header.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/components/beta-logo.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - components/beta-logo.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/beta-logo.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
