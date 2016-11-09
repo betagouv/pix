@@ -2,33 +2,4 @@
 
 #assessment-challenge {
 
-  & header {
-      height: 100px;
-      background-color: #446eff;
-      margin-bottom: 20px;
-      color: white;
-      font-family: Lato, Arial, sans-serif;
-  }
-
-  & .course-name {
-      height: 100px;
-      line-height: 100px;
-
-    & span {
-      font-size: 28px;
-      display: inline-block;
-      vertical-align: middle;
-      line-height: normal;
-    }
-  }
-
-  & .course-list-btn {
-      height: 100px;
-      line-height: 100px;
-      font-size: 16px;
-
-    & a {
-      color: white;
-    }
-  }
 }
