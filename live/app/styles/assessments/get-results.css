@@ -1,11 +1,12 @@
-@import url('../globals/palette.css');
+.assessment-results {
+}
 
-#assessment-challenge  {
-  & .progress  {
-    background-color: #ccc;
-  }
-  & .progress-bar-info  {
-    min-width: 10%; /* below 10%, text may not be visible */
-    background-color: var(--pix-blue);
-  }
+
+  
+.assessment-results-home-link {
+  width: 275px;
+  height: 46px;
+  border-radius: 23px;
+  background-color: #3d68ff;
+  background-color: var(--pix-blue);
 }
