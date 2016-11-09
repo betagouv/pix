@@ -1,6 +1,25 @@
 <div id="assessment-challenge">
+
+  <header>
     <div class="container">
-      {{progress-bar progress=progress}}
-      {{challenge-item model.challenge model.assessment onValidated="saveAnswerAndNavigate"}}
+
+      <div class="row">
+        <div class="col-md-9">
+          <div class="course-name"><span>{{model.assessment.course.name}}</span></div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="course-list-btn pull-right">
+              {{#link-to "home"}}Retour à la liste des tests{{/link-to}}
+            </div>
+        </div>
+      </div>
+
     </div>
+  </header>
+
+  <div class="container">
+    {{progress-bar progress=progress}}
+    {{challenge-item model.challenge model.assessment onValidated="saveAnswerAndNavigate"}}
+  </div>
 </div>

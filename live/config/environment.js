@@ -27,7 +27,8 @@ module.exports = function (environment) {
 
     googleFonts: [
       'Open+Sans:300,300i,400,400i,600,600i,700,700i',
-      'Roboto:300,300i,400,400i,600,600i,700,700i'
+      'Roboto:300,300i,400,400i,600,600i,700,700i',
+      'Lato:300,300i,400,400i,600,600i,700,700i'
     ],
 
     // Set or update content security policies

@@ -15,6 +15,7 @@
 @import url('home-loading.css');
 @import url('index.css');
 @import url('courses/get-preview.css');
+@import url('assessments/get-challenge.css');
 @import url('assessments/get-results.css');
 
 @media (min-width: 1200px) {
@@ -29,7 +30,7 @@ body {
 }
 
 .body {
-  padding-top: 12px;
+  padding-top: 0;
 }
 
 .component-list {
