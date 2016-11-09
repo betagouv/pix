@@ -6,7 +6,15 @@
 
     <div class='assessment-results-title'>
       Vos résultats
+    </div>
+
+    <div class='assessment-results-list'>
+      {{#each model.assessment.answers as |answer index|}}
+        <div>{{strip-instruction (convert-to-html answer.challenge.instruction)}}</div>
+      {{/each}}
     </div>    
+
+
 
     <div class='assessment-results-link'>
       {{#link-to 'home' class='assessment-results-link-home' tagName='button'}}
