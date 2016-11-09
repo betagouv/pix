@@ -236,17 +236,17 @@ define('pix-live/tests/acceptance/176-afficher-titre-du-test-dans-epreuve-test',
       });
 
       (0, _mocha.it)('Le nom du test est affiché', function () {
-        (0, _chai.expect)(findWithAssert('.course-name').text()).to.contains('Name of the course');
+        (0, _chai.expect)(findWithAssert('.course-banner-name').text()).to.contains('Name of the course');
       });
 
       (0, _mocha.it)('Il existe un bouton "Revenir à la liste des tests"', function () {
-        var $courseListButton = findWithAssert('.course-list-btn a');
+        var $courseListButton = findWithAssert('.course-banner-home-link');
         (0, _chai.expect)($courseListButton.text()).to.equal('Retour à la liste des tests');
       });
 
       (0, _mocha.it)('Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers la liste des tests', function () {
         // when
-        click('.course-list-btn a');
+        click('.course-banner-home-link');
 
         // then
         andThen(function () {
@@ -262,11 +262,11 @@ define('pix-live/tests/acceptance/176-afficher-titre-du-test-dans-epreuve-test',
       });
 
       (0, _mocha.it)('Le nom du test est affiché', function () {
-        (0, _chai.expect)(findWithAssert('.course-name').text()).to.contains('Name of the course');
+        (0, _chai.expect)(findWithAssert('.course-banner-name').text()).to.contains('Name of the course');
       });
 
       (0, _mocha.it)('Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
-        (0, _chai.expect)(find('.course-list-btn a')).to.have.lengthOf(0);
+        (0, _chai.expect)(find('.course-banner-home-link')).to.have.lengthOf(0);
       });
     });
   });

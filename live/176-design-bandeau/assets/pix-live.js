@@ -480,19 +480,12 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
   exports['default'] = ChallengeItem;
 });
 define('pix-live/components/course-banner', ['exports', 'ember'], function (exports, _ember) {
-
-  var CourseBanner = _ember['default'].Component.extend({
+  exports['default'] = _ember['default'].Component.extend({
 
     course: null,
     withHomeLink: false
 
   });
-
-  CourseBanner.reopenClass({
-    positionalParams: ['course', 'withHomeLink']
-  });
-
-  exports['default'] = CourseBanner;
 });
 define('pix-live/components/ember-wormhole', ['exports', 'ember-wormhole/components/ember-wormhole'], function (exports, _emberWormholeComponentsEmberWormhole) {
   Object.defineProperty(exports, 'default', {
@@ -2403,7 +2396,7 @@ define("pix-live/templates/assessments/get-challenge", ["exports"], function (ex
         morphs[2] = dom.createMorphAt(element1, 3, 3);
         return morphs;
       },
-      statements: [["inline", "course-banner", [["get", "model.assessment.course", ["loc", [null, [3, 18], [3, 41]]], 0, 0, 0, 0], true], [], ["loc", [null, [3, 2], [3, 48]]], 0, 0], ["inline", "progress-bar", [], ["progress", ["subexpr", "@mut", [["get", "progress", ["loc", [null, [6, 28], [6, 36]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [6, 4], [6, 38]]], 0, 0], ["inline", "challenge-item", [["get", "model.challenge", ["loc", [null, [7, 21], [7, 36]]], 0, 0, 0, 0], ["get", "model.assessment", ["loc", [null, [7, 37], [7, 53]]], 0, 0, 0, 0]], ["onValidated", "saveAnswerAndNavigate"], ["loc", [null, [7, 4], [7, 91]]], 0, 0]],
+      statements: [["inline", "course-banner", [], ["course", ["subexpr", "@mut", [["get", "model.assessment.course", ["loc", [null, [3, 25], [3, 48]]], 0, 0, 0, 0]], [], [], 0, 0], "withHomeLink", true], ["loc", [null, [3, 2], [3, 68]]], 0, 0], ["inline", "progress-bar", [], ["progress", ["subexpr", "@mut", [["get", "progress", ["loc", [null, [6, 28], [6, 36]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [6, 4], [6, 38]]], 0, 0], ["inline", "challenge-item", [["get", "model.challenge", ["loc", [null, [7, 21], [7, 36]]], 0, 0, 0, 0], ["get", "model.assessment", ["loc", [null, [7, 37], [7, 53]]], 0, 0, 0, 0]], ["onValidated", "saveAnswerAndNavigate"], ["loc", [null, [7, 4], [7, 91]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -2894,7 +2887,7 @@ define("pix-live/templates/assessments/get-results", ["exports"], function (expo
         morphs[2] = dom.createMorphAt(dom.childAt(element2, [5]), 0, 0);
         return morphs;
       },
-      statements: [["inline", "course-banner", [["get", "model.assessment.course", ["loc", [null, [3, 18], [3, 41]]], 0, 0, 0, 0]], [], ["loc", [null, [3, 2], [3, 43]]], 0, 0], ["block", "each", [["get", "model.assessment.answers", ["loc", [null, [17, 26], [17, 50]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [17, 18], [41, 25]]]], ["block", "link-to", ["home"], ["class", "button button-primary home-link"], 1, null, ["loc", [null, [50, 11], [50, 110]]]]],
+      statements: [["inline", "course-banner", [], ["course", ["subexpr", "@mut", [["get", "model.assessment.course", ["loc", [null, [3, 25], [3, 48]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 2], [3, 50]]], 0, 0], ["block", "each", [["get", "model.assessment.answers", ["loc", [null, [17, 26], [17, 50]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [17, 18], [41, 25]]]], ["block", "link-to", ["home"], ["class", "button button-primary home-link"], 1, null, ["loc", [null, [50, 11], [50, 110]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -6077,12 +6070,12 @@ define("pix-live/templates/components/course-banner", ["exports"], function (exp
             "loc": {
               "source": null,
               "start": {
-                "line": 11,
-                "column": 12
+                "line": 8,
+                "column": 6
               },
               "end": {
-                "line": 11,
-                "column": 58
+                "line": 8,
+                "column": 84
               }
             },
             "moduleName": "pix-live/templates/components/course-banner.hbs"
@@ -6111,12 +6104,12 @@ define("pix-live/templates/components/course-banner", ["exports"], function (exp
           "loc": {
             "source": null,
             "start": {
-              "line": 8,
-              "column": 6
+              "line": 7,
+              "column": 4
             },
             "end": {
-              "line": 14,
-              "column": 6
+              "line": 9,
+              "column": 4
             }
           },
           "moduleName": "pix-live/templates/components/course-banner.hbs"
@@ -6127,23 +6120,9 @@ define("pix-live/templates/components/course-banner", ["exports"], function (exp
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        ");
+          var el1 = dom.createTextNode("      ");
           dom.appendChild(el0, el1);
-          var el1 = dom.createElement("div");
-          dom.setAttribute(el1, "class", "col-md-3");
-          var el2 = dom.createTextNode("\n          ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("div");
-          dom.setAttribute(el2, "class", "course-list-btn pull-right");
-          var el3 = dom.createTextNode("\n            ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n          ");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n        ");
-          dom.appendChild(el1, el2);
+          var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
           dom.appendChild(el0, el1);
@@ -6151,10 +6130,10 @@ define("pix-live/templates/components/course-banner", ["exports"], function (exp
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 1, 1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
           return morphs;
         },
-        statements: [["block", "link-to", ["home"], [], 0, null, ["loc", [null, [11, 12], [11, 70]]]]],
+        statements: [["block", "link-to", ["home"], ["class", "course-banner-home-link"], 0, null, ["loc", [null, [8, 6], [8, 96]]]]],
         locals: [],
         templates: [child0]
       };
@@ -6169,7 +6148,7 @@ define("pix-live/templates/components/course-banner", ["exports"], function (exp
             "column": 0
           },
           "end": {
-            "line": 18,
+            "line": 14,
             "column": 0
           }
         },
@@ -6182,43 +6161,26 @@ define("pix-live/templates/components/course-banner", ["exports"], function (exp
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "id", "course-banner");
-        dom.setAttribute(el1, "class", "row");
-        var el2 = dom.createTextNode("\n  ");
+        dom.setAttribute(el1, "class", "course-banner row");
+        var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "container");
-        var el3 = dom.createTextNode("\n    ");
+        dom.setAttribute(el2, "class", "container course-banner-wrapper");
+        var el3 = dom.createTextNode("\n\n    ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "row");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "col-md-9");
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("div");
-        dom.setAttribute(el5, "class", "course-name");
-        var el6 = dom.createElement("span");
-        var el7 = dom.createComment("");
-        dom.appendChild(el6, el7);
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n\n");
-        dom.appendChild(el3, el4);
+        var el3 = dom.createElement("span");
+        dom.setAttribute(el3, "class", "course-banner-name");
         var el4 = dom.createComment("");
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("    ");
-        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
+        var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
@@ -6226,13 +6188,13 @@ define("pix-live/templates/components/course-banner", ["exports"], function (exp
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [0, 1, 1]);
+        var element0 = dom.childAt(fragment, [0, 1]);
         var morphs = new Array(2);
-        morphs[0] = dom.createMorphAt(dom.childAt(element0, [1, 1, 0]), 0, 0);
+        morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 0, 0);
         morphs[1] = dom.createMorphAt(element0, 3, 3);
         return morphs;
       },
-      statements: [["content", "course.name", ["loc", [null, [5, 39], [5, 54]]], 0, 0, 0, 0], ["block", "if", [["get", "withHomeLink", ["loc", [null, [8, 12], [8, 24]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [8, 6], [14, 13]]]]],
+      statements: [["content", "course.name", ["loc", [null, [5, 37], [5, 52]]], 0, 0, 0, 0], ["block", "if", [["get", "withHomeLink", ["loc", [null, [7, 10], [7, 22]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 4], [9, 11]]]]],
       locals: [],
       templates: [child0]
     };
@@ -9522,7 +9484,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+aa8b7385"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+a193e32d"});
 }
 
 /* jshint ignore:end */
