@@ -1,6 +1,23 @@
 .assessment-results {
 }
 
+/*
+* Title
+*/
+.assessment-results-title {
+  width: 240px;
+  height: 48px;
+  font-family: 'Lato';
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--pix-blue);
+  margin-bottom: 26px;
+}
+
+
+/*
+* Link 'back to test list'
+*/
 .assessment-results-link {
   display: flex;
   flex-direction: row-reverse;
