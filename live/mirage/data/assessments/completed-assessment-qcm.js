@@ -1,6 +1,6 @@
 import simpleCourse from '../courses/simple-course';
-import qcmAnswerOK from '../answers/qcm-answer-ok';
-import qcmAnswerKO from '../answers/qcm-answer-ko';
+import qcmAnswerOk from '../answers/qcm-answer-ok';
+import qcmAnswerKo from '../answers/qcm-answer-ko';
 
 export default {
   data: {
@@ -21,10 +21,10 @@ export default {
       answers: {
         data: [{
           type: 'answers',
-          id: qcmAnswerOK.data.id
+          id: qcmAnswerOk.data.id
         }, {
           type: 'answers',
-          id: qcmAnswerKO.data.id
+          id: qcmAnswerKo.data.id
         }]
       }
     }
