@@ -1,0 +1,1 @@
+{"data":{"attributes":{"value":"#ABAND#","result":null},"relationships":{"assessment":{"data":{"type":"assessments","id":"24"}},"challenge":{"data":{"type":"challenges","id":"recfWAcyZCsLg3yrb"}}},"type":"answers"}}
