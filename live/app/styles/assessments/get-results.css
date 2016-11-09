@@ -1,9 +1,9 @@
 .assessment-results {
 }
 
-/*
-* Title
-*/
+
+/* Title
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
 .assessment-results-title {
   width: 240px;
   height: 48px;
@@ -15,14 +15,50 @@
 }
 
 
-/*
-* Link 'back to test list'
-*/
+/* List of results
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.assessment-results-list {
+
+}
+
+.assessment-results-list-item {
+  width: 990px;
+  height: 80px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  margin-bottom: 10px;
+}
+
+.assessment-results-result {
+  display: flex;
+}
+.assessment-results-result-line {
+  width: 2px;
+  height: 61px;
+  border: solid 1.5px #d5d5d5;
+}
+.assessment-results-result-instruction {
+  font-family: 'Lato';
+  font-size: 18px;
+}
+.assessment-results-result-index {
+  width: 11px;
+  height: 24px;
+  font-family: 'Open Sans';
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: #3e4149;
+}
+
+/* Button 'go back'
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
 .assessment-results-link {
   display: flex;
   flex-direction: row-reverse;
 }
-  
+
 .assessment-results-link-home {
   width: 275px;
   height: 46px;

@@ -10,11 +10,28 @@
 
     <div class='assessment-results-list'>
       {{#each model.assessment.answers as |answer index|}}
-        <div>{{strip-instruction (convert-to-html answer.challenge.instruction)}}</div>
+        <div class='assessment-results-list-item assessment-results-result'>
+            <div class="assessment-results-result-index">
+                {{add index 1}}
+            </div>            
+            <div class="assessment-results-result-line">
+            </div>            
+            <div class="assessment-results-result-instruction">
+                {{strip-instruction (convert-to-html answer.challenge.instruction)}}
+            </div>
+            <div class="assessment-results-result-img">
+             {{#if answer.isResultOk}}
+              <img width="24" height="24" src="{{rootURL}}images/result-ok.png" alt="result ok">
+             {{else if answer.isResultNotOk}}
+              <img width="24" height="24" src="{{rootURL}}images/result-not-ok.png" alt="result not ok">
+             {{else}}
+              <img width="19" height="24" src="{{rootURL}}images/result-pending.png" alt="result pending">
+             {{/if}}
+            </div>
+            
+        </div>
       {{/each}}
     </div>    
-
-
 
     <div class='assessment-results-link'>
       {{#link-to 'home' class='assessment-results-link-home' tagName='button'}}
