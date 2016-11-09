@@ -5,6 +5,7 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .assessment-results {
 
+  /* Forces bootstrap's default by including bootstrap props into .assessment-results container */
   & .tooltip-inner {
     padding-top: 13px;
     width: auto;
@@ -27,6 +28,12 @@
     opacity: 1;
   }
 
+  & .tooltip.top .tooltip-arrow {
+    bottom: -3px;
+    left: 50%;
+    margin-left: -22px;
+    border-width: 18px 23px 0;
+  }
 }
 
 
