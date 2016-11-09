@@ -1,19 +1,23 @@
 import qcuAnswer from '../data/answers/qcu-answer';
 import qcuAnswerWithImage from '../data/answers/qcu-answer-with-image';
 import qcmAnswer from '../data/answers/qcm-answer';
-import qrocmAnswer from '../data/answers/qrocm-answer';
 import qcmAnswerKo from '../data/answers/qcm-answer-ko';
 import qcmAnswerOk from '../data/answers/qcm-answer-ok';
+import qrocAnswerKo from '../data/answers/qroc-answer-ko';
+import qrocAnswerOk from '../data/answers/qroc-answer-ok';
+import qrocmAnswer from '../data/answers/qrocm-answer';
 
 export default function (schema, request) {
 
   const answers = {
-    'qcm_answer_id': qcmAnswer,
-    'qcu_answer_with_image_id': qcuAnswerWithImage,
-    'qcu_answer_id': qcuAnswer,
-    'qrocm_answer_id': qrocmAnswer,
-    'qcm_answer_ko_id': qcmAnswerKo,
-    'qcm_answer_ok_id': qcmAnswerOk
+    'answer_qcm_id': qcmAnswer,
+    'answer_qcu_with_image_id': qcuAnswerWithImage,
+    'answer_qcu_id': qcuAnswer,
+    'answer_qroc_ok_id': qrocAnswerOk,
+    'answer_qroc_ko_id': qrocAnswerKo,
+    'answer_qrocm_id': qrocmAnswer,
+    'answer_qcm_ko_id': qcmAnswerKo,
+    'answer_qcm_ok_id': qcmAnswerOk
   };
 
   const answer = answers[request.params.id];
