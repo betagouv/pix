@@ -15,4 +15,9 @@ describe('ConvertToHtmlHelper', function() {
     let boldSentence = conversion;
     expect(boldSentence).to.equal('<p><strong>a bold sentence</strong></p>');
   });
+  it('skip call with bad arg', function() {
+    expect(convertToHtml('bad argument')).to.equal('');
+    expect(convertToHtml([])).to.equal('');
+  });
+
 });
