@@ -32,15 +32,8 @@
 
 .assessment-results-result {
   display: flex;
-}
-.assessment-results-result-line {
-  width: 2px;
-  height: 61px;
-  border: solid 1.5px #d5d5d5;
-}
-.assessment-results-result-instruction {
-  font-family: 'Lato';
-  font-size: 18px;
+  height: 80px;
+  align-items: center;
 }
 .assessment-results-result-index {
   width: 11px;
@@ -50,7 +43,24 @@
   font-weight: bold;
   text-align: center;
   color: #3e4149;
+  margin-left: 22px;
 }
+.assessment-results-result-line {
+  width: 2px;
+  height: 61px;
+  border: solid 1.5px #d5d5d5;
+  margin-left: 22px;
+}
+.assessment-results-result-instruction {
+  font-family: 'Lato';
+  font-size: 18px;
+  margin-left: 22px;
+}
+.assessment-results-result-img {
+  margin-left: auto;
+  margin-right: 37px;
+}
+
 
 /* Button 'go back'
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
