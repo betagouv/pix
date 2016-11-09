@@ -93,7 +93,7 @@ define('pix-live/tests/acceptance/10-consulter-l-ecran-de-fin-de-test-test', ['e
     });
 
     (0, _mocha.it)("10.5. affiche le rapport nombre de réponses saisies sur nombre d'épreuves du test", function () {
-      var expectedString = '4 question(s) sur 4';
+      var expectedString = '5 question(s) sur 5';
       (0, _chai.expect)($assessmentResults.text()).to.contains(expectedString);
     });
 
@@ -312,6 +312,52 @@ define('pix-live/tests/acceptance/196-validation-automatique-des-qcm-test.lint-t
     });
   });
 });
+define('pix-live/tests/acceptance/197-validation-automatique-des-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)("Acceptance | 197 - Validation automatique d'un QROC, visualisation du résultat ", function () {
+
+    var application = undefined;
+    var $summary = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/assessments/completed_assessment_qroc_id/results');
+    });
+
+    (0, _mocha.before)(function () {
+      $summary = findWithAssert('.table#summary tbody tr');
+    });
+
+    (0, _mocha.it)("197.1. Pour un QROC avec une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
+      var $cell = findWithAssert('.table#summary tbody tr:nth-child(2) td:nth-child(3)');
+      (0, _chai.expect)($cell.text()).to.contains('réponse correcte');
+    });
+
+    (0, _mocha.it)("197.2. Pour un QROC avec une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
+      var $cell = findWithAssert('.table#summary tbody tr:nth-child(1) td:nth-child(3)');
+      (0, _chai.expect)($cell.text()).to.contains('réponse incorrecte');
+    });
+  });
+});
+define('pix-live/tests/acceptance/197-validation-automatique-des-qroc-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/197-validation-automatique-des-qroc-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/197-validation-automatique-des-qroc-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 2 - voir la liste des tests', function () {
@@ -355,7 +401,7 @@ define('pix-live/tests/acceptance/2-voir-liste-tests-test', ['exports', 'mocha',
       });
 
       (0, _mocha.it)('2.3.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains('4 épreuves');
+        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains('5 épreuves');
       });
 
       (0, _mocha.it)('2.3.4 on affiche son image', function () {
