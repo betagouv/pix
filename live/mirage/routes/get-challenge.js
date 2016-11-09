@@ -3,6 +3,7 @@ import qcuChallengeWithAttachment from '../data/challenges/qcu-challenge-with-at
 import qcuChallengeWithLinksInInstruction from '../data/challenges/qcu-challenge-with-links-in-instruction';
 import qcuChallenge from '../data/challenges/qcu-challenge';
 import qcmChallenge from '../data/challenges/qcm-challenge';
+import qrocChallenge from '../data/challenges/qroc-challenge';
 import qrocmChallenge from '../data/challenges/qrocm-challenge';
 
 // eslint-disable-next-line complexity
@@ -14,6 +15,8 @@ export default function (schema, request) {
       return qcmChallenge;
     case qcuChallenge.data.id:
       return qcuChallenge;
+    case qrocChallenge.data.id:
+      return qrocChallenge;
     case qrocmChallenge.data.id:
       return qrocmChallenge;
     case qcuChallengeWithImage.data.id:
