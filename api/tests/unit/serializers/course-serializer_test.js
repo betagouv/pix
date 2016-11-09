@@ -41,9 +41,48 @@ describe('Serializer | CourseSerializer', function () {
           "relationships": {
             "challenges": {
               "data": [
-                { "type": "challenges", "id": "challenge_qcu_id" },
+                { "type": "challenges", "id": "challenge_qrocm_id" },
                 { "type": "challenges", "id": "challenge_qcm_id" },
-                { "type": "challenges", "id": "challenge_qrocm_id" }
+                { "type": "challenges", "id": "challenge_qcu_id" }
+              ]
+            }
+          }
+        }
+      });
+    });
+
+    it('should inverse challenges sort in order to keep Airtable declaration order', function () {
+      const record = {
+        "id": 'course_id',
+        "fields": {
+          "Épreuves": [
+            "challenge_3",
+            "challenge_2",
+            "challenge_1"
+          ]
+        }
+      };
+      const course = new Course(record);
+
+      // when
+      const json = serializer.serialize(course);
+
+      // then
+      expect(json).to.deep.equal({
+        "data": {
+          "type": "courses",
+          "id": course.id,
+          "attributes": {
+            "name": course.name,
+            "description": course.description,
+            "duration": course.duration
+          },
+          "relationships": {
+            "challenges": {
+              "data": [
+                { "type": "challenges", "id": "challenge_1" },
+                { "type": "challenges", "id": "challenge_2" },
+                { "type": "challenges", "id": "challenge_3" }
               ]
             }
           }
