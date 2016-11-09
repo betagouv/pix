@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 export function stripInstruction(params) {
-  console.log(params);
   let result = $(params[0]).text();
   result = result.substr(0, 70);
   result += '...';
