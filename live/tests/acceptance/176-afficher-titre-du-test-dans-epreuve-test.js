@@ -42,7 +42,6 @@ describe('Acceptance | 176 - Affichage du bandeau d\'une épreuve |', function (
       // then
       andThen(() => expect(find('#home')).to.have.lengthOf(1));
     });
-
   });
 
   describe('Dans le cadre de la vue "résultat d\'une évaluation"', function () {
@@ -55,7 +54,9 @@ describe('Acceptance | 176 - Affichage du bandeau d\'une épreuve |', function (
       expect(findWithAssert('.course-name').text()).to.contains('Name of the course');
     });
 
-
+    it('Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
+      expect(find('.course-list-btn a')).to.have.lengthOf(0);
+    });
   });
 
 });
