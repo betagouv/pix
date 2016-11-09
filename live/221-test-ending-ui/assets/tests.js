@@ -3144,6 +3144,10 @@ define('pix-live/tests/unit/helpers/convert-to-html-test', ['exports', 'chai', '
       var boldSentence = conversion;
       (0, _chai.expect)(boldSentence).to.equal('<p><strong>a bold sentence</strong></p>');
     });
+    (0, _mocha.it)('skip call with bad arg', function () {
+      (0, _chai.expect)((0, _pixLiveHelpersConvertToHtml.convertToHtml)('bad argument')).to.equal('');
+      (0, _chai.expect)((0, _pixLiveHelpersConvertToHtml.convertToHtml)([])).to.equal('');
+    });
   });
 });
 /* jshint expr:true */
