@@ -2692,7 +2692,7 @@ define('pix-live/tests/unit/components/challenge-item-test', ['exports', 'chai',
         var answer = challengeItem._getAnswerValue();
 
         // then
-        (0, _chai.expect)(answer).to.equal('variable1 = "value_1"');
+        (0, _chai.expect)(answer).to.equal('value_1');
       });
 
       (0, _emberMocha.it)("QROCM: should return answer's values concatenated as string", function () {

@@ -310,6 +310,10 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
     }
   }
 
+  function getFirstValueOfDict(answers) {
+    return _lodashLodash['default'].pairs(answers)[0][1];
+  }
+
   var ChallengeItem = _ember['default'].Component.extend({
 
     tagName: 'article',
@@ -418,6 +422,10 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
             }).join(', ');
           }
         case 'QROC':
+          {
+            var answers = this.get('answers');
+            return getFirstValueOfDict(answers);
+          }
         case 'QROCM':
           {
             var answers = this.get('answers');
@@ -9521,7 +9529,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+659de44f"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+593694c6"});
 }
 
 /* jshint ignore:end */
