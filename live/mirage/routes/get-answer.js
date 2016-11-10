@@ -1,11 +1,11 @@
+import _                  from 'lodash/lodash';
+import qcmAnswerAband     from '../data/answers/qcu-answer-aband';
 import qcuAnswer          from '../data/answers/qcu-answer';
 import qcuAnswerWithImage from '../data/answers/qcu-answer-with-image';
 import qcmAnswer          from '../data/answers/qcm-answer';
 import qrocmAnswer        from '../data/answers/qrocm-answer';
 import qcmAnswerKo        from '../data/answers/qcm-answer-ko';
 import qcmAnswerOk        from '../data/answers/qcm-answer-ok';
-import qcmAnswerAband     from '../data/answers/qcm-answer-aband';
-import _                  from 'lodash/lodash';
 
 export default function (schema, request) {
 

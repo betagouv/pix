@@ -1,9 +1,9 @@
-import qcmChallenge from '../challenges/qcm-challenge';
+import qcuChallengeAband from '../challenges/qcu-challenge-aband';
 
 export default {
   data: {
     type: 'answers',
-    id: 'answer_qcm_aband_id',
+    id: 'answer_qcu_aband_id',
     attributes: {
       value: '',
       result: 'aband'
@@ -12,7 +12,7 @@ export default {
       challenge: {
         data: {
           type: 'challenges',
-          id: qcmChallenge.data.id
+          id: qcuChallengeAband.data.id
         }
       }
     }
