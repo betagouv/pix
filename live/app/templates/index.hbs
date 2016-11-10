@@ -13,9 +13,13 @@
             </div>
         </div>
 
+
+
         <div class="row identification-form">
             <div class="col-md-12">
-                {{identification-form onUserIdentified="navigateToHome"}}
+            {{#each model as |course|}}
+                {{ course.description }}
+            {{/each}}
             </div>
         </div>
   </div>
