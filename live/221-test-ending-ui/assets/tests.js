@@ -296,13 +296,13 @@ define('pix-live/tests/acceptance/195-validation-automatique-des-qcu-test', ['ex
     });
 
     (0, _mocha.it)("195.1. Pour un QCU avec une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
-      var $cell = findWithAssert('img[data-toggle="tooltip"]:eq(0)');
-      (0, _chai.expect)($cell.attr('alt')).to.equal('result ok');
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse correcte');
     });
 
     (0, _mocha.it)("195.2. Pour un QCU avec une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
-      var $cell = findWithAssert('img[data-toggle="tooltip"]:eq(1)');
-      (0, _chai.expect)($cell.attr('alt')).to.equal('result not ok');
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
     });
   });
 });
@@ -337,14 +337,14 @@ define('pix-live/tests/acceptance/196-validation-automatique-des-qcm-test', ['ex
       return visit('/assessments/completed_assessment_qcm_id/results');
     });
 
-    (0, _mocha.it)("196.2. Pour un QCM avec une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
-      var $cell = findWithAssert('img[data-toggle="tooltip"]:eq(0)');
-      (0, _chai.expect)($cell.attr('alt')).to.equal('result ok');
+    (0, _mocha.it)("196.1. Pour un QCM avec une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse correcte');
     });
 
     (0, _mocha.it)("196.2. Pour un QCM avec une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
-      var $cell = findWithAssert('img[data-toggle="tooltip"]:eq(1)');
-      (0, _chai.expect)($cell.attr('alt')).to.equal('result not ok');
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
     });
   });
 });

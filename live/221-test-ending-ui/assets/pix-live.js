@@ -2175,6 +2175,7 @@ define('pix-live/services/assessment', ['exports', 'ember'], function (exports, 
 define('pix-live/services/delay', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
   exports['default'] = _ember['default'].Service.extend({
     ms: function ms(_ms) {
+      /* istanbul ignore */
       if (EmberENV.useDelay) {
         return new _rsvp['default'].Promise(function (resolve) {
           setTimeout(resolve, _ms);
@@ -7604,12 +7605,12 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
             "loc": {
               "source": null,
               "start": {
-                "line": 23,
-                "column": 13
+                "line": 24,
+                "column": 9
               },
               "end": {
-                "line": 26,
-                "column": 13
+                "line": 29,
+                "column": 9
               }
             },
             "moduleName": "pix-live/templates/components/get-result.hbs"
@@ -7620,27 +7621,38 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("              ");
+            var el1 = dom.createTextNode("         ");
             dom.appendChild(el0, el1);
-            var el1 = dom.createElement("img");
-            dom.setAttribute(el1, "width", "24");
-            dom.setAttribute(el1, "height", "24");
-            dom.setAttribute(el1, "alt", "result ok");
+            var el1 = dom.createElement("div");
             dom.setAttribute(el1, "data-toggle", "tooltip");
             dom.setAttribute(el1, "data-placement", "top");
-            dom.setAttribute(el1, "title", "Bonne réponse");
+            dom.setAttribute(el1, "title", "Réponse correcte");
+            var el2 = dom.createTextNode("\n          ");
+            dom.appendChild(el1, el2);
+            dom.setNamespace("http://www.w3.org/2000/svg");
+            var el2 = dom.createElement("svg");
+            dom.setAttribute(el2, "xmlns", "http://www.w3.org/2000/svg");
+            dom.setAttribute(el2, "xmlns:xlink", "http://www.w3.org/1999/xlink");
+            dom.setAttribute(el2, "version", "1.1");
+            dom.setAttribute(el2, "width", "24");
+            dom.setAttribute(el2, "height", "24");
+            dom.setAttribute(el2, "viewBox", "0 0 24 24");
+            var el3 = dom.createElement("path");
+            dom.setAttribute(el3, "d", "M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z");
+            dom.setAttribute(el3, "fill", "#30d5b0");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n         ");
+            dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
+            var el1 = dom.createTextNode("\n         \n");
             dom.appendChild(el0, el1);
             return el0;
           },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var element2 = dom.childAt(fragment, [1]);
-            var morphs = new Array(1);
-            morphs[0] = dom.createAttrMorph(element2, 'src');
-            return morphs;
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
           },
-          statements: [["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [24, 49], [24, 56]]], 0, 0, 0, 0], "images/result-ok.png"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+          statements: [],
           locals: [],
           templates: []
         };
@@ -7653,12 +7665,12 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 26,
-                  "column": 13
+                  "line": 29,
+                  "column": 9
                 },
                 "end": {
-                  "line": 29,
-                  "column": 13
+                  "line": 34,
+                  "column": 9
                 }
               },
               "moduleName": "pix-live/templates/components/get-result.hbs"
@@ -7669,27 +7681,38 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
             hasRendered: false,
             buildFragment: function buildFragment(dom) {
               var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("              ");
+              var el1 = dom.createTextNode("         ");
               dom.appendChild(el0, el1);
-              var el1 = dom.createElement("img");
-              dom.setAttribute(el1, "width", "24");
-              dom.setAttribute(el1, "height", "24");
-              dom.setAttribute(el1, "alt", "result not ok");
+              var el1 = dom.createElement("div");
               dom.setAttribute(el1, "data-toggle", "tooltip");
               dom.setAttribute(el1, "data-placement", "top");
-              dom.setAttribute(el1, "title", "Mauvaise réponse");
+              dom.setAttribute(el1, "title", "Réponse incorrecte");
+              var el2 = dom.createTextNode("\n          ");
+              dom.appendChild(el1, el2);
+              dom.setNamespace("http://www.w3.org/2000/svg");
+              var el2 = dom.createElement("svg");
+              dom.setAttribute(el2, "xmlns", "http://www.w3.org/2000/svg");
+              dom.setAttribute(el2, "xmlns:xlink", "http://www.w3.org/1999/xlink");
+              dom.setAttribute(el2, "version", "1.1");
+              dom.setAttribute(el2, "width", "24px");
+              dom.setAttribute(el2, "height", "24px");
+              dom.setAttribute(el2, "viewBox", "0 0 24 24");
+              var el3 = dom.createElement("path");
+              dom.setAttribute(el3, "d", "M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z");
+              dom.setAttribute(el3, "fill", "#ff4600");
+              dom.appendChild(el2, el3);
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("\n         ");
+              dom.appendChild(el1, el2);
               dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n");
+              var el1 = dom.createTextNode("\n\n");
               dom.appendChild(el0, el1);
               return el0;
             },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var element1 = dom.childAt(fragment, [1]);
-              var morphs = new Array(1);
-              morphs[0] = dom.createAttrMorph(element1, 'src');
-              return morphs;
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
             },
-            statements: [["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [27, 49], [27, 56]]], 0, 0, 0, 0], "images/result-not-ok.png"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+            statements: [],
             locals: [],
             templates: []
           };
@@ -7701,12 +7724,12 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 29,
-                  "column": 13
+                  "line": 34,
+                  "column": 9
                 },
                 "end": {
-                  "line": 31,
-                  "column": 13
+                  "line": 38,
+                  "column": 9
                 }
               },
               "moduleName": "pix-live/templates/components/get-result.hbs"
@@ -7717,28 +7740,38 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
             hasRendered: false,
             buildFragment: function buildFragment(dom) {
               var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("              ");
+              var el1 = dom.createTextNode("         ");
               dom.appendChild(el0, el1);
-              var el1 = dom.createElement("img");
-              dom.setAttribute(el1, "class", "red-tooltip");
-              dom.setAttribute(el1, "width", "19");
-              dom.setAttribute(el1, "height", "24");
-              dom.setAttribute(el1, "alt", "result pending");
+              var el1 = dom.createElement("div");
               dom.setAttribute(el1, "data-toggle", "tooltip");
               dom.setAttribute(el1, "data-placement", "top");
               dom.setAttribute(el1, "title", "Vérification en cours");
+              var el2 = dom.createTextNode("\n          ");
+              dom.appendChild(el1, el2);
+              dom.setNamespace("http://www.w3.org/2000/svg");
+              var el2 = dom.createElement("svg");
+              dom.setAttribute(el2, "xmlns", "http://www.w3.org/2000/svg");
+              dom.setAttribute(el2, "xmlns:xlink", "http://www.w3.org/1999/xlink");
+              dom.setAttribute(el2, "version", "1.1");
+              dom.setAttribute(el2, "width", "24");
+              dom.setAttribute(el2, "height", "24");
+              dom.setAttribute(el2, "viewBox", "0 0 24 24");
+              var el3 = dom.createElement("path");
+              dom.setAttribute(el3, "d", "M20,2V4H18V8.41L14.41,12L18,15.59V20H20V22H4V20H6V15.59L9.59,12L6,8.41V4H4V2H20M16,16.41L13,13.41V10.59L16,7.59V4H8V7.59L11,10.59V13.41L8,16.41V17H10L12,15L14,17H16V16.41M12,9L10,7H14L12,9Z");
+              dom.setAttribute(el3, "fill", "#446eff");
+              dom.appendChild(el2, el3);
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("\n         ");
+              dom.appendChild(el1, el2);
               dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("              \n             ");
+              var el1 = dom.createTextNode("\n         ");
               dom.appendChild(el0, el1);
               return el0;
             },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var element0 = dom.childAt(fragment, [1]);
-              var morphs = new Array(1);
-              morphs[0] = dom.createAttrMorph(element0, 'src');
-              return morphs;
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
             },
-            statements: [["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [30, 69], [30, 76]]], 0, 0, 0, 0], "images/result-pending.png"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+            statements: [],
             locals: [],
             templates: []
           };
@@ -7749,12 +7782,12 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
             "loc": {
               "source": null,
               "start": {
-                "line": 26,
-                "column": 13
+                "line": 29,
+                "column": 9
               },
               "end": {
-                "line": 31,
-                "column": 13
+                "line": 38,
+                "column": 9
               }
             },
             "moduleName": "pix-live/templates/components/get-result.hbs"
@@ -7776,7 +7809,7 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "if", [["get", "answer.isResultNotOk", ["loc", [null, [26, 23], [26, 43]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [26, 13], [31, 13]]]]],
+          statements: [["block", "if", [["get", "answer.isResultNotOk", ["loc", [null, [29, 19], [29, 39]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [29, 9], [38, 9]]]]],
           locals: [],
           templates: [child0, child1]
         };
@@ -7791,8 +7824,8 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
               "column": 6
             },
             "end": {
-              "line": 35,
-              "column": 6
+              "line": 43,
+              "column": 4
             }
           },
           "moduleName": "pix-live/templates/components/get-result.hbs"
@@ -7803,51 +7836,51 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        ");
+          var el1 = dom.createTextNode("      ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("div");
           dom.setAttribute(el1, "class", "assessment-results-list-item assessment-results-result");
-          var el2 = dom.createTextNode("\n            ");
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("div");
           dom.setAttribute(el2, "class", "assessment-results-result-index");
-          var el3 = dom.createTextNode("\n                ");
+          var el3 = dom.createTextNode("\n          ");
           dom.appendChild(el2, el3);
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n            ");
+          var el3 = dom.createTextNode("\n        ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("            \n            ");
+          var el2 = dom.createTextNode("            \n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("div");
           dom.setAttribute(el2, "class", "assessment-results-result-line");
-          var el3 = dom.createTextNode("\n            ");
+          var el3 = dom.createTextNode("\n        ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("            \n            ");
+          var el2 = dom.createTextNode("            \n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("div");
           dom.setAttribute(el2, "class", "assessment-results-result-instruction");
-          var el3 = dom.createTextNode("\n                ");
+          var el3 = dom.createTextNode("\n          ");
           dom.appendChild(el2, el3);
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n            ");
+          var el3 = dom.createTextNode("\n        ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n            ");
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("div");
           dom.setAttribute(el2, "class", "assessment-results-result-img");
-          var el3 = dom.createTextNode("\n");
+          var el3 = dom.createTextNode("\n         \n");
           dom.appendChild(el2, el3);
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("            ");
+          var el3 = dom.createTextNode("\n      ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n            \n        ");
+          var el2 = dom.createTextNode("\n\n    ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -7855,14 +7888,14 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element3 = dom.childAt(fragment, [1]);
+          var element0 = dom.childAt(fragment, [1]);
           var morphs = new Array(3);
-          morphs[0] = dom.createMorphAt(dom.childAt(element3, [1]), 1, 1);
-          morphs[1] = dom.createMorphAt(dom.childAt(element3, [5]), 1, 1);
-          morphs[2] = dom.createMorphAt(dom.childAt(element3, [7]), 1, 1);
+          morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
+          morphs[1] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
+          morphs[2] = dom.createMorphAt(dom.childAt(element0, [7]), 1, 1);
           return morphs;
         },
-        statements: [["inline", "add", [["get", "index", ["loc", [null, [15, 22], [15, 27]]], 0, 0, 0, 0], 1], [], ["loc", [null, [15, 16], [15, 31]]], 0, 0], ["inline", "strip-instruction", [["subexpr", "convert-to-html", [["get", "answer.challenge.instruction", ["loc", [null, [20, 53], [20, 81]]], 0, 0, 0, 0]], [], ["loc", [null, [20, 36], [20, 82]]], 0, 0]], [], ["loc", [null, [20, 16], [20, 84]]], 0, 0], ["block", "if", [["get", "answer.isResultOk", ["loc", [null, [23, 19], [23, 36]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [23, 13], [31, 20]]]]],
+        statements: [["inline", "add", [["get", "index", ["loc", [null, [15, 16], [15, 21]]], 0, 0, 0, 0], 1], [], ["loc", [null, [15, 10], [15, 25]]], 0, 0], ["inline", "strip-instruction", [["subexpr", "convert-to-html", [["get", "answer.challenge.instruction", ["loc", [null, [20, 47], [20, 75]]], 0, 0, 0, 0]], [], ["loc", [null, [20, 30], [20, 76]]], 0, 0]], [], ["loc", [null, [20, 10], [20, 78]]], 0, 0], ["block", "if", [["get", "answer.isResultOk", ["loc", [null, [24, 15], [24, 32]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [24, 9], [38, 16]]]]],
         locals: ["answer", "index"],
         templates: [child0, child1]
       };
@@ -7874,12 +7907,12 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
           "loc": {
             "source": null,
             "start": {
-              "line": 39,
-              "column": 6
+              "line": 47,
+              "column": 4
             },
             "end": {
-              "line": 41,
-              "column": 6
+              "line": 49,
+              "column": 4
             }
           },
           "moduleName": "pix-live/templates/components/get-result.hbs"
@@ -7890,7 +7923,7 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("            ");
+          var el1 = dom.createTextNode("    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("span");
           dom.setAttribute(el1, "class", "assessment-results-back");
@@ -7919,7 +7952,7 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 48,
+            "line": 56,
             "column": 0
           }
         },
@@ -7957,10 +7990,10 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
         dom.appendChild(el3, el4);
         var el4 = dom.createComment("");
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("    ");
+        var el4 = dom.createTextNode("  ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("    \n\n    ");
+        var el3 = dom.createTextNode("    \n\n  ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
         dom.setAttribute(el3, "class", "assessment-results-link");
@@ -7968,10 +8001,10 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
         dom.appendChild(el3, el4);
         var el4 = dom.createComment("");
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("    ");
+        var el4 = dom.createTextNode("  ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n  ");
+        var el3 = dom.createTextNode("\n\n");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n\n\n");
@@ -7982,15 +8015,15 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element4 = dom.childAt(fragment, [0]);
-        var element5 = dom.childAt(element4, [3]);
+        var element1 = dom.childAt(fragment, [0]);
+        var element2 = dom.childAt(element1, [3]);
         var morphs = new Array(3);
-        morphs[0] = dom.createMorphAt(element4, 1, 1);
-        morphs[1] = dom.createMorphAt(dom.childAt(element5, [3]), 1, 1);
-        morphs[2] = dom.createMorphAt(dom.childAt(element5, [5]), 1, 1);
+        morphs[0] = dom.createMorphAt(element1, 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element2, [3]), 1, 1);
+        morphs[2] = dom.createMorphAt(dom.childAt(element2, [5]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "course-banner", [], ["course", ["subexpr", "@mut", [["get", "model.assessment.course", ["loc", [null, [3, 25], [3, 48]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 2], [3, 50]]], 0, 0], ["block", "each", [["get", "model.assessment.answers", ["loc", [null, [12, 14], [12, 38]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [12, 6], [35, 15]]]], ["block", "link-to", ["home"], ["class", "assessment-results-link-home", "tagName", "button"], 1, null, ["loc", [null, [39, 6], [41, 18]]]]],
+      statements: [["inline", "course-banner", [], ["course", ["subexpr", "@mut", [["get", "model.assessment.course", ["loc", [null, [3, 25], [3, 48]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 2], [3, 50]]], 0, 0], ["block", "each", [["get", "model.assessment.answers", ["loc", [null, [12, 14], [12, 38]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [12, 6], [43, 13]]]], ["block", "link-to", ["home"], ["class", "assessment-results-link-home", "tagName", "button"], 1, null, ["loc", [null, [47, 4], [49, 16]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -9491,7 +9524,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+fe710940"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+4e6e5f20"});
 }
 
 /* jshint ignore:end */
