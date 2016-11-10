@@ -1,24 +1,24 @@
 'use strict';
 
-const base = require('../../config/airtable').base;
-const Course = require('../models/referential/course');
+const base = require('../airtable').base;
+const Challenge = require('../models/referential/challenge');
 
-const AIRTABLE_TABLE_NAME = 'Tests';
+const AIRTABLE_TABLE_NAME = 'Epreuves';
 
 module.exports = {
 
   list() {
 
-    let courses = [];
+    let challenges = [];
 
     return new Promise((resolve, reject) => {
 
       base(AIRTABLE_TABLE_NAME)
-        .select({ view: 'PIX view' })
+        .select()
         .eachPage((records, fetchNextPage) => {
 
           for (let record of records) {
-            courses.push(new Course(record));
+            challenges.push(new Challenge(record));
           }
           fetchNextPage();
         }, (error) => {
@@ -26,7 +26,7 @@ module.exports = {
           if (error) {
             return reject(error);
           }
-          return resolve(courses);
+          return resolve(challenges);
         });
     });
   },
@@ -40,8 +40,9 @@ module.exports = {
         if (error) {
           return reject(error);
         }
-        return resolve(new Course(record));
+        return resolve(new Challenge(record));
       });
     });
   }
+
 };

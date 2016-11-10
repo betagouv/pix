@@ -1,4 +1,4 @@
-const Bookshelf = require('../../../config/bookshelf');
+const Bookshelf = require('../../bookshelf');
 const Assessment = require('./assessment');
 
 module.exports = Bookshelf.Model.extend({

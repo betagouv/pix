@@ -1,4 +1,4 @@
-const Challenge = require('../../../../app/models/referential/challenge');
+const Challenge = require('../../../../lib/models/referential/challenge');
 
 describe('Model | Challenge', function () {
 

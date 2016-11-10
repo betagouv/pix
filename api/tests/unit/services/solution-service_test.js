@@ -1,6 +1,6 @@
-const service = require('../../../app/services/solution-service');
-const Answer = require('../../../app/models/data/answer');
-const Solution = require('../../../app/models/referential/solution');
+const service = require('../../../lib/services/solution-service');
+const Answer = require('../../../lib/models/data/answer');
+const Solution = require('../../../lib/models/referential/solution');
 
 describe('Service | Solution :', function () {
 

@@ -1,5 +1,5 @@
-const serializer = require('../../../app/serializers/course-serializer');
-const Course = require('../../../app/models/referential/course');
+const serializer = require('../../../lib/serializers/course-serializer');
+const Course = require('../../../lib/models/referential/course');
 
 describe('Serializer | CourseSerializer', function () {
 

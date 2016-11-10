@@ -1,7 +1,7 @@
 'use strict';
 
 const server = require('../../../server');
-const Assessment = require('../../../app/models/data/assessment');
+const Assessment = require('../../../lib/models/data/assessment');
 
 describe('API | Assessments', function () {
 

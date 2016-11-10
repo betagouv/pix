@@ -1,7 +1,7 @@
 'use strict';
 
 const server = require('../../../server');
-const Answer = require('../../../app/models/data/answer');
+const Answer = require('../../../lib/models/data/answer');
 
 describe('API | Answers', function () {
 

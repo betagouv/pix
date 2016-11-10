@@ -1,6 +1,6 @@
 'use strict';
 
-const base = require('../../config/airtable').base;
+const base = require('../airtable').base;
 const Solution = require('../models/referential/solution');
 
 const AIRTABLE_TABLE_NAME = 'Epreuves';

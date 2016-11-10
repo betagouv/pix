@@ -1,11 +1,30 @@
 'use strict';
 
 const server = require('../server');
-const Assessments = require('../app/controllers/assessments');
-const Answers = require('../app/controllers/answers');
-const Users = require('../app/controllers/users');
-const Courses = require('../app/controllers/courses');
-const Challenges = require('../app/controllers/challenges');
+const Assessments = require('./controllers/assessments');
+const Answers = require('./controllers/answers');
+const Users = require('./controllers/users');
+const Courses = require('./controllers/courses');
+const Challenges = require('./controllers/challenges');
+
+/*
+ function greeting(name, callback) {
+ console.error(`#greeting with name ${name}`);
+ const response = {
+ message : `Hello ${name}!`
+ };
+ callback(null, response);
+ }
+
+ server.method('greeting', greeting, {
+ cache: {
+ expiresIn: 15 * 1000,
+ generateTimeout: 100
+ }
+ });
+
+
+ */
 
 module.exports = [
 
@@ -25,7 +44,17 @@ module.exports = [
   { method: 'GET',  path: '/api/courses/{id}',                        config: Courses.get },
 
   { method: 'GET',  path: '/api/challenges',                          config: Challenges.list },
-  { method: 'GET',  path: '/api/challenges/{id}',                     config: Challenges.get }
+  { method: 'GET',  path: '/api/challenges/{id}',                     config: Challenges.get },
+
+  {
+    method: 'GET', path: '/api/greeting/{name}', config: {
+      handler: (request, reply) => {
+        server.methods.greeting(request.params.name, (err, result) => {
+          reply(result);
+        })
+      }
+    }
+  }
 
 ].map((route) => {
   route.config.cors = { origin: ['*'] };

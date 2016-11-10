@@ -1,9 +1,9 @@
 'use strict';
 
-const serializer = require('../../../app/serializers/answer-serializer');
-const Answer = require('../../../app/models/data/answer');
-const Assessment = require('../../../app/models/data/assessment');
-const Challenge = require('../../../app/models/referential/challenge');
+const serializer = require('../../../lib/serializers/answer-serializer');
+const Answer = require('../../../lib/models/data/answer');
+const Assessment = require('../../../lib/models/data/assessment');
+const Challenge = require('../../../lib/models/referential/challenge');
 
 describe('Serializer | AnswerSerializer', function () {
 
