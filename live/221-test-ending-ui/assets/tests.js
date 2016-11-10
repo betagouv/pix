@@ -2355,15 +2355,6 @@ define('pix-live/tests/integration/components/get-result-test', ['exports', 'cha
     integration: true
   }, function () {
     (0, _emberMocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#get-result}}
-      //     template content
-      //   {{/get-result}}
-      // `);
-
       this.render(Ember.HTMLBars.template((function () {
         return {
           meta: {
