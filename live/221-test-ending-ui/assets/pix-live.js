@@ -2175,7 +2175,6 @@ define('pix-live/services/assessment', ['exports', 'ember'], function (exports, 
 define('pix-live/services/delay', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
   exports['default'] = _ember['default'].Service.extend({
     ms: function ms(_ms) {
-      /* istanbul ignore */
       if (EmberENV.useDelay) {
         return new _rsvp['default'].Promise(function (resolve) {
           setTimeout(resolve, _ms);
@@ -9524,7 +9523,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+4e6e5f20"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+681b51ee"});
 }
 
 /* jshint ignore:end */
