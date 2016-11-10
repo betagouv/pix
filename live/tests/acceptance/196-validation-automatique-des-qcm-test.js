@@ -27,14 +27,14 @@ describe("Acceptance | 196 - Validation automatique d'un QCM, visualisation du r
   });
 
 
-  it("196.2. Pour un QCM avec une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
-    let $cell = findWithAssert('img[data-toggle="tooltip"]:eq(0)');
-    expect($cell.attr('alt')).to.equal('result ok');
+  it("196.1. Pour un QCM avec une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
+    let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
+    expect($cell.attr('data-original-title')).to.equal('Réponse correcte');
   });
 
   it("196.2. Pour un QCM avec une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
-    let $cell = findWithAssert('img[data-toggle="tooltip"]:eq(1)');
-    expect($cell.attr('alt')).to.equal('result not ok');
+    let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
+    expect($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
   });
 
 });
