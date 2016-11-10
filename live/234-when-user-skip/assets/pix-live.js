@@ -1190,26 +1190,6 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
     this.get('/answers/:id', _pixLiveMirageRoutesGetAnswer['default']);
   };
 });
-define('pix-live/mirage/data/answers/qcm-answer-aband', ['exports', 'pix-live/mirage/data/challenges/qcm-challenge'], function (exports, _pixLiveMirageDataChallengesQcmChallenge) {
-  exports['default'] = {
-    data: {
-      type: 'answers',
-      id: 'answer_qcm_aband_id',
-      attributes: {
-        value: '',
-        result: 'aband'
-      },
-      relationships: {
-        challenge: {
-          data: {
-            type: 'challenges',
-            id: _pixLiveMirageDataChallengesQcmChallenge['default'].data.id
-          }
-        }
-      }
-    }
-  };
-});
 define('pix-live/mirage/data/answers/qcm-answer-ko', ['exports', 'pix-live/mirage/data/challenges/qcm-challenge'], function (exports, _pixLiveMirageDataChallengesQcmChallenge) {
   exports['default'] = {
     data: {
@@ -1264,6 +1244,26 @@ define('pix-live/mirage/data/answers/qcm-answer', ['exports', 'pix-live/mirage/d
           data: {
             type: 'challenges',
             id: _pixLiveMirageDataChallengesQcmChallenge['default'].data.id
+          }
+        }
+      }
+    }
+  };
+});
+define('pix-live/mirage/data/answers/qcu-answer-aband', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge-aband'], function (exports, _pixLiveMirageDataChallengesQcuChallengeAband) {
+  exports['default'] = {
+    data: {
+      type: 'answers',
+      id: 'answer_qcu_aband_id',
+      attributes: {
+        value: '',
+        result: 'aband'
+      },
+      relationships: {
+        challenge: {
+          data: {
+            type: 'challenges',
+            id: _pixLiveMirageDataChallengesQcuChallengeAband['default'].data.id
           }
         }
       }
@@ -1360,7 +1360,7 @@ define('pix-live/mirage/data/assessments/completed-assessment-qcm', ['exports', 
     }
   };
 });
-define('pix-live/mirage/data/assessments/completed-assessment', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qcu-answer-with-image', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qcm-answer-aband', 'pix-live/mirage/data/answers/qrocm-answer'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQcuAnswerWithImage, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQcmAnswerAband, _pixLiveMirageDataAnswersQrocmAnswer) {
+define('pix-live/mirage/data/assessments/completed-assessment', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qcu-answer-with-image', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qcu-answer-aband', 'pix-live/mirage/data/answers/qrocm-answer'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQcuAnswerWithImage, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQcuAnswerAband, _pixLiveMirageDataAnswersQrocmAnswer) {
   exports['default'] = {
     data: {
       type: 'assessments',
@@ -1389,7 +1389,7 @@ define('pix-live/mirage/data/assessments/completed-assessment', ['exports', 'pix
             id: _pixLiveMirageDataAnswersQcmAnswer['default'].data.id
           }, {
             type: 'answers',
-            id: _pixLiveMirageDataAnswersQcmAnswerAband['default'].data.id
+            id: _pixLiveMirageDataAnswersQcuAnswerAband['default'].data.id
           }, {
             type: 'answers',
             id: _pixLiveMirageDataAnswersQrocmAnswer['default'].data.id
@@ -1498,6 +1498,19 @@ define('pix-live/mirage/data/challenges/qcm-challenge', ['exports'], function (e
         type: 'QCM',
         instruction: "Que peut-on dire des œufs de catégorie A ?",
         proposals: "- Ils sont bio.\n - Ils pèsent plus de 63 grammes.\n - Ce sont des oeufs frais.\n - Ils sont destinés aux consommateurs.\n - Ils ne sont pas lavés."
+      }
+    }
+  };
+});
+define('pix-live/mirage/data/challenges/qcu-challenge-aband', ['exports'], function (exports) {
+  exports['default'] = {
+    data: {
+      type: 'challenges',
+      id: 'qcu_challenge_aband_id',
+      attributes: {
+        type: 'QCU',
+        instruction: "Cette question sera considérée comme abandonnée",
+        proposals: "" + "- D’accord\n " + "- Pas d’accord (mais c'est pareil)\n "
       }
     }
   };
@@ -1625,10 +1638,10 @@ define('pix-live/mirage/data/courses/simple-course', ['exports', 'pix-live/mirag
     }
   };
 });
-define('pix-live/mirage/routes/get-answer', ['exports', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qcu-answer-with-image', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qrocm-answer', 'pix-live/mirage/data/answers/qcm-answer-ko', 'pix-live/mirage/data/answers/qcm-answer-ok', 'pix-live/mirage/data/answers/qcm-answer-aband', 'lodash/lodash'], function (exports, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQcuAnswerWithImage, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQrocmAnswer, _pixLiveMirageDataAnswersQcmAnswerKo, _pixLiveMirageDataAnswersQcmAnswerOk, _pixLiveMirageDataAnswersQcmAnswerAband, _lodashLodash) {
+define('pix-live/mirage/routes/get-answer', ['exports', 'lodash/lodash', 'pix-live/mirage/data/answers/qcu-answer-aband', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qcu-answer-with-image', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qrocm-answer', 'pix-live/mirage/data/answers/qcm-answer-ko', 'pix-live/mirage/data/answers/qcm-answer-ok'], function (exports, _lodashLodash, _pixLiveMirageDataAnswersQcuAnswerAband, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQcuAnswerWithImage, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQrocmAnswer, _pixLiveMirageDataAnswersQcmAnswerKo, _pixLiveMirageDataAnswersQcmAnswerOk) {
   exports['default'] = function (schema, request) {
 
-    var allAnswers = [_pixLiveMirageDataAnswersQcuAnswer['default'], _pixLiveMirageDataAnswersQcuAnswerWithImage['default'], _pixLiveMirageDataAnswersQcmAnswer['default'], _pixLiveMirageDataAnswersQrocmAnswer['default'], _pixLiveMirageDataAnswersQcmAnswerKo['default'], _pixLiveMirageDataAnswersQcmAnswerOk['default'], _pixLiveMirageDataAnswersQcmAnswerAband['default']];
+    var allAnswers = [_pixLiveMirageDataAnswersQcuAnswer['default'], _pixLiveMirageDataAnswersQcuAnswerWithImage['default'], _pixLiveMirageDataAnswersQcmAnswer['default'], _pixLiveMirageDataAnswersQrocmAnswer['default'], _pixLiveMirageDataAnswersQcmAnswerKo['default'], _pixLiveMirageDataAnswersQcmAnswerOk['default'], _pixLiveMirageDataAnswersQcuAnswerAband['default']];
 
     var answers = _lodashLodash['default'].map(allAnswers, function (oneAnswer) {
       return { id: oneAnswer.data.id, obj: oneAnswer };
@@ -1658,28 +1671,21 @@ define('pix-live/mirage/routes/get-assessment', ['exports', 'pix-live/mirage/dat
     }
   };
 });
-define('pix-live/mirage/routes/get-challenge', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge-with-image', 'pix-live/mirage/data/challenges/qcu-challenge-with-attachment', 'pix-live/mirage/data/challenges/qcu-challenge-with-links-in-instruction', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallengeWithImage, _pixLiveMirageDataChallengesQcuChallengeWithAttachment, _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
-
-  // eslint-disable-next-line complexity
-
+define('pix-live/mirage/routes/get-challenge', ['exports', 'lodash/lodash', 'pix-live/mirage/data/challenges/qcu-challenge-aband', 'pix-live/mirage/data/challenges/qcu-challenge-with-image', 'pix-live/mirage/data/challenges/qcu-challenge-with-attachment', 'pix-live/mirage/data/challenges/qcu-challenge-with-links-in-instruction', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _lodashLodash, _pixLiveMirageDataChallengesQcuChallengeAband, _pixLiveMirageDataChallengesQcuChallengeWithImage, _pixLiveMirageDataChallengesQcuChallengeWithAttachment, _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
   exports['default'] = function (schema, request) {
 
-    switch (request.params.id) {
+    var allChallenges = [_pixLiveMirageDataChallengesQcuChallengeAband['default'], _pixLiveMirageDataChallengesQcuChallengeWithImage['default'], _pixLiveMirageDataChallengesQcuChallengeWithAttachment['default'], _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction['default'], _pixLiveMirageDataChallengesQcuChallenge['default'], _pixLiveMirageDataChallengesQcmChallenge['default'], _pixLiveMirageDataChallengesQrocmChallenge['default']];
 
-      case _pixLiveMirageDataChallengesQcmChallenge['default'].data.id:
-        return _pixLiveMirageDataChallengesQcmChallenge['default'];
-      case _pixLiveMirageDataChallengesQcuChallenge['default'].data.id:
-        return _pixLiveMirageDataChallengesQcuChallenge['default'];
-      case _pixLiveMirageDataChallengesQrocmChallenge['default'].data.id:
-        return _pixLiveMirageDataChallengesQrocmChallenge['default'];
-      case _pixLiveMirageDataChallengesQcuChallengeWithImage['default'].data.id:
-        return _pixLiveMirageDataChallengesQcuChallengeWithImage['default'];
-      case _pixLiveMirageDataChallengesQcuChallengeWithAttachment['default'].data.id:
-        return _pixLiveMirageDataChallengesQcuChallengeWithAttachment['default'];
-      case _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction['default'].data.id:
-        return _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction['default'];
-      default:
-        return _pixLiveMirageDataChallengesQcuChallenge['default'];
+    var challenges = _lodashLodash['default'].map(allChallenges, function (oneChallenge) {
+      return { id: oneChallenge.data.id, obj: oneChallenge };
+    });
+
+    var challenge = _lodashLodash['default'].find(challenges, { id: request.params.id });
+
+    if (challenge) {
+      return challenge.obj;
+    } else {
+      throw new Error('The challenge you required in the fake server does not exist ' + request.params.id);
     }
   };
 });
@@ -1760,6 +1766,9 @@ define('pix-live/models/answer', ['exports', 'ember-data'], function (exports, _
 
     isResultOk: computed('result', function () {
       return this.get('result') === 'ok';
+    }),
+    isResultWithoutAnswer: computed('result', function () {
+      return this.get('result') === 'aband';
     }),
     isResultNotOk: computed('result', function () {
       return this.get('result') === 'ko';
@@ -7740,6 +7749,124 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
           };
         })();
         var child1 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.3",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 34,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 9
+                  }
+                },
+                "moduleName": "pix-live/templates/components/get-result.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("         ");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createElement("div");
+                dom.setAttribute(el1, "data-toggle", "tooltip");
+                dom.setAttribute(el1, "data-placement", "top");
+                dom.setAttribute(el1, "title", "Sans réponse");
+                var el2 = dom.createTextNode("\n          ");
+                dom.appendChild(el1, el2);
+                dom.setNamespace("http://www.w3.org/2000/svg");
+                var el2 = dom.createElement("svg");
+                dom.setAttribute(el2, "xmlns", "http://www.w3.org/2000/svg");
+                dom.setAttribute(el2, "xmlns:xlink", "http://www.w3.org/1999/xlink");
+                dom.setAttribute(el2, "version", "1.1");
+                dom.setAttribute(el2, "width", "24");
+                dom.setAttribute(el2, "height", "24");
+                dom.setAttribute(el2, "viewBox", "0 0 24 24");
+                var el3 = dom.createElement("path");
+                dom.setAttribute(el3, "d", "M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M8,8L13,12L8,16M14,8H16V16H14");
+                dom.setAttribute(el3, "fill", "#3e4149");
+                dom.appendChild(el2, el3);
+                dom.appendChild(el1, el2);
+                var el2 = dom.createTextNode("\n         ");
+                dom.appendChild(el1, el2);
+                dom.appendChild(el0, el1);
+                var el1 = dom.createTextNode("\n\n");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes() {
+                return [];
+              },
+              statements: [],
+              locals: [],
+              templates: []
+            };
+          })();
+          var child1 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.3",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 39,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 43,
+                    "column": 9
+                  }
+                },
+                "moduleName": "pix-live/templates/components/get-result.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("         ");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createElement("div");
+                dom.setAttribute(el1, "data-toggle", "tooltip");
+                dom.setAttribute(el1, "data-placement", "top");
+                dom.setAttribute(el1, "title", "Vérification en cours");
+                var el2 = dom.createTextNode("\n          ");
+                dom.appendChild(el1, el2);
+                dom.setNamespace("http://www.w3.org/2000/svg");
+                var el2 = dom.createElement("svg");
+                dom.setAttribute(el2, "xmlns", "http://www.w3.org/2000/svg");
+                dom.setAttribute(el2, "xmlns:xlink", "http://www.w3.org/1999/xlink");
+                dom.setAttribute(el2, "version", "1.1");
+                dom.setAttribute(el2, "width", "24");
+                dom.setAttribute(el2, "height", "24");
+                dom.setAttribute(el2, "viewBox", "0 0 24 24");
+                var el3 = dom.createElement("path");
+                dom.setAttribute(el3, "d", "M20,2V4H18V8.41L14.41,12L18,15.59V20H20V22H4V20H6V15.59L9.59,12L6,8.41V4H4V2H20M16,16.41L13,13.41V10.59L16,7.59V4H8V7.59L11,10.59V13.41L8,16.41V17H10L12,15L14,17H16V16.41M12,9L10,7H14L12,9Z");
+                dom.setAttribute(el3, "fill", "#446eff");
+                dom.appendChild(el2, el3);
+                dom.appendChild(el1, el2);
+                var el2 = dom.createTextNode("\n         ");
+                dom.appendChild(el1, el2);
+                dom.appendChild(el0, el1);
+                var el1 = dom.createTextNode("\n         ");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes() {
+                return [];
+              },
+              statements: [],
+              locals: [],
+              templates: []
+            };
+          })();
           return {
             meta: {
               "revision": "Ember@2.8.3",
@@ -7750,7 +7877,7 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
                   "column": 9
                 },
                 "end": {
-                  "line": 38,
+                  "line": 43,
                   "column": 9
                 }
               },
@@ -7762,40 +7889,20 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
             hasRendered: false,
             buildFragment: function buildFragment(dom) {
               var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("         ");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createElement("div");
-              dom.setAttribute(el1, "data-toggle", "tooltip");
-              dom.setAttribute(el1, "data-placement", "top");
-              dom.setAttribute(el1, "title", "Vérification en cours");
-              var el2 = dom.createTextNode("\n          ");
-              dom.appendChild(el1, el2);
-              dom.setNamespace("http://www.w3.org/2000/svg");
-              var el2 = dom.createElement("svg");
-              dom.setAttribute(el2, "xmlns", "http://www.w3.org/2000/svg");
-              dom.setAttribute(el2, "xmlns:xlink", "http://www.w3.org/1999/xlink");
-              dom.setAttribute(el2, "version", "1.1");
-              dom.setAttribute(el2, "width", "24");
-              dom.setAttribute(el2, "height", "24");
-              dom.setAttribute(el2, "viewBox", "0 0 24 24");
-              var el3 = dom.createElement("path");
-              dom.setAttribute(el3, "d", "M20,2V4H18V8.41L14.41,12L18,15.59V20H20V22H4V20H6V15.59L9.59,12L6,8.41V4H4V2H20M16,16.41L13,13.41V10.59L16,7.59V4H8V7.59L11,10.59V13.41L8,16.41V17H10L12,15L14,17H16V16.41M12,9L10,7H14L12,9Z");
-              dom.setAttribute(el3, "fill", "#446eff");
-              dom.appendChild(el2, el3);
-              dom.appendChild(el1, el2);
-              var el2 = dom.createTextNode("\n         ");
-              dom.appendChild(el1, el2);
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n         ");
+              var el1 = dom.createComment("");
               dom.appendChild(el0, el1);
               return el0;
             },
-            buildRenderNodes: function buildRenderNodes() {
-              return [];
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
             },
-            statements: [],
+            statements: [["block", "if", [["get", "answer.isResultWithoutAnswer", ["loc", [null, [34, 19], [34, 47]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [34, 9], [43, 9]]]]],
             locals: [],
-            templates: []
+            templates: [child0, child1]
           };
         })();
         return {
@@ -7808,7 +7915,7 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
                 "column": 9
               },
               "end": {
-                "line": 38,
+                "line": 43,
                 "column": 9
               }
             },
@@ -7831,7 +7938,7 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "if", [["get", "answer.isResultNotOk", ["loc", [null, [29, 19], [29, 39]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [29, 9], [38, 9]]]]],
+          statements: [["block", "if", [["get", "answer.isResultNotOk", ["loc", [null, [29, 19], [29, 39]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [29, 9], [43, 9]]]]],
           locals: [],
           templates: [child0, child1]
         };
@@ -7846,7 +7953,7 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
               "column": 6
             },
             "end": {
-              "line": 43,
+              "line": 48,
               "column": 4
             }
           },
@@ -7917,7 +8024,7 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
           morphs[2] = dom.createMorphAt(dom.childAt(element0, [7]), 1, 1);
           return morphs;
         },
-        statements: [["inline", "add", [["get", "index", ["loc", [null, [15, 16], [15, 21]]], 0, 0, 0, 0], 1], [], ["loc", [null, [15, 10], [15, 25]]], 0, 0], ["inline", "strip-instruction", [["subexpr", "convert-to-html", [["get", "answer.challenge.instruction", ["loc", [null, [20, 47], [20, 75]]], 0, 0, 0, 0]], [], ["loc", [null, [20, 30], [20, 76]]], 0, 0]], [], ["loc", [null, [20, 10], [20, 78]]], 0, 0], ["block", "if", [["get", "answer.isResultOk", ["loc", [null, [24, 15], [24, 32]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [24, 9], [38, 16]]]]],
+        statements: [["inline", "add", [["get", "index", ["loc", [null, [15, 16], [15, 21]]], 0, 0, 0, 0], 1], [], ["loc", [null, [15, 10], [15, 25]]], 0, 0], ["inline", "strip-instruction", [["subexpr", "convert-to-html", [["get", "answer.challenge.instruction", ["loc", [null, [20, 47], [20, 75]]], 0, 0, 0, 0]], [], ["loc", [null, [20, 30], [20, 76]]], 0, 0]], [], ["loc", [null, [20, 10], [20, 78]]], 0, 0], ["block", "if", [["get", "answer.isResultOk", ["loc", [null, [24, 15], [24, 32]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [24, 9], [43, 16]]]]],
         locals: ["answer", "index"],
         templates: [child0, child1]
       };
@@ -7929,11 +8036,11 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
           "loc": {
             "source": null,
             "start": {
-              "line": 47,
+              "line": 52,
               "column": 4
             },
             "end": {
-              "line": 49,
+              "line": 54,
               "column": 4
             }
           },
@@ -7974,7 +8081,7 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 56,
+            "line": 61,
             "column": 0
           }
         },
@@ -8045,7 +8152,7 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
         morphs[2] = dom.createMorphAt(dom.childAt(element2, [5]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "course-banner", [], ["course", ["subexpr", "@mut", [["get", "model.assessment.course", ["loc", [null, [3, 25], [3, 48]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 2], [3, 50]]], 0, 0], ["block", "each", [["get", "model.assessment.answers", ["loc", [null, [12, 14], [12, 38]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [12, 6], [43, 13]]]], ["block", "link-to", ["home"], ["class", "assessment-results-link-home", "tagName", "button"], 1, null, ["loc", [null, [47, 4], [49, 16]]]]],
+      statements: [["inline", "course-banner", [], ["course", ["subexpr", "@mut", [["get", "model.assessment.course", ["loc", [null, [3, 25], [3, 48]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 2], [3, 50]]], 0, 0], ["block", "each", [["get", "model.assessment.answers", ["loc", [null, [12, 14], [12, 38]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [12, 6], [48, 13]]]], ["block", "link-to", ["home"], ["class", "assessment-results-link-home", "tagName", "button"], 1, null, ["loc", [null, [52, 4], [54, 16]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -9230,16 +9337,6 @@ define('pix-live/tests/mirage/mirage/config.lint-test', ['exports'], function (e
     });
   });
 });
-define('pix-live/tests/mirage/mirage/data/answers/qcm-answer-aband.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/qcm-answer-aband.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/qcm-answer-aband.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/mirage/mirage/data/answers/qcm-answer-ko.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/answers/qcm-answer-ko.js', function () {
     it('should pass ESLint', function () {
@@ -9265,6 +9362,16 @@ define('pix-live/tests/mirage/mirage/data/answers/qcm-answer.lint-test', ['expor
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('mirage/data/answers/qcm-answer.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/answers/qcu-answer-aband.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/answers/qcu-answer-aband.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/answers/qcu-answer-aband.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -9365,6 +9472,16 @@ define('pix-live/tests/mirage/mirage/data/challenges/qcm-challenge.lint-test', [
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('mirage/data/challenges/qcm-challenge.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge-aband.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/challenges/qcu-challenge-aband.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/challenges/qcu-challenge-aband.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -9556,7 +9673,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+e39ef874"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+1e83e77b"});
 }
 
 /* jshint ignore:end */

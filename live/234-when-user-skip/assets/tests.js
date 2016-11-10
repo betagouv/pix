@@ -556,7 +556,7 @@ define('pix-live/tests/acceptance/25-image-sous-la-consigne-test', ['exports', '
     (0, _mocha.describe)("Quand l'épreuve ne contient pas d'illustration en consigne", function () {
 
       (0, _mocha.before)(function () {
-        return visit('/challenges/qcu_challenge_without_image_id/preview');
+        return visit('/challenges/qcu_challenge_id/preview');
       });
 
       (0, _mocha.it)("25.3 La section d'illustration est cachée", function () {
@@ -607,7 +607,7 @@ define('pix-live/tests/acceptance/259-afficher-logo-beta-test', ['exports', 'moc
     });
 
     (0, _mocha.it)('Le logo est présent sur la page d\'une épreuve', function () {
-      visit('/assessments/new_assessment_id/challenges/qcu_challenge');
+      visit('/assessments/new_assessment_id/challenges/qcu_challenge_id');
       andThen(function () {
         findWithAssert('.beta-logo');
       });
@@ -667,7 +667,7 @@ define('pix-live/tests/acceptance/27-telecharger-une-piece-jointe-test', ['expor
     (0, _mocha.describe)("Quand l'épreuve ne contient pas de pièce jointe en consigne", function () {
 
       (0, _mocha.before)(function () {
-        return visit('/challenges/qcu_challenge_without_attachment_id/preview');
+        return visit('/challenges/qcu_challenge_id/preview');
       });
 
       (0, _mocha.it)("27.4 La section de téléchargement des pièces jointes est cachée", function () {
@@ -756,11 +756,11 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'm
       var challengeId = undefined;
 
       (0, _mocha.before)(function () {
-        return visit('/challenges/challenge_qcu_id/preview');
+        return visit('/challenges/qcu_challenge_id/preview');
       });
 
       (0, _mocha.it)('32.1. Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
-        (0, _chai.expect)(currentURL()).to.equal('/challenges/challenge_qcu_id/preview');
+        (0, _chai.expect)(currentURL()).to.equal('/challenges/qcu_challenge_id/preview');
         (0, _chai.expect)(findWithAssert('#challenge-preview'));
       });
 
@@ -791,7 +791,7 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test.lint-test', ['ex
     });
   });
 });
-define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/37-previsualiser-un-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 37 - Prévisualiser un test |', function () {
 
@@ -872,7 +872,7 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
       });
     });
 
-    (0, _mocha.describe)("Prévisualiser la dernière épreuve dans le cadre d'un test |", function () {
+    _mocha.describe.skip("Prévisualiser la dernière épreuve dans le cadre d'un test |", function () {
 
       (0, _mocha.before)(function () {
         visit('/courses/simple_course_id/preview/challenges/' + lastChallengeId);
@@ -884,13 +884,13 @@ define('pix-live/tests/acceptance/37-prévisualiser-un-test', ['exports', 'mocha
     });
   });
 });
-define('pix-live/tests/acceptance/37-prévisualiser-un-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/37-previsualiser-un-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - acceptance/37-prévisualiser-un-test.js', function () {
+  describe('ESLint - acceptance/37-previsualiser-un-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/37-prévisualiser-un-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('acceptance/37-previsualiser-un-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1031,7 +1031,7 @@ define('pix-live/tests/acceptance/4-demarrer-une-epreuve-qcu-test', ['exports', 
     });
 
     (0, _mocha.before)(function () {
-      return visit('/assessments/an_assessment_id/challenges/challenge_qcu_id');
+      return visit('/assessments/an_assessment_id/challenges/qcu_challenge_id');
     });
 
     (0, _mocha.describe)('Les informations visibles pour une épreuve de type QCU sont :', function () {
