@@ -4,48 +4,17 @@
 
 .app-header-container {
   height: 120px;
+  position: relative;
 }
 
-/* The ribbons */
-
-.corner-ribbon{
-  width: 200px;
-  background: #e43;
+.app-header-container-marianne {
   position: absolute;
-  top: 25px;
-  left: -50px;
-  text-align: center;
-  line-height: 50px;
-  letter-spacing: 1px;
-  color: #f0f0f0;
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
+  height: 100%;
+  width: 100%; 
 }
 
-/* Custom styles */
-
-.corner-ribbon.sticky{
-  position: fixed;
+.app-header-container-logo {
+  position: absolute;
+  height: 100%;
+  width: 100%; 
 }
-
-/* Different positions */
-
-.corner-ribbon.top-left{
-  top: 25px;
-  left: -50px;
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
-}
-
-.corner-ribbon.top-right{
-  top: 25px;
-  right: -50px;
-  left: auto;
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-}
-
-
-
-/* Colors */
-.corner-ribbon.blue{background: #39d;}
