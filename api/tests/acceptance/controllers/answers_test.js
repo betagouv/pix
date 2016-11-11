@@ -1,7 +1,9 @@
 'use strict';
 
 const server = require('../../../server');
-const Answer = require('../../../lib/models/data/answer');
+const Answer = require('../../../lib/domain/models/data/answer');
+
+server.register(require('inject-then'));
 
 describe('API | Answers', function () {
 

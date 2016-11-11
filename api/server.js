@@ -1,15 +1,49 @@
 const Hapi = require('hapi');
 
 const config = require('./lib/settings');
-const plugins = require('./lib/plugins');
-const routes = require('./lib/routes');
+const logger = require('./lib/infrastructure/utils/logger');
 
-const server = new Hapi.Server();
+const server = new Hapi.Server({
+  'connections': {
+    'routes': {
+      'cors': true
+    }
+  }
+});
 
 server.connection({ port: config.port });
-server.register(plugins);
-server.register(require('./lib/controllers/challenges'));
-server.route(routes);
+
+server.register([
+
+  /* API */
+  require('./lib/application/answers'),
+  require('./lib/application/assessments'),
+  require('./lib/application/challenges'),
+  require('./lib/application/courses'),
+  require('./lib/application/users'),
+
+  /* Hapi plugins */
+  require('blipp'),
+  {
+    register: require('good'),
+    options: {
+      reporters: {
+        console: [{
+          module: 'good-squeeze',
+          name: 'Squeeze',
+          args: [{
+            response: '*',
+            log: '*'
+          }]
+        }, {
+          module: 'good-console'
+        }, 'stdout']
+      }
+    }
+  }
+], (err) => {
+  if (err) logger.error(err)
+});
 
 module.exports = server;
 

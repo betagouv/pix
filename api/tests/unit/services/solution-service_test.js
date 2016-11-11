@@ -1,6 +1,6 @@
-const service = require('../../../lib/services/solution-service');
-const Answer = require('../../../lib/models/data/answer');
-const Solution = require('../../../lib/models/referential/solution');
+const service = require('../../../lib/domain/services/solution-service');
+const Answer = require('../../../lib/domain/models/data/answer');
+const Solution = require('../../../lib/domain/models/referential/solution');
 
 describe('Service | Solution :', function () {
 
@@ -10,9 +10,9 @@ describe('Service | Solution :', function () {
     solution.type = 'QCU';
     solution.value = '2';
     const goodAnswer = new Answer({id:'good_answer_id'});
-    goodAnswer.attributes = {value:'2'}
+    goodAnswer.attributes = {value:'2'};
     const badAnswer = new Answer({id:'bad_answer_id'});
-    badAnswer.attributes = {value:'1'}
+    badAnswer.attributes = {value:'1'};
 
     before(function (done) {
       done();
@@ -35,9 +35,9 @@ describe('Service | Solution :', function () {
     solution.type = 'QROC';
     solution.value = '2';
     const goodAnswer = new Answer({id:'good_answer_id'});
-    goodAnswer.attributes = {value:'2'}
+    goodAnswer.attributes = {value:'2'};
     const badAnswer = new Answer({id:'bad_answer_id'});
-    badAnswer.attributes = {value:'1'}
+    badAnswer.attributes = {value:'1'};
 
     before(function (done) {
       done();
@@ -60,9 +60,9 @@ describe('Service | Solution :', function () {
     solution.type = 'QCM';
     solution.value = '1,2';
     const goodAnswer = new Answer({ id: 'good_answer_id' });
-    goodAnswer.attributes = { value: '2,1' }
+    goodAnswer.attributes = { value: '2,1' };
     const badAnswer = new Answer({ id: 'bad_answer_id' });
-    badAnswer.attributes = { value: '1,3' }
+    badAnswer.attributes = { value: '1,3' };
 
     it("should be 'ok' for a correct answer", function () {
       const result = service.matchUserAnswerWithActualSolution(goodAnswer, solution);
