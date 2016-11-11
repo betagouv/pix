@@ -3,13 +3,11 @@ const Answer = require('../../domain/models/data/answer');
 const answerSerializer = require('../../infrastructure/serializers/answer-serializer');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const solutionService = require('../../domain/services/solution-service');
-const logger = require('../../infrastructure/utils/logger');
+const logger = require('../../infrastructure/logger');
 
 module.exports = {
 
   save(request, reply) {
-
-    logger.info('AnswerController#save');
 
     const answer = answerSerializer.deserialize(request.payload);
 
@@ -25,8 +23,6 @@ module.exports = {
   },
 
   get(request, reply) {
-
-    logger.info('AnswerController#get');
 
     new Answer({ id: request.params.id })
       .fetch()

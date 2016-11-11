@@ -1,7 +1,7 @@
 const Hapi = require('hapi');
 
 const config = require('./lib/settings');
-const logger = require('./lib/infrastructure/utils/logger');
+const logger = require('./lib/infrastructure/logger');
 
 const server = new Hapi.Server({
   'connections': {

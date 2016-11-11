@@ -1,5 +1,6 @@
 const base = require('../airtable').base;
 const cache = require('../cache');
+const logger = require('../logger');
 const Challenge = require('../../domain/models/referential/challenge');
 
 const AIRTABLE_TABLE_NAME = 'Epreuves';
@@ -10,7 +11,9 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
 
-      cache.get('challenges', (err, cachedValue) => {
+      const cacheKey = 'challenge-repository_list';
+
+      cache.get(cacheKey, (err, cachedValue) => {
 
         if (err) return reject(err);
 
@@ -43,7 +46,9 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
 
-      cache.get(`challenge_${id}`, (err, value) => {
+      const cacheKey = `challenge-repository_get_${id}`;
+
+      cache.get(cacheKey, (err, value) => {
 
         if (err) return reject(err);
 
@@ -55,7 +60,7 @@ module.exports = {
 
           const challenge = new Challenge(record);
 
-          cache.set(`challenge_${id}`, challenge);
+          cache.set(cacheKey, challenge);
 
           return resolve(challenge);
         });

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const server = require('../server');
-const logger = require('../lib/infrastructure/utils/logger');
+const logger = require('../lib/infrastructure/logger');
 
 server.start((err) => {
   if (err) throw err;

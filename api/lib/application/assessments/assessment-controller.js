@@ -5,13 +5,10 @@ const assessmentRepository = require('../../infrastructure/repositories/assessme
 const assessmentService = require('../../domain/services/assessment-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/challenge-serializer');
-const logger = require('../../infrastructure/utils/logger');
 
 module.exports = {
 
   save(request, reply) {
-
-    logger.info('AssessmentController#save');
 
     const assessment = assessmentSerializer.deserialize(request.payload);
 
@@ -21,8 +18,6 @@ module.exports = {
   },
 
   get(request, reply) {
-
-    logger.info('AssessmentController#get');
 
     new Assessment({ id: request.params.id })
       .fetch({ withRelated: ['answers'] })
@@ -34,8 +29,6 @@ module.exports = {
   },
 
   getNextChallenge(request, reply) {
-
-    logger.info('AssessmentController#getNextChallenge');
 
     assessmentRepository
       .get(request.params.id)

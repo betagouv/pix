@@ -1,12 +1,9 @@
 const Boom = require('boom');
 const User = require('../../domain/models/data/user');
-const logger = require('../../infrastructure/utils/logger');
 
 module.exports = {
 
   list(request, reply) {
-
-    logger.info('UserController#list');
 
     User
       .fetchAll()
@@ -16,8 +13,6 @@ module.exports = {
 
   get(request, reply) {
 
-    logger.info('UserController#get');
-
     new User({ id: request.params.id })
       .fetch()
       .then((user) => reply(user))
@@ -25,8 +20,6 @@ module.exports = {
   },
 
   save(request, reply) {
-
-    logger.info('UserController#save');
 
     new User(request.payload)
       .save()
