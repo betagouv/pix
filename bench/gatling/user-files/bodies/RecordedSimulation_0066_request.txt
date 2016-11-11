@@ -1,1 +1,0 @@
-{"data":{"attributes":{"user-name":"Jérémy Buget","user-email":"jbuget@gmail.com"},"relationships":{"course":{"data":{"type":"courses","id":"recgCojOs6ykwak43"}}},"type":"assessments"}}
