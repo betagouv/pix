@@ -1,11 +1,9 @@
-'use strict';
-
 const server = require('../../../server');
 const Answer = require('../../../lib/domain/models/data/answer');
 
 server.register(require('inject-then'));
 
-describe('API | Answers', function () {
+describe.skip('API | Answers', function () {
 
   before(function (done) {
     knex.migrate.latest().then(() => {

@@ -1,9 +1,7 @@
-'use strict';
-
 const server = require('../../../server');
 const Assessment = require('../../../lib/domain/models/data/assessment');
 
-describe('API | Assessments', function () {
+describe.skip('API | Assessments', function () {
 
 
   before(function (done) {
