@@ -33,8 +33,9 @@ server.register([
     options: {
       info: {
         'title': 'PIX API Documentation',
-        'version': Pack.version,
-      }
+        'version': Pack.version
+      },
+      documentationPath: '/api/documentation'
     }
   },
   {
