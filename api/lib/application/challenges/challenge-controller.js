@@ -18,6 +18,14 @@ module.exports = {
       .get(request.params.id)
       .then((challenge) => reply(challengeSerializer.serialize(challenge)))
       .catch((err) => reply(Boom.badImplementation(err)));
+  },
+
+  refresh(request, reply) {
+
+    challengeRepository
+      .refresh(request.params.id)
+      .then((challenge) => reply(challengeSerializer.serialize(challenge)))
+      .catch((err) => reply(Boom.badImplementation(err)));
   }
 
 };
