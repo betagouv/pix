@@ -42,6 +42,8 @@
     "good-console": "^6.1.2",
     "good-squeeze": "^5.0.0",
     "hapi": "^15.1.1",
+    "hapi-swagger": "^7.4.0",
+    "inert": "^4.0.2",
     "inject-then": "^2.0.7",
     "knex": "^0.12.3",
     "lodash": "^4.16.4",
@@ -49,7 +51,8 @@
     "node-cache": "^4.1.0",
     "path": "^0.12.7",
     "pg": "^6.1.0",
-    "sqlite3": "^3.1.6"
+    "sqlite3": "^3.1.6",
+    "vision": "^4.1.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",

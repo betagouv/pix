@@ -4,10 +4,26 @@ exports.register = function (server, options, next) {
 
   server.route([
 
-    { method: 'POST', path: '/api/assessments', handler: AssessmentController.save },
-    { method: 'GET', path: '/api/assessments/{id}/next', handler: AssessmentController.getNextChallenge },
-    { method: 'GET', path: '/api/assessments/{id}/next/{challengeId}', handler: AssessmentController.getNextChallenge },
-    { method: 'GET', path: '/api/assessments/{id}', handler: AssessmentController.get }
+    {
+      method: 'POST',
+      path: '/api/assessments',
+      config: { handler: AssessmentController.save, tags: ['api'] }
+    },
+    {
+      method: 'GET',
+      path: '/api/assessments/{id}/next',
+      config: { handler: AssessmentController.getNextChallenge, tags: ['api'] }
+    },
+    {
+      method: 'GET',
+      path: '/api/assessments/{id}/next/{challengeId}',
+      config: { handler: AssessmentController.getNextChallenge, tags: ['api'] }
+    },
+    {
+      method: 'GET',
+      path: '/api/assessments/{id}',
+      config: { handler: AssessmentController.get, tags: ['api'] }
+    }
   ]);
 
   return next();

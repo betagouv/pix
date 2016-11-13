@@ -3,8 +3,16 @@ const CourseController = require('./course-controller');
 exports.register = function (server, options, next) {
 
   server.route([
-    { method: 'GET', path: '/api/courses', handler: CourseController.list },
-    { method: 'GET', path: '/api/courses/{id}', handler: CourseController.get }
+    {
+      method: 'GET',
+      path: '/api/courses',
+      config: { handler: CourseController.list, tags: ['api'] }
+    },
+    {
+      method: 'GET',
+      path: '/api/courses/{id}',
+      config: { handler: CourseController.get, tags: ['api'] }
+    }
   ]);
 
   return next();

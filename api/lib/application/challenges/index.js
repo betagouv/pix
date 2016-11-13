@@ -3,8 +3,16 @@ const ChallengeController = require('./challenge-controller');
 exports.register = function (server, options, next) {
 
   server.route([
-    { method: 'GET', path: '/api/challenges', handler: ChallengeController.list },
-    { method: 'GET', path: '/api/challenges/{id}', handler: ChallengeController.get }
+    {
+      method: 'GET',
+      path: '/api/challenges',
+      config: { handler: ChallengeController.list, tags: ['api'] }
+    },
+    {
+      method: 'GET',
+      path: '/api/challenges/{id}',
+      config: { handler: ChallengeController.get, tags: ['api'] }
+    }
   ]);
 
   return next();

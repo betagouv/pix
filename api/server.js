@@ -1,4 +1,6 @@
 const Hapi = require('hapi');
+const HapiSwagger = require('hapi-swagger');
+const Pack = require('./package');
 
 const config = require('./lib/settings');
 const logger = require('./lib/infrastructure/logger');
@@ -23,7 +25,18 @@ server.register([
   require('./lib/application/users'),
 
   /* Hapi plugins */
+  require('inert'),
+  require('vision'),
   require('blipp'),
+  {
+    register: HapiSwagger,
+    options: {
+      info: {
+        'title': 'PIX API Documentation',
+        'version': Pack.version,
+      }
+    }
+  },
   {
     register: require('good'),
     options: {
