@@ -200,6 +200,10 @@
   text-align: center;
   color: #3d68ff;
   outline: none;
+  
+  position: relative;
+  left: -70px;
+  top: -3px;
 }
 
 
