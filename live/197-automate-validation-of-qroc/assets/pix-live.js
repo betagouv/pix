@@ -310,7 +310,7 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
     }
   }
 
-  function getFirstValueOfDict(answers) {
+  function getFirstValueOfDictionary(answers) {
     return _lodashLodash['default'].pairs(answers)[0][1];
   }
 
@@ -424,7 +424,7 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
         case 'QROC':
           {
             var answers = this.get('answers');
-            return getFirstValueOfDict(answers);
+            return getFirstValueOfDictionary(answers);
           }
         case 'QROCM':
           {
@@ -1286,7 +1286,7 @@ define('pix-live/mirage/data/answers/qroc-answer-ko', ['exports', 'pix-live/mira
       type: 'answers',
       id: 'answer_qroc_ko_id',
       attributes: {
-        value: 'hokuto no ken', // Erreur d'accent volontaire
+        value: 'hokuto no ken',
         result: 'ko'
       },
       relationships: {
@@ -1326,7 +1326,7 @@ define('pix-live/mirage/data/answers/qroc-answer', ['exports', 'pix-live/mirage/
       type: 'answers',
       id: 'answer_qroc_id',
       attributes: {
-        value: 'la couteaudérie', // Erreur d'accent volontaire
+        value: 'rue de la couteauderie',
         result: 'pending'
       },
       relationships: {
@@ -9529,7 +9529,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+593694c6"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+1367b560"});
 }
 
 /* jshint ignore:end */
