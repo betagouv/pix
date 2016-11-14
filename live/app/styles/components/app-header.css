@@ -27,3 +27,7 @@
   align-items: center;
   justify-content: center;
 }
+
+.app-header-logo {
+  margin-top: 12px;
+}
