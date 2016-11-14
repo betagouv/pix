@@ -5,17 +5,20 @@ describe('Serializer | CourseSerializer', function () {
 
   describe('#serialize()', function () {
 
-    it('should convert a Course model object into JSON API data', function () {
+    it('should convert a Course model object into JSON API data (with challenges order inverted)', function () {
       const record = {
         "id": 'course_id',
         "fields": {
           "Nom": 'Name of the course',
           "Description": 'Description of the course',
           "Durée": 10,
+          "Adaptatif ?": false,
           "Épreuves": [
-            "challenge_qcu_id",
-            "challenge_qcm_id",
-            "challenge_qrocm_id"
+            "challenge_5",
+            "challenge_4",
+            "challenge_3",
+            "challenge_2",
+            "challenge_1"
           ],
           "Image": [{
             "url": "http://image.url",
@@ -34,6 +37,7 @@ describe('Serializer | CourseSerializer', function () {
           "id": course.id,
           "attributes": {
             "name": course.name,
+            "isAdaptive": course.isAdaptive,
             "description": course.description,
             "duration": course.duration,
             "image-url": "http://image.url"
@@ -41,9 +45,11 @@ describe('Serializer | CourseSerializer', function () {
           "relationships": {
             "challenges": {
               "data": [
-                { "type": "challenges", "id": "challenge_qcu_id" },
-                { "type": "challenges", "id": "challenge_qcm_id" },
-                { "type": "challenges", "id": "challenge_qrocm_id" }
+                { "type": "challenges", "id": "challenge_1" },
+                { "type": "challenges", "id": "challenge_2" },
+                { "type": "challenges", "id": "challenge_3" },
+                { "type": "challenges", "id": "challenge_4" },
+                { "type": "challenges", "id": "challenge_5" }
               ]
             }
           }

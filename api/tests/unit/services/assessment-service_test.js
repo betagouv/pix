@@ -1,5 +1,6 @@
 const service = require('../../../lib/domain/services/assessment-service');
 const Assessment = require('../../../lib/domain/models/data/assessment');
+const Answer = require('../../../lib/domain/models/data/answer');
 const Course = require('../../../lib/domain/models/referential/course');
 const courseRepository = require('../../../lib/infrastructure/repositories/course-repository');
 
@@ -9,9 +10,17 @@ describe('Service | Assessments', function () {
 
     const assessment = new Assessment({ courseId: "c_id" });
     const course = new Course();
+    const answer = new Answer({
+      id: 'answer_id',
+      value: 'answer_value',
+      result: 'result_value',
+      assessmentId: assessment.get('id'),
+      challengeId: 'challenge_id'
+    });
 
     before(function (done) {
       course.id = 'course_id';
+      course.isAdaptive = true;
       course.challenges = ['ch1', 'ch2', 'ch3'];
       sinon.stub(courseRepository, 'get').resolves(course);
       done();
