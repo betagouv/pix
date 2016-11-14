@@ -1,57 +1,29 @@
-#app-header {
-
-  & .navbar {
-    background-color: #fff;
-    border: none;
-    min-height: 80px;
-    margin-top: 0;
-    overflow: visible;
-    z-index: 4;
-    margin-bottom: 0;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  }
-
-  & .navbar-brand {
-    padding: 5px 10px;
-    line-height: 80px;
-
-    & > img {
-      max-height: 80px;
-      padding-bottom: 8px;
-      padding-top: 2px;
-    }
-  }
-
-  & .navbar-form {
-    margin-top: 23px;
-  }
-
-  & .navbar-nav > li > a {
-    padding-top: 30px;
-    padding-bottom: 30px;
-  }
-
-  & a {
-    font-smoothing: antialiased;
-    font-weight: 700;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: .025em;
-    display: inline-block;
-    padding: 22px 20px 18px;
-    color: #3E4149;
-    text-decoration: none;
-    background-color: #fff;
-    width: 100%;
-
-    &:hover,
-    &:focus {
-       color: var(--pix-blue);
-    }
-
-    &:active {
-       color: var(--pix-yellow);
-    }
-  }
+.app-header {
+  background-color: white;
 }
 
+.app-header-container {
+  height: 120px;
+  position: relative;
+}
+
+.app-header-container-marianne {
+  position: absolute;
+  height: 100%;
+  width: 100%; 
+  display: flex;
+  align-items: center;
+}
+
+.app-header-marianne {
+  margin-left: 130px;
+}
+
+.app-header-container-logo {
+  position: absolute;
+  height: 100%;
+  width: 100%; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
