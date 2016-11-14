@@ -12,6 +12,7 @@
   letter-spacing: 1px;
   color: #f0f0f0;
   transform: rotate(-45deg);
+  z-index: 999;
 
 }
 
