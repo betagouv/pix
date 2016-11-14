@@ -1833,6 +1833,18 @@ define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'npm:urljs
  */
 
 /* global $, Date */
+define('pix-live/tests/helpers/eq.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - helpers/eq.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('helpers/eq.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-live/config/environment'], function (exports, _pixLiveResolver, _pixLiveConfigEnvironment) {
 
   var resolver = _pixLiveResolver['default'].create();
@@ -1905,6 +1917,18 @@ define('pix-live/tests/initializers/enable-sentry.lint-test', ['exports'], funct
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('initializers/enable-sentry.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/initializers/router.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - initializers/router.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('initializers/router.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
