@@ -36,6 +36,13 @@ define('pix-live/components/app-header', ['exports', 'ember'], function (exports
     session: _ember['default'].inject.service()
   });
 });
+define('pix-live/components/beta-logo', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({
+
+    tagName: 'div',
+    classNames: ['beta-logo']
+  });
+});
 define('pix-live/components/bs-accordion-item', ['exports', 'ember-bootstrap/components/bs-accordion-item'], function (exports, _emberBootstrapComponentsBsAccordionItem) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -487,11 +494,30 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
 
   exports['default'] = ChallengeItem;
 });
+define('pix-live/components/course-banner', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({
+
+    course: null,
+    withHomeLink: false
+
+  });
+});
 define('pix-live/components/ember-wormhole', ['exports', 'ember-wormhole/components/ember-wormhole'], function (exports, _emberWormholeComponentsEmberWormhole) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
     get: function get() {
       return _emberWormholeComponentsEmberWormhole['default'];
+    }
+  });
+});
+define('pix-live/components/get-result', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({
+
+    didRender: function didRender() {
+      this._super.apply(this, arguments);
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
     }
   });
 });
@@ -709,23 +735,15 @@ define('pix-live/helpers/ceil', ['exports', 'ember-math-helpers/helpers/ceil'], 
     }
   });
 });
-define('pix-live/helpers/convert-to-html', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/helpers/convert-to-html', ['exports', 'ember', 'lodash/lodash'], function (exports, _ember, _lodashLodash) {
   exports.convertToHtml = convertToHtml;
 
   function convertToHtml(params) {
-    var rules = SimpleMarkdown.defaultRules; // for example
-
-    var parser = SimpleMarkdown.parserFor(rules);
-    var htmlOutput = SimpleMarkdown.reactFor(SimpleMarkdown.ruleOutput(rules, 'html'));
-
-    var blockParseAndOutput = function blockParseAndOutput(source) {
-      var blockSource = source + "\n\n";
-      var parseTree = parser(blockSource, { inline: false });
-      var outputResult = htmlOutput(parseTree);
-      return outputResult;
-    };
-
-    return blockParseAndOutput(params);
+    if (_lodashLodash['default'].isArray(params) && params.length > 0) {
+      var converter = new showdown.Converter();
+      return converter.makeHtml(params[0]);
+    }
+    return '';
   }
 
   exports['default'] = _ember['default'].Helper.helper(convertToHtml);
@@ -880,7 +898,7 @@ define('pix-live/helpers/strip-instruction', ['exports', 'ember'], function (exp
   exports.stripInstruction = stripInstruction;
 
   function stripInstruction(params) {
-    var result = $(params[0][0]).text();
+    var result = $(params[0]).text();
     result = result.substr(0, 70);
     result += '...';
     return result;
@@ -1240,6 +1258,26 @@ define('pix-live/mirage/data/answers/qcm-answer', ['exports', 'pix-live/mirage/d
     }
   };
 });
+define('pix-live/mirage/data/answers/qcu-answer-aband', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge-aband'], function (exports, _pixLiveMirageDataChallengesQcuChallengeAband) {
+  exports['default'] = {
+    data: {
+      type: 'answers',
+      id: 'answer_qcu_aband_id',
+      attributes: {
+        value: '',
+        result: 'aband'
+      },
+      relationships: {
+        challenge: {
+          data: {
+            type: 'challenges',
+            id: _pixLiveMirageDataChallengesQcuChallengeAband['default'].data.id
+          }
+        }
+      }
+    }
+  };
+});
 define('pix-live/mirage/data/answers/qcu-answer-with-image', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge-with-image'], function (exports, _pixLiveMirageDataChallengesQcuChallengeWithImage) {
   exports['default'] = {
     data: {
@@ -1420,7 +1458,7 @@ define('pix-live/mirage/data/assessments/completed-assessment-qroc', ['exports',
     }
   };
 });
-define('pix-live/mirage/data/assessments/completed-assessment', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qcu-answer-with-image', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qroc-answer', 'pix-live/mirage/data/answers/qrocm-answer'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQcuAnswerWithImage, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQrocAnswer, _pixLiveMirageDataAnswersQrocmAnswer) {
+define('pix-live/mirage/data/assessments/completed-assessment', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qcu-answer-with-image', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qcu-answer-aband', 'pix-live/mirage/data/answers/qroc-answer', 'pix-live/mirage/data/answers/qrocm-answer'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQcuAnswerWithImage, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQcuAnswerAband, _pixLiveMirageDataAnswersQrocAnswer, _pixLiveMirageDataAnswersQrocmAnswer) {
   exports['default'] = {
     data: {
       type: 'assessments',
@@ -1450,6 +1488,9 @@ define('pix-live/mirage/data/assessments/completed-assessment', ['exports', 'pix
           }, {
             type: 'answers',
             id: _pixLiveMirageDataAnswersQrocAnswer['default'].data.id
+          }, {
+            type: 'answers',
+            id: _pixLiveMirageDataAnswersQcuAnswerAband['default'].data.id
           }, {
             type: 'answers',
             id: _pixLiveMirageDataAnswersQrocmAnswer['default'].data.id
@@ -1558,6 +1599,19 @@ define('pix-live/mirage/data/challenges/qcm-challenge', ['exports'], function (e
         type: 'QCM',
         instruction: "Que peut-on dire des œufs de catégorie A ?",
         proposals: "- Ils sont bio.\n - Ils pèsent plus de 63 grammes.\n - Ce sont des oeufs frais.\n - Ils sont destinés aux consommateurs.\n - Ils ne sont pas lavés."
+      }
+    }
+  };
+});
+define('pix-live/mirage/data/challenges/qcu-challenge-aband', ['exports'], function (exports) {
+  exports['default'] = {
+    data: {
+      type: 'challenges',
+      id: 'qcu_challenge_aband_id',
+      attributes: {
+        type: 'QCU',
+        instruction: "Cette question sera considérée comme abandonnée",
+        proposals: "" + "- D’accord\n " + "- Pas d’accord (mais c'est pareil)\n "
       }
     }
   };
@@ -1701,27 +1755,21 @@ define('pix-live/mirage/data/courses/simple-course', ['exports', 'pix-live/mirag
     }
   };
 });
-define('pix-live/mirage/routes/get-answer', ['exports', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qcu-answer-with-image', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qcm-answer-ko', 'pix-live/mirage/data/answers/qcm-answer-ok', 'pix-live/mirage/data/answers/qroc-answer', 'pix-live/mirage/data/answers/qroc-answer-ko', 'pix-live/mirage/data/answers/qroc-answer-ok', 'pix-live/mirage/data/answers/qrocm-answer'], function (exports, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQcuAnswerWithImage, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQcmAnswerKo, _pixLiveMirageDataAnswersQcmAnswerOk, _pixLiveMirageDataAnswersQrocAnswer, _pixLiveMirageDataAnswersQrocAnswerKo, _pixLiveMirageDataAnswersQrocAnswerOk, _pixLiveMirageDataAnswersQrocmAnswer) {
+define('pix-live/mirage/routes/get-answer', ['exports', 'lodash/lodash', 'pix-live/mirage/data/answers/qcu-answer-aband', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qcu-answer-with-image', 'pix-live/mirage/data/answers/qrocm-answer', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qcm-answer-ko', 'pix-live/mirage/data/answers/qcm-answer-ok', 'pix-live/mirage/data/answers/qroc-answer-ko', 'pix-live/mirage/data/answers/qroc-answer', 'pix-live/mirage/data/answers/qroc-answer-ok'], function (exports, _lodashLodash, _pixLiveMirageDataAnswersQcuAnswerAband, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQcuAnswerWithImage, _pixLiveMirageDataAnswersQrocmAnswer, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQcmAnswerKo, _pixLiveMirageDataAnswersQcmAnswerOk, _pixLiveMirageDataAnswersQrocAnswerKo, _pixLiveMirageDataAnswersQrocAnswer, _pixLiveMirageDataAnswersQrocAnswerOk) {
   exports['default'] = function (schema, request) {
 
-    var answers = {
-      'answer_qcm_id': _pixLiveMirageDataAnswersQcmAnswer['default'],
-      'answer_qcu_with_image_id': _pixLiveMirageDataAnswersQcuAnswerWithImage['default'],
-      'answer_qcu_id': _pixLiveMirageDataAnswersQcuAnswer['default'],
-      'answer_qroc_id': _pixLiveMirageDataAnswersQrocAnswer['default'],
-      'answer_qroc_ok_id': _pixLiveMirageDataAnswersQrocAnswerOk['default'],
-      'answer_qroc_ko_id': _pixLiveMirageDataAnswersQrocAnswerKo['default'],
-      'answer_qrocm_id': _pixLiveMirageDataAnswersQrocmAnswer['default'],
-      'answer_qcm_ko_id': _pixLiveMirageDataAnswersQcmAnswerKo['default'],
-      'answer_qcm_ok_id': _pixLiveMirageDataAnswersQcmAnswerOk['default']
-    };
+    var allAnswers = [_pixLiveMirageDataAnswersQcuAnswer['default'], _pixLiveMirageDataAnswersQcuAnswerWithImage['default'], _pixLiveMirageDataAnswersQcmAnswer['default'], _pixLiveMirageDataAnswersQrocmAnswer['default'], _pixLiveMirageDataAnswersQcmAnswerKo['default'], _pixLiveMirageDataAnswersQcmAnswerOk['default'], _pixLiveMirageDataAnswersQcuAnswerAband['default'], _pixLiveMirageDataAnswersQrocAnswerKo['default'], _pixLiveMirageDataAnswersQrocAnswer['default'], _pixLiveMirageDataAnswersQrocAnswerOk['default']];
 
-    var answer = answers[request.params.id];
+    var answers = _lodashLodash['default'].map(allAnswers, function (oneAnswer) {
+      return { id: oneAnswer.data.id, obj: oneAnswer };
+    });
+
+    var answer = _lodashLodash['default'].find(answers, { id: request.params.id });
 
     if (answer) {
-      return answer;
+      return answer.obj;
     } else {
-      throw new Error('The answer you required in the fake server does not exist');
+      throw new Error('The answer you required in the fake server does not exist ' + request.params.id);
     }
   };
 });
@@ -1742,30 +1790,21 @@ define('pix-live/mirage/routes/get-assessment', ['exports', 'pix-live/mirage/dat
     }
   };
 });
-define('pix-live/mirage/routes/get-challenge', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge-with-image', 'pix-live/mirage/data/challenges/qcu-challenge-with-attachment', 'pix-live/mirage/data/challenges/qcu-challenge-with-links-in-instruction', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qroc-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallengeWithImage, _pixLiveMirageDataChallengesQcuChallengeWithAttachment, _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQrocChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
-
-  // eslint-disable-next-line complexity
-
+define('pix-live/mirage/routes/get-challenge', ['exports', 'lodash/lodash', 'pix-live/mirage/data/challenges/qcu-challenge-aband', 'pix-live/mirage/data/challenges/qcu-challenge-with-image', 'pix-live/mirage/data/challenges/qcu-challenge-with-attachment', 'pix-live/mirage/data/challenges/qcu-challenge-with-links-in-instruction', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qroc-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _lodashLodash, _pixLiveMirageDataChallengesQcuChallengeAband, _pixLiveMirageDataChallengesQcuChallengeWithImage, _pixLiveMirageDataChallengesQcuChallengeWithAttachment, _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQrocChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
   exports['default'] = function (schema, request) {
 
-    switch (request.params.id) {
+    var allChallenges = [_pixLiveMirageDataChallengesQcuChallengeAband['default'], _pixLiveMirageDataChallengesQcuChallengeWithImage['default'], _pixLiveMirageDataChallengesQcuChallengeWithAttachment['default'], _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction['default'], _pixLiveMirageDataChallengesQcuChallenge['default'], _pixLiveMirageDataChallengesQcmChallenge['default'], _pixLiveMirageDataChallengesQrocChallenge['default'], _pixLiveMirageDataChallengesQrocmChallenge['default']];
 
-      case _pixLiveMirageDataChallengesQcmChallenge['default'].data.id:
-        return _pixLiveMirageDataChallengesQcmChallenge['default'];
-      case _pixLiveMirageDataChallengesQcuChallenge['default'].data.id:
-        return _pixLiveMirageDataChallengesQcuChallenge['default'];
-      case _pixLiveMirageDataChallengesQrocChallenge['default'].data.id:
-        return _pixLiveMirageDataChallengesQrocChallenge['default'];
-      case _pixLiveMirageDataChallengesQrocmChallenge['default'].data.id:
-        return _pixLiveMirageDataChallengesQrocmChallenge['default'];
-      case _pixLiveMirageDataChallengesQcuChallengeWithImage['default'].data.id:
-        return _pixLiveMirageDataChallengesQcuChallengeWithImage['default'];
-      case _pixLiveMirageDataChallengesQcuChallengeWithAttachment['default'].data.id:
-        return _pixLiveMirageDataChallengesQcuChallengeWithAttachment['default'];
-      case _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction['default'].data.id:
-        return _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction['default'];
-      default:
-        return _pixLiveMirageDataChallengesQcuChallenge['default'];
+    var challenges = _lodashLodash['default'].map(allChallenges, function (oneChallenge) {
+      return { id: oneChallenge.data.id, obj: oneChallenge };
+    });
+
+    var challenge = _lodashLodash['default'].find(challenges, { id: request.params.id });
+
+    if (challenge) {
+      return challenge.obj;
+    } else {
+      throw new Error('The challenge you required in the fake server does not exist ' + request.params.id);
     }
   };
 });
@@ -1795,7 +1834,7 @@ define('pix-live/mirage/routes/get-courses', ['exports', 'pix-live/mirage/data/c
     };
   };
 });
-define('pix-live/mirage/routes/post-answers', ['exports', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qroc-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qroc-answer', 'pix-live/mirage/data/answers/qrocm-answer'], function (exports, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQrocChallenge, _pixLiveMirageDataChallengesQrocmChallenge, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQrocAnswer, _pixLiveMirageDataAnswersQrocmAnswer) {
+define('pix-live/mirage/routes/post-answers', ['exports', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qroc-challenge', 'pix-live/mirage/data/challenges/qcu-challenge-with-image', 'pix-live/mirage/data/challenges/qrocm-challenge', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qroc-answer', 'pix-live/mirage/data/answers/qcu-answer-with-image', 'pix-live/mirage/data/answers/qrocm-answer'], function (exports, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQrocChallenge, _pixLiveMirageDataChallengesQcuChallengeWithImage, _pixLiveMirageDataChallengesQrocmChallenge, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQrocAnswer, _pixLiveMirageDataAnswersQcuAnswerWithImage, _pixLiveMirageDataAnswersQrocmAnswer) {
   exports['default'] = function (schema, request) {
 
     var answer = JSON.parse(request.requestBody);
@@ -1808,6 +1847,8 @@ define('pix-live/mirage/routes/post-answers', ['exports', 'pix-live/mirage/data/
         return _pixLiveMirageDataAnswersQcuAnswer['default'];
       case _pixLiveMirageDataChallengesQrocChallenge['default'].data.id:
         return _pixLiveMirageDataAnswersQrocAnswer['default'];
+      case _pixLiveMirageDataChallengesQcuChallengeWithImage['default'].data.id:
+        return _pixLiveMirageDataAnswersQcuAnswerWithImage['default'];
       case _pixLiveMirageDataChallengesQrocmChallenge['default'].data.id:
         return _pixLiveMirageDataAnswersQrocmAnswer['default'];
       default:
@@ -1846,6 +1887,9 @@ define('pix-live/models/answer', ['exports', 'ember-data'], function (exports, _
 
     isResultOk: computed('result', function () {
       return this.get('result') === 'ok';
+    }),
+    isResultWithoutAnswer: computed('result', function () {
+      return this.get('result') === 'aband';
     }),
     isResultNotOk: computed('result', function () {
       return this.get('result') === 'ko';
@@ -2281,11 +2325,14 @@ define('pix-live/services/assessment', ['exports', 'ember'], function (exports, 
 define('pix-live/services/delay', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
   exports['default'] = _ember['default'].Service.extend({
     ms: function ms(_ms) {
+      /* istanbul ignore if  */
       if (EmberENV.useDelay) {
+        //unreachable by tests
         return new _rsvp['default'].Promise(function (resolve) {
           setTimeout(resolve, _ms);
         });
       }
+      // test-only, to avoid test to take too long
       return new _rsvp['default'].resolve();
     }
   });
@@ -2338,7 +2385,7 @@ define("pix-live/templates/application", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 6,
+            "line": 8,
             "column": 0
           }
         },
@@ -2350,6 +2397,10 @@ define("pix-live/templates/application", ["exports"], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
@@ -2368,13 +2419,14 @@ define("pix-live/templates/application", ["exports"], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(2);
+        var morphs = new Array(3);
         morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-        morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]), 1, 1);
+        morphs[1] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        morphs[2] = dom.createMorphAt(dom.childAt(fragment, [4]), 1, 1);
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["inline", "app-header", [], ["id", "app-header"], ["loc", [null, [1, 0], [1, 31]]], 0, 0], ["content", "outlet", ["loc", [null, [4, 2], [4, 12]]], 0, 0, 0, 0]],
+      statements: [["inline", "app-header", [], ["id", "app-header"], ["loc", [null, [1, 0], [1, 31]]], 0, 0], ["content", "beta-logo", ["loc", [null, [3, 0], [3, 13]]], 0, 0, 0, 0], ["content", "outlet", ["loc", [null, [6, 2], [6, 12]]], 0, 0, 0, 0]],
       locals: [],
       templates: []
     };
@@ -2463,7 +2515,7 @@ define("pix-live/templates/assessments/get-challenge", ["exports"], function (ex
             "column": 0
           },
           "end": {
-            "line": 7,
+            "line": 10,
             "column": 0
           }
         },
@@ -2477,19 +2529,23 @@ define("pix-live/templates/assessments/get-challenge", ["exports"], function (ex
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
         dom.setAttribute(el1, "id", "assessment-challenge");
-        var el2 = dom.createTextNode("\n    ");
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "container");
-        var el3 = dom.createTextNode("\n      ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n      ");
+        var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -2500,13 +2556,15 @@ define("pix-live/templates/assessments/get-challenge", ["exports"], function (ex
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element0 = dom.childAt(fragment, [0, 1]);
-        var morphs = new Array(2);
+        var element0 = dom.childAt(fragment, [0]);
+        var element1 = dom.childAt(element0, [3]);
+        var morphs = new Array(3);
         morphs[0] = dom.createMorphAt(element0, 1, 1);
-        morphs[1] = dom.createMorphAt(element0, 3, 3);
+        morphs[1] = dom.createMorphAt(element1, 1, 1);
+        morphs[2] = dom.createMorphAt(element1, 3, 3);
         return morphs;
       },
-      statements: [["inline", "progress-bar", [], ["progress", ["subexpr", "@mut", [["get", "progress", ["loc", [null, [3, 30], [3, 38]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 6], [3, 40]]], 0, 0], ["inline", "challenge-item", [["get", "model.challenge", ["loc", [null, [4, 23], [4, 38]]], 0, 0, 0, 0], ["get", "model.assessment", ["loc", [null, [4, 39], [4, 55]]], 0, 0, 0, 0]], ["onValidated", "saveAnswerAndNavigate"], ["loc", [null, [4, 6], [4, 93]]], 0, 0]],
+      statements: [["inline", "course-banner", [], ["course", ["subexpr", "@mut", [["get", "model.assessment.course", ["loc", [null, [3, 25], [3, 48]]], 0, 0, 0, 0]], [], [], 0, 0], "withHomeLink", true], ["loc", [null, [3, 2], [3, 68]]], 0, 0], ["inline", "progress-bar", [], ["progress", ["subexpr", "@mut", [["get", "progress", ["loc", [null, [6, 28], [6, 36]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [6, 4], [6, 38]]], 0, 0], ["inline", "challenge-item", [["get", "model.challenge", ["loc", [null, [7, 21], [7, 36]]], 0, 0, 0, 0], ["get", "model.assessment", ["loc", [null, [7, 37], [7, 53]]], 0, 0, 0, 0]], ["onValidated", "saveAnswerAndNavigate"], ["loc", [null, [7, 4], [7, 91]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -2514,371 +2572,6 @@ define("pix-live/templates/assessments/get-challenge", ["exports"], function (ex
 });
 define("pix-live/templates/assessments/get-results", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
-    var child0 = (function () {
-      var child0 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.8.3",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 25,
-                "column": 24
-              },
-              "end": {
-                "line": 30,
-                "column": 24
-              }
-            },
-            "moduleName": "pix-live/templates/assessments/get-results.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("                            ");
-            dom.appendChild(el0, el1);
-            dom.setNamespace("http://www.w3.org/2000/svg");
-            var el1 = dom.createElement("svg");
-            dom.setAttribute(el1, "xmlns", "http://www.w3.org/2000/svg");
-            dom.setAttribute(el1, "xmlns:xlink", "http://www.w3.org/1999/xlink");
-            dom.setAttribute(el1, "version", "1.1");
-            dom.setAttribute(el1, "id", "Capa_1");
-            dom.setAttribute(el1, "x", "0px");
-            dom.setAttribute(el1, "y", "0px");
-            dom.setAttribute(el1, "viewBox", "0 0 52 52");
-            dom.setAttribute(el1, "style", "enable-background:new 0 0 52 52;");
-            dom.setAttributeNS(el1, "http://www.w3.org/XML/1998/namespace", "xml:space", "preserve");
-            dom.setAttribute(el1, "width", "32px");
-            dom.setAttribute(el1, "height", "32px");
-            var el2 = dom.createElement("g");
-            var el3 = dom.createElement("path");
-            dom.setAttribute(el3, "d", "M26,0C11.664,0,0,11.663,0,26s11.664,26,26,26s26-11.663,26-26S40.336,0,26,0z M26,50C12.767,50,2,39.233,2,26 S12.767,2,26,2s24,10.767,24,24S39.233,50,26,50z");
-            dom.setAttribute(el3, "fill", "#91DC5A");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("path");
-            dom.setAttribute(el3, "d", "M38.252,15.336l-15.369,17.29l-9.259-7.407c-0.43-0.345-1.061-0.274-1.405,0.156c-0.345,0.432-0.275,1.061,0.156,1.406 l10,8C22.559,34.928,22.78,35,23,35c0.276,0,0.551-0.114,0.748-0.336l16-18c0.367-0.412,0.33-1.045-0.083-1.411 C39.251,14.885,38.62,14.922,38.252,15.336z");
-            dom.setAttribute(el3, "fill", "#91DC5A");
-            dom.appendChild(el2, el3);
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n                            ");
-            dom.appendChild(el0, el1);
-            dom.setNamespace(null);
-            var el1 = dom.createElement("div");
-            var el2 = dom.createTextNode("\n                                ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("small");
-            var el3 = dom.createTextNode("réponse correcte");
-            dom.appendChild(el2, el3);
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n                            ");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes() {
-            return [];
-          },
-          statements: [],
-          locals: [],
-          templates: []
-        };
-      })();
-      var child1 = (function () {
-        var child0 = (function () {
-          return {
-            meta: {
-              "revision": "Ember@2.8.3",
-              "loc": {
-                "source": null,
-                "start": {
-                  "line": 30,
-                  "column": 24
-                },
-                "end": {
-                  "line": 35,
-                  "column": 24
-                }
-              },
-              "moduleName": "pix-live/templates/assessments/get-results.hbs"
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("                            ");
-              dom.appendChild(el0, el1);
-              dom.setNamespace("http://www.w3.org/2000/svg");
-              var el1 = dom.createElement("svg");
-              dom.setAttribute(el1, "xmlns", "http://www.w3.org/2000/svg");
-              dom.setAttribute(el1, "xmlns:xlink", "http://www.w3.org/1999/xlink");
-              dom.setAttribute(el1, "version", "1.1");
-              dom.setAttribute(el1, "id", "Capa_1");
-              dom.setAttribute(el1, "x", "0px");
-              dom.setAttribute(el1, "y", "0px");
-              dom.setAttribute(el1, "viewBox", "0 0 490.4 490.4");
-              dom.setAttribute(el1, "style", "enable-background:new 0 0 490.4 490.4;");
-              dom.setAttributeNS(el1, "http://www.w3.org/XML/1998/namespace", "xml:space", "preserve");
-              dom.setAttribute(el1, "width", "32px");
-              dom.setAttribute(el1, "height", "32px");
-              var el2 = dom.createElement("g");
-              var el3 = dom.createElement("g");
-              var el4 = dom.createElement("path");
-              dom.setAttribute(el4, "d", "M245.2,490.4c135.2,0,245.2-110,245.2-245.2S380.4,0,245.2,0S0,110,0,245.2S110,490.4,245.2,490.4z M245.2,24.5 c121.7,0,220.7,99,220.7,220.7s-99,220.7-220.7,220.7s-220.7-99-220.7-220.7S123.5,24.5,245.2,24.5z");
-              dom.setAttribute(el4, "fill", "#D80027");
-              dom.appendChild(el3, el4);
-              var el4 = dom.createElement("path");
-              dom.setAttribute(el4, "d", "M180.3,310.1c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6l47.6-47.6l47.6,47.6c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6 c4.8-4.8,4.8-12.5,0-17.3l-47.8-47.6l47.6-47.6c4.8-4.8,4.8-12.5,0-17.3s-12.5-4.8-17.3,0l-47.6,47.6l-47.6-47.6 c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l47.6,47.6l-47.6,47.6C175.5,297.6,175.5,305.3,180.3,310.1z");
-              dom.setAttribute(el4, "fill", "#D80027");
-              dom.appendChild(el3, el4);
-              dom.appendChild(el2, el3);
-              dom.appendChild(el1, el2);
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n                            ");
-              dom.appendChild(el0, el1);
-              dom.setNamespace(null);
-              var el1 = dom.createElement("div");
-              var el2 = dom.createTextNode("\n                                ");
-              dom.appendChild(el1, el2);
-              var el2 = dom.createElement("small");
-              var el3 = dom.createTextNode("réponse incorrecte");
-              dom.appendChild(el2, el3);
-              dom.appendChild(el1, el2);
-              var el2 = dom.createTextNode("\n                            ");
-              dom.appendChild(el1, el2);
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n");
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes() {
-              return [];
-            },
-            statements: [],
-            locals: [],
-            templates: []
-          };
-        })();
-        var child1 = (function () {
-          return {
-            meta: {
-              "revision": "Ember@2.8.3",
-              "loc": {
-                "source": null,
-                "start": {
-                  "line": 35,
-                  "column": 24
-                },
-                "end": {
-                  "line": 40,
-                  "column": 24
-                }
-              },
-              "moduleName": "pix-live/templates/assessments/get-results.hbs"
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("                            ");
-              dom.appendChild(el0, el1);
-              dom.setNamespace("http://www.w3.org/2000/svg");
-              var el1 = dom.createElement("svg");
-              dom.setAttribute(el1, "xmlns", "http://www.w3.org/2000/svg");
-              dom.setAttribute(el1, "viewBox", "0 0 34.652 34.652");
-              dom.setAttribute(el1, "style", "enable-background:new 0 0 34.652 34.652;");
-              dom.setAttributeNS(el1, "http://www.w3.org/XML/1998/namespace", "xml:space", "preserve");
-              dom.setAttribute(el1, "width", "32px");
-              dom.setAttribute(el1, "height", "32px");
-              var el2 = dom.createElement("g");
-              var el3 = dom.createElement("g");
-              var el4 = dom.createElement("path");
-              dom.setAttribute(el4, "d", "M15.529,32.855C6.966,32.855,0,25.889,0,17.326C0,8.763,6.966,1.797,15.529,1.797 c8.563,0,15.529,6.967,15.529,15.529c0,0.49-0.397,0.888-0.888,0.888c-0.49,0-0.888-0.397-0.888-0.888 c0-7.584-6.17-13.755-13.754-13.755c-7.585,0-13.755,6.171-13.755,13.755c0,7.584,6.17,13.754,13.755,13.754 c4.852,0,9.397-2.601,11.862-6.787c0.249-0.423,0.793-0.562,1.215-0.314c0.422,0.248,0.562,0.792,0.315,1.215 C26.139,29.919,21.007,32.855,15.529,32.855z");
-              dom.setAttribute(el4, "fill", "#006DF0");
-              dom.appendChild(el3, el4);
-              dom.appendChild(el2, el3);
-              var el3 = dom.createElement("g");
-              var el4 = dom.createElement("path");
-              dom.setAttribute(el4, "d", "M30.17,18.214c-0.153,0-0.309-0.04-0.45-0.123l-5.561-3.284c-0.422-0.249-0.562-0.793-0.313-1.215 c0.25-0.422,0.794-0.562,1.216-0.312l4.852,2.865l3.123-4.473c0.281-0.402,0.834-0.5,1.235-0.22c0.402,0.28,0.5,0.833,0.22,1.235 l-3.594,5.146C30.726,18.08,30.451,18.214,30.17,18.214z");
-              dom.setAttribute(el4, "fill", "#006DF0");
-              dom.appendChild(el3, el4);
-              dom.appendChild(el2, el3);
-              dom.appendChild(el1, el2);
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n                            ");
-              dom.appendChild(el0, el1);
-              dom.setNamespace(null);
-              var el1 = dom.createElement("div");
-              var el2 = dom.createTextNode("\n                                ");
-              dom.appendChild(el1, el2);
-              var el2 = dom.createElement("small");
-              var el3 = dom.createTextNode("validation en cours");
-              dom.appendChild(el2, el3);
-              dom.appendChild(el1, el2);
-              var el2 = dom.createTextNode("\n                            ");
-              dom.appendChild(el1, el2);
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n                        ");
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes() {
-              return [];
-            },
-            statements: [],
-            locals: [],
-            templates: []
-          };
-        })();
-        return {
-          meta: {
-            "revision": "Ember@2.8.3",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 30,
-                "column": 24
-              },
-              "end": {
-                "line": 40,
-                "column": 24
-              }
-            },
-            "moduleName": "pix-live/templates/assessments/get-results.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createComment("");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-            dom.insertBoundary(fragment, 0);
-            dom.insertBoundary(fragment, null);
-            return morphs;
-          },
-          statements: [["block", "if", [["get", "answer.isResultNotOk", ["loc", [null, [30, 34], [30, 54]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [30, 24], [40, 24]]]]],
-          locals: [],
-          templates: [child0, child1]
-        };
-      })();
-      return {
-        meta: {
-          "revision": "Ember@2.8.3",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 20,
-              "column": 18
-            },
-            "end": {
-              "line": 44,
-              "column": 16
-            }
-          },
-          "moduleName": "pix-live/templates/assessments/get-results.hbs"
-        },
-        isEmpty: false,
-        arity: 2,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("                  ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("tr");
-          var el2 = dom.createTextNode("\n                      ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("td");
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n                      ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("td");
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n                      ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("td");
-          var el3 = dom.createTextNode("\n");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("                        \n                    ");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n                ");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1]);
-          var morphs = new Array(3);
-          morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 0, 0);
-          morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 0, 0);
-          morphs[2] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
-          return morphs;
-        },
-        statements: [["inline", "add", [["get", "index", ["loc", [null, [22, 32], [22, 37]]], 0, 0, 0, 0], 1], [], ["loc", [null, [22, 26], [22, 41]]], 0, 0], ["inline", "strip-instruction", [["subexpr", "convert-to-html", [["get", "answer.challenge.instruction", ["loc", [null, [23, 63], [23, 91]]], 0, 0, 0, 0]], [], ["loc", [null, [23, 46], [23, 92]]], 0, 0]], [], ["loc", [null, [23, 26], [23, 94]]], 0, 0], ["block", "if", [["get", "answer.isResultOk", ["loc", [null, [25, 30], [25, 47]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [25, 24], [40, 31]]]]],
-        locals: ["answer", "index"],
-        templates: [child0, child1]
-      };
-    })();
-    var child1 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.8.3",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 53,
-              "column": 11
-            },
-            "end": {
-              "line": 53,
-              "column": 98
-            }
-          },
-          "moduleName": "pix-live/templates/assessments/get-results.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("Revenir à la liste des tests");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes() {
-          return [];
-        },
-        statements: [],
-        locals: [],
-        templates: []
-      };
-    })();
     return {
       meta: {
         "revision": "Ember@2.8.3",
@@ -2889,7 +2582,7 @@ define("pix-live/templates/assessments/get-results", ["exports"], function (expo
             "column": 0
           },
           "end": {
-            "line": 58,
+            "line": 2,
             "column": 0
           }
         },
@@ -2901,130 +2594,21 @@ define("pix-live/templates/assessments/get-results", ["exports"], function (expo
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "id", "assessment-results");
-        var el2 = dom.createTextNode("\n    ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "container");
-        var el3 = dom.createTextNode("\n\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "rounded-panel big-text");
-        var el4 = dom.createTextNode("\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("h1");
-        var el5 = dom.createTextNode("Mercix !");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("p");
-        var el5 = dom.createTextNode("\n                Vous avez terminé le test ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("span");
-        dom.setAttribute(el5, "class", "course-name");
-        var el6 = dom.createComment("");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode(" en répondant\n                à ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode(" question(s) sur ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode(".\n            ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n            \n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("table");
-        dom.setAttribute(el4, "class", "table table-bordered");
-        dom.setAttribute(el4, "id", "summary");
-        var el5 = dom.createTextNode("\n                ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("thead");
-        var el6 = dom.createTextNode("\n                    ");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createElement("tr");
-        var el7 = dom.createTextNode("\n                        ");
-        dom.appendChild(el6, el7);
-        var el7 = dom.createElement("th");
-        var el8 = dom.createTextNode("#");
-        dom.appendChild(el7, el8);
-        dom.appendChild(el6, el7);
-        var el7 = dom.createTextNode("\n                        ");
-        dom.appendChild(el6, el7);
-        var el7 = dom.createElement("th");
-        var el8 = dom.createTextNode("Instruction");
-        dom.appendChild(el7, el8);
-        dom.appendChild(el6, el7);
-        var el7 = dom.createTextNode("\n                        ");
-        dom.appendChild(el6, el7);
-        var el7 = dom.createElement("th");
-        var el8 = dom.createTextNode("Statut");
-        dom.appendChild(el7, el8);
-        dom.appendChild(el6, el7);
-        var el7 = dom.createTextNode("\n                    ");
-        dom.appendChild(el6, el7);
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("\n                ");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n                ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("tbody");
-        var el6 = dom.createTextNode("\n");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createComment("");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("\n            ");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n\n\n\n\n        ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("p");
-        var el5 = dom.createTextNode("Un PixMaster va étudier vos réponses et échanger avec vous pour recueillir vos impressions.");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n        ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("p");
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
+        var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element1 = dom.childAt(fragment, [0, 1, 1]);
-        var element2 = dom.childAt(element1, [3]);
-        var morphs = new Array(5);
-        morphs[0] = dom.createMorphAt(dom.childAt(element2, [1]), 0, 0);
-        morphs[1] = dom.createMorphAt(element2, 3, 3);
-        morphs[2] = dom.createMorphAt(element2, 5, 5);
-        morphs[3] = dom.createMorphAt(dom.childAt(element1, [5, 3]), 1, 1);
-        morphs[4] = dom.createMorphAt(dom.childAt(element1, [9]), 0, 0);
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["content", "model.assessment.course.name", ["loc", [null, [7, 68], [7, 100]]], 0, 0, 0, 0], ["content", "model.assessment.numberOfValidatedAnswers", ["loc", [null, [8, 18], [8, 63]]], 0, 0, 0, 0], ["content", "model.assessment.course.challenges.length", ["loc", [null, [8, 80], [8, 125]]], 0, 0, 0, 0], ["block", "each", [["get", "model.assessment.answers", ["loc", [null, [20, 26], [20, 50]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [20, 18], [44, 25]]]], ["block", "link-to", ["home"], ["class", "button button-primary home-link"], 1, null, ["loc", [null, [53, 11], [53, 110]]]]],
+      statements: [["inline", "get-result", [], ["model", ["subexpr", "@mut", [["get", "model", ["loc", [null, [1, 19], [1, 24]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [1, 0], [1, 26]]], 0, 0]],
       locals: [],
-      templates: [child0, child1]
+      templates: []
     };
   })());
 });
@@ -3442,6 +3026,45 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
       statements: [["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [12, 28], [12, 35]]], 0, 0, 0, 0], "images/pix-logo.png"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "session.isIdentified", ["loc", [null, [15, 12], [15, 32]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [15, 6], [23, 13]]]]],
       locals: [],
       templates: [child0]
+    };
+  })());
+});
+define("pix-live/templates/components/beta-logo", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 15
+          }
+        },
+        "moduleName": "pix-live/templates/components/beta-logo.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        var el2 = dom.createTextNode("Bêta");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() {
+        return [];
+      },
+      statements: [],
+      locals: [],
+      templates: []
     };
   })());
 });
@@ -6195,6 +5818,146 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
     };
   })());
 });
+define("pix-live/templates/components/course-banner", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.3",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 8,
+                "column": 6
+              },
+              "end": {
+                "line": 8,
+                "column": 84
+              }
+            },
+            "moduleName": "pix-live/templates/components/course-banner.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("Retour à la liste des tests");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+      return {
+        meta: {
+          "revision": "Ember@2.8.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 7,
+              "column": 4
+            },
+            "end": {
+              "line": 9,
+              "column": 4
+            }
+          },
+          "moduleName": "pix-live/templates/components/course-banner.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("      ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["block", "link-to", ["home"], ["class", "course-banner-home-link"], 0, null, ["loc", [null, [8, 6], [8, 96]]]]],
+        locals: [],
+        templates: [child0]
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 14,
+            "column": 0
+          }
+        },
+        "moduleName": "pix-live/templates/components/course-banner.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "course-banner row");
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "container course-banner-wrapper");
+        var el3 = dom.createTextNode("\n\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("span");
+        dom.setAttribute(el3, "class", "course-banner-name");
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element0 = dom.childAt(fragment, [0, 1]);
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 0, 0);
+        morphs[1] = dom.createMorphAt(element0, 3, 3);
+        return morphs;
+      },
+      statements: [["content", "course.name", ["loc", [null, [5, 37], [5, 52]]], 0, 0, 0, 0], ["block", "if", [["get", "withHomeLink", ["loc", [null, [7, 10], [7, 22]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 4], [9, 11]]]]],
+      locals: [],
+      templates: [child0]
+    };
+  })());
+});
 define("pix-live/templates/components/form-element/errors", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
@@ -7984,6 +7747,538 @@ define("pix-live/templates/components/form-element/vertical/textarea", ["exports
     };
   })());
 });
+define("pix-live/templates/components/get-result", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.3",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 24,
+                "column": 9
+              },
+              "end": {
+                "line": 29,
+                "column": 9
+              }
+            },
+            "moduleName": "pix-live/templates/components/get-result.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("         ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("div");
+            dom.setAttribute(el1, "data-toggle", "tooltip");
+            dom.setAttribute(el1, "data-placement", "top");
+            dom.setAttribute(el1, "title", "Réponse correcte");
+            var el2 = dom.createTextNode("\n          ");
+            dom.appendChild(el1, el2);
+            dom.setNamespace("http://www.w3.org/2000/svg");
+            var el2 = dom.createElement("svg");
+            dom.setAttribute(el2, "xmlns", "http://www.w3.org/2000/svg");
+            dom.setAttribute(el2, "xmlns:xlink", "http://www.w3.org/1999/xlink");
+            dom.setAttribute(el2, "version", "1.1");
+            dom.setAttribute(el2, "width", "24");
+            dom.setAttribute(el2, "height", "24");
+            dom.setAttribute(el2, "viewBox", "0 0 24 24");
+            var el3 = dom.createElement("path");
+            dom.setAttribute(el3, "d", "M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z");
+            dom.setAttribute(el3, "fill", "#30d5b0");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n         ");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child1 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.8.3",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 29,
+                  "column": 9
+                },
+                "end": {
+                  "line": 34,
+                  "column": 9
+                }
+              },
+              "moduleName": "pix-live/templates/components/get-result.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("         ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("div");
+              dom.setAttribute(el1, "data-toggle", "tooltip");
+              dom.setAttribute(el1, "data-placement", "top");
+              dom.setAttribute(el1, "title", "Réponse incorrecte");
+              var el2 = dom.createTextNode("\n          ");
+              dom.appendChild(el1, el2);
+              dom.setNamespace("http://www.w3.org/2000/svg");
+              var el2 = dom.createElement("svg");
+              dom.setAttribute(el2, "xmlns", "http://www.w3.org/2000/svg");
+              dom.setAttribute(el2, "xmlns:xlink", "http://www.w3.org/1999/xlink");
+              dom.setAttribute(el2, "version", "1.1");
+              dom.setAttribute(el2, "width", "24px");
+              dom.setAttribute(el2, "height", "24px");
+              dom.setAttribute(el2, "viewBox", "0 0 24 24");
+              var el3 = dom.createElement("path");
+              dom.setAttribute(el3, "d", "M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z");
+              dom.setAttribute(el3, "fill", "#ff4600");
+              dom.appendChild(el2, el3);
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("\n         ");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes() {
+              return [];
+            },
+            statements: [],
+            locals: [],
+            templates: []
+          };
+        })();
+        var child1 = (function () {
+          var child0 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.3",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 34,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 39,
+                    "column": 9
+                  }
+                },
+                "moduleName": "pix-live/templates/components/get-result.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("         ");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createElement("div");
+                dom.setAttribute(el1, "data-toggle", "tooltip");
+                dom.setAttribute(el1, "data-placement", "top");
+                dom.setAttribute(el1, "title", "Sans réponse");
+                var el2 = dom.createTextNode("\n          ");
+                dom.appendChild(el1, el2);
+                dom.setNamespace("http://www.w3.org/2000/svg");
+                var el2 = dom.createElement("svg");
+                dom.setAttribute(el2, "xmlns", "http://www.w3.org/2000/svg");
+                dom.setAttribute(el2, "xmlns:xlink", "http://www.w3.org/1999/xlink");
+                dom.setAttribute(el2, "version", "1.1");
+                dom.setAttribute(el2, "width", "24");
+                dom.setAttribute(el2, "height", "24");
+                dom.setAttribute(el2, "viewBox", "0 0 24 24");
+                var el3 = dom.createElement("path");
+                dom.setAttribute(el3, "d", "M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M8,8L13,12L8,16M14,8H16V16H14");
+                dom.setAttribute(el3, "fill", "#3e4149");
+                dom.appendChild(el2, el3);
+                dom.appendChild(el1, el2);
+                var el2 = dom.createTextNode("\n         ");
+                dom.appendChild(el1, el2);
+                dom.appendChild(el0, el1);
+                var el1 = dom.createTextNode("\n\n");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes() {
+                return [];
+              },
+              statements: [],
+              locals: [],
+              templates: []
+            };
+          })();
+          var child1 = (function () {
+            return {
+              meta: {
+                "revision": "Ember@2.8.3",
+                "loc": {
+                  "source": null,
+                  "start": {
+                    "line": 39,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 43,
+                    "column": 9
+                  }
+                },
+                "moduleName": "pix-live/templates/components/get-result.hbs"
+              },
+              isEmpty: false,
+              arity: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              buildFragment: function buildFragment(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("         ");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createElement("div");
+                dom.setAttribute(el1, "data-toggle", "tooltip");
+                dom.setAttribute(el1, "data-placement", "top");
+                dom.setAttribute(el1, "title", "Vérification en cours");
+                var el2 = dom.createTextNode("\n          ");
+                dom.appendChild(el1, el2);
+                dom.setNamespace("http://www.w3.org/2000/svg");
+                var el2 = dom.createElement("svg");
+                dom.setAttribute(el2, "xmlns", "http://www.w3.org/2000/svg");
+                dom.setAttribute(el2, "xmlns:xlink", "http://www.w3.org/1999/xlink");
+                dom.setAttribute(el2, "version", "1.1");
+                dom.setAttribute(el2, "width", "24");
+                dom.setAttribute(el2, "height", "24");
+                dom.setAttribute(el2, "viewBox", "0 0 24 24");
+                var el3 = dom.createElement("path");
+                dom.setAttribute(el3, "d", "M20,2V4H18V8.41L14.41,12L18,15.59V20H20V22H4V20H6V15.59L9.59,12L6,8.41V4H4V2H20M16,16.41L13,13.41V10.59L16,7.59V4H8V7.59L11,10.59V13.41L8,16.41V17H10L12,15L14,17H16V16.41M12,9L10,7H14L12,9Z");
+                dom.setAttribute(el3, "fill", "#446eff");
+                dom.appendChild(el2, el3);
+                dom.appendChild(el1, el2);
+                var el2 = dom.createTextNode("\n         ");
+                dom.appendChild(el1, el2);
+                dom.appendChild(el0, el1);
+                var el1 = dom.createTextNode("\n         ");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              buildRenderNodes: function buildRenderNodes() {
+                return [];
+              },
+              statements: [],
+              locals: [],
+              templates: []
+            };
+          })();
+          return {
+            meta: {
+              "revision": "Ember@2.8.3",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 34,
+                  "column": 9
+                },
+                "end": {
+                  "line": 43,
+                  "column": 9
+                }
+              },
+              "moduleName": "pix-live/templates/components/get-result.hbs"
+            },
+            isEmpty: false,
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createComment("");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var morphs = new Array(1);
+              morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+              dom.insertBoundary(fragment, 0);
+              dom.insertBoundary(fragment, null);
+              return morphs;
+            },
+            statements: [["block", "if", [["get", "answer.isResultWithoutAnswer", ["loc", [null, [34, 19], [34, 47]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [34, 9], [43, 9]]]]],
+            locals: [],
+            templates: [child0, child1]
+          };
+        })();
+        return {
+          meta: {
+            "revision": "Ember@2.8.3",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 29,
+                "column": 9
+              },
+              "end": {
+                "line": 43,
+                "column": 9
+              }
+            },
+            "moduleName": "pix-live/templates/components/get-result.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [["block", "if", [["get", "answer.isResultNotOk", ["loc", [null, [29, 19], [29, 39]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [29, 9], [43, 9]]]]],
+          locals: [],
+          templates: [child0, child1]
+        };
+      })();
+      return {
+        meta: {
+          "revision": "Ember@2.8.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 12,
+              "column": 6
+            },
+            "end": {
+              "line": 48,
+              "column": 4
+            }
+          },
+          "moduleName": "pix-live/templates/components/get-result.hbs"
+        },
+        isEmpty: false,
+        arity: 2,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("      ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("div");
+          dom.setAttribute(el1, "class", "assessment-results-list-item assessment-results-result");
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "assessment-results-result-index");
+          var el3 = dom.createTextNode("\n          ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n        ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "assessment-results-result-line");
+          var el3 = dom.createTextNode("\n        ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "assessment-results-result-instruction");
+          var el3 = dom.createTextNode("\n          ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n        ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n        ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("div");
+          dom.setAttribute(el2, "class", "assessment-results-result-img");
+          var el3 = dom.createTextNode("\n\n");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n      ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n\n    ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [1]);
+          var morphs = new Array(3);
+          morphs[0] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
+          morphs[1] = dom.createMorphAt(dom.childAt(element0, [5]), 1, 1);
+          morphs[2] = dom.createMorphAt(dom.childAt(element0, [7]), 1, 1);
+          return morphs;
+        },
+        statements: [["inline", "add", [["get", "index", ["loc", [null, [15, 16], [15, 21]]], 0, 0, 0, 0], 1], [], ["loc", [null, [15, 10], [15, 25]]], 0, 0], ["inline", "strip-instruction", [["subexpr", "convert-to-html", [["get", "answer.challenge.instruction", ["loc", [null, [20, 47], [20, 75]]], 0, 0, 0, 0]], [], ["loc", [null, [20, 30], [20, 76]]], 0, 0]], [], ["loc", [null, [20, 10], [20, 78]]], 0, 0], ["block", "if", [["get", "answer.isResultOk", ["loc", [null, [24, 15], [24, 32]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [24, 9], [43, 16]]]]],
+        locals: ["answer", "index"],
+        templates: [child0, child1]
+      };
+    })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 52,
+              "column": 4
+            },
+            "end": {
+              "line": 54,
+              "column": 4
+            }
+          },
+          "moduleName": "pix-live/templates/components/get-result.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("span");
+          dom.setAttribute(el1, "class", "assessment-results-back");
+          var el2 = dom.createTextNode("Revenir à la liste des tests");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 61,
+            "column": 0
+          }
+        },
+        "moduleName": "pix-live/templates/components/get-result.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "assessment-results");
+        dom.setAttribute(el1, "id", "assessment-results");
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "container");
+        var el3 = dom.createTextNode("\n\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "assessment-results-title");
+        var el4 = dom.createTextNode("\n      Vos résultats\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "assessment-results-list");
+        var el4 = dom.createTextNode("\n");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("  ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "assessment-results-link");
+        var el4 = dom.createTextNode("\n");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("  ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n\n");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element1 = dom.childAt(fragment, [0]);
+        var element2 = dom.childAt(element1, [3]);
+        var morphs = new Array(3);
+        morphs[0] = dom.createMorphAt(element1, 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element2, [3]), 1, 1);
+        morphs[2] = dom.createMorphAt(dom.childAt(element2, [5]), 1, 1);
+        return morphs;
+      },
+      statements: [["inline", "course-banner", [], ["course", ["subexpr", "@mut", [["get", "model.assessment.course", ["loc", [null, [3, 25], [3, 48]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 2], [3, 50]]], 0, 0], ["block", "each", [["get", "model.assessment.answers", ["loc", [null, [12, 14], [12, 38]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [12, 6], [48, 13]]]], ["block", "link-to", ["home"], ["class", "assessment-results-link-home", "tagName", "button"], 1, null, ["loc", [null, [52, 4], [54, 16]]]]],
+      locals: [],
+      templates: [child0, child1]
+    };
+  })());
+});
 define("pix-live/templates/components/identification-form", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
@@ -9193,6 +9488,16 @@ define('pix-live/tests/mirage/mirage/data/answers/qcm-answer.lint-test', ['expor
     });
   });
 });
+define('pix-live/tests/mirage/mirage/data/answers/qcu-answer-aband.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/answers/qcu-answer-aband.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/answers/qcu-answer-aband.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/mirage/mirage/data/answers/qcu-answer-with-image.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/answers/qcu-answer-with-image.js', function () {
     it('should pass ESLint', function () {
@@ -9328,6 +9633,16 @@ define('pix-live/tests/mirage/mirage/data/challenges/qcm-challenge.lint-test', [
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('mirage/data/challenges/qcm-challenge.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge-aband.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/data/challenges/qcu-challenge-aband.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('mirage/data/challenges/qcu-challenge-aband.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -9529,7 +9844,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+1367b560"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+1d9cfae4"});
 }
 
 /* jshint ignore:end */
