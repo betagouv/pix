@@ -79,7 +79,7 @@ describe('Service | Solution :', function () {
 
     const solution = new Solution({ id: "solution_id" });
     solution.type = 'QROC';
-    solution.value = '${Rue} =\nRue de la Couteauderie\nRue Couteauderie\nRue la Couteauderie\nde la Couteauderie\nla Couteauderie\n';
+    solution.value = 'Rue de la Couteauderie\nRue Couteauderie\nRue la Couteauderie\nde la Couteauderie\nla Couteauderie\n';
     const goodAnswer = new Answer({ id: 'good_answer_id' });
     goodAnswer.attributes = { value: 'la couteaudérie' }  // Avec un accent et tout
     const badAnswer = new Answer({ id: 'bad_answer_id' });

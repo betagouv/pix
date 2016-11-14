@@ -5,7 +5,7 @@ export default {
     type: 'answers',
     id: 'answer_qroc_ko_id',
     attributes: {
-      value: 'hokuto no ken', // Erreur d'accent volontaire
+      value: 'hokuto no ken',
       result: 'ko'
     },
     relationships: {

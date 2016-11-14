@@ -5,7 +5,7 @@ export default {
     type: 'answers',
     id: 'answer_qroc_id',
     attributes: {
-      value: 'la couteaudérie', // Erreur d'accent volontaire
+      value: 'rue de la couteauderie',
       result: 'pending'
     },
     relationships: {

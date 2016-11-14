@@ -25,7 +25,7 @@ function callOnlyOnce(targetFunction) {
   }
 }
 
-function getFirstValueOfDict(answers) {
+function getFirstValueOfDictionary(answers) {
   return _.pairs(answers)[0][1];
 }
 
@@ -121,7 +121,7 @@ const ChallengeItem = Ember.Component.extend({
       }
       case 'QROC': {
         const answers = this.get('answers');
-        return getFirstValueOfDict(answers);
+        return getFirstValueOfDictionary(answers);
       }
       case 'QROCM': {
         const answers = this.get('answers');
