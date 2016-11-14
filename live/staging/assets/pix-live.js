@@ -7676,7 +7676,7 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
             var el2 = dom.createTextNode("\n         ");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n         \n");
+            var el1 = dom.createTextNode("\n\n");
             dom.appendChild(el0, el1);
             return el0;
           },
@@ -7980,14 +7980,14 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
           var el3 = dom.createTextNode("\n        ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("            \n        ");
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("div");
           dom.setAttribute(el2, "class", "assessment-results-result-line");
           var el3 = dom.createTextNode("\n        ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("            \n        ");
+          var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("div");
           dom.setAttribute(el2, "class", "assessment-results-result-instruction");
@@ -8002,7 +8002,7 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("div");
           dom.setAttribute(el2, "class", "assessment-results-result-img");
-          var el3 = dom.createTextNode("\n         \n");
+          var el3 = dom.createTextNode("\n\n");
           dom.appendChild(el2, el3);
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
@@ -8122,7 +8122,7 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
         var el4 = dom.createTextNode("  ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("    \n\n  ");
+        var el3 = dom.createTextNode("\n\n  ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
         dom.setAttribute(el3, "class", "assessment-results-link");
@@ -9673,7 +9673,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+f60e8fe9"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+3dce55f8"});
 }
 
 /* jshint ignore:end */
