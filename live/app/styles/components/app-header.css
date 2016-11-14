@@ -3,7 +3,7 @@
 }
 
 .app-header-container {
-  height: 120px;
+  height: var(--app-header-height);
   position: relative;
 }
 

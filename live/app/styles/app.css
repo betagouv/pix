@@ -1,6 +1,7 @@
 /* globals */
 @import url('globals/alert.css');
 @import url('globals/buttons.css');
+@import url('globals/dimension.css');
 @import url('globals/form.css');
 @import url('globals/flexbox-helpers.css');
 @import url('globals/groupped-input.css');

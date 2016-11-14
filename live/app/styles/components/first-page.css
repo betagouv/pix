@@ -1,7 +1,24 @@
-.first-page {
+
+/* Table of contents
+––––––––––––––––––––––––––––––––––––––––––––––––––
+- Hero
+- Challenges
+- Email
+- Features
+- Footer
+*/
+
+/*--first-page-hero-height:  700px;*/
+:root {
+  --first-page-hero-height:  700px;
+};
+
+/* Hero
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.first-page-hero {
   background-image: url('/images/stock-photo.jpg');
   background-size: cover;
-  height: 700px;
+  height: var(--first-page-hero-height);
   width: 100%;
   z-index: -1;
   position: absolute;
@@ -11,7 +28,7 @@
   &::after {
     position: absolute;
     z-index: -1;
-    height: 700px;
+    height: var(--first-page-hero-height);
     top: 0;
     left: 0;
     right: 0;
@@ -21,11 +38,11 @@
   }
 }
 
-.first-page-box {
+.first-page-hero-box {
   height: 100%;
 }
 
-.first-page__main-value-prop {
+.first-page-hero__main-value-prop {
   width: 845px;
   font-size: 65px;
   font-weight: 900;
@@ -36,7 +53,7 @@
   z-index: 1;
 }
 
-.first-page__sub-value-prop {
+.first-page-hero__sub-value-prop {
   width: 567px;
   font-size: 26px;
   font-weight: bold;
@@ -45,3 +62,27 @@
   margin-bottom: 33px;
   z-index: 1;
 }
+
+
+/* Challenges
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.first-page-challenges {
+  margin-top: calc(var(--first-page-hero-height) - var(--app-header-height));
+  height: 646px;
+  background-color: var(--light-grey1);
+}
+
+/* XXX : issue raised, impossible to put a margin-top to title (single direction margin declaration) */
+.first-page-challenges__empty {
+  margin-bottom: 56px;
+}
+
+.first-page-challenges__title {
+  font-size: 36px;
+  line-height: 0.8;
+  text-align: center;
+  color: #3d68ff;
+  margin-bottom: 66px;
+}
+
+
