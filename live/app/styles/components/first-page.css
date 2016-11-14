@@ -1,0 +1,33 @@
+.first-page {
+  background-image: url('/images/stock-photo.jpg');
+  background-size: cover;
+  height: 700px;
+  width: 100%;
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.first-page-box {
+  height: 100%;
+}
+
+.first-page__main-value-prop {
+  width: 845px;
+  height: 130px;
+  font-size: 65px;
+  font-weight: 900;
+  line-height: 1;
+  color: #ffffff;
+  margin-left: 160px;
+}
+
+.first-page__sub-value-prop {
+  width: 567px;
+  height: 96px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-left: 160px;
+}
