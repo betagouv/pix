@@ -87,7 +87,7 @@
 .first-page-challenges__cards {
 
   &.container {
-    max-width: 1100px;
+    max-width: 1180px;
   }
 
   & .courses {
@@ -241,11 +241,38 @@
   font-size: 15px;
   margin-top: 12px;
   color: #3e4149;
+  text-align: center;
 }
 
 
 /* Features
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .first-page-footer {
+  display: flex;
+  align-items: center;
+  height: 150px;
+  &.container {
+    max-width: 1180px;
+  }
+}
 
+.first-page-footer__item {
+  margin-left: auto;
+  &:first-child {
+    margin-left: 0px;
+  };
+}
+
+.first-page-footer__logo-marianne-img {
+  width: auto;
+  height: 45px;
+}
+
+.first-page-footer__logo-pix-img {
+  width: auto;
+  height: 80px;
+}
+
+.first-page-footer__mailto {
+  color: #3e4149;
 }
