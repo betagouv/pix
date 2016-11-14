@@ -68,7 +68,6 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .first-page-challenges {
   margin-top: calc(var(--first-page-hero-height) - var(--app-header-height));
-  height: 646px;
   background-color: var(--light-grey1);
 }
 
@@ -151,3 +150,54 @@
   }
 }
 
+
+/* Email
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.first-page-email {
+  height: 255px;
+  padding-top:72px;
+  background-color: var(--pix-blue);
+}
+
+.first-page-email__title {
+  height: 34px;
+  font-size: 28px;
+  margin-bottom: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+}
+
+
+.first-page-email__input-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 80px;
+}
+
+.first-page-email__input {
+  width: 641px;
+  height: 46px;
+  border: 1px solid #ffffff;
+  /*border-radius: 5px;*/
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background-color: #ffffff;
+  font-size: 20px;
+  color: #686868;
+  outline: none;
+}
+
+.first-page-email__button {
+  width: 214px;
+  height: 46px;
+  border: 1px solid #c3d0ff;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: #c3d0ff;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  color: #3d68ff;
+  outline: none;
+}
