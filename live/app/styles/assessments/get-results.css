@@ -66,10 +66,11 @@
     box-shadow: none;
     border: solid 2px #446eff;
     transition: border-color 1s ease;
-  };
+  }
+
   &:nth-last-child(1) {
     margin-bottom: 20px;
-  };
+  }
 }
 
 .assessment-results-result {
