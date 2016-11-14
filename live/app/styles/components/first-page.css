@@ -224,6 +224,7 @@
 .first-page-feature__icon-container {
   display: flex;
   justify-content: center;
+  height: 107px;
 }
 
 .first-page-feature__title {
