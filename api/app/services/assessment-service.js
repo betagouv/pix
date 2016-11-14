@@ -8,10 +8,6 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
 
     const challenges = course.challenges;
 
-    if (course.isAdaptive) {
-      console.info(assessment.get('id'), assessment.related('answers').toJSON());
-    }
-
     if (!currentChallengeId) {
       return resolve(challenges[0]);
     }
