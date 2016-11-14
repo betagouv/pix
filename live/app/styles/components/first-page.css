@@ -7,6 +7,18 @@
   position: absolute;
   top: 0;
   left: 0;
+  
+  &::after {
+    position: absolute;
+    z-index: -1;
+    height: 700px;
+    top: 0;
+    left: 0;
+    right: 0;
+    content: '';
+    bottom: 10%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.6), transparent);
+  }
 }
 
 .first-page-box {
@@ -15,19 +27,21 @@
 
 .first-page__main-value-prop {
   width: 845px;
-  height: 130px;
   font-size: 65px;
   font-weight: 900;
   line-height: 1;
   color: #ffffff;
   margin-left: 160px;
+  margin-bottom: 24px;
+  z-index: 1;
 }
 
 .first-page__sub-value-prop {
   width: 567px;
-  height: 96px;
   font-size: 26px;
   font-weight: bold;
   color: #ffffff;
   margin-left: 160px;
+  margin-bottom: 33px;
+  z-index: 1;
 }
