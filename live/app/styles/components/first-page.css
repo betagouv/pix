@@ -210,6 +210,7 @@
   display: flex;
   justify-content: center;
   padding-top: 90px;  
+  background-color: white;
 }
 
 .first-page-feature {
