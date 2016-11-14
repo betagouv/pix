@@ -1,5 +1,6 @@
-<div class='app-header'>
-  
+
+{{#if (eq router.currentRouteName "index")}}
+  <div class='app-header'>
   {{corner-ribbon}}  
   
   <div class='app-header-container'>
@@ -15,3 +16,8 @@
     </div>
   </div>
 </div>
+
+{{else}}
+  
+{{/if}}
+
