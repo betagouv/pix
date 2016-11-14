@@ -2,6 +2,16 @@
 
 module.exports = function (environment) {
   var ENV = {
+    metricsAdapters: [
+      {
+        name: 'Piwik',
+        environments: ['production'],
+        config: {
+          piwikUrl: '//stats.data.gouv.fr',
+          siteId: 29
+        }
+      }
+    ],
     modulePrefix: 'pix-live',
     environment: environment,
     rootURL: '/',
