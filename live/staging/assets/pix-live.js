@@ -2270,15 +2270,13 @@ define('pix-live/routes/courses/get-course-preview', ['exports', 'ember', 'rsvp'
     }
   });
 });
-define('pix-live/routes/home', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
+define('pix-live/routes/home', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
 
     delay: _ember['default'].inject.service(),
 
     model: function model() {
-      return _rsvp['default'].all([this.store.findAll('course'), this.get('delay').ms(500)]).then(function (arr) {
-        return arr[0];
-      });
+      return this.store.findAll('course');
     }
   });
 });
@@ -9844,7 +9842,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+90809c62"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+fab4d237"});
 }
 
 /* jshint ignore:end */
