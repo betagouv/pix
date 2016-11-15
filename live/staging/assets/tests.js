@@ -1,55 +1,5 @@
 'use strict';
 
-define('pix-live/tests/acceptance/1-accedder-a-la-plateforme-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)('Acceptance | 1 - Accéder à la plateforme pour démarrer un test', function () {
-
-    var application = undefined;
-
-    (0, _mocha.before)(function () {
-      application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.after)(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.before)(function () {
-      visit('/');
-    });
-
-    (0, _mocha.it)('1.0 peut visiter /', function () {
-      (0, _chai.expect)(currentURL()).to.equal('/');
-    });
-
-    (0, _mocha.it)('1.1 la landing page contient un pitch de présentation', function () {
-      (0, _chai.expect)(findWithAssert('.sales-pitch').text()).to.contains('PIX est un projet public de plateforme en ligne d\'évaluation');
-    });
-
-    (0, _mocha.it)('1.3 la page d\'accueil contient un formulaire Nom / Prénom / Email et un bouton valider', function () {
-      (0, _chai.expect)(findWithAssert('label[for="firstName"]').text()).to.contains('Prénom');
-      (0, _chai.expect)(findWithAssert('#firstName'));
-
-      (0, _chai.expect)(findWithAssert('label[for="lastName"]').text()).to.contains('Nom');
-      (0, _chai.expect)(findWithAssert('#lastName'));
-
-      (0, _chai.expect)(findWithAssert('label[for="lastName"]').text()).to.contains('Nom');
-      (0, _chai.expect)(findWithAssert('#email'));
-    });
-  });
-});
-define('pix-live/tests/acceptance/1-accedder-a-la-plateforme-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/1-accedder-a-la-plateforme-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/1-accedder-a-la-plateforme-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/acceptance/10-consulter-l-ecran-de-fin-de-test-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)("Acceptance | 10 - Consulter l'écran de fin d'un test ", function () {
@@ -379,18 +329,14 @@ define('pix-live/tests/acceptance/197-validation-automatique-des-qroc-test', ['e
       return visit('/assessments/completed_assessment_qroc_id/results');
     });
 
-    (0, _mocha.before)(function () {
-      $summary = findWithAssert('.table#summary tbody tr');
-    });
-
     (0, _mocha.it)("197.1. Pour un QROC avec une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
-      var $cell = findWithAssert('.table#summary tbody tr:nth-child(2) td:nth-child(3)');
-      (0, _chai.expect)($cell.text()).to.contains('réponse correcte');
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
     });
 
     (0, _mocha.it)("197.2. Pour un QROC avec une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
-      var $cell = findWithAssert('.table#summary tbody tr:nth-child(1) td:nth-child(3)');
-      (0, _chai.expect)($cell.text()).to.contains('réponse incorrecte');
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse correcte');
     });
   });
 });
@@ -624,7 +570,46 @@ define('pix-live/tests/acceptance/25-image-sous-la-consigne-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/acceptance/259-afficher-logo-beta-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/257-page-accueuil', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)('Acceptance | 1 - Accéder à la plateforme pour démarrer un test', function () {
+
+    var application = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      visit('/');
+    });
+
+    (0, _mocha.it)('1.0 peut visiter /', function () {
+      (0, _chai.expect)(currentURL()).to.equal('/');
+    });
+
+    (0, _mocha.it)('1.1 la landing page contient un pitch de présentation', function () {
+      (0, _chai.expect)(findWithAssert('.first-page-hero__main-value-prop').text()).to.contains('Développez vos compétences numériques');
+    });
+  });
+});
+define('pix-live/tests/acceptance/257-page-accueuil.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/257-page-accueuil.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/257-page-accueuil.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/259-afficher-logo-beta-test', ['exports', 'mocha', 'chai', 'lodash/lodash', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _lodashLodash, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 259 - Afficher le logo BETA | ', function () {
 
@@ -641,21 +626,21 @@ define('pix-live/tests/acceptance/259-afficher-logo-beta-test', ['exports', 'moc
     (0, _mocha.it)('Le logo est présent sur la page index', function () {
       visit('/');
       andThen(function () {
-        findWithAssert('.beta-logo');
+        findWithAssert($('img[src="images/pix-logo.svg"]'));
       });
     });
 
     (0, _mocha.it)('Le logo est présent sur la page de liste des tests', function () {
       visit('/home');
       andThen(function () {
-        findWithAssert('.beta-logo');
+        findWithAssert($('img[src="images/pix-logo.svg"]'));
       });
     });
 
     (0, _mocha.it)('Le logo est présent sur la page d\'une épreuve', function () {
       visit('/assessments/new_assessment_id/challenges/qcu_challenge_id');
       andThen(function () {
-        findWithAssert('.beta-logo');
+        findWithAssert($('img[src="images/pix-logo.svg"]'));
       });
     });
   });
@@ -931,124 +916,6 @@ define('pix-live/tests/acceptance/37-previsualiser-un-test.lint-test', ['exports
     });
   });
 });
-define('pix-live/tests/acceptance/38-s-identifier-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)("Acceptance | 38 - S'identifier sur la plateforme", function () {
-
-    var application = undefined;
-
-    (0, _mocha.before)(function () {
-      application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.after)(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.before)(function () {
-      return visit('/');
-    });
-
-    var $firstName = undefined;
-    var $lastName = undefined;
-    var $email = undefined;
-
-    (0, _mocha.before)(function () {
-      $firstName = findWithAssert('#firstName');
-      $lastName = findWithAssert('#lastName');
-      $email = findWithAssert('#email');
-    });
-
-    function getErrorMessageDiv() {
-      return findWithAssert('.alert-danger').first();
-    }
-
-    function fillForm(firstName, lastName, email) {
-      fillIn('#firstName', firstName);
-      fillIn('#lastName', lastName);
-      fillIn('#email', email);
-    }
-
-    function submitIdentificationForm() {
-      var $submit = findWithAssert('button[type="submit"]').first();
-      click($submit);
-    }
-
-    function checkMissingInput(selector, errorMessage) {
-      fillIn(selector, '');
-      submitIdentificationForm();
-      andThen(function () {
-        (0, _chai.expect)(getErrorMessageDiv().text()).to.contains(errorMessage);
-      });
-    }
-
-    (0, _mocha.it)("38.1 Depuis la page d'accueil, je peux saisir mon prénom + nom + e-mail", function () {
-      fillForm('Jon', 'Snow', 'jsnow@winterfell.got');
-      andThen(function () {
-        (0, _chai.expect)($firstName.val()).to.contains('Jon');
-        (0, _chai.expect)($lastName.val()).to.equal('Snow');
-        (0, _chai.expect)($email.val()).to.equal('jsnow@winterfell.got');
-      });
-    });
-
-    (0, _mocha.describe)('38.2 Quand je valide mon identité', function () {
-
-      (0, _mocha.before)(function () {
-        visit('/');
-        fillForm('Thomas', 'Wickham', 'twi@octo.com');
-        submitIdentificationForm();
-      });
-
-      (0, _mocha.it)("je suis redirigé vers la page d'accueil", function () {
-        (0, _chai.expect)(currentURL()).to.equal('/home');
-      });
-
-      (0, _mocha.it)("je vois apparaître 'Bonjour Prénom' dans le header", function () {
-        (0, _chai.expect)(findWithAssert('.profile').text()).to.contains('Bonjour Thomas');
-      });
-    });
-
-    (0, _mocha.describe)("38.4 En cas de champs vide ou invalide, un message d'erreur apparaît", function () {
-
-      (0, _mocha.beforeEach)(function () {
-        visit('/');
-        fillForm('Thomas', 'Wickham', 'twi@octo.com');
-      });
-
-      (0, _mocha.it)('Prénom vide', function () {
-        checkMissingInput('#firstName', 'Vous devez saisir votre prénom.');
-      });
-
-      (0, _mocha.it)('Nom vide', function () {
-        checkMissingInput('#lastName', 'Vous devez saisir votre nom.');
-      });
-
-      (0, _mocha.it)('E-mail vide', function () {
-        checkMissingInput('#email', 'Vous devez saisir une adresse e-mail valide.');
-      });
-
-      (0, _mocha.it)('E-mail invalide', function () {
-        fillIn('#email', '// bademail //');
-        submitIdentificationForm();
-        andThen(function () {
-          (0, _chai.expect)(getErrorMessageDiv().text()).to.contains('Vous devez saisir une adresse e-mail valide');
-        });
-      });
-    });
-  });
-});
-define('pix-live/tests/acceptance/38-s-identifier-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/38-s-identifier-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/38-s-identifier-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/acceptance/4-demarrer-une-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 4 - Démarrer une épreuve |', function () {
@@ -1242,6 +1109,18 @@ define('pix-live/tests/components/challenge-item.lint-test', ['exports'], functi
     });
   });
 });
+define('pix-live/tests/components/corner-ribbon.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/corner-ribbon.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('components/corner-ribbon.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/components/course-banner.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -1249,6 +1128,18 @@ define('pix-live/tests/components/course-banner.lint-test', ['exports'], functio
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('components/course-banner.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/components/first-page.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/first-page.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('components/first-page.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1942,6 +1833,18 @@ define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'npm:urljs
  */
 
 /* global $, Date */
+define('pix-live/tests/helpers/eq.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - helpers/eq.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('helpers/eq.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-live/config/environment'], function (exports, _pixLiveResolver, _pixLiveConfigEnvironment) {
 
   var resolver = _pixLiveResolver['default'].create();
@@ -2014,6 +1917,18 @@ define('pix-live/tests/initializers/enable-sentry.lint-test', ['exports'], funct
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('initializers/enable-sentry.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/initializers/router.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - initializers/router.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('initializers/router.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -2379,6 +2294,137 @@ define('pix-live/tests/integration/components/challenge-item-test.lint-test', ['
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('integration/components/challenge-item-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/integration/components/corner-ribbon-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeComponent)('corner-ribbon', 'Integration: CornerRibbonComponent', {
+    integration: true
+  }, function () {
+    (0, _emberMocha.it)('renders', function () {
+      this.render(Ember.HTMLBars.template((function () {
+        return {
+          meta: {
+            'revision': 'Ember@2.8.3',
+            'loc': {
+              'source': null,
+              'start': {
+                'line': 1,
+                'column': 0
+              },
+              'end': {
+                'line': 1,
+                'column': 17
+              }
+            }
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment('');
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [['content', 'corner-ribbon', ['loc', [null, [1, 0], [1, 17]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })()));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/integration/components/corner-ribbon-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/corner-ribbon-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('integration/components/corner-ribbon-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/integration/components/first-page-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeComponent)('first-page', 'Integration: FirstPageComponent', {
+    integration: true
+  }, function () {
+    (0, _emberMocha.it)('renders', function () {
+      // Set any properties with this.set('myProperty', 'value');
+      // Handle any actions with this.on('myAction', function(val) { ... });
+      // Template block usage:
+      // this.render(hbs`
+      //   {{#first-page}}
+      //     template content
+      //   {{/first-page}}
+      // `);
+
+      this.render(Ember.HTMLBars.template((function () {
+        return {
+          meta: {
+            'revision': 'Ember@2.8.3',
+            'loc': {
+              'source': null,
+              'start': {
+                'line': 1,
+                'column': 0
+              },
+              'end': {
+                'line': 1,
+                'column': 14
+              }
+            }
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment('');
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [['content', 'first-page', ['loc', [null, [1, 0], [1, 14]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })()));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/integration/components/first-page-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/first-page-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('integration/components/first-page-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
