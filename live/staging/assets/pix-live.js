@@ -413,9 +413,11 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
     // eslint-disable-next-line complexity
     _getAnswerValue: function _getAnswerValue() {
       var challengeType = this.get('challenge.type');
+      console.log(challengeType);
 
       switch (challengeType) {
         case 'QCUIMG':
+        case 'QRU':
         case 'QCU':
           {
             var selectedValue = this.get('selectedProposal');
@@ -454,6 +456,7 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
     _hasError: function _hasError() {
       switch (this.get('challenge.type')) {
         case 'QCUIMG':
+        case 'QRU':
         case 'QCU':
           return _ember['default'].isEmpty(this.get('selectedProposal'));
         case 'QCMIMG':
@@ -481,6 +484,8 @@ define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash
           return "Pour valider, sélectionner au moins une réponse. Sinon, passer.";
         case 'QROC':
           return "Pour valider, saisir une réponse. Sinon, passer.";
+        case 'QRU':
+          return "Cocher la case avant de valider. Sinon, passer.";
         case 'QROCM':
           return "Pour valider, saisir au moins une réponse. Sinon, passer.";
         default:
@@ -10710,7 +10715,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+a3c1b36c"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+f4cef5ab"});
 }
 
 /* jshint ignore:end */
