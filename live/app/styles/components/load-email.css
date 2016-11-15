@@ -1,0 +1,129 @@
+/*
+* borrowed from http://codepen.io/dead_seagull/pen/QjPOjq
+*/
+
+/* general */
+.buttonContainer {
+  text-align: center;
+  margin: 32px 0;
+}
+
+/* PARAMETERS */
+/* KEYFRAMES */
+.dsButtonAnim {
+  text-align: center;
+  display: inline-block;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 3rem;
+  background: #3dcb5f;
+  border-radius: 4rem;
+  cursor: pointer;
+  height: 3rem;
+  transition: all 0.4s cubic-bezier(0.9, 0.1, 0.1, 0.9);
+  width: 10rem;
+}
+.dsButtonAnim span {
+  opacity: 1;
+  transition: 0.2s 0.4s ease;
+}
+.dsButtonAnim.loading {
+  background: #fb0;
+  width: 3rem;
+  height: 3rem;
+  padding: 0rem;
+  transition: all 0.4s 0.2s cubic-bezier(0.9, 0.1, 0.1, 0.9);
+  animation: loadingAnimation 2s 0.48s infinite;
+}
+.dsButtonAnim.loading span {
+  opacity: 0;
+  transition: 0.2s ease;
+}
+.dsButtonAnim.success {
+  position: relative;
+  background: #3dcb5f;
+  width: 3rem;
+  height: 3rem;
+  animation: none;
+  transition: all 0.4s cubic-bezier(0.9, 0.1, 0.1, 0.9);
+}
+.dsButtonAnim.success span {
+  opacity: 0;
+  transition: 0.2s ease;
+}
+.dsButtonAnim.success::before,
+.dsButtonAnim.success::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  height: 4px;
+  background: #fff;
+  transform-origin: 0% 50%;
+  z-index: 10;
+  animation: showPseudos 0.4s 0.2s cubic-bezier(0.9, 0.1, 0.1, 0.9) forwards;
+  opacity: 0;
+  left: 48%;
+  bottom: 0.8rem;
+}
+.dsButtonAnim.success::before {
+  width: 14px;
+  transform: rotate(-135deg);
+}
+.dsButtonAnim.success::after {
+  margin-left: -3px;
+  width: 24px;
+  transform: rotate(-45deg);
+}
+.dsButtonAnim.error {
+  position: relative;
+  background: #da3b3b;
+  width: 3rem;
+  height: 3rem;
+  animation: none;
+  transition: all 0.4s cubic-bezier(0.9, 0.1, 0.1, 0.9);
+}
+.dsButtonAnim.error span {
+  opacity: 0;
+  transition: 0.2s ease;
+}
+.dsButtonAnim.error::before,
+.dsButtonAnim.error::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  height: 4px;
+  width: -5rem;
+  left: 50%;
+  margin-left: -2.5rem;
+  background: #fff;
+  transform-origin: 50% 50%;
+  z-index: 10;
+  animation: showPseudos 0.4s 0.2s cubic-bezier(0.9, 0.1, 0.1, 0.9) forwards;
+  opacity: 0;
+  top: 50%;
+  margin-top: -2px;
+}
+.dsButtonAnim.error::before {
+  transform: rotate(-135deg);
+}
+.dsButtonAnim.error::after {
+  transform: rotate(-45deg);
+}
+
+@keyframes loadingAnimation {
+  0% {
+    box-shadow: 0px 0px 0px 0px #fb0;
+  }
+  100% {
+    box-shadow: 0px 0px 0px 1rem rgba(255,187,0,0);
+  }
+}
+
+@keyframes showPseudos {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

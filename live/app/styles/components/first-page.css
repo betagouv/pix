@@ -168,17 +168,21 @@
 }
 
 
-.first-page-email__input-container {
+.first-page-email__form {
   display: flex;
   justify-content: center;
   margin-bottom: 80px;
 }
 
-.first-page-email__input {
+.first-page-email__form-item {
+  display: flex;
+  align-items: center;
+}
+
+.first-page-email-enter{
   width: 641px;
   height: 46px;
   border: 1px solid #ffffff;
-  /*border-radius: 5px;*/
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   background-color: #ffffff;
@@ -187,7 +191,9 @@
   outline: none;
 }
 
-.first-page-email__button {
+
+
+/*.first-page-email__button {
   width: 214px;
   height: 46px;
   border: 1px solid #c3d0ff;
@@ -203,7 +209,7 @@
   position: relative;
   left: -70px;
   top: -3px;
-}
+}*/
 
 
 
