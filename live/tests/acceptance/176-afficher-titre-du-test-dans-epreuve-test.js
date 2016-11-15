@@ -39,7 +39,7 @@ describe('Acceptance | 176 - Affichage du bandeau d\'une épreuve |', function (
       // when
       click('.course-banner-home-link');
 
-      // then
+      // then...
       andThen(() => expect(currentURL()).to.equal('/'));
     });
   });
