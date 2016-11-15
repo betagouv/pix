@@ -179,8 +179,8 @@
   align-items: center;
 }
 
-.first-page-email-enter{
-  width: 641px;
+.first-page-email-enter {
+  width: 510px;
   height: 46px;
   border: 1px solid #ffffff;
   border-top-left-radius: 5px;
@@ -189,6 +189,7 @@
   font-size: 20px;
   color: #686868;
   outline: none;
+  padding-left: 18px;
 }
 
 
