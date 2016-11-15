@@ -39,14 +39,14 @@ describe('Acceptance | 6 - Valider une épreuve |', function () {
     expect($progressBar.text()).to.contains(expectedText);
   });
   it("6.1. Je peux valider ma réponse à une épreuve via un bouton 'Valider'", function () {
-    expect(findWithAssert('.validate-button')).to.have.lengthOf(1);
+    expect(findWithAssert('.challenge-item-actions__validate-action')).to.have.lengthOf(1);
   });
 
   describe("quand je valide ma réponse à une épreuve", function () {
 
     it("6.3. Si l'épreuve que je viens de valider n'était pas la dernière du test, je suis redirigé vers l'épreuve suivante", function () {
       return click('.challenge-proposal:first input[type="checkbox"]').then(() => {
-        const $validateButton = $('.validate-button')[0];
+        const $validateButton = $('.challenge-item-actions__validate-action')[0];
         return click($validateButton).then(() => {
           expect(currentURL()).to.contains(`/assessments/in_progress_assessment_id/challenges/qcu_challenge_id`);
         });
@@ -61,7 +61,7 @@ describe('Acceptance | 6 - Valider une épreuve |', function () {
     it("6.5. Si l'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test", function () {
       visit(`/assessments/in_progress_assessment_id/challenges/qrocm_challenge_id`).then(() => {
         fillIn('input[name="logiciel"]', 'COUCOU').then(() => {
-          const $validateButton = $('.validate-button')[0];
+          const $validateButton = $('.challenge-item-actions__validate-action')[0];
           return click($validateButton).then(() => {
             expect(currentURL()).to.contains(`/assessments/in_progress_assessment_id/results`);
           });
