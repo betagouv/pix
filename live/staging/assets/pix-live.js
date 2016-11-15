@@ -1215,6 +1215,27 @@ define('pix-live/initializers/load-bootstrap-config', ['exports', 'pix-live/conf
     initialize: initialize
   };
 });
+define('pix-live/initializers/metrics', ['exports', 'pix-live/config/environment'], function (exports, _pixLiveConfigEnvironment) {
+  exports.initialize = initialize;
+
+  function initialize() {
+    var application = arguments[1] || arguments[0];
+    var _config$metricsAdapters = _pixLiveConfigEnvironment['default'].metricsAdapters;
+    var metricsAdapters = _config$metricsAdapters === undefined ? [] : _config$metricsAdapters;
+    var _config$environment = _pixLiveConfigEnvironment['default'].environment;
+    var environment = _config$environment === undefined ? 'development' : _config$environment;
+
+    var options = { metricsAdapters: metricsAdapters, environment: environment };
+
+    application.register('config:metrics', options, { instantiate: false });
+    application.inject('service:metrics', 'options', 'config:metrics');
+  }
+
+  exports['default'] = {
+    name: 'metrics',
+    initialize: initialize
+  };
+});
 define('pix-live/initializers/modals-container', ['exports', 'ember-bootstrap/initializers/modals-container'], function (exports, _emberBootstrapInitializersModalsContainer) {
   exports['default'] = _emberBootstrapInitializersModalsContainer['default'];
 });
@@ -2165,6 +2186,28 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     rootURL: _pixLiveConfigEnvironment['default'].rootURL
   });
 
+  // XXX https://github.com/poteto/ember-metrics/issues/43#issuecomment-252081256
+  if (_pixLiveConfigEnvironment['default'].environment === 'integration' || _pixLiveConfigEnvironment['default'].environment === 'staging' || _pixLiveConfigEnvironment['default'].environment === 'production') {
+    Router.reopen({
+      metrics: _ember['default'].inject.service(),
+
+      didTransition: function didTransition() {
+        this._super.apply(this, arguments);
+        this._trackPage();
+      },
+
+      _trackPage: function _trackPage() {
+        var _this = this;
+
+        _ember['default'].run.scheduleOnce('afterRender', this, function () {
+          var page = _this.get('url');
+          var title = _this.getWithDefault('currentRouteName', 'unknown');
+          _ember['default'].get(_this, 'metrics').trackPage({ page: page, title: title });
+        });
+      }
+    });
+  }
+
   exports['default'] = Router.map(function () {
     this.route('index', { path: '/' });
     this.route('home');
@@ -2426,6 +2469,14 @@ define('pix-live/services/delay', ['exports', 'ember', 'rsvp'], function (export
       }
       // test-only, to avoid test to take too long
       return new _rsvp['default'].resolve();
+    }
+  });
+});
+define('pix-live/services/metrics', ['exports', 'ember-metrics/services/metrics'], function (exports, _emberMetricsServicesMetrics) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMetricsServicesMetrics['default'];
     }
   });
 });
@@ -10679,6 +10730,22 @@ define('pix-live/tests/mirage/mirage/routes/post-assessments.lint-test', ['expor
     });
   });
 });
+define('pix-live/utils/can-use-dom', ['exports', 'ember-metrics/utils/can-use-dom'], function (exports, _emberMetricsUtilsCanUseDom) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMetricsUtilsCanUseDom['default'];
+    }
+  });
+});
+define('pix-live/utils/object-transforms', ['exports', 'ember-metrics/utils/object-transforms'], function (exports, _emberMetricsUtilsObjectTransforms) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMetricsUtilsObjectTransforms['default'];
+    }
+  });
+});
 /* jshint ignore:start */
 
 
@@ -10715,7 +10782,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+f4cef5ab"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+faa816f6"});
 }
 
 /* jshint ignore:end */
