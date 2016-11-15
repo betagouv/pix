@@ -2,8 +2,7 @@ const service = require('../../../../lib/domain/services/solution-service');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Solution = require('../../../../lib/domain/models/referential/solution');
 
-describe('Service | Solution :', function () {
-
+describe('Unit | Service | Solution :', function () {
 
   describe('The correctness of a QRU', function () {
 
@@ -19,7 +18,6 @@ describe('Service | Solution :', function () {
     });
 
   });
-
 
   describe('The correctness of a QCU', function () {
 

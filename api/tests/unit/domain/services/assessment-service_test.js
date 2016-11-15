@@ -4,7 +4,7 @@ const Answer = require('../../../../lib/domain/models/data/answer');
 const Course = require('../../../../lib/domain/models/referential/course');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 
-describe('Service | Assessments', function () {
+describe('Unit | Service | Assessments', function () {
 
   describe('#getAssessmentNextChallengeId()', function () {
 

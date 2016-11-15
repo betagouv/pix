@@ -1,7 +1,7 @@
 const serializer = require('../../../../lib/infrastructure/serializers/answer-serializer');
 const Answer = require('../../../../lib/domain/models/data/answer');
 
-describe('Serializer | AnswerSerializer', function () {
+describe('Unit | Serializer | AnswerSerializer', function () {
 
   const modelObject = new Answer({
     id: 'answer_id',
