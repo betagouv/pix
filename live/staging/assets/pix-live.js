@@ -635,6 +635,7 @@ define('pix-live/components/load-email', ['exports', 'ember'], function (exports
         /* istanbul ignore next */
         function (e) {
           e.preventDefault();
+          btn.textContent = 'Veuillez patienter...';
           var emailValue = $('.first-page-email-enter').val();
           $.ajax({
             url: 'https://formspree.io/1024pix@gmail.com',
@@ -645,12 +646,14 @@ define('pix-live/components/load-email', ['exports', 'ember'], function (exports
               btn.classList.add('load-email-is-active');
               $('.first-page-email-enter').attr('disabled', 'disabled');
               $('button.load-email').attr('disabled', 'disabled');
+              btn.textContent = 'Rejoindre la communauté';
             },
             error: function error() {
               btn.classList.add('load-email-is-error');
               setTimeout(function () {
                 $('.first-page-email-enter').val('');
                 btn.classList.remove('load-email-is-error');
+                btn.textContent = 'Rejoindre la communauté';
               }, 3000);
             }
           });
@@ -6124,7 +6127,7 @@ define("pix-live/templates/components/course-banner", ["exports"], function (exp
               },
               "end": {
                 "line": 8,
-                "column": 84
+                "column": 85
               }
             },
             "moduleName": "pix-live/templates/components/course-banner.hbs"
@@ -6182,7 +6185,7 @@ define("pix-live/templates/components/course-banner", ["exports"], function (exp
           morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
           return morphs;
         },
-        statements: [["block", "link-to", ["home"], ["class", "course-banner-home-link"], 0, null, ["loc", [null, [8, 6], [8, 96]]]]],
+        statements: [["block", "link-to", ["index"], ["class", "course-banner-home-link"], 0, null, ["loc", [null, [8, 6], [8, 97]]]]],
         locals: [],
         templates: [child0]
       };
@@ -10782,7 +10785,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+faa816f6"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+5327458c"});
 }
 
 /* jshint ignore:end */

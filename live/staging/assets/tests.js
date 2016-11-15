@@ -187,13 +187,13 @@ define('pix-live/tests/acceptance/176-afficher-titre-du-test-dans-epreuve-test',
         (0, _chai.expect)($courseListButton.text()).to.equal('Retour à la liste des tests');
       });
 
-      (0, _mocha.it)('Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers la liste des tests', function () {
+      (0, _mocha.it)('Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers l\'index', function () {
         // when
         click('.course-banner-home-link');
 
-        // then
+        // then...
         andThen(function () {
-          return (0, _chai.expect)(find('#home')).to.have.lengthOf(1);
+          return (0, _chai.expect)(currentURL()).to.equal('/');
         });
       });
     });
