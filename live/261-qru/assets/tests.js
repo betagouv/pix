@@ -897,8 +897,7 @@ define('pix-live/tests/acceptance/37-previsualiser-un-test', ['exports', 'mocha'
         });
 
         (0, _mocha.it)("37.7. un bouton pour accéder à l'épreuve suivante", function () {
-          var $validateButton = findWithAssert('.validate-button');
-          (0, _chai.expect)($validateButton.text()).to.contains('Valider');
+          (0, _chai.expect)(findWithAssert('a.challenge-item-actions__validate-action').text()).to.contains('Je valide');
         });
       });
     });
@@ -953,11 +952,11 @@ define('pix-live/tests/acceptance/4-demarrer-une-epreuve-qcu-test', ['exports', 
     });
 
     (0, _mocha.it)('4.4. affiche le bouton "Valider" permettant de sauvegarder la réponse saisie et de passer à l\'épreuve suivante ', function () {
-      (0, _chai.expect)(findWithAssert('.validate-button').text()).to.contains('Valider');
+      (0, _chai.expect)(findWithAssert('a.challenge-item-actions__validate-action').text()).to.contains('Je valide');
     });
 
     (0, _mocha.it)('4.5. affiche le bouton "Passer" permettant de passer à l\'épreuve suivante sans avoir saisi de réponse', function () {
-      (0, _chai.expect)(findWithAssert('.skip-button').text()).to.contains('Passer');
+      (0, _chai.expect)(findWithAssert('a.challenge-item-actions__skip-action').text()).to.contains('Je passe');
     });
   });
 });
@@ -974,6 +973,10 @@ define('pix-live/tests/acceptance/4-demarrer-une-epreuve-qcu-test.lint-test', ['
   });
 });
 define('pix-live/tests/acceptance/6-valider-une-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  function getValidateActionLink() {
+    return $('a.challenge-item-actions__validate-action')[0];
+  }
 
   (0, _mocha.describe)('Acceptance | 6 - Valider une épreuve |', function () {
 
@@ -1004,15 +1007,15 @@ define('pix-live/tests/acceptance/6-valider-une-epreuve-test', ['exports', 'moch
       var expectedText = "1";
       (0, _chai.expect)($progressBar.text()).to.contains(expectedText);
     });
-    (0, _mocha.it)("6.1. Je peux valider ma réponse à une épreuve via un bouton 'Valider'", function () {
-      (0, _chai.expect)(findWithAssert('.validate-button')).to.have.lengthOf(1);
+    (0, _mocha.it)("6.1. Je peux valider ma réponse à une épreuve via un bouton 'Je valide'", function () {
+      (0, _chai.expect)(findWithAssert('a.challenge-item-actions__validate-action')).to.have.lengthOf(1);
     });
 
     (0, _mocha.describe)("quand je valide ma réponse à une épreuve", function () {
 
       (0, _mocha.it)("6.3. Si l'épreuve que je viens de valider n'était pas la dernière du test, je suis redirigé vers l'épreuve suivante", function () {
         return click('.challenge-proposal:first input[type="checkbox"]').then(function () {
-          var $validateButton = $('.validate-button')[0];
+          var $validateButton = getValidateActionLink();
           return click($validateButton).then(function () {
             (0, _chai.expect)(currentURL()).to.contains('/assessments/in_progress_assessment_id/challenges/qcu_challenge_id');
           });
@@ -1027,7 +1030,7 @@ define('pix-live/tests/acceptance/6-valider-une-epreuve-test', ['exports', 'moch
       (0, _mocha.it)("6.5. Si l'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test", function () {
         visit('/assessments/in_progress_assessment_id/challenges/qrocm_challenge_id').then(function () {
           fillIn('input[name="logiciel"]', 'COUCOU').then(function () {
-            var $validateButton = $('.validate-button')[0];
+            var $validateButton = getValidateActionLink();
             return click($validateButton).then(function () {
               (0, _chai.expect)(currentURL()).to.contains('/assessments/in_progress_assessment_id/results');
             });
@@ -1164,6 +1167,18 @@ define('pix-live/tests/components/identification-form.lint-test', ['exports'], f
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('components/identification-form.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/components/load-email.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/load-email.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('components/load-email.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -2039,7 +2054,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
   }
 
   function validateChallenge() {
-    this.$('.validate-button').click();
+    this.$('a.challenge-item-actions__validate-action').click();
   }
 
   (0, _emberMocha.describeComponent)('challenge-item', 'Integration | Component | ChallengeItem', {
@@ -2064,7 +2079,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         renderChallengeItem.call(this);
 
         // then
-        (0, _chai.expect)(this.$('.skip-button')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.challenge-item-actions__skip-action')).to.have.lengthOf(1);
       });
 
       (0, _emberMocha.it)('should display "Validate" button ', function () {
@@ -2072,7 +2087,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         renderChallengeItem.call(this);
 
         // then
-        (0, _chai.expect)(this.$('.validate-button')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('a.challenge-item-actions__validate-action')).to.have.lengthOf(1);
       });
 
       (0, _emberMocha.it)('should display an img tag with “ceci est une image” alt text', function () {
@@ -2101,7 +2116,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         renderChallengeItem_challengePreview.call(this);
 
         // then
-        (0, _chai.expect)(this.$('.skip-button')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.challenge-item-actions__skip-action')).to.have.lengthOf(0);
       });
 
       (0, _emberMocha.it)('should not display "Validate" button', function () {
@@ -2109,7 +2124,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         renderChallengeItem_challengePreview.call(this);
 
         // then
-        (0, _chai.expect)(this.$('.validate-button')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('a.challenge-item-actions__validate-action')).to.have.lengthOf(0);
       });
     });
 
@@ -2123,7 +2138,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
 
         // when
         this.$('.challenge-proposal:first input[type="radio"]').click();
-        this.$('.validate-button').click();
+        this.$('a.challenge-item-actions__validate-action').click();
       });
 
       (0, _emberMocha.it)('should call "onValidated" callback with good value for QCU (i.e. proposal index + 1)', function (done) {
@@ -2140,7 +2155,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
 
         // when
         this.$('.challenge-proposal:first input[type="radio"]').click();
-        this.$('.validate-button').click();
+        this.$('a.challenge-item-actions__validate-action').click();
       });
     });
 
@@ -2154,7 +2169,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
           done();
         });
 
-        this.$('.skip-button').click();
+        this.$('.challenge-item-actions__skip-action').click();
       });
     });
 
@@ -2243,7 +2258,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
 
             this.$('.challenge-proposal:nth(0) input[type="checkbox"]').click();
             this.$('.challenge-proposal:nth(2) input[type="checkbox"]').click();
-            this.$('.validate-button').click();
+            this.$('a.challenge-item-actions__validate-action').click();
           });
         });
       });
@@ -2486,6 +2501,76 @@ define('pix-live/tests/integration/components/get-result-test.lint-test', ['expo
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('integration/components/get-result-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/integration/components/load-email-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeComponent)('load-email', 'Integration: LoadEmailComponent', {
+    integration: true
+  }, function () {
+    (0, _emberMocha.it)('renders', function () {
+      // Set any properties with this.set('myProperty', 'value');
+      // Handle any actions with this.on('myAction', function(val) { ... });
+      // Template block usage:
+      // this.render(hbs`
+      //   {{#load-email}}
+      //     template content
+      //   {{/load-email}}
+      // `);
+
+      this.render(Ember.HTMLBars.template((function () {
+        return {
+          meta: {
+            'revision': 'Ember@2.8.3',
+            'loc': {
+              'source': null,
+              'start': {
+                'line': 1,
+                'column': 0
+              },
+              'end': {
+                'line': 1,
+                'column': 14
+              }
+            }
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment('');
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [['content', 'load-email', ['loc', [null, [1, 0], [1, 14]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })()));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/integration/components/load-email-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/load-email-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('integration/components/load-email-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
