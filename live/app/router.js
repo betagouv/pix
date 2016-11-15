@@ -7,7 +7,7 @@ const Router = Ember.Router.extend({
 });
 
 // XXX https://github.com/poteto/ember-metrics/issues/43#issuecomment-252081256
-if (config.environment === 'development' || config.environment === 'staging' || config.environment === 'production') {
+if (config.environment === 'integration' || config.environment === 'staging' || config.environment === 'production') {
   Router.reopen({
     metrics: Ember.inject.service(),
 
