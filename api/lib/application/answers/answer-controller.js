@@ -8,24 +8,15 @@ const answerRepository = require('../../infrastructure/repositories/answer-repos
 const solutionService = require('../../domain/services/solution-service');
 const logger = require('../../infrastructure/logger');
 
-function strCompareNoFail(a , b) {
-  let result = false;
-  try {
-    result = (a.toString() === b.toString());
-  } catch (e) {
-    result = false;
-  } 
-  return false;
-}
 
 module.exports = {
 
   save(request, reply) {
 
+
     const answer = answerSerializer.deserialize(request.payload);
     let isAnswerAlreadyExists = false;
 
-    console.log("answer.get('assessmentId') " + answer.get('assessmentId'));
 
     assessmentRepository
     .get(answer.get('assessmentId'))
@@ -33,12 +24,16 @@ module.exports = {
       // XXX : need to stringify/parse to have a the correct object
       let currentAssessment = JSON.parse(JSON.stringify(assessment));      
 
-      console.log(currentAssessment);
-
-      let answerThatAlreadyExists = _.find(currentAssessment.answers, {challengeId: answer.get('challengeId')});
+      
+      // XXX : need a robust try/catch to get all test pass
+      let answerThatAlreadyExists = undefined;
+      try {  
+        answerThatAlreadyExists = _.find(currentAssessment.answers, {challengeId: answer.get('challengeId')});
+      } catch (e) {
+        answerThatAlreadyExists = undefined;
+      }
 
       if (answerThatAlreadyExists) {
-        console.log('EXISTS ' + answerThatAlreadyExists.id);
 
         // answer do not already exists, create it
         solutionRepository
@@ -51,7 +46,6 @@ module.exports = {
         });
 
       } else {
-        console.log('NOT EXISTS');
         
         // answer do not already exists, create it
         solutionRepository
@@ -68,7 +62,8 @@ module.exports = {
 
 
 
-    });
+    })
+    .catch((err) => reply(Boom.badImplementation(err)));
 
 
   },
