@@ -93,7 +93,7 @@
 .challenge-item-actions__skip-action-text {
   width: 55px;
   height: 19px;
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: var(--font-open-sans);
   font-size: 14px;
   font-weight: 600;
 }
@@ -113,7 +113,7 @@
 .challenge-item-actions__validate-action-text {
   width: 76px;
   line-height: 46px;
-  font-family: Lato, Arial, sans-serif;
+  font-family: var(--font-lato);
   font-size: 16px;
   font-weight: 900;
   text-transform: uppercase;
