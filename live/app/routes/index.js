@@ -6,7 +6,7 @@ export default Ember.Route.extend({
   model() {
     return RSVP.all([
       this.store.findAll('course')
-    ]).then((arr) => arr[0]);
+    ]).then((courses) => courses[0]);
   },
 
   actions: {

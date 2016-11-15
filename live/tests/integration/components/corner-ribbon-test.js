@@ -14,15 +14,6 @@ describeComponent(
   },
   function() {
     it('renders', function() {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#corner-ribbon}}
-      //     template content
-      //   {{/corner-ribbon}}
-      // `);
-
       this.render(hbs`{{corner-ribbon}}`);
       expect(this.$()).to.have.length(1);
     });
