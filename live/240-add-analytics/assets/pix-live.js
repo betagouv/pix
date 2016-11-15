@@ -2101,8 +2101,6 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
   // XXX https://github.com/poteto/ember-metrics/issues/43#issuecomment-252081256
   if (_pixLiveConfigEnvironment['default'].environment !== 'test') {
     Router.reopen({
-      location: _pixLiveConfigEnvironment['default'].locationType,
-      rootURL: _pixLiveConfigEnvironment['default'].rootURL,
       metrics: _ember['default'].inject.service(),
 
       didTransition: function didTransition() {
@@ -2116,7 +2114,6 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
         _ember['default'].run.scheduleOnce('afterRender', this, function () {
           var page = _this.get('url');
           var title = _this.getWithDefault('currentRouteName', 'unknown');
-
           _ember['default'].get(_this, 'metrics').trackPage({ page: page, title: title });
         });
       }
@@ -9912,7 +9909,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+c11bca1a"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+150cea35"});
 }
 
 /* jshint ignore:end */
