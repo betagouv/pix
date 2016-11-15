@@ -2,16 +2,6 @@
 
 module.exports = function (environment) {
   var ENV = {
-    metricsAdapters: [
-      {
-        name: 'Piwik',
-        environments: ['production'],
-        config: {
-          piwikUrl: '//stats.data.gouv.fr',
-          siteId: 29
-        }
-      }
-    ],
     modulePrefix: 'pix-live',
     environment: environment,
     rootURL: '/',
@@ -71,7 +61,18 @@ module.exports = function (environment) {
 
     ENV.APP.rootElement = '#ember-testing';
     ENV.googleFonts = [];
-    ENV.APP.API_HOST= 'http://localhost:3000'
+    ENV.APP.API_HOST= 'http://localhost:3000';
+
+    ENV.metricsAdapters: [
+      {
+        name: 'Piwik',
+        environments: ['test'],
+        config: {
+          piwikUrl: '//stats.data.gouv.fr',
+          siteId: 30
+        }
+      }
+    ],
   }
 
   if (environment === 'integration') {
@@ -81,6 +82,16 @@ module.exports = function (environment) {
   }
 
   if (environment === 'production') {
+    ENV.metricsAdapters: [
+      {
+        name: 'Piwik',
+        environments: ['test'],
+        config: {
+          piwikUrl: '//stats.data.gouv.fr',
+          siteId: 29
+        }
+      }
+    ],
   }
 
 
