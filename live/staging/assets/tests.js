@@ -1169,6 +1169,18 @@ define('pix-live/tests/components/identification-form.lint-test', ['exports'], f
     });
   });
 });
+define('pix-live/tests/components/load-email.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/load-email.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('components/load-email.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/components/progress-bar.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2486,6 +2498,76 @@ define('pix-live/tests/integration/components/get-result-test.lint-test', ['expo
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('integration/components/get-result-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/integration/components/load-email-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeComponent)('load-email', 'Integration: LoadEmailComponent', {
+    integration: true
+  }, function () {
+    (0, _emberMocha.it)('renders', function () {
+      // Set any properties with this.set('myProperty', 'value');
+      // Handle any actions with this.on('myAction', function(val) { ... });
+      // Template block usage:
+      // this.render(hbs`
+      //   {{#load-email}}
+      //     template content
+      //   {{/load-email}}
+      // `);
+
+      this.render(Ember.HTMLBars.template((function () {
+        return {
+          meta: {
+            'revision': 'Ember@2.8.3',
+            'loc': {
+              'source': null,
+              'start': {
+                'line': 1,
+                'column': 0
+              },
+              'end': {
+                'line': 1,
+                'column': 14
+              }
+            }
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment('');
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [['content', 'load-email', ['loc', [null, [1, 0], [1, 14]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })()));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/integration/components/load-email-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/load-email-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('integration/components/load-email-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });

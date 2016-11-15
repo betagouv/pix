@@ -614,6 +614,46 @@ define('pix-live/components/identification-form', ['exports', 'ember', 'lodash/l
 
   });
 });
+define('pix-live/components/load-email', ['exports', 'ember'], function (exports, _ember) {
+
+  // The whole component is left untested for 17/11 release.`
+  // Issue raised https://github.com/sgmap/pix-live/issues/142
+
+  exports['default'] = _ember['default'].Component.extend({
+    didInsertElement: function didInsertElement() {
+      _ember['default'].run.scheduleOnce('afterRender', this, function () {
+
+        var btn = $('.load-email')[0];
+        var $contactForm = $('#contact-form');
+
+        $contactForm.submit(
+        /* istanbul ignore next */
+        function (e) {
+          e.preventDefault();
+          var emailValue = $('.first-page-email-enter').val();
+          $.ajax({
+            url: 'https://formspree.io/1024pix@gmail.com',
+            method: 'POST',
+            data: { email: emailValue },
+            dataType: 'json',
+            success: function success(data) {
+              btn.classList.add('load-email-is-active');
+              $('.first-page-email-enter').attr('disabled', 'disabled');
+              $('button.load-email').attr('disabled', 'disabled');
+            },
+            error: function error() {
+              btn.classList.add('load-email-is-error');
+              setTimeout(function () {
+                $('.first-page-email-enter').val('');
+                btn.classList.remove('load-email-is-error');
+              }, 3000);
+            }
+          });
+        });
+      });
+    }
+  });
+});
 define('pix-live/components/markdown-to-html', ['exports', 'ember-cli-showdown/components/markdown-to-html'], function (exports, _emberCliShowdownComponentsMarkdownToHtml) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -6373,7 +6413,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 130,
+            "line": 124,
             "column": 0
           }
         },
@@ -6476,30 +6516,11 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
         dom.setAttribute(el3, "class", "first-page-email__input-container");
-        var el4 = dom.createTextNode("\n\n    ");
+        var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createElement("form");
-        dom.setAttribute(el4, "action", "https://formspree.io/1024pix@gmail.com");
-        dom.setAttribute(el4, "method", "POST");
-        var el5 = dom.createTextNode("\n          ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("input");
-        dom.setAttribute(el5, "type", "email");
-        dom.setAttribute(el5, "class", "first-page-email__input");
-        dom.setAttribute(el5, "placeholder", "   Saisissez votre email");
-        dom.setAttribute(el5, "name", "_replyto");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n          ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("input");
-        dom.setAttribute(el5, "type", "submit");
-        dom.setAttribute(el5, "class", "first-page-email__button");
-        dom.setAttribute(el5, "value", "Rejoindre la communauté");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n    ");
-        dom.appendChild(el4, el5);
+        var el4 = dom.createComment("");
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n\n    ");
+        var el4 = dom.createTextNode("\n    ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n  ");
@@ -6710,6 +6731,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el4 = dom.createElement("a");
         dom.setAttribute(el4, "class", "first-page-footer__mailto");
         dom.setAttribute(el4, "href", "https://github.com/sgmap/pix-live");
+        dom.setAttribute(el4, "target", "_blank");
         var el5 = dom.createTextNode("Le code source est libre");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
@@ -6749,18 +6771,19 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var element10 = dom.childAt(element3, [9]);
         var element11 = dom.childAt(element10, [1, 1]);
         var element12 = dom.childAt(element10, [5, 1]);
-        var morphs = new Array(8);
+        var morphs = new Array(9);
         morphs[0] = dom.createMorphAt(dom.childAt(element3, [3, 5, 1]), 1, 1);
-        morphs[1] = dom.createAttrMorph(element5, 'src');
-        morphs[2] = dom.createAttrMorph(element6, 'src');
-        morphs[3] = dom.createAttrMorph(element7, 'src');
-        morphs[4] = dom.createAttrMorph(element8, 'src');
-        morphs[5] = dom.createAttrMorph(element9, 'src');
-        morphs[6] = dom.createAttrMorph(element11, 'src');
-        morphs[7] = dom.createAttrMorph(element12, 'src');
+        morphs[1] = dom.createMorphAt(dom.childAt(element3, [5, 3]), 1, 1);
+        morphs[2] = dom.createAttrMorph(element5, 'src');
+        morphs[3] = dom.createAttrMorph(element6, 'src');
+        morphs[4] = dom.createAttrMorph(element7, 'src');
+        morphs[5] = dom.createAttrMorph(element8, 'src');
+        morphs[6] = dom.createAttrMorph(element9, 'src');
+        morphs[7] = dom.createAttrMorph(element11, 'src');
+        morphs[8] = dom.createAttrMorph(element12, 'src');
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [24, 16], [24, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 8], [50, 17]]]], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [76, 20], [76, 27]]], 0, 0, 0, 0], "images/icon-cafe.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [83, 20], [83, 27]]], 0, 0, 0, 0], "images/icon-monde.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [90, 20], [90, 27]]], 0, 0, 0, 0], "images/icon-reference.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [97, 20], [97, 27]]], 0, 0, 0, 0], "images/icon-evolutif.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [104, 20], [104, 27]]], 0, 0, 0, 0], "images/icon-gratuit.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [114, 18], [114, 25]]], 0, 0, 0, 0], "images/pix-logo.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [122, 18], [122, 25]]], 0, 0, 0, 0], "images/mnsr.png"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+      statements: [["block", "each", [["get", "model", ["loc", [null, [24, 16], [24, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 8], [50, 17]]]], ["content", "load-email", ["loc", [null, [62, 6], [62, 20]]], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [70, 20], [70, 27]]], 0, 0, 0, 0], "images/icon-cafe.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [77, 20], [77, 27]]], 0, 0, 0, 0], "images/icon-monde.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [84, 20], [84, 27]]], 0, 0, 0, 0], "images/icon-reference.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [91, 20], [91, 27]]], 0, 0, 0, 0], "images/icon-evolutif.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [98, 20], [98, 27]]], 0, 0, 0, 0], "images/icon-gratuit.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [108, 18], [108, 25]]], 0, 0, 0, 0], "images/pix-logo.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [116, 18], [116, 25]]], 0, 0, 0, 0], "images/mnsr.png"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
       locals: [],
       templates: [child0]
     };
@@ -9081,7 +9104,7 @@ define("pix-live/templates/components/get-result", ["exports"], function (export
         morphs[2] = dom.createMorphAt(dom.childAt(element2, [5]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "course-banner", [], ["course", ["subexpr", "@mut", [["get", "model.assessment.course", ["loc", [null, [3, 25], [3, 48]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 2], [3, 50]]], 0, 0], ["block", "each", [["get", "model.assessment.answers", ["loc", [null, [12, 14], [12, 38]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [12, 6], [48, 13]]]], ["block", "link-to", ["home"], ["class", "assessment-results-link-home", "tagName", "button"], 1, null, ["loc", [null, [52, 4], [54, 16]]]]],
+      statements: [["inline", "course-banner", [], ["course", ["subexpr", "@mut", [["get", "model.assessment.course", ["loc", [null, [3, 25], [3, 48]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 2], [3, 50]]], 0, 0], ["block", "each", [["get", "model.assessment.answers", ["loc", [null, [12, 14], [12, 38]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [12, 6], [48, 13]]]], ["block", "link-to", ["index"], ["class", "assessment-results-link-home", "tagName", "button"], 1, null, ["loc", [null, [52, 4], [54, 16]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -9255,6 +9278,80 @@ define("pix-live/templates/components/identification-form", ["exports"], functio
       statements: [["element", "action", ["identify"], ["on", "submit"], ["loc", [null, [1, 31], [1, 64]]], 0, 0], ["inline", "input", [], ["id", "firstName", "type", "text", "value", ["subexpr", "@mut", [["get", "user.firstName", ["loc", [null, [5, 45], [5, 59]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control", "autofocus", "true", "autocomplete", "fname"], ["loc", [null, [5, 4], [5, 121]]], 0, 0], ["inline", "input", [], ["id", "lastName", "type", "text", "value", ["subexpr", "@mut", [["get", "user.lastName", ["loc", [null, [10, 44], [10, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control", "autocomplete", "lname"], ["loc", [null, [10, 4], [10, 102]]], 0, 0], ["inline", "input", [], ["id", "email", "type", "email", "value", ["subexpr", "@mut", [["get", "user.email", ["loc", [null, [15, 42], [15, 52]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "form-control", "autocomplete", "email"], ["loc", [null, [15, 4], [15, 96]]], 0, 0], ["block", "if", [["get", "hasError", ["loc", [null, [18, 8], [18, 16]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [18, 2], [22, 9]]]]],
       locals: [],
       templates: [child0]
+    };
+  })());
+});
+define("pix-live/templates/components/load-email", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 11,
+            "column": 0
+          }
+        },
+        "moduleName": "pix-live/templates/components/load-email.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createTextNode("    ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("form");
+        dom.setAttribute(el1, "class", "first-page-email__form");
+        dom.setAttribute(el1, "id", "contact-form");
+        var el2 = dom.createTextNode("\n  \n      ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-email__form-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("input");
+        dom.setAttribute(el3, "class", "first-page-email-enter");
+        dom.setAttribute(el3, "placeholder", "Saisissez votre email");
+        dom.setAttribute(el3, "type", "email");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n      ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n      ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-email__form-item");
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("button");
+        dom.setAttribute(el3, "type", "submit");
+        dom.setAttribute(el3, "class", "load-email");
+        var el4 = dom.createTextNode("Rejoindre la communauté");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n      ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n      \n    ");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes() {
+        return [];
+      },
+      statements: [],
+      locals: [],
+      templates: []
     };
   })());
 });
@@ -10591,7 +10688,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+54d7b459"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+e64641fc"});
 }
 
 /* jshint ignore:end */
