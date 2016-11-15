@@ -609,9 +609,9 @@ define('pix-live/tests/acceptance/257-page-accueuil.lint-test', ['exports'], fun
     });
   });
 });
-define('pix-live/tests/acceptance/259-afficher-logo-beta-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/259-afficher-logo-beta-test', ['exports', 'mocha', 'chai', 'lodash/lodash', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _lodashLodash, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  _mocha.describe.skip('Acceptance | 259 - Afficher le logo BETA | ', function () {
+  (0, _mocha.describe)('Acceptance | 259 - Afficher le logo BETA | ', function () {
 
     var application = undefined;
 
@@ -626,21 +626,21 @@ define('pix-live/tests/acceptance/259-afficher-logo-beta-test', ['exports', 'moc
     (0, _mocha.it)('Le logo est présent sur la page index', function () {
       visit('/');
       andThen(function () {
-        findWithAssert('.beta-logo');
+        findWithAssert($('img[src="images/pix-logo.svg"]'));
       });
     });
 
     (0, _mocha.it)('Le logo est présent sur la page de liste des tests', function () {
       visit('/home');
       andThen(function () {
-        findWithAssert('.beta-logo');
+        findWithAssert($('img[src="images/pix-logo.svg"]'));
       });
     });
 
     (0, _mocha.it)('Le logo est présent sur la page d\'une épreuve', function () {
       visit('/assessments/new_assessment_id/challenges/qcu_challenge_id');
       andThen(function () {
-        findWithAssert('.beta-logo');
+        findWithAssert($('img[src="images/pix-logo.svg"]'));
       });
     });
   });
@@ -2305,15 +2305,6 @@ define('pix-live/tests/integration/components/corner-ribbon-test', ['exports', '
     integration: true
   }, function () {
     (0, _emberMocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#corner-ribbon}}
-      //     template content
-      //   {{/corner-ribbon}}
-      // `);
-
       this.render(Ember.HTMLBars.template((function () {
         return {
           meta: {

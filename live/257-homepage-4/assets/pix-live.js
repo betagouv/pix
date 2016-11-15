@@ -1175,6 +1175,7 @@ define('pix-live/initializers/modals-container', ['exports', 'ember-bootstrap/in
 });
 define('pix-live/initializers/router', ['exports'], function (exports) {
   exports.initialize = initialize;
+  // See http://stackoverflow.com/questions/18302463/get-current-route-name-in-ember
 
   function initialize(application) {
     application.inject('route', 'router', 'router:main');
@@ -2326,8 +2327,8 @@ define('pix-live/routes/index', ['exports', 'ember', 'rsvp'], function (exports,
   exports['default'] = _ember['default'].Route.extend({
 
     model: function model() {
-      return _rsvp['default'].all([this.store.findAll('course')]).then(function (arr) {
-        return arr[0];
+      return _rsvp['default'].all([this.store.findAll('course')]).then(function (courses) {
+        return courses[0];
       });
     },
 
@@ -5970,7 +5971,7 @@ define("pix-live/templates/components/corner-ribbon", ["exports"], function (exp
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "corner-ribbon top-right sticky blue");
+        dom.setAttribute(el1, "class", "corner-ribbon top-right sticky yellow");
         var el2 = dom.createElement("span");
         dom.setAttribute(el2, "class", "corner-ribbon-text");
         var el3 = dom.createTextNode("BÊTA");
@@ -10590,7 +10591,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+4a617fb8"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+4363fd60"});
 }
 
 /* jshint ignore:end */
