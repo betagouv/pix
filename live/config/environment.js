@@ -96,7 +96,7 @@ module.exports = function (environment) {
       },
       {
         name: 'GoogleAnalytics',
-        environments: ['integration'],
+        environments: ['staging'],
         config: {
           id: 'UA-87429411-1'
         }
@@ -116,7 +116,7 @@ module.exports = function (environment) {
       },
       {
         name: 'GoogleAnalytics',
-        environments: ['integration'],
+        environments: ['production'],
         config: {
           id: 'UA-87412969-1'
         }
