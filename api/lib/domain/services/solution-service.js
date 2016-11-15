@@ -25,8 +25,6 @@ module.exports = {
     const answerValue = answer.get('value');
     const solutionValue = solution.value;
 
-    console.log('---------------------- HHHHHHHHEEEEELLLLLLLLOOOOOOOOOO --------------------- ' + solution.type);
-
     if ('#ABAND#' === answerValue) {
       return 'aband';
     }
