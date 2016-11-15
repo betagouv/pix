@@ -897,8 +897,7 @@ define('pix-live/tests/acceptance/37-previsualiser-un-test', ['exports', 'mocha'
         });
 
         (0, _mocha.it)("37.7. un bouton pour accéder à l'épreuve suivante", function () {
-          var $validateButton = findWithAssert('.challenge-item-actions__validate-action');
-          (0, _chai.expect)($validateButton.text()).to.contains('Je valide');
+          (0, _chai.expect)(findWithAssert('a.challenge-item-actions__validate-action').text()).to.contains('Je valide');
         });
       });
     });
@@ -953,11 +952,11 @@ define('pix-live/tests/acceptance/4-demarrer-une-epreuve-qcu-test', ['exports', 
     });
 
     (0, _mocha.it)('4.4. affiche le bouton "Valider" permettant de sauvegarder la réponse saisie et de passer à l\'épreuve suivante ', function () {
-      (0, _chai.expect)(findWithAssert('.challenge-item-actions__validate-action').text()).to.contains('Je valide');
+      (0, _chai.expect)(findWithAssert('a.challenge-item-actions__validate-action').text()).to.contains('Je valide');
     });
 
     (0, _mocha.it)('4.5. affiche le bouton "Passer" permettant de passer à l\'épreuve suivante sans avoir saisi de réponse', function () {
-      (0, _chai.expect)(findWithAssert('.challenge-item-actions__skip-action').text()).to.contains('Je passe');
+      (0, _chai.expect)(findWithAssert('a.challenge-item-actions__skip-action').text()).to.contains('Je passe');
     });
   });
 });
@@ -974,6 +973,10 @@ define('pix-live/tests/acceptance/4-demarrer-une-epreuve-qcu-test.lint-test', ['
   });
 });
 define('pix-live/tests/acceptance/6-valider-une-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  function getValidateActionLink() {
+    return $('a.challenge-item-actions__validate-action')[0];
+  }
 
   (0, _mocha.describe)('Acceptance | 6 - Valider une épreuve |', function () {
 
@@ -1004,15 +1007,15 @@ define('pix-live/tests/acceptance/6-valider-une-epreuve-test', ['exports', 'moch
       var expectedText = "1";
       (0, _chai.expect)($progressBar.text()).to.contains(expectedText);
     });
-    (0, _mocha.it)("6.1. Je peux valider ma réponse à une épreuve via un bouton 'Valider'", function () {
-      (0, _chai.expect)(findWithAssert('.challenge-item-actions__validate-action')).to.have.lengthOf(1);
+    (0, _mocha.it)("6.1. Je peux valider ma réponse à une épreuve via un bouton 'Je valide'", function () {
+      (0, _chai.expect)(findWithAssert('a.challenge-item-actions__validate-action')).to.have.lengthOf(1);
     });
 
     (0, _mocha.describe)("quand je valide ma réponse à une épreuve", function () {
 
       (0, _mocha.it)("6.3. Si l'épreuve que je viens de valider n'était pas la dernière du test, je suis redirigé vers l'épreuve suivante", function () {
         return click('.challenge-proposal:first input[type="checkbox"]').then(function () {
-          var $validateButton = $('.challenge-item-actions__validate-action')[0];
+          var $validateButton = getValidateActionLink();
           return click($validateButton).then(function () {
             (0, _chai.expect)(currentURL()).to.contains('/assessments/in_progress_assessment_id/challenges/qcu_challenge_id');
           });
@@ -1027,7 +1030,7 @@ define('pix-live/tests/acceptance/6-valider-une-epreuve-test', ['exports', 'moch
       (0, _mocha.it)("6.5. Si l'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test", function () {
         visit('/assessments/in_progress_assessment_id/challenges/qrocm_challenge_id').then(function () {
           fillIn('input[name="logiciel"]', 'COUCOU').then(function () {
-            var $validateButton = $('.challenge-item-actions__validate-action')[0];
+            var $validateButton = getValidateActionLink();
             return click($validateButton).then(function () {
               (0, _chai.expect)(currentURL()).to.contains('/assessments/in_progress_assessment_id/results');
             });
@@ -2039,7 +2042,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
   }
 
   function validateChallenge() {
-    this.$('.challenge-item-actions__validate-action').click();
+    this.$('a.challenge-item-actions__validate-action').click();
   }
 
   (0, _emberMocha.describeComponent)('challenge-item', 'Integration | Component | ChallengeItem', {
@@ -2072,7 +2075,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         renderChallengeItem.call(this);
 
         // then
-        (0, _chai.expect)(this.$('.challenge-item-actions__validate-action')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('a.challenge-item-actions__validate-action')).to.have.lengthOf(1);
       });
 
       (0, _emberMocha.it)('should display an img tag with “ceci est une image” alt text', function () {
@@ -2109,7 +2112,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
         renderChallengeItem_challengePreview.call(this);
 
         // then
-        (0, _chai.expect)(this.$('.challenge-item-actions__validate-action')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('a.challenge-item-actions__validate-action')).to.have.lengthOf(0);
       });
     });
 
@@ -2123,7 +2126,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
 
         // when
         this.$('.challenge-proposal:first input[type="radio"]').click();
-        this.$('.challenge-item-actions__validate-action').click();
+        this.$('a.challenge-item-actions__validate-action').click();
       });
 
       (0, _emberMocha.it)('should call "onValidated" callback with good value for QCU (i.e. proposal index + 1)', function (done) {
@@ -2140,7 +2143,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
 
         // when
         this.$('.challenge-proposal:first input[type="radio"]').click();
-        this.$('.challenge-item-actions__validate-action').click();
+        this.$('a.challenge-item-actions__validate-action').click();
       });
     });
 
@@ -2243,7 +2246,7 @@ define('pix-live/tests/integration/components/challenge-item-test', ['exports', 
 
             this.$('.challenge-proposal:nth(0) input[type="checkbox"]').click();
             this.$('.challenge-proposal:nth(2) input[type="checkbox"]').click();
-            this.$('.challenge-item-actions__validate-action').click();
+            this.$('a.challenge-item-actions__validate-action').click();
           });
         });
       });
