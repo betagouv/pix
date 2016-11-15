@@ -33,15 +33,30 @@ module.exports = {
       // TECH DEBT : need to stringify/parse to have a the correct object
       let theAss = JSON.parse(JSON.stringify(assessment));      
 
-      let arrayOfChallengeId  = _.map(theAss.answers, (existingAnswer) => {
-        return existingAnswer.challengeId;
-      });
+      let answerThatAlreadyExists = _.find(theAss.answers, {challengeId: answer.get('challengeId')});
+
+      // let arrayOfChallengeId  = _.map(theAss.answers, (existingAnswer) => {
+      //   return existingAnswer.challengeId;
+      // });
 
 
-      let isAnswerAlreadyExists = _.includes(arrayOfChallengeId, answer.get('challengeId'));
+      // let isAnswerAlreadyExists = _.includes(arrayOfChallengeId, answer.get('challengeId'));
 
-      if (isAnswerAlreadyExists) {
+      if (answerThatAlreadyExists) {
         console.log('EXISTS');
+
+        // answer do not already exists, create it
+        solutionRepository
+        .get(answer.get('challengeId'))
+        .then((solution) => {
+          const answerCorrectness = solutionService.match(answer, solution);
+          // answer.set('result', answerCorrectness);
+          // answer.set('id', answerThatAlreadyExists.id);
+          return new Answer({id:answerThatAlreadyExists.id}).save({result:answerCorrectness})
+            .then((updatedAnswer) => reply(answerSerializer.serialize(updatedAnswer)).code(201))
+            .catch((err) => reply(Boom.badImplementation(err)));
+        });
+
       } else {
         console.log('NOT EXISTS');
         
@@ -52,7 +67,7 @@ module.exports = {
           const answerCorrectness = solutionService.match(answer, solution);
           answer.set('result', answerCorrectness);
           return answer.save()
-          .then((answer) => reply(answerSerializer.serialize(answer)).code(201))
+          .then((createdAnswer) => reply(answerSerializer.serialize(createdAnswer)).code(201))
           .catch((err) => reply(Boom.badImplementation(err)));
         });
 
