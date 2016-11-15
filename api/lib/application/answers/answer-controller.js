@@ -30,30 +30,23 @@ module.exports = {
     assessmentRepository
     .get(answer.get('assessmentId'))
     .then((assessment) => {
-      // TECH DEBT : need to stringify/parse to have a the correct object
-      let theAss = JSON.parse(JSON.stringify(assessment));      
+      // XXX : need to stringify/parse to have a the correct object
+      let currentAssessment = JSON.parse(JSON.stringify(assessment));      
 
-      let answerThatAlreadyExists = _.find(theAss.answers, {challengeId: answer.get('challengeId')});
+      console.log(currentAssessment);
 
-      // let arrayOfChallengeId  = _.map(theAss.answers, (existingAnswer) => {
-      //   return existingAnswer.challengeId;
-      // });
-
-
-      // let isAnswerAlreadyExists = _.includes(arrayOfChallengeId, answer.get('challengeId'));
+      let answerThatAlreadyExists = _.find(currentAssessment.answers, {challengeId: answer.get('challengeId')});
 
       if (answerThatAlreadyExists) {
-        console.log('EXISTS');
+        console.log('EXISTS ' + answerThatAlreadyExists.id);
 
         // answer do not already exists, create it
         solutionRepository
         .get(answer.get('challengeId'))
         .then((solution) => {
           const answerCorrectness = solutionService.match(answer, solution);
-          // answer.set('result', answerCorrectness);
-          // answer.set('id', answerThatAlreadyExists.id);
-          return new Answer({id:answerThatAlreadyExists.id}).save({result:answerCorrectness})
-            .then((updatedAnswer) => reply(answerSerializer.serialize(updatedAnswer)).code(201))
+          return new Answer({id:answerThatAlreadyExists.id}).save({result:answerCorrectness, challengeId:answer.get('challengeId')},{method:"update"})
+            .then((updatedAnswer) => reply(answerSerializer.serialize(updatedAnswer)).code(200))
             .catch((err) => reply(Boom.badImplementation(err)));
         });
 

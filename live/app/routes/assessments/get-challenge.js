@@ -42,7 +42,7 @@ export default Ember.Route.extend({
       if (challenge) {
         return this.transitionTo('assessments.get-challenge', { challenge, assessment });
       }
-      return this.transitionTo('assessments.get-results', { assessment });
+      return this.transitionTo('assessments.get-results',  assessment.id );
     });
   },
 
