@@ -118,7 +118,7 @@ module.exports = function (environment) {
         name: 'GoogleAnalytics',
         environments: ['integration'],
         config: {
-          id: 'UA-87429411-1'
+          id: 'UA-87412969-1'
         }
       }
     ];
