@@ -7,9 +7,6 @@ export default Ember.Route.extend({
   model(params) {
     const store = this.get('store');
     return store.findRecord('assessment', params.assessment_id, { reload: true });
-    // return RSVP.hash({
-    //   assessment: store.findRecord('assessment', params.assessment_id)
-    // });
   },
 
   serialize: function (model) {
