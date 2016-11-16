@@ -41,17 +41,48 @@ describe("Acceptance | 15 - Afficher un QCU | ", function () {
     expect($('.challenge-proposal:nth-child(2)').text().trim()).to.equal('Ci-joint le document que j’ai déposé dans l’espace partagé');
     expect($('.challenge-proposal:nth-child(3)').text().trim()).to.equal('J’ai déposé le document intro.odt dans l’espace partagé');
     expect($('.challenge-proposal:nth-child(4)').text().trim()).to.equal('J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail');
-
   });
 
   it('15.4 It should display "Skip" button', function () {
     expect($('.challenge-item-actions__skip-action')).to.have.lengthOf(1);
   });
 
-
   it('15.5 It should display "Validate" button', function () {
     expect($('a.challenge-item-actions__validate-action')).to.have.lengthOf(1);
   });
 
+  it('15.6 Error alert box should be hidden by default', function () {
+    expect($('.alert')).to.have.lengthOf(0);
+  });
+
+  it('15.7 Error alert box should be displayed if user validate without checking a radiobutton', function () {
+    $('a.challenge-item-actions__validate-action').click();
+    andThen(() => {
+      expect($('.alert')).to.have.lengthOf(1);
+      expect($('.alert').text().trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
+    });
+  });
+
+  it('15.8 By default, no radiobuttons are checked', function () {
+    expect($('input:radio:checked')).to.have.lengthOf(0);
+  });
+
+  it('15.9 If a user check a radiobutton, it is checked', function () {
+    expect($('input:radio:checked:nth-child(1)').is(':checked')).to.equal(false);
+    $('.challenge-proposal:nth-child(1) input').click();
+    click($('.challenge-proposal:nth-child(1) input'));
+    andThen(() => {
+      expect($('input:radio:checked:nth-child(1)').is(':checked')).to.equal(true);
+      expect($('input:radio:checked')).to.have.lengthOf(1);
+    });
+  });
+
+  it('15.10 If a user check another radiobutton, it is checked, and all others are unchecked', function () {
+    expect($('input:radio:checked')).to.have.lengthOf(1);
+    click($('.challenge-proposal:nth-child(2) input'));
+    andThen(() => {
+      expect($('input:radio:checked')).to.have.lengthOf(1);
+    });
+  });
 
 });
