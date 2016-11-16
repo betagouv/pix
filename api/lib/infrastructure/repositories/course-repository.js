@@ -33,7 +33,7 @@ module.exports = {
 
             cache.set('courses', courses);
 
-            logger.info('Fetched and cached courses');
+            logger.debug('Fetched and cached courses');
 
             return resolve(courses);
           });
@@ -68,7 +68,7 @@ module.exports = {
 
         if (err) return reject(err);
 
-        if (count > 0) logger.info(`Deleted from cache course ${id}`);
+        if (count > 0) logger.debug(`Deleted from cache course ${id}`);
 
         return this._fetch(id, reject, cacheKey, resolve);
       });
@@ -85,7 +85,7 @@ module.exports = {
 
       cache.set(cacheKey, challenge);
 
-      logger.info(`Fetched and cached course ${id}`);
+      logger.debug(`Fetched and cached course ${id}`);
 
       return resolve(challenge);
     });
