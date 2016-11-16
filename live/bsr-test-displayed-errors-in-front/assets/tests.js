@@ -201,6 +201,40 @@ define('pix-live/tests/acceptance/15-qcu-test', ['exports', 'mocha', 'chai', 'pi
     (0, _mocha.it)('15.5 It should display "Validate" button', function () {
       (0, _chai.expect)($('a.challenge-item-actions__validate-action')).to.have.lengthOf(1);
     });
+
+    (0, _mocha.it)('15.6 Error alert box should be hidden by default', function () {
+      (0, _chai.expect)($('.alert')).to.have.lengthOf(0);
+    });
+
+    (0, _mocha.it)('15.7 Error alert box should be displayed if user validate without checking a radiobutton', function () {
+      $('a.challenge-item-actions__validate-action').click();
+      andThen(function () {
+        (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
+        (0, _chai.expect)($('.alert').text().trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
+      });
+    });
+
+    (0, _mocha.it)('15.8 By default, no radiobuttons are checked', function () {
+      (0, _chai.expect)($('input:radio:checked')).to.have.lengthOf(0);
+    });
+
+    (0, _mocha.it)('15.9 If a user check a radiobutton, it is checked', function () {
+      (0, _chai.expect)($('input:radio:checked:nth-child(1)').is(':checked')).to.equal(false);
+      $('.challenge-proposal:nth-child(1) input').click();
+      click($('.challenge-proposal:nth-child(1) input'));
+      andThen(function () {
+        (0, _chai.expect)($('input:radio:checked:nth-child(1)').is(':checked')).to.equal(true);
+        (0, _chai.expect)($('input:radio:checked')).to.have.lengthOf(1);
+      });
+    });
+
+    (0, _mocha.it)('15.10 If a user check another radiobutton, it is checked, and all others are unchecked', function () {
+      (0, _chai.expect)($('input:radio:checked')).to.have.lengthOf(1);
+      click($('.challenge-proposal:nth-child(2) input'));
+      andThen(function () {
+        (0, _chai.expect)($('input:radio:checked')).to.have.lengthOf(1);
+      });
+    });
   });
 });
 define('pix-live/tests/acceptance/15-qcu-test.lint-test', ['exports'], function (exports) {
