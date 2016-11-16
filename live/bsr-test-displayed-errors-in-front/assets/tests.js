@@ -174,11 +174,11 @@ define('pix-live/tests/acceptance/15-qcu-test', ['exports', 'mocha', 'chai', 'pi
     });
 
     (0, _mocha.before)(function () {
-      return visit('/assessments/completed_assessment_id/challenges/qcu_challenge_id');
+      return visit('/assessments/completed_assessment_id/challenges/qcu_challenge_with_image_id');
     });
 
     (0, _mocha.it)('15.1 It should render challenge instruction', function () {
-      (0, _chai.expect)($('.challenge-instruction').text()).to.equal('Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?');
+      (0, _chai.expect)($('.challenge-instruction').text()).to.equal('Ceci est une instruction');
     });
 
     (0, _mocha.it)('15.2 It should render a list of radiobuttons', function () {
@@ -188,10 +188,10 @@ define('pix-live/tests/acceptance/15-qcu-test', ['exports', 'mocha', 'chai', 'pi
 
     (0, _mocha.it)('15.3 It should render an ordered list of instruction', function () {
       var $proposals = $('input[type="radio"]');
-      (0, _chai.expect)($('.challenge-proposal:nth-child(1)').text().trim()).to.equal('J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt');
-      (0, _chai.expect)($('.challenge-proposal:nth-child(2)').text().trim()).to.equal('Ci-joint le document que j’ai déposé dans l’espace partagé');
-      (0, _chai.expect)($('.challenge-proposal:nth-child(3)').text().trim()).to.equal('J’ai déposé le document intro.odt dans l’espace partagé');
-      (0, _chai.expect)($('.challenge-proposal:nth-child(4)').text().trim()).to.equal('J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail');
+      (0, _chai.expect)($('.challenge-proposal:nth-child(1)').text().trim()).to.equal('1ere possibilite');
+      (0, _chai.expect)($('.challenge-proposal:nth-child(2)').text().trim()).to.equal('2eme possibilite');
+      (0, _chai.expect)($('.challenge-proposal:nth-child(3)').text().trim()).to.equal('3eme possibilite');
+      (0, _chai.expect)($('.challenge-proposal:nth-child(4)').text().trim()).to.equal('4eme possibilite');
     });
 
     (0, _mocha.it)('15.4 It should display "Skip" button', function () {
@@ -235,6 +235,14 @@ define('pix-live/tests/acceptance/15-qcu-test', ['exports', 'mocha', 'chai', 'pi
         (0, _chai.expect)($('input:radio:checked')).to.have.lengthOf(1);
       });
     });
+
+    (0, _mocha.it)('15.11 should display an img tag with “ceci est une image” alt text', function () {
+      (0, _chai.expect)($('.challenge-illustration > img').attr('alt')).to.contains('ceci est une image');
+    });
+
+    (0, _mocha.it)('15.12 should display an img as specified in the model', function () {
+      (0, _chai.expect)($('.challenge-illustration > img').attr('src')).to.equal('http://fakeimg.pl/350x200/?text=DavidB&font=lobster');
+    });
   });
 });
 define('pix-live/tests/acceptance/15-qcu-test.lint-test', ['exports'], function (exports) {
@@ -244,6 +252,42 @@ define('pix-live/tests/acceptance/15-qcu-test.lint-test', ['exports'], function 
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('acceptance/15-qcu-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/16-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)("Acceptance | 16 - Afficher un QCM | ", function () {
+
+    var application = undefined;
+    var challenge = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/assessments/new_assessment_of_noimage_course_id/challenges/qcm_challenge_full_id');
+    });
+
+    (0, _mocha.it)('16.1 It should render challenge instruction', function () {
+      (0, _chai.expect)($('.challenge-instruction').text()).to.equal('This is the instruction of one QCM');
+    });
+  });
+});
+define('pix-live/tests/acceptance/16-qcm-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/16-qcm-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/16-qcm-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -542,7 +586,7 @@ define('pix-live/tests/acceptance/211-recapitulatif-de-l-ecran-de-fin-de-test-te
       var $proposals = findWithAssert('.assessment-results-result');
       (0, _chai.expect)($proposals.text()).to.contains('Que peut-on dire des œufs');
       (0, _chai.expect)($proposals.text()).to.contains('Julie a déposé un document');
-      (0, _chai.expect)($proposals.text()).to.contains('Stéphanie a mis une information');
+      (0, _chai.expect)($proposals.text()).to.contains('Ceci est une instruction');
       (0, _chai.expect)($proposals.text()).to.contains('Citez un ou plusieurs logiciel(s)');
     });
   });
@@ -1008,7 +1052,8 @@ define('pix-live/tests/acceptance/37-previsualiser-un-test.lint-test', ['exports
 });
 define('pix-live/tests/acceptance/4-demarrer-une-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)('Acceptance | 4 - Démarrer une épreuve |', function () {
+  //irrelevant
+  _mocha.describe.skip('Acceptance | 4 - Démarrer une épreuve |', function () {
 
     var propositions = ["J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt", "Ci-joint le document que j’ai déposé dans l’espace partagé", "J’ai déposé le document intro.odt dans l’espace partagé", "J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail"];
     var application = undefined;
