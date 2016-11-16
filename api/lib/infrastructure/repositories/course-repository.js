@@ -1,4 +1,4 @@
-const base = require('../airtable').base;
+const Airtable = require('../airtable');
 const Course = require('../../domain/models/referential/course');
 const cache = require('../cache');
 const logger = require('../logger');
@@ -19,7 +19,7 @@ module.exports = {
 
         let courses = [];
 
-        base(AIRTABLE_TABLE_NAME)
+        Airtable.base(AIRTABLE_TABLE_NAME)
           .select({ view: 'PIX view' })
           .eachPage((records, fetchNextPage) => {
 
@@ -77,7 +77,7 @@ module.exports = {
 
   _fetch: function (id, reject, cacheKey, resolve) {
 
-    base(AIRTABLE_TABLE_NAME).find(id, (err, record) => {
+    Airtable.base(AIRTABLE_TABLE_NAME).find(id, (err, record) => {
 
       if (err) return reject(err);
 
