@@ -5,6 +5,7 @@ import qcuChallengeWithAttachment         from '../data/challenges/qcu-challenge
 import qcuChallengeWithLinksInInstruction from '../data/challenges/qcu-challenge-with-links-in-instruction';
 import qcuChallenge                       from '../data/challenges/qcu-challenge';
 import qcmChallenge                       from '../data/challenges/qcm-challenge';
+import qcmChallengeFull                       from '../data/challenges/qcm-challenge-full';
 import qrocChallenge                      from '../data/challenges/qroc-challenge';
 import qrocmChallenge                     from '../data/challenges/qrocm-challenge';
 
@@ -17,6 +18,7 @@ export default function (schema, request) {
     qcuChallengeWithLinksInInstruction,
     qcuChallenge,
     qcmChallenge,
+    qcmChallengeFull,
     qrocChallenge,
     qrocmChallenge
   ];

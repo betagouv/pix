@@ -1,6 +1,7 @@
 import qcuChallengeWithImage from '../challenges/qcu-challenge-with-image';
 import qcuChallenge from '../challenges/qcu-challenge';
 import qcmChallenge from '../challenges/qcm-challenge';
+import qcmChallengeFull from '../challenges/qcm-challenge-full';
 import qrocChallenge from '../challenges/qroc-challenge';
 import qrocmChallenge from '../challenges/qrocm-challenge';
 

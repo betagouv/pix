@@ -8,7 +8,8 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | 4 - Démarrer une épreuve |', function() {
+//irrelevant
+describe.skip('Acceptance | 4 - Démarrer une épreuve |', function() {
 
   const propositions = [
     "J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt",

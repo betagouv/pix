@@ -1,5 +1,6 @@
 import qcuChallenge from '../challenges/qcu-challenge';
 import qcmChallenge from '../challenges/qcm-challenge';
+import qcmChallengeFull from '../challenges/qcm-challenge-full';
 import qrocmChallenge from '../challenges/qrocm-challenge';
 
 export default {
@@ -16,7 +17,12 @@ export default {
         data: [{
           type: "challenges",
           id: qcuChallenge.data.id
-        }, {
+        },
+        {
+          type: "challenges",
+          id: qcmChallengeFull.data.id
+        },
+        {
           type: "challenges",
           id: qrocmChallenge.data.id
         }]
