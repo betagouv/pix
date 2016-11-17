@@ -93,5 +93,21 @@ describe("Acceptance | 15 - Afficher un QCU | ", function () {
     expect($('.challenge-illustration > img').attr('src')).to.equal('http://fakeimg.pl/350x200/?text=DavidB&font=lobster');
   });
 
+  it('05.13 Le nom du test est affiché', function() {
+    expect(findWithAssert('.course-banner-name').text()).to.contains('Name of the course');
+  });
+
+  it('05.14 Il existe un bouton "Revenir à la liste des tests"', function () {
+    const $courseListButton = findWithAssert('.course-banner-home-link');
+    expect($courseListButton.text()).to.equal('Retour à la liste des tests');
+  });
+
+  it('05.15 Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers l\'index', function () {
+    // when
+    click('.course-banner-home-link');
+
+    // then...
+    andThen(() => expect(currentURL()).to.equal('/'));
+  });
 
 });
