@@ -2053,13 +2053,6 @@ define('pix-live/models/assessment', ['exports', 'ember-data'], function (export
     answers: hasMany('answer'),
     userName: attr('string'),
     userEmail: attr('string'),
-
-    numberOfValidatedAnswers: computed('answers', function () {
-      return this.get('answers').filter(function (answer) {
-        return answer.get('value') !== '#ABAND#';
-      }).get('length');
-    }),
-
     firstChallenge: computed.alias('course.challenges.firstObject')
 
   });
@@ -2221,6 +2214,8 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
 
   // XXX https://github.com/poteto/ember-metrics/issues/43#issuecomment-252081256
   if (_pixLiveConfigEnvironment['default'].environment === 'integration' || _pixLiveConfigEnvironment['default'].environment === 'staging' || _pixLiveConfigEnvironment['default'].environment === 'production') {
+    // do not make any sense in test ENV, therefore can be safely ignored
+    /* istanbul ignore next */
     Router.reopen({
       metrics: _ember['default'].inject.service(),
 
@@ -2451,13 +2446,6 @@ define('pix-live/routes/index', ['exports', 'ember', 'rsvp'], function (exports,
       return _rsvp['default'].all([this.store.findAll('course')]).then(function (courses) {
         return courses[0];
       });
-    },
-
-    actions: {
-
-      navigateToHome: function navigateToHome() {
-        this.transitionTo('home');
-      }
     }
 
   });
@@ -2531,6 +2519,7 @@ define('pix-live/services/session', ['exports', 'ember'], function (exports, _em
           session = JSON.parse(session);
           this.set('user', session.user);
         } catch (e) {
+          /* istanbul ignore next */
           _ember['default'].Logger.warn('bad session. Continuing with an empty session');
         }
       }
@@ -10825,7 +10814,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+3579c5b2"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+6d14ddd6"});
 }
 
 /* jshint ignore:end */
