@@ -24,11 +24,11 @@ describe('Acceptance | 1 - Accéder à la plateforme pour démarrer un test', fu
     visit('/');
   });
 
-  it('1.0 peut visiter /', function () {
+  it('01.0 peut visiter /', function () {
     expect(currentURL()).to.equal('/');
   });
 
-  it('1.1 la landing page contient un pitch de présentation', function () {
+  it('01.1 la landing page contient un pitch de présentation', function () {
     expect(findWithAssert('.first-page-hero__main-value-prop').text()).to.contains('Développez vos compétences numériques');
   });
 

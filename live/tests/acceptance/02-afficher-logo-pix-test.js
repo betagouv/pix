@@ -9,7 +9,7 @@ import _ from 'lodash/lodash';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | 259 - Afficher le logo BETA | ', function () {
+describe('Acceptance | 02 - Afficher le logo PIX | ', function () {
 
   let application;
 
@@ -21,21 +21,14 @@ describe('Acceptance | 259 - Afficher le logo BETA | ', function () {
     destroyApp(application);
   });
 
-  it('Le logo est présent sur la page index', function () {
+  it('02.1 Le logo est présent sur la page index', function () {
     visit('/');
     andThen(() => {
       findWithAssert($('img[src="images/pix-logo.svg"]'));
     });
   });
 
-  it('Le logo est présent sur la page de liste des tests', function () {
-    visit('/home');
-    andThen(() => {
-      findWithAssert($('img[src="images/pix-logo.svg"]'));
-    });
-  });
-
-  it('Le logo est présent sur la page d\'une épreuve', function () {
+  it('02.2 Le logo est présent sur la page d\'une épreuve', function () {
     visit('/assessments/new_assessment_id/challenges/qcu_challenge_id');
     andThen(() => {
       findWithAssert($('img[src="images/pix-logo.svg"]'));

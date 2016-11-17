@@ -26,7 +26,7 @@ describe("Acceptance | 16 - Afficher un QCM | ", function () {
     return visit(`/assessments/new_assessment_of_noimage_course_id/challenges/qcm_challenge_full_id`);
   });
 
-  it('16.1 It should render challenge instruction', function () {
+  it('06.1 It should render challenge instruction', function () {
     expect($('.challenge-instruction').text()).to.equal('This is the instruction of one QCM');
   });
 
