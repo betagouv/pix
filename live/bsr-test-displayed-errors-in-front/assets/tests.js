@@ -331,9 +331,9 @@ define('pix-live/tests/acceptance/06-qcm-test.lint-test', ['exports'], function 
     });
   });
 });
-define('pix-live/tests/acceptance/10-consulter-l-ecran-de-fin-de-test-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/07-consulter-l-ecran-de-fin-de-test-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)("Acceptance | 10 - Consulter l'écran de fin d'un test ", function () {
+  (0, _mocha.describe)("Acceptance | 07 - Consulter l'écran de fin d'un test ", function () {
 
     var application = undefined;
     var assessment = undefined;
@@ -356,26 +356,79 @@ define('pix-live/tests/acceptance/10-consulter-l-ecran-de-fin-de-test-test', ['e
       $assessmentResults = findWithAssert('.assessment-results');
     });
 
-    (0, _mocha.it)("10.1. se fait en accédant à l'URL /assessments/:assessment_id/results", function () {
+    (0, _mocha.it)("07.1. se fait en accédant à l'URL /assessments/:assessment_id/results", function () {
       (0, _chai.expect)(currentURL()).to.equal('/assessments/completed_assessment_id/results');
     });
 
-    (0, _mocha.it)("10.4. affiche l'intitulé du test", function () {
+    (0, _mocha.it)("07.2. affiche l'intitulé du test", function () {
       (0, _chai.expect)($assessmentResults.text()).to.contains("Name of the course");
     });
 
-    (0, _mocha.it)("11.1. propose un moyen pour revenir à la liste des tests", function () {
+    (0, _mocha.it)("07.3. propose un moyen pour revenir à la liste des tests", function () {
       var $homeLink = findWithAssert('button.assessment-results-link-home');
     });
   });
 });
-define('pix-live/tests/acceptance/10-consulter-l-ecran-de-fin-de-test-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/07-consulter-l-ecran-de-fin-de-test-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - acceptance/10-consulter-l-ecran-de-fin-de-test-test.js', function () {
+  describe('ESLint - acceptance/07-consulter-l-ecran-de-fin-de-test-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/10-consulter-l-ecran-de-fin-de-test-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('acceptance/07-consulter-l-ecran-de-fin-de-test-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/08-recapitulatif-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)("Acceptance | 08 - Consulter l'écran de fin d'un test ", function () {
+
+    var application = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/assessments/completed_assessment_id/results');
+    });
+
+    (0, _mocha.it)("08.1. affiche une liste qui récapitule les réponses", function () {
+      findWithAssert('.assessment-results-list');
+    });
+
+    (0, _mocha.it)("08.2. le tableau récapitulatif contient les instructions ", function () {
+      var $proposals = findWithAssert('.assessment-results-result');
+      (0, _chai.expect)($proposals.text()).to.contains('Que peut-on dire des œufs');
+      (0, _chai.expect)($proposals.text()).to.contains('Julie a déposé un document');
+      (0, _chai.expect)($proposals.text()).to.contains('Ceci est une instruction');
+      (0, _chai.expect)($proposals.text()).to.contains('Citez un ou plusieurs logiciel(s)');
+    });
+
+    (0, _mocha.it)("08.3. Pour une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse correcte');
+    });
+
+    (0, _mocha.it)("08.4. Pour une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
+    });
+  });
+});
+define('pix-live/tests/acceptance/08-recapitulatif-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/08-recapitulatif-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/08-recapitulatif-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -444,91 +497,6 @@ define('pix-live/tests/acceptance/176-afficher-titre-du-test-dans-epreuve-test.l
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('acceptance/176-afficher-titre-du-test-dans-epreuve-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/acceptance/195-validation-automatique-des-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)("Acceptance | 195 - Validation automatique d'un QCU, visualisation du résultat ", function () {
-
-    var application = undefined;
-    var $summary = undefined;
-
-    (0, _mocha.before)(function () {
-      application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.after)(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.before)(function () {
-      return visit('/assessments/completed_assessment_id/results');
-    });
-
-    (0, _mocha.it)("195.1. Pour un QCU avec une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
-      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
-      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse correcte');
-    });
-
-    (0, _mocha.it)("195.2. Pour un QCU avec une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
-      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
-      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
-    });
-  });
-});
-define('pix-live/tests/acceptance/195-validation-automatique-des-qcu-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/195-validation-automatique-des-qcu-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/195-validation-automatique-des-qcu-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/acceptance/211-recapitulatif-de-l-ecran-de-fin-de-test-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)("Acceptance | 211 - Consulter l'écran de fin d'un test ", function () {
-
-    var application = undefined;
-
-    (0, _mocha.before)(function () {
-      application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.after)(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.before)(function () {
-      return visit('/assessments/completed_assessment_id/results');
-    });
-
-    (0, _mocha.it)("211.1. affiche une liste qui récapitule les réponses", function () {
-      findWithAssert('.assessment-results-list');
-    });
-
-    (0, _mocha.it)("211.2. le tableau récapitulatif contient les instructions ", function () {
-      var $proposals = findWithAssert('.assessment-results-result');
-      (0, _chai.expect)($proposals.text()).to.contains('Que peut-on dire des œufs');
-      (0, _chai.expect)($proposals.text()).to.contains('Julie a déposé un document');
-      (0, _chai.expect)($proposals.text()).to.contains('Ceci est une instruction');
-      (0, _chai.expect)($proposals.text()).to.contains('Citez un ou plusieurs logiciel(s)');
-    });
-  });
-});
-define('pix-live/tests/acceptance/211-recapitulatif-de-l-ecran-de-fin-de-test-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/211-recapitulatif-de-l-ecran-de-fin-de-test-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/211-recapitulatif-de-l-ecran-de-fin-de-test-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
