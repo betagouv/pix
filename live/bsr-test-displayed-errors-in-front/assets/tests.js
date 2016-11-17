@@ -281,6 +281,25 @@ define('pix-live/tests/acceptance/05-qcu-test', ['exports', 'mocha', 'chai', 'pi
     (0, _mocha.it)('05.12 should display an img as specified in the model', function () {
       (0, _chai.expect)($('.challenge-illustration > img').attr('src')).to.equal('http://fakeimg.pl/350x200/?text=DavidB&font=lobster');
     });
+
+    (0, _mocha.it)('05.13 Le nom du test est affiché', function () {
+      (0, _chai.expect)(findWithAssert('.course-banner-name').text()).to.contains('Name of the course');
+    });
+
+    (0, _mocha.it)('05.14 Il existe un bouton "Revenir à la liste des tests"', function () {
+      var $courseListButton = findWithAssert('.course-banner-home-link');
+      (0, _chai.expect)($courseListButton.text()).to.equal('Retour à la liste des tests');
+    });
+
+    (0, _mocha.it)('05.15 Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers l\'index', function () {
+      // when
+      click('.course-banner-home-link');
+
+      // then...
+      andThen(function () {
+        return (0, _chai.expect)(currentURL()).to.equal('/');
+      });
+    });
   });
 });
 define('pix-live/tests/acceptance/05-qcu-test.lint-test', ['exports'], function (exports) {
@@ -331,56 +350,6 @@ define('pix-live/tests/acceptance/06-qcm-test.lint-test', ['exports'], function 
     });
   });
 });
-define('pix-live/tests/acceptance/07-consulter-l-ecran-de-fin-de-test-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)("Acceptance | 07 - Consulter l'écran de fin d'un test ", function () {
-
-    var application = undefined;
-    var assessment = undefined;
-    var course = undefined;
-    var $assessmentResults = undefined;
-
-    (0, _mocha.before)(function () {
-      application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.after)(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.before)(function () {
-      return visit('/assessments/completed_assessment_id/results');
-    });
-
-    (0, _mocha.before)(function () {
-      $assessmentResults = findWithAssert('.assessment-results');
-    });
-
-    (0, _mocha.it)("07.1. se fait en accédant à l'URL /assessments/:assessment_id/results", function () {
-      (0, _chai.expect)(currentURL()).to.equal('/assessments/completed_assessment_id/results');
-    });
-
-    (0, _mocha.it)("07.2. affiche l'intitulé du test", function () {
-      (0, _chai.expect)($assessmentResults.text()).to.contains("Name of the course");
-    });
-
-    (0, _mocha.it)("07.3. propose un moyen pour revenir à la liste des tests", function () {
-      var $homeLink = findWithAssert('button.assessment-results-link-home');
-    });
-  });
-});
-define('pix-live/tests/acceptance/07-consulter-l-ecran-de-fin-de-test-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/07-consulter-l-ecran-de-fin-de-test-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/07-consulter-l-ecran-de-fin-de-test-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/acceptance/08-recapitulatif-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)("Acceptance | 08 - Consulter l'écran de fin d'un test ", function () {
@@ -399,11 +368,15 @@ define('pix-live/tests/acceptance/08-recapitulatif-test', ['exports', 'mocha', '
       return visit('/assessments/completed_assessment_id/results');
     });
 
-    (0, _mocha.it)("08.1. affiche une liste qui récapitule les réponses", function () {
+    (0, _mocha.it)("08.0 se fait en accédant à l'URL /assessments/:assessment_id/results", function () {
+      (0, _chai.expect)(currentURL()).to.equal('/assessments/completed_assessment_id/results');
+    });
+
+    (0, _mocha.it)("08.1 affiche une liste qui récapitule les réponses", function () {
       findWithAssert('.assessment-results-list');
     });
 
-    (0, _mocha.it)("08.2. le tableau récapitulatif contient les instructions ", function () {
+    (0, _mocha.it)("08.2 le tableau récapitulatif contient les instructions ", function () {
       var $proposals = findWithAssert('.assessment-results-result');
       (0, _chai.expect)($proposals.text()).to.contains('Que peut-on dire des œufs');
       (0, _chai.expect)($proposals.text()).to.contains('Julie a déposé un document');
@@ -411,14 +384,26 @@ define('pix-live/tests/acceptance/08-recapitulatif-test', ['exports', 'mocha', '
       (0, _chai.expect)($proposals.text()).to.contains('Citez un ou plusieurs logiciel(s)');
     });
 
-    (0, _mocha.it)("08.3. Pour une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
+    (0, _mocha.it)("08.3 Pour une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
       var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
       (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse correcte');
     });
 
-    (0, _mocha.it)("08.4. Pour une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
+    (0, _mocha.it)("08.4 Pour une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
       var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
       (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
+    });
+
+    (0, _mocha.it)('08.5 Le nom du test est affiché', function () {
+      (0, _chai.expect)(findWithAssert('.course-banner-name').text()).to.contains('Name of the course');
+    });
+
+    (0, _mocha.it)('08.6 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
+      (0, _chai.expect)(find('.course-banner-home-link')).to.have.lengthOf(0);
+    });
+
+    (0, _mocha.it)("08.7. propose un moyen pour revenir à la liste des tests", function () {
+      var $homeLink = findWithAssert('button.assessment-results-link-home');
     });
   });
 });
@@ -429,74 +414,6 @@ define('pix-live/tests/acceptance/08-recapitulatif-test.lint-test', ['exports'],
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('acceptance/08-recapitulatif-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/acceptance/176-afficher-titre-du-test-dans-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)('Acceptance | 176 - Affichage du bandeau d\'une épreuve |', function () {
-
-    var application = undefined;
-
-    (0, _mocha.before)(function () {
-      application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.after)(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.describe)('Dans le cadre de la vue "passage d\'une épreuve"', function () {
-
-      (0, _mocha.before)(function () {
-        visit('/assessments/new_assessment_id/challenges/qcm_challenge_id');
-      });
-
-      (0, _mocha.it)('Le nom du test est affiché', function () {
-        (0, _chai.expect)(findWithAssert('.course-banner-name').text()).to.contains('Name of the course');
-      });
-
-      (0, _mocha.it)('Il existe un bouton "Revenir à la liste des tests"', function () {
-        var $courseListButton = findWithAssert('.course-banner-home-link');
-        (0, _chai.expect)($courseListButton.text()).to.equal('Retour à la liste des tests');
-      });
-
-      (0, _mocha.it)('Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers l\'index', function () {
-        // when
-        click('.course-banner-home-link');
-
-        // then...
-        andThen(function () {
-          return (0, _chai.expect)(currentURL()).to.equal('/');
-        });
-      });
-    });
-
-    (0, _mocha.describe)('Dans le cadre de la vue "résultat d\'une évaluation"', function () {
-
-      (0, _mocha.before)(function () {
-        visit('/assessments/completed_assessment_id/results');
-      });
-
-      (0, _mocha.it)('Le nom du test est affiché', function () {
-        (0, _chai.expect)(findWithAssert('.course-banner-name').text()).to.contains('Name of the course');
-      });
-
-      (0, _mocha.it)('Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
-        (0, _chai.expect)(find('.course-banner-home-link')).to.have.lengthOf(0);
-      });
-    });
-  });
-});
-define('pix-live/tests/acceptance/176-afficher-titre-du-test-dans-epreuve-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/176-afficher-titre-du-test-dans-epreuve-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/176-afficher-titre-du-test-dans-epreuve-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -667,7 +584,7 @@ define('pix-live/tests/acceptance/27-telecharger-une-piece-jointe-test.lint-test
     });
   });
 });
-define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/32-previsualiser-une-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
 
@@ -710,13 +627,13 @@ define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test', ['exports', 'm
     });
   });
 });
-define('pix-live/tests/acceptance/32-creer-une-epreuve-qcu-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/32-previsualiser-une-epreuve-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - acceptance/32-creer-une-epreuve-qcu-test.js', function () {
+  describe('ESLint - acceptance/32-previsualiser-une-epreuve-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/32-creer-une-epreuve-qcu-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('acceptance/32-previsualiser-une-epreuve-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
