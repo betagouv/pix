@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe("Acceptance | 211 - Consulter l'écran de fin d'un test ", function() {
+describe("Acceptance | 08 - Consulter l'écran de fin d'un test ", function() {
 
   let application;
 
@@ -25,16 +25,27 @@ describe("Acceptance | 211 - Consulter l'écran de fin d'un test ", function() {
   });
 
 
-  it("211.1. affiche une liste qui récapitule les réponses", function () {
+  it("08.1. affiche une liste qui récapitule les réponses", function () {
     findWithAssert('.assessment-results-list');
   });
 
-  it("211.2. le tableau récapitulatif contient les instructions ", function () {
+  it("08.2. le tableau récapitulatif contient les instructions ", function () {
     const $proposals = findWithAssert('.assessment-results-result');
     expect($proposals.text()).to.contains('Que peut-on dire des œufs');
     expect($proposals.text()).to.contains('Julie a déposé un document');
     expect($proposals.text()).to.contains('Ceci est une instruction');
     expect($proposals.text()).to.contains('Citez un ou plusieurs logiciel(s)');
+  });
+
+
+  it("08.3. Pour une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
+    let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
+    expect($cell.attr('data-original-title')).to.equal('Réponse correcte');
+  });
+
+  it("08.4. Pour une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
+    let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
+    expect($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
   });
 
 });
