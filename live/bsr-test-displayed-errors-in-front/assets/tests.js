@@ -82,7 +82,7 @@ define('pix-live/tests/acceptance/02-afficher-logo-pix-test.lint-test', ['export
 });
 define('pix-live/tests/acceptance/03-voir-liste-tests-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)('Acceptance | 2 - voir la liste des tests', function () {
+  (0, _mocha.describe)('Acceptance | 03 - voir la liste des tests', function () {
 
     var application = undefined;
 
@@ -99,7 +99,7 @@ define('pix-live/tests/acceptance/03-voir-liste-tests-test', ['exports', 'mocha'
     });
 
     (0, _mocha.it)("03.1 on affiche autant de tests que remontés par l'API", function () {
-      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(2);
+      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(3);
     });
 
     (0, _mocha.describe)('03.2 pour un test donné avec toutes les informations', function () {
@@ -335,15 +335,15 @@ define('pix-live/tests/acceptance/06-epreuve-qcm-test', ['exports', 'mocha', 'ch
 
     (0, _mocha.it)('06.1 It should render challenge instruction', function () {
       // instruction is :
-      // This is the instruction of [one](http://link.1.url) QCM
-      (0, _chai.expect)($('.challenge-instruction').text()).to.equal('This is the instruction of one QCM');
+      // Un QCM propose plusieurs choix, lutilisateur peut en choisir plusieurs
+      (0, _chai.expect)($('.challenge-instruction').text()).to.equal('Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs');
     });
 
     (0, _mocha.it)("06.2 Le contenu de type [foo](bar) doit être converti sous forme de lien", function () {
       var $links = findWithAssert('.challenge-instruction a');
       (0, _chai.expect)($links.length).to.equal(1);
-      (0, _chai.expect)($links.text()).to.equal('one');
-      (0, _chai.expect)($links.attr('href')).to.equal('http://link.1.url');
+      (0, _chai.expect)($links.text()).to.equal('plusieurs');
+      (0, _chai.expect)($links.attr('href')).to.equal('http://link.plusieurs.url');
     });
 
     (0, _mocha.it)("06.3 Les liens doivent s'ouvrir dans un nouvel onglet", function () {
