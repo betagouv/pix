@@ -45,16 +45,20 @@ describe("Acceptance | 09 - Télécharger une pièce jointe depuis la consigne d
     });
   });
 
-  // describe("Quand l'épreuve ne contient pas de pièce jointe en consigne", function () {
+  describe("Quand l'épreuve ne contient pas de pièce jointe en consigne", function () {
 
-  //   before(function () {
-  //     return visit(`/challenges/qcu_challenge_id/preview`);
-  //   });
+    before(function () {
+      return visit(`/assessments/raw_assessment_id/challenges/raw_qcm_challenge_id`);
+    });
 
-  //   it("09.4 La section de téléchargement des pièces jointes est cachée", function() {
-  //     const $attachmentLink = $('.challenge-attachment > a');
-  //     expect($attachmentLink.length).to.equal(0);
-  //   });
-  // });
+    it("09.4 La section de téléchargement des pièces jointes est cachée", function() {
+      // We are in a challenge...
+      findWithAssert('.challenge-item');
+
+      // ... but attachment is hidden
+      const $attachmentLink = $('.challenge-attachment > a');
+      expect($attachmentLink.length).to.equal(0);
+    });
+  });
 
 });

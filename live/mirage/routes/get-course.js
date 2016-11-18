@@ -1,12 +1,14 @@
 import _                  from 'lodash/lodash';
 import refFirstCourse from '../data/courses/ref-first-course';
+import rawCourse      from '../data/courses/raw-course';
 
 
 
 export default function (schema, request) {
 
   const allCourses = [
-    refFirstCourse
+    refFirstCourse,
+    rawCourse
   ];
 
   const courses = _.map(allCourses, function(oneCourse) {

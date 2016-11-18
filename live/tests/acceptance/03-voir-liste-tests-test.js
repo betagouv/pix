@@ -25,7 +25,7 @@ describe('Acceptance | 03 - voir la liste des tests', function () {
   });
 
   it("03.1 on affiche autant de tests que remontés par l'API", function () {
-    expect(findWithAssert('.course')).to.have.lengthOf(1);
+    expect(findWithAssert('.course')).to.have.lengthOf(2);
   });
 
   describe('03.2 pour un test donné avec toutes les informations', function () {
@@ -58,9 +58,9 @@ describe('Acceptance | 03 - voir la liste des tests', function () {
 
   });
 
-  // it('03.3 pour un test dont il manque l\'image, on affiche une image placeholder', function() {
-  //   const $course = findWithAssert('.course[data-id="course_with_no_image"]');
-  //   expect($course.find('img')[0].src).to.contains('images/course-default-image.png');
-  // });
+  it('03.3 pour un test dont il manque l\'image, on affiche une image placeholder', function() {
+    const $course = findWithAssert('.course[data-id="raw_course_id"]');
+    expect($course.find('img')[0].src).to.contains('images/course-default-image.png');
+  });
 
 });

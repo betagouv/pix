@@ -38,15 +38,20 @@ describe("Acceptance | 07 - Afficher une image sous la consigne | ", function ()
     });
   });
 
-  // describe("Quand l'épreuve ne contient pas d'illustration en consigne", function () {
+  describe("Quand l'épreuve ne contient pas d'illustration en consigne", function () {
 
-  //   before(function () {
-  //     return visit('/challenges/qcu_challenge_id/preview');
-  //   });
+    before(function () {
+      return visit('/assessments/raw_assessment_id/challenges/raw_qcm_challenge_id');
+    });
 
-  //   it("07.3 La section d'illustration est cachée", function () {
-  //     const $attachmentLink = $('.challenge-illustration');
-  //     expect($attachmentLink.length).to.equal(0);
-  //   });
-  // });
+    it("07.3 La section d'illustration est cachée", function () {
+
+      // We are in a challenge...
+      findWithAssert('.challenge-item');
+
+      // ... but illustration is hidden
+      const $illustration = $('.challenge-illustration');
+      expect($illustration.length).to.equal(0);
+    });
+  });
 });

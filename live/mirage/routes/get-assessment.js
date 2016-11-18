@@ -1,9 +1,11 @@
 import _                            from 'lodash/lodash';
+import rawAssessment   from '../data/assessments/raw-assessment';
 import refAssessmentOfFirstCourse   from '../data/assessments/ref-assessment-of-first-course';
 
 export default function (schema, request) {
 
   const allAssessments = [
+    rawAssessment,
     refAssessmentOfFirstCourse
   ];
 

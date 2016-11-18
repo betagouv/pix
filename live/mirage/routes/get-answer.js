@@ -1,13 +1,15 @@
 import _                  from 'lodash/lodash';
 
-import refQcuAnswer          from '../data/answers/ref-qcu-answer';
+import rawQcmAnswer          from '../data/answers/raw-qcm-answer';
 import refQcmAnswer          from '../data/answers/ref-qcm-answer';
+import refQcuAnswer          from '../data/answers/ref-qcu-answer';
 import refQrocAnswer          from '../data/answers/ref-qroc-answer';
 import refQrocmAnswer          from '../data/answers/ref-qrocm-answer';
 
 export default function (schema, request) {
 
   const allAnswers = [
+    rawQcmAnswer,
     refQcuAnswer,
     refQcmAnswer,
     refQrocAnswer,

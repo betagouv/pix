@@ -1,10 +1,12 @@
 import _                  from 'lodash/lodash';
 
+import rawQcmChallenge     from '../data/challenges/raw-qcm-challenge';
 import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge-full';
 import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge-full';
 import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge-full';
 import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge-full';
 
+import rawQcmAnswer          from '../data/answers/raw-qcm-answer';
 import refQcuAnswer          from '../data/answers/ref-qcu-answer';
 import refQcmAnswer          from '../data/answers/ref-qcm-answer';
 import refQrocAnswer          from '../data/answers/ref-qroc-answer';
@@ -17,6 +19,7 @@ const answer = JSON.parse(request.requestBody);
 const challengeId = answer.data.relationships.challenge.data.id;  
 
 const allChallenges = [
+ rawQcmChallenge,
  refQcmChallengeFull,
  refQcuChallengeFull,
  refQrocChallengeFull,
@@ -24,6 +27,7 @@ const allChallenges = [
 ];
 
 const allAnswers = [
+ rawQcmAnswer,
  refQcuAnswer,
  refQcmAnswer,
  refQrocAnswer,
