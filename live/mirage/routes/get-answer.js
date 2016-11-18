@@ -10,6 +10,10 @@ import qrocAnswerKo       from '../data/answers/qroc-answer-ko';
 import qrocAnswer         from '../data/answers/qroc-answer';
 import qrocAnswerOk       from '../data/answers/qroc-answer-ok';
 
+import refQcuAnswer          from '../data/answers/ref-qcu-answer';
+import refQcmAnswer          from '../data/answers/ref-qcm-answer';
+import refQrocAnswer          from '../data/answers/ref-qroc-answer';
+import refQrocmAnswer          from '../data/answers/ref-qrocm-answer';
 
 export default function (schema, request) {
 
@@ -23,7 +27,11 @@ export default function (schema, request) {
     qcmAnswerAband,
     qrocAnswerKo,
     qrocAnswer,
-    qrocAnswerOk
+    qrocAnswerOk,
+    refQcuAnswer,
+    refQcmAnswer,
+    refQrocAnswer,
+    refQrocmAnswer
   ];
 
   const answers = _.map(allAnswers, function(oneAnswer) {
