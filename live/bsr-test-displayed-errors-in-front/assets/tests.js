@@ -196,7 +196,7 @@ define('pix-live/tests/acceptance/04-demarrer-un-test-test.lint-test', ['exports
     });
   });
 });
-define('pix-live/tests/acceptance/05-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/05-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)("Acceptance | 15 - Afficher un QCU | ", function () {
 
@@ -302,19 +302,19 @@ define('pix-live/tests/acceptance/05-qcu-test', ['exports', 'mocha', 'chai', 'pi
     });
   });
 });
-define('pix-live/tests/acceptance/05-qcu-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/05-epreuve-qcu-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - acceptance/05-qcu-test.js', function () {
+  describe('ESLint - acceptance/05-epreuve-qcu-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/05-qcu-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('acceptance/05-epreuve-qcu-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/acceptance/06-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/06-epreuve-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)("Acceptance | 16 - Afficher un QCM | ", function () {
 
@@ -334,17 +334,87 @@ define('pix-live/tests/acceptance/06-qcm-test', ['exports', 'mocha', 'chai', 'pi
     });
 
     (0, _mocha.it)('06.1 It should render challenge instruction', function () {
+      // instruction is :
+      // This is the instruction of [one](http://link.1.url) QCM
       (0, _chai.expect)($('.challenge-instruction').text()).to.equal('This is the instruction of one QCM');
+    });
+
+    (0, _mocha.it)("06.2 Le contenu de type [foo](bar) doit être converti sous forme de lien", function () {
+      var $links = findWithAssert('.challenge-instruction a');
+      (0, _chai.expect)($links.length).to.equal(1);
+      (0, _chai.expect)($links.text()).to.equal('one');
+      (0, _chai.expect)($links.attr('href')).to.equal('http://link.1.url');
+    });
+
+    (0, _mocha.it)("06.3 Les liens doivent s'ouvrir dans un nouvel onglet", function () {
+      var $links = findWithAssert('.challenge-instruction a');
+      (0, _chai.expect)($links.attr('target')).to.equal('_blank');
     });
   });
 });
-define('pix-live/tests/acceptance/06-qcm-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/06-epreuve-qcm-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - acceptance/06-qcm-test.js', function () {
+  describe('ESLint - acceptance/06-epreuve-qcm-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/06-qcm-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('acceptance/06-epreuve-qcm-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/07-epreuve-image-de-consigne-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)("Acceptance | 07 - Afficher une image sous la consigne | ", function () {
+    var application = undefined;
+    var challenge = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.describe)("Quand l'épreuve contient une illustration en consigne", function () {
+
+      (0, _mocha.before)(function () {
+        return visit('/challenges/qcu_challenge_with_image_id/preview');
+      });
+
+      (0, _mocha.it)('07.1 Une image unique peut être affichée sous la consigne', function () {
+        var $illustration = findWithAssert('.challenge-illustration > img');
+        (0, _chai.expect)($illustration.length).to.equal(1);
+      });
+
+      (0, _mocha.it)('07.2 Cette image a un alt text “ceci est une image”', function () {
+        var $illustration = findWithAssert('.challenge-illustration > img');
+        (0, _chai.expect)($illustration.attr('alt')).to.contains('ceci est une image');
+      });
+    });
+
+    (0, _mocha.describe)("Quand l'épreuve ne contient pas d'illustration en consigne", function () {
+
+      (0, _mocha.before)(function () {
+        return visit('/challenges/qcu_challenge_id/preview');
+      });
+
+      (0, _mocha.it)("07.3 La section d'illustration est cachée", function () {
+        var $attachmentLink = $('.challenge-illustration');
+        (0, _chai.expect)($attachmentLink.length).to.equal(0);
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/07-epreuve-image-de-consigne-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/07-epreuve-image-de-consigne-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/07-epreuve-image-de-consigne-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -419,111 +489,9 @@ define('pix-live/tests/acceptance/08-recapitulatif-test.lint-test', ['exports'],
     });
   });
 });
-define('pix-live/tests/acceptance/216-gestion-des-liens-dans-l-ennonce-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/09-epreuve-pj-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)("Acceptance | 216 - Gestion des liens dans l'énoncé d'une épreuve |", function () {
-
-    var application = undefined;
-    var $links = undefined;
-
-    (0, _mocha.before)(function () {
-      application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.after)(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.before)(function (done) {
-      visit('/challenges/qcu_challenge_id_with_links_in_instruction/preview');
-      andThen(function () {
-        $links = findWithAssert('.challenge-instruction a');
-        done();
-      });
-    });
-
-    (0, _mocha.it)("Le contenu de type [foo](bar) doit être converti sous forme de lien", function () {
-      (0, _chai.expect)($links.length).to.equal(3);
-    });
-
-    (0, _mocha.it)("Les liens doivent s'ouvrir dans un nouvel onglet", function () {
-      for (var i = 0; i < $links.length; i++) {
-        (0, _chai.expect)($links[i].getAttribute('target')).to.equal('_blank');
-      }
-    });
-  });
-});
-define('pix-live/tests/acceptance/216-gestion-des-liens-dans-l-ennonce-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/216-gestion-des-liens-dans-l-ennonce-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/216-gestion-des-liens-dans-l-ennonce-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/acceptance/25-image-sous-la-consigne-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)("Acceptance | 25 - Afficher une image sous la consigne | ", function () {
-    var application = undefined;
-    var challenge = undefined;
-
-    (0, _mocha.before)(function () {
-      application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.after)(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.describe)("Quand l'épreuve contient une illustration en consigne", function () {
-
-      (0, _mocha.before)(function () {
-        return visit('/challenges/qcu_challenge_with_image_id/preview');
-      });
-
-      (0, _mocha.it)('25.1 Une image unique peut être affichée sous la consigne', function () {
-        var $illustration = findWithAssert('.challenge-illustration > img');
-        (0, _chai.expect)($illustration.length).to.equal(1);
-      });
-
-      (0, _mocha.it)('25.2 Cette image a un alt text “ceci est une image”', function () {
-        var $illustration = findWithAssert('.challenge-illustration > img');
-        (0, _chai.expect)($illustration.attr('alt')).to.contains('ceci est une image');
-      });
-    });
-
-    (0, _mocha.describe)("Quand l'épreuve ne contient pas d'illustration en consigne", function () {
-
-      (0, _mocha.before)(function () {
-        return visit('/challenges/qcu_challenge_id/preview');
-      });
-
-      (0, _mocha.it)("25.3 La section d'illustration est cachée", function () {
-        var $attachmentLink = $('.challenge-illustration');
-        (0, _chai.expect)($attachmentLink.length).to.equal(0);
-      });
-    });
-  });
-});
-define('pix-live/tests/acceptance/25-image-sous-la-consigne-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/25-image-sous-la-consigne-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/25-image-sous-la-consigne-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/acceptance/27-telecharger-une-piece-jointe-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)("Acceptance | 27 - Télécharger une pièce jointe depuis la consigne d'une épreuve | ", function () {
+  (0, _mocha.describe)("Acceptance | 09 - Télécharger une pièce jointe depuis la consigne d'une épreuve | ", function () {
     var application = undefined;
     var challenge = undefined;
 
@@ -541,19 +509,19 @@ define('pix-live/tests/acceptance/27-telecharger-une-piece-jointe-test', ['expor
         return visit('/challenges/qcu_challenge_with_attachment_id/preview');
       });
 
-      (0, _mocha.it)("27.1 Il existe un moyen pour télécharger la pièce jointe d'une épreuve dans la zone de consigne", function () {
+      (0, _mocha.it)("09.1 Il existe un moyen pour télécharger la pièce jointe d'une épreuve dans la zone de consigne", function () {
         var $attachmentLink = findWithAssert('.challenge-attachment > a');
         (0, _chai.expect)($attachmentLink.length).to.equal(1);
       });
 
-      (0, _mocha.it)("27.2 Le lien de la pièce jointe contient le nom du fichier et son extension", function () {
+      (0, _mocha.it)("09.2 Le lien de la pièce jointe contient le nom du fichier et son extension", function () {
         var $attachmentLink = $('.challenge-attachment > a');
         (0, _chai.expect)($attachmentLink.text()).to.contains('Télécharger le fichier');
         (0, _chai.expect)($attachmentLink.text()).to.contains('example_of_filename.pdf');
         (0, _chai.expect)($attachmentLink.attr('href')).to.equal('http://example_of_url');
       });
 
-      (0, _mocha.it)("27.3 Il n'y a qu'un seul fichier téléchargeable", function () {
+      (0, _mocha.it)("09.3 Il n'y a qu'un seul fichier téléchargeable", function () {
         var $attachment = findWithAssert('.challenge-attachment > a');
         (0, _chai.expect)($attachment.length).to.equal(1);
       });
@@ -565,180 +533,32 @@ define('pix-live/tests/acceptance/27-telecharger-une-piece-jointe-test', ['expor
         return visit('/challenges/qcu_challenge_id/preview');
       });
 
-      (0, _mocha.it)("27.4 La section de téléchargement des pièces jointes est cachée", function () {
+      (0, _mocha.it)("09.4 La section de téléchargement des pièces jointes est cachée", function () {
         var $attachmentLink = $('.challenge-attachment > a');
         (0, _chai.expect)($attachmentLink.length).to.equal(0);
       });
     });
   });
 });
-define('pix-live/tests/acceptance/27-telecharger-une-piece-jointe-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/09-epreuve-pj-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - acceptance/27-telecharger-une-piece-jointe-test.js', function () {
+  describe('ESLint - acceptance/09-epreuve-pj-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/27-telecharger-une-piece-jointe-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('acceptance/09-epreuve-pj-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
   });
 });
-define('pix-live/tests/acceptance/32-previsualiser-une-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
-
-    var application = undefined;
-    var challenge = undefined;
-
-    (0, _mocha.before)(function () {
-      application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.after)(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.describe)('32 - Prévisualiser une épreuve |', function () {
-
-      var challengeId = undefined;
-
-      (0, _mocha.before)(function () {
-        return visit('/challenges/qcu_challenge_id/preview');
-      });
-
-      (0, _mocha.it)('32.1. Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
-        (0, _chai.expect)(currentURL()).to.equal('/challenges/qcu_challenge_id/preview');
-        (0, _chai.expect)(findWithAssert('#challenge-preview'));
-      });
-
-      (0, _mocha.describe)('On affiche', function () {
-
-        var $challenge = undefined;
-
-        (0, _mocha.before)(function () {
-          $challenge = findWithAssert('#challenge-preview');
-        });
-
-        (0, _mocha.it)('32.2 la consigne de l\'épreuve', function () {
-          (0, _chai.expect)($challenge.find('.challenge-instruction').text()).to.contain('Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?');
-        });
-      });
-    });
-  });
-});
-define('pix-live/tests/acceptance/32-previsualiser-une-epreuve-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/32-previsualiser-une-epreuve-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/32-previsualiser-une-epreuve-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/acceptance/37-previsualiser-un-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)('Acceptance | 37 - Prévisualiser un test |', function () {
-
-    var challenges = undefined;
-    var course = undefined;
-    var lastChallengeId = undefined;
-
-    var application = undefined;
-
-    (0, _mocha.before)(function () {
-      application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.after)(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.describe)("Prévisualiser la première page d'un test |", function () {
-
-      (0, _mocha.before)(function () {
-        visit('/courses/simple_course_id/preview');
-      });
-
-      (0, _mocha.it)("37.1. L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
-        (0, _chai.expect)(currentURL()).to.equal('/courses/simple_course_id/preview');
-      });
-
-      var $preview = undefined;
-
-      (0, _mocha.describe)('On affiche', function () {
-
-        (0, _mocha.before)(function () {
-          $preview = findWithAssert('#course-preview');
-        });
-
-        (0, _mocha.it)('37.2. le nom du test', function () {
-          (0, _chai.expect)($preview.find('.course-name').text()).to.contains("Name of the course");
-        });
-
-        (0, _mocha.it)('37.3. la description du test', function () {
-          (0, _chai.expect)($preview.find('.course-description').text()).to.contains("A short description of the course");
-        });
-
-        (0, _mocha.it)('37.4. un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
-          var $playButton = findWithAssert('.simulate-button');
-          (0, _chai.expect)($playButton.text()).to.be.equals('Simuler le test');
-          (0, _chai.expect)($playButton.attr('href')).to.be.equals('/courses/simple_course_id/preview/challenges/qcm_challenge_id');
-        });
-      });
-    });
-
-    (0, _mocha.describe)("Prévisualiser une épreuve dans le cadre d'un test |", function () {
-
-      (0, _mocha.before)(function () {
-        visit('/courses/simple_course_id/preview/challenges/qcm_challenge_id');
-      });
-
-      (0, _mocha.it)("37.5. L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
-        (0, _chai.expect)(currentURL()).to.equal('/courses/simple_course_id/preview/challenges/qcm_challenge_id');
-      });
-
-      (0, _mocha.describe)('On affiche', function () {
-
-        var $challenge = undefined;
-
-        (0, _mocha.before)(function () {
-          $challenge = findWithAssert('.challenge-preview');
-        });
-
-        (0, _mocha.it)("37.6. la consigne de l'épreuve", function () {
-          (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.contain("Que peut-on dire des œufs de catégorie A ?");
-        });
-
-        (0, _mocha.it)("37.7. un bouton pour accéder à l'épreuve suivante", function () {
-          (0, _chai.expect)(findWithAssert('a.challenge-item-actions__validate-action').text()).to.contains('Je valide');
-        });
-      });
-    });
-  });
-});
-define('pix-live/tests/acceptance/37-previsualiser-un-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/37-previsualiser-un-test.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/37-previsualiser-un-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/acceptance/6-valider-une-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/10-epreuve-validation-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   function getValidateActionLink() {
     return $('a.challenge-item-actions__validate-action')[0];
   }
 
-  (0, _mocha.describe)('Acceptance | 6 - Valider une épreuve |', function () {
+  (0, _mocha.describe)('Acceptance | 10 - Valider une épreuve |', function () {
 
     var application = undefined;
     var challenges = undefined;
@@ -763,17 +583,17 @@ define('pix-live/tests/acceptance/6-valider-une-epreuve-test', ['exports', 'moch
       $progressBar = findWithAssert('.pix-progress-bar');
     });
 
-    (0, _mocha.it)("6.0. La barre de progression commence à 1", function () {
+    (0, _mocha.it)("10.0 La barre de progression commence à 1", function () {
       var expectedText = "1";
       (0, _chai.expect)($progressBar.text()).to.contains(expectedText);
     });
-    (0, _mocha.it)("6.1. Je peux valider ma réponse à une épreuve via un bouton 'Je valide'", function () {
+    (0, _mocha.it)("10.1 Je peux valider ma réponse à une épreuve via un bouton 'Je valide'", function () {
       (0, _chai.expect)(findWithAssert('a.challenge-item-actions__validate-action')).to.have.lengthOf(1);
     });
 
     (0, _mocha.describe)("quand je valide ma réponse à une épreuve", function () {
 
-      (0, _mocha.it)("6.3. Si l'épreuve que je viens de valider n'était pas la dernière du test, je suis redirigé vers l'épreuve suivante", function () {
+      (0, _mocha.it)("10.3 Si l'épreuve que je viens de valider n'était pas la dernière du test, je suis redirigé vers l'épreuve suivante", function () {
         return click('.challenge-proposal:first input[type="checkbox"]').then(function () {
           var $validateButton = getValidateActionLink();
           return click($validateButton).then(function () {
@@ -782,12 +602,12 @@ define('pix-live/tests/acceptance/6-valider-une-epreuve-test', ['exports', 'moch
         });
       });
 
-      (0, _mocha.it)("6.4. La barre de progression avance d'une unité, de 1 à 2.", function () {
+      (0, _mocha.it)("10.4 La barre de progression avance d'une unité, de 1 à 2.", function () {
         var expectedText = "2";
         (0, _chai.expect)($progressBar.text()).to.contains(expectedText);
       });
 
-      (0, _mocha.it)("6.5. Si l'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test", function () {
+      (0, _mocha.it)("10.5 Si l'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test", function () {
         visit('/assessments/in_progress_assessment_id/challenges/qrocm_challenge_id').then(function () {
           fillIn('input[name="logiciel"]', 'COUCOU').then(function () {
             var $validateButton = getValidateActionLink();
@@ -800,13 +620,161 @@ define('pix-live/tests/acceptance/6-valider-une-epreuve-test', ['exports', 'moch
     });
   });
 });
-define('pix-live/tests/acceptance/6-valider-une-epreuve-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/10-epreuve-validation-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - acceptance/6-valider-une-epreuve-test.js', function () {
+  describe('ESLint - acceptance/10-epreuve-validation-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/6-valider-une-epreuve-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('acceptance/10-epreuve-validation-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/11-previsualisation-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)('Acceptance | 11 - Prévisualiser une épreuve | ', function () {
+
+    var application = undefined;
+    var challenge = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.describe)('32 - Prévisualiser une épreuve |', function () {
+
+      var challengeId = undefined;
+
+      (0, _mocha.before)(function () {
+        return visit('/challenges/qcu_challenge_id/preview');
+      });
+
+      (0, _mocha.it)('11.1 Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
+        (0, _chai.expect)(currentURL()).to.equal('/challenges/qcu_challenge_id/preview');
+        (0, _chai.expect)(findWithAssert('#challenge-preview'));
+      });
+
+      (0, _mocha.describe)('On affiche', function () {
+
+        var $challenge = undefined;
+
+        (0, _mocha.before)(function () {
+          $challenge = findWithAssert('#challenge-preview');
+        });
+
+        (0, _mocha.it)('11.2 la consigne de l\'épreuve', function () {
+          (0, _chai.expect)($challenge.find('.challenge-instruction').text()).to.contain('Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?');
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/11-previsualisation-epreuve-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/11-previsualisation-epreuve-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/11-previsualisation-epreuve-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/12-previsualisation-test-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)('Acceptance | 12 - Prévisualisation  d\'un test |', function () {
+
+    var challenges = undefined;
+    var course = undefined;
+    var lastChallengeId = undefined;
+
+    var application = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.describe)("Prévisualiser la première page d'un test |", function () {
+
+      (0, _mocha.before)(function () {
+        visit('/courses/simple_course_id/preview');
+      });
+
+      (0, _mocha.it)("12.1 L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
+        (0, _chai.expect)(currentURL()).to.equal('/courses/simple_course_id/preview');
+      });
+
+      var $preview = undefined;
+
+      (0, _mocha.describe)('On affiche', function () {
+
+        (0, _mocha.before)(function () {
+          $preview = findWithAssert('#course-preview');
+        });
+
+        (0, _mocha.it)('12.2 le nom du test', function () {
+          (0, _chai.expect)($preview.find('.course-name').text()).to.contains("Name of the course");
+        });
+
+        (0, _mocha.it)('12.3 la description du test', function () {
+          (0, _chai.expect)($preview.find('.course-description').text()).to.contains("A short description of the course");
+        });
+
+        (0, _mocha.it)('12.4 un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
+          var $playButton = findWithAssert('.simulate-button');
+          (0, _chai.expect)($playButton.text()).to.be.equals('Simuler le test');
+          (0, _chai.expect)($playButton.attr('href')).to.be.equals('/courses/simple_course_id/preview/challenges/qcm_challenge_id');
+        });
+      });
+    });
+
+    (0, _mocha.describe)("Prévisualiser une épreuve dans le cadre d'un test |", function () {
+
+      (0, _mocha.before)(function () {
+        visit('/courses/simple_course_id/preview/challenges/qcm_challenge_id');
+      });
+
+      (0, _mocha.it)("12.5 L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
+        (0, _chai.expect)(currentURL()).to.equal('/courses/simple_course_id/preview/challenges/qcm_challenge_id');
+      });
+
+      (0, _mocha.describe)('On affiche', function () {
+
+        var $challenge = undefined;
+
+        (0, _mocha.before)(function () {
+          $challenge = findWithAssert('.challenge-preview');
+        });
+
+        (0, _mocha.it)("12.6 la consigne de l'épreuve", function () {
+          (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.contain("Que peut-on dire des œufs de catégorie A ?");
+        });
+
+        (0, _mocha.it)("12.7 un bouton pour accéder à l'épreuve suivante", function () {
+          (0, _chai.expect)(findWithAssert('a.challenge-item-actions__validate-action').text()).to.contains('Je valide');
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/12-previsualisation-test-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/12-previsualisation-test-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/12-previsualisation-test-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
