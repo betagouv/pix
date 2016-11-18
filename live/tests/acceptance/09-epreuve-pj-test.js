@@ -24,7 +24,7 @@ describe("Acceptance | 09 - Télécharger une pièce jointe depuis la consigne d
   describe("Quand l'épreuve contient une pièce jointe en consigne", function () {
 
     before(function () {
-      return visit(`/challenges/qcu_challenge_with_attachment_id/preview`);
+      return visit(`/assessments/first_assessment_id/challenges/ref_qcm_challenge_full_id`);
     });
 
     it("09.1 Il existe un moyen pour télécharger la pièce jointe d'une épreuve dans la zone de consigne", function () {
@@ -35,7 +35,7 @@ describe("Acceptance | 09 - Télécharger une pièce jointe depuis la consigne d
     it("09.2 Le lien de la pièce jointe contient le nom du fichier et son extension", function () {
       const $attachmentLink = $('.challenge-attachment > a');
       expect($attachmentLink.text()).to.contains('Télécharger le fichier');
-      expect($attachmentLink.text()).to.contains('example_of_filename.pdf');
+      expect($attachmentLink.text()).to.contains('filename.pdf');
       expect($attachmentLink.attr('href')).to.equal('http://example_of_url');
     });
 
@@ -45,16 +45,16 @@ describe("Acceptance | 09 - Télécharger une pièce jointe depuis la consigne d
     });
   });
 
-  describe("Quand l'épreuve ne contient pas de pièce jointe en consigne", function () {
+  // describe("Quand l'épreuve ne contient pas de pièce jointe en consigne", function () {
 
-    before(function () {
-      return visit(`/challenges/qcu_challenge_id/preview`);
-    });
+  //   before(function () {
+  //     return visit(`/challenges/qcu_challenge_id/preview`);
+  //   });
 
-    it("09.4 La section de téléchargement des pièces jointes est cachée", function() {
-      const $attachmentLink = $('.challenge-attachment > a');
-      expect($attachmentLink.length).to.equal(0);
-    });
-  });
+  //   it("09.4 La section de téléchargement des pièces jointes est cachée", function() {
+  //     const $attachmentLink = $('.challenge-attachment > a');
+  //     expect($attachmentLink.length).to.equal(0);
+  //   });
+  // });
 
 });

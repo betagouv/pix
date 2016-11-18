@@ -42,25 +42,35 @@ describe("Acceptance | 08 - Consulter l'écran de fin d'un test ", function() {
   });
 
 
-  it("08.3 Pour une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
+  it("08.3 Pour une bonne réponse, le tableau récapitulatif donne une indication adéquate", function () {
     let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
     expect($cell.attr('data-original-title')).to.equal('Réponse correcte');
   });
 
-  it("08.4 Pour une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
+  it("08.4 Pour une mauvaise réponse, le tableau récapitulatif donne une indication adéquate", function () {
     let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
     expect($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
   });
 
-  it('08.5 Le nom du test est affiché', function() {
+  it("08.5 Pour une réponse en cours de validation, le tableau récapitulatif donne une indication adéquate", function () {
+    let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(2)');
+    expect($cell.attr('data-original-title')).to.equal('Vérification en cours');
+  });
+
+  it("08.6 Pour une réponse dont l\'utilisateur a cliqué sur \"Je Passe\", le tableau récapitulatif donne une indication adéquate", function () {
+    let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(3)');
+    expect($cell.attr('data-original-title')).to.equal('Sans réponse');
+  });
+
+  it('08.7 Le nom du test est affiché', function() {
     expect(findWithAssert('.course-banner-name').text()).to.contains('First Course');
   });
 
-  it('08.6 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
+  it('08.8 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
     expect(find('.course-banner-home-link')).to.have.lengthOf(0);
   });
 
-  it("08.7. propose un moyen pour revenir à la liste des tests", function () {
+  it("08.9. propose un moyen pour revenir à la liste des tests", function () {
     const $homeLink = findWithAssert('button.assessment-results-link-home');
   });
 
