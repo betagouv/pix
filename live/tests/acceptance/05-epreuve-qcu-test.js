@@ -23,11 +23,11 @@ describe("Acceptance | 15 - Afficher un QCU | ", function () {
   });
 
   before(function () {
-    return visit(`/assessments/completed_assessment_id/challenges/qcu_challenge_with_image_id`);
+    return visit(`/assessments/first_assessment_id/challenges/ref_qcu_challenge_full_id`);
   });
 
   it('05.1 It should render challenge instruction', function () {
-    expect($('.challenge-instruction').text()).to.equal('Ceci est une instruction');
+    expect($('.challenge-instruction').text()).to.equal('Un QCU propose plusieurs choix, l\'utilisateur peut en choisir un seul');
   });
 
   it('05.2 It should render a list of radiobuttons', function () {
@@ -90,11 +90,11 @@ describe("Acceptance | 15 - Afficher un QCU | ", function () {
   });
 
   it('05.12 should display an img as specified in the model', function () {
-    expect($('.challenge-illustration > img').attr('src')).to.equal('http://fakeimg.pl/350x200/?text=DavidB&font=lobster');
+    expect($('.challenge-illustration > img').attr('src')).to.equal('http://fakeimg.pl/350x200/?text=QCU');
   });
 
   it('05.13 Le nom du test est affiché', function() {
-    expect(findWithAssert('.course-banner-name').text()).to.contains('Name of the course');
+    expect(findWithAssert('.course-banner-name').text()).to.contains('First Course');
   });
 
   it('05.14 Il existe un bouton "Revenir à la liste des tests"', function () {

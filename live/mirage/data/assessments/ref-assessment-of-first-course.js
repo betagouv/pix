@@ -1,5 +1,10 @@
 import refFirstCourse from '../courses/ref-first-course';
 
+import refQcuAnswer          from '../answers/ref-qcu-answer';
+import refQcmAnswer          from '../answers/ref-qcm-answer';
+import refQrocAnswer          from '../answers/ref-qroc-answer';
+import refQrocmAnswer          from '../answers/ref-qrocm-answer';
+
 export default {
   data: {
     type: 'assessments',
@@ -15,6 +20,21 @@ export default {
           type: 'courses',
           id: refFirstCourse.data.id
         }
+      },
+      answers: {
+        data: [{
+          type: 'answers',
+          id: refQcmAnswer.data.id
+        }, {
+          type: 'answers',
+          id: refQcuAnswer.data.id
+        }, {
+          type: 'answers',
+          id: refQrocAnswer.data.id
+        }, {
+          type: 'answers',
+          id: refQrocmAnswer.data.id
+        }]
       }
     }
   }

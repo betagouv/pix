@@ -21,12 +21,12 @@ describe("Acceptance | 08 - Consulter l'écran de fin d'un test ", function() {
   });
 
   before(function() {
-    return visit(`/assessments/completed_assessment_id/results`);
+    return visit(`/assessments/first_assessment_id/results`);
   });
 
 
   it("08.0 se fait en accédant à l'URL /assessments/:assessment_id/results", function () {
-    expect(currentURL()).to.equal(`/assessments/completed_assessment_id/results`);
+    expect(currentURL()).to.equal(`/assessments/first_assessment_id/results`);
   });
 
   it("08.1 affiche une liste qui récapitule les réponses", function () {
@@ -35,10 +35,10 @@ describe("Acceptance | 08 - Consulter l'écran de fin d'un test ", function() {
 
   it("08.2 le tableau récapitulatif contient les instructions ", function () {
     const $proposals = findWithAssert('.assessment-results-result');
-    expect($proposals.text()).to.contains('Que peut-on dire des œufs');
-    expect($proposals.text()).to.contains('Julie a déposé un document');
-    expect($proposals.text()).to.contains('Ceci est une instruction');
-    expect($proposals.text()).to.contains('Citez un ou plusieurs logiciel(s)');
+    expect($proposals.text()).to.contains('Un QCM propose plusieurs choix');
+    expect($proposals.text()).to.contains('Un QCU propose plusieurs choix');
+    expect($proposals.text()).to.contains('Un QROC est une question ouverte');
+    expect($proposals.text()).to.contains('Un QROCM est une question ouverte');
   });
 
 
@@ -53,7 +53,7 @@ describe("Acceptance | 08 - Consulter l'écran de fin d'un test ", function() {
   });
 
   it('08.5 Le nom du test est affiché', function() {
-    expect(findWithAssert('.course-banner-name').text()).to.contains('Name of the course');
+    expect(findWithAssert('.course-banner-name').text()).to.contains('First Course');
   });
 
   it('08.6 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {

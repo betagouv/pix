@@ -33,23 +33,23 @@ describe('Acceptance | 03 - voir la liste des tests', function () {
     let $course;
 
     before(function () {
-      $course = findWithAssert('.course[data-id="simple_course_id"]');
+      $course = findWithAssert('.course[data-id="first_course_id"]');
     });
 
     it('03.2.1 on affiche son nom', function () {
-      expect($course.find('.course-name').text()).to.contains('Name of the course');
+      expect($course.find('.course-name').text()).to.contains('First Course');
     });
 
     it('03.2.2 on affiche sa description', function () {
-      expect($course.find('.course-description').text()).to.contains('A short description of the course');
+      expect($course.find('.course-description').text()).to.contains('Contient toutes les sortes d\'epreuves');
     });
 
     it('03.2.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-      expect($course.find('.course-number-of-challenges').text()).to.contains('5 épreuves');
+      expect($course.find('.course-number-of-challenges').text()).to.contains('4 épreuves');
     });
 
     it('03.2.4 on affiche son image', function () {
-      expect($course.find('img')[0].src).to.equal('https://dl.airtable.com/L8AQwmIURNu79XmKFoPO_storage-1209059_960_720.jpg');
+      expect($course.find('img')[0].src).to.equal('http://fakeimg.pl/350x200/?text=First%20Course');
     });
 
     it('03.2.5 on affiche un bouton "démarrer le test"', function () {

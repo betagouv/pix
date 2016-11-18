@@ -24,7 +24,7 @@ describe("Acceptance | 07 - Afficher une image sous la consigne | ", function ()
   describe("Quand l'épreuve contient une illustration en consigne", function () {
 
     before(function () {
-      return visit('/challenges/qcu_challenge_with_image_id/preview');
+      return visit('/assessments/first_assessment_id/challenges/ref_qcm_challenge_full_id');
     });
 
     it('07.1 Une image unique peut être affichée sous la consigne', function () {
@@ -38,15 +38,15 @@ describe("Acceptance | 07 - Afficher une image sous la consigne | ", function ()
     });
   });
 
-  describe("Quand l'épreuve ne contient pas d'illustration en consigne", function () {
+  // describe("Quand l'épreuve ne contient pas d'illustration en consigne", function () {
 
-    before(function () {
-      return visit('/challenges/qcu_challenge_id/preview');
-    });
+  //   before(function () {
+  //     return visit('/challenges/qcu_challenge_id/preview');
+  //   });
 
-    it("07.3 La section d'illustration est cachée", function () {
-      const $attachmentLink = $('.challenge-illustration');
-      expect($attachmentLink.length).to.equal(0);
-    });
-  });
+  //   it("07.3 La section d'illustration est cachée", function () {
+  //     const $attachmentLink = $('.challenge-illustration');
+  //     expect($attachmentLink.length).to.equal(0);
+  //   });
+  // });
 });

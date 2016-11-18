@@ -5,6 +5,7 @@ import completedAssessmentQroc      from '../data/assessments/completed-assessme
 import inProgressAssessment         from '../data/assessments/in-progress-assessment';
 import newAssessmentOfNoImageCourse from '../data/assessments/new-assessment-of-noimage-course';
 import newAssessment                from '../data/assessments/new-assessment';
+import refAssessmentOfFirstCourse   from '../data/assessments/ref-assessment-of-first-course';
 
 export default function (schema, request) {
 
@@ -14,7 +15,8 @@ export default function (schema, request) {
     completedAssessmentQroc,
     newAssessmentOfNoImageCourse,
     newAssessment,
-    inProgressAssessment
+    inProgressAssessment,
+    refAssessmentOfFirstCourse
   ];
 
   const assessments = _.map(allAssessments, function(oneAssessment) {
