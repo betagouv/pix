@@ -61,11 +61,11 @@ describe('Acceptance | 12 - Prévisualisation  d\'un test |', function () {
   describe("Prévisualiser une épreuve dans le cadre d'un test |", function () {
 
     before(function () {
-      visit(`/courses/simple_course_id/preview/challenges/ref_qcm_challenge_full_id`);
+      visit(`/courses/first_course_id/preview/challenges/ref_qcm_challenge_full_id`);
     });
 
     it("12.5 L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
-      expect(currentURL()).to.equal(`/courses/simple_course_id/preview/challenges/ref_qcm_challenge_full_id`);
+      expect(currentURL()).to.equal(`/courses/first_course_id/preview/challenges/ref_qcm_challenge_full_id`);
     });
 
     describe('On affiche', function () {
