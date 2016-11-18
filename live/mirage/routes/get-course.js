@@ -1,15 +1,11 @@
 import _                  from 'lodash/lodash';
-import simpleCourse from '../data/courses/simple-course';
 import refFirstCourse from '../data/courses/ref-first-course';
-import noImageCourse from '../data/courses/no-image-course';
 
 
 
 export default function (schema, request) {
 
   const allCourses = [
-    simpleCourse,
-    noImageCourse,
     refFirstCourse
   ];
 

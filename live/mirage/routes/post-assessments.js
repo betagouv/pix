@@ -1,6 +1,4 @@
 import _                  from 'lodash/lodash';
-import newAssessmentOfSimpleCourse from '../data/assessments/new-assessment-of-simple-course';
-import newAssessmentOfNoImageCourse from '../data/assessments/new-assessment-of-noimage-course';
 import refAssessmentOfFirstCourse from '../data/assessments/ref-assessment-of-first-course';
 
 export default function (schema, request) {
@@ -9,8 +7,6 @@ export default function (schema, request) {
   const courseId = answer.data.relationships.course.data.id;
 
   const allAssessments = [
-    newAssessmentOfSimpleCourse,
-    newAssessmentOfNoImageCourse,
     refAssessmentOfFirstCourse
   ];
 
