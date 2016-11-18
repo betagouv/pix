@@ -69,7 +69,6 @@ describe("Acceptance | 15 - Afficher un QCU | ", function () {
 
   it('05.9 If a user check a radiobutton, it is checked', function () {
     expect($('input:radio:checked:nth-child(1)').is(':checked')).to.equal(false);
-    $('.challenge-proposal:nth-child(1) input').click();
     click($('.challenge-proposal:nth-child(1) input'));
     andThen(() => {
       expect($('input:radio:checked:nth-child(1)').is(':checked')).to.equal(true);
