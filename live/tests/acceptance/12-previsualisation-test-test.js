@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | 37 - Prévisualiser un test |', function () {
+describe('Acceptance | 12 - Prévisualisation  d\'un test |', function () {
 
   let challenges;
   let course;
@@ -30,7 +30,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
       visit(`/courses/simple_course_id/preview`);
     });
 
-    it("37.1. L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
+    it("12.1 L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
       expect(currentURL()).to.equal(`/courses/simple_course_id/preview`);
     });
 
@@ -42,15 +42,15 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
         $preview = findWithAssert('#course-preview');
       });
 
-      it('37.2. le nom du test', function () {
+      it('12.2 le nom du test', function () {
         expect($preview.find('.course-name').text()).to.contains("Name of the course");
       });
 
-      it('37.3. la description du test', function () {
+      it('12.3 la description du test', function () {
         expect($preview.find('.course-description').text()).to.contains("A short description of the course");
       });
 
-      it('37.4. un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
+      it('12.4 un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
         const $playButton = findWithAssert('.simulate-button');
         expect($playButton.text()).to.be.equals('Simuler le test');
         expect($playButton.attr('href')).to.be.equals(`/courses/simple_course_id/preview/challenges/qcm_challenge_id`);
@@ -64,7 +64,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
       visit(`/courses/simple_course_id/preview/challenges/qcm_challenge_id`);
     });
 
-    it("37.5. L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
+    it("12.5 L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
       expect(currentURL()).to.equal(`/courses/simple_course_id/preview/challenges/qcm_challenge_id`);
     });
 
@@ -76,11 +76,11 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
         $challenge = findWithAssert('.challenge-preview');
       });
 
-      it("37.6. la consigne de l'épreuve", function () {
+      it("12.6 la consigne de l'épreuve", function () {
         expect($challenge.find('.challenge-instruction').html()).to.contain("Que peut-on dire des œufs de catégorie A ?");
       });
 
-      it("37.7. un bouton pour accéder à l'épreuve suivante", function () {
+      it("12.7 un bouton pour accéder à l'épreuve suivante", function () {
         expect(findWithAssert('a.challenge-item-actions__validate-action').text()).to.contains('Je valide');
       });
     });

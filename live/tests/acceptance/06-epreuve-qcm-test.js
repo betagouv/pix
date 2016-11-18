@@ -27,7 +27,21 @@ describe("Acceptance | 16 - Afficher un QCM | ", function () {
   });
 
   it('06.1 It should render challenge instruction', function () {
+    // instruction is :
+    // This is the instruction of [one](http://link.1.url) QCM
     expect($('.challenge-instruction').text()).to.equal('This is the instruction of one QCM');
+  });
+
+  it("06.2 Le contenu de type [foo](bar) doit être converti sous forme de lien", function() {
+    let $links = findWithAssert('.challenge-instruction a');
+    expect($links.length).to.equal(1);
+    expect($links.text()).to.equal('one');
+    expect($links.attr('href')).to.equal('http://link.1.url');
+  });
+
+  it("06.3 Les liens doivent s'ouvrir dans un nouvel onglet", function() {
+    let $links = findWithAssert('.challenge-instruction a');
+    expect($links.attr('target')).to.equal('_blank');
   });
 
 });
