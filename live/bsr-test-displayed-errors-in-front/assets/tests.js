@@ -258,7 +258,6 @@ define('pix-live/tests/acceptance/05-epreuve-qcu-test', ['exports', 'mocha', 'ch
 
     (0, _mocha.it)('05.9 If a user check a radiobutton, it is checked', function () {
       (0, _chai.expect)($('input:radio:checked:nth-child(1)').is(':checked')).to.equal(false);
-      $('.challenge-proposal:nth-child(1) input').click();
       click($('.challenge-proposal:nth-child(1) input'));
       andThen(function () {
         (0, _chai.expect)($('input:radio:checked:nth-child(1)').is(':checked')).to.equal(true);
@@ -316,7 +315,7 @@ define('pix-live/tests/acceptance/05-epreuve-qcu-test.lint-test', ['exports'], f
 });
 define('pix-live/tests/acceptance/06-epreuve-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)("Acceptance | 16 - Afficher un QCM | ", function () {
+  (0, _mocha.describe)("Acceptance | 06 - Afficher un QCM | ", function () {
 
     var application = undefined;
     var challenge = undefined;
@@ -349,6 +348,52 @@ define('pix-live/tests/acceptance/06-epreuve-qcm-test', ['exports', 'mocha', 'ch
     (0, _mocha.it)("06.3 Les liens doivent s'ouvrir dans un nouvel onglet", function () {
       var $links = findWithAssert('.challenge-instruction a');
       (0, _chai.expect)($links.attr('target')).to.equal('_blank');
+    });
+
+    (0, _mocha.it)('06.4 It should render a list of checkboxes', function () {
+      var $proposals = $('input[type="checkbox"]');
+      (0, _chai.expect)($proposals).to.have.lengthOf(4);
+    });
+
+    (0, _mocha.it)('06.5 It should render an ordered list of instruction', function () {
+      var $proposals = $('input[type="checkbox"]');
+      (0, _chai.expect)($('.challenge-proposal:nth-child(1)').text().trim()).to.equal('possibilite 1, et/ou');
+      (0, _chai.expect)($('.challenge-proposal:nth-child(2)').text().trim()).to.equal('possibilite 2, et/ou');
+      (0, _chai.expect)($('.challenge-proposal:nth-child(3)').text().trim()).to.equal('possibilite 3, et/ou');
+      (0, _chai.expect)($('.challenge-proposal:nth-child(4)').text().trim()).to.equal('possibilite 4');
+    });
+
+    (0, _mocha.it)('06.7 Error alert box should be hidden by default', function () {
+      (0, _chai.expect)($('.alert')).to.have.lengthOf(0);
+    });
+
+    (0, _mocha.it)('06.8 Error alert box should be displayed if user validate without checking a checkbox', function () {
+      $('a.challenge-item-actions__validate-action').click();
+      andThen(function () {
+        (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
+        (0, _chai.expect)($('.alert').text().trim()).to.equal('Pour valider, sélectionner au moins une réponse. Sinon, passer.');
+      });
+    });
+
+    (0, _mocha.it)('05.8 By default, no checkboxes are checked', function () {
+      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(0);
+    });
+
+    (0, _mocha.it)('05.9 If an user check a checkbox, it is checked', function () {
+      (0, _chai.expect)($('input:checkbox:checked:nth-child(1)').is(':checked')).to.equal(false);
+      $('.challenge-proposal:nth-child(1) input').click();
+      andThen(function () {
+        (0, _chai.expect)($('input:checkbox:checked:nth-child(1)').is(':checked')).to.equal(true);
+        (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
+      });
+    });
+
+    (0, _mocha.it)('05.10 If an user check another radiobutton, it is checked, the previous checked checkboxes remains checked', function () {
+      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
+      click($('.challenge-proposal:nth-child(2) input'));
+      andThen(function () {
+        (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
+      });
     });
   });
 });
