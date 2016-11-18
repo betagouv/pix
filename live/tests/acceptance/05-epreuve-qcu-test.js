@@ -26,16 +26,16 @@ describe("Acceptance | 15 - Afficher un QCU | ", function () {
     return visit(`/assessments/first_assessment_id/challenges/ref_qcu_challenge_full_id`);
   });
 
-  it('05.1 It should render challenge instruction', function () {
+  it('05.1 L\'instruction doit s\'afficher', function () {
     expect($('.challenge-instruction').text()).to.equal('Un QCU propose plusieurs choix, l\'utilisateur peut en choisir un seul');
   });
 
-  it('05.2 It should render a list of radiobuttons', function () {
+  it('05.2 Une liste de radiobuttons doit s\'afficher', function () {
     const $proposals = $('input[type="radio"]');
     expect($proposals).to.have.lengthOf(4);
   });
 
-  it('05.3 It should render an ordered list of instruction', function () {
+  it('05.3 Une liste ordonnée d\'instruction doit s\'afficher', function () {
     const $proposals = $('input[type="radio"]');
     expect($('.challenge-proposal:nth-child(1)').text().trim()).to.equal('1ere possibilite');
     expect($('.challenge-proposal:nth-child(2)').text().trim()).to.equal('2eme possibilite');
@@ -43,19 +43,19 @@ describe("Acceptance | 15 - Afficher un QCU | ", function () {
     expect($('.challenge-proposal:nth-child(4)').text().trim()).to.equal('4eme possibilite');
   });
 
-  it('05.4 It should display "Skip" button', function () {
+  it('05.4 Un bouton de type "Skip" doit s\'afficher', function () {
     expect($('.challenge-item-actions__skip-action')).to.have.lengthOf(1);
   });
 
-  it('05.5 It should display "Validate" button', function () {
+  it('05.5 Un bouton de type "Validate" doit s\'afficher', function () {
     expect($('a.challenge-item-actions__validate-action')).to.have.lengthOf(1);
   });
 
-  it('05.6 Error alert box should be hidden by default', function () {
+  it('05.6 L\'alerte est cachée par défaut', function () {
     expect($('.alert')).to.have.lengthOf(0);
   });
 
-  it('05.7 Error alert box should be displayed if user validate without checking a radiobutton', function () {
+  it('05.7 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', function () {
     $('a.challenge-item-actions__validate-action').click();
     andThen(() => {
       expect($('.alert')).to.have.lengthOf(1);
@@ -63,11 +63,11 @@ describe("Acceptance | 15 - Afficher un QCU | ", function () {
     });
   });
 
-  it('05.8 By default, no radiobuttons are checked', function () {
+  it('05.8 Par défaut, aucun radiobutton n\'est coché', function () {
     expect($('input:radio:checked')).to.have.lengthOf(0);
   });
 
-  it('05.9 If a user check a radiobutton, it is checked', function () {
+  it('05.9 Si un utilisateur clique sur un radiobutton, il est coché', function () {
     expect($('input:radio:checked:nth-child(1)').is(':checked')).to.equal(false);
     click($('.challenge-proposal:nth-child(1) input'));
     andThen(() => {

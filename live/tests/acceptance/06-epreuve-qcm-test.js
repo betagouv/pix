@@ -69,11 +69,11 @@ describe("Acceptance | 06 - Afficher un QCM | ", function () {
     });
   });
 
-  it('05.8 By default, no checkboxes are checked', function () {
+  it('06.9 By default, no checkboxes are checked', function () {
     expect($('input:checkbox:checked')).to.have.lengthOf(0);
   });
 
-  it('05.9 If an user check a checkbox, it is checked', function () {
+  it('06.10 If an user check a checkbox, it is checked', function () {
     expect($('input:checkbox:checked:nth-child(1)').is(':checked')).to.equal(false);
     $('.challenge-proposal:nth-child(1) input').click();
     andThen(() => {
@@ -82,7 +82,7 @@ describe("Acceptance | 06 - Afficher un QCM | ", function () {
     });
   });
 
-  it('05.10 If an user check another radiobutton, it is checked, the previous checked checkboxes remains checked', function () {
+  it('06.11 If an user check another radiobutton, it is checked, the previous checked checkboxes remains checked', function () {
     expect($('input:checkbox:checked')).to.have.lengthOf(1);
     click($('.challenge-proposal:nth-child(2) input'));
     andThen(() => {
