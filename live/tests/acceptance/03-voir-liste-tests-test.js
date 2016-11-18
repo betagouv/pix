@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | 2 - voir la liste des tests', function () {
+describe('Acceptance | 03 - voir la liste des tests', function () {
 
   let application;
 
@@ -25,7 +25,7 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
   });
 
   it("03.1 on affiche autant de tests que remontés par l'API", function () {
-    expect(findWithAssert('.course')).to.have.lengthOf(2);
+    expect(findWithAssert('.course')).to.have.lengthOf(3);
   });
 
   describe('03.2 pour un test donné avec toutes les informations', function () {

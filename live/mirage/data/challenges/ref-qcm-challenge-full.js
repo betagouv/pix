@@ -2,7 +2,7 @@
 export default {
   data: {
     type: 'challenges',
-    id: 'qcm_challenge_full_id',
+    id: 'ref_qcm_challenge_full_id',
     attributes: {
       type: 'QCM',
       instruction: "Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)",

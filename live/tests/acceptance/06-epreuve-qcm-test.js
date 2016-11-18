@@ -28,15 +28,15 @@ describe("Acceptance | 16 - Afficher un QCM | ", function () {
 
   it('06.1 It should render challenge instruction', function () {
     // instruction is :
-    // This is the instruction of [one](http://link.1.url) QCM
-    expect($('.challenge-instruction').text()).to.equal('This is the instruction of one QCM');
+    // Un QCM propose plusieurs choix, lutilisateur peut en choisir plusieurs
+    expect($('.challenge-instruction').text()).to.equal('Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs');
   });
 
   it("06.2 Le contenu de type [foo](bar) doit être converti sous forme de lien", function() {
     let $links = findWithAssert('.challenge-instruction a');
     expect($links.length).to.equal(1);
-    expect($links.text()).to.equal('one');
-    expect($links.attr('href')).to.equal('http://link.1.url');
+    expect($links.text()).to.equal('plusieurs');
+    expect($links.attr('href')).to.equal('http://link.plusieurs.url');
   });
 
   it("06.3 Les liens doivent s'ouvrir dans un nouvel onglet", function() {
