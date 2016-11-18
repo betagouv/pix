@@ -454,25 +454,35 @@ define('pix-live/tests/acceptance/08-recapitulatif-test', ['exports', 'mocha', '
       (0, _chai.expect)($proposals.text()).to.contains('Un QROCM est une question ouverte');
     });
 
-    (0, _mocha.it)("08.3 Pour une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
+    (0, _mocha.it)("08.3 Pour une bonne réponse, le tableau récapitulatif donne une indication adéquate", function () {
       var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
       (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse correcte');
     });
 
-    (0, _mocha.it)("08.4 Pour une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
+    (0, _mocha.it)("08.4 Pour une mauvaise réponse, le tableau récapitulatif donne une indication adéquate", function () {
       var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
       (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
     });
 
-    (0, _mocha.it)('08.5 Le nom du test est affiché', function () {
+    (0, _mocha.it)("08.5 Pour une réponse en cours de validation, le tableau récapitulatif donne une indication adéquate", function () {
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(2)');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Vérification en cours');
+    });
+
+    (0, _mocha.it)("08.6 Pour une réponse dont l\'utilisateur a cliqué sur \"Je Passe\", le tableau récapitulatif donne une indication adéquate", function () {
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(3)');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Sans réponse');
+    });
+
+    (0, _mocha.it)('08.7 Le nom du test est affiché', function () {
       (0, _chai.expect)(findWithAssert('.course-banner-name').text()).to.contains('First Course');
     });
 
-    (0, _mocha.it)('08.6 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
+    (0, _mocha.it)('08.8 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
       (0, _chai.expect)(find('.course-banner-home-link')).to.have.lengthOf(0);
     });
 
-    (0, _mocha.it)("08.7. propose un moyen pour revenir à la liste des tests", function () {
+    (0, _mocha.it)("08.9. propose un moyen pour revenir à la liste des tests", function () {
       var $homeLink = findWithAssert('button.assessment-results-link-home');
     });
   });
@@ -506,7 +516,7 @@ define('pix-live/tests/acceptance/09-epreuve-pj-test', ['exports', 'mocha', 'cha
     (0, _mocha.describe)("Quand l'épreuve contient une pièce jointe en consigne", function () {
 
       (0, _mocha.before)(function () {
-        return visit('/challenges/qcu_challenge_with_attachment_id/preview');
+        return visit('/assessments/first_assessment_id/challenges/ref_qcm_challenge_full_id');
       });
 
       (0, _mocha.it)("09.1 Il existe un moyen pour télécharger la pièce jointe d'une épreuve dans la zone de consigne", function () {
@@ -517,7 +527,7 @@ define('pix-live/tests/acceptance/09-epreuve-pj-test', ['exports', 'mocha', 'cha
       (0, _mocha.it)("09.2 Le lien de la pièce jointe contient le nom du fichier et son extension", function () {
         var $attachmentLink = $('.challenge-attachment > a');
         (0, _chai.expect)($attachmentLink.text()).to.contains('Télécharger le fichier');
-        (0, _chai.expect)($attachmentLink.text()).to.contains('example_of_filename.pdf');
+        (0, _chai.expect)($attachmentLink.text()).to.contains('filename.pdf');
         (0, _chai.expect)($attachmentLink.attr('href')).to.equal('http://example_of_url');
       });
 
@@ -527,17 +537,17 @@ define('pix-live/tests/acceptance/09-epreuve-pj-test', ['exports', 'mocha', 'cha
       });
     });
 
-    (0, _mocha.describe)("Quand l'épreuve ne contient pas de pièce jointe en consigne", function () {
+    // describe("Quand l'épreuve ne contient pas de pièce jointe en consigne", function () {
 
-      (0, _mocha.before)(function () {
-        return visit('/challenges/qcu_challenge_id/preview');
-      });
+    //   before(function () {
+    //     return visit(`/challenges/qcu_challenge_id/preview`);
+    //   });
 
-      (0, _mocha.it)("09.4 La section de téléchargement des pièces jointes est cachée", function () {
-        var $attachmentLink = $('.challenge-attachment > a');
-        (0, _chai.expect)($attachmentLink.length).to.equal(0);
-      });
-    });
+    //   it("09.4 La section de téléchargement des pièces jointes est cachée", function() {
+    //     const $attachmentLink = $('.challenge-attachment > a');
+    //     expect($attachmentLink.length).to.equal(0);
+    //   });
+    // });
   });
 });
 define('pix-live/tests/acceptance/09-epreuve-pj-test.lint-test', ['exports'], function (exports) {
@@ -576,7 +586,7 @@ define('pix-live/tests/acceptance/10-epreuve-validation-test', ['exports', 'moch
     });
 
     (0, _mocha.before)(function () {
-      return visit('/assessments/in_progress_assessment_id/challenges/qcm_challenge_id');
+      return visit('/assessments/first_assessment_id/challenges/ref_qcm_challenge_full_id');
     });
 
     (0, _mocha.before)(function () {
@@ -597,7 +607,7 @@ define('pix-live/tests/acceptance/10-epreuve-validation-test', ['exports', 'moch
         return click('.challenge-proposal:first input[type="checkbox"]').then(function () {
           var $validateButton = getValidateActionLink();
           return click($validateButton).then(function () {
-            (0, _chai.expect)(currentURL()).to.contains('/assessments/in_progress_assessment_id/challenges/qcu_challenge_id');
+            (0, _chai.expect)(currentURL()).to.contains('/assessments/first_assessment_id/challenges/ref_qcu_challenge_full_id');
           });
         });
       });
@@ -608,11 +618,11 @@ define('pix-live/tests/acceptance/10-epreuve-validation-test', ['exports', 'moch
       });
 
       (0, _mocha.it)("10.5 Si l'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test", function () {
-        visit('/assessments/in_progress_assessment_id/challenges/qrocm_challenge_id').then(function () {
+        visit('/assessments/first_assessment_id/challenges/ref_qrocm_challenge_full_id').then(function () {
           fillIn('input[name="logiciel"]', 'COUCOU').then(function () {
             var $validateButton = getValidateActionLink();
             return click($validateButton).then(function () {
-              (0, _chai.expect)(currentURL()).to.contains('/assessments/in_progress_assessment_id/results');
+              (0, _chai.expect)(currentURL()).to.contains('/assessments/first_assessment_id/results');
             });
           });
         });
@@ -647,16 +657,16 @@ define('pix-live/tests/acceptance/11-previsualisation-epreuve-test', ['exports',
       (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
     });
 
-    (0, _mocha.describe)('32 - Prévisualiser une épreuve |', function () {
+    (0, _mocha.describe)('11 - Prévisualiser une épreuve |', function () {
 
       var challengeId = undefined;
 
       (0, _mocha.before)(function () {
-        return visit('/challenges/qcu_challenge_id/preview');
+        return visit('/challenges/ref_qcu_challenge_full_id/preview');
       });
 
       (0, _mocha.it)('11.1 Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
-        (0, _chai.expect)(currentURL()).to.equal('/challenges/qcu_challenge_id/preview');
+        (0, _chai.expect)(currentURL()).to.equal('/challenges/ref_qcu_challenge_full_id/preview');
         (0, _chai.expect)(findWithAssert('#challenge-preview'));
       });
 
@@ -669,7 +679,7 @@ define('pix-live/tests/acceptance/11-previsualisation-epreuve-test', ['exports',
         });
 
         (0, _mocha.it)('11.2 la consigne de l\'épreuve', function () {
-          (0, _chai.expect)($challenge.find('.challenge-instruction').text()).to.contain('Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?');
+          (0, _chai.expect)($challenge.find('.challenge-instruction').text()).to.contain('Un QCU propose plusieurs choix, l\'utilisateur peut en choisir un seul');
         });
       });
     });
@@ -708,11 +718,11 @@ define('pix-live/tests/acceptance/12-previsualisation-test-test', ['exports', 'm
     (0, _mocha.describe)("Prévisualiser la première page d'un test |", function () {
 
       (0, _mocha.before)(function () {
-        visit('/courses/simple_course_id/preview');
+        visit('/courses/first_course_id/preview');
       });
 
       (0, _mocha.it)("12.1 L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
-        (0, _chai.expect)(currentURL()).to.equal('/courses/simple_course_id/preview');
+        (0, _chai.expect)(currentURL()).to.equal('/courses/first_course_id/preview');
       });
 
       var $preview = undefined;
@@ -724,17 +734,17 @@ define('pix-live/tests/acceptance/12-previsualisation-test-test', ['exports', 'm
         });
 
         (0, _mocha.it)('12.2 le nom du test', function () {
-          (0, _chai.expect)($preview.find('.course-name').text()).to.contains("Name of the course");
+          (0, _chai.expect)($preview.find('.course-name').text()).to.contains("First Course");
         });
 
         (0, _mocha.it)('12.3 la description du test', function () {
-          (0, _chai.expect)($preview.find('.course-description').text()).to.contains("A short description of the course");
+          (0, _chai.expect)($preview.find('.course-description').text()).to.contains("Contient toutes les sortes d\'epreuves");
         });
 
         (0, _mocha.it)('12.4 un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
           var $playButton = findWithAssert('.simulate-button');
           (0, _chai.expect)($playButton.text()).to.be.equals('Simuler le test');
-          (0, _chai.expect)($playButton.attr('href')).to.be.equals('/courses/simple_course_id/preview/challenges/qcm_challenge_id');
+          (0, _chai.expect)($playButton.attr('href')).to.be.equals('/courses/first_course_id/preview/challenges/ref_qcm_challenge_full_id');
         });
       });
     });
@@ -742,11 +752,11 @@ define('pix-live/tests/acceptance/12-previsualisation-test-test', ['exports', 'm
     (0, _mocha.describe)("Prévisualiser une épreuve dans le cadre d'un test |", function () {
 
       (0, _mocha.before)(function () {
-        visit('/courses/simple_course_id/preview/challenges/qcm_challenge_id');
+        visit('/courses/simple_course_id/preview/challenges/ref_qcm_challenge_full_id');
       });
 
       (0, _mocha.it)("12.5 L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
-        (0, _chai.expect)(currentURL()).to.equal('/courses/simple_course_id/preview/challenges/qcm_challenge_id');
+        (0, _chai.expect)(currentURL()).to.equal('/courses/simple_course_id/preview/challenges/ref_qcm_challenge_full_id');
       });
 
       (0, _mocha.describe)('On affiche', function () {
@@ -758,7 +768,7 @@ define('pix-live/tests/acceptance/12-previsualisation-test-test', ['exports', 'm
         });
 
         (0, _mocha.it)("12.6 la consigne de l'épreuve", function () {
-          (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.contain("Que peut-on dire des œufs de catégorie A ?");
+          (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.contain("Un QCM propose plusieurs choix");
         });
 
         (0, _mocha.it)("12.7 un bouton pour accéder à l'épreuve suivante", function () {
