@@ -99,7 +99,7 @@ define('pix-live/tests/acceptance/03-voir-liste-tests-test', ['exports', 'mocha'
     });
 
     (0, _mocha.it)("03.1 on affiche autant de tests que remontés par l'API", function () {
-      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(3);
+      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(1);
     });
 
     (0, _mocha.describe)('03.2 pour un test donné avec toutes les informations', function () {
@@ -131,10 +131,10 @@ define('pix-live/tests/acceptance/03-voir-liste-tests-test', ['exports', 'mocha'
       });
     });
 
-    (0, _mocha.it)('03.3 pour un test dont il manque l\'image, on affiche une image placeholder', function () {
-      var $course = findWithAssert('.course[data-id="course_with_no_image"]');
-      (0, _chai.expect)($course.find('img')[0].src).to.contains('images/course-default-image.png');
-    });
+    // it('03.3 pour un test dont il manque l\'image, on affiche une image placeholder', function() {
+    //   const $course = findWithAssert('.course[data-id="course_with_no_image"]');
+    //   expect($course.find('img')[0].src).to.contains('images/course-default-image.png');
+    // });
   });
 });
 define('pix-live/tests/acceptance/03-voir-liste-tests-test.lint-test', ['exports'], function (exports) {

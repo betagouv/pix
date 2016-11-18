@@ -1310,206 +1310,6 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
     this.get('/answers/:id', _pixLiveMirageRoutesGetAnswer['default']);
   };
 });
-define('pix-live/mirage/data/answers/qcm-answer-ko', ['exports', 'pix-live/mirage/data/challenges/qcm-challenge'], function (exports, _pixLiveMirageDataChallengesQcmChallenge) {
-  exports['default'] = {
-    data: {
-      type: 'answers',
-      id: 'answer_qcm_ko_id',
-      attributes: {
-        value: '1,2,5',
-        result: 'ko'
-      },
-      relationships: {
-        challenge: {
-          data: {
-            type: 'challenges',
-            id: _pixLiveMirageDataChallengesQcmChallenge['default'].data.id
-          }
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/answers/qcm-answer-ok', ['exports', 'pix-live/mirage/data/challenges/qcm-challenge'], function (exports, _pixLiveMirageDataChallengesQcmChallenge) {
-  exports['default'] = {
-    data: {
-      type: 'answers',
-      id: 'answer_qcm_ok_id',
-      attributes: {
-        value: '1,2,5',
-        result: 'ok'
-      },
-      relationships: {
-        challenge: {
-          data: {
-            type: 'challenges',
-            id: _pixLiveMirageDataChallengesQcmChallenge['default'].data.id
-          }
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/answers/qcm-answer', ['exports', 'pix-live/mirage/data/challenges/qcm-challenge'], function (exports, _pixLiveMirageDataChallengesQcmChallenge) {
-  exports['default'] = {
-    data: {
-      type: 'answers',
-      id: 'answer_qcm_id',
-      attributes: {
-        value: '1,2,5',
-        result: 'pending'
-      },
-      relationships: {
-        challenge: {
-          data: {
-            type: 'challenges',
-            id: _pixLiveMirageDataChallengesQcmChallenge['default'].data.id
-          }
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/answers/qcu-answer-aband', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge-aband'], function (exports, _pixLiveMirageDataChallengesQcuChallengeAband) {
-  exports['default'] = {
-    data: {
-      type: 'answers',
-      id: 'answer_qcu_aband_id',
-      attributes: {
-        value: '',
-        result: 'aband'
-      },
-      relationships: {
-        challenge: {
-          data: {
-            type: 'challenges',
-            id: _pixLiveMirageDataChallengesQcuChallengeAband['default'].data.id
-          }
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/answers/qcu-answer-with-image', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge-with-image'], function (exports, _pixLiveMirageDataChallengesQcuChallengeWithImage) {
-  exports['default'] = {
-    data: {
-      type: 'answers',
-      id: 'answer_qcu_with_image_id',
-      attributes: {
-        value: '2',
-        result: 'ko'
-      },
-      relationships: {
-        challenge: {
-          data: {
-            type: 'challenges',
-            id: _pixLiveMirageDataChallengesQcuChallengeWithImage['default'].data.id
-          }
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/answers/qcu-answer', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallenge) {
-  exports['default'] = {
-    data: {
-      type: 'answers',
-      id: 'answer_qcu_id',
-      attributes: {
-        value: '3',
-        result: 'ok'
-      },
-      relationships: {
-        challenge: {
-          data: {
-            type: 'challenges',
-            id: _pixLiveMirageDataChallengesQcuChallenge['default'].data.id
-          }
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/answers/qroc-answer-ko', ['exports', 'pix-live/mirage/data/challenges/qroc-challenge'], function (exports, _pixLiveMirageDataChallengesQrocChallenge) {
-  exports['default'] = {
-    data: {
-      type: 'answers',
-      id: 'answer_qroc_ko_id',
-      attributes: {
-        value: 'hokuto no ken',
-        result: 'ko'
-      },
-      relationships: {
-        challenge: {
-          data: {
-            type: 'challenges',
-            id: _pixLiveMirageDataChallengesQrocChallenge['default'].data.id
-          }
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/answers/qroc-answer-ok', ['exports', 'pix-live/mirage/data/challenges/qroc-challenge'], function (exports, _pixLiveMirageDataChallengesQrocChallenge) {
-  exports['default'] = {
-    data: {
-      type: 'answers',
-      id: 'answer_qroc_ok_id',
-      attributes: {
-        value: 'la couteaudérie', // Erreur d'accent volontaire
-        result: 'ok'
-      },
-      relationships: {
-        challenge: {
-          data: {
-            type: 'challenges',
-            id: _pixLiveMirageDataChallengesQrocChallenge['default'].data.id
-          }
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/answers/qroc-answer', ['exports', 'pix-live/mirage/data/challenges/qroc-challenge'], function (exports, _pixLiveMirageDataChallengesQrocChallenge) {
-  exports['default'] = {
-    data: {
-      type: 'answers',
-      id: 'answer_qroc_id',
-      attributes: {
-        value: 'rue de la couteauderie',
-        result: 'pending'
-      },
-      relationships: {
-        challenge: {
-          data: {
-            type: 'challenges',
-            id: _pixLiveMirageDataChallengesQrocChallenge['default'].data.id
-          }
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/answers/qrocm-answer', ['exports', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQrocmChallenge) {
-  exports['default'] = {
-    data: {
-      type: 'answers',
-      id: 'answer_qrocm_id',
-      attributes: {
-        value: 'logiciel 1 = "LOTUS", logiciel 2 = "FIREFOX", logiciel 3 = "GOOGLE"',
-        result: 'pending'
-      },
-      relationships: {
-        challenge: {
-          data: {
-            type: 'challenges',
-            id: _pixLiveMirageDataChallengesQrocmChallenge['default'].data.id
-          }
-        }
-      }
-    }
-  };
-});
 define('pix-live/mirage/data/answers/ref-qcm-answer', ['exports', 'pix-live/mirage/data/challenges/ref-qcm-challenge-full'], function (exports, _pixLiveMirageDataChallengesRefQcmChallengeFull) {
   exports['default'] = {
     data: {
@@ -1590,198 +1390,6 @@ define('pix-live/mirage/data/answers/ref-qrocm-answer', ['exports', 'pix-live/mi
     }
   };
 });
-define('pix-live/mirage/data/assessments/completed-assessment-qcm', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/answers/qcm-answer-ok', 'pix-live/mirage/data/answers/qcm-answer-ko'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataAnswersQcmAnswerOk, _pixLiveMirageDataAnswersQcmAnswerKo) {
-  exports['default'] = {
-    data: {
-      type: 'assessments',
-      id: 'completed_assessment_qcm_id',
-      attributes: {
-        "user-id": 'user_id',
-        "user-name": 'Jon Snow',
-        "user-email": 'jsnow@winterfell.got'
-      },
-      relationships: {
-        course: {
-          data: {
-            type: 'courses',
-            id: _pixLiveMirageDataCoursesSimpleCourse['default'].data.id
-          }
-        },
-        answers: {
-          data: [{
-            type: 'answers',
-            id: _pixLiveMirageDataAnswersQcmAnswerOk['default'].data.id
-          }, {
-            type: 'answers',
-            id: _pixLiveMirageDataAnswersQcmAnswerKo['default'].data.id
-          }]
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/assessments/completed-assessment-qroc', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/answers/qroc-answer-ok', 'pix-live/mirage/data/answers/qroc-answer-ko'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataAnswersQrocAnswerOk, _pixLiveMirageDataAnswersQrocAnswerKo) {
-  exports['default'] = {
-    data: {
-      type: 'assessments',
-      id: 'completed_assessment_qroc_id',
-      attributes: {
-        "user-id": 'user_id',
-        "user-name": 'Jon Snow',
-        "user-email": 'jsnow@winterfell.got'
-      },
-      relationships: {
-        course: {
-          data: {
-            type: 'courses',
-            id: _pixLiveMirageDataCoursesSimpleCourse['default'].data.id
-          }
-        },
-        answers: {
-          data: [{
-            type: 'answers',
-            id: _pixLiveMirageDataAnswersQrocAnswerKo['default'].data.id
-          }, {
-            type: 'answers',
-            id: _pixLiveMirageDataAnswersQrocAnswerOk['default'].data.id
-          }]
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/assessments/completed-assessment', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qcu-answer-with-image', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qcu-answer-aband', 'pix-live/mirage/data/answers/qroc-answer', 'pix-live/mirage/data/answers/qrocm-answer'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQcuAnswerWithImage, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQcuAnswerAband, _pixLiveMirageDataAnswersQrocAnswer, _pixLiveMirageDataAnswersQrocmAnswer) {
-  exports['default'] = {
-    data: {
-      type: 'assessments',
-      id: 'completed_assessment_id',
-      attributes: {
-        "user-id": 'user_id',
-        "user-name": 'Jon Snow',
-        "user-email": 'jsnow@winterfell.got'
-      },
-      relationships: {
-        course: {
-          data: {
-            type: 'courses',
-            id: _pixLiveMirageDataCoursesSimpleCourse['default'].data.id
-          }
-        },
-        answers: {
-          data: [{
-            type: 'answers',
-            id: _pixLiveMirageDataAnswersQcuAnswer['default'].data.id
-          }, {
-            type: 'answers',
-            id: _pixLiveMirageDataAnswersQcuAnswerWithImage['default'].data.id
-          }, {
-            type: 'answers',
-            id: _pixLiveMirageDataAnswersQcmAnswer['default'].data.id
-          }, {
-            type: 'answers',
-            id: _pixLiveMirageDataAnswersQrocAnswer['default'].data.id
-          }, {
-            type: 'answers',
-            id: _pixLiveMirageDataAnswersQcuAnswerAband['default'].data.id
-          }, {
-            type: 'answers',
-            id: _pixLiveMirageDataAnswersQrocmAnswer['default'].data.id
-          }]
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/assessments/in-progress-assessment', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/answers/qcm-answer'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataAnswersQcmAnswer) {
-  exports['default'] = {
-    data: {
-      type: 'assessments',
-      id: 'in_progress_assessment_id',
-      attributes: {
-        "user-id": 'user_id',
-        "user-name": 'Jon Snow',
-        "user-email": 'jsnow@winterfell.got'
-      },
-      relationships: {
-        course: {
-          data: {
-            type: 'courses',
-            id: _pixLiveMirageDataCoursesSimpleCourse['default'].data.id
-          }
-        },
-        answers: {
-          data: [{
-            type: 'answers',
-            id: _pixLiveMirageDataAnswersQcmAnswer['default'].data.id
-          }]
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/assessments/new-assessment-of-noimage-course', ['exports', 'pix-live/mirage/data/courses/no-image-course'], function (exports, _pixLiveMirageDataCoursesNoImageCourse) {
-  exports['default'] = {
-    data: {
-      type: 'assessments',
-      id: 'new_assessment_of_noimage_course_id',
-      attributes: {
-        'user-id': 'user_id',
-        'user-name': 'Jon Snow',
-        'user-email': 'jsnow@winterfell.got'
-      },
-      relationships: {
-        course: {
-          data: {
-            type: 'courses',
-            id: _pixLiveMirageDataCoursesNoImageCourse['default'].data.id
-          }
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/assessments/new-assessment-of-simple-course', ['exports', 'pix-live/mirage/data/courses/simple-course'], function (exports, _pixLiveMirageDataCoursesSimpleCourse) {
-  exports['default'] = {
-    data: {
-      type: 'assessments',
-      id: 'new_assessment_id',
-      attributes: {
-        "user-id": 'user_id',
-        "user-name": 'Jon Snow',
-        "user-email": 'jsnow@winterfell.got'
-      },
-      relationships: {
-        course: {
-          data: {
-            type: 'courses',
-            id: _pixLiveMirageDataCoursesSimpleCourse['default'].data.id
-          }
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/assessments/new-assessment', ['exports', 'pix-live/mirage/data/courses/simple-course'], function (exports, _pixLiveMirageDataCoursesSimpleCourse) {
-  exports['default'] = {
-    data: {
-      type: 'assessments',
-      id: 'new_assessment_id',
-      attributes: {
-        "user-id": 'user_id',
-        "user-name": 'Jon Snow',
-        "user-email": 'jsnow@winterfell.got'
-      },
-      relationships: {
-        course: {
-          data: {
-            type: 'courses',
-            id: _pixLiveMirageDataCoursesSimpleCourse['default'].data.id
-          }
-        }
-      }
-    }
-  };
-});
 define('pix-live/mirage/data/assessments/ref-assessment-of-first-course', ['exports', 'pix-live/mirage/data/courses/ref-first-course', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer'], function (exports, _pixLiveMirageDataCoursesRefFirstCourse, _pixLiveMirageDataAnswersRefQcuAnswer, _pixLiveMirageDataAnswersRefQcmAnswer, _pixLiveMirageDataAnswersRefQrocAnswer, _pixLiveMirageDataAnswersRefQrocmAnswer) {
   exports['default'] = {
     data: {
@@ -1814,130 +1422,6 @@ define('pix-live/mirage/data/assessments/ref-assessment-of-first-course', ['expo
             id: _pixLiveMirageDataAnswersRefQrocmAnswer['default'].data.id
           }]
         }
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/challenges/qcm-challenge-full', ['exports'], function (exports) {
-  // QCM challenge with all field filled
-  exports['default'] = {
-    data: {
-      type: 'challenges',
-      id: 'qcm_challenge_full_id',
-      attributes: {
-        type: 'QCM',
-        instruction: "Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)",
-        'attachment-url': 'http://example_of_url',
-        'attachment-filename': 'example_of_filename.pdf',
-        'illustration-url': 'http://fakeimg.pl/350x200/?text=PictureOfQCM',
-        proposals: "- possibilite 1, et/ou" + "\n - possibilite 2, et/ou" + "\n - possibilite 3, et/ou " + "\n - possibilite 4"
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/challenges/qcm-challenge', ['exports'], function (exports) {
-  exports['default'] = {
-    data: {
-      type: 'challenges',
-      id: 'qcm_challenge_id',
-      attributes: {
-        type: 'QCM',
-        instruction: "Que peut-on dire des œufs de catégorie A ?",
-        proposals: "- Ils sont bio.\n - Ils pèsent plus de 63 grammes.\n - Ce sont des oeufs frais.\n - Ils sont destinés aux consommateurs.\n - Ils ne sont pas lavés."
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/challenges/qcu-challenge-aband', ['exports'], function (exports) {
-  exports['default'] = {
-    data: {
-      type: 'challenges',
-      id: 'qcu_challenge_aband_id',
-      attributes: {
-        type: 'QCU',
-        instruction: "Cette question sera considérée comme abandonnée",
-        proposals: "" + "- D’accord\n " + "- Pas d’accord (mais c'est pareil)\n "
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/challenges/qcu-challenge-with-attachment', ['exports'], function (exports) {
-  exports['default'] = {
-    data: {
-      type: 'challenges',
-      id: 'qcu_challenge_with_attachment_id',
-      attributes: {
-        type: 'QCU',
-        'attachment-url': 'http://example_of_url',
-        'attachment-filename': 'example_of_filename.pdf',
-        instruction: "Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?",
-        proposals: "" + "- J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt\n " + "- Ci-joint le document que j’ai déposé dans l’espace partagé\n " + "- J’ai déposé le document intro.odt dans l’espace partagé\n" + "- J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail"
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/challenges/qcu-challenge-with-image', ['exports'], function (exports) {
-  exports['default'] = {
-    data: {
-      type: 'challenges',
-      id: 'qcu_challenge_with_image_id',
-      attributes: {
-        type: 'QCU',
-        'illustration-url': 'http://fakeimg.pl/350x200/?text=DavidB&font=lobster',
-        instruction: "Ceci est une instruction",
-        proposals: "" + "- 1ere possibilite\n " + "- 2eme possibilite\n " + "- 3eme possibilite\n" + "- 4eme possibilite"
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/challenges/qcu-challenge-with-links-in-instruction', ['exports'], function (exports) {
-  exports['default'] = {
-    data: {
-      type: 'challenges',
-      id: 'qcu_challenge_id_with_links_in_instruction',
-      attributes: {
-        type: 'QCU',
-        instruction: "" + "Une consigne avec plusieurs liens : \n" + "- [Lien #1](http://lien.1.url)\n" + "- [Lien #2](http://lien.2.url)\n" + "- [Lien #3](http://lien.3.url)",
-        proposals: "" + "- Choix #1\n " + "- Choix #2\n " + "- Choix #3"
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/challenges/qcu-challenge', ['exports'], function (exports) {
-  exports['default'] = {
-    data: {
-      type: 'challenges',
-      id: 'qcu_challenge_id',
-      attributes: {
-        type: 'QCU',
-        instruction: "Julie a déposé un document dans un espace de [stockage](https://fr.wikipedia.org/wiki/Stockage) partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?",
-        proposals: "" + "- J’ai déposé le document ici : P: > Equipe > Communication > Textes > intro.odt\n " + "- Ci-joint le document que j’ai déposé dans l’espace partagé\n " + "- J’ai déposé le document intro.odt dans l’espace partagé\n" + "- J’ai déposé un nouveau document dans l’espace partagé, si tu ne le trouves pas je te l’enverrai par mail"
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/challenges/qroc-challenge', ['exports'], function (exports) {
-  exports['default'] = {
-    data: {
-      type: 'challenges',
-      id: 'qroc_challenge_id',
-      attributes: {
-        type: 'QROC',
-        instruction: "Dans le village de Montrésor (37, France), sur quelle rue débouche la rue des Perrières ?",
-        proposals: "${Rue#Rue de...}"
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/challenges/qrocm-challenge', ['exports'], function (exports) {
-  exports['default'] = {
-    data: {
-      type: 'challenges',
-      id: 'qrocm_challenge_id',
-      attributes: {
-        type: 'QROCM',
-        instruction: "Citez un ou plusieurs logiciel(s) permettant de réaliser un montage vidéo.",
-        proposals: "Réponses : ${logiciel} ${logiciel} ${logiciel}"
       }
     }
   };
@@ -2002,33 +1486,6 @@ define('pix-live/mirage/data/challenges/ref-qrocm-challenge-full', ['exports'], 
     }
   };
 });
-define('pix-live/mirage/data/courses/no-image-course', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qcm-challenge-full', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQcmChallengeFull, _pixLiveMirageDataChallengesQrocmChallenge) {
-  exports['default'] = {
-    data: {
-      type: "courses",
-      id: "course_with_no_image",
-      attributes: {
-        name: "Test sans image",
-        description: "Description d'un test sans image",
-        duration: 20
-      },
-      relationships: {
-        challenges: {
-          data: [{
-            type: "challenges",
-            id: _pixLiveMirageDataChallengesQcuChallenge['default'].data.id
-          }, {
-            type: "challenges",
-            id: _pixLiveMirageDataChallengesQcmChallengeFull['default'].data.id
-          }, {
-            type: "challenges",
-            id: _pixLiveMirageDataChallengesQrocmChallenge['default'].data.id
-          }]
-        }
-      }
-    }
-  };
-});
 define('pix-live/mirage/data/courses/ref-first-course', ['exports', 'pix-live/mirage/data/challenges/ref-qcm-challenge-full', 'pix-live/mirage/data/challenges/ref-qcu-challenge-full', 'pix-live/mirage/data/challenges/ref-qroc-challenge-full', 'pix-live/mirage/data/challenges/ref-qrocm-challenge-full'], function (exports, _pixLiveMirageDataChallengesRefQcmChallengeFull, _pixLiveMirageDataChallengesRefQcuChallengeFull, _pixLiveMirageDataChallengesRefQrocChallengeFull, _pixLiveMirageDataChallengesRefQrocmChallengeFull) {
   exports['default'] = {
     data: {
@@ -2060,44 +1517,10 @@ define('pix-live/mirage/data/courses/ref-first-course', ['exports', 'pix-live/mi
     }
   };
 });
-define('pix-live/mirage/data/courses/simple-course', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge-with-image', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qcm-challenge-full', 'pix-live/mirage/data/challenges/qroc-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallengeWithImage, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQcmChallengeFull, _pixLiveMirageDataChallengesQrocChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
-  exports['default'] = {
-    data: {
-      type: "courses",
-      id: "simple_course_id",
-      attributes: {
-        name: "Name of the course",
-        description: "A short description of the course",
-        duration: 10,
-        "image-url": 'https://dl.airtable.com/L8AQwmIURNu79XmKFoPO_storage-1209059_960_720.jpg'
-      },
-      relationships: {
-        challenges: {
-          data: [{
-            type: "challenges",
-            id: _pixLiveMirageDataChallengesQcmChallenge['default'].data.id
-          }, {
-            type: "challenges",
-            id: _pixLiveMirageDataChallengesQcuChallenge['default'].data.id
-          }, {
-            type: "challenges",
-            id: _pixLiveMirageDataChallengesQcuChallengeWithImage['default'].data.id
-          }, {
-            type: "challenges",
-            id: _pixLiveMirageDataChallengesQrocChallenge['default'].data.id
-          }, {
-            type: "challenges",
-            id: _pixLiveMirageDataChallengesQrocmChallenge['default'].data.id
-          }]
-        }
-      }
-    }
-  };
-});
-define('pix-live/mirage/routes/get-answer', ['exports', 'lodash/lodash', 'pix-live/mirage/data/answers/qcu-answer-aband', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qcu-answer-with-image', 'pix-live/mirage/data/answers/qrocm-answer', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qcm-answer-ko', 'pix-live/mirage/data/answers/qcm-answer-ok', 'pix-live/mirage/data/answers/qroc-answer-ko', 'pix-live/mirage/data/answers/qroc-answer', 'pix-live/mirage/data/answers/qroc-answer-ok', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer'], function (exports, _lodashLodash, _pixLiveMirageDataAnswersQcuAnswerAband, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQcuAnswerWithImage, _pixLiveMirageDataAnswersQrocmAnswer, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQcmAnswerKo, _pixLiveMirageDataAnswersQcmAnswerOk, _pixLiveMirageDataAnswersQrocAnswerKo, _pixLiveMirageDataAnswersQrocAnswer, _pixLiveMirageDataAnswersQrocAnswerOk, _pixLiveMirageDataAnswersRefQcuAnswer, _pixLiveMirageDataAnswersRefQcmAnswer, _pixLiveMirageDataAnswersRefQrocAnswer, _pixLiveMirageDataAnswersRefQrocmAnswer) {
+define('pix-live/mirage/routes/get-answer', ['exports', 'lodash/lodash', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer'], function (exports, _lodashLodash, _pixLiveMirageDataAnswersRefQcuAnswer, _pixLiveMirageDataAnswersRefQcmAnswer, _pixLiveMirageDataAnswersRefQrocAnswer, _pixLiveMirageDataAnswersRefQrocmAnswer) {
   exports['default'] = function (schema, request) {
 
-    var allAnswers = [_pixLiveMirageDataAnswersQcuAnswer['default'], _pixLiveMirageDataAnswersQcuAnswerWithImage['default'], _pixLiveMirageDataAnswersQcmAnswer['default'], _pixLiveMirageDataAnswersQrocmAnswer['default'], _pixLiveMirageDataAnswersQcmAnswerKo['default'], _pixLiveMirageDataAnswersQcmAnswerOk['default'], _pixLiveMirageDataAnswersQcuAnswerAband['default'], _pixLiveMirageDataAnswersQrocAnswerKo['default'], _pixLiveMirageDataAnswersQrocAnswer['default'], _pixLiveMirageDataAnswersQrocAnswerOk['default'], _pixLiveMirageDataAnswersRefQcuAnswer['default'], _pixLiveMirageDataAnswersRefQcmAnswer['default'], _pixLiveMirageDataAnswersRefQrocAnswer['default'], _pixLiveMirageDataAnswersRefQrocmAnswer['default']];
+    var allAnswers = [_pixLiveMirageDataAnswersRefQcuAnswer['default'], _pixLiveMirageDataAnswersRefQcmAnswer['default'], _pixLiveMirageDataAnswersRefQrocAnswer['default'], _pixLiveMirageDataAnswersRefQrocmAnswer['default']];
 
     var answers = _lodashLodash['default'].map(allAnswers, function (oneAnswer) {
       return { id: oneAnswer.data.id, obj: oneAnswer };
@@ -2112,10 +1535,10 @@ define('pix-live/mirage/routes/get-answer', ['exports', 'lodash/lodash', 'pix-li
     }
   };
 });
-define('pix-live/mirage/routes/get-assessment', ['exports', 'lodash/lodash', 'pix-live/mirage/data/assessments/completed-assessment', 'pix-live/mirage/data/assessments/completed-assessment-qcm', 'pix-live/mirage/data/assessments/completed-assessment-qroc', 'pix-live/mirage/data/assessments/in-progress-assessment', 'pix-live/mirage/data/assessments/new-assessment-of-noimage-course', 'pix-live/mirage/data/assessments/new-assessment', 'pix-live/mirage/data/assessments/ref-assessment-of-first-course'], function (exports, _lodashLodash, _pixLiveMirageDataAssessmentsCompletedAssessment, _pixLiveMirageDataAssessmentsCompletedAssessmentQcm, _pixLiveMirageDataAssessmentsCompletedAssessmentQroc, _pixLiveMirageDataAssessmentsInProgressAssessment, _pixLiveMirageDataAssessmentsNewAssessmentOfNoimageCourse, _pixLiveMirageDataAssessmentsNewAssessment, _pixLiveMirageDataAssessmentsRefAssessmentOfFirstCourse) {
+define('pix-live/mirage/routes/get-assessment', ['exports', 'lodash/lodash', 'pix-live/mirage/data/assessments/ref-assessment-of-first-course'], function (exports, _lodashLodash, _pixLiveMirageDataAssessmentsRefAssessmentOfFirstCourse) {
   exports['default'] = function (schema, request) {
 
-    var allAssessments = [_pixLiveMirageDataAssessmentsCompletedAssessment['default'], _pixLiveMirageDataAssessmentsCompletedAssessmentQcm['default'], _pixLiveMirageDataAssessmentsCompletedAssessmentQroc['default'], _pixLiveMirageDataAssessmentsNewAssessmentOfNoimageCourse['default'], _pixLiveMirageDataAssessmentsNewAssessment['default'], _pixLiveMirageDataAssessmentsInProgressAssessment['default'], _pixLiveMirageDataAssessmentsRefAssessmentOfFirstCourse['default']];
+    var allAssessments = [_pixLiveMirageDataAssessmentsRefAssessmentOfFirstCourse['default']];
 
     var assessments = _lodashLodash['default'].map(allAssessments, function (oneAssessment) {
       return { id: oneAssessment.data.id, obj: oneAssessment };
@@ -2130,10 +1553,10 @@ define('pix-live/mirage/routes/get-assessment', ['exports', 'lodash/lodash', 'pi
     }
   };
 });
-define('pix-live/mirage/routes/get-challenge', ['exports', 'lodash/lodash', 'pix-live/mirage/data/challenges/qcu-challenge-aband', 'pix-live/mirage/data/challenges/qcu-challenge-with-image', 'pix-live/mirage/data/challenges/qcu-challenge-with-attachment', 'pix-live/mirage/data/challenges/qcu-challenge-with-links-in-instruction', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qcm-challenge-full', 'pix-live/mirage/data/challenges/qroc-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge', 'pix-live/mirage/data/challenges/ref-qcm-challenge-full', 'pix-live/mirage/data/challenges/ref-qcu-challenge-full', 'pix-live/mirage/data/challenges/ref-qroc-challenge-full', 'pix-live/mirage/data/challenges/ref-qrocm-challenge-full'], function (exports, _lodashLodash, _pixLiveMirageDataChallengesQcuChallengeAband, _pixLiveMirageDataChallengesQcuChallengeWithImage, _pixLiveMirageDataChallengesQcuChallengeWithAttachment, _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQcmChallengeFull, _pixLiveMirageDataChallengesQrocChallenge, _pixLiveMirageDataChallengesQrocmChallenge, _pixLiveMirageDataChallengesRefQcmChallengeFull, _pixLiveMirageDataChallengesRefQcuChallengeFull, _pixLiveMirageDataChallengesRefQrocChallengeFull, _pixLiveMirageDataChallengesRefQrocmChallengeFull) {
+define('pix-live/mirage/routes/get-challenge', ['exports', 'lodash/lodash', 'pix-live/mirage/data/challenges/ref-qcm-challenge-full', 'pix-live/mirage/data/challenges/ref-qcu-challenge-full', 'pix-live/mirage/data/challenges/ref-qroc-challenge-full', 'pix-live/mirage/data/challenges/ref-qrocm-challenge-full'], function (exports, _lodashLodash, _pixLiveMirageDataChallengesRefQcmChallengeFull, _pixLiveMirageDataChallengesRefQcuChallengeFull, _pixLiveMirageDataChallengesRefQrocChallengeFull, _pixLiveMirageDataChallengesRefQrocmChallengeFull) {
   exports['default'] = function (schema, request) {
 
-    var allChallenges = [_pixLiveMirageDataChallengesQcuChallengeAband['default'], _pixLiveMirageDataChallengesQcuChallengeWithImage['default'], _pixLiveMirageDataChallengesQcuChallengeWithAttachment['default'], _pixLiveMirageDataChallengesQcuChallengeWithLinksInInstruction['default'], _pixLiveMirageDataChallengesQcuChallenge['default'], _pixLiveMirageDataChallengesQcmChallenge['default'], _pixLiveMirageDataChallengesQcmChallengeFull['default'], _pixLiveMirageDataChallengesQrocChallenge['default'], _pixLiveMirageDataChallengesQrocmChallenge['default'], _pixLiveMirageDataChallengesRefQcmChallengeFull['default'], _pixLiveMirageDataChallengesRefQcuChallengeFull['default'], _pixLiveMirageDataChallengesRefQrocChallengeFull['default'], _pixLiveMirageDataChallengesRefQrocmChallengeFull['default']];
+    var allChallenges = [_pixLiveMirageDataChallengesRefQcmChallengeFull['default'], _pixLiveMirageDataChallengesRefQcuChallengeFull['default'], _pixLiveMirageDataChallengesRefQrocChallengeFull['default'], _pixLiveMirageDataChallengesRefQrocmChallengeFull['default']];
 
     var challenges = _lodashLodash['default'].map(allChallenges, function (oneChallenge) {
       return { id: oneChallenge.data.id, obj: oneChallenge };
@@ -2148,18 +1571,18 @@ define('pix-live/mirage/routes/get-challenge', ['exports', 'lodash/lodash', 'pix
     }
   };
 });
-define('pix-live/mirage/routes/get-challenges', ['exports', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qroc-challenge', 'pix-live/mirage/data/challenges/qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQrocChallenge, _pixLiveMirageDataChallengesQrocmChallenge) {
+define('pix-live/mirage/routes/get-challenges', ['exports', 'pix-live/mirage/data/challenges/ref-qcm-challenge-full', 'pix-live/mirage/data/challenges/ref-qcu-challenge-full', 'pix-live/mirage/data/challenges/ref-qroc-challenge-full', 'pix-live/mirage/data/challenges/ref-qrocm-challenge-full'], function (exports, _pixLiveMirageDataChallengesRefQcmChallengeFull, _pixLiveMirageDataChallengesRefQcuChallengeFull, _pixLiveMirageDataChallengesRefQrocChallengeFull, _pixLiveMirageDataChallengesRefQrocmChallengeFull) {
   exports['default'] = function () {
 
     return {
-      data: [_pixLiveMirageDataChallengesQcuChallenge['default'].data, _pixLiveMirageDataChallengesQcmChallenge['default'].data, _pixLiveMirageDataChallengesQrocChallenge['default'].data, _pixLiveMirageDataChallengesQrocmChallenge['default'].data]
+      data: [_pixLiveMirageDataChallengesRefQcmChallengeFull['default'].data, _pixLiveMirageDataChallengesRefQcuChallengeFull['default'].data, _pixLiveMirageDataChallengesRefQrocChallengeFull['default'].data, _pixLiveMirageDataChallengesRefQrocmChallengeFull['default'].data]
     };
   };
 });
-define('pix-live/mirage/routes/get-course', ['exports', 'lodash/lodash', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/courses/ref-first-course', 'pix-live/mirage/data/courses/no-image-course'], function (exports, _lodashLodash, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataCoursesRefFirstCourse, _pixLiveMirageDataCoursesNoImageCourse) {
+define('pix-live/mirage/routes/get-course', ['exports', 'lodash/lodash', 'pix-live/mirage/data/courses/ref-first-course'], function (exports, _lodashLodash, _pixLiveMirageDataCoursesRefFirstCourse) {
   exports['default'] = function (schema, request) {
 
-    var allCourses = [_pixLiveMirageDataCoursesSimpleCourse['default'], _pixLiveMirageDataCoursesNoImageCourse['default'], _pixLiveMirageDataCoursesRefFirstCourse['default']];
+    var allCourses = [_pixLiveMirageDataCoursesRefFirstCourse['default']];
 
     var courses = _lodashLodash['default'].map(allCourses, function (oneCourse) {
       return { id: oneCourse.data.id, obj: oneCourse };
@@ -2174,22 +1597,22 @@ define('pix-live/mirage/routes/get-course', ['exports', 'lodash/lodash', 'pix-li
     }
   };
 });
-define('pix-live/mirage/routes/get-courses', ['exports', 'pix-live/mirage/data/courses/simple-course', 'pix-live/mirage/data/courses/no-image-course', 'pix-live/mirage/data/courses/ref-first-course'], function (exports, _pixLiveMirageDataCoursesSimpleCourse, _pixLiveMirageDataCoursesNoImageCourse, _pixLiveMirageDataCoursesRefFirstCourse) {
+define('pix-live/mirage/routes/get-courses', ['exports', 'pix-live/mirage/data/courses/ref-first-course'], function (exports, _pixLiveMirageDataCoursesRefFirstCourse) {
   exports['default'] = function () {
     return {
-      data: [_pixLiveMirageDataCoursesSimpleCourse['default'].data, _pixLiveMirageDataCoursesNoImageCourse['default'].data, _pixLiveMirageDataCoursesRefFirstCourse['default'].data]
+      data: [_pixLiveMirageDataCoursesRefFirstCourse['default'].data]
     };
   };
 });
-define('pix-live/mirage/routes/post-answers', ['exports', 'lodash/lodash', 'pix-live/mirage/data/challenges/qcm-challenge', 'pix-live/mirage/data/challenges/qcu-challenge', 'pix-live/mirage/data/challenges/qroc-challenge', 'pix-live/mirage/data/challenges/qcu-challenge-with-image', 'pix-live/mirage/data/challenges/qrocm-challenge', 'pix-live/mirage/data/challenges/ref-qcm-challenge-full', 'pix-live/mirage/data/challenges/ref-qcu-challenge-full', 'pix-live/mirage/data/challenges/ref-qroc-challenge-full', 'pix-live/mirage/data/challenges/ref-qrocm-challenge-full', 'pix-live/mirage/data/answers/qcm-answer', 'pix-live/mirage/data/answers/qcu-answer', 'pix-live/mirage/data/answers/qroc-answer', 'pix-live/mirage/data/answers/qcu-answer-with-image', 'pix-live/mirage/data/answers/qrocm-answer', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer'], function (exports, _lodashLodash, _pixLiveMirageDataChallengesQcmChallenge, _pixLiveMirageDataChallengesQcuChallenge, _pixLiveMirageDataChallengesQrocChallenge, _pixLiveMirageDataChallengesQcuChallengeWithImage, _pixLiveMirageDataChallengesQrocmChallenge, _pixLiveMirageDataChallengesRefQcmChallengeFull, _pixLiveMirageDataChallengesRefQcuChallengeFull, _pixLiveMirageDataChallengesRefQrocChallengeFull, _pixLiveMirageDataChallengesRefQrocmChallengeFull, _pixLiveMirageDataAnswersQcmAnswer, _pixLiveMirageDataAnswersQcuAnswer, _pixLiveMirageDataAnswersQrocAnswer, _pixLiveMirageDataAnswersQcuAnswerWithImage, _pixLiveMirageDataAnswersQrocmAnswer, _pixLiveMirageDataAnswersRefQcuAnswer, _pixLiveMirageDataAnswersRefQcmAnswer, _pixLiveMirageDataAnswersRefQrocAnswer, _pixLiveMirageDataAnswersRefQrocmAnswer) {
+define('pix-live/mirage/routes/post-answers', ['exports', 'lodash/lodash', 'pix-live/mirage/data/challenges/ref-qcm-challenge-full', 'pix-live/mirage/data/challenges/ref-qcu-challenge-full', 'pix-live/mirage/data/challenges/ref-qroc-challenge-full', 'pix-live/mirage/data/challenges/ref-qrocm-challenge-full', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer'], function (exports, _lodashLodash, _pixLiveMirageDataChallengesRefQcmChallengeFull, _pixLiveMirageDataChallengesRefQcuChallengeFull, _pixLiveMirageDataChallengesRefQrocChallengeFull, _pixLiveMirageDataChallengesRefQrocmChallengeFull, _pixLiveMirageDataAnswersRefQcuAnswer, _pixLiveMirageDataAnswersRefQcmAnswer, _pixLiveMirageDataAnswersRefQrocAnswer, _pixLiveMirageDataAnswersRefQrocmAnswer) {
   exports['default'] = function (schema, request) {
 
     var answer = JSON.parse(request.requestBody);
     var challengeId = answer.data.relationships.challenge.data.id;
 
-    var allChallenges = [_pixLiveMirageDataChallengesQcmChallenge['default'], _pixLiveMirageDataChallengesQcuChallenge['default'], _pixLiveMirageDataChallengesQrocChallenge['default'], _pixLiveMirageDataChallengesQcuChallengeWithImage['default'], _pixLiveMirageDataChallengesQrocmChallenge['default'], _pixLiveMirageDataChallengesRefQcmChallengeFull['default'], _pixLiveMirageDataChallengesRefQcuChallengeFull['default'], _pixLiveMirageDataChallengesRefQrocChallengeFull['default'], _pixLiveMirageDataChallengesRefQrocmChallengeFull['default']];
+    var allChallenges = [_pixLiveMirageDataChallengesRefQcmChallengeFull['default'], _pixLiveMirageDataChallengesRefQcuChallengeFull['default'], _pixLiveMirageDataChallengesRefQrocChallengeFull['default'], _pixLiveMirageDataChallengesRefQrocmChallengeFull['default']];
 
-    var allAnswers = [_pixLiveMirageDataAnswersQcmAnswer['default'], _pixLiveMirageDataAnswersQcuAnswer['default'], _pixLiveMirageDataAnswersQrocAnswer['default'], _pixLiveMirageDataAnswersQcuAnswerWithImage['default'], _pixLiveMirageDataAnswersQrocmAnswer['default'], _pixLiveMirageDataAnswersRefQcuAnswer['default'], _pixLiveMirageDataAnswersRefQcmAnswer['default'], _pixLiveMirageDataAnswersRefQrocAnswer['default'], _pixLiveMirageDataAnswersRefQrocmAnswer['default']];
+    var allAnswers = [_pixLiveMirageDataAnswersRefQcuAnswer['default'], _pixLiveMirageDataAnswersRefQcmAnswer['default'], _pixLiveMirageDataAnswersRefQrocAnswer['default'], _pixLiveMirageDataAnswersRefQrocmAnswer['default']];
 
     var answers = _lodashLodash['default'].map(allChallenges, function (oneChallenge, index) {
       return { id: oneChallenge.data.id, obj: allAnswers[index] };
@@ -2204,13 +1627,13 @@ define('pix-live/mirage/routes/post-answers', ['exports', 'lodash/lodash', 'pix-
     }
   };
 });
-define('pix-live/mirage/routes/post-assessments', ['exports', 'lodash/lodash', 'pix-live/mirage/data/assessments/new-assessment-of-simple-course', 'pix-live/mirage/data/assessments/new-assessment-of-noimage-course', 'pix-live/mirage/data/assessments/ref-assessment-of-first-course'], function (exports, _lodashLodash, _pixLiveMirageDataAssessmentsNewAssessmentOfSimpleCourse, _pixLiveMirageDataAssessmentsNewAssessmentOfNoimageCourse, _pixLiveMirageDataAssessmentsRefAssessmentOfFirstCourse) {
+define('pix-live/mirage/routes/post-assessments', ['exports', 'lodash/lodash', 'pix-live/mirage/data/assessments/ref-assessment-of-first-course'], function (exports, _lodashLodash, _pixLiveMirageDataAssessmentsRefAssessmentOfFirstCourse) {
   exports['default'] = function (schema, request) {
 
     var answer = JSON.parse(request.requestBody);
     var courseId = answer.data.relationships.course.data.id;
 
-    var allAssessments = [_pixLiveMirageDataAssessmentsNewAssessmentOfSimpleCourse['default'], _pixLiveMirageDataAssessmentsNewAssessmentOfNoimageCourse['default'], _pixLiveMirageDataAssessmentsRefAssessmentOfFirstCourse['default']];
+    var allAssessments = [_pixLiveMirageDataAssessmentsRefAssessmentOfFirstCourse['default']];
 
     var assessments = _lodashLodash['default'].map(allAssessments, function (oneAssessment) {
       return { id: oneAssessment.data.relationships.course.data.id, obj: oneAssessment };
@@ -10613,106 +10036,6 @@ define('pix-live/tests/mirage/mirage/config.lint-test', ['exports'], function (e
     });
   });
 });
-define('pix-live/tests/mirage/mirage/data/answers/qcm-answer-ko.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/qcm-answer-ko.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/qcm-answer-ko.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/qcm-answer-ok.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/qcm-answer-ok.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/qcm-answer-ok.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/qcm-answer.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/qcm-answer.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/qcm-answer.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/qcu-answer-aband.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/qcu-answer-aband.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/qcu-answer-aband.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/qcu-answer-with-image.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/qcu-answer-with-image.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/qcu-answer-with-image.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/qcu-answer.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/qcu-answer.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/qcu-answer.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/qroc-answer-ko.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/qroc-answer-ko.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/qroc-answer-ko.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/qroc-answer-ok.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/qroc-answer-ok.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/qroc-answer-ok.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/qroc-answer.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/qroc-answer.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/qroc-answer.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/qrocm-answer.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/qrocm-answer.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/qrocm-answer.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/mirage/mirage/data/answers/ref-qcm-answer.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/answers/ref-qcm-answer.js', function () {
     it('should pass ESLint', function () {
@@ -10753,171 +10076,11 @@ define('pix-live/tests/mirage/mirage/data/answers/ref-qrocm-answer.lint-test', [
     });
   });
 });
-define('pix-live/tests/mirage/mirage/data/assessments/completed-assessment-qcm.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/assessments/completed-assessment-qcm.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/assessments/completed-assessment-qcm.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/assessments/completed-assessment-qroc.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/assessments/completed-assessment-qroc.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/assessments/completed-assessment-qroc.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/assessments/completed-assessment.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/assessments/completed-assessment.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/assessments/completed-assessment.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/assessments/in-progress-assessment.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/assessments/in-progress-assessment.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/assessments/in-progress-assessment.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/assessments/new-assessment-of-noimage-course.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/assessments/new-assessment-of-noimage-course.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/assessments/new-assessment-of-noimage-course.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/assessments/new-assessment-of-simple-course.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/assessments/new-assessment-of-simple-course.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/assessments/new-assessment-of-simple-course.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/assessments/new-assessment.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/assessments/new-assessment.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/assessments/new-assessment.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/mirage/mirage/data/assessments/ref-assessment-of-first-course.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/assessments/ref-assessment-of-first-course.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('mirage/data/assessments/ref-assessment-of-first-course.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/qcm-challenge-full.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/qcm-challenge-full.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/challenges/qcm-challenge-full.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/qcm-challenge.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/qcm-challenge.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/challenges/qcm-challenge.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge-aband.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/qcu-challenge-aband.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/challenges/qcu-challenge-aband.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge-with-attachment.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/qcu-challenge-with-attachment.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/challenges/qcu-challenge-with-attachment.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge-with-image.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/qcu-challenge-with-image.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/challenges/qcu-challenge-with-image.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge-with-links-in-instruction.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/qcu-challenge-with-links-in-instruction.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/challenges/qcu-challenge-with-links-in-instruction.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/qcu-challenge.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/qcu-challenge.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/challenges/qcu-challenge.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/qroc-challenge.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/qroc-challenge.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/challenges/qroc-challenge.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/qrocm-challenge.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/qrocm-challenge.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/challenges/qrocm-challenge.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -10963,31 +10126,11 @@ define('pix-live/tests/mirage/mirage/data/challenges/ref-qrocm-challenge-full.li
     });
   });
 });
-define('pix-live/tests/mirage/mirage/data/courses/no-image-course.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/courses/no-image-course.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/courses/no-image-course.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
 define('pix-live/tests/mirage/mirage/data/courses/ref-first-course.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/courses/ref-first-course.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('mirage/data/courses/ref-first-course.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
-    });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/courses/simple-course.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/courses/simple-course.js', function () {
-    it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/courses/simple-course.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -11125,7 +10268,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+7b92e353"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+24d04ace"});
 }
 
 /* jshint ignore:end */
