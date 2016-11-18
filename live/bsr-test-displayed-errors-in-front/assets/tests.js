@@ -99,7 +99,7 @@ define('pix-live/tests/acceptance/03-voir-liste-tests-test', ['exports', 'mocha'
     });
 
     (0, _mocha.it)("03.1 on affiche autant de tests que remontés par l'API", function () {
-      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(1);
+      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(2);
     });
 
     (0, _mocha.describe)('03.2 pour un test donné avec toutes les informations', function () {
@@ -131,10 +131,10 @@ define('pix-live/tests/acceptance/03-voir-liste-tests-test', ['exports', 'mocha'
       });
     });
 
-    // it('03.3 pour un test dont il manque l\'image, on affiche une image placeholder', function() {
-    //   const $course = findWithAssert('.course[data-id="course_with_no_image"]');
-    //   expect($course.find('img')[0].src).to.contains('images/course-default-image.png');
-    // });
+    (0, _mocha.it)('03.3 pour un test dont il manque l\'image, on affiche une image placeholder', function () {
+      var $course = findWithAssert('.course[data-id="raw_course_id"]');
+      (0, _chai.expect)($course.find('img')[0].src).to.contains('images/course-default-image.png');
+    });
   });
 });
 define('pix-live/tests/acceptance/03-voir-liste-tests-test.lint-test', ['exports'], function (exports) {
@@ -395,17 +395,22 @@ define('pix-live/tests/acceptance/07-epreuve-image-de-consigne-test', ['exports'
       });
     });
 
-    // describe("Quand l'épreuve ne contient pas d'illustration en consigne", function () {
+    (0, _mocha.describe)("Quand l'épreuve ne contient pas d'illustration en consigne", function () {
 
-    //   before(function () {
-    //     return visit('/challenges/qcu_challenge_id/preview');
-    //   });
+      (0, _mocha.before)(function () {
+        return visit('/assessments/raw_assessment_id/challenges/raw_qcm_challenge_id');
+      });
 
-    //   it("07.3 La section d'illustration est cachée", function () {
-    //     const $attachmentLink = $('.challenge-illustration');
-    //     expect($attachmentLink.length).to.equal(0);
-    //   });
-    // });
+      (0, _mocha.it)("07.3 La section d'illustration est cachée", function () {
+
+        // We are in a challenge...
+        findWithAssert('.challenge-item');
+
+        // ... but illustration is hidden
+        var $illustration = $('.challenge-illustration');
+        (0, _chai.expect)($illustration.length).to.equal(0);
+      });
+    });
   });
 });
 define('pix-live/tests/acceptance/07-epreuve-image-de-consigne-test.lint-test', ['exports'], function (exports) {
@@ -537,17 +542,21 @@ define('pix-live/tests/acceptance/09-epreuve-pj-test', ['exports', 'mocha', 'cha
       });
     });
 
-    // describe("Quand l'épreuve ne contient pas de pièce jointe en consigne", function () {
+    (0, _mocha.describe)("Quand l'épreuve ne contient pas de pièce jointe en consigne", function () {
 
-    //   before(function () {
-    //     return visit(`/challenges/qcu_challenge_id/preview`);
-    //   });
+      (0, _mocha.before)(function () {
+        return visit('/assessments/raw_assessment_id/challenges/raw_qcm_challenge_id');
+      });
 
-    //   it("09.4 La section de téléchargement des pièces jointes est cachée", function() {
-    //     const $attachmentLink = $('.challenge-attachment > a');
-    //     expect($attachmentLink.length).to.equal(0);
-    //   });
-    // });
+      (0, _mocha.it)("09.4 La section de téléchargement des pièces jointes est cachée", function () {
+        // We are in a challenge...
+        findWithAssert('.challenge-item');
+
+        // ... but attachment is hidden
+        var $attachmentLink = $('.challenge-attachment > a');
+        (0, _chai.expect)($attachmentLink.length).to.equal(0);
+      });
+    });
   });
 });
 define('pix-live/tests/acceptance/09-epreuve-pj-test.lint-test', ['exports'], function (exports) {
@@ -752,11 +761,11 @@ define('pix-live/tests/acceptance/12-previsualisation-test-test', ['exports', 'm
     (0, _mocha.describe)("Prévisualiser une épreuve dans le cadre d'un test |", function () {
 
       (0, _mocha.before)(function () {
-        visit('/courses/simple_course_id/preview/challenges/ref_qcm_challenge_full_id');
+        visit('/courses/first_course_id/preview/challenges/ref_qcm_challenge_full_id');
       });
 
       (0, _mocha.it)("12.5 L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
-        (0, _chai.expect)(currentURL()).to.equal('/courses/simple_course_id/preview/challenges/ref_qcm_challenge_full_id');
+        (0, _chai.expect)(currentURL()).to.equal('/courses/first_course_id/preview/challenges/ref_qcm_challenge_full_id');
       });
 
       (0, _mocha.describe)('On affiche', function () {
