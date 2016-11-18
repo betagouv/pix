@@ -1517,7 +1517,7 @@ define('pix-live/mirage/data/answers/ref-qcm-answer', ['exports', 'pix-live/mira
       id: 'ref_answer_qcm_id',
       attributes: {
         value: '1,2,5',
-        result: 'pending'
+        result: 'ok'
       },
       relationships: {
         challenge: {
@@ -1537,7 +1537,7 @@ define('pix-live/mirage/data/answers/ref-qcu-answer', ['exports', 'pix-live/mira
       id: 'ref_answer_qcu_id',
       attributes: {
         value: '1,2,5',
-        result: 'pending'
+        result: 'ko'
       },
       relationships: {
         challenge: {
@@ -1577,7 +1577,7 @@ define('pix-live/mirage/data/answers/ref-qrocm-answer', ['exports', 'pix-live/mi
       id: 'ref_answer_qrocm_id',
       attributes: {
         value: '1,2,5',
-        result: 'pending'
+        result: 'aband'
       },
       relationships: {
         challenge: {
@@ -1782,7 +1782,7 @@ define('pix-live/mirage/data/assessments/new-assessment', ['exports', 'pix-live/
     }
   };
 });
-define('pix-live/mirage/data/assessments/ref-assessment-of-first-course', ['exports', 'pix-live/mirage/data/courses/ref-first-course'], function (exports, _pixLiveMirageDataCoursesRefFirstCourse) {
+define('pix-live/mirage/data/assessments/ref-assessment-of-first-course', ['exports', 'pix-live/mirage/data/courses/ref-first-course', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer'], function (exports, _pixLiveMirageDataCoursesRefFirstCourse, _pixLiveMirageDataAnswersRefQcuAnswer, _pixLiveMirageDataAnswersRefQcmAnswer, _pixLiveMirageDataAnswersRefQrocAnswer, _pixLiveMirageDataAnswersRefQrocmAnswer) {
   exports['default'] = {
     data: {
       type: 'assessments',
@@ -1798,6 +1798,21 @@ define('pix-live/mirage/data/assessments/ref-assessment-of-first-course', ['expo
             type: 'courses',
             id: _pixLiveMirageDataCoursesRefFirstCourse['default'].data.id
           }
+        },
+        answers: {
+          data: [{
+            type: 'answers',
+            id: _pixLiveMirageDataAnswersRefQcmAnswer['default'].data.id
+          }, {
+            type: 'answers',
+            id: _pixLiveMirageDataAnswersRefQcuAnswer['default'].data.id
+          }, {
+            type: 'answers',
+            id: _pixLiveMirageDataAnswersRefQrocAnswer['default'].data.id
+          }, {
+            type: 'answers',
+            id: _pixLiveMirageDataAnswersRefQrocmAnswer['default'].data.id
+          }]
         }
       }
     }
@@ -1951,12 +1966,12 @@ define('pix-live/mirage/data/challenges/ref-qcu-challenge-full', ['exports'], fu
       type: 'challenges',
       id: 'ref_qcu_challenge_full_id',
       attributes: {
-        type: 'QCM',
-        instruction: "Un QCU ne propose a l\'utilisateur qu\'un seul choix [parmi](http://link.parmi.url) plusieurs",
+        type: 'QCU',
+        'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',
         'attachment-url': 'http://example_of_url',
-        'attachment-filename': 'example_of_filename.pdf',
-        'illustration-url': 'http://fakeimg.pl/350x200/?text=PictureOfQCU',
-        proposals: "- premier choix, ou bien" + "\n - deuxieme choix, ou bien" + "\n - troisieme choix"
+        'attachment-filename': 'filename.pdf',
+        instruction: "Un QCU propose plusieurs choix, l\'utilisateur peut en choisir [un seul](http://link.unseul.url)",
+        proposals: "" + "- 1ere possibilite\n " + "- 2eme possibilite\n " + "- 3eme possibilite\n" + "- 4eme possibilite"
       }
     }
   };
@@ -2097,10 +2112,10 @@ define('pix-live/mirage/routes/get-answer', ['exports', 'lodash/lodash', 'pix-li
     }
   };
 });
-define('pix-live/mirage/routes/get-assessment', ['exports', 'lodash/lodash', 'pix-live/mirage/data/assessments/completed-assessment', 'pix-live/mirage/data/assessments/completed-assessment-qcm', 'pix-live/mirage/data/assessments/completed-assessment-qroc', 'pix-live/mirage/data/assessments/in-progress-assessment', 'pix-live/mirage/data/assessments/new-assessment-of-noimage-course', 'pix-live/mirage/data/assessments/new-assessment'], function (exports, _lodashLodash, _pixLiveMirageDataAssessmentsCompletedAssessment, _pixLiveMirageDataAssessmentsCompletedAssessmentQcm, _pixLiveMirageDataAssessmentsCompletedAssessmentQroc, _pixLiveMirageDataAssessmentsInProgressAssessment, _pixLiveMirageDataAssessmentsNewAssessmentOfNoimageCourse, _pixLiveMirageDataAssessmentsNewAssessment) {
+define('pix-live/mirage/routes/get-assessment', ['exports', 'lodash/lodash', 'pix-live/mirage/data/assessments/completed-assessment', 'pix-live/mirage/data/assessments/completed-assessment-qcm', 'pix-live/mirage/data/assessments/completed-assessment-qroc', 'pix-live/mirage/data/assessments/in-progress-assessment', 'pix-live/mirage/data/assessments/new-assessment-of-noimage-course', 'pix-live/mirage/data/assessments/new-assessment', 'pix-live/mirage/data/assessments/ref-assessment-of-first-course'], function (exports, _lodashLodash, _pixLiveMirageDataAssessmentsCompletedAssessment, _pixLiveMirageDataAssessmentsCompletedAssessmentQcm, _pixLiveMirageDataAssessmentsCompletedAssessmentQroc, _pixLiveMirageDataAssessmentsInProgressAssessment, _pixLiveMirageDataAssessmentsNewAssessmentOfNoimageCourse, _pixLiveMirageDataAssessmentsNewAssessment, _pixLiveMirageDataAssessmentsRefAssessmentOfFirstCourse) {
   exports['default'] = function (schema, request) {
 
-    var allAssessments = [_pixLiveMirageDataAssessmentsCompletedAssessment['default'], _pixLiveMirageDataAssessmentsCompletedAssessmentQcm['default'], _pixLiveMirageDataAssessmentsCompletedAssessmentQroc['default'], _pixLiveMirageDataAssessmentsNewAssessmentOfNoimageCourse['default'], _pixLiveMirageDataAssessmentsNewAssessment['default'], _pixLiveMirageDataAssessmentsInProgressAssessment['default']];
+    var allAssessments = [_pixLiveMirageDataAssessmentsCompletedAssessment['default'], _pixLiveMirageDataAssessmentsCompletedAssessmentQcm['default'], _pixLiveMirageDataAssessmentsCompletedAssessmentQroc['default'], _pixLiveMirageDataAssessmentsNewAssessmentOfNoimageCourse['default'], _pixLiveMirageDataAssessmentsNewAssessment['default'], _pixLiveMirageDataAssessmentsInProgressAssessment['default'], _pixLiveMirageDataAssessmentsRefAssessmentOfFirstCourse['default']];
 
     var assessments = _lodashLodash['default'].map(allAssessments, function (oneAssessment) {
       return { id: oneAssessment.data.id, obj: oneAssessment };
@@ -11110,7 +11125,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+8360e998"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+d6f47454"});
 }
 
 /* jshint ignore:end */
