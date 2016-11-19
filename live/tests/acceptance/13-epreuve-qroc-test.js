@@ -36,11 +36,7 @@ describe("Acceptance | 13 - Afficher un QROC | ", function () {
     expect($('.challenge-proposals input[type="text"]')).to.have.lengthOf(1);
   });
 
-  it('13.3 Error alert box should be hidden by default', function () {
-    expect($('.alert')).to.have.lengthOf(0);
-  });
-
-  it('13.4 Error alert box should be displayed if user validate without checking a checkbox', function () {
+  it('13.3 Error alert box should be displayed if user validate without checking a checkbox', function () {
     $('a.challenge-item-actions__validate-action').click();
     andThen(() => {
       expect($('.alert')).to.have.lengthOf(1);

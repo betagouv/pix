@@ -4,7 +4,7 @@ export default {
     id: 'ref_qrocm_challenge_full_id',
     attributes: {
       type: 'QROCM',
-      instruction: "Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre",
+      instruction: "Un QROCM est une question [ouverte](http://link.ouverte.url) avec plusieurs champs texte libre pour repondre",
       proposals: "Trois logiciels libres : ${logiciel} ${logiciel} ${logiciel}"
     }
   }
