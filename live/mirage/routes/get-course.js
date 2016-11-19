@@ -1,5 +1,5 @@
 import _                  from 'lodash/lodash';
-import refFirstCourse from '../data/courses/ref-course';
+import refCourse from '../data/courses/ref-course';
 import rawCourse      from '../data/courses/raw-course';
 
 
@@ -7,7 +7,7 @@ import rawCourse      from '../data/courses/raw-course';
 export default function (schema, request) {
 
   const allCourses = [
-    refFirstCourse,
+    refCourse,
     rawCourse
   ];
 

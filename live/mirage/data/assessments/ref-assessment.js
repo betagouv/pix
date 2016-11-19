@@ -1,4 +1,4 @@
-import refFirstCourse from '../courses/ref-course';
+import refCourse from '../courses/ref-course';
 
 import refQcuAnswer          from '../answers/ref-qcu-answer';
 import refQcmAnswer          from '../answers/ref-qcm-answer';
@@ -18,7 +18,7 @@ export default {
       course: {
         data: {
           type: 'courses',
-          id: refFirstCourse.data.id
+          id: refCourse.data.id
         }
       },
       answers: {
