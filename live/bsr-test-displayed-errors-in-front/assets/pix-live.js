@@ -1541,7 +1541,7 @@ define('pix-live/mirage/data/challenges/ref-qrocm-challenge-full', ['exports'], 
       id: 'ref_qrocm_challenge_full_id',
       attributes: {
         type: 'QROCM',
-        instruction: "Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre",
+        instruction: "Un QROCM est une question [ouverte](http://link.ouverte.url) avec plusieurs champs texte libre pour repondre",
         proposals: "Trois logiciels libres : ${logiciel} ${logiciel} ${logiciel}"
       }
     }
@@ -10390,7 +10390,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+efbb1a67"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+f465e6fb"});
 }
 
 /* jshint ignore:end */

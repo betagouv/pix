@@ -215,16 +215,12 @@ define('pix-live/tests/acceptance/05-epreuve-qcu-test', ['exports', 'mocha', 'ch
       return visit('/assessments/first_assessment_id/challenges/ref_qcu_challenge_full_id');
     });
 
-    (0, _mocha.it)('05.1 L\'instruction doit s\'afficher', function () {
-      (0, _chai.expect)($('.challenge-instruction').text()).to.equal('Un QCU propose plusieurs choix, l\'utilisateur peut en choisir un seul');
-    });
-
-    (0, _mocha.it)('05.2 Une liste de radiobuttons doit s\'afficher', function () {
+    (0, _mocha.it)('05.1 Une liste de radiobuttons doit s\'afficher', function () {
       var $proposals = $('input[type="radio"]');
       (0, _chai.expect)($proposals).to.have.lengthOf(4);
     });
 
-    (0, _mocha.it)('05.3 Une liste ordonnée d\'instruction doit s\'afficher', function () {
+    (0, _mocha.it)('05.2 Une liste ordonnée d\'instruction doit s\'afficher', function () {
       var $proposals = $('input[type="radio"]');
       (0, _chai.expect)($('.challenge-proposal:nth-child(1)').text().trim()).to.equal('1ere possibilite');
       (0, _chai.expect)($('.challenge-proposal:nth-child(2)').text().trim()).to.equal('2eme possibilite');
@@ -232,19 +228,7 @@ define('pix-live/tests/acceptance/05-epreuve-qcu-test', ['exports', 'mocha', 'ch
       (0, _chai.expect)($('.challenge-proposal:nth-child(4)').text().trim()).to.equal('4eme possibilite');
     });
 
-    (0, _mocha.it)('05.4 Un bouton de type "Skip" doit s\'afficher', function () {
-      (0, _chai.expect)($('.challenge-item-actions__skip-action')).to.have.lengthOf(1);
-    });
-
-    (0, _mocha.it)('05.5 Un bouton de type "Validate" doit s\'afficher', function () {
-      (0, _chai.expect)($('a.challenge-item-actions__validate-action')).to.have.lengthOf(1);
-    });
-
-    (0, _mocha.it)('05.6 L\'alerte est cachée par défaut', function () {
-      (0, _chai.expect)($('.alert')).to.have.lengthOf(0);
-    });
-
-    (0, _mocha.it)('05.7 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', function () {
+    (0, _mocha.it)('05.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', function () {
       $('a.challenge-item-actions__validate-action').click();
       andThen(function () {
         (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
@@ -252,11 +236,11 @@ define('pix-live/tests/acceptance/05-epreuve-qcu-test', ['exports', 'mocha', 'ch
       });
     });
 
-    (0, _mocha.it)('05.8 Par défaut, aucun radiobutton n\'est coché', function () {
+    (0, _mocha.it)('05.5 Par défaut, aucun radiobutton n\'est coché', function () {
       (0, _chai.expect)($('input:radio:checked')).to.have.lengthOf(0);
     });
 
-    (0, _mocha.it)('05.9 Si un utilisateur clique sur un radiobutton, il est coché', function () {
+    (0, _mocha.it)('05.6 Si un utilisateur clique sur un radiobutton, il est coché', function () {
       (0, _chai.expect)($('input:radio:checked:nth-child(1)').is(':checked')).to.equal(false);
       click($('.challenge-proposal:nth-child(1) input'));
       andThen(function () {
@@ -265,38 +249,11 @@ define('pix-live/tests/acceptance/05-epreuve-qcu-test', ['exports', 'mocha', 'ch
       });
     });
 
-    (0, _mocha.it)('05.10 If a user check another radiobutton, it is checked, and all others are unchecked', function () {
+    (0, _mocha.it)('05.7 Si un utilisateur clique sur un radiobutton, il est coché, et tous les autres sont décochés', function () {
       (0, _chai.expect)($('input:radio:checked')).to.have.lengthOf(1);
       click($('.challenge-proposal:nth-child(2) input'));
       andThen(function () {
         (0, _chai.expect)($('input:radio:checked')).to.have.lengthOf(1);
-      });
-    });
-
-    (0, _mocha.it)('05.11 should display an img tag with “ceci est une image” alt text', function () {
-      (0, _chai.expect)($('.challenge-illustration > img').attr('alt')).to.contains('ceci est une image');
-    });
-
-    (0, _mocha.it)('05.12 should display an img as specified in the model', function () {
-      (0, _chai.expect)($('.challenge-illustration > img').attr('src')).to.equal('http://fakeimg.pl/350x200/?text=QCU');
-    });
-
-    (0, _mocha.it)('05.13 Le nom du test est affiché', function () {
-      (0, _chai.expect)(findWithAssert('.course-banner-name').text()).to.contains('First Course');
-    });
-
-    (0, _mocha.it)('05.14 Il existe un bouton "Revenir à la liste des tests"', function () {
-      var $courseListButton = findWithAssert('.course-banner-home-link');
-      (0, _chai.expect)($courseListButton.text()).to.equal('Retour à la liste des tests');
-    });
-
-    (0, _mocha.it)('05.15 Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers l\'index', function () {
-      // when
-      click('.course-banner-home-link');
-
-      // then...
-      andThen(function () {
-        return (0, _chai.expect)(currentURL()).to.equal('/');
       });
     });
   });
@@ -873,11 +830,7 @@ define('pix-live/tests/acceptance/13-epreuve-qroc-test', ['exports', 'mocha', 'c
       (0, _chai.expect)($('.challenge-proposals input[type="text"]')).to.have.lengthOf(1);
     });
 
-    (0, _mocha.it)('13.3 Error alert box should be hidden by default', function () {
-      (0, _chai.expect)($('.alert')).to.have.lengthOf(0);
-    });
-
-    (0, _mocha.it)('13.4 Error alert box should be displayed if user validate without checking a checkbox', function () {
+    (0, _mocha.it)('13.3 Error alert box should be displayed if user validate without checking a checkbox', function () {
       $('a.challenge-item-actions__validate-action').click();
       andThen(function () {
         (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
@@ -927,11 +880,7 @@ define('pix-live/tests/acceptance/14-epreuve-qrocm-test', ['exports', 'mocha', '
       (0, _chai.expect)($('.challenge-proposals input[type="text"]')).to.have.lengthOf(3);
     });
 
-    (0, _mocha.it)('14.3 Error alert box should be hidden by default', function () {
-      (0, _chai.expect)($('.alert')).to.have.lengthOf(0);
-    });
-
-    (0, _mocha.it)('14.4 Error alert box should be displayed if user validate without checking a checkbox', function () {
+    (0, _mocha.it)('14.3 Error alert box should be displayed if user validate without checking a checkbox', function () {
       $('a.challenge-item-actions__validate-action').click();
       andThen(function () {
         (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
@@ -947,6 +896,81 @@ define('pix-live/tests/acceptance/14-epreuve-qrocm-test.lint-test', ['exports'],
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('acceptance/14-epreuve-qrocm-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/acceptance/15-epreuve-points-communs-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)("Acceptance | 15 - Points communs a toutes les épreuves | ", function () {
+
+    var application = undefined;
+    var challenge = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/assessments/first_assessment_id/challenges/ref_qrocm_challenge_full_id');
+    });
+
+    (0, _mocha.it)('15.0 Le nom du test est affiché', function () {
+      (0, _chai.expect)(findWithAssert('.course-banner-name').text()).to.contains('First Course');
+    });
+
+    (0, _mocha.it)('15.1 L\'instruction de l\'epreuve est affichée', function () {
+      (0, _chai.expect)($('.challenge-instruction').text()).to.equal('Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre');
+    });
+
+    (0, _mocha.it)("15.2a Le contenu de type [foo](bar) doit être converti sous forme de lien", function () {
+      var $links = findWithAssert('.challenge-instruction a');
+      (0, _chai.expect)($links.length).to.equal(1);
+      (0, _chai.expect)($links.text()).to.equal('ouverte');
+      (0, _chai.expect)($links.attr('href')).to.equal('http://link.ouverte.url');
+    });
+
+    (0, _mocha.it)("15.2b Les liens doivent s'ouvrir dans un nouvel onglet", function () {
+      var $links = findWithAssert('.challenge-instruction a');
+      (0, _chai.expect)($links.attr('target')).to.equal('_blank');
+    });
+
+    (0, _mocha.it)('15.3 Un bouton de type "Skip" doit s\'afficher', function () {
+      (0, _chai.expect)($('.challenge-item-actions__skip-action')).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.it)('15.4 Un bouton de type "Validate" doit s\'afficher', function () {
+      (0, _chai.expect)($('a.challenge-item-actions__validate-action')).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.it)('15.5 Il existe un bouton "Revenir à la liste des tests"', function () {
+      var $courseListButton = findWithAssert('.course-banner-home-link');
+      (0, _chai.expect)($courseListButton.text()).to.equal('Retour à la liste des tests');
+    });
+
+    (0, _mocha.it)('15.6 Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers l\'index', function () {
+      // when
+      click('.course-banner-home-link');
+
+      // then...
+      andThen(function () {
+        return (0, _chai.expect)(currentURL()).to.equal('/');
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/15-epreuve-points-communs-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/15-epreuve-points-communs-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/15-epreuve-points-communs-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
