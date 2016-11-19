@@ -23,7 +23,7 @@ describe("Acceptance | 06 - Afficher un QCM | ", function () {
   });
 
   before(function () {
-    return visit(`/assessments/first_assessment_id/challenges/ref_qcm_challenge_full_id`);
+    return visit(`/assessments/first_assessment_id/challenges/ref_qcm_challenge_id`);
   });
 
   it('06.1 It should render challenge instruction', function () {

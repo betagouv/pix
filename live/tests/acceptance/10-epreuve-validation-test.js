@@ -31,7 +31,7 @@ describe('Acceptance | 10 - Valider une épreuve |', function () {
   });
 
   before(function () {
-    return visit(`/assessments/first_assessment_id/challenges/ref_qcm_challenge_full_id`);
+    return visit(`/assessments/first_assessment_id/challenges/ref_qcm_challenge_id`);
   });
 
   before(function () {
@@ -52,7 +52,7 @@ describe('Acceptance | 10 - Valider une épreuve |', function () {
       return click('.challenge-proposal:first input[type="checkbox"]').then(() => {
         const $validateButton = getValidateActionLink();
         return click($validateButton).then(() => {
-          expect(currentURL()).to.contains(`/assessments/first_assessment_id/challenges/ref_qcu_challenge_full_id`);
+          expect(currentURL()).to.contains(`/assessments/first_assessment_id/challenges/ref_qcu_challenge_id`);
         });
       });
     });
@@ -63,7 +63,7 @@ describe('Acceptance | 10 - Valider une épreuve |', function () {
     });
 
     it("10.5 Si l'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test", function () {
-      visit(`/assessments/first_assessment_id/challenges/ref_qrocm_challenge_full_id`).then(() => {
+      visit(`/assessments/first_assessment_id/challenges/ref_qrocm_challenge_id`).then(() => {
         fillIn('input[name="logiciel"]', 'COUCOU').then(() => {
           const $validateButton = getValidateActionLink();
           return click($validateButton).then(() => {

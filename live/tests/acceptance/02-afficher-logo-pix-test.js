@@ -29,7 +29,7 @@ describe('Acceptance | 02 - Afficher le logo PIX | ', function () {
   });
 
   it('02.2 Le logo est présent sur la page d\'une épreuve', function () {
-    visit('/assessments/first_assessment_id/challenges/ref_qcu_challenge_full_id');
+    visit('/assessments/first_assessment_id/challenges/ref_qcu_challenge_id');
     andThen(() => {
       findWithAssert($('img[src="images/pix-logo.svg"]'));
     });

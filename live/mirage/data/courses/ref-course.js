@@ -1,12 +1,12 @@
-import refQcmChallengeFull from '../challenges/ref-qcm-challenge-full';
-import refQcuChallengeFull from '../challenges/ref-qcu-challenge-full';
-import refQrocChallengeFull from '../challenges/ref-qroc-challenge-full';
-import refQrocmChallengeFull from '../challenges/ref-qrocm-challenge-full';
+import refQcmChallengeFull from '../challenges/ref-qcm-challenge';
+import refQcuChallengeFull from '../challenges/ref-qcu-challenge';
+import refQrocChallengeFull from '../challenges/ref-qroc-challenge';
+import refQrocmChallengeFull from '../challenges/ref-qrocm-challenge';
 
 export default {
   data: {
     type: "courses",
-    id: "first_course_id",
+    id: "ref_course_id",
     attributes: {
       name: "First Course",
       description: "Contient toutes les sortes d\'epreuves",

@@ -26,11 +26,11 @@ describe('Acceptance | 11 - Prévisualiser une épreuve | ', function () {
     let challengeId;
 
     before(function () {
-      return visit(`/challenges/ref_qcu_challenge_full_id/preview`);
+      return visit(`/challenges/ref_qcu_challenge_id/preview`);
     });
 
     it('11.1 Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
-      expect(currentURL()).to.equal(`/challenges/ref_qcu_challenge_full_id/preview`);
+      expect(currentURL()).to.equal(`/challenges/ref_qcu_challenge_id/preview`);
       expect(findWithAssert('#challenge-preview'));
     });
 

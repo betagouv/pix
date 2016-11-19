@@ -23,7 +23,7 @@ describe("Acceptance | 15 - Afficher un QCU | ", function () {
   });
 
   before(function () {
-    return visit(`/assessments/first_assessment_id/challenges/ref_qcu_challenge_full_id`);
+    return visit(`/assessments/first_assessment_id/challenges/ref_qcu_challenge_id`);
   });
 
 

@@ -1,4 +1,4 @@
-import refFirstCourse from '../courses/ref-first-course';
+import refFirstCourse from '../courses/ref-course';
 
 import refQcuAnswer          from '../answers/ref-qcu-answer';
 import refQcmAnswer          from '../answers/ref-qcm-answer';

@@ -27,11 +27,11 @@ describe('Acceptance | 12 - Prévisualisation  d\'un test |', function () {
   describe("Prévisualiser la première page d'un test |", function () {
 
     before(function () {
-      visit(`/courses/first_course_id/preview`);
+      visit(`/courses/ref_course_id/preview`);
     });
 
     it("12.1 L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
-      expect(currentURL()).to.equal(`/courses/first_course_id/preview`);
+      expect(currentURL()).to.equal(`/courses/ref_course_id/preview`);
     });
 
     let $preview;
@@ -53,7 +53,7 @@ describe('Acceptance | 12 - Prévisualisation  d\'un test |', function () {
       it('12.4 un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
         const $playButton = findWithAssert('.simulate-button');
         expect($playButton.text()).to.be.equals('Simuler le test');
-        expect($playButton.attr('href')).to.be.equals(`/courses/first_course_id/preview/challenges/ref_qcm_challenge_full_id`);
+        expect($playButton.attr('href')).to.be.equals(`/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id`);
       });
     });
   });
@@ -61,11 +61,11 @@ describe('Acceptance | 12 - Prévisualisation  d\'un test |', function () {
   describe("Prévisualiser une épreuve dans le cadre d'un test |", function () {
 
     before(function () {
-      visit(`/courses/first_course_id/preview/challenges/ref_qcm_challenge_full_id`);
+      visit(`/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id`);
     });
 
     it("12.5 L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
-      expect(currentURL()).to.equal(`/courses/first_course_id/preview/challenges/ref_qcm_challenge_full_id`);
+      expect(currentURL()).to.equal(`/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id`);
     });
 
     describe('On affiche', function () {

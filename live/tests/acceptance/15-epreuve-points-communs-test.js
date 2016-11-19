@@ -23,7 +23,7 @@ describe("Acceptance | 15 - Points communs a toutes les épreuves | ", function 
   });
 
   before(function () {
-    return visit(`/assessments/first_assessment_id/challenges/ref_qrocm_challenge_full_id`);
+    return visit(`/assessments/first_assessment_id/challenges/ref_qrocm_challenge_id`);
   });
 
   it('15.0 Le nom du test est affiché', function() {

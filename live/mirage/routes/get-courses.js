@@ -1,4 +1,4 @@
-import refFirstCourse from '../data/courses/ref-first-course';
+import refFirstCourse from '../data/courses/ref-course';
 import rawCourse      from '../data/courses/raw-course';
 
 

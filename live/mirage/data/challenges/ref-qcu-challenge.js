@@ -2,7 +2,7 @@
 export default {
   data: {
     type: 'challenges',
-    id: 'ref_qcu_challenge_full_id',
+    id: 'ref_qcu_challenge_id',
     attributes: {
       type: 'QCU',
       'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',

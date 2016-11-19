@@ -33,7 +33,7 @@ describe('Acceptance | 03 - voir la liste des tests', function () {
     let $course;
 
     before(function () {
-      $course = findWithAssert('.course[data-id="first_course_id"]');
+      $course = findWithAssert('.course[data-id="ref_course_id"]');
     });
 
     it('03.2.1 on affiche son nom', function () {

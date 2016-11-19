@@ -1,4 +1,4 @@
-import challenge from '../challenges/ref-qroc-challenge-full';
+import challenge from '../challenges/ref-qroc-challenge';
 
 export default {
   data: {

@@ -23,7 +23,7 @@ describe("Acceptance | 14 - Afficher un QROC | ", function () {
   });
 
   before(function () {
-    return visit(`/assessments/first_assessment_id/challenges/ref_qrocm_challenge_full_id`);
+    return visit(`/assessments/first_assessment_id/challenges/ref_qrocm_challenge_id`);
   });
 
   it('14.1 It should render challenge instruction', function () {

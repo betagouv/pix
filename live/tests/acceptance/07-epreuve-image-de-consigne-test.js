@@ -24,7 +24,7 @@ describe("Acceptance | 07 - Afficher une image sous la consigne | ", function ()
   describe("Quand l'épreuve contient une illustration en consigne", function () {
 
     before(function () {
-      return visit('/assessments/first_assessment_id/challenges/ref_qcm_challenge_full_id');
+      return visit('/assessments/first_assessment_id/challenges/ref_qcm_challenge_id');
     });
 
     it('07.1 Une image unique peut être affichée sous la consigne', function () {
