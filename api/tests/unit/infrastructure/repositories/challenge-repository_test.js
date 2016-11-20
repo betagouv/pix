@@ -6,6 +6,17 @@ const ChallengeRepository = require('../../../../lib/infrastructure/repositories
 
 describe('Unit | Repository | ChallengeRepository', function () {
 
+  let stub;
+
+  beforeEach(function () {
+    stub = sinon.stub(Airtable, 'base');
+  });
+
+  afterEach(function () {
+    stub.restore();
+    cache.flushAll();
+  });
+
   /*
    * #get(id)
    */
@@ -13,17 +24,6 @@ describe('Unit | Repository | ChallengeRepository', function () {
   describe('#get(id)', function () {
 
     describe('when the challenge has been previously fetched and cached', function () {
-
-      let stub;
-
-      before(function () {
-        stub = sinon.stub(Airtable, 'base');
-      });
-
-      after(function () {
-        stub.restore();
-      });
-
       it('should return the challenge directly retrieved from the cache', function () {
         // given
         const challengeId = 'challengeId';
@@ -56,21 +56,13 @@ describe('Unit | Repository | ChallengeRepository', function () {
         }
       };
 
-      before(function (done) {
-        sinon.stub(Airtable, 'base', function () {
-          return {
-            find(id, callback) {
-              if (record.id !== id) callback(new Error());
-              return callback(null, record);
-            }
+      beforeEach(function () {
+        stub.returns({
+          find(id, callback) {
+            if (record.id !== id) callback(new Error());
+            return callback(null, record);
           }
         });
-        done();
-      });
-
-      after(function (done) {
-        Airtable.base.restore();
-        done();
       });
 
       it('should return the challenge fetched from Airtable', function () {
@@ -84,32 +76,27 @@ describe('Unit | Repository | ChallengeRepository', function () {
         return expect(result).to.eventually.deep.equal(challenge);
       });
 
-      it('should store the challenge in the cache', function (done) {
-        cache.get(`challenge-repository_get_${record.id}`, (err, cachedValue) => {
+      it('should store the challenge in the cache', function () {
+        // given
+        const challengeId = 'challenge_id';
+
+        // when
+        const result = ChallengeRepository.get(challengeId);
+
+        cache.get(`challenge-repository_get_${challengeId}`, (err, cachedValue) => {
           expect(cachedValue).to.exist;
-          done();
         });
       });
     });
   });
 
   /*
-   * #get(id)
+   * #list()
    */
 
-  describe.only('#list()', function () {
+  describe('#list()', function () {
 
     describe('when the challenges have been previously fetched and cached', function () {
-
-      let stub;
-
-      before(function () {
-        stub = sinon.stub(Airtable, 'base');
-      });
-
-      after(function () {
-        stub.restore();
-      });
 
       it('should return the challenges directly retrieved from the cache', function () {
         // given
@@ -135,25 +122,18 @@ describe('Unit | Repository | ChallengeRepository', function () {
       const record_1 = { "id": "challenge_1" };
       const record_2 = { "id": "challenge_2" };
       const record_3 = { "id": "challenge_3" };
-      const records = { "records": [record_1, record_2, record_3] };
+      const records = [record_1, record_2, record_3];
 
-      before(function () {
-        sinon.stub(Airtable, 'base', function () {
-          return {
-            select() {
-              return {
-                eachPage(pageCallback, done) {
-                  pageCallback(records);
-                  done();
-                }
+      beforeEach(function () {
+        stub.returns({
+          select() {
+            return {
+              eachPage(pageCallback, cb) {
+                pageCallback(records, cb);
               }
             }
-          };
+          }
         });
-      });
-
-      after(function () {
-        Airtable.base.restore();
       });
 
       it('should return the challenges fetched from Airtable', function () {
@@ -167,10 +147,17 @@ describe('Unit | Repository | ChallengeRepository', function () {
         return expect(result).to.eventually.deep.equal(challenges);
       });
 
-      it('should store the challenge in the cache', function (done) {
-        cache.get(`challenge-repository_list`, (err, cachedValue) => {
-          expect(cachedValue).to.exist;
-          done();
+      it('should store the challenge in the cache', function () {
+        // given
+        const cacheKey = 'challenge-repository_list';
+
+        // when
+        ChallengeRepository.list().then(_ => {
+
+          // then
+          cache.get(cacheKey, (err, cachedValue) => {
+            expect(cachedValue).to.exist;
+          });
         });
       });
     });

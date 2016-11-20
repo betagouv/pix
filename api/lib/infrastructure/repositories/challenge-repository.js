@@ -28,12 +28,13 @@ module.exports = {
             for (let record of records) {
               challenges.push(new Challenge(record));
             }
+
             fetchNextPage();
           }, (err) => {
 
             if (err) return reject(err);
 
-            cache.set('challenges', challenges);
+            cache.set('challenge-repository_list', challenges);
 
             logger.debug('Fetched and cached challenges');
 
