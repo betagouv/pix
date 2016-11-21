@@ -6704,7 +6704,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("div");
         dom.setAttribute(el4, "class", "first-page-feature__text");
-        var el5 = dom.createTextNode(" La certification nationale de la culture digitale made in France au standard européen.");
+        var el5 = dom.createTextNode(" La certification nationale de la culture numérique made in France au standard européen.");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n    ");
@@ -6737,7 +6737,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("div");
         dom.setAttribute(el4, "class", "first-page-feature__text");
-        var el5 = dom.createTextNode(" Le référentiel de compétences s’adapte en permanence aux évolutions du monde digital.");
+        var el5 = dom.createTextNode(" Le référentiel de compétences s’adapte en permanence aux évolutions du monde numérique.");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n    ");
@@ -10785,7 +10785,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+5327458c"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+1d81898f"});
 }
 
 /* jshint ignore:end */
