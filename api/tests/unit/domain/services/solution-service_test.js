@@ -11,7 +11,6 @@ describe('Unit | Service | Solution :', function () {
     const goodAnswer = new Answer({ id: 'good_answer_id' });
     goodAnswer.attributes = { value: '2' };
 
-
     it("should be 'pending' in all cases", function () {
       const result = service.match(goodAnswer, solution);
       expect(result).to.equal('pending');

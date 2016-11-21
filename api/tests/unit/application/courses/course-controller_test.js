@@ -30,7 +30,7 @@ describe('Unit | Controller | CourseController', function () {
       new Course({ "id": "course_3" })
     ];
 
-    it('should fetch and return all the courses, serialized as JSONAPI', function () {
+    it('should fetch and return all the courses, serialized as JSONAPI', function (done) {
       // given
       sinon.stub(CourseRepository, 'list').resolves(courses);
       sinon.stub(CourseSerializer, 'serializeArray', _ => courses);
@@ -44,6 +44,7 @@ describe('Unit | Controller | CourseController', function () {
         // after
         CourseRepository.list.restore();
         CourseSerializer.serializeArray.restore();
+        done();
       });
     });
   });
