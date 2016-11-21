@@ -1,7 +1,7 @@
 const Hapi = require('hapi');
 const AnswerController = require('../../../../lib/application/answers/answer-controller');
 
-describe('Unit | Router | Answers', function () {
+describe('Unit | Router | AnswerRouter', function () {
 
   let server;
 

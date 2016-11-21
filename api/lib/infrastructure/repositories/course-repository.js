@@ -11,7 +11,9 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
 
-      cache.get('courses', (err, cachedValue) => {
+      const cacheKey = 'course-repository_list';
+
+      cache.get(cacheKey, (err, cachedValue) => {
 
         if (err) return reject(err);
 
@@ -31,7 +33,7 @@ module.exports = {
 
             if (err) return reject(err);
 
-            cache.set('courses', courses);
+            cache.set(cacheKey, courses);
 
             logger.debug('Fetched and cached courses');
 

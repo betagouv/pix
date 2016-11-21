@@ -1,7 +1,7 @@
 const Hapi = require('hapi');
 const AssessmentController = require('../../../../lib/application/assessments/assessment-controller');
 
-describe('Unit | Router | Assessments', function () {
+describe('Unit | Router | AssessmentRouter', function () {
 
   let server;
 

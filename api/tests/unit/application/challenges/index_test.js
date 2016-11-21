@@ -1,7 +1,7 @@
 const Hapi = require('hapi');
 const ChallengeController = require('../../../../lib/application/challenges/challenge-controller');
 
-describe('Unit | Router | Challenges', function () {
+describe('Unit | Router | ChallengeRouter', function () {
 
   let server;
 

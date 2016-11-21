@@ -18,12 +18,15 @@ describe('Unit | Service | Assessments', function () {
       challengeId: 'challenge_id'
     });
 
-    before(function (done) {
+    before(function () {
       course.id = 'course_id';
       course.isAdaptive = true;
       course.challenges = ['ch1', 'ch2', 'ch3'];
       sinon.stub(courseRepository, 'get').resolves(course);
-      done();
+    });
+
+    after(function () {
+      courseRepository.get.restore();
     });
 
     it("should return the first assessment's course challenge ID when current challenge ID is null", function () {

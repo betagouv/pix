@@ -1,7 +1,7 @@
 const Hapi = require('hapi');
 const CourseController = require('../../../../lib/application/courses/course-controller');
 
-describe('Unit | Router | Courses', function () {
+describe('Unit | Router | CourseRouter', function () {
 
   let server;
 
@@ -11,61 +11,54 @@ describe('Unit | Router | Courses', function () {
     server.register({ register: require('../../../../lib/application/courses') });
   });
 
-  function expectRouteToExist(routeOptions, done) {
+  function expectRouteToExist(routeOptions) {
     server.inject(routeOptions, (res) => {
       expect(res.statusCode).to.equal(200);
-      done();
     });
   }
 
   describe('GET /api/courses', function () {
 
-    before(function (done) {
+    before(function () {
       sinon.stub(CourseController, 'list', (request, reply) => reply('ok'));
-      done();
     });
 
-    after(function (done) {
+    after(function () {
       CourseController.list.restore();
-      done();
     });
 
-    it('should exist', function (done) {
-      expectRouteToExist({ method: 'GET', url: '/api/courses' }, done);
+    it('should exist', function () {
+      expectRouteToExist({ method: 'GET', url: '/api/courses' });
     });
   });
 
   describe('GET /api/courses/{id}', function () {
 
-    before(function (done) {
+    before(function () {
       sinon.stub(CourseController, 'get', (request, reply) => reply('ok'));
-      done();
     });
 
-    after(function (done) {
+    after(function () {
       CourseController.get.restore();
-      done();
     });
 
-    it('should exist', function (done) {
-      expectRouteToExist({ method: 'GET', url: '/api/courses/course_id' }, done);
+    it('should exist', function () {
+      expectRouteToExist({ method: 'GET', url: '/api/courses/course_id' });
     });
   });
 
   describe('POST /api/courses/{id}', function () {
 
-    before(function (done) {
+    before(function () {
       sinon.stub(CourseController, 'refresh', (request, reply) => reply('ok'));
-      done();
     });
 
-    after(function (done) {
+    after(function () {
       CourseController.refresh.restore();
-      done();
     });
 
-    it('should exist', function (done) {
-      expectRouteToExist({ method: 'POST', url: '/api/courses/course_id' }, done);
+    it('should exist', function () {
+      expectRouteToExist({ method: 'POST', url: '/api/courses/course_id' });
     });
   });
 

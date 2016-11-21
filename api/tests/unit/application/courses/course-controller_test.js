@@ -14,6 +14,14 @@ describe('Unit | Controller | CourseController', function () {
     server.register({ register: require('../../../../lib/application/courses') });
   });
 
+  beforeEach(function () {
+    cache.flushAll();
+  });
+
+  afterEach(function () {
+    cache.flushAll();
+  });
+
   describe('#list', function () {
 
     const courses = [
@@ -22,9 +30,8 @@ describe('Unit | Controller | CourseController', function () {
       new Course({ "id": "course_3" })
     ];
 
-    it('should fetch and return all the courses, serialized as JSONAPI', function (done) {
+    it('should fetch and return all the courses, serialized as JSONAPI', function () {
       // given
-      cache.flushAll();
       sinon.stub(CourseRepository, 'list').resolves(courses);
       sinon.stub(CourseSerializer, 'serializeArray', _ => courses);
 
@@ -37,7 +44,6 @@ describe('Unit | Controller | CourseController', function () {
         // after
         CourseRepository.list.restore();
         CourseSerializer.serializeArray.restore();
-        done();
       });
     });
   });
