@@ -19,36 +19,11 @@
   background-size: cover;
   height: var(--first-page-hero-height);
   width: 100%;
-  
-/*  &::after {
-    position: absolute;
-    z-index: 999;
-    height: var(--first-page-hero-height);
-    top: var(--app-header-height);
-    left: 0;
-    right: 0;
-    content: '';
-    bottom: 10%;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.6), transparent);
-  }*/
-
-/*  &::after {
-    position: absolute;
-    z-index: -1;
-    height: var(--first-page-hero-height);
-    top: 0;
-    left: 0;
-    right: 0;
-    content: '';
-    bottom: 10%;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.6), transparent);
-  }*/
 }
 
 .first-page-hero__box {
   height: 100%;
   display: flex;
-  /*align-items: center;*/
 }
 
 .first-page-hero__box-item {
@@ -92,30 +67,7 @@
     color: #ffffff;
   }
 }
-/*.first-page-hero-box {
-  height: 100%;
-}
 
-.first-page-hero__main-value-prop {
-  width: 845px;
-  font-size: 65px;
-  font-weight: 900;
-  line-height: 1;
-  color: #ffffff;
-  margin-left: 160px;
-  margin-bottom: 24px;
-  z-index: 1;
-}
-
-.first-page-hero__sub-value-prop {
-  width: 567px;
-  font-size: 26px;
-  font-weight: bold;
-  color: #ffffff;
-  margin-left: 160px;
-  margin-bottom: 33px;
-  z-index: 1;
-}*/
 
 
 /* Challenges
@@ -209,11 +161,27 @@
 /* Email
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .first-page-email {
-  height: 255px;
+  height: 355px;
+  @media (min-width: 992px) {
+    height: 255px;
+  }
   padding-top:72px;
   background-color: var(--pix-blue);
 }
 
+.first-page-email__input-container {
+
+}
+
+.first-page-email__title {
+  font-size: 24px;
+  margin-bottom: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+}
+
+/*
 .first-page-email__title {
   height: 34px;
   font-size: 28px;
@@ -246,7 +214,7 @@
   color: #686868;
   outline: none;
   padding-left: 18px;
-}
+}*/
 
 
 

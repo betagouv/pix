@@ -8,7 +8,7 @@ export default Ember.Component.extend({
     Ember.run.scheduleOnce('afterRender', this, function() {
 
 
-      let btn = $('.load-email')[0];
+      let btn = $('.load-email-button')[0];
       let $contactForm = $('#contact-form');
 
       $contactForm.submit(
@@ -23,16 +23,16 @@ export default Ember.Component.extend({
           data: {email:emailValue},
           dataType: 'json',
           success: function(data) {
-            btn.classList.add('load-email-is-active');
+            btn.classList.add('load-email-button-is-active');
             $('.first-page-email-enter').attr('disabled', 'disabled');
-            $('button.load-email').attr('disabled', 'disabled');
+            $('button.load-email-button').attr('disabled', 'disabled');
             btn.textContent = 'Rejoindre la communauté';
           },
           error: function() {
-            btn.classList.add('load-email-is-error');
+            btn.classList.add('load-email-button-is-error');
             setTimeout(function () {
               $('.first-page-email-enter').val('');
-              btn.classList.remove('load-email-is-error');
+              btn.classList.remove('load-email-button-is-error');
               btn.textContent = 'Rejoindre la communauté';
             }, 3000);
           }
