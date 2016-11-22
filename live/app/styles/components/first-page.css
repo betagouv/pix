@@ -9,7 +9,7 @@
 */
 
 :root {
-  --first-page-hero-height:  700px;
+  --first-page-hero-height:  580px;
 };
 
 /* Hero
@@ -19,12 +19,20 @@
   background-size: cover;
   height: var(--first-page-hero-height);
   width: 100%;
-  z-index: -1;
-  position: absolute;
-  top: 0;
-  left: 0;
   
   &::after {
+    position: absolute;
+    z-index: 999;
+    height: var(--first-page-hero-height);
+    top: var(--app-header-height);
+    left: 0;
+    right: 0;
+    content: '';
+    bottom: 10%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.6), transparent);
+  }
+
+/*  &::after {
     position: absolute;
     z-index: -1;
     height: var(--first-page-hero-height);
@@ -34,10 +42,32 @@
     content: '';
     bottom: 10%;
     background: linear-gradient(to right, rgba(0, 0, 0, 0.6), transparent);
-  }
+  }*/
 }
 
-.first-page-hero-box {
+.first-page-hero__box {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.first-page-hero__main-value-prop {
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1;
+  color: #ffffff;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.first-page-hero__sub-value-prop {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+/*.first-page-hero-box {
   height: 100%;
 }
 
@@ -60,7 +90,7 @@
   margin-left: 160px;
   margin-bottom: 33px;
   z-index: 1;
-}
+}*/
 
 
 /* Challenges
