@@ -6225,7 +6225,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 67,
+            "line": 69,
             "column": 0
           }
         },
@@ -6320,17 +6320,24 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "first-page-email__title");
-        var el4 = dom.createTextNode("\n      Vous souhaitez devenir beta-testeur ou être informé(e) du développement de Pix ?\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "first-page-email__input-container");
+        dom.setAttribute(el3, "class", "first-page-email-content");
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "first-page-email__title");
+        var el5 = dom.createTextNode("\n        Vous souhaitez devenir beta-testeur ou être informé(e) du développement de Pix ?\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "first-page-email__input-container");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n    ");
         dom.appendChild(el3, el4);
@@ -6349,10 +6356,10 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var element3 = dom.childAt(fragment, [0]);
         var morphs = new Array(2);
         morphs[0] = dom.createMorphAt(dom.childAt(element3, [3, 5, 1]), 1, 1);
-        morphs[1] = dom.createMorphAt(dom.childAt(element3, [5, 3]), 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element3, [5, 1, 3]), 1, 1);
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [24, 16], [24, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 8], [50, 17]]]], ["content", "load-email", ["loc", [null, [61, 6], [61, 20]]], 0, 0, 0, 0]],
+      statements: [["block", "each", [["get", "model", ["loc", [null, [24, 16], [24, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 8], [50, 17]]]], ["content", "load-email", ["loc", [null, [62, 8], [62, 22]]], 0, 0, 0, 0]],
       locals: [],
       templates: [child0]
     };
@@ -10143,7 +10150,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+d87cf242"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+bb3ae1ca"});
 }
 
 /* jshint ignore:end */
