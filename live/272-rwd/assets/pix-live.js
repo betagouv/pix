@@ -2816,13 +2816,13 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element1 = dom.childAt(fragment, [1, 1]);
-          var element2 = dom.childAt(element1, [1, 1, 1]);
-          var element3 = dom.childAt(element1, [3, 1, 1]);
+          var element2 = dom.childAt(fragment, [1, 1]);
+          var element3 = dom.childAt(element2, [1, 1, 1]);
+          var element4 = dom.childAt(element2, [3, 1, 1]);
           var morphs = new Array(3);
-          morphs[0] = dom.createAttrMorph(element2, 'src');
-          morphs[1] = dom.createAttrMorph(element3, 'src');
-          morphs[2] = dom.createMorphAt(element1, 5, 5);
+          morphs[0] = dom.createAttrMorph(element3, 'src');
+          morphs[1] = dom.createAttrMorph(element4, 'src');
+          morphs[2] = dom.createMorphAt(element2, 5, 5);
           return morphs;
         },
         statements: [["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [8, 20], [8, 27]]], 0, 0, 0, 0], "images/logo-de-la-republique-francaise.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [13, 20], [13, 27]]], 0, 0, 0, 0], "images/pix-logo.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "corner-ribbon", ["loc", [null, [16, 2], [16, 19]]], 0, 0, 0, 0]],
@@ -2859,7 +2859,9 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
           dom.setAttribute(el1, "class", "app-header-started");
           var el2 = dom.createTextNode("\n");
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n");
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("  \n\n");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("nav");
           dom.setAttribute(el2, "class", "navbar");
@@ -2936,12 +2938,14 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1, 2, 1, 1, 3, 1]);
-          var morphs = new Array(1);
-          morphs[0] = dom.createAttrMorph(element0, 'src');
+          var element0 = dom.childAt(fragment, [1]);
+          var element1 = dom.childAt(element0, [3, 1, 1, 3, 1]);
+          var morphs = new Array(2);
+          morphs[0] = dom.createMorphAt(element0, 1, 1);
+          morphs[1] = dom.createAttrMorph(element1, 'src');
           return morphs;
         },
-        statements: [["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [36, 28], [36, 35]]], 0, 0, 0, 0], "images/pix-logo.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+        statements: [["content", "corner-ribbon", ["loc", [null, [23, 0], [23, 17]]], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [36, 28], [36, 35]]], 0, 0, 0, 0], "images/pix-logo.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
@@ -10411,7 +10415,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+ab445e3c"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+6c04c1ec"});
 }
 
 /* jshint ignore:end */
