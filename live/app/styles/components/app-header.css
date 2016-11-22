@@ -5,6 +5,7 @@
 .app-header-container {
   height: var(--app-header-height);
   position: relative;
+  overflow-x: hidden;
 }
 
 .app-header-container-marianne {

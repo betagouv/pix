@@ -1,7 +1,6 @@
 
 {{#if (eq router.currentRouteName "index")}}
   <div class='app-header'>
-  {{corner-ribbon}}  
   
   <div class='app-header-container'>
     <div class='app-header-container-marianne'>
@@ -14,13 +13,14 @@
         <img src="{{rootURL}}images/pix-logo.svg">
       </div>
     </div>
+  {{corner-ribbon}}  
   </div>
 </div>
 
 {{else}}
   
 <div class="app-header-started">
-{{corner-ribbon}}  
+{{!-- {{corner-ribbon}}   --}}
 
 <nav class="navbar">
     <div class="container">
