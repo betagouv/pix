@@ -256,7 +256,40 @@
 
 /* Footer
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+
 .first-page-footer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 150px;
+  &.container {
+    max-width: 1180px;
+  }
+}
+
+.first-page-footer__logo-pix {
+  display: none;
+}
+
+.first-page-footer__item {
+/*  margin-top: auto;
+  margin-bottom: auto;
+*/}
+
+.first-page-footer__logo-marianne {
+}
+
+.first-page-footer__logo-marianne-img {
+  width: 220px;
+  height: 60px;
+}
+
+.first-page-footer__mailto {
+  color: #3e4149;
+}
+
+/*.first-page-footer {
   display: flex;
   align-items: center;
   height: 150px;
@@ -285,3 +318,4 @@
 .first-page-footer__mailto {
   color: #3e4149;
 }
+*/
