@@ -204,9 +204,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 50px;  
   background-color: white;
+  padding-top: 50px;  
   @media (min-width: 992px) {
+    padding-top: 75px;  
     flex-direction: row;
   }
 }
