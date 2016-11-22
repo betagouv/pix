@@ -6527,7 +6527,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "first-page-footer__logo-marianne first-page-footer__item");
+        dom.setAttribute(el2, "class", "first-page-footer__item-marianne");
         var el3 = dom.createTextNode("\n      ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("img");
@@ -6539,7 +6539,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "first-page-footer__contact-us first-page-footer__item");
+        dom.setAttribute(el2, "class", "first-page-footer__item-contact");
         var el3 = dom.createTextNode("\n      ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("a");
@@ -6563,7 +6563,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "first-page-footer__logo-pix first-page-footer__item");
+        dom.setAttribute(el2, "class", "first-page-footer__item-logo");
         var el3 = dom.createTextNode("\n      ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("img");
@@ -10393,7 +10393,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+18e57aa1"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+aa0223b0"});
 }
 
 /* jshint ignore:end */
