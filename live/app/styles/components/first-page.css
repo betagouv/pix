@@ -121,7 +121,6 @@
 /* Challenges
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .first-page-challenges {
-  margin-top: calc(var(--first-page-hero-height) - var(--app-header-height));
   background-color: var(--light-grey1);
 }
 
@@ -135,7 +134,9 @@
   line-height: 0.8;
   text-align: center;
   color: #3d68ff;
-  margin-bottom: 66px;
+  margin-bottom: 52px;
+  margin-right: 15px;
+  margin-left: 15px;
 }
 
 .first-page-challenges__cards {
