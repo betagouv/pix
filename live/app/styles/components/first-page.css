@@ -274,7 +274,7 @@
 
 
 
-.first-page-footer__logo-pix {
+.first-page-footer__item-logo {
   display: none;
   order: 2;
   @media (min-width: 992px) {
@@ -283,30 +283,14 @@
   }
 }
 
-.first-page-footer__logo-pix-img {
-  width: auto;
-  height: 80px;
-}
-
-
-.first-page-footer__item {
-/*  margin-top: auto;
-  margin-bottom: auto;
-*/}
-
-.first-page-footer__logo-marianne {
+.first-page-footer__item-marianne {
   order: 0;
   @media (min-width: 992px) {
     order: 2;
   }
 }
 
-.first-page-footer__logo-marianne-img {
-  width: 220px;
-  height: 60px;
-}
-
-.first-page-footer__contact-us {
+.first-page-footer__item-contact {
   order: 1;
   @media (min-width: 992px) {
     margin-left: auto;
@@ -314,37 +298,17 @@
   }
 }
 
-.first-page-footer__mailto {
-  color: #3e4149;
-}
-
-/*.first-page-footer {
-  display: flex;
-  align-items: center;
-  height: 150px;
-  &.container {
-    max-width: 1180px;
-  }
-}
-
-.first-page-footer__item {
-  margin-left: auto;
-  &:first-child {
-    margin-left: 0px;
-  };
-}
-
-.first-page-footer__logo-marianne-img {
-  width: auto;
-  height: 45px;
-}
-
 .first-page-footer__logo-pix-img {
   width: auto;
   height: 80px;
 }
 
+.first-page-footer__logo-marianne-img {
+  width: 220px;
+  height: 60px;
+}
+
 .first-page-footer__mailto {
   color: #3e4149;
 }
-*/
+
