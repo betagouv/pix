@@ -12,6 +12,47 @@
       </div>
     </div>
   </div>
+
+  <div class="first-page-challenges">
+    <div class="first-page-challenges__empty">&nbsp;</div>
+    <div class="first-page-challenges__title">
+      Découvrez nos épreuves et aidez-nous à les améliorer !
+    </div>
+    <div class="first-page-challenges__cards container">
+      <ul class="row courses">
+
+        {{#each model as |course|}}
+        <li class="col-md-3 course-item animated fadeIn">
+          <div class="rounded-panel course" data-id="{{ course.id }}">
+            {{#if course.imageUrl}}
+            <img class="course-picture" src="{{ course.imageUrl }}" alt="Illustration du test">
+            {{else}}
+            <img class="course-picture" src="images/course-default-image.png" alt="Illustration du test">
+            {{/if}}
+
+            <div class="course-content">
+              <h4 class="course-name">{{ course.name }}</h4>
+              <div class="course-description">
+                {{ course.description }}
+              </div>
+            </div>
+
+            <div class="course-number-of-challenges">
+              {{ course.challenges.length }} épreuves
+            </div>
+            <div class="course-actions">
+              {{#link-to "courses.create-assessment" course.id class="button button-primary start-button"}}
+              Démarrer le test
+              {{/link-to}}
+            </div>
+          </div>
+        </li>
+        {{/each}}
+
+      </ul>
+    </div>
+  </div>
+  
 </div>
 
 
