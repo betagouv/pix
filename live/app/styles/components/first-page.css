@@ -51,6 +51,12 @@
   /*align-items: center;*/
 }
 
+.first-page-hero__box-item {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+
 .first-page-hero__main-value-prop {
   font-size: 30px;
   font-weight: 900;
@@ -58,6 +64,7 @@
   color: #ffffff;
   margin-left: 15px;
   margin-right: 15px;
+  margin-bottom: 15px;
 }
 
 .first-page-hero__sub-value-prop {
