@@ -2,14 +2,18 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .load-email__form {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
+  @media (min-width: 992px) {
+    flex-direction: row;
+    justify-content: center;
+  }
 }
 
 /* Input
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .load-email-enter {
-  height: 48px;
+  height: 46px;
   width: 200px;
   border: 5px solid #ffffff;
   border-radius: 5px;
@@ -17,6 +21,15 @@
   margin-bottom: 5px;
   font-size: 18px;
   color: #686868;
+  @media (min-width: 992px) {
+    width: 600px;
+    font-size: 20px;
+    margin-bottom: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
 }
 
 /* Button
@@ -24,8 +37,6 @@
 .load-email-button {
   position: relative;
   border: 1px solid #c3d0ff;
-/*  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;*/
   border-radius: 5px;
   min-width: 200px;
   padding: 11px 0;
@@ -40,6 +51,12 @@
   outline: none;
   box-shadow: 1px 1px 4px 1px transparent;
   transition: box-shadow 300ms ease-in-out;
+  @media (min-width: 992px) {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
 }
 .load-email-button:hover {
   box-shadow: 1px 1px 6px 1px #ccc;
