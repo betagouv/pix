@@ -6225,7 +6225,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 69,
+            "line": 107,
             "column": 0
           }
         },
@@ -6350,16 +6350,199 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n\n");
         dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "first-page-features");
+        var el2 = dom.createTextNode("\n  \n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-feature");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__icon-container");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("img");
+        dom.setAttribute(el4, "class", "first-page-feature__icon");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__title");
+        var el4 = dom.createTextNode("Vivez l’expérience PIX");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__text");
+        var el4 = dom.createTextNode(" Un parcours d’évaluation convivial, accessible et interactif.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("  \n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-feature");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__icon-container");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("img");
+        dom.setAttribute(el4, "class", "first-page-feature__icon");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__title");
+        var el4 = dom.createTextNode("PIX est pour tout le monde ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__text");
+        var el4 = dom.createTextNode(" Collégiens, lycéens, étudiants, professionnels, citoyens…");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("  \n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-feature");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__icon-container");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("img");
+        dom.setAttribute(el4, "class", "first-page-feature__icon");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__title");
+        var el4 = dom.createTextNode("PIX est la référence");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__text");
+        var el4 = dom.createTextNode(" La certification nationale de la culture numérique made in France au standard européen.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("  \n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-feature");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__icon-container");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("img");
+        dom.setAttribute(el4, "class", "first-page-feature__icon");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__title");
+        var el4 = dom.createTextNode("PIX est évolutif");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__text");
+        var el4 = dom.createTextNode(" Le référentiel de compétences s’adapte en permanence aux évolutions du monde numérique.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("  \n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-feature");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__icon-container");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("img");
+        dom.setAttribute(el4, "class", "first-page-feature__icon");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__title");
+        var el4 = dom.createTextNode("PIX est gratuit");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__text");
+        var el4 = dom.createTextNode(" Entraînez-vous et progressez gratuitement à votre rythme avant d’être certifié.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("  \n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element3 = dom.childAt(fragment, [0]);
-        var morphs = new Array(2);
+        var element4 = dom.childAt(fragment, [2]);
+        var element5 = dom.childAt(element4, [1, 1, 1]);
+        var element6 = dom.childAt(element4, [3, 1, 1]);
+        var element7 = dom.childAt(element4, [5, 1, 1]);
+        var element8 = dom.childAt(element4, [7, 1, 1]);
+        var element9 = dom.childAt(element4, [9, 1, 1]);
+        var morphs = new Array(7);
         morphs[0] = dom.createMorphAt(dom.childAt(element3, [3, 5, 1]), 1, 1);
         morphs[1] = dom.createMorphAt(dom.childAt(element3, [5, 1, 3]), 1, 1);
+        morphs[2] = dom.createAttrMorph(element5, 'src');
+        morphs[3] = dom.createAttrMorph(element6, 'src');
+        morphs[4] = dom.createAttrMorph(element7, 'src');
+        morphs[5] = dom.createAttrMorph(element8, 'src');
+        morphs[6] = dom.createAttrMorph(element9, 'src');
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [24, 16], [24, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 8], [50, 17]]]], ["content", "load-email", ["loc", [null, [62, 8], [62, 22]]], 0, 0, 0, 0]],
+      statements: [["block", "each", [["get", "model", ["loc", [null, [24, 16], [24, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 8], [50, 17]]]], ["content", "load-email", ["loc", [null, [62, 8], [62, 22]]], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [73, 18], [73, 25]]], 0, 0, 0, 0], "images/icon-cafe.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [80, 18], [80, 25]]], 0, 0, 0, 0], "images/icon-monde.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [87, 18], [87, 25]]], 0, 0, 0, 0], "images/icon-reference.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [94, 18], [94, 25]]], 0, 0, 0, 0], "images/icon-evolutif.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [101, 18], [101, 25]]], 0, 0, 0, 0], "images/icon-gratuit.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
       locals: [],
       templates: [child0]
     };
@@ -10150,7 +10333,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+bb3ae1ca"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+72f232e4"});
 }
 
 /* jshint ignore:end */
