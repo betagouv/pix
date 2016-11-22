@@ -162,11 +162,18 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .first-page-email {
   height: 385px;
-  padding-top:72px;
   background-color: var(--pix-blue);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   @media (min-width: 992px) {
     height: 270px;
   }
+}
+
+.first-page-email-content {
+  
 }
 
 .first-page-email__input-container {
