@@ -266,11 +266,28 @@
   &.container {
     max-width: 1180px;
   }
+  @media (min-width: 992px) {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
 }
+
+
 
 .first-page-footer__logo-pix {
   display: none;
+  order: 2;
+  @media (min-width: 992px) {
+    display: block;
+    order: 0;
+  }
 }
+
+.first-page-footer__logo-pix-img {
+  width: auto;
+  height: 80px;
+}
+
 
 .first-page-footer__item {
 /*  margin-top: auto;
@@ -278,11 +295,23 @@
 */}
 
 .first-page-footer__logo-marianne {
+  order: 0;
+  @media (min-width: 992px) {
+    order: 2;
+  }
 }
 
 .first-page-footer__logo-marianne-img {
   width: 220px;
   height: 60px;
+}
+
+.first-page-footer__contact-us {
+  order: 1;
+  @media (min-width: 992px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .first-page-footer__mailto {
