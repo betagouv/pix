@@ -1297,6 +1297,8 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
 
     this.namespace = 'http://localhost:3000/api';
 
+    this.passthrough('https://formspree.io/**');
+
     this.get('/courses', _pixLiveMirageRoutesGetCourses['default']);
     this.get('/courses/:id', _pixLiveMirageRoutesGetCourse['default']);
 
@@ -10390,7 +10392,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+751a3f68"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+7065843b"});
 }
 
 /* jshint ignore:end */
