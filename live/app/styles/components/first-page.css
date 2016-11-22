@@ -15,12 +15,12 @@
 /* Hero
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .first-page-hero {
-  background-image: url('/images/stock-photo.jpg');
+  background-image: url('/images/stock-photo2.jpg');
   background-size: cover;
   height: var(--first-page-hero-height);
   width: 100%;
   
-  &::after {
+/*  &::after {
     position: absolute;
     z-index: 999;
     height: var(--first-page-hero-height);
@@ -30,7 +30,7 @@
     content: '';
     bottom: 10%;
     background: linear-gradient(to right, rgba(0, 0, 0, 0.6), transparent);
-  }
+  }*/
 
 /*  &::after {
     position: absolute;
@@ -48,7 +48,7 @@
 .first-page-hero__box {
   height: 100%;
   display: flex;
-  align-items: center;
+  /*align-items: center;*/
 }
 
 .first-page-hero__main-value-prop {
