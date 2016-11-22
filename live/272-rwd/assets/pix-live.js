@@ -628,7 +628,7 @@ define('pix-live/components/load-email', ['exports', 'ember'], function (exports
     didInsertElement: function didInsertElement() {
       _ember['default'].run.scheduleOnce('afterRender', this, function () {
 
-        var btn = $('.load-email')[0];
+        var btn = $('.load-email-button')[0];
         var $contactForm = $('#contact-form');
 
         $contactForm.submit(
@@ -643,16 +643,16 @@ define('pix-live/components/load-email', ['exports', 'ember'], function (exports
             data: { email: emailValue },
             dataType: 'json',
             success: function success(data) {
-              btn.classList.add('load-email-is-active');
+              btn.classList.add('load-email-button-is-active');
               $('.first-page-email-enter').attr('disabled', 'disabled');
-              $('button.load-email').attr('disabled', 'disabled');
+              $('button.load-email-button').attr('disabled', 'disabled');
               btn.textContent = 'Rejoindre la communauté';
             },
             error: function error() {
-              btn.classList.add('load-email-is-error');
+              btn.classList.add('load-email-button-is-error');
               setTimeout(function () {
                 $('.first-page-email-enter').val('');
-                btn.classList.remove('load-email-is-error');
+                btn.classList.remove('load-email-button-is-error');
                 btn.textContent = 'Rejoindre la communauté';
               }, 3000);
             }
@@ -6225,7 +6225,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 59,
+            "line": 67,
             "column": 0
           }
         },
@@ -6313,7 +6313,32 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  \n");
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-email");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-email__title");
+        var el4 = dom.createTextNode("\n      Vous souhaitez devenir beta-testeur ou être informé(e) du développement de Pix ?\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-email__input-container");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("  \n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n\n");
@@ -6321,11 +6346,13 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 3, 5, 1]), 1, 1);
+        var element3 = dom.childAt(fragment, [0]);
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(dom.childAt(element3, [3, 5, 1]), 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element3, [5, 3]), 1, 1);
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [24, 16], [24, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 8], [50, 17]]]]],
+      statements: [["block", "each", [["get", "model", ["loc", [null, [24, 16], [24, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 8], [50, 17]]]], ["content", "load-email", ["loc", [null, [61, 6], [61, 20]]], 0, 0, 0, 0]],
       locals: [],
       templates: [child0]
     };
@@ -8850,16 +8877,16 @@ define("pix-live/templates/components/load-email", ["exports"], function (export
         var el1 = dom.createTextNode("    ");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("form");
-        dom.setAttribute(el1, "class", "first-page-email__form");
+        dom.setAttribute(el1, "class", "load-email__form");
         dom.setAttribute(el1, "id", "contact-form");
         var el2 = dom.createTextNode("\n  \n      ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "first-page-email__form-item");
+        dom.setAttribute(el2, "class", "load-email__form-item");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("input");
-        dom.setAttribute(el3, "class", "first-page-email-enter");
+        dom.setAttribute(el3, "class", "load-email-enter");
         dom.setAttribute(el3, "placeholder", "Saisissez votre email");
         dom.setAttribute(el3, "type", "email");
         dom.appendChild(el2, el3);
@@ -8869,12 +8896,12 @@ define("pix-live/templates/components/load-email", ["exports"], function (export
         var el2 = dom.createTextNode("\n      ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "first-page-email__form-item");
+        dom.setAttribute(el2, "class", "load-email__form-item");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("button");
         dom.setAttribute(el3, "type", "submit");
-        dom.setAttribute(el3, "class", "load-email");
+        dom.setAttribute(el3, "class", "load-email-button");
         var el4 = dom.createTextNode("Rejoindre la communauté");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
@@ -10116,7 +10143,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+dcbf291c"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+d87cf242"});
 }
 
 /* jshint ignore:end */
