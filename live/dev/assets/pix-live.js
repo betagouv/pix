@@ -636,7 +636,7 @@ define('pix-live/components/load-email', ['exports', 'ember'], function (exports
         function (e) {
           e.preventDefault();
           $loadEmailButton.textContent = 'Veuillez patienter...';
-          var emailValue = $('.first-page-email-enter').val();
+          var emailValue = $('.load-email-enter').val();
           $.ajax({
             url: 'https://formspree.io/1024pix+formspree@gmail.com',
             method: 'POST',
@@ -10408,7 +10408,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.2.0+e6aefe60"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.2.1+230e2e27"});
 }
 
 /* jshint ignore:end */
