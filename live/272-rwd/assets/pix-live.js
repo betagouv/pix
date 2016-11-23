@@ -638,7 +638,7 @@ define('pix-live/components/load-email', ['exports', 'ember'], function (exports
           $loadEmailButton.textContent = 'Veuillez patienter...';
           var emailValue = $('.first-page-email-enter').val();
           $.ajax({
-            url: 'https://formspree.io/1024pix@gmail.com',
+            url: 'https://formspree.io/1024pix+formspree@gmail.com',
             method: 'POST',
             data: { email: emailValue },
             dataType: 'json',
@@ -1296,6 +1296,8 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
   exports['default'] = function () {
 
     this.namespace = 'http://localhost:3000/api';
+
+    this.passthrough('https://formspree.io/**');
 
     this.get('/courses', _pixLiveMirageRoutesGetCourses['default']);
     this.get('/courses/:id', _pixLiveMirageRoutesGetCourse['default']);
@@ -10406,7 +10408,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+ec9ec12a"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.1.0+dba0b582"});
 }
 
 /* jshint ignore:end */
