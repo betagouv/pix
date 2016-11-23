@@ -7,7 +7,7 @@
 .corner-ribbon {
   position: relative;
   width: 172px;
-  height: 120px;
+  height: 150px;
   overflow: hidden;
 }
 
@@ -16,8 +16,8 @@
   overflow: hidden;
   white-space: nowrap;
   position: absolute;
-  left: 10px;
-  top: 30px;
+  left: -7px;
+  top: 36px;
   transform: rotate(45deg);
   box-shadow: 0 0 10px #888;
 }
