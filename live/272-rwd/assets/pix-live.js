@@ -2841,7 +2841,7 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
               "column": 0
             },
             "end": {
-              "line": 43,
+              "line": 39,
               "column": 0
             }
           },
@@ -2857,52 +2857,28 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("div");
           dom.setAttribute(el1, "class", "app-header-started");
-          var el2 = dom.createTextNode("\n");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createComment("");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("  \n\n");
+          var el2 = dom.createTextNode("\n  \n\n");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("nav");
-          dom.setAttribute(el2, "class", "navbar");
+          dom.setAttribute(el2, "class", "app-header-navbar");
           var el3 = dom.createTextNode("\n    ");
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("div");
-          dom.setAttribute(el3, "class", "container");
+          dom.setAttribute(el3, "class", "app-header-navbar__container container");
           var el4 = dom.createTextNode("\n        ");
           dom.appendChild(el3, el4);
           var el4 = dom.createElement("div");
-          dom.setAttribute(el4, "class", "navbar-header");
+          dom.setAttribute(el4, "class", "navbar-header row");
           var el5 = dom.createTextNode("\n            ");
           dom.appendChild(el4, el5);
-          var el5 = dom.createElement("button");
-          dom.setAttribute(el5, "type", "button");
-          dom.setAttribute(el5, "class", "navbar-toggle collapsed");
-          dom.setAttribute(el5, "data-toggle", "collapse");
-          dom.setAttribute(el5, "data-target", "#navbar");
-          dom.setAttribute(el5, "aria-expanded", "false");
-          dom.setAttribute(el5, "aria-controls", "navbar");
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "navbar-header__brand");
           var el6 = dom.createTextNode("\n                ");
           dom.appendChild(el5, el6);
-          var el6 = dom.createElement("span");
-          dom.setAttribute(el6, "class", "sr-only");
-          var el7 = dom.createTextNode("Toggle navigation");
-          dom.appendChild(el6, el7);
-          dom.appendChild(el5, el6);
-          var el6 = dom.createTextNode("\n                ");
-          dom.appendChild(el5, el6);
-          var el6 = dom.createElement("span");
-          dom.setAttribute(el6, "class", "icon-bar");
-          dom.appendChild(el5, el6);
-          var el6 = dom.createTextNode("\n                ");
-          dom.appendChild(el5, el6);
-          var el6 = dom.createElement("span");
-          dom.setAttribute(el6, "class", "icon-bar");
-          dom.appendChild(el5, el6);
-          var el6 = dom.createTextNode("\n                ");
-          dom.appendChild(el5, el6);
-          var el6 = dom.createElement("span");
-          dom.setAttribute(el6, "class", "icon-bar");
+          var el6 = dom.createElement("img");
+          dom.setAttribute(el6, "alt", "Logo PIX");
+          dom.setAttribute(el6, "width", "auto");
+          dom.setAttribute(el6, "height", "60");
           dom.appendChild(el5, el6);
           var el6 = dom.createTextNode("\n            ");
           dom.appendChild(el5, el6);
@@ -2910,13 +2886,10 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
           var el5 = dom.createTextNode("\n            ");
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("div");
-          dom.setAttribute(el5, "class", "navbar-brand");
+          dom.setAttribute(el5, "class", "navbar-header__ribbon");
           var el6 = dom.createTextNode("\n                ");
           dom.appendChild(el5, el6);
-          var el6 = dom.createElement("img");
-          dom.setAttribute(el6, "alt", "Logo PIX");
-          dom.setAttribute(el6, "width", "auto");
-          dom.setAttribute(el6, "height", "60");
+          var el6 = dom.createComment("");
           dom.appendChild(el5, el6);
           var el6 = dom.createTextNode("\n            ");
           dom.appendChild(el5, el6);
@@ -2938,14 +2911,14 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1]);
-          var element1 = dom.childAt(element0, [3, 1, 1, 3, 1]);
+          var element0 = dom.childAt(fragment, [1, 1, 1, 1]);
+          var element1 = dom.childAt(element0, [1, 1]);
           var morphs = new Array(2);
-          morphs[0] = dom.createMorphAt(element0, 1, 1);
-          morphs[1] = dom.createAttrMorph(element1, 'src');
+          morphs[0] = dom.createAttrMorph(element1, 'src');
+          morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
           return morphs;
         },
-        statements: [["content", "corner-ribbon", ["loc", [null, [23, 0], [23, 17]]], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [36, 28], [36, 35]]], 0, 0, 0, 0], "images/pix-logo.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+        statements: [["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [29, 28], [29, 35]]], 0, 0, 0, 0], "images/pix-logo.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "corner-ribbon", ["loc", [null, [32, 16], [32, 33]]], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
@@ -2960,7 +2933,7 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 45,
+            "line": 41,
             "column": 0
           }
         },
@@ -2985,7 +2958,7 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
         morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
         return morphs;
       },
-      statements: [["block", "if", [["subexpr", "eq", [["get", "router.currentRouteName", ["loc", [null, [2, 10], [2, 33]]], 0, 0, 0, 0], "index"], [], ["loc", [null, [2, 6], [2, 42]]], 0, 0]], [], 0, 1, ["loc", [null, [2, 0], [43, 7]]]]],
+      statements: [["block", "if", [["subexpr", "eq", [["get", "router.currentRouteName", ["loc", [null, [2, 10], [2, 33]]], 0, 0, 0, 0], "index"], [], ["loc", [null, [2, 6], [2, 42]]], 0, 0]], [], 0, 1, ["loc", [null, [2, 0], [39, 7]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -5832,7 +5805,7 @@ define("pix-live/templates/components/corner-ribbon", ["exports"], function (exp
             "column": 0
           },
           "end": {
-            "line": 2,
+            "line": 8,
             "column": 0
           }
         },
@@ -5845,11 +5818,29 @@ define("pix-live/templates/components/corner-ribbon", ["exports"], function (exp
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "corner-ribbon top-right sticky yellow");
-        var el2 = dom.createElement("span");
-        dom.setAttribute(el2, "class", "corner-ribbon-text");
-        var el3 = dom.createTextNode("BÊTA");
+        dom.setAttribute(el1, "class", "corner-ribbon-wrapper");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "corner-ribbon");
+        var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "ribbon");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("a");
+        dom.setAttribute(el4, "href", "#");
+        var el5 = dom.createTextNode("BÊTA");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
@@ -10415,7 +10406,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+6c04c1ec"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+5520b30a"});
 }
 
 /* jshint ignore:end */
