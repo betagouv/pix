@@ -44,10 +44,33 @@
 
 }
 
+
+.app-header-navbar {
+  background-color: #fff;
+}
+
+.app-header-navbar__container {
+}
+
+.navbar-header__brand {
+  height: 75px;
+  display: flex;
+  align-items: center;
+}
+/*
+.navbar-header {
+  display: flex;
+  width: 100%;
+}
+
+.navbar-header__ribbon {
+  margin-left: auto;
+}*/
+
 /*XXX : old way, tech debt*/
 .app-header-started {
 
-  & .navbar {
+/*  & .navbar {
     background-color: #fff;
     border: none;
     min-height: 80px;
@@ -103,5 +126,5 @@
     &:active {
        color: var(--pix-yellow);
     }
-  }
+  }*/
 }

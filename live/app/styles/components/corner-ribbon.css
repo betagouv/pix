@@ -1,35 +1,41 @@
+.corner-ribbon-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .corner-ribbon {
   position: relative;
-  width: 160px;
-  height: 100px;
+  width: 172px;
+  height: 120px;
   overflow: hidden;
 }
 
 .ribbon {
-  background-color: #a00;
+  background-color: var(--pix-yellow);
   overflow: hidden;
   white-space: nowrap;
-  /* top left corner */
   position: absolute;
-  left: -35px;
+  left: 10px;
   top: 30px;
-          transform: rotate(45deg);
-  /* shadow */
-          box-shadow: 0 0 10px #888;
+  transform: rotate(45deg);
+  box-shadow: 0 0 10px #888;
 }
+
 
 .ribbon a {
   border: 1px solid #faa;
   color: #fff;
   display: block;
-  font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 20px;
   margin: 1px 0;
-  padding: 10px 50px;
+  padding: 3px 0px;
   text-align: center;
   text-decoration: none;
   /* shadow */
   text-shadow: 0 0 5px #444;
-  min-width: 217px;
+  min-width: 237px;
   cursor: none;
   pointer-events: none;
 }
