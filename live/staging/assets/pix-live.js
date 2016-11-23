@@ -628,14 +628,14 @@ define('pix-live/components/load-email', ['exports', 'ember'], function (exports
     didInsertElement: function didInsertElement() {
       _ember['default'].run.scheduleOnce('afterRender', this, function () {
 
-        var btn = $('.load-email')[0];
+        var $loadEmailButton = $('.load-email-button')[0];
         var $contactForm = $('#contact-form');
 
         $contactForm.submit(
         /* istanbul ignore next */
         function (e) {
           e.preventDefault();
-          btn.textContent = 'Veuillez patienter...';
+          $loadEmailButton.textContent = 'Veuillez patienter...';
           var emailValue = $('.first-page-email-enter').val();
           $.ajax({
             url: 'https://formspree.io/1024pix+formspree@gmail.com',
@@ -643,17 +643,17 @@ define('pix-live/components/load-email', ['exports', 'ember'], function (exports
             data: { email: emailValue },
             dataType: 'json',
             success: function success(data) {
-              btn.classList.add('load-email-is-active');
+              $loadEmailButton.classList.add('load-email-button-is-active');
               $('.first-page-email-enter').attr('disabled', 'disabled');
-              $('button.load-email').attr('disabled', 'disabled');
-              btn.textContent = 'Rejoindre la communauté';
+              $('button.load-email-button').attr('disabled', 'disabled');
+              $loadEmailButton.textContent = 'Rejoindre la communauté';
             },
             error: function error() {
-              btn.classList.add('load-email-is-error');
+              $loadEmailButton.classList.add('load-email-button-is-error');
               setTimeout(function () {
                 $('.first-page-email-enter').val('');
-                btn.classList.remove('load-email-is-error');
-                btn.textContent = 'Rejoindre la communauté';
+                $loadEmailButton.classList.remove('load-email-button-is-error');
+                $loadEmailButton.textContent = 'Rejoindre la communauté';
               }, 3000);
             }
           });
@@ -2762,11 +2762,7 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("div");
           dom.setAttribute(el1, "class", "app-header");
-          var el2 = dom.createTextNode("\n  ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createComment("");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("  \n  \n  ");
+          var el2 = dom.createTextNode("\n  \n  ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("div");
           dom.setAttribute(el2, "class", "app-header-container");
@@ -2799,6 +2795,7 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
           var el5 = dom.createTextNode("\n        ");
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("img");
+          dom.setAttribute(el5, "class", "app-header-logo-svg");
           dom.appendChild(el4, el5);
           var el5 = dom.createTextNode("\n      ");
           dom.appendChild(el4, el5);
@@ -2807,6 +2804,10 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           var el3 = dom.createTextNode("\n  ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("  \n  ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n");
@@ -2817,17 +2818,16 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element2 = dom.childAt(fragment, [1]);
-          var element3 = dom.childAt(element2, [3]);
-          var element4 = dom.childAt(element3, [1, 1, 1]);
-          var element5 = dom.childAt(element3, [3, 1, 1]);
+          var element2 = dom.childAt(fragment, [1, 1]);
+          var element3 = dom.childAt(element2, [1, 1, 1]);
+          var element4 = dom.childAt(element2, [3, 1, 1]);
           var morphs = new Array(3);
-          morphs[0] = dom.createMorphAt(element2, 1, 1);
+          morphs[0] = dom.createAttrMorph(element3, 'src');
           morphs[1] = dom.createAttrMorph(element4, 'src');
-          morphs[2] = dom.createAttrMorph(element5, 'src');
+          morphs[2] = dom.createMorphAt(element2, 5, 5);
           return morphs;
         },
-        statements: [["content", "corner-ribbon", ["loc", [null, [4, 2], [4, 19]]], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [9, 20], [9, 27]]], 0, 0, 0, 0], "images/logo-de-la-republique-francaise.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [14, 20], [14, 27]]], 0, 0, 0, 0], "images/pix-logo.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+        statements: [["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [8, 20], [8, 27]]], 0, 0, 0, 0], "images/logo-de-la-republique-francaise.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [13, 20], [13, 27]]], 0, 0, 0, 0], "images/pix-logo.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "corner-ribbon", ["loc", [null, [16, 2], [16, 19]]], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
@@ -2843,7 +2843,7 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
               "column": 0
             },
             "end": {
-              "line": 43,
+              "line": 39,
               "column": 0
             }
           },
@@ -2859,52 +2859,28 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("div");
           dom.setAttribute(el1, "class", "app-header-started");
-          var el2 = dom.createTextNode("\n");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createComment("");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("  \n\n");
+          var el2 = dom.createTextNode("\n  \n\n");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("nav");
-          dom.setAttribute(el2, "class", "navbar");
+          dom.setAttribute(el2, "class", "app-header-navbar");
           var el3 = dom.createTextNode("\n    ");
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("div");
-          dom.setAttribute(el3, "class", "container");
+          dom.setAttribute(el3, "class", "app-header-navbar__container container");
           var el4 = dom.createTextNode("\n        ");
           dom.appendChild(el3, el4);
           var el4 = dom.createElement("div");
-          dom.setAttribute(el4, "class", "navbar-header");
+          dom.setAttribute(el4, "class", "navbar-header row");
           var el5 = dom.createTextNode("\n            ");
           dom.appendChild(el4, el5);
-          var el5 = dom.createElement("button");
-          dom.setAttribute(el5, "type", "button");
-          dom.setAttribute(el5, "class", "navbar-toggle collapsed");
-          dom.setAttribute(el5, "data-toggle", "collapse");
-          dom.setAttribute(el5, "data-target", "#navbar");
-          dom.setAttribute(el5, "aria-expanded", "false");
-          dom.setAttribute(el5, "aria-controls", "navbar");
+          var el5 = dom.createElement("div");
+          dom.setAttribute(el5, "class", "navbar-header__brand");
           var el6 = dom.createTextNode("\n                ");
           dom.appendChild(el5, el6);
-          var el6 = dom.createElement("span");
-          dom.setAttribute(el6, "class", "sr-only");
-          var el7 = dom.createTextNode("Toggle navigation");
-          dom.appendChild(el6, el7);
-          dom.appendChild(el5, el6);
-          var el6 = dom.createTextNode("\n                ");
-          dom.appendChild(el5, el6);
-          var el6 = dom.createElement("span");
-          dom.setAttribute(el6, "class", "icon-bar");
-          dom.appendChild(el5, el6);
-          var el6 = dom.createTextNode("\n                ");
-          dom.appendChild(el5, el6);
-          var el6 = dom.createElement("span");
-          dom.setAttribute(el6, "class", "icon-bar");
-          dom.appendChild(el5, el6);
-          var el6 = dom.createTextNode("\n                ");
-          dom.appendChild(el5, el6);
-          var el6 = dom.createElement("span");
-          dom.setAttribute(el6, "class", "icon-bar");
+          var el6 = dom.createElement("img");
+          dom.setAttribute(el6, "alt", "Logo PIX");
+          dom.setAttribute(el6, "width", "auto");
+          dom.setAttribute(el6, "height", "60");
           dom.appendChild(el5, el6);
           var el6 = dom.createTextNode("\n            ");
           dom.appendChild(el5, el6);
@@ -2912,13 +2888,10 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
           var el5 = dom.createTextNode("\n            ");
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("div");
-          dom.setAttribute(el5, "class", "navbar-brand");
+          dom.setAttribute(el5, "class", "navbar-header__ribbon");
           var el6 = dom.createTextNode("\n                ");
           dom.appendChild(el5, el6);
-          var el6 = dom.createElement("img");
-          dom.setAttribute(el6, "alt", "Logo PIX");
-          dom.setAttribute(el6, "width", "auto");
-          dom.setAttribute(el6, "height", "60");
+          var el6 = dom.createComment("");
           dom.appendChild(el5, el6);
           var el6 = dom.createTextNode("\n            ");
           dom.appendChild(el5, el6);
@@ -2940,14 +2913,14 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1]);
-          var element1 = dom.childAt(element0, [3, 1, 1, 3, 1]);
+          var element0 = dom.childAt(fragment, [1, 1, 1, 1]);
+          var element1 = dom.childAt(element0, [1, 1]);
           var morphs = new Array(2);
-          morphs[0] = dom.createMorphAt(element0, 1, 1);
-          morphs[1] = dom.createAttrMorph(element1, 'src');
+          morphs[0] = dom.createAttrMorph(element1, 'src');
+          morphs[1] = dom.createMorphAt(dom.childAt(element0, [3]), 1, 1);
           return morphs;
         },
-        statements: [["content", "corner-ribbon", ["loc", [null, [23, 0], [23, 17]]], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [36, 28], [36, 35]]], 0, 0, 0, 0], "images/pix-logo.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+        statements: [["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [29, 28], [29, 35]]], 0, 0, 0, 0], "images/pix-logo.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "corner-ribbon", ["loc", [null, [32, 16], [32, 33]]], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
@@ -2962,7 +2935,7 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 45,
+            "line": 41,
             "column": 0
           }
         },
@@ -2987,7 +2960,7 @@ define("pix-live/templates/components/app-header", ["exports"], function (export
         morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
         return morphs;
       },
-      statements: [["block", "if", [["subexpr", "eq", [["get", "router.currentRouteName", ["loc", [null, [2, 10], [2, 33]]], 0, 0, 0, 0], "index"], [], ["loc", [null, [2, 6], [2, 42]]], 0, 0]], [], 0, 1, ["loc", [null, [2, 0], [43, 7]]]]],
+      statements: [["block", "if", [["subexpr", "eq", [["get", "router.currentRouteName", ["loc", [null, [2, 10], [2, 33]]], 0, 0, 0, 0], "index"], [], ["loc", [null, [2, 6], [2, 42]]], 0, 0]], [], 0, 1, ["loc", [null, [2, 0], [39, 7]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -5074,7 +5047,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
               "column": 4
             },
             "end": {
-              "line": 25,
+              "line": 30,
               "column": 4
             }
           },
@@ -5097,21 +5070,37 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           var el2 = dom.createTextNode("\n        ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("a");
-          dom.setAttribute(el2, "class", "button");
+          dom.setAttribute(el2, "class", "button challenge-attachment-link");
           dom.setAttribute(el2, "target", "_blank");
           var el3 = dom.createTextNode("\n          ");
           dom.appendChild(el2, el3);
-          var el3 = dom.createElement("span");
-          dom.setAttribute(el3, "class", "glyphicon glyphicon-download");
-          dom.setAttribute(el3, "aria-hidden", "true");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n          Télécharger le fichier");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createElement("br");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n          ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createComment("");
+          var el3 = dom.createElement("div");
+          dom.setAttribute(el3, "class", "challenge-attachment-container");
+          var el4 = dom.createTextNode("\n            ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          var el5 = dom.createTextNode("\n              ");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createElement("span");
+          dom.setAttribute(el5, "class", "glyphicon glyphicon-download");
+          dom.setAttribute(el5, "aria-hidden", "true");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n            ");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n            ");
+          dom.appendChild(el3, el4);
+          var el4 = dom.createElement("div");
+          dom.setAttribute(el4, "class", "challenge-attachment-instruction");
+          var el5 = dom.createTextNode("\n              Télécharger le fichier ");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n            ");
+          dom.appendChild(el4, el5);
+          dom.appendChild(el3, el4);
+          var el4 = dom.createTextNode("\n          ");
+          dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           var el3 = dom.createTextNode("\n        ");
           dom.appendChild(el2, el3);
@@ -5128,10 +5117,10 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           var morphs = new Array(3);
           morphs[0] = dom.createAttrMorph(element5, 'href');
           morphs[1] = dom.createAttrMorph(element5, 'download');
-          morphs[2] = dom.createMorphAt(element5, 5, 5);
+          morphs[2] = dom.createMorphAt(dom.childAt(element5, [1, 3]), 1, 1);
           return morphs;
         },
-        statements: [["attribute", "href", ["concat", [["get", "challenge.attachmentUrl", ["loc", [null, [18, 19], [18, 42]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "download", ["concat", [["get", "challenge.attachmentFilename", ["loc", [null, [19, 23], [19, 51]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "challenge.attachmentFilename", ["loc", [null, [22, 10], [22, 42]]], 0, 0, 0, 0]],
+        statements: [["attribute", "href", ["concat", [["get", "challenge.attachmentUrl", ["loc", [null, [18, 19], [18, 42]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "download", ["concat", [["get", "challenge.attachmentFilename", ["loc", [null, [19, 23], [19, 51]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "challenge.attachmentFilename", ["loc", [null, [25, 37], [25, 69]]], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
@@ -5145,11 +5134,11 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 34,
+                  "line": 39,
                   "column": 10
                 },
                 "end": {
-                  "line": 36,
+                  "line": 41,
                   "column": 10
                 }
               },
@@ -5176,7 +5165,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
               morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
               return morphs;
             },
-            statements: [["content", "block.text", ["loc", [null, [35, 18], [35, 32]]], 0, 0, 0, 0]],
+            statements: [["content", "block.text", ["loc", [null, [40, 18], [40, 32]]], 0, 0, 0, 0]],
             locals: [],
             templates: []
           };
@@ -5188,11 +5177,11 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 38,
+                  "line": 43,
                   "column": 10
                 },
                 "end": {
-                  "line": 40,
+                  "line": 45,
                   "column": 10
                 }
               },
@@ -5217,7 +5206,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
               morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
               return morphs;
             },
-            statements: [["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "block.input", ["loc", [null, [39, 25], [39, 36]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "text", "placeholder", ["subexpr", "@mut", [["get", "block.placeholder", ["loc", [null, [39, 61], [39, 78]]], 0, 0, 0, 0]], [], [], 0, 0], "change", ["subexpr", "action", ["updateQrocAnswer"], [], ["loc", [null, [39, 86], [39, 113]]], 0, 0]], ["loc", [null, [39, 12], [39, 116]]], 0, 0]],
+            statements: [["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "block.input", ["loc", [null, [44, 25], [44, 36]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "text", "placeholder", ["subexpr", "@mut", [["get", "block.placeholder", ["loc", [null, [44, 61], [44, 78]]], 0, 0, 0, 0]], [], [], 0, 0], "change", ["subexpr", "action", ["updateQrocAnswer"], [], ["loc", [null, [44, 86], [44, 113]]], 0, 0]], ["loc", [null, [44, 12], [44, 116]]], 0, 0]],
             locals: [],
             templates: []
           };
@@ -5229,11 +5218,11 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 42,
+                  "line": 47,
                   "column": 10
                 },
                 "end": {
-                  "line": 44,
+                  "line": 49,
                   "column": 10
                 }
               },
@@ -5267,11 +5256,11 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
             "loc": {
               "source": null,
               "start": {
-                "line": 32,
+                "line": 37,
                 "column": 8
               },
               "end": {
-                "line": 46,
+                "line": 51,
                 "column": 8
               }
             },
@@ -5306,7 +5295,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
             morphs[2] = dom.createMorphAt(fragment, 5, 5, contextualElement);
             return morphs;
           },
-          statements: [["block", "if", [["get", "block.text", ["loc", [null, [34, 16], [34, 26]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [34, 10], [36, 17]]]], ["block", "if", [["get", "block.input", ["loc", [null, [38, 16], [38, 27]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [38, 10], [40, 17]]]], ["block", "if", [["get", "block.breakline", ["loc", [null, [42, 16], [42, 31]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [42, 10], [44, 17]]]]],
+          statements: [["block", "if", [["get", "block.text", ["loc", [null, [39, 16], [39, 26]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [39, 10], [41, 17]]]], ["block", "if", [["get", "block.input", ["loc", [null, [43, 16], [43, 27]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [43, 10], [45, 17]]]], ["block", "if", [["get", "block.breakline", ["loc", [null, [47, 16], [47, 31]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [47, 10], [49, 17]]]]],
           locals: ["block"],
           templates: [child0, child1, child2]
         };
@@ -5317,11 +5306,11 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           "loc": {
             "source": null,
             "start": {
-              "line": 31,
+              "line": 36,
               "column": 6
             },
             "end": {
-              "line": 48,
+              "line": 53,
               "column": 6
             }
           },
@@ -5345,7 +5334,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           dom.insertBoundary(fragment, 0);
           return morphs;
         },
-        statements: [["block", "each", [["get", "challenge._proposalsAsBlocks", ["loc", [null, [32, 16], [32, 44]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [32, 8], [46, 17]]]]],
+        statements: [["block", "each", [["get", "challenge._proposalsAsBlocks", ["loc", [null, [37, 16], [37, 44]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [37, 8], [51, 17]]]]],
         locals: [],
         templates: [child0]
       };
@@ -5359,11 +5348,11 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 49,
+                  "line": 54,
                   "column": 8
                 },
                 "end": {
-                  "line": 57,
+                  "line": 62,
                   "column": 8
                 }
               },
@@ -5408,7 +5397,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
               morphs[2] = dom.createMorphAt(element4, 3, 3);
               return morphs;
             },
-            statements: [["attribute", "for", ["concat", ["proposal_", ["get", "index", ["loc", [null, [51, 35], [51, 40]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "input", [], ["id", ["subexpr", "concat", ["proposal_", ["get", "index", ["loc", [null, [52, 45], [52, 50]]], 0, 0, 0, 0]], [], ["loc", [null, [52, 25], [52, 51]]], 0, 0], "type", "checkbox", "name", ["subexpr", "@mut", [["get", "index", ["loc", [null, [53, 19], [53, 24]]], 0, 0, 0, 0]], [], [], 0, 0], "change", ["subexpr", "action", ["updateQcmAnswer"], [], ["loc", [null, [53, 32], [53, 58]]], 0, 0]], ["loc", [null, [52, 14], [53, 60]]], 0, 0], ["content", "proposal", ["loc", [null, [54, 14], [54, 26]]], 0, 0, 0, 0]],
+            statements: [["attribute", "for", ["concat", ["proposal_", ["get", "index", ["loc", [null, [56, 35], [56, 40]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "input", [], ["id", ["subexpr", "concat", ["proposal_", ["get", "index", ["loc", [null, [57, 45], [57, 50]]], 0, 0, 0, 0]], [], ["loc", [null, [57, 25], [57, 51]]], 0, 0], "type", "checkbox", "name", ["subexpr", "@mut", [["get", "index", ["loc", [null, [58, 19], [58, 24]]], 0, 0, 0, 0]], [], [], 0, 0], "change", ["subexpr", "action", ["updateQcmAnswer"], [], ["loc", [null, [58, 32], [58, 58]]], 0, 0]], ["loc", [null, [57, 14], [58, 60]]], 0, 0], ["content", "proposal", ["loc", [null, [59, 14], [59, 26]]], 0, 0, 0, 0]],
             locals: ["proposal", "index"],
             templates: []
           };
@@ -5419,11 +5408,11 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
             "loc": {
               "source": null,
               "start": {
-                "line": 48,
+                "line": 53,
                 "column": 6
               },
               "end": {
-                "line": 59,
+                "line": 64,
                 "column": 6
               }
             },
@@ -5447,7 +5436,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
             dom.insertBoundary(fragment, 0);
             return morphs;
           },
-          statements: [["block", "each", [["get", "challenge._proposalsAsArray", ["loc", [null, [49, 16], [49, 43]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [49, 8], [57, 17]]]]],
+          statements: [["block", "each", [["get", "challenge._proposalsAsArray", ["loc", [null, [54, 16], [54, 43]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [54, 8], [62, 17]]]]],
           locals: [],
           templates: [child0]
         };
@@ -5460,11 +5449,11 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 60,
+                  "line": 65,
                   "column": 8
                 },
                 "end": {
-                  "line": 64,
+                  "line": 69,
                   "column": 8
                 }
               },
@@ -5504,7 +5493,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
               morphs[1] = dom.createMorphAt(element3, 2, 2);
               return morphs;
             },
-            statements: [["inline", "radio-button", [], ["name", "proposals", "value", ["subexpr", "@mut", [["get", "index", ["loc", [null, [62, 57], [62, 62]]], 0, 0, 0, 0]], [], [], 0, 0], "checked", ["subexpr", "@mut", [["get", "selectedProposal", ["loc", [null, [62, 71], [62, 87]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [62, 19], [62, 89]]], 0, 0], ["content", "proposal", ["loc", [null, [62, 90], [62, 104]]], 0, 0, 0, 0]],
+            statements: [["inline", "radio-button", [], ["name", "proposals", "value", ["subexpr", "@mut", [["get", "index", ["loc", [null, [67, 57], [67, 62]]], 0, 0, 0, 0]], [], [], 0, 0], "checked", ["subexpr", "@mut", [["get", "selectedProposal", ["loc", [null, [67, 71], [67, 87]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [67, 19], [67, 89]]], 0, 0], ["content", "proposal", ["loc", [null, [67, 90], [67, 104]]], 0, 0, 0, 0]],
             locals: ["proposal", "index"],
             templates: []
           };
@@ -5515,11 +5504,11 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
             "loc": {
               "source": null,
               "start": {
-                "line": 59,
+                "line": 64,
                 "column": 6
               },
               "end": {
-                "line": 65,
+                "line": 70,
                 "column": 6
               }
             },
@@ -5543,7 +5532,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
             dom.insertBoundary(fragment, 0);
             return morphs;
           },
-          statements: [["block", "each", [["get", "challenge._proposalsAsArray", ["loc", [null, [60, 16], [60, 43]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [60, 8], [64, 17]]]]],
+          statements: [["block", "each", [["get", "challenge._proposalsAsArray", ["loc", [null, [65, 16], [65, 43]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [65, 8], [69, 17]]]]],
           locals: [],
           templates: [child0]
         };
@@ -5554,11 +5543,11 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           "loc": {
             "source": null,
             "start": {
-              "line": 48,
+              "line": 53,
               "column": 6
             },
             "end": {
-              "line": 65,
+              "line": 70,
               "column": 6
             }
           },
@@ -5581,7 +5570,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "if", [["get", "challengeIsTypeQCM", ["loc", [null, [48, 16], [48, 34]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [48, 6], [65, 6]]]]],
+        statements: [["block", "if", [["get", "challengeIsTypeQCM", ["loc", [null, [53, 16], [53, 34]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [53, 6], [70, 6]]]]],
         locals: [],
         templates: [child0, child1]
       };
@@ -5593,11 +5582,11 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           "loc": {
             "source": null,
             "start": {
-              "line": 68,
+              "line": 73,
               "column": 4
             },
             "end": {
-              "line": 73,
+              "line": 78,
               "column": 4
             }
           },
@@ -5634,7 +5623,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           morphs[0] = dom.createMorphAt(dom.childAt(fragment, [3]), 1, 1);
           return morphs;
         },
-        statements: [["content", "errorMessage", ["loc", [null, [71, 8], [71, 24]]], 0, 0, 0, 0]],
+        statements: [["content", "errorMessage", ["loc", [null, [76, 8], [76, 24]]], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
@@ -5646,11 +5635,11 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           "loc": {
             "source": null,
             "start": {
-              "line": 76,
+              "line": 81,
               "column": 2
             },
             "end": {
-              "line": 85,
+              "line": 90,
               "column": 2
             }
           },
@@ -5710,7 +5699,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
           morphs[1] = dom.createElementMorph(element2);
           return morphs;
         },
-        statements: [["element", "action", ["skip"], [], ["loc", [null, [78, 84], [78, 101]]], 0, 0], ["element", "action", ["validate"], [], ["loc", [null, [81, 88], [81, 109]]], 0, 0]],
+        statements: [["element", "action", ["skip"], [], ["loc", [null, [83, 84], [83, 101]]], 0, 0], ["element", "action", ["validate"], [], ["loc", [null, [86, 88], [86, 109]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -5725,8 +5714,8 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
             "column": 0
           },
           "end": {
-            "line": 86,
-            "column": 6
+            "line": 92,
+            "column": 0
           }
         },
         "moduleName": "pix-live/templates/components/challenge-item.hbs"
@@ -5783,6 +5772,8 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
@@ -5798,7 +5789,7 @@ define("pix-live/templates/components/challenge-item", ["exports"], function (ex
         morphs[5] = dom.createMorphAt(element7, 5, 5);
         return morphs;
       },
-      statements: [["block", "if", [["get", "challenge.instruction", ["loc", [null, [4, 10], [4, 31]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [4, 4], [7, 11]]]], ["block", "if", [["get", "hasIllustration", ["loc", [null, [9, 10], [9, 25]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [9, 4], [14, 11]]]], ["block", "if", [["get", "hasAttachment", ["loc", [null, [15, 10], [15, 23]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [15, 4], [25, 11]]]], ["block", "if", [["get", "challengeIsTypeQROC", ["loc", [null, [31, 12], [31, 31]]], 0, 0, 0, 0]], [], 3, 4, ["loc", [null, [31, 6], [65, 13]]]], ["block", "if", [["get", "hasError", ["loc", [null, [68, 10], [68, 18]]], 0, 0, 0, 0]], [], 5, null, ["loc", [null, [68, 4], [73, 11]]]], ["block", "unless", [["get", "isChallengePreviewMode", ["loc", [null, [76, 12], [76, 34]]], 0, 0, 0, 0]], [], 6, null, ["loc", [null, [76, 2], [85, 13]]]]],
+      statements: [["block", "if", [["get", "challenge.instruction", ["loc", [null, [4, 10], [4, 31]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [4, 4], [7, 11]]]], ["block", "if", [["get", "hasIllustration", ["loc", [null, [9, 10], [9, 25]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [9, 4], [14, 11]]]], ["block", "if", [["get", "hasAttachment", ["loc", [null, [15, 10], [15, 23]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [15, 4], [30, 11]]]], ["block", "if", [["get", "challengeIsTypeQROC", ["loc", [null, [36, 12], [36, 31]]], 0, 0, 0, 0]], [], 3, 4, ["loc", [null, [36, 6], [70, 13]]]], ["block", "if", [["get", "hasError", ["loc", [null, [73, 10], [73, 18]]], 0, 0, 0, 0]], [], 5, null, ["loc", [null, [73, 4], [78, 11]]]], ["block", "unless", [["get", "isChallengePreviewMode", ["loc", [null, [81, 12], [81, 34]]], 0, 0, 0, 0]], [], 6, null, ["loc", [null, [81, 2], [90, 13]]]]],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6]
     };
@@ -5816,7 +5807,7 @@ define("pix-live/templates/components/corner-ribbon", ["exports"], function (exp
             "column": 0
           },
           "end": {
-            "line": 2,
+            "line": 8,
             "column": 0
           }
         },
@@ -5829,11 +5820,29 @@ define("pix-live/templates/components/corner-ribbon", ["exports"], function (exp
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "corner-ribbon top-right sticky yellow");
-        var el2 = dom.createElement("span");
-        dom.setAttribute(el2, "class", "corner-ribbon-text");
-        var el3 = dom.createTextNode("BÊTA");
+        dom.setAttribute(el1, "class", "corner-ribbon-wrapper");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "corner-ribbon");
+        var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "ribbon");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("a");
+        dom.setAttribute(el4, "href", "#");
+        var el5 = dom.createTextNode("BÊTA");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
@@ -5950,7 +5959,7 @@ define("pix-live/templates/components/course-banner", ["exports"], function (exp
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "course-banner row");
+        dom.setAttribute(el1, "class", "course-banner");
         var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
@@ -6231,7 +6240,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 124,
+            "line": 122,
             "column": 0
           }
         },
@@ -6252,11 +6261,11 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "first-page-hero-box o-sudoku");
+        dom.setAttribute(el3, "class", "first-page-hero__box");
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "o-sudoku__7");
+        dom.setAttribute(el4, "class", "first-page-hero__box-item");
         var el5 = dom.createTextNode("\n        ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("div");
@@ -6319,24 +6328,31 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n\n  ");
+        var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "first-page-email");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "first-page-email__title");
-        var el4 = dom.createTextNode("\n      Vous souhaitez devenir beta-testeur ou être informé(e) du développement de Pix ?\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "first-page-email__input-container");
+        dom.setAttribute(el3, "class", "first-page-email-content");
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "first-page-email__title");
+        var el5 = dom.createTextNode("\n        Vous souhaitez devenir beta-testeur ou être informé(e) du développement de Pix ?\n      ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "first-page-email__input-container");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n    ");
         dom.appendChild(el3, el4);
@@ -6344,254 +6360,254 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "first-page-features");
-        var el3 = dom.createTextNode("\n  \n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "first-page-feature");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "first-page-feature__icon-container");
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("img");
-        dom.setAttribute(el5, "class", "first-page-feature__icon");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "first-page-feature__title");
-        var el5 = dom.createTextNode("Vivez l’expérience PIX");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "first-page-feature__text");
-        var el5 = dom.createTextNode(" Un parcours d’évaluation convivial, accessible et interactif.");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("  \n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "first-page-feature");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "first-page-feature__icon-container");
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("img");
-        dom.setAttribute(el5, "class", "first-page-feature__icon");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "first-page-feature__title");
-        var el5 = dom.createTextNode("PIX est pour tout le monde ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "first-page-feature__text");
-        var el5 = dom.createTextNode(" Collégiens, lycéens, étudiants, professionnels, citoyens…");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("  \n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "first-page-feature");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "first-page-feature__icon-container");
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("img");
-        dom.setAttribute(el5, "class", "first-page-feature__icon");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "first-page-feature__title");
-        var el5 = dom.createTextNode("PIX est la référence");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "first-page-feature__text");
-        var el5 = dom.createTextNode(" La certification nationale de la culture numérique made in France au standard européen.");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("  \n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "first-page-feature");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "first-page-feature__icon-container");
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("img");
-        dom.setAttribute(el5, "class", "first-page-feature__icon");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "first-page-feature__title");
-        var el5 = dom.createTextNode("PIX est évolutif");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "first-page-feature__text");
-        var el5 = dom.createTextNode(" Le référentiel de compétences s’adapte en permanence aux évolutions du monde numérique.");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("  \n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "first-page-feature");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "first-page-feature__icon-container");
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("img");
-        dom.setAttribute(el5, "class", "first-page-feature__icon");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "first-page-feature__title");
-        var el5 = dom.createTextNode("PIX est gratuit");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4, "class", "first-page-feature__text");
-        var el5 = dom.createTextNode(" Entraînez-vous et progressez gratuitement à votre rythme avant d’être certifié.");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("  \n  ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "first-page-footer container");
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "first-page-footer__logo-pix first-page-footer__item");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("img");
-        dom.setAttribute(el4, "class", "first-page-footer__logo-pix-img");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "first-page-footer__contact-us first-page-footer__item");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("a");
-        dom.setAttribute(el4, "class", "first-page-footer__mailto");
-        dom.setAttribute(el4, "href", "mailto:contact@pix.beta.gouv.fr");
-        var el5 = dom.createTextNode("Contactez-nous");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n       | \n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("a");
-        dom.setAttribute(el4, "class", "first-page-footer__mailto");
-        dom.setAttribute(el4, "href", "https://github.com/sgmap/pix-live");
-        dom.setAttribute(el4, "target", "_blank");
-        var el5 = dom.createTextNode("Le code source est libre");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3, "class", "first-page-footer__logo-marianne first-page-footer__item");
-        var el4 = dom.createTextNode("\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("img");
-        dom.setAttribute(el4, "class", "first-page-footer__logo-marianne-img");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n\n");
+        var el2 = dom.createTextNode("  \n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "first-page-features");
+        var el2 = dom.createTextNode("\n  \n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-feature");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__icon-container");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("img");
+        dom.setAttribute(el4, "class", "first-page-feature__icon");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__title");
+        var el4 = dom.createTextNode("Vivez l’expérience PIX");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__text");
+        var el4 = dom.createTextNode(" Un parcours d’évaluation convivial, accessible et interactif.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("  \n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-feature");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__icon-container");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("img");
+        dom.setAttribute(el4, "class", "first-page-feature__icon");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__title");
+        var el4 = dom.createTextNode("PIX est pour tout le monde ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__text");
+        var el4 = dom.createTextNode(" Collégiens, lycéens, étudiants, professionnels, citoyens…");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("  \n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-feature");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__icon-container");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("img");
+        dom.setAttribute(el4, "class", "first-page-feature__icon");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__title");
+        var el4 = dom.createTextNode("PIX est la référence");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__text");
+        var el4 = dom.createTextNode(" La certification nationale de la culture numérique made in France au standard européen.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("  \n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-feature");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__icon-container");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("img");
+        dom.setAttribute(el4, "class", "first-page-feature__icon");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__title");
+        var el4 = dom.createTextNode("PIX est évolutif");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__text");
+        var el4 = dom.createTextNode(" Le référentiel de compétences s’adapte en permanence aux évolutions du monde numérique.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("  \n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-feature");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__icon-container");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("img");
+        dom.setAttribute(el4, "class", "first-page-feature__icon");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__title");
+        var el4 = dom.createTextNode("PIX est gratuit");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "first-page-feature__text");
+        var el4 = dom.createTextNode(" Entraînez-vous et progressez gratuitement à votre rythme avant d’être certifié.");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("  \n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n\n  ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "first-page-footer container");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-footer__item-marianne");
+        var el3 = dom.createTextNode("\n      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("img");
+        dom.setAttribute(el3, "class", "first-page-footer__logo-marianne-img");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-footer__item-contact");
+        var el3 = dom.createTextNode("\n      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("a");
+        dom.setAttribute(el3, "class", "first-page-footer__mailto");
+        dom.setAttribute(el3, "href", "mailto:contact@pix.beta.gouv.fr");
+        var el4 = dom.createTextNode("Contactez-nous");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n       | \n      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("a");
+        dom.setAttribute(el3, "class", "first-page-footer__mailto");
+        dom.setAttribute(el3, "href", "https://github.com/sgmap/pix-live");
+        dom.setAttribute(el3, "target", "_blank");
+        var el4 = dom.createTextNode("Le code source est libre");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "first-page-footer__item-logo");
+        var el3 = dom.createTextNode("\n      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("img");
+        dom.setAttribute(el3, "class", "first-page-footer__logo-pix-img");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
         var element3 = dom.childAt(fragment, [0]);
-        var element4 = dom.childAt(element3, [7]);
+        var element4 = dom.childAt(fragment, [2]);
         var element5 = dom.childAt(element4, [1, 1, 1]);
         var element6 = dom.childAt(element4, [3, 1, 1]);
         var element7 = dom.childAt(element4, [5, 1, 1]);
         var element8 = dom.childAt(element4, [7, 1, 1]);
         var element9 = dom.childAt(element4, [9, 1, 1]);
-        var element10 = dom.childAt(element3, [9]);
+        var element10 = dom.childAt(fragment, [4]);
         var element11 = dom.childAt(element10, [1, 1]);
         var element12 = dom.childAt(element10, [5, 1]);
         var morphs = new Array(9);
         morphs[0] = dom.createMorphAt(dom.childAt(element3, [3, 5, 1]), 1, 1);
-        morphs[1] = dom.createMorphAt(dom.childAt(element3, [5, 3]), 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element3, [5, 1, 3]), 1, 1);
         morphs[2] = dom.createAttrMorph(element5, 'src');
         morphs[3] = dom.createAttrMorph(element6, 'src');
         morphs[4] = dom.createAttrMorph(element7, 'src');
@@ -6601,7 +6617,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         morphs[8] = dom.createAttrMorph(element12, 'src');
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [24, 16], [24, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 8], [50, 17]]]], ["content", "load-email", ["loc", [null, [62, 6], [62, 20]]], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [70, 20], [70, 27]]], 0, 0, 0, 0], "images/icon-cafe.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [77, 20], [77, 27]]], 0, 0, 0, 0], "images/icon-monde.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [84, 20], [84, 27]]], 0, 0, 0, 0], "images/icon-reference.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [91, 20], [91, 27]]], 0, 0, 0, 0], "images/icon-evolutif.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [98, 20], [98, 27]]], 0, 0, 0, 0], "images/icon-gratuit.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [108, 18], [108, 25]]], 0, 0, 0, 0], "images/pix-logo.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [116, 18], [116, 25]]], 0, 0, 0, 0], "images/mnsr.png"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+      statements: [["block", "each", [["get", "model", ["loc", [null, [24, 16], [24, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 8], [50, 17]]]], ["content", "load-email", ["loc", [null, [62, 8], [62, 22]]], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [73, 18], [73, 25]]], 0, 0, 0, 0], "images/icon-cafe.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [80, 18], [80, 25]]], 0, 0, 0, 0], "images/icon-monde.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [87, 18], [87, 25]]], 0, 0, 0, 0], "images/icon-reference.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [94, 18], [94, 25]]], 0, 0, 0, 0], "images/icon-evolutif.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [101, 18], [101, 25]]], 0, 0, 0, 0], "images/icon-gratuit.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [111, 18], [111, 25]]], 0, 0, 0, 0], "images/mnsr3.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [119, 18], [119, 25]]], 0, 0, 0, 0], "images/pix-logo.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
       locals: [],
       templates: [child0]
     };
@@ -9126,16 +9142,16 @@ define("pix-live/templates/components/load-email", ["exports"], function (export
         var el1 = dom.createTextNode("    ");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("form");
-        dom.setAttribute(el1, "class", "first-page-email__form");
+        dom.setAttribute(el1, "class", "load-email__form");
         dom.setAttribute(el1, "id", "contact-form");
         var el2 = dom.createTextNode("\n  \n      ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "first-page-email__form-item");
+        dom.setAttribute(el2, "class", "load-email__form-item");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("input");
-        dom.setAttribute(el3, "class", "first-page-email-enter");
+        dom.setAttribute(el3, "class", "load-email-enter");
         dom.setAttribute(el3, "placeholder", "Saisissez votre email");
         dom.setAttribute(el3, "type", "email");
         dom.appendChild(el2, el3);
@@ -9145,12 +9161,12 @@ define("pix-live/templates/components/load-email", ["exports"], function (export
         var el2 = dom.createTextNode("\n      ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "first-page-email__form-item");
+        dom.setAttribute(el2, "class", "load-email__form-item");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("button");
         dom.setAttribute(el3, "type", "submit");
-        dom.setAttribute(el3, "class", "load-email");
+        dom.setAttribute(el3, "class", "load-email-button");
         var el4 = dom.createTextNode("Rejoindre la communauté");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
@@ -10392,7 +10408,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.1.0+61a3e461"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.1.0+9b0f61e0"});
 }
 
 /* jshint ignore:end */
