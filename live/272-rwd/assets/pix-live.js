@@ -628,14 +628,14 @@ define('pix-live/components/load-email', ['exports', 'ember'], function (exports
     didInsertElement: function didInsertElement() {
       _ember['default'].run.scheduleOnce('afterRender', this, function () {
 
-        var btn = $('.load-email-button')[0];
+        var $loadEmailButton = $('.load-email-button')[0];
         var $contactForm = $('#contact-form');
 
         $contactForm.submit(
         /* istanbul ignore next */
         function (e) {
           e.preventDefault();
-          btn.textContent = 'Veuillez patienter...';
+          $loadEmailButton.textContent = 'Veuillez patienter...';
           var emailValue = $('.first-page-email-enter').val();
           $.ajax({
             url: 'https://formspree.io/1024pix@gmail.com',
@@ -643,17 +643,17 @@ define('pix-live/components/load-email', ['exports', 'ember'], function (exports
             data: { email: emailValue },
             dataType: 'json',
             success: function success(data) {
-              btn.classList.add('load-email-button-is-active');
+              $loadEmailButton.classList.add('load-email-button-is-active');
               $('.first-page-email-enter').attr('disabled', 'disabled');
               $('button.load-email-button').attr('disabled', 'disabled');
-              btn.textContent = 'Rejoindre la communauté';
+              $loadEmailButton.textContent = 'Rejoindre la communauté';
             },
             error: function error() {
-              btn.classList.add('load-email-button-is-error');
+              $loadEmailButton.classList.add('load-email-button-is-error');
               setTimeout(function () {
                 $('.first-page-email-enter').val('');
-                btn.classList.remove('load-email-button-is-error');
-                btn.textContent = 'Rejoindre la communauté';
+                $loadEmailButton.classList.remove('load-email-button-is-error');
+                $loadEmailButton.textContent = 'Rejoindre la communauté';
               }, 3000);
             }
           });
@@ -10406,7 +10406,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+8505faa2"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.0.0+ec9ec12a"});
 }
 
 /* jshint ignore:end */
