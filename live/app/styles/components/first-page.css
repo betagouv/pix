@@ -237,8 +237,6 @@
   text-align: center;
   margin-top: 20px;
   @media (min-width: 992px) {
-    /*height: 20px;*/
-    /*margin-left: 35px;*/
     &:first-child {
       margin-left: 0px;
     };

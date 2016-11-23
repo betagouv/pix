@@ -8,14 +8,14 @@ export default Ember.Component.extend({
     Ember.run.scheduleOnce('afterRender', this, function() {
 
 
-      let btn = $('.load-email-button')[0];
-      let $contactForm = $('#contact-form');
+      const $loadEmailButton = $('.load-email-button')[0];
+      const $contactForm = $('#contact-form');
       
       $contactForm.submit(
         /* istanbul ignore next */
         function(e) {
         e.preventDefault();
-        btn.textContent = 'Veuillez patienter...';
+        $loadEmailButton.textContent = 'Veuillez patienter...';
         let emailValue = $('.first-page-email-enter').val();
         $.ajax({
           url: 'https://formspree.io/1024pix@gmail.com',
@@ -23,17 +23,17 @@ export default Ember.Component.extend({
           data: {email:emailValue},
           dataType: 'json',
           success: function(data) {
-            btn.classList.add('load-email-button-is-active');
+            $loadEmailButton.classList.add('load-email-button-is-active');
             $('.first-page-email-enter').attr('disabled', 'disabled');
             $('button.load-email-button').attr('disabled', 'disabled');
-            btn.textContent = 'Rejoindre la communauté';
+            $loadEmailButton.textContent = 'Rejoindre la communauté';
           },
           error: function() {
-            btn.classList.add('load-email-button-is-error');
+            $loadEmailButton.classList.add('load-email-button-is-error');
             setTimeout(function () {
               $('.first-page-email-enter').val('');
-              btn.classList.remove('load-email-button-is-error');
-              btn.textContent = 'Rejoindre la communauté';
+              $loadEmailButton.classList.remove('load-email-button-is-error');
+              $loadEmailButton.textContent = 'Rejoindre la communauté';
             }, 3000);
           }
         });
