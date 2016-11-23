@@ -2,7 +2,7 @@
 
 ## 1.2.0 (24/11/2016)
 
-- [#xxx](https://github.com/sgmap/pix-live/pull/) [DOC] Ajout du fichier CHANGELOG pour suivre les évolutions de la plateforme; 
+- [#164](https://github.com/sgmap/pix-live/pull/164) [DOC] Ajout du fichier CHANGELOG pour suivre les évolutions de la plateforme.
 
 ## 1.1.0 (23/11/2016)
 
