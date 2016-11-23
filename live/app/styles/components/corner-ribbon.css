@@ -1,30 +1,32 @@
-/* The ribbons */
-.corner-ribbon{
-  width: 200px;
-  background: #e43;
+.corner-ribbon {
+  position: relative;
+  width: 160px;
+  height: 100px;
+  overflow: hidden;
+}
+
+.ribbon {
+  background-color: #a00;
+  overflow: hidden;
+  white-space: nowrap;
+  /* top left corner */
   position: absolute;
-  top: 33px;
-  left: -50px;
+  left: -35px;
+  top: 30px;
+          transform: rotate(45deg);
+  /* shadow */
+          box-shadow: 0 0 10px #888;
+}
+
+.ribbon a {
+  border: 1px solid #faa;
+  color: #fff;
+  display: block;
+  font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 1px 0;
+  padding: 10px 50px;
   text-align: center;
-  line-height: 34px;
-  letter-spacing: 1px;
-  color: #f0f0f0;
-  transform: rotate(-45deg);
-  z-index: 999;
-}
-
-.corner-ribbon-text {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.corner-ribbon.top-right{
-  top: 33px;
-  right: -50px;
-  left: auto;
-  transform: rotate(45deg);
-}
-
-.corner-ribbon.yellow{
-  background: var(--marigold);
+  text-decoration: none;
+  /* shadow */
+  text-shadow: 0 0 5px #444;
 }
