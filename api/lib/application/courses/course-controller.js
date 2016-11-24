@@ -3,50 +3,38 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const courseSerializer = require('../../infrastructure/serializers/course-serializer');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/challenge-serializer');
-const cache = require('../../infrastructure/cache');
 const logger = require('../../infrastructure/logger');
 
 module.exports = {
 
   list(request, reply) {
 
-    const key = 'course-controller_list';
+    courseRepository
+      .list()
+      .then((courses) => {
 
-    cache.get(key, (err, value) => {
+        const response = courseSerializer.serializeArray(courses);
 
-      if (err) return reply(Boom.badImplementation(err));
+        const challengeIds = courses.reduce((a, b) => {
+          if (b.challenges) {
+            return a.concat(b.challenges);
+          }
+          return a;
+        }, []);
 
-      if (value) return reply(value);
+        const promises = challengeIds.map(challengeId => challengeRepository.get(challengeId));
 
-      courseRepository
-        .list()
-        .then((courses) => {
+        Promise.all(promises)
+          .then(challenges => {
 
-          const response = courseSerializer.serializeArray(courses);
+            response.included = challenges.map((challenge) => challengeSerializer.serialize(challenge).data);
 
-          const challengeIds = courses.reduce((a, b) => {
-            if (b.challenges) {
-              return a.concat(b.challenges);
-            }
-            return a;
-          }, []);
+            return reply(response);
+          })
+          .catch(err => reply(Boom.badImplementation(err)));
+      })
+      .catch((err) => reply(Boom.badImplementation(err)));
 
-          const promises = challengeIds.map(challengeId => challengeRepository.get(challengeId));
-
-          Promise.all(promises)
-            .then(challenges => {
-
-              response.included = challenges.map((challenge) => challengeSerializer.serialize(challenge).data);
-
-              cache.set(key, response);
-
-              return reply(response);
-            })
-            .catch(err => reply(Boom.badImplementation(err)));
-        })
-        .catch((err) => reply(Boom.badImplementation(err)));
-
-    });
   },
 
   get(request, reply) {
