@@ -14,11 +14,32 @@ export default Ember.Route.extend({
                                           assessment: params.assessment_id, 
                                           challenge:  params.challenge_id });
 
-    return RSVP.hash({
-      assessment:  assessmentPromise,
-      challenge :  challengePromise,
-      answer    :  answerPromise
-    });
+    const spotsPromises = [
+        assessmentPromise,
+        challengePromise,
+        answerPromise
+    ];
+    
+
+    return Ember.RSVP.allSettled(spotsPromises).then((spotPromisesResults)=> {
+
+        if (!spotPromisesResults.isAny('state', 'rejected')) {
+          // Yay ! all promised resolved
+          return RSVP.hash({
+            assessment: spotsPromises[0],
+            challenge: spotsPromises[1],
+            answer: spotsPromises[2]
+          });
+        } 
+        console.log('erroneus');
+        // answerPromise is allowed to fail (404 not found). Resolve other promises
+        return RSVP.hash({
+            assessment: spotsPromises[0],
+            challenge: spotsPromises[1]
+        });
+ });;
+
+    // return RSVP.allSettled();
   },
 
   actions : {
@@ -53,6 +74,8 @@ export default Ember.Route.extend({
 
   setupController: function(controller, model) {
     this._super(controller, model);
+
+    // model.reload();
 
     const progressToSet = model.assessment
       .get('course')
