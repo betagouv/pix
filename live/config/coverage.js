@@ -1,3 +1,3 @@
 module.exports = {
-  coverageFolder: '../coverage'
+  coverageFolder: '../coverage/live'
 };

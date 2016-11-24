@@ -74,6 +74,7 @@
     "clean:all": "npm run clean && npm run clean:bower && npm run clean:npm",
     "start": "ember server",
     "test": "ember test",
+    "coverage": "COVERAGE=true ember test",
     "test:watch": "ember test --serve",
     "ci:test": "COVERAGE=true ember test",
     "deploy:integration": "./scripts/deploy.sh integration",
