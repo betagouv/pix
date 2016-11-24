@@ -4,7 +4,10 @@ machine:
 
 dependencies:
   override:
-    - make install
+    - make install-api
+        parallel: true
+    - make install-live
+        parallel: true
 
 test:
   override:
