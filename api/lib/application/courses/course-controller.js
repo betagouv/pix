@@ -11,7 +11,7 @@ module.exports = {
 
     courseRepository
       .list()
-      .then((courses) => {
+      .then(courses => {
 
         const response = courseSerializer.serializeArray(courses);
 
@@ -27,13 +27,13 @@ module.exports = {
         Promise.all(promises)
           .then(challenges => {
 
-            response.included = challenges.map((challenge) => challengeSerializer.serialize(challenge).data);
+            response.included = challenges.map(challenge => challengeSerializer.serialize(challenge).data);
 
             return reply(response);
           })
           .catch(err => reply(Boom.badImplementation(err)));
       })
-      .catch((err) => reply(Boom.badImplementation(err)));
+      .catch(err => reply(Boom.badImplementation(err)));
 
   },
 
@@ -41,7 +41,7 @@ module.exports = {
 
     courseRepository
       .get(request.params.id)
-      .then((course) => {
+      .then(course => {
 
         const response = courseSerializer.serialize(course);
 
@@ -59,7 +59,7 @@ module.exports = {
           return reply(response);
         }
       })
-      .catch((err) => {
+      .catch(err => {
 
         let error = Boom.badImplementation(err);
         if ('MODEL_ID_NOT_FOUND' == err.error.type) {
@@ -73,8 +73,8 @@ module.exports = {
 
     courseRepository
       .refresh(request.params.id)
-      .then((course) => reply(courseSerializer.serialize(course)))
-      .catch((err) => reply(Boom.badImplementation(err)));
+      .then(course => reply(courseSerializer.serialize(course)))
+      .catch(err => reply(Boom.badImplementation(err)));
   }
 
 };
