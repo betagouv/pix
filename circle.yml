@@ -4,10 +4,8 @@ machine:
 
 dependencies:
   override:
-    - make install-api
-        parallel: true
-    - make install-live
-        parallel: true
+    - cd api && npm install
+    - cd live && npm run install:all
 
 test:
   override:
