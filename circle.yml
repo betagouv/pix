@@ -5,9 +5,9 @@ machine:
 dependencies:
   override:
     - cd api && npm install:
-      parallel: true
+        parallel: true
     - cd live && npm run install:all:
-      parallel: true
+        parallel: true
 
 test:
   override:
