@@ -36,7 +36,7 @@ describe('Acceptance | 3 - Démarrer un test |', function () {
     const $startLink = findWithAssert('div[data-id="ref_course_id"] .start-button')[0];
     return click($startLink).then(function() {
       findWithAssert('#assessment-challenge');
-      expect(currentURL()).to.contains('/assessments/first_assessment_id/challenges/ref_qcm_challenge_id');
+      expect(currentURL()).to.contains('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
     });
   });
 

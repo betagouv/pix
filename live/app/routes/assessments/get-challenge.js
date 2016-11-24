@@ -9,11 +9,15 @@ export default Ember.Route.extend({
   model(params) {
     const store = this.get('store');
     const assessmentPromise = store.findRecord('assessment', params.assessment_id);
-    const challengePromise = store.findRecord('challenge', params.challenge_id);
+    const challengePromise  = store.findRecord('challenge', params.challenge_id);
+    const answerPromise     = store.queryRecord('answer', { 
+                                          assessment: params.assessment_id, 
+                                          challenge:  params.challenge_id });
 
     return RSVP.hash({
-      assessment: assessmentPromise,
-      challenge: challengePromise
+      assessment:  assessmentPromise,
+      challenge :  challengePromise,
+      answer    :  answerPromise
     });
   },
 
@@ -25,6 +29,7 @@ export default Ember.Route.extend({
         this._navigateToNextView(currentChallenge, assessment);
       });
     }
+
   },
 
   _createAnswer: function (answerValue, currentChallenge, assessment) {
