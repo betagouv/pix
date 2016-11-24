@@ -5,9 +5,9 @@ machine:
 dependencies:
   override:
     - make install-api
-        parallel: true
+      parallel: true
     - make install-live
-        parallel: true
+      parallel: true
 
 test:
   override:
