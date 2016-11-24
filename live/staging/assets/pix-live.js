@@ -622,7 +622,7 @@ define('pix-live/components/identification-form', ['exports', 'ember', 'lodash/l
 define('pix-live/components/load-email', ['exports', 'ember'], function (exports, _ember) {
 
   // The whole component is left untested for 17/11 release.`
-  // Issue raised https://github.com/sgmap/pix-live/issues/142
+  // Issue raised https://github.com/sgmap/pix/issues/142
 
   exports['default'] = _ember['default'].Component.extend({
     didInsertElement: function didInsertElement() {
@@ -6277,7 +6277,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("div");
         dom.setAttribute(el5, "class", "first-page-hero__sub-value-prop");
-        var el6 = dom.createTextNode("\n          PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement. \n        ");
+        var el6 = dom.createTextNode("\n          PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.\n        ");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n      ");
@@ -6360,14 +6360,14 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("  \n");
+        var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
         dom.setAttribute(el1, "class", "first-page-features");
-        var el2 = dom.createTextNode("\n  \n  ");
+        var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "first-page-feature");
@@ -6400,7 +6400,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("  \n  ");
+        var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "first-page-feature");
@@ -6433,7 +6433,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("  \n  ");
+        var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "first-page-feature");
@@ -6466,7 +6466,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("  \n  ");
+        var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "first-page-feature");
@@ -6499,7 +6499,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("  \n  ");
+        var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "first-page-feature");
@@ -6532,7 +6532,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("  \n");
+        var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n\n  ");
@@ -6563,11 +6563,11 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         var el4 = dom.createTextNode("Contactez-nous");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n       | \n      ");
+        var el3 = dom.createTextNode("\n       |\n      ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("a");
         dom.setAttribute(el3, "class", "first-page-footer__mailto");
-        dom.setAttribute(el3, "href", "https://github.com/sgmap/pix-live");
+        dom.setAttribute(el3, "href", "https://github.com/sgmap/pix");
         dom.setAttribute(el3, "target", "_blank");
         var el4 = dom.createTextNode("Le code source est libre");
         dom.appendChild(el3, el4);
@@ -10408,7 +10408,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"1.2.1+230e2e27"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+1c6b0289"});
 }
 
 /* jshint ignore:end */
