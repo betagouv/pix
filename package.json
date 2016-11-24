@@ -1,0 +1,26 @@
+{
+  "name": "pix",
+  "version": "2.0.0-SNAPSHOT",
+  "description": "Plateforme d'évaluation et de certification des compétences numériques des citoyens francophones.",
+  "author": "Team PIX",
+  "license": "AGPL-3.0",
+  "homepage": "https://github.com/sgmap/pix#readme",
+  "bugs": {
+    "url": "https://github.com/sgmap/pix/issues"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "lcov-result-merger": "^1.2.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sgmap/pix.git"
+  },
+  "scripts": {
+    "coverage:api": "cd api && npm run coverage",
+    "coverage:live": "cd live && npm run coverage",
+    "coverage:merge": "./node_modules/.bin/lcov-result-merger 'coverage/**/lcov.info' 'coverage/lcov.info'",
+    "coverage": " npm run coverage:api && npm run coverage:live && npm run coverage:merge"
+  }
+}
