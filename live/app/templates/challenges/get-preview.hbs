@@ -1,7 +1,11 @@
 <div id="challenge-preview">
     <div class="container">
 
-      {{challenge-item model}}
+
+      {{challenge-item
+          currentAnswer=model.answer
+          challenge=model.challenge 
+          assessment=model.assessment }}
 
     </div>
 </div>

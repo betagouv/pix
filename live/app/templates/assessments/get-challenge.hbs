@@ -4,6 +4,11 @@
 
   <div class="container">
     {{progress-bar progress=progress}}
-    {{challenge-item model.challenge model.assessment onValidated="saveAnswerAndNavigate"}}
+    
+    {{challenge-item 
+        challenge=model.challenge 
+        assessment=model.assessment 
+        currentAnswer=model.answer 
+        onValidated="saveAnswerAndNavigate"}}
   </div>
 </div>

@@ -32,7 +32,7 @@
 
   <div class="rounded-panel challenge-response">
     <div class="challenge-proposals">
-
+    {{currentAnswer.challengeId}}
       {{#if challengeIsTypeQROC}}
         {{#each challenge._proposalsAsBlocks as |block|}}
 
@@ -52,11 +52,12 @@
 
       {{else if challengeIsTypeQCM}}
         {{#each challenge._proposalsAsArray as |proposal index|}}
+        {{!-- {{proposal.[0]}}: {{proposal.[1]}} --}}
           <p class="challenge-proposal">
             <label for="proposal_{{index}}">
               {{input id=(concat "proposal_" index) type="checkbox"
-              name=index change=(action "updateQcmAnswer")}}
-              {{proposal}}
+              name=index change=(action "updateQcmAnswer") checked=proposal.[1]}}
+              {{proposal.[0]}}
             </label>
           </p>
         {{/each}}

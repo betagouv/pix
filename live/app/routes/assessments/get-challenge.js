@@ -11,19 +11,19 @@ export default Ember.Route.extend({
     const assessmentPromise = store.findRecord('assessment', params.assessment_id);
     const challengePromise  = store.findRecord('challenge', params.challenge_id);
     const answerPromise     = store.queryRecord('answer', { 
-                                          assessment: params.assessment_id, 
-                                          challenge:  params.challenge_id });
+      assessment: params.assessment_id, 
+      challenge:  params.challenge_id });
 
     const spotsPromises = [
-        assessmentPromise,
-        challengePromise,
-        answerPromise
+      assessmentPromise,
+      challengePromise,
+      answerPromise
     ];
     
 
     return Ember.RSVP.allSettled(spotsPromises).then((spotPromisesResults)=> {
 
-        if (!spotPromisesResults.isAny('state', 'rejected')) {
+      if (!spotPromisesResults.isAny('state', 'rejected')) {
           // Yay ! all promised resolved
           return RSVP.hash({
             assessment: spotsPromises[0],
@@ -34,10 +34,10 @@ export default Ember.Route.extend({
         console.log('erroneus');
         // answerPromise is allowed to fail (404 not found). Resolve other promises
         return RSVP.hash({
-            assessment: spotsPromises[0],
-            challenge: spotsPromises[1]
+          assessment: spotsPromises[0],
+          challenge: spotsPromises[1]
         });
- });;
+      });
 
     // return RSVP.allSettled();
   },
@@ -78,8 +78,8 @@ export default Ember.Route.extend({
     // model.reload();
 
     const progressToSet = model.assessment
-      .get('course')
-      .then((course) => course.getProgress(model.challenge));
+    .get('course')
+    .then((course) => course.getProgress(model.challenge));
 
     controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
   },

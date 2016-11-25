@@ -37,11 +37,12 @@ const ChallengeItem = Ember.Component.extend({
 
   assessmentService: inject.service('assessment'),
 
-  challenge: null,
-  assessment: null,
+  challenge:        null,
+  assessment:       null,
+  currentAnswer:    null,
   selectedProposal: null,
-  errorMessage: null,
-  answers: {},
+  errorMessage:     null,
+  answers:          {},
 
   hasIllustration: computed.notEmpty('challenge.illustrationUrl'),
   hasAttachment: computed.notEmpty('challenge.attachmentUrl'),
@@ -65,7 +66,23 @@ const ChallengeItem = Ember.Component.extend({
   onSelectedProposalChanged: Ember.observer('selectedProposal', function () {
     this.set('errorMessage', null);
   }),
+  // eslint-disable-next-line complexity
+  didInsertElement() {
+    const challengeType = this.get('challenge.type');
 
+    switch (challengeType) {
+      case 'QCMIMG':
+      case 'QCM': {
+        if (this.get('currentAnswer.value')) {
+          // this.set('answers', this.get('currentAnswer.value').split(','));
+          // this.set('challenge.proposals.checking', [true, true, false, false, false]);
+        }
+        break;
+      }
+      default:
+        return null;
+    }  
+  },
   didUpdateAttrs() {
     this._super(...arguments);
     this.set('selectedProposal', null);
@@ -107,7 +124,6 @@ const ChallengeItem = Ember.Component.extend({
   // eslint-disable-next-line complexity
   _getAnswerValue() {
     const challengeType = this.get('challenge.type');
-    console.log(challengeType);
 
     switch (challengeType) {
       case 'QCUIMG':
