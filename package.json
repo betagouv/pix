@@ -21,6 +21,9 @@
     "url": "git+https://github.com/sgmap/pix.git"
   },
   "scripts": {
+    "install:api": "cd api && npm install",
+    "install:live": "cd live && npm install",
+    "install:all": "npm install && npm run install:api && npm run install:live",
     "coverage:clean": "rm -rf ./coverage",
     "coverage:api": "cd api && npm run coverage",
     "coverage:live": "cd live && npm run coverage",
