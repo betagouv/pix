@@ -3232,6 +3232,18 @@ define('pix-live/tests/utils/call-only-once.lint-test', ['exports'], function (e
     });
   });
 });
+define('pix-live/tests/utils/get-challenge-type.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - utils/get-challenge-type.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('utils/get-challenge-type.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 /* jshint ignore:start */
 
 require('pix-live/tests/test-helper');

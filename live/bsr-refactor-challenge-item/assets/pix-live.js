@@ -1992,7 +1992,7 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
   });
 });
-define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp', 'ember-data'], function (exports, _ember, _rsvp, _emberData) {
+define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp', 'ember-data', 'pix-live/utils/get-challenge-type'], function (exports, _ember, _rsvp, _emberData, _pixLiveUtilsGetChallengeType) {
   exports['default'] = _ember['default'].Route.extend({
 
     assessmentService: _ember['default'].inject.service('assessment'),
@@ -2049,7 +2049,7 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp',
 
       controller.set('progress', _emberData['default'].PromiseObject.create({ promise: progressToSet }));
 
-      var challengeType = model.challenge.get('type').toLowerCase();
+      var challengeType = (0, _pixLiveUtilsGetChallengeType['default'])(model.challenge.get('type'));
       controller.set('challengeItemType', 'challenge-item-' + challengeType);
     },
 
@@ -2080,7 +2080,7 @@ define('pix-live/routes/assessments/get-results', ['exports', 'ember', 'rsvp'], 
 
   });
 });
-define('pix-live/routes/challenges/get-preview', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
+define('pix-live/routes/challenges/get-preview', ['exports', 'ember', 'rsvp', 'pix-live/utils/get-challenge-type'], function (exports, _ember, _rsvp, _pixLiveUtilsGetChallengeType) {
   exports['default'] = _ember['default'].Route.extend({
 
     model: function model(params) {
@@ -2095,7 +2095,7 @@ define('pix-live/routes/challenges/get-preview', ['exports', 'ember', 'rsvp'], f
     setupController: function setupController(controller, model) {
       this._super(controller, model);
 
-      var challengeType = model.challenge.get('type').toLowerCase();
+      var challengeType = (0, _pixLiveUtilsGetChallengeType['default'])(model.challenge.get('type'));
       controller.set('challengeItemType', 'challenge-item-' + challengeType);
     }
 
@@ -2132,7 +2132,7 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'ember', 'rsvp']
 
   });
 });
-define('pix-live/routes/courses/get-challenge-preview', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
+define('pix-live/routes/courses/get-challenge-preview', ['exports', 'ember', 'rsvp', 'pix-live/utils/get-challenge-type'], function (exports, _ember, _rsvp, _pixLiveUtilsGetChallengeType) {
   exports['default'] = _ember['default'].Route.extend({
 
     model: function model(params) {
@@ -2164,7 +2164,7 @@ define('pix-live/routes/courses/get-challenge-preview', ['exports', 'ember', 'rs
     setupController: function setupController(controller, model) {
       this._super(controller, model);
 
-      var challengeType = model.challenge.get('type').toLowerCase();
+      var challengeType = (0, _pixLiveUtilsGetChallengeType['default'])(model.challenge.get('type'));
       controller.set('challengeItemType', 'challenge-item-' + challengeType);
     },
 
@@ -11017,6 +11017,27 @@ define('pix-live/utils/can-use-dom', ['exports', 'ember-metrics/utils/can-use-do
     }
   });
 });
+define('pix-live/utils/get-challenge-type', ['exports', 'lodash/lodash'], function (exports, _lodashLodash) {
+  exports['default'] = getChallengeType;
+
+  function getChallengeType(challengeTypeFromAirtable) {
+    var result = 'qcu'; // qcu by default, no error thrown
+
+    var challengeType = challengeTypeFromAirtable.toUpperCase();
+
+    if (_lodashLodash['default'].contains(['QCUIMG', 'QCU', 'QRU'], challengeType)) {
+      result = 'qcu';
+    } else if (_lodashLodash['default'].contains(['QCMIMG', 'QCM'], challengeType)) {
+      result = 'qcm';
+    } else if (_lodashLodash['default'].contains(['QROC'], challengeType)) {
+      result = 'qroc';
+    } else if (_lodashLodash['default'].contains(['QROCM'], challengeType)) {
+      result = 'qrocm';
+    }
+
+    return result;
+  }
+});
 define('pix-live/utils/object-transforms', ['exports', 'ember-metrics/utils/object-transforms'], function (exports, _emberMetricsUtilsObjectTransforms) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -11061,7 +11082,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+35b2aa75"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+e4772220"});
 }
 
 /* jshint ignore:end */
