@@ -35,7 +35,6 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
   challenge: null,
   assessment: null,
-  selectedProposal: null,
   errorMessage: null,
   answers: {},
 
@@ -49,18 +48,6 @@ const ChallengeItemGeneric = Ember.Component.extend({
   }),
 
   isChallengePreviewMode: computed.empty('assessment'),
-
-
-
-  onSelectedProposalChanged: Ember.observer('selectedProposal', function () {
-    this.set('errorMessage', null);
-  }),
-
-  didUpdateAttrs() {
-    this._super(...arguments);
-    this.set('selectedProposal', null);
-    this.set('answers', {});
-  },
 
   actions: {
 
