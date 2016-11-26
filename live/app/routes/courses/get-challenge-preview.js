@@ -29,6 +29,15 @@ export default Ember.Route.extend({
     });
   },
 
+  setupController: function(controller, model) {
+    this._super(controller, model);
+
+
+    const challengeType =  model.challenge.get('type').toLowerCase();
+    controller.set('challengeItemType', 'challenge-item-' + challengeType);
+
+  },
+
   serialize: function (model) {
     return model.assessment.get('course').then((course) => {
       return {
