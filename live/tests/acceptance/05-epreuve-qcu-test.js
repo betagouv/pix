@@ -9,7 +9,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe("Acceptance | 15 - Afficher un QCU | ", function () {
+describe("Acceptance | 05 - Afficher un QCU | ", function () {
 
   let application;
   let challenge;
@@ -23,7 +23,7 @@ describe("Acceptance | 15 - Afficher un QCU | ", function () {
   });
 
   before(function () {
-    return visit(`/assessments/first_assessment_id/challenges/ref_qcu_challenge_id`);
+    return visit(`/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id`);
   });
 
 
