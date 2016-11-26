@@ -542,216 +542,6 @@ define('pix-live/components/challenge-item-qrocm', ['exports', 'ember', 'lodash/
 
   exports['default'] = ChallengeItemQrocm;
 });
-define('pix-live/components/challenge-item', ['exports', 'ember', 'lodash/lodash'], function (exports, _ember, _lodashLodash) {
-  var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
-
-  var computed = _ember['default'].computed;
-  var inject = _ember['default'].inject;
-
-  function actionValidate() {
-    if (this._hasError()) {
-      this.set('errorMessage', this._getErrorMessage());
-      return this.sendAction('onError', this.get('errorMessage'));
-    }
-    var value = this._getAnswerValue();
-    this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
-  }
-
-  function actionSkip() {
-    this.set('errorMessage', null);
-    this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#');
-  }
-
-  function callOnlyOnce(targetFunction) {
-    if (EmberENV.useDelay) {
-      return _lodashLodash['default'].throttle(targetFunction, 1000, { leading: true, trailing: false });
-    } else {
-      return targetFunction;
-    }
-  }
-
-  function getFirstValueOfDictionary(answers) {
-    return _lodashLodash['default'].pairs(answers)[0][1];
-  }
-
-  var ChallengeItem = _ember['default'].Component.extend({
-
-    tagName: 'article',
-    classNames: ['challenge-item'],
-    attributeBindings: ['challenge.id:data-challenge-id'],
-
-    assessmentService: inject.service('assessment'),
-
-    challenge: null,
-    assessment: null,
-    selectedProposal: null,
-    errorMessage: null,
-    answers: {},
-
-    hasIllustration: computed.notEmpty('challenge.illustrationUrl'),
-    hasAttachment: computed.notEmpty('challenge.attachmentUrl'),
-    isChallengePreviewMode: computed.empty('assessment'),
-    hasError: computed.notEmpty('errorMessage'),
-
-    // FIXME: too much duplication :x
-    challengeIsTypeQROC: computed('challenge.type', function () {
-      var challengeType = this.get('challenge.type');
-      return ['QROC', 'QROCM'].any(function (type) {
-        return type === challengeType;
-      });
-    }),
-    challengeIsTypeQCM: computed('challenge.type', function () {
-      var challengeType = this.get('challenge.type');
-      return ['QCM', 'QCMIMG'].any(function (type) {
-        return type === challengeType;
-      });
-    }),
-    challengeIsTypeQCU: computed('challenge.type', function () {
-      var challengeType = this.get('challenge.type');
-      return ['QCU', 'QCUIMG'].any(function (type) {
-        return type === challengeType;
-      });
-    }),
-
-    onSelectedProposalChanged: _ember['default'].observer('selectedProposal', function () {
-      this.set('errorMessage', null);
-    }),
-
-    didUpdateAttrs: function didUpdateAttrs() {
-      this._super.apply(this, arguments);
-      this.set('selectedProposal', null);
-      this.set('answers', {});
-    },
-    actions: {
-
-      updateQrocAnswer: function updateQrocAnswer(event) {
-        var _event$currentTarget = event.currentTarget;
-        var name = _event$currentTarget.name;
-        var value = _event$currentTarget.value;
-
-        this.set('answers.' + name, value);
-        this.set('errorMessage', null);
-      },
-
-      updateQcmAnswer: function updateQcmAnswer(event) {
-        var _event$currentTarget2 = event.currentTarget;
-        var name = _event$currentTarget2.name;
-        var checked = _event$currentTarget2.checked;
-
-        var answers = this.get('answers');
-
-        if (checked) {
-          if (_ember['default'].isArray(answers)) {
-            answers.push(name);
-          } else {
-            answers = [name];
-          }
-        } else {
-          _lodashLodash['default'].remove(answers, function (answer) {
-            return answer === name;
-          });
-        }
-
-        this.set('answers', answers);
-        this.set('errorMessage', null);
-      },
-
-      // XXX: prevent double-clicking from creating double record.
-      validate: callOnlyOnce(actionValidate),
-
-      skip: callOnlyOnce(actionSkip)
-    },
-
-    // eslint-disable-next-line complexity
-    _getAnswerValue: function _getAnswerValue() {
-      var challengeType = this.get('challenge.type');
-      console.log(challengeType);
-
-      switch (challengeType) {
-        case 'QCUIMG':
-        case 'QRU':
-        case 'QCU':
-          {
-            var selectedValue = this.get('selectedProposal');
-            return '' + (selectedValue + 1);
-          }
-        case 'QCMIMG':
-        case 'QCM':
-          {
-            var answers = this.get('answers');
-            return '' + answers.map(function (answer) {
-              return parseInt(answer, 10) + 1;
-            }).join(', ');
-          }
-        case 'QROC':
-          {
-            var answers = this.get('answers');
-            return getFirstValueOfDictionary(answers);
-          }
-        case 'QROCM':
-          {
-            var answers = this.get('answers');
-            return _lodashLodash['default'].pairs(answers).map(function (_ref) {
-              var _ref2 = _slicedToArray(_ref, 2);
-
-              var key = _ref2[0];
-              var value = _ref2[1];
-              return key + ' = "' + value + '"';
-            }).join(', ');
-          }
-        default:
-          return null;
-      }
-    },
-
-    // eslint-disable-next-line complexity
-    _hasError: function _hasError() {
-      switch (this.get('challenge.type')) {
-        case 'QCUIMG':
-        case 'QRU':
-        case 'QCU':
-          return _ember['default'].isEmpty(this.get('selectedProposal'));
-        case 'QCMIMG':
-        case 'QCM':
-          return !(this.get('answers.length') >= 1);
-        case 'QROC':
-        case 'QROCM':
-          {
-            var values = _lodashLodash['default'].values(this.get('answers'));
-            return _ember['default'].isEmpty(values) || values.length < 1 || values.every(_ember['default'].isBlank);
-          }
-        default:
-          return false;
-      }
-    },
-
-    // eslint-disable-next-line complexity
-    _getErrorMessage: function _getErrorMessage() {
-      switch (this.get('challenge.type')) {
-        case 'QCUIMG':
-        case 'QCU':
-          return "Pour valider, sélectionner une réponse. Sinon, passer.";
-        case 'QCMIMG':
-        case 'QCM':
-          return "Pour valider, sélectionner au moins une réponse. Sinon, passer.";
-        case 'QROC':
-          return "Pour valider, saisir une réponse. Sinon, passer.";
-        case 'QRU':
-          return "Cocher la case avant de valider. Sinon, passer.";
-        case 'QROCM':
-          return "Pour valider, saisir au moins une réponse. Sinon, passer.";
-        default:
-          return "Pour valider, répondez correctement à l'épreuve. Sinon passer.";
-      }
-    }
-  });
-
-  ChallengeItem.reopenClass({
-    positionalParams: ['challenge', 'assessment']
-  });
-
-  exports['default'] = ChallengeItem;
-});
 define('pix-live/components/corner-ribbon', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({});
 });
@@ -2310,11 +2100,23 @@ define('pix-live/routes/assessments/get-results', ['exports', 'ember', 'rsvp'], 
 
   });
 });
-define('pix-live/routes/challenges/get-preview', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/routes/challenges/get-preview', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
   exports['default'] = _ember['default'].Route.extend({
 
     model: function model(params) {
-      return this.get('store').findRecord('challenge', params.challenge_id);
+      var store = this.get('store');
+      var challengePromise = store.findRecord('challenge', params.challenge_id);
+
+      return _rsvp['default'].hash({
+        challenge: challengePromise
+      });
+    },
+
+    setupController: function setupController(controller, model) {
+      this._super(controller, model);
+
+      var challengeType = model.challenge.get('type').toLowerCase();
+      controller.set('challengeItemType', 'challenge-item-' + challengeType);
     }
 
   });
@@ -2377,6 +2179,13 @@ define('pix-live/routes/courses/get-challenge-preview', ['exports', 'ember', 'rs
           assessment: assessment
         };
       });
+    },
+
+    setupController: function setupController(controller, model) {
+      this._super(controller, model);
+
+      var challengeType = model.challenge.get('type').toLowerCase();
+      controller.set('challengeItemType', 'challenge-item-' + challengeType);
     },
 
     serialize: function serialize(model) {
@@ -2760,7 +2569,7 @@ define("pix-live/templates/challenges/get-preview", ["exports"], function (expor
             "column": 0
           },
           "end": {
-            "line": 8,
+            "line": 6,
             "column": 0
           }
         },
@@ -2778,11 +2587,11 @@ define("pix-live/templates/challenges/get-preview", ["exports"], function (expor
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "container");
-        var el3 = dom.createTextNode("\n\n      ");
+        var el3 = dom.createTextNode("\n      ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n    ");
+        var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -2797,7 +2606,7 @@ define("pix-live/templates/challenges/get-preview", ["exports"], function (expor
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "challenge-item", [["get", "model", ["loc", [null, [4, 23], [4, 28]]], 0, 0, 0, 0]], [], ["loc", [null, [4, 6], [4, 30]]], 0, 0]],
+      statements: [["inline", "component", [["get", "challengeItemType", ["loc", [null, [3, 18], [3, 35]]], 0, 0, 0, 0], ["get", "model.challenge", ["loc", [null, [3, 36], [3, 51]]], 0, 0, 0, 0]], [], ["loc", [null, [3, 6], [3, 54]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -10799,11 +10608,13 @@ define("pix-live/templates/courses/get-challenge-preview", ["exports"], function
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "container");
-        var el3 = dom.createTextNode("\n\n      ");
+        var el3 = dom.createTextNode("\n\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("      ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n    ");
+        var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -10817,10 +10628,10 @@ define("pix-live/templates/courses/get-challenge-preview", ["exports"], function
         var element0 = dom.childAt(fragment, [0]);
         var morphs = new Array(2);
         morphs[0] = dom.createAttrMorph(element0, 'data-id');
-        morphs[1] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element0, [1]), 2, 2);
         return morphs;
       },
-      statements: [["attribute", "data-id", ["concat", [["get", "model.challenge.id", ["loc", [null, [1, 40], [1, 58]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "challenge-item", [["get", "model.challenge", ["loc", [null, [4, 23], [4, 38]]], 0, 0, 0, 0], ["get", "model.assessment", ["loc", [null, [4, 39], [4, 55]]], 0, 0, 0, 0]], ["onValidated", ["subexpr", "action", [["get", "navigate", ["loc", [null, [4, 76], [4, 84]]], 0, 0, 0, 0]], [], ["loc", [null, [4, 68], [4, 85]]], 0, 0]], ["loc", [null, [4, 6], [4, 87]]], 0, 0]],
+      statements: [["attribute", "data-id", ["concat", [["get", "model.challenge.id", ["loc", [null, [1, 40], [1, 58]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "component", [["get", "challengeItemType", ["loc", [null, [5, 18], [5, 35]]], 0, 0, 0, 0], ["get", "model.challenge", ["loc", [null, [5, 36], [5, 51]]], 0, 0, 0, 0], ["get", "model.assessment", ["loc", [null, [5, 52], [5, 68]]], 0, 0, 0, 0]], ["onValidated", ["subexpr", "action", [["get", "navigate", ["loc", [null, [5, 89], [5, 97]]], 0, 0, 0, 0]], [], ["loc", [null, [5, 81], [5, 98]]], 0, 0]], ["loc", [null, [5, 6], [5, 100]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -11836,7 +11647,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+4e0b453c"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+bf9ce353"});
 }
 
 /* jshint ignore:end */
