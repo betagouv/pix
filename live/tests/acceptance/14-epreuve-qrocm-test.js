@@ -9,7 +9,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe("Acceptance | 14 - Afficher un QROC | ", function () {
+describe("Acceptance | 14 - Afficher un QROCM | ", function () {
 
   let application;
   let challenge;
@@ -23,7 +23,7 @@ describe("Acceptance | 14 - Afficher un QROC | ", function () {
   });
 
   before(function () {
-    return visit(`/assessments/first_assessment_id/challenges/ref_qrocm_challenge_id`);
+    return visit(`/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id`);
   });
 
   it('14.1 It should render challenge instruction', function () {

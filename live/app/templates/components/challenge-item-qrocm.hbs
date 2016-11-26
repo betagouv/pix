@@ -1,0 +1,31 @@
+
+{{challenge-instruction instruction=instruction}}
+
+<div class="rounded-panel challenge-response">
+    <div class="challenge-proposals">
+
+      {{#each challenge._proposalsAsBlocks as |block|}}
+
+        {{#if block.text}}
+            <span>{{block.text}}</span>
+        {{/if}}
+
+        {{#if block.input}}
+          {{input name=block.input type="text" placeholder=block.placeholder change=(action "updateQrocAnswer") }}
+        {{/if}}
+
+        {{#if block.breakline}}
+            <hr>
+        {{/if}}
+
+      {{/each}}
+
+    </div>
+
+    {{challenge-actionbar
+        errorMessage=errorMessage
+        isChallengePreviewMode=isChallengePreviewMode
+        skip="skip"
+        validate="validate"}}
+
+</div>

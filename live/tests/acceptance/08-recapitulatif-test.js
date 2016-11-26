@@ -21,12 +21,12 @@ describe("Acceptance | 08 - Consulter l'écran de fin d'un test ", function() {
   });
 
   before(function() {
-    return visit(`/assessments/first_assessment_id/results`);
+    return visit(`/assessments/ref_assessment_id/results`);
   });
 
 
   it("08.0 se fait en accédant à l'URL /assessments/:assessment_id/results", function () {
-    expect(currentURL()).to.equal(`/assessments/first_assessment_id/results`);
+    expect(currentURL()).to.equal(`/assessments/ref_assessment_id/results`);
   });
 
   it("08.1 affiche une liste qui récapitule les réponses", function () {

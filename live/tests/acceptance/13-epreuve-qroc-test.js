@@ -23,7 +23,7 @@ describe("Acceptance | 13 - Afficher un QROC | ", function () {
   });
 
   before(function () {
-    return visit(`/assessments/first_assessment_id/challenges/ref_qroc_challenge_full`);
+    return visit(`/assessments/ref_assessment_id/challenges/ref_qroc_challenge_full`);
   });
 
   it('13.1 It should render challenge instruction', function () {
@@ -37,11 +37,17 @@ describe("Acceptance | 13 - Afficher un QROC | ", function () {
   });
 
   it('13.3 Error alert box should be displayed if user validate without checking a checkbox', function () {
-    $('a.challenge-item-actions__validate-action').click();
-    andThen(() => {
+    expect($('.alert')).to.have.lengthOf(0);
+    findWithAssert('a.challenge-item-actions__validate-action');
+    click($('a.challenge-item-actions__validate-action'));
+    return wait()
+    .then(() => {
+      // assertions for after async behavior
       expect($('.alert')).to.have.lengthOf(1);
       expect($('.alert').text().trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
     });
+    // andThen(() => {
+    // });
   });
 
 

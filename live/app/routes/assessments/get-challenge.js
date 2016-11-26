@@ -54,6 +54,11 @@ export default Ember.Route.extend({
       .then((course) => course.getProgress(model.challenge));
 
     controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
+
+    const challengeType =  model.challenge.get('type').toLowerCase();
+    console.log("challengeType is " + challengeType);
+    controller.set('challengeItemType', 'challenge-item-' + challengeType);
+
   },
 
   serialize: function (model) {
