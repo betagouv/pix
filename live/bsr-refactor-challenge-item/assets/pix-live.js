@@ -296,11 +296,9 @@ define('pix-live/components/challenge-actionbar', ['exports', 'ember'], function
     actions: {
 
       skip: function skip() {
-        console.log('skip, inside challenge-actionbar');
         this.sendAction('skip');
       },
       validate: function validate() {
-        console.log('validate, inside challenge-actionbar');
         this.sendAction('validate');
       }
     }
@@ -2069,7 +2067,6 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp',
       controller.set('progress', _emberData['default'].PromiseObject.create({ promise: progressToSet }));
 
       var challengeType = model.challenge.get('type').toLowerCase();
-      console.log("challengeType is " + challengeType);
       controller.set('challengeItemType', 'challenge-item-' + challengeType);
     },
 
@@ -11647,7 +11644,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+bf9ce353"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+b2f8a7a3"});
 }
 
 /* jshint ignore:end */
