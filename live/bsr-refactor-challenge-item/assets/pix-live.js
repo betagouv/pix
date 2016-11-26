@@ -308,45 +308,27 @@ define('pix-live/components/challenge-actionbar', ['exports', 'ember'], function
 define('pix-live/components/challenge-instruction', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({});
 });
-define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'lodash/lodash'], function (exports, _ember, _lodashLodash) {
+define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-live/utils/call-only-once'], function (exports, _ember, _pixLiveUtilsCallOnlyOnce) {
   var computed = _ember['default'].computed;
   var inject = _ember['default'].inject;
 
-  function actionValidate() {
-    if (this._hasError()) {
-      this.set('errorMessage', this._getErrorMessage());
-      return this.sendAction('onError', this.get('errorMessage'));
-    }
-    var value = this._getAnswerValue();
-    this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
-  }
-
-  function actionSkip() {
-    this.set('errorMessage', null);
-    this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#');
-  }
-
-  function callOnlyOnce(targetFunction) {
-    if (EmberENV.useDelay) {
-      return _lodashLodash['default'].throttle(targetFunction, 1000, { leading: true, trailing: false });
-    } else {
-      return targetFunction;
-    }
-  }
-
   var ChallengeItemGeneric = _ember['default'].Component.extend({
 
+    /* CSS properties
+    ––––––––––––––––––––––––––––––––––––––––––––––––––*/
     tagName: 'article',
     classNames: ['challenge-item'],
     attributeBindings: ['challenge.id:data-challenge-id'],
 
-    assessmentService: inject.service('assessment'),
-
+    /* Passed properties
+    ––––––––––––––––––––––––––––––––––––––––––––––––––*/
     challenge: null,
     assessment: null,
     errorMessage: null,
     answers: {},
 
+    /* Computed properties
+    ––––––––––––––––––––––––––––––––––––––––––––––––––*/
     instruction: _ember['default'].computed('challenge', function () {
       return {
         text: this.get('challenge.instruction'),
@@ -356,20 +338,26 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'lodas
       };
     }),
 
-    isChallengePreviewMode: computed.empty('assessment'),
-
+    /* Actions
+    ––––––––––––––––––––––––––––––––––––––––––––––––––*/
     actions: {
 
-      // XXX: prevent double-clicking from creating double record.
-      validate: callOnlyOnce(actionValidate),
+      // callOnlyOnce : prevent double-clicking from creating double record.
+      validate: (0, _pixLiveUtilsCallOnlyOnce['default'])(function () {
+        if (this._hasError()) {
+          this.set('errorMessage', this._getErrorMessage());
+          return this.sendAction('onError', this.get('errorMessage'));
+        }
+        var value = this._getAnswerValue();
+        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
+      }),
 
-      skip: callOnlyOnce(actionSkip)
+      skip: (0, _pixLiveUtilsCallOnlyOnce['default'])(function () {
+        this.set('errorMessage', null);
+        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#');
+      })
     }
 
-  });
-
-  ChallengeItemGeneric.reopenClass({
-    positionalParams: ['challenge', 'assessment']
   });
 
   exports['default'] = ChallengeItemGeneric;
@@ -2450,7 +2438,7 @@ define("pix-live/templates/assessments/get-challenge", ["exports"], function (ex
             "column": 0
           },
           "end": {
-            "line": 10,
+            "line": 14,
             "column": 0
           }
         },
@@ -2476,7 +2464,7 @@ define("pix-live/templates/assessments/get-challenge", ["exports"], function (ex
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
+        var el3 = dom.createTextNode("\n\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
@@ -2499,7 +2487,7 @@ define("pix-live/templates/assessments/get-challenge", ["exports"], function (ex
         morphs[2] = dom.createMorphAt(element1, 3, 3);
         return morphs;
       },
-      statements: [["inline", "course-banner", [], ["course", ["subexpr", "@mut", [["get", "model.assessment.course", ["loc", [null, [3, 25], [3, 48]]], 0, 0, 0, 0]], [], [], 0, 0], "withHomeLink", true], ["loc", [null, [3, 2], [3, 68]]], 0, 0], ["inline", "progress-bar", [], ["progress", ["subexpr", "@mut", [["get", "progress", ["loc", [null, [6, 28], [6, 36]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [6, 4], [6, 38]]], 0, 0], ["inline", "component", [["get", "challengeItemType", ["loc", [null, [7, 16], [7, 33]]], 0, 0, 0, 0], ["get", "model.challenge", ["loc", [null, [7, 34], [7, 49]]], 0, 0, 0, 0], ["get", "model.assessment", ["loc", [null, [7, 50], [7, 66]]], 0, 0, 0, 0]], ["onValidated", "saveAnswerAndNavigate"], ["loc", [null, [7, 4], [7, 104]]], 0, 0]],
+      statements: [["inline", "course-banner", [], ["course", ["subexpr", "@mut", [["get", "model.assessment.course", ["loc", [null, [3, 25], [3, 48]]], 0, 0, 0, 0]], [], [], 0, 0], "withHomeLink", true], ["loc", [null, [3, 2], [3, 68]]], 0, 0], ["inline", "progress-bar", [], ["progress", ["subexpr", "@mut", [["get", "progress", ["loc", [null, [6, 28], [6, 36]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [6, 4], [6, 38]]], 0, 0], ["inline", "component", [["get", "challengeItemType", ["loc", [null, [8, 16], [8, 33]]], 0, 0, 0, 0]], ["challenge", ["subexpr", "@mut", [["get", "model.challenge", ["loc", [null, [9, 18], [9, 33]]], 0, 0, 0, 0]], [], [], 0, 0], "assessment", ["subexpr", "@mut", [["get", "model.assessment", ["loc", [null, [10, 19], [10, 35]]], 0, 0, 0, 0]], [], [], 0, 0], "onValidated", "saveAnswerAndNavigate"], ["loc", [null, [8, 4], [11, 45]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -2559,7 +2547,7 @@ define("pix-live/templates/challenges/get-preview", ["exports"], function (expor
             "column": 0
           },
           "end": {
-            "line": 6,
+            "line": 7,
             "column": 0
           }
         },
@@ -2596,7 +2584,7 @@ define("pix-live/templates/challenges/get-preview", ["exports"], function (expor
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1]), 1, 1);
         return morphs;
       },
-      statements: [["inline", "component", [["get", "challengeItemType", ["loc", [null, [3, 18], [3, 35]]], 0, 0, 0, 0], ["get", "model.challenge", ["loc", [null, [3, 36], [3, 51]]], 0, 0, 0, 0]], [], ["loc", [null, [3, 6], [3, 54]]], 0, 0]],
+      statements: [["inline", "component", [["get", "challengeItemType", ["loc", [null, [3, 18], [3, 35]]], 0, 0, 0, 0]], ["challenge", ["subexpr", "@mut", [["get", "model.challenge", ["loc", [null, [4, 20], [4, 35]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 6], [4, 38]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -4995,82 +4983,6 @@ define("pix-live/templates/components/bs-select", ["exports"], function (exports
 });
 define("pix-live/templates/components/challenge-actionbar", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
-    var child0 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.8.3",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 1,
-              "column": 0
-            },
-            "end": {
-              "line": 11,
-              "column": 0
-            }
-          },
-          "moduleName": "pix-live/templates/components/challenge-actionbar.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("\n    ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("div");
-          dom.setAttribute(el1, "class", "challenge-item-actions");
-          var el2 = dom.createTextNode("\n      ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("a");
-          dom.setAttribute(el2, "class", "challenge-item-actions__action challenge-item-actions__skip-action");
-          var el3 = dom.createTextNode("\n        ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createElement("span");
-          dom.setAttribute(el3, "class", "challenge-item-actions__skip-action-text");
-          var el4 = dom.createTextNode("Je passe");
-          dom.appendChild(el3, el4);
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n      ");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n      ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("a");
-          dom.setAttribute(el2, "class", "challenge-item-actions__action challenge-item-actions__validate-action");
-          var el3 = dom.createTextNode("\n        ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createElement("span");
-          dom.setAttribute(el3, "class", "challenge-item-actions__validate-action-text");
-          var el4 = dom.createTextNode("Je valide");
-          dom.appendChild(el3, el4);
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n      ");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n    ");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1]);
-          var element1 = dom.childAt(element0, [1]);
-          var element2 = dom.childAt(element0, [3]);
-          var morphs = new Array(2);
-          morphs[0] = dom.createElementMorph(element1);
-          morphs[1] = dom.createElementMorph(element2);
-          return morphs;
-        },
-        statements: [["element", "action", ["skip"], [], ["loc", [null, [4, 84], [4, 101]]], 0, 0], ["element", "action", ["validate"], [], ["loc", [null, [7, 88], [7, 109]]], 0, 0]],
-        locals: [],
-        templates: []
-      };
-    })();
     return {
       meta: {
         "revision": "Ember@2.8.3",
@@ -5081,7 +4993,7 @@ define("pix-live/templates/components/challenge-actionbar", ["exports"], functio
             "column": 0
           },
           "end": {
-            "line": 12,
+            "line": 9,
             "column": 0
           }
         },
@@ -5093,20 +5005,57 @@ define("pix-live/templates/components/challenge-actionbar", ["exports"], functio
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createComment("");
+        var el1 = dom.createTextNode("  ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "challenge-item-actions");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("a");
+        dom.setAttribute(el2, "class", "challenge-item-actions__action challenge-item-actions__skip-action");
+        var el3 = dom.createTextNode("\n      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("span");
+        dom.setAttribute(el3, "class", "challenge-item-actions__skip-action-text");
+        var el4 = dom.createTextNode("Je passe");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("a");
+        dom.setAttribute(el2, "class", "challenge-item-actions__action challenge-item-actions__validate-action");
+        var el3 = dom.createTextNode("\n      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("span");
+        dom.setAttribute(el3, "class", "challenge-item-actions__validate-action-text");
+        var el4 = dom.createTextNode("Je valide");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var morphs = new Array(1);
-        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-        dom.insertBoundary(fragment, 0);
-        dom.insertBoundary(fragment, null);
+        var element0 = dom.childAt(fragment, [1]);
+        var element1 = dom.childAt(element0, [1]);
+        var element2 = dom.childAt(element0, [3]);
+        var morphs = new Array(2);
+        morphs[0] = dom.createElementMorph(element1);
+        morphs[1] = dom.createElementMorph(element2);
         return morphs;
       },
-      statements: [["block", "unless", [["get", "isChallengePreviewMode", ["loc", [null, [1, 10], [1, 32]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [1, 0], [11, 11]]]]],
+      statements: [["element", "action", ["skip"], [], ["loc", [null, [2, 82], [2, 99]]], 0, 0], ["element", "action", ["validate"], [], ["loc", [null, [5, 86], [5, 107]]], 0, 0]],
       locals: [],
-      templates: [child0]
+      templates: []
     };
   })());
 });
@@ -5489,6 +5438,47 @@ define("pix-live/templates/components/challenge-item-qcm", ["exports"], function
         templates: []
       };
     })();
+    var child2 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 26,
+              "column": 0
+            },
+            "end": {
+              "line": 30,
+              "column": 0
+            }
+          },
+          "moduleName": "pix-live/templates/components/challenge-item-qcm.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["inline", "challenge-actionbar", [], ["skip", "skip", "validate", "validate"], ["loc", [null, [27, 2], [29, 27]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
     return {
       meta: {
         "revision": "Ember@2.8.3",
@@ -5499,7 +5489,7 @@ define("pix-live/templates/components/challenge-item-qcm", ["exports"], function
             "column": 0
           },
           "end": {
-            "line": 30,
+            "line": 31,
             "column": 0
           }
         },
@@ -5541,8 +5531,6 @@ define("pix-live/templates/components/challenge-item-qcm", ["exports"], function
         dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
@@ -5551,11 +5539,12 @@ define("pix-live/templates/components/challenge-item-qcm", ["exports"], function
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3, 1]), 1, 1);
         morphs[2] = dom.createMorphAt(fragment, 5, 5, contextualElement);
         morphs[3] = dom.createMorphAt(fragment, 7, 7, contextualElement);
+        dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "instruction", ["loc", [null, [2, 36], [2, 47]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 0], [2, 49]]], 0, 0], ["block", "each", [["get", "challenge._proposalsAsArray", ["loc", [null, [7, 14], [7, 41]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 6], [15, 15]]]], ["block", "if", [["get", "errorMessage", ["loc", [null, [20, 6], [20, 18]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [20, 0], [24, 7]]]], ["inline", "challenge-actionbar", [], ["isChallengePreviewMode", ["subexpr", "@mut", [["get", "isChallengePreviewMode", ["loc", [null, [27, 27], [27, 49]]], 0, 0, 0, 0]], [], [], 0, 0], "skip", "skip", "validate", "validate"], ["loc", [null, [26, 0], [29, 25]]], 0, 0]],
+      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "instruction", ["loc", [null, [2, 36], [2, 47]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 0], [2, 49]]], 0, 0], ["block", "each", [["get", "challenge._proposalsAsArray", ["loc", [null, [7, 14], [7, 41]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 6], [15, 15]]]], ["block", "if", [["get", "errorMessage", ["loc", [null, [20, 6], [20, 18]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [20, 0], [24, 7]]]], ["block", "if", [["get", "assessment", ["loc", [null, [26, 6], [26, 16]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [26, 0], [30, 7]]]]],
       locals: [],
-      templates: [child0, child1]
+      templates: [child0, child1, child2]
     };
   })());
 });
@@ -5666,6 +5655,47 @@ define("pix-live/templates/components/challenge-item-qcu", ["exports"], function
         templates: []
       };
     })();
+    var child2 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 22,
+              "column": 0
+            },
+            "end": {
+              "line": 26,
+              "column": 0
+            }
+          },
+          "moduleName": "pix-live/templates/components/challenge-item-qcu.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["inline", "challenge-actionbar", [], ["skip", "skip", "validate", "validate"], ["loc", [null, [23, 2], [25, 27]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
     return {
       meta: {
         "revision": "Ember@2.8.3",
@@ -5676,7 +5706,7 @@ define("pix-live/templates/components/challenge-item-qcu", ["exports"], function
             "column": 0
           },
           "end": {
-            "line": 26,
+            "line": 28,
             "column": 0
           }
         },
@@ -5730,9 +5760,9 @@ define("pix-live/templates/components/challenge-item-qcu", ["exports"], function
         morphs[3] = dom.createMorphAt(fragment, 7, 7, contextualElement);
         return morphs;
       },
-      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "instruction", ["loc", [null, [2, 36], [2, 47]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 0], [2, 49]]], 0, 0], ["block", "each", [["get", "challenge._proposalsAsArray", ["loc", [null, [7, 14], [7, 41]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 6], [11, 15]]]], ["block", "if", [["get", "errorMessage", ["loc", [null, [16, 6], [16, 18]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [16, 0], [20, 7]]]], ["inline", "challenge-actionbar", [], ["isChallengePreviewMode", ["subexpr", "@mut", [["get", "isChallengePreviewMode", ["loc", [null, [23, 27], [23, 49]]], 0, 0, 0, 0]], [], [], 0, 0], "skip", "skip", "validate", "validate"], ["loc", [null, [22, 0], [25, 25]]], 0, 0]],
+      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "instruction", ["loc", [null, [2, 36], [2, 47]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 0], [2, 49]]], 0, 0], ["block", "each", [["get", "challenge._proposalsAsArray", ["loc", [null, [7, 14], [7, 41]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 6], [11, 15]]]], ["block", "if", [["get", "errorMessage", ["loc", [null, [16, 6], [16, 18]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [16, 0], [20, 7]]]], ["block", "if", [["get", "assessment", ["loc", [null, [22, 6], [22, 16]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [22, 0], [26, 7]]]]],
       locals: [],
-      templates: [child0, child1]
+      templates: [child0, child1, child2]
     };
   })());
 });
@@ -5961,6 +5991,47 @@ define("pix-live/templates/components/challenge-item-qroc", ["exports"], functio
         templates: []
       };
     })();
+    var child2 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 32,
+              "column": 0
+            },
+            "end": {
+              "line": 36,
+              "column": 0
+            }
+          },
+          "moduleName": "pix-live/templates/components/challenge-item-qroc.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["inline", "challenge-actionbar", [], ["skip", "skip", "validate", "validate"], ["loc", [null, [33, 2], [35, 27]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
     return {
       meta: {
         "revision": "Ember@2.8.3",
@@ -5971,7 +6042,7 @@ define("pix-live/templates/components/challenge-item-qroc", ["exports"], functio
             "column": 0
           },
           "end": {
-            "line": 36,
+            "line": 37,
             "column": 0
           }
         },
@@ -6013,8 +6084,6 @@ define("pix-live/templates/components/challenge-item-qroc", ["exports"], functio
         dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
@@ -6023,11 +6092,12 @@ define("pix-live/templates/components/challenge-item-qroc", ["exports"], functio
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3, 1]), 1, 1);
         morphs[2] = dom.createMorphAt(fragment, 5, 5, contextualElement);
         morphs[3] = dom.createMorphAt(fragment, 7, 7, contextualElement);
+        dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "instruction", ["loc", [null, [2, 36], [2, 47]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 0], [2, 49]]], 0, 0], ["block", "each", [["get", "challenge._proposalsAsBlocks", ["loc", [null, [7, 14], [7, 42]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 6], [21, 15]]]], ["block", "if", [["get", "errorMessage", ["loc", [null, [26, 6], [26, 18]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [26, 0], [30, 7]]]], ["inline", "challenge-actionbar", [], ["isChallengePreviewMode", ["subexpr", "@mut", [["get", "isChallengePreviewMode", ["loc", [null, [33, 27], [33, 49]]], 0, 0, 0, 0]], [], [], 0, 0], "skip", "skip", "validate", "validate"], ["loc", [null, [32, 0], [35, 25]]], 0, 0]],
+      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "instruction", ["loc", [null, [2, 36], [2, 47]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 0], [2, 49]]], 0, 0], ["block", "each", [["get", "challenge._proposalsAsBlocks", ["loc", [null, [7, 14], [7, 42]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 6], [21, 15]]]], ["block", "if", [["get", "errorMessage", ["loc", [null, [26, 6], [26, 18]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [26, 0], [30, 7]]]], ["block", "if", [["get", "assessment", ["loc", [null, [32, 6], [32, 16]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [32, 0], [36, 7]]]]],
       locals: [],
-      templates: [child0, child1]
+      templates: [child0, child1, child2]
     };
   })());
 });
@@ -6256,6 +6326,47 @@ define("pix-live/templates/components/challenge-item-qrocm", ["exports"], functi
         templates: []
       };
     })();
+    var child2 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 32,
+              "column": 0
+            },
+            "end": {
+              "line": 36,
+              "column": 0
+            }
+          },
+          "moduleName": "pix-live/templates/components/challenge-item-qrocm.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["inline", "challenge-actionbar", [], ["skip", "skip", "validate", "validate"], ["loc", [null, [33, 2], [35, 27]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
     return {
       meta: {
         "revision": "Ember@2.8.3",
@@ -6266,7 +6377,7 @@ define("pix-live/templates/components/challenge-item-qrocm", ["exports"], functi
             "column": 0
           },
           "end": {
-            "line": 36,
+            "line": 38,
             "column": 0
           }
         },
@@ -6320,9 +6431,9 @@ define("pix-live/templates/components/challenge-item-qrocm", ["exports"], functi
         morphs[3] = dom.createMorphAt(fragment, 7, 7, contextualElement);
         return morphs;
       },
-      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "instruction", ["loc", [null, [2, 36], [2, 47]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 0], [2, 49]]], 0, 0], ["block", "each", [["get", "challenge._proposalsAsBlocks", ["loc", [null, [7, 14], [7, 42]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 6], [21, 15]]]], ["block", "if", [["get", "errorMessage", ["loc", [null, [26, 6], [26, 18]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [26, 0], [30, 7]]]], ["inline", "challenge-actionbar", [], ["isChallengePreviewMode", ["subexpr", "@mut", [["get", "isChallengePreviewMode", ["loc", [null, [33, 27], [33, 49]]], 0, 0, 0, 0]], [], [], 0, 0], "skip", "skip", "validate", "validate"], ["loc", [null, [32, 0], [35, 25]]], 0, 0]],
+      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "instruction", ["loc", [null, [2, 36], [2, 47]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 0], [2, 49]]], 0, 0], ["block", "each", [["get", "challenge._proposalsAsBlocks", ["loc", [null, [7, 14], [7, 42]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 6], [21, 15]]]], ["block", "if", [["get", "errorMessage", ["loc", [null, [26, 6], [26, 18]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [26, 0], [30, 7]]]], ["block", "if", [["get", "assessment", ["loc", [null, [32, 6], [32, 16]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [32, 0], [36, 7]]]]],
       locals: [],
-      templates: [child0, child1]
+      templates: [child0, child1, child2]
     };
   })());
 });
@@ -9883,7 +9994,7 @@ define("pix-live/templates/courses/get-challenge-preview", ["exports"], function
             "column": 0
           },
           "end": {
-            "line": 8,
+            "line": 10,
             "column": 0
           }
         },
@@ -9902,9 +10013,7 @@ define("pix-live/templates/courses/get-challenge-preview", ["exports"], function
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "container");
-        var el3 = dom.createTextNode("\n\n");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("      ");
+        var el3 = dom.createTextNode("\n\n      ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
@@ -9922,10 +10031,10 @@ define("pix-live/templates/courses/get-challenge-preview", ["exports"], function
         var element0 = dom.childAt(fragment, [0]);
         var morphs = new Array(2);
         morphs[0] = dom.createAttrMorph(element0, 'data-id');
-        morphs[1] = dom.createMorphAt(dom.childAt(element0, [1]), 2, 2);
+        morphs[1] = dom.createMorphAt(dom.childAt(element0, [1]), 1, 1);
         return morphs;
       },
-      statements: [["attribute", "data-id", ["concat", [["get", "model.challenge.id", ["loc", [null, [1, 40], [1, 58]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "component", [["get", "challengeItemType", ["loc", [null, [5, 18], [5, 35]]], 0, 0, 0, 0], ["get", "model.challenge", ["loc", [null, [5, 36], [5, 51]]], 0, 0, 0, 0], ["get", "model.assessment", ["loc", [null, [5, 52], [5, 68]]], 0, 0, 0, 0]], ["onValidated", ["subexpr", "action", [["get", "navigate", ["loc", [null, [5, 89], [5, 97]]], 0, 0, 0, 0]], [], ["loc", [null, [5, 81], [5, 98]]], 0, 0]], ["loc", [null, [5, 6], [5, 100]]], 0, 0]],
+      statements: [["attribute", "data-id", ["concat", [["get", "model.challenge.id", ["loc", [null, [1, 40], [1, 58]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["inline", "component", [["get", "challengeItemType", ["loc", [null, [4, 18], [4, 35]]], 0, 0, 0, 0]], ["challenge", ["subexpr", "@mut", [["get", "model.challenge", ["loc", [null, [5, 20], [5, 35]]], 0, 0, 0, 0]], [], [], 0, 0], "assessment", ["subexpr", "@mut", [["get", "model.assessment", ["loc", [null, [6, 21], [6, 37]]], 0, 0, 0, 0]], [], [], 0, 0], "onValidated", ["subexpr", "action", [["get", "navigate", ["loc", [null, [7, 30], [7, 38]]], 0, 0, 0, 0]], [], ["loc", [null, [7, 22], [7, 39]]], 0, 0]], ["loc", [null, [4, 6], [7, 41]]], 0, 0]],
       locals: [],
       templates: []
     };
@@ -10889,6 +10998,17 @@ define('pix-live/tests/mirage/mirage/routes/post-assessments.lint-test', ['expor
     });
   });
 });
+define('pix-live/utils/call-only-once', ['exports', 'lodash/lodash'], function (exports, _lodashLodash) {
+  exports['default'] = callOnlyOnce;
+
+  function callOnlyOnce(targetFunction) {
+    if (EmberENV.useDelay) {
+      return _lodashLodash['default'].throttle(targetFunction, 1000, { leading: true, trailing: false });
+    } else {
+      return targetFunction;
+    }
+  }
+});
 define('pix-live/utils/can-use-dom', ['exports', 'ember-metrics/utils/can-use-dom'], function (exports, _emberMetricsUtilsCanUseDom) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -10941,7 +11061,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+f800c1a1"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+35b2aa75"});
 }
 
 /* jshint ignore:end */

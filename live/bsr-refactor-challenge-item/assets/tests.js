@@ -3220,6 +3220,18 @@ define('pix-live/tests/unit/services/session-test.lint-test', ['exports'], funct
     });
   });
 });
+define('pix-live/tests/utils/call-only-once.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - utils/call-only-once.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('utils/call-only-once.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 /* jshint ignore:start */
 
 require('pix-live/tests/test-helper');
