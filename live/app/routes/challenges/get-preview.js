@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
+import getChallengeType from '../../utils/get-challenge-type'
 
 export default Ember.Route.extend({
 
@@ -16,7 +17,7 @@ export default Ember.Route.extend({
     this._super(controller, model);
 
 
-    const challengeType =  model.challenge.get('type').toLowerCase();
+    const challengeType =  getChallengeType(model.challenge.get('type'));
     controller.set('challengeItemType', 'challenge-item-' + challengeType);
 
   }
