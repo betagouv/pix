@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
 import DS from 'ember-data';
+import getChallengeType from '../../utils/get-challenge-type'
 
 export default Ember.Route.extend({
 
@@ -55,7 +56,7 @@ export default Ember.Route.extend({
 
     controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
 
-    const challengeType =  model.challenge.get('type').toLowerCase();
+    const challengeType =  getChallengeType(model.challenge.get('type'));
     controller.set('challengeItemType', 'challenge-item-' + challengeType);
 
   },
