@@ -888,9 +888,9 @@ define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test.lint-test', [
     });
   });
 });
-define('pix-live/tests/acceptance/e2-previsualisation-test-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)('Acceptance | e2 - Prévisualisation  d\'un test |', function () {
+  (0, _mocha.describe)('Acceptance | f1 - Prévisualisation  d\'un test |', function () {
 
     var challenges = undefined;
     var course = undefined;
@@ -912,7 +912,7 @@ define('pix-live/tests/acceptance/e2-previsualisation-test-test', ['exports', 'm
         visit('/courses/ref_course_id/preview');
       });
 
-      (0, _mocha.it)("e2.1 L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
+      (0, _mocha.it)("f1.1 L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
         (0, _chai.expect)(currentURL()).to.equal('/courses/ref_course_id/preview');
       });
 
@@ -924,15 +924,15 @@ define('pix-live/tests/acceptance/e2-previsualisation-test-test', ['exports', 'm
           $preview = findWithAssert('#course-preview');
         });
 
-        (0, _mocha.it)('e2.2 le nom du test', function () {
+        (0, _mocha.it)('f1.2 le nom du test', function () {
           (0, _chai.expect)($preview.find('.course-name').text()).to.contains("First Course");
         });
 
-        (0, _mocha.it)('e2.3 la description du test', function () {
+        (0, _mocha.it)('f1.3 la description du test', function () {
           (0, _chai.expect)($preview.find('.course-description').text()).to.contains("Contient toutes les sortes d\'epreuves");
         });
 
-        (0, _mocha.it)('e2.4 un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
+        (0, _mocha.it)('f1.4 un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
           var $playButton = findWithAssert('.simulate-button');
           (0, _chai.expect)($playButton.text()).to.be.equals('Simuler le test');
           (0, _chai.expect)($playButton.attr('href')).to.be.equals('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
@@ -946,7 +946,7 @@ define('pix-live/tests/acceptance/e2-previsualisation-test-test', ['exports', 'm
         visit('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
       });
 
-      (0, _mocha.it)("e2.5 L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
+      (0, _mocha.it)("f1.5 L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
         (0, _chai.expect)(currentURL()).to.equal('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
       });
 
@@ -958,24 +958,24 @@ define('pix-live/tests/acceptance/e2-previsualisation-test-test', ['exports', 'm
           $challenge = findWithAssert('.challenge-preview');
         });
 
-        (0, _mocha.it)("e2.6 la consigne de l'épreuve", function () {
+        (0, _mocha.it)("f1.6 la consigne de l'épreuve", function () {
           (0, _chai.expect)($challenge.find('.challenge-instruction').html()).to.contain("Un QCM propose plusieurs choix");
         });
 
-        (0, _mocha.it)("e2.7 un bouton pour accéder à l'épreuve suivante", function () {
+        (0, _mocha.it)("f1.7 un bouton pour accéder à l'épreuve suivante", function () {
           (0, _chai.expect)(findWithAssert('a.challenge-item-actions__validate-action').text()).to.contains('Je valide');
         });
       });
     });
   });
 });
-define('pix-live/tests/acceptance/e2-previsualisation-test-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/f1-previsualisation-test-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - acceptance/e2-previsualisation-test-test.js', function () {
+  describe('ESLint - acceptance/f1-previsualisation-test-test.js', function () {
     it('should pass ESLint', function () {
       if (!true) {
-        var error = new chai.AssertionError('acceptance/e2-previsualisation-test-test.js should pass ESLint.\n');
+        var error = new chai.AssertionError('acceptance/f1-previsualisation-test-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
