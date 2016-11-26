@@ -4,7 +4,6 @@
 
   <div class="container">
     {{progress-bar progress=progress}}
-    {{!-- {{challenge-item model.challenge model.assessment onValidated="saveAnswerAndNavigate"}} --}}
     {{component challengeItemType model.challenge model.assessment onValidated="saveAnswerAndNavigate"}}
   </div>
 </div>

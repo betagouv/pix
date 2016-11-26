@@ -6,6 +6,12 @@ import ChallengeItemGeneric from './challenge-item-generic';
 
 const ChallengeItemQcu = ChallengeItemGeneric.extend({
 
+  selectedProposal: null,
+
+  onSelectedProposalChanged: Ember.observer('selectedProposal', function () {
+    this.set('errorMessage', null);
+  }),
+
   _hasError: function () {
     return Ember.isEmpty(this.get('selectedProposal'));
   },
