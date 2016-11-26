@@ -13,8 +13,13 @@
     </div>
 </div>
 
+{{#if errorMessage}}
+    <div class="alert alert-danger" role="alert">
+      {{errorMessage}}
+    </div>
+{{/if}}
+
 {{challenge-actionbar
-    errorMessage=errorMessage
     isChallengePreviewMode=isChallengePreviewMode
     skip="skip"
     validate="validate"}}
