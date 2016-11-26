@@ -1,43 +1,25 @@
 import Ember from 'ember';
-import _ from 'lodash/lodash';
+import callOnlyOnce from '../utils/call-only-once';
 
 const { computed, inject } = Ember;
 
-function actionValidate () {
-  if (this._hasError()) {
-    this.set('errorMessage', this._getErrorMessage());
-    return this.sendAction('onError', this.get('errorMessage'));
-  }
-  const value = this._getAnswerValue();
-  this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
-}
-
-function actionSkip () {
-  this.set('errorMessage', null);
-  this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
-}
-
-function callOnlyOnce (targetFunction) {
-  if (EmberENV.useDelay) {
-    return _.throttle(targetFunction, 1000, { leading: true, trailing: false});
-  } else {
-    return targetFunction;
-  }
-}
-
 const ChallengeItemGeneric = Ember.Component.extend({
 
+  /* CSS properties
+  ––––––––––––––––––––––––––––––––––––––––––––––––––*/
   tagName: 'article',
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
-  assessmentService: inject.service('assessment'),
-
+  /* Passed properties
+  ––––––––––––––––––––––––––––––––––––––––––––––––––*/
   challenge: null,
   assessment: null,
   errorMessage: null,
   answers: {},
 
+  /* Computed properties
+  ––––––––––––––––––––––––––––––––––––––––––––––––––*/
   instruction: Ember.computed('challenge', function() {
     return {
       text: this.get('challenge.instruction'),
@@ -47,20 +29,26 @@ const ChallengeItemGeneric = Ember.Component.extend({
     }
   }),
 
-  isChallengePreviewMode: computed.empty('assessment'),
-
+  /* Actions
+  ––––––––––––––––––––––––––––––––––––––––––––––––––*/
   actions: {
 
-    // XXX: prevent double-clicking from creating double record.
-    validate: callOnlyOnce(actionValidate),
+    // callOnlyOnce : prevent double-clicking from creating double record.
+    validate: callOnlyOnce(function () {
+      if (this._hasError()) {
+        this.set('errorMessage', this._getErrorMessage());
+        return this.sendAction('onError', this.get('errorMessage'));
+      }
+      const value = this._getAnswerValue();
+      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
+    }),
 
-    skip: callOnlyOnce(actionSkip)
+    skip: callOnlyOnce(function () {
+      this.set('errorMessage', null);
+      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
+    })
   }
 
-});
-
-ChallengeItemGeneric.reopenClass({
-  positionalParams: ['challenge', 'assessment']
 });
 
 export default ChallengeItemGeneric;

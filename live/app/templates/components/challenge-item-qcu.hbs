@@ -19,7 +19,9 @@
     </div>
 {{/if}}
 
-{{challenge-actionbar
-    isChallengePreviewMode=isChallengePreviewMode
-    skip="skip"
-    validate="validate"}}
+{{#if assessment}}
+  {{challenge-actionbar
+      skip="skip"
+      validate="validate"}}
+{{/if}}
+
