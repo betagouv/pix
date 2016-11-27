@@ -11,6 +11,7 @@ const ChallengeModel = Model.extend(ProposalsAsArrayMixin, ProposalsAsBlocksMixi
   proposals: attr('string'),
   illustrationUrl: attr('string'),
   type: attr('string'),
+  cbState:          [false, false, true, true, true],
   attachmentUrl: attr('string'),
   attachmentFilename: attr('string')
 

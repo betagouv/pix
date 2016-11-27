@@ -14,6 +14,12 @@ export default {
           type: 'challenges',
           id: challenge.data.id
         }
+      },
+      assessment: {
+        data: {
+          type: 'assessments',
+          id: 'raw_assessment_id'
+        }
       }
     }
   }

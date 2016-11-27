@@ -24,7 +24,7 @@ describe("Acceptance | 09 - Télécharger une pièce jointe depuis la consigne d
   describe("Quand l'épreuve contient une pièce jointe en consigne", function () {
 
     before(function () {
-      return visit(`/assessments/first_assessment_id/challenges/ref_qcm_challenge_id`);
+      return visit(`/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id`);
     });
 
     it("09.1 Il existe un moyen pour télécharger la pièce jointe d'une épreuve dans la zone de consigne", function () {

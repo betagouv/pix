@@ -11,7 +11,14 @@ export default Ember.Mixin.create({
 
     let elements = proposals.split(/\n\s*-\s*/);
     elements.shift();
-    return elements;
+    // return elements;
+    return [
+     ["1", false],
+     ["2", true],
+     ["3", false],
+     ["4", true],
+     ["5↵↵", false]
+    ];
   })
 });
 
