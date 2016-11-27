@@ -1,17 +1,19 @@
+const fs = require('fs');
 const path = require('path');
-const replace = require('replace-in-file');
 const pixLivePath = path.join(__dirname, '..');
+const lcovFile = `${pixLivePath}/coverage/lcov.info`;
 
-const options = {
-  files: `${pixLivePath}/coverage/lcov.info`,
-  replace: /SF:app/,
-  with: `SF:${pixLivePath}/app`
-};
+fs.readFile(lcovFile, 'utf8', (err, data) => {
 
-replace(options)
-  .then(changedFiles => {
-    console.log('Modified files:', changedFiles.join(', '));
-  })
-  .catch(error => {
-    console.error('Error occurred:', error);
+  if (err) return console.error(err);
+
+  const result = data.replace(/SF:app/g, `SF:${pixLivePath}/app`);
+
+  fs.writeFile(lcovFile, result, 'utf8', (err) => {
+
+    if (err) return console.error(err);
+
+    console.log('LCOV file converted.');
   });
+
+});
