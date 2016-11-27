@@ -3,8 +3,6 @@ import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
 
-  session: Ember.inject.service(),
-
   model(params) {
 
     const store = this.get('store');
