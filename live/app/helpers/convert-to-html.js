@@ -3,9 +3,9 @@ import _ from 'lodash/lodash';
 
 export function convertToHtml(params) {
   if (_.isArray(params) && params.length > 0) {
-    let converter = new showdown.Converter();
+    let converter = new Showdown.Converter();
     return converter.makeHtml(params[0]);
-  } 
+  }
   return '';
 }
 

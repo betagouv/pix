@@ -2,7 +2,6 @@ import {
   describe,
   it,
   before,
-  beforeEach,
   after
 } from 'mocha';
 import { expect } from 'chai';
@@ -12,7 +11,6 @@ import destroyApp from '../helpers/destroy-app';
 describe("Acceptance | b3 - Afficher un QROC | ", function () {
 
   let application;
-  let challenge;
 
   before(function () {
     application = startApp();
@@ -40,15 +38,11 @@ describe("Acceptance | b3 - Afficher un QROC | ", function () {
     expect($('.alert')).to.have.lengthOf(0);
     findWithAssert('a.challenge-item-actions__validate-action');
     click($('a.challenge-item-actions__validate-action'));
-    return wait()
-    .then(() => {
+    andThen(() => {
       // assertions for after async behavior
       expect($('.alert')).to.have.lengthOf(1);
       expect($('.alert').text().trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
     });
-    // andThen(() => {
-    // });
   });
-
 
 });

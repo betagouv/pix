@@ -11,8 +11,6 @@ import destroyApp from '../helpers/destroy-app';
 describe('Acceptance | a4 - Démarrer un test |', function () {
 
   let application;
-  let challenge;
-  let assessment;
 
   before(function () {
     application = startApp();

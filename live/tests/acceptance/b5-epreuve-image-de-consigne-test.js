@@ -2,7 +2,6 @@ import {
   describe,
   it,
   before,
-  beforeEach,
   after
 } from 'mocha';
 import { expect } from 'chai';
@@ -10,8 +9,8 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
 describe("Acceptance | b5 - Afficher une image sous la consigne | ", function () {
+
   let application;
-  let challenge;
 
   before(function () {
     application = startApp();

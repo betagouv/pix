@@ -2,7 +2,6 @@ import {
   describe,
   it,
   before,
-  beforeEach,
   after
 } from 'mocha';
 import { expect } from 'chai';
@@ -12,7 +11,6 @@ import destroyApp from '../helpers/destroy-app';
 describe("Acceptance | b2 - Afficher un QCM | ", function () {
 
   let application;
-  let challenge;
 
   before(function () {
     application = startApp();
@@ -50,7 +48,6 @@ describe("Acceptance | b2 - Afficher un QCM | ", function () {
   });
 
   it('b2.5 It should render an ordered list of instruction', function () {
-    const $proposals = $('input[type="checkbox"]');
     expect($('.challenge-proposal:nth-child(1)').text().trim()).to.equal('possibilite 1, et/ou');
     expect($('.challenge-proposal:nth-child(2)').text().trim()).to.equal('possibilite 2, et/ou');
     expect($('.challenge-proposal:nth-child(3)').text().trim()).to.equal('possibilite 3, et/ou');

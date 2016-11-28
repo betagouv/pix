@@ -1,8 +1,5 @@
 import Ember from 'ember';
-import _ from 'lodash/lodash';
 import ChallengeItemGeneric from './challenge-item-generic';
-
-
 
 const ChallengeItemQcu = ChallengeItemGeneric.extend({
 

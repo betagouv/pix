@@ -4,7 +4,7 @@ import {
   describeModule,
   it
 } from 'ember-mocha';
-import { before, describe } from "mocha";
+import { describe } from "mocha";
 import Ember from 'ember';
 
 describeModule(

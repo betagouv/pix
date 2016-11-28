@@ -11,7 +11,6 @@ import destroyApp from '../helpers/destroy-app';
 describe('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
 
   let application;
-  let challenge;
 
   before(function () {
     application = startApp();
@@ -22,8 +21,6 @@ describe('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
   });
 
   describe('e1 - Prévisualiser une épreuve |', function () {
-
-    let challengeId;
 
     before(function () {
       return visit(`/challenges/ref_qcu_challenge_id/preview`);

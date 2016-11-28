@@ -2,7 +2,6 @@ import {
   describe,
   it,
   before,
-  beforeEach,
   after
 } from 'mocha';
 import { expect } from 'chai';
@@ -12,7 +11,6 @@ import destroyApp from '../helpers/destroy-app';
 describe("Acceptance | b7 - Points communs a toutes les épreuves | ", function () {
 
   let application;
-  let challenge;
 
   before(function () {
     application = startApp();

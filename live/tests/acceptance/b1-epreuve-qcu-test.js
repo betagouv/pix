@@ -2,7 +2,6 @@ import {
   describe,
   it,
   before,
-  beforeEach,
   after
 } from 'mocha';
 import { expect } from 'chai';
@@ -12,7 +11,6 @@ import destroyApp from '../helpers/destroy-app';
 describe("Acceptance | b1 - Afficher un QCU | ", function () {
 
   let application;
-  let challenge;
 
   before(function () {
     application = startApp();
@@ -33,7 +31,6 @@ describe("Acceptance | b1 - Afficher un QCU | ", function () {
   });
 
   it('b1.2 Une liste ordonnée d\'instruction doit s\'afficher', function () {
-    const $proposals = $('input[type="radio"]');
     expect($('.challenge-proposal:nth-child(1)').text().trim()).to.equal('1ere possibilite');
     expect($('.challenge-proposal:nth-child(2)').text().trim()).to.equal('2eme possibilite');
     expect($('.challenge-proposal:nth-child(3)').text().trim()).to.equal('3eme possibilite');

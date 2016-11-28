@@ -2,8 +2,6 @@ import Ember from 'ember';
 import _ from 'lodash/lodash';
 import ChallengeItemGeneric from './challenge-item-generic';
 
-
-
 const ChallengeItemQcm = ChallengeItemGeneric.extend({
 
   _hasError: function () {
@@ -20,7 +18,7 @@ const ChallengeItemQcm = ChallengeItemGeneric.extend({
   },
 
   actions: {
-    
+
     updateQcmAnswer(event) {
       const { name, checked } = event.currentTarget;
       let answers = this.get('answers');

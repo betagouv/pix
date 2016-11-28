@@ -71,7 +71,7 @@ describe("Acceptance | c1 - Consulter l'écran de fin d'un test ", function() {
   });
 
   it("c1.9. propose un moyen pour revenir à la liste des tests", function () {
-    const $homeLink = findWithAssert('button.assessment-results-link-home');
+    findWithAssert('button.assessment-results-link-home');
   });
 
 

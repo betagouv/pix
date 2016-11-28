@@ -10,10 +10,6 @@ import destroyApp from '../helpers/destroy-app';
 
 describe('Acceptance | f1 - Prévisualisation  d\'un test |', function () {
 
-  let challenges;
-  let course;
-  let lastChallengeId;
-
   let application;
 
   before(function () {

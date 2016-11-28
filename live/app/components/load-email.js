@@ -21,7 +21,7 @@ export default Ember.Component.extend({
           method: 'POST',
           data: {email:emailValue},
           dataType: 'json',
-          success: function(data) {
+          success: function() {
             $loadEmailButton.classList.add('load-email-button-is-active');
             $('.first-page-email-enter').attr('disabled', 'disabled');
             $('button.load-email-button').attr('disabled', 'disabled');

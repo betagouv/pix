@@ -7,7 +7,6 @@ import {
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import { beforeEach } from "mocha";
 
 function getValidateActionLink () {
  return $('a.challenge-item-actions__validate-action')[0];
@@ -16,10 +15,6 @@ function getValidateActionLink () {
 describe('Acceptance | d1 - Valider une épreuve |', function () {
 
   let application;
-  let challenges;
-
-  let lastChallengeId;
-
   let $progressBar;
 
   before(function () {

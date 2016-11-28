@@ -2,7 +2,6 @@ import {
   describe,
   it,
   before,
-  beforeEach,
   after
 } from 'mocha';
 import { expect } from 'chai';
@@ -10,8 +9,8 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
 describe("Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d'une épreuve | ", function () {
+
   let application;
-  let challenge;
 
   before(function () {
     application = startApp();

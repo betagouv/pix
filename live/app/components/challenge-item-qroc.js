@@ -2,8 +2,6 @@ import Ember from 'ember';
 import _ from 'lodash/lodash';
 import ChallengeItemGeneric from './challenge-item-generic';
 
-
-
 const ChallengeItemQroc = ChallengeItemGeneric.extend({
 
   _hasError: function () {

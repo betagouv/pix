@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import callOnlyOnce from '../utils/call-only-once';
 
-const { computed, inject } = Ember;
-
 const ChallengeItemGeneric = Ember.Component.extend({
 
   /* CSS properties
