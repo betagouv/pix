@@ -9,13 +9,6 @@ const ChallengeItemGeneric = Ember.Component.extend({
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
-  /* Passed properties
-  ––––––––––––––––––––––––––––––––––––––––––––––––––*/
-  // challenge: null,
-  // assessment: null,
-  // errorMessage: null,
-  // answers: {},
-
   /* Computed properties
   ––––––––––––––––––––––––––––––––––––––––––––––––––*/
   instruction: Ember.computed('challenge', function() {

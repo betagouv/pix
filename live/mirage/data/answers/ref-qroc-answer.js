@@ -5,7 +5,7 @@ export default {
     type: 'answers',
     id: 'ref_answer_qroc_id',
     attributes: {
-      value: '1,2,5',
+      value: 'Elena',
       result: 'pending'
     },
     relationships: {

@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import ValueAsArrayOfBoolean from './answer/value-as-array-of-boolean';
 
 const { Model, attr, belongsTo } = DS;
 const { computed } = Ember;
 
-export default Model.extend({
+export default Model.extend(ValueAsArrayOfBoolean, {
 
   value: attr('string'),
   result: attr('string'),

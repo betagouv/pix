@@ -5,7 +5,7 @@ export default {
     type: 'answers',
     id: 'ref_answer_qcu_id',
     attributes: {
-      value: '1,2,5',
+      value: '2',
       result: 'ko'
     },
     relationships: {
