@@ -309,8 +309,6 @@ define('pix-live/components/challenge-instruction', ['exports', 'ember'], functi
   exports['default'] = _ember['default'].Component.extend({});
 });
 define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-live/utils/call-only-once'], function (exports, _ember, _pixLiveUtilsCallOnlyOnce) {
-  var computed = _ember['default'].computed;
-  var inject = _ember['default'].inject;
 
   var ChallengeItemGeneric = _ember['default'].Component.extend({
 
@@ -378,7 +376,7 @@ define('pix-live/components/challenge-item-qcm', ['exports', 'ember', 'lodash/lo
     },
 
     _getErrorMessage: function _getErrorMessage() {
-      return "Pour valider, sélectionner au moins une réponse. Sinon, passer.";
+      return 'Pour valider, sélectionner au moins une réponse. Sinon, passer.';
     },
 
     actions: {
@@ -412,7 +410,7 @@ define('pix-live/components/challenge-item-qcm', ['exports', 'ember', 'lodash/lo
 
   exports['default'] = ChallengeItemQcm;
 });
-define('pix-live/components/challenge-item-qcu', ['exports', 'ember', 'lodash/lodash', 'pix-live/components/challenge-item-generic'], function (exports, _ember, _lodashLodash, _pixLiveComponentsChallengeItemGeneric) {
+define('pix-live/components/challenge-item-qcu', ['exports', 'ember', 'pix-live/components/challenge-item-generic'], function (exports, _ember, _pixLiveComponentsChallengeItemGeneric) {
 
   var ChallengeItemQcu = _pixLiveComponentsChallengeItemGeneric['default'].extend({
 
@@ -432,7 +430,7 @@ define('pix-live/components/challenge-item-qcu', ['exports', 'ember', 'lodash/lo
     },
 
     _getErrorMessage: function _getErrorMessage() {
-      return "Pour valider, sélectionner une réponse. Sinon, passer.";
+      return 'Pour valider, sélectionner une réponse. Sinon, passer.';
     },
 
     actions: {}
@@ -463,7 +461,7 @@ define('pix-live/components/challenge-item-qroc', ['exports', 'ember', 'lodash/l
     },
 
     _getErrorMessage: function _getErrorMessage() {
-      return "Pour valider, saisir une réponse. Sinon, passer.";
+      return 'Pour valider, saisir une réponse. Sinon, passer.';
     },
 
     actions: {
@@ -504,7 +502,7 @@ define('pix-live/components/challenge-item-qrocm', ['exports', 'ember', 'lodash/
     },
 
     _getErrorMessage: function _getErrorMessage() {
-      return "Pour valider, saisir au moins une réponse. Sinon, passer.";
+      return 'Pour valider, saisir au moins une réponse. Sinon, passer.';
     },
 
     actions: {
@@ -665,7 +663,7 @@ define('pix-live/components/load-email', ['exports', 'ember'], function (exports
             method: 'POST',
             data: { email: emailValue },
             dataType: 'json',
-            success: function success(data) {
+            success: function success() {
               $loadEmailButton.classList.add('load-email-button-is-active');
               $('.first-page-email-enter').attr('disabled', 'disabled');
               $('button.load-email-button').attr('disabled', 'disabled');
@@ -840,6 +838,7 @@ define('pix-live/helpers/convert-to-html', ['exports', 'ember', 'lodash/lodash']
 
   exports['default'] = _ember['default'].Helper.helper(convertToHtml);
 });
+/* global showdown */
 define('pix-live/helpers/div', ['exports', 'ember-math-helpers/helpers/div'], function (exports, _emberMathHelpersHelpersDiv) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -1154,20 +1153,6 @@ define('pix-live/initializers/ember-data', ['exports', 'ember-data/setup-contain
     initialize: _emberDataSetupContainer['default']
   };
 });
-define('pix-live/initializers/enable-sentry', ['exports'], function (exports) {
-  exports.initialize = initialize;
-
-  function initialize() {
-    if (EmberENV.environment) {
-      Raven.config('https://4b60c9f39a844832956f840b9d0d1359@sentry.io/99479').install();
-    }
-  }
-
-  exports['default'] = {
-    name: 'enable-sentry',
-    initialize: initialize
-  };
-});
 define('pix-live/initializers/export-application-global', ['exports', 'ember', 'pix-live/config/environment'], function (exports, _ember, _pixLiveConfigEnvironment) {
   exports.initialize = initialize;
 
@@ -1319,10 +1304,10 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
   exports['default'] = function () {
 
     this.passthrough('/write-coverage');
+    this.passthrough('https://formspree.io/**');
+    this.post('https://sentry.io/**', function () {});
 
     this.namespace = 'http://localhost:3000/api';
-
-    this.passthrough('https://formspree.io/**');
 
     this.get('/courses', _pixLiveMirageRoutesGetCourses['default']);
     this.get('/courses/:id', _pixLiveMirageRoutesGetCourse['default']);
@@ -1443,9 +1428,9 @@ define('pix-live/mirage/data/assessments/raw-assessment', ['exports', 'pix-live/
       type: 'assessments',
       id: 'raw_assessment_id',
       attributes: {
-        "user-id": 'user_id',
-        "user-name": 'Jon Snow',
-        "user-email": 'jsnow@winterfell.got'
+        'user-id': 'user_id',
+        'user-name': 'Jon Snow',
+        'user-email': 'jsnow@winterfell.got'
       },
       relationships: {
         course: {
@@ -1470,9 +1455,9 @@ define('pix-live/mirage/data/assessments/ref-assessment', ['exports', 'pix-live/
       type: 'assessments',
       id: 'ref_assessment_id',
       attributes: {
-        "user-id": 'user_id',
-        "user-name": 'Jon Snow',
-        "user-email": 'jsnow@winterfell.got'
+        'user-id': 'user_id',
+        'user-name': 'Jon Snow',
+        'user-email': 'jsnow@winterfell.got'
       },
       relationships: {
         course: {
@@ -1508,8 +1493,8 @@ define('pix-live/mirage/data/challenges/raw-qcm-challenge', ['exports'], functio
       id: 'raw_qcm_challenge_id',
       attributes: {
         type: 'QCM',
-        instruction: "Un QCM est fait pour proposer plusieurs choix",
-        proposals: "- soit possibilite A, et/ou" + "\n - soit possibilite B, et/ou" + "\n - soit possibilite C, et/ou " + "\n - soit possibilite D"
+        instruction: 'Un QCM est fait pour proposer plusieurs choix',
+        proposals: '- soit possibilite A, et/ou' + '\n - soit possibilite B, et/ou' + '\n - soit possibilite C, et/ou' + '\n - soit possibilite D'
       }
     }
   };
@@ -1522,11 +1507,11 @@ define('pix-live/mirage/data/challenges/ref-qcm-challenge', ['exports'], functio
       id: 'ref_qcm_challenge_id',
       attributes: {
         type: 'QCM',
-        instruction: "Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)",
+        instruction: 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)',
         'attachment-url': 'http://example_of_url',
         'attachment-filename': 'example_of_filename.pdf',
         'illustration-url': 'http://fakeimg.pl/350x200/?text=PictureOfQCM',
-        proposals: "- possibilite 1, et/ou" + "\n - possibilite 2, et/ou" + "\n - possibilite 3, et/ou " + "\n - possibilite 4"
+        proposals: '- possibilite 1, et/ou' + '\n - possibilite 2, et/ou' + '\n - possibilite 3, et/ou' + '\n - possibilite 4'
       }
     }
   };
@@ -1542,8 +1527,8 @@ define('pix-live/mirage/data/challenges/ref-qcu-challenge', ['exports'], functio
         'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',
         'attachment-url': 'http://example_of_url',
         'attachment-filename': 'filename.pdf',
-        instruction: "Un QCU propose plusieurs choix, l\'utilisateur peut en choisir [un seul](http://link.unseul.url)",
-        proposals: "" + "- 1ere possibilite\n " + "- 2eme possibilite\n " + "- 3eme possibilite\n" + "- 4eme possibilite"
+        instruction: 'Un QCU propose plusieurs choix, l\'utilisateur peut en choisir [un seul](http://link.unseul.url)',
+        proposals: '' + '- 1ere possibilite\n ' + '- 2eme possibilite\n ' + '- 3eme possibilite\n' + '- 4eme possibilite'
       }
     }
   };
@@ -1555,8 +1540,8 @@ define('pix-live/mirage/data/challenges/ref-qroc-challenge', ['exports'], functi
       id: 'ref_qroc_challenge_full',
       attributes: {
         type: 'QROC',
-        instruction: "Un QROC est une question ouverte avec un simple champ texte libre pour répondre",
-        proposals: "${PrenomElizabeth2#Quel est le prenom d\'Elizabeth2"
+        instruction: 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre',
+        proposals: '${PrenomElizabeth2#Quel est le prenom d\'Elizabeth2'
       }
     }
   };
@@ -1568,27 +1553,27 @@ define('pix-live/mirage/data/challenges/ref-qrocm-challenge', ['exports'], funct
       id: 'ref_qrocm_challenge_id',
       attributes: {
         type: 'QROCM',
-        instruction: "Un QROCM est une question [ouverte](http://link.ouverte.url) avec plusieurs champs texte libre pour repondre",
-        proposals: "Trois logiciels libres : ${logiciel} ${logiciel} ${logiciel}"
+        instruction: 'Un QROCM est une question [ouverte](http://link.ouverte.url) avec plusieurs champs texte libre pour repondre',
+        proposals: 'Trois logiciels libres : ${logiciel} ${logiciel} ${logiciel}'
       }
     }
   };
 });
-define("pix-live/mirage/data/courses/raw-course", ["exports", "pix-live/mirage/data/challenges/raw-qcm-challenge"], function (exports, _pixLiveMirageDataChallengesRawQcmChallenge) {
-  exports["default"] = {
+define('pix-live/mirage/data/courses/raw-course', ['exports', 'pix-live/mirage/data/challenges/raw-qcm-challenge'], function (exports, _pixLiveMirageDataChallengesRawQcmChallenge) {
+  exports['default'] = {
     data: {
-      type: "courses",
-      id: "raw_course_id",
+      type: 'courses',
+      id: 'raw_course_id',
       attributes: {
-        name: "Raw Course",
-        description: "Contient un minimum d\'information",
+        name: 'Raw Course',
+        description: 'Contient un minimum d\'information',
         duration: 10
       },
       relationships: {
         challenges: {
           data: [{
-            type: "challenges",
-            id: _pixLiveMirageDataChallengesRawQcmChallenge["default"].data.id
+            type: 'challenges',
+            id: _pixLiveMirageDataChallengesRawQcmChallenge['default'].data.id
           }]
         }
       }
@@ -1598,27 +1583,27 @@ define("pix-live/mirage/data/courses/raw-course", ["exports", "pix-live/mirage/d
 define('pix-live/mirage/data/courses/ref-course', ['exports', 'pix-live/mirage/data/challenges/ref-qcm-challenge', 'pix-live/mirage/data/challenges/ref-qcu-challenge', 'pix-live/mirage/data/challenges/ref-qroc-challenge', 'pix-live/mirage/data/challenges/ref-qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesRefQcmChallenge, _pixLiveMirageDataChallengesRefQcuChallenge, _pixLiveMirageDataChallengesRefQrocChallenge, _pixLiveMirageDataChallengesRefQrocmChallenge) {
   exports['default'] = {
     data: {
-      type: "courses",
-      id: "ref_course_id",
+      type: 'courses',
+      id: 'ref_course_id',
       attributes: {
-        name: "First Course",
-        description: "Contient toutes les sortes d\'epreuves",
+        name: 'First Course',
+        description: 'Contient toutes les sortes d\'epreuves',
         duration: 10,
-        "image-url": 'http://fakeimg.pl/350x200/?text=First%20Course'
+        'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course'
       },
       relationships: {
         challenges: {
           data: [{
-            type: "challenges",
+            type: 'challenges',
             id: _pixLiveMirageDataChallengesRefQcmChallenge['default'].data.id
           }, {
-            type: "challenges",
+            type: 'challenges',
             id: _pixLiveMirageDataChallengesRefQcuChallenge['default'].data.id
           }, {
-            type: "challenges",
+            type: 'challenges',
             id: _pixLiveMirageDataChallengesRefQrocChallenge['default'].data.id
           }, {
-            type: "challenges",
+            type: 'challenges',
             id: _pixLiveMirageDataChallengesRefQrocmChallenge['default'].data.id
           }]
         }
@@ -1757,12 +1742,11 @@ define('pix-live/mirage/routes/post-assessments', ['exports', 'lodash/lodash', '
     }
   };
 });
-define('pix-live/models/answer', ['exports', 'ember-data'], function (exports, _emberData) {
+define('pix-live/models/answer', ['exports', 'ember', 'ember-data'], function (exports, _ember, _emberData) {
   var Model = _emberData['default'].Model;
   var attr = _emberData['default'].attr;
   var belongsTo = _emberData['default'].belongsTo;
-  var _Ember = Ember;
-  var computed = _Ember.computed;
+  var computed = _ember['default'].computed;
   exports['default'] = Model.extend({
 
     value: attr('string'),
@@ -1782,14 +1766,12 @@ define('pix-live/models/answer', ['exports', 'ember-data'], function (exports, _
 
   });
 });
-define('pix-live/models/assessment', ['exports', 'ember-data'], function (exports, _emberData) {
+define('pix-live/models/assessment', ['exports', 'ember', 'ember-data'], function (exports, _ember, _emberData) {
   var attr = _emberData['default'].attr;
   var Model = _emberData['default'].Model;
   var belongsTo = _emberData['default'].belongsTo;
   var hasMany = _emberData['default'].hasMany;
-  var _Ember = Ember;
-  var computed = _Ember.computed;
-  var isEqual = _Ember.isEqual;
+  var computed = _ember['default'].computed;
   exports['default'] = Model.extend({
 
     course: belongsTo('course', { inverse: null }),
@@ -1844,7 +1826,7 @@ define('pix-live/models/challenge/proposals-as-blocks-mixin', ['exports', 'ember
       case undefined:
         lastIsOpening = false;
         break;
-      case "":
+      case '':
         break;
       default:
         if (lastIsOpening) {
@@ -2243,11 +2225,11 @@ define('pix-live/services/assessment', ['exports', 'ember'], function (exports, 
 
   });
 });
-define('pix-live/services/delay', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
+define('pix-live/services/delay', ['exports', 'rsvp', 'ember', 'pix-live/config/environment'], function (exports, _rsvp, _ember, _pixLiveConfigEnvironment) {
   exports['default'] = _ember['default'].Service.extend({
     ms: function ms(_ms) {
       /* istanbul ignore if  */
-      if (EmberENV.useDelay) {
+      if (_pixLiveConfigEnvironment['default'].EmberENV.useDelay) {
         //unreachable by tests
         return new _rsvp['default'].Promise(function (resolve) {
           setTimeout(resolve, _ms);
@@ -6679,9 +6661,9 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var element0 = dom.childAt(fragment, [1]);
+            var element1 = dom.childAt(fragment, [1]);
             var morphs = new Array(1);
-            morphs[0] = dom.createAttrMorph(element0, 'src');
+            morphs[0] = dom.createAttrMorph(element1, 'src');
             return morphs;
           },
           statements: [["attribute", "src", ["concat", [["get", "course.imageUrl", ["loc", [null, [28, 48], [28, 63]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
@@ -6716,17 +6698,19 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("img");
             dom.setAttribute(el1, "class", "course-picture");
-            dom.setAttribute(el1, "src", "images/course-default-image.png");
             dom.setAttribute(el1, "alt", "Illustration du test");
             dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("\n");
             dom.appendChild(el0, el1);
             return el0;
           },
-          buildRenderNodes: function buildRenderNodes() {
-            return [];
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var element0 = dom.childAt(fragment, [1]);
+            var morphs = new Array(1);
+            morphs[0] = dom.createAttrMorph(element0, 'src');
+            return morphs;
           },
-          statements: [],
+          statements: [["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [30, 47], [30, 54]]], 0, 0, 0, 0], "images/course-default-image.png"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
           locals: [],
           templates: []
         };
@@ -6738,11 +6722,11 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
             "loc": {
               "source": null,
               "start": {
-                "line": 44,
+                "line": 46,
                 "column": 14
               },
               "end": {
-                "line": 46,
+                "line": 48,
                 "column": 14
               }
             },
@@ -6776,7 +6760,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
               "column": 8
             },
             "end": {
-              "line": 50,
+              "line": 52,
               "column": 8
             }
           },
@@ -6808,7 +6792,11 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
           dom.appendChild(el3, el4);
           var el4 = dom.createElement("h4");
           dom.setAttribute(el4, "class", "course-name");
+          var el5 = dom.createTextNode("\n                ");
+          dom.appendChild(el4, el5);
           var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n              ");
           dom.appendChild(el4, el5);
           dom.appendChild(el3, el4);
           var el4 = dom.createTextNode("\n              ");
@@ -6858,18 +6846,18 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element1 = dom.childAt(fragment, [1, 1]);
-          var element2 = dom.childAt(element1, [3]);
+          var element2 = dom.childAt(fragment, [1, 1]);
+          var element3 = dom.childAt(element2, [3]);
           var morphs = new Array(6);
-          morphs[0] = dom.createAttrMorph(element1, 'data-id');
-          morphs[1] = dom.createMorphAt(element1, 1, 1);
-          morphs[2] = dom.createMorphAt(dom.childAt(element2, [1]), 0, 0);
-          morphs[3] = dom.createMorphAt(dom.childAt(element2, [3]), 1, 1);
-          morphs[4] = dom.createMorphAt(dom.childAt(element1, [5]), 1, 1);
-          morphs[5] = dom.createMorphAt(dom.childAt(element1, [7]), 1, 1);
+          morphs[0] = dom.createAttrMorph(element2, 'data-id');
+          morphs[1] = dom.createMorphAt(element2, 1, 1);
+          morphs[2] = dom.createMorphAt(dom.childAt(element3, [1]), 1, 1);
+          morphs[3] = dom.createMorphAt(dom.childAt(element3, [3]), 1, 1);
+          morphs[4] = dom.createMorphAt(dom.childAt(element2, [5]), 1, 1);
+          morphs[5] = dom.createMorphAt(dom.childAt(element2, [7]), 1, 1);
           return morphs;
         },
-        statements: [["attribute", "data-id", ["concat", [["get", "course.id", ["loc", [null, [26, 56], [26, 65]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "course.imageUrl", ["loc", [null, [27, 18], [27, 33]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [27, 12], [31, 19]]]], ["content", "course.name", ["loc", [null, [34, 38], [34, 55]]], 0, 0, 0, 0], ["content", "course.description", ["loc", [null, [36, 16], [36, 40]]], 0, 0, 0, 0], ["content", "course.challenges.length", ["loc", [null, [41, 14], [41, 44]]], 0, 0, 0, 0], ["block", "link-to", ["courses.create-assessment", ["get", "course.id", ["loc", [null, [44, 53], [44, 62]]], 0, 0, 0, 0]], ["class", "button button-primary start-button"], 2, null, ["loc", [null, [44, 14], [46, 26]]]]],
+        statements: [["attribute", "data-id", ["concat", [["get", "course.id", ["loc", [null, [26, 56], [26, 65]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "course.imageUrl", ["loc", [null, [27, 18], [27, 33]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [27, 12], [31, 19]]]], ["content", "course.name", ["loc", [null, [35, 16], [35, 33]]], 0, 0, 0, 0], ["content", "course.description", ["loc", [null, [38, 16], [38, 40]]], 0, 0, 0, 0], ["content", "course.challenges.length", ["loc", [null, [43, 14], [43, 44]]], 0, 0, 0, 0], ["block", "link-to", ["courses.create-assessment", ["get", "course.id", ["loc", [null, [46, 53], [46, 62]]], 0, 0, 0, 0]], ["class", "button button-primary start-button"], 2, null, ["loc", [null, [46, 14], [48, 26]]]]],
         locals: ["course"],
         templates: [child0, child1, child2]
       };
@@ -6884,7 +6872,7 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
             "column": 0
           },
           "end": {
-            "line": 122,
+            "line": 124,
             "column": 0
           }
         },
@@ -7239,29 +7227,29 @@ define("pix-live/templates/components/first-page", ["exports"], function (export
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element3 = dom.childAt(fragment, [0]);
-        var element4 = dom.childAt(fragment, [2]);
-        var element5 = dom.childAt(element4, [1, 1, 1]);
-        var element6 = dom.childAt(element4, [3, 1, 1]);
-        var element7 = dom.childAt(element4, [5, 1, 1]);
-        var element8 = dom.childAt(element4, [7, 1, 1]);
-        var element9 = dom.childAt(element4, [9, 1, 1]);
-        var element10 = dom.childAt(fragment, [4]);
-        var element11 = dom.childAt(element10, [1, 1]);
-        var element12 = dom.childAt(element10, [5, 1]);
+        var element4 = dom.childAt(fragment, [0]);
+        var element5 = dom.childAt(fragment, [2]);
+        var element6 = dom.childAt(element5, [1, 1, 1]);
+        var element7 = dom.childAt(element5, [3, 1, 1]);
+        var element8 = dom.childAt(element5, [5, 1, 1]);
+        var element9 = dom.childAt(element5, [7, 1, 1]);
+        var element10 = dom.childAt(element5, [9, 1, 1]);
+        var element11 = dom.childAt(fragment, [4]);
+        var element12 = dom.childAt(element11, [1, 1]);
+        var element13 = dom.childAt(element11, [5, 1]);
         var morphs = new Array(9);
-        morphs[0] = dom.createMorphAt(dom.childAt(element3, [3, 5, 1]), 1, 1);
-        morphs[1] = dom.createMorphAt(dom.childAt(element3, [5, 1, 3]), 1, 1);
-        morphs[2] = dom.createAttrMorph(element5, 'src');
-        morphs[3] = dom.createAttrMorph(element6, 'src');
-        morphs[4] = dom.createAttrMorph(element7, 'src');
-        morphs[5] = dom.createAttrMorph(element8, 'src');
-        morphs[6] = dom.createAttrMorph(element9, 'src');
-        morphs[7] = dom.createAttrMorph(element11, 'src');
-        morphs[8] = dom.createAttrMorph(element12, 'src');
+        morphs[0] = dom.createMorphAt(dom.childAt(element4, [3, 5, 1]), 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element4, [5, 1, 3]), 1, 1);
+        morphs[2] = dom.createAttrMorph(element6, 'src');
+        morphs[3] = dom.createAttrMorph(element7, 'src');
+        morphs[4] = dom.createAttrMorph(element8, 'src');
+        morphs[5] = dom.createAttrMorph(element9, 'src');
+        morphs[6] = dom.createAttrMorph(element10, 'src');
+        morphs[7] = dom.createAttrMorph(element12, 'src');
+        morphs[8] = dom.createAttrMorph(element13, 'src');
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [24, 16], [24, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 8], [50, 17]]]], ["content", "load-email", ["loc", [null, [62, 8], [62, 22]]], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [73, 18], [73, 25]]], 0, 0, 0, 0], "images/icon-cafe.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [80, 18], [80, 25]]], 0, 0, 0, 0], "images/icon-monde.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [87, 18], [87, 25]]], 0, 0, 0, 0], "images/icon-reference.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [94, 18], [94, 25]]], 0, 0, 0, 0], "images/icon-evolutif.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [101, 18], [101, 25]]], 0, 0, 0, 0], "images/icon-gratuit.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [111, 18], [111, 25]]], 0, 0, 0, 0], "images/mnsr3.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [119, 18], [119, 25]]], 0, 0, 0, 0], "images/pix-logo.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+      statements: [["block", "each", [["get", "model", ["loc", [null, [24, 16], [24, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [24, 8], [52, 17]]]], ["content", "load-email", ["loc", [null, [64, 8], [64, 22]]], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [75, 18], [75, 25]]], 0, 0, 0, 0], "images/icon-cafe.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [82, 18], [82, 25]]], 0, 0, 0, 0], "images/icon-monde.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [89, 18], [89, 25]]], 0, 0, 0, 0], "images/icon-reference.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [96, 18], [96, 25]]], 0, 0, 0, 0], "images/icon-evolutif.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [103, 18], [103, 25]]], 0, 0, 0, 0], "images/icon-gratuit.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [113, 18], [113, 25]]], 0, 0, 0, 0], "images/mnsr3.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [121, 18], [121, 25]]], 0, 0, 0, 0], "images/pix-logo.svg"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
       locals: [],
       templates: [child0]
     };
@@ -10283,12 +10271,12 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var element0 = dom.childAt(fragment, [1]);
+            var element1 = dom.childAt(fragment, [1]);
             var morphs = new Array(1);
-            morphs[0] = dom.createAttrMorph(element0, 'src');
+            morphs[0] = dom.createAttrMorph(element1, 'src');
             return morphs;
           },
-          statements: [["attribute", "src", ["concat", [["get", "course.imageUrl", ["loc", [null, [9, 60], [9, 75]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+          statements: [["attribute", "src", ["concat", [["get", "course.imageUrl", ["loc", [null, [9, 59], [9, 74]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
           locals: [],
           templates: []
         };
@@ -10320,17 +10308,19 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("img");
             dom.setAttribute(el1, "class", "course-picture");
-            dom.setAttribute(el1, "src", "images/course-default-image.png");
             dom.setAttribute(el1, "alt", "Illustration du test");
             dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("\n");
             dom.appendChild(el0, el1);
             return el0;
           },
-          buildRenderNodes: function buildRenderNodes() {
-            return [];
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var element0 = dom.childAt(fragment, [1]);
+            var morphs = new Array(1);
+            morphs[0] = dom.createAttrMorph(element0, 'src');
+            return morphs;
           },
-          statements: [],
+          statements: [["attribute", "src", ["concat", [["get", "rootURL", ["loc", [null, [11, 59], [11, 66]]], 0, 0, 0, 0], "images/course-default-image.png"], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
           locals: [],
           templates: []
         };
@@ -10342,11 +10332,11 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             "loc": {
               "source": null,
               "start": {
-                "line": 25,
+                "line": 27,
                 "column": 24
               },
               "end": {
-                "line": 27,
+                "line": 29,
                 "column": 24
               }
             },
@@ -10380,7 +10370,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
               "column": 10
             },
             "end": {
-              "line": 31,
+              "line": 33,
               "column": 10
             }
           },
@@ -10412,7 +10402,11 @@ define("pix-live/templates/home", ["exports"], function (exports) {
           dom.appendChild(el3, el4);
           var el4 = dom.createElement("h4");
           dom.setAttribute(el4, "class", "course-name");
+          var el5 = dom.createTextNode("\n                            ");
+          dom.appendChild(el4, el5);
           var el5 = dom.createComment("");
+          dom.appendChild(el4, el5);
+          var el5 = dom.createTextNode("\n                          ");
           dom.appendChild(el4, el5);
           dom.appendChild(el3, el4);
           var el4 = dom.createTextNode("\n                          ");
@@ -10462,18 +10456,18 @@ define("pix-live/templates/home", ["exports"], function (exports) {
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element1 = dom.childAt(fragment, [1, 1]);
-          var element2 = dom.childAt(element1, [3]);
+          var element2 = dom.childAt(fragment, [1, 1]);
+          var element3 = dom.childAt(element2, [3]);
           var morphs = new Array(6);
-          morphs[0] = dom.createAttrMorph(element1, 'data-id');
-          morphs[1] = dom.createMorphAt(element1, 1, 1);
-          morphs[2] = dom.createMorphAt(dom.childAt(element2, [1]), 0, 0);
-          morphs[3] = dom.createMorphAt(dom.childAt(element2, [3]), 1, 1);
-          morphs[4] = dom.createMorphAt(dom.childAt(element1, [5]), 1, 1);
-          morphs[5] = dom.createMorphAt(dom.childAt(element1, [7]), 1, 1);
+          morphs[0] = dom.createAttrMorph(element2, 'data-id');
+          morphs[1] = dom.createMorphAt(element2, 1, 1);
+          morphs[2] = dom.createMorphAt(dom.childAt(element3, [1]), 1, 1);
+          morphs[3] = dom.createMorphAt(dom.childAt(element3, [3]), 1, 1);
+          morphs[4] = dom.createMorphAt(dom.childAt(element2, [5]), 1, 1);
+          morphs[5] = dom.createMorphAt(dom.childAt(element2, [7]), 1, 1);
           return morphs;
         },
-        statements: [["attribute", "data-id", ["concat", [["get", "course.id", ["loc", [null, [7, 64], [7, 73]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "course.imageUrl", ["loc", [null, [8, 26], [8, 41]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [8, 20], [12, 27]]]], ["content", "course.name", ["loc", [null, [15, 50], [15, 67]]], 0, 0, 0, 0], ["content", "course.description", ["loc", [null, [17, 28], [17, 52]]], 0, 0, 0, 0], ["content", "course.challenges.length", ["loc", [null, [22, 24], [22, 54]]], 0, 0, 0, 0], ["block", "link-to", ["courses.create-assessment", ["get", "course.id", ["loc", [null, [25, 63], [25, 72]]], 0, 0, 0, 0]], ["class", "button button-primary start-button"], 2, null, ["loc", [null, [25, 24], [27, 36]]]]],
+        statements: [["attribute", "data-id", ["concat", [["get", "course.id", ["loc", [null, [7, 63], [7, 72]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "course.imageUrl", ["loc", [null, [8, 26], [8, 41]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [8, 20], [12, 27]]]], ["content", "course.name", ["loc", [null, [16, 28], [16, 43]]], 0, 0, 0, 0], ["content", "course.description", ["loc", [null, [19, 28], [19, 50]]], 0, 0, 0, 0], ["content", "course.challenges.length", ["loc", [null, [24, 24], [24, 52]]], 0, 0, 0, 0], ["block", "link-to", ["courses.create-assessment", ["get", "course.id", ["loc", [null, [27, 63], [27, 72]]], 0, 0, 0, 0]], ["class", "button button-primary start-button"], 2, null, ["loc", [null, [27, 24], [29, 36]]]]],
         locals: ["course"],
         templates: [child0, child1, child2]
       };
@@ -10488,7 +10482,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 37,
+            "line": 39,
             "column": 0
           }
         },
@@ -10532,7 +10526,7 @@ define("pix-live/templates/home", ["exports"], function (exports) {
         morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 1, 1]), 1, 1);
         return morphs;
       },
-      statements: [["block", "each", [["get", "model", ["loc", [null, [5, 18], [5, 23]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [5, 10], [31, 19]]]]],
+      statements: [["block", "each", [["get", "model", ["loc", [null, [5, 18], [5, 23]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [5, 10], [33, 19]]]]],
       locals: [],
       templates: [child0]
     };
@@ -11000,11 +10994,11 @@ define('pix-live/tests/mirage/mirage/routes/post-assessments.lint-test', ['expor
     });
   });
 });
-define('pix-live/utils/call-only-once', ['exports', 'lodash/lodash'], function (exports, _lodashLodash) {
+define('pix-live/utils/call-only-once', ['exports', 'pix-live/config/environment', 'lodash/lodash'], function (exports, _pixLiveConfigEnvironment, _lodashLodash) {
   exports['default'] = callOnlyOnce;
 
   function callOnlyOnce(targetFunction) {
-    if (EmberENV.useDelay) {
+    if (_pixLiveConfigEnvironment['default'].EmberENV.useDelay) {
       return _lodashLodash['default'].throttle(targetFunction, 1000, { leading: true, trailing: false });
     } else {
       return targetFunction;
@@ -11084,7 +11078,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+03ca1a85"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+b394ca03"});
 }
 
 /* jshint ignore:end */
