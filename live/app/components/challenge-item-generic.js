@@ -3,15 +3,11 @@ import callOnlyOnce from '../utils/call-only-once';
 
 const ChallengeItemGeneric = Ember.Component.extend({
 
-  /* CSS properties
-  ––––––––––––––––––––––––––––––––––––––––––––––––––*/
   tagName: 'article',
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
 
-  /* Actions
-  ––––––––––––––––––––––––––––––––––––––––––––––––––*/
   actions: {
 
     // callOnlyOnce : prevent double-clicking from creating double record.
