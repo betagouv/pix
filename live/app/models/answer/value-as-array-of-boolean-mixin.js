@@ -7,12 +7,12 @@ export default Ember.Mixin.create({
     let result = [];
     
     let arrayValues = this.get('value').split(',');
-    let rawValues = _.map(arrayValues, (rawValue, index) => { return rawValue - 1; });
-    let maxValue = _.max(rawValues);
+    let rawValues = _.map(arrayValues, (rawValue) => { return rawValue - 1; });
+    let maxValue = _.max(rawValues) + 1;
     
-    result = _.range(rawValues).map(() => { return false; });
+    result = _.range(maxValue).map(() => { return false; });
 
-    _.each(rawValues, (rawValue, index) => {
+    _.each(rawValues, (rawValue) => {
       result[rawValue] = true;
     });
 

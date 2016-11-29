@@ -24,15 +24,13 @@ export default Ember.Route.extend({
 
     return Ember.RSVP.allSettled(spotsPromises).then((spotPromisesResults)=> {
       if (!spotPromisesResults.isAny('state', 'rejected')) {
-        console.log('allsettled!')
-          // Yay ! all promised resolved
-          return RSVP.hash({
-            assessment: spotsPromises[0],
-            challenge: spotsPromises[1],
-            answers: spotsPromises[2]
-          });
+        // Yay ! all promised resolved
+        return RSVP.hash({
+          assessment: spotsPromises[0],
+          challenge: spotsPromises[1],
+          answers: spotsPromises[2]
+        });
       } else {
-        console.log('erroneus');
         // answerPromise is allowed to fail (404 not found). Resolve other promises
         return RSVP.hash({
           assessment: spotsPromises[0],

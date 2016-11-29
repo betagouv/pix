@@ -1,8 +1,7 @@
 import Ember from 'ember';
-import _ from 'lodash/lodash';
 
 export default Ember.Mixin.create({
-  _instructionAsObject: Ember.computed('proposals', function () {
+  _instructionAsObject: Ember.computed('instruction', function () {
     return {
       text: this.get('instruction'),
       illustrationUrl: this.get('illustrationUrl'),
