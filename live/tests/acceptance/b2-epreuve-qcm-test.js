@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe("Acceptance | b2 - Afficher un QCM | ", function () {
+describe('Acceptance | b2 - Afficher un QCM | ', function () {
 
   let application;
 
@@ -21,7 +21,7 @@ describe("Acceptance | b2 - Afficher un QCM | ", function () {
   });
 
   before(function () {
-    return visit(`/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id`);
+    return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
   });
 
   it('b2.1 It should render challenge instruction', function () {
@@ -30,14 +30,14 @@ describe("Acceptance | b2 - Afficher un QCM | ", function () {
     expect($('.challenge-instruction').text()).to.equal('Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs');
   });
 
-  it("b2.2 Le contenu de type [foo](bar) doit être converti sous forme de lien", function() {
+  it('b2.2 Le contenu de type [foo](bar) doit être converti sous forme de lien', function() {
     let $links = findWithAssert('.challenge-instruction a');
     expect($links.length).to.equal(1);
     expect($links.text()).to.equal('plusieurs');
     expect($links.attr('href')).to.equal('http://link.plusieurs.url');
   });
 
-  it("b2.3 Les liens doivent s'ouvrir dans un nouvel onglet", function() {
+  it('b2.3 Les liens doivent s\'ouvrir dans un nouvel onglet', function() {
     let $links = findWithAssert('.challenge-instruction a');
     expect($links.attr('target')).to.equal('_blank');
   });

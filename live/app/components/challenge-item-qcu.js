@@ -19,7 +19,7 @@ const ChallengeItemQcu = ChallengeItemGeneric.extend({
   },
 
   _getErrorMessage() {
-    return "Pour valider, sélectionner une réponse. Sinon, passer.";
+    return 'Pour valider, sélectionner une réponse. Sinon, passer.';
   },
 
   actions: {

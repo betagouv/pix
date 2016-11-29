@@ -15,7 +15,7 @@ const ChallengeItemQroc = ChallengeItemGeneric.extend({
   },
 
   _getErrorMessage() {
-    return "Pour valider, saisir une réponse. Sinon, passer.";
+    return 'Pour valider, saisir une réponse. Sinon, passer.';
   },
 
   actions: {

@@ -14,7 +14,7 @@ const ChallengeItemQcm = ChallengeItemGeneric.extend({
   },
 
   _getErrorMessage() {
-    return "Pour valider, sélectionner au moins une réponse. Sinon, passer.";
+    return 'Pour valider, sélectionner au moins une réponse. Sinon, passer.';
   },
 
   actions: {

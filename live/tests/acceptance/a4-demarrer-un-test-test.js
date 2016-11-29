@@ -27,7 +27,7 @@ describe('Acceptance | a4 - Démarrer un test |', function () {
   it('a4.1 Je peux démarrer un test depuis la liste des tests de la page d\'accueil', function() {
     const $startLink = findWithAssert('div[data-id="ref_course_id"] .start-button')[0];
     expect($startLink.text).to.contains('Démarrer le test');
-    expect($startLink.href).to.contains(`/courses/ref_course_id/assessment`);
+    expect($startLink.href).to.contains('/courses/ref_course_id/assessment');
   });
 
   it('a4.2 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {

@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe("Acceptance | b3 - Afficher un QROC | ", function () {
+describe('Acceptance | b3 - Afficher un QROC | ', function () {
 
   let application;
 
@@ -21,7 +21,7 @@ describe("Acceptance | b3 - Afficher un QROC | ", function () {
   });
 
   before(function () {
-    return visit(`/assessments/ref_assessment_id/challenges/ref_qroc_challenge_full`);
+    return visit('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_full');
   });
 
   it('b3.1 It should render challenge instruction', function () {

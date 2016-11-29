@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe("Acceptance | b4 - Afficher un QROCM | ", function () {
+describe('Acceptance | b4 - Afficher un QROCM | ', function () {
 
   let application;
 
@@ -21,7 +21,7 @@ describe("Acceptance | b4 - Afficher un QROCM | ", function () {
   });
 
   before(function () {
-    return visit(`/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id`);
+    return visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
   });
 
   it('b4.1 It should render challenge instruction', function () {
