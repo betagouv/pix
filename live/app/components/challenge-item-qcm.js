@@ -5,11 +5,14 @@ import ChallengeItemGeneric from './challenge-item-generic';
 const ChallengeItemQcm = ChallengeItemGeneric.extend({
 
   _hasError: function () {
-    return !(this.get('answerValue.length') >= 1);
+    return !(this._getAnswerValue() >= 1);
   },
 
+  // XXX : in theory, this is not allowed.
+  // Data should not be extracted from the DOM, but pass to parent component through action.
+  // However, this implement is far more simpler and avoid nicely view-model initialization problems.
   _getAnswerValue() {
-    return this.get('answerValue');
+    return this.$('input:checkbox:checked').map(function () {return this.name;}).get().join(',');
   },
 
   _getErrorMessage() {
@@ -18,7 +21,6 @@ const ChallengeItemQcm = ChallengeItemGeneric.extend({
 
   actions: {
     updateAnswer: function(answerValue) {
-      this.set('answerValue', answerValue);
       this.set('errorMessage', null);
     }
   }

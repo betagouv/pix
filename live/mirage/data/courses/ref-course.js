@@ -16,12 +16,12 @@ export default {
     },
     relationships: {
       challenges: {
-        data: [{
-          type: 'challenges',
-          id: refQcmChallengeFull.data.id
-        }, {
+        data: [ {
           type: 'challenges',
           id: refQcuChallengeFull.data.id
+        },{
+          type: 'challenges',
+          id: refQcmChallengeFull.data.id
         }, {
           type: 'challenges',
           id: refQrocChallengeFull.data.id
