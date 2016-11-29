@@ -1,7 +1,7 @@
 {{#each labeledCheckboxes as |labeledCheckbox index|}}
   <p class="challenge-proposal">
       <label>
-        {{input type="checkbox" checked=labeledCheckbox.[1]}}
+        {{input type="checkbox" name=(inc index) checked=labeledCheckbox.[1]}}
         {{labeledCheckbox.[0]}}
       </label>
   </p>  
