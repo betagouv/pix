@@ -33,7 +33,6 @@ define('pix-live/app', ['exports', 'ember', 'pix-live/resolver', 'ember-load-ini
 define('pix-live/components/app-header', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     tagName: 'header',
-    session: _ember['default'].inject.service(),
     router: _ember['default'].inject.service()
   });
 });
@@ -568,78 +567,6 @@ define('pix-live/components/get-result', ['exports', 'ember'], function (exports
     }
   });
 });
-define('pix-live/components/identification-form', ['exports', 'ember', 'lodash/lodash'], function (exports, _ember, _lodashLodash) {
-
-  // XXX from http://stackoverflow.com/a/46181/2120773
-  function validateEmail(email) {
-
-    var regExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return regExp.test(email);
-  }
-
-  function getInputErrors(user) {
-
-    var errors = [];
-
-    if (_ember['default'].isEmpty(user.firstName)) {
-      errors.push('Vous devez saisir votre prénom.');
-    }
-    if (_ember['default'].isEmpty(user.lastName)) {
-      errors.push('Vous devez saisir votre nom.');
-    }
-    if (_ember['default'].isEmpty(user.email) || !validateEmail(user.email)) {
-      errors.push('Vous devez saisir une adresse e-mail valide.');
-    }
-    return errors;
-  }
-
-  function removeErrorMessage(component) {
-
-    component.set('errorMessage', null);
-  }
-
-  function setUserInSession(component, user) {
-
-    var session = component.get('session');
-    session.set('user', user);
-    session.save();
-  }
-
-  function callActionOnUserIdentified(component) {
-
-    component.sendAction('onUserIdentified');
-  }
-
-  exports['default'] = _ember['default'].Component.extend({
-
-    session: _ember['default'].inject.service('session'),
-
-    user: _ember['default'].Object.create(),
-    errorMessage: null,
-
-    hasError: _ember['default'].computed.notEmpty('errorMessage'),
-
-    actions: {
-
-      identify: function identify() {
-
-        var user = this.get('user');
-
-        var errors = getInputErrors(user);
-
-        if (_ember['default'].isEmpty(errors)) {
-          removeErrorMessage(this);
-          setUserInSession(this, user);
-          callActionOnUserIdentified(this);
-        } else {
-          this.set('errorMessage', _lodashLodash['default'].first(errors));
-        }
-      }
-
-    }
-
-  });
-});
 define('pix-live/components/load-email', ['exports', 'ember'], function (exports, _ember) {
 
   // The whole component is left untested for 17/11 release.`
@@ -727,9 +654,7 @@ define('pix-live/controllers/courses/get-challenge-preview', ['exports', 'ember'
   });
 });
 define('pix-live/controllers/home', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Controller.extend({
-    session: _ember['default'].inject.service()
-  });
+  exports['default'] = _ember['default'].Controller.extend({});
 });
 define('pix-live/helpers/add', ['exports', 'ember-math-helpers/helpers/add'], function (exports, _emberMathHelpersHelpersAdd) {
   Object.defineProperty(exports, 'default', {
@@ -2088,19 +2013,13 @@ define('pix-live/routes/challenges/get-preview', ['exports', 'ember', 'rsvp', 'p
 define('pix-live/routes/courses/create-assessment', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
   exports['default'] = _ember['default'].Route.extend({
 
-    session: _ember['default'].inject.service(),
-
     model: function model(params) {
-      var _this = this;
 
       var store = this.get('store');
       return store.findRecord('course', params.course_id).then(function (course) {
 
-        // FIXME : add (route?) tests
-        var userName = _this.get('session.user.firstName') + ' ' + _this.get('session.user.lastName');
-        var userEmail = _this.get('session.user.email');
-
-        return store.createRecord('assessment', { course: course, userName: userName, userEmail: userEmail }).save().then(function (assessment) {
+        // No auth yet, therefore userName and userEmail are null.
+        return store.createRecord('assessment', { course: course, userName: null, userEmail: null }).save().then(function (assessment) {
           return _rsvp['default'].hash({
             assessment: assessment,
             challenge: assessment.get('firstChallenge')
@@ -2246,43 +2165,6 @@ define('pix-live/services/metrics', ['exports', 'ember-metrics/services/metrics'
     get: function get() {
       return _emberMetricsServicesMetrics['default'];
     }
-  });
-});
-define('pix-live/services/session', ['exports', 'ember'], function (exports, _ember) {
-  var SESSION_KEY = 'pix-live.session';
-
-  exports.SESSION_KEY = SESSION_KEY;
-  exports['default'] = _ember['default'].Service.extend({
-
-    user: null,
-
-    init: function init() {
-      this._super.apply(this, arguments);
-
-      var session = localStorage.getItem(SESSION_KEY);
-
-      if (!_ember['default'].isEmpty(session)) {
-        try {
-          session = JSON.parse(session);
-          this.set('user', session.user);
-        } catch (e) {
-          /* istanbul ignore next */
-          _ember['default'].Logger.warn('bad session. Continuing with an empty session');
-        }
-      }
-    },
-
-    save: function save() {
-      var session = {
-        user: this.get('user')
-      };
-      localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-    },
-
-    isIdentified: function isIdentified() {
-      return !_ember['default'].isEmpty(this.get('user'));
-    }
-
   });
 });
 define("pix-live/templates/application", ["exports"], function (exports) {
@@ -11078,7 +10960,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+b394ca03"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+bd83b7b6"});
 }
 
 /* jshint ignore:end */
