@@ -194,6 +194,66 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test.lint-test', ['exports
     });
   });
 });
+define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)('Acceptance | a5 - voir la liste des tests adaptatifs', function () {
+
+    var application = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.before)(function () {
+      return visit('/placement-tests');
+    });
+
+    (0, _mocha.it)('a5.1 on affiche autant de tests que remontés par l\'API', function () {
+      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.describe)('a5.2 pour un test donné avec toutes les informations', function () {
+
+      var $course = undefined;
+
+      (0, _mocha.before)(function () {
+        $course = findWithAssert('.course[data-id="ref_course_id"]');
+      });
+
+      (0, _mocha.it)('a5.2.1 on affiche son nom', function () {
+        (0, _chai.expect)($course.find('.course-name').text()).to.contains('First Course');
+      });
+
+      (0, _mocha.it)('a5.2.2 on affiche sa description', function () {
+        (0, _chai.expect)($course.find('.course-description').text()).to.contains('Contient toutes les sortes d\'epreuves');
+      });
+
+      (0, _mocha.it)('a5.2.3 on affiche son image', function () {
+        (0, _chai.expect)($course.find('img')[0].src).to.equal('http://fakeimg.pl/350x200/?text=First%20Course');
+      });
+
+      (0, _mocha.it)('a5.2.4 on affiche un bouton "démarrer le test"', function () {
+        (0, _chai.expect)($course.find('a.button').text()).to.contains('Démarrer le test');
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/a5-voir-liste-tests-adaptatifs-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('acceptance/a5-voir-liste-tests-adaptatifs-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | b1 - Afficher un QCU | ', function () {
@@ -2860,6 +2920,27 @@ define('pix-live/tests/unit/routes/index-test.lint-test', ['exports'], function 
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('unit/routes/index-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/unit/routes/placement-tests-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeModule)('route:placement-tests', 'Unit | Route | placement-tests', function () {
+    (0, _emberMocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/placement-tests-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/routes/placement-tests-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('unit/routes/placement-tests-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
