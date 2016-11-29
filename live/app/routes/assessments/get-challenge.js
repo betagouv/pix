@@ -37,7 +37,7 @@ export default Ember.Route.extend({
           challenge: spotsPromises[1]
         });
       } 
-      });
+    });
 
   },
 

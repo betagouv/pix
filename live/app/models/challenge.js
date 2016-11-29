@@ -6,10 +6,7 @@ import InstructionAsObject    from './challenge/instruction-as-object-mixin';
 
 const { Model, attr } = DS;
 
-const ChallengeModel = Model.extend(
-                        InstructionAsObject, 
-                        ProposalsAsArrayMixin, 
-                        ProposalsAsBlocksMixin, {
+const ChallengeModel = Model.extend(InstructionAsObject, ProposalsAsArrayMixin, ProposalsAsBlocksMixin, {
 
   instruction: attr('string'),
   proposals: attr('string'),
