@@ -11,10 +11,10 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
   /* Passed properties
   ––––––––––––––––––––––––––––––––––––––––––––––––––*/
-  challenge: null,
-  assessment: null,
-  errorMessage: null,
-  answers: {},
+  // challenge: null,
+  // assessment: null,
+  // errorMessage: null,
+  // answers: {},
 
   /* Computed properties
   ––––––––––––––––––––––––––––––––––––––––––––––––––*/
