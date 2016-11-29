@@ -67,7 +67,7 @@ export default Ember.Route.extend({
 
     this.get('assessmentService').getNextChallenge(currentChallenge, assessment).then((challenge) => {
       if (challenge) {
-        return this.transitionTo('assessments.get-challenge', { challenge, assessment });
+        return this.transitionTo('assessments.get-challenge', assessment.get('id'), challenge.get('id'));
       }
       return this.transitionTo('assessments.get-results', { assessment });
     });
