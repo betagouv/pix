@@ -1,8 +1,8 @@
-import DS from 'ember-data';
+import DS                     from 'ember-data';
 
-import ProposalsAsArrayMixin from './challenge/proposals-as-array-mixin';
+import ProposalsAsArrayMixin  from './challenge/proposals-as-array-mixin';
 import ProposalsAsBlocksMixin from './challenge/proposals-as-blocks-mixin';
-import InstructionAsObject from './challenge/instruction-as-object-mixin';
+import InstructionAsObject    from './challenge/instruction-as-object-mixin';
 
 const { Model, attr } = DS;
 
