@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import ValueAsArrayOfBoolean from './answer/value-as-array-of-boolean';
+import ValueAsArrayOfBoolean from './answer/value-as-array-of-boolean-mixin';
 
 const { Model, attr, belongsTo } = DS;
 const { computed } = Ember;
