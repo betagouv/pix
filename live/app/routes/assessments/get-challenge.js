@@ -84,6 +84,7 @@ export default Ember.Route.extend({
 
     const challengeType =  getChallengeType(model.challenge.get('type'));
     controller.set('challengeItemType', 'challenge-item-' + challengeType);
+    // controller.set(model, this.model({assessment_id:'ref_assessment_id', challenge_id:'ref_qcm_challenge_id'}));
   },
 
   serialize: function (model) {
