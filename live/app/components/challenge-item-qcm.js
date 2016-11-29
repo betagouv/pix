@@ -10,7 +10,6 @@ const ChallengeItemQcm = ChallengeItemGeneric.extend({
 
   _getAnswerValue() {
     return this.get('answerValue');
-    // return `${answers.map((answer) => parseInt(answer, 10) + 1).join(', ')}`;
   },
 
   _getErrorMessage() {
