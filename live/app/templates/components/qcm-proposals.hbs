@@ -1,8 +1,9 @@
-{{#each rawProposals as |proposal index|}}
+{{#each labeledCheckboxes as |labeledCheckbox index|}}
   <p class="challenge-proposal">
-      <label for="proposal_{{index}}">
-        {{input type="checkbox"}}
-        {{proposal}}
+      <label>
+        {{input type="checkbox" checked=labeledCheckbox.[1]}}
+        {{labeledCheckbox.[0]}}
       </label>
   </p>  
 {{/each}}
+

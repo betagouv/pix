@@ -2,15 +2,17 @@
 {{challenge-instruction instruction=instruction}}
 
 <div class="rounded-panel challenge-response">
-    <div class="challenge-proposals">
-      {{qcm-proposals rawAnswers=answers rawProposals=challenge._proposalsAsArray}}
-    </div>
+  <div class="challenge-proposals">
+    {{qcm-proposals 
+        answers=answers._valueAsArrayOfBoolean 
+        proposals=challenge._proposalsAsArray}}
+  </div>
 </div>
 
 {{#if errorMessage}}
-    <div class="alert alert-danger" role="alert">
-      {{errorMessage}}
-    </div>
+  <div class="alert alert-danger" role="alert">
+    {{errorMessage}}
+  </div>
 {{/if}}
 
 {{#if assessment}}
