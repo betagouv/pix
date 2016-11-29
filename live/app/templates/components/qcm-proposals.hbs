@@ -1,0 +1,8 @@
+{{#each proposals as |proposal index|}}
+  <p class="challenge-proposal">
+      <label for="proposal_{{index}}">
+        {{input type="checkbox"}}
+        {{proposal}}
+      </label>
+  </p>  
+{{/each}}

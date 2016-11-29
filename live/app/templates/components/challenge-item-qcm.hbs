@@ -3,17 +3,7 @@
 
 <div class="rounded-panel challenge-response">
     <div class="challenge-proposals">
-
-      {{#each challenge._proposalsAsArray as |proposal index|}}
-          <p class="challenge-proposal">
-              <label for="proposal_{{index}}">
-                {{input id=(concat "proposal_" index) type="checkbox"
-                name=index change=(action "updateQcmAnswer")}}
-                {{proposal}}
-              </label>
-          </p>
-      {{/each}}
-
+      {{qcm-proposals answers=answers proposals=challenge._proposalsAsArray}}
     </div>
 </div>
 
