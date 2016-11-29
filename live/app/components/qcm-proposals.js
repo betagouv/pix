@@ -14,17 +14,20 @@ export default Ember.Component.extend({
     return result;
   }),
 
+  answerChanged () {
+    // If two first checkboxes are checked, and others are unchecked, updatedAnswer will be string "1,2"
+    let updatedAnswer = this.$('input:checkbox:checked').map(function () {return this.name;}).get().join(',');
+    this.sendAction('onAnswerUpdated', updatedAnswer);
+  },
+
+  didInsertElement () {
+    this._super(...arguments);
+    this.answerChanged();
+  },
+
   // fires when any of the checkbox is clicked
   click: function () {
-
-    // if two first checkboxes are checked, it returns "1,2"
-    let updatedAnswer = this.$('input:checkbox:checked').map(function () {
-      return this.name;
-    }).get().join(',');
-
-    console.log('click ' + updatedAnswer);
-    this.sendAction('onAnswerUpdated', updatedAnswer);
-
+    this.answerChanged();
   }
 
 });

@@ -5,12 +5,12 @@ import ChallengeItemGeneric from './challenge-item-generic';
 const ChallengeItemQcm = ChallengeItemGeneric.extend({
 
   _hasError: function () {
-    return !(this.get('answers.length') >= 1);
+    return !(this.get('answerValue.length') >= 1);
   },
 
   _getAnswerValue() {
-    const answers = this.get('answers');
-    return `${answers.map((answer) => parseInt(answer, 10) + 1).join(', ')}`;
+    return this.get('answerValue');
+    // return `${answers.map((answer) => parseInt(answer, 10) + 1).join(', ')}`;
   },
 
   _getErrorMessage() {
@@ -18,32 +18,11 @@ const ChallengeItemQcm = ChallengeItemGeneric.extend({
   },
 
   actions: {
-    updateAnswer: function(answers) {
-      console.log('update answer');
-      this.set('answers', answers);
+    updateAnswer: function(answerValue) {
+      console.log('update answer with ' + answerValue);
+      this.set('answerValue', answerValue);
       this.set('errorMessage', null);
     }
-
-    // updateQcmAnswer(event) {
-    //   const { name, checked } = event.currentTarget;
-    //   let answers = this.get('answers');
-
-    //   if (checked) {
-    //     if (Ember.isArray(answers)) {
-    //       answers.push(name);
-    //     }
-    //     else {
-    //       answers = [name];
-    //     }
-    //   }
-    //   else {
-    //     _.remove(answers, (answer) => answer === name);
-    //   }
-
-    //   this.set('answers', answers);
-    //   this.set('errorMessage', null);
-    // }
-
   }
 
 });
