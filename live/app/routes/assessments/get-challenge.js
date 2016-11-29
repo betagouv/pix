@@ -29,7 +29,7 @@ export default Ember.Route.extend({
           return RSVP.hash({
             assessment: spotsPromises[0],
             challenge: spotsPromises[1],
-            answer: spotsPromises[2]
+            answers: spotsPromises[2]
           });
       } else {
         console.log('erroneus');
