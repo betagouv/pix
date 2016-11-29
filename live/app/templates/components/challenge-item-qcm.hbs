@@ -5,7 +5,8 @@
   <div class="challenge-proposals">
     {{qcm-proposals 
         answers=answers._valueAsArrayOfBoolean 
-        proposals=challenge._proposalsAsArray}}
+        proposals=challenge._proposalsAsArray
+        onAnswerUpdated=updateAnswer}}
   </div>
 </div>
 

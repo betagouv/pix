@@ -18,26 +18,31 @@ const ChallengeItemQcm = ChallengeItemGeneric.extend({
   },
 
   actions: {
-
-    updateQcmAnswer(event) {
-      const { name, checked } = event.currentTarget;
-      let answers = this.get('answers');
-
-      if (checked) {
-        if (Ember.isArray(answers)) {
-          answers.push(name);
-        }
-        else {
-          answers = [name];
-        }
-      }
-      else {
-        _.remove(answers, (answer) => answer === name);
-      }
-
+    updateAnswer: function(answers) {
+      console.log('update answer');
       this.set('answers', answers);
       this.set('errorMessage', null);
     }
+
+    // updateQcmAnswer(event) {
+    //   const { name, checked } = event.currentTarget;
+    //   let answers = this.get('answers');
+
+    //   if (checked) {
+    //     if (Ember.isArray(answers)) {
+    //       answers.push(name);
+    //     }
+    //     else {
+    //       answers = [name];
+    //     }
+    //   }
+    //   else {
+    //     _.remove(answers, (answer) => answer === name);
+    //   }
+
+    //   this.set('answers', answers);
+    //   this.set('errorMessage', null);
+    // }
 
   }
 
