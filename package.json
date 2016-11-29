@@ -24,7 +24,7 @@
     "install:root": "npm install",
     "install:api": "cd api && npm install",
     "install:live": "cd live && npm run install:all",
-    "install:all": "run-p install:root install:api install:live",
+    "install:all": "node_modules/.bin/run-p install:root install:api install:live",
     "start:api": "cd api && npm run start:watch",
     "start:live": "cd live && ember serve --proxy",
     "start": "run-p start:api start:live",
