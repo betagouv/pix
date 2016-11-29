@@ -19,7 +19,6 @@ const ChallengeItemQcm = ChallengeItemGeneric.extend({
 
   actions: {
     updateAnswer: function(answerValue) {
-      console.log('update answer with ' + answerValue);
       this.set('answerValue', answerValue);
       this.set('errorMessage', null);
     }
