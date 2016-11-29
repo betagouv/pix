@@ -16,7 +16,8 @@ export default Ember.Component.extend({
 
   // fires when any of the checkbox is clicked
   click: function () {
-    this.sendAction('onAnswerUpdated', updatedAnswer);
+    let newAnswer = this.$('input:checkbox:checked').map(function () {return this.name;}).get().join(',');
+    this.sendAction('onAnswerUpdated', newAnswer);
   }
 
 });
