@@ -9,16 +9,6 @@ const ChallengeItemGeneric = Ember.Component.extend({
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
-  /* Computed properties
-  ––––––––––––––––––––––––––––––––––––––––––––––––––*/
-  instruction: Ember.computed('challenge', function() {
-    return {
-      text: this.get('challenge.instruction'),
-      illustrationUrl: this.get('challenge.illustrationUrl'),
-      attachmentUrl: this.get('challenge.attachmentUrl'),
-      attachmentFilename: this.get('challenge.attachmentFilename')
-    };
-  }),
 
   /* Actions
   ––––––––––––––––––––––––––––––––––––––––––––––––––*/
