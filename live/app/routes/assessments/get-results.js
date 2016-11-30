@@ -3,11 +3,10 @@ import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
 
+
   model(params) {
     const store = this.get('store');
-    return RSVP.hash({
-      assessment: store.findRecord('assessment', params.assessment_id)
-    });
+    return store.findRecord('assessment', params.assessment_id, { reload: true });
   },
 
   serialize: function (model) {
