@@ -342,9 +342,12 @@ define('pix-live/components/challenge-item-qcm', ['exports', 'pix-live/component
   var ChallengeItemQcm = _pixLiveComponentsChallengeItemGeneric['default'].extend({
 
     _hasError: function _hasError() {
-      return !(this.get('answers.value').length >= 1);
+      return !(this._getAnswerValue().length >= 1);
     },
 
+    // XXX : data is extracted from DOM of child component, breaking child encapsulation.
+    // This is not "the Ember way", however it makes code easier to read,
+    // and moreover, is a much more robust solution when you need to test it properly.
     _getAnswerValue: function _getAnswerValue() {
       return this.$('input:checkbox:checked').map(function () {
         return this.name;
@@ -356,7 +359,7 @@ define('pix-live/components/challenge-item-qcm', ['exports', 'pix-live/component
     },
 
     actions: {
-      updateAnswer: function updateAnswer() {
+      answerChanged: function answerChanged() {
         this.set('errorMessage', null);
       }
     }
@@ -583,16 +586,14 @@ define('pix-live/components/qcm-proposals', ['exports', 'ember', 'lodash/lodash'
     tagName: 'div',
 
     labeledCheckboxes: _ember['default'].computed('proposals', 'answers', function () {
-
       var result = [];
-
       result = _lodashLodash['default'].zip(this.get('proposals'), this.get('answers'));
       return result;
     }),
 
     actions: {
       checkboxClicked: function checkboxClicked() {
-        this.sendAction('onAnswerUpdated');
+        this.sendAction('answerChanged');
       }
     }
 
@@ -5442,7 +5443,7 @@ define("pix-live/templates/components/challenge-item-qcm", ["exports"], function
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "challenge._instructionAsObject", ["loc", [null, [2, 36], [2, 66]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 0], [2, 68]]], 0, 0], ["inline", "qcm-proposals", [], ["answers", ["subexpr", "@mut", [["get", "answers._valueAsArrayOfBoolean", ["loc", [null, [7, 16], [7, 46]]], 0, 0, 0, 0]], [], [], 0, 0], "proposals", ["subexpr", "@mut", [["get", "challenge._proposalsAsArray", ["loc", [null, [8, 18], [8, 45]]], 0, 0, 0, 0]], [], [], 0, 0], "onAnswerUpdated", "updateAnswer"], ["loc", [null, [6, 4], [9, 40]]], 0, 0], ["block", "if", [["get", "errorMessage", ["loc", [null, [13, 6], [13, 18]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [13, 0], [17, 7]]]], ["block", "if", [["get", "assessment", ["loc", [null, [19, 6], [19, 16]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [19, 0], [23, 7]]]]],
+      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "challenge._instructionAsObject", ["loc", [null, [2, 36], [2, 66]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 0], [2, 68]]], 0, 0], ["inline", "qcm-proposals", [], ["answers", ["subexpr", "@mut", [["get", "answers._valueAsArrayOfBoolean", ["loc", [null, [7, 16], [7, 46]]], 0, 0, 0, 0]], [], [], 0, 0], "proposals", ["subexpr", "@mut", [["get", "challenge._proposalsAsArray", ["loc", [null, [8, 18], [8, 45]]], 0, 0, 0, 0]], [], [], 0, 0], "onAnswerUpdated", "answerChanged"], ["loc", [null, [6, 4], [9, 41]]], 0, 0], ["block", "if", [["get", "errorMessage", ["loc", [null, [13, 6], [13, 18]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [13, 0], [17, 7]]]], ["block", "if", [["get", "assessment", ["loc", [null, [19, 6], [19, 16]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [19, 0], [23, 7]]]]],
       locals: [],
       templates: [child0, child1]
     };
@@ -11113,7 +11114,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+1ca27ade"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+5030465b"});
 }
 
 /* jshint ignore:end */

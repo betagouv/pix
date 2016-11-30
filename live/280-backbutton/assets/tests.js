@@ -323,16 +323,14 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
     });
 
     (0, _mocha.it)('b2.8 Error alert box should be displayed if user validate without checking a checkbox', function () {
-      // all checked checkboxes are back to unchecked state
-      // this doesn't work, unfortunately
       (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(3);
       $('input:checkbox').prop('checked', false);
       (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(0);
-      // click($('a.challenge-item-actions__validate-action'));
-      // andThen(() => {
-      //   expect($('.alert')).to.have.lengthOf(1);
-      //   expect($('.alert').text().trim()).to.equal('Pour valider, sélectionner au moins une réponse. Sinon, passer.');
-      // });
+      click($('a.challenge-item-actions__validate-action'));
+      andThen(function () {
+        (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
+        (0, _chai.expect)($('.alert').text().trim()).to.equal('Pour valider, sélectionner au moins une réponse. Sinon, passer.');
+      });
     });
 
     (0, _mocha.it)('b2.10 If an user check a checkbox, it is checked', function () {
@@ -344,7 +342,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
       });
     });
 
-    (0, _mocha.it)('b2.11 If an user check another radiobutton, it is checked, the previous checked checkboxes remains checked', function () {
+    (0, _mocha.it)('b2.11 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function () {
       (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
       click($('.challenge-proposal:nth-child(2) input'));
       andThen(function () {
