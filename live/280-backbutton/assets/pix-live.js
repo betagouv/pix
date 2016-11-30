@@ -346,7 +346,9 @@ define('pix-live/components/challenge-item-qcm', ['exports', 'pix-live/component
     },
 
     _getAnswerValue: function _getAnswerValue() {
-      return this.get('answers.value');
+      return this.$('input:checkbox:checked').map(function () {
+        return this.name;
+      }).get().join(',');
     },
 
     _getErrorMessage: function _getErrorMessage() {
@@ -354,9 +356,8 @@ define('pix-live/components/challenge-item-qcm', ['exports', 'pix-live/component
     },
 
     actions: {
-      updateAnswer: function updateAnswer(answerValue) {
+      updateAnswer: function updateAnswer() {
         this.set('errorMessage', null);
-        this.set('answers.value', answerValue);
       }
     }
 
@@ -589,12 +590,10 @@ define('pix-live/components/qcm-proposals', ['exports', 'ember', 'lodash/lodash'
       return result;
     }),
 
-    // fires when any of the checkbox is clicked
-    click: function click() {
-      var newAnswer = this.$('input:checkbox:checked').map(function () {
-        return this.name;
-      }).get().join(',');
-      this.sendAction('onAnswerUpdated', newAnswer);
+    actions: {
+      checkboxClicked: function checkboxClicked() {
+        this.sendAction('onAnswerUpdated');
+      }
     }
 
   });
@@ -9817,7 +9816,7 @@ define("pix-live/templates/components/qcm-proposals", ["exports"], function (exp
               "column": 0
             },
             "end": {
-              "line": 8,
+              "line": 11,
               "column": 0
             }
           },
@@ -9838,7 +9837,8 @@ define("pix-live/templates/components/qcm-proposals", ["exports"], function (exp
           var el2 = dom.createElement("label");
           var el3 = dom.createTextNode("\n        ");
           dom.appendChild(el2, el3);
-          var el3 = dom.createComment("");
+          var el3 = dom.createElement("input");
+          dom.setAttribute(el3, "type", "checkbox");
           dom.appendChild(el2, el3);
           var el3 = dom.createTextNode("\n        ");
           dom.appendChild(el2, el3);
@@ -9856,12 +9856,18 @@ define("pix-live/templates/components/qcm-proposals", ["exports"], function (exp
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var element0 = dom.childAt(fragment, [1, 1]);
-          var morphs = new Array(2);
-          morphs[0] = dom.createMorphAt(element0, 1, 1);
-          morphs[1] = dom.createMorphAt(element0, 3, 3);
+          var element1 = dom.childAt(element0, [1]);
+          if (this.cachedFragment) {
+            dom.repairClonedNode(element1, [], true);
+          }
+          var morphs = new Array(4);
+          morphs[0] = dom.createAttrMorph(element1, 'name');
+          morphs[1] = dom.createAttrMorph(element1, 'checked');
+          morphs[2] = dom.createAttrMorph(element1, 'onclick');
+          morphs[3] = dom.createMorphAt(element0, 3, 3);
           return morphs;
         },
-        statements: [["inline", "input", [], ["type", "checkbox", "name", ["subexpr", "inc", [["get", "index", ["loc", [null, [4, 42], [4, 47]]], 0, 0, 0, 0]], [], ["loc", [null, [4, 37], [4, 48]]], 0, 0], "checked", ["subexpr", "@mut", [["get", "labeledCheckbox.1", ["loc", [null, [4, 57], [4, 76]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [4, 8], [4, 78]]], 0, 0], ["content", "labeledCheckbox.0", ["loc", [null, [5, 8], [5, 31]]], 0, 0, 0, 0]],
+        statements: [["attribute", "name", ["concat", [["subexpr", "inc", [["get", "index", ["loc", [null, [5, 22], [5, 27]]], 0, 0, 0, 0]], [], ["loc", [null, [5, 16], [5, 29]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "checked", ["get", "labeledCheckbox.1", ["loc", [null, [6, 20], [6, 39]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "onclick", ["subexpr", "action", ["checkboxClicked"], [], ["loc", [null, [null, null], [7, 46]]], 0, 0], 0, 0, 0, 0], ["content", "labeledCheckbox.0", ["loc", [null, [8, 8], [8, 31]]], 0, 0, 0, 0]],
         locals: ["labeledCheckbox", "index"],
         templates: []
       };
@@ -9876,7 +9882,7 @@ define("pix-live/templates/components/qcm-proposals", ["exports"], function (exp
             "column": 0
           },
           "end": {
-            "line": 10,
+            "line": 13,
             "column": 0
           }
         },
@@ -9900,7 +9906,7 @@ define("pix-live/templates/components/qcm-proposals", ["exports"], function (exp
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["block", "each", [["get", "labeledCheckboxes", ["loc", [null, [1, 8], [1, 25]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [1, 0], [8, 9]]]]],
+      statements: [["block", "each", [["get", "labeledCheckboxes", ["loc", [null, [1, 8], [1, 25]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [1, 0], [11, 9]]]]],
       locals: [],
       templates: [child0]
     };
@@ -11107,7 +11113,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+842bd646"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+1ca27ade"});
 }
 
 /* jshint ignore:end */
