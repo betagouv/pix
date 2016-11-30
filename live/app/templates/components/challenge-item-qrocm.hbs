@@ -4,7 +4,9 @@
 <div class="rounded-panel challenge-response">
     <div class="challenge-proposals">
         {{qrocm-proposal 
-            blocks=challenge._proposalsAsBlocks }}
+            blocks=challenge._proposalsAsBlocks
+            answersValue=answers._valuesAsMap
+            onInputChanged='inputChanged' }}
     </div>
 </div>
 
