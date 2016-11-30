@@ -49,7 +49,7 @@ describe('Acceptance | d1 - Valider une épreuve |', function () {
 
     it('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', function () {
       const expectedText = '2';
-      expect($progressBar.text()).to.contains(expectedText);
+      expect(findWithAssert('.pix-progress-bar').text()).to.contains(expectedText);
     });
 
     it('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', function () {
