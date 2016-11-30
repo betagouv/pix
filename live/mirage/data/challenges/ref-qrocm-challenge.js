@@ -5,7 +5,7 @@ export default {
     attributes: {
       type: 'QROCM',
       instruction: 'Un QROCM est une question [ouverte](http://link.ouverte.url) avec plusieurs champs texte libre pour repondre',
-      proposals: 'Trois logiciels libres : ${logiciel} ${logiciel} ${logiciel}'
+      proposals: 'Trois logiciels libres : ${logiciel#un} ${logiciel#deux} ${logiciel#trois}\nMerci'
     }
   }
 };

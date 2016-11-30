@@ -5,13 +5,19 @@ import ChallengeItemGeneric from './challenge-item-generic';
 const ChallengeItemQrocm = ChallengeItemGeneric.extend({
 
   _hasError: function () {
-    const values = _.values(this.get('answers'));
-    return (Ember.isEmpty(values) || values.length < 1 || values.every(Ember.isBlank));
+    // const values = this._getAnswerValue();
+    // return (Ember.isEmpty(values) || values.length < 1 || values.every(Ember.isBlank));
+    return false;
   },
 
   _getAnswerValue() {
-    const answers = this.get('answers');
-    return _.pairs(answers).map(([key, value]) => `${key} = "${value}"`).join(', ');
+    // const answers = this.get('answers');
+    // return _.pairs(answers).map(([key, value]) => `${key} = "${value}"`).join(', ');
+  },
+
+  _getRawAnswerValue() {
+    // const answers = this.get('answers');
+    // return _.pairs(answers).map(([key, value]) => `${key} = "${value}"`).join(', ');
   },
 
   _getErrorMessage() {
@@ -20,10 +26,7 @@ const ChallengeItemQrocm = ChallengeItemGeneric.extend({
 
   actions: {
 
-    updateQrocAnswer(event) {
-
-      const { name, value } = event.currentTarget;
-      this.set(`answers.${name}`, value);
+    inputChanged() {
       this.set('errorMessage', null);
     }
   }
