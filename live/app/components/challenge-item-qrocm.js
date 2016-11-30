@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import _ from 'lodash/lodash';
 import ChallengeItemGeneric from './challenge-item-generic';
 
@@ -33,7 +32,6 @@ const ChallengeItemQrocm = ChallengeItemGeneric.extend({
   actions: {
 
     inputChanged() {
-      console.log('input changed');
       this.set('errorMessage', null);
     }
   }
