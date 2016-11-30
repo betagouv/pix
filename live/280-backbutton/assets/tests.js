@@ -382,8 +382,6 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
     });
 
     (0, _mocha.it)('b3.1 It should render challenge instruction', function () {
-      // instruction is :
-      // Un QCM propose plusieurs choix, lutilisateur peut en choisir plusieurs
       (0, _chai.expect)($('.challenge-instruction').text()).to.equal('Un QROC est une question ouverte avec un simple champ texte libre pour répondre');
     });
 
@@ -391,7 +389,7 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
       (0, _chai.expect)($('.challenge-proposals input[type="text"]')).to.have.lengthOf(1);
     });
 
-    (0, _mocha.it)('b3.3 Error alert box should be displayed if user validate without checking a checkbox', function () {
+    (0, _mocha.it)('b3.3 Error alert box should be displayed if user validate without writing any answer', function () {
       (0, _chai.expect)($('.alert')).to.have.lengthOf(0);
       findWithAssert('a.challenge-item-actions__validate-action');
       click($('a.challenge-item-actions__validate-action'));
@@ -793,7 +791,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'moch
 
       (0, _mocha.it)('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', function () {
         var expectedText = '2';
-        (0, _chai.expect)($progressBar.text()).to.contains(expectedText);
+        (0, _chai.expect)(findWithAssert('.pix-progress-bar').text()).to.contains(expectedText);
       });
 
       (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', function () {
