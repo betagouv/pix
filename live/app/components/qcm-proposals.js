@@ -14,10 +14,10 @@ export default Ember.Component.extend({
     return result;
   }),
 
-  // fires when any of the checkbox is clicked
-  click: function () {
-    let newAnswer = this.$('input:checkbox:checked').map(function () {return this.name;}).get().join(',');
-    this.sendAction('onAnswerUpdated', newAnswer);
+  actions: {
+    checkboxClicked: function() {
+      this.sendAction('onAnswerUpdated');
+    }
   }
 
 });

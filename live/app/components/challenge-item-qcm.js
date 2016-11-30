@@ -7,7 +7,7 @@ const ChallengeItemQcm = ChallengeItemGeneric.extend({
   },
 
   _getAnswerValue() {
-    return this.get('answers.value');
+    return this.$('input:checkbox:checked').map(function () {return this.name;}).get().join(',');
   },
 
   _getErrorMessage() {
@@ -15,9 +15,8 @@ const ChallengeItemQcm = ChallengeItemGeneric.extend({
   },
 
   actions: {
-    updateAnswer: function(answerValue) {
+    updateAnswer: function() {
       this.set('errorMessage', null);
-      this.set('answers.value', answerValue);
     }
   }
 
