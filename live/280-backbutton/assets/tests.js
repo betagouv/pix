@@ -442,6 +442,9 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['exports', 'mocha', '
     });
 
     (0, _mocha.it)('b4.3 Error alert box should be displayed if user validate without checking a checkbox', function () {
+      // 1st make sure all inputs are cleared
+      $(':input').val('');
+      // Then try to validate sth
       $('a.challenge-item-actions__validate-action').click();
       andThen(function () {
         (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
@@ -796,7 +799,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'moch
 
       (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', function () {
         visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id').then(function () {
-          fillIn('input[name="logiciel"]', 'COUCOU').then(function () {
+          fillIn('input[name="logiciel1"]', 'COUCOU').then(function () {
             var $validateButton = getValidateActionLink();
             return click($validateButton).then(function () {
               (0, _chai.expect)(currentURL()).to.contains('/assessments/ref_assessment_id/results');
@@ -1183,6 +1186,18 @@ define('pix-live/tests/components/qroc-proposal.lint-test', ['exports'], functio
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('components/qroc-proposal.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/components/qrocm-proposal.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/qrocm-proposal.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('components/qrocm-proposal.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -1862,6 +1877,18 @@ define('pix-live/tests/helpers/inc.lint-test', ['exports'], function (exports) {
     });
   });
 });
+define('pix-live/tests/helpers/property-of.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - helpers/property-of.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('helpers/property-of.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-live/config/environment'], function (exports, _pixLiveResolver, _pixLiveConfigEnvironment) {
 
   var resolver = _pixLiveResolver['default'].create();
@@ -2319,6 +2346,76 @@ define('pix-live/tests/integration/components/qroc-proposal-test.lint-test', ['e
     });
   });
 });
+define('pix-live/tests/integration/components/qrocm-proposal-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeComponent)('qrocm-proposal', 'Integration: QrocmProposalComponent', {
+    integration: true
+  }, function () {
+    (0, _emberMocha.it)('renders', function () {
+      // Set any properties with this.set('myProperty', 'value');
+      // Handle any actions with this.on('myAction', function(val) { ... });
+      // Template block usage:
+      // this.render(hbs`
+      //   {{#qrocm-proposal}}
+      //     template content
+      //   {{/qrocm-proposal}}
+      // `);
+
+      this.render(Ember.HTMLBars.template((function () {
+        return {
+          meta: {
+            'revision': 'Ember@2.8.3',
+            'loc': {
+              'source': null,
+              'start': {
+                'line': 1,
+                'column': 0
+              },
+              'end': {
+                'line': 1,
+                'column': 18
+              }
+            }
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment('');
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [['content', 'qrocm-proposal', ['loc', [null, [1, 0], [1, 18]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })()));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/integration/components/qrocm-proposal-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/qrocm-proposal-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('integration/components/qrocm-proposal-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
 define('pix-live/tests/models/answer.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2338,6 +2435,18 @@ define('pix-live/tests/models/answer/value-as-array-of-boolean-mixin.lint-test',
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('models/answer/value-as-array-of-boolean-mixin.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/models/answer/value-as-array-of-string-mixin.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - models/answer/value-as-array-of-string-mixin.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('models/answer/value-as-array-of-string-mixin.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
