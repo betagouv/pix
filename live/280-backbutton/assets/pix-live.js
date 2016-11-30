@@ -397,25 +397,20 @@ define('pix-live/components/challenge-item-qcu', ['exports', 'ember', 'pix-live/
 
   exports['default'] = ChallengeItemQcu;
 });
-define('pix-live/components/challenge-item-qroc', ['exports', 'ember', 'lodash/lodash', 'pix-live/components/challenge-item-generic'], function (exports, _ember, _lodashLodash, _pixLiveComponentsChallengeItemGeneric) {
-  var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+define('pix-live/components/challenge-item-qroc', ['exports', 'ember', 'pix-live/components/challenge-item-generic'], function (exports, _ember, _pixLiveComponentsChallengeItemGeneric) {
 
   var ChallengeItemQroc = _pixLiveComponentsChallengeItemGeneric['default'].extend({
 
     _hasError: function _hasError() {
-      var values = _lodashLodash['default'].values(this.get('answers'));
-      return _ember['default'].isEmpty(values) || values.length < 1 || values.every(_ember['default'].isBlank);
+      var answer = this._getAnswerValue();
+      return _ember['default'].isEmpty(answer) || answer.length < 1 || answer.every(_ember['default'].isBlank);
     },
 
+    // XXX : data is extracted from DOM of child component, breaking child encapsulation.
+    // This is not "the Ember way", however it makes code easier to read,
+    // and moreover, is a much more robust solution when you need to test it properly.
     _getAnswerValue: function _getAnswerValue() {
-      var answers = this.get('answers');
-      return _lodashLodash['default'].pairs(answers).map(function (_ref) {
-        var _ref2 = _slicedToArray(_ref, 2);
-
-        var key = _ref2[0];
-        var value = _ref2[1];
-        return key + ' = "' + value + '"';
-      }).join(', ');
+      return this.$('input[data-uid="qroc-proposal-uid"]').val();
     },
 
     _getErrorMessage: function _getErrorMessage() {
@@ -424,12 +419,7 @@ define('pix-live/components/challenge-item-qroc', ['exports', 'ember', 'lodash/l
 
     actions: {
 
-      updateQrocAnswer: function updateQrocAnswer(event) {
-        var _event$currentTarget = event.currentTarget;
-        var name = _event$currentTarget.name;
-        var value = _event$currentTarget.value;
-
-        this.set('answers.' + name, value);
+      inputChanged: function inputChanged() {
         this.set('errorMessage', null);
       }
     }
@@ -597,6 +587,21 @@ define('pix-live/components/qcm-proposals', ['exports', 'ember', 'lodash/lodash'
       }
     }
 
+  });
+});
+define('pix-live/components/qroc-proposal', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({
+    classNames: ['qroc-proposal'],
+
+    didInsertElement: function didInsertElement() {
+      var that = this;
+      // jQuery handler far more powerful than declaring event on helper
+      // it avoids to loose time with 'oh that handy jQuery event is missing'
+      // or "How the hell did they construct input helper ?"
+      this.$('input').keypress(function () {
+        that.sendAction('onInputChanged');
+      });
+    }
   });
 });
 define('pix-live/components/radio-button', ['exports', 'ember-radio-buttons/components/radio-button'], function (exports, _emberRadioButtonsComponentsRadioButton) {
@@ -1313,7 +1318,7 @@ define('pix-live/mirage/data/answers/ref-qroc-answer', ['exports', 'pix-live/mir
       type: 'answers',
       id: 'ref_answer_qroc_id',
       attributes: {
-        value: 'Elena',
+        value: 'Bill',
         result: 'pending'
       },
       relationships: {
@@ -1478,7 +1483,7 @@ define('pix-live/mirage/data/challenges/ref-qroc-challenge', ['exports'], functi
       attributes: {
         type: 'QROC',
         instruction: 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre',
-        proposals: '${PrenomElizabeth2#Quel est le prenom d\'Elizabeth2'
+        proposals: 'Entrez le prénom de B. Gates : ${firstname#prénom} (en toutes lettres)\nSVP'
       }
     }
   };
@@ -1846,6 +1851,8 @@ define('pix-live/models/challenge/proposals-as-blocks-mixin', ['exports', 'ember
   }
 
   exports['default'] = _ember['default'].Mixin.create({
+
+    // see proposals-as-block-mixin-test.js to understand how it works
 
     // eslint-disable-next-line complexity
     _proposalsAsBlocks: _ember['default'].computed('proposals', function () {
@@ -5670,191 +5677,17 @@ define("pix-live/templates/components/challenge-item-qcu", ["exports"], function
 define("pix-live/templates/components/challenge-item-qroc", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
-      var child0 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.8.3",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 9,
-                "column": 8
-              },
-              "end": {
-                "line": 11,
-                "column": 8
-              }
-            },
-            "moduleName": "pix-live/templates/components/challenge-item-qroc.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("            ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("span");
-            var el2 = dom.createComment("");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
-            return morphs;
-          },
-          statements: [["content", "block.text", ["loc", [null, [10, 18], [10, 32]]], 0, 0, 0, 0]],
-          locals: [],
-          templates: []
-        };
-      })();
-      var child1 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.8.3",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 13,
-                "column": 8
-              },
-              "end": {
-                "line": 15,
-                "column": 8
-              }
-            },
-            "moduleName": "pix-live/templates/components/challenge-item-qroc.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("          ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createComment("");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(1);
-            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-            return morphs;
-          },
-          statements: [["inline", "input", [], ["name", ["subexpr", "@mut", [["get", "block.input", ["loc", [null, [14, 23], [14, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "type", "text", "placeholder", ["subexpr", "@mut", [["get", "block.placeholder", ["loc", [null, [14, 59], [14, 76]]], 0, 0, 0, 0]], [], [], 0, 0], "change", ["subexpr", "action", ["updateQrocAnswer"], [], ["loc", [null, [14, 84], [14, 111]]], 0, 0]], ["loc", [null, [14, 10], [14, 114]]], 0, 0]],
-          locals: [],
-          templates: []
-        };
-      })();
-      var child2 = (function () {
-        return {
-          meta: {
-            "revision": "Ember@2.8.3",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 17,
-                "column": 8
-              },
-              "end": {
-                "line": 19,
-                "column": 8
-              }
-            },
-            "moduleName": "pix-live/templates/components/challenge-item-qroc.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("            ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("hr");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes() {
-            return [];
-          },
-          statements: [],
-          locals: [],
-          templates: []
-        };
-      })();
       return {
         meta: {
           "revision": "Ember@2.8.3",
           "loc": {
             "source": null,
             "start": {
-              "line": 7,
-              "column": 6
-            },
-            "end": {
-              "line": 21,
-              "column": 6
-            }
-          },
-          "moduleName": "pix-live/templates/components/challenge-item-qroc.hbs"
-        },
-        isEmpty: false,
-        arity: 1,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(3);
-          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
-          morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
-          morphs[2] = dom.createMorphAt(fragment, 5, 5, contextualElement);
-          return morphs;
-        },
-        statements: [["block", "if", [["get", "block.text", ["loc", [null, [9, 14], [9, 24]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [9, 8], [11, 15]]]], ["block", "if", [["get", "block.input", ["loc", [null, [13, 14], [13, 25]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [13, 8], [15, 15]]]], ["block", "if", [["get", "block.breakline", ["loc", [null, [17, 14], [17, 29]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [17, 8], [19, 15]]]]],
-        locals: ["block"],
-        templates: [child0, child1, child2]
-      };
-    })();
-    var child1 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.8.3",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 26,
+              "line": 13,
               "column": 0
             },
             "end": {
-              "line": 30,
+              "line": 17,
               "column": 0
             }
           },
@@ -5887,23 +5720,23 @@ define("pix-live/templates/components/challenge-item-qroc", ["exports"], functio
           morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
           return morphs;
         },
-        statements: [["content", "errorMessage", ["loc", [null, [28, 6], [28, 22]]], 0, 0, 0, 0]],
+        statements: [["content", "errorMessage", ["loc", [null, [15, 6], [15, 22]]], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
     })();
-    var child2 = (function () {
+    var child1 = (function () {
       return {
         meta: {
           "revision": "Ember@2.8.3",
           "loc": {
             "source": null,
             "start": {
-              "line": 32,
+              "line": 19,
               "column": 0
             },
             "end": {
-              "line": 36,
+              "line": 23,
               "column": 0
             }
           },
@@ -5928,7 +5761,7 @@ define("pix-live/templates/components/challenge-item-qroc", ["exports"], functio
           morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
           return morphs;
         },
-        statements: [["inline", "challenge-actionbar", [], ["skip", "skip", "validate", "validate"], ["loc", [null, [33, 2], [35, 27]]], 0, 0]],
+        statements: [["inline", "challenge-actionbar", [], ["skip", "skip", "validate", "validate"], ["loc", [null, [20, 2], [22, 27]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -5943,7 +5776,7 @@ define("pix-live/templates/components/challenge-item-qroc", ["exports"], functio
             "column": 0
           },
           "end": {
-            "line": 37,
+            "line": 24,
             "column": 0
           }
         },
@@ -5967,7 +5800,7 @@ define("pix-live/templates/components/challenge-item-qroc", ["exports"], functio
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "challenge-proposals");
-        var el3 = dom.createTextNode("\n\n");
+        var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
@@ -5996,9 +5829,9 @@ define("pix-live/templates/components/challenge-item-qroc", ["exports"], functio
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "challenge._instructionAsObject", ["loc", [null, [2, 36], [2, 66]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 0], [2, 68]]], 0, 0], ["block", "each", [["get", "challenge._proposalsAsBlocks", ["loc", [null, [7, 14], [7, 42]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 6], [21, 15]]]], ["block", "if", [["get", "errorMessage", ["loc", [null, [26, 6], [26, 18]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [26, 0], [30, 7]]]], ["block", "if", [["get", "assessment", ["loc", [null, [32, 6], [32, 16]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [32, 0], [36, 7]]]]],
+      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "challenge._instructionAsObject", ["loc", [null, [2, 36], [2, 66]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 0], [2, 68]]], 0, 0], ["inline", "qroc-proposal", [], ["blocks", ["subexpr", "@mut", [["get", "challenge._proposalsAsBlocks", ["loc", [null, [7, 19], [7, 47]]], 0, 0, 0, 0]], [], [], 0, 0], "answerValue", ["subexpr", "@mut", [["get", "answers.value", ["loc", [null, [8, 24], [8, 37]]], 0, 0, 0, 0]], [], [], 0, 0], "onInputChanged", "inputChanged"], ["loc", [null, [6, 8], [9, 43]]], 0, 0], ["block", "if", [["get", "errorMessage", ["loc", [null, [13, 6], [13, 18]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [13, 0], [17, 7]]]], ["block", "if", [["get", "assessment", ["loc", [null, [19, 6], [19, 16]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [19, 0], [23, 7]]]]],
       locals: [],
-      templates: [child0, child1, child2]
+      templates: [child0, child1]
     };
   })());
 });
@@ -9817,7 +9650,7 @@ define("pix-live/templates/components/qcm-proposals", ["exports"], function (exp
               "column": 0
             },
             "end": {
-              "line": 11,
+              "line": 17,
               "column": 0
             }
           },
@@ -9836,16 +9669,20 @@ define("pix-live/templates/components/qcm-proposals", ["exports"], function (exp
           var el2 = dom.createTextNode("\n      ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("label");
-          var el3 = dom.createTextNode("\n        ");
+          var el3 = dom.createTextNode("\n\n");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("        ");
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("input");
           dom.setAttribute(el3, "type", "checkbox");
           dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n        ");
+          var el3 = dom.createTextNode("\n\n");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("        ");
           dom.appendChild(el2, el3);
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode("\n      ");
+          var el3 = dom.createTextNode("\n\n      ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n  ");
@@ -9857,7 +9694,7 @@ define("pix-live/templates/components/qcm-proposals", ["exports"], function (exp
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
           var element0 = dom.childAt(fragment, [1, 1]);
-          var element1 = dom.childAt(element0, [1]);
+          var element1 = dom.childAt(element0, [2]);
           if (this.cachedFragment) {
             dom.repairClonedNode(element1, [], true);
           }
@@ -9865,10 +9702,10 @@ define("pix-live/templates/components/qcm-proposals", ["exports"], function (exp
           morphs[0] = dom.createAttrMorph(element1, 'name');
           morphs[1] = dom.createAttrMorph(element1, 'checked');
           morphs[2] = dom.createAttrMorph(element1, 'onclick');
-          morphs[3] = dom.createMorphAt(element0, 3, 3);
+          morphs[3] = dom.createMorphAt(element0, 5, 5);
           return morphs;
         },
-        statements: [["attribute", "name", ["concat", [["subexpr", "inc", [["get", "index", ["loc", [null, [5, 22], [5, 27]]], 0, 0, 0, 0]], [], ["loc", [null, [5, 16], [5, 29]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "checked", ["get", "labeledCheckbox.1", ["loc", [null, [6, 20], [6, 39]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "onclick", ["subexpr", "action", ["checkboxClicked"], [], ["loc", [null, [null, null], [7, 46]]], 0, 0], 0, 0, 0, 0], ["content", "labeledCheckbox.0", ["loc", [null, [8, 8], [8, 31]]], 0, 0, 0, 0]],
+        statements: [["attribute", "name", ["concat", [["subexpr", "inc", [["get", "index", ["loc", [null, [8, 22], [8, 27]]], 0, 0, 0, 0]], [], ["loc", [null, [8, 16], [8, 29]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "checked", ["get", "labeledCheckbox.1", ["loc", [null, [9, 20], [9, 39]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "onclick", ["subexpr", "action", ["checkboxClicked"], [], ["loc", [null, [null, null], [10, 46]]], 0, 0], 0, 0, 0, 0], ["content", "labeledCheckbox.0", ["loc", [null, [13, 8], [13, 31]]], 0, 0, 0, 0]],
         locals: ["labeledCheckbox", "index"],
         templates: []
       };
@@ -9883,7 +9720,7 @@ define("pix-live/templates/components/qcm-proposals", ["exports"], function (exp
             "column": 0
           },
           "end": {
-            "line": 13,
+            "line": 19,
             "column": 0
           }
         },
@@ -9907,7 +9744,227 @@ define("pix-live/templates/components/qcm-proposals", ["exports"], function (exp
         dom.insertBoundary(fragment, 0);
         return morphs;
       },
-      statements: [["block", "each", [["get", "labeledCheckboxes", ["loc", [null, [1, 8], [1, 25]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [1, 0], [11, 9]]]]],
+      statements: [["block", "each", [["get", "labeledCheckboxes", ["loc", [null, [1, 8], [1, 25]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [1, 0], [17, 9]]]]],
+      locals: [],
+      templates: [child0]
+    };
+  })());
+});
+define("pix-live/templates/components/qroc-proposal", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      var child0 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.3",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 3,
+                "column": 2
+              },
+              "end": {
+                "line": 5,
+                "column": 2
+              }
+            },
+            "moduleName": "pix-live/templates/components/qroc-proposal.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("    ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("span");
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
+            return morphs;
+          },
+          statements: [["content", "block.text", ["loc", [null, [4, 10], [4, 24]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child1 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.3",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 8,
+                "column": 2
+              },
+              "end": {
+                "line": 16,
+                "column": 2
+              }
+            },
+            "moduleName": "pix-live/templates/components/qroc-proposal.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("    ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("input");
+            dom.setAttribute(el1, "type", "text");
+            dom.setAttribute(el1, "data-uid", "qroc-proposal-uid");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var element0 = dom.childAt(fragment, [1]);
+            var morphs = new Array(3);
+            morphs[0] = dom.createAttrMorph(element0, 'name');
+            morphs[1] = dom.createAttrMorph(element0, 'placeholder');
+            morphs[2] = dom.createAttrMorph(element0, 'value');
+            return morphs;
+          },
+          statements: [["attribute", "name", ["get", "block.input", ["loc", [null, [12, 13], [12, 24]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "placeholder", ["get", "block.placeholder", ["loc", [null, [13, 20], [13, 37]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "value", ["concat", [["get", "answerValue", ["loc", [null, [14, 15], [14, 26]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      var child2 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.8.3",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 18,
+                "column": 2
+              },
+              "end": {
+                "line": 20,
+                "column": 2
+              }
+            },
+            "moduleName": "pix-live/templates/components/qroc-proposal.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("    ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("hr");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes() {
+            return [];
+          },
+          statements: [],
+          locals: [],
+          templates: []
+        };
+      })();
+      return {
+        meta: {
+          "revision": "Ember@2.8.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 22,
+              "column": 0
+            }
+          },
+          "moduleName": "pix-live/templates/components/qroc-proposal.hbs"
+        },
+        isEmpty: false,
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("  \n  \n");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("  \n");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(3);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+          morphs[2] = dom.createMorphAt(fragment, 5, 5, contextualElement);
+          return morphs;
+        },
+        statements: [["block", "if", [["get", "block.text", ["loc", [null, [3, 8], [3, 18]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [3, 2], [5, 9]]]], ["block", "if", [["get", "block.input", ["loc", [null, [8, 8], [8, 19]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [8, 2], [16, 9]]]], ["block", "if", [["get", "block.breakline", ["loc", [null, [18, 8], [18, 23]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [18, 2], [20, 9]]]]],
+        locals: ["block"],
+        templates: [child0, child1, child2]
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 23,
+            "column": 0
+          }
+        },
+        "moduleName": "pix-live/templates/components/qroc-proposal.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [["block", "each", [["get", "blocks", ["loc", [null, [1, 8], [1, 14]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [1, 0], [22, 9]]]]],
       locals: [],
       templates: [child0]
     };
@@ -11114,7 +11171,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+a2659343"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+3410b6f3"});
 }
 
 /* jshint ignore:end */

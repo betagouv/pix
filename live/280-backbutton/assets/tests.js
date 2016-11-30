@@ -390,9 +390,9 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
     });
 
     (0, _mocha.it)('b3.3 Error alert box should be displayed if user validate without writing any answer', function () {
+      fillIn('input[data-uid="qroc-proposal-uid"]', '');
       (0, _chai.expect)($('.alert')).to.have.lengthOf(0);
-      findWithAssert('a.challenge-item-actions__validate-action');
-      click($('a.challenge-item-actions__validate-action'));
+      click(findWithAssert('a.challenge-item-actions__validate-action'));
       andThen(function () {
         // assertions for after async behavior
         (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
@@ -1171,6 +1171,18 @@ define('pix-live/tests/components/qcm-proposals.lint-test', ['exports'], functio
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('components/qcm-proposals.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/components/qroc-proposal.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/qroc-proposal.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('components/qroc-proposal.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
@@ -2232,6 +2244,76 @@ define('pix-live/tests/integration/components/qcm-proposals-test.lint-test', ['e
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('integration/components/qcm-proposals-test.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeComponent)('qroc-proposal', 'Integration: QrocProposalComponent', {
+    integration: true
+  }, function () {
+    (0, _emberMocha.it)('renders', function () {
+      // Set any properties with this.set('myProperty', 'value');
+      // Handle any actions with this.on('myAction', function(val) { ... });
+      // Template block usage:
+      // this.render(hbs`
+      //   {{#qroc-proposal}}
+      //     template content
+      //   {{/qroc-proposal}}
+      // `);
+
+      this.render(Ember.HTMLBars.template((function () {
+        return {
+          meta: {
+            'revision': 'Ember@2.8.3',
+            'loc': {
+              'source': null,
+              'start': {
+                'line': 1,
+                'column': 0
+              },
+              'end': {
+                'line': 1,
+                'column': 17
+              }
+            }
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment('');
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [['content', 'qroc-proposal', ['loc', [null, [1, 0], [1, 17]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })()));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+  });
+});
+/* jshint expr:true */
+define('pix-live/tests/integration/components/qroc-proposal-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/qroc-proposal-test.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('integration/components/qroc-proposal-test.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
