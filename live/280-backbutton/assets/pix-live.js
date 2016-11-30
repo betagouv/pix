@@ -368,30 +368,32 @@ define('pix-live/components/challenge-item-qcm', ['exports', 'pix-live/component
 
   exports['default'] = ChallengeItemQcm;
 });
-define('pix-live/components/challenge-item-qcu', ['exports', 'ember', 'pix-live/components/challenge-item-generic'], function (exports, _ember, _pixLiveComponentsChallengeItemGeneric) {
+define('pix-live/components/challenge-item-qcu', ['exports', 'pix-live/components/challenge-item-generic'], function (exports, _pixLiveComponentsChallengeItemGeneric) {
 
   var ChallengeItemQcu = _pixLiveComponentsChallengeItemGeneric['default'].extend({
 
-    selectedProposal: null,
-
-    onSelectedProposalChanged: _ember['default'].observer('selectedProposal', function () {
-      this.set('errorMessage', null);
-    }),
-
     _hasError: function _hasError() {
-      return _ember['default'].isEmpty(this.get('selectedProposal'));
+      return !(this._getAnswerValue().length >= 1);
     },
 
+    // XXX : data is extracted from DOM of child component, breaking child encapsulation.
+    // This is not "the Ember way", however it makes code easier to read,
+    // and moreover, is a much more robust solution when you need to test it properly.
     _getAnswerValue: function _getAnswerValue() {
-      var selectedValue = this.get('selectedProposal');
-      return '' + (selectedValue + 1);
+      return this.$('input:radio:checked').map(function () {
+        return this.name;
+      }).get().join('');
     },
 
     _getErrorMessage: function _getErrorMessage() {
       return 'Pour valider, sélectionner une réponse. Sinon, passer.';
     },
 
-    actions: {}
+    actions: {
+      answerChanged: function answerChanged() {
+        this.set('errorMessage', null);
+      }
+    }
 
   });
 
@@ -583,6 +585,29 @@ define('pix-live/components/qcm-proposals', ['exports', 'ember', 'lodash/lodash'
 
     actions: {
       checkboxClicked: function checkboxClicked() {
+        this.sendAction('answerChanged');
+      }
+    }
+
+  });
+});
+define('pix-live/components/qcu-proposals', ['exports', 'ember', 'lodash/lodash'], function (exports, _ember, _lodashLodash) {
+  exports['default'] = _ember['default'].Component.extend({
+
+    tagName: 'div',
+
+    labeledRadios: _ember['default'].computed('proposals', 'answers', function () {
+      var result = [];
+      result = _lodashLodash['default'].zip(this.get('proposals'), this.get('answers'));
+      return result;
+    }),
+
+    actions: {
+      radioClicked: function radioClicked(index) {
+        //uncheck all radio buttons
+        this.$(':radio').prop('checked', false);
+        //check again the one that was checked
+        this.$(':radio:nth(' + index + ')').prop('checked', true);
         this.sendAction('answerChanged');
       }
     }
@@ -5510,67 +5535,11 @@ define("pix-live/templates/components/challenge-item-qcu", ["exports"], function
           "loc": {
             "source": null,
             "start": {
-              "line": 7,
-              "column": 6
-            },
-            "end": {
-              "line": 11,
-              "column": 6
-            }
-          },
-          "moduleName": "pix-live/templates/components/challenge-item-qcu.hbs"
-        },
-        isEmpty: false,
-        arity: 2,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("          ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("p");
-          dom.setAttribute(el1, "class", "challenge-proposal");
-          var el2 = dom.createTextNode("\n              ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("label");
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createTextNode(" ");
-          dom.appendChild(el2, el3);
-          var el3 = dom.createComment("");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n          ");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1, 1]);
-          var morphs = new Array(2);
-          morphs[0] = dom.createMorphAt(element0, 0, 0);
-          morphs[1] = dom.createMorphAt(element0, 2, 2);
-          return morphs;
-        },
-        statements: [["inline", "radio-button", [], ["name", "proposals", "value", ["subexpr", "@mut", [["get", "index", ["loc", [null, [9, 59], [9, 64]]], 0, 0, 0, 0]], [], [], 0, 0], "checked", ["subexpr", "@mut", [["get", "selectedProposal", ["loc", [null, [9, 73], [9, 89]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [9, 21], [9, 91]]], 0, 0], ["content", "proposal", ["loc", [null, [9, 92], [9, 106]]], 0, 0, 0, 0]],
-        locals: ["proposal", "index"],
-        templates: []
-      };
-    })();
-    var child1 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.8.3",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 16,
+              "line": 13,
               "column": 0
             },
             "end": {
-              "line": 20,
+              "line": 17,
               "column": 0
             }
           },
@@ -5582,16 +5551,16 @@ define("pix-live/templates/components/challenge-item-qcu", ["exports"], function
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("    ");
+          var el1 = dom.createTextNode("  ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("div");
           dom.setAttribute(el1, "class", "alert alert-danger");
           dom.setAttribute(el1, "role", "alert");
-          var el2 = dom.createTextNode("\n      ");
+          var el2 = dom.createTextNode("\n    ");
           dom.appendChild(el1, el2);
           var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n    ");
+          var el2 = dom.createTextNode("\n  ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -5603,23 +5572,23 @@ define("pix-live/templates/components/challenge-item-qcu", ["exports"], function
           morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
           return morphs;
         },
-        statements: [["content", "errorMessage", ["loc", [null, [18, 6], [18, 22]]], 0, 0, 0, 0]],
+        statements: [["content", "errorMessage", ["loc", [null, [15, 4], [15, 20]]], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
     })();
-    var child2 = (function () {
+    var child1 = (function () {
       return {
         meta: {
           "revision": "Ember@2.8.3",
           "loc": {
             "source": null,
             "start": {
-              "line": 22,
+              "line": 19,
               "column": 0
             },
             "end": {
-              "line": 26,
+              "line": 23,
               "column": 0
             }
           },
@@ -5644,7 +5613,7 @@ define("pix-live/templates/components/challenge-item-qcu", ["exports"], function
           morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
           return morphs;
         },
-        statements: [["inline", "challenge-actionbar", [], ["skip", "skip", "validate", "validate"], ["loc", [null, [23, 2], [25, 27]]], 0, 0]],
+        statements: [["inline", "challenge-actionbar", [], ["skip", "skip", "validate", "validate"], ["loc", [null, [20, 2], [22, 27]]], 0, 0]],
         locals: [],
         templates: []
       };
@@ -5659,7 +5628,7 @@ define("pix-live/templates/components/challenge-item-qcu", ["exports"], function
             "column": 0
           },
           "end": {
-            "line": 28,
+            "line": 24,
             "column": 0
           }
         },
@@ -5679,15 +5648,15 @@ define("pix-live/templates/components/challenge-item-qcu", ["exports"], function
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
         dom.setAttribute(el1, "class", "rounded-panel challenge-response");
-        var el2 = dom.createTextNode("\n    ");
+        var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
         dom.setAttribute(el2, "class", "challenge-proposals");
-        var el3 = dom.createTextNode("\n\n");
+        var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
+        var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -5701,8 +5670,6 @@ define("pix-live/templates/components/challenge-item-qcu", ["exports"], function
         dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
@@ -5711,11 +5678,12 @@ define("pix-live/templates/components/challenge-item-qcu", ["exports"], function
         morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3, 1]), 1, 1);
         morphs[2] = dom.createMorphAt(fragment, 5, 5, contextualElement);
         morphs[3] = dom.createMorphAt(fragment, 7, 7, contextualElement);
+        dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "challenge._instructionAsObject", ["loc", [null, [2, 36], [2, 66]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 0], [2, 68]]], 0, 0], ["block", "each", [["get", "challenge._proposalsAsArray", ["loc", [null, [7, 14], [7, 41]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [7, 6], [11, 15]]]], ["block", "if", [["get", "errorMessage", ["loc", [null, [16, 6], [16, 18]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [16, 0], [20, 7]]]], ["block", "if", [["get", "assessment", ["loc", [null, [22, 6], [22, 16]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [22, 0], [26, 7]]]]],
+      statements: [["inline", "challenge-instruction", [], ["instruction", ["subexpr", "@mut", [["get", "challenge._instructionAsObject", ["loc", [null, [2, 36], [2, 66]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 0], [2, 68]]], 0, 0], ["inline", "qcu-proposals", [], ["answers", ["subexpr", "@mut", [["get", "answers._valueAsArrayOfBoolean", ["loc", [null, [7, 16], [7, 46]]], 0, 0, 0, 0]], [], [], 0, 0], "proposals", ["subexpr", "@mut", [["get", "challenge._proposalsAsArray", ["loc", [null, [8, 18], [8, 45]]], 0, 0, 0, 0]], [], [], 0, 0], "onAnswerUpdated", "answerChanged"], ["loc", [null, [6, 4], [9, 41]]], 0, 0], ["block", "if", [["get", "errorMessage", ["loc", [null, [13, 6], [13, 18]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [13, 0], [17, 7]]]], ["block", "if", [["get", "assessment", ["loc", [null, [19, 6], [19, 16]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [19, 0], [23, 7]]]]],
       locals: [],
-      templates: [child0, child1, child2]
+      templates: [child0, child1]
     };
   })());
 });
@@ -9621,6 +9589,119 @@ define("pix-live/templates/components/qcm-proposals", ["exports"], function (exp
     };
   })());
 });
+define("pix-live/templates/components/qcu-proposals", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 17,
+              "column": 0
+            }
+          },
+          "moduleName": "pix-live/templates/components/qcu-proposals.hbs"
+        },
+        isEmpty: false,
+        arity: 2,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("p");
+          dom.setAttribute(el1, "class", "challenge-proposal");
+          var el2 = dom.createTextNode("\n      ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("label");
+          var el3 = dom.createTextNode("\n\n");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("        ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createElement("input");
+          dom.setAttribute(el3, "type", "radio");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n\n");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("        ");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createComment("");
+          dom.appendChild(el2, el3);
+          var el3 = dom.createTextNode("\n\n      ");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("  \n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [1, 1]);
+          var element1 = dom.childAt(element0, [2]);
+          if (this.cachedFragment) {
+            dom.repairClonedNode(element1, [], true);
+          }
+          var morphs = new Array(4);
+          morphs[0] = dom.createAttrMorph(element1, 'name');
+          morphs[1] = dom.createAttrMorph(element1, 'checked');
+          morphs[2] = dom.createAttrMorph(element1, 'onclick');
+          morphs[3] = dom.createMorphAt(element0, 5, 5);
+          return morphs;
+        },
+        statements: [["attribute", "name", ["concat", [["subexpr", "inc", [["get", "index", ["loc", [null, [8, 22], [8, 27]]], 0, 0, 0, 0]], [], ["loc", [null, [8, 16], [8, 29]]], 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "checked", ["get", "labeledRadio.1", ["loc", [null, [9, 20], [9, 36]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "onclick", ["subexpr", "action", ["radioClicked", ["get", "index", ["loc", [null, [10, 42], [10, 47]]], 0, 0, 0, 0]], [], ["loc", [null, [null, null], [10, 49]]], 0, 0], 0, 0, 0, 0], ["content", "labeledRadio.0", ["loc", [null, [13, 8], [13, 28]]], 0, 0, 0, 0]],
+        locals: ["labeledRadio", "index"],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 19,
+            "column": 0
+          }
+        },
+        "moduleName": "pix-live/templates/components/qcu-proposals.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [["block", "each", [["get", "labeledRadios", ["loc", [null, [1, 8], [1, 21]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [1, 0], [17, 9]]]]],
+      locals: [],
+      templates: [child0]
+    };
+  })());
+});
 define("pix-live/templates/components/qroc-proposal", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
@@ -11262,7 +11343,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+1934ebcd"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+91fb061c"});
 }
 
 /* jshint ignore:end */

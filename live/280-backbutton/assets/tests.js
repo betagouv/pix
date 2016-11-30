@@ -217,7 +217,11 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
       (0, _chai.expect)($proposals).to.have.lengthOf(4);
     });
 
-    (0, _mocha.it)('b1.2 Une liste ordonnée d\'instruction doit s\'afficher', function () {
+    (0, _mocha.it)('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', function () {
+      (0, _chai.expect)($('input:radio:checked')).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', function () {
       (0, _chai.expect)($('.challenge-proposal:nth-child(1)').text().trim()).to.equal('1ere possibilite');
       (0, _chai.expect)($('.challenge-proposal:nth-child(2)').text().trim()).to.equal('2eme possibilite');
       (0, _chai.expect)($('.challenge-proposal:nth-child(3)').text().trim()).to.equal('3eme possibilite');
@@ -225,6 +229,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
     });
 
     (0, _mocha.it)('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', function () {
+      $(':radio').prop('checked', false);
       $('a.challenge-item-actions__validate-action').click();
       andThen(function () {
         (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
@@ -232,11 +237,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
       });
     });
 
-    (0, _mocha.it)('b1.5 Par défaut, aucun radiobutton n\'est coché', function () {
-      (0, _chai.expect)($('input:radio:checked')).to.have.lengthOf(0);
-    });
-
-    (0, _mocha.it)('b1.6 Si un utilisateur clique sur un radiobutton, il est coché', function () {
+    (0, _mocha.it)('b1.5 Si un utilisateur clique sur un radiobutton, il est coché', function () {
       (0, _chai.expect)($('input:radio:checked:nth-child(1)').is(':checked')).to.equal(false);
       click($('.challenge-proposal:nth-child(1) input'));
       andThen(function () {
@@ -245,7 +246,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
       });
     });
 
-    (0, _mocha.it)('b1.7 Si un utilisateur clique sur un radiobutton, il est coché, et tous les autres sont décochés', function () {
+    (0, _mocha.it)('b1.6 Si un utilisateur clique sur un radiobutton, il est coché, et tous les autres sont décochés', function () {
       (0, _chai.expect)($('input:radio:checked')).to.have.lengthOf(1);
       click($('.challenge-proposal:nth-child(2) input'));
       andThen(function () {
@@ -1174,6 +1175,18 @@ define('pix-live/tests/components/qcm-proposals.lint-test', ['exports'], functio
     it('should pass ESLint', function () {
       if (!true) {
         var error = new chai.AssertionError('components/qcm-proposals.js should pass ESLint.\n');
+        error.stack = undefined;throw error;
+      }
+    });
+  });
+});
+define('pix-live/tests/components/qcu-proposals.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/qcu-proposals.js', function () {
+    it('should pass ESLint', function () {
+      if (!true) {
+        var error = new chai.AssertionError('components/qcu-proposals.js should pass ESLint.\n');
         error.stack = undefined;throw error;
       }
     });
