@@ -21,7 +21,11 @@ module.exports = {
         .get(existingAnswer.get('challengeId'))
         .then((solution) => {
           const answerCorrectness = solutionService.match(newAnswer, solution);
-          return new Answer({id:existingAnswer.id}).save({result:answerCorrectness, value:newAnswer.get('value')},{method:"update"})
+          return new Answer({id:existingAnswer.id}).save(
+              {result:answerCorrectness, 
+                value:newAnswer.get('value'),
+                challengeId:existingAnswer.get('challengeId'),
+                assessmentId:existingAnswer.get('assessmentId')},{method:"update"})
             .then((updatedAnswer) => reply(answerSerializer.serialize(updatedAnswer)).code(200))
             .catch((err) => reply(Boom.badImplementation(err)));
         });
