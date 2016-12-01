@@ -22,6 +22,9 @@ describe('Acceptance | API | Answers', function () {
     beforeEach(function (done) {
      knex('answers').delete().then(() => {done();});
     });
+    afterEach(function (done) {
+     knex('answers').delete().then(() => {done();});
+    });
 
     before(function (done) {
       nock('https://api.airtable.com')
@@ -87,38 +90,32 @@ describe('Acceptance | API | Answers', function () {
         });
     });
 
-    it("should persist the given course ID, the user ID, and the correctness of the answer", function (done) {
-
-      // when
-      server.injectThen(options).then((response) => {
-
-        new Answer()
-          .fetch()
-          .then(function (model) {
-            expect(model.id).to.exist;
-            expect(model.get('value')).to.equal(options.payload.data.attributes.value);
-            expect(model.get('result')).to.equal('ok');
-            expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
-            expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
-            done();
-          });
-
-      });
-    });
-
     it("should return persisted answer", function (done) {
       // when
       server.injectThen(options).then((response) => {
         const answer = response.result.data;
 
-        // then
-        expect(answer.id).to.exist;
-        expect(answer.attributes.value).to.equal(options.payload.data.attributes.value);
-        expect(answer.attributes.result).to.equal('ok');
-        expect(answer.relationships.assessment.data.id).to.equal(options.payload.data.relationships.assessment.data.id);
-        expect(answer.relationships.challenge.data.id).to.equal(options.payload.data.relationships.challenge.data.id);
+        new Answer()
+          .fetch()
+          .then(function (model) {
+            expect(model.id).to.be.a('number')
+            expect(model.get('value')).to.equal(options.payload.data.attributes.value);
+            expect(model.get('result')).to.equal('ok');
+            expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
+            expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
 
-        done();
+            // then
+            expect(answer.id).to.equal(model.id);
+            expect(answer.id).to.equal(response.result.data.id);
+            expect(answer.attributes.value).to.equal(model.get('value'));
+            expect(answer.attributes.result).to.equal(model.get('result'));
+            expect(answer.relationships.assessment.data.id).to.equal(model.get('assessmentId'));
+            expect(answer.relationships.challenge.data.id).to.equal(model.get('challengeId'));
+
+            done();
+          });
+
+
       });
     });
 
