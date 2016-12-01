@@ -399,13 +399,12 @@ define('pix-live/components/challenge-item-qcu', ['exports', 'pix-live/component
 
   exports['default'] = ChallengeItemQcu;
 });
-define('pix-live/components/challenge-item-qroc', ['exports', 'ember', 'pix-live/components/challenge-item-generic'], function (exports, _ember, _pixLiveComponentsChallengeItemGeneric) {
+define('pix-live/components/challenge-item-qroc', ['exports', 'pix-live/components/challenge-item-generic'], function (exports, _pixLiveComponentsChallengeItemGeneric) {
 
   var ChallengeItemQroc = _pixLiveComponentsChallengeItemGeneric['default'].extend({
 
     _hasError: function _hasError() {
-      var answer = this._getAnswerValue();
-      return _ember['default'].isEmpty(answer) || answer.length < 1 || answer.every(_ember['default'].isBlank);
+      return !(this._getAnswerValue().length >= 1);
     },
 
     // XXX : data is extracted from DOM of child component, breaking child encapsulation.
@@ -440,7 +439,7 @@ define('pix-live/components/challenge-item-qrocm', ['exports', 'lodash/lodash', 
     },
 
     _getAnswerValue: function _getAnswerValue() {
-      return _lodashLodash['default'].map(this._getRawAnswerValue(), function (key, value) {
+      return _lodashLodash['default'].map(this._getRawAnswerValue(), function (value, key) {
         return key + ' = "' + value + '"';
       }).join(', ');
     },
@@ -450,7 +449,7 @@ define('pix-live/components/challenge-item-qrocm', ['exports', 'lodash/lodash', 
     // and moreover, is a much more robust solution when you need to test it properly.
     _getRawAnswerValue: function _getRawAnswerValue() {
       var result = {};
-      $('input[data-uid="qrocm-proposal-uid"]').each(function (index, element) {
+      $('.challenge-proposals input').each(function (index, element) {
         result[$(element).attr('name')] = $(element).val();
       });
       return result;
@@ -623,7 +622,7 @@ define('pix-live/components/qroc-proposal', ['exports', 'ember'], function (expo
       // XXX : jQuery handler here is far more powerful than declaring event in template helper.
       // It avoids to loose time with 'oh that handy jQuery event is missing',
       // or "How the hell did they construct input helper ?"
-      this.$('input').keypress(function () {
+      this.$('input').keydown(function () {
         that.sendAction('onInputChanged');
       });
     }
@@ -906,13 +905,16 @@ define('pix-live/helpers/pow', ['exports', 'ember-math-helpers/helpers/pow'], fu
     }
   });
 });
-define('pix-live/helpers/property-of', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/helpers/property-of', ['exports', 'ember', 'lodash/lodash'], function (exports, _ember, _lodashLodash) {
   exports.propertyOf = propertyOf;
 
   function propertyOf(params) {
     var map = params[0];
     var key = params[1];
-    return map[key];
+    if (_lodashLodash['default'].isObject(map) && _lodashLodash['default'].isString(key)) {
+      return map[key];
+    }
+    return '';
   }
 
   exports['default'] = _ember['default'].Helper.helper(propertyOf);
@@ -1629,7 +1631,7 @@ define('pix-live/mirage/routes/get-answer-by-challenge-and-assessment', ['export
       } catch (e) {
         queryParams = '';
       }
-      throw new Error('The answer you required in the fake server does not exist ' + queryParams);
+      throw new Error('404 The answer you required in the fake server does not exist... ' + queryParams);
     }
   };
 });
@@ -1647,7 +1649,7 @@ define('pix-live/mirage/routes/get-answer', ['exports', 'lodash/lodash', 'pix-li
     if (answer) {
       return answer.obj;
     } else {
-      throw new Error('The answer you required in the fake server does not exist ' + request.params.id);
+      throw new Error({ message: '404 The answer you required in the fake server does not exist ' + request.params.id });
     }
   };
 });
@@ -1817,16 +1819,28 @@ define('pix-live/models/answer/value-as-array-of-string-mixin', ['exports', 'emb
   exports['default'] = _ember['default'].Mixin.create({
 
     _valuesAsMap: _ember['default'].computed('value', function () {
-      var result = {};
+      var _this = this;
 
-      var arrayValues = this.get('value').split(',');
+      try {
+        var _ret = (function () {
+          var result = {};
 
-      _lodashLodash['default'].each(arrayValues, function (arrayValue) {
-        var keyVal = arrayValue.split(' = ');
-        result[keyVal[0].trim()] = keyVal[1].slice(1, -1);
-      });
+          var arrayValues = _this.get('value').split(',');
 
-      return result;
+          _lodashLodash['default'].each(arrayValues, function (arrayValue) {
+            var keyVal = arrayValue.split(' = ');
+            result[keyVal[0].trim()] = keyVal[1].slice(1, -1);
+          });
+
+          return {
+            v: result
+          };
+        })();
+
+        if (typeof _ret === 'object') return _ret.v;
+      } catch (e) {
+        return undefined;
+      }
     })
 
   });
@@ -2055,37 +2069,39 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
   });
 });
-define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp', 'ember-data', 'pix-live/utils/get-challenge-type'], function (exports, _ember, _rsvp, _emberData, _pixLiveUtilsGetChallengeType) {
+define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-data', 'pix-live/utils/get-challenge-type'], function (exports, _ember, _emberData, _pixLiveUtilsGetChallengeType) {
   exports['default'] = _ember['default'].Route.extend({
 
     assessmentService: _ember['default'].inject.service('assessment'),
 
     model: function model(params) {
       var store = this.get('store');
-      var assessmentPromise = store.findRecord('assessment', params.assessment_id);
-      var challengePromise = store.findRecord('challenge', params.challenge_id);
-      var answerPromise = store.queryRecord('answer', {
-        assessment: params.assessment_id,
-        challenge: params.challenge_id });
 
-      var spotsPromises = [assessmentPromise, challengePromise, answerPromise];
+      return store.findRecord('assessment', params.assessment_id).then(function (assessment) {
+        return store.findRecord('challenge', params.challenge_id).then(function (challenge) {
+          return store.queryRecord('answer', {
+            assessment: params.assessment_id,
+            challenge: params.challenge_id }).then(function (answers) {
 
-      return _ember['default'].RSVP.allSettled(spotsPromises).then(function (spotPromisesResults) {
-        if (!spotPromisesResults.isAny('state', 'rejected')) {
-          // Yay ! all promised resolved
-          return _rsvp['default'].hash({
-            assessment: spotsPromises[0],
-            challenge: spotsPromises[1],
-            answers: spotsPromises[2]
-          });
-        } else {
-          // answerPromise is allowed to fail (404 not found). Resolve other promises
-          return _rsvp['default'].hash({
-            assessment: spotsPromises[0],
-            challenge: spotsPromises[1]
-          });
-        }
-      });
+            // case 1 : user already answered the question, answer is returned
+            return {
+              assessment: assessment,
+              challenge: challenge,
+              answers: answers
+            };
+          })['catch'](function (error) {
+
+            // case 2 : answer not found is part of the normal flow,
+            // it happens when the user see the question for the very very first time.
+            if (error && error.message && error.message.indexOf('404') > -1) {
+              return {
+                assessment: assessment,
+                challenge: challenge
+              };
+            }
+          }); // end of catch of store.findRecord('answer')
+        }); // end of store.findRecord('challenge')
+      }); // end of store.findRecord('assessment')
     },
 
     actions: {
@@ -9979,7 +9995,7 @@ define("pix-live/templates/components/qrocm-proposal", ["exports"], function (ex
                 "column": 2
               },
               "end": {
-                "line": 16,
+                "line": 15,
                 "column": 2
               }
             },
@@ -9991,11 +10007,10 @@ define("pix-live/templates/components/qrocm-proposal", ["exports"], function (ex
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("    ");
+            var el1 = dom.createTextNode("      ");
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("input");
             dom.setAttribute(el1, "type", "text");
-            dom.setAttribute(el1, "data-uid", "qrocm-proposal-uid");
             dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("\n");
             dom.appendChild(el0, el1);
@@ -10009,7 +10024,7 @@ define("pix-live/templates/components/qrocm-proposal", ["exports"], function (ex
             morphs[2] = dom.createAttrMorph(element0, 'placeholder');
             return morphs;
           },
-          statements: [["attribute", "name", ["get", "block.input", ["loc", [null, [12, 13], [12, 24]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "value", ["subexpr", "property-of", [["get", "answersValue", ["loc", [null, [13, 26], [13, 38]]], 0, 0, 0, 0], ["get", "block.input", ["loc", [null, [13, 39], [13, 50]]], 0, 0, 0, 0]], [], ["loc", [null, [null, null], [13, 52]]], 0, 0], 0, 0, 0, 0], ["attribute", "placeholder", ["get", "block.placeholder", ["loc", [null, [14, 20], [14, 37]]], 0, 0, 0, 0], 0, 0, 0, 0]],
+          statements: [["attribute", "name", ["get", "block.input", ["loc", [null, [11, 15], [11, 26]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "value", ["subexpr", "property-of", [["get", "answersValue", ["loc", [null, [12, 28], [12, 40]]], 0, 0, 0, 0], ["get", "block.input", ["loc", [null, [12, 41], [12, 52]]], 0, 0, 0, 0]], [], ["loc", [null, [null, null], [12, 54]]], 0, 0], 0, 0, 0, 0], ["attribute", "placeholder", ["get", "block.placeholder", ["loc", [null, [13, 22], [13, 39]]], 0, 0, 0, 0], 0, 0, 0, 0]],
           locals: [],
           templates: []
         };
@@ -10021,11 +10036,11 @@ define("pix-live/templates/components/qrocm-proposal", ["exports"], function (ex
             "loc": {
               "source": null,
               "start": {
-                "line": 18,
+                "line": 17,
                 "column": 2
               },
               "end": {
-                "line": 20,
+                "line": 19,
                 "column": 2
               }
             },
@@ -10063,7 +10078,7 @@ define("pix-live/templates/components/qrocm-proposal", ["exports"], function (ex
               "column": 0
             },
             "end": {
-              "line": 22,
+              "line": 21,
               "column": 0
             }
           },
@@ -10098,7 +10113,7 @@ define("pix-live/templates/components/qrocm-proposal", ["exports"], function (ex
           morphs[2] = dom.createMorphAt(fragment, 5, 5, contextualElement);
           return morphs;
         },
-        statements: [["block", "if", [["get", "block.text", ["loc", [null, [3, 8], [3, 18]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [3, 2], [5, 9]]]], ["block", "if", [["get", "block.input", ["loc", [null, [8, 8], [8, 19]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [8, 2], [16, 9]]]], ["block", "if", [["get", "block.breakline", ["loc", [null, [18, 8], [18, 23]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [18, 2], [20, 9]]]]],
+        statements: [["block", "if", [["get", "block.text", ["loc", [null, [3, 8], [3, 18]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [3, 2], [5, 9]]]], ["block", "if", [["get", "block.input", ["loc", [null, [8, 8], [8, 19]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [8, 2], [15, 9]]]], ["block", "if", [["get", "block.breakline", ["loc", [null, [17, 8], [17, 23]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [17, 2], [19, 9]]]]],
         locals: ["block"],
         templates: [child0, child1, child2]
       };
@@ -10113,7 +10128,7 @@ define("pix-live/templates/components/qrocm-proposal", ["exports"], function (ex
             "column": 0
           },
           "end": {
-            "line": 23,
+            "line": 22,
             "column": 0
           }
         },
@@ -10136,7 +10151,7 @@ define("pix-live/templates/components/qrocm-proposal", ["exports"], function (ex
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["block", "each", [["get", "blocks", ["loc", [null, [1, 8], [1, 14]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [1, 0], [22, 9]]]]],
+      statements: [["block", "each", [["get", "blocks", ["loc", [null, [1, 8], [1, 14]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [1, 0], [21, 9]]]]],
       locals: [],
       templates: [child0]
     };
@@ -11343,7 +11358,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+91fb061c"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+5a6181a2"});
 }
 
 /* jshint ignore:end */
