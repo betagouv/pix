@@ -13,13 +13,13 @@ export default Ember.Route.extend({
       return store.findRecord('challenge', params.challenge_id).then((challenge) => {
         return store.queryRecord('answer', { 
           assessment: params.assessment_id, 
-          challenge:  params.challenge_id }).then((answer) => {
+          challenge:  params.challenge_id }).then((answers) => {
 
             // case 1 : user already answered the question, answer is returned 
             return {
               assessment,
               challenge,
-              answer
+              answers
             };   
 
           }).catch((error) => {

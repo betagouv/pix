@@ -9,7 +9,7 @@ const ChallengeItemQrocm = ChallengeItemGeneric.extend({
   },
 
   _getAnswerValue() {
-    return _.map(this._getRawAnswerValue(), function(key, value) {
+    return _.map(this._getRawAnswerValue(), function(value, key) {
       return `${key} = "${value}"`;
     }).join(', ');
   },
@@ -19,7 +19,7 @@ const ChallengeItemQrocm = ChallengeItemGeneric.extend({
   // and moreover, is a much more robust solution when you need to test it properly.
   _getRawAnswerValue() {
     let result = {};
-    $('input[data-uid="qrocm-proposal-uid"]').each(function (index, element) {
+    $('.challenge-proposals input').each(function (index, element) {
       result[$(element).attr('name')] = $(element).val();
     });
     return result;
