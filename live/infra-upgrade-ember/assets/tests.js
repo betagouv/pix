@@ -2094,14 +2094,16 @@ define('pix-live/tests/test-helper.lint-test', ['exports'], function (exports) {
     });
   });
 });
-define('pix-live/tests/unit/controllers/home-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/unit/controllers/home-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('controller:home', 'Unit | Controller | HomeController', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  }, function () {
+  (0, _mocha.describe)('Unit | Controller | HomeController', function () {
+    (0, _emberMocha.setupTest)('controller:home', {
+      // Specify the other units that are required for this test.
+      // needs: ['controller:foo']
+    });
+
     // Replace this with your real tests.
-    (0, _emberMocha.it)('exists', function () {
+    (0, _mocha.it)('exists', function () {
       var controller = this.subject();
       (0, _chai.expect)(controller).to.be.ok;
     });
@@ -2119,11 +2121,12 @@ define('pix-live/tests/unit/controllers/home-test.lint-test', ['exports'], funct
 define('pix-live/tests/unit/helpers/convert-to-html-test', ['exports', 'chai', 'mocha', 'pix-live/helpers/convert-to-html'], function (exports, _chai, _mocha, _pixLiveHelpersConvertToHtml) {
 
   (0, _mocha.describe)('Unit | Helpers | ConvertToHtmlHelper', function () {
-    // Replace this with your real tests.
+
     (0, _mocha.it)('works', function () {
       var boldSentence = (0, _pixLiveHelpersConvertToHtml.convertToHtml)(['**a bold sentence**']);
       (0, _chai.expect)(boldSentence).to.equal('<p><strong>a bold sentence</strong></p>');
     });
+
     (0, _mocha.it)('skip call with bad arg', function () {
       (0, _chai.expect)((0, _pixLiveHelpersConvertToHtml.convertToHtml)('bad argument')).to.equal('');
       (0, _chai.expect)((0, _pixLiveHelpersConvertToHtml.convertToHtml)([])).to.equal('');
@@ -2158,20 +2161,23 @@ define('pix-live/tests/unit/helpers/strip-instruction-test.lint-test', ['exports
     });
   });
 });
-define('pix-live/tests/unit/models/answer-test', ['exports', 'pix-live/tests/test-helper', 'ember', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _ember, _chai, _emberMocha) {
+define('pix-live/tests/unit/models/answer-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModel)('answer', 'Unit | Model | Answer', {
-    needs: ['model:assessment', 'model:challenge']
-  }, function () {
+  (0, _mocha.describe)('Unit | Model | Answer', function () {
 
-    (0, _emberMocha.it)('exists', function () {
+    (0, _emberMocha.setupModelTest)('answer', {
+      needs: ['model:assessment', 'model:challenge']
+    });
+
+    (0, _mocha.it)('exists', function () {
       var model = this.subject();
+      // var store = this.store();
       (0, _chai.expect)(model).to.be.ok;
     });
 
-    describe('isResultOk', function () {
+    (0, _mocha.describe)('isResultOk', function () {
 
-      (0, _emberMocha.it)('should return bool', function () {
+      (0, _mocha.it)('should return bool', function () {
         var _this = this;
 
         _ember['default'].run(function () {
@@ -2194,13 +2200,17 @@ define('pix-live/tests/unit/models/answer-test.lint-test', ['exports'], function
     });
   });
 });
-define('pix-live/tests/unit/models/challenge-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/unit/models/challenge-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModel)('challenge', 'Unit | Model | Challenge', {
-    needs: ['model:course']
-  }, function () {
-    (0, _emberMocha.it)('exists', function () {
+  (0, _mocha.describe)('Unit | Model | Challenge', function () {
+
+    (0, _emberMocha.setupModelTest)('challenge', {
+      needs: ['model:course']
+    });
+
+    (0, _mocha.it)('exists', function () {
       var model = this.subject();
+      // var store = this.store();
       (0, _chai.expect)(model).to.be.ok;
     });
   });
@@ -2214,7 +2224,7 @@ define('pix-live/tests/unit/models/challenge-test.lint-test', ['exports'], funct
     });
   });
 });
-define('pix-live/tests/unit/models/challenge/proposals-as-array-mixin-test', ['exports', 'ember', 'mocha', 'ember-mocha', 'chai', 'pix-live/models/challenge/proposals-as-array-mixin'], function (exports, _ember, _mocha, _emberMocha, _chai, _pixLiveModelsChallengeProposalsAsArrayMixin) {
+define('pix-live/tests/unit/models/challenge/proposals-as-array-mixin-test', ['exports', 'ember', 'chai', 'mocha', 'pix-live/models/challenge/proposals-as-array-mixin'], function (exports, _ember, _chai, _mocha, _pixLiveModelsChallengeProposalsAsArrayMixin) {
 
   (0, _mocha.describe)('Unit | Model | Challenge/Propsals As Array Mixin', function () {
 
@@ -2226,7 +2236,7 @@ define('pix-live/tests/unit/models/challenge/proposals-as-array-mixin-test', ['e
       var data = _ref.data;
       var expected = _ref.expected;
 
-      (0, _emberMocha.it)('"' + data.toString() + '" retourne [' + expected + ']', function () {
+      (0, _mocha.it)('"' + data.toString() + '" retourne [' + expected + ']', function () {
         var sut = Challenge.create({ proposals: data });
         (0, _chai.expect)(sut.get('_proposalsAsArray')).to.deep.equal(expected);
       });
@@ -2277,20 +2287,22 @@ define('pix-live/tests/unit/models/challenge/proposals-as-blocks-mixin-test.lint
     });
   });
 });
-define('pix-live/tests/unit/models/course-test', ['exports', 'pix-live/tests/test-helper', 'ember', 'chai', 'ember-mocha', 'mocha'], function (exports, _pixLiveTestsTestHelper, _ember, _chai, _emberMocha, _mocha) {
+define('pix-live/tests/unit/models/course-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModel)('course', 'Unit | Model | Course', {
-    needs: ['model:assessment', 'model:challenge']
-  }, function () {
+  (0, _mocha.describe)('Unit | Model | Course', function () {
 
-    (0, _emberMocha.it)('exists', function () {
+    (0, _emberMocha.setupModelTest)('course', {
+      needs: ['model:assessment', 'model:challenge']
+    });
+
+    (0, _mocha.it)('exists', function () {
       var model = this.subject();
       (0, _chai.expect)(model).to.be.ok;
     });
 
     (0, _mocha.describe)('getProgress', function () {
 
-      (0, _emberMocha.it)('currentStep start at 1', function () {
+      (0, _mocha.it)('currentStep start at 1', function () {
         var _this = this;
 
         _ember['default'].run(function () {
@@ -2303,7 +2315,7 @@ define('pix-live/tests/unit/models/course-test', ['exports', 'pix-live/tests/tes
         });
       });
 
-      (0, _emberMocha.it)('maxStep is 2 when there is 2 challenges in the course', function () {
+      (0, _mocha.it)('maxStep is 2 when there is 2 challenges in the course', function () {
         var _this2 = this;
 
         _ember['default'].run(function () {
@@ -2318,7 +2330,7 @@ define('pix-live/tests/unit/models/course-test', ['exports', 'pix-live/tests/tes
         });
       });
 
-      (0, _emberMocha.it)('currentStep is 2 when there is 2 challenges in the course and called with 2nd test', function () {
+      (0, _mocha.it)('currentStep is 2 when there is 2 challenges in the course and called with 2nd test', function () {
         var _this3 = this;
 
         _ember['default'].run(function () {
@@ -2332,7 +2344,7 @@ define('pix-live/tests/unit/models/course-test', ['exports', 'pix-live/tests/tes
         });
       });
 
-      (0, _emberMocha.it)('throw an Error when challenge is not part of course', function () {
+      (0, _mocha.it)('throw an Error when challenge is not part of course', function () {
         var _this4 = this;
 
         _ember['default'].run(function () {
@@ -2359,19 +2371,18 @@ define('pix-live/tests/unit/models/course-test.lint-test', ['exports'], function
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('route:assessments.get-challenge', 'Assessments.ChallengeRoute', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  }, function () {
-    (0, _emberMocha.it)('exists', function () {
+  (0, _mocha.describe)('Unit | Route | Assessments.ChallengeRoute', function () {
+
+    (0, _emberMocha.setupTest)('route:assessments.get-challenge', {});
+
+    (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
     });
   });
 });
-/* jshint expr:true */
 define('pix-live/tests/unit/routes/assessments/get-challenge-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2381,19 +2392,18 @@ define('pix-live/tests/unit/routes/assessments/get-challenge-test.lint-test', ['
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/get-results-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/unit/routes/assessments/get-results-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('route:assessments.get-results', 'Assessments.ResultsRoute', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  }, function () {
-    (0, _emberMocha.it)('exists', function () {
+  (0, _mocha.describe)('Unit | Route | Assessments.ResultsRoute', function () {
+
+    (0, _emberMocha.setupTest)('route:assessments.get-results', {});
+
+    (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
     });
   });
 });
-/* jshint expr:true */
 define('pix-live/tests/unit/routes/assessments/get-results-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2403,13 +2413,13 @@ define('pix-live/tests/unit/routes/assessments/get-results-test.lint-test', ['ex
     });
   });
 });
-define('pix-live/tests/unit/routes/challenges/get-preview-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/unit/routes/challenges/get-preview-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('route:challenges.get-preview', 'Unit | Route | challenges.get-preview', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  }, function () {
-    (0, _emberMocha.it)('exists', function () {
+  (0, _mocha.describe)('Unit | Route | challenges.get-preview', function () {
+
+    (0, _emberMocha.setupTest)('route:challenges.get-preview', {});
+
+    (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
     });
@@ -2424,18 +2434,16 @@ define('pix-live/tests/unit/routes/challenges/get-preview-test.lint-test', ['exp
     });
   });
 });
-define('pix-live/tests/unit/routes/courses/get-challenge-preview-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/unit/routes/courses/get-challenge-preview-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('route:courses/get-challenge-preview', 'ChallengePreviewRoute', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  }, function () {
-    (0, _emberMocha.it)('exists', function () {
+  (0, _mocha.describe)('Unit | Route | ChallengePreview', function () {
+
+    (0, _emberMocha.setupTest)('route:courses/get-challenge-preview', {});
+
+    (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
     });
-
-    // TODO: moar tests
   });
 });
 define('pix-live/tests/unit/routes/courses/get-challenge-preview-test.lint-test', ['exports'], function (exports) {
@@ -2447,13 +2455,13 @@ define('pix-live/tests/unit/routes/courses/get-challenge-preview-test.lint-test'
     });
   });
 });
-define('pix-live/tests/unit/routes/courses/get-course-preview-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/unit/routes/courses/get-course-preview-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('route:courses/get-course-preview', 'CoursePreviewRoute', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  }, function () {
-    (0, _emberMocha.it)('exists', function () {
+  (0, _mocha.describe)('Unit | Route | CoursePreview', function () {
+
+    (0, _emberMocha.setupTest)('route:courses/get-course-preview', {});
+
+    (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
     });
@@ -2468,10 +2476,13 @@ define('pix-live/tests/unit/routes/courses/get-course-preview-test.lint-test', [
     });
   });
 });
-define('pix-live/tests/unit/routes/home-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
+define('pix-live/tests/unit/routes/home-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('route:home', 'Unit | Route | home', function () {
-    (0, _emberMocha.it)('exists', function () {
+  (0, _mocha.describe)('Unit | Route | home', function () {
+
+    (0, _emberMocha.setupTest)('route:home', {});
+
+    (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
     });
@@ -2486,10 +2497,13 @@ define('pix-live/tests/unit/routes/home-test.lint-test', ['exports'], function (
     });
   });
 });
-define('pix-live/tests/unit/routes/index-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
+define('pix-live/tests/unit/routes/index-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('route:index', 'Unit | Route | index', function () {
-    (0, _emberMocha.it)('exists', function () {
+  (0, _mocha.describe)('Unit | Route | index', function () {
+
+    (0, _emberMocha.setupTest)('route:index', {});
+
+    (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
     });
@@ -2504,10 +2518,13 @@ define('pix-live/tests/unit/routes/index-test.lint-test', ['exports'], function 
     });
   });
 });
-define('pix-live/tests/unit/routes/preferences-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
+define('pix-live/tests/unit/routes/preferences-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('route:preferences', 'Unit | Route | preferences', function () {
-    (0, _emberMocha.it)('exists', function () {
+  (0, _mocha.describe)('Unit | Route | preferences', function () {
+
+    (0, _emberMocha.setupTest)('route:preferences', {});
+
+    (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
     });
@@ -2522,11 +2539,13 @@ define('pix-live/tests/unit/routes/preferences-test.lint-test', ['exports'], fun
     });
   });
 });
-define('pix-live/tests/unit/services/assessment-test', ['exports', 'chai', 'ember-mocha', 'mocha', 'ember'], function (exports, _chai, _emberMocha, _mocha, _ember) {
+define('pix-live/tests/unit/services/assessment-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('service:assessment', 'AssessmentService', {
-    needs: ['model:assessment', 'model:challenge', 'model:course', 'model:answer']
-  }, function () {
+  (0, _mocha.describe)('Unit | Service | AssessmentService', function () {
+
+    (0, _emberMocha.setupTest)('service:assessment', {
+      needs: ['model:assessment', 'model:challenge', 'model:course', 'model:answer']
+    });
 
     function instantiateModels(store, challengesArray) {
       var challenges = challengesArray.map(function (challenge) {
@@ -2541,7 +2560,7 @@ define('pix-live/tests/unit/services/assessment-test', ['exports', 'chai', 'embe
 
     (0, _mocha.describe)('#getNextChallenge', function () {
 
-      (0, _emberMocha.it)('returns a promise', function () {
+      (0, _mocha.it)('returns a promise', function () {
         var _this = this;
 
         return _ember['default'].run(function () {
@@ -2556,7 +2575,7 @@ define('pix-live/tests/unit/services/assessment-test', ['exports', 'chai', 'embe
         });
       });
 
-      (0, _emberMocha.it)('return the next challenge when current challenge is not the assessment\'s last one', function () {
+      (0, _mocha.it)('return the next challenge when current challenge is not the assessment\'s last one', function () {
         var _this2 = this;
 
         return _ember['default'].run(function () {
@@ -2576,7 +2595,7 @@ define('pix-live/tests/unit/services/assessment-test', ['exports', 'chai', 'embe
         });
       });
 
-      (0, _emberMocha.it)('return the next challenge when current challenge is the assessment\'s latest', function () {
+      (0, _mocha.it)('return the next challenge when current challenge is the assessment\'s latest', function () {
         var _this3 = this;
 
         return _ember['default'].run(function () {
@@ -2596,7 +2615,7 @@ define('pix-live/tests/unit/services/assessment-test', ['exports', 'chai', 'embe
         });
       });
 
-      (0, _emberMocha.it)('return challenge model objects well formed', function () {
+      (0, _mocha.it)('return challenge model objects well formed', function () {
         var _this4 = this;
 
         return _ember['default'].run(function () {
@@ -2637,19 +2656,19 @@ define('pix-live/tests/unit/services/assessment-test.lint-test', ['exports'], fu
     });
   });
 });
-define('pix-live/tests/unit/services/delay-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/unit/services/delay-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('service:delay', 'DelayService', {
-    // Specify the other units that are required for this test.
-    // needs: ['service:foo']
-  }, function () {
+  (0, _mocha.describe)('Unit | Service | DelayService', function () {
+
+    (0, _emberMocha.setupTest)('service:delay', {});
+
     // Replace this with your real tests.
-    (0, _emberMocha.it)('exists', function () {
-      var service = this.subject();
-      (0, _chai.expect)(service).to.be.ok;
+    (0, _mocha.it)('exists', function () {
+      var controller = this.subject();
+      (0, _chai.expect)(controller).to.be.ok;
     });
 
-    (0, _emberMocha.it)('has delay#ms() which return a promise', function () {
+    (0, _mocha.it)('has delay#ms() which return a promise', function () {
       var delay = this.subject();
       (0, _chai.expect)(delay).to.respondsTo('ms');
       var promise = delay.ms(0);
@@ -2657,7 +2676,6 @@ define('pix-live/tests/unit/services/delay-test', ['exports', 'chai', 'ember-moc
     });
   });
 });
-/* jshint expr:true */
 define('pix-live/tests/unit/services/delay-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
