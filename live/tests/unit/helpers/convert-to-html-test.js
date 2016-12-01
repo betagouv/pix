@@ -1,11 +1,6 @@
 import { expect } from 'chai';
-import {
-  describe,
-  it
-} from 'mocha';
-import {
-  convertToHtml
-} from 'pix-live/helpers/convert-to-html';
+import { describe, it } from 'mocha';
+import { convertToHtml } from 'pix-live/helpers/convert-to-html';
 
 describe('Unit | Helpers | ConvertToHtmlHelper', function() {
   // Replace this with your real tests.
