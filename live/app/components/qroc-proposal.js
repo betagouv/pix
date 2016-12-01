@@ -11,5 +11,10 @@ export default Ember.Component.extend({
     this.$('input').keydown(function() {
       that.sendAction('onInputChanged');
     });
+
+    //XXX : prevent from abandonned question to be displayed
+    if (this.$('input').val() === '#ABAND#') {
+      this.$('input').val('');
+    }
   }
 });
