@@ -9,12 +9,12 @@ module.exports = {
       Answer
         .where({
           challengeId: challengeId,
-          assessmentId:  assessmentId
+          assessmentId: assessmentId
         })
         .fetch()
         .then((answer) => resolve(answer))
         .catch((err) => reject(err));
-    
+
     });
 
   }
