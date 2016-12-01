@@ -4,8 +4,7 @@ import ChallengeItemGeneric from './challenge-item-generic';
 const ChallengeItemQroc = ChallengeItemGeneric.extend({
 
   _hasError: function () {
-    const answer = this._getAnswerValue();
-    return (Ember.isEmpty(answer) || answer.length < 1 || answer.every(Ember.isBlank));
+    return !(this._getAnswerValue().length >= 1);
   },
 
   // XXX : data is extracted from DOM of child component, breaking child encapsulation.
