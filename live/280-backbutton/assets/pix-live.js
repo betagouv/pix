@@ -2138,7 +2138,7 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-
         if (challenge) {
           return _this2.transitionTo('assessments.get-challenge', assessment.get('id'), challenge.get('id'));
         }
-        return _this2.transitionTo('assessments.get-results', { assessment: assessment });
+        return _this2.transitionTo('assessments.get-results', assessment.get('id'));
       });
     },
 
@@ -2171,7 +2171,7 @@ define('pix-live/routes/assessments/get-results', ['exports', 'ember', 'rsvp'], 
     model: function model(params) {
       var store = this.get('store');
       return _rsvp['default'].hash({
-        assessment: store.findRecord('assessment', params.assessment_id)
+        assessment: store.findRecord('assessment', params.assessment_id, { reload: true })
       });
     },
 
@@ -11363,7 +11363,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+3d9eb83c"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+5446fecb"});
 }
 
 /* jshint ignore:end */
