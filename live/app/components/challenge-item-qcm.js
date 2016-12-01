@@ -3,7 +3,7 @@ import ChallengeItemGeneric from './challenge-item-generic';
 const ChallengeItemQcm = ChallengeItemGeneric.extend({
 
   _hasError: function () {
-    return !(this._getAnswerValue().length >= 1);
+    return this._getAnswerValue().length < 1;
   },
 
   // XXX : data is extracted from DOM of child component, breaking child encapsulation.
