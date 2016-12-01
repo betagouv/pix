@@ -625,6 +625,11 @@ define('pix-live/components/qroc-proposal', ['exports', 'ember'], function (expo
       this.$('input').keydown(function () {
         that.sendAction('onInputChanged');
       });
+
+      //XXX : prevent from abandonned question to be displayed
+      if (this.$('input').val() === '#ABAND#') {
+        this.$('input').val('');
+      }
     }
   });
 });
@@ -11358,7 +11363,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+5a6181a2"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.0.0-SNAPSHOT+6f315b88"});
 }
 
 /* jshint ignore:end */
