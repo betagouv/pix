@@ -10,17 +10,38 @@ module.exports = {
 
   save(request, reply) {
 
-    const answer = answerSerializer.deserialize(request.payload);
+    const newAnswer = answerSerializer.deserialize(request.payload);
 
-    solutionRepository
-      .get(answer.get('challengeId'))
-      .then((solution) => {
-        const answerCorrectness = solutionService.match(answer, solution);
-        answer.set('result', answerCorrectness);
-        return answer.save()
-          .then((answer) => reply(answerSerializer.serialize(answer)).code(201))
-          .catch((err) => reply(Boom.badImplementation(err)));
+    answerRepository
+      .findByChallengeAndAssessment(newAnswer.get('challengeId'), newAnswer.get('assessmentId'))
+      .then((existingAnswer) => {
+        
+        // newAnswer already exists, update it
+        solutionRepository
+        .get(existingAnswer.get('challengeId'))
+        .then((solution) => {
+          const answerCorrectness = solutionService.match(newAnswer, solution);
+          return new Answer({id:existingAnswer.id}).save({result:answerCorrectness, value:newAnswer.get('value')},{method:"update"})
+            .then((updatedAnswer) => reply(answerSerializer.serialize(updatedAnswer)).code(200))
+            .catch((err) => reply(Boom.badImplementation(err)));
+        });
+
+      })
+      .catch((err) => {
+
+        // newAnswer does not exists
+        solutionRepository
+          .get(newAnswer.get('challengeId'))
+          .then((solution) => {
+            const answerCorrectness = solutionService.match(newAnswer, solution);
+            newAnswer.set('result', answerCorrectness);
+            return newAnswer.save()
+              .then((newAnswer) => reply(answerSerializer.serialize(newAnswer)).code(201))
+              .catch((err) => reply(Boom.badImplementation(err)));
+          });
+
       });
+
   },
 
   get(request, reply) {
