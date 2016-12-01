@@ -8,7 +8,7 @@ export default Ember.Component.extend({
     // XXX : jQuery handler here is far more powerful than declaring event in template helper.
     // It avoids to loose time with 'oh that handy jQuery event is missing',
     // or "How the hell did they construct input helper ?"
-    this.$('input').keypress(function() {
+    this.$('input').keydown(function() {
       that.sendAction('onInputChanged');
     });
   }

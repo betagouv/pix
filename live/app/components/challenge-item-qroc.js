@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import ChallengeItemGeneric from './challenge-item-generic';
 
 const ChallengeItemQroc = ChallengeItemGeneric.extend({

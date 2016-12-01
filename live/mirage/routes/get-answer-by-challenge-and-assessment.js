@@ -36,7 +36,7 @@ export default function (schema, request) {
     } catch(e) {
       queryParams = '';
     }
-    throw new Error('The answer you required in the fake server does not exist ' + queryParams);
+    throw new Error('404 The answer you required in the fake server does not exist... ' + queryParams);
   }
 
 
