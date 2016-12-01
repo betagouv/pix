@@ -11,7 +11,7 @@ class Solution extends AirtableModel {
     if (this.record.fields) {
 
       const fields = this.record.fields;
-      this.type =  fields["Type d'épreuve"];
+      this.type = fields["Type d'épreuve"];
       this.value = fields["Bonnes réponses"];
 
     }
