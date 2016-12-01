@@ -57,7 +57,7 @@
     "start:watch": "./node_modules/.bin/nodemon bin/www",
     "db:migrate": "./node_modules/.bin/knex --knexfile db/knexfile.js migrate:latest",
     "db:seed": "./node_modules/.bin/knex --knexfile db/knexfile.js seed:run",
-    "test": "rm -f db/test.sqlite3 && NODE_ENV=test npm run db:migrate && NODE_ENV=test ./node_modules/.bin/mocha -r tests/setup --recursive tests",
+    "test": "NODE_ENV=test npm run db:migrate && NODE_ENV=test ./node_modules/.bin/mocha -r tests/setup --recursive tests",
     "test:watch": "npm test -- --watch",
     "lint": "./node_modules/.bin/eslint lib/**/*.js",
     "coverage:check": "NODE_ENV=test npm run db:migrate && NODE_ENV=test ./node_modules/.bin/istanbul cover --dir '../coverage' _mocha -- -r tests/setup --recursive tests",
