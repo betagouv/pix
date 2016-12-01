@@ -32,10 +32,7 @@ define('pix-live/tests/acceptance/a1-page-accueuil.lint-test', ['exports'], func
 
   describe('ESLint - acceptance/a1-page-accueuil.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/a1-page-accueuil.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -73,10 +70,7 @@ define('pix-live/tests/acceptance/a2-afficher-logo-pix-test.lint-test', ['export
 
   describe('ESLint - acceptance/a2-afficher-logo-pix-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/a2-afficher-logo-pix-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -142,10 +136,7 @@ define('pix-live/tests/acceptance/a3-voir-liste-tests-test.lint-test', ['exports
 
   describe('ESLint - acceptance/a3-voir-liste-tests-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/a3-voir-liste-tests-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -187,10 +178,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test.lint-test', ['exports
 
   describe('ESLint - acceptance/a4-demarrer-un-test-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/a4-demarrer-un-test-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -259,10 +247,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test.lint-test', ['exports'], f
 
   describe('ESLint - acceptance/b1-epreuve-qcu-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/b1-epreuve-qcu-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -353,10 +338,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test.lint-test', ['exports'], f
 
   describe('ESLint - acceptance/b2-epreuve-qcm-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/b2-epreuve-qcm-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -405,10 +387,7 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test.lint-test', ['exports'], 
 
   describe('ESLint - acceptance/b3-epreuve-qroc-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/b3-epreuve-qroc-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -454,10 +433,7 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test.lint-test', ['exports'],
 
   describe('ESLint - acceptance/b4-epreuve-qrocm-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/b4-epreuve-qrocm-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -515,10 +491,7 @@ define('pix-live/tests/acceptance/b5-epreuve-image-de-consigne-test.lint-test', 
 
   describe('ESLint - acceptance/b5-epreuve-image-de-consigne-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/b5-epreuve-image-de-consigne-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -582,10 +555,7 @@ define('pix-live/tests/acceptance/b6-epreuve-pj-test.lint-test', ['exports'], fu
 
   describe('ESLint - acceptance/b6-epreuve-pj-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/b6-epreuve-pj-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -656,10 +626,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test.lint-test', ['e
 
   describe('ESLint - acceptance/b7-epreuve-points-communs-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/b7-epreuve-points-communs-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -735,10 +702,7 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test.lint-test', ['exports'],
 
   describe('ESLint - acceptance/c1-recapitulatif-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/c1-recapitulatif-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -811,10 +775,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test.lint-test', ['expor
 
   describe('ESLint - acceptance/d1-epreuve-validation-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/d1-epreuve-validation-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -863,10 +824,7 @@ define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test.lint-test', [
 
   describe('ESLint - acceptance/e1-previsualisation-epreuve-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/e1-previsualisation-epreuve-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -952,10 +910,7 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test.lint-test', ['ex
 
   describe('ESLint - acceptance/f1-previsualisation-test-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('acceptance/f1-previsualisation-test-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -964,10 +919,7 @@ define('pix-live/tests/adapters/application.lint-test', ['exports'], function (e
 
   describe('ESLint - adapters/application.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('adapters/application.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -976,10 +928,7 @@ define('pix-live/tests/app.lint-test', ['exports'], function (exports) {
 
   describe('ESLint - app.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('app.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -988,10 +937,7 @@ define('pix-live/tests/components/app-header.lint-test', ['exports'], function (
 
   describe('ESLint - components/app-header.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/app-header.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1000,10 +946,7 @@ define('pix-live/tests/components/beta-logo.lint-test', ['exports'], function (e
 
   describe('ESLint - components/beta-logo.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/beta-logo.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1012,10 +955,7 @@ define('pix-live/tests/components/challenge-actionbar.lint-test', ['exports'], f
 
   describe('ESLint - components/challenge-actionbar.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/challenge-actionbar.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1024,10 +964,7 @@ define('pix-live/tests/components/challenge-instruction.lint-test', ['exports'],
 
   describe('ESLint - components/challenge-instruction.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/challenge-instruction.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1036,10 +973,7 @@ define('pix-live/tests/components/challenge-item-generic.lint-test', ['exports']
 
   describe('ESLint - components/challenge-item-generic.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/challenge-item-generic.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1048,10 +982,7 @@ define('pix-live/tests/components/challenge-item-qcm.lint-test', ['exports'], fu
 
   describe('ESLint - components/challenge-item-qcm.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/challenge-item-qcm.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1060,10 +991,7 @@ define('pix-live/tests/components/challenge-item-qcu.lint-test', ['exports'], fu
 
   describe('ESLint - components/challenge-item-qcu.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/challenge-item-qcu.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1072,10 +1000,7 @@ define('pix-live/tests/components/challenge-item-qroc.lint-test', ['exports'], f
 
   describe('ESLint - components/challenge-item-qroc.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/challenge-item-qroc.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1084,10 +1009,7 @@ define('pix-live/tests/components/challenge-item-qrocm.lint-test', ['exports'], 
 
   describe('ESLint - components/challenge-item-qrocm.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/challenge-item-qrocm.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1096,10 +1018,7 @@ define('pix-live/tests/components/corner-ribbon.lint-test', ['exports'], functio
 
   describe('ESLint - components/corner-ribbon.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/corner-ribbon.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1108,10 +1027,7 @@ define('pix-live/tests/components/course-banner.lint-test', ['exports'], functio
 
   describe('ESLint - components/course-banner.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/course-banner.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1120,10 +1036,7 @@ define('pix-live/tests/components/first-page.lint-test', ['exports'], function (
 
   describe('ESLint - components/first-page.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/first-page.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1132,10 +1045,7 @@ define('pix-live/tests/components/get-result.lint-test', ['exports'], function (
 
   describe('ESLint - components/get-result.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/get-result.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1144,10 +1054,7 @@ define('pix-live/tests/components/load-email.lint-test', ['exports'], function (
 
   describe('ESLint - components/load-email.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/load-email.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1156,10 +1063,7 @@ define('pix-live/tests/components/progress-bar.lint-test', ['exports'], function
 
   describe('ESLint - components/progress-bar.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/progress-bar.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1168,10 +1072,7 @@ define('pix-live/tests/components/user-menu.lint-test', ['exports'], function (e
 
   describe('ESLint - components/user-menu.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('components/user-menu.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1180,10 +1081,7 @@ define('pix-live/tests/controllers/assessments/get-challenge.lint-test', ['expor
 
   describe('ESLint - controllers/assessments/get-challenge.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('controllers/assessments/get-challenge.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1192,10 +1090,7 @@ define('pix-live/tests/controllers/courses/get-challenge-preview.lint-test', ['e
 
   describe('ESLint - controllers/courses/get-challenge-preview.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('controllers/courses/get-challenge-preview.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1204,10 +1099,7 @@ define('pix-live/tests/controllers/home.lint-test', ['exports'], function (expor
 
   describe('ESLint - controllers/home.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('controllers/home.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1216,10 +1108,7 @@ define('pix-live/tests/helpers/convert-to-html.lint-test', ['exports'], function
 
   describe('ESLint - helpers/convert-to-html.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('helpers/convert-to-html.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1265,10 +1154,7 @@ define('pix-live/tests/helpers/describe-visiting.lint-test', ['exports'], functi
 
   describe('ESLint - helpers/describe-visiting.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('helpers/describe-visiting.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1284,10 +1170,7 @@ define('pix-live/tests/helpers/destroy-app.lint-test', ['exports'], function (ex
 
   describe('ESLint - helpers/destroy-app.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('helpers/destroy-app.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1818,10 +1701,7 @@ define('pix-live/tests/helpers/eq.lint-test', ['exports'], function (exports) {
 
   describe('ESLint - helpers/eq.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('helpers/eq.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1856,10 +1736,7 @@ define('pix-live/tests/helpers/module-for-acceptance.lint-test', ['exports'], fu
 
   describe('ESLint - helpers/module-for-acceptance.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('helpers/module-for-acceptance.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1879,10 +1756,7 @@ define('pix-live/tests/helpers/resolver.lint-test', ['exports'], function (expor
 
   describe('ESLint - helpers/resolver.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('helpers/resolver.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1909,10 +1783,7 @@ define('pix-live/tests/helpers/start-app.lint-test', ['exports'], function (expo
 
   describe('ESLint - helpers/start-app.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('helpers/start-app.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1921,10 +1792,7 @@ define('pix-live/tests/helpers/strip-instruction.lint-test', ['exports'], functi
 
   describe('ESLint - helpers/strip-instruction.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('helpers/strip-instruction.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1933,10 +1801,7 @@ define('pix-live/tests/initializers/router.lint-test', ['exports'], function (ex
 
   describe('ESLint - initializers/router.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('initializers/router.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1960,10 +1825,7 @@ define('pix-live/tests/integration/components/corner-ribbon-test.lint-test', ['e
 
   describe('ESLint - integration/components/corner-ribbon-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('integration/components/corner-ribbon-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -1987,10 +1849,7 @@ define('pix-live/tests/integration/components/first-page-test.lint-test', ['expo
 
   describe('ESLint - integration/components/first-page-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('integration/components/first-page-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2014,10 +1873,7 @@ define('pix-live/tests/integration/components/get-result-test.lint-test', ['expo
 
   describe('ESLint - integration/components/get-result-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('integration/components/get-result-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2041,10 +1897,7 @@ define('pix-live/tests/integration/components/load-email-test.lint-test', ['expo
 
   describe('ESLint - integration/components/load-email-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('integration/components/load-email-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2053,10 +1906,7 @@ define('pix-live/tests/models/answer.lint-test', ['exports'], function (exports)
 
   describe('ESLint - models/answer.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('models/answer.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2065,10 +1915,7 @@ define('pix-live/tests/models/assessment.lint-test', ['exports'], function (expo
 
   describe('ESLint - models/assessment.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('models/assessment.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2077,10 +1924,7 @@ define('pix-live/tests/models/challenge.lint-test', ['exports'], function (expor
 
   describe('ESLint - models/challenge.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('models/challenge.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2089,10 +1933,7 @@ define('pix-live/tests/models/challenge/proposals-as-array-mixin.lint-test', ['e
 
   describe('ESLint - models/challenge/proposals-as-array-mixin.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('models/challenge/proposals-as-array-mixin.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2101,10 +1942,7 @@ define('pix-live/tests/models/challenge/proposals-as-blocks-mixin.lint-test', ['
 
   describe('ESLint - models/challenge/proposals-as-blocks-mixin.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('models/challenge/proposals-as-blocks-mixin.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2113,10 +1951,7 @@ define('pix-live/tests/models/course.lint-test', ['exports'], function (exports)
 
   describe('ESLint - models/course.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('models/course.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2125,10 +1960,7 @@ define('pix-live/tests/models/user.lint-test', ['exports'], function (exports) {
 
   describe('ESLint - models/user.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('models/user.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2137,10 +1969,7 @@ define('pix-live/tests/resolver.lint-test', ['exports'], function (exports) {
 
   describe('ESLint - resolver.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('resolver.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2149,10 +1978,7 @@ define('pix-live/tests/router.lint-test', ['exports'], function (exports) {
 
   describe('ESLint - router.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('router.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2161,10 +1987,7 @@ define('pix-live/tests/routes/assessments/get-challenge.lint-test', ['exports'],
 
   describe('ESLint - routes/assessments/get-challenge.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('routes/assessments/get-challenge.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2173,10 +1996,7 @@ define('pix-live/tests/routes/assessments/get-results.lint-test', ['exports'], f
 
   describe('ESLint - routes/assessments/get-results.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('routes/assessments/get-results.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2185,10 +2005,7 @@ define('pix-live/tests/routes/challenges/get-preview.lint-test', ['exports'], fu
 
   describe('ESLint - routes/challenges/get-preview.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('routes/challenges/get-preview.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2197,10 +2014,7 @@ define('pix-live/tests/routes/courses/create-assessment.lint-test', ['exports'],
 
   describe('ESLint - routes/courses/create-assessment.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('routes/courses/create-assessment.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2209,10 +2023,7 @@ define('pix-live/tests/routes/courses/get-challenge-preview.lint-test', ['export
 
   describe('ESLint - routes/courses/get-challenge-preview.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('routes/courses/get-challenge-preview.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2221,10 +2032,7 @@ define('pix-live/tests/routes/courses/get-course-preview.lint-test', ['exports']
 
   describe('ESLint - routes/courses/get-course-preview.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('routes/courses/get-course-preview.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2233,10 +2041,7 @@ define('pix-live/tests/routes/home.lint-test', ['exports'], function (exports) {
 
   describe('ESLint - routes/home.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('routes/home.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2245,10 +2050,7 @@ define('pix-live/tests/routes/index.lint-test', ['exports'], function (exports) 
 
   describe('ESLint - routes/index.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('routes/index.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2257,10 +2059,7 @@ define('pix-live/tests/routes/preferences.lint-test', ['exports'], function (exp
 
   describe('ESLint - routes/preferences.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('routes/preferences.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2269,10 +2068,7 @@ define('pix-live/tests/services/assessment.lint-test', ['exports'], function (ex
 
   describe('ESLint - services/assessment.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('services/assessment.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2281,10 +2077,7 @@ define('pix-live/tests/services/delay.lint-test', ['exports'], function (exports
 
   describe('ESLint - services/delay.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('services/delay.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2297,10 +2090,7 @@ define('pix-live/tests/test-helper.lint-test', ['exports'], function (exports) {
 
   describe('ESLint - test-helper.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('test-helper.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2322,10 +2112,7 @@ define('pix-live/tests/unit/controllers/home-test.lint-test', ['exports'], funct
 
   describe('ESLint - unit/controllers/home-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/controllers/home-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2348,10 +2135,7 @@ define('pix-live/tests/unit/helpers/convert-to-html-test.lint-test', ['exports']
 
   describe('ESLint - unit/helpers/convert-to-html-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/helpers/convert-to-html-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2370,10 +2154,7 @@ define('pix-live/tests/unit/helpers/strip-instruction-test.lint-test', ['exports
 
   describe('ESLint - unit/helpers/strip-instruction-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/helpers/strip-instruction-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2409,10 +2190,7 @@ define('pix-live/tests/unit/models/answer-test.lint-test', ['exports'], function
 
   describe('ESLint - unit/models/answer-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/models/answer-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2432,10 +2210,7 @@ define('pix-live/tests/unit/models/challenge-test.lint-test', ['exports'], funct
 
   describe('ESLint - unit/models/challenge-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/models/challenge-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2463,10 +2238,7 @@ define('pix-live/tests/unit/models/challenge/proposals-as-array-mixin-test.lint-
 
   describe('ESLint - unit/models/challenge/proposals-as-array-mixin-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/models/challenge/proposals-as-array-mixin-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2501,10 +2273,7 @@ define('pix-live/tests/unit/models/challenge/proposals-as-blocks-mixin-test.lint
 
   describe('ESLint - unit/models/challenge/proposals-as-blocks-mixin-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/models/challenge/proposals-as-blocks-mixin-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2586,10 +2355,7 @@ define('pix-live/tests/unit/models/course-test.lint-test', ['exports'], function
 
   describe('ESLint - unit/models/course-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/models/course-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2611,10 +2377,7 @@ define('pix-live/tests/unit/routes/assessments/get-challenge-test.lint-test', ['
 
   describe('ESLint - unit/routes/assessments/get-challenge-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/routes/assessments/get-challenge-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2636,10 +2399,7 @@ define('pix-live/tests/unit/routes/assessments/get-results-test.lint-test', ['ex
 
   describe('ESLint - unit/routes/assessments/get-results-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/routes/assessments/get-results-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2660,10 +2420,7 @@ define('pix-live/tests/unit/routes/challenges/get-preview-test.lint-test', ['exp
 
   describe('ESLint - unit/routes/challenges/get-preview-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/routes/challenges/get-preview-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2686,10 +2443,7 @@ define('pix-live/tests/unit/routes/courses/get-challenge-preview-test.lint-test'
 
   describe('ESLint - unit/routes/courses/get-challenge-preview-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/routes/courses/get-challenge-preview-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2710,10 +2464,7 @@ define('pix-live/tests/unit/routes/courses/get-course-preview-test.lint-test', [
 
   describe('ESLint - unit/routes/courses/get-course-preview-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/routes/courses/get-course-preview-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2731,10 +2482,7 @@ define('pix-live/tests/unit/routes/home-test.lint-test', ['exports'], function (
 
   describe('ESLint - unit/routes/home-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/routes/home-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2752,10 +2500,7 @@ define('pix-live/tests/unit/routes/index-test.lint-test', ['exports'], function 
 
   describe('ESLint - unit/routes/index-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/routes/index-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2773,10 +2518,7 @@ define('pix-live/tests/unit/routes/preferences-test.lint-test', ['exports'], fun
 
   describe('ESLint - unit/routes/preferences-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/routes/preferences-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2891,10 +2633,7 @@ define('pix-live/tests/unit/services/assessment-test.lint-test', ['exports'], fu
 
   describe('ESLint - unit/services/assessment-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/services/assessment-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2924,10 +2663,7 @@ define('pix-live/tests/unit/services/delay-test.lint-test', ['exports'], functio
 
   describe('ESLint - unit/services/delay-test.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('unit/services/delay-test.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2936,10 +2672,7 @@ define('pix-live/tests/utils/call-only-once.lint-test', ['exports'], function (e
 
   describe('ESLint - utils/call-only-once.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('utils/call-only-once.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2948,10 +2681,7 @@ define('pix-live/tests/utils/get-challenge-type.lint-test', ['exports'], functio
 
   describe('ESLint - utils/get-challenge-type.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('utils/get-challenge-type.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });

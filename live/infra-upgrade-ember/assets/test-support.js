@@ -2411,8 +2411,6 @@ requireModule("ember-testing");
 
 }());
 
-// leaving this file so older ember-cli-qunit versions do not blow up
-
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (process,global){
 /**
@@ -15563,6 +15561,230 @@ function hasOwnProperty(obj, prop) {
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./support/isBuffer":74,"_process":58,"inherits":53}]},{},[1]);
 
+mocha.setup('bdd');
+
+/* Ember Mocha Adapter | (C) 2014 Teddy Zeenny | https://github.com/teddyzeenny/ember-mocha-adapter */
+
+(function() {
+  var done, doneTimeout, isAsync, emberBdd, isPromise;
+
+  done = null;
+  doneTimeout = null;
+  isAsync = 0;
+
+  Ember.Test.MochaAdapter = Ember.Test.Adapter.extend({
+    init: function() {
+      this._super();
+      window.Mocha.interfaces['ember-bdd'] = emberBdd;
+      window.mocha.ui('ember-bdd');
+    },
+    asyncStart: function() {
+      isAsync++;
+      clearTimeout(doneTimeout);
+    },
+    asyncEnd: function() {
+      if (--isAsync === 0 && done && !isPromise) {
+        doneTimeout = setTimeout(function() {
+          complete();
+        });
+      }
+    },
+    exception: function(reason) {
+      if (!(reason instanceof Error)) {
+        reason = new Error(reason);
+      }
+      if (done) {
+        complete(reason);
+      } else {
+        setTimeout(function() {
+          throw reason;
+        });
+      }
+    }
+  });
+
+  function fixAsync(suites, methodName) {
+    return function(name, fn) {
+      if (!fn) {
+        fn = name;
+        name = fn.name;
+      }
+
+      var suite = suites[0];
+      var hook = suite[methodName];
+      var asyncFn = fn;
+
+      if (fn.length === 0) {
+        asyncFn = function(d) {
+          invoke(this, fn, d);
+        };
+      }
+
+      if (hook.length === 2) {
+        hook.call(suite, name, asyncFn);
+      } else {
+        hook.call(suite, asyncFn);
+      }
+    };
+  }
+
+  function invoke(context, fn, d) {
+    done = d;
+    isPromise = false;
+    var result = fn.call(context);
+    // If a promise is returned,
+    // complete test when promise fulfills / rejects
+    if (result && typeof result.then === 'function') {
+      isPromise = true;
+      result.then(function() { complete(); }, complete);
+    } else {
+       if (isAsync === 0) { complete(); }
+    }
+  }
+
+  // Called whenever an async test passes or fails.
+  // if `e` is passed, that means the test
+  // failed with exception `e`
+  function complete(e) {
+    clearTimeout(doneTimeout);
+    if (!done) { return; }
+    var d = done;
+    done = null;
+    if (e) {
+      // test failure
+      if (!(e instanceof Error)) {
+        e = new Error(e);
+      }
+      d(e);
+    } else {
+      // test passed
+      d();
+    }
+  }
+
+  /**
+    ember-bdd mocha interface.
+    This interface allows
+    the Ember.js tester
+    to forget about sync / async
+    and treat all tests the same.
+
+    This interface, along with the adapter
+    will take care of handling sync vs async
+  */
+
+  emberBdd = function(suite) {
+    var suites = [suite];
+
+    suite.on('pre-require', function(context, file, mocha) {
+
+      context.before = fixAsync(suites, 'beforeAll');
+
+      context.after = fixAsync(suites, 'afterAll');
+
+      context.beforeEach = fixAsync(suites, 'beforeEach');
+
+      context.afterEach = fixAsync(suites, 'afterEach');
+
+
+      context.it = context.specify = function(title, fn){
+        var suite = suites[0], test;
+        if (suite.pending) {
+          fn = null;
+        }
+        if (!fn || fn.length === 1) {
+          test = new Mocha.Test(title, fn);
+        } else {
+          var method = function(d) {
+            invoke(this, fn, d);
+          };
+          method.toString = function() {
+            return fn.toString();
+          }
+          test = new Mocha.Test(title, method);
+        }
+        suite.addTest(test);
+        return test;
+      };
+
+      context.describe = context.context = function(title, fn){
+        var suite = Mocha.Suite.create(suites[0], title);
+        suites.unshift(suite);
+        fn.call(suite);
+        suites.shift();
+        return suite;
+      };
+
+      context.xdescribe =
+      context.xcontext =
+      context.describe.skip = function(title, fn){
+        var suite = Mocha.Suite.create(suites[0], title);
+        suite.pending = true;
+        suites.unshift(suite);
+        fn.call(suite);
+        suites.shift();
+      };
+
+      context.describe.only = function(title, fn){
+        var suite = context.describe(title, fn);
+        mocha.grep(suite.fullTitle());
+      };
+
+
+      context.it.only = function(title, fn){
+        var test = context.it(title, fn);
+        mocha.grep(test.fullTitle());
+      };
+
+
+      context.xit =
+      context.xspecify =
+      context.it.skip = function(title){
+        context.it(title);
+      };
+
+
+    });
+
+  };
+
+
+}());
+
+Ember.Test.adapter = Ember.Test.MochaAdapter.create();
+
+/* globals jQuery, chai, mocha, require, requirejs */
+
+jQuery(document).ready(function() {
+  var testLoaderModulePath = 'ember-cli-test-loader/test-support/index';
+
+  if (!requirejs.entries[testLoaderModulePath]) {
+    testLoaderModulePath = 'ember-cli/test-loader';
+  }
+
+  var TestLoader = require(testLoaderModulePath)['default'];
+  TestLoader.prototype.shouldLoadModule = function(moduleName) {
+    return moduleName.match(/[-_]test$/) || moduleName.match(/\.jshint$/);
+  };
+
+  TestLoader.prototype.moduleLoadFailure = function(moduleName, error) {
+    describe('TestLoader Failures', function () {
+      it(moduleName + ': could not be loaded', function() {
+        throw error;
+      });
+    });
+  };
+
+  // Attempt to mitigate sourcemap issues in Chrome
+  // See: https://github.com/ember-cli/ember-cli/issues/3098
+  //      https://github.com/ember-cli/ember-cli-qunit/pull/39
+  setTimeout(function() {
+    TestLoader.load();
+
+    window.mochaRunner = mocha.run();
+  }, 250);
+});
+
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.chai = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 module.exports = require('./lib/chai');
 
@@ -21705,233 +21927,34 @@ Library.prototype.test = function(obj, type) {
 
 },{}]},{},[1])(1)
 });
-mocha.setup('bdd');
+/* global self, define */
 
-/* Ember Mocha Adapter | (C) 2014 Teddy Zeenny | https://github.com/teddyzeenny/ember-mocha-adapter */
+// Declare `expect` as a global here instead of as a var in individual tests.
+// This avoids jshint warnings re: `Redefinition of 'expect'`.
+self.expect = self.chai.expect;
 
 (function() {
-  var done, doneTimeout, isAsync, emberBdd, isPromise;
+  function vendorModule() {
+    'use strict';
 
-  done = null;
-  doneTimeout = null;
-  isAsync = 0;
+    return {
+      default: self.chai,
 
-  Ember.Test.MochaAdapter = Ember.Test.Adapter.extend({
-    init: function() {
-      this._super();
-      window.Mocha.interfaces['ember-bdd'] = emberBdd;
-      window.mocha.ui('ember-bdd');
-    },
-    asyncStart: function() {
-      isAsync++;
-      clearTimeout(doneTimeout);
-    },
-    asyncEnd: function() {
-      if (--isAsync === 0 && done && !isPromise) {
-        doneTimeout = setTimeout(function() {
-          complete();
-        });
-      }
-    },
-    exception: function(reason) {
-      if (!(reason instanceof Error)) {
-        reason = new Error(reason);
-      }
-      if (done) {
-        complete(reason);
-      } else {
-        setTimeout(function() {
-          throw reason;
-        });
-      }
-    }
-  });
+      assert: self.chai.assert,
+      expect: self.chai.expect,
+      should: self.chai.should,
 
-  function fixAsync(suites, methodName) {
-    return function(name, fn) {
-      if (!fn) {
-        fn = name;
-        name = fn.name;
-      }
+      config: self.chai.config,
+      use: self.chai.use,
+      util: self.chai.util,
 
-      var suite = suites[0];
-      var hook = suite[methodName];
-      var asyncFn = fn;
-
-      if (fn.length === 0) {
-        asyncFn = function(d) {
-          invoke(this, fn, d);
-        };
-      }
-
-      if (hook.length === 2) {
-        hook.call(suite, name, asyncFn);
-      } else {
-        hook.call(suite, asyncFn);
-      }
+      Assertion: self.chai.Assertion,
+      AssertionError: self.chai.AssertionError,
     };
   }
 
-  function invoke(context, fn, d) {
-    done = d;
-    isPromise = false;
-    var result = fn.call(context);
-    // If a promise is returned,
-    // complete test when promise fulfills / rejects
-    if (result && typeof result.then === 'function') {
-      isPromise = true;
-      result.then(function() { complete(); }, complete);
-    } else {
-       if (isAsync === 0) { complete(); }
-    }
-  }
-
-  // Called whenever an async test passes or fails.
-  // if `e` is passed, that means the test
-  // failed with exception `e`
-  function complete(e) {
-    clearTimeout(doneTimeout);
-    if (!done) { return; }
-    var d = done;
-    done = null;
-    if (e) {
-      // test failure
-      if (!(e instanceof Error)) {
-        e = new Error(e);
-      }
-      d(e);
-    } else {
-      // test passed
-      d();
-    }
-  }
-
-  /**
-    ember-bdd mocha interface.
-    This interface allows
-    the Ember.js tester
-    to forget about sync / async
-    and treat all tests the same.
-
-    This interface, along with the adapter
-    will take care of handling sync vs async
-  */
-
-  emberBdd = function(suite) {
-    var suites = [suite];
-
-    suite.on('pre-require', function(context, file, mocha) {
-
-      context.before = fixAsync(suites, 'beforeAll');
-
-      context.after = fixAsync(suites, 'afterAll');
-
-      context.beforeEach = fixAsync(suites, 'beforeEach');
-
-      context.afterEach = fixAsync(suites, 'afterEach');
-
-
-      context.it = context.specify = function(title, fn){
-        var suite = suites[0], test;
-        if (suite.pending) {
-          fn = null;
-        }
-        if (!fn || fn.length === 1) {
-          test = new Mocha.Test(title, fn);
-        } else {
-          var method = function(d) {
-            invoke(this, fn, d);
-          };
-          method.toString = function() {
-            return fn.toString();
-          }
-          test = new Mocha.Test(title, method);
-        }
-        suite.addTest(test);
-        return test;
-      };
-
-      context.describe = context.context = function(title, fn){
-        var suite = Mocha.Suite.create(suites[0], title);
-        suites.unshift(suite);
-        fn.call(suite);
-        suites.shift();
-        return suite;
-      };
-
-      context.xdescribe =
-      context.xcontext =
-      context.describe.skip = function(title, fn){
-        var suite = Mocha.Suite.create(suites[0], title);
-        suite.pending = true;
-        suites.unshift(suite);
-        fn.call(suite);
-        suites.shift();
-      };
-
-      context.describe.only = function(title, fn){
-        var suite = context.describe(title, fn);
-        mocha.grep(suite.fullTitle());
-      };
-
-
-      context.it.only = function(title, fn){
-        var test = context.it(title, fn);
-        mocha.grep(test.fullTitle());
-      };
-
-
-      context.xit =
-      context.xspecify =
-      context.it.skip = function(title){
-        context.it(title);
-      };
-
-
-    });
-
-  };
-
-
-}());
-
-Ember.Test.adapter = Ember.Test.MochaAdapter.create();
-
-/* globals jQuery, chai, mocha, require, requirejs */
-
-jQuery(document).ready(function() {
-  // Declare `expect` as a global here instead of as a var in individual tests.
-  // This avoids jshint warnings re: `Redefinition of 'expect'`.
-  window.expect = chai.expect;
-
-  var testLoaderModulePath = 'ember-cli-test-loader/test-support/index';
-
-  if (!requirejs.entries[testLoaderModulePath]) {
-    testLoaderModulePath = 'ember-cli/test-loader';
-  }
-
-  var TestLoader = require(testLoaderModulePath)['default'];
-  TestLoader.prototype.shouldLoadModule = function(moduleName) {
-    return moduleName.match(/[-_]test$/) || moduleName.match(/\.jshint$/);
-  };
-
-  TestLoader.prototype.moduleLoadFailure = function(moduleName, error) {
-    describe('TestLoader Failures', function () {
-      it(moduleName + ': could not be loaded', function() {
-        throw error;
-      });
-    });
-  };
-
-  // Attempt to mitigate sourcemap issues in Chrome
-  // See: https://github.com/ember-cli/ember-cli/issues/3098
-  //      https://github.com/ember-cli/ember-cli-qunit/pull/39
-  setTimeout(function() {
-    TestLoader.load();
-
-    window.mochaRunner = mocha.run();
-  }, 250);
-});
+  define('chai', [], vendorModule);
+})();
 
 define("chai", ["exports"], function (exports) {
   /* globals chai */
@@ -22060,13 +22083,22 @@ define('ember-cli-test-loader/test-support/index', ['exports'], function (export
     new TestLoader().loadModules();
   };
 });
-define('ember-mocha', ['exports', 'ember-mocha/describe-module', 'ember-mocha/describe-component', 'ember-mocha/describe-model', 'ember-mocha/it', 'ember-test-helpers'], function (exports, _emberMochaDescribeModule, _emberMochaDescribeComponent, _emberMochaDescribeModel, _emberMochaIt, _emberTestHelpers) {
+define('ember-mocha', ['exports', 'ember-mocha/describe-module', 'ember-mocha/describe-component', 'ember-mocha/describe-model', 'ember-mocha/setup-test-factory', 'mocha', 'ember-test-helpers'], function (exports, _emberMochaDescribeModule, _emberMochaDescribeComponent, _emberMochaDescribeModel, _emberMochaSetupTestFactory, _mocha, _emberTestHelpers) {
   'use strict';
+
+  var setupTest = (0, _emberMochaSetupTestFactory['default'])(_emberTestHelpers.TestModule);
+  var setupAcceptanceTest = (0, _emberMochaSetupTestFactory['default'])(_emberTestHelpers.TestModuleForAcceptance);
+  var setupComponentTest = (0, _emberMochaSetupTestFactory['default'])(_emberTestHelpers.TestModuleForComponent);
+  var setupModelTest = (0, _emberMochaSetupTestFactory['default'])(_emberTestHelpers.TestModuleForModel);
 
   exports.describeModule = _emberMochaDescribeModule['default'];
   exports.describeComponent = _emberMochaDescribeComponent['default'];
   exports.describeModel = _emberMochaDescribeModel['default'];
-  exports.it = _emberMochaIt['default'];
+  exports.setupTest = setupTest;
+  exports.setupAcceptanceTest = setupAcceptanceTest;
+  exports.setupComponentTest = setupComponentTest;
+  exports.setupModelTest = setupModelTest;
+  exports.it = _mocha.it;
   exports.setResolver = _emberTestHelpers.setResolver;
 });
 define('ember-mocha/describe-component', ['exports', 'ember-mocha/mocha-module', 'ember-test-helpers'], function (exports, _emberMochaMochaModule, _emberTestHelpers) {
@@ -22108,46 +22140,7 @@ define('ember-mocha/describe-module', ['exports', 'ember-mocha/mocha-module', 'e
 
   exports['default'] = describeModule;
 });
-define('ember-mocha/it', ['exports', 'ember'], function (exports, _ember) {
-  'use strict';
-
-  var originalIt = window.it;
-
-  function wrap(specifier) {
-    return function (testName, callback) {
-      var wrapper;
-
-      if (!callback) {
-        wrapper = null;
-      } else if (callback.length === 1) {
-        wrapper = function (done) {
-          return callback.call(this, done);
-        };
-      } else {
-        wrapper = function () {
-          return callback.call(this);
-        };
-      }
-
-      if (wrapper) {
-        wrapper.toString = function () {
-          return callback.toString();
-        };
-      }
-
-      return specifier(testName, wrapper);
-    };
-  }
-
-  var wrappedIt = wrap(window.it);
-  wrappedIt.only = wrap(window.it.only);
-  wrappedIt.skip = function (testName, callback) {
-    originalIt(testName);
-  };
-
-  exports['default'] = wrappedIt;
-});
-define('ember-mocha/mocha-module', ['exports', 'mocha', 'ember', 'ember-test-helpers'], function (exports, _mocha, _ember, _emberTestHelpers) {
+define('ember-mocha/mocha-module', ['exports', 'ember', 'mocha', 'ember-test-helpers'], function (exports, _ember, _mocha, _emberTestHelpers) {
   'use strict';
 
   exports.createModule = createModule;
@@ -22155,6 +22148,8 @@ define('ember-mocha/mocha-module', ['exports', 'mocha', 'ember', 'ember-test-hel
   exports.createSkip = createSkip;
 
   function createModule(Constructor, name, description, callbacks, tests, method) {
+    _ember['default'].deprecate('The describeModule(), describeModel() and describeComponent() methods have been deprecated in favor of ' + 'setupTest(), setupModelTest() and setupComponentTest().', false, { id: 'ember-mocha.describe-helpers', until: '1.0.0', url: 'https://github.com/emberjs/ember-mocha#upgrading' });
+
     var module;
 
     if (!tests) {
@@ -22172,14 +22167,13 @@ define('ember-mocha/mocha-module', ['exports', 'mocha', 'ember', 'ember-test-hel
 
     function moduleBody() {
       (0, _mocha.beforeEach)(function () {
-        var self = this;
+        var _this = this;
+
         return module.setup().then(function () {
           var context = (0, _emberTestHelpers.getContext)();
-          var keys = Object.keys(context);
-          for (var i = 0; i < keys.length; i++) {
-            var key = keys[i];
-            self[key] = context[key];
-          }
+          Object.keys(context).forEach(function (key) {
+            _this[key] = context[key];
+          });
         });
       });
 
@@ -22188,7 +22182,7 @@ define('ember-mocha/mocha-module', ['exports', 'mocha', 'ember', 'ember-test-hel
       });
 
       tests = tests || function () {};
-      tests();
+      tests.call(this);
     }
     if (method) {
       _mocha.describe[method](module.name, moduleBody);
@@ -22208,6 +22202,34 @@ define('ember-mocha/mocha-module', ['exports', 'mocha', 'ember', 'ember-test-hel
       createModule(Constructor, name, description, callbacks, tests, "skip");
     };
   }
+});
+define('ember-mocha/setup-test-factory', ['exports', 'mocha', 'ember-test-helpers'], function (exports, _mocha, _emberTestHelpers) {
+  'use strict';
+
+  exports['default'] = function (Constructor) {
+    return function setupTest(moduleName, options) {
+      var module;
+
+      (0, _mocha.before)(function () {
+        module = new Constructor(moduleName, options);
+      });
+
+      (0, _mocha.beforeEach)(function () {
+        var _this = this;
+
+        return module.setup().then(function () {
+          var context = (0, _emberTestHelpers.getContext)();
+          Object.keys(context).forEach(function (key) {
+            _this[key] = context[key];
+          });
+        });
+      });
+
+      (0, _mocha.afterEach)(function () {
+        return module.teardown();
+      });
+    };
+  };
 });
 define('ember-test-helpers', ['exports', 'ember', 'ember-test-helpers/test-module', 'ember-test-helpers/test-module-for-acceptance', 'ember-test-helpers/test-module-for-integration', 'ember-test-helpers/test-module-for-component', 'ember-test-helpers/test-module-for-model', 'ember-test-helpers/test-context', 'ember-test-helpers/test-resolver'], function (exports, _ember, _emberTestHelpersTestModule, _emberTestHelpersTestModuleForAcceptance, _emberTestHelpersTestModuleForIntegration, _emberTestHelpersTestModuleForComponent, _emberTestHelpersTestModuleForModel, _emberTestHelpersTestContext, _emberTestHelpersTestResolver) {
   'use strict';
@@ -23773,7 +23795,9 @@ define('klassy', ['exports'], function (exports) {
   exports.defineClass = defineClass;
   exports.extendClass = extendClass;
 });
-define("mocha", ["exports"], function (exports) {
+define('mocha', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
   /*global mocha, describe, context, it, before, after */
 
   /**
@@ -23811,14 +23835,12 @@ define("mocha", ["exports"], function (exports) {
    * @returns {Function} the wrapped hook
    * @private
    */
-  "use strict";
-
   function wrapMochaHookInEmberRun(original) {
     function wrapper(fn) {
       // the callback expects a `done` parameter
       if (fn.length) {
         return original(function (done) {
-          return Ember.run((function (_this) {
+          return _ember['default'].run((function (_this) {
             return function () {
               return fn.call(_this, done);
             };
@@ -23827,7 +23849,7 @@ define("mocha", ["exports"], function (exports) {
       } else {
         // no done parameter.
         return original(function () {
-          return Ember.run((function (_this) {
+          return _ember['default'].run((function (_this) {
             return function () {
               return fn.call(_this);
             };

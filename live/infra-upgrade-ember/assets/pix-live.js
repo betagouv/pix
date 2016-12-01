@@ -2338,230 +2338,161 @@ define("pix-live/templates/preferences", ["exports"], function (exports) {
 define('pix-live/tests/mirage/mirage/config.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/config.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/config.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/data/answers/raw-qcm-answer.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/answers/raw-qcm-answer.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/raw-qcm-answer.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/data/answers/ref-qcm-answer.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/answers/ref-qcm-answer.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/ref-qcm-answer.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/data/answers/ref-qcu-answer.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/answers/ref-qcu-answer.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/ref-qcu-answer.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/data/answers/ref-qroc-answer.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/answers/ref-qroc-answer.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/ref-qroc-answer.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/data/answers/ref-qrocm-answer.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/answers/ref-qrocm-answer.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/answers/ref-qrocm-answer.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/data/assessments/raw-assessment.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/assessments/raw-assessment.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/assessments/raw-assessment.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/data/assessments/ref-assessment.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/assessments/ref-assessment.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/assessments/ref-assessment.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/data/challenges/raw-qcm-challenge.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/challenges/raw-qcm-challenge.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/challenges/raw-qcm-challenge.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/data/challenges/ref-qcm-challenge.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/challenges/ref-qcm-challenge.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/challenges/ref-qcm-challenge.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/data/challenges/ref-qcu-challenge.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/challenges/ref-qcu-challenge.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/challenges/ref-qcu-challenge.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/data/challenges/ref-qroc-challenge.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/challenges/ref-qroc-challenge.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/challenges/ref-qroc-challenge.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/data/challenges/ref-qrocm-challenge.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/challenges/ref-qrocm-challenge.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/challenges/ref-qrocm-challenge.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/data/courses/raw-course.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/courses/raw-course.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/courses/raw-course.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/data/courses/ref-course.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/data/courses/ref-course.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/data/courses/ref-course.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/routes/get-answer.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/routes/get-answer.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/routes/get-answer.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/routes/get-assessment.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/routes/get-assessment.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/routes/get-assessment.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/routes/get-challenge.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/routes/get-challenge.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/routes/get-challenge.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/routes/get-challenges.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/routes/get-challenges.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/routes/get-challenges.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/routes/get-course.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/routes/get-course.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/routes/get-course.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/routes/get-courses.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/routes/get-courses.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/routes/get-courses.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/routes/post-answers.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/routes/post-answers.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/routes/post-answers.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
 define('pix-live/tests/mirage/mirage/routes/post-assessments.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/routes/post-assessments.js', function () {
     it('should pass ESLint', function () {
-      if (!true) {
-        var error = new chai.AssertionError('mirage/routes/post-assessments.js should pass ESLint.\n');
-        error.stack = undefined;throw error;
-      }
+      // precompiled test passed
     });
   });
 });
@@ -2649,7 +2580,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+8edc867d"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+10d4fd17"});
 }
 
 /* jshint ignore:end */
