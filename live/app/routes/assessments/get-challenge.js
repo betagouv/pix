@@ -9,35 +9,34 @@ export default Ember.Route.extend({
 
   model(params) {
     const store = this.get('store');
-    const assessmentPromise = store.findRecord('assessment', params.assessment_id);
-    const challengePromise  = store.findRecord('challenge', params.challenge_id);
-    const answerPromise     = store.queryRecord('answer', { 
-      assessment: params.assessment_id, 
-      challenge:  params.challenge_id });
 
-    const spotsPromises = [
-      assessmentPromise,
-      challengePromise,
-      answerPromise
-    ];
-    
+    return store.findRecord('assessment', params.assessment_id).then((assessment) => {
+        return store.findRecord('challenge', params.challenge_id).then((challenge) => {
+            return store.queryRecord('answer', { 
+                  assessment: params.assessment_id, 
+                  challenge:  params.challenge_id }).then((answer) => {
+              
+              // case 1 : user already answered the question, answer is returned 
+              return {
+                assessment,
+                challenge,
+                answer
+              }   
 
-    return Ember.RSVP.allSettled(spotsPromises).then((spotPromisesResults)=> {
-      if (!spotPromisesResults.isAny('state', 'rejected')) {
-        // Yay ! all promised resolved
-        return RSVP.hash({
-          assessment: spotsPromises[0],
-          challenge: spotsPromises[1],
-          answers: spotsPromises[2]
-        });
-      } else {
-        // answerPromise is allowed to fail (404 not found). Resolve other promises
-        return RSVP.hash({
-          assessment: spotsPromises[0],
-          challenge: spotsPromises[1]
-        });
-      } 
-    });
+            }).catch((error) => {
+              
+              // case 2 : answer not found is part of the normal flow,
+              // if the user see the question for the very very first time.
+              if (error && error.message && error.message.indexOf('404') > -1) {
+                return {
+                  assessment,
+                  challenge
+                }
+              }
+
+            }); // end of catch of store.findRecord('answer')
+          }); // end of store.findRecord('challenge')
+      }); // end of store.findRecord('assessment')
 
   },
 
