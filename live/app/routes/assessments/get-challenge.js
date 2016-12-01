@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import RSVP from 'rsvp';
 import DS from 'ember-data';
 import getChallengeType from '../../utils/get-challenge-type';
 
@@ -11,32 +10,32 @@ export default Ember.Route.extend({
     const store = this.get('store');
 
     return store.findRecord('assessment', params.assessment_id).then((assessment) => {
-        return store.findRecord('challenge', params.challenge_id).then((challenge) => {
-            return store.queryRecord('answer', { 
-                  assessment: params.assessment_id, 
-                  challenge:  params.challenge_id }).then((answer) => {
-              
-              // case 1 : user already answered the question, answer is returned 
+      return store.findRecord('challenge', params.challenge_id).then((challenge) => {
+        return store.queryRecord('answer', { 
+          assessment: params.assessment_id, 
+          challenge:  params.challenge_id }).then((answer) => {
+
+            // case 1 : user already answered the question, answer is returned 
+            return {
+              assessment,
+              challenge,
+              answer
+            };   
+
+          }).catch((error) => {
+
+            // case 2 : answer not found is part of the normal flow,
+            // it happens when the user see the question for the very very first time.
+            if (error && error.message && error.message.indexOf('404') > -1) {
               return {
                 assessment,
-                challenge,
-                answer
-              }   
+                challenge
+              };
+            }
 
-            }).catch((error) => {
-              
-              // case 2 : answer not found is part of the normal flow,
-              // if the user see the question for the very very first time.
-              if (error && error.message && error.message.indexOf('404') > -1) {
-                return {
-                  assessment,
-                  challenge
-                }
-              }
-
-            }); // end of catch of store.findRecord('answer')
-          }); // end of store.findRecord('challenge')
-      }); // end of store.findRecord('assessment')
+          }); // end of catch of store.findRecord('answer')
+      }); // end of store.findRecord('challenge')
+    }); // end of store.findRecord('assessment')
 
   },
 
@@ -74,8 +73,8 @@ export default Ember.Route.extend({
     this._super(controller, model);
 
     const progressToSet = model.assessment
-      .get('course')
-      .then((course) => course.getProgress(model.challenge));
+    .get('course')
+    .then((course) => course.getProgress(model.challenge));
 
     controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
 
