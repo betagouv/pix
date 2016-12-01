@@ -6,12 +6,12 @@ const answerRepository = require('../../infrastructure/repositories/answer-repos
 const solutionService = require('../../domain/services/solution-service');
 const logger = require('../../infrastructure/logger');
 
-function _updateExistingAnswer() {
+function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
   solutionRepository
     .get(existingAnswer.get('challengeId'))
     .then((solution) => {
       const answerCorrectness = solutionService.match(newAnswer, solution);
-      return new Answer({ id: existingAnswer.id })
+      new Answer({ id: existingAnswer.id })
         .save({
           result: answerCorrectness,
           value: newAnswer.get('value'),
@@ -29,7 +29,7 @@ function _saveNewAnswer(newAnswer, reply) {
     .then((solution) => {
       const answerCorrectness = solutionService.match(newAnswer, solution);
       newAnswer.set('result', answerCorrectness);
-      return newAnswer.save()
+      newAnswer.save()
         .then((newAnswer) => reply(answerSerializer.serialize(newAnswer)).code(201))
         .catch((err) => reply(Boom.badImplementation(err)));
     });
@@ -43,8 +43,8 @@ module.exports = {
 
     answerRepository
       .findByChallengeAndAssessment(newAnswer.get('challengeId'), newAnswer.get('assessmentId'))
-      .then((existingAnswer) =>_updateExistingAnswer())
-      .catch((err) =>_saveNewAnswer(newAnswer, reply));
+      .then(existingAnswer => _updateExistingAnswer(existingAnswer, newAnswer, reply))
+      .catch(err => _saveNewAnswer(newAnswer, reply));
   },
 
   get(request, reply) {
