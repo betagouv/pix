@@ -5,7 +5,7 @@ export default {
     type: 'answers',
     id: 'raw_answer_qcm_id',
     attributes: {
-      value: '1,2,',
+      value: '',
       result: 'ok'
     },
     relationships: {

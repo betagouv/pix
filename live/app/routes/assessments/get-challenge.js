@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import RSVP from 'rsvp';
 import DS from 'ember-data';
 import getChallengeType from '../../utils/get-challenge-type';
 
@@ -9,13 +8,35 @@ export default Ember.Route.extend({
 
   model(params) {
     const store = this.get('store');
-    const assessmentPromise = store.findRecord('assessment', params.assessment_id);
-    const challengePromise = store.findRecord('challenge', params.challenge_id);
 
-    return RSVP.hash({
-      assessment: assessmentPromise,
-      challenge: challengePromise
-    });
+    return store.findRecord('assessment', params.assessment_id).then((assessment) => {
+      return store.findRecord('challenge', params.challenge_id).then((challenge) => {
+        return store.queryRecord('answer', { 
+          assessment: params.assessment_id, 
+          challenge:  params.challenge_id }).then((answers) => {
+
+            // case 1 : user already answered the question, answer is returned 
+            return {
+              assessment,
+              challenge,
+              answers
+            };   
+
+          }).catch((error) => {
+
+            // case 2 : answer not found is part of the normal flow,
+            // it happens when the user see the question for the very very first time.
+            if (error && error.message && error.message.indexOf('404') > -1) {
+              return {
+                assessment,
+                challenge
+              };
+            }
+
+          }); // end of catch of store.findRecord('answer')
+      }); // end of store.findRecord('challenge')
+    }); // end of store.findRecord('assessment')
+
   },
 
   actions : {
@@ -26,6 +47,7 @@ export default Ember.Route.extend({
         this._navigateToNextView(currentChallenge, assessment);
       });
     }
+
   },
 
   _createAnswer: function (answerValue, currentChallenge, assessment) {
@@ -41,9 +63,9 @@ export default Ember.Route.extend({
 
     this.get('assessmentService').getNextChallenge(currentChallenge, assessment).then((challenge) => {
       if (challenge) {
-        return this.transitionTo('assessments.get-challenge', { challenge, assessment });
+        return this.transitionTo('assessments.get-challenge', assessment.get('id'), challenge.get('id'));
       }
-      return this.transitionTo('assessments.get-results', { assessment });
+      return this.transitionTo('assessments.get-results', assessment.get('id'));
     });
   },
 
@@ -51,14 +73,14 @@ export default Ember.Route.extend({
     this._super(controller, model);
 
     const progressToSet = model.assessment
-      .get('course')
-      .then((course) => course.getProgress(model.challenge));
+    .get('course')
+    .then((course) => course.getProgress(model.challenge));
 
     controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
 
     const challengeType =  getChallengeType(model.challenge.get('type'));
     controller.set('challengeItemType', 'challenge-item-' + challengeType);
-
+    // controller.set(model, this.model({assessment_id:'ref_assessment_id', challenge_id:'ref_qcm_challenge_id'}));
   },
 
   serialize: function (model) {
