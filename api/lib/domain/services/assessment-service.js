@@ -1,4 +1,5 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
+const Answer = require('../../domain/models/data/answer');
 
 function selectNextChallengeId(course, currentChallengeId) {
 
@@ -10,18 +11,30 @@ function selectNextChallengeId(course, currentChallengeId) {
       return resolve(challenges[0]);
     }
 
-    if (currentChallengeId === challenges[challenges.length - 1]) {
-      return resolve(null);
-    }
-
-    let i = 1;
-    for (const challengeId of challenges) {
-      if (currentChallengeId === challengeId) {
-        break;
+    if(course.isAdaptive) {
+      // console.log('hiya', assessment.related('answers').pluck('id'));  // Peut-être qu'on pourrait se servir de cela
+      assessment.related('answers').forEach((answer) => {
+        new Answer({ id: answer.id }).fetch().then((answerO) => {
+          if(answerO.attributes.result == 'ok')
+            return resolve(challenges[1]);
+          else
+            return resolve(challenges[2]);
+        });
+      });
+    } else {
+      if (currentChallengeId === challenges[challenges.length - 1]) {
+        return resolve(null);
       }
-      i++;
+
+      let i = 1;
+      for (const challengeId of challenges) {
+        if (currentChallengeId === challengeId) {
+          break;
+        }
+        i++;
+      }
+      return resolve(challenges[i]);
     }
-    return resolve(challenges[i]);
   });
 }
 
