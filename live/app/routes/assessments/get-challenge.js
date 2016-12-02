@@ -11,16 +11,16 @@ export default Ember.Route.extend({
 
     return store.findRecord('assessment', params.assessment_id).then((assessment) => {
       return store.findRecord('challenge', params.challenge_id).then((challenge) => {
-        return store.queryRecord('answer', { 
-          assessment: params.assessment_id, 
+        return store.queryRecord('answer', {
+          assessment: params.assessment_id,
           challenge:  params.challenge_id }).then((answers) => {
 
-            // case 1 : user already answered the question, answer is returned 
+            // case 1 : user already answered the question, answer is returned
             return {
               assessment,
               challenge,
               answers
-            };   
+            };
 
           }).catch((error) => {
 
@@ -80,7 +80,6 @@ export default Ember.Route.extend({
 
     const challengeType =  getChallengeType(model.challenge.get('type'));
     controller.set('challengeItemType', 'challenge-item-' + challengeType);
-    // controller.set(model, this.model({assessment_id:'ref_assessment_id', challenge_id:'ref_qcm_challenge_id'}));
   },
 
   serialize: function (model) {

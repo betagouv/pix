@@ -1,5 +1,3 @@
-'use strict';
-
 const AirtableModel = require('./airtable-model');
 
 class Challenge extends AirtableModel {

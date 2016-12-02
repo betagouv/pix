@@ -4,12 +4,12 @@ import ChallengeItemGeneric from './challenge-item-generic';
 const ChallengeItemQrocm = ChallengeItemGeneric.extend({
 
   _hasError: function () {
-    let nonEmptyAnswers = _.pick(this._getRawAnswerValue(), _.identity);
+    const nonEmptyAnswers = _.pick(this._getRawAnswerValue(), _.identity);
     return _.isEmpty(nonEmptyAnswers);
   },
 
   _getAnswerValue() {
-    return _.map(this._getRawAnswerValue(), function(value, key) {
+    return _.map(this._getRawAnswerValue(), function (value, key) {
       return `${key} = "${value}"`;
     }).join(', ');
   },
@@ -18,7 +18,7 @@ const ChallengeItemQrocm = ChallengeItemGeneric.extend({
   // This is not "the Ember way", however it makes code easier to read,
   // and moreover, is a much more robust solution when you need to test it properly.
   _getRawAnswerValue() {
-    let result = {};
+    const result = {};
     $('.challenge-proposals input').each(function (index, element) {
       result[$(element).attr('name')] = $(element).val();
     });
@@ -30,7 +30,6 @@ const ChallengeItemQrocm = ChallengeItemGeneric.extend({
   },
 
   actions: {
-
     inputChanged() {
       this.set('errorMessage', null);
     }

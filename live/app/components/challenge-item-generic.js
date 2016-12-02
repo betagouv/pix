@@ -7,10 +7,8 @@ const ChallengeItemGeneric = Ember.Component.extend({
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
-
   actions: {
 
-    // callOnlyOnce : prevent double-clicking from creating double record.
     validate: callOnlyOnce(function () {
       if (this._hasError()) {
         this.set('errorMessage', this._getErrorMessage());

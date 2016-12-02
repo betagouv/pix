@@ -10,7 +10,9 @@ const ChallengeItemQcu = ChallengeItemGeneric.extend({
   // This is not "the Ember way", however it makes code easier to read,
   // and moreover, is a much more robust solution when you need to test it properly.
   _getAnswerValue() {
-    return this.$('input:radio:checked').map(function () {return this.name;}).get().join('');
+    return this.$('input:radio:checked').map(function () {
+      return this.name;
+    }).get().join('');
   },
 
   _getErrorMessage() {
@@ -18,7 +20,7 @@ const ChallengeItemQcu = ChallengeItemGeneric.extend({
   },
 
   actions: {
-    answerChanged: function() {
+    answerChanged: function () {
       this.set('errorMessage', null);
     }
   }
