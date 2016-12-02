@@ -15,10 +15,10 @@ function selectNextChallengeId(course, currentChallengeId) {
       // console.log('hiya', assessment.related('answers').pluck('id'));  // Peut-être qu'on pourrait se servir de cela
       assessment.related('answers').forEach((answer) => {
         new Answer({ id: answer.id }).fetch().then((answerO) => {
-          if(answerO.attributes.result == 'ok')
+          if(answerO.attributes.result == 'ok') {
             return resolve(challenges[1]);
-          else
-            return resolve(challenges[2]);
+          }
+          return resolve(challenges[2]);
         });
       });
     } else {
