@@ -2023,15 +2023,6 @@ define('pix-live/tests/integration/components/qcm-proposals-test', ['exports', '
     integration: true
   }, function () {
     (0, _emberMocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#qcm-proposals}}
-      //     template content
-      //   {{/qcm-proposals}}
-      // `);
-
       this.render(Ember.HTMLBars.template({
         'id': '6wMkvUeQ',
         'block': '{"statements":[["append",["unknown",["qcm-proposals"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -2041,7 +2032,6 @@ define('pix-live/tests/integration/components/qcm-proposals-test', ['exports', '
     });
   });
 });
-/* jshint expr:true */
 define('pix-live/tests/integration/components/qcm-proposals-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2057,15 +2047,6 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', '
     integration: true
   }, function () {
     (0, _emberMocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#qroc-proposal}}
-      //     template content
-      //   {{/qroc-proposal}}
-      // `);
-
       this.render(Ember.HTMLBars.template({
         'id': '1i/FB0iM',
         'block': '{"statements":[["append",["unknown",["qroc-proposal"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -2075,7 +2056,6 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', '
     });
   });
 });
-/* jshint expr:true */
 define('pix-live/tests/integration/components/qroc-proposal-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2091,15 +2071,6 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['exports', 
     integration: true
   }, function () {
     (0, _emberMocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#qrocm-proposal}}
-      //     template content
-      //   {{/qrocm-proposal}}
-      // `);
-
       this.render(Ember.HTMLBars.template({
         'id': 'OU8/haVw',
         'block': '{"statements":[["append",["unknown",["qrocm-proposal"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -2109,7 +2080,6 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['exports', 
     });
   });
 });
-/* jshint expr:true */
 define('pix-live/tests/integration/components/qrocm-proposal-test.lint-test', ['exports'], function (exports) {
   'use strict';
 

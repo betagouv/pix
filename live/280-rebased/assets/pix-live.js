@@ -317,7 +317,6 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-l
 
     actions: {
 
-      // callOnlyOnce : prevent double-clicking from creating double record.
       validate: (0, _pixLiveUtilsCallOnlyOnce['default'])(function () {
         if (this._hasError()) {
           this.set('errorMessage', this._getErrorMessage());
@@ -342,7 +341,7 @@ define('pix-live/components/challenge-item-qcm', ['exports', 'pix-live/component
   var ChallengeItemQcm = _pixLiveComponentsChallengeItemGeneric['default'].extend({
 
     _hasError: function _hasError() {
-      return !(this._getAnswerValue().length >= 1);
+      return this._getAnswerValue().length < 1;
     },
 
     // XXX : data is extracted from DOM of child component, breaking child encapsulation.
@@ -373,7 +372,7 @@ define('pix-live/components/challenge-item-qcu', ['exports', 'pix-live/component
   var ChallengeItemQcu = _pixLiveComponentsChallengeItemGeneric['default'].extend({
 
     _hasError: function _hasError() {
-      return !(this._getAnswerValue().length >= 1);
+      return this._getAnswerValue().length < 1;
     },
 
     // XXX : data is extracted from DOM of child component, breaking child encapsulation.
@@ -404,7 +403,7 @@ define('pix-live/components/challenge-item-qroc', ['exports', 'pix-live/componen
   var ChallengeItemQroc = _pixLiveComponentsChallengeItemGeneric['default'].extend({
 
     _hasError: function _hasError() {
-      return !(this._getAnswerValue().length >= 1);
+      return this._getAnswerValue().length < 1;
     },
 
     // XXX : data is extracted from DOM of child component, breaking child encapsulation.
@@ -419,7 +418,6 @@ define('pix-live/components/challenge-item-qroc', ['exports', 'pix-live/componen
     },
 
     actions: {
-
       inputChanged: function inputChanged() {
         this.set('errorMessage', null);
       }
@@ -460,7 +458,6 @@ define('pix-live/components/challenge-item-qrocm', ['exports', 'lodash/lodash', 
     },
 
     actions: {
-
       inputChanged: function inputChanged() {
         this.set('errorMessage', null);
       }
@@ -577,9 +574,7 @@ define('pix-live/components/qcm-proposals', ['exports', 'ember', 'lodash/lodash'
     tagName: 'div',
 
     labeledCheckboxes: _ember['default'].computed('proposals', 'answers', function () {
-      var result = [];
-      result = _lodashLodash['default'].zip(this.get('proposals'), this.get('answers'));
-      return result;
+      return _lodashLodash['default'].zip(this.get('proposals'), this.get('answers'));
     }),
 
     actions: {
@@ -591,22 +586,27 @@ define('pix-live/components/qcm-proposals', ['exports', 'ember', 'lodash/lodash'
   });
 });
 define('pix-live/components/qcu-proposals', ['exports', 'ember', 'lodash/lodash'], function (exports, _ember, _lodashLodash) {
+
+  function _uncheckAllRadioButtons() {
+    this.$(':radio').prop('checked', false);
+  }
+
+  function _checkAgainTheSelectedOption(index) {
+    this.$(':radio:nth(' + index + ')').prop('checked', true);
+  }
+
   exports['default'] = _ember['default'].Component.extend({
 
     tagName: 'div',
 
     labeledRadios: _ember['default'].computed('proposals', 'answers', function () {
-      var result = [];
-      result = _lodashLodash['default'].zip(this.get('proposals'), this.get('answers'));
-      return result;
+      return _lodashLodash['default'].zip(this.get('proposals'), this.get('answers'));
     }),
 
     actions: {
       radioClicked: function radioClicked(index) {
-        //uncheck all radio buttons
-        this.$(':radio').prop('checked', false);
-        //check again the one that was checked
-        this.$(':radio:nth(' + index + ')').prop('checked', true);
+        _uncheckAllRadioButtons.call(this);
+        _checkAgainTheSelectedOption.call(this, index);
         this.sendAction('answerChanged');
       }
     }
@@ -615,15 +615,17 @@ define('pix-live/components/qcu-proposals', ['exports', 'ember', 'lodash/lodash'
 });
 define('pix-live/components/qroc-proposal', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
+
     classNames: ['qroc-proposal'],
 
     didInsertElement: function didInsertElement() {
-      var that = this;
+      var _this = this;
+
       // XXX : jQuery handler here is far more powerful than declaring event in template helper.
       // It avoids to loose time with 'oh that handy jQuery event is missing',
       // or "How the hell did they construct input helper ?"
       this.$('input').keydown(function () {
-        that.sendAction('onInputChanged');
+        _this.sendAction('onInputChanged');
       });
 
       //XXX : prevent from abandonned question to be displayed
@@ -2160,7 +2162,6 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-
 
       var challengeType = (0, _pixLiveUtilsGetChallengeType['default'])(model.challenge.get('type'));
       controller.set('challengeItemType', 'challenge-item-' + challengeType);
-      // controller.set(model, this.model({assessment_id:'ref_assessment_id', challenge_id:'ref_qcm_challenge_id'}));
     },
 
     serialize: function serialize(model) {
@@ -2813,7 +2814,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+4df6defe"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+72d886cd"});
 }
 
 /* jshint ignore:end */
