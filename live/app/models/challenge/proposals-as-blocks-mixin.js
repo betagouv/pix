@@ -40,13 +40,13 @@ export default Ember.Mixin.create({
       return [];
     }
 
-    let result = [];
+    const result = [];
 
     const lines = proposals.split(/[\r|\n]+/);
     lines.forEach((line, index) => {
       const parts = line.split(/\s*(\${)|}\s*/);
       for (let j = 0; j < parts.length; j += 1) {
-        let { lastIsOpening, block } = parseInput((lastIsOpening || false), parts[j]);
+        const { lastIsOpening, block } = parseInput((lastIsOpening || false), parts[j]);
         if (!block) {
           continue;
         }

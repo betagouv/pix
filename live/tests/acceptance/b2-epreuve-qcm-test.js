@@ -31,14 +31,14 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
   });
 
   it('b2.2 Le contenu de type [foo](bar) doit être converti sous forme de lien', function() {
-    let $links = findWithAssert('.challenge-instruction a');
+    const $links = findWithAssert('.challenge-instruction a');
     expect($links.length).to.equal(1);
     expect($links.text()).to.equal('plusieurs');
     expect($links.attr('href')).to.equal('http://link.plusieurs.url');
   });
 
   it('b2.3 Les liens doivent s\'ouvrir dans un nouvel onglet', function() {
-    let $links = findWithAssert('.challenge-instruction a');
+    const $links = findWithAssert('.challenge-instruction a');
     expect($links.attr('target')).to.equal('_blank');
   });
 
@@ -65,7 +65,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
   it('b2.8 Error alert box should be displayed if user validate without checking a checkbox', function () {
     expect($('input:checkbox:checked')).to.have.lengthOf(3);
     $('input:checkbox').prop('checked', false);
-    expect($('input:checkbox:checked')).to.have.lengthOf(0); 
+    expect($('input:checkbox:checked')).to.have.lengthOf(0);
     click($('a.challenge-item-actions__validate-action'));
     andThen(() => {
       expect($('.alert')).to.have.lengthOf(1);
