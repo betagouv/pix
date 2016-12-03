@@ -16,11 +16,9 @@ define('pix-live/adapters/application', ['exports', 'ember-data', 'pix-live/conf
 });
 define('pix-live/app', ['exports', 'ember', 'pix-live/resolver', 'ember-load-initializers', 'pix-live/config/environment'], function (exports, _ember, _pixLiveResolver, _emberLoadInitializers, _pixLiveConfigEnvironment) {
 
-  var App = undefined;
-
   _ember['default'].MODEL_FACTORY_INJECTIONS = true;
 
-  App = _ember['default'].Application.extend({
+  var App = _ember['default'].Application.extend({
     modulePrefix: _pixLiveConfigEnvironment['default'].modulePrefix,
     podModulePrefix: _pixLiveConfigEnvironment['default'].podModulePrefix,
     Resolver: _pixLiveResolver['default']
@@ -640,12 +638,13 @@ define('pix-live/components/qrocm-proposal', ['exports', 'ember'], function (exp
     classNames: ['qrocm-proposal'],
 
     didInsertElement: function didInsertElement() {
-      var that = this;
+      var _this = this;
+
       // XXX : jQuery handler here is far more powerful than declaring event in template helper.
       // It avoids to loose time with 'oh that handy jQuery event is missing',
       // or "How the hell did they construct input helper ?"
       this.$('input').keydown(function () {
-        that.sendAction('onInputChanged');
+        _this.sendAction('onInputChanged');
       });
     }
 
@@ -2814,7 +2813,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+72d886cd"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+da84d90d"});
 }
 
 /* jshint ignore:end */

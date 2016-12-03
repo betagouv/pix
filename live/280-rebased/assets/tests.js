@@ -2742,10 +2742,13 @@ define('pix-live/tests/unit/routes/index-test.lint-test', ['exports'], function 
     });
   });
 });
-define('pix-live/tests/unit/routes/placement-tests-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
+define('pix-live/tests/unit/routes/placement-tests-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('route:placement-tests', 'Unit | Route | placement-tests', function () {
-    (0, _emberMocha.it)('exists', function () {
+  (0, _mocha.describe)('Unit | Route | placement-tests', function () {
+
+    (0, _emberMocha.setupTest)('route:placement-tests', {});
+
+    (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
     });
@@ -2904,7 +2907,6 @@ define('pix-live/tests/unit/services/delay-test', ['exports', 'chai', 'mocha', '
 
     (0, _emberMocha.setupTest)('service:delay', {});
 
-    // Replace this with your real tests.
     (0, _mocha.it)('exists', function () {
       var controller = this.subject();
       (0, _chai.expect)(controller).to.be.ok;
