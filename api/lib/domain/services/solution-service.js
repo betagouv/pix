@@ -4,13 +4,13 @@ const solutionServiceQcm = require('./solution-service-qcm');
 function removeAccentsSpacesUppercase(rawAnswer) {
   // Remove accents/diacritics in a string in JavaScript
   // http://stackoverflow.com/a/37511463/827989
-  return rawAnswer.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+  return rawAnswer.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
 function fuzzyMatchingWithAnswers(userAnswer, correctAnswers) {
   userAnswer = removeAccentsSpacesUppercase(userAnswer);
-  let correctAnswersList = correctAnswers.split('\n');
-  for (let correctAnswer of correctAnswersList) {
+  const correctAnswersList = correctAnswers.split('\n');
+  for (const correctAnswer of correctAnswersList) {
     if (userAnswer == removeAccentsSpacesUppercase(correctAnswer)) {
       return true;
     }

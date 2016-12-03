@@ -4,7 +4,6 @@ const answerSerializer = require('../../infrastructure/serializers/answer-serial
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionService = require('../../domain/services/solution-service');
-const logger = require('../../infrastructure/logger');
 
 function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
   solutionRepository
@@ -17,7 +16,7 @@ function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
           value: newAnswer.get('value'),
           challengeId: existingAnswer.get('challengeId'),
           assessmentId: existingAnswer.get('assessmentId')
-        }, { method: "update" })
+        }, { method: 'update' })
         .then((updatedAnswer) => reply(answerSerializer.serialize(updatedAnswer)).code(200))
         .catch((err) => reply(Boom.badImplementation(err)));
     });
@@ -44,7 +43,7 @@ module.exports = {
     answerRepository
       .findByChallengeAndAssessment(newAnswer.get('challengeId'), newAnswer.get('assessmentId'))
       .then(existingAnswer => _updateExistingAnswer(existingAnswer, newAnswer, reply))
-      .catch(err => _saveNewAnswer(newAnswer, reply));
+      .catch(() => _saveNewAnswer(newAnswer, reply));
   },
 
   get(request, reply) {

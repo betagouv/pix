@@ -11,7 +11,7 @@ class Challenge extends AirtableModel {
       const fields = this.record.fields;
       this.instruction = fields['Consigne'];
       this.proposals = fields['Propositions'];
-      this.type = fields["Type d'épreuve"];
+      this.type = fields['Type d\'épreuve'];
 
       if (fields['Illustration de la consigne']) {
         this.illustrationUrl = fields['Illustration de la consigne'][0].url;

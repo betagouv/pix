@@ -20,14 +20,12 @@ describe('Unit | Router | AnswerRouter', function () {
 
   describe('POST /api/answers', function () {
 
-    before(function (done) {
+    before(function () {
       sinon.stub(AnswerController, 'save', (request, reply) => reply('ok'));
-      done();
     });
 
-    after(function (done) {
+    after(function () {
       AnswerController.save.restore();
-      done();
     });
 
     it('should exist', function (done) {
@@ -37,14 +35,12 @@ describe('Unit | Router | AnswerRouter', function () {
 
   describe('GET /api/answers/{id}', function () {
 
-    before(function (done) {
+    before(function () {
       sinon.stub(AnswerController, 'get', (request, reply) => reply('ok'));
-      done();
     });
 
-    after(function (done) {
+    after(function () {
       AnswerController.get.restore();
-      done();
     });
 
     it('should exist', function (done) {
