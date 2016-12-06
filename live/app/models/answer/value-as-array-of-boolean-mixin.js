@@ -9,7 +9,7 @@ export default Ember.Mixin.create({
 
     const currentValue = this.get('value');
 
-    if (_.isString(currentValue) && currentValue.length > 1) {      
+    if (_.isString(currentValue) && currentValue.length > 0) {      
       const arrayValues = currentValue.split(',');
       const rawValues = _.map(arrayValues, (rawValue) => { return rawValue - 1; });
       const maxValue = _.max(rawValues) + 1;
