@@ -86,7 +86,7 @@ describe('Unit | Service | SolutionService', function () {
       failedCases.forEach(function (testCase) {
         it('should return "ko" when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function () {
           const answer = buildAnswer(testCase.answer);
-          const solution = buildSolution('QCU', testCase.solution);
+          const solution = buildSolution('QCM', testCase.solution);
           expect(service.match(answer, solution)).to.equal('ko');
         });
       });
