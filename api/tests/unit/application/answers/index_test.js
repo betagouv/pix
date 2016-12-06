@@ -48,4 +48,19 @@ describe('Unit | Router | AnswerRouter', function () {
     });
   });
 
+  describe('GET /api/answers?assessment=<assessment_id>&challenge=<challenge_id>', function () {
+
+    before(function () {
+      sinon.stub(AnswerController, 'findByChallengeAndAssessment', (request, reply) => reply('ok'));
+    });
+
+    after(function () {
+      AnswerController.findByChallengeAndAssessment.restore();
+    });
+
+    it('should exist', function (done) {
+      expectRouteToExist({ method: 'GET', url: '/api/answers' }, done);
+    });
+  });
+
 });
