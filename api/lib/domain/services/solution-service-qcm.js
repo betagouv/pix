@@ -12,7 +12,9 @@
 function areStringListEquivalent(listA, listB) {
   let result = false;
   try {
-    result = (listA.split(',').sort().join(',') === listB.split(',').sort().join(','));
+    let trimmedListA = listA.split(',').map(function(s) { return s.trim() });
+    let trimmedListB = listB.split(',').map(function(s) { return s.trim() });
+    result = (trimmedListA.sort().join(',') === trimmedListB.sort().join(','));
   } catch (e) {
     result = false;
   }

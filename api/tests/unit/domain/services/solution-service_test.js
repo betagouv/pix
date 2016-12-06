@@ -88,7 +88,7 @@ describe('Unit | Service | Solution :', function () {
     solution.type = 'QCM';
     solution.value = '1,2';
     const goodAnswer = new Answer({ id: 'good_answer_id' });
-    goodAnswer.attributes = { value: '2,1' };
+    goodAnswer.attributes = { value: '2, 1' }; // note the space around
     const badAnswer = new Answer({ id: 'bad_answer_id' });
     badAnswer.attributes = { value: '1,3' };
     const skippedAnswer = new Answer({ id: 'skipped_answer_id' });
