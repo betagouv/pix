@@ -22,8 +22,10 @@ export default function (schema, request) {
 
   const answer = _.find(answers, 
     function(oneAnswer) {
-      const belongsToAssessment = _.get(oneAnswer.obj, 'data.relationships.assessment.data.id') === request.queryParams.assessment;
-      const belongsToChallenge = _.get(oneAnswer.obj, 'data.relationships.challenge.data.id') === request.queryParams.challenge;
+      const belongsToAssessment = 
+        _.get(oneAnswer.obj, 'data.relationships.assessment.data.id') === request.queryParams.assessment;
+      const belongsToChallenge = 
+        _.get(oneAnswer.obj, 'data.relationships.challenge.data.id') === request.queryParams.challenge;
       return belongsToAssessment && belongsToChallenge;
     });
 
