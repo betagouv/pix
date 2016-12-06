@@ -6,17 +6,24 @@ export default Ember.Mixin.create({
   _valueAsArrayOfBoolean: Ember.computed('value', function () {
     let result = [];
 
-    const arrayValues = this.get('value').split(',');
-    const rawValues = _.map(arrayValues, (rawValue) => { return rawValue - 1; });
-    const maxValue = _.max(rawValues) + 1;
 
-    result = _.range(maxValue).map(() => { return false; });
+    const currentValue = this.get('value');
 
-    _.each(rawValues, (rawValue) => {
-      result[rawValue] = true;
-    });
+    if (_.isString(currentValue) && currentValue.length > 1) {      
+      const arrayValues = currentValue.split(',');
+      const rawValues = _.map(arrayValues, (rawValue) => { return rawValue - 1; });
+      const maxValue = _.max(rawValues) + 1;
 
-    return result;
+      result = _.range(maxValue).map(() => { return false; });
+
+      _.each(rawValues, (rawValue) => {
+        result[rawValue] = true;
+      });
+
+      return result;
+    } else {
+      return result;
+    }
   })
 
 });
