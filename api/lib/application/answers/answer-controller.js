@@ -57,10 +57,7 @@ module.exports = {
     answerRepository
       .findByChallengeAndAssessment(request.url.query.challenge, request.url.query.assessment)
       .then((answer) => {
-        if (answer) {
-          return reply(answerSerializer.serialize(answer)).code(200);
-        }
-        return reply(Boom.notFound());
+        return reply(answerSerializer.serialize(answer)).code(200);
       })
       .catch((err) => reply(Boom.badImplementation(err)));
   }
