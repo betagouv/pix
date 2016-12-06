@@ -572,7 +572,24 @@ define('pix-live/components/qcm-proposals', ['exports', 'ember', 'lodash/lodash'
     tagName: 'div',
 
     labeledCheckboxes: _ember['default'].computed('proposals', 'answers', function () {
-      return _lodashLodash['default'].zip(this.get('proposals'), this.get('answers'));
+      /*
+      * First merge 2 proposals, proposals fix the length of the 2-dimensionals array,
+      * Therefore, there might be value that are undefined
+      *  - [['prop 1', false], ['prop 2', true], ['prop 3', undefined], ['prop 4', undefined]]
+      */
+      var result = _lodashLodash['default'].zip(this.get('proposals'), this.get('answers'));
+      /*
+      * Now convert null or undefined value into explicit boolean false value
+      *  - [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
+      */
+      result = _lodashLodash['default'].map(result, function (item) {
+        if (item[1]) {
+          return [item[0], true];
+        } else {
+          return [item[0], false];
+        }
+      });
+      return result;
     }),
 
     actions: {
@@ -2825,7 +2842,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+caba0aed"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+8fd94fc3"});
 }
 
 /* jshint ignore:end */
