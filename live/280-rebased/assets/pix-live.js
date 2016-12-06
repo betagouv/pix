@@ -2082,7 +2082,7 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
   });
 });
-define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-data', 'pix-live/utils/get-challenge-type'], function (exports, _ember, _emberData, _pixLiveUtilsGetChallengeType) {
+define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-data', 'pix-live/utils/get-challenge-type', 'rsvp'], function (exports, _ember, _emberData, _pixLiveUtilsGetChallengeType, _rsvp) {
   exports['default'] = _ember['default'].Route.extend({
 
     assessmentService: _ember['default'].inject.service('assessment'),
@@ -2090,31 +2090,18 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-
     model: function model(params) {
       var store = this.get('store');
 
-      return store.findRecord('assessment', params.assessment_id).then(function (assessment) {
-        return store.findRecord('challenge', params.challenge_id).then(function (challenge) {
-          return store.queryRecord('answer', {
-            assessment: params.assessment_id,
-            challenge: params.challenge_id }).then(function (answers) {
+      var assessmentId = params.assessment_id;
+      var challengeId = params.challenge_id;
 
-            // case 1 : user already answered the question, answer is returned
-            return {
-              assessment: assessment,
-              challenge: challenge,
-              answers: answers
-            };
-          })['catch'](function (error) {
+      var promises = {
+        assessment: store.findRecord('assessment', assessmentId),
+        challenge: store.findRecord('challenge', challengeId),
+        answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
+      };
 
-            // case 2 : answer not found is part of the normal flow,
-            // it happens when the user see the question for the very very first time.
-            if (error && error.message && error.message.indexOf('404') > -1) {
-              return {
-                assessment: assessment,
-                challenge: challenge
-              };
-            }
-          }); // end of catch of store.findRecord('answer')
-        }); // end of store.findRecord('challenge')
-      }); // end of store.findRecord('assessment')
+      return _rsvp['default'].hash(promises).then(function (results) {
+        return results;
+      });
     },
 
     actions: {
@@ -2127,7 +2114,6 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-
           _this._navigateToNextView(currentChallenge, assessment);
         });
       }
-
     },
 
     _createAnswer: function _createAnswer(answerValue, currentChallenge, assessment) {
@@ -2813,7 +2799,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+b1122c28"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+14f31f95"});
 }
 
 /* jshint ignore:end */
