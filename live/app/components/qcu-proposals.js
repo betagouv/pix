@@ -25,10 +25,10 @@ export default Ember.Component.extend({
     *  - [['prop 1', false], ['prop 1', true], ['prop 1', undefined]]
     */
     result = _.map(result, (item) => {
-      if (item) {
-        return true;
+      if (item[1]) {
+        return [item[0], true];
       } else {
-        return false;
+        return [item[0], false];
       }
     });
     return result;
