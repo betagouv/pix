@@ -598,7 +598,24 @@ define('pix-live/components/qcu-proposals', ['exports', 'ember', 'lodash/lodash'
     tagName: 'div',
 
     labeledRadios: _ember['default'].computed('proposals', 'answers', function () {
-      return _lodashLodash['default'].zip(this.get('proposals'), this.get('answers'));
+      /*
+      * First merge 2 proposals, proposals fix the length of the 2-dimensionals array,
+      * Therefore, there might be value that are undefined
+      *  - [['prop 1', false], ['prop 2', true], ['prop 3', undefined], ['prop 4', undefined]]
+      */
+      var result = _lodashLodash['default'].zip(this.get('proposals'), this.get('answers'));
+      /*
+      * Now convert null or undefined value into explicit boolean false value
+      *  - [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
+      */
+      result = _lodashLodash['default'].map(result, function (item) {
+        if (item[1]) {
+          return [item[0], true];
+        } else {
+          return [item[0], false];
+        }
+      });
+      return result;
     }),
 
     actions: {
@@ -1808,21 +1825,27 @@ define('pix-live/models/answer/value-as-array-of-boolean-mixin', ['exports', 'em
     _valueAsArrayOfBoolean: _ember['default'].computed('value', function () {
       var result = [];
 
-      var arrayValues = this.get('value').split(',');
-      var rawValues = _lodashLodash['default'].map(arrayValues, function (rawValue) {
-        return rawValue - 1;
-      });
-      var maxValue = _lodashLodash['default'].max(rawValues) + 1;
+      var currentValue = this.get('value');
 
-      result = _lodashLodash['default'].range(maxValue).map(function () {
-        return false;
-      });
+      if (_lodashLodash['default'].isString(currentValue) && currentValue.length > 0) {
+        var arrayValues = currentValue.split(',');
+        var rawValues = _lodashLodash['default'].map(arrayValues, function (rawValue) {
+          return rawValue - 1;
+        });
+        var maxValue = _lodashLodash['default'].max(rawValues) + 1;
 
-      _lodashLodash['default'].each(rawValues, function (rawValue) {
-        result[rawValue] = true;
-      });
+        result = _lodashLodash['default'].range(maxValue).map(function () {
+          return false;
+        });
 
-      return result;
+        _lodashLodash['default'].each(rawValues, function (rawValue) {
+          result[rawValue] = true;
+        });
+
+        return result;
+      } else {
+        return result;
+      }
     })
 
   });
@@ -2799,7 +2822,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+0561d3fb"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+e6e83fd0"});
 }
 
 /* jshint ignore:end */
