@@ -20,6 +20,9 @@ class JSONAPISerializer {
   }
 
   serializeModelObject(modelObject) {
+    if (!modelObject) {
+      return null;
+    }
     const entity = modelObject.toJSON();
     const data = {};
     data.type = this.modelClassName;
