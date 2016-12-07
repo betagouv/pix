@@ -2041,6 +2041,76 @@ define('pix-live/tests/integration/components/qcm-proposals-test.lint-test', ['e
     });
   });
 });
+define('pix-live/tests/integration/components/qcu-proposals-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | QcmProposalsComponent', function () {
+
+    (0, _emberMocha.setupComponentTest)('qcu-proposals', {
+      needs: ['helper:inc']
+    });
+
+    /* Rendering
+     ----------------------------------------------------- */
+
+    (0, _mocha.describe)('Rendering', function () {
+
+      var proposals = undefined;
+      var answers = undefined;
+      var answerChangedHandler = undefined;
+
+      beforeEach(function () {
+        proposals = ['prop 1', 'prop 2', 'prop 3'];
+        answers = [false, true, false];
+        answerChangedHandler = function () {
+          return true;
+        };
+      });
+
+      function initComponent() {
+        var component = this.subject();
+        component.set('proposals', proposals);
+        component.set('answers', answers);
+        component.set('answerChanged', answerChangedHandler);
+      }
+
+      function renderComponent() {
+        this.render(Ember.HTMLBars.template({
+          'id': '1V4kv/sg',
+          'block': '{"statements":[["append",["helper",["qcu-proposals"],null,[["answers","proposals","onAnswerUpdated"],[["get",["answers"]],["get",["proposals"]],"answerChanged"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+      }
+
+      // Inspired from:
+      // - Ember-mocha: https://github.com/emberjs/ember-mocha#setup-component-tests
+      // - Ember: https://guides.emberjs.com/v2.10.0/testing/testing-components
+      // -        https://guides.emberjs.com/v2.10.0/tutorial/autocomplete-component/
+      (0, _mocha.it)('should render as much radio buttons as proposals', function () {
+        // given
+        initComponent.call(this);
+
+        // when
+        renderComponent.call(this);
+
+        // then
+        (0, _chai.expect)(this.$('.challenge-proposal')).to.have.lengthOf(proposals.length);
+      });
+
+      _mocha.it.skip('should unselect all radio buttons if no answer was given (default)', function () {});
+
+      _mocha.it.skip('should select corresponding radio button if an answer was given', function () {});
+    });
+  });
+});
+define('pix-live/tests/integration/components/qcu-proposals-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/qcu-proposals-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
   (0, _emberMocha.describeComponent)('qroc-proposal', 'Integration: QrocProposalComponent', {
@@ -2313,6 +2383,113 @@ define('pix-live/tests/test-helper.lint-test', ['exports'], function (exports) {
   'use strict';
 
   describe('ESLint - test-helper.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/components/qcu-proposals-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'lodash/lodash'], function (exports, _chai, _mocha, _emberMocha, _lodashLodash) {
+
+  (0, _mocha.describe)('Unit | Component | QcmProposalsComponent', function () {
+
+    (0, _emberMocha.setupTest)('component:qcu-proposals', {});
+
+    /* Computed property "labeledRadios"
+     ----------------------------------------------------- */
+
+    (0, _mocha.describe)('Computed property "labeledRadios"', function () {
+
+      var DEFAULT_PROPOSALS = ['prop 1', 'prop 2', 'prop 3'];
+      var DEFAULT_ANSWERS = [false, true, false];
+      var PROPOSAL_TEXT = 0;
+      var BOOLEAN_ANSWER = 1;
+
+      var answers = undefined;
+      var proposals = undefined;
+      var component = undefined;
+
+      beforeEach(function () {
+        proposals = DEFAULT_PROPOSALS;
+        answers = DEFAULT_ANSWERS;
+      });
+
+      function initComponent() {
+        component = this.subject();
+        component.set('proposals', proposals);
+        component.set('answers', answers);
+      }
+
+      /*
+       * Ex :
+       * - proposals = ['prop 1', 'prop 2', 'prop 3']
+       * - answers = [false, true, false]
+       *
+       * => labeledRadios = [['prop 1', false], ['prop 2', true], ['prop 3', false]]
+       */
+      (0, _mocha.it)('should return an array of [<proposal_text>, <boolean_answer>]', function () {
+        // given
+        initComponent.call(this);
+
+        // when
+        var labeledRadios = component.get('labeledRadios');
+
+        // then
+        (0, _chai.expect)(labeledRadios[0][PROPOSAL_TEXT]).to.equal(DEFAULT_PROPOSALS[0]);
+        (0, _chai.expect)(labeledRadios[0][BOOLEAN_ANSWER]).to.equal(DEFAULT_ANSWERS[0]);
+
+        (0, _chai.expect)(labeledRadios[1][PROPOSAL_TEXT]).to.equal(DEFAULT_PROPOSALS[1]);
+        (0, _chai.expect)(labeledRadios[1][BOOLEAN_ANSWER]).to.equal(DEFAULT_ANSWERS[1]);
+
+        (0, _chai.expect)(labeledRadios[2][PROPOSAL_TEXT]).to.equal(DEFAULT_PROPOSALS[2]);
+        (0, _chai.expect)(labeledRadios[2][BOOLEAN_ANSWER]).to.equal(DEFAULT_ANSWERS[2]);
+      });
+
+      (0, _mocha.it)('should return an array of [<proposal_text>, <boolean_answer>] with as many items than challenge proposals', function () {
+        // given
+        proposals = ['prop 1', 'prop 2', 'prop 3', 'prop 4', 'prop 5'];
+        initComponent.call(this);
+
+        // when
+        var labeledRadios = component.get('labeledRadios');
+
+        // then
+        (0, _chai.expect)(labeledRadios).to.have.lengthOf(proposals.length);
+      });
+
+      (0, _mocha.it)('should return an array of [<proposal_text>, <boolean_answer>] with all <boolean_answer> values set to "false" when given answer is "null"', function () {
+        // given
+        answers = null;
+        initComponent.call(this);
+
+        // when
+        var labeledRadios = component.get('labeledRadios');
+
+        // then
+        (0, _chai.expect)(_lodashLodash['default'].every(labeledRadios, function (labeledRadio) {
+          return labeledRadio[1] === false;
+        })).to.be['true'];
+      });
+
+      (0, _mocha.it)('should return an array of [<proposal_text>, <boolean_answer>] with <boolean_answer> values set to "false" when answer value is "null" or "undefined"', function () {
+        // given
+        answers = [true, undefined, null];
+        initComponent.call(this);
+
+        // when
+        var labeledRadios = component.get('labeledRadios');
+
+        // then
+        (0, _chai.expect)(labeledRadios[0][BOOLEAN_ANSWER]).to.equal(true);
+        (0, _chai.expect)(labeledRadios[1][BOOLEAN_ANSWER]).to.equal(false);
+        (0, _chai.expect)(labeledRadios[2][BOOLEAN_ANSWER]).to.equal(false);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/qcu-proposals-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/components/qcu-proposals-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });

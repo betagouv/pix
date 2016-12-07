@@ -610,28 +610,23 @@ define('pix-live/components/qcu-proposals', ['exports', 'ember', 'lodash/lodash'
     this.$(':radio:nth(' + index + ')').prop('checked', true);
   }
 
+  function _replaceUndefinedOrNullValueWithFalseValue(groups) {
+    return _lodashLodash['default'].map(groups, function (item) {
+      if (item[1]) {
+        return [item[0], true];
+      } else {
+        return [item[0], false];
+      }
+    });
+  }
+
   exports['default'] = _ember['default'].Component.extend({
 
     tagName: 'div',
 
     labeledRadios: _ember['default'].computed('proposals', 'answers', function () {
-      /*
-      * First merge 2 proposals, proposals fix the length of the 2-dimensionals array,
-      * Therefore, there might be value that are undefined
-      *  - [['prop 1', false], ['prop 2', true], ['prop 3', undefined], ['prop 4', undefined]]
-      */
       var result = _lodashLodash['default'].zip(this.get('proposals'), this.get('answers'));
-      /*
-      * Now convert null or undefined value into explicit boolean false value
-      *  - [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
-      */
-      result = _lodashLodash['default'].map(result, function (item) {
-        if (item[1]) {
-          return [item[0], true];
-        } else {
-          return [item[0], false];
-        }
-      });
+      result = _replaceUndefinedOrNullValueWithFalseValue(result);
       return result;
     }),
 
@@ -1864,11 +1859,9 @@ define('pix-live/models/answer/value-as-array-of-boolean-mixin', ['exports', 'em
         _lodashLodash['default'].each(rawValues, function (rawValue) {
           result[rawValue] = true;
         });
-
-        return result;
-      } else {
-        return result;
       }
+
+      return result;
     })
 
   });
@@ -2842,7 +2835,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+90aa192f"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+64cd3e26"});
 }
 
 /* jshint ignore:end */
