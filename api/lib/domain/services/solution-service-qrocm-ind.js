@@ -7,10 +7,10 @@ module.exports = {
   match (yamlAnswer, yamlSolution) {
     try {
       let result = 'ko';
-      answer = yaml.load(yamlAnswer);
-      solution = yaml.load(yamlSolution);
+      const answer = yaml.load(yamlAnswer);
+      const solution = yaml.load(yamlSolution);
       const everyAnswerMatchItsSolution = _.every(solution, function(possibleAnswers, key) {
-        return utils.fuzzyMatchingWithAnswers(answer[key], possibleAnswers)
+        return utils.fuzzyMatchingWithAnswers(answer[key], possibleAnswers);
       });
       if (everyAnswerMatchItsSolution) {
         result = 'ok';
@@ -19,7 +19,6 @@ module.exports = {
     } catch (e) { // Parse exceptions like script injection could happen. They are detected here.
       return 'ko';
     }
-    return 'ko';
   }
 
 };
