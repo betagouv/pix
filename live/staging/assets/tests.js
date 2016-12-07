@@ -262,7 +262,11 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
       (0, _chai.expect)($proposals).to.have.lengthOf(4);
     });
 
-    (0, _mocha.it)('b1.2 Une liste ordonnée d\'instruction doit s\'afficher', function () {
+    (0, _mocha.it)('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', function () {
+      (0, _chai.expect)($('input:radio:checked')).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', function () {
       (0, _chai.expect)($('.challenge-proposal:nth-child(1)').text().trim()).to.equal('1ere possibilite');
       (0, _chai.expect)($('.challenge-proposal:nth-child(2)').text().trim()).to.equal('2eme possibilite');
       (0, _chai.expect)($('.challenge-proposal:nth-child(3)').text().trim()).to.equal('3eme possibilite');
@@ -270,6 +274,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
     });
 
     (0, _mocha.it)('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', function () {
+      $(':radio').prop('checked', false);
       $('a.challenge-item-actions__validate-action').click();
       andThen(function () {
         (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
@@ -277,11 +282,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
       });
     });
 
-    (0, _mocha.it)('b1.5 Par défaut, aucun radiobutton n\'est coché', function () {
-      (0, _chai.expect)($('input:radio:checked')).to.have.lengthOf(0);
-    });
-
-    (0, _mocha.it)('b1.6 Si un utilisateur clique sur un radiobutton, il est coché', function () {
+    (0, _mocha.it)('b1.5 Si un utilisateur clique sur un radiobutton, il est coché', function () {
       (0, _chai.expect)($('input:radio:checked:nth-child(1)').is(':checked')).to.equal(false);
       click($('.challenge-proposal:nth-child(1) input'));
       andThen(function () {
@@ -290,7 +291,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
       });
     });
 
-    (0, _mocha.it)('b1.7 Si un utilisateur clique sur un radiobutton, il est coché, et tous les autres sont décochés', function () {
+    (0, _mocha.it)('b1.6 Si un utilisateur clique sur un radiobutton, il est coché, et tous les autres sont décochés', function () {
       (0, _chai.expect)($('input:radio:checked')).to.have.lengthOf(1);
       click($('.challenge-proposal:nth-child(2) input'));
       andThen(function () {
@@ -349,7 +350,11 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
       (0, _chai.expect)($proposals).to.have.lengthOf(4);
     });
 
-    (0, _mocha.it)('b2.5 It should render an ordered list of instruction', function () {
+    (0, _mocha.it)('b2.5 By default, already checked checkboxes are checked', function () {
+      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(3);
+    });
+
+    (0, _mocha.it)('b2.6 It should render an ordered list of instruction', function () {
       (0, _chai.expect)($('.challenge-proposal:nth-child(1)').text().trim()).to.equal('possibilite 1, et/ou');
       (0, _chai.expect)($('.challenge-proposal:nth-child(2)').text().trim()).to.equal('possibilite 2, et/ou');
       (0, _chai.expect)($('.challenge-proposal:nth-child(3)').text().trim()).to.equal('possibilite 3, et/ou');
@@ -361,15 +366,14 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
     });
 
     (0, _mocha.it)('b2.8 Error alert box should be displayed if user validate without checking a checkbox', function () {
-      $('a.challenge-item-actions__validate-action').click();
+      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(3);
+      $('input:checkbox').prop('checked', false);
+      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(0);
+      click($('a.challenge-item-actions__validate-action'));
       andThen(function () {
         (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
         (0, _chai.expect)($('.alert').text().trim()).to.equal('Pour valider, sélectionner au moins une réponse. Sinon, passer.');
       });
-    });
-
-    (0, _mocha.it)('b2.9 By default, no checkboxes are checked', function () {
-      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(0);
     });
 
     (0, _mocha.it)('b2.10 If an user check a checkbox, it is checked', function () {
@@ -381,7 +385,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
       });
     });
 
-    (0, _mocha.it)('b2.11 If an user check another radiobutton, it is checked, the previous checked checkboxes remains checked', function () {
+    (0, _mocha.it)('b2.11 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function () {
       (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
       click($('.challenge-proposal:nth-child(2) input'));
       andThen(function () {
@@ -418,8 +422,6 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
     });
 
     (0, _mocha.it)('b3.1 It should render challenge instruction', function () {
-      // instruction is :
-      // Un QCM propose plusieurs choix, lutilisateur peut en choisir plusieurs
       (0, _chai.expect)($('.challenge-instruction').text()).to.equal('Un QROC est une question ouverte avec un simple champ texte libre pour répondre');
     });
 
@@ -427,10 +429,10 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
       (0, _chai.expect)($('.challenge-proposals input[type="text"]')).to.have.lengthOf(1);
     });
 
-    (0, _mocha.it)('b3.3 Error alert box should be displayed if user validate without checking a checkbox', function () {
+    (0, _mocha.it)('b3.3 Error alert box should be displayed if user validate without writing any answer', function () {
+      fillIn('input[data-uid="qroc-proposal-uid"]', '');
       (0, _chai.expect)($('.alert')).to.have.lengthOf(0);
-      findWithAssert('a.challenge-item-actions__validate-action');
-      click($('a.challenge-item-actions__validate-action'));
+      click(findWithAssert('a.challenge-item-actions__validate-action'));
       andThen(function () {
         // assertions for after async behavior
         (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
@@ -477,6 +479,9 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['exports', 'mocha', '
     });
 
     (0, _mocha.it)('b4.3 Error alert box should be displayed if user validate without checking a checkbox', function () {
+      // 1st make sure all inputs are cleared
+      $(':input').val('');
+      // Then try to validate sth
       $('a.challenge-item-actions__validate-action').click();
       andThen(function () {
         (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
@@ -811,12 +816,12 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'moch
 
       (0, _mocha.it)('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', function () {
         var expectedText = '2';
-        (0, _chai.expect)($progressBar.text()).to.contains(expectedText);
+        (0, _chai.expect)(findWithAssert('.pix-progress-bar').text()).to.contains(expectedText);
       });
 
       (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', function () {
         visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id').then(function () {
-          fillIn('input[name="logiciel"]', 'COUCOU').then(function () {
+          fillIn('input[name="logiciel1"]', 'COUCOU').then(function () {
             var $validateButton = getValidateActionLink();
             return click($validateButton).then(function () {
               (0, _chai.expect)(currentURL()).to.contains('/assessments/ref_assessment_id/results');
@@ -1119,6 +1124,42 @@ define('pix-live/tests/components/progress-bar.lint-test', ['exports'], function
   'use strict';
 
   describe('ESLint - components/progress-bar.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/qcm-proposals.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/qcm-proposals.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/qcu-proposals.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/qcu-proposals.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/qroc-proposal.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/qroc-proposal.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/qrocm-proposal.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/qrocm-proposal.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -1762,6 +1803,15 @@ define('pix-live/tests/helpers/eq.lint-test', ['exports'], function (exports) {
     });
   });
 });
+define('pix-live/tests/helpers/inc.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - helpers/inc.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/helpers/module-for-acceptance', ['exports', 'qunit', 'ember', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _qunit, _ember, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
   var Promise = _ember['default'].RSVP.Promise;
 
@@ -1792,6 +1842,15 @@ define('pix-live/tests/helpers/module-for-acceptance.lint-test', ['exports'], fu
   'use strict';
 
   describe('ESLint - helpers/module-for-acceptance.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/helpers/property-of.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - helpers/property-of.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -1958,10 +2017,100 @@ define('pix-live/tests/integration/components/load-email-test.lint-test', ['expo
     });
   });
 });
+define('pix-live/tests/integration/components/qcm-proposals-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeComponent)('qcm-proposals', 'Integration: QcmProposalsComponent', {
+    integration: true
+  }, function () {
+    (0, _emberMocha.it)('renders', function () {
+      this.render(Ember.HTMLBars.template({
+        'id': '6wMkvUeQ',
+        'block': '{"statements":[["append",["unknown",["qcm-proposals"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+  });
+});
+define('pix-live/tests/integration/components/qcm-proposals-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/qcm-proposals-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeComponent)('qroc-proposal', 'Integration: QrocProposalComponent', {
+    integration: true
+  }, function () {
+    (0, _emberMocha.it)('renders', function () {
+      this.render(Ember.HTMLBars.template({
+        'id': '1i/FB0iM',
+        'block': '{"statements":[["append",["unknown",["qroc-proposal"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+  });
+});
+define('pix-live/tests/integration/components/qroc-proposal-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/qroc-proposal-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/integration/components/qrocm-proposal-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeComponent)('qrocm-proposal', 'Integration: QrocmProposalComponent', {
+    integration: true
+  }, function () {
+    (0, _emberMocha.it)('renders', function () {
+      this.render(Ember.HTMLBars.template({
+        'id': 'OU8/haVw',
+        'block': '{"statements":[["append",["unknown",["qrocm-proposal"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+  });
+});
+define('pix-live/tests/integration/components/qrocm-proposal-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/qrocm-proposal-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/models/answer.lint-test', ['exports'], function (exports) {
   'use strict';
 
   describe('ESLint - models/answer.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/models/answer/value-as-array-of-boolean-mixin.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - models/answer/value-as-array-of-boolean-mixin.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/models/answer/value-as-array-of-string-mixin.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - models/answer/value-as-array-of-string-mixin.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -1980,6 +2129,15 @@ define('pix-live/tests/models/challenge.lint-test', ['exports'], function (expor
   'use strict';
 
   describe('ESLint - models/challenge.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/models/challenge/instruction-as-object-mixin.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - models/challenge/instruction-as-object-mixin.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -2584,10 +2742,13 @@ define('pix-live/tests/unit/routes/index-test.lint-test', ['exports'], function 
     });
   });
 });
-define('pix-live/tests/unit/routes/placement-tests-test', ['exports', 'pix-live/tests/test-helper', 'chai', 'ember-mocha'], function (exports, _pixLiveTestsTestHelper, _chai, _emberMocha) {
+define('pix-live/tests/unit/routes/placement-tests-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('route:placement-tests', 'Unit | Route | placement-tests', function () {
-    (0, _emberMocha.it)('exists', function () {
+  (0, _mocha.describe)('Unit | Route | placement-tests', function () {
+
+    (0, _emberMocha.setupTest)('route:placement-tests', {});
+
+    (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
     });
@@ -2746,7 +2907,6 @@ define('pix-live/tests/unit/services/delay-test', ['exports', 'chai', 'mocha', '
 
     (0, _emberMocha.setupTest)('service:delay', {});
 
-    // Replace this with your real tests.
     (0, _mocha.it)('exists', function () {
       var controller = this.subject();
       (0, _chai.expect)(controller).to.be.ok;
