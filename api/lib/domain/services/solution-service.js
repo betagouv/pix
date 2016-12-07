@@ -1,4 +1,3 @@
-const solutionServiceQcu = require('./solution-service-qcu');
 const solutionServiceQcm = require('./solution-service-qcm');
 const solutionServiceQroc = require('./solution-service-qroc');
 
