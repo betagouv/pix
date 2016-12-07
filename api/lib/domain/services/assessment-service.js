@@ -5,7 +5,7 @@ function selectNextChallengeId(course, currentChallengeId) {
 
   return new Promise((resolve) => {
 
-    const challenges = course.challenges;
+    const challenges = course.challenges.reverse();
 
     if (!currentChallengeId) {
       return resolve(challenges[0]);

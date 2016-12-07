@@ -42,16 +42,23 @@ export default Ember.Route.extend({
   }
   ,
 
+  _urlForNextChallenge: function (adapter, assessmentId, currentChallengeId) {
+    return adapter.buildURL('assessment', assessmentId) + '/next/' + currentChallengeId;
+  },
+
   _navigateToNextView: function (currentChallenge, assessment) {
 
-    this.get('assessmentService').getNextChallenge(currentChallenge, assessment).then((challenge) => {
-      if (challenge) {
-        return this.transitionTo('assessments.get-challenge', assessment.get('id'), challenge.get('id'));
-      }
-      return this.transitionTo('assessments.get-results', assessment.get('id'));
-    });
-  }
-  ,
+    const store = this.get('store');
+
+    const adapter = this.get('store').adapterFor('application');
+    return adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET')
+      .then(challengeJSON => {
+        const challenge = store.findRecord('challenge', challengeJSON.data.id);
+        return (challenge) ?
+          this.transitionTo('assessments.get-challenge', assessment.get('id'), challenge.get('id'));
+          this.transitionTo('assessments.get-results', assessment.get('id'));
+      });
+  },
 
   setupController: function (controller, model) {
     this._super(controller, model);
