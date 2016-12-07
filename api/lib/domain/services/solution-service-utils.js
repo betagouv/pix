@@ -28,9 +28,9 @@ function removeAccentsSpacesUppercase(rawAnswer) {
   return rawAnswer.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
-function fuzzyMatchingWithAnswers(userAnswer, correctAnswers) {
+function fuzzyMatchingWithAnswers(userAnswer, correctAnswersList) {
   userAnswer = removeAccentsSpacesUppercase(userAnswer);
-  const correctAnswersList = correctAnswers.split('\n');
+  // const correctAnswersList = correctAnswers.split('\n');
   for (const correctAnswer of correctAnswersList) {
     if (userAnswer == removeAccentsSpacesUppercase(correctAnswer)) {
       return true;
