@@ -133,7 +133,9 @@ describe('Unit | Service | SolutionService', function () {
         { answer: '9lettres: courgette\n6lettres: tomate',
           solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot' },
         { answer: '9lettres: courgette\n6lettres: etamot',
-          solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot' }
+          solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot' },
+        { answer: "a: '1'\nb: '2'",
+          solution: 'a:\n- 1\nb:\n- 2' }
       ]
 
       successfulCases.forEach(function (testCase) {
