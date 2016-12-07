@@ -121,6 +121,24 @@ describe('Unit | Service | SolutionService', function () {
       });
     });
 
+    describe('if solution type is QROCM-ind', function () {
+
+      it('should return "ko" when answer does not match any solution variants', function () {
+        const answer = buildAnswer('unmatching answer');
+        const solution = buildSolution('QROCM-ind', 'unmatched solution variant');
+        expect(service.match(answer, solution)).to.equal('ko');
+      });
+
+      // const successfulCases = [
+      //   { answer: '9lettres: courgette\n6lettres: tomate', solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot' }
+      // ]
+
+      // /* successfulCases.forEach(function (testCase) {
+      //   it('should return "ok" when answer is ')
+      // }); */
+      
+    });
+
     describe('if solution type is none of the above ones', function () {
 
       it('should return "pending"', function () {
