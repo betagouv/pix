@@ -418,7 +418,7 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
     });
 
     (0, _mocha.before)(function () {
-      return visit('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_full');
+      return visit('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_id');
     });
 
     (0, _mocha.it)('b3.1 It should render challenge instruction', function () {

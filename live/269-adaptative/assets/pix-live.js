@@ -1575,7 +1575,7 @@ define('pix-live/mirage/data/challenges/ref-qroc-challenge', ['exports'], functi
   exports['default'] = {
     data: {
       type: 'challenges',
-      id: 'ref_qroc_challenge_full',
+      id: 'ref_qroc_challenge_id',
       attributes: {
         type: 'QROC',
         instruction: 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre',
@@ -2145,7 +2145,7 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
   });
 });
-define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-data', 'pix-live/utils/get-challenge-type', 'rsvp'], function (exports, _ember, _emberData, _pixLiveUtilsGetChallengeType, _rsvp) {
+define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-data', 'pix-live/utils/get-challenge-type', 'rsvp', 'pix-live/config/environment'], function (exports, _ember, _emberData, _pixLiveUtilsGetChallengeType, _rsvp, _pixLiveConfigEnvironment) {
   exports['default'] = _ember['default'].Route.extend({
 
     assessmentService: _ember['default'].inject.service('assessment'),
@@ -2189,13 +2189,18 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-
     },
 
     _navigateToNextView: function _navigateToNextView(currentChallenge, assessment) {
-      var _this2 = this;
 
-      this.get('assessmentService').getNextChallenge(currentChallenge, assessment).then(function (challenge) {
-        if (challenge) {
-          return _this2.transitionTo('assessments.get-challenge', assessment.get('id'), challenge.get('id'));
+      var that = this;
+      $.ajax({
+        url: _pixLiveConfigEnvironment['default'].APP.API_HOST + '/api/assessments/' + assessment.get('id') + '/next/' + currentChallenge.get('id'),
+        type: 'GET'
+      }).done(function (msg) {
+        if (msg.error) {
+          // no other test, go to end of test
+          return that.transitionTo('assessments.get-results', assessment.get('id'));
+        } else {
+          return that.transitionTo('assessments.get-challenge', assessment.get('id'), msg.data.id);
         }
-        return _this2.transitionTo('assessments.get-results', assessment.get('id'));
       });
     },
 
@@ -2866,7 +2871,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+abaa0bdb"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+369246ad"});
 }
 
 /* jshint ignore:end */
