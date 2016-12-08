@@ -49,18 +49,16 @@ export default Ember.Route.extend({
 
   _navigateToNextView: function (currentChallenge, assessment) {
 
-    const store = this.get('store');
     console.warn('currentChallenge', currentChallenge, assessment);
 
     const adapter = this.get('store').adapterFor('application');
     adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET')
-      .then(challengeJSON => {
-        const challenge = store.findRecord('challenge', challengeJSON.data.id);
-        if(challenge) {
-          console.warn(challenge);
-          this.transitionTo('assessments.get-challenge', assessment.get('id'), challenge.get('id'));
+      .then(nextChallenge => {
+        if(nextChallenge) {
+          console.warn('challenge', nextChallenge);
+          this.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
         } else {
-          console.warn(assessment);
+          console.warn('finished');
           this.transitionTo('assessments.get-results', assessment.get('id'));
         }
       });
