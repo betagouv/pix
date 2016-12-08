@@ -1,3 +1,4 @@
+/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 import Ember from 'ember';
 import DS from 'ember-data';
 import getChallengeType from '../../utils/get-challenge-type';
@@ -49,14 +50,19 @@ export default Ember.Route.extend({
   _navigateToNextView: function (currentChallenge, assessment) {
 
     const store = this.get('store');
+    console.warn('currentChallenge', currentChallenge, assessment);
 
     const adapter = this.get('store').adapterFor('application');
-    return adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET')
+    adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET')
       .then(challengeJSON => {
         const challenge = store.findRecord('challenge', challengeJSON.data.id);
-        return (challenge) ?
+        if(challenge) {
+          console.warn(challenge);
           this.transitionTo('assessments.get-challenge', assessment.get('id'), challenge.get('id'));
+        } else {
+          console.warn(assessment);
           this.transitionTo('assessments.get-results', assessment.get('id'));
+        }
       });
   },
 
