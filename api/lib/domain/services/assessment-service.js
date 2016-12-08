@@ -13,14 +13,15 @@ function selectNextChallengeId(course, currentChallengeId) {
 
     if(course.isAdaptive) {
       // console.log('hiya', assessment.related('answers').pluck('id'));  // Peut-être qu'on pourrait se servir de cela
-      assessment.related('answers').forEach((answer) => {
-        new Answer({ id: answer.id }).fetch().then((answerO) => {
-          if(answerO.attributes.result == 'ok') {
-            return resolve(challenges[1]);
-          }
-          return resolve(challenges[2]);
-        });
+      const answerIds = assessment.related('answers').pluck('id');
+      const responsePattern = Answer.where('id', 'IN', answer_ids).fetchAll().then((answers) => {
+        answers.map(answer => (answer.attributes.result == 'ok') ? '1' : '0');
       });
+      switch(responsePattern) {
+        case '1': return resolve(challenges[1]);
+        case '0': return resolve(challenges[2]);
+        default: resolve(null);
+      }
     } else {
       if (currentChallengeId === challenges[challenges.length - 1]) {
         return resolve(null);
