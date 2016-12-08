@@ -15,12 +15,12 @@ export default function (schema, request) {
     'ref_qrocm_challenge_id': null
   };
 
+  if(!nextChallenge.hasOwnProperty(request.params.challengeId)) {
+    throw new Error('This requested challenge is unknown : ' + request.params.challengeId);
+  }
+
   const challenge = nextChallenge[request.params.challengeId];
 
-  if (challenge) {
-    return challenge;
-  } else {
-    throw new Error('There is no challenge following challenge ' + request.params.challengeId);
-  }
+  return challenge;
 
 }
