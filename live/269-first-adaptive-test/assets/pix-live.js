@@ -1225,7 +1225,7 @@ define("pix-live/instance-initializers/ember-data", ["exports", "ember-data/-pri
     initialize: _emberDataPrivateInstanceInitializersInitializeStoreService["default"]
   };
 });
-define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments'], function (exports, _pixLiveMirageRoutesGetChallenge, _pixLiveMirageRoutesGetChallenges, _pixLiveMirageRoutesGetCourse, _pixLiveMirageRoutesGetCourses, _pixLiveMirageRoutesGetAnswer, _pixLiveMirageRoutesPostAnswers, _pixLiveMirageRoutesGetAssessment, _pixLiveMirageRoutesPostAssessments) {
+define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments'], function (exports, _pixLiveMirageRoutesGetChallenge, _pixLiveMirageRoutesGetChallenges, _pixLiveMirageRoutesGetNextChallenge, _pixLiveMirageRoutesGetCourse, _pixLiveMirageRoutesGetCourses, _pixLiveMirageRoutesGetAnswer, _pixLiveMirageRoutesPostAnswers, _pixLiveMirageRoutesGetAssessment, _pixLiveMirageRoutesPostAssessments) {
   exports['default'] = function () {
 
     this.passthrough('/write-coverage');
@@ -1242,6 +1242,7 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
 
     this.post('/assessments', _pixLiveMirageRoutesPostAssessments['default']);
     this.get('/assessments/:id', _pixLiveMirageRoutesGetAssessment['default']);
+    this.get('/assessments/:id/next/:challengeId', _pixLiveMirageRoutesGetNextChallenge['default']);
 
     this.post('/answers', _pixLiveMirageRoutesPostAnswers['default']);
     this.get('/answers/:id', _pixLiveMirageRoutesGetAnswer['default']);
@@ -1629,6 +1630,29 @@ define('pix-live/mirage/routes/get-courses', ['exports', 'lodash/lodash', 'pix-l
     return { data: filteredCourses };
   };
 });
+define('pix-live/mirage/routes/get-next-challenge', ['exports', 'pix-live/mirage/data/challenges/ref-qcu-challenge', 'pix-live/mirage/data/challenges/ref-qroc-challenge', 'pix-live/mirage/data/challenges/ref-qrocm-challenge'], function (exports, _pixLiveMirageDataChallengesRefQcuChallenge, _pixLiveMirageDataChallengesRefQrocChallenge, _pixLiveMirageDataChallengesRefQrocmChallenge) {
+  exports['default'] = function (schema, request) {
+
+    var nextChallenge = {
+      'raw_qcm_challenge_id': null,
+      'ref_qcm_challenge_id': _pixLiveMirageDataChallengesRefQcuChallenge['default'],
+      'ref_qcu_challenge_id': _pixLiveMirageDataChallengesRefQrocChallenge['default'],
+      'ref_qroc_challenge_id': _pixLiveMirageDataChallengesRefQrocmChallenge['default'],
+      'ref_qrocm_challenge_id': null
+    };
+
+    var challenge = nextChallenge[request.params.challengeId];
+
+    if (challenge) {
+      return challenge;
+    } else {
+      throw new Error('There is no challenge following challenge ' + request.params.challengeId);
+    }
+  };
+});
+// import _ from 'lodash/lodash';
+// import rawQcmChallenge from '../data/challenges/raw-qcm-challenge';
+// import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';
 define('pix-live/mirage/routes/post-answers', ['exports', 'lodash/lodash', 'pix-live/mirage/data/challenges/raw-qcm-challenge', 'pix-live/mirage/data/challenges/ref-qcm-challenge', 'pix-live/mirage/data/challenges/ref-qcu-challenge', 'pix-live/mirage/data/challenges/ref-qroc-challenge', 'pix-live/mirage/data/challenges/ref-qrocm-challenge', 'pix-live/mirage/data/answers/raw-qcm-answer', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer'], function (exports, _lodashLodash, _pixLiveMirageDataChallengesRawQcmChallenge, _pixLiveMirageDataChallengesRefQcmChallenge, _pixLiveMirageDataChallengesRefQcuChallenge, _pixLiveMirageDataChallengesRefQrocChallenge, _pixLiveMirageDataChallengesRefQrocmChallenge, _pixLiveMirageDataAnswersRawQcmAnswer, _pixLiveMirageDataAnswersRefQcuAnswer, _pixLiveMirageDataAnswersRefQcmAnswer, _pixLiveMirageDataAnswersRefQrocAnswer, _pixLiveMirageDataAnswersRefQrocmAnswer) {
   exports['default'] = function (schema, request) {
 
@@ -1945,14 +1969,19 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp',
       });
     },
 
+    _urlForNextChallenge: function _urlForNextChallenge(adapter, assessmentId, currentChallengeId) {
+      return adapter.buildURL('assessment', assessmentId) + '/next/' + currentChallengeId;
+    },
+
     _navigateToNextView: function _navigateToNextView(currentChallenge, assessment) {
       var _this2 = this;
 
-      this.get('assessmentService').getNextChallenge(currentChallenge, assessment).then(function (challenge) {
-        if (challenge) {
-          return _this2.transitionTo('assessments.get-challenge', { challenge: challenge, assessment: assessment });
-        }
-        return _this2.transitionTo('assessments.get-results', { assessment: assessment });
+      var store = this.get('store');
+
+      var adapter = this.get('store').adapterFor('application');
+      return adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET').then(function (challengeJSON) {
+        var challenge = store.findRecord('challenge', challengeJSON.data.id);
+        return challenge ? _this2.transitionTo('assessments.get-challenge', { challenge: challenge, assessment: assessment }) : _this2.transitionTo('assessments.get-results', { assessment: assessment });
       });
     },
 
@@ -2502,6 +2531,13 @@ define('pix-live/tests/mirage/mirage/routes/get-courses.lint-test', ['exports'],
     });
   });
 });
+define('pix-live/tests/mirage/mirage/routes/get-next-challenge.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/routes/get-next-challenge.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/mirage/mirage/routes/post-answers.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/routes/post-answers.js', function () {
     it('should pass ESLint', function () {
@@ -2600,7 +2636,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+1ad0e135"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+641c0c29"});
 }
 
 /* jshint ignore:end */
