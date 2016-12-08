@@ -15,8 +15,8 @@ describe('Acceptance | API | Assessments', function () {
             "fields": {
               // a bunch of fields
               "\u00c9preuves": [
-                "first_challenge",
                 "second_challenge",
+                "first_challenge",
               ],
             },
           }
