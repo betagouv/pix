@@ -29,10 +29,11 @@ module.exports = {
 
   getNextChallenge(request, reply) {
 
+    console.log('assessmentId', request.params.id);
     assessmentRepository
       .get(request.params.id)
-      .then((assessment) => assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId))
-      .then((nextChallengeId) => challengeRepository.get(nextChallengeId))
+      .then((assessment) => assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId, assessment))
+      .then((nextChallengeId) => (nextChallengeId) ? challengeRepository.get(nextChallengeId) : reply(null))
       .then((challenge) => reply(challengeSerializer.serialize(challenge)))
       .catch((err) => reply(Boom.badImplementation(err)));
   }

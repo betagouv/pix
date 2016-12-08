@@ -1,11 +1,12 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const Answer = require('../../domain/models/data/answer');
 
-function selectNextChallengeId(course, currentChallengeId) {
+function selectNextChallengeId(course, currentChallengeId, assessment) {
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
 
     const challenges = course.challenges.reverse();
+    console.log('next', course, currentChallengeId);
 
     if (!currentChallengeId) {
       return resolve(challenges[0]);
@@ -14,14 +15,17 @@ function selectNextChallengeId(course, currentChallengeId) {
     if(course.isAdaptive) {
       // console.log('hiya', assessment.related('answers').pluck('id'));  // Peut-être qu'on pourrait se servir de cela
       const answerIds = assessment.related('answers').pluck('id');
-      const responsePattern = Answer.where('id', 'IN', answer_ids).fetchAll().then((answers) => {
-        answers.map(answer => (answer.attributes.result == 'ok') ? '1' : '0');
-      });
-      switch(responsePattern) {
-        case '1': return resolve(challenges[1]);
-        case '0': return resolve(challenges[2]);
-        default: resolve(null);
-      }
+      console.log('answerIds', answerIds);
+      
+      Answer.where('id', 'IN', answerIds).fetchAll().then((answers) => {
+        const responsePattern = answers.map(answer => (answer.attributes.result == 'ok') ? '1' : '0').join('');
+        console.log('responsePattern', responsePattern);
+        switch(responsePattern) {
+          case '1': return resolve(challenges[1]);
+          case '0': return resolve(challenges[2]);
+          default: resolve(null);
+        }
+      }).catch((error) => reject(error));;
     } else {
       if (currentChallengeId === challenges[challenges.length - 1]) {
         return resolve(null);
