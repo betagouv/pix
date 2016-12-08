@@ -7,6 +7,7 @@ import postAnswers                       from './routes/post-answers';
 import getAssessment                     from './routes/get-assessment';
 import postAssessments                   from './routes/post-assessments';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
+import getNextChallenge                  from './routes/get-next-challenge';
 
 export default function () {
 
@@ -24,6 +25,7 @@ export default function () {
 
   this.post('/assessments',    postAssessments);
   this.get('/assessments/:id', getAssessment);
+  this.get('/assessments/:id/next/:challengeId', getNextChallenge);
 
   this.post('/answers',        postAnswers);
   this.get('/answers/:id',     getAnswer);
