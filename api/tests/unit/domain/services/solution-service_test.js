@@ -163,6 +163,16 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
+    describe('if solution type is QROCM-depsco', function () {
+
+      it('should return "ko" when answer does not match any solution variants', function () {
+        const answer = buildAnswer('answer: unmatching answer');
+        const solution = buildSolution('QROCM-depsco', 'answer:\n- unmatched solution variant');
+        expect(service.match(answer, solution)).to.equal('ko');
+      });
+
+    });
+
     describe('if solution type is none of the above ones', function () {
 
       it('should return "pending"', function () {
