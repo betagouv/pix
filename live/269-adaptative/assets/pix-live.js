@@ -1781,13 +1781,13 @@ define('pix-live/mirage/routes/get-next-challenge', ['exports', 'pix-live/mirage
       'ref_qrocm_challenge_id': null
     };
 
+    if (!nextChallenge.hasOwnProperty(request.params.challengeId)) {
+      throw new Error('This requested challenge is unknown : ' + request.params.challengeId);
+    }
+
     var challenge = nextChallenge[request.params.challengeId];
 
-    if (challenge) {
-      return challenge;
-    } else {
-      throw new Error('There is no challenge following challenge ' + request.params.challengeId);
-    }
+    return challenge;
   };
 });
 // import _ from 'lodash/lodash';
@@ -2866,7 +2866,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+599b3364"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+abaa0bdb"});
 }
 
 /* jshint ignore:end */
