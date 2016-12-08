@@ -2,6 +2,19 @@ const utils = require('./solution-service-utils');
 const yaml = require('js-yaml');
 const _ = require('lodash');
 
+// We expect that parsing from airtable returns an Object
+// whose all values are array, like this :
+// { Google: [ 'Google', 'google.fr', 'Google Search' ], Yahoo: [ 'Yahoo', 'Yahoo Answer' ] }
+function _isValidSolution(solution) {
+  let result = false;
+  if (_.isObject(solution)) {
+    result = _.every(solution, function(item) {
+      return _.isArray(item) && _.every(item, (e) => _.isString(e));
+    });
+  }
+  return result;
+}
+
 module.exports = {
 
   match (yamlAnswer, yamlSolution) {
@@ -15,6 +28,10 @@ module.exports = {
       const solution = yaml.load(yamlSolution);
       // solution is
       // { Google: [ 'Google', 'google.fr', 'Google Search' ], Yahoo: [ 'Yahoo', 'Yahoo Answer' ] }
+
+      if (!_isValidSolution(solution)) {
+        return result;
+      }
 
       const possibleAnswers = {};
       _.each(solution, (answerList, solutionKey) => {
