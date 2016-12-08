@@ -42,7 +42,6 @@ module.exports = {
       const numberOfUserAnswers = Object.keys(answerMap).length;
       const numberOfUniqueCorrectAnswers = scoredKeys.length;
 
-
       if (numberOfUniqueCorrectAnswers === numberOfUserAnswers) {
         result = 'ok';
       }

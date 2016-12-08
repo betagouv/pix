@@ -163,23 +163,23 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
-    describe('if solution type is QROCM-depsco', function () {
+    describe('if solution type is QROCM-dep', function () {
 
       it('should return "ko" for badly formatted solution', function () {
         const answer = buildAnswer('num1: Google\nnum2: Yahoo');
-        const solution = buildSolution('QROCM-depsco', 'solution like a QCU');
+        const solution = buildSolution('QROCM-dep', 'solution like a QCU');
         expect(service.match(answer, solution)).to.equal('ko');
       });
 
       it('should return "ko" when answer is incorrect', function () {
         const answer = buildAnswer('num1: Foo\nnum2: Bar');
-        const solution = buildSolution('QROCM-depsco', 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer');
+        const solution = buildSolution('QROCM-dep', 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer');
         expect(service.match(answer, solution)).to.equal('ko');
       });
 
       it('should return "ko" when user duplicated a correct answer', function () {
         const answer = buildAnswer('num1: google.fr\nnum2: google.fr');
-        const solution = buildSolution('QROCM-depsco', 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer');
+        const solution = buildSolution('QROCM-dep', 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer');
         expect(service.match(answer, solution)).to.equal('ko');
       });
 
@@ -191,7 +191,7 @@ describe('Unit | Service | SolutionService', function () {
       maximalScoreCases.forEach(function (testCase) {
         it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
           const answer = buildAnswer(testCase.answer);
-          const solution = buildSolution('QROCM-depsco', testCase.solution);
+          const solution = buildSolution('QROCM-dep', testCase.solution);
           expect(service.match(answer, solution)).to.equal('ok');
         });
       });
