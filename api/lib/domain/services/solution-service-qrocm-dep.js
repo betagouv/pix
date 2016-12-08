@@ -45,8 +45,8 @@ module.exports = {
         possibleAnswers[answer] = solutionKey;
       });
     });
-      // possibleAnswers is
-      // { Google: 'Google','google.fr': 'Google','Google Search': 'Google',Yahoo: 'Yahoo','Yahoo Answer': 'Yahoo' }
+    // possibleAnswers is
+    // { Google: 'Google','google.fr': 'Google','Google Search': 'Google',Yahoo: 'Yahoo','Yahoo Answer': 'Yahoo' }
 
     let scoredKeys = [];
     _.each(answerMap, (answer) => {
