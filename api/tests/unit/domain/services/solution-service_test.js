@@ -1,3 +1,5 @@
+/* global describe, it, expect */
+
 const service = require('../../../../lib/domain/services/solution-service');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Solution = require('../../../../lib/domain/models/referential/solution');
@@ -17,7 +19,7 @@ describe('Unit | Service | SolutionService', function () {
     return answer;
   }
 
-  describe("#match", function () {
+  describe('#match', function () {
 
     describe('if answer is #ABAND#', function () {
 
@@ -134,9 +136,9 @@ describe('Unit | Service | SolutionService', function () {
           solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot' },
         { answer: '9lettres: courgette\n6lettres: etamot',
           solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot' },
-        { answer: "a: '1'\nb: '2'",
+        { answer: 'a: "1"\nb: "2"',
           solution: 'a:\n- 1\nb:\n- 2' }
-      ]
+      ];
 
       successfulCases.forEach(function (testCase) {
         it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
@@ -146,10 +148,10 @@ describe('Unit | Service | SolutionService', function () {
         });
       });
 
-      failedCases = [
-        { answer: '9lettres: courgette\n6lettres: tomates', // notice "s" at the end of tomates 
+      const failedCases = [
+        { answer: '9lettres: courgette\n6lettres: tomates', // notice "s" at the end of tomates
           solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot' },
-      ]
+      ];
 
       failedCases.forEach(function (testCase) {
         it('should return "ko" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
@@ -158,7 +160,7 @@ describe('Unit | Service | SolutionService', function () {
           expect(service.match(answer, solution)).to.equal('ko');
         });
       });
-      
+
     });
 
     describe('if solution type is none of the above ones', function () {
