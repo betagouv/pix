@@ -2,6 +2,7 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import getChallengeType from '../../utils/get-challenge-type';
 import RSVP from 'rsvp';
+import config from '../../config/environment';
 
 export default Ember.Route.extend({
 
@@ -44,14 +45,21 @@ export default Ember.Route.extend({
 
   _navigateToNextView: function (currentChallenge, assessment) {
 
-    this.get('assessmentService').getNextChallenge(currentChallenge, assessment).then((challenge) => {
-      if (challenge) {
-        return this.transitionTo('assessments.get-challenge', assessment.get('id'), challenge.get('id'));
+    const that = this;
+    $.ajax({
+      url: config.APP.API_HOST + '/api/assessments/' +
+            assessment.get('id') +
+            '/next/' +
+            currentChallenge.get('id'),
+      type: 'GET'
+    }).done(function( msg ) {
+      if (msg.error) { // no other test, go to end of test
+        return that.transitionTo('assessments.get-results', assessment.get('id'));
+      } else {
+        return that.transitionTo('assessments.get-challenge', assessment.get('id'), msg.data.id);
       }
-      return this.transitionTo('assessments.get-results', assessment.get('id'));
     });
-  }
-  ,
+  },
 
   setupController: function (controller, model) {
     this._super(controller, model);
