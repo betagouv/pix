@@ -8,6 +8,7 @@ export default Model.extend({
   description: attr('string'),
   duration: attr('number'),
   imageUrl: attr('string'),
+  adaptive: attr('boolean'),
   challenges: hasMany('challenge', { inverse: null }),
 
   getProgress(challenge) {
