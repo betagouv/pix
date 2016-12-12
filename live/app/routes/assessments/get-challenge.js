@@ -1,4 +1,3 @@
-/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 import Ember from 'ember';
 import DS from 'ember-data';
 import getChallengeType from '../../utils/get-challenge-type';
@@ -49,16 +48,12 @@ export default Ember.Route.extend({
 
   _navigateToNextView: function (currentChallenge, assessment) {
 
-    console.warn('currentChallenge', currentChallenge, assessment);
-
     const adapter = this.get('store').adapterFor('application');
     adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET')
       .then(nextChallenge => {
         if(nextChallenge) {
-          console.warn('challenge', nextChallenge);
           this.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
         } else {
-          console.warn('finished');
           this.transitionTo('assessments.get-results', assessment.get('id'));
         }
       });
