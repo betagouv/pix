@@ -25,7 +25,6 @@ class CourseSerializer extends JSONAPISerializer {
     };
     if (model.challenges) {
       for (const challengeId of model.challenges) {
-        console.log('XXXXXXXX bulllllll bull bulll');
         // XXX unshift instead of push: https://github.com/Airtable/airtable.js/issues/17
         data.relationships.challenges.data.unshift({
           'type': 'challenges',

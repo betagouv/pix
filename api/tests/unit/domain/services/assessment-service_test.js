@@ -41,16 +41,16 @@ describe('Unit | Service | Assessments', function () {
         });
     });
 
-    // it('should return the next assessment\'s course challenge ID when the current one is not the last', function (done) {
-    //   // when
-    //   service
-    //     .getAssessmentNextChallengeId(assessment, 'ch1')
-    //     .then((nextChallengeId) => {
-    //       // then
-    //       expect(nextChallengeId).to.equal('ch2');
-    //       done();
-    //     });
-    // });
+    it('should return the assessment\'s course next challenge ID when the current one is not the last', function (done) {
+      // when
+      service
+        .getAssessmentNextChallengeId(assessment, 'ch1')
+        .then((nextChallengeId) => {
+          // then
+          expect(nextChallengeId).to.equal('ch2');
+          done();
+        });
+    });
 
     // it('should return null when the current challenge is the assessment\'s course latest', function (done) {
     //   // when

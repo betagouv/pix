@@ -30,8 +30,8 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
       }
 
       let i = 1;
-      for (const challengeId of challenges) {
-        if (currentChallengeId === challengeId) {
+      for (const challenge of challenges) {
+        if (currentChallengeId === challenge.id) {
           break;
         }
         i++;
