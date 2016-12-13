@@ -1774,7 +1774,7 @@ define('pix-live/mirage/routes/get-next-challenge', ['exports', 'pix-live/mirage
   exports['default'] = function (schema, request) {
 
     var nextChallenge = {
-      'raw_qcm_challenge_id': 'null',
+      'raw_qcm_challenge_id': 'null', // JSON should contain 'null', not null
       'ref_qcm_challenge_id': _pixLiveMirageDataChallengesRefQcuChallenge['default'],
       'ref_qcu_challenge_id': _pixLiveMirageDataChallengesRefQrocChallenge['default'],
       'ref_qroc_challenge_id': _pixLiveMirageDataChallengesRefQrocmChallenge['default'],
@@ -2873,7 +2873,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+c5e9fc8c"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+4f6e03cb"});
 }
 
 /* jshint ignore:end */
