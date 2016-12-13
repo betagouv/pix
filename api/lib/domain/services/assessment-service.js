@@ -26,12 +26,13 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
         }
       }).catch((error) => reject(error));
     } else {
-      if (currentChallengeId === challenges[challenges.length - 1].id) {
+      
+      const currentChallengeIndex = _.findIndex(challenges, challenge => challenge.id == currentChallengeId);
+      if (currentChallengeIndex === challenges.length - 1) {
         return resolve(null);
+      } else {
+        return resolve(challenges[currentChallengeIndex + 1].id);
       }
-
-      const challengeIndex = _.findIndex(challenges, challenge => challenge.id == currentChallengeId);
-      return resolve(challenges[challengeIndex + 1].id);
     }
   });
 }

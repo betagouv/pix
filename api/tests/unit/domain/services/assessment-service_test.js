@@ -52,16 +52,16 @@ describe('Unit | Service | Assessments', function () {
         });
     });
 
-    // it('should return null when the current challenge is the assessment\'s course latest', function (done) {
-    //   // when
-    //   service
-    //     .getAssessmentNextChallengeId(assessment, 'ch3')
-    //     .then((nextChallengeId) => {
-    //       // then
-    //       expect(nextChallengeId).to.be.null;
-    //       done();
-    //     });
-    // });
+    it('should return null when the current challenge is the assessment\'s course latest', function (done) {
+      // when
+      service
+        .getAssessmentNextChallengeId(assessment, 'ch3')
+        .then((nextChallengeId) => {
+          // then
+          expect(nextChallengeId).to.be.null;
+          done();
+        });
+    });
 
   });
 
