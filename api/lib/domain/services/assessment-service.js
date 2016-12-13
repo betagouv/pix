@@ -1,6 +1,7 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const courseSerializer = require('../../infrastructure/serializers/course-serializer');
 const Answer = require('../../domain/models/data/answer');
+const _ = require('lodash');
 
 function selectNextChallengeId(course, currentChallengeId, assessment) {
 
@@ -29,14 +30,8 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
         return resolve(null);
       }
 
-      let i = 1;
-      for (const challenge of challenges) {
-        if (currentChallengeId === challenge.id) {
-          break;
-        }
-        i++;
-      }
-      return resolve(challenges[i].id);
+      const challengeIndex = _.findIndex(challenges, challenge => challenge.id == currentChallengeId);
+      return resolve(challenges[challengeIndex + 1].id);
     }
   });
 }
