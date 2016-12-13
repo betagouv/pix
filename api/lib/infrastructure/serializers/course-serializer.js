@@ -10,8 +10,7 @@ class CourseSerializer extends JSONAPISerializer {
     data.attributes['name'] = model.name;
     data.attributes['description'] = model.description;
     data.attributes['duration'] = model.duration;
-    data.attributes['isAdaptive'] = model.isAdaptive;
-    data.attributes['adaptive'] = model.isAdaptive;
+    data.attributes['is-adaptive'] = model.isAdaptive;
 
     if (model.imageUrl) {
       data.attributes['image-url'] = model.imageUrl;
@@ -19,13 +18,15 @@ class CourseSerializer extends JSONAPISerializer {
   }
 
   serializeRelationships(model, data) {
+    data.relationships = {
+      challenges: {
+        data: []
+      }
+    };
     if (model.challenges) {
-      data.relationships = {
-        challenges: {
-          data: []
-        }
-      };
-      for (const  challengeId of model.challenges) {
+      for (const challengeId of model.challenges) {
+        console.log('XXXXXXXX bulllllll bull bulll');
+        // XXX unshift instead of push: https://github.com/Airtable/airtable.js/issues/17
         data.relationships.challenges.data.unshift({
           'type': 'challenges',
           'id': challengeId

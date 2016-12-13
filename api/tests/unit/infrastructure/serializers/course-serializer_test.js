@@ -37,8 +37,7 @@ describe('Unit | Serializer | CourseSerializer', function () {
           "id": course.id,
           "attributes": {
             "name": course.name,
-            "adaptive": course.isAdaptive,
-            "isAdaptive": course.isAdaptive,
+            "is-adaptive": course.isAdaptive,
             "description": course.description,
             "duration": course.duration,
             "image-url": "http://image.url"
