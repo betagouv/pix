@@ -12,7 +12,6 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
     }
 
     if(course.isAdaptive) {
-      // console.log('hiya', assessment.related('answers').pluck('id'));  // Peut-être qu'on pourrait se servir de cela
       const answerIds = assessment.related('answers').pluck('id');
       
       Answer.where('id', 'IN', answerIds).fetchAll().then((answers) => {

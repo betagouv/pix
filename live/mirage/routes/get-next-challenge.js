@@ -8,7 +8,7 @@ import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 export default function (schema, request) {
 
   const nextChallenge = {
-    'raw_qcm_challenge_id': 'null',
+    'raw_qcm_challenge_id': 'null',  // JSON should contain 'null', not null
     'ref_qcm_challenge_id': refQcuChallengeFull,
     'ref_qcu_challenge_id': refQrocChallengeFull,
     'ref_qroc_challenge_id': refQrocmChallengeFull,
