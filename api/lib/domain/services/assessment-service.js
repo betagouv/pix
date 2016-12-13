@@ -3,18 +3,22 @@ const courseSerializer = require('../../infrastructure/serializers/course-serial
 const Answer = require('../../domain/models/data/answer');
 const _ = require('lodash');
 
-function selectNextChallengeId(course, currentChallengeId, assessment) {
+function selectNextChallengeId(assessment, currentChallengeId) {
 
   return new Promise((resolve, reject) => {
 
+    const course = assessment.data.relationships.course;
+    console.log('course', course); 
     const challenges = course.data.relationships.challenges.data;
-    console.log('challenges', challenges);
+    console.log('challenges', challenges); 
 
     if (!currentChallengeId) {
       return resolve(challenges[0].id);
     }
 
-    if (course.isAdaptive) {
+    if (course.data.attributes['is-adaptive']) {
+      console.log('assessment  - - - - - - - - - -  - - - - - - - - -  - - - - - - - - - - - - - - ');
+      console.log(assessment);
       const answerIds = assessment.related('answers').pluck('id');
       
       Answer.where('id', 'IN', answerIds).fetchAll().then((answers) => {
@@ -26,7 +30,7 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
         }
       }).catch((error) => reject(error));
     } else {
-      
+
       const currentChallengeIndex = _.findIndex(challenges, challenge => challenge.id == currentChallengeId);
       if (currentChallengeIndex === challenges.length - 1) {
         return resolve(null);
@@ -41,17 +45,7 @@ module.exports = {
 
   getAssessmentNextChallengeId(assessment, currentChallengeId) {
 
-    return new Promise((resolve, reject) => {
-
-      const courseId = assessment.get('courseId');
-      courseRepository
-        .get(courseId)
-        .then((course) => {
-          const serializedCourse = courseSerializer.serialize(course);
-          resolve(selectNextChallengeId(serializedCourse, currentChallengeId, assessment));
-        })
-        .catch((error) => reject(error));
-    });
+    return selectNextChallengeId(assessment, currentChallengeId);
   }
 
 };
