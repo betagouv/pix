@@ -382,7 +382,7 @@ describe('Acceptance | API | Assessments', function () {
           const inserted_answer = {
             value: 'any good answer',
             result: 'ok',
-            challengeId: 'recLt9uwa2dR3IYpi',
+            challengeId: 'anyChallengeIdFromAirtable',
             assessmentId: inserted_assessment_id
           };
           knex('answers').delete().then(() => {
@@ -432,7 +432,7 @@ describe('Acceptance | API | Assessments', function () {
           const inserted_answer = {
             value: 'any bad answer',
             result: 'ko',
-            challengeId: 'recLt9uwa2dR3IYpi',
+            challengeId: 'anyChallengeIdFromAirtable',
             assessmentId: inserted_assessment_id
           };
           knex('answers').delete().then(() => {
@@ -461,5 +461,62 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
   });
+
+
+  describe('(adaptive two answers, with any result) GET /api/assessments/:assessment_id/next/:current_challenge_id', function () {
+
+    //assessment
+    let inserted_assessment_id = null;
+
+    const inserted_assessment = {
+      userName: 'John Doe',
+      userEmail: 'john.doe@mailmail.com',
+      courseId: 'adaptive_course_id'
+    };
+
+    beforeEach(function (done) {
+      knex('assessments').delete().then(() => {
+        knex('assessments').insert([inserted_assessment]).then((rows) => {
+          inserted_assessment_id = rows[0];
+
+          const inserted_answer_1 = {
+            value: 'any bad answer',
+            result: 'ko',
+            challengeId: 'anyChallengeIdFromAirtable',
+            assessmentId: inserted_assessment_id
+          };
+          const inserted_answer_2 = {
+            value: 'any good answer',
+            result: 'ok',
+            challengeId: 'anyChallengeIdFromAirtable',
+            assessmentId: inserted_assessment_id
+          };
+          knex('answers').delete().then(() => {
+            knex('answers').insert([inserted_answer_1, inserted_answer_2]).then(() => {
+              done();
+            });
+          });
+        });
+      });
+    });
+
+    afterEach(function (done) {
+      knex('assessments').delete().then(() => {
+        knex('answers').delete().then(() => {
+          done();
+        });
+      });
+    });
+
+    it('should return null if 2 answers are given', function (done) {
+
+      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge' };
+      server.injectThen(challengeData).then((response) => {
+        expect(response.result).to.equal('null');
+        done();
+      });
+    });
+  });
+
 
 });
