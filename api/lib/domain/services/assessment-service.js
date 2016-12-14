@@ -1,6 +1,6 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const Answer = require('../../domain/models/data/answer');
-const _ = require('lodash');
+const _ = require('lodash').runInContext();
 
 function _selectNextInAdaptiveMode(assessment, challenges) {
 
@@ -19,17 +19,27 @@ function _selectNextInAdaptiveMode(assessment, challenges) {
 }
 
 function _selectNextInNormalMode(currentChallengeId, challenges) {
+
+
+  _.mixin({
+    'elementAfter' : function(array, currentElement) {
+      if (_.isArray(array) && !_.isEmpty(array)) { // only relevant on non-empty array
+        const currentIndex = _(array).indexOf(currentElement);
+        if (currentIndex > -1) { // need to have an already-existing element inside the given array to work properly
+          return _(array).nth(currentIndex + 1);
+        }
+      }
+    }
+  });
+
   /*
    * example : - challenges is ["1st_challenge", "2nd_challenge", "3rd_challenge", "4th_challenge"]
    *           - currentChallengeId is "2nd_challenge"
    */
-
-  // indexOfNextChallenge will be 2, pointing on 3rd_challenge
-  const indexOfNextChallenge = _(challenges).indexOf(currentChallengeId) + 1;
-  // remainingChallenges will be ["3rd_challenge", "4th_challenge"]]
-  const remainingChallenges = _(challenges).drop(indexOfNextChallenge);
-  // extracting first value of remainingChallenges
-  return _(remainingChallenges).head();
+  const nextChallengeId = _(challenges).elementAfter(currentChallengeId).value();
+  // - nextChallengeId is "3rd_challenge"
+  return _.defaultTo(nextChallengeId, null);
+  // default result to null if not found
 }
 
 function selectNextChallengeId(course, currentChallengeId, assessment) {
