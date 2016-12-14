@@ -311,6 +311,14 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
 
+    it('should return null if reached the last challenge of the course', function (done) {
+      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/second_challenge' };
+      server.injectThen(challengeData).then((response) => {
+        expect(response.result).to.equal('null');
+        done();
+      });
+    });
+
   });
 
   describe('(adaptive) GET /api/assessments/:assessment_id/next', function () {
