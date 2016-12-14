@@ -1,5 +1,6 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const Answer = require('../../domain/models/data/answer');
+const _ = require('lodash');
 
 function _selectNextInAdaptiveMode(assessment, challenges) {
 
@@ -17,20 +18,18 @@ function _selectNextInAdaptiveMode(assessment, challenges) {
   });
 }
 
-function _selectNextInNormalMode(course, currentChallengeId, challenges) {
+function _selectNextInNormalMode(currentChallengeId, challenges) {
+  /*
+   * example : - challenges is ["1st_challenge", "2nd_challenge", "3rd_challenge", "4th_challenge"]
+   *           - currentChallengeId is "2nd_challenge"
+   */
 
-  if (currentChallengeId === challenges[challenges.length - 1]) {
-    return null;
-  }
-
-  let i = 1;
-  for (const challengeId of challenges) {
-    if (currentChallengeId === challengeId) {
-      break;
-    }
-    i++;
-  }
-  return challenges[i];
+  // indexOfNextChallenge will be 2, pointing on 3rd_challenge
+  const indexOfNextChallenge = _(challenges).indexOf(currentChallengeId) + 1;
+  // remainingChallenges will be ["3rd_challenge", "4th_challenge"]]
+  const remainingChallenges = _(challenges).drop(indexOfNextChallenge);
+  // extracting first value of remainingChallenges
+  return _(remainingChallenges).head();
 }
 
 function selectNextChallengeId(course, currentChallengeId, assessment) {
@@ -48,7 +47,7 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
       return resolve(_selectNextInAdaptiveMode(assessment, challenges));
     } else {
 
-      return resolve(_selectNextInNormalMode(course, currentChallengeId, challenges));
+      return resolve(_selectNextInNormalMode(currentChallengeId, challenges));
     }
   });
 }
