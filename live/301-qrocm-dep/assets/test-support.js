@@ -12,7 +12,7 @@
  *            Portions Copyright 2008-2011 Apple Inc. All rights reserved.
  * @license   Licensed under MIT license
  *            See https://raw.github.com/emberjs/ember.js/master/LICENSE
- * @version   2.10.0
+ * @version   2.10.1
  */
 
 var enifed, requireModule, Ember;
@@ -310,6 +310,7 @@ enifed('ember-debug/deprecate', ['exports', 'ember-metal', 'ember-console', 'emb
       emberjs.com website.
     @for Ember
     @public
+    @since 1.0.0
   */
 
   function deprecate(message, test, options) {
@@ -408,6 +409,7 @@ enifed('ember-debug/index', ['exports', 'ember-metal', 'ember-environment', 'emb
     @param {Boolean} test Must be truthy for the assertion to pass. If
       falsy, an exception will be thrown.
     @public
+    @since 1.0.0
   */
   _emberMetal.setDebugFunction('assert', function assert(desc, test) {
     if (!test) {
@@ -730,6 +732,7 @@ enifed('ember-debug/warn', ['exports', 'ember-console', 'ember-metal', 'ember-de
       The `id` should be namespaced by dots, e.g. "ember-debug.feature-flag-with-features-stripped"
     @for Ember
     @public
+    @since 1.0.0
   */
 
   function warn(message, test, options) {
@@ -1690,6 +1693,7 @@ enifed('ember-testing/helpers/wait', ['exports', 'ember-testing/test/waiters', '
     @param {Object} value The value to be returned.
     @return {RSVP.Promise}
     @public
+    @since 1.0.0
   */
 
   function wait(app, value) {
@@ -15638,7 +15642,7 @@ mocha.setup('bdd');
       isPromise = true;
       result.then(function() { complete(); }, complete);
     } else {
-       if (isAsync === 0) { complete(); }
+      if (isAsync === 0) { complete(); }
     }
   }
 
@@ -15663,15 +15667,15 @@ mocha.setup('bdd');
   }
 
   /**
-    ember-bdd mocha interface.
-    This interface allows
-    the Ember.js tester
-    to forget about sync / async
-    and treat all tests the same.
+   ember-bdd mocha interface.
+   This interface allows
+   the Ember.js tester
+   to forget about sync / async
+   and treat all tests the same.
 
-    This interface, along with the adapter
-    will take care of handling sync vs async
-  */
+   This interface, along with the adapter
+   will take care of handling sync vs async
+   */
 
   emberBdd = function(suite) {
     var suites = [suite];
@@ -15716,14 +15720,14 @@ mocha.setup('bdd');
       };
 
       context.xdescribe =
-      context.xcontext =
-      context.describe.skip = function(title, fn){
-        var suite = Mocha.Suite.create(suites[0], title);
-        suite.pending = true;
-        suites.unshift(suite);
-        fn.call(suite);
-        suites.shift();
-      };
+        context.xcontext =
+          context.describe.skip = function(title, fn){
+            var suite = Mocha.Suite.create(suites[0], title);
+            suite.pending = true;
+            suites.unshift(suite);
+            fn.call(suite);
+            suites.shift();
+          };
 
       context.describe.only = function(title, fn){
         var suite = context.describe(title, fn);
@@ -15738,10 +15742,10 @@ mocha.setup('bdd');
 
 
       context.xit =
-      context.xspecify =
-      context.it.skip = function(title){
-        context.it(title);
-      };
+        context.xspecify =
+          context.it.skip = function(title){
+            context.it(title);
+          };
 
 
     });
@@ -21956,23 +21960,6 @@ self.expect = self.chai.expect;
   define('chai', [], vendorModule);
 })();
 
-define("chai", ["exports"], function (exports) {
-  /* globals chai */
-
-  "use strict";
-
-  var expect = chai.expect;
-  exports.expect = expect;
-  var assert = chai.assert;
-
-  exports.assert = assert;
-  var config = chai.config;
-  exports.config = config;
-  var use = chai.use;
-  exports.use = use;
-  var Assertion = chai.Assertion;
-  exports.Assertion = Assertion;
-});
 define('ember-cli-test-loader/test-support/index', ['exports'], function (exports) {
   /* globals requirejs, require */
   "use strict";
@@ -22340,169 +22327,211 @@ define('ember-test-helpers/-legacy-overrides', ['exports', 'ember', 'ember-test-
     };
   }
 });
-define('ember-test-helpers/abstract-test-module', ['exports', 'klassy', 'ember-test-helpers/wait', 'ember-test-helpers/test-context', 'ember'], function (exports, _klassy, _emberTestHelpersWait, _emberTestHelpersTestContext, _ember) {
+define('ember-test-helpers/abstract-test-module', ['exports', 'ember-test-helpers/wait', 'ember-test-helpers/test-context', 'ember'], function (exports, _emberTestHelpersWait, _emberTestHelpersTestContext, _ember) {
   'use strict';
+
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
   // calling this `merge` here because we cannot
   // actually assume it is like `Object.assign`
   // with > 2 args
   var merge = _ember['default'].assign || _ember['default'].merge;
 
-  exports['default'] = _klassy.Klass.extend({
-    init: function init(name, options) {
+  var _default = (function () {
+    function _default(name, options) {
+      _classCallCheck(this, _default);
+
       this.context = undefined;
       this.name = name;
       this.callbacks = options || {};
 
       this.initSetupSteps();
       this.initTeardownSteps();
-    },
+    }
 
-    setup: function setup(assert) {
-      var _this = this;
+    _createClass(_default, [{
+      key: 'setup',
+      value: function setup(assert) {
+        var _this = this;
 
-      return this.invokeSteps(this.setupSteps, this, assert).then(function () {
-        _this.contextualizeCallbacks();
-        return _this.invokeSteps(_this.contextualizedSetupSteps, _this.context, assert);
-      });
-    },
-
-    teardown: function teardown(assert) {
-      var _this2 = this;
-
-      return this.invokeSteps(this.contextualizedTeardownSteps, this.context, assert).then(function () {
-        return _this2.invokeSteps(_this2.teardownSteps, _this2, assert);
-      }).then(function () {
-        _this2.cache = null;
-        _this2.cachedCalls = null;
-      });
-    },
-
-    initSetupSteps: function initSetupSteps() {
-      this.setupSteps = [];
-      this.contextualizedSetupSteps = [];
-
-      if (this.callbacks.beforeSetup) {
-        this.setupSteps.push(this.callbacks.beforeSetup);
-        delete this.callbacks.beforeSetup;
-      }
-
-      this.setupSteps.push(this.setupContext);
-      this.setupSteps.push(this.setupTestElements);
-      this.setupSteps.push(this.setupAJAXListeners);
-
-      if (this.callbacks.setup) {
-        this.contextualizedSetupSteps.push(this.callbacks.setup);
-        delete this.callbacks.setup;
-      }
-    },
-
-    invokeSteps: function invokeSteps(steps, context, assert) {
-      steps = steps.slice();
-
-      function nextStep() {
-        var step = steps.shift();
-        if (step) {
-          // guard against exceptions, for example missing components referenced from needs.
-          return new _ember['default'].RSVP.Promise(function (resolve) {
-            resolve(step.call(context, assert));
-          }).then(nextStep);
-        } else {
-          return _ember['default'].RSVP.resolve();
-        }
-      }
-      return nextStep();
-    },
-
-    contextualizeCallbacks: function contextualizeCallbacks() {},
-
-    initTeardownSteps: function initTeardownSteps() {
-      this.teardownSteps = [];
-      this.contextualizedTeardownSteps = [];
-
-      if (this.callbacks.teardown) {
-        this.contextualizedTeardownSteps.push(this.callbacks.teardown);
-        delete this.callbacks.teardown;
-      }
-
-      this.teardownSteps.push(this.teardownContext);
-      this.teardownSteps.push(this.teardownTestElements);
-      this.teardownSteps.push(this.teardownAJAXListeners);
-
-      if (this.callbacks.afterTeardown) {
-        this.teardownSteps.push(this.callbacks.afterTeardown);
-        delete this.callbacks.afterTeardown;
-      }
-    },
-
-    setupTestElements: function setupTestElements() {
-      var testEl = document.querySelector('#ember-testing');
-      if (!testEl) {
-        var element = document.createElement('div');
-        element.setAttribute('id', 'ember-testing');
-
-        document.body.appendChild(element);
-        this.fixtureResetValue = '';
-      } else {
-        this.fixtureResetValue = testEl.innerHTML;
-      }
-    },
-
-    setupContext: function setupContext(options) {
-      var context = this.getContext();
-
-      merge(context, {
-        dispatcher: null,
-        inject: {}
-      });
-      merge(context, options);
-
-      (0, _emberTestHelpersTestContext.setContext)(context);
-      this.context = context;
-    },
-
-    setContext: function setContext(context) {
-      this.context = context;
-    },
-
-    getContext: function getContext() {
-      if (this.context) {
-        return this.context;
-      }
-
-      return this.context = (0, _emberTestHelpersTestContext.getContext)() || {};
-    },
-
-    setupAJAXListeners: function setupAJAXListeners() {
-      (0, _emberTestHelpersWait._setupAJAXHooks)();
-    },
-
-    teardownAJAXListeners: function teardownAJAXListeners() {
-      (0, _emberTestHelpersWait._teardownAJAXHooks)();
-    },
-
-    teardownTestElements: function teardownTestElements() {
-      document.getElementById('ember-testing').innerHTML = this.fixtureResetValue;
-
-      // Ember 2.0.0 removed Ember.View as public API, so only do this when
-      // Ember.View is present
-      if (_ember['default'].View && _ember['default'].View.views) {
-        _ember['default'].View.views = {};
-      }
-    },
-
-    teardownContext: function teardownContext() {
-      var context = this.context;
-      this.context = undefined;
-      (0, _emberTestHelpersTestContext.unsetContext)();
-
-      if (context && context.dispatcher && !context.dispatcher.isDestroyed) {
-        _ember['default'].run(function () {
-          context.dispatcher.destroy();
+        return this.invokeSteps(this.setupSteps, this, assert).then(function () {
+          _this.contextualizeCallbacks();
+          return _this.invokeSteps(_this.contextualizedSetupSteps, _this.context, assert);
         });
       }
-    }
-  });
+    }, {
+      key: 'teardown',
+      value: function teardown(assert) {
+        var _this2 = this;
+
+        return this.invokeSteps(this.contextualizedTeardownSteps, this.context, assert).then(function () {
+          return _this2.invokeSteps(_this2.teardownSteps, _this2, assert);
+        }).then(function () {
+          _this2.cache = null;
+          _this2.cachedCalls = null;
+        });
+      }
+    }, {
+      key: 'initSetupSteps',
+      value: function initSetupSteps() {
+        this.setupSteps = [];
+        this.contextualizedSetupSteps = [];
+
+        if (this.callbacks.beforeSetup) {
+          this.setupSteps.push(this.callbacks.beforeSetup);
+          delete this.callbacks.beforeSetup;
+        }
+
+        this.setupSteps.push(this.setupContext);
+        this.setupSteps.push(this.setupTestElements);
+        this.setupSteps.push(this.setupAJAXListeners);
+
+        if (this.callbacks.setup) {
+          this.contextualizedSetupSteps.push(this.callbacks.setup);
+          delete this.callbacks.setup;
+        }
+      }
+    }, {
+      key: 'invokeSteps',
+      value: function invokeSteps(steps, context, assert) {
+        steps = steps.slice();
+
+        function nextStep() {
+          var step = steps.shift();
+          if (step) {
+            // guard against exceptions, for example missing components referenced from needs.
+            return new _ember['default'].RSVP.Promise(function (resolve) {
+              resolve(step.call(context, assert));
+            }).then(nextStep);
+          } else {
+            return _ember['default'].RSVP.resolve();
+          }
+        }
+        return nextStep();
+      }
+    }, {
+      key: 'contextualizeCallbacks',
+      value: function contextualizeCallbacks() {}
+    }, {
+      key: 'initTeardownSteps',
+      value: function initTeardownSteps() {
+        this.teardownSteps = [];
+        this.contextualizedTeardownSteps = [];
+
+        if (this.callbacks.teardown) {
+          this.contextualizedTeardownSteps.push(this.callbacks.teardown);
+          delete this.callbacks.teardown;
+        }
+
+        this.teardownSteps.push(this.teardownContext);
+        this.teardownSteps.push(this.teardownTestElements);
+        this.teardownSteps.push(this.teardownAJAXListeners);
+
+        if (this.callbacks.afterTeardown) {
+          this.teardownSteps.push(this.callbacks.afterTeardown);
+          delete this.callbacks.afterTeardown;
+        }
+      }
+    }, {
+      key: 'setupTestElements',
+      value: function setupTestElements() {
+        var testEl = document.querySelector('#ember-testing');
+        if (!testEl) {
+          var element = document.createElement('div');
+          element.setAttribute('id', 'ember-testing');
+
+          document.body.appendChild(element);
+          this.fixtureResetValue = '';
+        } else {
+          this.fixtureResetValue = testEl.innerHTML;
+        }
+      }
+    }, {
+      key: 'setupContext',
+      value: function setupContext(options) {
+        var context = this.getContext();
+
+        merge(context, {
+          dispatcher: null,
+          inject: {}
+        });
+        merge(context, options);
+
+        this.setToString();
+        (0, _emberTestHelpersTestContext.setContext)(context);
+        this.context = context;
+      }
+    }, {
+      key: 'setContext',
+      value: function setContext(context) {
+        this.context = context;
+      }
+    }, {
+      key: 'getContext',
+      value: function getContext() {
+        if (this.context) {
+          return this.context;
+        }
+
+        return this.context = (0, _emberTestHelpersTestContext.getContext)() || {};
+      }
+    }, {
+      key: 'setToString',
+      value: function setToString() {
+        var _this3 = this;
+
+        this.context.toString = function () {
+          if (_this3.subjectName) {
+            return 'test context for: ' + _this3.subjectName;
+          }
+
+          if (_this3.name) {
+            return 'test context for: ' + _this3.name;
+          }
+        };
+      }
+    }, {
+      key: 'setupAJAXListeners',
+      value: function setupAJAXListeners() {
+        (0, _emberTestHelpersWait._setupAJAXHooks)();
+      }
+    }, {
+      key: 'teardownAJAXListeners',
+      value: function teardownAJAXListeners() {
+        (0, _emberTestHelpersWait._teardownAJAXHooks)();
+      }
+    }, {
+      key: 'teardownTestElements',
+      value: function teardownTestElements() {
+        document.getElementById('ember-testing').innerHTML = this.fixtureResetValue;
+
+        // Ember 2.0.0 removed Ember.View as public API, so only do this when
+        // Ember.View is present
+        if (_ember['default'].View && _ember['default'].View.views) {
+          _ember['default'].View.views = {};
+        }
+      }
+    }, {
+      key: 'teardownContext',
+      value: function teardownContext() {
+        var context = this.context;
+        this.context = undefined;
+        (0, _emberTestHelpersTestContext.unsetContext)();
+
+        if (context && context.dispatcher && !context.dispatcher.isDestroyed) {
+          _ember['default'].run(function () {
+            context.dispatcher.destroy();
+          });
+        }
+      }
+    }]);
+
+    return _default;
+  })();
+
+  exports['default'] = _default;
 });
 define('ember-test-helpers/build-registry', ['exports', 'ember'], function (exports, _ember) {
   /* globals global, self, requirejs, require */
@@ -22663,40 +22692,73 @@ define("ember-test-helpers/test-context", ["exports"], function (exports) {
 define('ember-test-helpers/test-module-for-acceptance', ['exports', 'ember-test-helpers/abstract-test-module', 'ember', 'ember-test-helpers/test-context'], function (exports, _emberTestHelpersAbstractTestModule, _ember, _emberTestHelpersTestContext) {
   'use strict';
 
-  exports['default'] = _emberTestHelpersAbstractTestModule['default'].extend({
-    setupContext: function setupContext() {
-      this._super({ application: this.createApplication() });
-    },
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-    teardownContext: function teardownContext() {
-      _ember['default'].run(function () {
-        (0, _emberTestHelpersTestContext.getContext)().application.destroy();
-      });
+  var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-      this._super();
-    },
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-    createApplication: function createApplication() {
-      var _callbacks = this.callbacks;
-      var Application = _callbacks.Application;
-      var config = _callbacks.config;
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-      var application = undefined;
+  var _default = (function (_AbstractTestModule) {
+    _inherits(_default, _AbstractTestModule);
 
-      _ember['default'].run(function () {
-        application = Application.create(config);
-        application.setupForTesting();
-        application.injectTestHelpers();
-      });
+    function _default() {
+      _classCallCheck(this, _default);
 
-      return application;
+      _get(Object.getPrototypeOf(_default.prototype), 'constructor', this).apply(this, arguments);
     }
-  });
+
+    _createClass(_default, [{
+      key: 'setupContext',
+      value: function setupContext() {
+        _get(Object.getPrototypeOf(_default.prototype), 'setupContext', this).call(this, { application: this.createApplication() });
+      }
+    }, {
+      key: 'teardownContext',
+      value: function teardownContext() {
+        _ember['default'].run(function () {
+          (0, _emberTestHelpersTestContext.getContext)().application.destroy();
+        });
+
+        _get(Object.getPrototypeOf(_default.prototype), 'teardownContext', this).call(this);
+      }
+    }, {
+      key: 'createApplication',
+      value: function createApplication() {
+        var _callbacks = this.callbacks;
+        var Application = _callbacks.Application;
+        var config = _callbacks.config;
+
+        var application = undefined;
+
+        _ember['default'].run(function () {
+          application = Application.create(config);
+          application.setupForTesting();
+          application.injectTestHelpers();
+        });
+
+        return application;
+      }
+    }]);
+
+    return _default;
+  })(_emberTestHelpersAbstractTestModule['default']);
+
+  exports['default'] = _default;
 });
 define('ember-test-helpers/test-module-for-component', ['exports', 'ember-test-helpers/test-module', 'ember', 'ember-test-helpers/has-ember-version', 'ember-test-helpers/-legacy-overrides'], function (exports, _emberTestHelpersTestModule, _ember, _emberTestHelpersHasEmberVersion, _emberTestHelpersLegacyOverrides) {
   'use strict';
 
-  exports.setupComponentIntegrationTest = setupComponentIntegrationTest;
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+  var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+  exports.setupComponentIntegrationTest = _setupComponentIntegrationTest;
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
   var ACTION_KEY = undefined;
   if ((0, _emberTestHelpersHasEmberVersion['default'])(2, 0)) {
@@ -22705,11 +22767,16 @@ define('ember-test-helpers/test-module-for-component', ['exports', 'ember-test-h
     ACTION_KEY = '_actions';
   }
 
-  var getOwner = _ember['default'].getOwner;
-  exports['default'] = _emberTestHelpersTestModule['default'].extend({
-    isComponentTestModule: true,
+  var isPreGlimmer = !(0, _emberTestHelpersHasEmberVersion['default'])(1, 13);
 
-    init: function init(componentName, description, callbacks) {
+  var getOwner = _ember['default'].getOwner;
+
+  var _default = (function (_TestModule) {
+    _inherits(_default, _TestModule);
+
+    function _default(componentName, description, callbacks) {
+      _classCallCheck(this, _default);
+
       // Allow `description` to be omitted
       if (!callbacks && typeof description === 'object') {
         callbacks = description;
@@ -22718,21 +22785,19 @@ define('ember-test-helpers/test-module-for-component', ['exports', 'ember-test-h
         callbacks = {};
       }
 
+      var integrationOption = callbacks.integration;
+
+      _get(Object.getPrototypeOf(_default.prototype), 'constructor', this).call(this, 'component:' + componentName, description, callbacks);
+
       this.componentName = componentName;
 
-      if (callbacks.needs || callbacks.unit || callbacks.integration === false) {
+      if (callbacks.needs || callbacks.unit || integrationOption === false) {
         this.isUnitTest = true;
-      } else if (callbacks.integration) {
+      } else if (integrationOption) {
         this.isUnitTest = false;
       } else {
         _ember['default'].deprecate("the component:" + componentName + " test module is implicitly running in unit test mode, " + "which will change to integration test mode by default in an upcoming version of " + "ember-test-helpers. Add `unit: true` or a `needs:[]` list to explicitly opt in to unit " + "test mode.", false, { id: 'ember-test-helpers.test-module-for-component.test-type', until: '0.6.0' });
         this.isUnitTest = true;
-      }
-
-      if (description) {
-        this._super.call(this, 'component:' + componentName, description, callbacks);
-      } else {
-        this._super.call(this, 'component:' + componentName, callbacks);
       }
 
       if (!this.isUnitTest && !this.isLegacy) {
@@ -22753,103 +22818,121 @@ define('ember-test-helpers/test-module-for-component', ['exports', 'ember-test-h
         this.setupSteps.push(this._aliasViewRegistry);
         this.teardownSteps.unshift(this._resetViewRegistry);
       }
-    },
-
-    _aliasViewRegistry: function _aliasViewRegistry() {
-      this._originalGlobalViewRegistry = _ember['default'].View.views;
-      var viewRegistry = this.container.lookup('-view-registry:main');
-
-      if (viewRegistry) {
-        _ember['default'].View.views = viewRegistry;
-      }
-    },
-
-    _resetViewRegistry: function _resetViewRegistry() {
-      _ember['default'].View.views = this._originalGlobalViewRegistry;
-    },
-
-    setupComponentUnitTest: function setupComponentUnitTest() {
-      var _this = this;
-      var resolver = this.resolver;
-      var context = this.context;
-
-      var layoutName = 'template:components/' + this.componentName;
-
-      var layout = resolver.resolve(layoutName);
-
-      var thingToRegisterWith = this.registry || this.container;
-      if (layout) {
-        thingToRegisterWith.register(layoutName, layout);
-        thingToRegisterWith.injection(this.subjectName, 'layout', layoutName);
-      }
-
-      context.dispatcher = this.container.lookup('event_dispatcher:main') || _ember['default'].EventDispatcher.create();
-      context.dispatcher.setup({}, '#ember-testing');
-
-      context._element = null;
-
-      this.callbacks.render = function () {
-        var subject;
-
-        _ember['default'].run(function () {
-          subject = context.subject();
-          subject.appendTo('#ember-testing');
-        });
-
-        context._element = subject.element;
-
-        _this.teardownSteps.unshift(function () {
-          _ember['default'].run(function () {
-            _ember['default'].tryInvoke(subject, 'destroy');
-          });
-        });
-      };
-
-      this.callbacks.append = function () {
-        _ember['default'].deprecate('this.append() is deprecated. Please use this.render() or this.$() instead.', false, { id: 'ember-test-helpers.test-module-for-component.append', until: '0.6.0' });
-        return context.$();
-      };
-
-      context.$ = function () {
-        this.render();
-        var subject = this.subject();
-
-        return subject.$.apply(subject, arguments);
-      };
-    },
-
-    setupComponentIntegrationTest: (function () {
-      if (!(0, _emberTestHelpersHasEmberVersion['default'])(1, 13)) {
-        return _emberTestHelpersLegacyOverrides.preGlimmerSetupIntegrationForComponent;
-      } else {
-        return setupComponentIntegrationTest;
-      }
-    })(),
-
-    setupContext: function setupContext() {
-      this._super.call(this);
-
-      // only setup the injection if we are running against a version
-      // of Ember that has `-view-registry:main` (Ember >= 1.12)
-      if (this.container.lookupFactory('-view-registry:main')) {
-        (this.registry || this.container).injection('component', '_viewRegistry', '-view-registry:main');
-      }
-
-      if (!this.isUnitTest && !this.isLegacy) {
-        this.context.factory = function () {};
-      }
-    },
-
-    teardownComponent: function teardownComponent() {
-      var component = this.component;
-      if (component) {
-        _ember['default'].run(component, 'destroy');
-        this.component = null;
-      }
     }
-  });
 
-  function setupComponentIntegrationTest() {
+    _createClass(_default, [{
+      key: 'initIntegration',
+      value: function initIntegration(options) {
+        this.isLegacy = options.integration === 'legacy';
+        this.isIntegration = options.integration !== 'legacy';
+      }
+    }, {
+      key: '_aliasViewRegistry',
+      value: function _aliasViewRegistry() {
+        this._originalGlobalViewRegistry = _ember['default'].View.views;
+        var viewRegistry = this.container.lookup('-view-registry:main');
+
+        if (viewRegistry) {
+          _ember['default'].View.views = viewRegistry;
+        }
+      }
+    }, {
+      key: '_resetViewRegistry',
+      value: function _resetViewRegistry() {
+        _ember['default'].View.views = this._originalGlobalViewRegistry;
+      }
+    }, {
+      key: 'setupComponentUnitTest',
+      value: function setupComponentUnitTest() {
+        var _this = this;
+        var resolver = this.resolver;
+        var context = this.context;
+
+        var layoutName = 'template:components/' + this.componentName;
+
+        var layout = resolver.resolve(layoutName);
+
+        var thingToRegisterWith = this.registry || this.container;
+        if (layout) {
+          thingToRegisterWith.register(layoutName, layout);
+          thingToRegisterWith.injection(this.subjectName, 'layout', layoutName);
+        }
+
+        context.dispatcher = this.container.lookup('event_dispatcher:main') || _ember['default'].EventDispatcher.create();
+        context.dispatcher.setup({}, '#ember-testing');
+
+        context._element = null;
+
+        this.callbacks.render = function () {
+          var subject;
+
+          _ember['default'].run(function () {
+            subject = context.subject();
+            subject.appendTo('#ember-testing');
+          });
+
+          context._element = subject.element;
+
+          _this.teardownSteps.unshift(function () {
+            _ember['default'].run(function () {
+              _ember['default'].tryInvoke(subject, 'destroy');
+            });
+          });
+        };
+
+        this.callbacks.append = function () {
+          _ember['default'].deprecate('this.append() is deprecated. Please use this.render() or this.$() instead.', false, { id: 'ember-test-helpers.test-module-for-component.append', until: '0.6.0' });
+          return context.$();
+        };
+
+        context.$ = function () {
+          this.render();
+          var subject = this.subject();
+
+          return subject.$.apply(subject, arguments);
+        };
+      }
+    }, {
+      key: 'setupComponentIntegrationTest',
+      value: function setupComponentIntegrationTest() {
+        if (isPreGlimmer) {
+          return _emberTestHelpersLegacyOverrides.preGlimmerSetupIntegrationForComponent.apply(this, arguments);
+        } else {
+          return _setupComponentIntegrationTest.apply(this, arguments);
+        }
+      }
+    }, {
+      key: 'setupContext',
+      value: function setupContext() {
+        _get(Object.getPrototypeOf(_default.prototype), 'setupContext', this).call(this);
+
+        // only setup the injection if we are running against a version
+        // of Ember that has `-view-registry:main` (Ember >= 1.12)
+        if (this.container.lookupFactory('-view-registry:main')) {
+          (this.registry || this.container).injection('component', '_viewRegistry', '-view-registry:main');
+        }
+
+        if (!this.isUnitTest && !this.isLegacy) {
+          this.context.factory = function () {};
+        }
+      }
+    }, {
+      key: 'teardownComponent',
+      value: function teardownComponent() {
+        var component = this.component;
+        if (component) {
+          _ember['default'].run(component, 'destroy');
+          this.component = null;
+        }
+      }
+    }]);
+
+    return _default;
+  })(_emberTestHelpersTestModule['default']);
+
+  exports['default'] = _default;
+
+  function _setupComponentIntegrationTest() {
     var module = this;
     var context = this.context;
 
@@ -23000,6 +23083,14 @@ define('ember-test-helpers/test-module-for-component', ['exports', 'ember-test-h
 define('ember-test-helpers/test-module-for-integration', ['exports', 'ember', 'ember-test-helpers/abstract-test-module', 'ember-test-helpers/test-resolver', 'ember-test-helpers/build-registry', 'ember-test-helpers/has-ember-version', 'ember-test-helpers/-legacy-overrides', 'ember-test-helpers/test-module-for-component'], function (exports, _ember, _emberTestHelpersAbstractTestModule, _emberTestHelpersTestResolver, _emberTestHelpersBuildRegistry, _emberTestHelpersHasEmberVersion, _emberTestHelpersLegacyOverrides, _emberTestHelpersTestModuleForComponent) {
   'use strict';
 
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+  var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
   var ACTION_KEY = undefined;
   if ((0, _emberTestHelpersHasEmberVersion['default'])(2, 0)) {
     ACTION_KEY = 'actions';
@@ -23007,258 +23098,312 @@ define('ember-test-helpers/test-module-for-integration', ['exports', 'ember', 'e
     ACTION_KEY = '_actions';
   }
 
-  exports['default'] = _emberTestHelpersAbstractTestModule['default'].extend({
-    init: function init() {
-      this._super.apply(this, arguments);
+  var isPreGlimmer = !(0, _emberTestHelpersHasEmberVersion['default'])(1, 13);
+
+  var _default = (function (_AbstractTestModule) {
+    _inherits(_default, _AbstractTestModule);
+
+    function _default() {
+      _classCallCheck(this, _default);
+
+      _get(Object.getPrototypeOf(_default.prototype), 'constructor', this).apply(this, arguments);
       this.resolver = this.callbacks.resolver || (0, _emberTestHelpersTestResolver.getResolver)();
-    },
-
-    initSetupSteps: function initSetupSteps() {
-      this.setupSteps = [];
-      this.contextualizedSetupSteps = [];
-
-      if (this.callbacks.beforeSetup) {
-        this.setupSteps.push(this.callbacks.beforeSetup);
-        delete this.callbacks.beforeSetup;
-      }
-
-      this.setupSteps.push(this.setupContainer);
-      this.setupSteps.push(this.setupContext);
-      this.setupSteps.push(this.setupTestElements);
-      this.setupSteps.push(this.setupAJAXListeners);
-      this.setupSteps.push(this.setupComponentIntegrationTest);
-
-      if (_ember['default'].View && _ember['default'].View.views) {
-        this.setupSteps.push(this._aliasViewRegistry);
-      }
-
-      if (this.callbacks.setup) {
-        this.contextualizedSetupSteps.push(this.callbacks.setup);
-        delete this.callbacks.setup;
-      }
-    },
-
-    initTeardownSteps: function initTeardownSteps() {
-      this.teardownSteps = [];
-      this.contextualizedTeardownSteps = [];
-
-      if (this.callbacks.teardown) {
-        this.contextualizedTeardownSteps.push(this.callbacks.teardown);
-        delete this.callbacks.teardown;
-      }
-
-      this.teardownSteps.push(this.teardownContainer);
-      this.teardownSteps.push(this.teardownContext);
-      this.teardownSteps.push(this.teardownAJAXListeners);
-      this.teardownSteps.push(this.teardownComponent);
-
-      if (_ember['default'].View && _ember['default'].View.views) {
-        this.teardownSteps.push(this._resetViewRegistry);
-      }
-
-      this.teardownSteps.push(this.teardownTestElements);
-
-      if (this.callbacks.afterTeardown) {
-        this.teardownSteps.push(this.callbacks.afterTeardown);
-        delete this.callbacks.afterTeardown;
-      }
-    },
-
-    setupContainer: function setupContainer() {
-      var resolver = this.resolver;
-      var items = (0, _emberTestHelpersBuildRegistry['default'])(resolver);
-
-      this.container = items.container;
-      this.registry = items.registry;
-
-      if ((0, _emberTestHelpersHasEmberVersion['default'])(1, 13)) {
-        var thingToRegisterWith = this.registry || this.container;
-        var router = resolver.resolve('router:main');
-        router = router || _ember['default'].Router.extend();
-        thingToRegisterWith.register('router:main', router);
-      }
-    },
-
-    setupContext: function setupContext() {
-      var subjectName = this.subjectName;
-      var container = this.container;
-
-      var factory = function factory() {
-        return container.lookupFactory(subjectName);
-      };
-
-      this._super({
-        container: this.container,
-        registry: this.registry,
-        factory: factory,
-        register: function register() {
-          var target = this.registry || this.container;
-          return target.register.apply(target, arguments);
-        }
-      });
-
-      var context = this.context;
-
-      if (_ember['default'].setOwner) {
-        _ember['default'].setOwner(context, this.container.owner);
-      }
-
-      if (_ember['default'].inject) {
-        var keys = (Object.keys || _ember['default'].keys)(_ember['default'].inject);
-        keys.forEach(function (typeName) {
-          context.inject[typeName] = function (name, opts) {
-            var alias = opts && opts.as || name;
-            _ember['default'].run(function () {
-              _ember['default'].set(context, alias, context.container.lookup(typeName + ':' + name));
-            });
-          };
-        });
-      }
-
-      // only setup the injection if we are running against a version
-      // of Ember that has `-view-registry:main` (Ember >= 1.12)
-      if (this.container.lookupFactory('-view-registry:main')) {
-        (this.registry || this.container).injection('component', '_viewRegistry', '-view-registry:main');
-      }
-    },
-
-    setupComponentIntegrationTest: (function () {
-      if (!(0, _emberTestHelpersHasEmberVersion['default'])(1, 13)) {
-        return _emberTestHelpersLegacyOverrides.preGlimmerSetupIntegrationForComponent;
-      } else {
-        return _emberTestHelpersTestModuleForComponent.setupComponentIntegrationTest;
-      }
-    })(),
-
-    teardownComponent: function teardownComponent() {
-      var component = this.component;
-      if (component) {
-        _ember['default'].run(function () {
-          component.destroy();
-        });
-      }
-    },
-
-    teardownContainer: function teardownContainer() {
-      var container = this.container;
-      _ember['default'].run(function () {
-        container.destroy();
-      });
-    },
-
-    // allow arbitrary named factories, like rspec let
-    contextualizeCallbacks: function contextualizeCallbacks() {
-      var callbacks = this.callbacks;
-      var context = this.context;
-
-      this.cache = this.cache || {};
-      this.cachedCalls = this.cachedCalls || {};
-
-      var keys = (Object.keys || _ember['default'].keys)(callbacks);
-      var keysLength = keys.length;
-
-      if (keysLength) {
-        for (var i = 0; i < keysLength; i++) {
-          this._contextualizeCallback(context, keys[i], context);
-        }
-      }
-    },
-
-    _contextualizeCallback: function _contextualizeCallback(context, key, callbackContext) {
-      var _this = this;
-      var callbacks = this.callbacks;
-      var factory = context.factory;
-
-      context[key] = function (options) {
-        if (_this.cachedCalls[key]) {
-          return _this.cache[key];
-        }
-
-        var result = callbacks[key].call(callbackContext, options, factory());
-
-        _this.cache[key] = result;
-        _this.cachedCalls[key] = true;
-
-        return result;
-      };
-    },
-
-    _aliasViewRegistry: function _aliasViewRegistry() {
-      this._originalGlobalViewRegistry = _ember['default'].View.views;
-      var viewRegistry = this.container.lookup('-view-registry:main');
-
-      if (viewRegistry) {
-        _ember['default'].View.views = viewRegistry;
-      }
-    },
-
-    _resetViewRegistry: function _resetViewRegistry() {
-      _ember['default'].View.views = this._originalGlobalViewRegistry;
     }
-  });
+
+    _createClass(_default, [{
+      key: 'initSetupSteps',
+      value: function initSetupSteps() {
+        this.setupSteps = [];
+        this.contextualizedSetupSteps = [];
+
+        if (this.callbacks.beforeSetup) {
+          this.setupSteps.push(this.callbacks.beforeSetup);
+          delete this.callbacks.beforeSetup;
+        }
+
+        this.setupSteps.push(this.setupContainer);
+        this.setupSteps.push(this.setupContext);
+        this.setupSteps.push(this.setupTestElements);
+        this.setupSteps.push(this.setupAJAXListeners);
+        this.setupSteps.push(this.setupComponentIntegrationTest);
+
+        if (_ember['default'].View && _ember['default'].View.views) {
+          this.setupSteps.push(this._aliasViewRegistry);
+        }
+
+        if (this.callbacks.setup) {
+          this.contextualizedSetupSteps.push(this.callbacks.setup);
+          delete this.callbacks.setup;
+        }
+      }
+    }, {
+      key: 'initTeardownSteps',
+      value: function initTeardownSteps() {
+        this.teardownSteps = [];
+        this.contextualizedTeardownSteps = [];
+
+        if (this.callbacks.teardown) {
+          this.contextualizedTeardownSteps.push(this.callbacks.teardown);
+          delete this.callbacks.teardown;
+        }
+
+        this.teardownSteps.push(this.teardownContainer);
+        this.teardownSteps.push(this.teardownContext);
+        this.teardownSteps.push(this.teardownAJAXListeners);
+        this.teardownSteps.push(this.teardownComponent);
+
+        if (_ember['default'].View && _ember['default'].View.views) {
+          this.teardownSteps.push(this._resetViewRegistry);
+        }
+
+        this.teardownSteps.push(this.teardownTestElements);
+
+        if (this.callbacks.afterTeardown) {
+          this.teardownSteps.push(this.callbacks.afterTeardown);
+          delete this.callbacks.afterTeardown;
+        }
+      }
+    }, {
+      key: 'setupContainer',
+      value: function setupContainer() {
+        var resolver = this.resolver;
+        var items = (0, _emberTestHelpersBuildRegistry['default'])(resolver);
+
+        this.container = items.container;
+        this.registry = items.registry;
+
+        if ((0, _emberTestHelpersHasEmberVersion['default'])(1, 13)) {
+          var thingToRegisterWith = this.registry || this.container;
+          var router = resolver.resolve('router:main');
+          router = router || _ember['default'].Router.extend();
+          thingToRegisterWith.register('router:main', router);
+        }
+      }
+    }, {
+      key: 'setupContext',
+      value: function setupContext() {
+        var subjectName = this.subjectName;
+        var container = this.container;
+
+        var factory = function factory() {
+          return container.lookupFactory(subjectName);
+        };
+
+        _get(Object.getPrototypeOf(_default.prototype), 'setupContext', this).call(this, {
+          container: this.container,
+          registry: this.registry,
+          factory: factory,
+          register: function register() {
+            var target = this.registry || this.container;
+            return target.register.apply(target, arguments);
+          }
+        });
+
+        var context = this.context;
+
+        if (_ember['default'].setOwner) {
+          _ember['default'].setOwner(context, this.container.owner);
+        }
+
+        if (_ember['default'].inject) {
+          var keys = (Object.keys || _ember['default'].keys)(_ember['default'].inject);
+          keys.forEach(function (typeName) {
+            context.inject[typeName] = function (name, opts) {
+              var alias = opts && opts.as || name;
+              _ember['default'].run(function () {
+                _ember['default'].set(context, alias, context.container.lookup(typeName + ':' + name));
+              });
+            };
+          });
+        }
+
+        // only setup the injection if we are running against a version
+        // of Ember that has `-view-registry:main` (Ember >= 1.12)
+        if (this.container.lookupFactory('-view-registry:main')) {
+          (this.registry || this.container).injection('component', '_viewRegistry', '-view-registry:main');
+        }
+      }
+    }, {
+      key: 'setupComponentIntegrationTest',
+      value: function setupComponentIntegrationTest() {
+        if (isPreGlimmer) {
+          return _emberTestHelpersLegacyOverrides.preGlimmerSetupIntegrationForComponent.apply(this, arguments);
+        } else {
+          return _emberTestHelpersTestModuleForComponent.setupComponentIntegrationTest.apply(this, arguments);
+        }
+      }
+    }, {
+      key: 'teardownComponent',
+      value: function teardownComponent() {
+        var component = this.component;
+        if (component) {
+          _ember['default'].run(function () {
+            component.destroy();
+          });
+        }
+      }
+    }, {
+      key: 'teardownContainer',
+      value: function teardownContainer() {
+        var container = this.container;
+        _ember['default'].run(function () {
+          container.destroy();
+        });
+      }
+
+      // allow arbitrary named factories, like rspec let
+    }, {
+      key: 'contextualizeCallbacks',
+      value: function contextualizeCallbacks() {
+        var callbacks = this.callbacks;
+        var context = this.context;
+
+        this.cache = this.cache || {};
+        this.cachedCalls = this.cachedCalls || {};
+
+        var keys = (Object.keys || _ember['default'].keys)(callbacks);
+        var keysLength = keys.length;
+
+        if (keysLength) {
+          for (var i = 0; i < keysLength; i++) {
+            this._contextualizeCallback(context, keys[i], context);
+          }
+        }
+      }
+    }, {
+      key: '_contextualizeCallback',
+      value: function _contextualizeCallback(context, key, callbackContext) {
+        var _this = this;
+        var callbacks = this.callbacks;
+        var factory = context.factory;
+
+        context[key] = function (options) {
+          if (_this.cachedCalls[key]) {
+            return _this.cache[key];
+          }
+
+          var result = callbacks[key].call(callbackContext, options, factory());
+
+          _this.cache[key] = result;
+          _this.cachedCalls[key] = true;
+
+          return result;
+        };
+      }
+    }, {
+      key: '_aliasViewRegistry',
+      value: function _aliasViewRegistry() {
+        this._originalGlobalViewRegistry = _ember['default'].View.views;
+        var viewRegistry = this.container.lookup('-view-registry:main');
+
+        if (viewRegistry) {
+          _ember['default'].View.views = viewRegistry;
+        }
+      }
+    }, {
+      key: '_resetViewRegistry',
+      value: function _resetViewRegistry() {
+        _ember['default'].View.views = this._originalGlobalViewRegistry;
+      }
+    }]);
+
+    return _default;
+  })(_emberTestHelpersAbstractTestModule['default']);
+
+  exports['default'] = _default;
 });
 define('ember-test-helpers/test-module-for-model', ['exports', 'ember-test-helpers/test-module', 'ember'], function (exports, _emberTestHelpersTestModule, _ember) {
   /* global DS, require, requirejs */ // added here to prevent an import from erroring when ED is not present
 
   'use strict';
 
-  exports['default'] = _emberTestHelpersTestModule['default'].extend({
-    init: function init(modelName, description, callbacks) {
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+  var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var _default = (function (_TestModule) {
+    _inherits(_default, _TestModule);
+
+    function _default(modelName, description, callbacks) {
+      _classCallCheck(this, _default);
+
+      _get(Object.getPrototypeOf(_default.prototype), 'constructor', this).call(this, 'model:' + modelName, description, callbacks);
+
       this.modelName = modelName;
 
-      this._super.call(this, 'model:' + modelName, description, callbacks);
-
       this.setupSteps.push(this.setupModel);
-    },
-
-    setupModel: function setupModel() {
-      var container = this.container;
-      var defaultSubject = this.defaultSubject;
-      var callbacks = this.callbacks;
-      var modelName = this.modelName;
-
-      var adapterFactory = container.lookupFactory('adapter:application');
-      if (!adapterFactory) {
-        if (requirejs.entries['ember-data/adapters/json-api']) {
-          adapterFactory = require('ember-data/adapters/json-api')['default'];
-        }
-
-        // when ember-data/adapters/json-api is provided via ember-cli shims
-        // using Ember Data 1.x the actual JSONAPIAdapter isn't found, but the
-        // above require statement returns a bizzaro object with only a `default`
-        // property (circular reference actually)
-        if (!adapterFactory || !adapterFactory.create) {
-          adapterFactory = DS.JSONAPIAdapter || DS.FixtureAdapter;
-        }
-
-        var thingToRegisterWith = this.registry || this.container;
-        thingToRegisterWith.register('adapter:application', adapterFactory);
-      }
-
-      callbacks.store = function () {
-        var container = this.container;
-        var store = container.lookup('service:store') || container.lookup('store:main');
-        return store;
-      };
-
-      if (callbacks.subject === defaultSubject) {
-        callbacks.subject = function (options) {
-          var container = this.container;
-
-          return _ember['default'].run(function () {
-            var store = container.lookup('service:store') || container.lookup('store:main');
-            return store.createRecord(modelName, options);
-          });
-        };
-      }
     }
-  });
+
+    _createClass(_default, [{
+      key: 'setupModel',
+      value: function setupModel() {
+        var container = this.container;
+        var defaultSubject = this.defaultSubject;
+        var callbacks = this.callbacks;
+        var modelName = this.modelName;
+
+        var adapterFactory = container.lookupFactory('adapter:application');
+        if (!adapterFactory) {
+          if (requirejs.entries['ember-data/adapters/json-api']) {
+            adapterFactory = require('ember-data/adapters/json-api')['default'];
+          }
+
+          // when ember-data/adapters/json-api is provided via ember-cli shims
+          // using Ember Data 1.x the actual JSONAPIAdapter isn't found, but the
+          // above require statement returns a bizzaro object with only a `default`
+          // property (circular reference actually)
+          if (!adapterFactory || !adapterFactory.create) {
+            adapterFactory = DS.JSONAPIAdapter || DS.FixtureAdapter;
+          }
+
+          var thingToRegisterWith = this.registry || this.container;
+          thingToRegisterWith.register('adapter:application', adapterFactory);
+        }
+
+        callbacks.store = function () {
+          var container = this.container;
+          return container.lookup('service:store') || container.lookup('store:main');
+        };
+
+        if (callbacks.subject === defaultSubject) {
+          callbacks.subject = function (options) {
+            var container = this.container;
+
+            return _ember['default'].run(function () {
+              var store = container.lookup('service:store') || container.lookup('store:main');
+              return store.createRecord(modelName, options);
+            });
+          };
+        }
+      }
+    }]);
+
+    return _default;
+  })(_emberTestHelpersTestModule['default']);
+
+  exports['default'] = _default;
 });
 define('ember-test-helpers/test-module', ['exports', 'ember', 'ember-test-helpers/abstract-test-module', 'ember-test-helpers/test-resolver', 'ember-test-helpers/build-registry', 'ember-test-helpers/has-ember-version'], function (exports, _ember, _emberTestHelpersAbstractTestModule, _emberTestHelpersTestResolver, _emberTestHelpersBuildRegistry, _emberTestHelpersHasEmberVersion) {
   'use strict';
 
-  exports['default'] = _emberTestHelpersAbstractTestModule['default'].extend({
-    init: function init(subjectName, description, callbacks) {
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+  var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var _default = (function (_AbstractTestModule) {
+    _inherits(_default, _AbstractTestModule);
+
+    function _default(subjectName, description, callbacks) {
+      _classCallCheck(this, _default);
+
       // Allow `description` to be omitted, in which case it should
       // default to `subjectName`
       if (!callbacks && typeof description === 'object') {
@@ -23266,10 +23411,10 @@ define('ember-test-helpers/test-module', ['exports', 'ember', 'ember-test-helper
         description = subjectName;
       }
 
+      _get(Object.getPrototypeOf(_default.prototype), 'constructor', this).call(this, description || subjectName, callbacks);
+
       this.subjectName = subjectName;
       this.description = description || subjectName;
-      this.name = description || subjectName;
-      this.callbacks = callbacks || {};
       this.resolver = this.callbacks.resolver || (0, _emberTestHelpersTestResolver.getResolver)();
 
       if (this.callbacks.integration && this.callbacks.needs) {
@@ -23277,260 +23422,282 @@ define('ember-test-helpers/test-module', ['exports', 'ember', 'ember-test-helper
       }
 
       if (this.callbacks.integration) {
-        if (this.isComponentTestModule) {
-          this.isLegacy = callbacks.integration === 'legacy';
-          this.isIntegration = callbacks.integration !== 'legacy';
-        } else {
-          if (callbacks.integration === 'legacy') {
-            throw new Error('`integration: \'legacy\'` is only valid for component tests.');
-          }
-          this.isIntegration = true;
-        }
-
+        this.initIntegration(callbacks);
         delete callbacks.integration;
       }
 
       this.initSubject();
       this.initNeeds();
-      this.initSetupSteps();
-      this.initTeardownSteps();
-    },
-
-    initSubject: function initSubject() {
-      this.callbacks.subject = this.callbacks.subject || this.defaultSubject;
-    },
-
-    initNeeds: function initNeeds() {
-      this.needs = [this.subjectName];
-      if (this.callbacks.needs) {
-        this.needs = this.needs.concat(this.callbacks.needs);
-        delete this.callbacks.needs;
-      }
-    },
-
-    initSetupSteps: function initSetupSteps() {
-      this.setupSteps = [];
-      this.contextualizedSetupSteps = [];
-
-      if (this.callbacks.beforeSetup) {
-        this.setupSteps.push(this.callbacks.beforeSetup);
-        delete this.callbacks.beforeSetup;
-      }
-
-      this.setupSteps.push(this.setupContainer);
-      this.setupSteps.push(this.setupContext);
-      this.setupSteps.push(this.setupTestElements);
-      this.setupSteps.push(this.setupAJAXListeners);
-
-      if (this.callbacks.setup) {
-        this.contextualizedSetupSteps.push(this.callbacks.setup);
-        delete this.callbacks.setup;
-      }
-    },
-
-    initTeardownSteps: function initTeardownSteps() {
-      this.teardownSteps = [];
-      this.contextualizedTeardownSteps = [];
-
-      if (this.callbacks.teardown) {
-        this.contextualizedTeardownSteps.push(this.callbacks.teardown);
-        delete this.callbacks.teardown;
-      }
-
-      this.teardownSteps.push(this.teardownSubject);
-      this.teardownSteps.push(this.teardownContainer);
-      this.teardownSteps.push(this.teardownContext);
-      this.teardownSteps.push(this.teardownTestElements);
-      this.teardownSteps.push(this.teardownAJAXListeners);
-
-      if (this.callbacks.afterTeardown) {
-        this.teardownSteps.push(this.callbacks.afterTeardown);
-        delete this.callbacks.afterTeardown;
-      }
-    },
-
-    setupContainer: function setupContainer() {
-      if (this.isIntegration || this.isLegacy) {
-        this._setupIntegratedContainer();
-      } else {
-        this._setupIsolatedContainer();
-      }
-    },
-
-    setupContext: function setupContext() {
-      var subjectName = this.subjectName;
-      var container = this.container;
-
-      var factory = function factory() {
-        return container.lookupFactory(subjectName);
-      };
-
-      this._super({
-        container: this.container,
-        registry: this.registry,
-        factory: factory,
-        register: function register() {
-          var target = this.registry || this.container;
-          return target.register.apply(target, arguments);
-        }
-      });
-
-      if (_ember['default'].setOwner) {
-        _ember['default'].setOwner(this.context, this.container.owner);
-      }
-
-      this.setupInject();
-    },
-
-    setupInject: function setupInject() {
-      var module = this;
-      var context = this.context;
-
-      if (_ember['default'].inject) {
-        var keys = (Object.keys || _ember['default'].keys)(_ember['default'].inject);
-
-        keys.forEach(function (typeName) {
-          context.inject[typeName] = function (name, opts) {
-            var alias = opts && opts.as || name;
-            _ember['default'].run(function () {
-              _ember['default'].set(context, alias, module.container.lookup(typeName + ':' + name));
-            });
-          };
-        });
-      }
-    },
-
-    teardownSubject: function teardownSubject() {
-      var subject = this.cache.subject;
-
-      if (subject) {
-        _ember['default'].run(function () {
-          _ember['default'].tryInvoke(subject, 'destroy');
-        });
-      }
-    },
-
-    teardownContainer: function teardownContainer() {
-      var container = this.container;
-      _ember['default'].run(function () {
-        container.destroy();
-      });
-    },
-
-    defaultSubject: function defaultSubject(options, factory) {
-      return factory.create(options);
-    },
-
-    // allow arbitrary named factories, like rspec let
-    contextualizeCallbacks: function contextualizeCallbacks() {
-      var callbacks = this.callbacks;
-      var context = this.context;
-
-      this.cache = this.cache || {};
-      this.cachedCalls = this.cachedCalls || {};
-
-      var keys = (Object.keys || _ember['default'].keys)(callbacks);
-      var keysLength = keys.length;
-
-      if (keysLength) {
-        var deprecatedContext = this._buildDeprecatedContext(this, context);
-        for (var i = 0; i < keysLength; i++) {
-          this._contextualizeCallback(context, keys[i], deprecatedContext);
-        }
-      }
-    },
-
-    _contextualizeCallback: function _contextualizeCallback(context, key, callbackContext) {
-      var _this = this;
-      var callbacks = this.callbacks;
-      var factory = context.factory;
-
-      context[key] = function (options) {
-        if (_this.cachedCalls[key]) {
-          return _this.cache[key];
-        }
-
-        var result = callbacks[key].call(callbackContext, options, factory());
-
-        _this.cache[key] = result;
-        _this.cachedCalls[key] = true;
-
-        return result;
-      };
-    },
-
-    /*
-      Builds a version of the passed in context that contains deprecation warnings
-      for accessing properties that exist on the module.
-    */
-    _buildDeprecatedContext: function _buildDeprecatedContext(module, context) {
-      var deprecatedContext = Object.create(context);
-
-      var keysForDeprecation = Object.keys(module);
-
-      for (var i = 0, l = keysForDeprecation.length; i < l; i++) {
-        this._proxyDeprecation(module, deprecatedContext, keysForDeprecation[i]);
-      }
-
-      return deprecatedContext;
-    },
-
-    /*
-      Defines a key on an object to act as a proxy for deprecating the original.
-    */
-    _proxyDeprecation: function _proxyDeprecation(obj, proxy, key) {
-      if (typeof proxy[key] === 'undefined') {
-        Object.defineProperty(proxy, key, {
-          get: function get() {
-            _ember['default'].deprecate('Accessing the test module property "' + key + '" from a callback is deprecated.', false, { id: 'ember-test-helpers.test-module.callback-context', until: '0.6.0' });
-            return obj[key];
-          }
-        });
-      }
-    },
-
-    _setupContainer: function _setupContainer(isolated) {
-      var resolver = this.resolver;
-
-      var items = (0, _emberTestHelpersBuildRegistry['default'])(!isolated ? resolver : Object.create(resolver, {
-        resolve: {
-          value: function value() {}
-        }
-      }));
-
-      this.container = items.container;
-      this.registry = items.registry;
-
-      if ((0, _emberTestHelpersHasEmberVersion['default'])(1, 13)) {
-        var thingToRegisterWith = this.registry || this.container;
-        var router = resolver.resolve('router:main');
-        router = router || _ember['default'].Router.extend();
-        thingToRegisterWith.register('router:main', router);
-      }
-    },
-
-    _setupIsolatedContainer: function _setupIsolatedContainer() {
-      var resolver = this.resolver;
-      this._setupContainer(true);
-
-      var thingToRegisterWith = this.registry || this.container;
-
-      for (var i = this.needs.length; i > 0; i--) {
-        var fullName = this.needs[i - 1];
-        var normalizedFullName = resolver.normalize(fullName);
-        thingToRegisterWith.register(fullName, resolver.resolve(normalizedFullName));
-      }
-
-      if (!this.registry) {
-        this.container.resolver = function () {};
-      }
-    },
-
-    _setupIntegratedContainer: function _setupIntegratedContainer() {
-      this._setupContainer();
     }
 
-  });
+    _createClass(_default, [{
+      key: 'initIntegration',
+      value: function initIntegration(options) {
+        if (options.integration === 'legacy') {
+          throw new Error('`integration: \'legacy\'` is only valid for component tests.');
+        }
+        this.isIntegration = true;
+      }
+    }, {
+      key: 'initSubject',
+      value: function initSubject() {
+        this.callbacks.subject = this.callbacks.subject || this.defaultSubject;
+      }
+    }, {
+      key: 'initNeeds',
+      value: function initNeeds() {
+        this.needs = [this.subjectName];
+        if (this.callbacks.needs) {
+          this.needs = this.needs.concat(this.callbacks.needs);
+          delete this.callbacks.needs;
+        }
+      }
+    }, {
+      key: 'initSetupSteps',
+      value: function initSetupSteps() {
+        this.setupSteps = [];
+        this.contextualizedSetupSteps = [];
+
+        if (this.callbacks.beforeSetup) {
+          this.setupSteps.push(this.callbacks.beforeSetup);
+          delete this.callbacks.beforeSetup;
+        }
+
+        this.setupSteps.push(this.setupContainer);
+        this.setupSteps.push(this.setupContext);
+        this.setupSteps.push(this.setupTestElements);
+        this.setupSteps.push(this.setupAJAXListeners);
+
+        if (this.callbacks.setup) {
+          this.contextualizedSetupSteps.push(this.callbacks.setup);
+          delete this.callbacks.setup;
+        }
+      }
+    }, {
+      key: 'initTeardownSteps',
+      value: function initTeardownSteps() {
+        this.teardownSteps = [];
+        this.contextualizedTeardownSteps = [];
+
+        if (this.callbacks.teardown) {
+          this.contextualizedTeardownSteps.push(this.callbacks.teardown);
+          delete this.callbacks.teardown;
+        }
+
+        this.teardownSteps.push(this.teardownSubject);
+        this.teardownSteps.push(this.teardownContainer);
+        this.teardownSteps.push(this.teardownContext);
+        this.teardownSteps.push(this.teardownTestElements);
+        this.teardownSteps.push(this.teardownAJAXListeners);
+
+        if (this.callbacks.afterTeardown) {
+          this.teardownSteps.push(this.callbacks.afterTeardown);
+          delete this.callbacks.afterTeardown;
+        }
+      }
+    }, {
+      key: 'setupContainer',
+      value: function setupContainer() {
+        if (this.isIntegration || this.isLegacy) {
+          this._setupIntegratedContainer();
+        } else {
+          this._setupIsolatedContainer();
+        }
+      }
+    }, {
+      key: 'setupContext',
+      value: function setupContext() {
+        var subjectName = this.subjectName;
+        var container = this.container;
+
+        var factory = function factory() {
+          return container.lookupFactory(subjectName);
+        };
+
+        _get(Object.getPrototypeOf(_default.prototype), 'setupContext', this).call(this, {
+          container: this.container,
+          registry: this.registry,
+          factory: factory,
+          register: function register() {
+            var target = this.registry || this.container;
+            return target.register.apply(target, arguments);
+          }
+        });
+
+        if (_ember['default'].setOwner) {
+          _ember['default'].setOwner(this.context, this.container.owner);
+        }
+
+        this.setupInject();
+      }
+    }, {
+      key: 'setupInject',
+      value: function setupInject() {
+        var module = this;
+        var context = this.context;
+
+        if (_ember['default'].inject) {
+          var keys = (Object.keys || _ember['default'].keys)(_ember['default'].inject);
+
+          keys.forEach(function (typeName) {
+            context.inject[typeName] = function (name, opts) {
+              var alias = opts && opts.as || name;
+              _ember['default'].run(function () {
+                _ember['default'].set(context, alias, module.container.lookup(typeName + ':' + name));
+              });
+            };
+          });
+        }
+      }
+    }, {
+      key: 'teardownSubject',
+      value: function teardownSubject() {
+        var subject = this.cache.subject;
+
+        if (subject) {
+          _ember['default'].run(function () {
+            _ember['default'].tryInvoke(subject, 'destroy');
+          });
+        }
+      }
+    }, {
+      key: 'teardownContainer',
+      value: function teardownContainer() {
+        var container = this.container;
+        _ember['default'].run(function () {
+          container.destroy();
+        });
+      }
+    }, {
+      key: 'defaultSubject',
+      value: function defaultSubject(options, factory) {
+        return factory.create(options);
+      }
+
+      // allow arbitrary named factories, like rspec let
+    }, {
+      key: 'contextualizeCallbacks',
+      value: function contextualizeCallbacks() {
+        var callbacks = this.callbacks;
+        var context = this.context;
+
+        this.cache = this.cache || {};
+        this.cachedCalls = this.cachedCalls || {};
+
+        var keys = (Object.keys || _ember['default'].keys)(callbacks);
+        var keysLength = keys.length;
+
+        if (keysLength) {
+          var deprecatedContext = this._buildDeprecatedContext(this, context);
+          for (var i = 0; i < keysLength; i++) {
+            this._contextualizeCallback(context, keys[i], deprecatedContext);
+          }
+        }
+      }
+    }, {
+      key: '_contextualizeCallback',
+      value: function _contextualizeCallback(context, key, callbackContext) {
+        var _this = this;
+        var callbacks = this.callbacks;
+        var factory = context.factory;
+
+        context[key] = function (options) {
+          if (_this.cachedCalls[key]) {
+            return _this.cache[key];
+          }
+
+          var result = callbacks[key].call(callbackContext, options, factory());
+
+          _this.cache[key] = result;
+          _this.cachedCalls[key] = true;
+
+          return result;
+        };
+      }
+
+      /*
+        Builds a version of the passed in context that contains deprecation warnings
+        for accessing properties that exist on the module.
+      */
+    }, {
+      key: '_buildDeprecatedContext',
+      value: function _buildDeprecatedContext(module, context) {
+        var deprecatedContext = Object.create(context);
+
+        var keysForDeprecation = Object.keys(module);
+
+        for (var i = 0, l = keysForDeprecation.length; i < l; i++) {
+          this._proxyDeprecation(module, deprecatedContext, keysForDeprecation[i]);
+        }
+
+        return deprecatedContext;
+      }
+
+      /*
+        Defines a key on an object to act as a proxy for deprecating the original.
+      */
+    }, {
+      key: '_proxyDeprecation',
+      value: function _proxyDeprecation(obj, proxy, key) {
+        if (typeof proxy[key] === 'undefined') {
+          Object.defineProperty(proxy, key, {
+            get: function get() {
+              _ember['default'].deprecate('Accessing the test module property "' + key + '" from a callback is deprecated.', false, { id: 'ember-test-helpers.test-module.callback-context', until: '0.6.0' });
+              return obj[key];
+            }
+          });
+        }
+      }
+    }, {
+      key: '_setupContainer',
+      value: function _setupContainer(isolated) {
+        var resolver = this.resolver;
+
+        var items = (0, _emberTestHelpersBuildRegistry['default'])(!isolated ? resolver : Object.create(resolver, {
+          resolve: {
+            value: function value() {}
+          }
+        }));
+
+        this.container = items.container;
+        this.registry = items.registry;
+
+        if ((0, _emberTestHelpersHasEmberVersion['default'])(1, 13)) {
+          var thingToRegisterWith = this.registry || this.container;
+          var router = resolver.resolve('router:main');
+          router = router || _ember['default'].Router.extend();
+          thingToRegisterWith.register('router:main', router);
+        }
+      }
+    }, {
+      key: '_setupIsolatedContainer',
+      value: function _setupIsolatedContainer() {
+        var resolver = this.resolver;
+        this._setupContainer(true);
+
+        var thingToRegisterWith = this.registry || this.container;
+
+        for (var i = this.needs.length; i > 0; i--) {
+          var fullName = this.needs[i - 1];
+          var normalizedFullName = resolver.normalize(fullName);
+          thingToRegisterWith.register(fullName, resolver.resolve(normalizedFullName));
+        }
+
+        if (!this.registry) {
+          this.container.resolver = function () {};
+        }
+      }
+    }, {
+      key: '_setupIntegratedContainer',
+      value: function _setupIntegratedContainer() {
+        this._setupContainer();
+      }
+    }]);
+
+    return _default;
+  })(_emberTestHelpersAbstractTestModule['default']);
+
+  exports['default'] = _default;
 });
 define('ember-test-helpers/test-resolver', ['exports'], function (exports) {
   'use strict';
@@ -23648,152 +23815,6 @@ define('ember-test-helpers/wait', ['exports', 'ember'], function (exports, _embe
       }, 10);
     });
   }
-});
-define('klassy', ['exports'], function (exports) {
-  /**
-   Extend a class with the properties and methods of one or more other classes.
-  
-   When a method is replaced with another method, it will be wrapped in a
-   function that makes the replaced method accessible via `this._super`.
-  
-   @method extendClass
-   @param {Object} destination The class to merge into
-   @param {Object} source One or more source classes
-   */
-  'use strict';
-
-  var extendClass = function extendClass(destination) {
-    var sources = Array.prototype.slice.call(arguments, 1);
-    var source;
-
-    for (var i = 0, l = sources.length; i < l; i++) {
-      source = sources[i];
-
-      for (var p in source) {
-        if (source.hasOwnProperty(p) && destination[p] && typeof destination[p] === 'function' && typeof source[p] === 'function') {
-
-          /* jshint loopfunc:true */
-          destination[p] = (function (destinationFn, sourceFn) {
-            var wrapper = function wrapper() {
-              var prevSuper = this._super;
-              this._super = destinationFn;
-
-              var ret = sourceFn.apply(this, arguments);
-
-              this._super = prevSuper;
-
-              return ret;
-            };
-            wrapper.wrappedFunction = sourceFn;
-            return wrapper;
-          })(destination[p], source[p]);
-        } else {
-          destination[p] = source[p];
-        }
-      }
-    }
-  };
-
-  // `subclassing` is a state flag used by `defineClass` to track when a class is
-  // being subclassed. It allows constructors to avoid calling `init`, which can
-  // be expensive and cause undesirable side effects.
-  var subclassing = false;
-
-  /**
-   Define a new class with the properties and methods of one or more other classes.
-  
-   The new class can be based on a `SuperClass`, which will be inserted into its
-   prototype chain.
-  
-   Furthermore, one or more mixins (object that contain properties and/or methods)
-   may be specified, which will be applied in order. When a method is replaced
-   with another method, it will be wrapped in a function that makes the previous
-   method accessible via `this._super`.
-  
-   @method defineClass
-   @param {Object} SuperClass A base class to extend. If `mixins` are to be included
-   without a `SuperClass`, pass `null` for SuperClass.
-   @param {Object} mixins One or more objects that contain properties and methods
-   to apply to the new class.
-   */
-  var defineClass = function defineClass(SuperClass) {
-    var Klass = function Klass() {
-      if (!subclassing && this.init) {
-        this.init.apply(this, arguments);
-      }
-    };
-
-    if (SuperClass) {
-      subclassing = true;
-      Klass.prototype = new SuperClass();
-      subclassing = false;
-    }
-
-    if (arguments.length > 1) {
-      var extendArgs = Array.prototype.slice.call(arguments, 1);
-      extendArgs.unshift(Klass.prototype);
-      extendClass.apply(Klass.prototype, extendArgs);
-    }
-
-    Klass.constructor = Klass;
-
-    Klass.extend = function () {
-      var args = Array.prototype.slice.call(arguments, 0);
-      args.unshift(Klass);
-      return defineClass.apply(Klass, args);
-    };
-
-    return Klass;
-  };
-
-  /**
-   A base class that can be extended.
-  
-   @example
-  
-   ```javascript
-   var CelestialObject = Klass.extend({
-     init: function(name) {
-       this._super();
-       this.name = name;
-       this.isCelestialObject = true;
-     },
-     greeting: function() {
-       return 'Hello from ' + this.name;
-     }
-   });
-  
-   var Planet = CelestialObject.extend({
-     init: function(name) {
-       this._super.apply(this, arguments);
-       this.isPlanet = true;
-     },
-     greeting: function() {
-       return this._super() + '!';
-     },
-   });
-  
-   var earth = new Planet('Earth');
-  
-   console.log(earth instanceof Klass);           // true
-   console.log(earth instanceof CelestialObject); // true
-   console.log(earth instanceof Planet);          // true
-  
-   console.log(earth.isCelestialObject);          // true
-   console.log(earth.isPlanet);                   // true
-  
-   console.log(earth.greeting());                 // 'Hello from Earth!'
-   ```
-  
-   @class Klass
-   */
-  var Klass = defineClass(null, {
-    init: function init() {}
-  });
-
-  exports.Klass = Klass;
-  exports.defineClass = defineClass;
-  exports.extendClass = extendClass;
 });
 define('mocha', ['exports', 'ember'], function (exports, _ember) {
   'use strict';
