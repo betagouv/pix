@@ -25,7 +25,8 @@ export default function () {
 
   this.post('/assessments',    postAssessments);
   this.get('/assessments/:id', getAssessment);
-  this.get('/assessments/:id/next/:challengeId', getNextChallenge);
+  this.get('/assessments/:assessmentId/next/:challengeId', getNextChallenge);
+  this.get('/assessments/:assessmentId/next', getNextChallenge);
 
   this.post('/answers',        postAnswers);
   this.get('/answers/:id',     getAnswer);
