@@ -32,7 +32,7 @@ module.exports = {
     assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
-        return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId, assessment);
+        return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
       })
       .then((nextChallengeId) => {
         return (nextChallengeId) ? challengeRepository.get(nextChallengeId) : null;
