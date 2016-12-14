@@ -9,10 +9,10 @@ describe('Acceptance | API | Assessments', function () {
     knex.migrate.latest().then(() => {
       knex.seed.run().then(() => {
         nock('https://api.airtable.com')
-          .get('/v0/test-base/Tests/course_id_533')  // XXX randomly set to 533, otherwise another test fail !?! cf. issue #204
+          .get('/v0/test-base/Tests/non_adaptive_course_id')  // XXX cf. issue #204, there may be a conflict with course-controller_test
           .times(4)
           .reply(200, {
-            'id': 'course_id_533',
+            'id': 'non_adaptive_course_id',
             'fields': {
               // a bunch of fields
               '\u00c9preuves': [
@@ -156,7 +156,7 @@ describe('Acceptance | API | Assessments', function () {
             course: {
               data: {
                 type: 'course',
-                id: 'course_id_533'
+                id: 'non_adaptive_course_id'
               }
             }
           }
@@ -236,7 +236,7 @@ describe('Acceptance | API | Assessments', function () {
     const inserted_assessment = {
       userName: 'John Doe',
       userEmail: 'john.doe@mailmail.com',
-      courseId: 'course_id_533'
+      courseId: 'non_adaptive_course_id'
     };
 
     beforeEach(function (done) {
@@ -260,18 +260,16 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
 
-    /* it('should return application/json', function (done) {
-      // server.injectThen(assessmentData).then((response) => {
-        const challengeData = { method: 'GET', url: '/api/assessments/' + response.result.data.id + '/next' };
-        server.injectThen(challengeData).then((response) => {
-          const contentType = response.headers['content-type'];
-          expect(contentType).to.contain('application/json');
-          done();
-        });
-      // });
+    it('should return application/json', function (done) {
+      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next' };
+      server.injectThen(challengeData).then((response) => {
+        const contentType = response.headers['content-type'];
+        expect(contentType).to.contain('application/json');
+        done();
+      });
     });
 
-    it('should return the first challenge if no challenge specified', function (done) {
+    /* it('should return the first challenge if no challenge specified', function (done) {
       // server.injectThen(assessmentData).then((response) => {
         const challengeData = { method: 'GET', url: '/api/assessments/' + response.result.data.id + '/next' };
         server.injectThen(challengeData).then((response) => {
