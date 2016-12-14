@@ -2,6 +2,7 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const Answer = require('../../domain/models/data/answer');
 const _ = require('../../utils/lodash-utils');
 
+
 function _selectNextInAdaptiveMode(assessment, challenges) {
 
   const answerIds = assessment.related('answers').pluck('id');
@@ -18,6 +19,7 @@ function _selectNextInAdaptiveMode(assessment, challenges) {
   });
 }
 
+
 function _selectNextInNormalMode(currentChallengeId, challenges) {
 
   /*
@@ -27,10 +29,10 @@ function _selectNextInNormalMode(currentChallengeId, challenges) {
    *           nextChallengeId will be "3rd_challenge"
    */
   const nextChallengeId = _(challenges).elementAfter(currentChallengeId).value();
-  // - nextChallengeId is "3rd_challenge"
   return _.defaultTo(nextChallengeId, null); // result MUST be null if not found
 
 }
+
 
 function selectNextChallengeId(course, currentChallengeId, assessment) {
 
@@ -51,6 +53,7 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
     }
   });
 }
+
 
 module.exports = {
 
