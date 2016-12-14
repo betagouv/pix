@@ -13,7 +13,7 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
 
     if(course.isAdaptive) {
       const answerIds = assessment.related('answers').pluck('id');
-      
+
       Answer.where('id', 'IN', answerIds).fetchAll().then((answers) => {
         const responsePattern = answers.map(answer => (answer.attributes.result == 'ok') ? '1' : '0').join('');
         switch(responsePattern) {
