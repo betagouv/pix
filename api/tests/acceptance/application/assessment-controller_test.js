@@ -17,13 +17,13 @@ describe('Acceptance | API | Assessments', function () {
               // a bunch of fields
               'Adaptatif ?': false,
               '\u00c9preuves': [
-                'second_challenge',
-                'first_challenge',
+              'second_challenge',
+              'first_challenge',
               ],
             },
           }
-        );
-        nock('https://api.airtable.com')
+          );
+          nock('https://api.airtable.com')
           .get('/v0/test-base/Tests/adaptive_course_id')
           .times(4)
           .reply(200, {
@@ -32,14 +32,14 @@ describe('Acceptance | API | Assessments', function () {
               // a bunch of fields
               'Adaptatif ?': true,
               '\u00c9preuves': [
-                'third_challenge',
-                'second_challenge',
-                'first_challenge',
+              'third_challenge',
+              'second_challenge',
+              'first_challenge',
               ],
             },
           }
-        );
-        nock('https://api.airtable.com')
+          );
+          nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/first_challenge')
           .times(3)
           .reply(200, {
@@ -48,8 +48,8 @@ describe('Acceptance | API | Assessments', function () {
               // a bunch of fields
             },
           }
-        );
-        nock('https://api.airtable.com')
+          );
+          nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/second_challenge')
           .reply(200, {
             'id': 'second_challenge',
@@ -57,8 +57,8 @@ describe('Acceptance | API | Assessments', function () {
               // a bunch of fields
             },
           }
-        );
-        nock('https://api.airtable.com')
+          );
+          nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/third_challenge')
           .reply(200, {
             'id': 'third_challenge',
@@ -66,9 +66,9 @@ describe('Acceptance | API | Assessments', function () {
               // a bunch of fields
             },
           }
-        );
-        done();
-      });
+          );
+          done();
+        });
     });
   });
 
@@ -149,14 +149,14 @@ describe('Acceptance | API | Assessments', function () {
             },
             'relationships':
             {'course':
-              {'data':{'type':'courses','id':'anyFromAirTable'}},
-              'answers':{'data':[]}
-            }
-          };
-          const assessment = response.result.data;
-          expect(assessment).to.deep.equal(expectedAssessment);
-          done();
-        });
+            {'data':{'type':'courses','id':'anyFromAirTable'}},
+            'answers':{'data':[]}
+          }
+        };
+        const assessment = response.result.data;
+        expect(assessment).to.deep.equal(expectedAssessment);
+        done();
+      });
       });
 
     });
@@ -361,14 +361,75 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
 
-    /* it('should return the next challenge otherwise', function (done) {
+  });
+
+  describe('(adaptive) GET /api/assessments/:assessment_id/next/:current_challenge_id', function () {
+
+    //assessment
+    let inserted_assessment_id = null;
+    let inserted_answer_id = null;
+
+    const inserted_assessment = {
+      userName: 'John Doe',
+      userEmail: 'john.doe@mailmail.com',
+      courseId: 'adaptive_course_id'
+    };
+
+    beforeEach(function (done) {
+      knex('assessments').delete().then(() => {
+        knex('assessments').insert([inserted_assessment]).then((rows) => {
+          inserted_assessment_id = rows[0];
+
+          const inserted_answer = {
+            value: '1,2',
+            result: 'ok',
+            challengeId: 'recLt9uwa2dR3IYpi',
+            assessmentId: inserted_assessment_id
+          };
+          knex('answers').delete().then(() => {
+            knex('answers').insert([inserted_answer]).then((rows) => {
+              inserted_answer_id = rows[0];
+              done();
+            });
+          });
+        });
+      });
+    });
+
+    afterEach(function (done) {
+      knex('assessments').delete().then(() => {
+        knex('answers').delete().then(() => {
+          done();
+        });
+      });
+    });
+
+    //answer
+    // let inserted_answer_id = null;
+
+
+
+    beforeEach(function (done) {
+
+    });
+
+    afterEach(function (done) {
+      knex('answers').delete().then(() => {done();});
+    });
+
+    it('should return the second challenge if the first answer is correct', function (done) {
+
+
+
       const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge' };
       server.injectThen(challengeData).then((response) => {
+        console.log(response.result);
         expect(response.result.data.id).to.equal('second_challenge');
         done();
       });
-    }); */
-
+    });
   });
+
+
 
 });
