@@ -63,7 +63,7 @@ describe('Acceptance | API | Assessments', function () {
     beforeEach(function (done) {
       knex('assessments').delete().then(() => {
         knex('assessments').insert([inserted_assessment]).then((id) => {
-          inserted_assessment_id = id;
+          inserted_assessment_id = id[0];
           done();
         });
       });
@@ -78,8 +78,8 @@ describe('Acceptance | API | Assessments', function () {
       knex.select('id')
       .from('assessments')
       .limit(1)
-      .then(function(rows) {
-        server.injectThen({ method: 'GET', url: `/api/assessments/${rows[0].id}` }).then((response) => {
+      .then(function() {
+        server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
           expect(response.statusCode).to.equal(200);
           done();
         });
@@ -93,8 +93,8 @@ describe('Acceptance | API | Assessments', function () {
       knex.select('id')
       .from('assessments')
       .limit(1)
-      .then(function(rows) {
-        server.injectThen({ method: 'GET', url: `/api/assessments/${rows[0].id}` }).then((response) => {
+      .then(function() {
+        server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
           const contentType = response.headers['content-type'];
           expect(contentType).to.contain('application/json');
           done();
@@ -105,15 +105,27 @@ describe('Acceptance | API | Assessments', function () {
 
 
     it('should return the expected assessment', function (done) {
-
+      //XXX: incomplete test, should also demonstrate that it returns the whole answer grape.
       knex.select('id')
       .from('assessments')
       .limit(1)
-      .then(function(rows) {
-        server.injectThen({ method: 'GET', url: `/api/assessments/${rows[0].id}` }).then((response) => {
-          const expectedAssessment = {'type':'assessments','id':rows[0].id,'attributes':{'user-name':'John Doe','user-email':'john.doe@mailmail.com'},'relationships':{'course':{'data':{'type':'courses','id':'anyFromAirTable'}},'answers':{'data':[]}}};
+      .then(function() {
+        server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
+          const expectedAssessment = {
+            'type':'assessments',
+            'id':inserted_assessment_id,
+            'attributes':
+            {
+              'user-name':'John Doe',
+              'user-email':'john.doe@mailmail.com'
+            },
+            'relationships':
+            {'course':
+              {'data':{'type':'courses','id':'anyFromAirTable'}},
+              'answers':{'data':[]}
+            }
+          };
           const assessment = response.result.data;
-          console.log('assessment', JSON.stringify(assessment));
           expect(assessment).to.deep.equal(expectedAssessment);
           done();
         });
@@ -125,6 +137,10 @@ describe('Acceptance | API | Assessments', function () {
   });
 
   describe('POST /api/assessments', function () {
+
+    afterEach(function (done) {
+      knex('assessments').delete().then(() => {done();});
+    });
 
     const options = {
       method: 'POST', url: '/api/assessments', payload: {
@@ -165,7 +181,7 @@ describe('Acceptance | API | Assessments', function () {
       // given
       Assessment.count().then(function (beforeAssessmentsNumber) {
         // when
-        server.injectThen(options).then((response) => {
+        server.injectThen(options).then(() => {
           Assessment.count().then(function (afterAssessmentsNumber) {
             // then
             expect(afterAssessmentsNumber).to.equal(beforeAssessmentsNumber + 1);
@@ -211,7 +227,11 @@ describe('Acceptance | API | Assessments', function () {
 
   });
 
-  describe('(non-adaptative) GET /api/assessments/:assessment_id/next', function () {
+  describe('(non-adaptive) GET /api/assessments/:assessment_id/next', function () {
+
+    afterEach(function (done) {
+      knex('assessments').delete().then(() => {done();});
+    });
 
     const assessmentData = {
       method: 'POST', url: '/api/assessments', payload: {
