@@ -3,7 +3,9 @@
   {{course-banner course=model.assessment.course withHomeLink=true}}
 
   <div class="container">
-    {{progress-bar progress=progress}}
+    {{#unless model.assessment.course.adaptive}}
+      {{progress-bar progress=progress}}
+    {{/unless}}
 
     {{component challengeItemType 
         challenge=model.challenge 

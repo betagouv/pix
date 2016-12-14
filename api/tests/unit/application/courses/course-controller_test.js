@@ -1,3 +1,4 @@
+/* global describe, it, sinon, before, beforeEach, afterEach, expect */
 const Hapi = require('hapi');
 const Course = require('../../../../lib/domain/models/referential/course');
 const CourseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
@@ -25,15 +26,15 @@ describe('Unit | Controller | CourseController', function () {
   describe('#list', function () {
 
     const courses = [
-      new Course({ "id": "course_1" }),
-      new Course({ "id": "course_2" }),
-      new Course({ "id": "course_3" })
+      new Course({ 'id': 'course_1' }),
+      new Course({ 'id': 'course_2' }),
+      new Course({ 'id': 'course_3' })
     ];
 
     it('should fetch and return all the courses, serialized as JSONAPI', function (done) {
       // given
       sinon.stub(CourseRepository, 'list').resolves(courses);
-      sinon.stub(CourseSerializer, 'serializeArray', _ => courses);
+      sinon.stub(CourseSerializer, 'serializeArray', () => courses);
 
       // when
       server.inject({ method: 'GET', url: '/api/courses' }, (res) => {
@@ -51,7 +52,7 @@ describe('Unit | Controller | CourseController', function () {
     it('should fetch and return all the adaptive courses, serialized as JSONAPI', function (done) {
       // given
       sinon.stub(CourseRepository, 'list').resolves(courses);
-      sinon.stub(CourseSerializer, 'serializeArray', _ => courses);
+      sinon.stub(CourseSerializer, 'serializeArray', () => courses);
 
       // when
       server.inject({ method: 'GET', url: '/api/courses?adaptive=true' }, (res) => {
@@ -69,12 +70,12 @@ describe('Unit | Controller | CourseController', function () {
 
   describe('#get', function () {
 
-    const course = new Course({ "id": "course_id" });
+    const course = new Course({ 'id': 'course_id' });
 
     it('should fetch and return the given course, serialized as JSONAPI', function (done) {
       // given
       sinon.stub(CourseRepository, 'get').resolves(course);
-      sinon.stub(CourseSerializer, 'serialize', _ => course);
+      sinon.stub(CourseSerializer, 'serialize', () => course);
 
       // when
       server.inject({ method: 'GET', url: '/api/courses/course_id' }, (res) => {
@@ -92,9 +93,9 @@ describe('Unit | Controller | CourseController', function () {
     it('should reply with error status code 404 if course not found', function (done) {
       // given
       const error = {
-        "error": {
-          "type": "MODEL_ID_NOT_FOUND",
-          "message": "Could not find row by id unknown_id"
+        'error': {
+          'type': 'MODEL_ID_NOT_FOUND',
+          'message': 'Could not find row by id unknown_id'
         }
       };
       sinon.stub(CourseRepository, 'get').rejects(error);
