@@ -435,9 +435,7 @@ define('pix-live/components/challenge-item-qrocm', ['exports', 'lodash/lodash', 
     },
 
     _getAnswerValue: function _getAnswerValue() {
-      return _lodashLodash['default'].map(this._getRawAnswerValue(), function (value, key) {
-        return key + ' = "' + value + '"';
-      }).join(', ');
+      return jsyaml.safeDump(this._getRawAnswerValue());
     },
 
     // XXX : data is extracted from DOM of child component, breaking child encapsulation.
@@ -465,6 +463,7 @@ define('pix-live/components/challenge-item-qrocm', ['exports', 'lodash/lodash', 
 
   exports['default'] = ChallengeItemQrocm;
 });
+/* global jsyaml */
 define('pix-live/components/corner-ribbon', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({});
 });
@@ -1439,7 +1438,7 @@ define('pix-live/mirage/data/answers/ref-qrocm-answer', ['exports', 'pix-live/mi
       type: 'answers',
       id: 'ref_answer_qrocm_id',
       attributes: {
-        value: 'logiciel1 = "word", logiciel2 = "excel", logiciel3 = "powerpoint"',
+        value: 'logiciel1: word\nlogiciel2: excel\nlogiciel3: powerpoint',
         result: 'aband'
       },
       relationships: {
@@ -1866,29 +1865,12 @@ define('pix-live/models/answer/value-as-array-of-boolean-mixin', ['exports', 'em
 
   });
 });
-define('pix-live/models/answer/value-as-array-of-string-mixin', ['exports', 'ember', 'lodash/lodash'], function (exports, _ember, _lodashLodash) {
+define('pix-live/models/answer/value-as-array-of-string-mixin', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Mixin.create({
 
     _valuesAsMap: _ember['default'].computed('value', function () {
-      var _this = this;
-
       try {
-        var _ret = (function () {
-          var result = {};
-
-          var arrayValues = _this.get('value').split(',');
-
-          _lodashLodash['default'].each(arrayValues, function (arrayValue) {
-            var keyVal = arrayValue.split(' = ');
-            result[keyVal[0].trim()] = keyVal[1].slice(1, -1);
-          });
-
-          return {
-            v: result
-          };
-        })();
-
-        if (typeof _ret === 'object') return _ret.v;
+        return jsyaml.load(this.get('value'));
       } catch (e) {
         return undefined;
       }
@@ -1896,6 +1878,7 @@ define('pix-live/models/answer/value-as-array-of-string-mixin', ['exports', 'emb
 
   });
 });
+/* global jsyaml */
 define('pix-live/models/assessment', ['exports', 'ember', 'ember-data'], function (exports, _ember, _emberData) {
   var attr = _emberData['default'].attr;
   var Model = _emberData['default'].Model;
@@ -2784,7 +2767,7 @@ define('pix-live/utils/get-challenge-type', ['exports', 'lodash/lodash'], functi
       result = 'qcm';
     } else if (_lodashLodash['default'].contains(['QROC'], challengeType)) {
       result = 'qroc';
-    } else if (_lodashLodash['default'].contains(['QROCM'], challengeType)) {
+    } else if (_lodashLodash['default'].contains(['QROCM', 'QROCM-IND'], challengeType)) {
       result = 'qrocm';
     }
 
@@ -2835,7 +2818,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+96509e64"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+224c63a5"});
 }
 
 /* jshint ignore:end */
