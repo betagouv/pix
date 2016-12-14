@@ -1,3 +1,4 @@
+/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const utils = require('./solution-service-utils');
 const yaml = require('js-yaml');
 const _ = require('lodash');
@@ -35,9 +36,13 @@ module.exports = {
       return 'ko';
     }
 
+    console.warn(solution);
+
     if (!_isValidSolution(solution)) {
       return 'ko';
     }
+
+    console.warn('en fait ça continue', solution);
 
     const possibleAnswers = {};
     _.each(solution, (answerList, solutionKey) => {
