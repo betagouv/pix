@@ -277,15 +277,13 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
 
-    /* it('should return the next challenge otherwise', function (done) {
-      // server.injectThen(assessmentData).then((response) => {
-        const challengeData = { method: 'GET', url: '/api/assessments/' + response.result.data.id + '/next/first_challenge' };
-        server.injectThen(challengeData).then((response) => {
-          expect(response.result.data.id).to.equal('second_challenge');
-          done();
-        });
-      // });
-    }); */
+    it('should return the next challenge otherwise', function (done) {
+      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge' };
+      server.injectThen(challengeData).then((response) => {
+        expect(response.result.data.id).to.equal('second_challenge');
+        done();
+      });
+    });
 
   });
 
