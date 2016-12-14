@@ -404,22 +404,7 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
 
-    //answer
-    // let inserted_answer_id = null;
-
-
-
-    beforeEach(function (done) {
-
-    });
-
-    afterEach(function (done) {
-      knex('answers').delete().then(() => {done();});
-    });
-
     it('should return the second challenge if the first answer is correct', function (done) {
-
-
 
       const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge' };
       server.injectThen(challengeData).then((response) => {
