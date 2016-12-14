@@ -344,7 +344,7 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
 
-    /* it('should return application/json', function (done) {
+    it('should return application/json', function (done) {
       const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next' };
       server.injectThen(challengeData).then((response) => {
         const contentType = response.headers['content-type'];
@@ -361,7 +361,7 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
 
-    it('should return the next challenge otherwise', function (done) {
+    /* it('should return the next challenge otherwise', function (done) {
       const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge' };
       server.injectThen(challengeData).then((response) => {
         expect(response.result.data.id).to.equal('second_challenge');
