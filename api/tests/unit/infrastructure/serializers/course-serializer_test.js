@@ -5,7 +5,7 @@ describe('Unit | Serializer | CourseSerializer', function () {
 
   describe('#serialize()', function () {
 
-    it('should convert a Course model object into JSON API data (with challenges order inverted)', function () {
+    it('should convert a Course model object (with challenges order inverted) into JSON API data (with challenges order in right order)', function () {
       const record = {
         "id": 'course_id',
         "fields": {
