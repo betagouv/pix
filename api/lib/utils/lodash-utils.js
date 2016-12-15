@@ -10,7 +10,7 @@ _.mixin({
   },
 
   /*
-   * Returns the third last element of an array.
+   * Returns the third element of an array.
    */
   'third' : function(array) {
     return _.nth(array, 2);
