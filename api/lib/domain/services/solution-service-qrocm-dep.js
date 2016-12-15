@@ -61,7 +61,7 @@ module.exports = {
         }
       });
     });
-    //scoredKeys is
+    // scoredKeys is
     // [ 'Google', 'Yahoo' ]
 
     // remove duplicates
