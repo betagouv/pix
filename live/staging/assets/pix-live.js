@@ -2767,7 +2767,7 @@ define('pix-live/utils/get-challenge-type', ['exports', 'lodash/lodash'], functi
       result = 'qcm';
     } else if (_lodashLodash['default'].contains(['QROC'], challengeType)) {
       result = 'qroc';
-    } else if (_lodashLodash['default'].contains(['QROCM', 'QROCM-IND'], challengeType)) {
+    } else if (_lodashLodash['default'].contains(['QROCM', 'QROCM-IND', 'QROCM-DEP'], challengeType)) {
       result = 'qrocm';
     }
 
@@ -2818,7 +2818,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+224c63a5"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+c6a85448"});
 }
 
 /* jshint ignore:end */
