@@ -14,19 +14,14 @@ function _selectNextInAdaptiveMode(assessment, challenges) {
       reject('Adaptive mode is enabled only for tests with 3 challenges');
     }
     // Check input
-    else if (answerIds.length === 0) {
-      reject('Cannot decide which next challenge to choose in adaptive mode if no answer are given');
-    }
-    // Check input
     else if (answerIds.length > 1) { // if there is more than one answer, user reached the end of test
       resolve(null);
     }
     // ADAPTIVE TEST HAPPENS HERE
     else if (answerIds.length === 1) {
-      Answer.where('id', 'IN', answerIds).fetchAll().then((answers) => {
+      Answer.where('id', _.first(answerIds)).fetch().then((firstAnswerToFirstChallenge) => {
 
-        const firstAnswerToFirstChallenge = answers.models[0].attributes;
-        if (firstAnswerToFirstChallenge.result === 'ok') {
+        if (firstAnswerToFirstChallenge.attributes.result === 'ok') {
           resolve(_.second(challenges));
         } else {
           resolve(_.third(challenges));
