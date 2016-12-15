@@ -5,32 +5,36 @@ const _ = require('../../utils/lodash-utils');
 
 function _selectNextInAdaptiveMode(assessment, challenges) {
 
-  const answerIds = assessment.related('answers').pluck('id');
-
   return new Promise((resolve, reject) => {
-    Answer.where('id', 'IN', answerIds).fetchAll().then((answers) => {
-      // Check input
-      if (challenges.length !== 3) {
-        reject('Adaptive mode is enabled only for tests with 3 challenges');
-      }
-      // Check input
-      else if (answers.length === 0) {
-        reject('Cannot decide which next challenge to choose in adaptive mode if no answer are given');
-      }
-      // Check input
-      else if (answers.length > 1) { // if there is more than one answer, user reached the end of test
-        resolve(null);
-      }
-      // ADAPTIVE TEST HAPPENS HERE
-      else if (answers.length === 1) {
+
+    const answerIds = assessment.related('answers').pluck('id');
+
+    // Check input
+    if (challenges.length !== 3) {
+      reject('Adaptive mode is enabled only for tests with 3 challenges');
+    }
+    // Check input
+    else if (answerIds.length === 0) {
+      reject('Cannot decide which next challenge to choose in adaptive mode if no answer are given');
+    }
+    // Check input
+    else if (answerIds.length > 1) { // if there is more than one answer, user reached the end of test
+      resolve(null);
+    }
+    // ADAPTIVE TEST HAPPENS HERE
+    else if (answerIds.length === 1) {
+      Answer.where('id', 'IN', answerIds).fetchAll().then((answers) => {
+
         const firstAnswerToFirstChallenge = answers.models[0].attributes;
         if (firstAnswerToFirstChallenge.result === 'ok') {
           resolve(_.second(challenges));
         } else {
           resolve(_.third(challenges));
         }
-      }
-    });
+      });
+    }
+
+
   });
 }
 
