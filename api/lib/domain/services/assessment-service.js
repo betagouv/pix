@@ -7,13 +7,28 @@ function _selectNextInAdaptiveMode(assessment, challenges) {
 
   const answerIds = assessment.related('answers').pluck('id');
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     Answer.where('id', 'IN', answerIds).fetchAll().then((answers) => {
-      const responsePattern = answers.map(answer => (answer.attributes.result == 'ok') ? '1' : '0').join('');
-      switch (responsePattern) {
-        case '1': return resolve(challenges[1]);
-        case '0': return resolve(challenges[2]);
-        default: return resolve(null);
+      // Check input
+      if (challenges.length !== 3) {
+        reject('Adaptive mode is enabled only for tests with 3 challenges');
+      }
+      // Check input
+      else if (answers.length === 0) {
+        reject('Cannot decide which next challenge to choose in adaptive mode if no answer are given');
+      }
+      // Check input
+      else if (answers.length > 1) { // if there is more than one answer, user reached the end of test
+        resolve(null);
+      }
+      // ADAPTIVE TEST HAPPENS HERE
+      else if (answers.length === 1) {
+        const firstAnswerToFirstChallenge = answers.models[0].attributes;
+        if (firstAnswerToFirstChallenge.result === 'ok') {
+          resolve(_.second(challenges));
+        } else {
+          resolve(_.third(challenges));
+        }
       }
     });
   });
@@ -23,8 +38,8 @@ function _selectNextInAdaptiveMode(assessment, challenges) {
 function _selectNextInNormalMode(currentChallengeId, challenges) {
 
   /*
-   * example : - challenges is ["1st_challenge", "2nd_challenge", "3rd_challenge", "4th_challenge"]
-   *           - currentChallengeId is "2nd_challenge"
+   * example : - if challenges is ["1st_challenge", "2nd_challenge", "3rd_challenge", "4th_challenge"]
+   *           - and currentChallengeId is "2nd_challenge"
    *
    *           nextChallengeId will be "3rd_challenge"
    */
@@ -40,15 +55,13 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
 
     const challenges = course.challenges;
 
-    if (!currentChallengeId) {
+    if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
       return resolve(challenges[0]);
     }
 
-    if(course.isAdaptive) {
-
+    if (course.isAdaptive) {
       return resolve(_selectNextInAdaptiveMode(assessment, challenges));
     } else {
-
       return resolve(_selectNextInNormalMode(currentChallengeId, challenges));
     }
   });
