@@ -207,11 +207,11 @@ describe('Unit | Service | SolutionService', function () {
         expect(service.match(answer, solution)).to.equal('ko');
       });
 
-      // it('should return "ko" when answer is incorrect', function () {
-      //   const answer = buildAnswer('num1: Foo\nnum2: Bar');
-      //   const solution = buildSolution('QROCM-dep', 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer');
-      //   expect(service.match(answer, solution)).to.equal('ko');
-      // });
+      it('should return "ko" when answer is incorrect', function () {
+        const answer = buildAnswer('num1: Foo\nnum2: Bar');
+        const solution = buildSolution('QROCM-dep', 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer', '1: @acquix');
+        expect(service.match(answer, solution)).to.equal('ko');
+      });
 
       // it('should return "ko" when user duplicated a correct answer', function () {
       //   const answer = buildAnswer('num1: google.fr\nnum2: google.fr');
