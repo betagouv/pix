@@ -54,7 +54,7 @@ module.exports = {
     // possibleAnswers is
     // { Google: 'Google','google.fr': 'Google','Google Search': 'Google',Yahoo: 'Yahoo','Yahoo Answer': 'Yahoo' }
 
-    let scoredKeys = [];
+    const scoredKeys = [];
     _.each(answerMap, (answer) => {
       _.each(possibleAnswers, (solutionKey, possibleAnswer) => {
         if(utils.fuzzyMatchingWithAnswers(answer, [possibleAnswer])) {
@@ -65,11 +65,8 @@ module.exports = {
     // scoredKeys is
     // [ 'Google', 'Yahoo' ]
 
-    // remove duplicates
-    scoredKeys = _.uniq(scoredKeys);
-
     const numberOfUserAnswers = Object.keys(answerMap).length;
-    const numberOfUniqueCorrectAnswers = scoredKeys.length;
+    const numberOfUniqueCorrectAnswers = _.uniq(scoredKeys).length;
 
     if (_.isNotEmpty(scoring)) {
 
