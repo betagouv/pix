@@ -38,7 +38,6 @@ describe('Unit | Serializer | CourseSerializer', function () {
           'id': course.id,
           'attributes': {
             'name': course.name,
-            'adaptive': course.isAdaptive,
             'is-adaptive': course.isAdaptive,
             'description': course.description,
             'duration': course.duration,
