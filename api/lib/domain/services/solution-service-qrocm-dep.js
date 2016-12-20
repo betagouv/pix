@@ -81,7 +81,6 @@ module.exports = {
     // }
 
     if (_.isNotEmpty(scoring)) {
-      console.log('23423', minGrade, maxGrade, scoring);
 
       const minGrade = _.min(Object.keys(scoring));
       const maxGrade = _.max(Object.keys(scoring));
@@ -93,7 +92,6 @@ module.exports = {
       }
 
     } else {
-      console.log('44', minGrade, maxGrade, scoring);
 
       if (_(numberOfUniqueCorrectAnswers).isEqual(numberOfUserAnswers)) {
         result = 'ok';

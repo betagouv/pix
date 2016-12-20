@@ -3,6 +3,7 @@
 const service = require('../../../../lib/domain/services/solution-service');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Solution = require('../../../../lib/domain/models/referential/solution');
+const _ = require('../../../../lib/utils/lodash-utils');
 
 describe('Unit | Service | SolutionService', function () {
 
@@ -10,7 +11,7 @@ describe('Unit | Service | SolutionService', function () {
     const solution = new Solution({ id: 'solution_id' });
     solution.type = type;
     solution.value = value;
-    solution.scoring = scoring;
+    solution.scoring = _.ensureString(scoring).replace(/@/g, '');  // XXX
     return solution;
   }
 
@@ -236,7 +237,28 @@ describe('Unit | Service | SolutionService', function () {
         });
       });
 
+      const partialScoreCases = [
+        // { it: 'should return "ko" if scoring contains only one line and no enough good answers',
+        //   answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "',
+        //   solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer',
+        //   scoring: '3: @acquix' },
+        { when: '1 correct answers are given, and scoring is 1-3',
+          answer: 'num1: " google.fr"\nnum2: "bad answer"\nnum3: "bad answer"',
+          solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing',
+          scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
+        // { when: '2 correct answers are given, and scoring is 1-3',
+        //   answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: bing',
+        //   solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing',
+        //   scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
+      ];
 
+      partialScoreCases.forEach(function (testCase) {
+        it('should return "partially" when ' + testCase.when, function () {
+          const answer = buildAnswer(testCase.answer);
+          const solution = buildSolution('QROCM-dep', testCase.solution, testCase.scoring);
+          expect(service.match(answer, solution)).to.equal('partially');
+        });
+      });
 
     });
 
