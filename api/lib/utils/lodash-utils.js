@@ -20,6 +20,14 @@ _.mixin({
     return !_.isEmpty(elt);
   },
 
+  'ensureString' : function(elt) {
+    if (elt) {
+      return elt.toString();
+    } else {
+      return '';
+    }
+  },
+
   /*
    * Returns the element of the array that is after the the one provided.
    *
