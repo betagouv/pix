@@ -213,24 +213,24 @@ describe('Unit | Service | SolutionService', function () {
         expect(service.match(answer, solution)).to.equal('ko');
       });
 
-      // it('should return "ko" when user duplicated a correct answer', function () {
-      //   const answer = buildAnswer('num1: google.fr\nnum2: google.fr');
-      //   const solution = buildSolution('QROCM-dep', 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer');
-      //   expect(service.match(answer, solution)).to.equal('ko');
-      // });
+      const maximalScoreCases = [
+        // { it: 'should return "ko" if scoring contains only one line and no enough good answers',
+        //   answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "',
+        //   solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer',
+        //   scoring: '3: @acquix' },
+        { it: 'should return "ko" if scoring contains only one line and no enough good answers',
+          answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: bing',
+          solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing',
+          scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
+      ];
 
-      // const maximalScoreCases = [
-      //   { answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "',
-      //     solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer' },
-      // ];
-
-      // maximalScoreCases.forEach(function (testCase) {
-      //   it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
-      //     const answer = buildAnswer(testCase.answer);
-      //     const solution = buildSolution('QROCM-dep', testCase.solution);
-      //     expect(service.match(answer, solution)).to.equal('ok');
-      //   });
-      // });
+      maximalScoreCases.forEach(function (testCase) {
+        it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
+          const answer = buildAnswer(testCase.answer);
+          const solution = buildSolution('QROCM-dep', testCase.solution, testCase.scoring);
+          expect(service.match(answer, solution)).to.equal('ok');
+        });
+      });
 
     });
 
