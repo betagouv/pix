@@ -16,6 +16,10 @@ _.mixin({
     return _.nth(array, 2);
   },
 
+  'isNotEmpty' : function(elt) {
+    return !_.isEmpty(elt);
+  },
+
   /*
    * Returns the element of the array that is after the the one provided.
    *

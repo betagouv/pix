@@ -11,6 +11,7 @@ class Solution extends AirtableModel {
       const fields = this.record.fields;
       this.type = fields['Type d\'épreuve'];
       this.value = fields['Bonnes réponses'];
+      this.scoring = fields['Scoring'].replace(/@/g, '');
 
     }
   }
