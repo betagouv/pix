@@ -246,10 +246,10 @@ describe('Unit | Service | SolutionService', function () {
           answer: 'num1: " google.fr"\nnum2: "bad answer"\nnum3: "bad answer"',
           solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing',
           scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
-        // { when: '2 correct answers are given, and scoring is 1-3',
-        //   answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: bing',
-        //   solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing',
-        //   scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
+        { when: '2 correct answers are given, and scoring is 1-3',
+          answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: "bad answer"',
+          solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing',
+          scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
       ];
 
       partialScoreCases.forEach(function (testCase) {
