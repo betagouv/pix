@@ -10,7 +10,7 @@ class CourseSerializer extends JSONAPISerializer {
     data.attributes['name'] = model.name;
     data.attributes['description'] = model.description;
     data.attributes['duration'] = model.duration;
-    data.attributes['isAdaptive'] = model.isAdaptive;
+    data.attributes['is-adaptive'] = model.isAdaptive;
     data.attributes['adaptive'] = model.isAdaptive;
 
     if (model.imageUrl) {
