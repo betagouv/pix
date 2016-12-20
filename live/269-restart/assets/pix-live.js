@@ -1765,7 +1765,7 @@ define('pix-live/mirage/routes/get-courses', ['exports', 'lodash/lodash', 'pix-l
     var allCourses = [_pixLiveMirageDataCoursesRefCourse['default'].data, _pixLiveMirageDataCoursesRawCourse['default'].data];
 
     var filteredCourses = _lodashLodash['default'].filter(allCourses, function (oneCourse) {
-      return request.queryParams.adaptive == undefined || oneCourse.attributes.isAdaptive;
+      return _lodashLodash['default'].isEmpty(request.queryParams.isAdaptive) || oneCourse.attributes.isAdaptive;
     });
 
     return { data: filteredCourses };
@@ -2075,7 +2075,7 @@ define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _
     description: attr('string'),
     duration: attr('number'),
     imageUrl: attr('string'),
-    adaptive: attr('boolean'),
+    isAdaptive: attr('boolean'),
     challenges: hasMany('challenge', { inverse: null }),
 
     getProgress: function getProgress(challenge) {
@@ -2402,7 +2402,7 @@ define('pix-live/routes/placement-tests', ['exports', 'ember'], function (export
     delay: _ember['default'].inject.service(),
 
     model: function model() {
-      return this.store.query('course', { adaptive: true });
+      return this.store.query('course', { isAdaptive: true });
     }
   });
 });
@@ -2464,7 +2464,7 @@ define("pix-live/templates/assessments/get-challenge-loading", ["exports"], func
   exports["default"] = Ember.HTMLBars.template({ "id": "hPhP7kdH", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"id\",\"assessment-challenge-loading\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"loader-container\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"loader\"],[\"flush-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"loader-inner ball-zig-zag\"],[\"flush-element\"],[\"text\",\"\\n                \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"ball-spinner\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n                \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"ball-spinner\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/assessments/get-challenge-loading.hbs" } });
 });
 define("pix-live/templates/assessments/get-challenge", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "2oHCl1J4", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"id\",\"assessment-challenge\"],[\"flush-element\"],[\"text\",\"\\n\\n  \"],[\"append\",[\"helper\",[\"course-banner\"],null,[[\"course\",\"withHomeLink\"],[[\"get\",[\"model\",\"assessment\",\"course\"]],true]]],false],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"container\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"unless\"],[[\"get\",[\"model\",\"assessment\",\"course\",\"adaptive\"]]],null,0],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"component\"],[[\"get\",[\"challengeItemType\"]]],[[\"challenge\",\"assessment\",\"answers\",\"onValidated\"],[[\"get\",[\"model\",\"challenge\"]],[\"get\",[\"model\",\"assessment\"]],[\"get\",[\"model\",\"answers\"]],\"saveAnswerAndNavigate\"]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"      \"],[\"append\",[\"helper\",[\"progress-bar\"],null,[[\"progress\"],[[\"get\",[\"progress\"]]]]],false],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/assessments/get-challenge.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "OwQJWIpL", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"id\",\"assessment-challenge\"],[\"flush-element\"],[\"text\",\"\\n\\n  \"],[\"append\",[\"helper\",[\"course-banner\"],null,[[\"course\",\"withHomeLink\"],[[\"get\",[\"model\",\"assessment\",\"course\"]],true]]],false],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"container\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"unless\"],[[\"get\",[\"model\",\"assessment\",\"course\",\"isAdaptive\"]]],null,0],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"component\"],[[\"get\",[\"challengeItemType\"]]],[[\"challenge\",\"assessment\",\"answers\",\"onValidated\"],[[\"get\",[\"model\",\"challenge\"]],[\"get\",[\"model\",\"assessment\"]],[\"get\",[\"model\",\"answers\"]],\"saveAnswerAndNavigate\"]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"      \"],[\"append\",[\"helper\",[\"progress-bar\"],null,[[\"progress\"],[[\"get\",[\"progress\"]]]]],false],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/assessments/get-challenge.hbs" } });
 });
 define("pix-live/templates/assessments/get-results", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "NrVCKsl2", "block": "{\"statements\":[[\"append\",[\"helper\",[\"get-result\"],null,[[\"assessment\"],[[\"get\",[\"model\"]]]]],false],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/assessments/get-results.hbs" } });
@@ -2899,7 +2899,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+38c8d00d"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+5219e501"});
 }
 
 /* jshint ignore:end */
