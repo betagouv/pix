@@ -113,7 +113,7 @@ define('pix-live/tests/acceptance/a3-voir-liste-tests-test', ['exports', 'mocha'
       });
 
       (0, _mocha.it)('a3.2.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains('4 épreuves');
+        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains('5 épreuves');
       });
 
       (0, _mocha.it)('a3.2.4 on affiche son image', function () {
@@ -418,7 +418,7 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
     });
 
     (0, _mocha.before)(function () {
-      return visit('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_full');
+      return visit('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_id');
     });
 
     (0, _mocha.it)('b3.1 It should render challenge instruction', function () {
@@ -737,24 +737,29 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['exports', 'mocha', '
     });
 
     (0, _mocha.it)('c1.5 Pour une réponse dont la validation n\'est pas encore implémentée, le tableau récapitulatif donne une indication adéquate', function () {
-      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(2)');
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(3)');
       (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Correction automatique en cours de développement ;)');
     });
 
     (0, _mocha.it)('c1.6 Pour une réponse dont l\'utilisateur a cliqué sur \'Je Passe\', le tableau récapitulatif donne une indication adéquate', function () {
-      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(3)');
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(2)');
       (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Sans réponse');
     });
 
-    (0, _mocha.it)('c1.7 Le nom du test est affiché', function () {
+    (0, _mocha.it)('c1.7 Pour une réponse dont l\'utilisateur n\'a qu\'une partie des bonnes réponse, le tableau récapitulatif donne une indication adéquate', function () {
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(4)');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse partielle');
+    });
+
+    (0, _mocha.it)('c1.8 Le nom du test est affiché', function () {
       (0, _chai.expect)(findWithAssert('.course-banner-name').text()).to.contains('First Course');
     });
 
-    (0, _mocha.it)('c1.8 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
+    (0, _mocha.it)('c1.9 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
       (0, _chai.expect)(find('.course-banner-home-link')).to.have.lengthOf(0);
     });
 
-    (0, _mocha.it)('c1.9. propose un moyen pour revenir à la liste des tests', function () {
+    (0, _mocha.it)('c1.10. propose un moyen pour revenir à la liste des tests', function () {
       findWithAssert('button.assessment-results-link-home');
     });
   });
