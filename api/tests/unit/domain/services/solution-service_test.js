@@ -215,10 +215,6 @@ describe('Unit | Service | SolutionService', function () {
       });
 
       const maximalScoreCases = [
-        // { it: 'should return "ko" if scoring contains only one line and no enough good answers',
-        //   answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "',
-        //   solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer',
-        //   scoring: '3: @acquix' },
         { when: '3 correct answers are given, and scoring is 1-3',
           answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: bing',
           solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing',

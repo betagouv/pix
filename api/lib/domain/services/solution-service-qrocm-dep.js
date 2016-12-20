@@ -37,8 +37,6 @@ module.exports = {
       // scoring is
       // { 1: 'rechinfo1', 2: 'rechinfo2', 3: 'rechinfo3' }
 
-      console.log('scoring- - - - - - - - - - - - - - - - - - - - ', scoring);
-
     } catch (e) { // Parse exceptions like script injection could happen. They are detected here.
       return 'ko';
     }
@@ -73,13 +71,6 @@ module.exports = {
     const numberOfUserAnswers = Object.keys(answerMap).length;
     const numberOfUniqueCorrectAnswers = scoredKeys.length;
 
-    // if (scoring) {
-
-    // } else {
-    //   const minNumberOfAnswers = numberOfUserAnswers;
-    //   const maxNumberOfAnswers = numberOfUserAnswers;
-    // }
-
     if (_.isNotEmpty(scoring)) {
 
       const minGrade = _.min(Object.keys(scoring));
@@ -98,13 +89,6 @@ module.exports = {
       }
     }
 
-    // if (_(numberOfUniqueCorrectAnswers).isEqual(maxNumberOfAnswers)) {
-    //   result = 'ok';
-    // } else if (numberOfUniqueCorrectAnswers >= minNumberOfAnswers) {
-    //   result = 'partially';
-    // } else {
-    //   result = 'ko';
-    // }
     return result;
 
   }
