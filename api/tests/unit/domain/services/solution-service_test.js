@@ -238,16 +238,12 @@ describe('Unit | Service | SolutionService', function () {
       });
 
       const partialScoreCases = [
-        // { it: 'should return "ko" if scoring contains only one line and no enough good answers',
-        //   answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "',
-        //   solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer',
-        //   scoring: '3: @acquix' },
-        { when: '1 correct answers are given, and scoring is 1-3',
+        { when: '1 correct answers are given + 2 wrong, and scoring is 1-3',
           answer: 'num1: " google.fr"\nnum2: "bad answer"\nnum3: "bad answer"',
           solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing',
           scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
-        { when: '2 correct answers are given, and scoring is 1-3',
-          answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: "bad answer"',
+        { when: '2 correct answers are given + 1 empty, and scoring is 1-3',
+          answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: ""',
           solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing',
           scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
       ];
@@ -257,6 +253,29 @@ describe('Unit | Service | SolutionService', function () {
           const answer = buildAnswer(testCase.answer);
           const solution = buildSolution('QROCM-dep', testCase.solution, testCase.scoring);
           expect(service.match(answer, solution)).to.equal('partially');
+        });
+      });
+
+      const failedCases = [
+        { when: '2 correct answers are given but scoring requires 3 correct answers',
+          answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "',
+          solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer',
+          scoring: '3: @acquix' },
+        { when: 'no correct answer is given and scoring is 1-3',
+          answer: 'num1: " tristesse"\nnum2: "bad answer"',
+          solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer',
+          scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
+        { when: 'duplicate good answer is given and scoring is 2-3',
+          answer: 'num1: "google"\nnum2: "google.fr"',
+          solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer',
+          scoring: '2: @acquix\n3: @acquix' },
+      ];
+
+      failedCases.forEach(function (testCase) {
+        it('should return "ko" when ' + testCase.when, function () {
+          const answer = buildAnswer(testCase.answer);
+          const solution = buildSolution('QROCM-dep', testCase.solution, testCase.scoring);
+          expect(service.match(answer, solution)).to.equal('ko');
         });
       });
 
