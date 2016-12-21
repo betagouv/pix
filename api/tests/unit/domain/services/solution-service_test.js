@@ -7,6 +7,9 @@ const _ = require('../../../../lib/utils/lodash-utils');
 
 describe('Unit | Service | SolutionService', function () {
 
+  const twoPossibleSolutions = 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer';
+  const threePossibleSolutions = 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing';
+
   function buildSolution(type, value, scoring) {
     const solution = new Solution({ id: 'solution_id' });
     solution.type = type;
@@ -175,19 +178,19 @@ describe('Unit | Service | SolutionService', function () {
 
       it('should return "ko" when answer is incorrect', function () {
         const answer = buildAnswer('num1: Foo\nnum2: Bar');
-        const solution = buildSolution('QROCM-dep', 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer');
+        const solution = buildSolution('QROCM-dep', twoPossibleSolutions);
         expect(service.match(answer, solution)).to.equal('ko');
       });
 
       it('should return "ko" when user duplicated a correct answer', function () {
         const answer = buildAnswer('num1: google.fr\nnum2: google.fr');
-        const solution = buildSolution('QROCM-dep', 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer');
+        const solution = buildSolution('QROCM-dep', twoPossibleSolutions);
         expect(service.match(answer, solution)).to.equal('ko');
       });
 
       const maximalScoreCases = [
         { answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "',
-          solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer' },
+          solution: twoPossibleSolutions },
       ];
 
       maximalScoreCases.forEach(function (testCase) {
@@ -210,18 +213,18 @@ describe('Unit | Service | SolutionService', function () {
 
       it('should return "ko" when answer is incorrect', function () {
         const answer = buildAnswer('num1: Foo\nnum2: Bar');
-        const solution = buildSolution('QROCM-dep', 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer', '1: @acquix');
+        const solution = buildSolution('QROCM-dep', twoPossibleSolutions, '1: @acquix');
         expect(service.match(answer, solution)).to.equal('ko');
       });
 
       const maximalScoreCases = [
         { when: '3 correct answers are given, and scoring is 1-3',
           answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: bing',
-          solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing',
+          solution: threePossibleSolutions,
           scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
         { when: '3 correct answers are given, and scoring is 1-2',
           answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: bing',
-          solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing',
+          solution: threePossibleSolutions,
           scoring: '1: @acquix\n2: @acquix' },
       ];
 
@@ -236,11 +239,11 @@ describe('Unit | Service | SolutionService', function () {
       const partialScoreCases = [
         { when: '1 correct answers are given + 2 wrong, and scoring is 1-3',
           answer: 'num1: " google.fr"\nnum2: "bad answer"\nnum3: "bad answer"',
-          solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing',
+          solution: threePossibleSolutions,
           scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
         { when: '2 correct answers are given + 1 empty, and scoring is 1-3',
           answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: ""',
-          solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing',
+          solution: threePossibleSolutions,
           scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
       ];
 
@@ -255,15 +258,15 @@ describe('Unit | Service | SolutionService', function () {
       const failedCases = [
         { when: '2 correct answers are given but scoring requires 3 correct answers',
           answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "',
-          solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer',
+          solution: twoPossibleSolutions,
           scoring: '3: @acquix' },
         { when: 'no correct answer is given and scoring is 1-3',
           answer: 'num1: " tristesse"\nnum2: "bad answer"',
-          solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer',
+          solution: twoPossibleSolutions,
           scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
         { when: 'duplicate good answer is given and scoring is 2-3',
           answer: 'num1: "google"\nnum2: "google.fr"',
-          solution: 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer',
+          solution: twoPossibleSolutions,
           scoring: '2: @acquix\n3: @acquix' },
       ];
 

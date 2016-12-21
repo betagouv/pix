@@ -1,4 +1,4 @@
-// QRU challenge with all field filled
+// QRU challenge with all fields filled
 export default {
   data: {
     type: 'challenges',
