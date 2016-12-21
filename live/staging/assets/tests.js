@@ -113,7 +113,7 @@ define('pix-live/tests/acceptance/a3-voir-liste-tests-test', ['exports', 'mocha'
       });
 
       (0, _mocha.it)('a3.2.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains('4 épreuves');
+        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains('5 épreuves');
       });
 
       (0, _mocha.it)('a3.2.4 on affiche son image', function () {
@@ -418,7 +418,7 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
     });
 
     (0, _mocha.before)(function () {
-      return visit('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_full');
+      return visit('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_id');
     });
 
     (0, _mocha.it)('b3.1 It should render challenge instruction', function () {
@@ -737,24 +737,29 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['exports', 'mocha', '
     });
 
     (0, _mocha.it)('c1.5 Pour une réponse dont la validation n\'est pas encore implémentée, le tableau récapitulatif donne une indication adéquate', function () {
-      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(2)');
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(3)');
       (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Correction automatique en cours de développement ;)');
     });
 
     (0, _mocha.it)('c1.6 Pour une réponse dont l\'utilisateur a cliqué sur \'Je Passe\', le tableau récapitulatif donne une indication adéquate', function () {
-      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(3)');
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(2)');
       (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Sans réponse');
     });
 
-    (0, _mocha.it)('c1.7 Le nom du test est affiché', function () {
+    (0, _mocha.it)('c1.7 Pour une réponse dont l\'utilisateur n\'a qu\'une partie des bonnes réponse, le tableau récapitulatif donne une indication adéquate', function () {
+      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(4)');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse partielle');
+    });
+
+    (0, _mocha.it)('c1.8 Le nom du test est affiché', function () {
       (0, _chai.expect)(findWithAssert('.course-banner-name').text()).to.contains('First Course');
     });
 
-    (0, _mocha.it)('c1.8 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
+    (0, _mocha.it)('c1.9 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
       (0, _chai.expect)(find('.course-banner-home-link')).to.have.lengthOf(0);
     });
 
-    (0, _mocha.it)('c1.9. propose un moyen pour revenir à la liste des tests', function () {
+    (0, _mocha.it)('c1.10. propose un moyen pour revenir à la liste des tests', function () {
       findWithAssert('button.assessment-results-link-home');
     });
   });
@@ -3106,6 +3111,25 @@ define('pix-live/tests/unit/services/delay-test.lint-test', ['exports'], functio
     });
   });
 });
+define('pix-live/tests/unit/utils/lodash-custom-test', ['exports', 'chai', 'mocha', 'pix-live/utils/lodash-custom'], function (exports, _chai, _mocha, _pixLiveUtilsLodashCustom) {
+
+  (0, _mocha.describe)('Unit | Utility | lodash custom', function () {
+    // Replace this with your real tests.
+    (0, _mocha.it)('works', function () {
+      var result = (0, _pixLiveUtilsLodashCustom['default'])();
+      (0, _chai.expect)(result).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/utils/lodash-custom-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/utils/lodash-custom-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/utils/call-only-once.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -3119,6 +3143,15 @@ define('pix-live/tests/utils/get-challenge-type.lint-test', ['exports'], functio
   'use strict';
 
   describe('ESLint - utils/get-challenge-type.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/utils/lodash-custom.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - utils/lodash-custom.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });

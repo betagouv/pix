@@ -23091,13 +23091,6 @@ define('ember-test-helpers/test-module-for-integration', ['exports', 'ember', 'e
 
   function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-  var ACTION_KEY = undefined;
-  if ((0, _emberTestHelpersHasEmberVersion['default'])(2, 0)) {
-    ACTION_KEY = 'actions';
-  } else {
-    ACTION_KEY = '_actions';
-  }
-
   var isPreGlimmer = !(0, _emberTestHelpersHasEmberVersion['default'])(1, 13);
 
   var _default = (function (_AbstractTestModule) {
