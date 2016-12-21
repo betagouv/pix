@@ -48,6 +48,33 @@ describe('Unit | Utils | lodash-utils', function () {
   });
 
 
+  describe('areCSVequivalent', function () {
+    it('when no arg are given, should return false', function (done) {
+      expect(_.areCSVequivalent()).to.equal(false);
+      done();
+    });
+    it('when two arg are given, but are not string, should return false', function (done) {
+      expect(_.areCSVequivalent(['1,2,3'], ['1,2,3'])).to.equal(false);
+      expect(_.areCSVequivalent(new Date(), new Date())).to.equal(false);
+      done();
+    });
+    it('when two string are the same, should return true', function (done) {
+      expect(_.areCSVequivalent('1,2,3', '1,2,3')).to.equal(true);
+      expect(_.areCSVequivalent('azerty', 'azerty')).to.equal(true);
+      done();
+    });
+    it('when element are the same but in different order, should return true', function (done) {
+      expect(_.areCSVequivalent('1,2,3', '3,1,2')).to.equal(true);
+      done();
+    });
+    it('when element have space around values, should return true', function (done) {
+      expect(_.areCSVequivalent('2 , blabla, 1', 'blabla ,1,2')).to.equal(true);
+      done();
+    });
+
+  });
+
+
   describe('ensureString', function () {
     it('when no input, return an empty String', function (done) {
       expect(_.ensureString()).to.equal('');

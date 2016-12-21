@@ -27,6 +27,19 @@ _.mixin({
       return '';
     }
   },
+  'areCSVequivalent' : function(string1, string2) {
+    if (_.isString(string1) && _.isString(string2)) {
+      const splitTrimSort = function(str) {
+        return _.chain(str) //    "3, 1, 2 "
+                .split(',')   // ["3"," 1"," 2 "]
+                .map(_.trim)  // ["3","1","2"]
+                .sort()       // ["1","2","3"]
+                .value();
+      };
+      return _(splitTrimSort(string1)).isEqual(splitTrimSort(string2));
+    }
+    return false;
+  },
 
   /*
    * Returns the element of the array that is after the the one provided.
@@ -36,7 +49,7 @@ _.mixin({
    *
    *           result will be "3rd"
    */
-  'elementAfter' : function(array, currentElement) {
+   'elementAfter' : function(array, currentElement) {
     if (_.isArray(array) && !_.isEmpty(array)) { // only relevant on non-empty array
       const currentIndex = _(array).indexOf(currentElement);
       if (currentIndex > -1) { // need to have an already-existing element inside the given array to work properly

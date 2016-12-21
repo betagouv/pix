@@ -17,12 +17,16 @@ _.mixin({
       && !(_.isArray(x) && _.isEmpty(x))   // not an empty array
       && !(_.isObject(x) && _.isEmpty(x)); // not an empty object
   },
-  // Not enough value to test a function which is just the opposite of a boolean function
+  // Not enough value to test a one line function, mainly an alias here.
   /* istanbul ignore next */
   not: function(x) {
     return !_.isTruthy(x);
   },
+  isNonEmptyString : function(x) {
+    return _.isString(x) && !_.isEmpty(x);
+  },
   hasSomeTruthyProps: function(x) {
+    if (!_.isObject(x)) return false;
     if (_.isEmpty(x)) return false;
     return _.some(x, function(value) {
       return _.isTruthy(value);

@@ -3,21 +3,30 @@ import _ from 'pix-live/utils/lodash-custom';
 
 export default Ember.Mixin.create({
 
+  /*
+  * Convert "1,2,4" into [true, true, false, true]
+  */
   _valueAsArrayOfBoolean: Ember.computed('value', function () {
     let result = [];
 
     const currentValue = this.get('value');
+    // currentValue is "1,2,4"
 
-    if (_.isString(currentValue) && currentValue.length > 0) {
+
+    if (_.isNonEmptyString(currentValue)) {
       const arrayValues = currentValue.split(',');
-      const rawValues = _.map(arrayValues, (rawValue) => rawValue - 1);
-      const maxValue = _.max(rawValues) + 1;
+      // arrayValues is [1,2,4]
+      const maxValue = _.max(arrayValues) + 1;
+      // maxValue is 4
 
-      result = _.range(maxValue).map(() => false );
+      result = _.fill(Array(maxValue), false);
+      // result is [false, false, false, false]
 
-      _.each(rawValues, (rawValue) => {
-        result[rawValue] = true;
+
+      _.each(arrayValues, (arrayValue) => {
+        result[arrayValue - 1] = true;
       });
+      // result is [true, true, false, true]
     }
 
     return result;
