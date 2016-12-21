@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import _ from 'lodash/lodash';
+import _ from '../utils/lodash-custom';
 
 function _uncheckAllRadioButtons() {
   this.$(':radio').prop('checked', false);

@@ -1,4 +1,5 @@
-import _ from 'lodash/lodash';
+import _ from '../../utils/lodash-custom';
+
 import rawQcmAnswer from '../data/answers/raw-qcm-answer';
 import refQcmAnswer from '../data/answers/ref-qcm-answer';
 import refQcuAnswer from '../data/answers/ref-qcu-answer';

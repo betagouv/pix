@@ -1,12 +1,14 @@
 /* global jsyaml */
-import _ from 'lodash/lodash';
+import _ from '../utils/lodash-custom';
+
 import ChallengeItemGeneric from './challenge-item-generic';
 
 const ChallengeItemQrocm = ChallengeItemGeneric.extend({
 
   _hasError: function () {
-    const nonEmptyAnswers = _.pick(this._getRawAnswerValue(), _.identity);
-    return _.isEmpty(nonEmptyAnswers);
+    const allAnswers = this._getRawAnswerValue(); // ex. {"logiciel1":"word", "logiciel2":"excel", "logiciel3":""}
+    const hasAtLeastOneAnswer = _(allAnswers).hasSomeTruthyProps();
+    return _.not(hasAtLeastOneAnswer);
   },
 
   _getAnswerValue() {

@@ -1,7 +1,8 @@
+import _ from '../../../utils/lodash-custom';
+
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
-import _ from 'lodash/lodash';
 
 describe('Unit | Component | QcmProposalsComponent', function () {
 
