@@ -1627,7 +1627,7 @@ define('pix-live/mirage/data/challenges/ref-qrocm-challenge', ['exports'], funct
   };
 });
 define('pix-live/mirage/data/challenges/ref-qru-challenge', ['exports'], function (exports) {
-  // QRU challenge with all field filled
+  // QRU challenge with all fields filled
   exports['default'] = {
     data: {
       type: 'challenges',
@@ -2891,13 +2891,13 @@ define('pix-live/utils/get-challenge-type', ['exports', 'pix-live/utils/lodash-c
     var result = 'qcu'; // qcu by default, no error thrown
     var challengeType = challengeTypeFromAirtable.toUpperCase();
 
-    if ((0, _pixLiveUtilsLodashCustom['default'])(challengeType).isAmongst(['QCUIMG', 'QCU', 'QRU']).value()) {
+    if ((0, _pixLiveUtilsLodashCustom['default'])(challengeType).isAmongst(['QCUIMG', 'QCU', 'QRU'])) {
       result = 'qcu';
-    } else if ((0, _pixLiveUtilsLodashCustom['default'])(challengeType).isAmongst(['QCMIMG', 'QCM']).value()) {
+    } else if ((0, _pixLiveUtilsLodashCustom['default'])(challengeType).isAmongst(['QCMIMG', 'QCM'])) {
       result = 'qcm';
-    } else if ((0, _pixLiveUtilsLodashCustom['default'])(challengeType).isAmongst(['QROC']).value()) {
+    } else if ((0, _pixLiveUtilsLodashCustom['default'])(challengeType).isAmongst(['QROC'])) {
       result = 'qroc';
-    } else if ((0, _pixLiveUtilsLodashCustom['default'])(challengeType).isAmongst(['QROCM', 'QROCM-IND', 'QROCM-DEP']).value()) {
+    } else if ((0, _pixLiveUtilsLodashCustom['default'])(challengeType).isAmongst(['QROCM', 'QROCM-IND', 'QROCM-DEP'])) {
       result = 'qrocm';
     }
 
@@ -2907,10 +2907,14 @@ define('pix-live/utils/get-challenge-type', ['exports', 'pix-live/utils/lodash-c
 define('pix-live/utils/lodash-custom', ['exports', 'lodash/lodash'], function (exports, _lodashLodash) {
 
   _lodashLodash['default'].mixin({
+
+    // Simple alias for includes, last arg fromIndex excluded.
+    // Therefore, no test on this function.
+    /* istanbul ignore next */
     isAmongst: function isAmongst(element, collection) {
       return _lodashLodash['default'].includes(collection, element);
     }
-  });
+  }, { chain: false });
 
   exports['default'] = _lodashLodash['default'];
 });
@@ -2958,7 +2962,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+18dbcdd2"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+c5b524e8"});
 }
 
 /* jshint ignore:end */
