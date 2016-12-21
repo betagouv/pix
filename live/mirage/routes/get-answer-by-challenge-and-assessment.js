@@ -1,4 +1,6 @@
-import _               from 'lodash/lodash';
+// import _               from 'lodash/lodash';
+/* global _ */
+
 
 import rawQcmAnswer    from '../data/answers/raw-qcm-answer';
 import refQcmAnswer    from '../data/answers/ref-qcm-answer';
@@ -20,11 +22,11 @@ export default function (schema, request) {
     return {id: oneAnswer.data.id, obj: oneAnswer};
   });
 
-  const answer = _.find(answers, 
+  const answer = _.find(answers,
     function(oneAnswer) {
-      const belongsToAssessment = 
+      const belongsToAssessment =
         _.get(oneAnswer.obj, 'data.relationships.assessment.data.id') === request.queryParams.assessment;
-      const belongsToChallenge = 
+      const belongsToChallenge =
         _.get(oneAnswer.obj, 'data.relationships.challenge.data.id') === request.queryParams.challenge;
       return belongsToAssessment && belongsToChallenge;
     });
