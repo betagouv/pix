@@ -3111,6 +3111,7 @@ define('pix-live/tests/unit/utils/lodash-custom-test', ['exports', 'chai', 'moch
 
   (0, _mocha.describe)('Unit | Utility | lodash custom', function () {
     // Replace this with your real tests.
+
     (0, _mocha.it)('works', function () {
       var result = (0, _pixLiveUtilsLodashCustom['default'])();
       (0, _chai.expect)(result).to.be.ok;
