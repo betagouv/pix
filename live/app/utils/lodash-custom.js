@@ -9,12 +9,12 @@ _.mixin({
     return _.includes(collection, element);
   },
   isTruthy: function(x) {
-    return x !== false
-      && x !== 0
-      && x !== undefined
-      && x !== null
-      && x !== ''
-      && !(_.isArray(x) && _.isEmpty(x)) // not an empty array
+    return x !== false                     // not the boolean false
+      && x !== 0                           // not the number 0
+      && x !== undefined                   // not an undefined value
+      && x !== null                        // not a null value
+      && x !== ''                          // not an empty string
+      && !(_.isArray(x) && _.isEmpty(x))   // not an empty array
       && !(_.isObject(x) && _.isEmpty(x)); // not an empty object
   },
   // Not enough value to test a function which is just the opposite of a boolean function
