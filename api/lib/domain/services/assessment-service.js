@@ -10,10 +10,6 @@ function _selectNextInAdaptiveMode(assessment, challenges) {
     const answerIds = assessment.related('answers').pluck('id');
 
     // Check input
-    // if (challenges.length !== 3) {
-    //   reject('Adaptive mode is enabled only for tests with 3 challenges');
-    // }
-    // Check input
     // else if (answerIds.length > 1) { // if there is more than one answer, user reached the end of test
     if (answerIds.length > 1) { // if there is more than one answer, user reached the end of test
       resolve(null);
