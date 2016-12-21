@@ -1,4 +1,4 @@
-import _ from '../../utils/lodash-custom';
+import _ from 'pix-live/utils/lodash-custom';
 
 import refCourse from '../data/courses/ref-course';
 import rawCourse from '../data/courses/raw-course';

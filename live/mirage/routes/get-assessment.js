@@ -1,4 +1,4 @@
-import _ from '../../utils/lodash-custom';
+import _ from 'pix-live/utils/lodash-custom';
 import rawAssessment from '../data/assessments/raw-assessment';
 import refAssessment from '../data/assessments/ref-assessment';
 

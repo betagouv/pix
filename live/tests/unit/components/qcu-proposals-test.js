@@ -1,4 +1,4 @@
-import _ from '../../../utils/lodash-custom';
+import _ from 'pix-live/utils/lodash-custom';
 
 import { expect } from 'chai';
 import { describe, it } from 'mocha';

@@ -1,4 +1,4 @@
-import _ from '../../utils/lodash-custom';
+import _ from 'pix-live/utils/lodash-custom';
 
 import rawQcmChallenge from '../data/challenges/raw-qcm-challenge';
 import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';

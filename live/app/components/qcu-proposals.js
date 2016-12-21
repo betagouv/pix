@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import _ from '../utils/lodash-custom';
+import _ from 'pix-live/utils/lodash-custom';
 
 function _uncheckAllRadioButtons() {
   this.$(':radio').prop('checked', false);
