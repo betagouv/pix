@@ -73,9 +73,9 @@ module.exports = {
       const minGrade = _.min(Object.keys(scoring));
       const maxGrade = _.max(Object.keys(scoring));
 
-      if(numberOfUniqueCorrectAnswers >= maxGrade) {
+      if (numberOfUniqueCorrectAnswers >= maxGrade) {
         result = 'ok';
-      } else if(numberOfUniqueCorrectAnswers >= minGrade) {
+      } else if (numberOfUniqueCorrectAnswers >= minGrade) {
         result = 'partially';
       }
 
