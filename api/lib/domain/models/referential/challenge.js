@@ -1,4 +1,5 @@
 const AirtableModel = require('./airtable-model');
+const _ = include('lib/utils/lodash-utils');
 
 class Challenge extends AirtableModel {
 
@@ -12,7 +13,7 @@ class Challenge extends AirtableModel {
       this.instruction = fields['Consigne'];
       this.proposals = fields['Propositions'];
       this.type = fields['Type d\'épreuve'];
-      this.hasInternetAndTools = fields['Internet et outils'];
+      this.hasInternetAndTools = _.ensureString(fields['Internet et outils']).toUpperCase() === 'OUI';
 
       if (fields['Illustration de la consigne']) {
         this.illustrationUrl = fields['Illustration de la consigne'][0].url;
