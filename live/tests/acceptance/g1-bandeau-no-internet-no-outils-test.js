@@ -23,7 +23,7 @@ describe('Acceptance | g1 - Bandeau no internet no outils |', function () {
   describe('Afficher un bandeau si l\'utilisateur ne doit pas utiliser ni Internet ni outils tierce', function () {
 
     before(function () {
-      visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
     });
 
     it('g1.1 Le bandeau s\'affiche si l\'épreuve le requiert', function () {
@@ -35,7 +35,7 @@ describe('Acceptance | g1 - Bandeau no internet no outils |', function () {
   describe('Ne doit pas afficher un bandeau si l\'utilisateur a le droit d\'utiliser Internet et des outils tierce', function () {
 
     before(function () {
-      visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+      visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
     });
 
     it('g1.2 Le bandeau s\'affiche si l\'épreuve le requiert', function () {
