@@ -1,6 +1,5 @@
+/* global describe, before, after, knex, nock, it, expect */
 const server = require('../../../server');
-const _ = require('lodash');
-const util = require('util');
 
 describe('Acceptance | API | Courses', function () {
 
@@ -24,30 +23,30 @@ describe('Acceptance | API | Courses', function () {
         .times(3)
         .reply(200, {
           'records': [{
-              'id': 'course_1',
-              'fields': {
-                'Épreuves': []
-              }
-            }, {
-              'id': 'course_2',
-              'fields': {
-                'Épreuves': []
-              },
-            }, {
-              'id': 'course_3',
-              'fields': {
-                'Épreuves': []
-              },
-            }, {
-              'id': 'course_4',
-              'fields': {
-                'Épreuves': []
-              },
-            }, {
-              'id': 'course_5',
-              'fields': {
-                'Épreuves': []
-              },
+            'id': 'course_1',
+            'fields': {
+              'Épreuves': []
+            }
+          }, {
+            'id': 'course_2',
+            'fields': {
+              'Épreuves': []
+            },
+          }, {
+            'id': 'course_3',
+            'fields': {
+              'Épreuves': []
+            },
+          }, {
+            'id': 'course_4',
+            'fields': {
+              'Épreuves': []
+            },
+          }, {
+            'id': 'course_5',
+            'fields': {
+              'Épreuves': []
+            },
           }]
         });
       done();
