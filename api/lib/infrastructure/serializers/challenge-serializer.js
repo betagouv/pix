@@ -10,6 +10,7 @@ class ChallengeSerializer extends JSONAPISerializer {
     data.attributes['type'] = model.type;
     data.attributes['instruction'] = model.instruction;
     data.attributes['proposals'] = model.proposals;
+    data.attributes['has-internet-and-tools'] = model.hasInternetAndTools;
 
     if (model.illustrationUrl) {
       data.attributes['illustration-url'] = model.illustrationUrl;

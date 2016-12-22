@@ -17,13 +17,10 @@ _.mixin({
   },
   // See http://stackoverflow.com/a/10834843
   /* istanbul ignore next */
-  isNormalInteger: function(str) {
-    return /^\+?(0|[1-9]\d*)$/.test(str);
-  },
-  /* istanbul ignore next */
-  isNormalPositiveInteger: function(str) {
+  isStrictlyPositiveInteger: function(str) {
     return /^\+?[1-9]\d*$/.test(str);
   },
+  // Just an alias, ignore test
   /* istanbul ignore next */
   checkPoint: _.thru,
   isTruthy: function(x) {

@@ -18,6 +18,7 @@ describe('Unit | Model | Challenge', function () {
     [
       { airtableField: 'Consigne', modelProperty: 'instruction' },
       { airtableField: 'Propositions', modelProperty: 'proposals' },
+      { airtableField: 'Internet et outils', modelProperty: 'hasInternetAndTools' },
       { airtableField: "Type d'épreuve", modelProperty: 'type' }
 
     ].forEach(({ airtableField, modelProperty }) => {

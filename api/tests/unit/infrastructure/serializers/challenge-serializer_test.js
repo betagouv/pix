@@ -37,6 +37,7 @@ describe('Unit | Serializer | ChallengeSerializer', function () {
             "type": challenge.type,
             "illustration-url": challenge.illustrationUrl,
             "attachment-url": challenge.attachmentUrl,
+            "has-internet-and-tools": challenge.hasInternetAndTools,
             "attachment-filename": challenge.attachmentFilename
           }
         }
