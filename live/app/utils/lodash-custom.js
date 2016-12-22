@@ -8,12 +8,31 @@ _.mixin({
   isAmongst: function(element, collection) {
     return _.includes(collection, element);
   },
+  forceString: function(x) {
+    if (_(x).isNonEmptyString()) {
+      return x;
+    } else {
+      return '';
+    }
+  },
+  // See http://stackoverflow.com/a/10834843
+  /* istanbul ignore next */
+  isNormalInteger: function(str) {
+    return /^\+?(0|[1-9]\d*)$/.test(str);
+  },
+  /* istanbul ignore next */
+  isNormalPositiveInteger: function(str) {
+    return /^\+?[1-9]\d*$/.test(str);
+  },
+  /* istanbul ignore next */
+  checkPoint: _.thru,
   isTruthy: function(x) {
     return x !== false                     // not the boolean false
       && x !== 0                           // not the number 0
       && x !== undefined                   // not an undefined value
       && x !== null                        // not a null value
       && x !== ''                          // not an empty string
+      && !(_.isNaN(x))                         // not a NaN
       && !(_.isArray(x) && _.isEmpty(x))   // not an empty array
       && !(_.isObject(x) && _.isEmpty(x)); // not an empty object
   },

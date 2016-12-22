@@ -30,7 +30,7 @@ _.mixin({
   'areCSVequivalent' : function(string1, string2) {
     if (_.isString(string1) && _.isString(string2)) {
       const splitTrimSort = function(str) {
-        return _.chain(str) //    "3, 1, 2 "
+        return _.chain(str)   // "3, 1, 2 "
                 .split(',')   // ["3"," 1"," 2 "]
                 .map(_.trim)  // ["3","1","2"]
                 .sort()       // ["1","2","3"]

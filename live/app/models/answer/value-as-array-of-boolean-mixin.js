@@ -1,5 +1,6 @@
 import Ember from 'ember';
-import _ from 'pix-live/utils/lodash-custom';
+// import _ from 'pix-live/utils/lodash-custom';
+import stringToArrayOfBoolean from 'pix-live/utils/string-to-array-of-boolean';
 
 export default Ember.Mixin.create({
 
@@ -7,29 +8,26 @@ export default Ember.Mixin.create({
   * Convert "1,2,4" into [true, true, false, true]
   */
   _valueAsArrayOfBoolean: Ember.computed('value', function () {
-    let result = [];
+    return stringToArrayOfBoolean(this.get('value'));
+//     let result = [];
 
-    const currentValue = this.get('value');
-    // currentValue is "1,2,4"
+//     const currentValue = this.get('value');
+// console.log('currentValue- - - - - - - - - - - - - - - - - - - - ', currentValue);
 
+//     if (_.isString(currentValue) && currentValue.length > 0) {
+//       const arrayValues = currentValue.split(',');
+//       const rawValues = _.map(arrayValues, (rawValue) => rawValue - 1);
+//       const maxValue = _.max(rawValues) + 1;
 
-    if (_.isNonEmptyString(currentValue)) {
-      const arrayValues = currentValue.split(',');
-      // arrayValues is [1,2,4]
-      const maxValue = _.max(arrayValues) + 1;
-      // maxValue is 4
+//       result = _.range(maxValue).map(() => false );
 
-      result = _.fill(Array(maxValue), false);
-      // result is [false, false, false, false]
+//       _.each(rawValues, (rawValue) => {
+//         result[rawValue] = true;
+//       });
+//     }
 
-
-      _.each(arrayValues, (arrayValue) => {
-        result[arrayValue - 1] = true;
-      });
-      // result is [true, true, false, true]
-    }
-
-    return result;
+//   console.log('_valueAsArrayOfBoolean- - - - - - - - - - - - - - - - - - - - ', result);
+//     return result;
   })
 
 });

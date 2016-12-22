@@ -88,19 +88,19 @@ describe('Unit | Utils | lodash-utils', function () {
       expect(_.ensureString(null)).to.equal('');
       done();
     });
-    it('when input is a number (typeof meaning), it returns a JSON.stringify version of the input', function (done) {
+    it('when input is a number (typeof meaning), it returns a toString() version of the input', function (done) {
       expect(_.ensureString(42)).to.equal('42');
       done();
     });
-    it('when input is a string (typeof meaning), it returns a JSON.stringify version of the input', function (done) {
+    it('when input is a string (typeof meaning), it returns a toString() version of the input', function (done) {
       expect(_.ensureString('42')).to.equal('42');
       done();
     });
-    it('when input is an object (typeof meaning), it returns a JSON.stringify version of the input', function (done) {
+    it('when input is an object (typeof meaning), it returns a toString() version of the input', function (done) {
       expect(_.ensureString(/[aeiou]+/g)).to.equal('/[aeiou]+/g');
       done();
     });
-    it('when input is an boolean (typeof meaning), it returns a JSON.stringify version of the input', function (done) {
+    it('when input is an boolean (typeof meaning), it returns a toString() version of the input', function (done) {
       expect(_.ensureString(true)).to.equal('true');
       done();
     });
