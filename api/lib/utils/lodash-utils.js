@@ -49,7 +49,7 @@ _.mixin({
    *
    *           result will be "3rd"
    */
-   'elementAfter' : function(array, currentElement) {
+  'elementAfter' : function(array, currentElement) {
     if (_.isArray(array) && !_.isEmpty(array)) { // only relevant on non-empty array
       const currentIndex = _(array).indexOf(currentElement);
       if (currentIndex > -1) { // need to have an already-existing element inside the given array to work properly
