@@ -8,7 +8,7 @@ const ChallengeItemQrocm = ChallengeItemGeneric.extend({
   _hasError: function () {
     const allAnswers = this._getRawAnswerValue(); // ex. {"logiciel1":"word", "logiciel2":"excel", "logiciel3":""}
     const hasAtLeastOneAnswer = _(allAnswers).hasSomeTruthyProps();
-    return _.not(hasAtLeastOneAnswer);
+    return _.isFalsy(hasAtLeastOneAnswer);
   },
 
   _getAnswerValue() {

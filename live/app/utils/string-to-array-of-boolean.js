@@ -1,8 +1,8 @@
 import _ from 'pix-live/utils/lodash-custom';
 
 
-// "1,2,4" : API
-// [true, true, false, true] : Ember - checkbox
+// Input : "1,2,4" comes from API, therefore is untrusted
+// Output : [true, true, false, true] : Will be used by Ember checkboxes
 
 export default function stringToArrayOfBoolean (csvString) {
   return _.chain(csvString) // in the worst case : ',4, 2 , 2,1,  ,'
@@ -16,5 +16,5 @@ export default function stringToArrayOfBoolean (csvString) {
     .uniqBy() // now [1, 2, 4]
     .map((e) => e - 1) // now [0, 1, 3]
     .thru((e) => _.times(_.max(e) + 1, (o) => _(e).includes(o)))
-   .value();
+    .value();
 }

@@ -23,6 +23,25 @@ _.mixin({
   // Just an alias, ignore test
   /* istanbul ignore next */
   checkPoint: _.thru,
+  or: function (x, y) {
+    return x || y;
+  },
+  isTrue: function (x) {
+    return x === true;
+  },
+  ok: _.stubTrue,
+  isArrayOfString: function (x) {
+    return _.isArray(x) && _.every(x, _.isString);
+  },
+  isNotArrayOfString: function (x) {
+    return !_.isArrayOfString(x);
+  },
+  isArrayOfBoolean: function (x) {
+    return _.isArray(x) && _.every(x, _.isBoolean);
+  },
+  isNotArrayOfBoolean: function (x) {
+    return !_.isArrayOfBoolean(x);
+  },
   isTruthy: function(x) {
     return x !== false                     // not the boolean false
       && x !== 0                           // not the number 0
@@ -35,7 +54,7 @@ _.mixin({
   },
   // Not enough value to test a one line function, mainly an alias here.
   /* istanbul ignore next */
-  not: function(x) {
+  isFalsy: function(x) {
     return !_.isTruthy(x);
   },
   isNonEmptyString : function(x) {
