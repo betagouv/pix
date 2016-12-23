@@ -13,18 +13,6 @@ export default Ember.Component.extend({
     *  - [['prop 1', false], ['prop 2', true], ['prop 3', undefined], ['prop 4', undefined]]
     */
     let result = _.zip(this.get('proposals'), this.get('answers'));
-    const a = _.chain(this.get('proposals'))
-    .size()
-    .times(_.constant(false))
-    .zipWith(this.get('answers'), _.or)
-    .map(_.isTrue)
-    .tap((e) => console.log(e))
-    // .map((e) => e[0] || e[1])
-    .zip(this.get('proposals'))
-    .map((e) => e.reverse())
-    .value();
-console.log('this.get("answers")- - - - - - - - - - - - - - - - - - - - ', this.get('answers'));
-    console.log('a- - - - - - - - - - - - - - - - - - - - ', a);
 
     /*
     * Now convert null or undefined value into explicit boolean false value
