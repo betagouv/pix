@@ -30,8 +30,14 @@ _.mixin({
     return x === true;
   },
   ok: _.stubTrue,
+  removeFirstElement: function (x) {
+    return _.drop(x, 1);
+  },
   isArrayOfString: function (x) {
     return _.isArray(x) && _.every(x, _.isString);
+  },
+  isNotString: function (x) {
+    return !_.isString(x);
   },
   isNotArrayOfString: function (x) {
     return !_.isArrayOfString(x);
