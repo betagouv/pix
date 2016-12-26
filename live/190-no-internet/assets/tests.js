@@ -981,6 +981,52 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test.lint-test', ['ex
     });
   });
 });
+define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)('Acceptance | g1 - Bandeau no internet no outils |', function () {
+
+    var application = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.describe)('Afficher un bandeau si l\'utilisateur ne doit pas utiliser ni Internet ni outils tierce', function () {
+
+      (0, _mocha.before)(function () {
+        visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+      });
+
+      (0, _mocha.it)('g1.1 Le bandeau s\'affiche si l\'épreuve le requiert', function () {
+        (0, _chai.expect)(findWithAssert('.challenge-stay__text').text()).to.contains('Vous devez répondre à cette question sans sortir de cette page !');
+      });
+    });
+
+    (0, _mocha.describe)('Ne doit pas afficher un bandeau si l\'utilisateur a le droit d\'utiliser Internet et des outils tierce', function () {
+
+      (0, _mocha.before)(function () {
+        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      });
+
+      (0, _mocha.it)('g1.2 Le bandeau s\'affiche si l\'épreuve le requiert', function () {
+        (0, _chai.expect)($('.challenge-stay__text')).to.have.lengthOf(0);
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/g1-bandeau-no-internet-no-outils-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/adapters/application.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -1075,6 +1121,15 @@ define('pix-live/tests/components/challenge-item-qrocm.lint-test', ['exports'], 
   'use strict';
 
   describe('ESLint - components/challenge-item-qrocm.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/challenge-stay.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/challenge-stay.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -1926,6 +1981,41 @@ define('pix-live/tests/initializers/router.lint-test', ['exports'], function (ex
     });
   });
 });
+define('pix-live/tests/integration/components/challenge-stay-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | challenge stay', function () {
+    (0, _emberMocha.setupComponentTest)('challenge-stay', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      // Set any properties with this.set('myProperty', 'value');
+      // Handle any actions with this.on('myAction', function(val) { ... });
+      // Template block usage:
+      // this.render(hbs`
+      //   {{#challenge-stay}}
+      //     template content
+      //   {{/challenge-stay}}
+      // `);
+
+      this.render(Ember.HTMLBars.template({
+        'id': 'GcRxH7qZ',
+        'block': '{"statements":[["append",["unknown",["challenge-stay"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+  });
+});
+define('pix-live/tests/integration/components/challenge-stay-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/challenge-stay-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/integration/components/corner-ribbon-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
   (0, _emberMocha.describeComponent)('corner-ribbon', 'Integration | CornerRibbonComponent', {
@@ -2048,7 +2138,7 @@ define('pix-live/tests/integration/components/qcm-proposals-test.lint-test', ['e
 });
 define('pix-live/tests/integration/components/qcu-proposals-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _mocha.describe)('Integration | Component | QcmProposalsComponent', function () {
+  (0, _mocha.describe)('Integration | Component | QcuProposalsComponent', function () {
 
     (0, _emberMocha.setupComponentTest)('qcu-proposals', {
       needs: ['helper:inc']
@@ -2391,7 +2481,7 @@ define('pix-live/tests/test-helper.lint-test', ['exports'], function (exports) {
 });
 define('pix-live/tests/unit/components/qcu-proposals-test', ['exports', 'pix-live/utils/lodash-custom', 'chai', 'mocha', 'ember-mocha'], function (exports, _pixLiveUtilsLodashCustom, _chai, _mocha, _emberMocha) {
 
-  (0, _mocha.describe)('Unit | Component | QcmProposalsComponent', function () {
+  (0, _mocha.describe)('Unit | Component | QcuProposalsComponent', function () {
 
     (0, _emberMocha.setupTest)('component:qcu-proposals', {});
 
@@ -2471,7 +2561,7 @@ define('pix-live/tests/unit/components/qcu-proposals-test', ['exports', 'pix-liv
         })).to.be['true'];
       });
 
-      (0, _mocha.it)('should return an array of [<proposal_text>, <boolean_answer>] with <boolean_answer> values set to "false" when answer value is "null" or "undefined"', function () {
+      (0, _mocha.it)('should return an array of [<proposal_text>, <boolean_answer>] with <boolean_answer> values empty when answer value is not a boolean', function () {
         // given
         answers = [true, undefined, null];
         initComponent.call(this);
@@ -2480,9 +2570,7 @@ define('pix-live/tests/unit/components/qcu-proposals-test', ['exports', 'pix-liv
         var labeledRadios = component.get('labeledRadios');
 
         // then
-        (0, _chai.expect)(labeledRadios[0][BOOLEAN_ANSWER]).to.equal(true);
-        (0, _chai.expect)(labeledRadios[1][BOOLEAN_ANSWER]).to.equal(false);
-        (0, _chai.expect)(labeledRadios[2][BOOLEAN_ANSWER]).to.equal(false);
+        (0, _chai.expect)(labeledRadios).to.have.lengthOf(0);
       });
     });
   });
@@ -3107,14 +3195,165 @@ define('pix-live/tests/unit/services/delay-test.lint-test', ['exports'], functio
     });
   });
 });
+define('pix-live/tests/unit/utils/labeled-checkboxes-test', ['exports', 'chai', 'mocha', 'pix-live/utils/labeled-checkboxes'], function (exports, _chai, _mocha, _pixLiveUtilsLabeledCheckboxes) {
+
+  (0, _mocha.describe)('Unit | Utility | labeled checkboxes', function () {
+
+    (0, _mocha.describe)('Success cases', function () {
+      var cases = [{ when: 'nominal case',
+        proposals: ['prop 1', 'prop 2', 'prop 3', 'prop 4'],
+        answers: [false, true],
+        output: [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]] }, { when: 'one answer only',
+        proposals: ['prop 1', 'prop 2', 'prop 3', 'prop 4'],
+        answers: [true],
+        output: [['prop 1', true], ['prop 2', false], ['prop 3', false], ['prop 4', false]] }, { when: 'empty answers',
+        proposals: ['prop 1', 'prop 2', 'prop 3', 'prop 4'],
+        answers: [],
+        output: [['prop 1', false], ['prop 2', false], ['prop 3', false], ['prop 4', false]] }, { when: 'wrong format for answers',
+        proposals: ['prop 1', 'prop 2', 'prop 3', 'prop 4'],
+        answers: undefined,
+        output: [] }, { when: 'wrong format for answers\'s elements',
+        proposals: ['prop 1', 'prop 2', 'prop 3', 'prop 4'],
+        answers: [true, 'false'],
+        output: [] }, { when: 'no proposals',
+        proposals: [],
+        answers: [false, true],
+        output: [] }, { when: 'wrong format for proposals',
+        proposals: {}, // object !
+        answers: [false, true],
+        output: [] }, { when: 'wrong format for proposals\'s elements',
+        proposals: ['prop1', {}],
+        answers: [false, true],
+        output: [] }];
+
+      cases.forEach(function (testCase) {
+        (0, _mocha.it)('Should reply to proposals' + JSON.stringify(testCase.proposals) + ' and answers ' + JSON.stringify(testCase.answers) + ' with ' + JSON.stringify(testCase.output) + ' when ' + testCase.when, function () {
+          (0, _chai.expect)(JSON.stringify((0, _pixLiveUtilsLabeledCheckboxes['default'])(testCase.proposals, testCase.answers))).to.equal(JSON.stringify(testCase.output));
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/utils/labeled-checkboxes-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/utils/labeled-checkboxes-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/unit/utils/lodash-custom-test', ['exports', 'chai', 'mocha', 'pix-live/utils/lodash-custom'], function (exports, _chai, _mocha, _pixLiveUtilsLodashCustom) {
 
   (0, _mocha.describe)('Unit | Utility | lodash custom', function () {
     // Replace this with your real tests.
-
-    (0, _mocha.it)('works', function () {
-      var result = (0, _pixLiveUtilsLodashCustom['default'])();
-      (0, _chai.expect)(result).to.be.ok;
+    (0, _mocha.describe)('isNonEmptyString', function () {
+      (0, _mocha.it)('when undefined, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNonEmptyString(undefined)).to.equal(false);
+      });
+      (0, _mocha.it)('when null, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNonEmptyString(null)).to.equal(false);
+      });
+      (0, _mocha.it)('when no arg, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNonEmptyString()).to.equal(false);
+      });
+      (0, _mocha.it)('when not a string, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNonEmptyString(new Date())).to.equal(false);
+      });
+      (0, _mocha.it)('when it is an empty string, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNonEmptyString('')).to.equal(false);
+      });
+      (0, _mocha.it)('when it is a filled string, returns true', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNonEmptyString('abcd')).to.equal(true);
+      });
+    });
+    (0, _mocha.describe)('isTruthy', function () {
+      (0, _mocha.it)('when undefined, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isTruthy(undefined)).to.equal(false);
+      });
+      (0, _mocha.it)('when null, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isTruthy(null)).to.equal(false);
+      });
+      (0, _mocha.it)('when no arg, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isTruthy()).to.equal(false);
+      });
+      (0, _mocha.it)('when true, returns true', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isTruthy(true)).to.equal(true);
+      });
+      (0, _mocha.it)('when false, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isTruthy(false)).to.equal(false);
+      });
+      (0, _mocha.it)('when 1, returns true', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isTruthy(1)).to.equal(true);
+      });
+      (0, _mocha.it)('when 0, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isTruthy(0)).to.equal(false);
+      });
+      (0, _mocha.it)('when [1,2,3], returns true', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isTruthy([1, 2, 3])).to.equal(true);
+      });
+      (0, _mocha.it)('when [], returns true', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isTruthy([])).to.equal(false);
+      });
+      (0, _mocha.it)('when {a:42}, returns true', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isTruthy({ a: 42 })).to.equal(true);
+      });
+      (0, _mocha.it)('when {}, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isTruthy({})).to.equal(false);
+      });
+      (0, _mocha.it)('when \'foo\', returns true', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isTruthy('foo')).to.equal(true);
+      });
+      (0, _mocha.it)('when \'\', returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isTruthy('')).to.equal(false);
+      });
+    });
+    (0, _mocha.describe)('hasSomeTruthyProps', function () {
+      (0, _mocha.it)('when undefined, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps(undefined)).to.equal(false);
+      });
+      (0, _mocha.it)('when null, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps(null)).to.equal(false);
+      });
+      (0, _mocha.it)('when no arg, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps()).to.equal(false);
+      });
+      (0, _mocha.it)('when not an object, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps('azerty')).to.equal(false);
+      });
+      (0, _mocha.it)('when {}, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps({})).to.equal(false);
+      });
+      (0, _mocha.it)('when {a:\'\'}, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps({ a: '' })).to.equal(false);
+      });
+      (0, _mocha.it)('when {a:false}, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps({ a: false })).to.equal(false);
+      });
+      (0, _mocha.it)('when {a:undefined}, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps({ a: undefined })).to.equal(false);
+      });
+      (0, _mocha.it)('when {a:null}, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps({ a: null })).to.equal(false);
+      });
+      (0, _mocha.it)('when {a:0}, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps({ a: 0 })).to.equal(false);
+      });
+      (0, _mocha.it)('when {a:false}, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps({ a: false })).to.equal(false);
+      });
+      (0, _mocha.it)('when {a:42}, returns true', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps({ a: 42 })).to.equal(true);
+      });
+      (0, _mocha.it)('when mixing true and false properties, returns true', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps({ a: 42, b: false })).to.equal(true);
+      });
+      (0, _mocha.it)('when many false properties, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps({ a: '', b: false })).to.equal(false);
+      });
+      (0, _mocha.it)('when only true properties, returns true', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps({ a: 42, b: true })).to.equal(true);
+      });
     });
   });
 });
@@ -3122,6 +3361,40 @@ define('pix-live/tests/unit/utils/lodash-custom-test.lint-test', ['exports'], fu
   'use strict';
 
   describe('ESLint - unit/utils/lodash-custom-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/utils/string-to-array-of-boolean-test', ['exports', 'chai', 'mocha', 'pix-live/utils/string-to-array-of-boolean'], function (exports, _chai, _mocha, _pixLiveUtilsStringToArrayOfBoolean) {
+
+  (0, _mocha.describe)('Unit | Utility | string to array of boolean', function () {
+
+    (0, _mocha.describe)('Fail cases', function () {
+      var cases = [{ when: 'no input ', input: undefined, output: [] }, { when: 'wrong arg format', input: new Date(), output: [] }, { when: 'empty string', input: '', output: [] }, { when: 'csv with 0', input: '0,1,2', output: [] }, { when: 'csv with negative', input: '0,1,-2', output: [] }, { when: 'csv with float', input: '1,2,3.14,4', output: [] }, { when: 'csv with text', input: '1,azerty,3,4', output: [] }, { when: 'csv with spaces between number', input: '1,2 3,4,5', output: [] }];
+
+      cases.forEach(function (testCase) {
+        (0, _mocha.it)('Should reply to ' + JSON.stringify(testCase.input) + ' with ' + JSON.stringify(testCase.output) + ' when ' + testCase.when, function () {
+          (0, _chai.expect)(JSON.stringify((0, _pixLiveUtilsStringToArrayOfBoolean['default'])(testCase.input))).to.equal(JSON.stringify(testCase.output));
+        });
+      });
+    });
+
+    (0, _mocha.describe)('Success cases', function () {
+      var cases = [{ when: 'simple number', input: '4', output: [false, false, false, true] }, { when: 'ordered, positive-integer csv', input: '1,2,4', output: [true, true, false, true] }, { when: 'unordered, positive-integer csv', input: '4,1,2', output: [true, true, false, true] }, { when: 'unordered, positive-integer with spaces around commas', input: '4 , 1,2 ', output: [true, true, false, true] }, { when: 'unordered, positive-integer with spaces around commas, and uneeded commas', input: ',4 , 1,,,2 ,', output: [true, true, false, true] }];
+
+      cases.forEach(function (testCase) {
+        (0, _mocha.it)('Should reply to ' + JSON.stringify(testCase.input) + ' with ' + JSON.stringify(testCase.output) + ' when ' + testCase.when, function () {
+          (0, _chai.expect)(JSON.stringify((0, _pixLiveUtilsStringToArrayOfBoolean['default'])(testCase.input))).to.equal(JSON.stringify(testCase.output));
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/utils/string-to-array-of-boolean-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/utils/string-to-array-of-boolean-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -3145,10 +3418,28 @@ define('pix-live/tests/utils/get-challenge-type.lint-test', ['exports'], functio
     });
   });
 });
+define('pix-live/tests/utils/labeled-checkboxes.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - utils/labeled-checkboxes.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/utils/lodash-custom.lint-test', ['exports'], function (exports) {
   'use strict';
 
   describe('ESLint - utils/lodash-custom.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/utils/string-to-array-of-boolean.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - utils/string-to-array-of-boolean.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
