@@ -7,13 +7,16 @@ import _ from 'pix-live/utils/lodash-custom';
 
 
 function calculate(proposals, answers) {
-  return  _.chain(proposals)
-            .size()
-            .times(_.constant(false))
-            .zipWith(answers, _.or)
-            .map(_.isTrue)
-            .zip(proposals)
-            .map((e) => e.reverse())
+  // Example
+  // proposals = ['prop 1','prop 2','prop 3','prop 4']
+  // answers = [false, true]
+  return  _.chain(proposals)         // ['prop 1','prop 2','prop 3','prop 4']
+            .size()                  // 4
+            .times(_.constant(false))// [false, false, false, false]
+            .zipWith(answers, _.or)  // [false, true, undefined, undefined]
+            .map(_.isTrue)           // [false, true, false, false]
+            .zip(proposals)          // [[false, 'prop 1'], [true, 'prop 2'], [false, 'prop 3'], [false, 'prop 4']]
+            .map((e) => e.reverse()) // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
             .value();
 
 }
