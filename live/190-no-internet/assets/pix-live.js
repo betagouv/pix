@@ -1987,13 +1987,13 @@ define('pix-live/models/challenge/proposals-as-array-mixin', ['exports', 'ember'
     _proposalsAsArray: _ember['default'].computed('proposals', function () {
 
       var proposals = this.get('proposals');
-      return _pixLiveUtilsLodashCustom['default'].cond([[function () {
-        return (0, _pixLiveUtilsLodashCustom['default'])(proposals).isNotString();
-      }, _pixLiveUtilsLodashCustom['default'].stubArray], [function () {
-        return (0, _pixLiveUtilsLodashCustom['default'])(proposals).isEmpty();
-      }, _pixLiveUtilsLodashCustom['default'].stubArray], [_pixLiveUtilsLodashCustom['default'].ok, function () {
-        return calculate(proposals);
-      }]])();
+      var DEFAULT_RETURN_VALUE = [];
+
+      // check pre-conditions
+      if ((0, _pixLiveUtilsLodashCustom['default'])(proposals).isNotString()) return DEFAULT_RETURN_VALUE;
+      if ((0, _pixLiveUtilsLodashCustom['default'])(proposals).isEmpty()) return DEFAULT_RETURN_VALUE;
+
+      return calculate(proposals);
     })
   });
 });
@@ -2889,29 +2889,25 @@ define('pix-live/utils/labeled-checkboxes', ['exports', 'pix-live/utils/lodash-c
     // Example
     // proposals = ['prop 1','prop 2','prop 3','prop 4']
     // answers = [false, true]
-    return _pixLiveUtilsLodashCustom['default'].chain(proposals) // ['prop 1','prop 2','prop 3','prop 4']
-    .size() // 4
-    .times(_pixLiveUtilsLodashCustom['default'].constant(false)) // [false, false, false, false]
-    .zipWith(answers, _pixLiveUtilsLodashCustom['default'].or) // [false, true, undefined, undefined]
-    .map(_pixLiveUtilsLodashCustom['default'].isTrue) // [false, true, false, false]
+    var sizeDifference = proposals.length - answers.length;
+
+    return _pixLiveUtilsLodashCustom['default'].chain(answers) // [false, true]
+    .concat(_pixLiveUtilsLodashCustom['default'].times(sizeDifference, _pixLiveUtilsLodashCustom['default'].constant(false))) // [false, true, false, false]
     .zip(proposals) // [[false, 'prop 1'], [true, 'prop 2'], [false, 'prop 3'], [false, 'prop 4']]
-    .map(function (e) {
-      return e.reverse();
-    }) // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
+    .map(_pixLiveUtilsLodashCustom['default'].reverse) // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
     .value();
   }
 
   function labeledCheckboxes(proposals, answers) {
 
-    return _pixLiveUtilsLodashCustom['default'].cond([[function () {
-      return (0, _pixLiveUtilsLodashCustom['default'])(proposals).isEmpty();
-    }, _pixLiveUtilsLodashCustom['default'].stubArray], [function () {
-      return (0, _pixLiveUtilsLodashCustom['default'])(proposals).isNotArrayOfString();
-    }, _pixLiveUtilsLodashCustom['default'].stubArray], [function () {
-      return (0, _pixLiveUtilsLodashCustom['default'])(answers).isNotArrayOfBoolean();
-    }, _pixLiveUtilsLodashCustom['default'].stubArray], [_pixLiveUtilsLodashCustom['default'].ok, function () {
-      return calculate(proposals, answers);
-    }]])();
+    var DEFAULT_RETURN_VALUE = [];
+
+    // check pre-conditions
+    if ((0, _pixLiveUtilsLodashCustom['default'])(proposals).isEmpty()) return DEFAULT_RETURN_VALUE;
+    if ((0, _pixLiveUtilsLodashCustom['default'])(proposals).isNotArrayOfString()) return DEFAULT_RETURN_VALUE;
+    if ((0, _pixLiveUtilsLodashCustom['default'])(answers).isNotArrayOfBoolean()) return DEFAULT_RETURN_VALUE;
+
+    return calculate(proposals, answers);
   }
 });
 define('pix-live/utils/lodash-custom', ['exports'], function (exports) {
@@ -2941,13 +2937,9 @@ define('pix-live/utils/lodash-custom', ['exports'], function (exports) {
     // Just an alias, ignore test
     /* istanbul ignore next */
     checkPoint: _.thru,
-    or: function or(x, y) {
-      return x || y;
-    },
     isTrue: function isTrue(x) {
       return x === true;
     },
-    ok: _.stubTrue,
     removeFirstElement: function removeFirstElement(x) {
       return _.drop(x, 1);
     },
@@ -2959,6 +2951,9 @@ define('pix-live/utils/lodash-custom', ['exports'], function (exports) {
     },
     isNotArrayOfString: function isNotArrayOfString(x) {
       return !_.isArrayOfString(x);
+    },
+    isNotArray: function isNotArray(x) {
+      return !_.isArray(x);
     },
     isArrayOfBoolean: function isArrayOfBoolean(x) {
       return _.isArray(x) && _.every(x, _.isBoolean);
@@ -3069,7 +3064,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+ca0fa3ec"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+7d91c40c"});
 }
 
 /* jshint ignore:end */
