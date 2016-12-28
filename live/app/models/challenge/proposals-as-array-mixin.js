@@ -12,13 +12,15 @@ function calculate(proposals) {
 export default Ember.Mixin.create({
   _proposalsAsArray: Ember.computed('proposals', function () {
 
-    const proposals = this.get('proposals');
-    return _.cond([
-      [() => _(proposals).isNotString(), _.stubArray ],
-      [() => _(proposals).isEmpty(),  _.stubArray ],
-      [_.ok,                          () => calculate(proposals)  ]
-    ])();
 
+    const proposals = this.get('proposals');
+    const DEFAULT_RETURN_VALUE = [];
+
+    // check pre-conditions
+    if (_(proposals).isNotString()) return DEFAULT_RETURN_VALUE;
+    if (_(proposals).isEmpty()) return DEFAULT_RETURN_VALUE;
+
+    return calculate(proposals);
   })
 });
 

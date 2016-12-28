@@ -23,13 +23,9 @@ _.mixin({
   // Just an alias, ignore test
   /* istanbul ignore next */
   checkPoint: _.thru,
-  or: function (x, y) {
-    return x || y;
-  },
   isTrue: function (x) {
     return x === true;
   },
-  ok: _.stubTrue,
   removeFirstElement: function (x) {
     return _.drop(x, 1);
   },
@@ -41,6 +37,9 @@ _.mixin({
   },
   isNotArrayOfString: function (x) {
     return !_.isArrayOfString(x);
+  },
+  isNotArray: function (x) {
+    return !_.isArray(x);
   },
   isArrayOfBoolean: function (x) {
     return _.isArray(x) && _.every(x, _.isBoolean);
