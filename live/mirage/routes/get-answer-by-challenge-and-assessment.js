@@ -1,4 +1,6 @@
-import _               from 'lodash/lodash';
+// import _               from 'lodash/lodash';
+/* global _ */
+
 
 import rawQcmAnswer    from '../data/answers/raw-qcm-answer';
 import refQcmAnswer    from '../data/answers/ref-qcm-answer';
