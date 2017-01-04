@@ -2917,16 +2917,19 @@ define('pix-live/utils/labeled-checkboxes', ['exports', 'pix-live/utils/lodash-c
 
   function labeledCheckboxes(proposals, userAnswers) {
 
+    // accept that user didn't give any answer yet
+    var definedUserAnswers = _pixLiveUtilsLodashCustom['default'].isNil(userAnswers) ? [] : userAnswers;
+
     // check pre-conditions
     if ((0, _pixLiveUtilsLodashCustom['default'])(proposals).isNotArrayOfString()) return [];
     if ((0, _pixLiveUtilsLodashCustom['default'])(proposals).isEmpty()) return [];
-    if ((0, _pixLiveUtilsLodashCustom['default'])(userAnswers).isNotArrayOfBoolean()) return [];
-    if ((0, _pixLiveUtilsLodashCustom['default'])(userAnswers).size() > (0, _pixLiveUtilsLodashCustom['default'])(proposals).size()) return [];
+    if ((0, _pixLiveUtilsLodashCustom['default'])(definedUserAnswers).isNotArrayOfBoolean()) return [];
+    if ((0, _pixLiveUtilsLodashCustom['default'])(definedUserAnswers).size() > (0, _pixLiveUtilsLodashCustom['default'])(proposals).size()) return [];
 
-    var sizeDifference = (0, _pixLiveUtilsLodashCustom['default'])(proposals).size() - (0, _pixLiveUtilsLodashCustom['default'])(userAnswers).size(); // 2
+    var sizeDifference = (0, _pixLiveUtilsLodashCustom['default'])(proposals).size() - (0, _pixLiveUtilsLodashCustom['default'])(definedUserAnswers).size(); // 2
     var arrayOfFalse = _pixLiveUtilsLodashCustom['default'].times(sizeDifference, _pixLiveUtilsLodashCustom['default'].constant(false)); // [false, false]
 
-    return _pixLiveUtilsLodashCustom['default'].chain(userAnswers) // [false, true]
+    return _pixLiveUtilsLodashCustom['default'].chain(definedUserAnswers) // [false, true]
     .concat(arrayOfFalse) // [false, true, false, false]
     .zip(proposals) // [[false, 'prop 1'], [true, 'prop 2'], [false, 'prop 3'], [false, 'prop 4']]
     .map(_pixLiveUtilsLodashCustom['default'].reverse) // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
@@ -3057,7 +3060,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+85fc3fa5"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+4bcda095"});
 }
 
 /* jshint ignore:end */
