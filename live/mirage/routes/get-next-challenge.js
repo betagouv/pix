@@ -14,7 +14,7 @@ export default function (schema, request) {
     if (request.params.assessmentId === 'raw_assessment_id') {
       return rawQcmChallenge;
     }else if (request.params.assessmentId === 'ref_assessment_id') {
-      return multipleFilesChallenge;
+      return refQcmChallengeFull;
     } else {
       throw new Error('This assessment is not defined ' + request.params.assessmentId);
     }
@@ -23,13 +23,12 @@ export default function (schema, request) {
   // case 2 : test already started, challenge exists.
   const nextChallenge = {
     'raw_qcm_challenge_id': 'null',  // JSON should contain 'null', not null
-    'multiple_files_challenge_id' : refQcmChallengeFull,
     'ref_qcm_challenge_id': refQcuChallengeFull,
     'ref_qcu_challenge_id': refQruChallengeFull,
     'ref_qru_challenge_id': refQrocChallengeFull,
     'ref_qroc_challenge_id': refQrocmChallengeFull,
-    'ref_qrocm_challenge_id': 'null',
-
+    'ref_qrocm_challenge_id': multipleFilesChallenge,
+    'multiple_files_challenge_id' : 'null'
   };
 
   const challenge = nextChallenge[request.params.challengeId];

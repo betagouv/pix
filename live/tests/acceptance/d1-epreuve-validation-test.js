@@ -53,8 +53,8 @@ describe('Acceptance | d1 - Valider une épreuve |', function () {
     });
 
     it('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', function () {
-      visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id').then(() => {
-        fillIn('input[name="logiciel1"]', 'COUCOU').then(() => {
+      visit('/assessments/ref_assessment_id/challenges/multiple_files_challenge_id').then(() => {
+        click('input[type="radio"]').then(() => {
           const $validateButton = getValidateActionLink();
           return click($validateButton).then(() => {
             expect(currentURL()).to.contains('/assessments/ref_assessment_id/results');

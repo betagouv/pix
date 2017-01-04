@@ -31,10 +31,9 @@ describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d
       expect($attachmentLink.length).to.equal(1);
     });
 
-    it('b6.2 Le lien de la pièce jointe contient le nom du fichier et son extension', function () {
+    it('b6.2 Le lien de la pièce jointe pointe vers le bon lien', function () {
       const $attachmentLink = $('.challenge-attachment > a');
       expect($attachmentLink.text()).to.contains('Télécharger le fichier');
-      expect($attachmentLink.text()).to.contains('filename.pdf');
       expect($attachmentLink.attr('href')).to.equal('http://example_of_url');
     });
 
