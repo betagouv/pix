@@ -1,0 +1,12 @@
+.timeout-jauge {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+.timeout-jauge-container {
+  width: 100px;
+  height: 36px;
+  border-radius: 5px;
+  background-color: #f2f3f4;
+}
