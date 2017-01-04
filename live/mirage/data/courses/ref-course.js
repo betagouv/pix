@@ -3,6 +3,7 @@ import refQcuChallengeFull from '../challenges/ref-qcu-challenge';
 import refQruChallengeFull from '../challenges/ref-qru-challenge';
 import refQrocChallengeFull from '../challenges/ref-qroc-challenge';
 import refQrocmChallengeFull from '../challenges/ref-qrocm-challenge';
+import multipleFilesChallenge from '../challenges/multiple-files-challenge';
 
 export default {
   data: {
@@ -32,7 +33,11 @@ export default {
         }, {
           type: 'challenges',
           id: refQrocmChallengeFull.data.id
-        }]
+        },{
+          type: 'challenges',
+          id: multipleFilesChallenge.data.id
+        }
+        ]
       }
     }
   }

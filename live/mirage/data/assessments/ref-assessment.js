@@ -4,6 +4,7 @@ import refQruAnswer from '../answers/ref-qru-answer';
 import refQcmAnswer from '../answers/ref-qcm-answer';
 import refQrocAnswer from '../answers/ref-qroc-answer';
 import refQrocmAnswer from '../answers/ref-qrocm-answer';
+import multipleFilesChallenge from '../challenges/multiple-files-challenge';
 
 export default {
   data: {
@@ -37,7 +38,11 @@ export default {
         }, {
           type: 'answers',
           id: refQrocmAnswer.data.id
-        }]
+        },
+          {
+            type: 'answers',
+            id: multipleFilesChallenge.data.id
+          }]
       }
     }
   }

@@ -4,6 +4,7 @@ import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
 import refQruChallengeFull from '../data/challenges/ref-qru-challenge';
 import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
 import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
+import multipleFilesChallenge from '../data/challenges/multiple-files-challenge';
 
 export default function () {
 
@@ -14,7 +15,8 @@ export default function () {
       refQcuChallengeFull.data,
       refQruChallengeFull.data,
       refQrocChallengeFull.data,
-      refQrocmChallengeFull.data
+      refQrocmChallengeFull.data,
+      multipleFilesChallenge.data
     ]
   };
 

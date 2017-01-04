@@ -1,14 +1,12 @@
 import _ from 'lodash/lodash';
 import refCourse from '../data/courses/ref-course';
 import rawCourse from '../data/courses/raw-course';
-import downloadFilesCourse from '../data/courses/download-files-course';
 
 export default function (schema, request) {
 
   const allCourses = [
     refCourse,
-    rawCourse,
-    downloadFilesCourse
+    rawCourse
   ];
 
   const courses = _.map(allCourses, function (oneCourse) {
