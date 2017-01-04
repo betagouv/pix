@@ -19,16 +19,19 @@ import _ from 'pix-live/utils/lodash-custom';
  */
 export default function labeledCheckboxes (proposals, userAnswers) {
 
-  // check pre-conditions
-  if (_(proposals).isNotArrayOfString())            return [];
-  if (_(proposals).isEmpty())                       return [];
-  if (_(userAnswers).isNotArrayOfBoolean())         return [];
-  if (_(userAnswers).size() > _(proposals).size())  return [];
+  // accept that user didn't give any answer yet
+  const definedUserAnswers = _.isNil(userAnswers) ? [] : userAnswers;
 
-  const sizeDifference    = _(proposals).size() - _(userAnswers).size(); // 2
+  // check pre-conditions
+  if (_(proposals).isNotArrayOfString())                   return [];
+  if (_(proposals).isEmpty())                              return [];
+  if (_(definedUserAnswers).isNotArrayOfBoolean())         return [];
+  if (_(definedUserAnswers).size() > _(proposals).size())  return [];
+
+  const sizeDifference    = _(proposals).size() - _(definedUserAnswers).size(); // 2
   const arrayOfFalse = _.times(sizeDifference, _.constant(false));       // [false, false]
 
-  return  _.chain(userAnswers)      // [false, true]
+  return  _.chain(definedUserAnswers)      // [false, true]
             .concat(arrayOfFalse)   // [false, true, false, false]
             .zip(proposals)         // [[false, 'prop 1'], [true, 'prop 2'], [false, 'prop 3'], [false, 'prop 4']]
             .map(_.reverse)         // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
