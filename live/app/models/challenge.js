@@ -11,6 +11,7 @@ const ChallengeModel = Model.extend(InstructionAsObject, ProposalsAsArrayMixin, 
   proposals: attr('string'),
   hasInternetAndTools: attr('boolean'),
   illustrationUrl: attr('string'),
+  timer: attr('number'),
   type: attr('string'),
   attachmentUrl: attr('string'),
   attachmentFilename: attr('string')

@@ -14,7 +14,8 @@ class Challenge extends AirtableModel {
       this.proposals = fields['Propositions'];
       this.type = fields['Type d\'épreuve'];
       this.hasInternetAndTools = _.ensureString(fields['Internet et outils']).toUpperCase() === 'OUI';
-
+      this.timer = _.defaultTo(_.parseInt(fields['Timer']), undefined);
+//
       if (fields['Illustration de la consigne']) {
         this.illustrationUrl = fields['Illustration de la consigne'][0].url;
       }
