@@ -6,6 +6,7 @@ import refQcuAnswer    from '../data/answers/ref-qcu-answer';
 import refQruAnswer    from '../data/answers/ref-qru-answer';
 import refQrocAnswer   from '../data/answers/ref-qroc-answer';
 import refQrocmAnswer  from '../data/answers/ref-qrocm-answer';
+import multipleFilesAnswer from '../data/answers/multiple-files-answer';
 
 export default function (schema, request) {
 
@@ -15,7 +16,8 @@ export default function (schema, request) {
     refQruAnswer,
     refQcmAnswer,
     refQrocAnswer,
-    refQrocmAnswer
+    refQrocmAnswer,
+    multipleFilesAnswer
   ];
 
   const answers = _.map(allAnswers, function(oneAnswer) {
