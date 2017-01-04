@@ -1971,7 +1971,7 @@ define('pix-live/models/challenge', ['exports', 'ember-data', 'pix-live/models/c
 
     instruction: attr('string'),
     proposals: attr('string'),
-    hasInternetAndTools: attr('string'),
+    hasInternetAndTools: attr('boolean'),
     illustrationUrl: attr('string'),
     type: attr('string'),
     attachmentUrl: attr('string'),
@@ -3060,7 +3060,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+a4d5c686"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+85541341"});
 }
 
 /* jshint ignore:end */
