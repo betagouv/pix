@@ -1225,6 +1225,15 @@ define('pix-live/tests/components/qrocm-proposal.lint-test', ['exports'], functi
     });
   });
 });
+define('pix-live/tests/components/timeout-jauge.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/timeout-jauge.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/components/user-menu.lint-test', ['exports'], function (exports) {
   'use strict';
 
