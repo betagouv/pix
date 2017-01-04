@@ -3366,40 +3366,6 @@ define('pix-live/tests/unit/utils/lodash-custom-test.lint-test', ['exports'], fu
     });
   });
 });
-define('pix-live/tests/unit/utils/string-to-array-of-boolean-test', ['exports', 'chai', 'mocha', 'pix-live/utils/string-to-array-of-boolean'], function (exports, _chai, _mocha, _pixLiveUtilsStringToArrayOfBoolean) {
-
-  (0, _mocha.describe)('Unit | Utility | string to array of boolean', function () {
-
-    (0, _mocha.describe)('Fail cases', function () {
-      var cases = [{ when: 'no input ', input: undefined, output: [] }, { when: 'wrong arg format', input: new Date(), output: [] }, { when: 'empty string', input: '', output: [] }, { when: 'csv with 0', input: '0,1,2', output: [] }, { when: 'csv with negative', input: '0,1,-2', output: [] }, { when: 'csv with float', input: '1,2,3.14,4', output: [] }, { when: 'csv with text', input: '1,azerty,3,4', output: [] }, { when: 'csv with spaces between number', input: '1,2 3,4,5', output: [] }];
-
-      cases.forEach(function (testCase) {
-        (0, _mocha.it)('Should reply to ' + JSON.stringify(testCase.input) + ' with ' + JSON.stringify(testCase.output) + ' when ' + testCase.when, function () {
-          (0, _chai.expect)(JSON.stringify((0, _pixLiveUtilsStringToArrayOfBoolean['default'])(testCase.input))).to.equal(JSON.stringify(testCase.output));
-        });
-      });
-    });
-
-    (0, _mocha.describe)('Success cases', function () {
-      var cases = [{ when: 'simple number', input: '4', output: [false, false, false, true] }, { when: 'ordered, positive-integer csv', input: '1,2,4', output: [true, true, false, true] }, { when: 'unordered, positive-integer csv', input: '4,1,2', output: [true, true, false, true] }, { when: 'unordered, positive-integer with spaces around commas', input: '4 , 1,2 ', output: [true, true, false, true] }, { when: 'unordered, positive-integer with spaces around commas, and uneeded commas', input: ',4 , 1,,,2 ,', output: [true, true, false, true] }];
-
-      cases.forEach(function (testCase) {
-        (0, _mocha.it)('Should reply to ' + JSON.stringify(testCase.input) + ' with ' + JSON.stringify(testCase.output) + ' when ' + testCase.when, function () {
-          (0, _chai.expect)(JSON.stringify((0, _pixLiveUtilsStringToArrayOfBoolean['default'])(testCase.input))).to.equal(JSON.stringify(testCase.output));
-        });
-      });
-    });
-  });
-});
-define('pix-live/tests/unit/utils/string-to-array-of-boolean-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - unit/utils/string-to-array-of-boolean-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/utils/call-only-once.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -3431,15 +3397,6 @@ define('pix-live/tests/utils/lodash-custom.lint-test', ['exports'], function (ex
   'use strict';
 
   describe('ESLint - utils/lodash-custom.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/utils/string-to-array-of-boolean.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - utils/string-to-array-of-boolean.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });

@@ -1901,20 +1901,38 @@ define('pix-live/models/answer', ['exports', 'ember', 'ember-data', 'pix-live/mo
 
   });
 });
-define('pix-live/models/answer/value-as-array-of-boolean-mixin', ['exports', 'ember', 'pix-live/utils/string-to-array-of-boolean'], function (exports, _ember, _pixLiveUtilsStringToArrayOfBoolean) {
+define('pix-live/models/answer/value-as-array-of-boolean-mixin', ['exports', 'ember', 'pix-live/utils/lodash-custom'], function (exports, _ember, _pixLiveUtilsLodashCustom) {
   exports['default'] = _ember['default'].Mixin.create({
 
     /*
     * Convert "1,2,4" into [true, true, false, true]
     */
     _valueAsArrayOfBoolean: _ember['default'].computed('value', function () {
-      return (0, _pixLiveUtilsStringToArrayOfBoolean['default'])(this.get('value'));
+      return _pixLiveUtilsLodashCustom['default'].chain(this.get('value')) // in the worst case : ',4, 2 , 2,1,  ,'
+      .checkPoint(function (e) {
+        return _pixLiveUtilsLodashCustom['default'].isString(e) ? e : '';
+      }) // check if string
+      .split(',') // now ['', '4', ' 2 ', ' 2', '1', '  ', '']
+      .map(_pixLiveUtilsLodashCustom['default'].trim) // now ['', '4', '2', '2', '1', '', '']
+      .reject(_pixLiveUtilsLodashCustom['default'].isEmpty) // now ['4', '2', '2', '1']
+      .checkPoint(function (e) {
+        return _pixLiveUtilsLodashCustom['default'].every(e, _pixLiveUtilsLodashCustom['default'].isStrictlyPositiveInteger) ? e : [];
+      }) // check if int >= 1
+      .map(_pixLiveUtilsLodashCustom['default'].parseInt) // now [4, 2, 2, 1]
+      .sortBy() // now [1, 2, 2, 4]
+      .uniqBy() // now [1, 2, 4]
+      .map(function (e) {
+        return e - 1;
+      }) // now [0, 1, 3]
+      .thru(function (e) {
+        return _pixLiveUtilsLodashCustom['default'].times(_pixLiveUtilsLodashCustom['default'].max(e) + 1, function (o) {
+          return (0, _pixLiveUtilsLodashCustom['default'])(e).includes(o);
+        });
+      }).value();
     })
 
   });
 });
-
-// import _ from 'pix-live/utils/lodash-custom';
 define('pix-live/models/answer/value-as-array-of-string-mixin', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Mixin.create({
 
@@ -2880,34 +2898,39 @@ define('pix-live/utils/get-challenge-type', ['exports', 'pix-live/utils/lodash-c
 define('pix-live/utils/labeled-checkboxes', ['exports', 'pix-live/utils/lodash-custom'], function (exports, _pixLiveUtilsLodashCustom) {
   exports['default'] = labeledCheckboxes;
 
-  // Example with 4 proposals
-  // Proposals could be ['prop 1','prop 2','prop 3','prop 4']
-  // Answers given are only the first(s) : [false, true], the missing values are false
-  // Output expected : [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
+  /*
+   * Example :
+   * => Input :
+   *     proposals :  ['is sky red ?' , 'is sun red ?' , 'is grass red ?' , 'is cloud red ?']
+   * => Input :
+   *     userAnswers :  [false, true]
+   *
+   * WARNING : only first(s) userAnswers are given,
+   *           all others have implicitly the boolean value "false"
+   *
+   * => Output :
+   *    [['is sky red ?', false],
+   *     ['is sun red ?', true],
+   *     ['is grass red ?', false],
+   *     ['are clouds red ?' false]]
+   */
 
-  function calculate(proposals, answers) {
-    // Example
-    // proposals = ['prop 1','prop 2','prop 3','prop 4']
-    // answers = [false, true]
-    var sizeDifference = proposals.length - answers.length;
+  function labeledCheckboxes(proposals, userAnswers) {
 
-    return _pixLiveUtilsLodashCustom['default'].chain(answers) // [false, true]
-    .concat(_pixLiveUtilsLodashCustom['default'].times(sizeDifference, _pixLiveUtilsLodashCustom['default'].constant(false))) // [false, true, false, false]
+    // check pre-conditions
+    if ((0, _pixLiveUtilsLodashCustom['default'])(proposals).isNotArrayOfString()) return [];
+    if ((0, _pixLiveUtilsLodashCustom['default'])(proposals).isEmpty()) return [];
+    if ((0, _pixLiveUtilsLodashCustom['default'])(userAnswers).isNotArrayOfBoolean()) return [];
+    if ((0, _pixLiveUtilsLodashCustom['default'])(userAnswers).size() > (0, _pixLiveUtilsLodashCustom['default'])(proposals).size()) return [];
+
+    var sizeDifference = (0, _pixLiveUtilsLodashCustom['default'])(proposals).size() - (0, _pixLiveUtilsLodashCustom['default'])(userAnswers).size(); // 2
+    var arrayOfFalse = _pixLiveUtilsLodashCustom['default'].times(sizeDifference, _pixLiveUtilsLodashCustom['default'].constant(false)); // [false, false]
+
+    return _pixLiveUtilsLodashCustom['default'].chain(userAnswers) // [false, true]
+    .concat(arrayOfFalse) // [false, true, false, false]
     .zip(proposals) // [[false, 'prop 1'], [true, 'prop 2'], [false, 'prop 3'], [false, 'prop 4']]
     .map(_pixLiveUtilsLodashCustom['default'].reverse) // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
     .value();
-  }
-
-  function labeledCheckboxes(proposals, answers) {
-
-    var DEFAULT_RETURN_VALUE = [];
-
-    // check pre-conditions
-    if ((0, _pixLiveUtilsLodashCustom['default'])(proposals).isEmpty()) return DEFAULT_RETURN_VALUE;
-    if ((0, _pixLiveUtilsLodashCustom['default'])(proposals).isNotArrayOfString()) return DEFAULT_RETURN_VALUE;
-    if ((0, _pixLiveUtilsLodashCustom['default'])(answers).isNotArrayOfBoolean()) return DEFAULT_RETURN_VALUE;
-
-    return calculate(proposals, answers);
   }
 });
 define('pix-live/utils/lodash-custom', ['exports'], function (exports) {
@@ -2998,36 +3021,6 @@ define('pix-live/utils/object-transforms', ['exports', 'ember-metrics/utils/obje
     }
   });
 });
-define('pix-live/utils/string-to-array-of-boolean', ['exports', 'pix-live/utils/lodash-custom'], function (exports, _pixLiveUtilsLodashCustom) {
-  exports['default'] = stringToArrayOfBoolean;
-
-  // Input : "1,2,4" comes from API, therefore is untrusted
-  // Output : [true, true, false, true] : Will be used by Ember checkboxes
-
-  function stringToArrayOfBoolean(csvString) {
-    return _pixLiveUtilsLodashCustom['default'].chain(csvString) // in the worst case : ',4, 2 , 2,1,  ,'
-    .checkPoint(function (e) {
-      return _pixLiveUtilsLodashCustom['default'].isString(e) ? e : '';
-    }) // check if string
-    .split(',') // now ['', '4', ' 2 ', ' 2', '1', '  ', '']
-    .map(_pixLiveUtilsLodashCustom['default'].trim) // now ['', '4', '2', '2', '1', '', '']
-    .reject(_pixLiveUtilsLodashCustom['default'].isEmpty) // now ['4', '2', '2', '1']
-    .checkPoint(function (e) {
-      return _pixLiveUtilsLodashCustom['default'].every(e, _pixLiveUtilsLodashCustom['default'].isStrictlyPositiveInteger) ? e : [];
-    }) // check if int >= 1
-    .map(_pixLiveUtilsLodashCustom['default'].parseInt) // now [4, 2, 2, 1]
-    .sortBy() // now [1, 2, 2, 4]
-    .uniqBy() // now [1, 2, 4]
-    .map(function (e) {
-      return e - 1;
-    }) // now [0, 1, 3]
-    .thru(function (e) {
-      return _pixLiveUtilsLodashCustom['default'].times(_pixLiveUtilsLodashCustom['default'].max(e) + 1, function (o) {
-        return (0, _pixLiveUtilsLodashCustom['default'])(e).includes(o);
-      });
-    }).value();
-  }
-});
 /* jshint ignore:start */
 
 
@@ -3064,7 +3057,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+7d91c40c"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"2.1.1+5f8f51b1"});
 }
 
 /* jshint ignore:end */
