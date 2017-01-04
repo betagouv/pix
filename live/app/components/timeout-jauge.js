@@ -1,7 +1,69 @@
 import Ember from 'ember';
 
+const get = Ember.get;
+const set = Ember.set;
+const computed = Ember.computed;
+const run = Ember.run;
+
 export default Ember.Component.extend({
-  // remainingMinutes: Ember.computed('remainingTime', function() {
-  //   return this.get('baz.foo') + ' ' + this.get('baz.bar');
-  // });
+  init() {
+    this._super(...arguments);
+
+    set(this, 'totalTime', 10000);
+    set(this, 'tickInterval', 1000);
+    set(this, 'timer', null);
+    this.reset();
+    this.start();
+  },
+  // init: function() {
+  //   // set(this, 'totalTime', 10000);
+  //   // set(this, 'tickInterval', 1000);
+  //   // set(this, 'timer', null);
+  //   //this.reset();
+  //   // this.start();
+  // },
+
+  remainingTime: computed('elapsedTime', function() {
+    const remainingTime = get(this, 'totalTime') - get(this, 'elapsedTime');
+    return (remainingTime > 0) ? remainingTime : 0;
+  }),
+
+  hasFinished: computed('remainingTime', function() {
+    return get(this, 'remainingTime') === 0;
+  }),
+
+  reset: function() {
+    set(this, 'elapsedTime', 0);
+    set(this, 'currentTime', Date.now());
+  },
+
+  start: function() {
+    this.stop();
+    set(this, 'currentTime', Date.now());
+    this.tick();
+  },
+
+  stop: function() {
+    const timer = get(this, 'timer');
+
+    if (timer) {
+      run.cancel(timer);
+      set(this, 'timer', null);
+    }
+  },
+
+  tick: function() {
+    if (get(this, 'hasFinished')) {
+      return;
+    }
+
+    const tickInterval = get(this, 'tickInterval');
+    const currentTime = get(this, 'currentTime');
+    const elapsedTime = get(this, 'elapsedTime');
+    const now = Date.now();
+
+    set(this, 'elapsedTime', elapsedTime + (now - currentTime));
+    set(this, 'currentTime', now);
+    set(this, 'timer', run.later(this, this.tick, tickInterval));
+  }
 });
