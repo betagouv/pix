@@ -3,6 +3,9 @@
   display: flex;
   justify-content: flex-end;
   flex-direction: row;
+  font-size: 20px;
+  font-weight: bold;
+  font-style: normal;
 }
 .timeout-jauge-container {
   width: 100px;

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import _ from 'pix-live/utils/lodash-custom';
 
 const get = Ember.get;
 const set = Ember.set;
@@ -15,16 +16,9 @@ export default Ember.Component.extend({
     this.reset();
     this.start();
   },
-  // init: function() {
-  //   // set(this, 'totalTime', 10000);
-  //   // set(this, 'tickInterval', 1000);
-  //   // set(this, 'timer', null);
-  //   //this.reset();
-  //   // this.start();
-  // },
 
   remainingTime: computed('elapsedTime', function() {
-    const remainingTime = get(this, 'totalTime') - get(this, 'elapsedTime');
+    const remainingTime = _.round((get(this, 'totalTime') - get(this, 'elapsedTime')) / 1000);
     return (remainingTime > 0) ? remainingTime : 0;
   }),
 
