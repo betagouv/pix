@@ -158,17 +158,19 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'mocha'
       return visit('/home');
     });
 
-    (0, _mocha.it)('a4.1 Je peux démarrer un test depuis la liste des tests de la page d\'accueil', function () {
+    (0, _mocha.it)('a4.1 Je peux démarrer un test depuis la liste des tests de la page d\'accueil', function (done) {
       var $startLink = findWithAssert('div[data-id="ref_course_id"] .start-button')[0];
       (0, _chai.expect)($startLink.text).to.contains('Démarrer le test');
       (0, _chai.expect)($startLink.href).to.contains('/courses/ref_course_id/assessment');
+      done();
     });
 
-    (0, _mocha.it)('a4.2 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function () {
+    (0, _mocha.it)('a4.2 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function (done) {
       var $startLink = findWithAssert('div[data-id="ref_course_id"] .start-button')[0];
       return click($startLink).then(function () {
         findWithAssert('#assessment-challenge');
         (0, _chai.expect)(currentURL()).to.contains('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        done();
       });
     });
   });
