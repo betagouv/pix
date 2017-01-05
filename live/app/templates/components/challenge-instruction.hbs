@@ -1,22 +1,37 @@
 <div class="rounded-panel challenge-statement">
 
-  {{#if instruction.text}}
-      <div class="challenge-instruction">{{ markdown-to-html extensions='targetBlank' markdown=instruction.text }}</div>
+  {{#if challenge.instruction}}
+    <div class="challenge-instruction">{{ markdown-to-html extensions='targetBlank' markdown=challenge.instruction }}</div>
   {{/if}}
 
-  {{#if instruction.illustrationUrl}}
-      <hr>
-      <div class=" challenge-illustration">
-          <img src="{{ instruction.illustrationUrl }}" alt="ceci est une image">
-      </div>
+  {{#if challenge.illustrationUrl}}
+    <hr>
+    <div class=" challenge-illustration">
+      <img src="{{ challenge.illustrationUrl }}" alt="ceci est une image">
+    </div>
   {{/if}}
-  {{#if instruction.attachmentUrl}}
-      <hr>
-      <div class="challenge-attachment">
-          <a href="{{instruction.attachmentUrl}}" class="button" target="_blank">
-              <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
-            <span class="download__text">Télécharger le fichier</span>
-          </a>
-      </div>
+
+  {{#if challenge.hasSingleAttachment}}
+    <div class="challenge-attachment">
+      <a href="{{challenge.attachments.firstObject}}" class="button" target="_blank">
+        <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+        <span class="download__text">Télécharger le fichier</span>
+      </a>
+    </div>
   {{/if}}
+
+  {{#if challenge.hasMultipleAttachments}}
+    <div class="challenge-attachment">
+      <ul>
+        {{#each challenge.attachments as |attachment|}}
+          <li>
+            {{attachment}}
+          </li>
+        {{/each}}
+      </ul>
+
+    </div>
+  {{/if}}
+
+
 </div>

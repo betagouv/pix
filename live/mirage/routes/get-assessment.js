@@ -1,12 +1,14 @@
 import _ from 'lodash/lodash';
 import rawAssessment from '../data/assessments/raw-assessment';
 import refAssessment from '../data/assessments/ref-assessment';
+import assessmentAboutAttachments from '../data/assessments/assessment_about_attachments';
 
 export default function (schema, request) {
 
   const allAssessments = [
     rawAssessment,
-    refAssessment
+    refAssessment,
+    assessmentAboutAttachments
   ];
 
   const assessments = _.map(allAssessments, function (oneAssessment) {

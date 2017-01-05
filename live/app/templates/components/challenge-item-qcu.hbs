@@ -1,10 +1,9 @@
-
-{{challenge-instruction instruction=challenge._instructionAsObject}}
+{{challenge-instruction challenge}}
 
 <div class="rounded-panel challenge-response">
   <div class="challenge-proposals">
-    {{qcu-proposals 
-        answers=answers._valueAsArrayOfBoolean 
+    {{qcu-proposals
+        answers=answers._valueAsArrayOfBoolean
         proposals=challenge._proposalsAsArray
         onAnswerUpdated='answerChanged'}}
   </div>

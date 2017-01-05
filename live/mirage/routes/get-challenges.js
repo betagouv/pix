@@ -4,6 +4,8 @@ import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
 import refQruChallengeFull from '../data/challenges/ref-qru-challenge';
 import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
 import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
+import noFileChallenge from '../data/challenges/no-file-challenge';
+import oneFileChallenge from '../data/challenges/one-file-challenge';
 import multipleFilesChallenge from '../data/challenges/multiple-files-challenge';
 
 export default function () {
@@ -16,7 +18,9 @@ export default function () {
       refQruChallengeFull.data,
       refQrocChallengeFull.data,
       refQrocmChallengeFull.data,
-      multipleFilesChallenge.data
+      noFileChallenge,
+      oneFileChallenge,
+      multipleFilesChallenge
     ]
   };
 

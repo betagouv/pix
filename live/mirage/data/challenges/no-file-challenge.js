@@ -4,7 +4,9 @@ export default {
     id: 'no_file_challenge_id',
     attributes: {
       type: 'QRU',
-      instruction: 'Un exemple d\'épreuve ne proposant pas de télécharger un fichier.'
+      instruction: 'Un exemple d\'épreuve ne proposant pas de télécharger un fichier.',
+      attachments: [],
+      proposals: '- Aucun fichier'
     }
   }
 };

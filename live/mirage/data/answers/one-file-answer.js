@@ -1,9 +1,9 @@
-import challenge from '../challenges/multiple-files-challenge';
+import challenge from '../challenges/one-file-challenge';
 
 export default {
   data: {
     type: 'answers',
-    id: 'multiple_files_answer_id',
+    id: 'one_file_answer_id',
     attributes: {
       value: '',
       result: 'aband'

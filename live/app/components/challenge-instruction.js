@@ -1,4 +1,9 @@
 import Ember from 'ember';
 
-export default Ember.Component.extend({
+const ChallengeInstruction = Ember.Component.extend({});
+
+ChallengeInstruction.reopenClass({
+  positionalParams: ['challenge']
 });
+
+export default ChallengeInstruction;

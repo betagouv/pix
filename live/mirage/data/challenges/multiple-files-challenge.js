@@ -5,9 +5,8 @@ export default {
     attributes: {
       type: 'QRU',
       instruction: 'Un exemple d\'épreuve proposant de télécharger un fichier parmi plusieurs.',
-      'attachment-url': 'http://file.url',
-      'attachment-filename': 'filename.pdf',
-      proposals: '- Une seule possibilite '
+      attachments : ['file.docx.url','file.odt.url'],
+      proposals: '- Plusieurs fichiers'
     }
   }
 };
