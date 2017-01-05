@@ -25,6 +25,9 @@ export default Model.extend(ValueAsArrayOfBoolean, ValueAsArrayOfString, {
   }),
   isResultNotOk: computed('result', function () {
     return this.get('result') === 'ko';
+  }),
+  isResultTimedOut: computed('result', function () {
+    return this.get('result') === 'timedout';
   })
 
 });

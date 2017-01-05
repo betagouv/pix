@@ -60,9 +60,6 @@ export default Ember.Component.extend({
   },
 
   tick: function() {
-    // if (get(this, 'hasFinished')) {
-    //   return;
-    // }
 
     const tickInterval = get(this, 'tickInterval');
     const currentTime = get(this, 'currentTime');
