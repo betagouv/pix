@@ -6,6 +6,7 @@ describe('Unit | Serializer | AnswerSerializer', function () {
   const modelObject = new Answer({
     id: 'answer_id',
     value: 'answer_value',
+    timeout: 8,
     result: 'result_value',
     assessmentId: 'assessment_id',
     challengeId: 'challenge_id'
@@ -17,6 +18,7 @@ describe('Unit | Serializer | AnswerSerializer', function () {
       id: 'answer_id',
       attributes: {
         value: "answer_value",
+        timeout: 8,
         result: "result_value"
       },
       relationships: {

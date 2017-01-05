@@ -2,6 +2,7 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import getChallengeType from '../../utils/get-challenge-type';
 import RSVP from 'rsvp';
+import _ from 'pix-live/utils/lodash-custom';
 
 export default Ember.Route.extend({
 
@@ -24,18 +25,19 @@ export default Ember.Route.extend({
 
   actions: {
 
-    saveAnswerAndNavigate: function (currentChallenge, assessment, answerValue) {
-      const answer = this._createAnswer(answerValue, currentChallenge, assessment);
+    saveAnswerAndNavigate: function (currentChallenge, assessment, answerValue, answerTimeout) {
+      const answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment);
       answer.save().then(() => {
         this._navigateToNextView(currentChallenge, assessment);
       });
     }
   },
 
-  _createAnswer: function (answerValue, currentChallenge, assessment) {
+  _createAnswer: function (answerValue, answerTimeout, currentChallenge, assessment) {
 
     return this.get('store').createRecord('answer', {
       value: answerValue,
+      timeout: answerTimeout,
       challenge: currentChallenge,
       assessment
     });

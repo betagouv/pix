@@ -21,19 +21,21 @@ export default Ember.Component.extend({
   },
 
   remainingSeconds: computed('elapsedTime', function() {
-    const remainingSeconds = _.round((get(this, 'totalTime') - get(this, 'elapsedTime')) / 1000);
-    return (remainingSeconds > 0) ? remainingSeconds : 0;
+    return _.round((get(this, 'totalTime') - get(this, 'elapsedTime')) / 1000);
   }),
 
   remainingTime: computed('remainingSeconds', function() {
+    if (get(this, 'remainingSeconds') < 0) {
+      return '0:00';
+    }
     return fmtMSS(get(this, 'remainingSeconds'));
   }),
 
   hasFinished: computed('remainingSeconds', function() {
-    return get(this, 'remainingSeconds') === 0;
+    return get(this, 'remainingSeconds') <= 0;
   }),
 
-  percentageOfTimeSpent: computed('elapsedTime', function() {
+  percentageOfTimeout: computed('elapsedTime', function() {
     return 100 - (get(this, 'remainingSeconds') / get(this, 'allotedTime')) * 100;
   }),
 
@@ -58,9 +60,9 @@ export default Ember.Component.extend({
   },
 
   tick: function() {
-    if (get(this, 'hasFinished')) {
-      return;
-    }
+    // if (get(this, 'hasFinished')) {
+    //   return;
+    // }
 
     const tickInterval = get(this, 'tickInterval');
     const currentTime = get(this, 'currentTime');
