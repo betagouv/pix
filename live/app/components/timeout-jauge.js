@@ -6,24 +6,35 @@ const set = Ember.set;
 const computed = Ember.computed;
 const run = Ember.run;
 
+// see http://stackoverflow.com/a/37770048/2595513
+function fmtMSS (s) {return (s-(s%=60))/60+(9<s?':':':0')+s;}
+
 export default Ember.Component.extend({
   init() {
     this._super(...arguments);
 
-    set(this, 'totalTime', 10000);
+    set(this, 'totalTime', 1000 * get(this, 'allotedTime'));
     set(this, 'tickInterval', 1000);
     set(this, 'timer', null);
     this.reset();
     this.start();
   },
 
-  remainingTime: computed('elapsedTime', function() {
-    const remainingTime = _.round((get(this, 'totalTime') - get(this, 'elapsedTime')) / 1000);
-    return (remainingTime > 0) ? remainingTime : 0;
+  remainingSeconds: computed('elapsedTime', function() {
+    const remainingSeconds = _.round((get(this, 'totalTime') - get(this, 'elapsedTime')) / 1000);
+    return (remainingSeconds > 0) ? remainingSeconds : 0;
   }),
 
-  hasFinished: computed('remainingTime', function() {
-    return get(this, 'remainingTime') === 0;
+  remainingTime: computed('remainingSeconds', function() {
+    return fmtMSS(get(this, 'remainingSeconds'));
+  }),
+
+  hasFinished: computed('remainingSeconds', function() {
+    return get(this, 'remainingSeconds') === 0;
+  }),
+
+  percentageOfTimeSpent: computed('elapsedTime', function() {
+    return 100 - (get(this, 'remainingSeconds') / get(this, 'allotedTime')) * 100;
   }),
 
   reset: function() {

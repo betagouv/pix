@@ -13,7 +13,7 @@
         onAnswerUpdated='answerChanged'}}
   </div>
   {{#if challenge.timer}}
-    {{timeout-jauge}}
+    {{timeout-jauge allotedTime=challenge.timer}}
   {{/if}}
 </div>
 
