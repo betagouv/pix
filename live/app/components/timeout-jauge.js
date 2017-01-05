@@ -9,7 +9,11 @@ const run = Ember.run;
 // see http://stackoverflow.com/a/37770048/2595513
 function fmtMSS (s) {return (s-(s%=60))/60+(9<s?':':':0')+s;}
 
+let myVar;
+
 export default Ember.Component.extend({
+
+  // Ember Lifecycle Hook
   init() {
     this._super(...arguments);
 
@@ -60,14 +64,22 @@ export default Ember.Component.extend({
   },
 
   tick: function() {
-
     const tickInterval = get(this, 'tickInterval');
     const currentTime = get(this, 'currentTime');
     const elapsedTime = get(this, 'elapsedTime');
     const now = Date.now();
+    const that = this;
 
     set(this, 'elapsedTime', elapsedTime + (now - currentTime));
     set(this, 'currentTime', now);
-    set(this, 'timer', run.later(this, this.tick, tickInterval));
+    // set(this, 'timer', run.later(this, this.tick, tickInterval));
+    myVar = setTimeout(function(){ that.tick(); }, tickInterval);
+  },
+
+  // Ember Lifecycle Hook
+  willDestroyElement() {
+    clearTimeout(myVar);
+    this.stop();
   }
+
 });

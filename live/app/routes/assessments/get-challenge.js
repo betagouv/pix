@@ -2,7 +2,6 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import getChallengeType from '../../utils/get-challenge-type';
 import RSVP from 'rsvp';
-import _ from 'pix-live/utils/lodash-custom';
 
 export default Ember.Route.extend({
 
