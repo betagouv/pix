@@ -1,0 +1,45 @@
+.challenge-attachment {
+  background-color: #ececec;
+  text-align: center;
+  padding: 20px;
+}
+
+.challenge-attachment__list {
+  margin-left: 0;
+  padding: 0;
+
+& li {
+    list-style-type: none;
+    display: inline-block;
+    padding: 0 15px;
+  }
+}
+
+.challenge-attachment-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.challenge-attachment__download-action {
+  width: 156px;
+  height: 46px;
+  border-radius: 23px;
+  background-color: var(--download-action-background-color);
+  color: var(--download-action-color);
+  cursor: pointer;
+  text-align: center;
+
+&:hover {
+   color: var(--download-action-color);
+ }
+}
+
+.challenge-attachment__download-action-text {
+  width: 76px;
+  line-height: 46px;
+  font-family: var(--font-lato);
+  font-size: 16px;
+  font-weight: 900;
+  text-transform: uppercase;
+}

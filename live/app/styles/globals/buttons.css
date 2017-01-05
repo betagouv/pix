@@ -76,3 +76,19 @@
     text-decoration: none;
   }
 }
+
+@define-mixin button-action $name, $bgcolor, color {
+
+  .button-action__$(name) {
+     width: 130px;
+     height: 46px;
+     border-radius: 23px;
+     background-color: $bgcolor;
+     color: $color;
+
+      &:hover {
+         color: $color;
+       }
+  }
+
+}

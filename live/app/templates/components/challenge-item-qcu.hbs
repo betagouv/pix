@@ -1,11 +1,11 @@
-{{challenge-instruction challenge}}
+{{challenge-statement challenge}}
 
 <div class="rounded-panel challenge-response">
-  <div class="challenge-proposals">
+  <div class="rounded-panel__row challenge-proposals">
     {{qcu-proposals
-        answers=answers._valueAsArrayOfBoolean
-        proposals=challenge._proposalsAsArray
-        onAnswerUpdated='answerChanged'}}
+      answers=answers._valueAsArrayOfBoolean
+      proposals=challenge._proposalsAsArray
+      onAnswerUpdated='answerChanged'}}
   </div>
 </div>
 
@@ -17,6 +17,6 @@
 
 {{#if assessment}}
   {{challenge-actionbar
-      skip="skip"
-      validate="validate"}}
+    skip="skip"
+    validate="validate"}}
 {{/if}}

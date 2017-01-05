@@ -1,0 +1,46 @@
+<div class="rounded-panel challenge-statement">
+
+  <div class="rounded-panel__row">
+    {{#if challenge.instruction}}
+      <div class="challenge-instruction">{{markdown-to-html extensions='targetBlank' markdown=challenge.instruction}}</div>
+    {{/if}}
+
+    {{#if challenge.illustrationUrl}}
+      <hr>
+      <div class=" challenge-illustration">
+        <img src="{{ challenge.illustrationUrl }}" alt="ceci est une image">
+      </div>
+    {{/if}}
+  </div>
+
+  {{#if challenge.hasAttachment}}
+    <div class="rounded-panel__row challenge-attachment">
+
+      {{#if challenge.hasSingleAttachment}}
+          <div class="challenge-attachment-action">
+            <a href="{{challenge.attachments.firstObject}}" class="challenge-attachment__download-action"  target="_blank">
+              <span class="challenge-attachment__download-action-text">Télécharger</span>
+            </a>
+          </div>
+      {{/if}}
+
+      {{#if challenge.hasMultipleAttachments}}
+          <p>Choisissez le type de fichier que vous voulez utiliser</p>
+          <ul class="challenge-attachment__list">
+            {{#each challenge.attachments as |attachment|}}
+              <li>
+                <input type="radio" value="" name="file-to-download"> fichier .{{extract-extension attachment}}
+              </li>
+            {{/each}}
+          </ul>
+
+          <div class="challenge-attachment-action">
+            <a href="" class="challenge-attachment__download-action" target="_blank">
+              <span class="challenge-attachment__download-action-text">Télécharger</span>
+            </a>
+          </div>
+      {{/if}}
+    </div>
+  {{/if}}
+
+</div>
