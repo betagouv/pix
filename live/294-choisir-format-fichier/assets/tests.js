@@ -2257,15 +2257,6 @@ define('pix-live/tests/models/challenge.lint-test', ['exports'], function (expor
     });
   });
 });
-define('pix-live/tests/models/challenge/instruction-as-object-mixin.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - models/challenge/instruction-as-object-mixin.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/models/challenge/proposals-as-array-mixin.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2436,6 +2427,15 @@ define('pix-live/tests/test-helper.lint-test', ['exports'], function (exports) {
   'use strict';
 
   describe('ESLint - test-helper.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/transforms/array.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - transforms/array.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -2654,7 +2654,7 @@ define('pix-live/tests/unit/models/answer-test.lint-test', ['exports'], function
     });
   });
 });
-define('pix-live/tests/unit/models/challenge-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/models/challenge-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Model | Challenge', function () {
 
@@ -2664,8 +2664,93 @@ define('pix-live/tests/unit/models/challenge-test', ['exports', 'chai', 'mocha',
 
     (0, _mocha.it)('exists', function () {
       var model = this.subject();
-      // var store = this.store();
       (0, _chai.expect)(model).to.be.ok;
+    });
+
+    (0, _mocha.describe)('Computed property #hasSingleAttachment', function () {
+
+      (0, _mocha.it)('Should be true when Challenge has only one attachment file', function () {
+        var _this = this;
+
+        _ember['default'].run(function () {
+          // given
+          var store = _this.store();
+          var challenge = store.createRecord('challenge', { attachments: ['file.url'] });
+
+          // when
+          var hasSingleAttachment = challenge.get('hasSingleAttachment');
+
+          // then
+          (0, _chai.expect)(hasSingleAttachment).to.be['true'];
+        });
+      });
+
+      (0, _mocha.it)('Should be false when challenge has multiple attachment files', function () {
+        var _this2 = this;
+
+        _ember['default'].run(function () {
+          // given
+          var store = _this2.store();
+          var challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
+
+          // when
+          var hasSingleAttachment = challenge.get('hasSingleAttachment');
+
+          // then
+          (0, _chai.expect)(hasSingleAttachment).to.be['false'];
+        });
+      });
+    });
+
+    (0, _mocha.describe)('Computed property #hasMultipleAttachments', function () {
+
+      (0, _mocha.it)('Should be false when Challenge has no attachment file', function () {
+        var _this3 = this;
+
+        _ember['default'].run(function () {
+          // given
+          var store = _this3.store();
+          var challenge = store.createRecord('challenge', { attachments: [] });
+
+          // when
+          var hasMultipleAttachments = challenge.get('hasMultipleAttachments');
+
+          // then
+          (0, _chai.expect)(hasMultipleAttachments).to.be['false'];
+        });
+      });
+
+      (0, _mocha.it)('Should be false when Challenge has only one attachment file', function () {
+        var _this4 = this;
+
+        _ember['default'].run(function () {
+          // given
+          var store = _this4.store();
+          var challenge = store.createRecord('challenge', { attachments: ['file.url'] });
+
+          // when
+          var hasMultipleAttachments = challenge.get('hasMultipleAttachments');
+
+          // then
+          (0, _chai.expect)(hasMultipleAttachments).to.be['false'];
+        });
+      });
+
+      (0, _mocha.it)('Should be true when challenge has multiple attachments files', function () {
+        var _this5 = this;
+
+        _ember['default'].run(function () {
+          // given
+          var store = _this5.store();
+          var challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
+
+          // when
+          var hasMultipleAttachments = challenge.get('hasMultipleAttachments');
+
+          // then
+          (0, _chai.expect)(hasMultipleAttachments).to.be['true'];
+        });
+      });
     });
   });
 });
@@ -3154,6 +3239,35 @@ define('pix-live/tests/unit/services/delay-test.lint-test', ['exports'], functio
   'use strict';
 
   describe('ESLint - unit/services/delay-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/transforms/array-test', ['exports', 'chai', 'mocha', 'pix-live/transforms/array'], function (exports, _chai, _mocha, _pixLiveTransformsArray) {
+
+  _mocha.describe.only('Unit | Transformer | Array', function () {
+
+    (0, _mocha.describe)('#deserialize', function () {
+
+      (0, _mocha.it)('should return an Array when Array given', function () {
+        var transform = new _pixLiveTransformsArray['default']();
+        // given
+        var array = ['foo', 'bar', 'yeah'];
+
+        // when
+        var serialized = transform.deserialize(array);
+
+        // then
+        (0, _chai.expect)(serialized).to.deep.equal(array);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/transforms/array-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/transforms/array-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
