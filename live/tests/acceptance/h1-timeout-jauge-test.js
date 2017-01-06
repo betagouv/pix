@@ -1,4 +1,4 @@
-
+import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
@@ -35,6 +35,7 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
 
   describe('Test quand la jauge est affichée', function () {
     describe('Format d\'affichage',function () {
+
       it('valeur 1 en backend est affichée 0:01 dans le timer',function () {
         visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
         andThen(() => {
@@ -42,6 +43,7 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
           expect($countDown.text().trim()).to.equal('0:01');
         });
       });
+
       it('valeur 70 en backend est affichée 1:10 dans le timer',function () {
         visit('/assessments/ref_assessment_id/challenges/ref_qru_challenge_id');
         andThen(() => {
@@ -49,18 +51,20 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
           expect($countDown.text().trim()).to.equal('1:10');
         });
       });
-    });
-    it('Test le format d\'affichage du timer', function () {
-      const $countDown = findWithAssert('.timeout-jauge-remaining');
-      expect($countDown.text().trim()).to.match(/^(?:([0-5]?\d):)?([0-5]?\d)$/)
-      //expect($countDown.text().trim()).to.equal('0:01');
-    });
 
-    it('Test de la valeur du timer en fonction de celle renvoyée par le serveur', function () {
+      it('Le timer se décharge progressivement',function (done) {
+        visit('/assessments/ref_assessment_id/challenges/ref_qru_challenge_id');
+        andThen(() => {
+          const $jauge = findWithAssert('.timeout-jauge-progress');
+          Ember.run(function () {
+            window.setTimeout(function () {
+              expect($jauge.width()).to.be.above(0);
+              done();
+            },800);
+          });
+        });
+      });
 
-      const $countDown = findWithAssert('.timeout-jauge-remaining');
-      expect($countDown.text().trim()).to.match(/^(?:([0-5]?\d):)?([0-5]?\d)$/)
-      //expect($countDown.text().trim()).to.equal('0:01');
     });
   });
 });

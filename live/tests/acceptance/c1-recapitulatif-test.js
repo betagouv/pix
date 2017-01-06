@@ -1,9 +1,3 @@
-import {
-  describe,
-  it,
-  before,
-  after
-} from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -79,4 +73,13 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
     findWithAssert('button.assessment-results-link-home');
   });
 
+  describe('Affiche le picto temps dépassé pour l\'épreuve',function () {
+    it('C1.11 doit retourner dans le data-original-type : Temps dépassé',function () {
+      visit('/assessments/raw_assessment_id/results');
+      andThen(() => {
+        const $picto = findWithAssert('.assessment-results-result-img > div');
+        expect($picto.data('original-title')).to.contain('Temps dépassé');
+      });
+    });
+  });
 });

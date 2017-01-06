@@ -1,9 +1,3 @@
-import {
-  describe,
-  it,
-  before,
-  after
-} from 'mocha';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
