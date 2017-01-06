@@ -11,11 +11,6 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
     application = startApp();
   });
 
-  beforeEach(function () {
-    visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-  });
-
-
   after(function () {
     destroyApp(application);
   });
@@ -37,11 +32,11 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
   describe('Test quand la jauge est affichée', function () {
     describe('Format d\'affichage',function () {
 
-      it('valeur 1 en backend est affichée 0:01 dans le timer',function () {
+      it('valeur 2 en backend est affichée 0:02 dans le timer',function () {
         visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
         andThen(() => {
           const $countDown = findWithAssert('.timeout-jauge-remaining');
-          expect($countDown.text().trim()).to.equal('0:01');
+          expect($countDown.text().trim()).to.equal('0:02');
         });
       });
 
@@ -53,17 +48,26 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
         });
       });
 
-      it('Le timer se décharge progressivement',function (done) {
-        visit('/assessments/ref_assessment_id/challenges/ref_qru_challenge_id');
+      it('Le timer se décharge progressivement',function () {
+        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        // cas 1 : pas encore chargé
         andThen(() => {
-          //const $jauge = findWithAssert('.timeout-jauge-progress');
-          Ember.run(function () {
-            window.setTimeout(function () {
-              //expect($jauge.width()).to.be.above(0);
-              done();
-            },800);
-          });
+          const $jaugeProgress = findWithAssert('.timeout-jauge-progress');
+          expect($jaugeProgress.width()).to.equal(0);
         });
+        triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+        // cas 2 : moitié chargé (50 signifie ici 50% de la largeur du compteur)
+        andThen(() => {
+          const $jaugeProgress = findWithAssert('.timeout-jauge-progress');
+          expect($jaugeProgress.width()).to.equal(50);
+        });
+        triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+        // cas 3 : complètement chargé (100 signifie ici 100% de la largeur du compteur)
+        andThen(() => {
+          const $jaugeProgress = findWithAssert('.timeout-jauge-progress');
+          expect($jaugeProgress.width()).to.equal(100);
+        });
+
       });
 
     });
