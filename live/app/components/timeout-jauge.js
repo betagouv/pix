@@ -82,8 +82,11 @@ export default Ember.Component.extend({
   didInsertElement() {
     if (ENV.environment === 'test') {
       const that = this;
-      this.$().on('simulateOneMoreSecond', function(){
+      this.$().on('simulateOneMoreSecond', function() {
         set(that, 'elapsedTime', get(that, 'elapsedTime') + 1000);
+      });
+      this.$().on('resetElapsedTime', function() {
+        set(that, 'elapsedTime', 0);
       });
     }
   },

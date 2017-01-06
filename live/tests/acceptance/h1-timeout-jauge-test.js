@@ -50,6 +50,9 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
 
       it('Le timer se décharge progressivement',function () {
         visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        andThen(() => {
+          triggerEvent('.timeout-jauge', 'resetElapsedTime');
+        });
         // cas 1 : pas encore chargé
         andThen(() => {
           const $jaugeProgress = findWithAssert('.timeout-jauge-progress');
@@ -67,7 +70,36 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
           const $jaugeProgress = findWithAssert('.timeout-jauge-progress');
           expect($jaugeProgress.width()).to.equal(100);
         });
+      });
 
+      it('Décremente le compteur toutes les secondes, et s\'arrête définitivement à 0:00',function () {
+        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        andThen(() => {
+          triggerEvent('.timeout-jauge', 'resetElapsedTime');
+        });
+        // cas 1 : pas encore chargé
+        andThen(() => {
+          const $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
+          expect($jaugeRemaining.text().trim()).to.equal('0:02');
+        });
+        triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+        // cas 2 : moitié chargé
+        andThen(() => {
+          const $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
+          expect($jaugeRemaining.text().trim()).to.equal('0:01');
+        });
+        triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+        // cas 3 : complètement chargé
+        andThen(() => {
+          const $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
+          expect($jaugeRemaining.text().trim()).to.equal('0:00');
+        });
+        triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+        // cas 4 : trop chargé (temps imparti dépassé)
+        andThen(() => {
+          const $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
+          expect($jaugeRemaining.text().trim()).to.equal('0:00');
+        });
       });
 
     });
