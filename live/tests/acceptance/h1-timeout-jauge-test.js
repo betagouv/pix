@@ -102,6 +102,38 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
         });
       });
 
+      it('Affiche le pictogramme en noir, ou en rouge lorsque le timer est à 0:00',function () {
+        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        andThen(() => {
+          triggerEvent('.timeout-jauge', 'resetElapsedTime');
+        });
+        // cas 1 : pas encore chargé : picto noir
+        andThen(() => {
+          const $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
+          expect($jaugeClock.attr('fill')).to.equal('black');
+        });
+        triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+        // cas 2 : moitié chargé : picto noir
+        andThen(() => {
+          const $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
+          expect($jaugeClock.attr('fill')).to.equal('black');
+        });
+        triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+        // cas 3 : complètement chargé : picto rouge
+        andThen(() => {
+          const $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
+          expect($jaugeClock.attr('fill')).to.equal('red');
+        });
+        triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+        // cas 4 : trop chargé (temps imparti dépassé) : picto rouge
+        andThen(() => {
+          const $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
+          expect($jaugeClock.attr('fill')).to.equal('red');
+        });
+      });
+
+
+
     });
   });
 });
