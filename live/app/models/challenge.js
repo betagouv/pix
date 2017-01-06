@@ -9,7 +9,7 @@ const ChallengeModel = Model.extend(InstructionAsObject, ProposalsAsArrayMixin, 
 
   instruction: attr('string'),
   proposals: attr('string'),
-  hasInternetAndTools: attr('boolean'),
+  hasntInternetAllowed: attr('boolean'),
   illustrationUrl: attr('string'),
   type: attr('string'),
   attachmentUrl: attr('string'),
