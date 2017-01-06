@@ -53,7 +53,7 @@ describe('Acceptance | API | ChallengeController', function () {
               'NDE'
             ],
             'Déclinable': 'facilement',
-            'Internet et outils': 'Oui',
+            'Internet et outils': 'Non',
             'Prototype d\'épreuve': 'oui',
             'Record ID': 'recLt9uwa2dR3IYpi',
             'Preview': 'http://development.pix.beta.gouv.fr/challenges/recLt9uwa2dR3IYpi/preview'
@@ -92,7 +92,7 @@ describe('Acceptance | API | ChallengeController', function () {
         expect(challenge.attributes.instruction).to.equal('Que peut-on dire des œufs de catégorie A ?\n');
         expect(challenge.attributes.proposals).to.equal('- Ils sont bio.\n- Ils pèsent plus de 63 grammes.\n- Ce sont des oeufs frais.\n- Ils sont destinés aux consommateurs.\n- Ils ne sont pas lavés.\n');
         expect(challenge.attributes.type).to.equal('QCM');
-        expect(challenge.attributes['has-internet-and-tools']).to.equal(true);
+        expect(challenge.attributes['hasnt-internet-allowed']).to.equal(true);
         done();
       });
     });

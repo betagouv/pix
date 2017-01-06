@@ -13,7 +13,9 @@ class Challenge extends AirtableModel {
       this.instruction = fields['Consigne'];
       this.proposals = fields['Propositions'];
       this.type = fields['Type d\'épreuve'];
-      this.hasInternetAndTools = _.ensureString(fields['Internet et outils']).toUpperCase() === 'OUI';
+      if (fields['Internet et outils']) {
+        this.hasntInternetAllowed = fields['Internet et outils'].toUpperCase() === 'NON';
+      }
 
       if (fields['Illustration de la consigne']) {
         this.illustrationUrl = fields['Illustration de la consigne'][0].url;

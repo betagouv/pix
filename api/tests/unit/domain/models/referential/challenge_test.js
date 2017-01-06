@@ -17,9 +17,9 @@ describe('Unit | Model | Challenge', function () {
     });
 
     [
-      { airtableField: 'Consigne', modelProperty: 'instruction' },
-      { airtableField: 'Propositions', modelProperty: 'proposals' },
-      { airtableField: 'Type d\'épreuve', modelProperty: 'type' }
+    { airtableField: 'Consigne', modelProperty: 'instruction' },
+    { airtableField: 'Propositions', modelProperty: 'proposals' },
+    { airtableField: 'Type d\'épreuve', modelProperty: 'type' }
 
     ].forEach(({ airtableField, modelProperty }) => {
 
@@ -73,20 +73,55 @@ describe('Unit | Model | Challenge', function () {
       expect(challenge.attachmentUrl).to.equal(airtableRecord.fields['Pièce jointe'][0].url);
       expect(challenge.attachmentFilename).to.equal(airtableRecord.fields['Pièce jointe'][0].filename);
     });
-    it(`should convert record 'Internet et outils' into 'hasInternetAndTools' boolean property`, function () {
-      // given
-      const airtableRecord = {
-        fields: {
-          'Internet et outils': 'Oui'
-        }
-      };
+    // XXX : Pay attention to boolean negation : hasntInternetAllowed, instead of hasInternetAllowed,
+    // it is because the nominal case is : user is allowed to use internet.
+    // we need a boolean to detect the corner case where internet is NOT allowed. Currently Internet and tools are allowed
+    describe('should convert field "Internet et outils" into \'hasntInternetAllowed\' boolean property',function(){
 
-      // when
-      const challenge = new Challenge(airtableRecord);
+      it('should return true if  field "Internet et outils" equal to "Non"', function () {
+        // given
+        const airtableRecord = {
+          fields: {
+            'Internet et outils': 'Non'
+          }
+        };
 
-      // then
-      expect(challenge.hasInternetAndTools).to.equal(true);
+        // when
+        const challenge = new Challenge(airtableRecord);
+
+        // then
+        expect(challenge.hasntInternetAllowed).to.equal(true);
+      });
+      it('should return false if  field "Internet et outils" equal to "Oui"', function () {
+        // given
+        const airtableRecord = {
+          fields: {
+            'Internet et outils': 'Oui'
+          }
+        };
+
+        // when
+        const challenge = new Challenge(airtableRecord);
+
+        // then
+        expect(challenge.hasntInternetAllowed).to.equal(false);
+      });
+      it('should not be defined if field "Internet et outils" is not defined', function () {
+        // given
+        const airtableRecord = {
+          fields: {
+          }
+        };
+
+        // when
+        const challenge = new Challenge(airtableRecord);
+
+        // then
+        expect(challenge.hasntInternetAllowed).to.equal(undefined);
+      });
+
     });
+
 
   });
 });
