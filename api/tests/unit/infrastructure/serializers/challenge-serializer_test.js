@@ -10,6 +10,7 @@ describe('Unit | Serializer | ChallengeSerializer', function () {
         "id": "challenge_id",
         "fields": {
           "Consigne": "Que peut-on dire des œufs de catégorie A ?\n",
+          "Timer": "300",
           "Propositions": "- Ils sont bio.\n- Ils pèsent plus de 63 grammes.\n- Ce sont des oeufs frais.\n- Ils sont destinés aux consommateurs.\n- Ils ne sont pas lavés.\n",
           "Type d'épreuve": "QCM",
           "Illustration de la consigne": [{
@@ -37,6 +38,8 @@ describe('Unit | Serializer | ChallengeSerializer', function () {
             "type": challenge.type,
             "illustration-url": challenge.illustrationUrl,
             "attachment-url": challenge.attachmentUrl,
+            "has-internet-and-tools": challenge.hasInternetAndTools,
+            "timer": challenge.timer,
             "attachment-filename": challenge.attachmentFilename
           }
         }

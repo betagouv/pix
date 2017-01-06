@@ -1,4 +1,5 @@
-import _ from 'lodash/lodash';
+import _ from 'pix-live/utils/lodash-custom';
+
 import rawQcmChallenge from '../data/challenges/raw-qcm-challenge';
 import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';
 import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
@@ -13,6 +14,11 @@ import refQrocAnswer from '../data/answers/ref-qroc-answer';
 import refQrocmAnswer from '../data/answers/ref-qrocm-answer';
 
 export default function (schema, request) {
+
+  /* eslint-disable */
+  console.log('POST Answer');
+  console.log(request.requestBody);
+  /* eslint-enable */
 
   const answer = JSON.parse(request.requestBody);
   const challengeId = answer.data.relationships.challenge.data.id;
