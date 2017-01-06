@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -131,8 +130,6 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
           expect($jaugeClock.attr('fill')).to.equal('red');
         });
       });
-
-
 
     });
   });
