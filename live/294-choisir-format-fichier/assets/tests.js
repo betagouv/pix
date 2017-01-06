@@ -1025,15 +1025,6 @@ define('pix-live/tests/components/challenge-actionbar.lint-test', ['exports'], f
     });
   });
 });
-define('pix-live/tests/components/challenge-instruction.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - components/challenge-instruction.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/components/challenge-item-generic.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -1074,6 +1065,15 @@ define('pix-live/tests/components/challenge-item-qrocm.lint-test', ['exports'], 
   'use strict';
 
   describe('ESLint - components/challenge-item-qrocm.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/challenge-statement.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/challenge-statement.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -1798,6 +1798,18 @@ define('pix-live/tests/helpers/eq.lint-test', ['exports'], function (exports) {
     });
   });
 });
+define('pix-live/tests/helpers/extract-extension.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - helpers/extract-extension.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test failed
+      var error = new chai.AssertionError('helpers/extract-extension.js should pass ESLint.\n4:7  - \'parts\' is never reassigned. Use \'const\' instead. (prefer-const)');
+      error.stack = undefined;
+      throw error;
+    });
+  });
+});
 define('pix-live/tests/helpers/inc.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -1916,7 +1928,7 @@ define('pix-live/tests/initializers/router.lint-test', ['exports'], function (ex
     });
   });
 });
-define('pix-live/tests/integration/components/challenge-instruction-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/challenge-statement-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | ChallengeInstruction', function () {
 
@@ -1965,10 +1977,10 @@ define('pix-live/tests/integration/components/challenge-instruction-test', ['exp
     });
   });
 });
-define('pix-live/tests/integration/components/challenge-instruction-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/challenge-statement-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - integration/components/challenge-instruction-test.js', function () {
+  describe('ESLint - integration/components/challenge-statement-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -2596,6 +2608,25 @@ define('pix-live/tests/unit/helpers/convert-to-html-test.lint-test', ['exports']
     });
   });
 });
+define('pix-live/tests/unit/helpers/extract-extension-test', ['exports', 'chai', 'mocha', 'pix-live/helpers/extract-extension'], function (exports, _chai, _mocha, _pixLiveHelpersExtractExtension) {
+
+  _mocha.describe.only('Unit | Helpers | ExtractExtension', function () {
+    (0, _mocha.it)('works', function () {
+      (0, _chai.expect)((0, _pixLiveHelpersExtractExtension.extractExtension)(['file.url.ext.docx'])).to.equal('docx');
+      (0, _chai.expect)((0, _pixLiveHelpersExtractExtension.extractExtension)(['file_url_without_extension'])).to.equal('file_url_without_extension');
+      (0, _chai.expect)((0, _pixLiveHelpersExtractExtension.extractExtension)([''])).to.equal('');
+    });
+  });
+});
+define('pix-live/tests/unit/helpers/extract-extension-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/helpers/extract-extension-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/unit/helpers/strip-instruction-test', ['exports', 'chai', 'mocha', 'pix-live/helpers/strip-instruction'], function (exports, _chai, _mocha, _pixLiveHelpersStripInstruction) {
 
   (0, _mocha.describe)('Unit | Helpers | StripInstructionHelper', function () {
@@ -2667,14 +2698,49 @@ define('pix-live/tests/unit/models/challenge-test', ['exports', 'ember', 'chai',
       (0, _chai.expect)(model).to.be.ok;
     });
 
-    (0, _mocha.describe)('Computed property #hasSingleAttachment', function () {
+    (0, _mocha.describe)('Computed property #hasAttachment', function () {
 
-      (0, _mocha.it)('Should be true when Challenge has only one attachment file', function () {
+      (0, _mocha.it)('Should be true when challenge has at least one attachment file', function () {
         var _this = this;
 
         _ember['default'].run(function () {
           // given
           var store = _this.store();
+          var challenge = store.createRecord('challenge', { attachments: ['file.url'] });
+
+          // when
+          var hasAttachment = challenge.get('hasAttachment');
+
+          // then
+          (0, _chai.expect)(hasAttachment).to.be['true'];
+        });
+      });
+
+      (0, _mocha.it)('Should be false when challenge has multiple attachment files', function () {
+        var _this2 = this;
+
+        _ember['default'].run(function () {
+          // given
+          var store = _this2.store();
+          var challenge = store.createRecord('challenge', { attachments: [] });
+
+          // when
+          var hasAttachment = challenge.get('hasAttachment');
+
+          // then
+          (0, _chai.expect)(hasAttachment).to.be['false'];
+        });
+      });
+    });
+
+    (0, _mocha.describe)('Computed property #hasSingleAttachment', function () {
+
+      (0, _mocha.it)('Should be true when challenge has only one attachment file', function () {
+        var _this3 = this;
+
+        _ember['default'].run(function () {
+          // given
+          var store = _this3.store();
           var challenge = store.createRecord('challenge', { attachments: ['file.url'] });
 
           // when
@@ -2686,11 +2752,11 @@ define('pix-live/tests/unit/models/challenge-test', ['exports', 'ember', 'chai',
       });
 
       (0, _mocha.it)('Should be false when challenge has multiple attachment files', function () {
-        var _this2 = this;
+        var _this4 = this;
 
         _ember['default'].run(function () {
           // given
-          var store = _this2.store();
+          var store = _this4.store();
           var challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
 
           // when
@@ -2704,12 +2770,12 @@ define('pix-live/tests/unit/models/challenge-test', ['exports', 'ember', 'chai',
 
     (0, _mocha.describe)('Computed property #hasMultipleAttachments', function () {
 
-      (0, _mocha.it)('Should be false when Challenge has no attachment file', function () {
-        var _this3 = this;
+      (0, _mocha.it)('Should be false when challenge has no attachment file', function () {
+        var _this5 = this;
 
         _ember['default'].run(function () {
           // given
-          var store = _this3.store();
+          var store = _this5.store();
           var challenge = store.createRecord('challenge', { attachments: [] });
 
           // when
@@ -2720,12 +2786,12 @@ define('pix-live/tests/unit/models/challenge-test', ['exports', 'ember', 'chai',
         });
       });
 
-      (0, _mocha.it)('Should be false when Challenge has only one attachment file', function () {
-        var _this4 = this;
+      (0, _mocha.it)('Should be false when challenge has only one attachment file', function () {
+        var _this6 = this;
 
         _ember['default'].run(function () {
           // given
-          var store = _this4.store();
+          var store = _this6.store();
           var challenge = store.createRecord('challenge', { attachments: ['file.url'] });
 
           // when
@@ -2737,11 +2803,11 @@ define('pix-live/tests/unit/models/challenge-test', ['exports', 'ember', 'chai',
       });
 
       (0, _mocha.it)('Should be true when challenge has multiple attachments files', function () {
-        var _this5 = this;
+        var _this7 = this;
 
         _ember['default'].run(function () {
           // given
-          var store = _this5.store();
+          var store = _this7.store();
           var challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
 
           // when
@@ -3246,7 +3312,7 @@ define('pix-live/tests/unit/services/delay-test.lint-test', ['exports'], functio
 });
 define('pix-live/tests/unit/transforms/array-test', ['exports', 'chai', 'mocha', 'pix-live/transforms/array'], function (exports, _chai, _mocha, _pixLiveTransformsArray) {
 
-  _mocha.describe.only('Unit | Transformer | Array', function () {
+  (0, _mocha.describe)('Unit | Transformer | Array', function () {
 
     (0, _mocha.describe)('#deserialize', function () {
 
