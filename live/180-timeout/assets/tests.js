@@ -1037,7 +1037,7 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test.lint-tes
     });
   });
 });
-define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'ember', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _ember, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   describe('Acceptance | H1 - Timeout Jauge | ', function () {
 
@@ -1045,10 +1045,6 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'ember', '
 
     before(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    beforeEach(function () {
-      visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
     });
 
     after(function () {
@@ -1072,11 +1068,11 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'ember', '
     describe('Test quand la jauge est affichée', function () {
       describe('Format d\'affichage', function () {
 
-        it('valeur 1 en backend est affichée 0:01 dans le timer', function () {
+        it('valeur 2 en backend est affichée 0:02 dans le timer', function () {
           visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
           andThen(function () {
             var $countDown = findWithAssert('.timeout-jauge-remaining');
-            (0, _chai.expect)($countDown.text().trim()).to.equal('0:01');
+            (0, _chai.expect)($countDown.text().trim()).to.equal('0:02');
           });
         });
 
@@ -1088,16 +1084,87 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'ember', '
           });
         });
 
-        it('Le timer se décharge progressivement', function (done) {
-          visit('/assessments/ref_assessment_id/challenges/ref_qru_challenge_id');
+        it('Le timer se décharge progressivement', function () {
+          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
           andThen(function () {
-            //const $jauge = findWithAssert('.timeout-jauge-progress');
-            _ember['default'].run(function () {
-              window.setTimeout(function () {
-                //expect($jauge.width()).to.be.above(0);
-                done();
-              }, 800);
-            });
+            triggerEvent('.timeout-jauge', 'resetElapsedTime');
+          });
+          // cas 1 : pas encore chargé
+          andThen(function () {
+            var $jaugeProgress = findWithAssert('.timeout-jauge-progress');
+            (0, _chai.expect)($jaugeProgress.width()).to.equal(0);
+          });
+          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+          // cas 2 : moitié chargé (50 signifie ici 50% de la largeur du compteur)
+          andThen(function () {
+            var $jaugeProgress = findWithAssert('.timeout-jauge-progress');
+            (0, _chai.expect)($jaugeProgress.width()).to.equal(50);
+          });
+          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+          // cas 3 : complètement chargé (100 signifie ici 100% de la largeur du compteur)
+          andThen(function () {
+            var $jaugeProgress = findWithAssert('.timeout-jauge-progress');
+            (0, _chai.expect)($jaugeProgress.width()).to.equal(100);
+          });
+        });
+
+        it('Décremente le compteur toutes les secondes, et s\'arrête définitivement à 0:00', function () {
+          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          andThen(function () {
+            triggerEvent('.timeout-jauge', 'resetElapsedTime');
+          });
+          // cas 1 : pas encore chargé
+          andThen(function () {
+            var $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
+            (0, _chai.expect)($jaugeRemaining.text().trim()).to.equal('0:02');
+          });
+          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+          // cas 2 : moitié chargé
+          andThen(function () {
+            var $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
+            (0, _chai.expect)($jaugeRemaining.text().trim()).to.equal('0:01');
+          });
+          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+          // cas 3 : complètement chargé
+          andThen(function () {
+            var $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
+            (0, _chai.expect)($jaugeRemaining.text().trim()).to.equal('0:00');
+          });
+          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+          // cas 4 : trop chargé (temps imparti dépassé)
+          andThen(function () {
+            var $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
+            (0, _chai.expect)($jaugeRemaining.text().trim()).to.equal('0:00');
+          });
+        });
+
+        it('Affiche le pictogramme en noir, ou en rouge lorsque le timer est à 0:00', function () {
+          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          andThen(function () {
+            triggerEvent('.timeout-jauge', 'resetElapsedTime');
+          });
+          // cas 1 : pas encore chargé : picto noir
+          andThen(function () {
+            var $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
+            (0, _chai.expect)($jaugeClock.attr('fill')).to.equal('black');
+          });
+          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+          // cas 2 : moitié chargé : picto noir
+          andThen(function () {
+            var $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
+            (0, _chai.expect)($jaugeClock.attr('fill')).to.equal('black');
+          });
+          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+          // cas 3 : complètement chargé : picto rouge
+          andThen(function () {
+            var $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
+            (0, _chai.expect)($jaugeClock.attr('fill')).to.equal('red');
+          });
+          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
+          // cas 4 : trop chargé (temps imparti dépassé) : picto rouge
+          andThen(function () {
+            var $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
+            (0, _chai.expect)($jaugeClock.attr('fill')).to.equal('red');
           });
         });
       });
