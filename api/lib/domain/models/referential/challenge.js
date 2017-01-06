@@ -1,5 +1,4 @@
 const AirtableModel = require('./airtable-model');
-const _ = include('lib/utils/lodash-utils');
 
 class Challenge extends AirtableModel {
 
