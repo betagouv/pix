@@ -9,7 +9,7 @@ export function initialize(application) {
   if (ENV.environment === 'test') {
     $( document ).ajaxComplete(function(event, xhr, settings) {
       if ('POST' === settings.type) {
-        $('body').remove('.last-post-request');
+        $('.last-post-request').remove();
         $('body').append('<div class="last-post-request" style="display:none"></div>');
         $('.last-post-request').append(`<div class="last-post-request-url">${settings.url}</div>`);
         $('.last-post-request').append(`<div class="last-post-request-body">${settings.data}</div>`);

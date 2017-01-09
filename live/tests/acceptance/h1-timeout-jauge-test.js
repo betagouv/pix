@@ -152,7 +152,7 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
         visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
         andThen(() => {
           triggerEvent('.timeout-jauge', 'resetElapsedTime');
-          $('body').remove('.last-post-request');
+          $('.last-post-request').remove();
         });
         andThen(() => {
           click(getValidateActionLink());
@@ -164,6 +164,27 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
           expect(_.get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(2);
         });
       });
+
+      it('Si l\'utilisateur valide et si le temps imparti est dépassé, sauvegarde le nombre de secondes après 0', function () {
+        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        andThen(() => {
+          triggerEvent('.timeout-jauge', 'resetElapsedTime');
+          $('.last-post-request').remove();
+        });
+        andThen(() => {
+          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // 1 second left
+          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // 0 second left
+          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // -1 second below 0
+          click(getValidateActionLink());
+        });
+        andThen(() => {
+          let postedOn = urlOfLastPostRequest().split('/api/').pop();
+          postedOn = '/api/' + postedOn;
+          expect(postedOn).to.equal('/api/answers');
+          expect(_.get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(-1);
+        });
+      });
+
     });
 
   });
