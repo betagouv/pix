@@ -24,7 +24,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
     skip: callOnlyOnce(function () {
       this.set('errorMessage', null);
-      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#');
+      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout());
     })
   }
 

@@ -6,9 +6,17 @@ import _ from 'pix-live/utils/lodash-custom';
 function getValidateActionLink() {
   return $('a.challenge-item-actions__validate-action')[0];
 }
+function getSkipActionLink() {
+  return $('a.challenge-item-actions__skip-action')[0];
+}
 
-function urlOfLastPostRequest() {
+function fullUrlOfLastPostRequest() {
   return $($('.last-post-request-url')[0]).text();
+}
+function urlOfLastPostRequest() {
+  let postedOn = fullUrlOfLastPostRequest().split('/api/').pop();
+  postedOn = '/api/' + postedOn;
+  return postedOn;
 }
 
 function bodyOfLastPostRequest() {
@@ -148,7 +156,7 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
 
     describe('Sauvegarde du temps passé | ',function () {
 
-      it('Si l\'utilisateur valide et il reste du temps, sauvegarde le temps restant en secondes', function () {
+      it('Si l\'utilisateur valide et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
         visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
         andThen(() => {
           triggerEvent('.timeout-jauge', 'resetElapsedTime');
@@ -158,14 +166,12 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
           click(getValidateActionLink());
         });
         andThen(() => {
-          let postedOn = urlOfLastPostRequest().split('/api/').pop();
-          postedOn = '/api/' + postedOn;
-          expect(postedOn).to.equal('/api/answers');
+          expect(urlOfLastPostRequest()).to.equal('/api/answers');
           expect(_.get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(2);
         });
       });
 
-      it('Si l\'utilisateur valide et si le temps imparti est dépassé, sauvegarde le nombre de secondes après 0', function () {
+      it('Si l\'utilisateur valide et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
         visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
         andThen(() => {
           triggerEvent('.timeout-jauge', 'resetElapsedTime');
@@ -178,9 +184,40 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
           click(getValidateActionLink());
         });
         andThen(() => {
-          let postedOn = urlOfLastPostRequest().split('/api/').pop();
-          postedOn = '/api/' + postedOn;
-          expect(postedOn).to.equal('/api/answers');
+          expect(urlOfLastPostRequest()).to.equal('/api/answers');
+          expect(_.get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(-1);
+        });
+      });
+
+      it('Si l\'utilisateur ABANDONNE et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
+        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        andThen(() => {
+          triggerEvent('.timeout-jauge', 'resetElapsedTime');
+          $('.last-post-request').remove();
+        });
+        andThen(() => {
+          click(getSkipActionLink());
+        });
+        andThen(() => {
+          expect(urlOfLastPostRequest()).to.equal('/api/answers');
+          expect(_.get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(2);
+        });
+      });
+
+      it('Si l\'utilisateur ABANDONNE et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
+        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        andThen(() => {
+          triggerEvent('.timeout-jauge', 'resetElapsedTime');
+          $('.last-post-request').remove();
+        });
+        andThen(() => {
+          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // 1 second left
+          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // 0 second left
+          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // -1 second below 0
+          click(getSkipActionLink());
+        });
+        andThen(() => {
+          expect(urlOfLastPostRequest()).to.equal('/api/answers');
           expect(_.get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(-1);
         });
       });
