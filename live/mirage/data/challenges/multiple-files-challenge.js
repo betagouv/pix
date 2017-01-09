@@ -5,7 +5,7 @@ export default {
     attributes: {
       type: 'QRU',
       instruction: 'Un exemple d\'épreuve proposant de télécharger un fichier parmi plusieurs.',
-      attachments : ['file.docx','file.odt'],
+      attachments : ['http://file.docx','file.odt'],
       proposals: '- Plusieurs fichiers'
     }
   }

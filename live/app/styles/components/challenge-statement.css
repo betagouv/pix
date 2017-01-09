@@ -1,27 +1,27 @@
-.challenge-attachment {
+.challenge-statement__attachments-section {
   background-color: #ececec;
   text-align: center;
   padding: 20px;
 }
 
-.challenge-attachment__list {
+.challenge-statement__file-options {
   margin-left: 0;
   padding: 0;
-
-& li {
-    list-style-type: none;
-    display: inline-block;
-    padding: 0 15px;
-  }
 }
 
-.challenge-attachment-action {
+.challenge-statement__file-option {
+  list-style-type: none;
+  display: inline-block;
+  padding: 0 15px;
+}
+
+.challenge-statement__action {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.challenge-attachment__download-action {
+.challenge-statement__action-link {
   width: 156px;
   height: 46px;
   border-radius: 23px;
@@ -29,13 +29,13 @@
   color: var(--download-action-color);
   cursor: pointer;
   text-align: center;
-
-&:hover {
-   color: var(--download-action-color);
- }
 }
 
-.challenge-attachment__download-action-text {
+.challenge-statement__action-link:hover {
+  color: var(--download-action-color);
+}
+
+.challenge-statement__action-label {
   width: 76px;
   line-height: 46px;
   font-family: var(--font-lato);
