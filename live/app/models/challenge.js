@@ -11,19 +11,11 @@ const ChallengeModel = Model.extend(ProposalsAsArrayMixin, ProposalsAsBlocksMixi
   proposals: attr('string'),
   illustrationUrl: attr('string'),
   type: attr('string'),
+
   attachments: attr('array'),
-
-  hasAttachment: Ember.computed('attachments', function() {
-    return this.get('attachments').length > 0;
-  }),
-
-  hasSingleAttachment: Ember.computed('attachments', function() {
-    return this.get('attachments').length == 1;
-  }),
-
-  hasMultipleAttachments: Ember.computed('attachments', function() {
-    return this.get('attachments').length > 1;
-  })
+  hasAttachment: Ember.computed.notEmpty('attachments'),
+  hasSingleAttachment: Ember.computed.equal('attachments.length', 1),
+  hasMultipleAttachments: Ember.computed.gt('attachments.length', 1)
 
 });
 

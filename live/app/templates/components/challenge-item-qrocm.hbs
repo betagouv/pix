@@ -1,23 +1,23 @@
 {{challenge-statement challenge}}
 
 <div class="rounded-panel challenge-response">
-    <div class="challenge-proposals">
-        {{qrocm-proposal
-            blocks=challenge._proposalsAsBlocks
-            answersValue=answers._valuesAsMap
-            onInputChanged='inputChanged' }}
-    </div>
+  <div class="challenge-proposals">
+    {{qrocm-proposal
+      blocks=challenge._proposalsAsBlocks
+      answersValue=answers._valuesAsMap
+      onInputChanged='inputChanged' }}
+  </div>
 </div>
 
 {{#if errorMessage}}
-    <div class="alert alert-danger" role="alert">
-      {{errorMessage}}
-    </div>
+  <div class="alert alert-danger" role="alert">
+    {{errorMessage}}
+  </div>
 {{/if}}
 
 {{#if assessment}}
   {{challenge-actionbar
-      skip="skip"
-      validate="validate"}}
+    skip="skip"
+    validate="validate"}}
 {{/if}}
 

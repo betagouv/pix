@@ -8,7 +8,7 @@ export default function (schema, request) {
   const allCourses = [
     refCourse.data,
     rawCourse.data,
-    courseAboutAttachments
+    courseAboutAttachments.data
   ];
 
   const filteredCourses = _.filter(allCourses, function (oneCourse) {

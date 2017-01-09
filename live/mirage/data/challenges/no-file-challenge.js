@@ -5,7 +5,6 @@ export default {
     attributes: {
       type: 'QRU',
       instruction: 'Un exemple d\'épreuve ne proposant pas de télécharger un fichier.',
-      attachments: [],
       proposals: '- Aucun fichier'
     }
   }
