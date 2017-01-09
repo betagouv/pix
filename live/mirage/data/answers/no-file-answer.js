@@ -18,7 +18,7 @@ export default {
       assessment: {
         data: {
           type: 'assessments',
-          id: 'assessment_about_attachments_id'
+          id: 'ref_assessment_id'
         }
       }
     }

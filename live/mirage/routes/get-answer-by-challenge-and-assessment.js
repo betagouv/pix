@@ -5,7 +5,7 @@ import refQcuAnswer    from '../data/answers/ref-qcu-answer';
 import refQruAnswer    from '../data/answers/ref-qru-answer';
 import refQrocAnswer   from '../data/answers/ref-qroc-answer';
 import refQrocmAnswer  from '../data/answers/ref-qrocm-answer';
-import noFileAnswer from '../data/answers/no-file-answer';
+import noFileAnswer    from '../data/answers/no-file-answer';
 import oneFileAnswer from '../data/answers/one-file-answer';
 import multipleFilesAnswer from '../data/answers/multiple-files-answer';
 

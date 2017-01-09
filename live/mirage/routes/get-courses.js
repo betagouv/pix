@@ -1,14 +1,12 @@
 import _ from 'lodash/lodash';
 import refCourse from '../data/courses/ref-course';
 import rawCourse from '../data/courses/raw-course';
-import courseAboutAttachments from '../data/courses/course-about-attachments';
 
 export default function (schema, request) {
 
   const allCourses = [
     refCourse.data,
-    rawCourse.data,
-    courseAboutAttachments.data
+    rawCourse.data
   ];
 
   const filteredCourses = _.filter(allCourses, function (oneCourse) {

@@ -18,9 +18,9 @@ export default function () {
       refQruChallengeFull.data,
       refQrocChallengeFull.data,
       refQrocmChallengeFull.data,
-      noFileChallenge,
-      oneFileChallenge,
-      multipleFilesChallenge
+      noFileChallenge.data,
+      oneFileChallenge.data,
+      multipleFilesChallenge.data
     ]
   };
 

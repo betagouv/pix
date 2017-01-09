@@ -17,8 +17,6 @@ export default function (schema, request) {
         return rawQcmChallenge;
       case 'ref_assessment_id':
         return refQcmChallengeFull;
-      case 'assessment_about_attachments_id':
-        return noFileChallenge;
       default:
         throw new Error('This assessment is not defined ' + request.params.assessmentId);
     }
@@ -34,9 +32,7 @@ export default function (schema, request) {
     'ref_qcu_challenge_id': refQruChallengeFull,
     'ref_qru_challenge_id': refQrocChallengeFull,
     'ref_qroc_challenge_id': refQrocmChallengeFull,
-    'ref_qrocm_challenge_id': null,
-
-    // course_about_attachments
+    'ref_qrocm_challenge_id': noFileChallenge,
     'no_file_challenge_id': oneFileChallenge,
     'one_file_challenge_id': multipleFilesChallenge,
     'multiple_files_challenge_id': 'null'
