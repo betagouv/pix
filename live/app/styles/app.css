@@ -27,6 +27,7 @@
 @import url('index.css');
 @import url('courses/get-preview.css');
 @import url('assessments/get-results.css');
+
 @media (min-width: 1200px) {
   .container {
     max-width: 900px;

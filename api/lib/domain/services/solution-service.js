@@ -50,7 +50,7 @@ module.exports = {
       result = 'timedout';
     }
 
-    return 'not-implemented';
+    return result;
   }
 
 };
