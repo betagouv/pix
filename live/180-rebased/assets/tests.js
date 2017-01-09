@@ -1037,7 +1037,19 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test.lint-tes
     });
   });
 });
-define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (exports, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveUtilsLodashCustom) {
+
+  function getValidateActionLink() {
+    return $('a.challenge-item-actions__validate-action')[0];
+  }
+
+  function urlOfLastPostRequest() {
+    return $($('.last-post-request-url')[0]).text();
+  }
+
+  function bodyOfLastPostRequest() {
+    return JSON.parse($($('.last-post-request-body')[0]).text());
+  }
 
   describe('Acceptance | H1 - Timeout Jauge | ', function () {
 
@@ -1165,6 +1177,46 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
           andThen(function () {
             var $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
             (0, _chai.expect)($jaugeClock.attr('fill')).to.equal('red');
+          });
+        });
+      });
+
+      describe('Sauvegarde du temps passé | ', function () {
+
+        it('Si l\'utilisateur valide et il reste du temps, sauvegarde le temps restant en secondes', function () {
+          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          andThen(function () {
+            triggerEvent('.timeout-jauge', 'resetElapsedTime');
+            $('.last-post-request').remove();
+          });
+          andThen(function () {
+            click(getValidateActionLink());
+          });
+          andThen(function () {
+            var postedOn = urlOfLastPostRequest().split('/api/').pop();
+            postedOn = '/api/' + postedOn;
+            (0, _chai.expect)(postedOn).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(2);
+          });
+        });
+
+        it('Si l\'utilisateur valide et si le temps imparti est dépassé, sauvegarde le nombre de secondes après 0', function () {
+          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          andThen(function () {
+            triggerEvent('.timeout-jauge', 'resetElapsedTime');
+            $('.last-post-request').remove();
+          });
+          andThen(function () {
+            triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // 1 second left
+            triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // 0 second left
+            triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // -1 second below 0
+            click(getValidateActionLink());
+          });
+          andThen(function () {
+            var postedOn = urlOfLastPostRequest().split('/api/').pop();
+            postedOn = '/api/' + postedOn;
+            (0, _chai.expect)(postedOn).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(-1);
           });
         });
       });
