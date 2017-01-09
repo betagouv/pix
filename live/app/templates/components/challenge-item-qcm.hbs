@@ -1,7 +1,7 @@
 {{challenge-statement challenge}}
 
 <div class="rounded-panel challenge-response">
-  <div class="challenge-proposals">
+  <div class="rounded-panel__row challenge-proposals">
     {{qcm-proposals
       answers=answers._valueAsArrayOfBoolean
       proposals=challenge._proposalsAsArray
@@ -16,7 +16,5 @@
 {{/if}}
 
 {{#if assessment}}
-  {{challenge-actionbar
-    skip="skip"
-    validate="validate"}}
+  {{challenge-actionbar skip="skip" validate="validate"}}
 {{/if}}

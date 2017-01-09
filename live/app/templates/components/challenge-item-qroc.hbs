@@ -1,7 +1,7 @@
 {{challenge-statement challenge}}
 
 <div class="rounded-panel challenge-response">
-  <div class="challenge-proposals">
+  <div class="rounded-panel__row challenge-proposals">
     {{qroc-proposal
       blocks=challenge._proposalsAsBlocks
       answerValue=answers.value
@@ -16,7 +16,5 @@
 {{/if}}
 
 {{#if assessment}}
-  {{challenge-actionbar
-    skip="skip"
-    validate="validate"}}
+  {{challenge-actionbar skip="skip" validate="validate"}}
 {{/if}}

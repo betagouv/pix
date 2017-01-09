@@ -1,42 +1,14 @@
 
-/* Table of contents
-––––––––––––––––––––––––––––––––––––––––––––––––––
-- Statement
-- Response
-- Actions
-*/
 
-.challenge-item {
+.challenge-item .challenge-proposals hr {
+  border: none;
+  background: none;
+  margin: 10px;
+}
 
-/* Statement
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-  & .challenge-instruction {
-    font-size: 20px;
-
-    & img {
-      display: block;
-      text-align: center;
-      margin: 0 auto;
-    }
-  }
-
-  & .challenge-illustration img {
-      max-width: 100%;
-  }
-
-/* Response
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-  & .challenge-proposals hr {
-    border: none;
-    background: none;
-    margin: 10px;
-  }
-
-  & .challenge-proposal label {
-    font-weight: 400;
-    width: 100%;
-  }
-
+.challenge-item .challenge-proposal label {
+  font-weight: 400;
+  width: 100%;
 }
 
 /* Actions

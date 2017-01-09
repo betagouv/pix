@@ -1,3 +1,18 @@
+.challenge-statement__instruction-section {
+  font-size: 20px;
+}
+
+.challenge-statement__illustration-section {
+  display: block;
+  text-align: center;
+  border-top: 1px solid var(--light-grey5);
+  box-sizing: content-box;
+}
+
+.challenge-statement__illustration {
+  max-width: 100%;
+}
+
 .challenge-statement__attachments-section {
   background-color: #ececec;
   text-align: center;
