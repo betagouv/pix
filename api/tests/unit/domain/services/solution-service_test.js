@@ -292,4 +292,25 @@ describe('Unit | Service | SolutionService', function () {
 
   });
 
+  describe('#_timedOut', function() {
+    it('should return "timedout" if result is partially correct and timeout is negative', function () {
+      expect(service._timedOut('partially', -5)).to.equal('timedout');
+    });
+    it('should return "timedout" if result is "ok" and timeout is negative', function () {
+      expect(service._timedOut('ok', -5)).to.equal('timedout');
+    });
+    it('should return "partially" if result is partially correct and timeout is 0', function () {
+      expect(service._timedOut('partially', 0)).to.equal('partially');
+    });
+    it('should return "ok" if result is "ok" and timeout is 0', function () {
+      expect(service._timedOut('ok', 0)).to.equal('ok');
+    });
+    it('should return "partially" if result is partially correct and timeout is positive', function () {
+      expect(service._timedOut('partially', 11)).to.equal('partially');
+    });
+    it('should return "ok" if result is "ok" and timeout is 0', function () {
+      expect(service._timedOut('ok', 11)).to.equal('ok');
+    });
+  });
+
 });

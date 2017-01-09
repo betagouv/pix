@@ -6,6 +6,17 @@ const solutionServiceQrocmDep = require('./solution-service-qrocm-dep');
 
 module.exports = {
 
+  _timedOut(result, answerTimeout) {
+    const isPartiallyOrCorrectAnswer = (result === 'ok' || result === 'partially');
+    const hasTimedOut = _.isInteger(answerTimeout) && answerTimeout < 0;
+
+    if (isPartiallyOrCorrectAnswer && hasTimedOut) {
+      return 'timedout';
+    }
+    return result;
+
+  },
+
   match(answer, solution) {
 
     let result = 'not-implemented';
@@ -43,12 +54,7 @@ module.exports = {
       result = solutionServiceQrocmDep.match(answerValue, solutionValue, solutionScoring);
     }
 
-    const isPartiallyOrCorrectAnswer = (result === 'ok' || result === 'partially');
-    const hasTimedOut = _.isInteger(answerTimeout) && answerTimeout < 0;
-
-    if (isPartiallyOrCorrectAnswer && hasTimedOut) {
-      result = 'timedout';
-    }
+    result = this._timedOut(result, answerTimeout);
 
     return result;
   }
