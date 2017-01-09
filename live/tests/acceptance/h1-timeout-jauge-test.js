@@ -1,6 +1,19 @@
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
+import _ from 'pix-live/utils/lodash-custom';
+
+function getValidateActionLink() {
+  return $('a.challenge-item-actions__validate-action')[0];
+}
+
+function urlOfLastPostRequest() {
+  return $($('.last-post-request-url')[0]).text();
+}
+
+function bodyOfLastPostRequest() {
+  return JSON.parse($($('.last-post-request-body')[0]).text());
+}
 
 describe('Acceptance | H1 - Timeout Jauge | ',function () {
 
@@ -132,5 +145,26 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
       });
 
     });
+
+    describe('Sauvegarde du temps passé | ',function () {
+
+      it('Si l\'utilisateur valide et il reste du temps, sauvegarde le temps restant en secondes', function () {
+        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        andThen(() => {
+          triggerEvent('.timeout-jauge', 'resetElapsedTime');
+          $('body').remove('.last-post-request');
+        });
+        andThen(() => {
+          click(getValidateActionLink());
+        });
+        andThen(() => {
+          let postedOn = urlOfLastPostRequest().split('/api/').pop();
+          postedOn = '/api/' + postedOn;
+          expect(postedOn).to.equal('/api/answers');
+          expect(_.get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(2);
+        });
+      });
+    });
+
   });
 });
