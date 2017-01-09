@@ -18,9 +18,9 @@ describe('Unit | Service | SolutionService', function () {
     return solution;
   }
 
-  function buildAnswer(value) {
+  function buildAnswer(value, timeout) {
     const answer = new Answer({ id: 'answer_id' });
-    answer.attributes = { value };
+    answer.attributes = { value, timeout };
     return answer;
   }
 
@@ -52,6 +52,12 @@ describe('Unit | Service | SolutionService', function () {
         const answer = buildAnswer('same value');
         const solution = buildSolution('QCU', 'same value');
         expect(service.match(answer, solution)).to.equal('ok');
+      });
+
+      it('should return "timedout" when answer and solution are equal, but timeout is negative', function () {
+        const answer = buildAnswer('same value', -15);
+        const solution = buildSolution('QCU', 'same value');
+        expect(service.match(answer, solution)).to.equal('timedout');
       });
 
       it('should return "ko" when answer and solution are different', function () {
