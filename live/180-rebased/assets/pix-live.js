@@ -1106,6 +1106,28 @@ define('pix-live/helpers/sub', ['exports', 'ember-math-helpers/helpers/sub'], fu
     }
   });
 });
+define('pix-live/initializers/ajax-interceptor', ['exports', 'pix-live/config/environment'], function (exports, _pixLiveConfigEnvironment) {
+  exports.initialize = initialize;
+
+  function initialize() /* application */{
+    // XXX : Small hack, huge reward : we can now assert in tests what is the content of outgoing requests.
+    if (_pixLiveConfigEnvironment['default'].environment === 'test') {
+      $(document).ajaxComplete(function (event, xhr, settings) {
+        if ('POST' === settings.type) {
+          $('.last-post-request').remove();
+          $('body').append('<div class="last-post-request"></div>');
+          $('.last-post-request').append('<div class="last-post-request-url">' + settings.url + '</div>');
+          $('.last-post-request').append('<div class="last-post-request-body">' + settings.data + '</div>');
+        }
+      });
+    }
+  }
+
+  exports['default'] = {
+    name: 'ajax-interceptor',
+    initialize: initialize
+  };
+});
 define('pix-live/initializers/app-version', ['exports', 'ember-cli-app-version/initializer-factory', 'pix-live/config/environment'], function (exports, _emberCliAppVersionInitializerFactory, _pixLiveConfigEnvironment) {
   var _config$APP = _pixLiveConfigEnvironment['default'].APP;
   var name = _config$APP.name;
@@ -1337,7 +1359,7 @@ define('pix-live/initializers/metrics', ['exports', 'pix-live/config/environment
 define('pix-live/initializers/modals-container', ['exports', 'ember-bootstrap/initializers/modals-container'], function (exports, _emberBootstrapInitializersModalsContainer) {
   exports['default'] = _emberBootstrapInitializersModalsContainer['default'];
 });
-define('pix-live/initializers/router', ['exports', 'pix-live/config/environment'], function (exports, _pixLiveConfigEnvironment) {
+define('pix-live/initializers/router', ['exports'], function (exports) {
   exports.initialize = initialize;
 
   // See http://stackoverflow.com/questions/18302463/get-current-route-name-in-ember
@@ -1345,18 +1367,6 @@ define('pix-live/initializers/router', ['exports', 'pix-live/config/environment'
   function initialize(application) {
     application.inject('route', 'router', 'router:main');
     application.inject('component', 'router', 'router:main');
-
-    // XXX : Small hack, huge reward : we can now assert in tests what is the content of outgoing requests.
-    if (_pixLiveConfigEnvironment['default'].environment === 'test') {
-      $(document).ajaxComplete(function (event, xhr, settings) {
-        if ('POST' === settings.type) {
-          $('.last-post-request').remove();
-          $('body').append('<div class="last-post-request"></div>');
-          $('.last-post-request').append('<div class="last-post-request-url">' + settings.url + '</div>');
-          $('.last-post-request').append('<div class="last-post-request-body">' + settings.data + '</div>');
-        }
-      });
-    }
   }
 
   exports['default'] = {
@@ -3195,7 +3205,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+e0d61139"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+a82c1250"});
 }
 
 /* jshint ignore:end */

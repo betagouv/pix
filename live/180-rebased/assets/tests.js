@@ -2223,6 +2223,15 @@ define('pix-live/tests/helpers/strip-instruction.lint-test', ['exports'], functi
     });
   });
 });
+define('pix-live/tests/initializers/ajax-interceptor.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - initializers/ajax-interceptor.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/initializers/router.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2897,6 +2906,40 @@ define('pix-live/tests/unit/helpers/strip-instruction-test.lint-test', ['exports
   'use strict';
 
   describe('ESLint - unit/helpers/strip-instruction-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/initializers/ajax-interceptor-test', ['exports', 'chai', 'mocha', 'ember', 'pix-live/initializers/ajax-interceptor', 'pix-live/tests/helpers/destroy-app'], function (exports, _chai, _mocha, _ember, _pixLiveInitializersAjaxInterceptor, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)('Unit | Initializer | ajax interceptor', function () {
+    var application = undefined;
+
+    (0, _mocha.beforeEach)(function () {
+      _ember['default'].run(function () {
+        application = _ember['default'].Application.create();
+        application.deferReadiness();
+      });
+    });
+
+    afterEach(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    // Replace this with your real tests.
+    (0, _mocha.it)('works', function () {
+      (0, _pixLiveInitializersAjaxInterceptor.initialize)(application);
+
+      // you would normally confirm the results of the initializer here
+      (0, _chai.expect)(true).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/initializers/ajax-interceptor-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/initializers/ajax-interceptor-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
