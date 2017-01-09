@@ -330,7 +330,7 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-l
 
       skip: (0, _pixLiveUtilsCallOnlyOnce['default'])(function () {
         this.set('errorMessage', null);
-        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#');
+        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout());
       })
     }
 
@@ -1351,7 +1351,7 @@ define('pix-live/initializers/router', ['exports', 'pix-live/config/environment'
       $(document).ajaxComplete(function (event, xhr, settings) {
         if ('POST' === settings.type) {
           $('.last-post-request').remove();
-          $('body').append('<div class="last-post-request" style="display:none"></div>');
+          $('body').append('<div class="last-post-request"></div>');
           $('.last-post-request').append('<div class="last-post-request-url">' + settings.url + '</div>');
           $('.last-post-request').append('<div class="last-post-request-body">' + settings.data + '</div>');
         }
@@ -3195,7 +3195,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+f3444fa0"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+853e0544"});
 }
 
 /* jshint ignore:end */

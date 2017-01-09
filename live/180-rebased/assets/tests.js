@@ -1042,9 +1042,17 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
   function getValidateActionLink() {
     return $('a.challenge-item-actions__validate-action')[0];
   }
+  function getSkipActionLink() {
+    return $('a.challenge-item-actions__skip-action')[0];
+  }
 
-  function urlOfLastPostRequest() {
+  function fullUrlOfLastPostRequest() {
     return $($('.last-post-request-url')[0]).text();
+  }
+  function urlOfLastPostRequest() {
+    var postedOn = fullUrlOfLastPostRequest().split('/api/').pop();
+    postedOn = '/api/' + postedOn;
+    return postedOn;
   }
 
   function bodyOfLastPostRequest() {
@@ -1183,7 +1191,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
 
       describe('Sauvegarde du temps passé | ', function () {
 
-        it('Si l\'utilisateur valide et il reste du temps, sauvegarde le temps restant en secondes', function () {
+        it('Si l\'utilisateur valide et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
           visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
@@ -1193,14 +1201,12 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
             click(getValidateActionLink());
           });
           andThen(function () {
-            var postedOn = urlOfLastPostRequest().split('/api/').pop();
-            postedOn = '/api/' + postedOn;
-            (0, _chai.expect)(postedOn).to.equal('/api/answers');
+            (0, _chai.expect)(urlOfLastPostRequest()).to.equal('/api/answers');
             (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(2);
           });
         });
 
-        it('Si l\'utilisateur valide et si le temps imparti est dépassé, sauvegarde le nombre de secondes après 0', function () {
+        it('Si l\'utilisateur valide et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
           visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
@@ -1213,9 +1219,40 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
             click(getValidateActionLink());
           });
           andThen(function () {
-            var postedOn = urlOfLastPostRequest().split('/api/').pop();
-            postedOn = '/api/' + postedOn;
-            (0, _chai.expect)(postedOn).to.equal('/api/answers');
+            (0, _chai.expect)(urlOfLastPostRequest()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(-1);
+          });
+        });
+
+        it('Si l\'utilisateur ABANDONNE et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
+          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          andThen(function () {
+            triggerEvent('.timeout-jauge', 'resetElapsedTime');
+            $('.last-post-request').remove();
+          });
+          andThen(function () {
+            click(getSkipActionLink());
+          });
+          andThen(function () {
+            (0, _chai.expect)(urlOfLastPostRequest()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(2);
+          });
+        });
+
+        it('Si l\'utilisateur ABANDONNE et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
+          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          andThen(function () {
+            triggerEvent('.timeout-jauge', 'resetElapsedTime');
+            $('.last-post-request').remove();
+          });
+          andThen(function () {
+            triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // 1 second left
+            triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // 0 second left
+            triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // -1 second below 0
+            click(getSkipActionLink());
+          });
+          andThen(function () {
+            (0, _chai.expect)(urlOfLastPostRequest()).to.equal('/api/answers');
             (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(-1);
           });
         });
