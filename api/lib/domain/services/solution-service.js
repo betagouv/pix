@@ -26,10 +26,6 @@ module.exports = {
     const solutionValue = solution.value;
     const solutionScoring = solution.scoring;
 
-    if ('#ABAND#' === answerValue) {
-      result = 'aband';
-    }
-
     if (solution.type === 'QRU') {
       result = 'not-implemented';
     }
@@ -52,6 +48,10 @@ module.exports = {
 
     if (solution.type === 'QROCM-dep') {
       result = solutionServiceQrocmDep.match(answerValue, solutionValue, solutionScoring);
+    }
+
+    if ('#ABAND#' === answerValue) {
+      result = 'aband';
     }
 
     result = this._timedOut(result, answerTimeout);
