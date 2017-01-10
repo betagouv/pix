@@ -1,3 +1,8 @@
+.challenge-statement {
+  /* XXX required to let "help tooltip" displaying well even if instruction section is short (1 line) */
+  overflow: visible;
+}
+
 .challenge-statement__instruction-section {
   font-size: 20px;
 }
@@ -24,20 +29,80 @@
 }
 
 .challenge-statement__help-icon {
-  content: "i";
-  left: 3px;
   width: 18px;
   height: 18px;
-  font-size: 10px;
-  text-align: center;
+  line-height: 18px;
   color: #fff;
   display: inline-block;
   background: var(--pix-blue);
   border-radius: 50%;
-  vertical-align: middle;
   margin: 0 5px;
   cursor: pointer;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
 }
+
+.challenge-statement__help-icon:after {
+  content: "i";
+  position: absolute;
+  font-size: 12px;
+  font-weight: 900;
+  left: 8px;
+}
+
+.challenge-statement__help-tooltip {
+  visibility: hidden;
+  color: #ccc;
+  text-align: justify;
+  border-radius: 6px;
+  padding: 15px;
+  width: 430px;
+  height: auto;
+  background-color: #ffffff;
+  box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.1);
+  border: solid 1px #d8d8d8;
+  position: absolute;
+  z-index: 999;
+  left: 50%;
+  margin-left: -400px;
+  bottom: 30px;
+}
+
+/* XXX tooltip bottom arrow */
+.challenge-statement__help-tooltip:before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 400px;
+  margin-left: -10px;
+  width: 0; height: 0;
+  border-top: 10px solid #d8d8d8;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+}
+.challenge-statement__help-tooltip:after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 400px;
+  margin-left: -8px;
+  width: 0; height: 0;
+  border-top: 8px solid #FFFFFF;
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+}
+
+/* XXX the magic trick to manage tooltip appearing at icon mouse hover */
+.challenge-statement__help-icon:hover .challenge-statement__help-tooltip {
+  visibility: visible;
+}
+
+.challenge-statement__help-text {
+  font-size: 14px;
+  color: #3e4149;
+}
+
 
 .challenge-statement__file-options {
   margin-left: 0;

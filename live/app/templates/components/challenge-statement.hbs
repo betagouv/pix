@@ -2,13 +2,15 @@
 
   {{#if challenge.instruction}}
     <div class="rounded-panel__row challenge-statement__instruction-section">
-      {{markdown-to-html class="challenge-statement__instruction" extensions='targetBlank' markdown=challenge.instruction}}
+      {{markdown-to-html class="challenge-statement__instruction" extensions='targetBlank'
+                         markdown=challenge.instruction}}
     </div>
   {{/if}}
 
   {{#if challenge.illustrationUrl}}
     <div class="rounded-panel__row challenge-statement__illustration-section">
-      <img class="challenge-statement__illustration" src="{{ challenge.illustrationUrl }}" alt="Illustration de l'épreuve">
+      <img class="challenge-statement__illustration" src="{{ challenge.illustrationUrl }}"
+           alt="Illustration de l'épreuve">
     </div>
   {{/if}}
 
@@ -26,7 +28,11 @@
       {{#if challenge.hasMultipleAttachments}}
         <p class="challenge-statement__text">
           Choisissez le type de fichier que vous voulez utiliser
-          <span class="challenge-statement__help-icon" title="Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels." />
+        <div class="challenge-statement__help-icon">
+          <div class="challenge-statement__help-tooltip">
+            <span class="challenge-statement__help-text">Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.</span>
+          </div>
+        </div>
         </p>
         <ul class="challenge-statement__file-options">
           {{#each challenge.attachments as |attachmentUrl|}}
