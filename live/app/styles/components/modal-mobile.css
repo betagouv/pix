@@ -19,7 +19,14 @@
   & .modal-footer{
     border: none;
   }
-  
+  & .modal.fade.in {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.5);
+    transition: all 1s ease;
+  }
 
 }
 
@@ -59,3 +66,4 @@
   text-decoration: underline;
 
 }
+
