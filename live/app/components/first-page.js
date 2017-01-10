@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import ENV from 'pix-live/config/environment';
-const set = Ember.set;
 
 export default Ember.Component.extend({
 

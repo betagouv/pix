@@ -1,9 +1,4 @@
-import {
-  describe,
-  it,
-  before,
-  after
-} from 'mocha';
+import Ember from 'ember';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -60,19 +55,17 @@ describe('Acceptance | a4 - Démarrer un test |', function () {
     // blocked by modal
     andThen(() => {
       // XXX : ickiest hack : wait 300ms for bootstrap transition to complete
-      setTimeout(function() {
+      Ember.run.later(function() {
         expect($jsModalMobile.css('display')).to.equals('block');
         expect(currentURL()).to.equals('/');
         $('button[data-dismiss]').click();
-        // alert('within setTimeout');
-        // expect('blabla').to.equals('aze');
 
         return click($startLink).then(() => {
           expect(currentURL()).to.contains(URL_OF_FIRST_TEST);
           done();
         });
-
       }, 500);
+
     });
 
   });
@@ -83,10 +76,10 @@ describe('Acceptance | a4 - Démarrer un test |', function () {
     triggerEvent('.first-page', 'simulateMobileScreen');
 
     andThen(() => {
-      setTimeout(function () {
+      Ember.run.later(function() {
         expect(currentURL()).to.equals('/');
         expect($jsModalMobile.css('display')).to.equals('none');
-      }, 300);
+      }, 500);
     });
     click($startLink);
     andThen(() => {
