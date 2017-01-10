@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import ENV from 'pix-live/config/environment';
+const set = Ember.set;
 
 export default Ember.Component.extend({
 
@@ -30,11 +32,15 @@ export default Ember.Component.extend({
     }
   },
 
-  isMobile() {
-    return $(window).width() < 767;
+  isMobile () {
+    if (ENV.environment !== 'test') {
+      return $(window).width() < 767;
+    } else {
+      return this.get('isSimulatedMobileScreen');
+    }
   },
 
-  didInsertElement() {
+  didInsertElement () {
     const that = this;
     Ember.run.scheduleOnce('afterRender', this, function () {
       $('button[data-confirm]').click(function() {
@@ -42,6 +48,12 @@ export default Ember.Component.extend({
         that.get('router').transitionTo(that.get('course_url'), that.get('course_id'));
       });
     });
+
+    if (ENV.environment === 'test') {
+      this.$().on('simulateMobileScreen', function() {
+        that.set('isSimulatedMobileScreen', 'true');
+      });
+    }
 
   }
 
