@@ -8,6 +8,9 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
+const URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
+
+
 describe('Acceptance | a4 - Démarrer un test |', function () {
 
   let application;
@@ -33,30 +36,45 @@ describe('Acceptance | a4 - Démarrer un test |', function () {
     const $startLink = findWithAssert('.start-button');
     return click($startLink).then(function() {
       findWithAssert('#assessment-challenge');
-      expect(currentURL()).to.contains('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      expect(currentURL()).to.contains(URL_OF_FIRST_TEST);
     });
   });
 
-  it('a4.3 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale', function(done) {
+  it('a4.3 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function(done) {
     const $startLink = findWithAssert('.start-button');
     const $jsModalMobile = findWithAssert('#js-modal-mobile');
+
+    // test on mobile
     triggerEvent('.first-page', 'simulateMobileScreen');
 
+    // clear local storage
     andThen(() => {
       window.localStorage.clear();
       expect(currentURL()).to.equals('/');
       expect($jsModalMobile.css('display')).to.equals('none');
     });
+
+    // start a test
     click($startLink);
+
+    // blocked by modal
     andThen(() => {
       // XXX : ickiest hack : wait 300ms for bootstrap transition to complete
       setTimeout(function() {
         expect($jsModalMobile.css('display')).to.equals('block');
         expect(currentURL()).to.equals('/');
         $('button[data-dismiss]').click();
-        done();
-      }, 300);
+        // alert('within setTimeout');
+        // expect('blabla').to.equals('aze');
+
+        return click($startLink).then(() => {
+          expect(currentURL()).to.contains(URL_OF_FIRST_TEST);
+          done();
+        });
+
+      }, 500);
     });
+
   });
 
   it('a4.4 Quand je RE-démarre un test sur mobile, la modale NE s\'affiche PAS', function(done) {
@@ -75,7 +93,6 @@ describe('Acceptance | a4 - Démarrer un test |', function () {
       expect(currentURL()).to.contains('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
       done();
     });
-
 
   });
 
