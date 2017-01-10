@@ -43,9 +43,8 @@
               {{ course.challenges.length }} épreuves
             </div>
             <div class="course-actions">
-              {{#link-to "courses.create-assessment" course.id class="button button-primary start-button"}}
-              Démarrer le test
-              {{/link-to}}
+              <button {{action "startTest" "courses.create-assessment" course.id}} class="button button-primary start-button">Démarrer le test</button>
+
             </div>
           </div>
         </li>
@@ -54,7 +53,9 @@
       </ul>
     </div>
   </div>
+
   {{modal-mobile}}
+
   <div class="first-page-email">
     <div class="first-page-email-content">
       <div class="first-page-email__title">

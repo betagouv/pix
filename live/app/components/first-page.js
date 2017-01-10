@@ -12,6 +12,12 @@ export default Ember.Component.extend({
     } catch(e) {
       // do nothing
     }
+  },
+  actions:{
+    startTest: function(a,b) {
+      $('#js-modal-mobile').modal();
+      console.log('startTest',a,b);
+    }
   }
-  
+
 });
