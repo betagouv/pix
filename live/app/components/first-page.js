@@ -15,9 +15,14 @@ export default Ember.Component.extend({
   },
   actions:{
     startTest: function(a,b) {
-      $('#js-modal-mobile').modal();
+      if(this.isMobile()){
+        $('#js-modal-mobile').modal();
+      }
       console.log('startTest',a,b);
     }
+  },
+  isMobile() {
+    return $(window).width() < 767;
   }
 
 });
