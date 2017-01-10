@@ -8,9 +8,11 @@
 
   {{#if challenge.illustrationUrl}}
     <div class="rounded-panel__row challenge-statement__illustration-section">
-      <img class="challenge-statement__illustration" src="{{ challenge.illustrationUrl }}" alt="ceci est une image">
+      <img class="challenge-statement__illustration" src="{{ challenge.illustrationUrl }}" alt="Illustration de l'épreuve">
     </div>
   {{/if}}
+
+  {{log challenge.hasAttachment}}
 
   {{#if challenge.hasAttachment}}
     <div class="rounded-panel__row challenge-statement__attachments-section">
@@ -24,7 +26,10 @@
       {{/if}}
 
       {{#if challenge.hasMultipleAttachments}}
-        <p>Choisissez le type de fichier que vous voulez utiliser :</p>
+        <p class="challenge-statement__text">
+          Choisissez le type de fichier que vous voulez utiliser
+          <span class="challenge-statement__help-icon" title="Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels." />
+        </p>
         <ul class="challenge-statement__file-options">
           {{#each challenge.attachments as |attachmentUrl|}}
             <li class="challenge-statement__file-option">

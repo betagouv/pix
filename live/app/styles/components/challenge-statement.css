@@ -19,15 +19,39 @@
   padding: 20px;
 }
 
+.challenge-statement__text {
+  font-size: 16px;
+}
+
+.challenge-statement__help-icon {
+  content: "i";
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  font-size: 10px;
+  text-align: center;
+  color: #fff;
+  display: inline-block;
+  background: var(--pix-blue);
+  border-radius: 50%;
+  vertical-align: middle;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
 .challenge-statement__file-options {
   margin-left: 0;
-  padding: 0;
+  padding: 10px 0;
 }
 
 .challenge-statement__file-option {
   list-style-type: none;
   display: inline-block;
   padding: 0 15px;
+}
+
+.challenge-statement__file-option-label {
+  font-size: 16px;
 }
 
 .challenge-statement__action {

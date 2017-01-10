@@ -33,7 +33,7 @@ describe('Acceptance | b5 - Afficher une image sous la consigne | ', function ()
 
     it('b5.2 Cette image a un alt text “ceci est une image”', function () {
       const $illustration = findWithAssert('.challenge-statement__illustration');
-      expect($illustration.attr('alt')).to.contains('ceci est une image');
+      expect($illustration.attr('alt')).to.contains('Illustration de l\'épreuve');
     });
   });
 
