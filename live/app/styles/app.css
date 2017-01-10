@@ -13,8 +13,9 @@
 @import url('components/first-page.css');
 @import url('components/corner-ribbon.css');
 @import url('components/identification-form.css');
-@import url('components/challenge-item.css');
 @import url('components/challenge-statement.css');
+@import url('components/challenge-response.css');
+@import url('components/challenge-actions.css');
 @import url('components/load-email.css');
 @import url('components/course-banner.css');
 

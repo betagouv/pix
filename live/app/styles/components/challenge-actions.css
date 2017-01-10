@@ -1,40 +1,25 @@
-
-
-.challenge-item .challenge-proposals hr {
-  border: none;
-  background: none;
-  margin: 10px;
-}
-
-.challenge-item .challenge-proposal label {
-  font-weight: 400;
-  width: 100%;
-}
-
-/* Actions
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.challenge-item-actions {
+.challenge-actions {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   margin-bottom: 30px;
 }
 
-.challenge-item-actions__action {
+.challenge-actions__action {
   cursor: pointer;
   text-align: center;
 }
 
-.challenge-item-actions__skip-action {
+.challenge-actions__action-skip {
   color: var(--skip-action-color);
   margin-right: 15px;
 }
 
-.challenge-item-actions__skip-action:hover {
+.challenge-actions__action-skip:hover {
   color: var(--skip-action-color);
 }
 
-.challenge-item-actions__skip-action-text {
+.challenge-actions__action-skip-text {
   width: 55px;
   height: 19px;
   font-family: var(--font-open-sans);
@@ -42,7 +27,7 @@
   font-weight: 600;
 }
 
-.challenge-item-actions__validate-action {
+.challenge-actions__action-validate {
   width: 130px;
   height: 46px;
   border-radius: 23px;
@@ -50,11 +35,11 @@
   color: var(--validate-action-color);
 }
 
-.challenge-item-actions__validate-action:hover {
+.challenge-actions__action-validate:hover {
   color: var(--validate-action-color);
 }
 
-.challenge-item-actions__validate-action-text {
+.challenge-actions__action-validate-text {
   width: 76px;
   line-height: 46px;
   font-family: var(--font-lato);
