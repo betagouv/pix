@@ -27,18 +27,18 @@ describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d
     });
 
     it('b6.1 Il existe un moyen pour télécharger la pièce jointe d\'une épreuve dans la zone de consigne', function () {
-      const $attachmentLink = findWithAssert('.challenge-attachment > a');
+      const $attachmentLink = findWithAssert('.challenge-statement__action-link');
       expect($attachmentLink.length).to.equal(1);
     });
 
     it('b6.2 Le lien de la pièce jointe pointe vers le bon lien', function () {
-      const $attachmentLink = $('.challenge-attachment > a');
-      expect($attachmentLink.text()).to.contains('Télécharger le fichier');
+      const $attachmentLink = $('.challenge-statement__action-link');
+      expect($attachmentLink.text()).to.contains('Télécharger');
       expect($attachmentLink.attr('href')).to.equal('http://example_of_url');
     });
 
     it('b6.3 Il n\'y a qu\'un seul fichier téléchargeable', function () {
-      const $attachment = findWithAssert('.challenge-attachment > a');
+      const $attachment = findWithAssert('.challenge-statement__action-link');
       expect($attachment.length).to.equal(1);
     });
   });
@@ -54,7 +54,7 @@ describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d
       findWithAssert('.challenge-item');
 
       // ... but attachment is hidden
-      const $attachmentLink = $('.challenge-attachment > a');
+      const $attachmentLink = $('.challenge-statement__action-link');
       expect($attachmentLink.length).to.equal(0);
     });
   });
