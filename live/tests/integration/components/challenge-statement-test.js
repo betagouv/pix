@@ -187,7 +187,7 @@ describe('Integration | Component | ChallengeStatement', function () {
         renderChallengeStatement(this);
 
         // then
-        expect(this.$('.challenge-statement__text').text().trim()).to.equal('Choisissez le type de fichier que vous voulez utiliser');
+        expect(this.$('.challenge-statement__text-content').text().trim()).to.equal('Choisissez le type de fichier que vous voulez utiliser');
       });
 
       it('should display help icon next to attachements paragraph', function() {

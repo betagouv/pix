@@ -16,6 +16,7 @@
 @import url('components/challenge-actions.css');
 @import url('components/load-email.css');
 @import url('components/course-banner.css');
+@import url('components/challenge-stay.css');
 
 /* views */
 @import url('home.css');

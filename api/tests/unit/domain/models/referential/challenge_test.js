@@ -1,10 +1,11 @@
+/* global describe, it, expect */
 const Challenge = require('../../../../../lib/domain/models/referential/challenge');
 
 describe('Unit | Model | Challenge', function () {
 
   describe('#initialize()', function () {
 
-    it(`should convert record "id" into "id" property`, function () {
+    it(`should convert record 'id' into 'id' property`, function () {
       // given
       const airtableRecord = { id: 'rec123', fields: {} };
 
@@ -22,9 +23,9 @@ describe('Unit | Model | Challenge', function () {
 
     ].forEach(({ airtableField, modelProperty }) => {
 
-      it(`should convert record "${airtableField}" field into "${modelProperty}" property`, function () {
+      it(`should convert record '${airtableField}' field into '${modelProperty}' property`, function () {
         // given
-        fields = [];
+        const fields = [];
         fields[airtableField] = `${modelProperty}_value`;
         const airtableRecord = { fields };
 
@@ -37,12 +38,12 @@ describe('Unit | Model | Challenge', function () {
 
     });
 
-    it(`should convert record "Illustration de la consigne" into "illustrationUrl" property`, function () {
+    it(`should convert record 'Illustration de la consigne' into 'illustrationUrl' property`, function () {
       // given
       const airtableRecord = {
         fields: {
-          "Illustration de la consigne": [{
-            "url": "https://dl.airtable.com/ZJgAgXfaQ7KgM7atPPI1_Symboles%20CC.png",
+          'Illustration de la consigne': [{
+            'url': 'https://dl.airtable.com/ZJgAgXfaQ7KgM7atPPI1_Symboles%20CC.png',
           }]
         }
       };
@@ -56,7 +57,7 @@ describe('Unit | Model | Challenge', function () {
 
     it(`should not return 'attachments' property when challenge has no attachment`, function () {
       // given
-      const airtableRecord = { fields: { } };
+      const airtableRecord = { fields: {} };
 
       // when
       const challenge = new Challenge(airtableRecord);
@@ -85,12 +86,13 @@ describe('Unit | Model | Challenge', function () {
       // given
       const attachmentDocx = {
         "url": "https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.docx",
-        "filename": "PIX_couleur_remplissage.docx",
+        "filename": "PIX_couleur_remplissage.docx"
       };
       const attachmentOdt = {
         "url": "https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.odt",
-        "filename": "PIX_couleur_remplissage.odt",
+        "filename": "PIX_couleur_remplissage.odt"
       };
+
       const airtableRecord = { fields: { 'Pièce jointe': [attachmentDocx, attachmentOdt] } };
 
       // when
@@ -100,6 +102,56 @@ describe('Unit | Model | Challenge', function () {
       expect(challenge.attachments).to.have.lengthOf(2);
       expect(challenge.attachments[0]).to.equal(attachmentDocx.url);
       expect(challenge.attachments[1]).to.equal(attachmentOdt.url);
+    });
+
+    // XXX : Pay attention to boolean negation : hasntInternetAllowed, instead of hasInternetAllowed,
+    // it is because the nominal case is : user is allowed to use internet.
+    // we need a boolean to detect the corner case where internet is NOT allowed. Currently Internet and tools are allowed
+    describe('should convert field "Internet et outils" into \'hasntInternetAllowed\' boolean property', function () {
+
+      it('should return true if  field "Internet et outils" equal to "Non"', function () {
+        // given
+        const airtableRecord = {
+          fields: {
+            'Internet et outils': 'Non'
+          }
+        };
+
+        // when
+        const challenge = new Challenge(airtableRecord);
+
+        // then
+        expect(challenge.hasntInternetAllowed).to.equal(true);
+      });
+
+      it('should return false if  field "Internet et outils" equal to "Oui"', function () {
+        // given
+        const airtableRecord = {
+          fields: {
+            'Internet et outils': 'Oui'
+          }
+        };
+
+        // when
+        const challenge = new Challenge(airtableRecord);
+
+        // then
+        expect(challenge.hasntInternetAllowed).to.equal(false);
+      });
+
+      it('should not be defined if field "Internet et outils" is not defined', function () {
+        // given
+        const airtableRecord = {
+          fields: {}
+        };
+
+        // when
+        const challenge = new Challenge(airtableRecord);
+
+        // then
+        expect(challenge.hasntInternetAllowed).to.equal(undefined);
+      });
+
     });
 
   });

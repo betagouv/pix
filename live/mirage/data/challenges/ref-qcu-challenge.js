@@ -6,7 +6,8 @@ export default {
     attributes: {
       type: 'QCU',
       'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',
-      attachments: ['file.docx','file.odt'],
+      'hasnt-internet-allowed': true,
+      attachments: ['file.docx', 'file.odt'],
       instruction: 'Un QCU propose plusieurs choix, l\'utilisateur peut en choisir [un seul](http://link.unseul.url)',
       proposals: '' +
       '- 1ere possibilite\n ' +
