@@ -15,7 +15,7 @@ export default Ember.Component.extend({
   },
 
   actions:{
-    startTest: function(course_url, course_id) {
+    startTest: function (course_url, course_id) {
       const that = this;
 
       if (that.isMobile() && !localStorage.getItem('pix-mobile-warning')) {
@@ -27,7 +27,6 @@ export default Ember.Component.extend({
         that.get('router').transitionTo(course_url, course_id);
       }
 
-      console.log('startTest',course_url, course_id);
     }
   },
 
@@ -39,12 +38,11 @@ export default Ember.Component.extend({
     const that = this;
     Ember.run.scheduleOnce('afterRender', this, function () {
       $('button[data-confirm]').click(function() {
-        console.log('confirm !', that.get('course_url'), that.get('course_id'));
         $('#js-modal-mobile').modal('hide');
         that.get('router').transitionTo(that.get('course_url'), that.get('course_id'));
-
       });
     });
+
   }
 
 });

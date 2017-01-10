@@ -48,7 +48,7 @@ describe('Acceptance | a3 - voir la liste des tests', function () {
     });
 
     it('a3.2.5 on affiche un bouton "démarrer le test"', function () {
-      expect($course.find('a.button').text()).to.contains('Démarrer le test');
+      expect($course.find('.start-button').text()).to.contains('Démarrer le test');
     });
 
   });

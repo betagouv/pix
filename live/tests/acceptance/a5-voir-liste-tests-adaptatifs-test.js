@@ -44,7 +44,7 @@ describe('Acceptance | a5 - voir la liste des tests adaptatifs', function () {
     });
 
     it('a5.2.4 on affiche un bouton "démarrer le test"', function () {
-      expect($course.find('a.button').text()).to.contains('Démarrer le test');
+      expect($course.find('.start-button').text()).to.contains('Démarrer le test');
     });
 
   });
