@@ -54,7 +54,7 @@ describe('Acceptance | a4 - Démarrer un test |', function () {
 
     // blocked by modal
     andThen(() => {
-      // XXX : ickiest hack : wait 300ms for bootstrap transition to complete
+      // XXX : ickiest hack : wait 500ms for bootstrap transition to complete
       Ember.run.later(function() {
         expect($jsModalMobile.css('display')).to.equals('block');
         expect(currentURL()).to.equals('/');
