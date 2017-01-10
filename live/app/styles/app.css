@@ -5,7 +5,7 @@
 @import url('globals/form.css');
 @import url('globals/flexbox-helpers.css');
 @import url('globals/groupped-input.css');
-@import url('globals/rounded-panel.css');
+@import url('glosbals/rounded-panel.css');
 
 /* components */
 @import url('globals/fonts.css');
@@ -19,6 +19,7 @@
 @import url('components/load-email.css');
 @import url('components/course-banner.css');
 @import url('components/challenge-stay.css');
+@import url('components/modal-mobile.css');
 
 /* views */
 @import url('home.css');
