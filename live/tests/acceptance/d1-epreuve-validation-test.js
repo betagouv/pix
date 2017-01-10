@@ -7,7 +7,7 @@ function getValidateActionLink() {
   return $('.challenge-actions__action-validate');
 }
 
-describe.only('Acceptance | d1 - Valider une épreuve |', function () {
+describe('Acceptance | d1 - Valider une épreuve |', function () {
 
   let application;
   let $progressBar;
@@ -39,11 +39,11 @@ describe.only('Acceptance | d1 - Valider une épreuve |', function () {
   describe('quand je valide ma réponse à une épreuve', function () {
 
     it('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante', function () {
-      visit('/assessments/ref_assessment_id/challenges/one_file_challenge_id');
-      click('.challenge-response__proposal-label');
-      click(getValidateActionLink());
-      andThen(() => {
-        return expect(currentURL()).to.contains('/assessments/ref_assessment_id/challenges/multiple_files_challenge_id');
+      return click('.challenge-response__proposal-label').then(() => {
+        const $validateButton = getValidateActionLink();
+        return click($validateButton).then(() => {
+          expect(currentURL()).to.contains('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+        });
       });
     });
 
@@ -53,11 +53,13 @@ describe.only('Acceptance | d1 - Valider une épreuve |', function () {
     });
 
     it('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', function () {
-      visit('/assessments/ref_assessment_id/challenges/multiple_files_challenge_id');
-      click('.challenge-response__proposal-input');
-      click(getValidateActionLink());
-      andThen(() => {
-        return expect(currentURL()).to.contains('/assessments/ref_assessment_id/results');
+      visit('/assessments/ref_assessment_id/challenges/multiple_files_challenge_id').then(() => {
+        click('.challenge-response__proposal-input').then(() => {
+          const $validateButton = getValidateActionLink();
+          return click($validateButton).then(() => {
+            expect(currentURL()).to.contains('/assessments/ref_assessment_id/results');
+          });
+        });
       });
     });
   });
