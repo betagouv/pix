@@ -6,7 +6,7 @@ const original_lodash = require('lodash');
 
 describe('Unit | Utils | lodash-utils', function () {
 
-  describe('scope', function () {
+  describe('#scope', function () {
     it('should not affect original version of lodash', function (done) {
       expect(original_lodash.elementAfter).not.to.exist;
       expect(_.elementAfter).to.exist;
@@ -14,7 +14,7 @@ describe('Unit | Utils | lodash-utils', function () {
     });
   });
 
-  describe('elementAfter', function () {
+  describe('#elementAfter', function () {
     it('for a given array and element in array (but not the last one), should return the element after the one provided', function (done) {
       expect(_.elementAfter(['a', 'b', 'c', 'd'], 'a')).to.equal('b');
       expect(_.elementAfter(['a', 'b', 'c', 'd'], 'b')).to.equal('c');
@@ -48,7 +48,7 @@ describe('Unit | Utils | lodash-utils', function () {
   });
 
 
-  describe('ensureString', function () {
+  describe('#ensureString', function () {
     it('when no input, return an empty String', function (done) {
       expect(_.ensureString()).to.equal('');
       done();

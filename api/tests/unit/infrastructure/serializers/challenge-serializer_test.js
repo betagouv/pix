@@ -16,8 +16,14 @@ describe('Unit | Serializer | ChallengeSerializer', function () {
             "url": "http://challenge.illustration.url"
           }],
           "Pièce jointe": [{
-            "url": "http://challenge.attachement.url",
-            "filename": "challenge_attachment_name"
+            "url": "http://challenge.attachement.url.docx",
+            "filename": "challenge_attachment_name_docx"
+          }, {
+            "url": "http://challenge.attachement.url.odt",
+            "filename": "challenge_attachment_name_odt"
+          }, {
+            "url": "http://challenge.attachement.url.fuck",
+            "filename": "challenge_attachment_name_fuck"
           }]
         }
       };
@@ -36,8 +42,11 @@ describe('Unit | Serializer | ChallengeSerializer', function () {
             "proposals": challenge.proposals,
             "type": challenge.type,
             "illustration-url": challenge.illustrationUrl,
-            "attachment-url": challenge.attachmentUrl,
-            "attachment-filename": challenge.attachmentFilename
+            "attachments": [
+              challenge.attachments[0],
+              challenge.attachments[1],
+              challenge.attachments[2]
+            ]
           }
         }
       });
