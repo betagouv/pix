@@ -59,4 +59,24 @@ describe('Acceptance | a4 - Démarrer un test |', function () {
     });
   });
 
+  it('a4.4 Quand je RE-démarre un test sur mobile, la modale NE s\'affiche PAS', function(done) {
+    const $startLink = findWithAssert('.start-button');
+    const $jsModalMobile = findWithAssert('#js-modal-mobile');
+    triggerEvent('.first-page', 'simulateMobileScreen');
+
+    andThen(() => {
+      setTimeout(function () {
+        expect(currentURL()).to.equals('/');
+        expect($jsModalMobile.css('display')).to.equals('none');
+      }, 300);
+    });
+    click($startLink);
+    andThen(() => {
+      expect(currentURL()).to.contains('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      done();
+    });
+
+
+  });
+
 });
