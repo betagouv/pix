@@ -1,4 +1,3 @@
-
 import Ember from 'ember';
 
 import { expect } from 'chai';
@@ -25,10 +24,12 @@ describe('Acceptance | a4 - Démarrer un test |', function () {
     return visit('/');
   });
 
+
   it('a4.1 Je peux démarrer un test depuis la liste des tests de la page d\'accueil', function() {
     const $startLink = findWithAssert('.start-button');
     expect($startLink.text()).to.contains('Démarrer le test');
   });
+
 
   it('a4.2 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {
     const $startLink = findWithAssert('.start-button');
@@ -38,7 +39,9 @@ describe('Acceptance | a4 - Démarrer un test |', function () {
     });
   });
 
+
   it('a4.3 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function(done) {
+
     const $startLink = findWithAssert('.start-button');
 
     expect($(MODAL_SELECTOR)).to.have.lengthOf(0);
@@ -74,6 +77,7 @@ describe('Acceptance | a4 - Démarrer un test |', function () {
     });
 
   });
+
 
   it('a4.4 Quand je RE-démarre un test sur mobile, la modale NE s\'affiche PAS', function(done) {
     const $startLink = findWithAssert('.start-button');
