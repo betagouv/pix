@@ -33,7 +33,7 @@ export default Ember.Component.extend({
 
   isMobile () {
     if (ENV.environment !== 'test') {
-      return $(window).width() < 767;
+      return  window.screen.width < 767;
     } else {
       return this.get('isSimulatedMobileScreen');
     }
