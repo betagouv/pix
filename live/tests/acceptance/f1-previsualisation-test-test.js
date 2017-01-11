@@ -38,7 +38,7 @@ describe('Acceptance | f1 - Prévisualisation  d\'un test |', function () {
 
       it('f1.3 la description du test', function () {
         const $courseDescription = $preview.find('.course-description');
-        const instructionText = 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.';
+        const instructionText = 'Contient toutes sortes d\'epreuves';
         expect($courseDescription.text()).to.contains(instructionText);
       });
 
