@@ -523,7 +523,7 @@ define('pix-live/components/first-page', ['exports', 'ember', 'pix-live/config/e
 
     isMobile: function isMobile() {
       if (_pixLiveConfigEnvironment['default'].environment !== 'test') {
-        return $(window).width() < 767;
+        return window.screen.width < 767;
       } else {
         return this.get('isSimulatedMobileScreen');
       }
@@ -3283,7 +3283,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+0d5a8883"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+bc852ff0"});
 }
 
 /* jshint ignore:end */
