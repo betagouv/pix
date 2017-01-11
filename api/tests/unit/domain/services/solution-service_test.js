@@ -24,7 +24,7 @@ describe('Unit | Service | SolutionService', function () {
     return answer;
   }
 
-  describe.only('#match', function () {
+  describe('#match', function () {
 
     describe('if answer is #ABAND#', function () {
 
