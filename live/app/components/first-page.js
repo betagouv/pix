@@ -23,9 +23,7 @@ export default Ember.Component.extend({
         localStorage.setItem('pix-mobile-warning', 'true');
         that.set('course_url', course_url);
         that.set('course_id', course_id);
-        Ember.run.scheduleOnce('afterRender', this, function () {
-          $('#js-modal-mobile').modal();
-        });
+        $('#js-modal-mobile').modal();
       } else {
         that.get('router').transitionTo(course_url, course_id);
       }
