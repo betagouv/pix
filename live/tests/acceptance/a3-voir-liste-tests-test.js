@@ -37,7 +37,7 @@ describe('Acceptance | a3 - voir la liste des tests', function () {
     });
 
     it('a3.2.2 on affiche sa description', function () {
-      const courseDescription = 'Contient toutes sortes d\'epreuves';
+      const courseDescription = 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.';
       expect($course.find('.course-description').text()).to.contains(courseDescription);
     });
 
