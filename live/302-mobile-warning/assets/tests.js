@@ -2432,41 +2432,6 @@ define('pix-live/tests/integration/components/load-email-test.lint-test', ['expo
     });
   });
 });
-define('pix-live/tests/integration/components/modal-mobile-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
-
-  (0, _mocha.describe)('Integration | Component | modal mobile', function () {
-    (0, _emberMocha.setupComponentTest)('modal-mobile', {
-      integration: true
-    });
-
-    (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#modal-mobile}}
-      //     template content
-      //   {{/modal-mobile}}
-      // `);
-
-      this.render(Ember.HTMLBars.template({
-        'id': 'g60TW6ea',
-        'block': '{"statements":[["append",["unknown",["modal-mobile"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-        'meta': {}
-      }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
-    });
-  });
-});
-define('pix-live/tests/integration/components/modal-mobile-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - integration/components/modal-mobile-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/qcm-proposals-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
   (0, _emberMocha.describeComponent)('qcm-proposals', 'Integration: QcmProposalsComponent', {

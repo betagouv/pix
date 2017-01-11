@@ -614,6 +614,11 @@ define('pix-live/components/modal-mobile', ['exports', 'ember'], function (expor
   exports['default'] = _ember['default'].Component.extend({
 
     didInsertElement: function didInsertElement() {
+
+      // XXX : we hack here Bootstrap,
+      // because we need a display:flex to center the modal
+      // since bootstrap insert an inlined-style display:block
+      // we have to remove this property once the modal renders.
       _ember['default'].run.scheduleOnce('afterRender', this, function () {
         $('#js-modal-mobile').on('shown.bs.modal', function () {
           $('#js-modal-mobile').attr('style', function (i, style) {
@@ -3284,7 +3289,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+43b07dff"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+a7cad280"});
 }
 
 /* jshint ignore:end */
