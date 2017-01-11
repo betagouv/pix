@@ -44,6 +44,7 @@ describe('Unit | Serializer | ChallengeSerializer', function () {
             "type": challenge.type,
             "illustration-url": challenge.illustrationUrl,
             'hasnt-internet-allowed': challenge.hasntInternetAllowed,
+            'timer': challenge.timer,
             "attachments": [
               challenge.attachments[0],
               challenge.attachments[1],

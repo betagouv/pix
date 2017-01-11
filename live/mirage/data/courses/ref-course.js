@@ -12,9 +12,8 @@ export default {
     type: 'courses',
     id: 'ref_course_id',
     attributes: {
-      name: 'Test de référence',
-      description: 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.',
-      isAdaptive: true,
+      name: 'First Course',
+      description: 'Contient toutes les sortes d\'epreuves',
       duration: 10,
       'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course'
     },

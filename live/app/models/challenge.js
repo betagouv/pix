@@ -10,6 +10,7 @@ const ChallengeModel = Model.extend(ProposalsAsArrayMixin, ProposalsAsBlocksMixi
   instruction: attr('string'),
   proposals: attr('string'),
   hasntInternetAllowed: attr('boolean'),
+  timer: attr('number'),
   illustrationUrl: attr('string'),
   type: attr('string'),
 
