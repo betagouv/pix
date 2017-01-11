@@ -2006,7 +2006,7 @@ define('pix-live/mirage/data/courses/ref-course', ['exports', 'pix-live/mirage/d
       id: 'ref_course_id',
       attributes: {
         name: 'First Course',
-        description: 'Contient toutes sortes d\'epreuves',
+        description: 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.',
         duration: 10,
         'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course'
       },
@@ -3517,7 +3517,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+33c33bf2"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+c40954e4"});
 }
 
 /* jshint ignore:end */

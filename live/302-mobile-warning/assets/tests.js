@@ -110,7 +110,7 @@ define('pix-live/tests/acceptance/a3-voir-liste-tests-test', ['exports', 'mocha'
       });
 
       (0, _mocha.it)('a3.2.2 on affiche sa description', function () {
-        var courseDescription = 'Contient toutes sortes d\'epreuves';
+        var courseDescription = 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.';
         (0, _chai.expect)($course.find('.course-description').text()).to.contains(courseDescription);
       });
 
@@ -1003,7 +1003,7 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['exports', 'c
 
         it('f1.3 la description du test', function () {
           var $courseDescription = $preview.find('.course-description');
-          var instructionText = 'Contient toutes sortes d\'epreuves';
+          var instructionText = 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.';
           (0, _chai.expect)($courseDescription.text()).to.contains(instructionText);
         });
 
