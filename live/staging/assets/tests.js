@@ -125,7 +125,7 @@ define('pix-live/tests/acceptance/a3-voir-liste-tests-test', ['exports', 'mocha'
       });
 
       (0, _mocha.it)('a3.2.5 on affiche un bouton "démarrer le test"', function () {
-        (0, _chai.expect)($course.find('a.button').text()).to.contains('Démarrer le test');
+        (0, _chai.expect)($course.find('.start-button').text()).to.contains('Démarrer le test');
       });
     });
 
@@ -178,7 +178,8 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember'
       });
     });
 
-    it.skip('a4.3 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function (done) {
+    it('a4.3 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function (done) {
+
       var $startLink = findWithAssert('.start-button');
 
       (0, _chai.expect)($(MODAL_SELECTOR)).to.have.lengthOf(0);
@@ -270,22 +271,19 @@ define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['export
       });
 
       (0, _mocha.it)('a5.2.1 on affiche son nom', function () {
-        var courseTitle = 'Adaptive Course';
-        (0, _chai.expect)($course.find('.course-name').text()).to.contains(courseTitle);
+        (0, _chai.expect)($course.find('.course-name').text()).to.contains('Adaptive Course');
       });
 
       (0, _mocha.it)('a5.2.2 on affiche sa description', function () {
-        var courseDescription = 'Est un test adaptatif.';
-        (0, _chai.expect)($course.find('.course-description').text()).to.contains(courseDescription);
+        (0, _chai.expect)($course.find('.course-description').text()).to.contains('Est un test adaptatif');
       });
 
       (0, _mocha.it)('a5.2.3 on affiche son image', function () {
-        var courseIllustrationUrl = 'http://fakeimg.pl/350x200/?text=Adaptive%20Course';
-        (0, _chai.expect)($course.find('img')[0].src).to.equal(courseIllustrationUrl);
+        (0, _chai.expect)($course.find('img')[0].src).to.equal('http://fakeimg.pl/350x200/?text=Adaptive%20Course');
       });
 
       (0, _mocha.it)('a5.2.4 on affiche un bouton "démarrer le test"', function () {
-        (0, _chai.expect)($course.find('a.button').text()).to.contains('Démarrer le test');
+        (0, _chai.expect)($course.find('.start-button').text()).to.contains('Démarrer le test');
       });
     });
   });
@@ -1481,6 +1479,15 @@ define('pix-live/tests/components/load-email.lint-test', ['exports'], function (
   'use strict';
 
   describe('ESLint - components/load-email.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/modal-mobile.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/modal-mobile.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
