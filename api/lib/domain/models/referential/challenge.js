@@ -1,3 +1,4 @@
+const _ = include('lib/utils/lodash-utils');
 const AirtableModel = require('./airtable-model');
 
 class Challenge extends AirtableModel {
@@ -11,6 +12,10 @@ class Challenge extends AirtableModel {
       const fields = this.record.fields;
       this.instruction = fields['Consigne'];
       this.proposals = fields['Propositions'];
+
+      if (fields['Timer']) {
+        this.timer = _.defaultTo(_.parseInt(fields['Timer']), undefined);
+      }
       this.type = fields['Type d\'épreuve'];
       if (fields['Internet et outils']) {
         this.hasntInternetAllowed = fields['Internet et outils'].toUpperCase() === 'NON';
@@ -21,9 +26,7 @@ class Challenge extends AirtableModel {
       }
 
       if (fields['Pièce jointe']) {
-        const { url, filename } = fields['Pièce jointe'][0];
-        this.attachmentUrl = url;
-        this.attachmentFilename = filename;
+        this.attachments = fields['Pièce jointe'].map(attachment => attachment.url);
       }
     }
   }

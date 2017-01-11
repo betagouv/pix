@@ -11,14 +11,14 @@ class ChallengeSerializer extends JSONAPISerializer {
     data.attributes['instruction'] = model.instruction;
     data.attributes['proposals'] = model.proposals;
     data.attributes['hasnt-internet-allowed'] = model.hasntInternetAllowed;
+    data.attributes['timer'] = model.timer;
 
     if (model.illustrationUrl) {
       data.attributes['illustration-url'] = model.illustrationUrl;
     }
 
-    if (model.attachmentUrl) {
-      data.attributes['attachment-url'] = model.attachmentUrl;
-      data.attributes['attachment-filename'] = model.attachmentFilename;
+    if (model.attachments) {
+      data.attributes['attachments'] = model.attachments;
     }
   }
 }
