@@ -43,6 +43,8 @@
               {{ course.challenges.length }} épreuves
             </div>
             <div class="course-actions">
+              {{!-- iPhone needs style="cursor: pointer;" to trigger the event !! --}}
+              {{!-- https://github.com/emberjs/ember.js/issues/605#issuecomment-57037709 --}}
               <button {{action "startTest" "courses.create-assessment" course.id}} class="button start-button" style="cursor: pointer;">Démarrer le test</button>
 
             </div>
