@@ -21,9 +21,6 @@ define('pix-live/app', ['exports', 'ember', 'pix-live/resolver', 'ember-load-ini
   var App = _ember['default'].Application.extend({
     modulePrefix: _pixLiveConfigEnvironment['default'].modulePrefix,
     podModulePrefix: _pixLiveConfigEnvironment['default'].podModulePrefix,
-    customEvents: {
-      tap: 'click'
-    },
     Resolver: _pixLiveResolver['default']
   });
 
@@ -3287,7 +3284,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+33fd7ddd"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+e44ae62f"});
 }
 
 /* jshint ignore:end */
