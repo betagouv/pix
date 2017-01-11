@@ -13,7 +13,7 @@ export default {
     id: 'ref_course_id',
     attributes: {
       name: 'First Course',
-      description: 'Contient toutes les sortes d\'epreuves',
+      description: 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.',
       duration: 10,
       'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course'
     },

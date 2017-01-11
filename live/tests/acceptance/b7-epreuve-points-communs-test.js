@@ -19,7 +19,7 @@ describe('Acceptance | b7 - Points communs a toutes les épreuves | ', function 
   });
 
   it('b7.0 Le nom du test est affiché', function() {
-    expect(findWithAssert('.course-banner-name').text()).to.contains('Test de référence');
+    expect(findWithAssert('.course-banner-name').text()).to.contains('First Course');
   });
 
   it('b7.1 L\'instruction de l\'epreuve est affichée', function () {

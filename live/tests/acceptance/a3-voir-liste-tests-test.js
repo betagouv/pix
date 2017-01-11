@@ -32,7 +32,7 @@ describe('Acceptance | a3 - voir la liste des tests', function () {
     });
 
     it('a3.2.1 on affiche son nom', function () {
-      const courseTitle = 'Test de référence';
+      const courseTitle = 'First Course';
       expect($course.find('.course-name').text()).to.contains(courseTitle);
     });
 

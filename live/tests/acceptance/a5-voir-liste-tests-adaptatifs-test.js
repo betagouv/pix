@@ -32,7 +32,7 @@ describe('Acceptance | a5 - voir la liste des tests adaptatifs', function () {
     });
 
     it('a5.2.1 on affiche son nom', function () {
-      const courseTitle = 'Adaptive course';
+      const courseTitle = 'Adaptive Course';
       expect($course.find('.course-name').text()).to.contains(courseTitle);
     });
 

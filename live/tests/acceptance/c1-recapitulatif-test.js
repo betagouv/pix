@@ -71,7 +71,7 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
 
 
   it('c1.9 Le nom du test est affiché', function() {
-    expect(findWithAssert('.course-banner-name').text()).to.contains('Test de référence');
+    expect(findWithAssert('.course-banner-name').text()).to.contains('First Course');
   });
 
   it('c1.10 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {

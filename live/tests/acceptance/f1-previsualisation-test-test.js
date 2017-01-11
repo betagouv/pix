@@ -33,7 +33,7 @@ describe('Acceptance | f1 - Prévisualisation  d\'un test |', function () {
       });
 
       it('f1.2 le nom du test', function () {
-        expect($preview.find('.course-name').text()).to.contains('Test de référence');
+        expect($preview.find('.course-name').text()).to.contains('First Course');
       });
 
       it('f1.3 la description du test', function () {
