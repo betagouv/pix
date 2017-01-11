@@ -2,6 +2,7 @@ import Ember from 'ember';
 import ENV from 'pix-live/config/environment';
 
 export default Ember.Component.extend({
+  myWidth: $(window).width(),
 
   init() {
     this._super(...arguments);
@@ -33,7 +34,7 @@ export default Ember.Component.extend({
 
   isMobile () {
     if (ENV.environment !== 'test') {
-      return  window.screen.width < 767;
+      return $(window).width() < 767;
     } else {
       return this.get('isSimulatedMobileScreen');
     }
