@@ -514,9 +514,7 @@ define('pix-live/components/first-page', ['exports', 'ember', 'pix-live/config/e
           localStorage.setItem('pix-mobile-warning', 'true');
           that.set('course_url', course_url);
           that.set('course_id', course_id);
-          _ember['default'].run.scheduleOnce('afterRender', this, function () {
-            $('#js-modal-mobile').modal();
-          });
+          $('#js-modal-mobile').modal();
         } else {
           that.get('router').transitionTo(course_url, course_id);
         }
@@ -3285,7 +3283,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+be35b4f1"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.0.0+0d5a8883"});
 }
 
 /* jshint ignore:end */
