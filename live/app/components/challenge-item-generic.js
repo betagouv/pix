@@ -1,11 +1,23 @@
 import Ember from 'ember';
 import callOnlyOnce from '../utils/call-only-once';
+import _ from 'pix-live/utils/lodash-custom';
+
+const set = Ember.set;
+const get = Ember.get;
 
 const ChallengeItemGeneric = Ember.Component.extend({
 
   tagName: 'article',
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
+
+  isComponent : Ember.computed('challenge',function () {
+      return this.hasTimerDefined();
+  }),
+
+  hasTimerDefined(){
+    return _.isInteger(get(this, 'challenge.timer'));
+  },
 
   _getTimeout() {
     return $('.timeout-jauge-remaining').attr('data-spent');
