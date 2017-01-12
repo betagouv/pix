@@ -21,7 +21,7 @@ export default Ember.Component.extend({
     set(this, 'tickInterval', 1000);
     set(this, 'timer', null);
     this.reset();
-    //this.start();
+    this.start();
   },
 
   remainingSeconds: computed('elapsedTime', function() {

@@ -6,12 +6,15 @@ const set = Ember.set;
 const get = Ember.get;
 
 const ChallengeItemGeneric = Ember.Component.extend({
-
   tagName: 'article',
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
-  isComponent : Ember.computed('challenge',function () {
+  hasUserConfirmWarning : Ember.computed('challenge',function () {
+      return this.hasTimerDefined();
+  }),
+
+  hasChallengeTimer : Ember.computed('challenge',function () {
       return this.hasTimerDefined();
   }),
 
@@ -37,7 +40,12 @@ const ChallengeItemGeneric = Ember.Component.extend({
     skip: callOnlyOnce(function () {
       this.set('errorMessage', null);
       this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout());
-    })
+    }),
+
+    setUserConfirmation: callOnlyOnce(function (){
+      this.toggleProperty('hasUserConfirmWarning');
+      this.toggleProperty('hasChallengeTimer');
+    }),
   }
 
 });

@@ -1,7 +1,8 @@
-{{#if isComponent}}
-  {{warning-page}}
-{{/if}}
-{{#unless isComponent}}
+{{#if hasUserConfirmWarning}}
+  {{warning-page hasUserConfirmWarning=(action "setUserConfirmation") }}
+{{/if}
+
+{{#unless hasChallengeTimer}}
 
   {{#if challenge.hasntInternetAllowed}}
     {{challenge-stay}}
@@ -16,7 +17,9 @@
         onAnswerUpdated='answerChanged'}}
     </div>
     {{#if challenge.timer}}
-      {{timeout-jauge allotedTime=challenge.timer}}
+      {{#if hasUserConfirmWarning}}
+        {{timeout-jauge allotedTime=challenge.timer}}
+      {{/if}}
     {{/if}}
   </div>
 
