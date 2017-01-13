@@ -1,7 +1,6 @@
-{{#if hasUserConfirmWarning}}
-  {{warning-page hasUserConfirmWarning=(action "setUserConfirmation") }}
-{{/if}
-
+{{#unless hasUserConfirmWarning}}
+  {{warning-page hasUserConfirmWarning=(action "setUserConfirmation") time=challenge.timer}}
+{{/unless}}
 {{#unless hasChallengeTimer}}
 
   {{#if challenge.hasntInternetAllowed}}

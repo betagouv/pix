@@ -11,7 +11,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
   attributeBindings: ['challenge.id:data-challenge-id'],
 
   hasUserConfirmWarning : Ember.computed('challenge',function () {
-      return this.hasTimerDefined();
+      return false;
   }),
 
   hasChallengeTimer : Ember.computed('challenge',function () {
