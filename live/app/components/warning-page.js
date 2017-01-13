@@ -1,6 +1,10 @@
 import Ember from 'ember';
 
-function fmtMSS (s) {return (s-(s%=60))/60+(9<s?':':':0')+s;};
+function fmtMSS(s) {
+  if (! _.isInteger(s))
+    return 0;
+  return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
+};
 
 export default Ember.Component.extend({
 

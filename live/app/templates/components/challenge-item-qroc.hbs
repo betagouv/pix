@@ -1,29 +1,38 @@
-{{#if challenge.hasntInternetAllowed}}
-  {{challenge-stay}}
+{{#if hasChallengeTimer}}
+  {{#unless hasUserConfirmWarning}}
+    {{warning-page hasUserConfirmWarning=(action "setUserConfirmation") time=challenge.timer}}
+  {{/unless}}
 {{/if}}
 
-{{challenge-instruction instruction=challenge._instructionAsObject}}
+{{#unless hasChallengeTimer}}
 
-<div class="rounded-panel challenge-response">
-  <div class="challenge-proposals">
-    {{qroc-proposal
+  {{#if challenge.hasntInternetAllowed}}
+    {{challenge-stay}}
+  {{/if}}
+
+  {{challenge-instruction instruction=challenge._instructionAsObject}}
+
+  <div class="rounded-panel challenge-response">
+    <div class="challenge-proposals">
+      {{qroc-proposal
         blocks=challenge._proposalsAsBlocks
         answerValue=answers.value
         onInputChanged='inputChanged'}}
+    </div>
+    {{#if challenge.timer}}
+      {{timeout-jauge allotedTime=challenge.timer}}
+    {{/if}}
   </div>
-  {{#if challenge.timer}}
-    {{timeout-jauge allotedTime=challenge.timer}}
+
+  {{#if errorMessage}}
+    <div class="alert alert-danger" role="alert">
+      {{errorMessage}}
+    </div>
   {{/if}}
-</div>
 
-{{#if errorMessage}}
-  <div class="alert alert-danger" role="alert">
-    {{errorMessage}}
-  </div>
-{{/if}}
-
-{{#if assessment}}
-  {{challenge-actionbar
+  {{#if assessment}}
+    {{challenge-actionbar
       skip="skip"
       validate="validate"}}
-{{/if}}
+  {{/if}}
+{{/unless}}
