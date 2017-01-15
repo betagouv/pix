@@ -42,5 +42,5 @@ export default Router.map(function () {
 
   this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
   this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
-  this.route('project');
+  this.route('project', { path: '/projet' });
 });
