@@ -2557,7 +2557,7 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
 
     this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
     this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
-    this.route('project');
+    this.route('project', { path: '/projet' });
   });
 });
 define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-data', 'pix-live/utils/get-challenge-type', 'rsvp'], function (exports, _ember, _emberData, _pixLiveUtilsGetChallengeType, _rsvp) {
@@ -3527,7 +3527,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.1.1+0d424ec8"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.1.1+86baeeae"});
 }
 
 /* jshint ignore:end */
