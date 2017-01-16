@@ -14,7 +14,8 @@ export default Ember.Component.extend({
   },
 
   _formatTimeToHuman(allocatedTime){
-    const timeArr = allocatedTime.split(':');
+    if(typeof allocatedTime === undefined) return 0;
+    const timeArr = allocatedTime.toString().split(':');
     return timeArr[0] + this._pluralize(' minute', timeArr[0]) + ' et ' + timeArr[1] + this._pluralize(' seconde', timeArr[1]);
   },
 

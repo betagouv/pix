@@ -60,7 +60,7 @@ describe('Acceptance | I1 - Warning prochaine page timée  | ', function () {
       andThen(function () {
         const buttonConfirm = findWithAssert('.challenge-item-warning button');
         buttonConfirm.click();
-      })
+      });
     });
 
     it('i2.1- vérifier que le warning est caché ', function () {
