@@ -2,7 +2,6 @@ import Ember from 'ember';
 import callOnlyOnce from '../utils/call-only-once';
 import _ from 'pix-live/utils/lodash-custom';
 
-const set = Ember.set;
 const get = Ember.get;
 
 const ChallengeItemGeneric = Ember.Component.extend({
@@ -10,12 +9,12 @@ const ChallengeItemGeneric = Ember.Component.extend({
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
-  hasUserConfirmWarning : Ember.computed('challenge',function () {
-      return false;
+  hasUserConfirmWarning: Ember.computed('challenge', function () {
+    return false;
   }),
 
-  hasChallengeTimer : Ember.computed('challenge',function () {
-      return this.hasTimerDefined();
+  hasChallengeTimer: Ember.computed('challenge', function () {
+    return this.hasTimerDefined();
   }),
 
   hasTimerDefined(){
@@ -42,7 +41,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
       this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout());
     }),
 
-    setUserConfirmation: callOnlyOnce(function (){
+    setUserConfirmation: callOnlyOnce(function () {
       this.toggleProperty('hasUserConfirmWarning');
       this.toggleProperty('hasChallengeTimer');
     }),

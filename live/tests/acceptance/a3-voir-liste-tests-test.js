@@ -20,7 +20,7 @@ describe('Acceptance | a3 - voir la liste des tests', function () {
   });
 
   it('a3.1 on affiche autant de tests que remontés par l\'API', function () {
-    expect(findWithAssert('.course')).to.have.lengthOf(2);
+    expect(findWithAssert('.course')).to.have.lengthOf(3);
   });
 
   describe('a3.2 pour un test donné avec toutes les informations', function () {
@@ -32,23 +32,27 @@ describe('Acceptance | a3 - voir la liste des tests', function () {
     });
 
     it('a3.2.1 on affiche son nom', function () {
-      expect($course.find('.course-name').text()).to.contains('First Course');
+      const courseTitle = 'First Course';
+      expect($course.find('.course-name').text()).to.contains(courseTitle);
     });
 
     it('a3.2.2 on affiche sa description', function () {
-      expect($course.find('.course-description').text()).to.contains('Contient toutes les sortes d\'epreuves');
+      const courseDescription = 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.';
+      expect($course.find('.course-description').text()).to.contains(courseDescription);
     });
 
     it('a3.2.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-      expect($course.find('.course-number-of-challenges').text()).to.contains('5 épreuves');
+      const courseChallenges = '8 épreuves';
+      expect($course.find('.course-number-of-challenges').text()).to.contains(courseChallenges);
     });
 
     it('a3.2.4 on affiche son image', function () {
-      expect($course.find('img')[0].src).to.equal('http://fakeimg.pl/350x200/?text=First%20Course');
+      const courseIllustrationUrl = 'http://fakeimg.pl/350x200/?text=First%20Course';
+      expect($course.find('img')[0].src).to.equal(courseIllustrationUrl);
     });
 
     it('a3.2.5 on affiche un bouton "démarrer le test"', function () {
-      expect($course.find('a.button').text()).to.contains('Démarrer le test');
+      expect($course.find('.start-button').text()).to.contains('Démarrer le test');
     });
 
   });
