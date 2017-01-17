@@ -1,89 +1,65 @@
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const utils = require('./solution-service-utils');
-const yaml = require('js-yaml');
+const jsYaml = require('js-yaml');
 const _ = require('../../utils/lodash-utils');
+const util = require('util');
 
-// We expect that parsing from airtable returns an Object
-// whose all values are array, like this :
-// { Google: [ 'Google', 'google.fr', 'Google Search' ], Yahoo: [ 'Yahoo', 'Yahoo Answer' ] }
-function _isValidSolution(solution) {
-  let result = false;
-  if (_.isObject(solution)) {
-    result = _.every(solution, function(item) {
-      return _.isArray(item) && _.every(item, (e) => _.isString(e));
-    });
-  }
-  return result;
+
+_rightNumberOfAnswers = function (answers, nbExpectedAnswers) {
+  return Object.keys(answers).length == nbExpectedAnswers;
 }
 
 module.exports = {
 
-  match (yamlAnswer, yamlSolution, yamlScoring) {
-    let result = 'ko';
-    let answerMap = null;
-    let solution = null;
-    let scoring = null;
+  match (yamlAnswer, yamlSolution, yamlScoring, nbExpectedAnswers) {
 
-    try {
-      answerMap = yaml.safeLoad(yamlAnswer);
-      // answerMap is
-      //{ num1: ' google.fr', num2: 'yahoo aNswer ' }
+    const answers = jsYaml.safeLoad(yamlAnswer);
+    const solutions = jsYaml.safeLoad(yamlSolution);
 
-      solution = yaml.safeLoad(yamlSolution);
-      // solution is
-      // { Google: [ 'Google', 'google.fr', 'Google Search' ], Yahoo: [ 'Yahoo', 'Yahoo Answer' ] }
-
-      scoring = yaml.safeLoad(yamlScoring);
-      // scoring is
-      // { 1: 'rechinfo1', 2: 'rechinfo2', 3: 'rechinfo3' }
-
-    } catch (e) { // Parse exceptions like script injection could happen. They are detected here.
-      return 'ko';
+    if (! _rightNumberOfAnswers(answers, nbExpectedAnswers)) {
+      return "ko";
     }
 
-    const possibleAnswers = {};
-    _.each(solution, (answerList, solutionKey) => {
-      _.each(answerList, (answer) => {
-        possibleAnswers[answer] = solutionKey;
-      });
-    });
-    // possibleAnswers is
-    // { Google: 'Google','google.fr': 'Google','Google Search': 'Google',Yahoo: 'Yahoo','Yahoo Answer': 'Yahoo' }
+    const validations = {};
 
-    const scoredKeys = [];
-    _.each(answerMap, (answer) => {
-      _.each(possibleAnswers, (solutionKey, possibleAnswer) => {
-        if(utils.fuzzyMatchingWithAnswers(answer, [possibleAnswer])) {
-          scoredKeys.push(solutionKey);
-        }
-      });
-    });
-    // scoredKeys is
-    // [ 'Google', 'Yahoo' ]
-
-    const numberOfUserAnswers = Object.keys(answerMap).length;
-    const numberOfUniqueCorrectAnswers = _.uniq(scoredKeys).length;
-
-    if (_.isNotEmpty(scoring)) {
-
-      const minGrade = _.min(Object.keys(scoring));
-      const maxGrade = _.max(Object.keys(scoring));
-
-      if (numberOfUniqueCorrectAnswers >= maxGrade) {
-        result = 'ok';
-      } else if (numberOfUniqueCorrectAnswers >= minGrade) {
-        result = 'partially';
+    _.each(answers, (answer) => {
+      validations[answer] = false;
+      const solutionKeys = Object.keys(solutions);
+      if (solutionKeys.includes(answer)) {
+        validations[answer] = true;
       }
-
-    } else {
-
-      if (_(numberOfUniqueCorrectAnswers).isEqual(numberOfUserAnswers)) {
-        result = 'ok';
+      else {
+        _.each(solutionKeys, (solutionKey) => {
+          if (validations[answer] == false) {
+            const solutionVariants = solutions[solutionKey];
+            if (solutionVariants.includes(answer)) {
+              validations[answer] = true;
+            }
+          }
+        })
       }
-    }
+    })
 
-    return result;
 
+    /*_.each(validations, (validation) => {
+      console.log('***************************' + validation);
+      if (!validation){
+        //return "ko";
+        console.log('here');
+      }
+    });*/
+
+    let res = _.find(validations,function(item){
+        return item === false;
+    });
+
+    if (typeof res !== 'undefined')
+      return "ko";
+
+
+
+    return "ok";
   }
+
 
 };
