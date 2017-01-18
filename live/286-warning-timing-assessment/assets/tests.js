@@ -2933,41 +2933,6 @@ define('pix-live/tests/integration/components/qrocm-proposal-test.lint-test', ['
     });
   });
 });
-define('pix-live/tests/integration/components/warning-page-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
-
-  (0, _mocha.describe)('Integration | Component | warning page', function () {
-    (0, _emberMocha.setupComponentTest)('warning-page', {
-      integration: true
-    });
-
-    (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#warning-page}}
-      //     template content
-      //   {{/warning-page}}
-      // `);
-
-      this.render(Ember.HTMLBars.template({
-        'id': 'z4ZaTH95',
-        'block': '{"statements":[["append",["unknown",["warning-page"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-        'meta': {}
-      }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
-    });
-  });
-});
-define('pix-live/tests/integration/components/warning-page-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - integration/components/warning-page-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/models/answer.lint-test', ['exports'], function (exports) {
   'use strict';
 
