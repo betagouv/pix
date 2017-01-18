@@ -30,7 +30,7 @@
 }
 
 .app-footer__link-text {
-  color: #3e4149;
+  color: var(--charcoal-grey);
   margin: 0 5px;
 }
 
