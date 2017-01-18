@@ -1,5 +1,6 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const Answer = require('../../domain/models/data/answer');
+const Scenario = require('../../domain/models/data/scenario');
 const _ = require('../../utils/lodash-utils');
 
 
@@ -9,9 +10,17 @@ function _selectNextInAdaptiveMode(assessment, challenges) {
 
     const answerIds = assessment.related('answers').pluck('id');
 
+    new Scenario({courseId: 'new_course_id', path: 'ok-ko', nextChallengeId: 'second_challenge_id'}).save().then(() => {
+      console.log('TESTER c\'est important');
+    });
+
     // Check input
-    // else if (answerIds.length > 1) { // if there is more than one answer, user reached the end of test
-    if (answerIds.length > 1) { // if there is more than one answer, user reached the end of test
+    if (challenges.length !== 3) {
+      reject('Adaptive mode is enabled only for tests with 3 challenges');
+    }
+
+    // Check input
+    else if (answerIds.length > 1) { // if there is more than one answer, user reached the end of test
       resolve(null);
     }
     // ADAPTIVE TEST HAPPENS HERE
