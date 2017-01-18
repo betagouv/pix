@@ -369,6 +369,13 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test.lint-test', ['exports'], f
 });
 define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
+  function visitTimedChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+    andThen(function () {
+      var buttonConfirm = findWithAssert('.challenge-item-warning button');
+      buttonConfirm.click();
+    });
+  }
   describe('Acceptance | b2 - Afficher un QCM | ', function () {
 
     var application = undefined;
@@ -382,7 +389,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'chai', 'pix
     });
 
     before(function () {
-      return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      return visitTimedChallenge();
     });
 
     it('b2.1 It should render challenge instruction', function () {
@@ -562,6 +569,14 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test.lint-test', ['exports'],
 });
 define('pix-live/tests/acceptance/b5-epreuve-image-de-consigne-test', ['exports', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
+  function visitTimedChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+    andThen(function () {
+      var buttonConfirm = findWithAssert('.challenge-item-warning button');
+      buttonConfirm.click();
+    });
+  }
+
   describe('Acceptance | b5 - Afficher une image sous la consigne | ', function () {
 
     var application = undefined;
@@ -577,7 +592,7 @@ define('pix-live/tests/acceptance/b5-epreuve-image-de-consigne-test', ['exports'
     describe('Quand l\'épreuve contient une illustration en consigne', function () {
 
       before(function () {
-        return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        return visitTimedChallenge();
       });
 
       it('b5.1 Une image unique peut être affichée sous la consigne', function () {
@@ -620,6 +635,14 @@ define('pix-live/tests/acceptance/b5-epreuve-image-de-consigne-test.lint-test', 
 });
 define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['exports', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
+  function visitTimedChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+    andThen(function () {
+      var buttonConfirm = findWithAssert('.challenge-item-warning button');
+      buttonConfirm.click();
+    });
+  }
+
   describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d\'une épreuve | ', function () {
 
     var application = undefined;
@@ -635,7 +658,7 @@ define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['exports', 'chai', 'pix-
     describe('Quand l\'épreuve contient une pièce jointe en consigne', function () {
 
       before(function () {
-        return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        return visitTimedChallenge();
       });
 
       it('b6.1 Il existe un moyen pour télécharger la pièce jointe d\'une épreuve dans la zone de consigne', function () {
@@ -849,6 +872,14 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'chai
     return $('.challenge-actions__action-validate');
   }
 
+  function visitTimedChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+    andThen(function () {
+      var buttonConfirm = findWithAssert('.challenge-item-warning button');
+      buttonConfirm.click();
+    });
+  }
+
   describe('Acceptance | d1 - Valider une épreuve |', function () {
 
     var application = undefined;
@@ -863,7 +894,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'chai
     });
 
     before(function () {
-      return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      return visitTimedChallenge();
     });
 
     before(function () {
@@ -1034,7 +1065,12 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['exports', 'c
         });
 
         it('f1.6 la consigne de l\'épreuve', function () {
-          (0, _chai.expect)($challenge.find('.challenge-statement__instruction').html()).to.contain('Un QCM propose plusieurs choix');
+          visit('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
+          andThen(function () {
+            var buttonConfirm = findWithAssert('.challenge-item-warning button');
+            buttonConfirm.click();
+            (0, _chai.expect)($challenge.find('.challenge-statement__instruction').html()).to.contain('Un QCM propose plusieurs choix');
+          });
         });
 
         it('f1.7 un bouton pour accéder à l\'épreuve suivante', function () {
@@ -1121,6 +1157,22 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
     return JSON.parse($($('.last-post-request-body')[0]).text());
   }
 
+  function visitTimedChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+    andThen(function () {
+      var buttonConfirm = findWithAssert('.challenge-item-warning button');
+      buttonConfirm.click();
+    });
+  }
+
+  function visitTimedQruChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qru_challenge_id');
+    andThen(function () {
+      var buttonConfirm = findWithAssert('.challenge-item-warning button');
+      buttonConfirm.click();
+    });
+  }
+
   describe('Acceptance | H1 - Timeout Jauge | ', function () {
 
     var application = undefined;
@@ -1136,7 +1188,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
     describe('Test affichage ou non de la jauge', function () {
       //XXX: Deux cas car on test aussi une absence d'affichage
       it('doit afficher la jauge si exigée par le backend mais ne pas l\'afficher dans le cas contraire ', function () {
-        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        visitTimedChallenge();
         andThen(function () {
           (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(1);
         });
@@ -1151,7 +1203,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
       describe('Format d\'affichage', function () {
 
         it('valeur 2 en backend est affichée 0:02 dans le timer', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          visitTimedChallenge();
           andThen(function () {
             var $countDown = findWithAssert('.timeout-jauge-remaining');
             (0, _chai.expect)($countDown.text().trim()).to.equal('0:02');
@@ -1159,7 +1211,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
         });
 
         it('valeur 70 en backend est affichée 1:10 dans le timer', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qru_challenge_id');
+          visitTimedQruChallenge();
           andThen(function () {
             var $countDown = findWithAssert('.timeout-jauge-remaining');
             (0, _chai.expect)($countDown.text().trim()).to.equal('1:10');
@@ -1167,7 +1219,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
         });
 
         it('Le timer se décharge progressivement', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
           });
@@ -1269,7 +1321,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
         });
 
         it('Si l\'utilisateur valide et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
             $('.last-post-request').remove();
@@ -1287,7 +1339,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
         });
 
         it('Si l\'utilisateur ABANDONNE et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
             $('.last-post-request').remove();
@@ -1302,7 +1354,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
         });
 
         it('Si l\'utilisateur ABANDONNE et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
             $('.last-post-request').remove();
@@ -1326,6 +1378,91 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test.lint-test', ['exports'],
   'use strict';
 
   describe('ESLint - acceptance/h1-timeout-jauge-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/acceptance/i1-page-warning-timee-test', ['exports', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  function visitTimedChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+  }
+
+  function visitUntimedChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+  }
+  describe('Acceptance | I1 - Warning prochaine page timée  | ', function () {
+
+    var application = undefined;
+
+    before(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    after(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    describe('i1- Test affichage ou non de la page avec le warning', function () {
+      //XXX: Deux cas car on test aussi une absence d'affichage
+      it('i1.1- doit cacher le contenu du challenge si l\'épreuve est timée mais l\'afficher dans le cas contraire ', function () {
+        visitTimedChallenge();
+        andThen(function () {
+          (0, _chai.expect)($('.challenge-statement')).to.have.lengthOf(0);
+        });
+        visitUntimedChallenge();
+        andThen(function () {
+          (0, _chai.expect)($('.challenge-statement')).to.have.lengthOf(1);
+        });
+      });
+
+      it('i1.2- doit afficher le warning si l\'épreuve est timée mais ne pas l\'afficher dans le cas contraire ', function () {
+        visitTimedChallenge();
+        andThen(function () {
+          (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(1);
+        });
+        visitUntimedChallenge();
+        andThen(function () {
+          (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(0);
+        });
+      });
+
+      it('i1.3- vérifier que le timer n\'est pas démarré automatiquement lorsque l\'épreuve est timée', function () {
+        visitTimedChallenge();
+        andThen(function () {
+          (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(0);
+        });
+      });
+    });
+
+    describe('i2-Test comportement lorsque le bouton de confirmation est cliqué', function () {
+      before(function () {
+        visitTimedChallenge();
+        andThen(function () {
+          var buttonConfirm = findWithAssert('.challenge-item-warning button');
+          buttonConfirm.click();
+        });
+      });
+
+      it('i2.1- vérifier que le warning est caché ', function () {
+        (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(0);
+      });
+
+      it('i2.2- vérifier que le contenu de l\'épreuve est affiché', function () {
+        (0, _chai.expect)($('.challenge-statement').css('display')).to.contains('block');
+      });
+
+      it('i2.3- vérifier que le timer est démarré ', function () {
+        (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/i1-page-warning-timee-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/i1-page-warning-timee-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -1560,6 +1697,15 @@ define('pix-live/tests/components/user-menu.lint-test', ['exports'], function (e
   'use strict';
 
   describe('ESLint - components/user-menu.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/warning-page.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/warning-page.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
