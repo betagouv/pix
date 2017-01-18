@@ -16,7 +16,8 @@ export default Ember.Component.extend({
   _formatTimeToHuman(allocatedTime){
     if(typeof allocatedTime === undefined) return 0;
     const timeArr = allocatedTime.toString().split(':');
-    return timeArr[0] + this._pluralize(' minute', timeArr[0]) + ' et ' + timeArr[1] + this._pluralize(' seconde', timeArr[1]);
+    const seconds = (parseInt(timeArr[1])<1)? '' : ' et ' + timeArr[1] + this._pluralize(' seconde', timeArr[1]);
+    return timeArr[0] + this._pluralize(' minute', timeArr[0]) + seconds;
   },
 
   didInsertElement(){
