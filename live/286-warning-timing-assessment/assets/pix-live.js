@@ -887,7 +887,8 @@ define('pix-live/components/warning-page', ['exports', 'ember', 'pix-live/utils/
     _formatTimeToHuman: function _formatTimeToHuman(allocatedTime) {
       if (typeof allocatedTime === undefined) return 0;
       var timeArr = allocatedTime.toString().split(':');
-      return timeArr[0] + this._pluralize(' minute', timeArr[0]) + ' et ' + timeArr[1] + this._pluralize(' seconde', timeArr[1]);
+      var seconds = parseInt(timeArr[1]) < 1 ? '' : ' et ' + timeArr[1] + this._pluralize(' seconde', timeArr[1]);
+      return timeArr[0] + this._pluralize(' minute', timeArr[0]) + seconds;
     },
 
     didInsertElement: function didInsertElement() {
@@ -3570,7 +3571,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.1.1+edf4c717"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.1.1+b409d2d5"});
 }
 
 /* jshint ignore:end */
