@@ -1486,6 +1486,15 @@ define('pix-live/tests/app.lint-test', ['exports'], function (exports) {
     });
   });
 });
+define('pix-live/tests/components/app-footer.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/app-footer.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/components/app-header.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -3122,6 +3131,15 @@ define('pix-live/tests/routes/preferences.lint-test', ['exports'], function (exp
     });
   });
 });
+define('pix-live/tests/routes/project.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - routes/project.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/serializers/challenge.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -3910,6 +3928,29 @@ define('pix-live/tests/unit/routes/preferences-test.lint-test', ['exports'], fun
   'use strict';
 
   describe('ESLint - unit/routes/preferences-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/routes/project-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Route | project', function () {
+    (0, _emberMocha.setupTest)('route:project', {
+      // Specify the other units that are required for this test.
+      // needs: ['controller:foo']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/project-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/routes/project-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
