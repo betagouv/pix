@@ -17,13 +17,13 @@ describe('Acceptance | API | Assessments', function () {
               // a bunch of fields
               'Adaptatif ?': false,
               '\u00c9preuves': [
-              'second_challenge',
-              'first_challenge',
+                'second_challenge',
+                'first_challenge',
               ],
             },
           }
           );
-          nock('https://api.airtable.com')
+        nock('https://api.airtable.com')
           .get('/v0/test-base/Tests/adaptive_course_id')
           .times(4)
           .reply(200, {
@@ -32,14 +32,14 @@ describe('Acceptance | API | Assessments', function () {
               // a bunch of fields
               'Adaptatif ?': true,
               '\u00c9preuves': [
-              'third_challenge',
-              'second_challenge',
-              'first_challenge',
+                'third_challenge',
+                'second_challenge',
+                'first_challenge',
               ],
             },
           }
           );
-          nock('https://api.airtable.com')
+        nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/first_challenge')
           .times(3)
           .reply(200, {
@@ -49,7 +49,7 @@ describe('Acceptance | API | Assessments', function () {
             },
           }
           );
-          nock('https://api.airtable.com')
+        nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/second_challenge')
           .reply(200, {
             'id': 'second_challenge',
@@ -58,7 +58,7 @@ describe('Acceptance | API | Assessments', function () {
             },
           }
           );
-          nock('https://api.airtable.com')
+        nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/third_challenge')
           .reply(200, {
             'id': 'third_challenge',
@@ -67,8 +67,8 @@ describe('Acceptance | API | Assessments', function () {
             },
           }
           );
-          done();
-        });
+        done();
+      });
     });
   });
 
@@ -150,13 +150,13 @@ describe('Acceptance | API | Assessments', function () {
             'relationships':
             {'course':
             {'data':{'type':'courses','id':'anyFromAirTable'}},
-            'answers':{'data':[]}
-          }
-        };
-        const assessment = response.result.data;
-        expect(assessment).to.deep.equal(expectedAssessment);
-        done();
-      });
+              'answers':{'data':[]}
+            }
+          };
+          const assessment = response.result.data;
+          expect(assessment).to.deep.equal(expectedAssessment);
+          done();
+        });
       });
 
     });
@@ -382,6 +382,16 @@ describe('Acceptance | API | Assessments', function () {
       courseId: 'adaptive_course_id'
     };
 
+    const inserted_scenarios = [{
+      courseId: 'adaptive_course_id',
+      path: 'ok',
+      nextChallengeId: 'second_challenge'
+    }, {
+      courseId: 'adaptive_course_id',
+      path: 'ko',
+      nextChallengeId: 'third_challenge'
+    }];
+
     beforeEach(function (done) {
       knex('assessments').delete().then(() => {
         knex('assessments').insert([inserted_assessment]).then((rows) => {
@@ -393,9 +403,15 @@ describe('Acceptance | API | Assessments', function () {
             challengeId: 'anyChallengeIdFromAirtable',
             assessmentId: inserted_assessment_id
           };
+
           knex('answers').delete().then(() => {
             knex('answers').insert([inserted_answer]).then(() => {
-              done();
+
+              knex('scenarios').delete().then(() => {
+                knex('scenarios').insert(inserted_scenarios).then(() => {
+                  done();
+                });
+              });
             });
           });
         });

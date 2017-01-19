@@ -4,38 +4,25 @@ const Scenario = require('../../domain/models/data/scenario');
 const _ = require('../../utils/lodash-utils');
 
 
-function _selectNextInAdaptiveMode(assessment, challenges) {
+function _selectNextInAdaptiveMode(assessment) {
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
 
     const answerIds = assessment.related('answers').pluck('id');
 
-    new Scenario({courseId: 'new_course_id', path: 'ok-ko', nextChallengeId: 'second_challenge_id'}).save().then(() => {
-      console.log('TESTER c\'est important');
-    });
+    Answer.where('id', 'IN', answerIds).fetchAll().then((answers) => {
+      const responsePattern = answers.map(answer => (answer.attributes.result == 'ok') ? 'ok' : 'ko').join('-');
 
-    // Check input
-    if (challenges.length !== 3) {
-      reject('Adaptive mode is enabled only for tests with 3 challenges');
-    }
-
-    // Check input
-    else if (answerIds.length > 1) { // if there is more than one answer, user reached the end of test
-      resolve(null);
-    }
-    // ADAPTIVE TEST HAPPENS HERE
-    else if (answerIds.length === 1) {
-      Answer.where('id', _.first(answerIds)).fetch().then((firstAnswerToFirstChallenge) => {
-
-        if (firstAnswerToFirstChallenge.attributes.result === 'ok') {
-          resolve(_.second(challenges));
+      Scenario.where('path', responsePattern).orderBy('updatedAt', 'DESC').fetch().then((scenario) => {
+        if(scenario == null) {
+          return resolve(null);
+        } else if(scenario.attributes.nextChallengeId == 'null') {
+          resolve(null);
         } else {
-          resolve(_.third(challenges));
+          resolve(scenario.attributes.nextChallengeId);
         }
       });
-    }
-
-
+    }).catch((error) => reject(error));
   });
 }
 
@@ -65,7 +52,7 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
     }
 
     if (course.isAdaptive) {
-      return resolve(_selectNextInAdaptiveMode(assessment, challenges));
+      return resolve(_selectNextInAdaptiveMode(assessment));
     } else {
       return resolve(_selectNextInNormalMode(currentChallengeId, challenges));
     }
