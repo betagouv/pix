@@ -126,7 +126,8 @@ if [ "$COMMAND" == "ssh-keys:add" ]; then
   NAME=$2
   PUB_KEY_FILE=$3
 
-  sudo dokku ssh-keys:add $NAME $PUB_KEY_FILE
+  cat ${PUB_KEY_FILE} >> ~/.ssh/authorized_keys
+  sudo dokku ssh-keys:add ${NAME} ${PUB_KEY_FILE}
 
   echo "SSH key added for name $NAME."
   exit 0
