@@ -2,35 +2,31 @@
 const jsYaml = require('js-yaml');
 const _ = require('../../utils/lodash-utils');
 
-_applyTreatments = (objects) => {
+function _applyTreatments(objects) {
   const result = {};
   _.each(objects, (value, key) => {
     result[key] = value.toString().trim().toLowerCase();
   });
   return result;
-};
+}
 
-_getSolutionKeys = (solutions) => {
+function _getSolutionKeys(solutions) {
   return Object.keys(solutions);
-};
+}
 
-_removeMatchedSolutionIfExist = (matchingSolutionKey, solutions) => {
+function _removeMatchedSolutionIfExist(matchingSolutionKey, solutions) {
   if (matchingSolutionKey) {
     solutions = _.omit(solutions, matchingSolutionKey);
   }
   return solutions;
-};
+}
 
-_rightNumberOfAnswers = (answers, nbExpectedAnswers) => {
-  return Object.keys(answers).length == nbExpectedAnswers;
-};
-
-_hasBadAnswers = (validations) => {
-  let badAnswers = _.filter(validations, (item) => item === false);
+function _hasBadAnswers(validations) {
+  const badAnswers = _.filter(validations, (item) => item === false);
   return !_.isEmpty(badAnswers);
-};
+}
 
-_compareAnswersAndSolutions = (answers, solutions) => {
+function _compareAnswersAndSolutions (answers, solutions) {
   const validations = {};
   _.each(answers, (answer) => {
     validations[answer] = false;
@@ -48,9 +44,9 @@ _compareAnswersAndSolutions = (answers, solutions) => {
     solutions = _removeMatchedSolutionIfExist(matchingSolutionKey, solutions);
   });
   return validations;
-};
+}
 
-_calculateResult = (scoring, validations, answers) => {
+function _calculateResult (scoring, validations) {
   let result = 'ok';
 
   if (_.isEmpty(scoring)) {
@@ -75,7 +71,7 @@ _calculateResult = (scoring, validations, answers) => {
     }
   }
   return result;
-};
+}
 
 module.exports = {
 
