@@ -1,6 +1,6 @@
 const service = require('../../../../lib/domain/services/solution-service-qrocm-dep');
 
-describe.only('Unit | Service | SolutionServiceQrocmDep', function () {
+describe('Unit | Service | SolutionServiceQrocmDep', function () {
 
   describe('#match', function () {
 
