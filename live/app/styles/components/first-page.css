@@ -51,6 +51,7 @@
     font-weight: 900;
     color: #ffffff;
     margin-bottom: 24px;
+    width: 830px;
   }
 }
 
@@ -216,7 +217,7 @@
   height: 260px;
   width: 200px;
   @media (min-width: 992px) {
-    height: 350px;
+    height: 294px;
     margin-left: 35px;
     &:first-child {
       margin-left: 0px;

@@ -4,6 +4,7 @@
 @import url('globals/dimension.css');
 @import url('globals/flexbox-helpers.css');
 @import url('globals/rounded-panel.css');
+@import url('globals/burger.css');
 
 /* components */
 @import url('globals/fonts.css');
