@@ -1,6 +1,6 @@
 const service = require('../../../../lib/domain/services/solution-service-qrocm-ind');
 
-describe.skip('Unit | Service | SolutionServiceQrocmInd', function () {
+describe.only('Unit | Service | SolutionServiceQrocmInd', function () {
 
   describe('#match', function () {
 
@@ -22,10 +22,10 @@ describe.skip('Unit | Service | SolutionServiceQrocmInd', function () {
         `9lettres:\n- courgette\n6lettres:\n- tomate\n4lettres:\n- comcombre`, //mauvaise reponse
         `9lettres:\n- courgette\n6lettres:\n- ''\n4lettres:\n- noix`,          //champs vide
         `9lettres:\n- courgette\n6lettres:\n- courgette\n4lettres:\n- noix`,   //2 fois la meme bonne reponse
-        `9lettres:\n- tomate\n6lettres:\n- maïs\n4lettres:\n- courgette`,   //mauvais ordre
+        `9lettres:\n- tomate\n6lettres:\n- maïs\n4lettres:\n- courgette`   //mauvais ordre
         ].forEach(function (answer) {
         it('should return ko', function () {
-          const result = service.match(answer, solution)
+          const result = service.match(answer, solution);
           expect(result).to.equal('ko');
         });
       })
@@ -54,7 +54,6 @@ describe.skip('Unit | Service | SolutionServiceQrocmInd', function () {
           expect(result).to.equal('ko');
         });
       });
-
     });
   });
 
