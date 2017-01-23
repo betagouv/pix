@@ -26,7 +26,7 @@ function _hasBadAnswers(validations) {
   return !_.isEmpty(badAnswers);
 }
 
-function _compareAnswersAndSolutions (answers, solutions) {
+function _compareAnswersAndSolutions(answers, solutions) {
   const validations = {};
   _.each(answers, (answer) => {
     validations[answer] = false;
@@ -46,7 +46,7 @@ function _compareAnswersAndSolutions (answers, solutions) {
   return validations;
 }
 
-function _calculateResult (scoring, validations) {
+function _calculateResult(scoring, validations) {
   let result = 'ok';
 
   if (_.isEmpty(scoring)) {
@@ -54,20 +54,17 @@ function _calculateResult (scoring, validations) {
       result = 'ko';
     }
   } else {
-    if (!_hasBadAnswers(validations)) {
-      result = 'ok';
-    } else {
-      const nbGoodAnswers = _.filter(validations, (item) => item == true).length;
-      const minGrade = _.min(Object.keys(scoring));
-      const maxGrade = _.max(Object.keys(scoring));
 
-      if (nbGoodAnswers >= maxGrade) {
-        result = 'ok';
-      } else if (nbGoodAnswers >= minGrade) {
-        result = 'partially';
-      } else {
-        result = 'ko';
-      }
+    const nbGoodAnswers = _.filter(validations, (item) => item == true).length;
+    const minGrade = _.min(Object.keys(scoring));
+    const maxGrade = _.max(Object.keys(scoring));
+
+    if (nbGoodAnswers >= maxGrade) {
+      result = 'ok';
+    } else if (nbGoodAnswers >= minGrade) {
+      result = 'partially';
+    } else {
+      result = 'ko';
     }
   }
   return result;
@@ -89,7 +86,7 @@ module.exports = {
     const validations = _compareAnswersAndSolutions(answers, solutions);
 
     // Restitution
-    return _calculateResult(scoring, validations, answers);
+    return _calculateResult(scoring, validations);
   }
 
 
