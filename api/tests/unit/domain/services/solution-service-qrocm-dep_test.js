@@ -1,6 +1,6 @@
 const service = require('../../../../lib/domain/services/solution-service-qrocm-dep');
 
-describe.only('Unit | Service | SolutionServiceQrocmDep', function () {
+describe('Unit | Service | SolutionServiceQrocmDep', function () {
 
   describe('#match', function () {
 
@@ -86,7 +86,8 @@ describe.only('Unit | Service | SolutionServiceQrocmDep', function () {
         [
           `moteur 1: 'yahoo'\nmoteur 2: 'google'\nmoteur 3: 'mauvaise_reponse'`,
           `moteur 1: 'yahoo'\nmoteur 2: 'google'\nmoteur 3: ''`,
-          `moteur 1: 'yahoo'\nmoteur 2: 'google'`,
+          `moteur 1: 'yahoo'\nmoteur 2: 'google'\nmoteur 3: 'google.fr'`,
+          `moteur 1: 'yahoo'\nmoteur 2: 'google'`
         ].forEach(function (answer) {
           it(`should return "partially" if the given answer doesn't totally match the solution (answer = ${answer})`, function () {
             const result = service.match(answer, solution, scoring);
