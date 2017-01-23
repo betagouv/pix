@@ -3517,7 +3517,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.1.1+06cdc198"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"3.1.1+6c8c418c"});
 }
 
 /* jshint ignore:end */
