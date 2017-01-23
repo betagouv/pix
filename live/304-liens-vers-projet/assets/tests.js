@@ -25,6 +25,10 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['exports', 'chai', 'pi
     it('a1.1 la landing page contient un pitch de présentation', function () {
       (0, _chai.expect)(findWithAssert('.first-page-hero__main-value-prop').text()).to.contains('Développez vos compétences numériques');
     });
+
+    it('a1.2 Sur la landing page, un lien pointant vers la page projet est présent dans les valeurs pix', function () {
+      findWithAssert('.first-page-about a[href="/projet"]');
+    });
   });
 });
 define('pix-live/tests/acceptance/a1-page-accueil-test.lint-test', ['exports'], function (exports) {
@@ -2478,7 +2482,7 @@ define('pix-live/tests/initializers/router.lint-test', ['exports'], function (ex
 });
 define('pix-live/tests/integration/components/app-menu-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  _mocha.describe.only('Integration | Component | app menu', function () {
+  (0, _mocha.describe)('Integration | Component | app menu', function () {
     (0, _emberMocha.setupComponentTest)('app-menu', {
       integration: true
     });
@@ -2496,22 +2500,16 @@ define('pix-live/tests/integration/components/app-menu-test', ['exports', 'chai'
     }
 
     (0, _mocha.describe)('Test render menu item or not according to item', function () {
-      (0, _mocha.it)('Should render component App-menu with one item', function () {
+      (0, _mocha.it)('Should not component App-menu with no item', function () {
         //Given
-        addItemsToMenu(this, [{
-          title: 'projet',
-          href: '/projet'
-        }]);
+        addItemsToMenu(this, []);
         //When
         renderAppMenu(this);
         //then
-        var item = this.$('.app-menu__item > a');
-        (0, _chai.expect)(item).to.have.lengthOf(1);
-        (0, _chai.expect)(item.text()).to.equal('projet');
-        (0, _chai.expect)(item.prop('href')).to.contain('/projet');
+        (0, _chai.expect)(this.$('.app-menu__item > a').text()).to.be.empty;
       });
 
-      (0, _mocha.it)('Should render component App-menu with multiple items', function () {
+      (0, _mocha.it)('Should render component App-menu with one or multiple items', function () {
         //Given
         addItemsToMenu(this, [{
           title: 'projet',
@@ -2522,21 +2520,14 @@ define('pix-live/tests/integration/components/app-menu-test', ['exports', 'chai'
         }]);
         //When
         renderAppMenu(this);
-        //then
-        //const secondItem = (this.$('.app-menu__item a').length > 1)? this.$('.app-menu__item>a')[1] : this.$('.app-menu__item>a');
-        var secondItem = this.$('.app-menu__item a')[1];
-        //expect(secondItem).to.have.lengthOf(1);
-        //expect(secondItem.text()).to.equal('menu2');
-        //expect(secondItem.prop('href')).to.contain('/about');
-      });
 
-      (0, _mocha.it)('Should not component App-menu with no item', function () {
-        //Given
-        addItemsToMenu(this, []);
-        //When
-        renderAppMenu(this);
         //then
-        (0, _chai.expect)(this.$('.app-menu__item > a').text()).to.be.empty;
+        var itemsLength = this.$().find('.app-menu__item').get('length');
+        (0, _chai.expect)(itemsLength).to.equal(2);
+
+        var firstItem = this.$().find('.app-menu__item > a').eq(0);
+        (0, _chai.expect)(firstItem.text().trim()).to.equal('projet');
+        (0, _chai.expect)(firstItem.prop('href')).to.contain('/projet');
       });
     });
   });
@@ -2546,10 +2537,7 @@ define('pix-live/tests/integration/components/app-menu-test.lint-test', ['export
 
   describe('ESLint - integration/components/app-menu-test.js', function () {
     it('should pass ESLint', function () {
-      // precompiled test failed
-      var error = new chai.AssertionError('integration/components/app-menu-test.js should pass ESLint.\n51:13  - \'secondItem\' is assigned a value but never used. (no-unused-vars)');
-      error.stack = undefined;
-      throw error;
+      // precompiled test passed
     });
   });
 });
