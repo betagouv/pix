@@ -54,24 +54,22 @@ function _calculateResult (scoring, validations) {
       result = 'ko';
     }
   } else {
-    if (!_hasBadAnswers(validations)) {
-      result = 'ok';
-    } else {
-      const nbGoodAnswers = _.filter(validations, (item) => item == true).length;
-      const minGrade = _.min(Object.keys(scoring));
-      const maxGrade = _.max(Object.keys(scoring));
+    const nbGoodAnswers = _.filter(validations, (item) => item == true).length;
+    const minGrade = _.min(Object.keys(scoring));
+    const maxGrade = _.max(Object.keys(scoring));
 
-      if (nbGoodAnswers >= maxGrade) {
-        result = 'ok';
-      } else if (nbGoodAnswers >= minGrade) {
-        result = 'partially';
-      } else {
-        result = 'ko';
-      }
+    if (nbGoodAnswers >= maxGrade) {
+      result = 'ok';
+    } else if (nbGoodAnswers >= minGrade) {
+      result = 'partially';
+    } else {
+      result = 'ko';
     }
   }
   return result;
 }
+
+
 
 module.exports = {
 
