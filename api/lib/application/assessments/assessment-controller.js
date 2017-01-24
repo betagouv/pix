@@ -41,6 +41,10 @@ module.exports = {
         return (challenge) ? reply(challengeSerializer.serialize(challenge)) : reply('null');
       })
       .catch((err) => reply(Boom.badImplementation(err)));
+  },
+
+  getAssessmentSolutions(request, reply) {
+    reply(null);
   }
 
 };

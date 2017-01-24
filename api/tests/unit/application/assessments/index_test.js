@@ -1,3 +1,4 @@
+/* global before, beforeEach, describe, it, expect, sinon, after */
 const Hapi = require('hapi');
 const AssessmentController = require('../../../../lib/application/assessments/assessment-controller');
 
@@ -75,6 +76,19 @@ describe('Unit | Router | AssessmentRouter', function () {
 
     it('should exist', function (done) {
       expectRouteToExist({ method: 'GET', url: '/api/assessments/assessment_id' }, done);
+    });
+  });
+
+  describe('GET /api/assessments/assessment_id/solutions', function () {
+
+    before(function () {
+    });
+
+    after(function () {
+    });
+
+    it('should exist', function (done) {
+      done();
     });
   });
 
