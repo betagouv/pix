@@ -1,4 +1,3 @@
-const utils = require('./solution-service-utils');
 const jsYaml = require('js-yaml');
 const _ = require('lodash');
 
@@ -14,7 +13,7 @@ module.exports = {
     const answers = jsYaml.load(yamlAnswer);
     const solutions = jsYaml.load(yamlSolution);
 
-    //Treatment
+    //Treatments
     _.each(answers, (answer, index) => {
       answers[index] = _applyTreatments(answer);
     });
@@ -37,11 +36,11 @@ module.exports = {
     });
 
     //Restitution
-    let result = "ok";
+    let result = 'ok';
 
     _.each(validations, (validation) => {
       if (validation === false) {
-        result = "ko";
+        result = 'ko';
       }
     });
 
