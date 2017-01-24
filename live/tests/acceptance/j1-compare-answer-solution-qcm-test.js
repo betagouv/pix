@@ -14,9 +14,9 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
     destroyApp(application);
   });
 
-  describe(`Affiche sur la ligne de l'épreuve le mot REPONSE pour un QCM sur l'écran des résultats`, function () {
+  describe('Affiche sur la ligne de l\'épreuve le mot REPONSE pour un QCM sur l\'écran des résultats', function () {
 
-    it(`j1.1 il l'affiche pour un QCM mais pas pour les autres types d'epreuves` , function () {
+    it('j1.1 il l\'affiche pour un QCM mais pas pour les autres types d\'épreuves' , function () {
       visit('/assessments/ref_assessment_id/results');
       andThen(() => {
         expect($('.assessment-results-list-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
