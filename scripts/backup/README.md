@@ -1,5 +1,5 @@
 Pour lancer la sauvegarde, il faut exécuter la commande suivante :
-  > $ npm scripts/backup/execute.js
+  > $ npm scripts/backup/index.js
   
   Elle va :
   - Lancer le serveur
