@@ -2,6 +2,10 @@ const utils = require('./solution-service-utils');
 const jsYaml = require('js-yaml');
 const _ = require('lodash');
 
+function _applyTreatments(answer) {
+  return answer.toString().trim().toLowerCase();
+}
+
 module.exports = {
 
   match (yamlAnswer, yamlSolution) {
@@ -11,24 +15,32 @@ module.exports = {
     const solutions = jsYaml.load(yamlSolution);
 
     //Treatment
-    
+    _.each(answers, (answer, index) => {
+      answers[index] = _applyTreatments(answer);
+    });
+
+    _.each(solutions, (solution, index) => {
+      const validOptions = [];
+      solution.forEach((validValue) => {
+        validOptions.push(_applyTreatments(validValue));
+      });
+      solutions[index] = validOptions;
+    });
+
 
     //Comparison
-    let validations = {};
+    const validations = {};
     const keys = Object.keys(answers);
 
     keys.forEach((key) => {
-      validations[key] = false;
-      if (solutions[key].includes(answers[key][0])){
-        validations[key] = true;
-      }
+      validations[key] = solutions[key].includes(answers[key]);
     });
 
     //Restitution
     let result = "ok";
 
     _.each(validations, (validation) => {
-      if (validation === false){
+      if (validation === false) {
         result = "ko";
       }
     });

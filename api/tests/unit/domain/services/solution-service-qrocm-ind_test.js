@@ -1,6 +1,6 @@
 const service = require('../../../../lib/domain/services/solution-service-qrocm-ind');
 
-describe.only('Unit | Service | SolutionServiceQrocmInd', function () {
+describe('Unit | Service | SolutionServiceQrocmInd', function () {
 
   describe('#match', function () {
 
@@ -31,7 +31,7 @@ describe.only('Unit | Service | SolutionServiceQrocmInd', function () {
           const result = service.match(answer, solution);
           expect(result).to.equal('ko');
         });
-      })
+      });
 
 
     });
@@ -51,6 +51,7 @@ describe.only('Unit | Service | SolutionServiceQrocmInd', function () {
         `num1:\n- 4\nnum2:\n- 2\nnum3:\n- 1\nnum4:\n- ''`,   //reponse vide
         `num1:\n- 4\nnum2:\n- 2\nnum3:\n- 1\nnum4:\n- '4'`,  //2 fois la meme reponse
         `num1:\n- 1\nnum2:\n- 2\nnum3:\n- 3\nnum4:\n- '4'`,  //mauvais ordre
+        `num1:\n- '1'\nnum2:\n- '2'\nnum3:\n- '3'\nnum4:\n- '4'`,  //mauvais ordre et avec des strings
       ].forEach(function (answer){
         it('should return ko', function () {
           const result = service.match(answer, solution);
