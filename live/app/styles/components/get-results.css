@@ -102,13 +102,12 @@
 .assessment-results-result-instruction {
   font-family: var(--font-lato);
   font-size: 18px;
-  margin-left: 22px;
+  margin-left: 14px;
   height: 30px;
   overflow: hidden;
 }
 .assessment-results-result-img {
-  margin-left: auto;
-  margin-right: 37px;
+  margin-left: 14px;
 }
 
 
