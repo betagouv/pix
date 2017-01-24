@@ -1487,10 +1487,14 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
       (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
     });
 
-    describe('a', function () {
+    describe('Affiche sur la ligne de l\'épreuve le mot REPONSE pour un QCM sur l\'écran des résultats', function () {
 
-      it('j1.1 ', function () {
-        (0, _chai.expect)(true).to.equal(true);
+      it('j1.1 il l\'affiche pour un QCM mais pas pour les autres types d\'épreuves', function () {
+        visit('/assessments/ref_assessment_id/results');
+        andThen(function () {
+          (0, _chai.expect)($('.assessment-results-list-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
+          (0, _chai.expect)($('.assessment-results-list-item:eq(1) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QCU
+        });
       });
     });
   });
