@@ -13,6 +13,7 @@ export default Model.extend(ValueAsArrayOfBoolean, ValueAsArrayOfString, {
   timeout: attr('number'),
   assessment: belongsTo('assessment'),
   challenge: belongsTo('challenge'),
+  hasSolution : attr('boolean'),
 
   isResultOk: computed('result', function () {
     return this.get('result') === 'ok';

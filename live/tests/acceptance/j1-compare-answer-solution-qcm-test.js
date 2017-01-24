@@ -19,8 +19,8 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
     it(`j1.1 il l'affiche pour un QCM mais pas pour les autres types d'epreuves` , function () {
       visit('/assessments/ref_assessment_id/results');
       andThen(() => {
-        expect($('.assessment-results-list-item:eq(0) .js-answer').text()).to.contain('RÉPONSE'); //QCM
-        expect($('.assessment-results-list-item:eq(1) .js-answer').text()).not.to.contain('RÉPONSE'); //QCU
+        expect($('.assessment-results-list-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
+        expect($('.assessment-results-list-item:eq(1) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QCU
       });
     });
 

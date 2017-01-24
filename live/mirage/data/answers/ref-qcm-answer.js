@@ -6,7 +6,8 @@ export default {
     id: 'ref_answer_qcm_id',
     attributes: {
       value: '1,2,4',
-      result: 'ok'
+      result: 'ok',
+      'has-solution': true
     },
     relationships: {
       challenge: {

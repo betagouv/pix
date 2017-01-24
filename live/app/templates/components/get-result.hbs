@@ -56,6 +56,11 @@
       {{strip-instruction (convert-to-html answer.challenge.instruction)}}
     </div>
 
+    <div class="js-correct-answer">
+      {{#if answer.hasSolution}}
+        RÉPONSE
+      {{/if}}
+    </div>
 
   </div>
   {{/each}}
