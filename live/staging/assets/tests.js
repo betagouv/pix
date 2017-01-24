@@ -25,6 +25,10 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['exports', 'chai', 'pi
     it('a1.1 la landing page contient un pitch de présentation', function () {
       (0, _chai.expect)(findWithAssert('.first-page-hero__main-value-prop').text()).to.contains('Développez vos compétences numériques');
     });
+
+    it('a1.2 Sur la landing page, un lien pointant vers la page projet est présent dans les valeurs pix', function () {
+      findWithAssert('.first-page-about a[href="/projet"]');
+    });
   });
 });
 define('pix-live/tests/acceptance/a1-page-accueil-test.lint-test', ['exports'], function (exports) {
@@ -1504,6 +1508,15 @@ define('pix-live/tests/components/app-header.lint-test', ['exports'], function (
     });
   });
 });
+define('pix-live/tests/components/app-menu.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/app-menu.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/components/beta-logo.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2462,6 +2475,67 @@ define('pix-live/tests/initializers/router.lint-test', ['exports'], function (ex
   'use strict';
 
   describe('ESLint - initializers/router.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/integration/components/app-menu-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | app menu', function () {
+    (0, _emberMocha.setupComponentTest)('app-menu', {
+      integration: true
+    });
+
+    function addItemsToMenu(component, items) {
+      component.set('items', items);
+    }
+
+    function renderAppMenu(component) {
+      component.render(Ember.HTMLBars.template({
+        'id': 'tTxNlhg2',
+        'block': '{"statements":[["append",["helper",["app-menu"],[["get",["items"]]],null],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+    }
+
+    (0, _mocha.describe)('Test render menu item or not according to item', function () {
+      (0, _mocha.it)('Should not component App-menu with no item', function () {
+        //Given
+        addItemsToMenu(this, []);
+        //When
+        renderAppMenu(this);
+        //then
+        (0, _chai.expect)(this.$('.app-menu__item > a').text()).to.be.empty;
+      });
+
+      (0, _mocha.it)('Should render component App-menu with one or multiple items', function () {
+        //Given
+        addItemsToMenu(this, [{
+          title: 'projet',
+          href: '/projet'
+        }, {
+          title: 'menu2',
+          href: '/about'
+        }]);
+        //When
+        renderAppMenu(this);
+
+        //then
+        var itemsLength = this.$().find('.app-menu__item').get('length');
+        (0, _chai.expect)(itemsLength).to.equal(2);
+
+        var firstItem = this.$().find('.app-menu__item > a').eq(0);
+        (0, _chai.expect)(firstItem.text().trim()).to.equal('projet');
+        (0, _chai.expect)(firstItem.prop('href')).to.contain('/projet');
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/app-menu-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/app-menu-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
