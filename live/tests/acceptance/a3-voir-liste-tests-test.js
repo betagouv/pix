@@ -61,5 +61,5 @@ describe('Acceptance | a3 - voir la liste des tests', function () {
     const $course = findWithAssert('.course[data-id="raw_course_id"]');
     expect($course.find('img')[0].src).to.contains('images/course-default-image.png');
   });
-
+//
 });
