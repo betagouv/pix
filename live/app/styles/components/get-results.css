@@ -100,7 +100,7 @@
   margin-left: 22px;
 }
 .assessment-results-result-instruction {
-  font-family: var(--font-lato);
+  font-family: ;
   font-size: 18px;
   margin-left: 14px;
   height: 30px;
@@ -108,6 +108,17 @@
 }
 .assessment-results-result-img {
   margin-left: 14px;
+}
+
+.assessment-results-result-correction {
+  width: 73px;
+  font-family: var(--font-lato);
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--pix-blue);
+  margin-right: 23px;
+  margin-left: auto;
+  height: 21px; /* XXX : should be aligned with flexbox */
 }
 
 
