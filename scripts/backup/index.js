@@ -5,8 +5,8 @@ let base = new Airtable({apiKey: 'PixKey'}).base('appHAIFk9u1qqglhX');
 createBackupFolder()
   .then(folderName => createBackupFiles(folderName))
   .then(filePaths => populateData(filePaths))
-  .catch((e) => {
-    console.log(e);
+  .catch((err) => {
+    console.log(err);
     process.exit(1);
   });
 
@@ -46,16 +46,11 @@ function populateData(tableData) {
           records.forEach((record) => {
             bufferData.push(JSON.stringify(record));
           });
-
           fetchNextPage();
-
         }, (err) => {
-          if (err) {
-            reject(err);
-          }
-
+          if (err) reject(err);
           fs.writeFileSync(filePath, bufferData);
-          resolve('it works');
+          resolve(true);
         });
     });
   });
