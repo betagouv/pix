@@ -1473,6 +1473,37 @@ define('pix-live/tests/acceptance/i1-page-warning-timee-test.lint-test', ['expor
     });
   });
 });
+define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['exports', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', function () {
+
+    var application = undefined;
+
+    before(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    after(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    describe('a', function () {
+
+      it('j1.1 ', function () {
+        (0, _chai.expect)(true).to.equal(true);
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/j1-compare-answer-solution-qcm-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/adapters/application.lint-test', ['exports'], function (exports) {
   'use strict';
 
