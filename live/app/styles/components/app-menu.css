@@ -1,8 +1,6 @@
 .app-menu-wrapper{
   background: white;
   position: absolute;
-  left: 5%;
-  top: 40%;
   @media (min-width: 992px) {
     margin-left: 257px;
     position: static;
