@@ -53,30 +53,29 @@ module.exports = {
     assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
-        // console.log('assessment- - - - - - - - - - - - - - - - - - - - ', assessment);
-        // console.log('assessment.attributes.courseId- - - - - - - - - - - - - - - - - - - - ', assessment.attributes.courseId);
         if (_.isEmpty(assessment)) {
           return reply('null');
         } else {
 
           answerRepository.findByAssessment(assessment.attributes.id).then((answers) => {
-            console.log('assessment.attributes.id- - - - - - - - - - - - - - - - - - - - ', assessment.attributes.id);
-            console.log('answers- - - - - - - - - - - - - - - - - - - - ', answers);
+            const answersLength = _.get(answers, 'length', 0);
+
+            courseRepository
+              .get(assessment.attributes.courseId)
+              .then((course) => {
+                const challengesLength = _.get(course, 'challenges.length', 0);
+                if (challengesLength > 0 && _.isEqual(answersLength, challengesLength)) {
+                  return reply('hurray');
+                } else {
+                  return reply('null');
+                }
+
+              })
+              .catch((err) => reply('ERROR'));
+
           });
 
-          // console.log('assessment.attributes.courseId- - - - - - - - - - - - - - - - - - - - ', assessment.attributes.courseId);
-          // return courseRepository
-          //   .get(assessment.attributes.courseId)
-          //   .then((course) => {
-          //     console.log('course- - - - - - - - - - - - - - - - - - - - ', JSON.stringify(course));
-          //     const challengesLength = _.get(course, 'challenges.length', 0);
-          //     if (challengesLength > 0 && )
-          //     return reply(new Course({id:'ccc'}));
-          //   })
-          //   .catch((err) => reply('ERROR'));
         }
-        // console.log('assessment- - - - - - - - - - - - - - - - - - - - ', assessment);
-        //recupérer le course en fonction de l'id assessment, puis aller chercher le nombre de challenge dans ce course
 
 
       });

@@ -561,7 +561,7 @@ describe('Acceptance | API | Assessments', function () {
 
 
 
-  describe('(failing case) GET /api/assessments/{id}/solutions/{answerId}', function () {
+  describe.only('(failing case) GET /api/assessments/{id}/solutions/{answerId}', function () {
 
     let inserted_assessment_id = null;
     let inserted_answer_id = null;
@@ -683,10 +683,10 @@ describe('Acceptance | API | Assessments', function () {
 
       const assessmentEndpoint = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/solutions/' + inserted_answer_id };
       server.injectThen(assessmentEndpoint).then((response) => {
-        console.log('response.result- - - - - - - - - - - - - - - - - - - - ', response.result);
+        // console.log('response.result- - - - - - - - - - - - - - - - - - - - ', response.result);
         const solution = response.result;
 
-        expect(solution).to.equal('null');
+        expect(solution).to.equal('hurray');
           // expect(solution.id.toString()).to.equal('444');
           // expect(solution.attributes.value.toString()).to.equal('blabla');
           // expect(solution.attributes.type.toString()).to.equal('blublu');
