@@ -23,6 +23,7 @@ server.register([
   require('./lib/application/challenges'),
   require('./lib/application/courses'),
   require('./lib/application/users'),
+  require('./lib/application/followers'),
 
   /* Hapi plugins */
   require('inert'),
