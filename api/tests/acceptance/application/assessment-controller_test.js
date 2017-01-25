@@ -527,4 +527,56 @@ describe('Acceptance | API | Assessments', function () {
   });
 
 
+
+
+
+
+
+  describe.only('GET /api/assessments/{id}/solutions/{answerId}', function () {
+
+    // let inserted_assessment_id = null;
+
+    // const inserted_assessment = {
+    //   userName: 'John Doe',
+    //   userEmail: 'john.doe@mailmail.com',
+    //   courseId:'anyFromAirTable'
+    // };
+
+    // beforeEach(function (done) {
+    //   knex('assessments').delete().then(() => {
+    //     knex('assessments').insert([inserted_assessment]).then((rows) => {
+    //       inserted_assessment_id = rows[0];
+    //       done();
+    //     });
+    //   });
+    // });
+
+    // afterEach(function (done) {
+    //   knex('assessments').delete().then(() => {done();});
+    // });
+
+    it('should return default value if no assessments', function (done) {
+      // expect(true).to.equal(true);
+      // done();
+
+      const assessmentEndpoint = { method: 'GET', url: '/api/assessments/unexisting_assessment_id/solutions/unexisting_answer_id' };
+      server.injectThen(assessmentEndpoint).then((response) => {
+        expect(response.result).to.equal('null');
+        done();
+      });
+
+    });
+
+  });
+
+
+
+
+
+
+
+
+
+
+
 });

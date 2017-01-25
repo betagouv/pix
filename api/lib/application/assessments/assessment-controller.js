@@ -44,7 +44,7 @@ module.exports = {
   },
 
   getAssessmentSolutions(request, reply) {
-    reply(null);
+    reply('null');
   }
 
 };
