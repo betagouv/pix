@@ -628,19 +628,43 @@ describe('Acceptance | API | Assessments', function () {
         expect(response.result).to.equal('null');
         done();
       });
-
     });
 
+    describe(' | Nominal case | ', function () {
+
+      const inserted_answer_2 = {
+        value: '2,3',
+        result: 'ko',
+        challengeId: 'solutionable_challenge_2',
+        assessmentId: inserted_assessment_id
+      };
+
+      before(function(doneit){
+        knex('answers').insert([inserted_answer_2]).then(() => {
+          doneit();
+        });
+      });
+
+      it('should return solution if assessment exists, answer exists, and assessment is over', function (done) {
+
+        const assessmentEndpoint = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/solutions/' + inserted_answer_id };
+        server.injectThen(assessmentEndpoint).then((response) => {
+          expect(response.result).to.equal('null');
+          done();
+        });
+
+      });
+    });
   });
-
-
-
-
-
-
-
-
-
-
-
 });
+
+
+
+
+
+
+
+
+
+
+
