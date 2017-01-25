@@ -1,13 +1,14 @@
 const Boom = require('boom');
-const assessmentSerializer = require('../../infrastructure/serializers/assessment-serializer');
+const assessmentSerializer = include('lib/infrastructure/serializers/assessment-serializer');
+const solutionSerializer = include('lib/infrastructure/serializers/solution-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/challenge-serializer');
 const courseRepository = include('lib/infrastructure/repositories/course-repository');
 const _ = include('lib/utils/lodash-utils');
-const Course = include('lib/domain/models/referential/course');
 const answerRepository = include('lib/infrastructure/repositories/answer-repository');
+const solutionRepository = include('lib/infrastructure/repositories/solution-repository');
 
 module.exports = {
 
@@ -65,7 +66,30 @@ module.exports = {
               .then((course) => {
                 const challengesLength = _.get(course, 'challenges.length', 0);
                 if (challengesLength > 0 && _.isEqual(answersLength, challengesLength)) {
-                  return reply('hurray');
+
+                  const modelAnswers = _.map(answers.models, (o) => o.attributes);
+                  console.log('modelAnswers- - - - - - - - - - - - - - - - - - - - ', modelAnswers);
+                  const requestedAnswer = _.find(modelAnswers, {id: _.parseInt(request.params.answerId)});
+                  console.log('requestedAnswer- - - - - - - - - - - - - - - - - - - - ', requestedAnswer);
+
+                  solutionRepository
+                    .get(requestedAnswer.challengeId)
+                    .then((solution) => {
+                      console.log('solution- - - - - - - - - - - - - - - - - - - - ', solution);
+                      return reply(solutionSerializer.serialize(solution));
+                    });
+                  // console.log('answers.models- - - - - - - - - - - - - - - - - - - - ', answers.models[0].attributes);
+                  // console.log('answers.models- - - - - - - - - - - - - - - - - - - - ', _.map(answers.models, (o) => o.attributes));
+
+
+                  // return reply('hurray');
+                    // solutionRepository
+                    //   .get(request.params.answerId)
+                    //   .then((solution, reject) => {
+                    //     console.log('helllloooo');
+                    //     console.log('solution- - - - - - - - - - - - - - - - - - - - ', solution);
+                    //     console.log('solution- - - - - - - - - - - - - - - - - - - - ', reject);
+                    //   });
                 } else {
                   return reply('null');
                 }

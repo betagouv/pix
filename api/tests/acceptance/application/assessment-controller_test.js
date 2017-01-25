@@ -76,7 +76,9 @@ describe('Acceptance | API | Assessments', function () {
           .reply(200, {
             'id': 'solutionable_challenge_2',
             'fields': {
-              // a bunch of fields
+              'Type d\'épreuve': 'QCM',
+              'Bonnes réponses': '2, 3, 4',
+              // a bunch of other fields
             },
           });
           nock('https://api.airtable.com')
@@ -561,7 +563,7 @@ describe('Acceptance | API | Assessments', function () {
 
 
 
-  describe.only('(failing case) GET /api/assessments/{id}/solutions/{answerId}', function () {
+  describe('(failing case) GET /api/assessments/{id}/solutions/{answerId}', function () {
 
     let inserted_assessment_id = null;
     let inserted_answer_id = null;
@@ -633,7 +635,7 @@ describe('Acceptance | API | Assessments', function () {
 
   });
 
-  describe.only('(success case) GET /api/assessments/{id}/solutions/{answerId}', function () {
+  describe('(success case) GET /api/assessments/{id}/solutions/{answerId}', function () {
 
     let inserted_assessment_id = null;
     let inserted_answer_id = null;
@@ -656,8 +658,8 @@ describe('Acceptance | API | Assessments', function () {
             assessmentId: inserted_assessment_id
           };
           const inserted_answer_2 = {
-            value: '1,2',
-            result: 'ok',
+            value: '3,4',
+            result: 'ko',
             challengeId: 'solutionable_challenge_2',
             assessmentId: inserted_assessment_id
           };
@@ -683,13 +685,12 @@ describe('Acceptance | API | Assessments', function () {
 
       const assessmentEndpoint = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/solutions/' + inserted_answer_id };
       server.injectThen(assessmentEndpoint).then((response) => {
-        // console.log('response.result- - - - - - - - - - - - - - - - - - - - ', response.result);
-        const solution = response.result;
+        const solution = response.result.data;
 
-        expect(solution).to.equal('hurray');
-          // expect(solution.id.toString()).to.equal('444');
-          // expect(solution.attributes.value.toString()).to.equal('blabla');
-          // expect(solution.attributes.type.toString()).to.equal('blublu');
+        expect(solution).not.to.be.equal(undefined);
+        expect(solution.id).to.be.equal('solutionable_challenge_2');
+        expect(solution.attributes.value.toString()).to.equal('2, 3, 4');
+        expect(solution.attributes.type.toString()).to.equal('QCM');
 
         done();
       });
