@@ -64,38 +64,25 @@ module.exports = {
             courseRepository
               .get(assessment.attributes.courseId)
               .then((course) => {
+
                 const challengesLength = _.get(course, 'challenges.length', 0);
+
                 if (challengesLength > 0 && _.isEqual(answersLength, challengesLength)) {
 
                   const modelAnswers = _.map(answers.models, (o) => o.attributes);
-                  console.log('modelAnswers- - - - - - - - - - - - - - - - - - - - ', modelAnswers);
                   const requestedAnswer = _.find(modelAnswers, {id: _.parseInt(request.params.answerId)});
-                  console.log('requestedAnswer- - - - - - - - - - - - - - - - - - - - ', requestedAnswer);
 
                   solutionRepository
                     .get(requestedAnswer.challengeId)
                     .then((solution) => {
-                      console.log('solution- - - - - - - - - - - - - - - - - - - - ', solution);
                       return reply(solutionSerializer.serialize(solution));
                     });
-                  // console.log('answers.models- - - - - - - - - - - - - - - - - - - - ', answers.models[0].attributes);
-                  // console.log('answers.models- - - - - - - - - - - - - - - - - - - - ', _.map(answers.models, (o) => o.attributes));
-
-
-                  // return reply('hurray');
-                    // solutionRepository
-                    //   .get(request.params.answerId)
-                    //   .then((solution, reject) => {
-                    //     console.log('helllloooo');
-                    //     console.log('solution- - - - - - - - - - - - - - - - - - - - ', solution);
-                    //     console.log('solution- - - - - - - - - - - - - - - - - - - - ', reject);
-                    //   });
                 } else {
                   return reply('null');
                 }
 
               })
-              .catch((err) => reply('ERROR'));
+              .catch((err) => reply(Boom.badImplementation(err)));
 
           });
 
