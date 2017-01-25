@@ -4,6 +4,10 @@ const assessmentRepository = require('../../infrastructure/repositories/assessme
 const assessmentService = require('../../domain/services/assessment-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/challenge-serializer');
+const courseRepository = include('lib/infrastructure/repositories/course-repository');
+const _ = include('lib/utils/lodash-utils');
+const Course = include('lib/domain/models/referential/course');
+const answerRepository = include('lib/infrastructure/repositories/answer-repository');
 
 module.exports = {
 
@@ -44,7 +48,41 @@ module.exports = {
   },
 
   getAssessmentSolutions(request, reply) {
-    reply('null');
+
+
+    assessmentRepository
+      .get(request.params.id)
+      .then((assessment) => {
+        // console.log('assessment- - - - - - - - - - - - - - - - - - - - ', assessment);
+        // console.log('assessment.attributes.courseId- - - - - - - - - - - - - - - - - - - - ', assessment.attributes.courseId);
+        if (_.isEmpty(assessment)) {
+          return reply('null');
+        } else {
+
+          answerRepository.findByAssessment(assessment.attributes.id).then((answers) => {
+            console.log('assessment.attributes.id- - - - - - - - - - - - - - - - - - - - ', assessment.attributes.id);
+            console.log('answers- - - - - - - - - - - - - - - - - - - - ', answers);
+          });
+
+          // console.log('assessment.attributes.courseId- - - - - - - - - - - - - - - - - - - - ', assessment.attributes.courseId);
+          // return courseRepository
+          //   .get(assessment.attributes.courseId)
+          //   .then((course) => {
+          //     console.log('course- - - - - - - - - - - - - - - - - - - - ', JSON.stringify(course));
+          //     const challengesLength = _.get(course, 'challenges.length', 0);
+          //     if (challengesLength > 0 && )
+          //     return reply(new Course({id:'ccc'}));
+          //   })
+          //   .catch((err) => reply('ERROR'));
+        }
+        // console.log('assessment- - - - - - - - - - - - - - - - - - - - ', assessment);
+        //recupérer le course en fonction de l'id assessment, puis aller chercher le nombre de challenge dans ce course
+
+
+      });
+
+
+
   }
 
 };
