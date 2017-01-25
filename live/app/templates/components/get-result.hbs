@@ -57,9 +57,7 @@
     </div>
 
     <div class="js-correct-answer assessment-results-result-correction">
-      {{#if answer.hasSolution}}
-        RÉPONSE
-      {{/if}}
+      {{#if (eq answer.challenge.type "QCM")}} Réponse {{/if}}
     </div>
 
   </div>
