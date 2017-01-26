@@ -16,8 +16,8 @@ export default Ember.Route.extend({
   actions: {
 
     blablaAction: function () {
-      // this.transitionTo();
-      this.get('router').transitionTo('example');
+      const urlParams = this.get('router.router.state.params');
+      this.get('router').transitionTo('example', urlParams['assessments.get-results']['assessment_id']);
     }
   }
 
