@@ -2423,7 +2423,7 @@ define('pix-live/models/assessment', ['exports', 'ember', 'ember-data'], functio
 
   });
 });
-define('pix-live/models/challenge', ['exports', 'ember', 'ember-data', 'pix-live/models/challenge/proposals-as-array-mixin', 'pix-live/models/challenge/proposals-as-blocks-mixin'], function (exports, _ember, _emberData, _pixLiveModelsChallengeProposalsAsArrayMixin, _pixLiveModelsChallengeProposalsAsBlocksMixin) {
+define('pix-live/models/challenge', ['exports', 'ember', 'ember-data', 'pix-live/models/challenge/proposals-as-array-mixin', 'pix-live/models/challenge/proposals-as-blocks-mixin', 'pix-live/utils/lodash-custom'], function (exports, _ember, _emberData, _pixLiveModelsChallengeProposalsAsArrayMixin, _pixLiveModelsChallengeProposalsAsBlocksMixin, _pixLiveUtilsLodashCustom) {
   var Model = _emberData['default'].Model;
   var attr = _emberData['default'].attr;
 
@@ -2439,7 +2439,24 @@ define('pix-live/models/challenge', ['exports', 'ember', 'ember-data', 'pix-live
     attachments: attr('array'),
     hasAttachment: _ember['default'].computed.notEmpty('attachments'),
     hasSingleAttachment: _ember['default'].computed.equal('attachments.length', 1),
-    hasMultipleAttachments: _ember['default'].computed.gt('attachments.length', 1)
+    hasMultipleAttachments: _ember['default'].computed.gt('attachments.length', 1),
+
+    challengeItemType: _ember['default'].computed('type', function () {
+      var result = undefined;
+      var challengeType = this.get('type').toUpperCase();
+
+      if ((0, _pixLiveUtilsLodashCustom['default'])(challengeType).isAmongst(['QCUIMG', 'QCU', 'QRU'])) {
+        result = 'qcu';
+      } else if ((0, _pixLiveUtilsLodashCustom['default'])(challengeType).isAmongst(['QCMIMG', 'QCM'])) {
+        result = 'qcm';
+      } else if ((0, _pixLiveUtilsLodashCustom['default'])(challengeType).isAmongst(['QROC'])) {
+        result = 'qroc';
+      } else if ((0, _pixLiveUtilsLodashCustom['default'])(challengeType).isAmongst(['QROCM', 'QROCM-IND', 'QROCM-DEP'])) {
+        result = 'qrocm';
+      }
+
+      return 'challenge-item-' + result;
+    })
 
   });
 
@@ -2633,7 +2650,7 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('project', { path: '/projet' });
   });
 });
-define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-data', 'pix-live/utils/get-challenge-type', 'rsvp'], function (exports, _ember, _emberData, _pixLiveUtilsGetChallengeType, _rsvp) {
+define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-data', 'rsvp'], function (exports, _ember, _emberData, _rsvp) {
   exports['default'] = _ember['default'].Route.extend({
 
     assessmentService: _ember['default'].inject.service('assessment'),
@@ -2651,7 +2668,7 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-
         timer: store.findRecord('challenge', challengeId).get('attributes.timer') || false
       };
 
-      return _rsvp['default'].hash(promises, 'assessment_challenge_answers_timer').then(function (results) {
+      return _rsvp['default'].hash(promises).then(function (results) {
         return results;
       });
     },
@@ -2712,9 +2729,6 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-
       });
 
       controller.set('progress', _emberData['default'].PromiseObject.create({ promise: progressToSet }));
-
-      var challengeType = (0, _pixLiveUtilsGetChallengeType['default'])(model.challenge.get('type'));
-      controller.set('challengeItemType', 'challenge-item-' + challengeType);
     },
 
     serialize: function serialize(model) {
@@ -2755,7 +2769,6 @@ define('pix-live/routes/challenges/get-preview', ['exports', 'ember', 'rsvp', 'p
 
     setupController: function setupController(controller, model) {
       this._super(controller, model);
-
       var challengeType = (0, _pixLiveUtilsGetChallengeType['default'])(model.challenge.get('type'));
       controller.set('challengeItemType', 'challenge-item-' + challengeType);
     }
@@ -2964,7 +2977,7 @@ define("pix-live/templates/assessments/get-challenge-loading", ["exports"], func
   exports["default"] = Ember.HTMLBars.template({ "id": "hPhP7kdH", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"id\",\"assessment-challenge-loading\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"loader-container\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"loader\"],[\"flush-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"loader-inner ball-zig-zag\"],[\"flush-element\"],[\"text\",\"\\n                \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"ball-spinner\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n                \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"ball-spinner\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/assessments/get-challenge-loading.hbs" } });
 });
 define("pix-live/templates/assessments/get-challenge", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "v5C6ZYEl", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"id\",\"assessment-challenge\"],[\"flush-element\"],[\"text\",\"\\n\\n  \"],[\"append\",[\"helper\",[\"course-banner\"],null,[[\"course\",\"withHomeLink\"],[[\"get\",[\"model\",\"assessment\",\"course\"]],true]]],false],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"container\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"unless\"],[[\"get\",[\"model\",\"assessment\",\"course\",\"isAdaptive\"]]],null,0],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"component\"],[[\"get\",[\"challengeItemType\"]]],[[\"challenge\",\"assessment\",\"answers\",\"timer\",\"onValidated\"],[[\"get\",[\"model\",\"challenge\"]],[\"get\",[\"model\",\"assessment\"]],[\"get\",[\"model\",\"answers\"]],[\"get\",[\"model\",\"timer\"]],\"saveAnswerAndNavigate\"]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"      \"],[\"append\",[\"helper\",[\"progress-bar\"],[[\"get\",[\"progress\"]]],null],false],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/assessments/get-challenge.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "c5EweR7u", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"id\",\"assessment-challenge\"],[\"flush-element\"],[\"text\",\"\\n\\n  \"],[\"append\",[\"helper\",[\"course-banner\"],null,[[\"course\",\"withHomeLink\"],[[\"get\",[\"model\",\"assessment\",\"course\"]],true]]],false],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"container\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"unless\"],[[\"get\",[\"model\",\"assessment\",\"course\",\"isAdaptive\"]]],null,0],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"component\"],[[\"get\",[\"model\",\"challenge\",\"challengeItemType\"]]],[[\"challenge\",\"assessment\",\"answers\",\"timer\",\"onValidated\"],[[\"get\",[\"model\",\"challenge\"]],[\"get\",[\"model\",\"assessment\"]],[\"get\",[\"model\",\"answers\"]],[\"get\",[\"model\",\"timer\"]],\"saveAnswerAndNavigate\"]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"      \"],[\"append\",[\"helper\",[\"progress-bar\"],[[\"get\",[\"progress\"]]],null],false],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/assessments/get-challenge.hbs" } });
 });
 define("pix-live/templates/assessments/get-results", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "NrVCKsl2", "block": "{\"statements\":[[\"append\",[\"helper\",[\"get-result\"],null,[[\"assessment\"],[[\"get\",[\"model\"]]]]],false],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/assessments/get-results.hbs" } });
@@ -3610,7 +3623,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+8a51c165"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+105d7c88"});
 }
 
 /* jshint ignore:end */
