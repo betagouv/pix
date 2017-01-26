@@ -8,13 +8,6 @@ export default Ember.Component.extend({
       $('[data-toggle="tooltip"]').tooltip();
     });
   }
-  // ,
-  // actions: {
 
-  //   blablaAction: function () {
-  //     // this.transitionTo();
-  //     this.get('router').transitionTo('example');
-  //   }
-  // }
 
 });

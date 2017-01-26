@@ -15,9 +15,9 @@ export default Ember.Route.extend({
   ,
   actions: {
 
-    blablaAction: function () {
+    openComparison: function () {
       const urlParams = this.get('router.router.state.params');
-      this.get('router').transitionTo('example', urlParams['assessments.get-results']['assessment_id']);
+      this.get('router').transitionTo('assessments.get-comparison', urlParams['assessments.get-results']['assessment_id']);
     }
   }
 
