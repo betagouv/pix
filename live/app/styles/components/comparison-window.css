@@ -15,8 +15,14 @@
   margin-left: 15px;
   margin-right: 15px;
   margin-bottom: 15px;
-/*  padding-top: 20px;
-  padding-top: 20px;
-*/
- font-size: 18px;
+  font-size: 16px;
+}
+
+.comparison-oracle[data-goodness='good'] {
+  color: #13c9a0;
+  font-weight: 900;
+}
+
+.comparison-oracle[data-goodness='bad'][data-checked='yes'] {
+  text-decoration: line-through;
 }

@@ -34,7 +34,15 @@
                 />
 
                 {{!-- text of proposal  --}}
-                <span class="{{if (get solutionArray (concat index)) 'good-answer' 'bad-answer'}}">{{labeledCheckbox.[0]}}</span>
+                <span
+                  class="comparison-oracle"
+                  data-goodness="{{if (get solutionArray (concat index)) 'good' 'bad'}}"
+                  data-checked={{if labeledCheckbox.[1] 'yes' 'no'}}
+                >
+
+                    {{labeledCheckbox.[0]}}
+
+                </span>
 
               </label>
             </p>
