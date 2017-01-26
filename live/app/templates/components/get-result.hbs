@@ -58,7 +58,7 @@
 
     <div class="js-correct-answer assessment-results-result-correction">
       {{#if (eq answer.challenge.type "QCM")}}
-        <button {{action (route-action "openComparison")}}> SSO </button>
+        <button {{action (route-action "openComparison" assessment.id answer.id)}}> SSO </button>
       {{/if}}
     </div>
 
