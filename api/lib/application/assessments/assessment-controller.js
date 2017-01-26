@@ -23,13 +23,18 @@ module.exports = {
 
   get(request, reply) {
 
-    assessmentRepository
+    if (queryParams has answerId) {
+      return this.getAssessmentSolutions(request, reply);
+    } else {
+      assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
         const serializedAssessment = assessmentSerializer.serialize(assessment);
         return reply(serializedAssessment);
       })
       .catch((err) => reply(Boom.badImplementation(err)));
+    }
+
   },
 
   getNextChallenge(request, reply) {

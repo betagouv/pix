@@ -1,15 +1,53 @@
-<div class="routable-modal--dialog">
-    <div class="routable-modal--content">
-        <div class="routable-modal--header">
-            {{routable-modal-close-button class="routable-modal--close"}}
-            <h4 class="routable-modal--title">Modal title</h4>
-        </div>
-        <div class="routable-modal--body">
-            Content
-            <div>answerid {{answer.id}}</div>
-            <div>challengeid {{challenge.id}}</div>
-            <div>solutionid {{solution.id}}</div>
-        </div>
-    </div>
-</div>
+<div class="comparison-window">
+  <div class="routable-modal--dialog comparison-window--dialog">
+    <div class="routable-modal--content comparison-window--content">
+      <div class="routable-modal--header comparison-window--header">
+        Header
+      </div>
+      <div class="routable-modal--body comparison-window--body">
 
+        {{!--  XXX margin-top of next element not working, need empty element here  --}}
+        <div class="empty-stuff">&nbsp;</div>
+
+        <div class="rounded-panel comparison-window__instruction">
+          <div class="rounded-panel__row ">
+            {{markdown-to-html
+            class="challenge-statement__instruction"
+            extensions='targetBlank'
+            markdown=challenge.instruction}}
+          </div>
+        </div>
+
+        <div class="rounded-panel comparison-window__instruction">
+          <div class="rounded-panel__row ">
+            {{#each labeledCheckboxes as |labeledCheckbox index|}}
+            <p class="challenge-response__proposal">
+              <label class="challenge-response__proposal-label">
+
+                {{!-- checkbox --}}
+                <input class="challenge-response__proposal-input"
+                        type="checkbox"
+                        name="{{inc index}}"
+                        checked={{labeledCheckbox.[1]}}
+                />
+
+                {{!-- text of proposal  --}}
+                {{labeledCheckbox.[0]}}
+
+              </label>
+            </p>
+            {{/each}}
+          </div>
+        </div>
+
+
+      </div>
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
