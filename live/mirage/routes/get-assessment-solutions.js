@@ -1,6 +1,6 @@
 import refSolution from '../data/solutions/ref-solution';
 
-export default function (schema, request) {
+export default function () {
 
   return refSolution;
 
