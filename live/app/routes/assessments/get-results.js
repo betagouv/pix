@@ -12,5 +12,16 @@ export default Ember.Route.extend({
       assessment_id: model.assessment.id
     };
   }
+  ,
+  actions: {
+
+    blablaAction: function () {
+      // this.transitionTo();
+      this.get('router').transitionTo('example');
+    }
+  }
+
+
+
 
 });

@@ -57,7 +57,9 @@
     </div>
 
     <div class="js-correct-answer assessment-results-result-correction">
-      {{#if (eq answer.challenge.type "QCM")}} Réponse {{/if}}
+      {{#if (eq answer.challenge.type "QCM")}}
+        <button {{action (route-action "blablaAction")}}> SSO </button>
+      {{/if}}
     </div>
 
   </div>

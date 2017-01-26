@@ -5,6 +5,10 @@
 @import url('globals/flexbox-helpers.css');
 @import url('globals/rounded-panel.css');
 
+/* 3rd-party */
+@import url('vendor/ember-routable-modal/core');
+@import url('vendor/ember-routable-modal/dialog');
+
 /* components */
 @import url('globals/fonts.css');
 @import url('globals/palette.css');
