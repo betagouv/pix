@@ -5,7 +5,6 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 /* postcss plugins */
 var postcssImport = require('postcss-import');
 var cssnext = require('postcss-cssnext');
-var colorGuard = require('colorguard');
 var stylelint = require("stylelint");
 var browserReporter = require('postcss-browser-reporter');
 var reporter = require('postcss-reporter');

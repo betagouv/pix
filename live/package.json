@@ -20,7 +20,6 @@
     "babel-eslint": "^6.1.2",
     "broccoli-asset-rev": "^2.4.6",
     "codeclimate-test-reporter": "^0.3.3",
-    "colorguard": "^1.2.0",
     "coveralls": "^2.11.12",
     "ember-airtable": "^0.0.2",
     "ember-ajax": "^2.5.1",
