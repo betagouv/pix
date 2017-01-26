@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import getChallengeType from '../../utils/get-challenge-type';
 import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
@@ -20,7 +19,7 @@ export default Ember.Route.extend({
       timer : store.findRecord('challenge', challengeId).get('attributes.timer') || false
     };
 
-    return RSVP.hash(promises, 'assessment_challenge_answers_timer').then(results => results);
+    return RSVP.hash(promises).then(results => results);
   },
 
   /*
@@ -62,7 +61,6 @@ export default Ember.Route.extend({
   },
 
   _navigateToNextView: function (currentChallenge, assessment) {
-
     const adapter = this.get('store').adapterFor('application');
     adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET')
       .then(nextChallenge => {
@@ -82,9 +80,6 @@ export default Ember.Route.extend({
       .then((course) => course.getProgress(model.challenge));
 
     controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
-
-    const challengeType = getChallengeType(model.challenge.get('type'));
-    controller.set('challengeItemType', 'challenge-item-' + challengeType);
   },
 
   serialize: function (model) {
