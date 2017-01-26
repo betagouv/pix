@@ -19,6 +19,7 @@ const ChallengeModel = Model.extend(ProposalsAsArrayMixin, ProposalsAsBlocksMixi
   hasAttachment: Ember.computed.notEmpty('attachments'),
   hasSingleAttachment: Ember.computed.equal('attachments.length', 1),
   hasMultipleAttachments: Ember.computed.gt('attachments.length', 1),
+  hasTimer: Ember.computed.notEmpty('timer'),
 
   challengeItemType: Ember.computed('type', function() {
     let result;
