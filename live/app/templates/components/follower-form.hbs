@@ -6,5 +6,9 @@
   <div class="load-email__form-item">
     <button {{action "submition" allowedKeys="enter"}}  class="load-email-button" >Rejoindre la communauté</button>
   </div>
-
 </form>
+{{#if hasError}}
+  <div class="follower-error-message">
+    {{errorMessage}}
+  </div>
+{{/if}}

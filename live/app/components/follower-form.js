@@ -23,6 +23,7 @@ export default Ember.Component.extend({
         this.set('hasError', true);
         return false;
       }
+
     }
   }
 });
