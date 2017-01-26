@@ -23,6 +23,19 @@ export default Ember.Route.extend({
     return RSVP.hash(promises, 'assessment_challenge_answers_timer').then(results => results);
   },
 
+  /*
+   const progressToSet = model.assessment
+   .get('course')
+   .then((course) => course.getProgress(model.challenge));
+
+   controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
+
+   const challengeType = getChallengeType(model.challenge.get('type'));
+   controller.set('challengeItemType', 'challenge-item-' + challengeType);
+
+   */
+
+
   actions: {
 
     saveAnswerAndNavigate: function (currentChallenge, assessment, answerValue, answerTimeout) {
