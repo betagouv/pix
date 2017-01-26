@@ -9,16 +9,24 @@ describe('Integration | Component | follower form', function() {
   });
 
   it('renders', function() {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
-    // Template block usage:
-    // this.render(hbs`
-    //   {{#follower-form}}
-    //     template content
-    //   {{/follower-form}}
-    // `);
-
     this.render(hbs`{{follower-form}}`);
     expect(this.$()).to.have.length(1);
+  });
+
+  describe('Test Component form', function(){
+    it('should return true if submit button exist', function () {
+      //When
+      this.render(hbs`{{follower-form}}`);
+      //then
+      expect(this.$('.load-email-button').length).to.equal(1);
+    });
+
+    it('should return true if input exist', function () {
+      //When
+      this.render(hbs`{{follower-form}}`);
+      //then
+      expect(this.$('.load-email-enter').length).to.equal(1);
+    });
+
   });
 });
