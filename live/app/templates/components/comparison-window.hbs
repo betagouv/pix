@@ -24,6 +24,8 @@
             <p class="challenge-response__proposal">
               <label class="challenge-response__proposal-label">
 
+
+
                 {{!-- checkbox --}}
                 <input class="challenge-response__proposal-input"
                         type="checkbox"
@@ -32,7 +34,11 @@
                 />
 
                 {{!-- text of proposal  --}}
-                {{labeledCheckbox.[0]}}
+                <div>
+                <span>{{labeledCheckbox.[0]}}</span>
+                <span>{{solutionArray.[0]}}</span>
+                </div>
+
 
               </label>
             </p>
