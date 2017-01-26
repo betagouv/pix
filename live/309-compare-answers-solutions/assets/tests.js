@@ -1517,6 +1517,15 @@ define('pix-live/tests/adapters/application.lint-test', ['exports'], function (e
     });
   });
 });
+define('pix-live/tests/adapters/solution.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - adapters/solution.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/app.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -3124,6 +3133,15 @@ define('pix-live/tests/models/course.lint-test', ['exports'], function (exports)
     });
   });
 });
+define('pix-live/tests/models/solution.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - models/solution.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/models/user.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -3155,6 +3173,15 @@ define('pix-live/tests/routes/assessments/get-challenge.lint-test', ['exports'],
   'use strict';
 
   describe('ESLint - routes/assessments/get-challenge.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/routes/assessments/get-comparison.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - routes/assessments/get-comparison.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -3294,6 +3321,28 @@ define('pix-live/tests/transforms/array.lint-test', ['exports'], function (expor
   'use strict';
 
   describe('ESLint - transforms/array.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/adapters/solution-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeModule)('adapter:solution', 'Unit | Adapter | solution', {
+    // Specify the other units that are required for this test.
+    // needs: ['serializer:foo']
+  }, function () {
+    // Replace this with your real tests.
+    (0, _emberMocha.it)('exists', function () {
+      var adapter = this.subject();
+      (0, _chai.expect)(adapter).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/adapters/solution-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/adapters/solution-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
