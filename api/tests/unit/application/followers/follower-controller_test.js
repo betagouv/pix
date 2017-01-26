@@ -30,7 +30,7 @@ describe('Unit | Controller | FollowerController', function () {
       stub.resolves(follower);
 
       // when
-      server.inject({ method: 'POST', url: '/api/followers', payload : JSON.stringify(follower) }, (res) => {
+      server.inject({ method: 'POST', url: '/api/follower-form-test.js', payload : JSON.stringify(follower) }, (res) => {
 
         // then
         expect(res.result).to.deep.equal(follower);
@@ -44,7 +44,7 @@ describe('Unit | Controller | FollowerController', function () {
       stub.rejects(new Error('Fetch error'));
 
       // when
-      server.inject({ method: 'POST', url: '/api/followers', payload : JSON.stringify(follower) }, (res) => {
+      server.inject({ method: 'POST', url: '/api/follower-form-test.js', payload : JSON.stringify(follower) }, (res) => {
 
         // then
         expect(res.statusCode).to.equal(500);

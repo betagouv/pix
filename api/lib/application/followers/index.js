@@ -5,7 +5,7 @@ exports.register = function (server, options, next) {
   server.route([
     {
       method: 'POST',
-      path: '/api/followers',
+      path: '/api/follower-form-test.js',
       config: { handler: FollowerController.save, tags: ['api'] }
     }
   ]);
@@ -14,6 +14,6 @@ exports.register = function (server, options, next) {
 };
 
 exports.register.attributes = {
-  name: 'followers-api',
+  name: 'follower-form-test.js-api',
   version: '1.0.0'
 };
