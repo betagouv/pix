@@ -1643,6 +1643,15 @@ define('pix-live/tests/components/challenge-stay.lint-test', ['exports'], functi
     });
   });
 });
+define('pix-live/tests/components/comparison-window.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/comparison-window.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/components/corner-ribbon.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2828,6 +2837,41 @@ define('pix-live/tests/integration/components/challenge-stay-test.lint-test', ['
   'use strict';
 
   describe('ESLint - integration/components/challenge-stay-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/integration/components/comparison-window-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | comparison window', function () {
+    (0, _emberMocha.setupComponentTest)('comparison-window', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      // Set any properties with this.set('myProperty', 'value');
+      // Handle any actions with this.on('myAction', function(val) { ... });
+      // Template block usage:
+      // this.render(hbs`
+      //   {{#comparison-window}}
+      //     template content
+      //   {{/comparison-window}}
+      // `);
+
+      this.render(Ember.HTMLBars.template({
+        'id': 'kLNjDWRU',
+        'block': '{"statements":[["append",["unknown",["comparison-window"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+  });
+});
+define('pix-live/tests/integration/components/comparison-window-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/comparison-window-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
