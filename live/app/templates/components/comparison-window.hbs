@@ -34,11 +34,7 @@
                 />
 
                 {{!-- text of proposal  --}}
-                <div>
-                <span>{{labeledCheckbox.[0]}}</span>
-                <span>{{solutionArray.[0]}}</span>
-                </div>
-
+                <span class="{{if (get solutionArray (concat index)) 'good-answer' 'bad-answer'}}">{{labeledCheckbox.[0]}}</span>
 
               </label>
             </p>
