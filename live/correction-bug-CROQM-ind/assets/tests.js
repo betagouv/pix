@@ -25,6 +25,10 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['exports', 'chai', 'pi
     it('a1.1 la landing page contient un pitch de présentation', function () {
       (0, _chai.expect)(findWithAssert('.first-page-hero__main-value-prop').text()).to.contains('Développez vos compétences numériques');
     });
+
+    it('a1.2 Sur la landing page, un lien pointant vers la page projet est présent dans les valeurs pix', function () {
+      findWithAssert('.first-page-about a[href="/projet"]');
+    });
   });
 });
 define('pix-live/tests/acceptance/a1-page-accueil-test.lint-test', ['exports'], function (exports) {
@@ -369,6 +373,13 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test.lint-test', ['exports'], f
 });
 define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
+  function visitTimedChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+    andThen(function () {
+      var buttonConfirm = findWithAssert('.challenge-item-warning button');
+      buttonConfirm.click();
+    });
+  }
   describe('Acceptance | b2 - Afficher un QCM | ', function () {
 
     var application = undefined;
@@ -382,7 +393,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'chai', 'pix
     });
 
     before(function () {
-      return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      return visitTimedChallenge();
     });
 
     it('b2.1 It should render challenge instruction', function () {
@@ -562,6 +573,14 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test.lint-test', ['exports'],
 });
 define('pix-live/tests/acceptance/b5-epreuve-image-de-consigne-test', ['exports', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
+  function visitTimedChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+    andThen(function () {
+      var buttonConfirm = findWithAssert('.challenge-item-warning button');
+      buttonConfirm.click();
+    });
+  }
+
   describe('Acceptance | b5 - Afficher une image sous la consigne | ', function () {
 
     var application = undefined;
@@ -577,7 +596,7 @@ define('pix-live/tests/acceptance/b5-epreuve-image-de-consigne-test', ['exports'
     describe('Quand l\'épreuve contient une illustration en consigne', function () {
 
       before(function () {
-        return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        return visitTimedChallenge();
       });
 
       it('b5.1 Une image unique peut être affichée sous la consigne', function () {
@@ -620,6 +639,14 @@ define('pix-live/tests/acceptance/b5-epreuve-image-de-consigne-test.lint-test', 
 });
 define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['exports', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
+  function visitTimedChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+    andThen(function () {
+      var buttonConfirm = findWithAssert('.challenge-item-warning button');
+      buttonConfirm.click();
+    });
+  }
+
   describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d\'une épreuve | ', function () {
 
     var application = undefined;
@@ -635,7 +662,7 @@ define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['exports', 'chai', 'pix-
     describe('Quand l\'épreuve contient une pièce jointe en consigne', function () {
 
       before(function () {
-        return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        return visitTimedChallenge();
       });
 
       it('b6.1 Il existe un moyen pour télécharger la pièce jointe d\'une épreuve dans la zone de consigne', function () {
@@ -849,6 +876,14 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'chai
     return $('.challenge-actions__action-validate');
   }
 
+  function visitTimedChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+    andThen(function () {
+      var buttonConfirm = findWithAssert('.challenge-item-warning button');
+      buttonConfirm.click();
+    });
+  }
+
   describe('Acceptance | d1 - Valider une épreuve |', function () {
 
     var application = undefined;
@@ -863,7 +898,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'chai
     });
 
     before(function () {
-      return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      return visitTimedChallenge();
     });
 
     before(function () {
@@ -1034,7 +1069,12 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['exports', 'c
         });
 
         it('f1.6 la consigne de l\'épreuve', function () {
-          (0, _chai.expect)($challenge.find('.challenge-statement__instruction').html()).to.contain('Un QCM propose plusieurs choix');
+          visit('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
+          andThen(function () {
+            var buttonConfirm = findWithAssert('.challenge-item-warning button');
+            buttonConfirm.click();
+            (0, _chai.expect)($challenge.find('.challenge-statement__instruction').html()).to.contain('Un QCM propose plusieurs choix');
+          });
         });
 
         it('f1.7 un bouton pour accéder à l\'épreuve suivante', function () {
@@ -1121,6 +1161,22 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
     return JSON.parse($($('.last-post-request-body')[0]).text());
   }
 
+  function visitTimedChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+    andThen(function () {
+      var buttonConfirm = findWithAssert('.challenge-item-warning button');
+      buttonConfirm.click();
+    });
+  }
+
+  function visitTimedQruChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qru_challenge_id');
+    andThen(function () {
+      var buttonConfirm = findWithAssert('.challenge-item-warning button');
+      buttonConfirm.click();
+    });
+  }
+
   describe('Acceptance | H1 - Timeout Jauge | ', function () {
 
     var application = undefined;
@@ -1136,7 +1192,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
     describe('Test affichage ou non de la jauge', function () {
       //XXX: Deux cas car on test aussi une absence d'affichage
       it('doit afficher la jauge si exigée par le backend mais ne pas l\'afficher dans le cas contraire ', function () {
-        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        visitTimedChallenge();
         andThen(function () {
           (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(1);
         });
@@ -1151,7 +1207,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
       describe('Format d\'affichage', function () {
 
         it('valeur 2 en backend est affichée 0:02 dans le timer', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          visitTimedChallenge();
           andThen(function () {
             var $countDown = findWithAssert('.timeout-jauge-remaining');
             (0, _chai.expect)($countDown.text().trim()).to.equal('0:02');
@@ -1159,7 +1215,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
         });
 
         it('valeur 70 en backend est affichée 1:10 dans le timer', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qru_challenge_id');
+          visitTimedQruChallenge();
           andThen(function () {
             var $countDown = findWithAssert('.timeout-jauge-remaining');
             (0, _chai.expect)($countDown.text().trim()).to.equal('1:10');
@@ -1167,7 +1223,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
         });
 
         it('Le timer se décharge progressivement', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
           });
@@ -1269,7 +1325,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
         });
 
         it('Si l\'utilisateur valide et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
             $('.last-post-request').remove();
@@ -1287,7 +1343,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
         });
 
         it('Si l\'utilisateur ABANDONNE et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
             $('.last-post-request').remove();
@@ -1302,7 +1358,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'chai', 'p
         });
 
         it('Si l\'utilisateur ABANDONNE et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+          visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
             $('.last-post-request').remove();
@@ -1331,6 +1387,91 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test.lint-test', ['exports'],
     });
   });
 });
+define('pix-live/tests/acceptance/i1-page-warning-timee-test', ['exports', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  function visitTimedChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+  }
+
+  function visitUntimedChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+  }
+  describe('Acceptance | I1 - Warning prochaine page timée  | ', function () {
+
+    var application = undefined;
+
+    before(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    after(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    describe('i1- Test affichage ou non de la page avec le warning', function () {
+      //XXX: Deux cas car on test aussi une absence d'affichage
+      it('i1.1- doit cacher le contenu du challenge si l\'épreuve est timée mais l\'afficher dans le cas contraire ', function () {
+        visitTimedChallenge();
+        andThen(function () {
+          (0, _chai.expect)($('.challenge-statement')).to.have.lengthOf(0);
+        });
+        visitUntimedChallenge();
+        andThen(function () {
+          (0, _chai.expect)($('.challenge-statement')).to.have.lengthOf(1);
+        });
+      });
+
+      it('i1.2- doit afficher le warning si l\'épreuve est timée mais ne pas l\'afficher dans le cas contraire ', function () {
+        visitTimedChallenge();
+        andThen(function () {
+          (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(1);
+        });
+        visitUntimedChallenge();
+        andThen(function () {
+          (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(0);
+        });
+      });
+
+      it('i1.3- vérifier que le timer n\'est pas démarré automatiquement lorsque l\'épreuve est timée', function () {
+        visitTimedChallenge();
+        andThen(function () {
+          (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(0);
+        });
+      });
+    });
+
+    describe('i2-Test comportement lorsque le bouton de confirmation est cliqué', function () {
+      before(function () {
+        visitTimedChallenge();
+        andThen(function () {
+          var buttonConfirm = findWithAssert('.challenge-item-warning button');
+          buttonConfirm.click();
+        });
+      });
+
+      it('i2.1- vérifier que le warning est caché ', function () {
+        (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(0);
+      });
+
+      it('i2.2- vérifier que le contenu de l\'épreuve est affiché', function () {
+        (0, _chai.expect)($('.challenge-statement').css('display')).to.contains('block');
+      });
+
+      it('i2.3- vérifier que le timer est démarré ', function () {
+        (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/i1-page-warning-timee-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/i1-page-warning-timee-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/adapters/application.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -1349,10 +1490,28 @@ define('pix-live/tests/app.lint-test', ['exports'], function (exports) {
     });
   });
 });
+define('pix-live/tests/components/app-footer.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/app-footer.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/components/app-header.lint-test', ['exports'], function (exports) {
   'use strict';
 
   describe('ESLint - components/app-header.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/app-menu.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/app-menu.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -1551,6 +1710,15 @@ define('pix-live/tests/components/user-menu.lint-test', ['exports'], function (e
   'use strict';
 
   describe('ESLint - components/user-menu.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/warning-page.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/warning-page.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -2264,8 +2432,8 @@ define('pix-live/tests/helpers/start-app', ['exports', 'ember', 'pix-live/app', 
   function startApp(attrs) {
     var application = undefined;
 
-    // use defaults, but you can override
-    var attributes = _ember['default'].assign({}, _pixLiveConfigEnvironment['default'].APP, attrs);
+    var attributes = _ember['default'].merge({}, _pixLiveConfigEnvironment['default'].APP);
+    attributes = _ember['default'].merge(attributes, attrs); // use defaults, but you can override;
 
     _ember['default'].run(function () {
       application = _pixLiveApp['default'].create(attributes);
@@ -2307,6 +2475,67 @@ define('pix-live/tests/initializers/router.lint-test', ['exports'], function (ex
   'use strict';
 
   describe('ESLint - initializers/router.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/integration/components/app-menu-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | app menu', function () {
+    (0, _emberMocha.setupComponentTest)('app-menu', {
+      integration: true
+    });
+
+    function addItemsToMenu(component, items) {
+      component.set('items', items);
+    }
+
+    function renderAppMenu(component) {
+      component.render(Ember.HTMLBars.template({
+        'id': 'tTxNlhg2',
+        'block': '{"statements":[["append",["helper",["app-menu"],[["get",["items"]]],null],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+    }
+
+    (0, _mocha.describe)('Test render menu item or not according to item', function () {
+      (0, _mocha.it)('Should not component App-menu with no item', function () {
+        //Given
+        addItemsToMenu(this, []);
+        //When
+        renderAppMenu(this);
+        //then
+        (0, _chai.expect)(this.$('.app-menu__item > a').text()).to.be.empty;
+      });
+
+      (0, _mocha.it)('Should render component App-menu with one or multiple items', function () {
+        //Given
+        addItemsToMenu(this, [{
+          title: 'projet',
+          href: '/projet'
+        }, {
+          title: 'menu2',
+          href: '/about'
+        }]);
+        //When
+        renderAppMenu(this);
+
+        //then
+        var itemsLength = this.$().find('.app-menu__item').get('length');
+        (0, _chai.expect)(itemsLength).to.equal(2);
+
+        var firstItem = this.$().find('.app-menu__item > a').eq(0);
+        (0, _chai.expect)(firstItem.text().trim()).to.equal('projet');
+        (0, _chai.expect)(firstItem.prop('href')).to.contain('/projet');
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/app-menu-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/app-menu-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -2527,20 +2756,12 @@ define('pix-live/tests/integration/components/challenge-statement-test.lint-test
 define('pix-live/tests/integration/components/challenge-stay-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | challenge stay', function () {
+
     (0, _emberMocha.setupComponentTest)('challenge-stay', {
       integration: true
     });
 
     (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#challenge-stay}}
-      //     template content
-      //   {{/challenge-stay}}
-      // `);
-
       this.render(Ember.HTMLBars.template({
         'id': 'GcRxH7qZ',
         'block': '{"statements":[["append",["unknown",["challenge-stay"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -2561,9 +2782,12 @@ define('pix-live/tests/integration/components/challenge-stay-test.lint-test', ['
 });
 define('pix-live/tests/integration/components/corner-ribbon-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
-  (0, _emberMocha.describeComponent)('corner-ribbon', 'Integration | CornerRibbonComponent', {
-    integration: true
-  }, function () {
+  describe('Integration | Component | CornerRibbonComponent', function () {
+
+    (0, _emberMocha.setupComponentTest)('corner-ribbon', {
+      integration: true
+    });
+
     (0, _emberMocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
         'id': 'ahDrE2M0',
@@ -2583,12 +2807,15 @@ define('pix-live/tests/integration/components/corner-ribbon-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/integration/components/first-page-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/integration/components/first-page-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeComponent)('first-page', 'Integration | FirstPageComponent', {
-    integration: true
-  }, function () {
-    (0, _emberMocha.it)('renders', function () {
+  (0, _mocha.describe)('Integration | Component | FirstPageComponent', function () {
+
+    (0, _emberMocha.setupComponentTest)('first-page', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
         'id': 'TW/+tSBf',
         'block': '{"statements":[["append",["unknown",["first-page"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -2607,12 +2834,15 @@ define('pix-live/tests/integration/components/first-page-test.lint-test', ['expo
     });
   });
 });
-define('pix-live/tests/integration/components/get-result-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/integration/components/get-result-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeComponent)('get-result', 'Integration | GetResultComponent', {
-    integration: true
-  }, function () {
-    (0, _emberMocha.it)('renders', function () {
+  (0, _mocha.describe)('Integration | Component | GetResultComponent', function () {
+
+    (0, _emberMocha.setupComponentTest)('get-result', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
         'id': '3SRZb6VX',
         'block': '{"statements":[["append",["unknown",["get-result"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -2631,12 +2861,15 @@ define('pix-live/tests/integration/components/get-result-test.lint-test', ['expo
     });
   });
 });
-define('pix-live/tests/integration/components/load-email-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/integration/components/load-email-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeComponent)('load-email', 'Integration | LoadEmailComponent', {
-    integration: true
-  }, function () {
-    (0, _emberMocha.it)('renders', function () {
+  (0, _mocha.describe)('Integration | Component | LoadEmailComponent', function () {
+
+    (0, _emberMocha.setupComponentTest)('load-email', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
         'id': 'z3Qabjdv',
         'block': '{"statements":[["append",["unknown",["load-email"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -2739,12 +2972,15 @@ define('pix-live/tests/integration/components/qcu-proposals-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeComponent)('qroc-proposal', 'Integration: QrocProposal', {
-    integration: true
-  }, function () {
-    (0, _emberMocha.it)('renders', function () {
+  (0, _mocha.describe)('Integration | Component | QrocProposal', function () {
+
+    (0, _emberMocha.setupComponentTest)('qroc-proposal', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
         'id': '1i/FB0iM',
         'block': '{"statements":[["append",["unknown",["qroc-proposal"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -2763,12 +2999,15 @@ define('pix-live/tests/integration/components/qroc-proposal-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/integration/components/qrocm-proposal-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/integration/components/qrocm-proposal-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeComponent)('qrocm-proposal', 'Integration: QrocmProposalComponent', {
-    integration: true
-  }, function () {
-    (0, _emberMocha.it)('renders', function () {
+  (0, _mocha.describe)('Integration | Component | QrocmProposalComponent', function () {
+
+    (0, _emberMocha.setupComponentTest)('qrocm-proposal', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
         'id': 'OU8/haVw',
         'block': '{"statements":[["append",["unknown",["qrocm-proposal"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -2971,6 +3210,15 @@ define('pix-live/tests/routes/preferences.lint-test', ['exports'], function (exp
   'use strict';
 
   describe('ESLint - routes/preferences.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/routes/project.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - routes/project.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -3764,6 +4012,29 @@ define('pix-live/tests/unit/routes/preferences-test.lint-test', ['exports'], fun
   'use strict';
 
   describe('ESLint - unit/routes/preferences-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/routes/project-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Route | project', function () {
+    (0, _emberMocha.setupTest)('route:project', {
+      // Specify the other units that are required for this test.
+      // needs: ['controller:foo']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/project-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/routes/project-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
