@@ -16,10 +16,11 @@ export default Ember.Route.extend({
     const promises = {
       assessment: store.findRecord('assessment', assessmentId),
       challenge: store.findRecord('challenge', challengeId),
-      answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
+      answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId }),
+      timer : store.findRecord('challenge', challengeId).get('attributes.timer') || false
     };
 
-    return RSVP.hash(promises).then(results => results);
+    return RSVP.hash(promises, 'assessment_challenge_answers_timer').then(results => results);
   },
 
   actions: {
@@ -71,8 +72,7 @@ export default Ember.Route.extend({
 
     const challengeType = getChallengeType(model.challenge.get('type'));
     controller.set('challengeItemType', 'challenge-item-' + challengeType);
-  }
-  ,
+  },
 
   serialize: function (model) {
     return {

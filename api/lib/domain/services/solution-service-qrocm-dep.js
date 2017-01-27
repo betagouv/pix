@@ -26,7 +26,9 @@ function _hasBadAnswers(validations) {
   return !_.isEmpty(badAnswers);
 }
 
+
 function _compareAnswersAndSolutions(answers, solutions) {
+
   const validations = {};
   _.each(answers, (answer) => {
     validations[answer] = false;
@@ -72,22 +74,25 @@ function _calculateResult(scoring, validations) {
 
 module.exports = {
 
-  match (yamlAnswer, yamlSolution, yamlScoring) {
-    // Convert Yaml to JS objects
-    let answers = jsYaml.safeLoad(yamlAnswer);
-    let solutions = jsYaml.safeLoad(yamlSolution);
-    const scoring = jsYaml.safeLoad(yamlScoring);
+match(yamlAnswer, yamlSolution, yamlScoring)
+{
+  // Convert Yaml to JS objects
+  let answers = jsYaml.safeLoad(yamlAnswer);
+  let solutions = jsYaml.safeLoad(yamlSolution);
+  const scoring = jsYaml.safeLoad(yamlScoring);
 
-    // Treatments
-    answers = _applyTreatments(answers);
-    solutions = _applyTreatments(solutions);
+  // Treatments
+  answers = _applyTreatments(answers);
+  solutions = _applyTreatments(solutions);
 
-    // Comparisons
-    const validations = _compareAnswersAndSolutions(answers, solutions);
+  // Comparisons
+  const validations = _compareAnswersAndSolutions(answers, solutions);
 
-    // Restitution
-    return _calculateResult(scoring, validations);
-  }
+  // Restitution
+  return _calculateResult(scoring, validations);
+
+}
 
 
-};
+}
+;
