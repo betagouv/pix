@@ -4,10 +4,12 @@ export default Ember.Component.extend({
   emailValidator: Ember.inject.service('email-validator'),
   hasError: false,
   email: '',
+  errorDefault : 'Merci pour votre inscription',
+  successDefault : 'Merci pour votre inscription',
 
 
-  errorMessage:  Ember.computed('hasError', function(){
-    return (this.get('hasError'))? 'Veuillez rentrer une adresse mail valide SVP !' : '';
+  infoMessage:  Ember.computed('hasError', function(){
+    return (this.get('hasError'))? this.get('errorDefault') : this.get('successDefault');
   }),
 
   _hasValidEmail(context){

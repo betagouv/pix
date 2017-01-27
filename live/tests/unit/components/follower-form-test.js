@@ -19,7 +19,7 @@ describe('Unit | Component | followerComponent', function () {
       // when
       component.set('hasError', true);
       // then
-      expect(component.get('errorMessage')).to.exist;
+      expect(component.get('infoMessage')).to.exist;
     });
 
     it('should returns an error message when hasError get true', function () {
@@ -28,7 +28,7 @@ describe('Unit | Component | followerComponent', function () {
       // when
       component.set('hasError', true);
       // then
-      expect(component.get('errorMessage')).to.equal('Veuillez rentrer une adresse mail valide SVP !');
+      expect(component.get('infoMessage')).to.equal('Veuillez rentrer une adresse mail valide SVP !');
     });
   });
 
