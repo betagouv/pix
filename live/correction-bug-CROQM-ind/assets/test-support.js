@@ -22573,7 +22573,7 @@ define('ember-test-helpers/build-registry', ['exports', 'ember'], function (expo
     function register(name, factory) {
       var thingToRegisterWith = registry || container;
 
-      if (!container.lookupFactory(name)) {
+      if (!(container.factoryFor ? container.factoryFor(name) : container.lookupFactory(name))) {
         thingToRegisterWith.register(name, factory);
       }
     }
@@ -22908,7 +22908,7 @@ define('ember-test-helpers/test-module-for-component', ['exports', 'ember-test-h
 
         // only setup the injection if we are running against a version
         // of Ember that has `-view-registry:main` (Ember >= 1.12)
-        if (this.container.lookupFactory('-view-registry:main')) {
+        if (this.container.factoryFor ? this.container.factoryFor('-view-registry:main') : this.container.lookupFactory('-view-registry:main')) {
           (this.registry || this.container).injection('component', '_viewRegistry', '-view-registry:main');
         }
 
@@ -22941,7 +22941,7 @@ define('ember-test-helpers/test-module-for-component', ['exports', 'ember-test-h
     context.dispatcher.setup({}, '#ember-testing');
 
     var hasRendered = false;
-    var OutletView = module.container.lookupFactory('view:-outlet');
+    var OutletView = module.container.factoryFor ? module.container.factoryFor('view:-outlet') : module.container.lookupFactory('view:-outlet');
     var OutletTemplate = module.container.lookup('template:-outlet');
     var toplevelView = module.component = OutletView.create();
     var hasOutletTemplate = !!OutletTemplate;
@@ -23179,7 +23179,7 @@ define('ember-test-helpers/test-module-for-integration', ['exports', 'ember', 'e
         var container = this.container;
 
         var factory = function factory() {
-          return container.lookupFactory(subjectName);
+          return container.factoryFor ? container.factoryFor(subjectName) : container.lookupFactory(subjectName);
         };
 
         _get(Object.getPrototypeOf(_default.prototype), 'setupContext', this).call(this, {
@@ -23212,7 +23212,7 @@ define('ember-test-helpers/test-module-for-integration', ['exports', 'ember', 'e
 
         // only setup the injection if we are running against a version
         // of Ember that has `-view-registry:main` (Ember >= 1.12)
-        if (this.container.lookupFactory('-view-registry:main')) {
+        if (this.container.factoryFor ? this.container.factoryFor('-view-registry:main') : this.container.lookupFactory('-view-registry:main')) {
           (this.registry || this.container).injection('component', '_viewRegistry', '-view-registry:main');
         }
       }
@@ -23339,7 +23339,7 @@ define('ember-test-helpers/test-module-for-model', ['exports', 'ember-test-helpe
         var callbacks = this.callbacks;
         var modelName = this.modelName;
 
-        var adapterFactory = container.lookupFactory('adapter:application');
+        var adapterFactory = container.factoryFor ? container.factoryFor('adapter:application') : container.lookupFactory('adapter:application');
         if (!adapterFactory) {
           if (requirejs.entries['ember-data/adapters/json-api']) {
             adapterFactory = require('ember-data/adapters/json-api')['default'];
@@ -23504,7 +23504,7 @@ define('ember-test-helpers/test-module', ['exports', 'ember', 'ember-test-helper
         var container = this.container;
 
         var factory = function factory() {
-          return container.lookupFactory(subjectName);
+          return container.factoryFor ? container.factoryFor(subjectName) : container.lookupFactory(subjectName);
         };
 
         _get(Object.getPrototypeOf(_default.prototype), 'setupContext', this).call(this, {
