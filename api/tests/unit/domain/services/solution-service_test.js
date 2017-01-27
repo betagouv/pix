@@ -182,7 +182,7 @@ describe('Unit | Service | SolutionService', function () {
       }, {
         answer: 'a: "1"\nb: "2"',
         solution: 'a:\n- 1\nb:\n- 2'
-      },{
+      }, {
         answer: `num1:\n- 4\nnum2:\n- 2\nnum3:\n- 1\nnum4:\n- 3`,
         solution: `num1:\n- 4\nnum2:\n- 2\nnum3:\n- 1\nnum4:\n- 3`
       }];
