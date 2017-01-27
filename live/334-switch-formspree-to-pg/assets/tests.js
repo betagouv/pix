@@ -1625,19 +1625,28 @@ define('pix-live/tests/components/first-page.lint-test', ['exports'], function (
     });
   });
 });
-define('pix-live/tests/components/get-result.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/follower-form.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - components/get-result.js', function () {
+  describe('ESLint - components/follower-form.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
   });
 });
-define('pix-live/tests/components/load-email.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/followers.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - components/load-email.js', function () {
+  describe('ESLint - components/followers.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/get-result.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/get-result.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -2836,6 +2845,56 @@ define('pix-live/tests/integration/components/first-page-test.lint-test', ['expo
     });
   });
 });
+define('pix-live/tests/integration/components/follower-form-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | follower form', function () {
+    (0, _emberMocha.setupComponentTest)('follower-form', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      this.render(Ember.HTMLBars.template({
+        'id': 'O9xGjXjO',
+        'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.describe)('Test Component form', function () {
+      (0, _mocha.it)('should return true if submit button exist', function () {
+        //When
+        this.render(Ember.HTMLBars.template({
+          'id': 'O9xGjXjO',
+          'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        //then
+        (0, _chai.expect)(this.$('.load-email-button').length).to.equal(1);
+      });
+
+      (0, _mocha.it)('should return true if input exist', function () {
+        //When
+        this.render(Ember.HTMLBars.template({
+          'id': 'O9xGjXjO',
+          'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        //then
+        (0, _chai.expect)(this.$('.load-email-enter').length).to.equal(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/follower-form-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/follower-form-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/integration/components/get-result-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
   (0, _emberMocha.describeComponent)('get-result', 'Integration | GetResultComponent', {
@@ -2855,30 +2914,6 @@ define('pix-live/tests/integration/components/get-result-test.lint-test', ['expo
   'use strict';
 
   describe('ESLint - integration/components/get-result-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/integration/components/load-email-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
-
-  (0, _emberMocha.describeComponent)('load-email', 'Integration | LoadEmailComponent', {
-    integration: true
-  }, function () {
-    (0, _emberMocha.it)('renders', function () {
-      this.render(Ember.HTMLBars.template({
-        'id': 'z3Qabjdv',
-        'block': '{"statements":[["append",["unknown",["load-email"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-        'meta': {}
-      }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
-    });
-  });
-});
-define('pix-live/tests/integration/components/load-email-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - integration/components/load-email-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -3241,6 +3276,15 @@ define('pix-live/tests/services/delay.lint-test', ['exports'], function (exports
     });
   });
 });
+define('pix-live/tests/services/email-validator.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - services/email-validator.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/test-helper', ['exports', 'pix-live/tests/helpers/resolver', 'ember-mocha'], function (exports, _pixLiveTestsHelpersResolver, _emberMocha) {
 
   (0, _emberMocha.setResolver)(_pixLiveTestsHelpersResolver['default']);
@@ -3258,6 +3302,46 @@ define('pix-live/tests/transforms/array.lint-test', ['exports'], function (expor
   'use strict';
 
   describe('ESLint - transforms/array.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/components/follower-form-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Component | followerComponent', function () {
+    (0, _emberMocha.setupTest)('component:follower-form', {});
+
+    (0, _mocha.describe)('Computed property', function () {
+      var component = undefined;
+
+      function initComponent() {
+        component = this.subject();
+      }
+
+      (0, _mocha.it)('should returns true when hasError change', function () {
+        initComponent.call(this);
+        // when
+        component.set('hasError', true);
+        // then
+        (0, _chai.expect)(component.get('infoMessage')).to.exist;
+      });
+
+      (0, _mocha.it)('should returns an error message when hasError get true', function () {
+        // given
+        initComponent.call(this);
+        // when
+        component.set('hasError', true);
+        // then
+        (0, _chai.expect)(component.get('infoMessage')).to.equal('Votre adresse n’est pas valide');
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/follower-form-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/components/follower-form-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -4170,6 +4254,45 @@ define('pix-live/tests/unit/services/delay-test.lint-test', ['exports'], functio
   'use strict';
 
   describe('ESLint - unit/services/delay-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/services/email-validator-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Service | EmailValidatorService', function () {
+
+    (0, _emberMocha.setupTest)('service:email-validator', {});
+
+    (0, _mocha.it)('exists', function () {
+      var controller = this.subject();
+      (0, _chai.expect)(controller).to.be.ok;
+    });
+
+    (0, _mocha.it)('should return false if invalid or empty email is provided', function () {
+      // given
+      var validator = this.subject();
+      // then
+      (0, _chai.expect)(validator.emailIsValid('')).to.be['false'];
+      (0, _chai.expect)(validator.emailIsValid('my')).to.be['false'];
+      (0, _chai.expect)(validator.emailIsValid('my@')).to.be['false'];
+      (0, _chai.expect)(validator.emailIsValid('my@google')).to.be['false'];
+      (0, _chai.expect)(validator.emailIsValid('my@google.')).to.be['false'];
+    });
+
+    (0, _mocha.it)('should return true when email is valid (contains [a-z]@domain ', function () {
+      // when
+      var validator = this.subject();
+      // then
+      (0, _chai.expect)(validator.emailIsValid('email@pix.com')).to.be['true'];
+    });
+  });
+});
+define('pix-live/tests/unit/services/email-validator-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/services/email-validator-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
