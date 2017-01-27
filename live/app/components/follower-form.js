@@ -4,12 +4,22 @@ export default Ember.Component.extend({
   emailValidator: Ember.inject.service('email-validator'),
   hasError: false,
   email: '',
-  errorDefault : 'Merci pour votre inscription',
-  successDefault : 'Merci pour votre inscription',
+  isSubmited : false,
+  defaultMessage : {
+    error: 'Votre adresse n’est pas valide',
+    success: 'Merci pour votre inscription'
+  },
 
 
-  infoMessage:  Ember.computed('hasError', function(){
-    return (this.get('hasError'))? this.get('errorDefault') : this.get('successDefault');
+  infoMessage:  Ember.computed('hasError', 'isSubmited', function(){
+    if(!this.get('hasError') && this.get('isSubmited')) {
+      this.set('isSubmited', false);
+      return this.get('defaultMessage.success');
+    }
+    if(this.get('hasError')){
+      this.set('isSubmited', false);
+      return this.get('defaultMessage.error');
+    }
   }),
 
   _hasValidEmail(context){
@@ -22,10 +32,11 @@ export default Ember.Component.extend({
       method: 'POST',
       data: {email: email},
       dataType: 'json',
-      success: function (res) {
-        context.set('hasError',false);
+      success: function () {
+        context.set('hasError', false);
+        context.set('isSubmited', true);
       },
-      error: function (err) {
+      error: function () {
         context.set('hasError',true);
       }
     });
