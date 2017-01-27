@@ -1,12 +1,11 @@
 import Ember from 'ember';
-import DS from 'ember-data';
 import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
 
   assessmentService: Ember.inject.service('assessment'),
 
-  model(params) {
+  async model(params) {
     const store = this.get('store');
 
     const assessmentId = params.assessment_id;
@@ -18,21 +17,16 @@ export default Ember.Route.extend({
       answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
     };
 
-    return RSVP.hash(promises).then(results => results);
+    const model = await RSVP.hash(promises);
+    return await this._addProgressToModel(model);
   },
 
-  /*
-   const progressToSet = model.assessment
-   .get('course')
-   .then((course) => course.getProgress(model.challenge));
-
-   controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
-
-   const challengeType = getChallengeType(model.challenge.get('type'));
-   controller.set('challengeItemType', 'challenge-item-' + challengeType);
-
-   */
-
+  serialize: function (model) {
+    return {
+      assessment_id: model.assessment.id,
+      challenge_id: model.challenge.id
+    };
+  },
 
   actions: {
 
@@ -63,7 +57,7 @@ export default Ember.Route.extend({
     const adapter = this.get('store').adapterFor('application');
     adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET')
       .then(nextChallenge => {
-        if(nextChallenge) {
+        if (nextChallenge) {
           this.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
         } else {
           this.transitionTo('assessments.get-results', assessment.get('id'));
@@ -71,21 +65,11 @@ export default Ember.Route.extend({
       });
   },
 
-  setupController: function (controller, model) {
-    this._super(controller, model);
-
-    const progressToSet = model.assessment
-      .get('course')
-      .then((course) => course.getProgress(model.challenge));
-
-    controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
-  },
-
-  serialize: function (model) {
-    return {
-      assessment_id: model.assessment.id,
-      challenge_id: model.challenge.id
-    };
+  _addProgressToModel(model) {
+    return model.assessment.get('course').then((course) => {
+      model.progress = course.getProgress(model.challenge);
+      return model;
+    });
   }
 
 });
