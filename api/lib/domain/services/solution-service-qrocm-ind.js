@@ -1,50 +1,59 @@
 const jsYaml = require('js-yaml');
 const _ = require('lodash');
 
-function _applyTreatments(answer) {
-  return answer.toString().trim().toLowerCase();
-}
 
+function applyTreatmentsToAnswers(answers) {
+  _.each(answers, (answer, index) => {
+    answers[index] = answer.toString().trim().toLowerCase();
+  });
+  return answers;
+}
+function applyTreatmentsToSolutions(solutions) {
+  _.each(solutions, (solution, index) => {
+    const validOptions = [];
+    solution.forEach((validValue) => {
+      validOptions.push(validValue.toString().trim().toLowerCase());
+    });
+    solutions[index] = validOptions;
+  });
+  return solutions;
+}
+function compareAnswersAndSolutions(answers, solutions) {
+  const validations = {};
+  const keys = Object.keys(answers);
+
+  keys.forEach((key) => {
+    validations[key] = solutions[key].includes(answers[key]);
+  });
+  return validations;
+}
+function calculateResult(validations) {
+  let result = 'ok';
+
+  _.each(validations, (validation) => {
+    if (validation === false) {
+      result = 'ko';
+    }
+  });
+  return result;
+}
 module.exports = {
 
   match (yamlAnswer, yamlSolution) {
 
     //convert YAML to JSObject
-    const answers = jsYaml.load(yamlAnswer);
-    const solutions = jsYaml.load(yamlSolution);
+    let answers = jsYaml.load(yamlAnswer);
+    let solutions = jsYaml.load(yamlSolution);
 
     //Treatments
-    _.each(answers, (answer, index) => {
-      answers[index] = _applyTreatments(answer);
-    });
-
-    _.each(solutions, (solution, index) => {
-      const validOptions = [];
-      solution.forEach((validValue) => {
-        validOptions.push(_applyTreatments(validValue));
-      });
-      solutions[index] = validOptions;
-    });
-
+    answers = applyTreatmentsToAnswers(answers);
+    solutions = applyTreatmentsToSolutions(solutions);
 
     //Comparison
-    const validations = {};
-    const keys = Object.keys(answers);
-
-    keys.forEach((key) => {
-      validations[key] = solutions[key].includes(answers[key]);
-    });
+    const validations = compareAnswersAndSolutions(answers, solutions);
 
     //Restitution
-    let result = 'ok';
-
-    _.each(validations, (validation) => {
-      if (validation === false) {
-        result = 'ko';
-      }
-    });
-
-    return result;
+    return calculateResult(validations);
   }
 
 };
