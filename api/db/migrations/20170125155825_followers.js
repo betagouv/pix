@@ -1,6 +1,6 @@
 'use strict';
 
-const TABLE_NAME = 'follower-form-test.js';
+const TABLE_NAME = 'followers';
 
 exports.up = function (knex, Promise) {
   function table(t) {
