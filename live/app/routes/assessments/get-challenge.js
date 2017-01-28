@@ -5,7 +5,7 @@ export default Ember.Route.extend({
 
   assessmentService: Ember.inject.service('assessment'),
 
-  async model(params) {
+  model(params) {
     const store = this.get('store');
 
     const assessmentId = params.assessment_id;
@@ -17,11 +17,12 @@ export default Ember.Route.extend({
       answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
     };
 
-    const model = await RSVP.hash(promises);
-    return await this._addProgressToModel(model);
+    return RSVP.hash(promises).then(model => {
+      return this._addProgressToModel(model);
+    });
   },
 
-  serialize: function (model) {
+  serialize(model) {
     return {
       assessment_id: model.assessment.id,
       challenge_id: model.challenge.id
@@ -30,7 +31,7 @@ export default Ember.Route.extend({
 
   actions: {
 
-    saveAnswerAndNavigate: function (currentChallenge, assessment, answerValue, answerTimeout) {
+    saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout) {
       const answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment);
       answer.save().then(() => {
         this._navigateToNextView(currentChallenge, assessment);
@@ -38,22 +39,20 @@ export default Ember.Route.extend({
     }
   },
 
-  _createAnswer: function (answerValue, answerTimeout, currentChallenge, assessment) {
-
+  _createAnswer(answerValue, answerTimeout, currentChallenge, assessment) {
     return this.get('store').createRecord('answer', {
       value: answerValue,
       timeout: answerTimeout,
       challenge: currentChallenge,
       assessment
     });
-  }
-  ,
+  },
 
-  _urlForNextChallenge: function (adapter, assessmentId, currentChallengeId) {
+  _urlForNextChallenge(adapter, assessmentId, currentChallengeId) {
     return adapter.buildURL('assessment', assessmentId) + '/next/' + currentChallengeId;
   },
 
-  _navigateToNextView: function (currentChallenge, assessment) {
+  _navigateToNextView(currentChallenge, assessment) {
     const adapter = this.get('store').adapterFor('application');
     adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET')
       .then(nextChallenge => {
