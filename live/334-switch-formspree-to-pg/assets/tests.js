@@ -2441,8 +2441,8 @@ define('pix-live/tests/helpers/start-app', ['exports', 'ember', 'pix-live/app', 
   function startApp(attrs) {
     var application = undefined;
 
-    // use defaults, but you can override
-    var attributes = _ember['default'].assign({}, _pixLiveConfigEnvironment['default'].APP, attrs);
+    var attributes = _ember['default'].merge({}, _pixLiveConfigEnvironment['default'].APP);
+    attributes = _ember['default'].merge(attributes, attrs); // use defaults, but you can override;
 
     _ember['default'].run(function () {
       application = _pixLiveApp['default'].create(attributes);
@@ -2765,20 +2765,12 @@ define('pix-live/tests/integration/components/challenge-statement-test.lint-test
 define('pix-live/tests/integration/components/challenge-stay-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | challenge stay', function () {
+
     (0, _emberMocha.setupComponentTest)('challenge-stay', {
       integration: true
     });
 
     (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#challenge-stay}}
-      //     template content
-      //   {{/challenge-stay}}
-      // `);
-
       this.render(Ember.HTMLBars.template({
         'id': 'GcRxH7qZ',
         'block': '{"statements":[["append",["unknown",["challenge-stay"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -2799,9 +2791,12 @@ define('pix-live/tests/integration/components/challenge-stay-test.lint-test', ['
 });
 define('pix-live/tests/integration/components/corner-ribbon-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
-  (0, _emberMocha.describeComponent)('corner-ribbon', 'Integration | CornerRibbonComponent', {
-    integration: true
-  }, function () {
+  describe('Integration | Component | CornerRibbonComponent', function () {
+
+    (0, _emberMocha.setupComponentTest)('corner-ribbon', {
+      integration: true
+    });
+
     (0, _emberMocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
         'id': 'ahDrE2M0',
@@ -2821,12 +2816,15 @@ define('pix-live/tests/integration/components/corner-ribbon-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/integration/components/first-page-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/integration/components/first-page-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeComponent)('first-page', 'Integration | FirstPageComponent', {
-    integration: true
-  }, function () {
-    (0, _emberMocha.it)('renders', function () {
+  (0, _mocha.describe)('Integration | Component | FirstPageComponent', function () {
+
+    (0, _emberMocha.setupComponentTest)('first-page', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
         'id': 'TW/+tSBf',
         'block': '{"statements":[["append",["unknown",["first-page"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -2895,12 +2893,15 @@ define('pix-live/tests/integration/components/follower-form-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/integration/components/get-result-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/integration/components/get-result-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeComponent)('get-result', 'Integration | GetResultComponent', {
-    integration: true
-  }, function () {
-    (0, _emberMocha.it)('renders', function () {
+  (0, _mocha.describe)('Integration | Component | GetResultComponent', function () {
+
+    (0, _emberMocha.setupComponentTest)('get-result', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
         'id': '3SRZb6VX',
         'block': '{"statements":[["append",["unknown",["get-result"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -3003,12 +3004,15 @@ define('pix-live/tests/integration/components/qcu-proposals-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeComponent)('qroc-proposal', 'Integration: QrocProposal', {
-    integration: true
-  }, function () {
-    (0, _emberMocha.it)('renders', function () {
+  (0, _mocha.describe)('Integration | Component | QrocProposal', function () {
+
+    (0, _emberMocha.setupComponentTest)('qroc-proposal', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
         'id': '1i/FB0iM',
         'block': '{"statements":[["append",["unknown",["qroc-proposal"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -3027,12 +3031,15 @@ define('pix-live/tests/integration/components/qroc-proposal-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/integration/components/qrocm-proposal-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/integration/components/qrocm-proposal-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeComponent)('qrocm-proposal', 'Integration: QrocmProposalComponent', {
-    integration: true
-  }, function () {
-    (0, _emberMocha.it)('renders', function () {
+  (0, _mocha.describe)('Integration | Component | QrocmProposalComponent', function () {
+
+    (0, _emberMocha.setupComponentTest)('qrocm-proposal', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
         'id': 'OU8/haVw',
         'block': '{"statements":[["append",["unknown",["qrocm-proposal"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
