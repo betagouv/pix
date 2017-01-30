@@ -119,6 +119,12 @@
   margin-right: 23px;
   margin-left: auto;
   height: 21px; /* XXX : should be aligned with flexbox */
+
+}
+
+.assessment-results-result-correction-button {
+  border:none;
+  background-color: transparent;
 }
 
 

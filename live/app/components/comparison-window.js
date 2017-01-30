@@ -12,7 +12,10 @@ export default Ember.Component.extend({
   }),
 
   labeledCheckboxes: Ember.computed('answer', function() {
+
+    /* eslint-disable no-alert, no-console */
     console.log('solution- - - - - - - - - - - - - - - - - - - - ', this.get('solution').get('_valueAsArrayOfBoolean'));
+    /* eslint-enable no-alert, no-console */
     return labeledCheckboxes(this.get('challenge').get('_proposalsAsArray'), this.get('answer').get('_valueAsArrayOfBoolean'));
   }),
 

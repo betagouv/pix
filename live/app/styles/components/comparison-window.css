@@ -1,4 +1,9 @@
 .comparison-window {
+
+}
+
+.comparison-window--dialog {
+  
 }
 
 .comparison-window--content, .comparison-window--body {
@@ -25,4 +30,84 @@
 
 .comparison-oracle[data-goodness='bad'][data-checked='yes'] {
   text-decoration: line-through;
+}
+
+.challenge-response__proposal-input {
+
+}
+/*Modal Close button*/
+
+.routable-modal--close-button {
+  margin-right: 0px;
+  height: 17px;
+  font-family: var(--font-lato);
+  font-size: 14px;
+  border:none;
+  background-color: transparent;
+  color: #ffffff;
+
+}
+
+/*Modal Header*/
+
+
+.comparison-window--header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 1070px;
+  min-height: 70px;
+  border-radius: 5px;
+}
+
+.assessment-results-result-titre {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.assessment-results-result-text {
+  display: flex;
+  margin-left: 9px;
+  max-width: 618.5px;
+  font-family: var(--font-lato);
+  font-size: 18px;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--charcoal-grey);
+}
+
+.assessment-results-result-light-line {
+  width: 1px;
+  height: 50px;
+  border: solid 1.5px #d5d5d5;
+  margin-left: 22px;
+}
+
+/*Modal footer*/
+
+
+.routable-modal--footer, .comparison-window--footer {
+  display: flex;
+  max-width: 1070px;
+  height: 50px;
+  border-radius: 5px;
+  background-color: #dedede;
+  align-items: center;
+}
+
+.routable-modal__signalize {
+  margin-left: 40px;
+  font-family: var(--font-lato);
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: var(--charcoal-grey);
+}
+
+.routable-modal__signalize-button {
+  border:none;
+  text-decoration:none;
+  background-color: #dedede;
 }

@@ -13,6 +13,7 @@ export default Ember.Route.extend(ModalRouteMixin, {
 
     const assessmentId = params.assessment_id;
     const answerId = params.answer_id;
+    const index = params.index;
 
     return store.findRecord('answer', answerId).then((answer) => {
       return store.findRecord('challenge', answer.get('challenge.id')).then((challenge) => {
@@ -20,7 +21,8 @@ export default Ember.Route.extend(ModalRouteMixin, {
           return RSVP.hash({
             answer,
             challenge,
-            solution
+            solution,
+            index
           });
         });
       });

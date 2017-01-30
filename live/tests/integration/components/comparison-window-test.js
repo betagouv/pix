@@ -21,4 +21,17 @@ describe('Integration | Component | comparison window', function() {
     this.render(hbs`{{comparison-window}}`);
     expect(this.$()).to.have.length(1);
   });
+
+  it(`QCM | show a empty checkbox and a green text if it's the correct answer and was not checked` , function () {
+    checkedCheckbox = [false, true, false, true];
+    checkboxSolutions = [false, true, true];
+
+    this.render(hbs`{{comparison-window }}`);
+
+    expect(this.$('.challenge-response__proposal-input')[0].is(':checked'));
+
+
+
+  });
+
 });
