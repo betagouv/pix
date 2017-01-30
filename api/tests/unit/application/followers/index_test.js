@@ -18,7 +18,7 @@ describe('Unit | Router | FollowerRouter', function () {
     });
   }
 
-  describe('POST /api/follower-form-test.js', function () {
+  describe('POST /api/followers', function () {
 
     before(function () {
       sinon.stub(FollowerController, 'save', (request, reply) => reply('ok'));
@@ -29,7 +29,7 @@ describe('Unit | Router | FollowerRouter', function () {
     });
 
     it('should exist', function (done) {
-      return expectRouteToExist({ method: 'POST', url: '/api/follower-form-test.js' }, done);
+      return expectRouteToExist({ method: 'POST', url: '/api/followers' }, done);
     });
   });
 

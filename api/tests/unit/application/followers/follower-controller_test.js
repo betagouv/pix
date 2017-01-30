@@ -1,6 +1,5 @@
 const Hapi = require('hapi');
 const Follower = require('../../../../lib/domain/models/data/follower');
-const cache = require('../../../../lib/infrastructure/cache');
 
 describe('Unit | Controller | FollowerController', function () {
 
@@ -15,7 +14,7 @@ describe('Unit | Controller | FollowerController', function () {
   describe('#Save', function () {
 
     let stub;
-    const follower = new Follower({"email": "testeur@follower.pix"});
+    const follower = {"email": "testeur@follower.pix"};
 
     before(function () {
       stub = sinon.stub(Follower.prototype, 'save');
@@ -27,43 +26,31 @@ describe('Unit | Controller | FollowerController', function () {
 
     it('should return true when follower is saved', function (done) {
       // given
-      stub.resolves(follower);
-
+      stub.resolves(new Follower(follower));
       // when
-      server.inject({method: 'POST', url: '/api/followers', payload: JSON.stringify(follower)},
-        (res) => {
-          // then
-          expect(res.result).to.deep.equal(follower);
-          expect(res.statusCode).to.equal(201);
+      try{
+        server.inject({method: 'POST', url: '/api/followers', payload: follower}, (res) => {
+            // then
+          expect(res.result.toJSON()).to.deep.equal(follower);
           done();
         });
+      }
+      catch (err){
+        done(err);
+      }
     });
 
-    it('should return false when follower is saved because email is already saved', function (done) {
+    it('should not save follower when email is already saved', function (done) {
       // given
-      stub.rejects(new Error('Save fails'));
+      stub.resolves({'message': 'Follower is already saved'});
 
       // when
-      server.inject({method: 'POST', url: '/api/followers', payload: JSON.stringify(follower)},
+      server.inject({method: 'POST', url: '/api/followers', payload: follower},
         (res) => {
           // then
-          expect(res.statusCode).to.equal(200);
-          done();
-        });
-    });
-
-    it('should return an error 500 when the Save fails', function (done) {
-      // given
-      stub.rejects(new Error('Save error'));
-      // when
-      server.inject({method: 'POST', url: '/api/followers', payload: JSON.stringify(follower)},
-        (res) => {
-          // then
-          expect(res.statusCode).to.equal(500);
+          expect(res.result.message).to.equal('Follower is already saved');
           done();
         });
     });
   });
-
-
 });
