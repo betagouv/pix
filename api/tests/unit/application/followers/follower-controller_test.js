@@ -15,7 +15,7 @@ describe('Unit | Controller | FollowerController', function () {
   describe('#Save', function () {
 
     let stub;
-    const follower = new Follower({"email": "test@follower.pix"});
+    const follower = new Follower({"email": "testeur@follower.pix"});
 
     before(function () {
       stub = sinon.stub(Follower.prototype, 'save');
@@ -30,7 +30,7 @@ describe('Unit | Controller | FollowerController', function () {
       stub.resolves(follower);
 
       // when
-      server.inject({method: 'POST', url: '/api/follower-form-test.js', payload: JSON.stringify(follower)},
+      server.inject({method: 'POST', url: '/api/followers', payload: JSON.stringify(follower)},
         (res) => {
           // then
           expect(res.result).to.deep.equal(follower);
@@ -44,7 +44,7 @@ describe('Unit | Controller | FollowerController', function () {
       stub.rejects(new Error('Save fails'));
 
       // when
-      server.inject({method: 'POST', url: '/api/follower-form-test.js', payload: JSON.stringify(follower)},
+      server.inject({method: 'POST', url: '/api/followers', payload: JSON.stringify(follower)},
         (res) => {
           // then
           expect(res.statusCode).to.equal(200);
@@ -56,7 +56,7 @@ describe('Unit | Controller | FollowerController', function () {
       // given
       stub.rejects(new Error('Save error'));
       // when
-      server.inject({method: 'POST', url: '/api/follower-form-test.js', payload: JSON.stringify(follower)},
+      server.inject({method: 'POST', url: '/api/followers', payload: JSON.stringify(follower)},
         (res) => {
           // then
           expect(res.statusCode).to.equal(500);
