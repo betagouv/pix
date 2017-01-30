@@ -1,4 +1,5 @@
 const Hapi = require('hapi');
+const Boom = require('boom');
 const Follower = require('../../../../lib/domain/models/data/follower');
 
 describe('Unit | Controller | FollowerController', function () {
@@ -49,6 +50,19 @@ describe('Unit | Controller | FollowerController', function () {
         (res) => {
           // then
           expect(res.result.message).to.equal('Follower is already saved');
+          done();
+        });
+    });
+
+    it('should return 400 status code when email provided is not valid', function (done) {
+      // given
+      stub.rejects(Boom.badRequest());
+
+      // when
+      server.inject({method: 'POST', url: '/api/followers', payload: {"email": ''}},
+        (res) => {
+          // then
+          expect(res.statusCode).to.equal(400);
           done();
         });
     });
