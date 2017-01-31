@@ -1583,6 +1583,9 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
     var CHECKBOX_CORRECT_AND_CHECKED = '.comparison-window .comparison-window-boolean:eq(1)';
     var LABEL_CORRECT_AND_CHECKED = '.comparison-window .comparison-window-oracle:eq(1)';
 
+    var CHECKBOX_CORRECT_AND_UNCHECKED = '.comparison-window .comparison-window-boolean:eq(2)';
+    var LABEL_CORRECT_AND_UNCHECKED = '.comparison-window .comparison-window-oracle:eq(2)';
+
     var application = undefined;
 
     before(function () {
@@ -1758,6 +1761,40 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
               (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
               (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
               (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
+
+              // XXX test env needs the modal to be closed manually
+              context$3$0.next = 12;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 12:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 13:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('j1.4.2 QCM correcte et non cochée', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($(CHECKBOX_CORRECT_AND_UNCHECKED)).to.have.lengthOf(0);
+              (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED)).to.have.lengthOf(0);
+
+              context$3$0.next = 6;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 6:
+              (0, _chai.expect)($(CHECKBOX_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+              (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
+              (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
+              (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
 
               // XXX test env needs the modal to be closed manually
               context$3$0.next = 12;
