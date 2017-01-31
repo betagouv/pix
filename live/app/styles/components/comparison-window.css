@@ -39,6 +39,9 @@
 /*Modal Close button*/
 
 .routable-modal--close-button {
+  position: absolute;
+  top: -20px;
+  right: 0px;
   margin-right: 0px;
   height: 17px;
   font-family: var(--font-lato);
@@ -53,6 +56,7 @@
 
 
 .comparison-window--header {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
