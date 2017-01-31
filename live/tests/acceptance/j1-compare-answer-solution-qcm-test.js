@@ -2,6 +2,7 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
+import _ from 'pix-live/utils/lodash-custom';
 
 // see http://stackoverflow.com/a/7349478/2595513
 function charCount(str) {
@@ -197,6 +198,21 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
       await click('.close-button-container');
       expect($('.comparison-window')).to.have.lengthOf(0);
     });
+
+    it('j1.4.5 Aucune case à cocher n\'est cliquable', async function () {
+
+      await visit(COMPARISON_MODAL_URL);
+      const size = $('.comparison-window .comparison-window-boolean').length;
+      _.times(size, function(index) {
+        expect($('.comparison-window .comparison-window-boolean:eq('+ index + ')').is(':disabled')).to.equal(true);
+      });
+
+      // XXX test env needs the modal to be closed manually
+      await click('.close-button-container');
+      expect($('.comparison-window')).to.have.lengthOf(0);
+    });
+
+
 
   });
 
