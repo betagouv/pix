@@ -1569,9 +1569,12 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
 
     var RESULT_URL = '/assessments/ref_assessment_id/results';
     var COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1';
+
     var TEXT_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre .assessment-results-result-text';
     var SVG_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre svg';
     var INDEX_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-index';
+
+    var INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
 
     var application = undefined;
 
@@ -1671,6 +1674,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
               (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
               (0, _chai.expect)($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
               (0, _chai.expect)($(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+
               context$3$0.next = 7;
               return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
 
@@ -1679,7 +1683,37 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
               (0, _chai.expect)($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(1);
               (0, _chai.expect)(charCount($(TEXT_OF_RESULT_SELECTOR).text())).to.be.above(5); // XXX : Above 5 means "must be a sentence"
 
-            case 10:
+              // XXX test env needs the modal to be closed manually
+              context$3$0.next = 12;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 12:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 13:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('j1.3.2 Vérification de la présence de l\'instruction ', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($(INSTRUCTION_SELECTOR)).to.have.lengthOf(0);
+
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 5:
+              (0, _chai.expect)(charCount($(INSTRUCTION_SELECTOR).text())).to.be.above(5); // XXX : Above 5 means "must be a sentence"
+
+            case 6:
             case 'end':
               return context$3$0.stop();
           }
