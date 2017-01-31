@@ -1560,10 +1560,16 @@ define('pix-live/tests/acceptance/i1-page-warning-timee-test.lint-test', ['expor
 });
 define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
+  // see http://stackoverflow.com/a/7349478/2595513
+  function charCount(str) {
+    return str.match(/[a-zA-Z]/g).length;
+  }
+
   (0, _mocha.describe)('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', function () {
 
     var RESULT_URL = '/assessments/ref_assessment_id/results';
     var COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1';
+    var TEXT_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre .assessment-results-result-text';
 
     var application = undefined;
 
@@ -1662,14 +1668,16 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
             case 2:
               (0, _chai.expect)($('.comparison-window--header .assessment-results-result-index')).to.have.lengthOf(0);
               (0, _chai.expect)($('.comparison-window--header .assessment-results-result-titre svg')).to.have.lengthOf(0);
-              context$3$0.next = 6;
+              (0, _chai.expect)($('.comparison-window--header .assessment-results-result-text')).to.have.lengthOf(0);
+              context$3$0.next = 7;
               return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
 
-            case 6:
+            case 7:
               (0, _chai.expect)($('.comparison-window--header .assessment-results-result-index').text().replace(/\n/g, '').trim()).to.equal('1');
               (0, _chai.expect)($('.comparison-window--header .assessment-results-result-titre svg')).to.have.lengthOf(1);
+              (0, _chai.expect)(charCount($(TEXT_OF_RESULT_SELECTOR).text())).to.be.above(5); // XXX : Above 5 means "must be a sentence"
 
-            case 8:
+            case 10:
             case 'end':
               return context$3$0.stop();
           }
