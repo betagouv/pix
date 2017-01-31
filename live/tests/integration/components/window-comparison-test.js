@@ -25,6 +25,7 @@ describe('int938 Integration | Component | WindowComparison', function () {
       // solution = '2,3';
 
       challenge = Ember.Object.create({
+        instruction: 'This is the instruction',
         proposals: '' +
                     '- 1ere possibilite\n ' +
                     '- 2eme possibilite\n ' +
@@ -33,7 +34,8 @@ describe('int938 Integration | Component | WindowComparison', function () {
       });
 
       answer = Ember.Object.create({
-        value: '1,2'
+        value: '1,2',
+        result: 'ko'
       });
 
       solution = Ember.Object.create({
@@ -49,14 +51,19 @@ describe('int938 Integration | Component | WindowComparison', function () {
     it('should render', function () {
       // given
       this.set('answer', answer);
+      this.set('index', '3');
       this.set('challenge', challenge);
       this.set('solution', solution);
 
       // when
-      this.render(hbs`{{comparison-window challenge=challenge answer=answer solution=solution}}`);
+      this.render(hbs`{{comparison-window challenge=challenge answer=answer solution=solution index=index}}`);
 
       // then
       expect(this.$()).to.have.length(1);
+      expect(this.$('.comparison-window--body .challenge-statement__instruction').text()).to.equal('This is the instruction');
+      expect(this.$('.assessment-results-result-index').text().trim()).to.equal('3');
+      // expect(this.$('.comparison-window .assessment-results-result-text').text()).to.equal('blabla');
+      // expect(this.$().text()).to.equal('This is the instruction');
     });
 
 
