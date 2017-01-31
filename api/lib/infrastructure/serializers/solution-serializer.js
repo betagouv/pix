@@ -7,7 +7,6 @@ class SolutionSerializer extends JSONAPISerializer {
   }
 
   serializeAttributes(model, data) {
-    data.attributes['type'] = model.type;
     data.attributes['value'] = model.value;
   }
 }
