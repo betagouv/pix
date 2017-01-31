@@ -565,10 +565,6 @@ define('pix-live/components/comparison-window', ['exports', 'ember', 'pix-live/u
     }),
 
     labeledCheckboxes: _ember['default'].computed('answer', function () {
-
-      /* eslint-disable no-alert, no-console */
-      console.log('solution- - - - - - - - - - - - - - - - - - - - ', this.get('solution').get('_valueAsArrayOfBoolean'));
-      /* eslint-enable no-alert, no-console */
       return (0, _pixLiveUtilsLabeledCheckboxes['default'])(this.get('challenge').get('_proposalsAsArray'), this.get('answer').get('_valueAsArrayOfBoolean'));
     })
 
@@ -3833,7 +3829,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+691fd81f"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+c8030433"});
 }
 
 /* jshint ignore:end */
