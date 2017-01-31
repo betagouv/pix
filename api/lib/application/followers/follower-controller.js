@@ -13,10 +13,10 @@ function _assertFollowerNotExist(follower){
 
 function _saveFollower(email){
   return new Promise((resolve, reject) => {
-    new Follower(email)
+    new Follower({email: email})
       .save()
       .then((follower) => resolve(follower))
-      .catch((err) => reject(Boom.badImplementation()));
+      .catch((err) => reject(Boom.badImplementation(err)));
   });
 }
 
