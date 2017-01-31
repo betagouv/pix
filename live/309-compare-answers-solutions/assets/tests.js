@@ -1558,9 +1558,12 @@ define('pix-live/tests/acceptance/i1-page-warning-timee-test.lint-test', ['expor
     });
   });
 });
-define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['exports', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', function () {
+  (0, _mocha.describe)('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', function () {
+
+    var RESULT_URL = '/assessments/ref_assessment_id/results';
+    var COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1';
 
     var application = undefined;
 
@@ -1572,14 +1575,78 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
       (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
     });
 
-    describe('Affiche sur la ligne de l\'épreuve le mot REPONSE pour un QCM sur l\'écran des résultats', function () {
+    (0, _mocha.describe)('j1.1 Affiche sur la ligne de l\'épreuve le mot REPONSE pour un QCM sur l\'écran des résultats', function () {
+      (0, _mocha.it)('j1.1.1 il l\'affiche pour un QCM mais pas pour les autres types d\'épreuves', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
 
-      it('j1.1 il l\'affiche pour un QCM mais pas pour les autres types d\'épreuves', function () {
-        visit('/assessments/ref_assessment_id/results');
-        andThen(function () {
-          (0, _chai.expect)($('.assessment-results-list-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
-          (0, _chai.expect)($('.assessment-results-list-item:eq(1) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QCU
-        });
+            case 2:
+              (0, _chai.expect)($('.assessment-results-list-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
+              (0, _chai.expect)($('.assessment-results-list-item:eq(1) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QCU
+              (0, _chai.expect)($('.assessment-results-list-item:eq(2) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QRU
+              (0, _chai.expect)($('.assessment-results-list-item:eq(3) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROC
+              (0, _chai.expect)($('.assessment-results-list-item:eq(4) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROCM
+
+            case 7:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+    });
+
+    (0, _mocha.describe)('j1.2 Accès à la modale', function () {
+      (0, _mocha.it)('j1.2.2 On peut accèder directement à la modale via URL et fermer la modale', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 2:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
+              // XXX test env needs the modal to be closed manually
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 5:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 6:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+      (0, _mocha.it)('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(click('.assessment-results-result-correction-button'));
+
+            case 5:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
+              // XXX test env needs the modal to be closed manually
+              context$3$0.next = 8;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 8:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 9:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
       });
     });
   });
