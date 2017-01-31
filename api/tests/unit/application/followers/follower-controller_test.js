@@ -1,5 +1,5 @@
 const Hapi = require('hapi');
-const Boom = require('boom');
+const EmailValidator = require('../../../../lib/domain/services/email-validator');
 const Follower = require('../../../../lib/domain/models/data/follower');
 
 describe('Unit | Controller | FollowerController', function () {
@@ -55,14 +55,14 @@ describe('Unit | Controller | FollowerController', function () {
     });
 
     it('should return 400 status code when email provided is not valid', function (done) {
-      // given
-      stub.rejects(Boom.badRequest());
-
+      //Given
+      const emailValidatorStub = sinon.stub(EmailValidator,'emailIsValid').returns(false);
       // when
-      server.inject({method: 'POST', url: '/api/followers', payload: {"email": ''}},
+      server.inject({method: 'POST', url: '/api/followers', payload: {"email": 'INVALID_EMAIL'}},
         (res) => {
           // then
           expect(res.statusCode).to.equal(400);
+          emailValidatorStub.restore();
           done();
         });
     });

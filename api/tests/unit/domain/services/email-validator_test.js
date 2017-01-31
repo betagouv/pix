@@ -2,15 +2,39 @@ const service = require('../../../../lib/domain/services/email-validator');
 
 describe('Unit | Service | EmailValidator', function () {
 
-  it('should return false when email is null, empty, or not provided', function () {
-    // then
-      expect(service.emailIsValid('')).to.be.false;
-      expect(service.emailIsValid(null)).to.be.false;
-      expect(service.emailIsValid()).to.be.false;
+  it('should return false when email is not provided', function () {
+    expect(service.emailIsValid()).to.be.false;
   });
 
-  it('should return true if provided email is valid according a regular expression', function () {
-    // then
-    expect(service.emailIsValid('follower@pix.fr')).to.be.true;
+  [
+    '',
+    ' ',
+    null,
+    'INVALID_EMAIL',
+    'INVALID_EMAIL@',
+    'INVALID_EMAIL@pix',
+    'INVALID_EMAIL@pix.',
+    '@pix.fr',
+    '@pix'
+  ].forEach(function (badEmail) {
+    it(`should return false when email is invalid: ${badEmail}`, function () {
+      expect(service.emailIsValid(badEmail)).to.be.false;
+    });
+  });
+
+  [
+    'follower@pix.fr',
+    'follower@pix.fr ',
+    ' follower@pix.fr',
+    ' follower@pix.fr ',
+    ' follower-beta@pix.fr ',
+    ' follower_beta@pix.fr ',
+    'follower+beta@pix.fr',
+    'follower+beta@pix.gouv.fr',
+    'follower+beta@pix.beta.gouv.fr'
+  ].forEach(function (validEmail) {
+    it(`should return true if provided email is valid: ${validEmail}`, function () {
+      expect(service.emailIsValid(validEmail)).to.be.true;
+    });
   });
 });
