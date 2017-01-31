@@ -1660,14 +1660,16 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
               return regeneratorRuntime.awrap(visit(RESULT_URL));
 
             case 2:
-              (0, _chai.expect)($('.comparison-window .assessment-results-result-index')).to.have.lengthOf(0);
-              context$3$0.next = 5;
+              (0, _chai.expect)($('.comparison-window--header .assessment-results-result-index')).to.have.lengthOf(0);
+              (0, _chai.expect)($('.comparison-window--header .assessment-results-result-titre svg')).to.have.lengthOf(0);
+              context$3$0.next = 6;
               return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
 
-            case 5:
-              (0, _chai.expect)($('.comparison-window .assessment-results-result-index').text().replace(/\n/g, '').trim()).to.equal('1');
-
             case 6:
+              (0, _chai.expect)($('.comparison-window--header .assessment-results-result-index').text().replace(/\n/g, '').trim()).to.equal('1');
+              (0, _chai.expect)($('.comparison-window--header .assessment-results-result-titre svg')).to.have.lengthOf(1);
+
+            case 8:
             case 'end':
               return context$3$0.stop();
           }
