@@ -39,6 +39,10 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
   const CHECKBOX_INCORRECT_AND_CHECKED = '.comparison-window .comparison-window-boolean:eq(3)';
   const LABEL_INCORRECT_AND_CHECKED = '.comparison-window .comparison-window-oracle:eq(3)';
 
+  const CHECKBOX_INCORRECT_AND_UNCHECKED = '.comparison-window .comparison-window-boolean:eq(0)';
+  const LABEL_INCORRECT_AND_UNCHECKED = '.comparison-window .comparison-window-oracle:eq(0)';
+
+
   let application;
 
   before(function () {
@@ -169,6 +173,25 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
       expect($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
       expect($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
       expect($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_ON);
+
+      // XXX test env needs the modal to be closed manually
+      await click('.close-button-container');
+      expect($('.comparison-window')).to.have.lengthOf(0);
+    });
+
+    it('j1.4.4 QCM incorrecte et non cochée', async function () {
+
+      await visit(RESULT_URL);
+      expect($(CHECKBOX_INCORRECT_AND_UNCHECKED)).to.have.lengthOf(0);
+      expect($(LABEL_INCORRECT_AND_UNCHECKED)).to.have.lengthOf(0);
+
+
+      await visit(COMPARISON_MODAL_URL);
+      expect($(CHECKBOX_INCORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+      expect(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
+      expect($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
+      expect($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
+      expect($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
 
       // XXX test env needs the modal to be closed manually
       await click('.close-button-container');
