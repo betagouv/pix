@@ -40,8 +40,8 @@
 
 .routable-modal--close-button {
   position: absolute;
-  top: -20px;
-  right: 0px;
+  top: -25px;
+  right: -10px; /*XXX : right alignment, found no other way to achieve it;*/
   margin-right: 0px;
   height: 17px;
   font-family: var(--font-lato);
@@ -90,4 +90,9 @@
   margin-left: 22px;
 }
 
+/*Close button*/
+
+.flexcont {
+  display: flex;
+}
 
