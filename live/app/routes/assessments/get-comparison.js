@@ -4,16 +4,13 @@ import RSVP from 'rsvp';
 
 export default Ember.Route.extend(ModalRouteMixin, {
 
-  _urlForSolution: function (adapter, assessmentId, answerId) {
-    return adapter.buildURL('assessment', assessmentId) + '/solutions/' + answerId;
-  },
-
   model(params) {
     const store = this.get('store');
 
     const assessmentId = params.assessment_id;
     const answerId = params.answer_id;
     const index = params.index;
+
 
     return store.findRecord('answer', answerId).then((answer) => {
       return store.findRecord('challenge', answer.get('challenge.id')).then((challenge) => {

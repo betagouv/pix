@@ -681,7 +681,7 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
 
-    it('should return solution if assessment exists, answer exists, and assessment is over', function (done) {
+    it.only('should return solution if assessment exists, answer exists, and assessment is over', function (done) {
 
       const assessmentEndpoint = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/solutions/' + inserted_answer_id };
       server.injectThen(assessmentEndpoint).then((response) => {
@@ -689,6 +689,7 @@ describe('Acceptance | API | Assessments', function () {
 
         expect(solution).not.to.be.equal(undefined);
         expect(solution.id).to.be.equal('solutionable_challenge_2');
+        expect(solution.type).to.be.equal('solutions');
         expect(solution.attributes.value.toString()).to.equal('2, 3, 4');
         expect(solution.attributes.type.toString()).to.equal('QCM');
 
