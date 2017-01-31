@@ -46,7 +46,7 @@ describe('int938 Integration | Component | WindowComparison', function () {
     // - Ember-mocha: https://github.com/emberjs/ember-mocha#setup-component-tests
     // - Ember: https://guides.emberjs.com/v2.10.0/testing/testing-components
     // -        https://guides.emberjs.com/v2.10.0/tutorial/autocomplete-component/
-    it('should blabla', function () {
+    it('should render', function () {
       // given
       this.set('answer', answer);
       this.set('challenge', challenge);
