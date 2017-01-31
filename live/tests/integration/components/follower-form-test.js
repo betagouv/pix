@@ -18,14 +18,14 @@ describe('Integration | Component | follower form', function() {
       //When
       this.render(hbs`{{follower-form}}`);
       //then
-      expect(this.$('.load-email-button').length).to.equal(1);
+      expect(this.$('.follower-button').length).to.equal(1);
     });
 
     it('should return true if input exist', function () {
       //When
       this.render(hbs`{{follower-form}}`);
       //then
-      expect(this.$('.load-email-enter').length).to.equal(1);
+      expect(this.$('.follower-enter').length).to.equal(1);
     });
 
   });
