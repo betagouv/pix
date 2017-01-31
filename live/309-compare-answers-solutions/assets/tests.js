@@ -3455,7 +3455,7 @@ define('pix-live/tests/integration/components/window-comparison-test', ['exports
       // - Ember-mocha: https://github.com/emberjs/ember-mocha#setup-component-tests
       // - Ember: https://guides.emberjs.com/v2.10.0/testing/testing-components
       // -        https://guides.emberjs.com/v2.10.0/tutorial/autocomplete-component/
-      (0, _mocha.it)('should blabla', function () {
+      (0, _mocha.it)('should render', function () {
         // given
         this.set('answer', answer);
         this.set('challenge', challenge);
