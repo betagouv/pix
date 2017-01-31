@@ -89,7 +89,7 @@
 
 
                 {{!-- checkbox --}}
-                <input class="challenge-response__proposal-input"
+                <input class="comparison-window-boolean"
                        type="checkbox"
                        disabled="disabled"
                        name="{{inc index}}"
@@ -98,7 +98,7 @@
 
                 {{!-- text of proposal  --}}
                 <span
-                  class="comparison-oracle"
+                  class="comparison-window-oracle"
                   data-goodness="{{if (get solutionArray (concat index)) 'good' 'bad'}}"
                   data-checked={{if labeledCheckbox.[1] 'yes' 'no'}}
                 >

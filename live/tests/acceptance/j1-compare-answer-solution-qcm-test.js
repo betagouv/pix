@@ -13,6 +13,9 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
   const RESULT_URL = '/assessments/ref_assessment_id/results';
   const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1';
 
+  const CSS_BOLD_FONT_WEIGHT = '900';
+  const CSS_GREEN_COLOR = 'rgb(19, 201, 160)';
+
   const TEXT_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre .assessment-results-result-text';
   const SVG_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre svg';
   const INDEX_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-index';
@@ -20,6 +23,8 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
   const TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
   const IMAGE_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__illustration-section';
 
+  const CHECKBOX_CORRECT_AND_CHECKED = '.comparison-window .comparison-window-boolean:eq(1)';
+  const LABEL_CORRECT_AND_CHECKED = '.comparison-window .comparison-window-oracle:eq(1)';
 
   let application;
 
@@ -61,7 +66,7 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
     });
   });
 
-  describe('j1.3 Contenu de la modale', function () {
+  describe('j1.3 Contenu de la modale : résultat & instruction', function () {
 
     it('j1.3.1 Vérification de l\'index, ainsi que l\'image et le texte du résultat dans le header', async function () {
 
@@ -89,9 +94,38 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
       await visit(COMPARISON_MODAL_URL);
       expect(charCount($(TEXT_OF_INSTRUCTION_SELECTOR).text())).to.be.above(5);// XXX : Above 5 means "must be a sentence"
       expect($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
+
+      // XXX test env needs the modal to be closed manually
+      await click('.close-button-container');
+      expect($('.comparison-window')).to.have.lengthOf(0);
     });
 
   });
+
+
+  describe('j1.4 Contenu de la modale : propositions', function () {
+
+    it('j1.4.1 QCM correcte et cochée', async function () {
+
+      await visit(RESULT_URL);
+      expect($(CHECKBOX_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
+      expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
+
+
+      await visit(COMPARISON_MODAL_URL);
+      expect($(CHECKBOX_CORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+      expect(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
+      expect($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
+      expect($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
+
+      // XXX test env needs the modal to be closed manually
+      await click('.close-button-container');
+      expect($('.comparison-window')).to.have.lengthOf(0);
+    });
+
+  });
+
+
 
 
 });
