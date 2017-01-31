@@ -53,9 +53,11 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
 
     it('j1.3.1 Vérification de l\'index, ainsi que l\'image et le texte du résultat dans le header', async function () {
       await visit(RESULT_URL);
-      expect($('.comparison-window .assessment-results-result-index')).to.have.lengthOf(0);
+      expect($('.comparison-window--header .assessment-results-result-index')).to.have.lengthOf(0);
+      expect($('.comparison-window--header .assessment-results-result-titre svg')).to.have.lengthOf(0);
       await visit(COMPARISON_MODAL_URL);
-      expect($('.comparison-window .assessment-results-result-index').text().replace(/\n/g, '').trim()).to.equal('1');
+      expect($('.comparison-window--header .assessment-results-result-index').text().replace(/\n/g, '').trim()).to.equal('1');
+      expect($('.comparison-window--header .assessment-results-result-titre svg')).to.have.lengthOf(1);
     });
   });
 
