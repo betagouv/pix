@@ -1,7 +1,7 @@
 /* jshint node: true */
 
 module.exports = function (environment) {
-  var ENV = {
+  const ENV = {
     modulePrefix: 'pix-live',
     environment: environment,
     rootURL: '/',
@@ -101,7 +101,6 @@ module.exports = function (environment) {
       }
     ];
   }
-
 
   return ENV;
 };
