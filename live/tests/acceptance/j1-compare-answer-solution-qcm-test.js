@@ -17,7 +17,8 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
   const SVG_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre svg';
   const INDEX_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-index';
 
-  const INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
+  const TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
+  const IMAGE_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__illustration-section';
 
 
   let application;
@@ -79,13 +80,15 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
       expect($('.comparison-window')).to.have.lengthOf(0);
     });
 
-    it('j1.3.2 Vérification de la présence de l\'instruction ', async function () {
+    it('j1.3.2 Vérification de la présence de l\'instruction, texte et image', async function () {
 
       await visit(RESULT_URL);
-      expect($(INSTRUCTION_SELECTOR)).to.have.lengthOf(0);
+      expect($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(0);
+      expect($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(0);
 
       await visit(COMPARISON_MODAL_URL);
-      expect(charCount($(INSTRUCTION_SELECTOR).text())).to.be.above(5);// XXX : Above 5 means "must be a sentence"
+      expect(charCount($(TEXT_OF_INSTRUCTION_SELECTOR).text())).to.be.above(5);// XXX : Above 5 means "must be a sentence"
+      expect($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
     });
 
   });
