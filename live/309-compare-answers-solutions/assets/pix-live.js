@@ -16,7 +16,7 @@ define('pix-live/adapters/application', ['exports', 'ember-data', 'pix-live/conf
 });
 define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application', 'ember'], function (exports, _pixLiveAdaptersApplication, _ember) {
   exports['default'] = _pixLiveAdaptersApplication['default'].extend({
-    queryRecord: function queryRecord(modelName, query) {
+    queryRecord: function queryRecord(modelName, clazz, query) {
       return _ember['default'].$.getJSON(this.host + '/' + this.namespace + '/assessments/' + query.assessmentId + '/solutions/' + query.answerId);
     }
   });
@@ -2985,10 +2985,6 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'ember-
 define('pix-live/routes/assessments/get-comparison', ['exports', 'ember', 'ember-routable-modal/mixins/route', 'rsvp'], function (exports, _ember, _emberRoutableModalMixinsRoute, _rsvp) {
   exports['default'] = _ember['default'].Route.extend(_emberRoutableModalMixinsRoute['default'], {
 
-    _urlForSolution: function _urlForSolution(adapter, assessmentId, answerId) {
-      return adapter.buildURL('assessment', assessmentId) + '/solutions/' + answerId;
-    },
-
     model: function model(params) {
       var store = this.get('store');
 
@@ -3985,7 +3981,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+d45b21b4"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+633f370e"});
 }
 
 /* jshint ignore:end */
