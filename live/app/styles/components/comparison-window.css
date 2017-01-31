@@ -85,29 +85,4 @@
   margin-left: 22px;
 }
 
-/*Modal footer*/
 
-
-.routable-modal--footer, .comparison-window--footer {
-  display: flex;
-  max-width: 1070px;
-  height: 50px;
-  border-radius: 5px;
-  background-color: #dedede;
-  align-items: center;
-}
-
-.routable-modal__signalize {
-  margin-left: 40px;
-  font-family: var(--font-lato);
-  font-size: 14px;
-  font-weight: bold;
-  text-align: center;
-  color: var(--charcoal-grey);
-}
-
-.routable-modal__signalize-button {
-  border:none;
-  text-decoration:none;
-  background-color: #dedede;
-}
