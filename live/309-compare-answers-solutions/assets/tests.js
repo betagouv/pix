@@ -3439,11 +3439,13 @@ define('pix-live/tests/integration/components/window-comparison-test', ['exports
         // solution = '2,3';
 
         challenge = _ember['default'].Object.create({
+          instruction: 'This is the instruction',
           proposals: '' + '- 1ere possibilite\n ' + '- 2eme possibilite\n ' + '- 3eme possibilite\n' + '- 4eme possibilite'
         });
 
         answer = _ember['default'].Object.create({
-          value: '1,2'
+          value: '1,2',
+          result: 'ko'
         });
 
         solution = _ember['default'].Object.create({
@@ -3458,18 +3460,23 @@ define('pix-live/tests/integration/components/window-comparison-test', ['exports
       (0, _mocha.it)('should render', function () {
         // given
         this.set('answer', answer);
+        this.set('index', '3');
         this.set('challenge', challenge);
         this.set('solution', solution);
 
         // when
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'Wpe1aJHH',
-          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'hUhE+Aig',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["challenge","answer","solution","index"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
 
         // then
         (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$('.comparison-window--body .challenge-statement__instruction').text()).to.equal('This is the instruction');
+        (0, _chai.expect)(this.$('.assessment-results-result-index').text().trim()).to.equal('3');
+        // expect(this.$('.comparison-window .assessment-results-result-text').text()).to.equal('blabla');
+        // expect(this.$().text()).to.equal('This is the instruction');
       });
     });
   });
