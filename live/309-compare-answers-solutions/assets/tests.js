@@ -1558,7 +1558,7 @@ define('pix-live/tests/acceptance/i1-page-warning-timee-test.lint-test', ['expor
     });
   });
 });
-define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveUtilsLodashCustom) {
 
   // see http://stackoverflow.com/a/7349478/2595513
   function charCount(str) {
@@ -1888,6 +1888,35 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
               (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
 
             case 14:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('j1.4.5 Aucune case à cocher n\'est cliquable', function callee$2$0() {
+        var size;
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 2:
+              size = $('.comparison-window .comparison-window-boolean').length;
+
+              _pixLiveUtilsLodashCustom['default'].times(size, function (index) {
+                (0, _chai.expect)($('.comparison-window .comparison-window-boolean:eq(' + index + ')').is(':disabled')).to.equal(true);
+              });
+
+              // XXX test env needs the modal to be closed manually
+              context$3$0.next = 6;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 6:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 7:
             case 'end':
               return context$3$0.stop();
           }
