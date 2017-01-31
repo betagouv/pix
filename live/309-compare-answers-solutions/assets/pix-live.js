@@ -17,7 +17,11 @@ define('pix-live/adapters/application', ['exports', 'ember-data', 'pix-live/conf
 define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application', 'ember'], function (exports, _pixLiveAdaptersApplication, _ember) {
   exports['default'] = _pixLiveAdaptersApplication['default'].extend({
     queryRecord: function queryRecord(modelName, clazz, query) {
-      return _ember['default'].$.getJSON(this.host + '/' + this.namespace + '/assessments/' + query.assessmentId + '/solutions/' + query.answerId);
+      var prefix = '/';
+      if (this.host !== '/') {
+        prefix = this.host + '/';
+      }
+      return _ember['default'].$.getJSON(prefix + this.namespace + '/assessments/' + query.assessmentId + '/solutions/' + query.answerId);
     }
   });
 });
@@ -3981,7 +3985,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+13fbce33"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+dcbf295a"});
 }
 
 /* jshint ignore:end */
