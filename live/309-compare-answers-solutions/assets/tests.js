@@ -1574,7 +1574,8 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
     var SVG_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre svg';
     var INDEX_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-index';
 
-    var INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
+    var TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
+    var IMAGE_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__illustration-section';
 
     var application = undefined;
 
@@ -1697,7 +1698,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
         }, null, this);
       });
 
-      (0, _mocha.it)('j1.3.2 Vérification de la présence de l\'instruction ', function callee$2$0() {
+      (0, _mocha.it)('j1.3.2 Vérification de la présence de l\'instruction, texte et image', function callee$2$0() {
         return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
           while (1) switch (context$3$0.prev = context$3$0.next) {
             case 0:
@@ -1705,15 +1706,17 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
               return regeneratorRuntime.awrap(visit(RESULT_URL));
 
             case 2:
-              (0, _chai.expect)($(INSTRUCTION_SELECTOR)).to.have.lengthOf(0);
+              (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(0);
+              (0, _chai.expect)($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(0);
 
-              context$3$0.next = 5;
+              context$3$0.next = 6;
               return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
 
-            case 5:
-              (0, _chai.expect)(charCount($(INSTRUCTION_SELECTOR).text())).to.be.above(5); // XXX : Above 5 means "must be a sentence"
-
             case 6:
+              (0, _chai.expect)(charCount($(TEXT_OF_INSTRUCTION_SELECTOR).text())).to.be.above(5); // XXX : Above 5 means "must be a sentence"
+              (0, _chai.expect)($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
+
+            case 8:
             case 'end':
               return context$3$0.stop();
           }
