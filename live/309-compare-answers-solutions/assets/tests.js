@@ -3416,6 +3416,73 @@ define('pix-live/tests/integration/components/qrocm-proposal-test.lint-test', ['
     });
   });
 });
+define('pix-live/tests/integration/components/window-comparison-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
+
+  (0, _mocha.describe)('int938 Integration | Component | WindowComparison', function () {
+
+    (0, _emberMocha.setupComponentTest)('comparison-window', {
+      integration: true
+    });
+
+    /* Rendering
+    ----------------------------------------------------- */
+
+    (0, _mocha.describe)('Rendering', function () {
+
+      var answer = undefined;
+      var challenge = undefined;
+      var solution = undefined;
+
+      beforeEach(function () {
+        // answer = '1,2';
+        // challenge = {};
+        // solution = '2,3';
+
+        challenge = _ember['default'].Object.create({
+          proposals: '' + '- 1ere possibilite\n ' + '- 2eme possibilite\n ' + '- 3eme possibilite\n' + '- 4eme possibilite'
+        });
+
+        answer = _ember['default'].Object.create({
+          value: '1,2'
+        });
+
+        solution = _ember['default'].Object.create({
+          value: '2,3'
+        });
+      });
+
+      // Inspired from:
+      // - Ember-mocha: https://github.com/emberjs/ember-mocha#setup-component-tests
+      // - Ember: https://guides.emberjs.com/v2.10.0/testing/testing-components
+      // -        https://guides.emberjs.com/v2.10.0/tutorial/autocomplete-component/
+      (0, _mocha.it)('should blabla', function () {
+        // given
+        this.set('answer', answer);
+        this.set('challenge', challenge);
+        this.set('solution', solution);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'Wpe1aJHH',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/window-comparison-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/window-comparison-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/models/answer.lint-test', ['exports'], function (exports) {
   'use strict';
 
