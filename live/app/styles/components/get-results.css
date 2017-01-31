@@ -124,6 +124,7 @@
 
 .assessment-results-result-correction-button {
   border:none;
+  outline:0;
   background-color: transparent;
 }
 
