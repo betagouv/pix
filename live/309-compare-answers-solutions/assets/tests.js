@@ -421,7 +421,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'chai', 'pix
     });
 
     it('b2.5 By default, already checked checkboxes are checked', function () {
-      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(3);
+      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
     });
 
     it('b2.6 It should render an ordered list of instruction', function () {
@@ -437,7 +437,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'chai', 'pix
 
     it('b2.8 Error alert box should be displayed if user validate without checking a checkbox', function () {
       var $validateLink = $('.challenge-actions__action-validate');
-      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(3);
+      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
       $('input:checkbox').prop('checked', false);
       (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(0);
       click($validateLink);
@@ -818,12 +818,12 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['exports', 'chai', 'p
 
     it('c1.3 Pour une bonne réponse, le tableau récapitulatif donne une indication adéquate', function () {
       var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
-      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse correcte');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
     });
 
     it('c1.4 Pour une mauvaise réponse, le tableau récapitulatif donne une indication adéquate', function () {
       var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
-      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse correcte');
     });
 
     it('c1.5 Pour une réponse dont la validation n\'est pas encore implémentée, le tableau récapitulatif donne une indication adéquate', function () {
@@ -2844,27 +2844,33 @@ define('pix-live/tests/integration/components/challenge-stay-test.lint-test', ['
 });
 define('pix-live/tests/integration/components/comparison-window-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _mocha.describe)('Integration | Component | comparison window', function () {
+  _mocha.describe.skip('Integration | Component | comparison window', function () {
     (0, _emberMocha.setupComponentTest)('comparison-window', {
       integration: true
     });
 
     (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#comparison-window}}
-      //     template content
-      //   {{/comparison-window}}
-      // `);
-
       this.render(Ember.HTMLBars.template({
         'id': 'kLNjDWRU',
         'block': '{"statements":[["append",["unknown",["comparison-window"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
         'meta': {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.it)('QCM | show a empty checkbox and a green text if it\'s the correct answer and was not checked', function () {
+      var checkedCheckbox = [false, true, false, true];
+      var checkboxSolutions = [false, true, true];
+
+      this.render(Ember.HTMLBars.template({
+        'id': 'kLNjDWRU',
+        'block': '{"statements":[["append",["unknown",["comparison-window"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+
+      (0, _chai.expect)(this.$('.challenge-response__proposal-input')[0].is(':checked'));
+      (0, _chai.expect)(checkedCheckbox).to.be.defined;
+      (0, _chai.expect)(checkboxSolutions).to.be.defined;
     });
   });
 });
