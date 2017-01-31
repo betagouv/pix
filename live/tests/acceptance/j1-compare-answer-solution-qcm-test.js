@@ -3,11 +3,16 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
+// see http://stackoverflow.com/a/7349478/2595513
+function charCount(str) {
+  return str.match(/[a-zA-Z]/g).length;
+}
+
 describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', function () {
 
   const RESULT_URL = '/assessments/ref_assessment_id/results';
   const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1';
-
+  const TEXT_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre .assessment-results-result-text';
 
   let application;
 
@@ -55,9 +60,11 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
       await visit(RESULT_URL);
       expect($('.comparison-window--header .assessment-results-result-index')).to.have.lengthOf(0);
       expect($('.comparison-window--header .assessment-results-result-titre svg')).to.have.lengthOf(0);
+      expect($('.comparison-window--header .assessment-results-result-text')).to.have.lengthOf(0);
       await visit(COMPARISON_MODAL_URL);
       expect($('.comparison-window--header .assessment-results-result-index').text().replace(/\n/g, '').trim()).to.equal('1');
       expect($('.comparison-window--header .assessment-results-result-titre svg')).to.have.lengthOf(1);
+      expect(charCount($(TEXT_OF_RESULT_SELECTOR).text())).to.be.above(5);// XXX : Above 5 means "must be a sentence"
     });
   });
 
