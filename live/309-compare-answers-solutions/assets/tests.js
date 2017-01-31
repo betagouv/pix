@@ -1649,6 +1649,31 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
         }, null, this);
       });
     });
+
+    (0, _mocha.describe)('j1.3 Contenu de la modale', function () {
+
+      (0, _mocha.it)('j1.3.1 Vérification de l\'index, ainsi que l\'image et le texte du résultat dans le header', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($('.comparison-window .assessment-results-result-index')).to.have.lengthOf(0);
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 5:
+              (0, _chai.expect)($('.comparison-window .assessment-results-result-index').text().replace(/\n/g, '').trim()).to.equal('1');
+
+            case 6:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+    });
   });
 });
 define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test.lint-test', ['exports'], function (exports) {
