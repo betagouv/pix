@@ -3170,47 +3170,6 @@ define('pix-live/tests/integration/components/challenge-stay-test.lint-test', ['
     });
   });
 });
-define('pix-live/tests/integration/components/comparison-window-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
-
-  _mocha.describe.skip('Integration | Component | comparison window', function () {
-    (0, _emberMocha.setupComponentTest)('comparison-window', {
-      integration: true
-    });
-
-    (0, _mocha.it)('renders', function () {
-      this.render(Ember.HTMLBars.template({
-        'id': 'kLNjDWRU',
-        'block': '{"statements":[["append",["unknown",["comparison-window"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-        'meta': {}
-      }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
-    });
-
-    (0, _mocha.it)('QCM | show a empty checkbox and a green text if it\'s the correct answer and was not checked', function () {
-      var checkedCheckbox = [false, true, false, true];
-      var checkboxSolutions = [false, true, true];
-
-      this.render(Ember.HTMLBars.template({
-        'id': 'kLNjDWRU',
-        'block': '{"statements":[["append",["unknown",["comparison-window"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-        'meta': {}
-      }));
-
-      (0, _chai.expect)(this.$('.challenge-response__proposal-input')[0].is(':checked'));
-      (0, _chai.expect)(checkedCheckbox).to.be.defined;
-      (0, _chai.expect)(checkboxSolutions).to.be.defined;
-    });
-  });
-});
-define('pix-live/tests/integration/components/comparison-window-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - integration/components/comparison-window-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/corner-ribbon-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
   describe('Integration | Component | CornerRibbonComponent', function () {

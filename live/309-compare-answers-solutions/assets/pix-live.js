@@ -16,6 +16,8 @@ define('pix-live/adapters/application', ['exports', 'ember-data', 'pix-live/conf
 });
 define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application', 'ember'], function (exports, _pixLiveAdaptersApplication, _ember) {
   exports['default'] = _pixLiveAdaptersApplication['default'].extend({
+    // XXX : can't find in the docs why query params are in 3rd position
+    // XXX : need the small 'if' for production. Hacky, icky, ugly.
     queryRecord: function queryRecord(modelName, clazz, query) {
       var prefix = '/';
       if (this.host !== '/') {
@@ -1027,18 +1029,6 @@ define('pix-live/helpers/add', ['exports', 'ember-math-helpers/helpers/add'], fu
     }
   });
 });
-define('pix-live/helpers/and', ['exports', 'ember', 'ember-truth-helpers/helpers/and'], function (exports, _ember, _emberTruthHelpersHelpersAnd) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersAnd.andHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersAnd.andHelper);
-  }
-
-  exports['default'] = forExport;
-});
 define('pix-live/helpers/app-version', ['exports', 'ember', 'pix-live/config/environment'], function (exports, _ember, _pixLiveConfigEnvironment) {
   exports.appVersion = appVersion;
   var version = _pixLiveConfigEnvironment['default'].APP.version;
@@ -1180,30 +1170,6 @@ define('pix-live/helpers/floor', ['exports', 'ember-math-helpers/helpers/floor']
     }
   });
 });
-define('pix-live/helpers/gt', ['exports', 'ember', 'ember-truth-helpers/helpers/gt'], function (exports, _ember, _emberTruthHelpersHelpersGt) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersGt.gtHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersGt.gtHelper);
-  }
-
-  exports['default'] = forExport;
-});
-define('pix-live/helpers/gte', ['exports', 'ember', 'ember-truth-helpers/helpers/gte'], function (exports, _ember, _emberTruthHelpersHelpersGte) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersGte.gteHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersGte.gteHelper);
-  }
-
-  exports['default'] = forExport;
-});
 define('pix-live/helpers/inc', ['exports', 'ember'], function (exports, _ember) {
   exports.inc = inc;
 
@@ -1212,56 +1178,6 @@ define('pix-live/helpers/inc', ['exports', 'ember'], function (exports, _ember) 
   }
 
   exports['default'] = _ember['default'].Helper.helper(inc);
-});
-define('pix-live/helpers/is-array', ['exports', 'ember', 'ember-truth-helpers/helpers/is-array'], function (exports, _ember, _emberTruthHelpersHelpersIsArray) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersIsArray.isArrayHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersIsArray.isArrayHelper);
-  }
-
-  exports['default'] = forExport;
-});
-define('pix-live/helpers/is-equal', ['exports', 'ember-truth-helpers/helpers/is-equal'], function (exports, _emberTruthHelpersHelpersIsEqual) {
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function get() {
-      return _emberTruthHelpersHelpersIsEqual['default'];
-    }
-  });
-  Object.defineProperty(exports, 'isEqual', {
-    enumerable: true,
-    get: function get() {
-      return _emberTruthHelpersHelpersIsEqual.isEqual;
-    }
-  });
-});
-define('pix-live/helpers/lt', ['exports', 'ember', 'ember-truth-helpers/helpers/lt'], function (exports, _ember, _emberTruthHelpersHelpersLt) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersLt.ltHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersLt.ltHelper);
-  }
-
-  exports['default'] = forExport;
-});
-define('pix-live/helpers/lte', ['exports', 'ember', 'ember-truth-helpers/helpers/lte'], function (exports, _ember, _emberTruthHelpersHelpersLte) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersLte.lteHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersLte.lteHelper);
-  }
-
-  exports['default'] = forExport;
 });
 define('pix-live/helpers/max', ['exports', 'ember-math-helpers/helpers/max'], function (exports, _emberMathHelpersHelpersMax) {
   Object.defineProperty(exports, 'default', {
@@ -1318,42 +1234,6 @@ define('pix-live/helpers/mult', ['exports', 'ember-math-helpers/helpers/mult'], 
       return _emberMathHelpersHelpersMult.mult;
     }
   });
-});
-define('pix-live/helpers/not-eq', ['exports', 'ember', 'ember-truth-helpers/helpers/not-equal'], function (exports, _ember, _emberTruthHelpersHelpersNotEqual) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersNotEqual.notEqualHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersNotEqual.notEqualHelper);
-  }
-
-  exports['default'] = forExport;
-});
-define('pix-live/helpers/not', ['exports', 'ember', 'ember-truth-helpers/helpers/not'], function (exports, _ember, _emberTruthHelpersHelpersNot) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersNot.notHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersNot.notHelper);
-  }
-
-  exports['default'] = forExport;
-});
-define('pix-live/helpers/or', ['exports', 'ember', 'ember-truth-helpers/helpers/or'], function (exports, _ember, _emberTruthHelpersHelpersOr) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersOr.orHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersOr.orHelper);
-  }
-
-  exports['default'] = forExport;
 });
 define('pix-live/helpers/pluralize', ['exports', 'ember-inflector/lib/helpers/pluralize'], function (exports, _emberInflectorLibHelpersPluralize) {
   exports['default'] = _emberInflectorLibHelpersPluralize['default'];
@@ -1464,18 +1344,6 @@ define('pix-live/helpers/sub', ['exports', 'ember-math-helpers/helpers/sub'], fu
       return _emberMathHelpersHelpersSub.sub;
     }
   });
-});
-define('pix-live/helpers/xor', ['exports', 'ember', 'ember-truth-helpers/helpers/xor'], function (exports, _ember, _emberTruthHelpersHelpersXor) {
-
-  var forExport = null;
-
-  if (_ember['default'].Helper) {
-    forExport = _ember['default'].Helper.helper(_emberTruthHelpersHelpersXor.xorHelper);
-  } else if (_ember['default'].HTMLBars.makeBoundHelper) {
-    forExport = _ember['default'].HTMLBars.makeBoundHelper(_emberTruthHelpersHelpersXor.xorHelper);
-  }
-
-  exports['default'] = forExport;
 });
 define('pix-live/initializers/ajax-interceptor', ['exports', 'pix-live/config/environment'], function (exports, _pixLiveConfigEnvironment) {
   exports.initialize = initialize;
@@ -1782,34 +1650,6 @@ define('pix-live/initializers/transforms', ['exports', 'ember'], function (expor
     name: 'transforms',
     before: 'store',
     initialize: function initialize() {}
-  };
-});
-define('pix-live/initializers/truth-helpers', ['exports', 'ember', 'ember-truth-helpers/utils/register-helper', 'ember-truth-helpers/helpers/and', 'ember-truth-helpers/helpers/or', 'ember-truth-helpers/helpers/equal', 'ember-truth-helpers/helpers/not', 'ember-truth-helpers/helpers/is-array', 'ember-truth-helpers/helpers/not-equal', 'ember-truth-helpers/helpers/gt', 'ember-truth-helpers/helpers/gte', 'ember-truth-helpers/helpers/lt', 'ember-truth-helpers/helpers/lte'], function (exports, _ember, _emberTruthHelpersUtilsRegisterHelper, _emberTruthHelpersHelpersAnd, _emberTruthHelpersHelpersOr, _emberTruthHelpersHelpersEqual, _emberTruthHelpersHelpersNot, _emberTruthHelpersHelpersIsArray, _emberTruthHelpersHelpersNotEqual, _emberTruthHelpersHelpersGt, _emberTruthHelpersHelpersGte, _emberTruthHelpersHelpersLt, _emberTruthHelpersHelpersLte) {
-  exports.initialize = initialize;
-
-  function initialize() /* container, application */{
-
-    // Do not register helpers from Ember 1.13 onwards, starting from 1.13 they
-    // will be auto-discovered.
-    if (_ember['default'].Helper) {
-      return;
-    }
-
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('and', _emberTruthHelpersHelpersAnd.andHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('or', _emberTruthHelpersHelpersOr.orHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('eq', _emberTruthHelpersHelpersEqual.equalHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('not', _emberTruthHelpersHelpersNot.notHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('is-array', _emberTruthHelpersHelpersIsArray.isArrayHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('not-eq', _emberTruthHelpersHelpersNotEqual.notEqualHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('gt', _emberTruthHelpersHelpersGt.gtHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('gte', _emberTruthHelpersHelpersGte.gteHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('lt', _emberTruthHelpersHelpersLt.ltHelper);
-    (0, _emberTruthHelpersUtilsRegisterHelper.registerHelper)('lte', _emberTruthHelpersHelpersLte.lteHelper);
-  }
-
-  exports['default'] = {
-    name: 'truth-helpers',
-    initialize: initialize
   };
 });
 define("pix-live/instance-initializers/ember-data", ["exports", "ember-data/-private/instance-initializers/initialize-store-service"], function (exports, _emberDataPrivateInstanceInitializersInitializeStoreService) {
@@ -3993,7 +3833,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+2f04a7ae"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+b851dbdf"});
 }
 
 /* jshint ignore:end */
