@@ -212,11 +212,7 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
       expect($('.comparison-window')).to.have.lengthOf(0);
     });
 
-
-
   });
-
-
 
 
 });
