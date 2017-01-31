@@ -1571,7 +1571,13 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
     var COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1';
 
     var CSS_BOLD_FONT_WEIGHT = '900';
+    var CSS_NORMAL_FONT_WEIGHT = '400';
+
     var CSS_GREEN_COLOR = 'rgb(19, 201, 160)';
+    var CSS_BLACK_COLOR = 'rgb(51, 51, 51)';
+
+    var CSS_LINETHROUGH_ON = 'line-through';
+    var CSS_LINETHROUGH_OFF = 'none';
 
     var TEXT_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre .assessment-results-result-text';
     var SVG_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre svg';
@@ -1585,6 +1591,9 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
 
     var CHECKBOX_CORRECT_AND_UNCHECKED = '.comparison-window .comparison-window-boolean:eq(2)';
     var LABEL_CORRECT_AND_UNCHECKED = '.comparison-window .comparison-window-oracle:eq(2)';
+
+    var CHECKBOX_INCORRECT_AND_CHECKED = '.comparison-window .comparison-window-boolean:eq(3)';
+    var LABEL_INCORRECT_AND_CHECKED = '.comparison-window .comparison-window-oracle:eq(3)';
 
     var application = undefined;
 
@@ -1761,15 +1770,16 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
               (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
               (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
               (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
+              (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
 
               // XXX test env needs the modal to be closed manually
-              context$3$0.next = 12;
+              context$3$0.next = 13;
               return regeneratorRuntime.awrap(click('.close-button-container'));
 
-            case 12:
+            case 13:
               (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
 
-            case 13:
+            case 14:
             case 'end':
               return context$3$0.stop();
           }
@@ -1795,15 +1805,51 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
               (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
               (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
               (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
+              (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
 
               // XXX test env needs the modal to be closed manually
-              context$3$0.next = 12;
+              context$3$0.next = 13;
               return regeneratorRuntime.awrap(click('.close-button-container'));
 
-            case 12:
+            case 13:
               (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
 
+            case 14:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('j1.4.3 QCM incorrecte et cochée', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_CHECKED)).to.have.lengthOf(0);
+              (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED)).to.have.lengthOf(0);
+
+              context$3$0.next = 6;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 6:
+              (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+              (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
+              (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
+              (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
+              (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_ON);
+
+              // XXX test env needs the modal to be closed manually
+              context$3$0.next = 13;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
             case 13:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 14:
             case 'end':
               return context$3$0.stop();
           }
