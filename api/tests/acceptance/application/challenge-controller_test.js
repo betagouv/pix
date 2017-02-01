@@ -1,7 +1,7 @@
 /* global describe, before, after, knex, nock, it, expect */
 const server = require('../../../server');
 
-describe('Acceptance | API | ChallengeController', function () {
+describe.skip('Acceptance | API | ChallengeController', function () {
 
   before(function (done) {
     knex.migrate.latest().then(() => {
