@@ -18,7 +18,7 @@ describe('Acceptance | API | Assessments', function () {
             'id': 'w_adaptive_course_id',
             'fields': {
               // a bunch of fields
-              'Adaptatif ?': false,
+              'Adaptatif ?': true,
               '\u00c9preuves': [
                 'w_second_challenge',
                 'w_first_challenge',
@@ -55,11 +55,6 @@ describe('Acceptance | API | Assessments', function () {
             },
           });
 
-
-
-
-
-
         done();
       });
     });
@@ -69,7 +64,6 @@ describe('Acceptance | API | Assessments', function () {
     nock.cleanAll();
     server.stop(done);
   });
-
 
 
   describe('(adaptive correct answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', function () {

@@ -17,7 +17,7 @@ describe('Acceptance | API | Assessments', function () {
             'id': 'the_adaptive_course_id',
             'fields': {
               // a bunch of fields
-              'Adaptatif ?': false,
+              'Adaptatif ?': true,
               '\u00c9preuves': [
                 'z_second_challenge',
                 'z_first_challenge',
