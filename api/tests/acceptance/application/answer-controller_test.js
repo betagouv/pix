@@ -1,9 +1,10 @@
+/* global describe, before, beforeEach, after, afterEach, knex, nock, it, expect */
 const server = require('../../../server');
 const Answer = require('../../../lib/domain/models/data/answer');
 
 server.register(require('inject-then'));
 
-describe.skip('Acceptance | API | Answers', function () {
+describe.only('Acceptance | API | Answers', function () {
 
   before(function (done) {
     knex.migrate.latest().then(() => {
@@ -156,7 +157,7 @@ describe.skip('Acceptance | API | Answers', function () {
 
     before(function (done) {
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Epreuves/challenge_id')
+        .get('/v0/test-base/Epreuves/challenge_id?')
         .times(5)
         .reply(200, {
           'id': 'recLt9uwa2dR3IYpi',
