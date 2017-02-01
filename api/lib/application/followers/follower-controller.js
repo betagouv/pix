@@ -30,7 +30,7 @@ module.exports = {
       .where({email})
       .fetch()
       .then(_assertFollowerNotExist)
-      .then(_ => _saveFollower(email))
+      .then(() => _saveFollower(email))
       .then(follower => reply(follower).code(201))
       .catch((err) => reply(err));
   }
