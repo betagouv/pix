@@ -21,6 +21,7 @@ describe('Acceptance | API | ChallengeController', function () {
       nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Epreuves/recLt9uwa2dR3IYpi')
+        .query(true)
         .times(3)
         .reply(200, {
           'id': 'recLt9uwa2dR3IYpi',
@@ -97,6 +98,7 @@ describe('Acceptance | API | ChallengeController', function () {
         done();
       });
     });
+
   });
 
 });
