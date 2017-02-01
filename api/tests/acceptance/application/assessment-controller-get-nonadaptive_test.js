@@ -27,6 +27,7 @@ describe('Acceptance | API | Assessments GET (non adaptive)', function () {
 
         nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/first_challenge')
+          .query(true)
           .times(3)
           .reply(200, {
             'id': 'first_challenge',
@@ -36,6 +37,7 @@ describe('Acceptance | API | Assessments GET (non adaptive)', function () {
           });
         nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/second_challenge')
+          .query(true)
           .reply(200, {
             'id': 'second_challenge',
             'fields': {
@@ -44,6 +46,7 @@ describe('Acceptance | API | Assessments GET (non adaptive)', function () {
           });
         nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/third_challenge')
+          .query(true)
           .reply(200, {
             'id': 'third_challenge',
             'fields': {
