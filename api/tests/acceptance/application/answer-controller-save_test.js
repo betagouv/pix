@@ -18,10 +18,37 @@ describe('Acceptance | API | Answers', function () {
     server.stop(done);
   });
 
-
-  /* Update
+  /* Save
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
-  describe('POST /api/answers (update)', function () {
+  describe('POST /api/answers (create)', function () {
+
+    beforeEach(function (done) {
+      knex('answers').delete().then(() => {done();});
+    });
+    afterEach(function (done) {
+      knex('answers').delete().then(() => {done();});
+    });
+
+    before(function (done) {
+      nock.cleanAll();
+      nock('https://api.airtable.com')
+        .get('/v0/test-base/Epreuves/a_challenge_id')
+        .query(true)
+        .times(5)
+        .reply(200, {
+          'id': 'recLt9uwa2dR3IYpi',
+          'fields': {
+            'Type d\'épreuve': 'QCU',
+            'Bonnes réponses': '1'
+            //other fields not represented
+          }
+        });
+      done();
+    });
+    after(function (done) {
+      nock.cleanAll();
+      done();
+    });
 
     const options = {
       method: 'POST', url: '/api/answers', payload: {
@@ -48,37 +75,9 @@ describe('Acceptance | API | Answers', function () {
       }
     };
 
-    beforeEach(function (done) {
-      knex('answers').delete().then(() => {
-        server.injectThen(options).then((response) => {
-          done();
-        });
-      });
-    });
-    afterEach(function (done) {
-      knex('answers').delete().then(() => {done();});
-    });
-
-    before(function (done) {
-      nock('https://api.airtable.com')
-        .get('/v0/test-base/Epreuves/a_challenge_id')
-        .times(5)
-        .reply(200, {
-          'id': 'recLt9uwa2dR3IYpi',
-          'fields': {
-            'Type d\'épreuve': 'QCU',
-            'Bonnes réponses': '1'
-            //other fields not represented
-          }
-        });
-      done();
-    });
-
-
-
-    it('should return 200 HTTP status code', function (done) {
+    it('should return 201 HTTP status code', function (done) {
       server.injectThen(options).then((response) => {
-        expect(response.statusCode).to.equal(200);
+        expect(response.statusCode).to.equal(201);
         done();
       });
     });
@@ -91,8 +90,8 @@ describe('Acceptance | API | Answers', function () {
       });
     });
 
-    it('should not add a new answer into the database', function (done) {
-      server.injectThen(options).then((response) => {
+    it('should add a new answer into the database', function (done) {
+      server.injectThen(options).then(() => {
         Answer.count().then(function (afterAnswersNumber) {
           expect(afterAnswersNumber).to.equal(1);
           done();
@@ -100,7 +99,7 @@ describe('Acceptance | API | Answers', function () {
       });
     });
 
-    it('should return updated answer', function (done) {
+    it('should return persisted answer', function (done) {
       // when
       server.injectThen(options).then((response) => {
         const answer = response.result.data;
@@ -126,7 +125,6 @@ describe('Acceptance | API | Answers', function () {
           });
       });
     });
-
 
   });
 
