@@ -12,8 +12,8 @@ module.exports = {
           assessmentId: assessmentId
         })
         .fetch()
-        .then((answer) => resolve(answer))
-        .catch((err) => reject(err));
+        .then(resolve)
+        .catch(reject);
 
     });
 

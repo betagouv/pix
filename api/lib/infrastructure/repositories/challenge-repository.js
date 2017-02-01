@@ -84,8 +84,6 @@ module.exports = {
 
           return this._fetch(id, reject, cacheKey, resolve);
         });
-
-        // return this._fetch(id, reject, cacheKey, resolve);
       });
     });
   },
