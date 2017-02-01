@@ -7,10 +7,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
 
       Answer
-        .where({
-          challengeId: challengeId,
-          assessmentId: assessmentId
-        })
+        .where({ challengeId, assessmentId })
         .fetch()
         .then(resolve)
         .catch(reject);
