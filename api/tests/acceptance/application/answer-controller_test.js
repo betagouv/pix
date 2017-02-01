@@ -4,7 +4,7 @@ const Answer = require('../../../lib/domain/models/data/answer');
 
 server.register(require('inject-then'));
 
-describe.only('Acceptance | API | Answers', function () {
+describe('Acceptance | API | Answers', function () {
 
   before(function (done) {
     knex.migrate.latest().then(() => {
