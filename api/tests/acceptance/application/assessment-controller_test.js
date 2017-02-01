@@ -9,7 +9,10 @@ describe('Acceptance | API | Assessments', function () {
     knex.migrate.latest().then(() => {
       knex.seed.run().then(() => {
         nock('https://api.airtable.com')
-          .get('/v0/test-base/Tests/non_adaptive_course_id')  // XXX cf. issue #204, there may be a conflict with course-controller_test
+          // .filteringPath(function(path) {
+          //   return '/v0/test-base/Tests/non_adaptive_course_id';
+          // })  // XXX cf. issue #204, there may be a conflict with course-controller_test
+          .get('/v0/test-base/Tests/non_adaptive_course_id')
           .times(4)
           .reply(200, {
             'id': 'non_adaptive_course_id',
@@ -23,7 +26,10 @@ describe('Acceptance | API | Assessments', function () {
             },
           }
           );
-          nock('https://api.airtable.com')
+        nock('https://api.airtable.com')
+          // .filteringPath(function(path) {
+          //   return '/v0/test-base/Tests/adaptive_course_id';
+          // })  // XXX cf. issue #204, there may be a conflict with course-controller_test
           .get('/v0/test-base/Tests/adaptive_course_id')
           .times(4)
           .reply(200, {

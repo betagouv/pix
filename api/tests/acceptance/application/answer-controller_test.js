@@ -157,7 +157,7 @@ describe('Acceptance | API | Answers', function () {
 
     before(function (done) {
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Epreuves/challenge_id?')
+        .get('/v0/test-base/Epreuves/a_challenge_id?')
         .times(5)
         .reply(200, {
           'id': 'recLt9uwa2dR3IYpi',
@@ -171,7 +171,7 @@ describe('Acceptance | API | Answers', function () {
     });
     before(function (done) {
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Epreuves/challenge_id')
+        .get('/v0/test-base/Epreuves/a_challenge_id')
         .times(5)
         .reply(200, {
           'id': 'recLt9uwa2dR3IYpi',
@@ -201,7 +201,7 @@ describe('Acceptance | API | Answers', function () {
             challenge: {
               data: {
                 type: 'challenge',
-                id: 'challenge_id'
+                id: 'a_challenge_id'
               }
             }
           }
@@ -287,7 +287,7 @@ describe('Acceptance | API | Answers', function () {
             challenge: {
               data: {
                 type: 'challenge',
-                id: 'challenge_id'
+                id: 'a_challenge_id'
               }
             }
           }
@@ -308,7 +308,7 @@ describe('Acceptance | API | Answers', function () {
 
     before(function (done) {
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Epreuves/challenge_id')
+        .get('/v0/test-base/Epreuves/a_challenge_id')
         .times(5)
         .reply(200, {
           'id': 'recLt9uwa2dR3IYpi',
