@@ -162,7 +162,7 @@
 /* Email
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .first-page-email {
-  height: 385px;
+  height: 260px;
   background-color: var(--pix-blue);
   @media (min-width: 992px) {
     height: 350px;
@@ -178,7 +178,6 @@
 }
 
 .first-page-email__title {
-  font-size: 24px;
   font-weight: bold;
   text-align: center;
   color: white;
@@ -191,17 +190,19 @@
 }
 
 .first-page-email__details {
-  max-width: 872.8px;
   margin:0 auto;
-  height: 78px;
   font-family: var(--font-lato);
-  font-size: 32px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
   text-align: center;
   color: #ffffff;
   margin-bottom: 36px;
+  @media (min-width: 992px) {
+    font-size: 32px;
+    max-width: 872.8px;
+    height: 78px;
+  }
 }
 
 

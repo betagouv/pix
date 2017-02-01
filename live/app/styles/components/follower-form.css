@@ -4,18 +4,21 @@
   position: relative;
 }
 
+.follower__form-input-container {
+  flex-grow: 1;
+}
 .follower__form-container{
-  width: 400px;
   display: flex;
   margin:0 auto;
   align-items: center;
-  flex-direction: column;
   border-radius: 4px;
   background: #ffffff;
   padding: 2px;
+  max-width: 300px;
   @media (min-width: 992px) {
     flex-direction: row;
-    justify-content: space-between;
+    max-width: 400px;
+    /*justify-content: space-between;*/
   }
 }
 
@@ -23,6 +26,7 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .follower-enter {
   height: 46px;
+  width: 100%;
   border: none;
   border-radius: 5px;
   outline: none;
