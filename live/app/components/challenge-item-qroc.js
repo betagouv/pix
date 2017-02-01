@@ -8,9 +8,9 @@ const ChallengeItemQroc = ChallengeItemGeneric.extend({
 
   // XXX : data is extracted from DOM of child component, breaking child encapsulation.
   // This is not "the Ember way", however it makes code easier to read,
-  // and moreover, is a much more robust solution when you need to test it properly.
+  // and moreover, it's a much more robust solution when you need to test it properly.
   _getAnswerValue() {
-    return this.$('input[data-uid="qroc-proposal-uid"]').val();
+    return this.$('.challenge-proposals input[data-uid="qroc-proposal-uid"]').val();
   },
 
   _getErrorMessage() {
