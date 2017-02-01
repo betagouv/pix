@@ -169,6 +169,20 @@ describe('Acceptance | API | Answers', function () {
         });
       done();
     });
+    before(function (done) {
+      nock('https://api.airtable.com')
+        .get('/v0/test-base/Epreuves/challenge_id')
+        .times(5)
+        .reply(200, {
+          'id': 'recLt9uwa2dR3IYpi',
+          'fields': {
+            'Type d\'épreuve': 'QCU',
+            'Bonnes réponses': '1'
+            //other fields not represented
+          }
+        });
+      done();
+    });
 
     const options = {
       method: 'POST', url: '/api/answers', payload: {

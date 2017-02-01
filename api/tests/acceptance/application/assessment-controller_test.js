@@ -2,7 +2,7 @@
 const server = require('../../../server');
 const Assessment = require('../../../lib/domain/models/data/assessment');
 
-describe.skip('Acceptance | API | Assessments', function () {
+describe('Acceptance | API | Assessments', function () {
 
 
   before(function (done) {

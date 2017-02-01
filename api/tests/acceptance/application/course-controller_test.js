@@ -1,7 +1,7 @@
 /* global describe, before, after, knex, nock, it, expect */
 const server = require('../../../server');
 
-describe.skip('Acceptance | API | Courses', function () {
+describe('Acceptance | API | Courses', function () {
 
   before(function (done) {
     knex.migrate.latest().then(() => {
