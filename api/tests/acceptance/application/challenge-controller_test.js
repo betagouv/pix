@@ -18,6 +18,7 @@ describe('Acceptance | API | ChallengeController', function () {
   describe('GET /api/challenges/:challenge_id', function () {
 
     before(function (done) {
+      nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Epreuves/recLt9uwa2dR3IYpi')
         .times(3)

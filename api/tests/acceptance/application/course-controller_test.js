@@ -18,6 +18,7 @@ describe('Acceptance | API | Courses', function () {
   describe('GET /api/courses', function () {
 
     before(function (done) {
+      nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Tests?view=PIX%20view')
         .times(3)
@@ -86,6 +87,7 @@ describe('Acceptance | API | Courses', function () {
   describe('GET /api/courses/:course_id', function () {
 
     before(function (done) {
+      nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Tests/course_id')
         .times(3)

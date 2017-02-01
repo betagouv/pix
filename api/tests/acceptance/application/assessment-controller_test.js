@@ -8,6 +8,7 @@ describe('Acceptance | API | Assessments', function () {
   before(function (done) {
     knex.migrate.latest().then(() => {
       knex.seed.run().then(() => {
+        nock.cleanAll();
         nock('https://api.airtable.com')
           // .filteringPath(function(path) {
           //   return '/v0/test-base/Tests/non_adaptive_course_id';
@@ -79,7 +80,6 @@ describe('Acceptance | API | Assessments', function () {
   });
 
   after(function (done) {
-    nock.cleanAll();
     server.stop(done);
   });
 

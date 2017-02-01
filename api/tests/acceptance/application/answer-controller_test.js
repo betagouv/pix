@@ -156,6 +156,7 @@ describe('Acceptance | API | Answers', function () {
     });
 
     before(function (done) {
+      nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Epreuves/a_challenge_id?')
         .times(5)
@@ -170,6 +171,7 @@ describe('Acceptance | API | Answers', function () {
       done();
     });
     before(function (done) {
+      nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Epreuves/a_challenge_id')
         .times(5)
