@@ -50,7 +50,7 @@ describe('Acceptance | API | Answers', function () {
 
     beforeEach(function (done) {
       knex('answers').delete().then(() => {
-        server.injectThen(options).then((response) => {
+        server.injectThen(options).then(() => {
           done();
         });
       });

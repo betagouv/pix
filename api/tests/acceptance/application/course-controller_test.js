@@ -20,7 +20,8 @@ describe('Acceptance | API | Courses', function () {
     before(function (done) {
       nock.cleanAll();
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Tests?view=PIX%20view')
+        .get('/v0/test-base/Tests')
+        .query(true)
         .times(3)
         .reply(200, {
           'records': [{
@@ -90,6 +91,7 @@ describe('Acceptance | API | Courses', function () {
       nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Tests/course_id')
+        .query(true)
         .times(3)
         .reply(200, {
           id: 'course_id',
@@ -105,7 +107,7 @@ describe('Acceptance | API | Courses', function () {
             'Durée': 13,
             'Adaptatif ?': true,
             'Épreuves': [
-              'challenge_id',
+              'k_challenge_id',
             ],
             'Ordre affichage': 2,
             'Preview': 'http://development.pix.beta.gouv.fr/courses/course_id/preview',
@@ -115,12 +117,13 @@ describe('Acceptance | API | Courses', function () {
           createdTime: '2016-08-09T15:17:53.000Z'
         });
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Epreuves/challenge_id')
-        .times(3)
-        .reply(200, {
-          id: 'challenge_id',
-          fields: {},
-        });
+          .get('/v0/test-base/Epreuves/k_challenge_id')
+          .query(true)
+          .times(3)
+          .reply(200, {
+            id: 'k_challenge_id',
+            fields: {},
+          });
       done();
     });
 
