@@ -11,6 +11,7 @@ describe('Acceptance | API | Assessments GET (non adaptive)', function () {
         nock.cleanAll();
         nock('https://api.airtable.com')
           .get('/v0/test-base/Tests/a_non_adaptive_course_id')
+          .query(true)
           .times(4)
           .reply(200, {
             'id': 'a_non_adaptive_course_id',
