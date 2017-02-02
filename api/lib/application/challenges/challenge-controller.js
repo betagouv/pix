@@ -13,6 +13,7 @@ module.exports = {
   },
 
   revalidateAnswers(request, reply) {
+    // const allAnswersOfChallenge = answerRepository.findByChallengeId(request.params.challengeId);
     return reply(200);
   },
 
