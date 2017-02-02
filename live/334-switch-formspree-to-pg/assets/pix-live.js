@@ -388,7 +388,7 @@ define('pix-live/components/challenge-item-qcm', ['exports', 'pix-live/component
     // This is not "the Ember way", however it makes code easier to read,
     // and moreover, is a much more robust solution when you need to test it properly.
     _getAnswerValue: function _getAnswerValue() {
-      return this.$('input:checkbox:checked').map(function () {
+      return this.$('.challenge-proposals input:checkbox:checked').map(function () {
         return this.name;
       }).get().join(',');
     },
@@ -419,7 +419,7 @@ define('pix-live/components/challenge-item-qcu', ['exports', 'pix-live/component
     // This is not "the Ember way", however it makes code easier to read,
     // and moreover, is a much more robust solution when you need to test it properly.
     _getAnswerValue: function _getAnswerValue() {
-      return this.$('input:radio:checked').map(function () {
+      return this.$('.challenge-proposals input:radio:checked').map(function () {
         return this.name;
       }).get().join('');
     },
@@ -448,7 +448,7 @@ define('pix-live/components/challenge-item-qroc', ['exports', 'pix-live/componen
 
     // XXX : data is extracted from DOM of child component, breaking child encapsulation.
     // This is not "the Ember way", however it makes code easier to read,
-    // and moreover, is a much more robust solution when you need to test it properly.
+    // and moreover, it is a much more robust solution when you need to test it properly.
     _getAnswerValue: function _getAnswerValue() {
       return this.$('input[data-uid="qroc-proposal-uid"]').val();
     },
@@ -3659,7 +3659,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+a049aa0e"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+bbf80679"});
 }
 
 /* jshint ignore:end */
