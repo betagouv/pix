@@ -7,7 +7,7 @@ export default Ember.Component.extend({
   successRequest: false,
   isSubmited: false,
   defaultMessage: {
-    error: 'Votre adresse n’est pas valide',
+    error: 'Votre adresse n\'est pas valide',
     success: 'Merci pour votre inscription'
   },
 
