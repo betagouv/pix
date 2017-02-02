@@ -17,6 +17,11 @@ exports.register = function (server, options, next) {
       method: 'POST',
       path: '/api/challenges/{id}',
       config: { handler: ChallengeController.refresh, tags: ['api'] }
+    },
+    {
+      method: 'PUT',
+      path: '/api/challenges/{id}/validate',
+      config: { handler: ChallengeController.revalidateAnswers, tags: ['api'] }
     }
   ]);
 

@@ -12,6 +12,10 @@ module.exports = {
       .catch((err) => reply(Boom.badImplementation(err)));
   },
 
+  revalidateAnswers(request, reply) {
+    return reply(200);
+  },
+
   get(request, reply) {
 
     challengeRepository
