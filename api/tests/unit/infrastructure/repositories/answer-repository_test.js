@@ -1,57 +1,110 @@
-/* global describe, after, afterEach, beforeEach, it, knex, expect, nock, before */
+/* global describe, after, it, knex, expect, before */
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
-describe.only('Unit | Repository | AnswerRepository', function () {
+describe('Unit | Repository | AnswerRepository', function () {
 
 
-  const inserted_answer_1 = {
-    value: '1,2',
-    result: 'ko',
-    challengeId: 'challenge_1234',
-    assessmentId: 1234
-  };
+  describe('findByChallengeAndAssessment', function () {
 
-  const inserted_answer_2 = {
-    value: '1,2,4',
-    result: 'ok',
-    challengeId: 'challenge_000',
-    assessmentId: 1
-  };
+    const inserted_answer_1 = {
+      value: '1,2',
+      result: 'ko',
+      challengeId: 'challenge_1234',
+      assessmentId: 1234
+    };
 
-  beforeEach(function (done) {
-    knex('answers').delete().then(() => {
-      knex('answers').insert([inserted_answer_1, inserted_answer_2]).then((id) => {
-        // inserted_answer_1_id = id;
+    const inserted_answer_2 = {
+      value: '1,2,4',
+      result: 'ok',
+      challengeId: 'challenge_000',
+      assessmentId: 1
+    };
+
+    before(function (done) {
+      knex('answers').delete().then(() => {
+        knex('answers').insert([inserted_answer_1, inserted_answer_2]).then(() => {
+          done();
+        });
+      });
+    });
+
+    after(function (done) {
+      knex('answers').delete().then(() => {done();});
+    });
+
+    it('should findByChallengeAndAssessment', function (done) {
+      expect(AnswerRepository.findByChallengeAndAssessment).to.exist;
+      AnswerRepository.findByChallengeAndAssessment('challenge_1234', 1234).then(function(foundAnswers) {
+        expect(foundAnswers).to.exist;
+        expect(foundAnswers).to.be.an('object');
+        expect(foundAnswers.attributes.value).to.equal(inserted_answer_1.value);
         done();
       });
     });
   });
 
-  afterEach(function (done) {
-    knex('answers').delete().then(() => {done();});
-  });
 
-  it('true should be true', function () {
-    expect(true).to.equal(true);
-  });
 
-  it('should find sth in database, *ucker', function (done) {
-    knex.select('*').from('answers').then((answers) => {
-      // const theAnswer = answers[0];
-      // expect(theAnswer.result).to.equal('ok');
-      console.log('theAnswer - - - -' + JSON.stringify(answers));
-      const givenAnswers = AnswerRepository.findByChallengeAndAssessment('challenge_1234', 1234);
-      expect(givenAnswers).to.exist;
-      console.log('givenAnswers - - - -' + JSON.stringify(givenAnswers));
-      done();
+
+  describe('findByChallenge', function () {
+
+    const inserted_answer_1 = {
+      value: '1',
+      result: 'ko',
+      challengeId: 'challenge_1234',
+      assessmentId: 1234
+    };
+
+    // same challenge different assessment
+    const inserted_answer_2 = {
+      value: '1,2',
+      result: 'ko',
+      challengeId: 'challenge_1234',
+      assessmentId: 1
+    };
+
+    //different challenge different assessment
+    const inserted_answer_3 = {
+      value: '1,2,3',
+      result: 'timedout',
+      challengeId: 'challenge_000',
+      assessmentId: 1
+    };
+
+    before(function (done) {
+      knex('answers').delete().then(() => {
+        knex('answers').insert([inserted_answer_1, inserted_answer_2, inserted_answer_3]).then(() => {
+          done();
+        });
+      });
+    });
+
+    after(function (done) {
+      knex('answers').delete().then(() => {done();});
+    });
+
+    it('should findByChallenge', function (done) {
+
+
+      expect(AnswerRepository.findByChallenge).to.exist;
+
+
+      AnswerRepository.findByChallenge('challenge_1234').then(function(foundAnswers) {
+        expect(foundAnswers).to.exist;
+
+        expect(foundAnswers).to.have.length.of(2);
+
+        expect(foundAnswers.models[0].attributes.value).to.equal(inserted_answer_1.value);
+        expect(foundAnswers.models[0].attributes.challengeId).to.equal(inserted_answer_1.challengeId);
+
+        expect(foundAnswers.models[1].attributes.value).to.equal(inserted_answer_2.value);
+        expect(foundAnswers.models[1].attributes.challengeId).to.equal(inserted_answer_2.challengeId);
+
+        done();
+      });
     });
   });
 
-  it('should findByChallengeAndAssessment, *ucker', function (done) {
-    expect(AnswerRepository.findByChallengeAndAssessment).to.exist;
-
-    done();
-  });
 
 
 
