@@ -1719,15 +1719,6 @@ define('pix-live/tests/components/follower-form.lint-test', ['exports'], functio
     });
   });
 });
-define('pix-live/tests/components/followers.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - components/followers.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/components/get-result.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -3327,7 +3318,7 @@ define('pix-live/tests/unit/components/follower-form-test', ['exports', 'chai', 
         component.set('hasError', true);
         component.set('isSubmited', true);
         // then
-        (0, _chai.expect)(component.get('infoMessage')).to.equal('Votre adresse n’est pas valide');
+        (0, _chai.expect)(component.get('infoMessage')).to.equal('Votre adresse n\'est pas valide');
       });
     });
   });

@@ -624,7 +624,7 @@ define('pix-live/components/follower-form', ['exports', 'ember'], function (expo
     successRequest: false,
     isSubmited: false,
     defaultMessage: {
-      error: 'Votre adresse n’est pas valide',
+      error: 'Votre adresse n\'est pas valide',
       success: 'Merci pour votre inscription'
     },
 
@@ -691,9 +691,6 @@ define('pix-live/components/follower-form', ['exports', 'ember'], function (expo
       }
     }
   });
-});
-define('pix-live/components/followers', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Component.extend({});
 });
 define('pix-live/components/get-result', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
@@ -3662,7 +3659,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+8d5374c9"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+d8f860ee"});
 }
 
 /* jshint ignore:end */
