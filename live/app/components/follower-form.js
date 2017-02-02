@@ -54,8 +54,11 @@ export default Ember.Component.extend({
         context.set('hasError', true);
       },
       complete: function(){
+        //XXX: Au bout de 1,2 seconde, le formulaire revient à son état initial
+        //XXX: 1,2 s à modifier selon le Po
         Ember.run.later(function(){
           context.set('isSubmited', false);
+          this.set('email','');
         }, 1200);
       }
     });
