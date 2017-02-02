@@ -33,6 +33,7 @@ function fuzzyMatchingWithAnswers(userAnswer, correctAnswersList) {
   });
   return result ;
 }
+
 module.exports = {
   removeAccentsSpacesUppercase,
   fuzzyMatchingWithAnswers,
@@ -40,6 +41,3 @@ module.exports = {
 };
 
 
-    /*/!* eslint-disable no-alert, no-console *!/
-    console.log( encodeURI(userAnswer), encodeURI(possibleAnswer) );
-    /!* eslint-enable no-alert, no-console *!/*/
