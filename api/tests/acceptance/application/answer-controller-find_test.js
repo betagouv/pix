@@ -9,7 +9,6 @@ describe('Acceptance | Controller | answer-controller', function () {
     server.stop(done);
   });
 
-
   /* Find
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
   describe('Find /api/answers?challengeId=Y&assessmentId=Z', function () {

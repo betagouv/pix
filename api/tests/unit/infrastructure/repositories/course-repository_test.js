@@ -7,7 +7,7 @@ const cache = require('../../../../lib/infrastructure/cache');
 const CourseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const courseSerializer = require('../../../../lib/infrastructure/serializers/airtable/course-serializer');
 
-describe('Unit | Repository | CourseRepository', function () {
+describe('Unit | Repository | course-repository', function () {
 
   let stub;
 

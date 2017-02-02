@@ -8,7 +8,7 @@ const cache = require('../../../../lib/infrastructure/cache');
 const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../../../lib/infrastructure/serializers/airtable/challenge-serializer');
 
-describe('Unit | Repository | ChallengeRepository', function () {
+describe('Unit | Repository | challenge-repository', function () {
 
   let stub;
 
