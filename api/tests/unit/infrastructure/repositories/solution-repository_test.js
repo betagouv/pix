@@ -7,7 +7,7 @@ const cache = require('../../../../lib/infrastructure/cache');
 const SolutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 const solutionSerializer = require('../../../../lib/infrastructure/serializers/airtable/solution-serializer');
 
-describe.only('Unit | Repository | solution-repository', function () {
+describe('Unit | Repository | solution-repository', function () {
 
   let stub;
 
@@ -115,6 +115,79 @@ describe.only('Unit | Repository | solution-repository', function () {
         });
       });
     });
+  });
+
+  /*
+   * #refresh(id)
+   */
+
+  describe('#refresh(id)', function () {
+
+    const record = {
+      id: 'solution_id',
+      'fields': {
+        'Type d\'épreuve': 'QROCM',
+        'Bonnes réponses': '${moteur 1} ou ${moteur 2} ou ${moteur 3} = \nGoogle\nBing\nQwant\nDuckduckgo\nYahoo\nYahoo Search\nLycos\nAltavista\nHotbot'
+      }
+    };
+
+    beforeEach(function () {
+      stub.returns({
+        find(id, callback) {
+          if (record.id !== id) callback(new Error());
+          return callback(null, record);
+        }
+      });
+    });
+
+    it('should return the solution fetched from Airtable', function () {
+      // given
+      const solution = solutionSerializer.deserialize(record);
+
+      // when
+      const result = SolutionRepository.refresh(solution.id);
+
+      // then
+      return expect(result).to.eventually.deep.equal(solution);
+    });
+
+    it('should store the solution in the cache', function () {
+      // given
+      const solutionId = 'solution_id';
+
+      // when
+      SolutionRepository.refresh(solutionId);
+
+      // then
+      cache.get(`solution-repository_get_${solutionId}`, (err, cachedValue) => {
+        expect(cachedValue).to.exist;
+      });
+    });
+
+    describe('when the cache throw an error', function () {
+
+      const cacheErrorMessage = 'Cache error';
+
+      before(function () {
+        sinon.stub(cache, 'del', (key, callback) => {
+          callback(new Error(cacheErrorMessage));
+        });
+      });
+
+      after(function () {
+        cache.del.restore();
+      });
+
+      it('should reject with thrown error', function () {
+        // when
+        const result = SolutionRepository.refresh('solution_id');
+
+        // then
+        return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+      });
+
+    });
+
   });
 
 });

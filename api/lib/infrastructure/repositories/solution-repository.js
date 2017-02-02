@@ -19,34 +19,22 @@ module.exports = {
 
         if (cachedValue) return resolve(cachedValue);
 
-        Airtable.base(AIRTABLE_TABLE_NAME).find(id, (err, record) => {
-
-          if (err) return reject(err);
-
-          const solution = serializer.deserialize(record);
-
-          cache.set(cacheKey, solution);
-
-          logger.debug(`Fetched and cached solution ${id}`);
-
-          return resolve(solution);
-        });
+        return this._fetch(id, reject, cacheKey, resolve);
       });
     });
-
   },
 
   refresh(id) {
 
     return new Promise((resolve, reject) => {
 
-      const cacheKey = `course-repository_get_${id}`;
+      const cacheKey = `solution-repository_get_${id}`;
 
       cache.del(cacheKey, (err, count) => {
 
         if (err) return reject(err);
 
-        if (count > 0) logger.debug(`Deleted from cache course ${id}`);
+        if (count > 0) logger.debug(`Deleted from cache solution ${id}`);
 
         return this._fetch(id, reject, cacheKey, resolve);
       });
@@ -59,15 +47,15 @@ module.exports = {
 
       if (err) return reject(err);
 
-      const course = serializer.deserialize(record);
+      const solution = serializer.deserialize(record);
 
-      cache.set(cacheKey, course);
+      cache.set(cacheKey, solution);
 
-      logger.debug(`Fetched and cached course ${id}`);
+      logger.debug(`Fetched and cached solution ${id}`);
 
-      return resolve(course);
+      return resolve(solution);
     });
   }
 
-
 };
+

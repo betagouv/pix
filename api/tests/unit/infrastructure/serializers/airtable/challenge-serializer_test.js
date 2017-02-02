@@ -70,8 +70,7 @@ describe('Unit | Serializer | challenge-serializer', function () {
     it('should convert record "Pièce jointe" into an array of 1 element when challenge has one attachment', function () {
       // given
       const attachment = {
-        url: 'https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.pptx',
-        filename: 'PIX_couleur_remplissage.pptx',
+        url: 'https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.pptx'
       };
       const airtableRecord = { fields: { 'Pièce jointe': [attachment] } };
 
@@ -86,15 +85,13 @@ describe('Unit | Serializer | challenge-serializer', function () {
     it('should convert record "Pièce jointe" into an array of 2 elements when challenge has multiple attachments', function () {
       // given
       const attachmentDocx = {
-        url: 'https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.docx',
-        filename: 'PIX_couleur_remplissage.docx'
+        url: 'https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.docx'
       };
       const attachmentOdt = {
-        url: 'https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.odt',
-        filename: 'PIX_couleur_remplissage.odt'
+        url: 'https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.odt'
       };
 
-      const airtableRecord = { fields: { 'Pièce jointe': [attachmentDocx, attachmentOdt] } };
+      const airtableRecord = { fields: { 'Pièce jointe': [attachmentOdt, attachmentDocx] } };
 
       // when
       const challenge = serializer.deserialize(airtableRecord);
@@ -104,6 +101,27 @@ describe('Unit | Serializer | challenge-serializer', function () {
       expect(challenge.attachments[0]).to.equal(attachmentDocx.url);
       expect(challenge.attachments[1]).to.equal(attachmentOdt.url);
     });
+
+    it('should revert attachments order because Airtable return data in wrong order', function() {
+      // given
+      const attachment_1 = {
+        url: 'https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.docx'
+      };
+      const attachment_2 = {
+        url: 'https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.odt'
+      };
+
+      const airtableRecord = { fields: { 'Pièce jointe': [attachment_2, attachment_1] } };
+
+      // when
+      const challenge = serializer.deserialize(airtableRecord);
+
+      // then
+      expect(challenge.attachments).to.have.lengthOf(2);
+      expect(challenge.attachments[0]).to.equal(attachment_1.url);
+      expect(challenge.attachments[1]).to.equal(attachment_2.url);
+    });
+
 
     // XXX : Pay attention to boolean negation : hasntInternetAllowed, instead of hasInternetAllowed,
     // it is because the nominal case is : user is allowed to use internet.
