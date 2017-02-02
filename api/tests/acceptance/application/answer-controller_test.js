@@ -1,3 +1,6 @@
+/* global knex, nock */
+const { describe, it, before, after, beforeEach, afterEach } = require('mocha');
+const { expect } = require('chai');
 const server = require('../../../server');
 const Answer = require('../../../lib/domain/models/data/answer');
 
@@ -7,19 +10,17 @@ describe('Acceptance | API | Answers', function () {
 
   before(function (done) {
     knex.migrate.latest().then(() => {
-      knex.seed.run().then(() => {
-        done();
-      });
+      knex.seed.run().then(() => done());
     });
   });
 
   after(function (done) {
-    server.stop(done);
+    server.stop(() => done());
   });
 
   /* Get
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
-  describe('Get /api/answers/:id (single answer)', function () {
+   –––––––––––––––––––––––––––––––––––––––––––––––––– */
+  describe('GET /api/answers/:id (single answer)', function () {
 
     let inserted_answer_id = null;
 
@@ -40,18 +41,18 @@ describe('Acceptance | API | Answers', function () {
     });
 
     afterEach(function (done) {
-      knex('answers').delete().then(() => {done();});
+      knex('answers').delete().then(() => done());
     });
 
     it('should return 200 HTTP status code', function (done) {
-      server.injectThen({method: 'GET', url: `/api/answers/${inserted_answer_id}`}).then((response) => {
+      server.injectThen({ method: 'GET', url: `/api/answers/${inserted_answer_id}` }).then((response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      server.injectThen({method: 'GET', url: `/api/answers/${inserted_answer_id}`}).then((response) => {
+      server.injectThen({ method: 'GET', url: `/api/answers/${inserted_answer_id}` }).then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -59,7 +60,7 @@ describe('Acceptance | API | Answers', function () {
     });
 
     it('should return required answer', function (done) {
-      server.injectThen({method: 'GET', url: `/api/answers/${inserted_answer_id}`}).then((response) => {
+      server.injectThen({ method: 'GET', url: `/api/answers/${inserted_answer_id}` }).then((response) => {
         const answer = response.result.data;
 
         expect(answer.id.toString()).to.equal(inserted_answer_id.toString());
@@ -74,10 +75,9 @@ describe('Acceptance | API | Answers', function () {
 
   });
 
-
   /* Find
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
-  describe('Find /api/answers?challengeId=Y&assessmentId=Z', function () {
+   –––––––––––––––––––––––––––––––––––––––––––––––––– */
+  describe('GET /api/answers?challengeId=Y&assessmentId=Z', function () {
 
     let inserted_answer_id = null;
 
@@ -100,18 +100,18 @@ describe('Acceptance | API | Answers', function () {
     });
 
     afterEach(function (done) {
-      knex('answers').delete().then(() => {done();});
+      knex('answers').delete().then(() => done());
     });
 
     it('should return 200 HTTP status code', function (done) {
-      server.injectThen({method: 'GET', url: queryUrl}).then((response) => {
+      server.injectThen({ method: 'GET', url: queryUrl }).then((response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      server.injectThen({method: 'GET', url: queryUrl}).then((response) => {
+      server.injectThen({ method: 'GET', url: queryUrl }).then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -119,7 +119,7 @@ describe('Acceptance | API | Answers', function () {
     });
 
     it('should return required answer', function (done) {
-      server.injectThen({method: 'GET', url: queryUrl}).then((response) => {
+      server.injectThen({ method: 'GET', url: queryUrl }).then((response) => {
         const answer = response.result.data;
 
         expect(answer.id.toString()).to.equal(inserted_answer_id.toString());
@@ -133,25 +133,26 @@ describe('Acceptance | API | Answers', function () {
     });
 
     it('should return 200 with "null" data if not found answer', function (done) {
-      server.injectThen({method: 'GET', url: '/api/answers?challenge=nothing&assessment=nothing'}).then((response) => {
+      server.injectThen({
+        method: 'GET',
+        url: '/api/answers?challenge=nothing&assessment=nothing'
+      }).then((response) => {
         expect(response.statusCode).to.equal(200);
         expect(response.result.data).to.be.null;
-
         done();
       });
     });
   });
 
-
   /* Save
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
+   –––––––––––––––––––––––––––––––––––––––––––––––––– */
   describe('POST /api/answers (create)', function () {
 
     beforeEach(function (done) {
-      knex('answers').delete().then(() => {done();});
+      knex('answers').delete().then(() => done());
     });
     afterEach(function (done) {
-      knex('answers').delete().then(() => {done();});
+      knex('answers').delete().then(() => done());
     });
 
     before(function (done) {
@@ -210,7 +211,7 @@ describe('Acceptance | API | Answers', function () {
     });
 
     it('should add a new answer into the database', function (done) {
-      server.injectThen(options).then((response) => {
+      server.injectThen(options).then(() => {
         Answer.count().then(function (afterAnswersNumber) {
           expect(afterAnswersNumber).to.equal(1);
           done();
@@ -218,7 +219,7 @@ describe('Acceptance | API | Answers', function () {
       });
     });
 
-    it('should return persisted answer', function (done) {
+    it.only('should return persisted answer', function (done) {
       // when
       server.injectThen(options).then((response) => {
         const answer = response.result.data;
@@ -232,7 +233,6 @@ describe('Acceptance | API | Answers', function () {
             expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
             expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
 
-            // then
             expect(answer.id).to.equal(model.id);
             expect(answer.id).to.equal(response.result.data.id);
             expect(answer.attributes.value).to.equal(model.get('value'));
@@ -243,16 +243,13 @@ describe('Acceptance | API | Answers', function () {
             done();
           });
 
-
       });
     });
 
   });
 
-
-
   /* Update
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
+   –––––––––––––––––––––––––––––––––––––––––––––––––– */
   describe('POST /api/answers (update)', function () {
 
     const options = {
@@ -282,13 +279,12 @@ describe('Acceptance | API | Answers', function () {
 
     beforeEach(function (done) {
       knex('answers').delete().then(() => {
-        server.injectThen(options).then((response) => {
-          done();
-        });
+        server.injectThen(options).then(() => done());
       });
     });
+
     afterEach(function (done) {
-      knex('answers').delete().then(() => {done();});
+      knex('answers').delete().then(() => done());
     });
 
     before(function (done) {
@@ -306,8 +302,6 @@ describe('Acceptance | API | Answers', function () {
       done();
     });
 
-
-
     it('should return 200 HTTP status code', function (done) {
       server.injectThen(options).then((response) => {
         expect(response.statusCode).to.equal(200);
@@ -324,7 +318,7 @@ describe('Acceptance | API | Answers', function () {
     });
 
     it('should not add a new answer into the database', function (done) {
-      server.injectThen(options).then((response) => {
+      server.injectThen(options).then(() => {
         Answer.count().then(function (afterAnswersNumber) {
           expect(afterAnswersNumber).to.equal(1);
           done();
@@ -359,8 +353,6 @@ describe('Acceptance | API | Answers', function () {
       });
     });
 
-
   });
-
 
 });

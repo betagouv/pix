@@ -1,9 +1,9 @@
 const Boom = require('boom');
-const assessmentSerializer = require('../../infrastructure/serializers/assessment-serializer');
+const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
-const challengeSerializer = require('../../infrastructure/serializers/challenge-serializer');
+const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 
 module.exports = {
 

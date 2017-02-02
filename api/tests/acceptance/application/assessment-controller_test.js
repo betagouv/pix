@@ -1,9 +1,10 @@
-/* global describe, before, after, beforeEach, afterEach, knex, nock, it, expect */
+/* global knex, nock */
+const { describe, it, before, after, beforeEach, afterEach } = require('mocha');
+const { expect } = require('chai');
 const server = require('../../../server');
 const Assessment = require('../../../lib/domain/models/data/assessment');
 
 describe('Acceptance | API | Assessments', function () {
-
 
   before(function (done) {
     knex.migrate.latest().then(() => {
@@ -12,63 +13,63 @@ describe('Acceptance | API | Assessments', function () {
           .get('/v0/test-base/Tests/non_adaptive_course_id')  // XXX cf. issue #204, there may be a conflict with course-controller_test
           .times(4)
           .reply(200, {
-            'id': 'non_adaptive_course_id',
-            'fields': {
-              // a bunch of fields
-              'Adaptatif ?': false,
-              '\u00c9preuves': [
-              'second_challenge',
-              'first_challenge',
-              ],
-            },
-          }
+              'id': 'non_adaptive_course_id',
+              'fields': {
+                // a bunch of fields
+                'Adaptatif ?': false,
+                '\u00c9preuves': [
+                  'second_challenge',
+                  'first_challenge',
+                ],
+              },
+            }
           );
-          nock('https://api.airtable.com')
+        nock('https://api.airtable.com')
           .get('/v0/test-base/Tests/adaptive_course_id')
           .times(4)
           .reply(200, {
-            'id': 'adaptive_course_id',
-            'fields': {
-              // a bunch of fields
-              'Adaptatif ?': true,
-              '\u00c9preuves': [
-              'third_challenge',
-              'second_challenge',
-              'first_challenge',
-              ],
-            },
-          }
+              'id': 'adaptive_course_id',
+              'fields': {
+                // a bunch of fields
+                'Adaptatif ?': true,
+                '\u00c9preuves': [
+                  'third_challenge',
+                  'second_challenge',
+                  'first_challenge',
+                ],
+              },
+            }
           );
-          nock('https://api.airtable.com')
+        nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/first_challenge')
           .times(3)
           .reply(200, {
-            'id': 'first_challenge',
-            'fields': {
-              // a bunch of fields
-            },
-          }
+              'id': 'first_challenge',
+              'fields': {
+                // a bunch of fields
+              },
+            }
           );
-          nock('https://api.airtable.com')
+        nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/second_challenge')
           .reply(200, {
-            'id': 'second_challenge',
-            'fields': {
-              // a bunch of fields
-            },
-          }
+              'id': 'second_challenge',
+              'fields': {
+                // a bunch of fields
+              },
+            }
           );
-          nock('https://api.airtable.com')
+        nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/third_challenge')
           .reply(200, {
-            'id': 'third_challenge',
-            'fields': {
-              // a bunch of fields
-            },
-          }
+              'id': 'third_challenge',
+              'fields': {
+                // a bunch of fields
+              },
+            }
           );
-          done();
-        });
+        done();
+      });
     });
   });
 
@@ -84,7 +85,7 @@ describe('Acceptance | API | Assessments', function () {
     const inserted_assessment = {
       userName: 'John Doe',
       userEmail: 'john.doe@mailmail.com',
-      courseId:'anyFromAirTable'
+      courseId: 'anyFromAirTable'
     };
 
     beforeEach(function (done) {
@@ -97,77 +98,76 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     afterEach(function (done) {
-      knex('assessments').delete().then(() => {done();});
+      knex('assessments').delete().then(() => {
+        done();
+      });
     });
 
     it('should return 200 HTTP status code', function (done) {
 
       knex.select('id')
-      .from('assessments')
-      .limit(1)
-      .then(function() {
-        server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
-          expect(response.statusCode).to.equal(200);
-          done();
+        .from('assessments')
+        .limit(1)
+        .then(function () {
+          server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
+            expect(response.statusCode).to.equal(200);
+            done();
+          });
         });
-      });
 
     });
-
 
     it('should return application/json', function (done) {
 
       knex.select('id')
-      .from('assessments')
-      .limit(1)
-      .then(function() {
-        server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
-          const contentType = response.headers['content-type'];
-          expect(contentType).to.contain('application/json');
-          done();
+        .from('assessments')
+        .limit(1)
+        .then(function () {
+          server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
+            const contentType = response.headers['content-type'];
+            expect(contentType).to.contain('application/json');
+            done();
+          });
         });
-      });
 
     });
-
 
     it('should return the expected assessment', function (done) {
       // XXX: incomplete test, should also demonstrate that it returns the whole answer grape.
       // See https://github.com/sgmap/pix/issues/205
       knex.select('id')
-      .from('assessments')
-      .limit(1)
-      .then(function() {
-        server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
-          const expectedAssessment = {
-            'type':'assessments',
-            'id':inserted_assessment_id,
-            'attributes':
-            {
-              'user-name':'John Doe',
-              'user-email':'john.doe@mailmail.com'
-            },
-            'relationships':
-            {'course':
-            {'data':{'type':'courses','id':'anyFromAirTable'}},
-            'answers':{'data':[]}
-          }
-        };
-        const assessment = response.result.data;
-        expect(assessment).to.deep.equal(expectedAssessment);
-        done();
-      });
-      });
+        .from('assessments')
+        .limit(1)
+        .then(function () {
+          server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
+            const expectedAssessment = {
+              'type': 'assessments',
+              'id': inserted_assessment_id,
+              'attributes': {
+                'user-name': 'John Doe',
+                'user-email': 'john.doe@mailmail.com'
+              },
+              'relationships': {
+                'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
+                'answers': { 'data': [] }
+              }
+            };
+            const assessment = response.result.data;
+            expect(assessment).to.deep.equal(expectedAssessment);
+            done();
+          });
+        });
 
     });
-
 
   });
 
   describe('POST /api/assessments', function () {
 
     afterEach(function (done) {
-      knex('assessments').delete().then(() => {done();});
+      knex('assessments').delete().then(() => {
+        done();
+      });
     });
 
     const options = {
@@ -225,13 +225,13 @@ describe('Acceptance | API | Assessments', function () {
       server.injectThen(options).then((response) => {
 
         new Assessment({ id: response.result.data.id })
-        .fetch()
-        .then(function (model) {
-          expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.data.id);
-          expect(model.get('userName')).to.equal(options.payload.data.attributes['user-name']);
-          expect(model.get('userEmail')).to.equal(options.payload.data.attributes['user-email']);
-          done();
-        });
+          .fetch()
+          .then(function (model) {
+            expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.data.id);
+            expect(model.get('userName')).to.equal(options.payload.data.attributes['user-name']);
+            expect(model.get('userEmail')).to.equal(options.payload.data.attributes['user-email']);
+            done();
+          });
 
       });
     });
@@ -275,7 +275,9 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     afterEach(function (done) {
-      knex('assessments').delete().then(() => {done();});
+      knex('assessments').delete().then(() => {
+        done();
+      });
     });
 
     it('should return 200 HTTP status code', function (done) {
@@ -304,7 +306,10 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return the next challenge otherwise', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge' };
+      const challengeData = {
+        method: 'GET',
+        url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge'
+      };
       server.injectThen(challengeData).then((response) => {
         expect(response.result.data.id).to.equal('second_challenge');
         done();
@@ -312,7 +317,10 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return null if reached the last challenge of the course', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/second_challenge' };
+      const challengeData = {
+        method: 'GET',
+        url: '/api/assessments/' + inserted_assessment_id + '/next/second_challenge'
+      };
       server.injectThen(challengeData).then((response) => {
         expect(response.result).to.equal('null');
         done();
@@ -341,7 +349,9 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     afterEach(function (done) {
-      knex('assessments').delete().then(() => {done();});
+      knex('assessments').delete().then(() => {
+        done();
+      });
     });
 
     it('should return 200 HTTP status code', function (done) {
@@ -412,14 +422,16 @@ describe('Acceptance | API | Assessments', function () {
 
     it('should return the second challenge if the first answer is correct', function (done) {
 
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge' };
+      const challengeData = {
+        method: 'GET',
+        url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge'
+      };
       server.injectThen(challengeData).then((response) => {
         expect(response.result.data.id).to.equal('second_challenge');
         done();
       });
     });
   });
-
 
   describe('(adaptive incorrect answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', function () {
 
@@ -462,14 +474,16 @@ describe('Acceptance | API | Assessments', function () {
 
     it('should return the third challenge if the first answer is incorrect', function (done) {
 
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge' };
+      const challengeData = {
+        method: 'GET',
+        url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge'
+      };
       server.injectThen(challengeData).then((response) => {
         expect(response.result.data.id).to.equal('third_challenge');
         done();
       });
     });
   });
-
 
   describe('(adaptive two answers, with any result) GET /api/assessments/:assessment_id/next/:current_challenge_id', function () {
 
@@ -518,13 +532,15 @@ describe('Acceptance | API | Assessments', function () {
 
     it('should return null if 2 answers are given', function (done) {
 
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge' };
+      const challengeData = {
+        method: 'GET',
+        url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge'
+      };
       server.injectThen(challengeData).then((response) => {
         expect(response.result).to.equal('null');
         done();
       });
     });
   });
-
 
 });
