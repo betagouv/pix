@@ -12,13 +12,13 @@ class CourseSerializer {
 
       const fields = airtableRecord.fields;
 
-      this.name = fields['Nom'];
-      this.description = fields['Description'];
-      this.duration = fields['Durée'];
-      this.isAdaptive = fields['Adaptatif ?'];
+      course.name = fields['Nom'];
+      course.description = fields['Description'];
+      course.duration = fields['Durée'];
+      course.isAdaptive = fields['Adaptatif ?'];
 
       if (fields['Image'] && fields['Image'].length > 0) {
-        this.imageUrl = fields['Image'][0].url;
+        course.imageUrl = fields['Image'][0].url;
       }
 
       // See https://github.com/Airtable/airtable.js/issues/17
@@ -26,7 +26,7 @@ class CourseSerializer {
       if (_.isArray(debuggedFieldsEpreuves)) {
         _.reverse(debuggedFieldsEpreuves);
       }
-      this.challenges = debuggedFieldsEpreuves;
+      course.challenges = debuggedFieldsEpreuves;
     }
 
     return course;

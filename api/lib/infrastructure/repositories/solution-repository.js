@@ -1,6 +1,7 @@
 const Airtable = require('../airtable');
 const Solution = require('../../domain/models/referential/solution');
 const cache = require('../cache');
+const serializer = require('../serializers/airtable/solution-serializer');
 
 const AIRTABLE_TABLE_NAME = 'Epreuves';
 
@@ -20,7 +21,7 @@ module.exports = {
 
           if (err) return reject(err);
 
-          const solution = new Solution(record);
+          const solution = serializer.deserialize(record);
 
           cache.set(`solution_${id}`, solution);
 
