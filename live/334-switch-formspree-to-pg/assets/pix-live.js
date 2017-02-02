@@ -669,8 +669,11 @@ define('pix-live/components/follower-form', ['exports', 'ember'], function (expo
           context.set('hasError', true);
         },
         complete: function complete() {
+          //XXX: Au bout de 1,2 seconde, le formulaire revient à son état initial
+          //XXX: 1,2 s à modifier selon le Po
           _ember['default'].run.later(function () {
             context.set('isSubmited', false);
+            this.set('email', '');
           }, 1200);
         }
       });
@@ -3659,7 +3662,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+44869b5e"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"4.0.0+8d5374c9"});
 }
 
 /* jshint ignore:end */
