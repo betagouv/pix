@@ -28,7 +28,7 @@ module.exports = {
           challengeId: challengeId,
         })
         .fetchAll()
-        .then((answer) => resolve(answer))
+        .then((answers) => resolve(answers.models))
         .catch((err) => reject(err));
 
     });

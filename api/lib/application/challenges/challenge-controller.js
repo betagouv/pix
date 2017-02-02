@@ -1,6 +1,8 @@
 const Boom = require('boom');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
+const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const challengeSerializer = require('../../infrastructure/serializers/challenge-serializer');
+const _ = include('lib/utils/lodash-utils');
 
 module.exports = {
 
@@ -14,6 +16,7 @@ module.exports = {
 
   revalidateAnswers(request, reply) {
     // const allAnswersOfChallenge = answerRepository.findByChallengeId(request.params.challengeId);
+
     return reply(200);
   },
 

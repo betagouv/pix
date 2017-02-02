@@ -94,11 +94,11 @@ describe('Unit | Repository | AnswerRepository', function () {
 
         expect(foundAnswers).to.have.length.of(2);
 
-        expect(foundAnswers.models[0].attributes.value).to.equal(inserted_answer_1.value);
-        expect(foundAnswers.models[0].attributes.challengeId).to.equal(inserted_answer_1.challengeId);
+        expect(foundAnswers[0].attributes.value).to.equal(inserted_answer_1.value);
+        expect(foundAnswers[0].attributes.challengeId).to.equal(inserted_answer_1.challengeId);
 
-        expect(foundAnswers.models[1].attributes.value).to.equal(inserted_answer_2.value);
-        expect(foundAnswers.models[1].attributes.challengeId).to.equal(inserted_answer_2.challengeId);
+        expect(foundAnswers[1].attributes.value).to.equal(inserted_answer_2.value);
+        expect(foundAnswers[1].attributes.challengeId).to.equal(inserted_answer_2.challengeId);
 
         done();
       });
