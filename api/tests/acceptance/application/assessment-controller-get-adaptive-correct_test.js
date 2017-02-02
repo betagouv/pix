@@ -5,59 +5,53 @@ describe('Acceptance | API | Assessments', function () {
 
 
   before(function (done) {
-    knex.migrate.latest().then(() => {
-      knex.seed.run().then(() => {
-
-
-        nock.cleanAll();
-        nock('https://api.airtable.com')
-          .get('/v0/test-base/Tests/w_adaptive_course_id')
-          .query(true)
-          .times(4)
-          .reply(200, {
-            'id': 'w_adaptive_course_id',
-            'fields': {
-              // a bunch of fields
-              'Adaptatif ?': true,
-              '\u00c9preuves': [
-                'w_second_challenge',
-                'w_first_challenge',
-              ],
-            },
-          });
-
-        nock('https://api.airtable.com')
-          .get('/v0/test-base/Epreuves/w_first_challenge')
-          .query(true)
-          .times(3)
-          .reply(200, {
-            'id': 'w_first_challenge',
-            'fields': {
-              // a bunch of fields
-            },
-          });
-        nock('https://api.airtable.com')
-          .get('/v0/test-base/Epreuves/w_second_challenge')
-          .query(true)
-          .reply(200, {
-            'id': 'w_second_challenge',
-            'fields': {
-              // a bunch of fields
-            },
-          });
-        nock('https://api.airtable.com')
-          .get('/v0/test-base/Epreuves/w_third_challenge')
-          .query(true)
-          .reply(200, {
-            'id': 'w_third_challenge',
-            'fields': {
-              // a bunch of fields
-            },
-          });
-
-        done();
+    nock.cleanAll();
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Tests/w_adaptive_course_id')
+      .query(true)
+      .times(4)
+      .reply(200, {
+        'id': 'w_adaptive_course_id',
+        'fields': {
+          // a bunch of fields
+          'Adaptatif ?': true,
+          '\u00c9preuves': [
+            'w_second_challenge',
+            'w_first_challenge',
+          ],
+        },
       });
-    });
+
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Epreuves/w_first_challenge')
+      .query(true)
+      .times(3)
+      .reply(200, {
+        'id': 'w_first_challenge',
+        'fields': {
+          // a bunch of fields
+        },
+      });
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Epreuves/w_second_challenge')
+      .query(true)
+      .reply(200, {
+        'id': 'w_second_challenge',
+        'fields': {
+          // a bunch of fields
+        },
+      });
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Epreuves/w_third_challenge')
+      .query(true)
+      .reply(200, {
+        'id': 'w_third_challenge',
+        'fields': {
+          // a bunch of fields
+        },
+      });
+
+    done();
   });
 
   after(function (done) {

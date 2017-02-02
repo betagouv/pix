@@ -4,14 +4,6 @@ const server = require('../../../server');
 describe('Acceptance | API | Assessments GET', function () {
 
 
-  before(function (done) {
-    knex.migrate.latest().then(() => {
-      knex.seed.run().then(() => {
-        done();
-      });
-    });
-  });
-
   after(function (done) {
     server.stop(done);
   });

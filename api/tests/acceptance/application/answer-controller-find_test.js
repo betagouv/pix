@@ -1,17 +1,9 @@
-/* global describe, before, beforeEach, after, afterEach, knex, it, expect */
+/* global describe, beforeEach, after, afterEach, knex, it, expect */
 const server = require('../../../server');
 
 server.register(require('inject-then'));
 
 describe('Acceptance | API | Answers', function () {
-
-  before(function (done) {
-    knex.migrate.latest().then(() => {
-      knex.seed.run().then(() => {
-        done();
-      });
-    });
-  });
 
   after(function (done) {
     server.stop(done);

@@ -4,15 +4,6 @@ const Assessment = require('../../../lib/domain/models/data/assessment');
 
 describe('Acceptance | API | Assessments POST', function () {
 
-
-  before(function (done) {
-    knex.migrate.latest().then(() => {
-      knex.seed.run().then(() => {
-        done();
-      });
-    });
-  });
-
   after(function (done) {
     server.stop(done);
   });

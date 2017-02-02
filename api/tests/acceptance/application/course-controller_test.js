@@ -3,14 +3,6 @@ const server = require('../../../server');
 
 describe('Acceptance | API | Courses', function () {
 
-  before(function (done) {
-    knex.migrate.latest().then(() => {
-      knex.seed.run().then(() => {
-        done();
-      });
-    });
-  });
-
   after(function (done) {
     server.stop(done);
   });
