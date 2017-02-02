@@ -19,6 +19,14 @@ describe.only('Acceptance | API | ChallengeController', function () {
       });
     });
 
+    it('should return application/json', function (done) {
+      server.injectThen(options).then((response) => {
+        const contentType = response.headers['content-type'];
+        expect(contentType).to.contain('application/json');
+        done();
+      });
+    });
+
   });
 
 
