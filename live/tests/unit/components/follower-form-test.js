@@ -29,7 +29,7 @@ describe('Unit | Component | followerComponent', function () {
       component.set('hasError', true);
       component.set('isSubmited', true);
       // then
-      expect(component.get('infoMessage')).to.equal('Votre adresse n’est pas valide');
+      expect(component.get('infoMessage')).to.equal('Votre adresse n\'est pas valide');
     });
   });
 
