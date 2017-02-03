@@ -49,16 +49,12 @@
             </div>
           {{/if}}
         </div>
-
-
-
-
       </div>
 
       <div class="routable-modal--body comparison-window--body">
 
         {{!--  XXX margin-top of next element not working, need empty element here  --}}
-        <div class="empty-stuff">&nbsp;</div>
+        <div class="empty-stuff" style="border: 1px solid red;">&nbsp;</div>
 
         <div class="rounded-panel comparison-window__instruction">
           <div class="rounded-panel__row ">
@@ -75,19 +71,13 @@
                 alt="Illustration de l'épreuve">
          </div>
          {{/if}}
-
         </div>
-
-
 
         <div class="rounded-panel comparison-window__instruction">
           <div class="rounded-panel__row ">
             {{#each labeledCheckboxes as |labeledCheckbox index|}}
             <p class="challenge-response__proposal">
               <label class="challenge-response__proposal-label">
-
-
-
                 {{!-- checkbox --}}
                 <input class="comparison-window-boolean"
                        type="checkbox"
@@ -95,31 +85,20 @@
                        name="{{inc index}}"
                        checked={{labeledCheckbox.[1]}}
                 />
-
                 {{!-- text of proposal  --}}
                 <span
                   class="comparison-window-oracle"
                   data-goodness="{{if (get solutionArray (concat index)) 'good' 'bad'}}"
                   data-checked={{if labeledCheckbox.[1] 'yes' 'no'}}
                 >
-
                     {{labeledCheckbox.[0]}}
-
                 </span>
-
               </label>
             </p>
             {{/each}}
           </div>
         </div>
-
       </div>
-
-
-
-
-
-
     </div>
   </div>
 </div>

@@ -1,11 +1,7 @@
 import Ember from 'ember';
 import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
 
-export default Ember.Component.extend({
-
-  // answer comes from declaration
-  // challenge comes from declaration
-  // solution comes from declaration
+const ComparisonWindow = Ember.Component.extend({
 
   solutionArray: Ember.computed('solution', function() {
     return this.get('solution').get('_valueAsArrayOfBoolean');
@@ -13,6 +9,12 @@ export default Ember.Component.extend({
 
   labeledCheckboxes: Ember.computed('answer', function() {
     return labeledCheckboxes(this.get('challenge').get('_proposalsAsArray'), this.get('answer').get('_valueAsArrayOfBoolean'));
-  }),
+  })
 
 });
+
+ComparisonWindow.reopenClass({
+  positionalParams: ['answer','challenge','solution','index']
+});
+
+export default ComparisonWindow;

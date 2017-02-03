@@ -3,10 +3,6 @@
   margin: 30px auto;
 }
 
-.comparison-window--dialog {
-
-}
-
 .comparison-window--content, .comparison-window--body {
   border-radius: 5px;
 }
@@ -49,12 +45,9 @@
   border:none;
   background-color: transparent;
   color: #ffffff;
-
 }
 
 /*Modal Header*/
-
-
 .comparison-window--header {
   position: relative;
   display: flex;
@@ -91,8 +84,6 @@
 }
 
 /*Close button*/
-
 .close-button-container {
   display: flex;
 }
-
