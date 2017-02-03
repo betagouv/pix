@@ -1,6 +1,3 @@
-
-
-
 export default {
   data: {
     type: 'solutions',
@@ -10,4 +7,3 @@ export default {
     }
   }
 };
-

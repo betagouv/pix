@@ -20,9 +20,6 @@ describe('int938 Integration | Component | WindowComparison', function () {
     let solution;
 
     beforeEach(function () {
-      // answer = '1,2';
-      // challenge = {};
-      // solution = '2,3';
 
       challenge = Ember.Object.create({
         instruction: 'This is the instruction',
@@ -62,12 +59,6 @@ describe('int938 Integration | Component | WindowComparison', function () {
       expect(this.$()).to.have.length(1);
       expect(this.$('.comparison-window--body .challenge-statement__instruction').text()).to.equal('This is the instruction');
       expect(this.$('.assessment-results-result-index').text().trim()).to.equal('3');
-      // expect(this.$('.comparison-window .assessment-results-result-text').text()).to.equal('blabla');
-      // expect(this.$().text()).to.equal('This is the instruction');
     });
-
-
-
   });
-
 });

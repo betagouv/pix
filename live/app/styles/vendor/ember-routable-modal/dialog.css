@@ -28,11 +28,11 @@ button.routable-modal--close {
     color: #777;
     cursor: pointer;
     float: right;
+}
 
-    &:hover,
-    &:focus,
-    &:active {
-        color: #000;
-        outline: 0;
-    }
+button.routable-modal--close:hover,
+button.routable-modal--close:focus,
+button.routable-modal--close:active {
+  color: #000;
+  outline: 0;
 }
