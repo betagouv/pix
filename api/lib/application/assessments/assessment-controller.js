@@ -1,14 +1,14 @@
 const Boom = require('boom');
-const assessmentSerializer = include('lib/infrastructure/serializers/assessment-serializer');
-const solutionSerializer = include('lib/infrastructure/serializers/solution-serializer');
-const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
+const assessmentSerializer = require('../../infrastructure/serializers/assessment-serializer');
+const solutionSerializer = require('../../infrastructure/serializers/solution-serializer');
+const assessmentRepository = require('/infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/challenge-serializer');
-const courseRepository = include('lib/infrastructure/repositories/course-repository');
-const _ = include('lib/utils/lodash-utils');
-const answerRepository = include('lib/infrastructure/repositories/answer-repository');
-const solutionRepository = include('lib/infrastructure/repositories/solution-repository');
+const courseRepository = require('../../infrastructure/repositories/course-repository');
+const _ = require('../../utils/lodash-utils');
+const answerRepository = require('../../infrastructure/repositories/answer-repository');
+const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
 module.exports = {
 
