@@ -1,5 +1,6 @@
 .comparison-window {
-
+  max-width: 600px;
+  margin: 30px auto;
 }
 
 .comparison-window--dialog {
@@ -23,12 +24,12 @@
   font-size: 16px;
 }
 
-.comparison-oracle[data-goodness='good'] {
+.comparison-window-oracle[data-goodness='good'] {
   color: #13c9a0;
   font-weight: 900;
 }
 
-.comparison-oracle[data-goodness='bad'][data-checked='yes'] {
+.comparison-window-oracle[data-goodness='bad'][data-checked='yes'] {
   text-decoration: line-through;
 }
 
@@ -38,6 +39,9 @@
 /*Modal Close button*/
 
 .routable-modal--close-button {
+  position: absolute;
+  top: -25px;
+  right: -10px; /*XXX : right alignment, found no other way to achieve it;*/
   margin-right: 0px;
   height: 17px;
   font-family: var(--font-lato);
@@ -52,6 +56,7 @@
 
 
 .comparison-window--header {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -85,29 +90,9 @@
   margin-left: 22px;
 }
 
-/*Modal footer*/
+/*Close button*/
 
-
-.routable-modal--footer, .comparison-window--footer {
+.close-button-container {
   display: flex;
-  max-width: 1070px;
-  height: 50px;
-  border-radius: 5px;
-  background-color: #dedede;
-  align-items: center;
 }
 
-.routable-modal__signalize {
-  margin-left: 40px;
-  font-family: var(--font-lato);
-  font-size: 14px;
-  font-weight: bold;
-  text-align: center;
-  color: var(--charcoal-grey);
-}
-
-.routable-modal__signalize-button {
-  border:none;
-  text-decoration:none;
-  background-color: #dedede;
-}

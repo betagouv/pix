@@ -59,7 +59,7 @@
 
     <div class="js-correct-answer assessment-results-result-correction">
       {{#if (eq answer.challenge.type "QCM")}}
-        <button class="assessment-results-result-correction-button" {{action (route-action "openComparison" assessment.id answer.id index)}}> RÉPONSE </button>
+        <button class="assessment-results-result-correction-button" {{action (route-action "openComparison" assessment.id answer.id (add index 1))}}> RÉPONSE </button>
       {{/if}}
     </div>
 
