@@ -22,18 +22,12 @@ module.exports = {
   findByAssessment(assessmentId) {
 
     return new Promise((resolve, reject) => {
-
       Answer
-        .where({
-          assessmentId: assessmentId
-        })
+        .where({ assessmentId })
         .fetchAll()
-        .then((answers) => resolve(answers))
-        .catch((err) => reject(err));
-
+        .then(resolve)
+        .catch(reject);
     });
-
-  },
-
+  }
 
 };

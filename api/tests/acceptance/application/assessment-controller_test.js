@@ -4,7 +4,6 @@ const Assessment = require('../../../lib/domain/models/data/assessment');
 
 describe('Acceptance | API | Assessments', function () {
 
-
   before(function (done) {
     knex.migrate.latest().then(() => {
       knex.seed.run().then(() => {
@@ -97,7 +96,6 @@ describe('Acceptance | API | Assessments', function () {
             },
             createdTime: '2016-08-09T15:17:53.000Z'
           });
-
           done();
         });
     });
@@ -142,7 +140,6 @@ describe('Acceptance | API | Assessments', function () {
           done();
         });
       });
-
     });
 
 
@@ -158,7 +155,6 @@ describe('Acceptance | API | Assessments', function () {
           done();
         });
       });
-
     });
 
 
@@ -189,10 +185,7 @@ describe('Acceptance | API | Assessments', function () {
         done();
       });
       });
-
     });
-
-
   });
 
   describe('POST /api/assessments', function () {
@@ -263,7 +256,6 @@ describe('Acceptance | API | Assessments', function () {
           expect(model.get('userEmail')).to.equal(options.payload.data.attributes['user-email']);
           done();
         });
-
       });
     });
 
@@ -283,7 +275,6 @@ describe('Acceptance | API | Assessments', function () {
         done();
       });
     });
-
   });
 
   describe('(non-adaptive) GET /api/assessments/:assessment_id/next', function () {
@@ -451,9 +442,7 @@ describe('Acceptance | API | Assessments', function () {
     });
   });
 
-
   describe('(adaptive incorrect answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', function () {
-
     //assessment
     let inserted_assessment_id = null;
 
@@ -557,12 +546,6 @@ describe('Acceptance | API | Assessments', function () {
     });
   });
 
-
-
-
-
-
-
   describe('(failing case) GET /api/assessments/{id}/solutions/{answerId}', function () {
 
     let inserted_assessment_id = null;
@@ -611,7 +594,6 @@ describe('Acceptance | API | Assessments', function () {
         expect(response.result).to.equal('null');
         done();
       });
-
     });
 
     it('should return default value if assessment exists, but not the answer', function (done) {
@@ -621,7 +603,6 @@ describe('Acceptance | API | Assessments', function () {
         expect(response.result).to.equal('null');
         done();
       });
-
     });
 
     it('should return default value if assessment exists, answer exists, but assessment is not over', function (done) {
@@ -632,7 +613,6 @@ describe('Acceptance | API | Assessments', function () {
         done();
       });
     });
-
   });
 
   describe('(success case) GET /api/assessments/{id}/solutions/{answerId}', function () {
@@ -694,21 +674,6 @@ describe('Acceptance | API | Assessments', function () {
 
         done();
       });
-
     });
-
-
-
   });
 });
-
-
-
-
-
-
-
-
-
-
-

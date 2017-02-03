@@ -1,7 +1,7 @@
 const Boom = require('boom');
 const assessmentSerializer = require('../../infrastructure/serializers/assessment-serializer');
 const solutionSerializer = require('../../infrastructure/serializers/solution-serializer');
-const assessmentRepository = require('/infrastructure/repositories/assessment-repository');
+const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/challenge-serializer');
@@ -62,7 +62,7 @@ module.exports = {
             const answersLength = _.get(answers, 'length', 0);
 
             courseRepository
-              .get(assessment.attributes.courseId)
+              .get(assessment.get('courseId'))
               .then((course) => {
 
                 const challengesLength = _.get(course, 'challenges.length', 0);
