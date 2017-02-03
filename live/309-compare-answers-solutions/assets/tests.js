@@ -151,7 +151,6 @@ define('pix-live/tests/acceptance/a3-voir-liste-tests-test', ['exports', 'mocha'
       var $course = findWithAssert('.course[data-id="raw_course_id"]');
       (0, _chai.expect)($course.find('img')[0].src).to.contains('images/course-default-image.png');
     });
-    //
   });
 });
 define('pix-live/tests/acceptance/a3-voir-liste-tests-test.lint-test', ['exports'], function (exports) {
@@ -3434,9 +3433,6 @@ define('pix-live/tests/integration/components/window-comparison-test', ['exports
       var solution = undefined;
 
       beforeEach(function () {
-        // answer = '1,2';
-        // challenge = {};
-        // solution = '2,3';
 
         challenge = _ember['default'].Object.create({
           instruction: 'This is the instruction',
@@ -3475,8 +3471,6 @@ define('pix-live/tests/integration/components/window-comparison-test', ['exports
         (0, _chai.expect)(this.$()).to.have.length(1);
         (0, _chai.expect)(this.$('.comparison-window--body .challenge-statement__instruction').text()).to.equal('This is the instruction');
         (0, _chai.expect)(this.$('.assessment-results-result-index').text().trim()).to.equal('3');
-        // expect(this.$('.comparison-window .assessment-results-result-text').text()).to.equal('blabla');
-        // expect(this.$().text()).to.equal('This is the instruction');
       });
     });
   });
