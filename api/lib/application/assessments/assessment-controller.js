@@ -55,7 +55,6 @@ module.exports = {
 
   getAssessmentSolutions(request, reply) {
 
-
     assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
@@ -63,7 +62,7 @@ module.exports = {
           return reply('null');
         } else {
 
-          answerRepository.findByAssessment(assessment.attributes.id).then((answers) => {
+          answerRepository.findByAssessment(assessment.get('id')).then((answers) => {
             const answersLength = _.get(answers, 'length', 0);
 
             courseRepository
@@ -75,7 +74,7 @@ module.exports = {
                 if (challengesLength > 0 && _.isEqual(answersLength, challengesLength)) {
 
                   const modelAnswers = _.map(answers.models, (o) => o.attributes);
-                  const requestedAnswer = _.find(modelAnswers, {id: _.parseInt(request.params.answerId)});
+                  const requestedAnswer = _.find(modelAnswers, { id: _.parseInt(request.params.answerId) });
 
                   solutionRepository
                     .get(requestedAnswer.challengeId)
