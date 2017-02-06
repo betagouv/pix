@@ -1,3 +1,6 @@
+/* global sinon */
+const { before, beforeEach, describe, it, after } = require('mocha');
+const { expect } = require('chai');
 const Hapi = require('hapi');
 const UserController = require('../../../../lib/application/users/user-controller');
 

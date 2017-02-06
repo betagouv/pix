@@ -1,8 +1,9 @@
-/* global describe, before, after, beforeEach, afterEach, knex, it, expect */
+/* global knex */
+const { describe, it, after, beforeEach, afterEach } = require('mocha');
+const { expect } = require('chai');
 const server = require('../../../server');
 
 describe('Acceptance | API | Assessments GET', function () {
-
 
   after(function (done) {
     server.stop(done);

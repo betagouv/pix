@@ -1,4 +1,5 @@
-/* global describe, it, expect */
+const { describe, it } = require('mocha');
+const { expect } = require('chai');
 
 const _ = include('lib/utils/lodash-utils'); // our custom function(s) of lodash
 const original_lodash = require('lodash');

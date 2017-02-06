@@ -1,4 +1,6 @@
-/* global describe, before, after, knex, nock, it, expect */
+/* global nock */
+const { describe, it, before, after } = require('mocha');
+const { expect } = require('chai');
 const server = require('../../../server');
 
 describe('Acceptance | API | ChallengeController', function () {

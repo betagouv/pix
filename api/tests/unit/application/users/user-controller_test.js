@@ -1,6 +1,8 @@
+/* global sinon */
+const { before, describe, it, after } = require('mocha');
+const { expect } = require('chai');
 const Hapi = require('hapi');
 const User = require('../../../../lib/domain/models/data/user');
-const cache = require('../../../../lib/infrastructure/cache');
 
 describe('Unit | Controller | UserController', function () {
 

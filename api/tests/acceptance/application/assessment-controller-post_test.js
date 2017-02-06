@@ -1,4 +1,6 @@
-/* global describe, before, after, afterEach, knex, it, expect */
+/* global knex */
+const { describe, it, after, afterEach } = require('mocha');
+const { expect } = require('chai');
 const server = require('../../../server');
 const Assessment = require('../../../lib/domain/models/data/assessment');
 

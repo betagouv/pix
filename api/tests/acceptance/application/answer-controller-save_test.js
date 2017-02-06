@@ -1,5 +1,5 @@
 /* global knex, nock */
-const { describe, before, beforeEach, after, afterEach, it } = require('mocha');
+const { describe, it, before, after, beforeEach, afterEach } = require('mocha');
 const { expect } = require('chai');
 const server = require('../../../server');
 const Answer = require('../../../lib/domain/models/data/answer');
