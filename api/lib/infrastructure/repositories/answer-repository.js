@@ -4,15 +4,12 @@ module.exports = {
 
   findByChallengeAndAssessment(challengeId, assessmentId) {
 
-    return new Promise((resolve, reject) => {
-
+    return Promise.resolve(
       Answer
         .where({ challengeId, assessmentId })
         .fetch()
         .then(resolve)
         .catch(reject);
-
     });
-
   }
 };
