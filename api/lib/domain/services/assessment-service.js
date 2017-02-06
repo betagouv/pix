@@ -14,7 +14,7 @@ function _selectNextInAdaptiveMode(assessment) {
       const responsePattern = answers.map(answer => (answer.attributes.result == 'ok') ? 'ok' : 'ko').join('-');
 
       Scenario.where('path', responsePattern).orderBy('updatedAt', 'DESC').fetch().then((scenario) => {
-        if(scenario == null) {
+        if (!scenario) {
           return resolve(null);
         } else if(scenario.attributes.nextChallengeId == 'null') {
           resolve(null);

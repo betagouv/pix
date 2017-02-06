@@ -79,9 +79,9 @@ describe('Acceptance | API | Assessments', function () {
 
   describe('GET /api/assessments/:id', function () {
 
-    let inserted_assessment_id = null;
+    let insertedAssessmentId = null;
 
-    const inserted_assessment = {
+    const insertedAssessment = {
       userName: 'John Doe',
       userEmail: 'john.doe@mailmail.com',
       courseId:'anyFromAirTable'
@@ -89,8 +89,8 @@ describe('Acceptance | API | Assessments', function () {
 
     beforeEach(function (done) {
       knex('assessments').delete().then(() => {
-        knex('assessments').insert([inserted_assessment]).then((rows) => {
-          inserted_assessment_id = rows[0];
+        knex('assessments').insert([insertedAssessment]).then((rows) => {
+          insertedAssessmentId = rows[0];
           done();
         });
       });
@@ -106,7 +106,7 @@ describe('Acceptance | API | Assessments', function () {
       .from('assessments')
       .limit(1)
       .then(function() {
-        server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
+        server.injectThen({ method: 'GET', url: `/api/assessments/${insertedAssessmentId}` }).then((response) => {
           expect(response.statusCode).to.equal(200);
           done();
         });
@@ -121,7 +121,7 @@ describe('Acceptance | API | Assessments', function () {
       .from('assessments')
       .limit(1)
       .then(function() {
-        server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
+        server.injectThen({ method: 'GET', url: `/api/assessments/${insertedAssessmentId}` }).then((response) => {
           const contentType = response.headers['content-type'];
           expect(contentType).to.contain('application/json');
           done();
@@ -138,10 +138,10 @@ describe('Acceptance | API | Assessments', function () {
       .from('assessments')
       .limit(1)
       .then(function() {
-        server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
+        server.injectThen({ method: 'GET', url: `/api/assessments/${insertedAssessmentId}` }).then((response) => {
           const expectedAssessment = {
             'type':'assessments',
-            'id':inserted_assessment_id,
+            'id': insertedAssessmentId,
             'attributes':
             {
               'user-name':'John Doe',
@@ -257,9 +257,9 @@ describe('Acceptance | API | Assessments', function () {
 
   describe('(non-adaptive) GET /api/assessments/:assessment_id/next', function () {
 
-    let inserted_assessment_id = null;
+    let insertedAssessmentId = null;
 
-    const inserted_assessment = {
+    const insertedAssessment = {
       userName: 'John Doe',
       userEmail: 'john.doe@mailmail.com',
       courseId: 'non_adaptive_course_id'
@@ -267,8 +267,8 @@ describe('Acceptance | API | Assessments', function () {
 
     beforeEach(function (done) {
       knex('assessments').delete().then(() => {
-        knex('assessments').insert([inserted_assessment]).then((rows) => {
-          inserted_assessment_id = rows[0];
+        knex('assessments').insert([insertedAssessment]).then((rows) => {
+          insertedAssessmentId = rows[0];
           done();
         });
       });
@@ -279,7 +279,7 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return 200 HTTP status code', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next' };
+      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
       server.injectThen(challengeData).then((response) => {
         expect(response.statusCode).to.equal(200);
         done();
@@ -287,7 +287,7 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return application/json', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next' };
+      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
       server.injectThen(challengeData).then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
@@ -296,7 +296,7 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return the first challenge if no challenge specified', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next' };
+      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
       server.injectThen(challengeData).then((response) => {
         expect(response.result.data.id).to.equal('first_challenge');
         done();
@@ -304,7 +304,7 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return the next challenge otherwise', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge' };
+      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge' };
       server.injectThen(challengeData).then((response) => {
         expect(response.result.data.id).to.equal('second_challenge');
         done();
@@ -312,7 +312,7 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return null if reached the last challenge of the course', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/second_challenge' };
+      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/second_challenge' };
       server.injectThen(challengeData).then((response) => {
         expect(response.result).to.equal('null');
         done();
@@ -323,9 +323,9 @@ describe('Acceptance | API | Assessments', function () {
 
   describe('(adaptive) GET /api/assessments/:assessment_id/next', function () {
 
-    let inserted_assessment_id = null;
+    let insertedAssessmentId = null;
 
-    const inserted_assessment = {
+    const insertedAssessment = {
       userName: 'John Doe',
       userEmail: 'john.doe@mailmail.com',
       courseId: 'adaptive_course_id'
@@ -333,8 +333,8 @@ describe('Acceptance | API | Assessments', function () {
 
     beforeEach(function (done) {
       knex('assessments').delete().then(() => {
-        knex('assessments').insert([inserted_assessment]).then((rows) => {
-          inserted_assessment_id = rows[0];
+        knex('assessments').insert([insertedAssessment]).then((rows) => {
+          insertedAssessmentId = rows[0];
           done();
         });
       });
@@ -345,7 +345,7 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return 200 HTTP status code', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next' };
+      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
       server.injectThen(challengeData).then((response) => {
         expect(response.statusCode).to.equal(200);
         done();
@@ -353,7 +353,7 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return application/json', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next' };
+      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
       server.injectThen(challengeData).then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
@@ -362,7 +362,7 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return the first challenge if no challenge specified', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next' };
+      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
       server.injectThen(challengeData).then((response) => {
         expect(response.result.data.id).to.equal('first_challenge');
         done();
@@ -374,15 +374,15 @@ describe('Acceptance | API | Assessments', function () {
   describe('(adaptive correct answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', function () {
 
     //assessment
-    let inserted_assessment_id = null;
+    let insertedAssessmentId = null;
 
-    const inserted_assessment = {
+    const insertedAssessment = {
       userName: 'John Doe',
       userEmail: 'john.doe@mailmail.com',
       courseId: 'adaptive_course_id'
     };
 
-    const inserted_scenarios = [{
+    const insertedScenarios = [{
       courseId: 'adaptive_course_id',
       path: 'ok',
       nextChallengeId: 'second_challenge'
@@ -394,21 +394,21 @@ describe('Acceptance | API | Assessments', function () {
 
     beforeEach(function (done) {
       knex('assessments').delete().then(() => {
-        knex('assessments').insert([inserted_assessment]).then((rows) => {
-          inserted_assessment_id = rows[0];
+        knex('assessments').insert([insertedAssessment]).then((rows) => {
+          insertedAssessmentId = rows[0];
 
           const inserted_answer = {
             value: 'any good answer',
             result: 'ok',
             challengeId: 'anyChallengeIdFromAirtable',
-            assessmentId: inserted_assessment_id
+            assessmentId: insertedAssessmentId
           };
 
           knex('answers').delete().then(() => {
             knex('answers').insert([inserted_answer]).then(() => {
 
               knex('scenarios').delete().then(() => {
-                knex('scenarios').insert(inserted_scenarios).then(() => {
+                knex('scenarios').insert(insertedScenarios).then(() => {
                   done();
                 });
               });
@@ -428,7 +428,7 @@ describe('Acceptance | API | Assessments', function () {
 
     it('should return the second challenge if the first answer is correct', function (done) {
 
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge' };
+      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge' };
       server.injectThen(challengeData).then((response) => {
         expect(response.result.data.id).to.equal('second_challenge');
         done();
@@ -440,9 +440,9 @@ describe('Acceptance | API | Assessments', function () {
   describe('(adaptive incorrect answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', function () {
 
     //assessment
-    let inserted_assessment_id = null;
+    let insertedAssessmentId = null;
 
-    const inserted_assessment = {
+    const insertedAssessment = {
       userName: 'John Doe',
       userEmail: 'john.doe@mailmail.com',
       courseId: 'adaptive_course_id'
@@ -450,14 +450,14 @@ describe('Acceptance | API | Assessments', function () {
 
     beforeEach(function (done) {
       knex('assessments').delete().then(() => {
-        knex('assessments').insert([inserted_assessment]).then((rows) => {
-          inserted_assessment_id = rows[0];
+        knex('assessments').insert([insertedAssessment]).then((rows) => {
+          insertedAssessmentId = rows[0];
 
           const inserted_answer = {
             value: 'any bad answer',
             result: 'ko',
             challengeId: 'anyChallengeIdFromAirtable',
-            assessmentId: inserted_assessment_id
+            assessmentId: insertedAssessmentId
           };
           knex('answers').delete().then(() => {
             knex('answers').insert([inserted_answer]).then(() => {
@@ -478,7 +478,7 @@ describe('Acceptance | API | Assessments', function () {
 
     it('should return the third challenge if the first answer is incorrect', function (done) {
 
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge' };
+      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge' };
       server.injectThen(challengeData).then((response) => {
         expect(response.result.data.id).to.equal('third_challenge');
         done();
@@ -490,9 +490,9 @@ describe('Acceptance | API | Assessments', function () {
   describe('(adaptive two answers, with any result) GET /api/assessments/:assessment_id/next/:current_challenge_id', function () {
 
     //assessment
-    let inserted_assessment_id = null;
+    let insertedAssessmentId = null;
 
-    const inserted_assessment = {
+    const insertedAssessment = {
       userName: 'John Doe',
       userEmail: 'john.doe@mailmail.com',
       courseId: 'adaptive_course_id'
@@ -500,20 +500,20 @@ describe('Acceptance | API | Assessments', function () {
 
     beforeEach(function (done) {
       knex('assessments').delete().then(() => {
-        knex('assessments').insert([inserted_assessment]).then((rows) => {
-          inserted_assessment_id = rows[0];
+        knex('assessments').insert([insertedAssessment]).then((rows) => {
+          insertedAssessmentId = rows[0];
 
           const inserted_answer_1 = {
             value: 'any bad answer',
             result: 'ko',
             challengeId: 'anyChallengeIdFromAirtable',
-            assessmentId: inserted_assessment_id
+            assessmentId: insertedAssessmentId
           };
           const inserted_answer_2 = {
             value: 'any good answer',
             result: 'ok',
             challengeId: 'anyChallengeIdFromAirtable',
-            assessmentId: inserted_assessment_id
+            assessmentId: insertedAssessmentId
           };
           knex('answers').delete().then(() => {
             knex('answers').insert([inserted_answer_1, inserted_answer_2]).then(() => {
@@ -534,7 +534,7 @@ describe('Acceptance | API | Assessments', function () {
 
     it('should return null if 2 answers are given', function (done) {
 
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/first_challenge' };
+      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge' };
       server.injectThen(challengeData).then((response) => {
         expect(response.result).to.equal('null');
         done();
