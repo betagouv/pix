@@ -8,8 +8,6 @@ module.exports = {
       Answer
         .where({ challengeId, assessmentId })
         .fetch()
-        .then(resolve)
-        .catch(reject);
-    });
+    );
   }
 };
