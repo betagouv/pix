@@ -470,7 +470,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
     });
 
     (0, _mocha.it)('b2.5 By default, already checked checkboxes are checked', function () {
-      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(3);
+      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
     });
 
     (0, _mocha.it)('b2.6 It should render an ordered list of instruction', function () {
@@ -486,7 +486,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
 
     (0, _mocha.it)('b2.8 Error alert box should be displayed if user validate without checking a checkbox', function () {
       var $validateLink = $('.challenge-actions__action-validate');
-      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(3);
+      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
       $('input:checkbox').prop('checked', false);
       (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(0);
       click($validateLink);
@@ -860,12 +860,12 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['exports', 'mocha', '
 
     (0, _mocha.it)('c1.3 Pour une bonne réponse, le tableau récapitulatif donne une indication adéquate', function () {
       var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
-      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse correcte');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
     });
 
     (0, _mocha.it)('c1.4 Pour une mauvaise réponse, le tableau récapitulatif donne une indication adéquate', function () {
       var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
-      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
+      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse correcte');
     });
 
     (0, _mocha.it)('c1.5 Pour une réponse dont la validation n\'est pas encore implémentée, le tableau récapitulatif donne une indication adéquate', function () {
@@ -1557,10 +1557,395 @@ define('pix-live/tests/acceptance/i1-page-warning-timee-test.lint-test', ['expor
     });
   });
 });
+define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveUtilsLodashCustom) {
+
+  // see http://stackoverflow.com/a/7349478/2595513
+  function charCount(str) {
+    return str.match(/[a-zA-Z]/g).length;
+  }
+
+  (0, _mocha.describe)('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', function () {
+
+    var RESULT_URL = '/assessments/ref_assessment_id/results';
+    var COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1';
+
+    var CSS_BOLD_FONT_WEIGHT = '900';
+    var CSS_NORMAL_FONT_WEIGHT = '400';
+
+    var CSS_GREEN_COLOR = 'rgb(19, 201, 160)';
+    var CSS_BLACK_COLOR = 'rgb(51, 51, 51)';
+
+    var CSS_LINETHROUGH_ON = 'line-through';
+    var CSS_LINETHROUGH_OFF = 'none';
+
+    var TEXT_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre .assessment-results-result-text';
+    var SVG_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre svg';
+    var INDEX_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-index';
+
+    var TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
+    var IMAGE_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__illustration-section';
+
+    var CHECKBOX_CORRECT_AND_CHECKED = '.comparison-window .comparison-window-boolean:eq(1)';
+    var LABEL_CORRECT_AND_CHECKED = '.comparison-window .comparison-window-oracle:eq(1)';
+
+    var CHECKBOX_CORRECT_AND_UNCHECKED = '.comparison-window .comparison-window-boolean:eq(2)';
+    var LABEL_CORRECT_AND_UNCHECKED = '.comparison-window .comparison-window-oracle:eq(2)';
+
+    var CHECKBOX_INCORRECT_AND_CHECKED = '.comparison-window .comparison-window-boolean:eq(3)';
+    var LABEL_INCORRECT_AND_CHECKED = '.comparison-window .comparison-window-oracle:eq(3)';
+
+    var CHECKBOX_INCORRECT_AND_UNCHECKED = '.comparison-window .comparison-window-boolean:eq(0)';
+    var LABEL_INCORRECT_AND_UNCHECKED = '.comparison-window .comparison-window-oracle:eq(0)';
+
+    var application = undefined;
+
+    before(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    after(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.describe)('j1.1 Affiche sur la ligne de l\'épreuve le mot REPONSE pour un QCM sur l\'écran des résultats', function () {
+      (0, _mocha.it)('j1.1.1 il l\'affiche pour un QCM mais pas pour les autres types d\'épreuves', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($('.assessment-results-list-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
+              (0, _chai.expect)($('.assessment-results-list-item:eq(1) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QCU
+              (0, _chai.expect)($('.assessment-results-list-item:eq(2) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QRU
+              (0, _chai.expect)($('.assessment-results-list-item:eq(3) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROC
+              (0, _chai.expect)($('.assessment-results-list-item:eq(4) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROCM
+
+            case 7:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+    });
+
+    (0, _mocha.describe)('j1.2 Accès à la modale', function () {
+      (0, _mocha.it)('j1.2.2 On peut accèder directement à la modale via URL et fermer la modale', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 2:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
+              // XXX test env needs the modal to be closed manually
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 5:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 6:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+      (0, _mocha.it)('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(click('.assessment-results-result-correction-button'));
+
+            case 5:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
+              // XXX test env needs the modal to be closed manually
+              context$3$0.next = 8;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 8:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 9:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+    });
+
+    (0, _mocha.describe)('j1.3 Contenu de la modale : résultat & instruction', function () {
+
+      (0, _mocha.it)('j1.3.1 Vérification de l\'index, ainsi que l\'image et le texte du résultat dans le header', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+              (0, _chai.expect)($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+              (0, _chai.expect)($(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+
+              context$3$0.next = 7;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 7:
+              (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('1');
+              (0, _chai.expect)($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(1);
+              (0, _chai.expect)(charCount($(TEXT_OF_RESULT_SELECTOR).text())).to.be.above(5); // XXX : Above 5 means "must be a sentence"
+
+              // XXX test env needs the modal to be closed manually
+              context$3$0.next = 12;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 12:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 13:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('j1.3.2 Vérification de la présence de l\'instruction, texte et image', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(0);
+              (0, _chai.expect)($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(0);
+
+              context$3$0.next = 6;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 6:
+              (0, _chai.expect)(charCount($(TEXT_OF_INSTRUCTION_SELECTOR).text())).to.be.above(5); // XXX : Above 5 means "must be a sentence"
+              (0, _chai.expect)($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
+
+              // XXX test env needs the modal to be closed manually
+              context$3$0.next = 10;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 10:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 11:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+    });
+
+    (0, _mocha.describe)('j1.4 Contenu de la modale : propositions', function () {
+
+      (0, _mocha.it)('j1.4.1 QCM correcte et cochée', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
+              (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
+
+              context$3$0.next = 6;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 6:
+              (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+              (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
+              (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
+              (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
+              (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+
+              // XXX test env needs the modal to be closed manually
+              context$3$0.next = 13;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 13:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 14:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('j1.4.2 QCM correcte et non cochée', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($(CHECKBOX_CORRECT_AND_UNCHECKED)).to.have.lengthOf(0);
+              (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED)).to.have.lengthOf(0);
+
+              context$3$0.next = 6;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 6:
+              (0, _chai.expect)($(CHECKBOX_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+              (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
+              (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
+              (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
+              (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+
+              // XXX test env needs the modal to be closed manually
+              context$3$0.next = 13;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 13:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 14:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('j1.4.3 QCM incorrecte et cochée', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_CHECKED)).to.have.lengthOf(0);
+              (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED)).to.have.lengthOf(0);
+
+              context$3$0.next = 6;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 6:
+              (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+              (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
+              (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
+              (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
+              (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_ON);
+
+              // XXX test env needs the modal to be closed manually
+              context$3$0.next = 13;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 13:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 14:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('j1.4.4 QCM incorrecte et non cochée', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_UNCHECKED)).to.have.lengthOf(0);
+              (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED)).to.have.lengthOf(0);
+
+              context$3$0.next = 6;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 6:
+              (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+              (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
+              (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
+              (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
+              (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+
+              // XXX test env needs the modal to be closed manually
+              context$3$0.next = 13;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 13:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 14:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('j1.4.5 Aucune case à cocher n\'est cliquable', function callee$2$0() {
+        var size;
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 2:
+              size = $('.comparison-window .comparison-window-boolean').length;
+
+              _pixLiveUtilsLodashCustom['default'].times(size, function (index) {
+                (0, _chai.expect)($('.comparison-window .comparison-window-boolean:eq(' + index + ')').is(':disabled')).to.equal(true);
+              });
+
+              // XXX test env needs the modal to be closed manually
+              context$3$0.next = 6;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 6:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 7:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/j1-compare-answer-solution-qcm-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/adapters/application.lint-test', ['exports'], function (exports) {
   'use strict';
 
   describe('ESLint - adapters/application.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/adapters/solution.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - adapters/solution.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -1678,6 +2063,15 @@ define('pix-live/tests/components/challenge-stay.lint-test', ['exports'], functi
   'use strict';
 
   describe('ESLint - components/challenge-stay.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/comparison-window.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/comparison-window.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -3021,6 +3415,75 @@ define('pix-live/tests/integration/components/qrocm-proposal-test.lint-test', ['
     });
   });
 });
+define('pix-live/tests/integration/components/window-comparison-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
+
+  (0, _mocha.describe)('int938 Integration | Component | WindowComparison', function () {
+
+    (0, _emberMocha.setupComponentTest)('comparison-window', {
+      integration: true
+    });
+
+    /* Rendering
+    ----------------------------------------------------- */
+
+    (0, _mocha.describe)('Rendering', function () {
+
+      var answer = undefined;
+      var challenge = undefined;
+      var solution = undefined;
+
+      beforeEach(function () {
+
+        challenge = _ember['default'].Object.create({
+          instruction: 'This is the instruction',
+          proposals: '' + '- 1ere possibilite\n ' + '- 2eme possibilite\n ' + '- 3eme possibilite\n' + '- 4eme possibilite'
+        });
+
+        answer = _ember['default'].Object.create({
+          value: '1,2',
+          result: 'ko'
+        });
+
+        solution = _ember['default'].Object.create({
+          value: '2,3'
+        });
+      });
+
+      // Inspired from:
+      // - Ember-mocha: https://github.com/emberjs/ember-mocha#setup-component-tests
+      // - Ember: https://guides.emberjs.com/v2.10.0/testing/testing-components
+      // -        https://guides.emberjs.com/v2.10.0/tutorial/autocomplete-component/
+      (0, _mocha.it)('should render', function () {
+        // given
+        this.set('answer', answer);
+        this.set('index', '3');
+        this.set('challenge', challenge);
+        this.set('solution', solution);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'hUhE+Aig',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["challenge","answer","solution","index"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$('.comparison-window--body .challenge-statement__instruction').text()).to.equal('This is the instruction');
+        (0, _chai.expect)(this.$('.assessment-results-result-index').text().trim()).to.equal('3');
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/window-comparison-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/window-comparison-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/models/answer.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -3093,6 +3556,15 @@ define('pix-live/tests/models/course.lint-test', ['exports'], function (exports)
     });
   });
 });
+define('pix-live/tests/models/solution.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - models/solution.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/models/user.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -3124,6 +3596,15 @@ define('pix-live/tests/routes/assessments/get-challenge.lint-test', ['exports'],
   'use strict';
 
   describe('ESLint - routes/assessments/get-challenge.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/routes/assessments/get-comparison.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - routes/assessments/get-comparison.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -3254,6 +3735,28 @@ define('pix-live/tests/transforms/array.lint-test', ['exports'], function (expor
   'use strict';
 
   describe('ESLint - transforms/array.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/adapters/solution-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+
+  (0, _emberMocha.describeModule)('adapter:solution', 'Unit | Adapter | solution', {
+    // Specify the other units that are required for this test.
+    // needs: ['serializer:foo']
+  }, function () {
+    // Replace this with your real tests.
+    (0, _emberMocha.it)('exists', function () {
+      var adapter = this.subject();
+      (0, _chai.expect)(adapter).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/adapters/solution-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/adapters/solution-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
