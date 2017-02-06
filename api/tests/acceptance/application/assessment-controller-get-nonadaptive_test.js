@@ -1,6 +1,4 @@
-/* global knex, nock */
-const { describe, it, before, after, beforeEach, afterEach } = require('mocha');
-const { expect } = require('chai');
+const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | API | Assessments GET (non adaptive)', function () {

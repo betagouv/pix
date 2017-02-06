@@ -1,6 +1,4 @@
-/* global sinon */
-const { before, beforeEach, describe, it, afterEach } = require('mocha');
-const { expect } = require('chai');
+const { describe, it, before, afterEach, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const Course = require('../../../../lib/domain/models/referential/course');
 const CourseRepository = require('../../../../lib/infrastructure/repositories/course-repository');

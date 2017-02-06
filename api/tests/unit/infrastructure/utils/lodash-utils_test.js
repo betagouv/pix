@@ -1,9 +1,6 @@
-const { describe, it } = require('mocha');
-const { expect } = require('chai');
-
-const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
+const { describe, it, expect } = require('../../../test-helper');
 const original_lodash = require('lodash');
-
+const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 
 describe('Unit | Utils | lodash-utils', function () {
 

@@ -1,6 +1,4 @@
-/* global knex */
-const { describe, it, after, beforeEach, afterEach } = require('mocha');
-const { expect } = require('chai');
+const { describe, it, after, beforeEach, afterEach, expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 
 server.register(require('inject-then'));
