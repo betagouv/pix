@@ -1,15 +1,11 @@
-/* global describe, before, after, knex, nock, it, expect */
+/* global nock */
+const { describe, it, before, after } = require('mocha');
+const { expect } = require('chai');
 const server = require('../../../server');
 
-describe('Acceptance | API | Courses', function () {
+server.register(require('inject-then'));
 
-  before(function (done) {
-    knex.migrate.latest().then(() => {
-      knex.seed.run().then(() => {
-        done();
-      });
-    });
-  });
+describe('Acceptance | API | Courses', function () {
 
   after(function (done) {
     server.stop(done);
@@ -18,8 +14,10 @@ describe('Acceptance | API | Courses', function () {
   describe('GET /api/courses', function () {
 
     before(function (done) {
+      nock.cleanAll();
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Tests?view=PIX%20view')
+        .get('/v0/test-base/Tests')
+        .query(true)
         .times(3)
         .reply(200, {
           'records': [{
@@ -86,8 +84,10 @@ describe('Acceptance | API | Courses', function () {
   describe('GET /api/courses/:course_id', function () {
 
     before(function (done) {
+      nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Tests/course_id')
+        .query(true)
         .times(3)
         .reply(200, {
           id: 'course_id',
@@ -103,7 +103,7 @@ describe('Acceptance | API | Courses', function () {
             'Durée': 13,
             'Adaptatif ?': true,
             'Épreuves': [
-              'challenge_id',
+              'k_challenge_id',
             ],
             'Ordre affichage': 2,
             'Preview': 'http://development.pix.beta.gouv.fr/courses/course_id/preview',
@@ -113,12 +113,13 @@ describe('Acceptance | API | Courses', function () {
           createdTime: '2016-08-09T15:17:53.000Z'
         });
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Epreuves/challenge_id')
-        .times(3)
-        .reply(200, {
-          id: 'challenge_id',
-          fields: {},
-        });
+          .get('/v0/test-base/Epreuves/k_challenge_id')
+          .query(true)
+          .times(3)
+          .reply(200, {
+            id: 'k_challenge_id',
+            fields: {},
+          });
       done();
     });
 

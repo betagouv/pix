@@ -1,6 +1,6 @@
 const Boom = require('boom');
 const Answer = require('../../domain/models/data/answer');
-const answerSerializer = require('../../infrastructure/serializers/answer-serializer');
+const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionService = require('../../domain/services/solution-service');
@@ -44,8 +44,12 @@ module.exports = {
 
     answerRepository
       .findByChallengeAndAssessment(newAnswer.get('challengeId'), newAnswer.get('assessmentId'))
-      .then(existingAnswer => _updateExistingAnswer(existingAnswer, newAnswer, reply))
-      .catch(() => _saveNewAnswer(newAnswer, reply));
+      .then(existingAnswer => {
+        if (!existingAnswer) {
+          return _saveNewAnswer(newAnswer, reply);
+        }
+        return _updateExistingAnswer(existingAnswer, newAnswer, reply);
+      });
   },
 
   get(request, reply) {

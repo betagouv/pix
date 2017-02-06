@@ -1,3 +1,4 @@
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -6,16 +7,13 @@ describe('Acceptance | a1 - Accéder à la plateforme pour démarrer un test', f
 
   let application;
 
-  before(function () {
+  beforeEach(function () {
     application = startApp();
-  });
-
-  after(function () {
-    destroyApp(application);
-  });
-
-  before(function () {
     visit('/');
+  });
+
+  afterEach(function () {
+    destroyApp(application);
   });
 
   it('a1.0 peut visiter /', function () {
@@ -24,6 +22,10 @@ describe('Acceptance | a1 - Accéder à la plateforme pour démarrer un test', f
 
   it('a1.1 la landing page contient un pitch de présentation', function () {
     expect(findWithAssert('.first-page-hero__main-value-prop').text()).to.contains('Développez vos compétences numériques');
+  });
+
+  it('a1.2 Sur la landing page, un lien pointant vers la page projet est présent dans les valeurs pix', function(){
+    findWithAssert('.first-page-about a[href="/projet"]');
   });
 
 });

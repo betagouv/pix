@@ -7,10 +7,20 @@ export default Ember.Route.extend({
     return this.store.findRecord('assessment', params.assessment_id, { reload: true });
   },
 
-  serialize: function (model) {
+  serialize(model) {
     return {
       assessment_id: model.assessment.id
     };
   }
+  ,
+  actions: {
+
+    openComparison: function (assessment_id, answer_id, index) {
+      this.get('router').transitionTo('assessments.get-comparison', assessment_id, answer_id, index);
+    }
+  }
+
+
+
 
 });

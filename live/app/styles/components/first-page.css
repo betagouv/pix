@@ -10,7 +10,7 @@
 
 :root {
   --first-page-hero-height:  580px;
-};
+}
 
 /* Hero
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -51,6 +51,7 @@
     font-weight: 900;
     color: #ffffff;
     margin-bottom: 24px;
+    width: 830px;
   }
 }
 
@@ -216,7 +217,7 @@
   height: 260px;
   width: 200px;
   @media (min-width: 992px) {
-    height: 350px;
+    height: 294px;
     margin-left: 35px;
     &:first-child {
       margin-left: 0px;
@@ -250,63 +251,28 @@
   color: #3e4149;
   text-align: center;
 }
-
-
-/* Footer
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-.first-page-footer {
+.first-page-about {
+  padding-bottom: 80px;
   display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 150px;
-  &.container {
-    max-width: 1180px;
-  }
-  @media (min-width: 992px) {
-    flex-direction: row;
-    justify-content: flex-start;
-  }
+  justify-content: center;
+  background: #ffffff;
 }
 
-
-
-.first-page-footer__item-logo {
-  display: none;
-  order: 2;
-  @media (min-width: 992px) {
-    display: block;
-    order: 0;
-  }
+.first-page-about a{
+  display: block;
+  width: 201px;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 3px;
+  border: none;
+  background-color: var(--marigold);
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: center;
+  color: var(--charcoal-grey);
+  font-family: var(--font-lato);
+  text-decoration: none;
+  cursor: pointer;
 }
-
-.first-page-footer__item-marianne {
-  order: 0;
-  @media (min-width: 992px) {
-    order: 2;
-  }
-}
-
-.first-page-footer__item-contact {
-  order: 1;
-  @media (min-width: 992px) {
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-.first-page-footer__logo-pix-img {
-  width: auto;
-  height: 80px;
-}
-
-.first-page-footer__logo-marianne-img {
-  width: 220px;
-  height: 60px;
-}
-
-.first-page-footer__mailto {
-  color: #3e4149;
-}
-

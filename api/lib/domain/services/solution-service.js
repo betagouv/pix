@@ -14,7 +14,6 @@ module.exports = {
       return 'timedout';
     }
     return result;
-
   },
 
   match(answer, solution) {

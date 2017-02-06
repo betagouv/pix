@@ -5,21 +5,21 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 /* postcss plugins */
 var postcssImport = require('postcss-import');
 var cssnext = require('postcss-cssnext');
-var colorGuard = require('colorguard');
-var stylelint = require("stylelint");
 var browserReporter = require('postcss-browser-reporter');
 var reporter = require('postcss-reporter');
 
 module.exports = function (defaults) {
   var app = new EmberApp(defaults, {
+    // To start using async / await in your Ember
+    // XXX https://karolgalanciak.com/blog/2015/12/18/ember-and-es7-async-slash-await/
+    'ember-cli-babel': {
+      includePolyfill: true
+    },
+
     postcssOptions: {
       compile: {
         enabled: true,
         plugins: [
-          // first linter
-          {
-            module: stylelint
-          },
           // multiple-file transformation (eg: imports)
           {
             module: postcssImport,
@@ -40,7 +40,6 @@ module.exports = function (defaults) {
             }
           },
           // linters
-          //{ module: colorGuard }, FIXME: there are issues reported that need a fix
           // reporters at the end
           { module: browserReporter },
           { module: reporter }

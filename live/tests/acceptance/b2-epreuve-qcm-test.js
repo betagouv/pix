@@ -1,6 +1,12 @@
+import { describe, it, before, after } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
+
+function visitTimedChallenge() {
+  visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+  click('.challenge-item-warning button');
+}
 
 describe('Acceptance | b2 - Afficher un QCM | ', function () {
 
@@ -8,6 +14,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
 
   before(function () {
     application = startApp();
+    visitTimedChallenge();
   });
 
   after(function () {
@@ -15,7 +22,6 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
   });
 
   before(function () {
-    return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
   });
 
   it('b2.1 It should render challenge instruction', function () {
@@ -24,14 +30,14 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
     expect($challengeInstruction.text()).to.equal(instructionText);
   });
 
-  it('b2.2 Le contenu de type [foo](bar) doit être converti sous forme de lien', function() {
+  it('b2.2 Le contenu de type [foo](bar) doit être converti sous forme de lien', function () {
     const $links = findWithAssert('.challenge-statement__instruction a');
     expect($links.length).to.equal(1);
     expect($links.text()).to.equal('plusieurs');
     expect($links.attr('href')).to.equal('http://link.plusieurs.url');
   });
 
-  it('b2.3 Les liens doivent s\'ouvrir dans un nouvel onglet', function() {
+  it('b2.3 Les liens doivent s\'ouvrir dans un nouvel onglet', function () {
     const $links = findWithAssert('.challenge-statement__instruction a');
     expect($links.attr('target')).to.equal('_blank');
   });
@@ -42,7 +48,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
   });
 
   it('b2.5 By default, already checked checkboxes are checked', function () {
-    expect($('input:checkbox:checked')).to.have.lengthOf(3);
+    expect($('input:checkbox:checked')).to.have.lengthOf(2);
   });
 
   it('b2.6 It should render an ordered list of instruction', function () {
@@ -58,7 +64,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
 
   it('b2.8 Error alert box should be displayed if user validate without checking a checkbox', function () {
     const $validateLink = $('.challenge-actions__action-validate');
-    expect($('input:checkbox:checked')).to.have.lengthOf(3);
+    expect($('input:checkbox:checked')).to.have.lengthOf(2);
     $('input:checkbox').prop('checked', false);
     expect($('input:checkbox:checked')).to.have.lengthOf(0);
     click($validateLink);
