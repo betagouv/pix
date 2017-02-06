@@ -4,7 +4,7 @@ const { expect } = require('chai');
 const service = require('../../../../lib/domain/services/solution-service');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Solution = require('../../../../lib/domain/models/referential/solution');
-const _ = require('../../../../lib/utils/lodash-utils');
+const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 
 describe('Unit | Service | SolutionService', function () {
 
