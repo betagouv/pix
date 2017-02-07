@@ -1,4 +1,4 @@
-const _ = include('lib/utils/lodash-utils');
+const _ = require('../../infrastructure/utils/lodash-utils');
 
 function _countResult(about, desiredResult) {
   return _.reduce(about, function(sum, o) {

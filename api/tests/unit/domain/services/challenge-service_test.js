@@ -1,4 +1,4 @@
-/* global describe, it, expect */
+const { describe, it, expect } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/challenge-service');
 const Answer = require('../../../../lib/domain/models/data/answer');

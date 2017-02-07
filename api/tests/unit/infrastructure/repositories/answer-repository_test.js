@@ -1,4 +1,5 @@
-/* global describe, after, it, knex, expect, before */
+const { describe, it, before, after, expect, knex } = require('../../../test-helper');
+
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
 describe('Unit | Repository | AnswerRepository', function () {
@@ -96,6 +97,7 @@ describe('Unit | Repository | AnswerRepository', function () {
       expect(AnswerRepository.findByChallenge).to.exist;
 
       AnswerRepository.findByChallenge('challenge_1234').then(function(foundAnswers) {
+
         expect(foundAnswers).to.exist;
 
         expect(foundAnswers).to.have.length.of(2);
