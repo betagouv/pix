@@ -3,9 +3,6 @@ const server = require('../../../server');
 
 describe.only('Acceptance | API | ChallengeController', function () {
 
-  let inserted_answer_id = null;
-
-
   after(function (done) {
     server.stop(done);
   });
@@ -35,18 +32,31 @@ describe.only('Acceptance | API | ChallengeController', function () {
       done();
     });
 
-    //old challenge is QCM with solution = '1,2,3'
-    //new challenge is QCM with solution = '1,2'
+    //new challenge is QCM with solution = '1,2,3'
+    // previously, answers below were NOT ok.
+    // Let's see if validate them again change it.
     //type is qcrom-dep
     const inserted_answer = {
-      value: '1,2',
+      value: '1,2,3',
       result: 'ko',
       challengeId: 'challenge_1234'
     };
 
+    const inserted_answer_2 = {
+      value: '1, 2, 3',
+      result: 'partially',
+      challengeId: 'challenge_1234'
+    };
+
+    const unrelated_answer = {
+      value: '1,2,3',
+      result: 'ko',
+      challengeId: 'challenge_000'
+    };
+
     beforeEach(function (done) {
       knex('answers').delete().then(() => {
-        knex('answers').insert([inserted_answer]).then((id) => {
+        knex('answers').insert([inserted_answer, inserted_answer_2, unrelated_answer]).then((id) => {
           inserted_answer_id = id;
           done();
         });
@@ -74,12 +84,15 @@ describe.only('Acceptance | API | ChallengeController', function () {
       });
     });
 
-    it('should be able to transform an answer', function (done) {
-      server.injectThen(options).then((response) => {
+    it('should be able to transform all related answer, but not unrelated answer(s)', function (done) {
+      server.injectThen(options).then(() => {
         knex.select('*').from('answers').then((answers) => {
-          const theAnswer = answers[0];
-          expect(theAnswer.result).to.equal('ok');
-          // console.log('theAnswer - - - -' + JSON.stringify(theAnswer));
+          const answer_1 = answers[0];
+          const answer_2 = answers[1];
+          const unrelated_answer = answers[2];
+          expect(answer_1.result).to.equal('ok');
+          expect(answer_2.result).to.equal('ok');
+          expect(unrelated_answer.result).to.equal('ko');
           done();
         });
       });

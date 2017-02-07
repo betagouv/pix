@@ -1,7 +1,6 @@
 const Answer = require('../../domain/models/data/answer');
 const answerSerializer = require('../../infrastructure/serializers/answer-serializer');
 const Boom = require('boom');
-const solutionService = require('./solution-service');
 const _ = include('lib/utils/lodash-utils');
 const solutionServiceQcm = require('./solution-service-qcm');
 const solutionServiceQroc = require('./solution-service-qroc');
@@ -17,7 +16,7 @@ module.exports = {
       solutionRepository
         .get(existingAnswer.get('challengeId'))
         .then((solution) => {
-          const answerCorrectness = solutionService.match(existingAnswer, solution);
+          const answerCorrectness = this.match(existingAnswer, solution);
           new Answer({ id: existingAnswer.id })
             .save({
               result: answerCorrectness,

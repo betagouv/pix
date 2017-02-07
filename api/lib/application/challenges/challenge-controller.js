@@ -19,11 +19,11 @@ module.exports = {
 
   revalidateAnswers(request, reply) {
     const challengeId = request.params.id;
-    console.log('challengeId- - - - - - - - - - - - - - - - - - - - ', challengeId);
+    // console.log('challengeId- - - - - - - - - - - - - - - - - - - - ', challengeId);
     return answerRepository
             .findByChallenge(challengeId)
             .then(allAnswersOfChallenge => {
-              console.log('allAnswersOfChallenge- - - - - - - - - - - - - - - - - - - - ', allAnswersOfChallenge);
+              // console.log('allAnswersOfChallenge- - - - - - - - - - - - - - - - - - - - ', allAnswersOfChallenge);
               const promises = allAnswersOfChallenge.map(answerOfChallenge => solutionService.revalidate(answerOfChallenge));
               Promise.all(promises).then(revalidatedAnswers => {
                 return reply(revalidatedAnswers.length);
