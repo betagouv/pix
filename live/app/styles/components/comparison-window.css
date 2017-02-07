@@ -1,9 +1,14 @@
 .comparison-window {
-  max-width: 600px;
-  margin: 30px auto;
+  padding: 0 15px;
 }
 
-.comparison-window--content, .comparison-window--body {
+.comparison-window--dialog {
+  max-width: 900px;
+  margin-top: 40px;
+}
+
+.comparison-window--content,
+.comparison-window--body {
   border-radius: 5px;
 }
 
@@ -15,6 +20,11 @@
 
 .comparison-window__instruction {
   margin: 20px 15px 15px;
+  font-size: 16px;
+}
+
+.comparison-window__proposals {
+  margin: 0 15px 15px;
   font-size: 16px;
 }
 
@@ -37,7 +47,7 @@
   height: 17px;
   font-family: var(--font-lato);
   font-size: 14px;
-  border:none;
+  border: none;
   background-color: transparent;
   color: #ffffff;
 }
@@ -81,4 +91,16 @@
 /*Close button*/
 .close-button-container {
   display: flex;
+}
+
+@media (min-width: 992px) {
+
+  .comparison-window--dialog {
+    margin-top: 60px;
+  }
+
+  .comparison-window--body {
+    padding: 0 40px;
+  }
+
 }
