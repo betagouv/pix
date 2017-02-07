@@ -4,7 +4,7 @@ const Challenge = require('../../../../lib/domain/models/referential/challenge')
 const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const ChallengeSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer');
 
-describe('Unit | Controller | ChallengeController', function () {
+describe('Unit | Controller | challenge-controller', function () {
 
   let server;
 

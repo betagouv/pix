@@ -1,3 +1,4 @@
+const { describe, it, beforeEach, before, after, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const FeedbackController = require('../../../../lib/application/feedbacks/feedback-controller');
 
@@ -17,7 +18,6 @@ describe('Unit | Router | feedback-router', function () {
       done();
     });
   }
-
   describe('POST /api/feedbacks', function () {
 
     before(function () {
@@ -29,7 +29,7 @@ describe('Unit | Router | feedback-router', function () {
     });
 
     it('should exist', function (done) {
-      return expectRouteToExist({ method: 'POST', url: '/api/feedbacks' }, done);
+      expectRouteToExist({ method: 'POST', url: '/api/feedbacks' }, done);
     });
   });
 

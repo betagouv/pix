@@ -1,4 +1,4 @@
-const TABLE_NAME = 'feedback';
+const TABLE_NAME = 'feedbacks';
 
 exports.up = (knex) => {
 
