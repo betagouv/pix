@@ -17,11 +17,9 @@ module.exports = {
 
   revalidateAnswers(request, reply) {
     const challengeId = request.params.id;
-    // console.log('challengeId- - - - - - - - - - - - - - - - - - - - ', challengeId);
     return answerRepository
             .findByChallenge(challengeId)
             .then(allAnswersOfChallenge => {
-              // console.log('allAnswersOfChallenge- - - - - - - - - - - - - - - - - - - - ', allAnswersOfChallenge);
               const promises = allAnswersOfChallenge.map(answerOfChallenge => solutionService.revalidate(answerOfChallenge));
               Promise.all(promises).then(revalidatedAnswers => {
                 return reply(revalidatedAnswers.length);
@@ -29,16 +27,6 @@ module.exports = {
             })
             .catch((err) => reply(Boom.badImplementation(err)));
 
-    // const promises = challengeIds.map(challengeId => challengeRepository.get(challengeId));
-
-    // Promise.all(promises)
-    //   .then(challenges => {
-    //     response.included = challenges.map(challenge => challengeSerializer.serialize(challenge).data);
-    //     return reply(response);
-    //   })
-    //   .catch(err => reply(Boom.badImplementation(err)));
-
-    // return reply(200);
   },
 
   get(request, reply) {
