@@ -100,7 +100,7 @@ describe('Acceptance | API | ChallengeController', function () {
     it('should be able to display stats', function (done) {
       server.injectThen(options).then((response) => {
         const payload = response.payload;
-        expect(payload).to.equal('{"ok":2,"okDiff":2,"ko":0,"koDiff":-1,"timedout":0,"timedoutDiff":0,"aband":0,"abandDiff":0,"partially":0,"partiallyDiff":-1,"notImplemented":0,"notImplementedDiff":0}');
+        expect(payload).to.equal('{"ok":2,"okDiff":2,"ko":0,"koDiff":-1,"timedout":0,"timedoutDiff":0,"aband":0,"abandDiff":0,"partially":0,"partiallyDiff":-1,"unimplemented":0,"unimplementedDiff":0}');
         done();
       });
     });

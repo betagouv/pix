@@ -20,21 +20,21 @@ module.exports = {
     const timedoutNewCount = _countResult(newAnswersResult, 'timedout');
     const partiallyNewCount = _countResult(newAnswersResult, 'partially');
     const abandNewCount = _countResult(newAnswersResult, 'aband');
-    const notImplementedNewCount = _countResult(newAnswersResult, 'not-implemented');
+    const unimplementedNewCount = _countResult(newAnswersResult, 'unimplemented');
 
     const okOldCount = _countResult(oldAnswersResult, 'ok');
     const koOldCount = _countResult(oldAnswersResult, 'ko');
     const timedoutOldCount = _countResult(oldAnswersResult, 'timedout');
     const partiallyOldCount = _countResult(oldAnswersResult, 'partially');
     const abandOldCount = _countResult(oldAnswersResult, 'aband');
-    const notImplementedOldCount = _countResult(oldAnswersResult, 'not-implemented');
+    const unimplementedOldCount = _countResult(oldAnswersResult, 'unimplemented');
 
     const okDiff = okNewCount - okOldCount;
     const koDiff = koNewCount - koOldCount;
     const timedoutDiff = timedoutNewCount - timedoutOldCount;
     const abandDiff = abandNewCount - abandOldCount;
     const partiallyDiff = partiallyNewCount - partiallyOldCount;
-    const notImplementedDiff = notImplementedNewCount - notImplementedOldCount;
+    const unimplementedDiff = unimplementedNewCount - unimplementedOldCount;
 
     return {
       ok: okNewCount,
@@ -47,8 +47,8 @@ module.exports = {
       abandDiff: abandDiff,
       partially: partiallyNewCount,
       partiallyDiff: partiallyDiff,
-      notImplemented: notImplementedNewCount,
-      notImplementedDiff: notImplementedDiff
+      unimplemented: unimplementedNewCount,
+      unimplementedDiff: unimplementedDiff
     };
 
   }

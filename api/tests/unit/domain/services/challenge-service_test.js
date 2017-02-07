@@ -11,27 +11,40 @@ function _buildAnswer(result) {
 
 describe('Unit | Service | ChallengeService', function () {
 
-  describe('getRevalidationStatistics', function () {
-    it('should be able to return added ok solution', function () {
-      const old_answer = [_buildAnswer('ko')];
-      const new_answer = [_buildAnswer('ok')];
+
+  const allCases = [
+    {case: 'ok', oppositeCase: 'ko'},
+    {case: 'ko', oppositeCase: 'ok'},
+    {case: 'partially', oppositeCase: 'ko'},
+    {case: 'timedout', oppositeCase: 'ko'},
+    {case: 'aband', oppositeCase: 'ko'},
+    {case: 'unimplemented', oppositeCase: 'ko'},
+  ];
+
+  allCases.forEach(function (testCase) {
+    it('should be able to return starts about added ' + testCase.case + ' solution', function () {
+      const old_answer = [_buildAnswer(testCase.oppositeCase)];
+      const new_answer = [_buildAnswer(testCase.case)];
       const under_test = service.getRevalidationStatistics(old_answer, new_answer);
-      expect(under_test.ok).to.equal(1);
-      expect(under_test.okDiff).to.equal(1);
+      expect(under_test[testCase.case]).to.equal(1);
+      const diffProperty = testCase.case + 'Diff';
+      expect(under_test[diffProperty]).to.equal(1);
     });
-    it('should be able to return removed ok solution', function () {
-      const old_answer = [_buildAnswer('ok')];
-      const new_answer = [_buildAnswer('ko')];
+    it('should be able to return stats about removed ' + testCase.case + ' solution', function () {
+      const old_answer = [_buildAnswer(testCase.case)];
+      const new_answer = [_buildAnswer(testCase.oppositeCase)];
       const under_test = service.getRevalidationStatistics(old_answer, new_answer);
-      expect(under_test.ok).to.equal(0);
-      expect(under_test.okDiff).to.equal(-1);
+      expect(under_test[testCase.case]).to.equal(0);
+      const diffProperty = testCase.case + 'Diff';
+      expect(under_test[diffProperty]).to.equal(-1);
     });
-    it('should be able to add all ok solutions', function () {
-      const old_answer = [_buildAnswer('ok'), _buildAnswer('ok')];
-      const new_answer = [_buildAnswer('ok'), _buildAnswer('ok')];
+    it('should be able to return stats that add all ' + testCase.case + ' solutions', function () {
+      const old_answer = [_buildAnswer(testCase.case), _buildAnswer(testCase.case)];
+      const new_answer = [_buildAnswer(testCase.case), _buildAnswer(testCase.case)];
       const under_test = service.getRevalidationStatistics(old_answer, new_answer);
-      expect(under_test.ok).to.equal(2);
-      expect(under_test.okDiff).to.equal(0);
+      expect(under_test[testCase.case]).to.equal(2);
+      const diffProperty = testCase.case + 'Diff';
+      expect(under_test[diffProperty]).to.equal(0);
     });
   });
 

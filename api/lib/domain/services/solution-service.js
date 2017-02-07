@@ -39,7 +39,7 @@ module.exports = {
 
   match(answer, solution) {
 
-    let result = 'not-implemented';
+    let result = 'unimplemented';
 
     const answerValue = answer.get('value');
     const answerTimeout = answer.get('timeout');
@@ -51,7 +51,7 @@ module.exports = {
     }
 
     if (solution.type === 'QRU') {
-      result = 'not-implemented';
+      result = 'unimplemented';
     }
 
     if (solution.type === 'QCU') {
