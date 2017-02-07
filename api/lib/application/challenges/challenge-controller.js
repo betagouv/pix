@@ -5,8 +5,6 @@ const challengeSerializer = require('../../infrastructure/serializers/challenge-
 
 const solutionService = require('../../domain/services/solution-service');
 
-const _ = include('lib/utils/lodash-utils');
-
 module.exports = {
 
   list(request, reply) {

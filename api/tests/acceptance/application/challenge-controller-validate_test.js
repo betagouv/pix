@@ -1,7 +1,7 @@
 /* global describe, after, afterEach, beforeEach, it, knex, expect, nock, before */
 const server = require('../../../server');
 
-describe.only('Acceptance | API | ChallengeController', function () {
+describe('Acceptance | API | ChallengeController', function () {
 
   after(function (done) {
     server.stop(done);

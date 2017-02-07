@@ -1,7 +1,7 @@
 /* global describe, after, it, knex, expect, before */
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
-describe.only('Unit | Repository | AnswerRepository', function () {
+describe('Unit | Repository | AnswerRepository', function () {
 
 
   describe('findByChallengeAndAssessment', function () {
