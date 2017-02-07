@@ -1,18 +1,15 @@
-/* global describe, before, beforeEach, after, afterEach, knex, nock, it, expect */
+const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 const Answer = require('../../../lib/domain/models/data/answer');
 
 server.register(require('inject-then'));
 
-describe('Acceptance | API | Answers', function () {
+describe('Acceptance | Controller | answer-controller', function () {
 
   after(function (done) {
     server.stop(done);
   });
 
-
-  /* Update
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
   describe('POST /api/answers (update)', function () {
 
     const options = {
@@ -48,7 +45,9 @@ describe('Acceptance | API | Answers', function () {
       });
     });
     afterEach(function (done) {
-      knex('answers').delete().then(() => {done();});
+      knex('answers').delete().then(() => {
+        done();
+      });
     });
 
     before(function (done) {
@@ -65,8 +64,6 @@ describe('Acceptance | API | Answers', function () {
         });
       done();
     });
-
-
 
     it('should return 200 HTTP status code', function (done) {
       server.injectThen(options).then((response) => {
@@ -119,8 +116,6 @@ describe('Acceptance | API | Answers', function () {
       });
     });
 
-
   });
-
 
 });

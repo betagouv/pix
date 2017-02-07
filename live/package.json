@@ -1,6 +1,6 @@
 {
   "name": "pix-live",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "private": true,
   "directories": {
@@ -52,6 +52,8 @@
     "ember-math-helpers": "1.2.7",
     "ember-metrics": "0.7.0",
     "ember-resolver": "^2.0.3",
+    "ember-routable-modal": "0.2.1",
+    "ember-route-action-helper": "2.0.2",
     "ember-source": "^2.11.0",
     "eslint": "^3.3.1",
     "loader.js": "^4.0.11",
@@ -61,8 +63,6 @@
     "postcss-import": "^8.1.2",
     "postcss-nesting": "^2.3.1",
     "postcss-reporter": "^1.4.1",
-    "stylelint": "^7.2.0",
-    "stylelint-config-standard": "^13.0.0",
     "tap-xunit": "^1.4.0"
   },
   "scripts": {

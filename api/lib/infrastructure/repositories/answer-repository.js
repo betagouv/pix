@@ -4,34 +4,22 @@ module.exports = {
 
   findByChallengeAndAssessment(challengeId, assessmentId) {
 
-    return new Promise((resolve, reject) => {
-
+    return Promise.resolve(
       Answer
-      .where({
-        challengeId,
-        assessmentId
-      })
-      .fetch()
-      .then((answer) => resolve(answer))
-      .catch((err) => reject(err));
-
-    });
-
+        .where({ challengeId, assessmentId })
+        .fetch()
+    );
   },
 
-  findByChallenge(challengeId) {
+  findByAssessment(assessmentId) {
 
     return new Promise((resolve, reject) => {
-
       Answer
-        .where({
-          challengeId
-        })
+        .where({ assessmentId })
         .fetchAll()
-        .then((answers) => resolve(answers.models))
-        .catch((err) => reject(err));
-
+        .then(resolve)
+        .catch(reject);
     });
-
   }
+
 };

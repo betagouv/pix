@@ -1,6 +1,7 @@
 const Answer = require('../../domain/models/data/answer');
 const Boom = require('boom');
-const _ = include('lib/utils/lodash-utils');
+const _ = require('../../infrastructure/utils/lodash-utils');
+
 const solutionServiceQcm = require('./solution-service-qcm');
 const solutionServiceQroc = require('./solution-service-qroc');
 const solutionServiceQrocmInd = require('./solution-service-qrocm-ind');

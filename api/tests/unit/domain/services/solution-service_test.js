@@ -1,9 +1,10 @@
-/* global describe, it, expect */
+const { describe, it } = require('mocha');
+const { expect } = require('chai');
 
 const service = require('../../../../lib/domain/services/solution-service');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Solution = require('../../../../lib/domain/models/referential/solution');
-const _ = require('../../../../lib/utils/lodash-utils');
+const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 
 describe('Unit | Service | SolutionService', function () {
 
@@ -14,7 +15,7 @@ describe('Unit | Service | SolutionService', function () {
     const solution = new Solution({id: 'solution_id'});
     solution.type = type;
     solution.value = value;
-    solution.scoring = _.ensureString(scoring).replace(/@/g, '');  // XXX
+    solution.scoring = _.ensureString(scoring).replace(/@/g, '');
     return solution;
   }
 
