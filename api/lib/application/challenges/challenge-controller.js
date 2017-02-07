@@ -4,6 +4,7 @@ const answerRepository = require('../../infrastructure/repositories/answer-repos
 const challengeSerializer = require('../../infrastructure/serializers/challenge-serializer');
 
 const solutionService = require('../../domain/services/solution-service');
+const challengeService = require('../../domain/services/challenge-service');
 
 module.exports = {
 
@@ -19,10 +20,11 @@ module.exports = {
     const challengeId = request.params.id;
     return answerRepository
             .findByChallenge(challengeId)
-            .then(allAnswersOfChallenge => {
-              const promises = allAnswersOfChallenge.map(answerOfChallenge => solutionService.revalidate(answerOfChallenge));
-              Promise.all(promises).then(revalidatedAnswers => {
-                return reply(revalidatedAnswers.length);
+            .then(oldAnswers => {
+              const promises = oldAnswers.map(oldAnswer => solutionService.revalidate(oldAnswer));
+              Promise.all(promises).then(newAnswers => {
+                const result = challengeService.getRevalidationStatistics(oldAnswers, newAnswers);
+                return reply(result);
               });
             })
             .catch((err) => reply(Boom.badImplementation(err)));

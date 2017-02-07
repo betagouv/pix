@@ -1,5 +1,4 @@
 const Answer = require('../../domain/models/data/answer');
-const answerSerializer = require('../../infrastructure/serializers/answer-serializer');
 const Boom = require('boom');
 const _ = include('lib/utils/lodash-utils');
 const solutionServiceQcm = require('./solution-service-qcm');
@@ -21,7 +20,7 @@ module.exports = {
             .save({
               result: answerCorrectness,
             }, { method: 'update' })
-            .then((updatedAnswer) => resolve(answerSerializer.serialize(updatedAnswer)).code(200))
+            .then((updatedAnswer) => resolve(updatedAnswer).code(200))
             .catch((err) => reject(Boom.badImplementation(err)));
         });
     });

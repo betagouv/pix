@@ -1,7 +1,7 @@
 /* global describe, after, afterEach, beforeEach, it, knex, expect, nock, before */
 const server = require('../../../server');
 
-describe('Acceptance | API | ChallengeController', function () {
+describe.only('Acceptance | API | ChallengeController', function () {
 
   after(function (done) {
     server.stop(done);
@@ -56,8 +56,7 @@ describe('Acceptance | API | ChallengeController', function () {
 
     beforeEach(function (done) {
       knex('answers').delete().then(() => {
-        knex('answers').insert([inserted_answer, inserted_answer_2, unrelated_answer]).then((id) => {
-          inserted_answer_id = id;
+        knex('answers').insert([inserted_answer, inserted_answer_2, unrelated_answer]).then(() => {
           done();
         });
       });
@@ -98,7 +97,13 @@ describe('Acceptance | API | ChallengeController', function () {
       });
     });
 
-
+    it('should be able to display stats', function (done) {
+      server.injectThen(options).then((response) => {
+        const payload = response.payload;
+        expect(payload).to.equal('{"ok":2,"okDiff":2,"ko":0,"koDiff":-1,"timedout":0,"timedoutDiff":0,"aband":0,"abandDiff":0,"partially":0,"partiallyDiff":-1,"notImplemented":0,"notImplementedDiff":0}');
+        done();
+      });
+    });
 
   });
 
