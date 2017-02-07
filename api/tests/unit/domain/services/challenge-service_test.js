@@ -22,7 +22,7 @@ describe('Unit | Service | ChallengeService', function () {
   ];
 
   allCases.forEach(function (testCase) {
-    it('should be able to return starts about added ' + testCase.case + ' solution', function () {
+    it('should be able to return stats about added ' + testCase.case + ' solution', function () {
       const old_answer = [_buildAnswer(testCase.oppositeCase)];
       const new_answer = [_buildAnswer(testCase.case)];
       const under_test = service.getRevalidationStatistics(old_answer, new_answer);
