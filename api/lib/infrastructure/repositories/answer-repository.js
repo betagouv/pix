@@ -8,8 +8,8 @@ module.exports = {
 
       Answer
       .where({
-        challengeId: challengeId,
-        assessmentId: assessmentId
+        challengeId,
+        assessmentId
       })
       .fetch()
       .then((answer) => resolve(answer))
@@ -25,7 +25,7 @@ module.exports = {
 
       Answer
         .where({
-          challengeId: challengeId,
+          challengeId
         })
         .fetchAll()
         .then((answers) => resolve(answers.models))

@@ -1,11 +1,12 @@
 /* global describe, after, it, knex, expect, before */
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
-describe('Unit | Repository | AnswerRepository', function () {
+describe.only('Unit | Repository | AnswerRepository', function () {
 
 
   describe('findByChallengeAndAssessment', function () {
 
+    // nominal case
     const inserted_answer_1 = {
       value: '1,2',
       result: 'ko',
@@ -13,16 +14,25 @@ describe('Unit | Repository | AnswerRepository', function () {
       assessmentId: 1234
     };
 
+    // same assessmentId, different challengeId
     const inserted_answer_2 = {
       value: '1,2,4',
       result: 'ok',
       challengeId: 'challenge_000',
+      assessmentId: 1234
+    };
+
+    // different assessmentId, same challengeId
+    const inserted_answer_3 = {
+      value: '3',
+      result: 'partially',
+      challengeId: 'challenge_1234',
       assessmentId: 1
     };
 
     before(function (done) {
       knex('answers').delete().then(() => {
-        knex('answers').insert([inserted_answer_1, inserted_answer_2]).then(() => {
+        knex('answers').insert([inserted_answer_1, inserted_answer_2, inserted_answer_3]).then(() => {
           done();
         });
       });
@@ -42,8 +52,6 @@ describe('Unit | Repository | AnswerRepository', function () {
       });
     });
   });
-
-
 
 
   describe('findByChallenge', function () {
@@ -85,9 +93,7 @@ describe('Unit | Repository | AnswerRepository', function () {
 
     it('should findByChallenge', function (done) {
 
-
       expect(AnswerRepository.findByChallenge).to.exist;
-
 
       AnswerRepository.findByChallenge('challenge_1234').then(function(foundAnswers) {
         expect(foundAnswers).to.exist;
@@ -104,8 +110,6 @@ describe('Unit | Repository | AnswerRepository', function () {
       });
     });
   });
-
-
 
 
 });

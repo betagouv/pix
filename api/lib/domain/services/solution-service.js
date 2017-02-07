@@ -1,10 +1,33 @@
+const Answer = require('../../domain/models/data/answer');
+const answerSerializer = require('../../infrastructure/serializers/answer-serializer');
+const Boom = require('boom');
+const solutionService = require('./solution-service');
 const _ = include('lib/utils/lodash-utils');
 const solutionServiceQcm = require('./solution-service-qcm');
 const solutionServiceQroc = require('./solution-service-qroc');
 const solutionServiceQrocmInd = require('./solution-service-qrocm-ind');
 const solutionServiceQrocmDep = require('./solution-service-qrocm-dep');
+const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
 module.exports = {
+
+
+  revalidate(existingAnswer) {
+    return new Promise((resolve, reject) => {
+      solutionRepository
+        .get(existingAnswer.get('challengeId'))
+        .then((solution) => {
+          const answerCorrectness = solutionService.match(existingAnswer, solution);
+          new Answer({ id: existingAnswer.id })
+            .save({
+              result: answerCorrectness,
+            }, { method: 'update' })
+            .then((updatedAnswer) => resolve(answerSerializer.serialize(updatedAnswer)).code(200))
+            .catch((err) => reject(Boom.badImplementation(err)));
+        });
+    });
+
+  },
 
   _timedOut(result, answerTimeout) {
     const isPartiallyOrCorrectAnswer = (result === 'ok' || result === 'partially');
@@ -14,10 +37,6 @@ module.exports = {
       return 'timedout';
     }
     return result;
-  },
-
-  _getNumberOfExpectedAnswers() {
-
   },
 
   match(answer, solution) {

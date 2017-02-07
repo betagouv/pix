@@ -1,7 +1,7 @@
 /* global describe, after, afterEach, beforeEach, it, knex, expect, nock, before */
 const server = require('../../../server');
 
-describe('Acceptance | API | ChallengeController', function () {
+describe.only('Acceptance | API | ChallengeController', function () {
 
   let inserted_answer_id = null;
 
@@ -74,16 +74,16 @@ describe('Acceptance | API | ChallengeController', function () {
       });
     });
 
-    // it('should be able to transform an answer', function (done) {
-    //   server.injectThen(options).then((response) => {
-    //     knex.select('*').from('answers').then((answers) => {
-    //       const theAnswer = answers[0];
-    //       expect(theAnswer.result).to.equal('ok');
-    //       // console.log('theAnswer - - - -' + JSON.stringify(theAnswer));
-    //       done();
-    //     });
-    //   });
-    // });
+    it('should be able to transform an answer', function (done) {
+      server.injectThen(options).then((response) => {
+        knex.select('*').from('answers').then((answers) => {
+          const theAnswer = answers[0];
+          expect(theAnswer.result).to.equal('ok');
+          // console.log('theAnswer - - - -' + JSON.stringify(theAnswer));
+          done();
+        });
+      });
+    });
 
 
 
