@@ -10,7 +10,7 @@ describe('Acceptance | Controller | answer-controller', function () {
   });
 
   /* Find
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
+  –––––––––––––––––––––––-––––––––––––––––––––––––––– */
   describe('Find /api/answers?challengeId=Y&assessmentId=Z', function () {
 
     let inserted_answer_id = null;
