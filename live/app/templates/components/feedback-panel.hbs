@@ -1,22 +1,22 @@
 <div class="feedback-panel">
 
   {{#if isFormClosed}}
-    <div class="feedback-panel__open-link-wrapper">
+    <div class="feedback-panel__view feedback-panel__view--link">
       <a class="feedback-panel__open-link" {{action "openFeedbackForm"}}>Signaler un problème</a>
     </div>
 
   {{else if isFormOpened}}
-    <div class="feedback-panel__form-wrapper">
+    <div class="feedback-panel__view feedback-panel__view--form">
       <form class="feedback-panel__form">
         <p class="feedback-panel__form-title">Signaler un problème</p>
         <p>PIX est à l’écoute de vos remarques pour améliorer les épreuves proposées #personnenestparfait.</p>
         <p>Vous pouvez nous laisser votre adresse mail si vous le souhaitez. Vos coordonnées ne feront l’objet d’aucune
           transmission à des tiers.</p>
         <div class="feedback-panel__field">
-          {{input type="text" value=email placeholder="Votre email (optionnel)"}}
+          {{input class="feedback-panel__email" type="text" value=email placeholder="Votre email (optionnel)"}}
         </div>
         <div class="feedback-panel__field">
-          {{textarea value=content placeholder="Votre message"}}
+          {{textarea class="feedback-panel__content" value=content placeholder="Votre message"}}
         </div>
         <button class="feedback-panel__button feedback-panel__button--send" {{action "sendFeedback"}}>Envoyer</button>
         <button class="feedback-panel__button feedback-panel__button--cancel" {{action "cancelFeedback"}}>Annuler</button>
@@ -24,7 +24,7 @@
     </div>
 
   {{else }}
-    <div class="feedback-panel__mercix-wrapper">
+    <div class="feedback-panel__view feedback-panel__view--mercix">
       <p>Votre commentaire a bien été transmis à l’équipe du projet PIX.</p>
       <p>Mercix !</p>
     </div>

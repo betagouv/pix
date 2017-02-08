@@ -4,8 +4,9 @@ const FORM_CLOSED = 'FORM_CLOSED';
 const FORM_OPENED= 'FORM_OPENED';
 const FORM_SUBMITTED = 'FORM_SUBMITTED';
 
-export default Ember.Component.extend({
+const FeedbackPanel = Ember.Component.extend({
 
+  store: Ember.inject.service(),
   status: FORM_CLOSED,
   isFormClosed: Ember.computed.equal('status', FORM_CLOSED),
   isFormOpened: Ember.computed.equal('status', FORM_OPENED),
@@ -16,7 +17,12 @@ export default Ember.Component.extend({
     },
 
     sendFeedback() {
-      this.set('status', FORM_SUBMITTED);
+      const store = this.get('store');
+      const feedback = store.createRecord('feedback', {
+        email: this.get('email'),
+        content: this.get('content')
+      });
+      feedback.save().then(() => this.set('status', FORM_SUBMITTED));
     },
 
     cancelFeedback() {
@@ -25,3 +31,9 @@ export default Ember.Component.extend({
   }
 
 });
+
+FeedbackPanel.reopenClass({
+  positionalParams: ['assessment', 'challenge']
+});
+
+export default FeedbackPanel;
