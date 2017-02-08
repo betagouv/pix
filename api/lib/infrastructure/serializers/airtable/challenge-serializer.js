@@ -14,6 +14,7 @@ class ChallengeSerializer {
       const fields = airtableRecord.fields;
       challenge.instruction = fields['Consigne'];
       challenge.proposals = fields['Propositions'];
+      challenge.knowledge = fields['acquis'];
 
       if (fields['Timer']) {
         challenge.timer = _.defaultTo(_.parseInt(fields['Timer']), undefined);

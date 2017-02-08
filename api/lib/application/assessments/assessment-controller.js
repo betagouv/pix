@@ -1,3 +1,4 @@
+/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const Boom = require('boom');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
@@ -26,6 +27,20 @@ module.exports = {
     assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
+        answerRepository.findByAssessment(assessment.get('id')).then((answers) => {
+
+          const modelAnswers = _.map(answers.models, (o) => o.attributes);
+
+          _.forEach(modelAnswers, function(answer) {
+            console.error(answer.challengeId, answer.result);
+            challengeRepository
+              .get(answer.challengeId)
+              .then((challenge) => console.error(challenge.instruction, challenge.knowledge));
+              // Based on this data, we can infer the level of the learner, and their acquired knowledge
+          });
+
+        });
+
         const serializedAssessment = assessmentSerializer.serialize(assessment);
         return reply(serializedAssessment);
       })
