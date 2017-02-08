@@ -9,6 +9,7 @@ import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 
 export default function (schema, request) {
 
+
   const allChallenges = [
     rawQcmChallenge,
     refQcmChallengeFull,
@@ -25,6 +26,10 @@ export default function (schema, request) {
   const challenge = _.find(challenges, { id: request.params.id });
 
   if (challenge) {
+    if (challenge.obj.recalculate) {
+      challenge.obj.recalculate();
+    }
+
     return challenge.obj;
   } else {
     throw new Error('The challenge you required in the fake server does not exist ' + request.params.id);
