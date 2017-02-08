@@ -16,13 +16,17 @@ module.exports = {
       solutionRepository
         .get(existingAnswer.get('challengeId'))
         .then((solution) => {
-          const answerCorrectness = this.match(existingAnswer, solution);
-          new Answer({ id: existingAnswer.id })
-            .save({
-              result: answerCorrectness,
-            }, { method: 'update' })
-            .then((updatedAnswer) => resolve(updatedAnswer).code(200))
-            .catch((err) => reject(Boom.badImplementation(err)));
+          if (existingAnswer.get('result') === 'timedout' || existingAnswer.get('result') === 'aband') {
+            resolve(existingAnswer);
+          } else {
+            const answerCorrectness = this.match(existingAnswer, solution);
+            new Answer({ id: existingAnswer.id })
+              .save({
+                result: answerCorrectness,
+              }, { method: 'update' })
+              .then((updatedAnswer) => resolve(updatedAnswer).code(200))
+              .catch((err) => reject(Boom.badImplementation(err)));
+          }
         });
     });
 

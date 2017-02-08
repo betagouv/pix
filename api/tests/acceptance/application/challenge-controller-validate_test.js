@@ -2,7 +2,7 @@ const { describe, after, afterEach, beforeEach, it, knex, expect, nock, before }
 
 const server = require('../../../server');
 
-describe('Acceptance | API | ChallengeController', function () {
+describe.only('Acceptance | API | ChallengeController', function () {
 
   after(function (done) {
     server.stop(done);
@@ -16,7 +16,7 @@ describe('Acceptance | API | ChallengeController', function () {
       nock('https://api.airtable.com')
         .get('/v0/test-base/Epreuves/challenge_1234')
         .query(true)
-        .times(3)
+        .times(5)
         .reply(200, {
           'id': 'challenge_1234',
           'fields': {
@@ -37,13 +37,13 @@ describe('Acceptance | API | ChallengeController', function () {
     // previously, answers below were NOT ok.
     // Let's see if validate them again change it.
     //type is qcrom-dep
-    const inserted_answer = {
+    const ko_answer = {
       value: '1,2,3',
       result: 'ko',
       challengeId: 'challenge_1234'
     };
 
-    const inserted_answer_2 = {
+    const ok_answer = {
       value: '1, 2, 3',
       result: 'partially',
       challengeId: 'challenge_1234'
@@ -55,11 +55,35 @@ describe('Acceptance | API | ChallengeController', function () {
       challengeId: 'challenge_000'
     };
 
+    const unimplemented_answer = {
+      value: '1,2,3',
+      result: 'unimplemented',
+      challengeId: 'challenge_1234'
+    };
+
+    const aband_answer = {
+      value: '#ABAND#',
+      result: 'aband',
+      challengeId: 'challenge_1234'
+    };
+    const timedout_answer = {
+      value: '1,2,3',
+      result: 'timedout',
+      challengeId: 'challenge_1234'
+    };
+
+
     beforeEach(function (done) {
       knex('answers').delete().then(() => {
-        knex('answers').insert([inserted_answer, inserted_answer_2, unrelated_answer]).then(() => {
-          done();
-        });
+        knex('answers').insert([
+          ko_answer,
+          ok_answer,
+          unrelated_answer,
+          aband_answer,
+          timedout_answer,
+          unimplemented_answer]).then(() => {
+            done();
+          });
       });
     });
 
@@ -98,10 +122,30 @@ describe('Acceptance | API | ChallengeController', function () {
       });
     });
 
-    it('should be able to display stats', function (done) {
+    it('should be able to change "ok", "ko", "partially", "unimplemented"', function (done) {
       server.injectThen(options).then((response) => {
         const payload = response.payload;
-        expect(payload).to.equal('{"ok":2,"okDiff":2,"ko":0,"koDiff":-1,"timedout":0,"timedoutDiff":0,"aband":0,"abandDiff":0,"partially":0,"partiallyDiff":-1,"unimplemented":0,"unimplementedDiff":0}');
+        const result = JSON.parse(payload);
+        expect(result.ok).to.equal(3);
+        expect(result.okDiff).to.equal(3);
+        expect(result.ko).to.equal(0);
+        expect(result.koDiff).to.equal(-1);
+        expect(result.partially).to.equal(0);
+        expect(result.partiallyDiff).to.equal(-1);
+        expect(result.unimplemented).to.equal(0);
+        expect(result.unimplementedDiff).to.equal(-1);
+        done();
+      });
+    });
+
+    it('should NOT be able to change "timedout", "aband"', function (done) {
+      server.injectThen(options).then((response) => {
+        const payload = response.payload;
+        const result = JSON.parse(payload);
+        expect(result.timedout).to.equal(1);
+        expect(result.timedoutDiff).to.equal(0);
+        expect(result.aband).to.equal(1);
+        expect(result.abandDiff).to.equal(0);
         done();
       });
     });
