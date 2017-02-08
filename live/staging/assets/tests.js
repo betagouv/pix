@@ -3742,10 +3742,7 @@ define('pix-live/tests/transforms/array.lint-test', ['exports'], function (expor
 });
 define('pix-live/tests/unit/adapters/solution-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('adapter:solution', 'Unit | Adapter | solution', {
-    // Specify the other units that are required for this test.
-    // needs: ['serializer:foo']
-  }, function () {
+  (0, _emberMocha.describeModule)('adapter:solution', 'Unit | Adapter | solution', {}, function () {
     // Replace this with your real tests.
     (0, _emberMocha.it)('exists', function () {
       var adapter = this.subject();
