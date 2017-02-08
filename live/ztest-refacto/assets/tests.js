@@ -1240,15 +1240,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
     });
   }
 
-  function visitTimedQruChallenge() {
-    visit(TIMED_QRU_CHALLENGE_URI);
-    andThen(function () {
-      var buttonConfirm = findWithAssert(CHALLENGE_ITEM_WARNING_BUTTON);
-      buttonConfirm.click();
-    });
-  }
   var TIMED_CHALLENGE_URI = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
-  var TIMED_QRU_CHALLENGE_URI = '/assessments/ref_assessment_id/challenges/ref_qru_challenge_id';
   var CHALLENGE_ITEM_WARNING_BUTTON = '.challenge-item-warning button';
 
   (0, _mocha.describe)('Acceptance | H1 - Timeout Jauge | ', function () {
@@ -1280,114 +1272,51 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
     (0, _mocha.describe)('Test quand la jauge est affichée', function () {
       (0, _mocha.describe)('Format d\'affichage', function () {
 
-        (0, _mocha.it)('valeur 2 en backend est affichée 0:02 dans le timer', function () {
-          visitTimedChallenge();
-          andThen(function () {
-            var $countDown = findWithAssert('.timeout-jauge-remaining');
-            (0, _chai.expect)($countDown.text().trim()).to.equal('0:02');
-          });
+        beforeEach(function () {
+          window.mirageTestingState = {};
+          visit('/');
+        });
+        afterEach(function () {
+          window.mirageTestingState = {};
         });
 
         (0, _mocha.it)('valeur 70 en backend est affichée 1:10 dans le timer', function () {
-          visitTimedQruChallenge();
+          window.mirageTestingState = { stubTimer: 70 };
+          visitTimedChallenge();
+
           andThen(function () {
             var $countDown = findWithAssert('.timeout-jauge-remaining');
             (0, _chai.expect)($countDown.text().trim()).to.equal('1:10');
           });
         });
 
-        (0, _mocha.it)('Le timer se décharge progressivement', function () {
+        (0, _mocha.it)('valeur 2 en backend est affichée 0:02 dans le timer', function () {
+          window.mirageTestingState = { stubTimer: 2 };
           visitTimedChallenge();
           andThen(function () {
-            triggerEvent('.timeout-jauge', 'resetElapsedTime');
-          });
-          // cas 1 : pas encore chargé
-          andThen(function () {
-            var $jaugeProgress = findWithAssert('.timeout-jauge-progress');
-            (0, _chai.expect)($jaugeProgress.width()).to.equal(0);
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 2 : moitié chargé (50 signifie ici 50% de la largeur du compteur)
-          andThen(function () {
-            var $jaugeProgress = findWithAssert('.timeout-jauge-progress');
-            (0, _chai.expect)($jaugeProgress.width()).to.equal(50);
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 3 : complètement chargé (100 signifie ici 100% de la largeur du compteur)
-          andThen(function () {
-            var $jaugeProgress = findWithAssert('.timeout-jauge-progress');
-            (0, _chai.expect)($jaugeProgress.width()).to.equal(100);
-          });
-        });
-
-        (0, _mocha.it)('Décremente le compteur toutes les secondes, et s\'arrête définitivement à 0:00', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-          andThen(function () {
-            triggerEvent('.timeout-jauge', 'resetElapsedTime');
-          });
-          // cas 1 : pas encore chargé
-          andThen(function () {
-            var $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
-            (0, _chai.expect)($jaugeRemaining.text().trim()).to.equal('0:02');
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 2 : moitié chargé
-          andThen(function () {
-            var $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
-            (0, _chai.expect)($jaugeRemaining.text().trim()).to.equal('0:01');
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 3 : complètement chargé
-          andThen(function () {
-            var $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
-            (0, _chai.expect)($jaugeRemaining.text().trim()).to.equal('0:00');
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 4 : trop chargé (temps imparti dépassé)
-          andThen(function () {
-            var $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
-            (0, _chai.expect)($jaugeRemaining.text().trim()).to.equal('0:00');
-          });
-        });
-
-        (0, _mocha.it)('Affiche le pictogramme en noir, ou en rouge lorsque le timer est à 0:00', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-          andThen(function () {
-            triggerEvent('.timeout-jauge', 'resetElapsedTime');
-          });
-          // cas 1 : pas encore chargé : picto noir
-          andThen(function () {
-            var $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
-            (0, _chai.expect)($jaugeClock.attr('fill')).to.equal('black');
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 2 : moitié chargé : picto noir
-          andThen(function () {
-            var $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
-            (0, _chai.expect)($jaugeClock.attr('fill')).to.equal('black');
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 3 : complètement chargé : picto rouge
-          andThen(function () {
-            var $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
-            (0, _chai.expect)($jaugeClock.attr('fill')).to.equal('red');
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 4 : trop chargé (temps imparti dépassé) : picto rouge
-          andThen(function () {
-            var $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
-            (0, _chai.expect)($jaugeClock.attr('fill')).to.equal('red');
+            var $countDown = findWithAssert('.timeout-jauge-remaining');
+            (0, _chai.expect)($countDown.text().trim()).to.equal('0:02');
           });
         });
       });
 
       (0, _mocha.describe)('Sauvegarde du temps passé | ', function () {
 
+        beforeEach(function () {
+          window.mirageTestingState = {};
+        });
+
+        afterEach(function () {
+          window.mirageTestingState = {};
+        });
+
         (0, _mocha.it)('Si l\'utilisateur valide et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
           visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
             $('.last-post-request').remove();
+            var $countDown = findWithAssert('.timeout-jauge-remaining');
+            (0, _chai.expect)($countDown.text().trim()).to.equal('0:02');
           });
           andThen(function () {
             click(getValidateActionLink());
@@ -1456,6 +1385,102 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test.lint-test', ['exports'],
   'use strict';
 
   describe('ESLint - acceptance/h1-timeout-jauge-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  var TIMED_CHALLENGE_URL = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
+  var NOT_TIMED_CHALLENGE_URL = '/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id';
+  var CHALLENGE_ITEM_WARNING_BUTTON = '.challenge-item-warning button';
+
+  (0, _mocha.describe)('Acceptance | h2 - Warning prochaine page timée  | ', function () {
+
+    var application = undefined;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.describe)('h2- Test affichage ou non de la page avec le warning', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        visit(TIMED_CHALLENGE_URL);
+      });
+
+      //XXX: Deux cas car on test aussi une absence d'affichage
+      (0, _mocha.it)('h2.1- doit cacher le contenu du challenge si l\'épreuve est timée mais l\'afficher dans le cas contraire ', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              (0, _chai.expect)($('.challenge-statement')).to.have.lengthOf(0);
+              context$3$0.next = 3;
+              return regeneratorRuntime.awrap(visit(NOT_TIMED_CHALLENGE_URL));
+
+            case 3:
+              (0, _chai.expect)($('.challenge-statement')).to.have.lengthOf(1);
+
+            case 4:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('h2.2- doit afficher le warning si l\'épreuve est timée mais ne pas l\'afficher dans le cas contraire ', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(1);
+              context$3$0.next = 3;
+              return regeneratorRuntime.awrap(visit(NOT_TIMED_CHALLENGE_URL));
+
+            case 3:
+              (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(0);
+
+            case 4:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('h2.3- vérifier que le timer n\'est pas démarré automatiquement lorsque l\'épreuve est timée', function () {
+        (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(0);
+      });
+    });
+
+    (0, _mocha.describe)('h2-Test comportement lorsque le bouton de confirmation est cliqué', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        visit(TIMED_CHALLENGE_URL);
+        click(CHALLENGE_ITEM_WARNING_BUTTON);
+      });
+
+      (0, _mocha.it)('h2.1- vérifier que le warning est caché ', function () {
+        (0, _chai.expect)($(CHALLENGE_ITEM_WARNING_BUTTON)).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('h2.2- vérifier que le contenu de l\'épreuve est affiché', function () {
+        (0, _chai.expect)($('.challenge-statement').css('display')).to.contains('block');
+      });
+
+      (0, _mocha.it)('h2.3- vérifier que le timer est démarré ', function () {
+        (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/h2-page-warning-timee-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/h2-page-warning-timee-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });

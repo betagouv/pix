@@ -1921,13 +1921,21 @@ define('pix-live/mirage/data/challenges/raw-qcm-challenge', ['exports'], functio
 });
 define('pix-live/mirage/data/challenges/ref-qcm-challenge', ['exports'], function (exports) {
   // QCM challenge with all field filled
+
+  function getTimer() {
+    return window.mirageTestingState && window.mirageTestingState.stubTimer ? window.mirageTestingState.stubTimer : 2;
+  }
+
   exports['default'] = {
+    recalculate: function recalculate() {
+      this.data.attributes.timer = getTimer();
+    },
     data: {
       type: 'challenges',
       id: 'ref_qcm_challenge_id',
       attributes: {
         type: 'QCM',
-        timer: 2,
+        timer: getTimer(),
         instruction: 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)',
         attachments: ['http://example_of_url'],
         'illustration-url': 'http://fakeimg.pl/350x200/?text=PictureOfQCM',
@@ -2159,6 +2167,10 @@ define('pix-live/mirage/routes/get-challenge', ['exports', 'pix-live/utils/lodas
     var challenge = _pixLiveUtilsLodashCustom['default'].find(challenges, { id: request.params.id });
 
     if (challenge) {
+      if (challenge.obj.recalculate) {
+        challenge.obj.recalculate();
+      }
+
       return challenge.obj;
     } else {
       throw new Error('The challenge you required in the fake server does not exist ' + request.params.id);
@@ -3650,7 +3662,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+89fc0efb"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+77827cab"});
 }
 
 /* jshint ignore:end */
