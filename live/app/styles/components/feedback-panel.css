@@ -1,0 +1,40 @@
+.feedback-panel {
+  background-color: #dedede;
+  padding: 15px 40px 30px;
+  font-size: 15px;
+}
+
+/* status == FORM_CLOSED */
+
+.feedback-panel__open-link {
+  cursor: pointer;
+  color: var(--charcoal-grey);
+  font-weight: 600;
+}
+
+.feedback-panel__open-link:hover,
+.feedback-panel__open-link:focus,
+.feedback-panel__open-link:active {
+  color: var(--charcoal-grey);
+}
+
+/* status == FORM_OPENED */
+
+
+/* status == FORM_SUBMITTED */
+
+
+.feedback-panel__mercix-wrapper {
+  text-align: center;
+  width: 491px;
+  height: 65px;
+  font-family: var(--font-lato);
+  font-size: 18px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.67;
+  letter-spacing: normal;
+  color: var(--charcoal-grey);
+}
+
