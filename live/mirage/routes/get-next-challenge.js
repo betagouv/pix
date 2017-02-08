@@ -29,7 +29,7 @@ export default function (schema, request) {
     'ref_qcu_challenge_id': refQruChallengeFull,
     'ref_qru_challenge_id': refQrocChallengeFull,
     'ref_qroc_challenge_id': refQrocmChallengeFull,
-    'multiple_files_challenge_id': 'null'
+    'ref_qrocm_challenge_id': 'null'
   };
 
   const challenge = nextChallenge[request.params.challengeId];
