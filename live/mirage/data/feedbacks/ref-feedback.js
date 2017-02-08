@@ -1,6 +1,7 @@
 export default {
   data: {
     type: 'feedbacks',
+    id: 'ref_feedback_id',
     attributes: {
       email: 'shi@fu.me',
       content: 'Some content'
