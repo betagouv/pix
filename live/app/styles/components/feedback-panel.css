@@ -50,7 +50,7 @@
 }
 
 .feedback-panel__form {
-  width: 50%;
+  width: 100%;
 }
 
 .feedback-panel__group {
@@ -102,4 +102,22 @@
   padding-top: 20px;
   padding-bottom: 10px;
 }
+
+/*
+ * RWD
+ * --------------------------------------------------------------------------
+ */
+
+@media (min-width: 992px) {
+
+  .feedback-panel__form {
+    width: 50%;
+  }
+}
+
+
+
+
+
+
 
