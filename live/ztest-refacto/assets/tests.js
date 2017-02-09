@@ -309,7 +309,7 @@ define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test.lint-test'
     });
   });
 });
-define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveTestsHelpersSharedState, _pixLiveUtilsLodashCustom) {
 
   function getProposalInputs() {
     return $('.challenge-response__proposal-input');
@@ -411,6 +411,33 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
         }
       }, null, this);
     });
+
+    (0, _mocha.it)('b1.7 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', function callee$1$0() {
+      var $proposalInputs;
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            $proposalInputs = getProposalInputs();
+            context$2$0.next = 4;
+            return regeneratorRuntime.awrap(click($proposalInputs.eq(1)));
+
+          case 4:
+            // when click on second element ...
+            (0, _chai.expect)($('.challenge-response__proposal-input:checked')).to.have.lengthOf(1);
+            context$2$0.next = 7;
+            return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
+
+          case 7:
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers'); // then save the second value
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('2');
+
+          case 9:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, this);
+    });
   });
 });
 
@@ -424,7 +451,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test.lint-test', ['exports'], f
     });
   });
 });
-define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveTestsHelpersSharedState, _pixLiveUtilsLodashCustom) {
 
   function visitTimedChallenge() {
     visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
@@ -512,6 +539,25 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
         (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
       });
     });
+
+    (0, _mocha.it)('b2.12 If an user validate the challenge, the api is request to save the answer of the user', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            context$2$0.next = 3;
+            return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
+
+          case 3:
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('1,2');
+
+          case 5:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, this);
+    });
   });
 });
 define('pix-live/tests/acceptance/b2-epreuve-qcm-test.lint-test', ['exports'], function (exports) {
@@ -523,7 +569,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test.lint-test', ['exports'], f
     });
   });
 });
-define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/shared-state', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersSharedState, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveUtilsLodashCustom) {
 
   (0, _mocha.describe)('Acceptance | b3 - Afficher un QROC | ', function () {
 
@@ -558,6 +604,26 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
         (0, _chai.expect)($('.alert').text().trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
       });
     });
+
+    (0, _mocha.it)('b3.4 It should save the answer of the user when user validate', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            fillIn('input[data-uid="qroc-proposal-uid"]', 'My New Answer');
+            context$2$0.next = 4;
+            return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
+
+          case 4:
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers'); // then save the second value
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('My New Answer');
+
+          case 6:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, this);
+    });
   });
 });
 define('pix-live/tests/acceptance/b3-epreuve-qroc-test.lint-test', ['exports'], function (exports) {
@@ -569,7 +635,7 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test.lint-test', ['exports'], 
     });
   });
 });
-define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveTestsHelpersSharedState, _pixLiveUtilsLodashCustom) {
 
   (0, _mocha.describe)('Acceptance | b4 - Afficher un QROCM | ', function () {
 
@@ -610,6 +676,28 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['exports', 'mocha', '
             (0, _chai.expect)($('.alert').text().trim()).to.equal('Pour valider, saisir au moins une réponse. Sinon, passer.');
 
           case 5:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, this);
+    });
+
+    (0, _mocha.it)('b4.4 It should save the answer of the user when user validate', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            $(':input:eq(0)').val('stuff1');
+            $(':input:eq(1)').val('stuff2');
+            $(':input:eq(2)').val('stuff3');
+            context$2$0.next = 6;
+            return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
+
+          case 6:
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('logiciel1: stuff1\nlogiciel2: stuff2\nlogiciel3: stuff3\n');
+
+          case 8:
           case 'end':
             return context$2$0.stop();
         }
@@ -1210,7 +1298,7 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test.lint-tes
     });
   });
 });
-define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/shared-state', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersSharedState, _pixLiveTestsHelpersDestroyApp, _pixLiveUtilsLodashCustom) {
+define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveTestsHelpersSharedState, _pixLiveUtilsLodashCustom) {
 
   function getValidateActionLink() {
     return $('.challenge-actions__action-validate');
@@ -1325,6 +1413,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
         });
 
         (0, _mocha.it)('Si l\'utilisateur ABANDONNE et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
+          (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
           visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
@@ -1340,6 +1429,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
         });
 
         (0, _mocha.it)('Si l\'utilisateur ABANDONNE et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
+          (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
           visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
@@ -2822,6 +2912,7 @@ define('pix-live/tests/helpers/resolver.lint-test', ['exports'], function (expor
 define('pix-live/tests/helpers/shared-state', ['exports'], function (exports) {
   exports.resetTestingState = resetTestingState;
   exports.setTestingState = setTestingState;
+  exports.resetPostRequest = resetPostRequest;
   exports.urlOfLastPostRequest = urlOfLastPostRequest;
   exports.bodyOfLastPostRequest = bodyOfLastPostRequest;
 
@@ -2831,6 +2922,10 @@ define('pix-live/tests/helpers/shared-state', ['exports'], function (exports) {
 
   function setTestingState(state) {
     localStorage.setItem('mirageTestingState', JSON.stringify(state));
+  }
+
+  function resetPostRequest() {
+    localStorage.setItem('miragePostUrl', null);
   }
 
   function urlOfLastPostRequest() {
@@ -3959,40 +4054,6 @@ define('pix-live/tests/unit/helpers/strip-instruction-test.lint-test', ['exports
   'use strict';
 
   describe('ESLint - unit/helpers/strip-instruction-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/unit/initializers/ajax-interceptor-test', ['exports', 'chai', 'mocha', 'ember', 'pix-live/initializers/ajax-interceptor', 'pix-live/tests/helpers/destroy-app'], function (exports, _chai, _mocha, _ember, _pixLiveInitializersAjaxInterceptor, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)('Unit | Initializer | ajax interceptor', function () {
-    var application = undefined;
-
-    (0, _mocha.beforeEach)(function () {
-      _ember['default'].run(function () {
-        application = _ember['default'].Application.create();
-        application.deferReadiness();
-      });
-    });
-
-    afterEach(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    // Replace this with your real tests.
-    (0, _mocha.it)('works', function () {
-      (0, _pixLiveInitializersAjaxInterceptor.initialize)(application);
-
-      // you would normally confirm the results of the initializer here
-      (0, _chai.expect)(true).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/initializers/ajax-interceptor-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - unit/initializers/ajax-interceptor-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
