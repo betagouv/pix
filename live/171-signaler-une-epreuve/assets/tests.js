@@ -3381,27 +3381,51 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
 
     (0, _mocha.describe)('Error management', function () {
 
-      beforeEach(function () {
-        this.set('content', '');
+      (0, _mocha.it)('should display error if "content" is blank', function () {
+        // given
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'phHQJKYV',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status","content"],["FORM_OPENED",["get",["content"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': '2cm8XB2f',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status","content"],["FORM_OPENED","   "]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
+
+        // when
         this.$(BUTTON_SEND).click();
+
+        // then
+        (0, _chai.expect)(this.$('.alert')).to.have.length(1);
+        expectFormViewToBeVisible(this);
       });
 
-      (0, _mocha.it)('should display error if "content" is blank', function () {
+      (0, _mocha.it)('should display error if "email" is set but invalid', function () {
+        // given
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'IelwLHOR',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status","content","email"],["FORM_OPENED","Lorem ipsum dolor sit amet","wrong_email"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // when
+        this.$(BUTTON_SEND).click();
+
         (0, _chai.expect)(this.$('.alert')).to.have.length(1);
         expectFormViewToBeVisible(this);
       });
 
       (0, _mocha.it)('should not display error if "form" view (with error) was closed and re-opened', function () {
         // given
+        this.render(_ember['default'].HTMLBars.template({
+          'id': '2cm8XB2f',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status","content"],["FORM_OPENED","   "]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        this.$(BUTTON_SEND).click();
         (0, _chai.expect)(this.$('.alert')).to.have.length(1);
+
         // when
         this.$(BUTTON_CANCEL).click();
         this.$(OPEN_LINK).click();
+
         // then
         (0, _chai.expect)(this.$('.alert')).to.have.length(0);
       });
@@ -5121,6 +5145,15 @@ define('pix-live/tests/utils/call-only-once.lint-test', ['exports'], function (e
   'use strict';
 
   describe('ESLint - utils/call-only-once.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/utils/email-validator.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - utils/email-validator.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });

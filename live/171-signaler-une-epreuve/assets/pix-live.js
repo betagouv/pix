@@ -592,7 +592,7 @@ define('pix-live/components/ember-wormhole', ['exports', 'ember-wormhole/compone
     }
   });
 });
-define('pix-live/components/feedback-panel', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/components/feedback-panel', ['exports', 'ember', 'pix-live/utils/email-validator'], function (exports, _ember, _pixLiveUtilsEmailValidator) {
 
   var FORM_CLOSED = 'FORM_CLOSED';
   var FORM_OPENED = 'FORM_OPENED';
@@ -617,10 +617,16 @@ define('pix-live/components/feedback-panel', ['exports', 'ember'], function (exp
       sendFeedback: function sendFeedback() {
         var _this = this;
 
+        if (!_ember['default'].isEmpty(this.get('email')) && !(0, _pixLiveUtilsEmailValidator['default'])(this.get('email'))) {
+          this.set('error', 'Vous devez saisir une adresse mail valide.');
+          return;
+        }
+
         if (_ember['default'].isEmpty(this.get('content').trim())) {
           this.set('error', 'Vous devez saisir un message.');
           return;
         }
+
         var store = this.get('store');
         var answer = this.get('answer');
 
@@ -3757,6 +3763,14 @@ define('pix-live/utils/can-use-dom', ['exports', 'ember-metrics/utils/can-use-do
     }
   });
 });
+define("pix-live/utils/email-validator", ["exports"], function (exports) {
+  exports["default"] = isValidate;
+
+  function isValidate(email) {
+    var pattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    return pattern.test(email.trim());
+  }
+});
 define('pix-live/utils/get-challenge-type', ['exports', 'pix-live/utils/lodash-custom'], function (exports, _pixLiveUtilsLodashCustom) {
   exports['default'] = getChallengeType;
 
@@ -3942,7 +3956,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+e26a5ab9"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+e3f78299"});
 }
 
 /* jshint ignore:end */
