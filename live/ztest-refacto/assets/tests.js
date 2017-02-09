@@ -1219,17 +1219,12 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
     return $('.challenge-actions__action-skip');
   }
 
-  function fullUrlOfLastPostRequest() {
-    return $($('.last-post-request-url')[0]).text();
-  }
   function urlOfLastPostRequest() {
-    var postedOn = fullUrlOfLastPostRequest().split('/api/').pop();
-    postedOn = '/api/' + postedOn;
-    return postedOn;
+    return JSON.parse(localStorage.getItem('miragePostUrl')).url;
   }
 
   function bodyOfLastPostRequest() {
-    return JSON.parse($($('.last-post-request-body')[0]).text());
+    return JSON.parse(JSON.parse(localStorage.getItem('miragePostUrl')).body);
   }
 
   function visitTimedChallenge() {
@@ -1273,15 +1268,15 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
       (0, _mocha.describe)('Format d\'affichage', function () {
 
         beforeEach(function () {
-          window.mirageTestingState = {};
+          localStorage.setItem('mirageTestingState', null);
           visit('/');
         });
         afterEach(function () {
-          window.mirageTestingState = {};
+          localStorage.setItem('mirageTestingState', null);
         });
 
         (0, _mocha.it)('valeur 70 en backend est affichée 1:10 dans le timer', function () {
-          window.mirageTestingState = { stubTimer: 70 };
+          localStorage.setItem('mirageTestingState', JSON.stringify({ stubTimer: 70 }));
           visitTimedChallenge();
 
           andThen(function () {
@@ -1291,7 +1286,6 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
         });
 
         (0, _mocha.it)('valeur 2 en backend est affichée 0:02 dans le timer', function () {
-          window.mirageTestingState = { stubTimer: 2 };
           visitTimedChallenge();
           andThen(function () {
             var $countDown = findWithAssert('.timeout-jauge-remaining');
@@ -1301,14 +1295,6 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
       });
 
       (0, _mocha.describe)('Sauvegarde du temps passé | ', function () {
-
-        beforeEach(function () {
-          window.mirageTestingState = {};
-        });
-
-        afterEach(function () {
-          window.mirageTestingState = {};
-        });
 
         (0, _mocha.it)('Si l\'utilisateur valide et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
           visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');

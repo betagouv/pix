@@ -1352,10 +1352,13 @@ define('pix-live/initializers/ajax-interceptor', ['exports', 'pix-live/config/en
     if (_pixLiveConfigEnvironment['default'].environment === 'test') {
       $(document).ajaxComplete(function (event, xhr, settings) {
         if ('POST' === settings.type) {
-          $('.last-post-request').remove();
-          $('body').append('<div class="last-post-request"></div>');
-          $('.last-post-request').append('<div class="last-post-request-url">' + settings.url + '</div>');
-          $('.last-post-request').append('<div class="last-post-request-body">' + settings.data + '</div>');
+
+          var url = '/api' + settings.url.split('api')[1];
+
+          localStorage.setItem('miragePostUrl', JSON.stringify({
+            url: url,
+            body: settings.data
+          }));
         }
       });
     }
@@ -1661,6 +1664,7 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
   exports['default'] = function () {
 
     this.passthrough('/write-coverage');
+    this.passthrough('https://fonts.googleapis.com/css?family=');
     this.passthrough('https://formspree.io/**');
     this.post('https://sentry.io/**', function () {});
 
@@ -1923,7 +1927,15 @@ define('pix-live/mirage/data/challenges/ref-qcm-challenge', ['exports'], functio
   // QCM challenge with all field filled
 
   function getTimer() {
-    return window.mirageTestingState && window.mirageTestingState.stubTimer ? window.mirageTestingState.stubTimer : 2;
+
+    var mirageTestingState = JSON.parse(localStorage.getItem('mirageTestingState'));
+    // console.log('mirageTestingState- - - - - - - - - - - - - - - - - - - - ', mirageTestingState);
+    return mirageTestingState && mirageTestingState.stubTimer ? mirageTestingState.stubTimer : 2;
+    // return window.mirageTestingState && window.mirageTestingState.stubTimer ? window.mirageTestingState.stubTimer : 2;
+    // if (mirageTestingState) {
+    //   return mirageTestingState.stubTimer;
+    // }
+    // return 2;
   }
 
   exports['default'] = {
@@ -3662,7 +3674,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+77827cab"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+7d861671"});
 }
 
 /* jshint ignore:end */
