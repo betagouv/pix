@@ -5,12 +5,15 @@
         {{!-- checkbox --}}
         <input class="challenge-response__proposal-input"
           type="checkbox"
+          id="challenge-response{{inc index}}"
           name="{{inc index}}"
           checked={{labeledCheckbox.[1]}}
           onclick={{action "checkboxClicked"}} />
 
-        {{!-- text of proposal  --}}
-        {{labeledCheckbox.[0]}}
+        <label for="challenge-response{{inc index}}">
+          {{!-- text of proposal  --}}
+          {{labeledCheckbox.[0]}}
+        </label>
 
       </label>
   </p>
