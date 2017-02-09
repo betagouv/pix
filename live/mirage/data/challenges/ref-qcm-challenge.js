@@ -1,7 +1,15 @@
 // QCM challenge with all field filled
 
 function getTimer() {
-  return window.mirageTestingState && window.mirageTestingState.stubTimer ? window.mirageTestingState.stubTimer : 2;
+
+  const mirageTestingState = JSON.parse(localStorage.getItem('mirageTestingState'));
+  // console.log('mirageTestingState- - - - - - - - - - - - - - - - - - - - ', mirageTestingState);
+  return mirageTestingState && mirageTestingState.stubTimer ? mirageTestingState.stubTimer : 2;
+  // return window.mirageTestingState && window.mirageTestingState.stubTimer ? window.mirageTestingState.stubTimer : 2;
+  // if (mirageTestingState) {
+  //   return mirageTestingState.stubTimer;
+  // }
+  // return 2;
 }
 
 export default {

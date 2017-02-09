@@ -13,6 +13,7 @@ import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-
 export default function () {
 
   this.passthrough('/write-coverage');
+  this.passthrough('https://fonts.googleapis.com/css?family=');
   this.passthrough('https://formspree.io/**');
   this.post('https://sentry.io/**', () => {});
 

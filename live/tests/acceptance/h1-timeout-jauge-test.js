@@ -13,17 +13,13 @@ function getSkipActionLink() {
   return $('.challenge-actions__action-skip');
 }
 
-function fullUrlOfLastPostRequest() {
-  return $($('.last-post-request-url')[0]).text();
-}
+
 function urlOfLastPostRequest() {
-  let postedOn = fullUrlOfLastPostRequest().split('/api/').pop();
-  postedOn = '/api/' + postedOn;
-  return postedOn;
+  return JSON.parse(localStorage.getItem('miragePostUrl')).url;
 }
 
 function bodyOfLastPostRequest() {
-  return JSON.parse($($('.last-post-request-body')[0]).text());
+  return JSON.parse(JSON.parse(localStorage.getItem('miragePostUrl')).body);
 }
 
 function visitTimedChallenge() {
@@ -67,15 +63,15 @@ describe('Acceptance | H1 - Timeout Jauge | ', function () {
     describe('Format d\'affichage', function () {
 
       beforeEach(function() {
-        window.mirageTestingState = {};
+        localStorage.setItem('mirageTestingState', null);
         visit('/');
       });
       afterEach(function() {
-        window.mirageTestingState = {};
+        localStorage.setItem('mirageTestingState', null);
       });
 
       it('valeur 70 en backend est affichée 1:10 dans le timer', function () {
-        window.mirageTestingState = {stubTimer:70};
+        localStorage.setItem('mirageTestingState', JSON.stringify({stubTimer:70}));
         visitTimedChallenge();
 
         andThen(() => {
@@ -85,27 +81,16 @@ describe('Acceptance | H1 - Timeout Jauge | ', function () {
       });
 
       it('valeur 2 en backend est affichée 0:02 dans le timer', function () {
-        window.mirageTestingState = {stubTimer:2};
         visitTimedChallenge();
         andThen(() => {
           const $countDown = findWithAssert('.timeout-jauge-remaining');
           expect($countDown.text().trim()).to.equal('0:02');
         });
-
-
       });
 
     });
 
     describe('Sauvegarde du temps passé | ', function () {
-
-      beforeEach(function() {
-        window.mirageTestingState = {};
-      });
-
-      afterEach(function() {
-        window.mirageTestingState = {};
-      });
 
       it('Si l\'utilisateur valide et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
         visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
