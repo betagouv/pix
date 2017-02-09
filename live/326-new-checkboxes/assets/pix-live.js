@@ -14,6 +14,7 @@ define('pix-live/adapters/application', ['exports', 'ember-data', 'pix-live/conf
 
   });
 });
+//
 define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application', 'ember'], function (exports, _pixLiveAdaptersApplication, _ember) {
   exports['default'] = _pixLiveAdaptersApplication['default'].extend({
     // XXX : can't find in the docs why query params are in 3rd position
@@ -3832,7 +3833,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+e8bdbd6a"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+b1b869cb"});
 }
 
 /* jshint ignore:end */
