@@ -1,14 +1,21 @@
 .feedback-panel {
-  background-color: #dedede;
-  padding: 15px 40px 30px;
+  background-color: var(--feedback-panel-background-color);
+  color: var(--charcoal-grey);
+  padding: 20px 40px;
   font-size: 15px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
-/* status == FORM_CLOSED */
+/*
+ * "Link" view
+ * --------------------------------------------------------------------------
+ */
+
 
 .feedback-panel__open-link {
   cursor: pointer;
-  color: var(--charcoal-grey);
+  color: inherit;
   font-weight: 600;
 }
 
@@ -18,23 +25,81 @@
   color: var(--charcoal-grey);
 }
 
-/* status == FORM_OPENED */
+/*
+ * "Form" view
+ * --------------------------------------------------------------------------
+ */
 
 
-/* status == FORM_SUBMITTED */
+.feedback-panel__form-title {
+  font-size: 15px;
+  font-weight: 900;
+  margin: 0 0 20px;
+}
 
+.feedback-panel__form-description {
+  margin-bottom: 20px;
+}
 
-.feedback-panel__mercix-wrapper {
+.feedback-panel__form-description p {
+  margin: 0;
+}
+
+.feedback-panel__form-wrapper {
+  display: flex;
+}
+
+.feedback-panel__form {
+  width: 50%;
+}
+
+.feedback-panel__group {
+  margin-bottom: 10px;
+}
+
+.feedback-panel__field {
+  width: 100%;
+  border-radius: 3px;
+  background-color: #ffffff;
+  border: solid 1px #d8d8d8;
+  box-sizing: border-box;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.feedback-panel__field--content {
+  resize: none;
+}
+
+.feedback-panel__button {
+  border-radius: 3px;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  background-color: var(--feedback-panel-background-color);
+  border: 1px solid #7d808b;
+  margin-right: 10px;
+}
+
+.feedback-panel__button--send {
+  background-color: #7d808b;
+  color: white;
+}
+
+.feedback-panel__button--cancel {
+
+}
+
+/*
+ * "Mercix" view
+ * --------------------------------------------------------------------------
+ */
+
+.feedback-panel__view--mercix {
   text-align: center;
-  width: 491px;
-  height: 65px;
   font-family: var(--font-lato);
   font-size: 18px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.67;
-  letter-spacing: normal;
   color: var(--charcoal-grey);
+  padding-top: 20px;
+  padding-bottom: 10px;
 }
 

@@ -16,15 +16,16 @@
   background-color: var(--light-grey1);
   display: flex;
   flex-direction: column;
+  padding: 15px 15px 0;
 }
 
 .comparison-window__instruction {
-  margin: 20px 15px 15px;
+  margin: 0 0 15px;
   font-size: 16px;
 }
 
 .comparison-window__proposals {
-  margin: 0 15px 15px;
+  margin: 0 0 15px;
   font-size: 16px;
 }
 
@@ -85,7 +86,7 @@
   width: 1px;
   height: 50px;
   border: solid 1.5px #d5d5d5;
-  margin-left: 22px;
+  margin-left: 15px;
 }
 
 /*Close button*/
@@ -100,7 +101,7 @@
   }
 
   .comparison-window--body {
-    padding: 0 40px;
+    padding: 20px 40px 10px;
   }
 
 }

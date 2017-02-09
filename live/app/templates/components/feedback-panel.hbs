@@ -7,26 +7,31 @@
 
   {{else if isFormOpened}}
     <div class="feedback-panel__view feedback-panel__view--form">
-      <form class="feedback-panel__form">
-        <p class="feedback-panel__form-title">Signaler un problème</p>
+      <h3 class="feedback-panel__form-title">Signaler un problème</h3>
+
+      <div class="feedback-panel__form-description">
         <p>PIX est à l’écoute de vos remarques pour améliorer les épreuves proposées #personnenestparfait.</p>
         <p>Vous pouvez nous laisser votre adresse mail si vous le souhaitez. Vos coordonnées ne feront l’objet d’aucune transmission à des tiers.</p>
-        <div class="feedback-panel__field">
-          {{input class="feedback-panel__email" type="text" value=email placeholder="Votre email (optionnel)"}}
-        </div>
-        <div class="feedback-panel__field">
-          {{textarea class="feedback-panel__content" value=content placeholder="Votre message"}}
-        </div>
+      </div>
 
-        {{#if error}}
-          <div class="alert alert-danger" role="alert">
-            {{error}}
+      <div class="feedback-panel__form-wrapper">
+        <form class="feedback-panel__form">
+          <div class="feedback-panel__group">
+            {{input class="feedback-panel__field feedback-panel__field--email" type="text" value=email placeholder="Votre email (optionnel)"}}
           </div>
-        {{/if}}
+          <div class="feedback-panel__group">
+            {{textarea class="feedback-panel__field feedback-panel__field--content" value=content placeholder="Votre message" rows=6}}
+          </div>
 
-        <button class="feedback-panel__button feedback-panel__button--send" {{action "sendFeedback"}}>Envoyer</button>
-        <button class="feedback-panel__button feedback-panel__button--cancel" {{action "cancelFeedback"}}>Annuler</button>
-      </form>
+          {{#if error}}
+            <div class="alert alert-danger" role="alert">
+              {{error}}
+            </div>
+          {{/if}}
+          <button class="feedback-panel__button feedback-panel__button--send" {{action "sendFeedback"}}>Envoyer</button>
+          <button class="feedback-panel__button feedback-panel__button--cancel" {{action "cancelFeedback"}}>Annuler</button>
+        </form>
+      </div>
     </div>
 
   {{else }}

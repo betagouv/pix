@@ -104,13 +104,13 @@ describe('Integration | Component | feedback-panel', function () {
     });
 
     it('should contain email input field', function () {
-      const $email = this.$('input.feedback-panel__email');
+      const $email = this.$('input.feedback-panel__field--email');
       expect($email).to.have.length(1);
       expect($email.attr('placeholder')).to.equal('Votre email (optionnel)');
     });
 
     it('should contain content textarea field', function () {
-      const $password = this.$('textarea.feedback-panel__content');
+      const $password = this.$('textarea.feedback-panel__field--content');
       expect($password).to.have.length(1);
       expect($password.attr('placeholder')).to.equal('Votre message');
     });
@@ -136,7 +136,7 @@ describe('Integration | Component | feedback-panel', function () {
 
     it('clicking on "send" button should save the feedback into the store / API and display the "mercix" view', function () {
       // given
-      const $content = this.$('.feedback-panel__content');
+      const $content = this.$('.feedback-panel__field--content');
       $content.val('Prêtes-moi ta plume, pour écrire un mot');
       $content.change();
 
