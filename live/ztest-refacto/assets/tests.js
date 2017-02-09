@@ -1210,21 +1210,13 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test.lint-tes
     });
   });
 });
-define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveUtilsLodashCustom) {
+define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/shared-state', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersSharedState, _pixLiveTestsHelpersDestroyApp, _pixLiveUtilsLodashCustom) {
 
   function getValidateActionLink() {
     return $('.challenge-actions__action-validate');
   }
   function getSkipActionLink() {
     return $('.challenge-actions__action-skip');
-  }
-
-  function urlOfLastPostRequest() {
-    return JSON.parse(localStorage.getItem('miragePostUrl')).url;
-  }
-
-  function bodyOfLastPostRequest() {
-    return JSON.parse(JSON.parse(localStorage.getItem('miragePostUrl')).body);
   }
 
   function visitTimedChallenge() {
@@ -1268,15 +1260,16 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
       (0, _mocha.describe)('Format d\'affichage', function () {
 
         beforeEach(function () {
-          localStorage.setItem('mirageTestingState', null);
+          (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
           visit('/');
         });
+
         afterEach(function () {
-          localStorage.setItem('mirageTestingState', null);
+          (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
         });
 
         (0, _mocha.it)('valeur 70 en backend est affichée 1:10 dans le timer', function () {
-          localStorage.setItem('mirageTestingState', JSON.stringify({ stubTimer: 70 }));
+          (0, _pixLiveTestsHelpersSharedState.setTestingState)({ stubTimer: 70 });
           visitTimedChallenge();
 
           andThen(function () {
@@ -1308,8 +1301,8 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
             click(getValidateActionLink());
           });
           andThen(function () {
-            (0, _chai.expect)(urlOfLastPostRequest()).to.equal('/api/answers');
-            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(2);
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.timeout')).to.equal(2);
           });
         });
 
@@ -1326,8 +1319,8 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
             click(getValidateActionLink());
           });
           andThen(function () {
-            (0, _chai.expect)(urlOfLastPostRequest()).to.equal('/api/answers');
-            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(-1);
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.timeout')).to.equal(-1);
           });
         });
 
@@ -1341,8 +1334,8 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
             click(getSkipActionLink());
           });
           andThen(function () {
-            (0, _chai.expect)(urlOfLastPostRequest()).to.equal('/api/answers');
-            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(2);
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.timeout')).to.equal(2);
           });
         });
 
@@ -1359,8 +1352,8 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
             click(getSkipActionLink());
           });
           andThen(function () {
-            (0, _chai.expect)(urlOfLastPostRequest()).to.equal('/api/answers');
-            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(-1);
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.timeout')).to.equal(-1);
           });
         });
       });
@@ -2821,6 +2814,37 @@ define('pix-live/tests/helpers/resolver.lint-test', ['exports'], function (expor
   'use strict';
 
   describe('ESLint - helpers/resolver.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/helpers/shared-state', ['exports'], function (exports) {
+  exports.resetTestingState = resetTestingState;
+  exports.setTestingState = setTestingState;
+  exports.urlOfLastPostRequest = urlOfLastPostRequest;
+  exports.bodyOfLastPostRequest = bodyOfLastPostRequest;
+
+  function resetTestingState() {
+    localStorage.setItem('mirageTestingState', null);
+  }
+
+  function setTestingState(state) {
+    localStorage.setItem('mirageTestingState', JSON.stringify(state));
+  }
+
+  function urlOfLastPostRequest() {
+    return JSON.parse(localStorage.getItem('miragePostUrl')).url;
+  }
+
+  function bodyOfLastPostRequest() {
+    return JSON.parse(JSON.parse(localStorage.getItem('miragePostUrl')).body);
+  }
+});
+define('pix-live/tests/helpers/shared-state.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - helpers/shared-state.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });

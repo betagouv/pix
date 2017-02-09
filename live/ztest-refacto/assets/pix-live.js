@@ -1929,13 +1929,7 @@ define('pix-live/mirage/data/challenges/ref-qcm-challenge', ['exports'], functio
   function getTimer() {
 
     var mirageTestingState = JSON.parse(localStorage.getItem('mirageTestingState'));
-    // console.log('mirageTestingState- - - - - - - - - - - - - - - - - - - - ', mirageTestingState);
     return mirageTestingState && mirageTestingState.stubTimer ? mirageTestingState.stubTimer : 2;
-    // return window.mirageTestingState && window.mirageTestingState.stubTimer ? window.mirageTestingState.stubTimer : 2;
-    // if (mirageTestingState) {
-    //   return mirageTestingState.stubTimer;
-    // }
-    // return 2;
   }
 
   exports['default'] = {
@@ -3674,7 +3668,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+7d861671"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+abfdcf5d"});
 }
 
 /* jshint ignore:end */
