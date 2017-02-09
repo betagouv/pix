@@ -1,4 +1,8 @@
 
+label {
+  font-weight: normal;
+}
+
 input[type="checkbox"]:not(:checked),
 input[type="checkbox"]:checked {
   position: absolute;
@@ -21,10 +25,15 @@ input[type="checkbox"]:checked + label:before {
   position: absolute;
   left:0; top: 2px;
   width: 17px; height: 17px; /* dim. de la case */
-  border: 1px solid #aaa;
-  background: #f8f8f8;
+  transition: all .2s;
   border-radius: 3px; /* angles arrondis */
-  box-shadow: inset 0 1px 3px rgba(0,0,0,.3) /* légère ombre interne */
+  /*box-shadow: inset 0 1px 3px rgba(0,0,0,.3);*/ /* légère ombre interne */
+}
+input[type="checkbox"]:not(:checked) + label:before {
+  border: 2px solid #aaa;
+}
+input[type="checkbox"]:checked + label:before {
+  background: #3D68FF;
 }
 
 /* Aspect général de la coche */
@@ -32,20 +41,23 @@ input[type="checkbox"]:not(:checked) + label:after,
 input[type="checkbox"]:checked + label:after {
   content: '✔';
   position: absolute;
-  top: 0; left: 4px;
+  top: 0; left: 3px;
   font-size: 14px;
-  color: #09ad7e;
+  color: white;
   transition: all .2s; /* on prévoit une animation */
 }
 /* Aspect si "pas cochée" */
 input[type="checkbox"]:not(:checked) + label:after {
   opacity: 0; /* coche invisible */
   transform: scale(0); /* mise à l'échelle à 0 */
+  /*background: white;*/
 }
+
 /* Aspect si "cochée" */
 input[type="checkbox"]:checked + label:after {
   opacity: 1; /* coche opaque */
   transform: scale(1); /* mise à l'échelle 1:1 */
+  /*background: blue;*/
 }
 
 
@@ -56,10 +68,12 @@ input[type="checkbox"]:disabled:checked + label:before {
   border-color: #bbb;
   background-color: #ddd;
 }
+
 /* styles de la coche (si cochée/désactivée) */
 input[type="checkbox"]:disabled:checked + label:after {
   color: #999;
 }
+
 /* on style aussi le label quand désactivé */
 input[type="checkbox"]:disabled + label {
   color: #aaa;
@@ -68,5 +82,5 @@ input[type="checkbox"]:disabled + label {
 /* aspect au focus de l'élément */
 input[type="checkbox"]:checked:focus + label:before,
 input[type="checkbox"]:not(:checked):focus + label:before {
-  border: 1px dotted blue;
+  /*border: 1px dotted blue;*/
 }
