@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
+import wait from 'ember-test-helpers/wait';
 import hbs from 'htmlbars-inline-precompile';
 
 const LINK_VIEW = '.feedback-panel__view--link';
@@ -75,8 +76,6 @@ describe('Integration | Component | feedback-panel', function () {
     const storeStub = Ember.Service.extend({
       createRecord() {
         return Object.create({
-          email: 'shi@fu.me',
-          content: 'Lorem ipsum dolor sit amet.',
           save() {
             isSaveMethodCalled = true;
             return Ember.RSVP.resolve();
@@ -84,9 +83,15 @@ describe('Integration | Component | feedback-panel', function () {
         });
       }
     });
-
     beforeEach(function () {
-      this.render(hbs`{{feedback-panel status='FORM_OPENED'}}`);
+      // configure answer & cie. model object
+      const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
+      const challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
+      const answer = Ember.Object.extend({ id: 'answer_id', assessment, challenge }).create();
+
+      // render component
+      this.set('answer', answer);
+      this.render(hbs`{{feedback-panel answer=answer status='FORM_OPENED'}}`);
 
       // stub store service
       this.register('service:store', storeStub);
@@ -123,41 +128,60 @@ describe('Integration | Component | feedback-panel', function () {
     });
 
     it('clicking on "cancel" button should close the "form" view and and display the "link" view', function () {
-      // given
-      const $buttonCancel = this.$(BUTTON_CANCEL);
       // when
-      $buttonCancel.click();
+      this.$(BUTTON_CANCEL).click();
       // then
       expectLinkViewToBeVisible(this);
     });
 
-    it('clicking on "send" button should close the "form" view and and display the "mercix" view', function () {
+    it('clicking on "send" button should save the feedback into the store / API and display the "mercix" view', function () {
       // given
-      const $buttonSend = this.$(BUTTON_SEND);
-      // when
-      $buttonSend.click();
-      // then
-      expectMercixViewToBeVisible(this);
-    });
+      const $content = this.$('.feedback-panel__content');
+      $content.val('Prêtes-moi ta plume, pour écrire un mot');
+      $content.change();
 
-    it('clicking on "send" button should save the feedback into the store / API', function () {
-      // given
-      const $buttonSend = this.$(BUTTON_SEND);
       // when
-      $buttonSend.click();
+      this.$(BUTTON_SEND).click();
       // then
-      expect(isSaveMethodCalled).to.be.true;
+      return wait().then(() => {
+        expect(isSaveMethodCalled).to.be.true;
+        expectMercixViewToBeVisible(this);
+      });
     });
   });
 
-  describe('Form view', function () {
+  describe('Mercix view', function () {
 
     beforeEach(function () {
-      this.render(hbs`{{feedback-panel status='FORM_SENT'}}`);
+      this.render(hbs`{{feedback-panel status='FORM_SUBMITTED'}}`);
     });
 
     it('should display only the "mercix" view', function () {
       expectMercixViewToBeVisible(this);
+    });
+  });
+
+  describe('Error management', function () {
+
+    beforeEach(function () {
+      this.set('content', '');
+      this.render(hbs`{{feedback-panel status='FORM_OPENED' content=content}}`);
+      this.$(BUTTON_SEND).click();
+    });
+
+    it('should display error if "content" is blank', function () {
+      expect(this.$('.alert')).to.have.length(1);
+      expectFormViewToBeVisible(this);
+    });
+
+    it('should not display error if "form" view (with error) was closed and re-opened', function () {
+      // given
+      expect(this.$('.alert')).to.have.length(1);
+      // when
+      this.$(BUTTON_CANCEL).click();
+      this.$(OPEN_LINK).click();
+      // then
+      expect(this.$('.alert')).to.have.length(0);
     });
 
   });

@@ -10,14 +10,20 @@
       <form class="feedback-panel__form">
         <p class="feedback-panel__form-title">Signaler un problème</p>
         <p>PIX est à l’écoute de vos remarques pour améliorer les épreuves proposées #personnenestparfait.</p>
-        <p>Vous pouvez nous laisser votre adresse mail si vous le souhaitez. Vos coordonnées ne feront l’objet d’aucune
-          transmission à des tiers.</p>
+        <p>Vous pouvez nous laisser votre adresse mail si vous le souhaitez. Vos coordonnées ne feront l’objet d’aucune transmission à des tiers.</p>
         <div class="feedback-panel__field">
           {{input class="feedback-panel__email" type="text" value=email placeholder="Votre email (optionnel)"}}
         </div>
         <div class="feedback-panel__field">
           {{textarea class="feedback-panel__content" value=content placeholder="Votre message"}}
         </div>
+
+        {{#if error}}
+          <div class="alert alert-danger" role="alert">
+            {{error}}
+          </div>
+        {{/if}}
+
         <button class="feedback-panel__button feedback-panel__button--send" {{action "sendFeedback"}}>Envoyer</button>
         <button class="feedback-panel__button feedback-panel__button--cancel" {{action "cancelFeedback"}}>Annuler</button>
       </form>
