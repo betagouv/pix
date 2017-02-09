@@ -163,23 +163,39 @@ describe('Integration | Component | feedback-panel', function () {
 
   describe('Error management', function () {
 
-    beforeEach(function () {
-      this.set('content', '');
-      this.render(hbs`{{feedback-panel status='FORM_OPENED' content=content}}`);
+    it('should display error if "content" is blank', function () {
+      // given
+      this.render(hbs`{{feedback-panel status='FORM_OPENED' content='   '}}`);
+
+      // when
       this.$(BUTTON_SEND).click();
+
+      // then
+      expect(this.$('.alert')).to.have.length(1);
+      expectFormViewToBeVisible(this);
     });
 
-    it('should display error if "content" is blank', function () {
+    it('should display error if "email" is set but invalid', function () {
+      // given
+      this.render(hbs`{{feedback-panel status='FORM_OPENED' content='Lorem ipsum dolor sit amet' email='wrong_email'}}`);
+
+      // when
+      this.$(BUTTON_SEND).click();
+
       expect(this.$('.alert')).to.have.length(1);
       expectFormViewToBeVisible(this);
     });
 
     it('should not display error if "form" view (with error) was closed and re-opened', function () {
       // given
+      this.render(hbs`{{feedback-panel status='FORM_OPENED' content='   '}}`);
+      this.$(BUTTON_SEND).click();
       expect(this.$('.alert')).to.have.length(1);
+
       // when
       this.$(BUTTON_CANCEL).click();
       this.$(OPEN_LINK).click();
+
       // then
       expect(this.$('.alert')).to.have.length(0);
     });

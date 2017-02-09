@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import isValid from '../utils/email-validator';
 
 const FORM_CLOSED = 'FORM_CLOSED';
 const FORM_OPENED= 'FORM_OPENED';
@@ -21,10 +22,16 @@ const FeedbackPanel = Ember.Component.extend({
     },
 
     sendFeedback() {
+      if (!Ember.isEmpty(this.get('email')) && !isValid(this.get('email'))) {
+        this.set('error', 'Vous devez saisir une adresse mail valide.');
+        return;
+      }
+
       if (Ember.isEmpty(this.get('content').trim())) {
         this.set('error', 'Vous devez saisir un message.');
         return;
       }
+
       const store = this.get('store');
       const answer = this.get('answer');
 

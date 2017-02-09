@@ -44,7 +44,7 @@
   position: absolute;
   top: -25px;
   right: -10px; /*XXX : right alignment, found no other way to achieve it;*/
-  margin-right: 0px;
+  margin-right: 0;
   height: 17px;
   font-family: var(--font-lato);
   font-size: 14px;
@@ -95,6 +95,10 @@
 }
 
 @media (min-width: 992px) {
+
+  .comparison-window {
+    padding: 0;
+  }
 
   .comparison-window--dialog {
     margin-top: 60px;
