@@ -20,29 +20,22 @@ const FeedbackPanel = Ember.Component.extend({
       this.set('status', FORM_OPENED);
     },
 
-    sendFeedback: async function() {
+    sendFeedback() {
       if (Ember.isEmpty(this.get('content').trim())) {
-        Ember.Logger.info('AHHHHHHHH');
         this.set('error', 'Vous devez saisir un message.');
         return;
       }
       const store = this.get('store');
       const answer = this.get('answer');
-      const assessment = await answer.get('assessment');
-      const challenge = await answer.get('challenge');
 
       const feedback = store.createRecord('feedback', {
         email: this.get('email'),
         content: this.get('content'),
-        assessment,
-        challenge
+        assessment: answer.get('assessment'),
+        challenge: answer.get('challenge')
       });
       feedback.save()
-        .then(() => this.set('status', FORM_SUBMITTED))
-        .catch(err => {
-          Ember.Logger.error('GRrrrrrr !!!');
-          Ember.Logger.error(err);
-        });
+        .then(() => this.set('status', FORM_SUBMITTED));
     },
 
     cancelFeedback() {
