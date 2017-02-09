@@ -1,8 +1,8 @@
 import { describe, it, before, after } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
-import {bodyOfLastPostRequest, urlOfLastPostRequest, resetTestingState, setTestingState} from '../helpers/shared-state';
 import destroyApp from '../helpers/destroy-app';
+import {resetPostRequest, bodyOfLastPostRequest, urlOfLastPostRequest, resetTestingState, setTestingState} from '../helpers/shared-state';
 import _ from 'pix-live/utils/lodash-custom';
 
 
@@ -121,6 +121,7 @@ describe('Acceptance | H1 - Timeout Jauge | ', function () {
       });
 
       it('Si l\'utilisateur ABANDONNE et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
+        resetPostRequest();
         visitTimedChallenge();
         andThen(() => {
           triggerEvent('.timeout-jauge', 'resetElapsedTime');
@@ -136,6 +137,7 @@ describe('Acceptance | H1 - Timeout Jauge | ', function () {
       });
 
       it('Si l\'utilisateur ABANDONNE et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
+        resetPostRequest();
         visitTimedChallenge();
         andThen(() => {
           triggerEvent('.timeout-jauge', 'resetElapsedTime');
