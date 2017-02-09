@@ -20,7 +20,7 @@ const FeedbackPanel = Ember.Component.extend({
       this.set('status', FORM_OPENED);
     },
 
-    async sendFeedback() {
+    sendFeedback: async function() {
       if (Ember.isEmpty(this.get('content').trim())) {
         Ember.Logger.info('AHHHHHHHH');
         this.set('error', 'Vous devez saisir un message.');
