@@ -27,19 +27,45 @@ module.exports = {
     assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
-        answerRepository.findByAssessment(assessment.get('id')).then((answers) => {
+        courseRepository
+          .get(assessment.get('courseId'))
+          .then((course) => {
 
-          const modelAnswers = _.map(answers.models, (o) => o.attributes);
+            const challengePromises = course.challenges.map(challengeId => challengeRepository.get(challengeId));
 
-          _.forEach(modelAnswers, function(answer) {
-            console.error(answer.challengeId, answer.result);
-            challengeRepository
-              .get(answer.challengeId)
-              .then((challenge) => console.error(challenge.instruction, challenge.knowledge));
-              // Based on this data, we can infer the level of the learner, and their acquired knowledge
-          });
+            Promise.all(challengePromises)
+              .then(challenges => {
 
-        });
+                const knowledgeOf = {};
+                _.forEach(challenges, challenge => {
+                  knowledgeOf[challenge.id] = challenge.knowledge;
+                });
+
+                const acquired = [];
+                const not_acquired = [];
+                answerRepository.findByAssessment(assessment.get('id')).then((answers) => {
+
+                  const modelAnswers = _.map(answers.models, (o) => o.attributes);
+
+                  _.forEach(modelAnswers, function(answer) {
+                    if(answer.result == 'ok') {
+                      acquired.push(...knowledgeOf[answer.challengeId] || []);
+                      // propagate <-
+                    } else {
+                      not_acquired.push(...knowledgeOf[answer.challengeId] || []);
+                      // propagate ->
+                    }
+                    // Based on this data, we can infer the level of the learner, and their acquired knowledge
+                  });
+
+                  console.error('acquired', acquired);
+                  console.error('not acquired', not_acquired);
+
+                });
+
+              }).catch((err) => reply(Boom.badImplementation(err)));
+
+          }).catch((err) => reply(Boom.badImplementation(err)));
 
         const serializedAssessment = assessmentSerializer.serialize(assessment);
         return reply(serializedAssessment);
