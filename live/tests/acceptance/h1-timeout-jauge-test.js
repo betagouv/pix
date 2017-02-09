@@ -1,9 +1,9 @@
 import { describe, it, before, after } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
+import {bodyOfLastPostRequest, urlOfLastPostRequest, resetTestingState, setTestingState} from '../helpers/shared-state';
 import destroyApp from '../helpers/destroy-app';
 import _ from 'pix-live/utils/lodash-custom';
-
 
 
 function getValidateActionLink() {
@@ -13,14 +13,6 @@ function getSkipActionLink() {
   return $('.challenge-actions__action-skip');
 }
 
-
-function urlOfLastPostRequest() {
-  return JSON.parse(localStorage.getItem('miragePostUrl')).url;
-}
-
-function bodyOfLastPostRequest() {
-  return JSON.parse(JSON.parse(localStorage.getItem('miragePostUrl')).body);
-}
 
 function visitTimedChallenge() {
   visit(TIMED_CHALLENGE_URI);
@@ -63,15 +55,16 @@ describe('Acceptance | H1 - Timeout Jauge | ', function () {
     describe('Format d\'affichage', function () {
 
       beforeEach(function() {
-        localStorage.setItem('mirageTestingState', null);
+        resetTestingState();
         visit('/');
       });
+
       afterEach(function() {
-        localStorage.setItem('mirageTestingState', null);
+        resetTestingState();
       });
 
       it('valeur 70 en backend est affichée 1:10 dans le timer', function () {
-        localStorage.setItem('mirageTestingState', JSON.stringify({stubTimer:70}));
+        setTestingState({stubTimer:70});
         visitTimedChallenge();
 
         andThen(() => {
