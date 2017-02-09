@@ -3232,7 +3232,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
     (0, _chai.expect)(component.$(MERCIX_VIEW)).to.have.length(1);
   }
 
-  _mocha.describe.only('Integration | Component | feedback-panel', function () {
+  (0, _mocha.describe)('Integration | Component | feedback-panel', function () {
 
     (0, _emberMocha.setupComponentTest)('feedback-panel', {
       integration: true
