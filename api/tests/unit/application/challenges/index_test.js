@@ -1,3 +1,4 @@
+const { describe, it, before, after, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const ChallengeController = require('../../../../lib/application/challenges/challenge-controller');
 
@@ -60,6 +61,21 @@ describe('Unit | Router | ChallengeRouter', function () {
 
     it('should exist', function (done) {
       expectRouteToExist({ method: 'POST', url: '/api/challenges/challenge_id' }, done);
+    });
+  });
+
+  describe('POST /api/challenges/{id}/solution', function () {
+
+    before(function () {
+      sinon.stub(ChallengeController, 'refreshSolution', (request, reply) => reply('ok'));
+    });
+
+    after(function () {
+      ChallengeController.refreshSolution.restore();
+    });
+
+    it('should exist', function (done) {
+      expectRouteToExist({ method: 'POST', url: '/api/challenges/challenge_id/solution' }, done);
     });
   });
 
