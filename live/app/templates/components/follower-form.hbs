@@ -1,15 +1,15 @@
 <form class="follower__form" id="contact-form">
   <div class="follower__form-container">
     <div class="follower__form-item follower__form-input-container">
-      <input class="follower-enter" onchange={{action "updateEmail"}} placeholder="Saisissez votre email" type="email">
+      {{input class="follower-enter" placeholder="Saisissez votre email" type="email" value=followerEmail}}
     </div>
     <div class="follower__form-item">
-      <button {{action "submition" allowedKeys="enter"}}
-        class="follower-button {{if isSubmited 'is-sending' 'is-default'}}">{{submitButton}}</button>
+      <button {{action "submit" allowedKeys="enter"}}
+        class="follower-button {{if isSubmited 'is-sending' 'is-default'}}">{{submitButtonText}}</button>
     </div>
   </div>
 
-  {{#if infoMessage}}
+  {{#if hasMessage}}
     <div class="follower-info-message {{if hasError 'has-error' 'has-success'}}">
     {{#if hasError}}
         <svg style="width:15px;height:15px;" viewBox="0 0 24 24">

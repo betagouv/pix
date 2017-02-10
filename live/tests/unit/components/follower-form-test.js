@@ -6,7 +6,6 @@ import {setupTest} from 'ember-mocha';
 describe('Unit | Component | followerComponent', function () {
   setupTest('component:follower-form', {});
 
-
   describe('Computed property', function () {
     let component;
 

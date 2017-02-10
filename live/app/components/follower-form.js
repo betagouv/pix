@@ -2,77 +2,64 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   emailValidator: Ember.inject.service('email-validator'),
+  store: Ember.inject.service(),
   hasError: false,
-  email: '',
-  successRequest: false,
   isSubmited: false,
   defaultMessage: {
     error: 'Votre adresse n\'est pas valide',
     success: 'Merci pour votre inscription'
   },
 
-  submitButton: Ember.computed('isSubmited', function () {
+  hasMessage: Ember.computed('hasError', 'isSubmited', function () {
+    if(!this.get('isSubmited')){
+      return false;
+    }
+    if(!this.get('hasError')){
+      return false;
+    }
+    return true;
+  }),
+
+  infoMessage: Ember.computed('hasError', function(){
+    return (this.get('hasError'))? this.get('defaultMessage.error') :  this.get('defaultMessage.success');
+  }),
+
+  submitButtonText: Ember.computed('isSubmited', function () {
     if(!this.get('isSubmited')){
       return 's\'inscrire';
     }
     return 'envoi en cours';
   }),
 
-  infoMessage: Ember.computed('hasError', 'isSubmited', function () {
-    if(!this.get('isSubmited')){
+  _checkEmail(email){
+    if (!this.get('emailValidator').emailIsValid(email)) {
       return false;
     }
-    if(this.get('hasError')){
-      return this.get('defaultMessage.error');
-    }
-    return this.get('defaultMessage.success');
-  }),
-
-  _checkEmail(context, email){
-    if (!context.get('emailValidator').emailIsValid(email)) {
-      context.set('hasError', true);
-      Ember.run.later(function () {
-        context.set('isSubmited', false);
-      }, 5000);
-      return false;
-    }
-  },
-
-  _saveFollower(email, context){
-    $.ajax({
-      url: 'http://localhost:3000/api/followers',
-      method: 'POST',
-      data: {email: email},
-      dataType: 'json',
-      beforeSend: function () {
-
-      },
-      success: function () {
-        context.set('hasError', false);
-      },
-      error: function () {
-        context.set('hasError', true);
-      },
-      complete: function(){
-        //XXX: Au bout de 1,2 seconde, le formulaire revient à son état initial
-        //XXX: 1,2 s à modifier selon le Po
-        Ember.run.later(function(){
-          context.set('isSubmited', false);
-          this.set('email','');
-        }, 1200);
-      }
-    });
+    return true;
   },
 
   actions: {
-    updateEmail(){
-      this.set('email', event.target.value);
-    },
-
-    submition(){
+    submit(){
       this.set('isSubmited', true);
-      this._checkEmail(this, this.get('email').trim());
-      return this._saveFollower(this.get('email').trim(), this);
+      const email = this.get('followerEmail').trim();
+      if(!this._checkEmail(email)){
+        this.set('hasError', true);
+        Ember.run.later(function () {
+          this.set('isSubmited', false);
+        }.bind(this), 1500);
+        Ember.Logger.info('false');
+        return;
+      }
+
+      const store = this.get('store');
+      const follower = store.createRecord('follower',{email: email});
+      follower.save()
+              .then((followerSaved) => {
+                  Ember.Logger.info('true', followerSaved);
+              })
+              .catch((err) => {
+                Ember.Logger.info(err);
+              });
     }
   }
 });

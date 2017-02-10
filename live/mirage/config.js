@@ -8,6 +8,7 @@ import postAnswers                       from './routes/post-answers';
 import getAssessment                     from './routes/get-assessment';
 import postAssessments                   from './routes/post-assessments';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
+import postFollowers                     from './routes/post-followers';
 
 export default function () {
 
@@ -32,4 +33,5 @@ export default function () {
   this.get('/answers/:id',     getAnswer);
   this.get('/answers',        getAnswerByChallengeAndAssessment);
 
+  this.post('/followers', postFollowers);
 }
