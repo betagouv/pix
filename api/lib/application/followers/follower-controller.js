@@ -38,7 +38,7 @@ module.exports = {
       .then(_assertFollowerNotExist)
       .then(() => _saveFollower(email))
       .then((follower) => {
-        reply(follower).code(201)
+        reply(followerSerializer.serialize(follower)).code(201)
       })
       .catch((err) => reply(err));
   }
