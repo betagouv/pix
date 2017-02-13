@@ -1,6 +1,6 @@
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const jsYaml = require('js-yaml');
-const _ = require('../../utils/lodash-utils');
+const _ = require('../../infrastructure/utils/lodash-utils');
 
 function _applyTreatments(objects) {
   const result = {};
@@ -25,7 +25,6 @@ function _hasBadAnswers(validations) {
   const badAnswers = _.filter(validations, (item) => item === false);
   return !_.isEmpty(badAnswers);
 }
-
 
 function _compareAnswersAndSolutions(answers, solutions) {
 
@@ -89,7 +88,6 @@ module.exports = {
 
     // Restitution
     return _calculateResult(scoring, validations);
-
   }
 
 };

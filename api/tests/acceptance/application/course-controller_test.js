@@ -1,5 +1,7 @@
-/* global describe, before, after, knex, nock, it, expect */
+const { describe, it, before, after, expect, nock } = require('../../test-helper');
 const server = require('../../../server');
+
+server.register(require('inject-then'));
 
 describe('Acceptance | API | Courses', function () {
 
