@@ -2,8 +2,6 @@ const { describe, it, after, beforeEach, afterEach, expect, knex } = require('..
 const server = require('../../../server');
 const Feedback = require('../../../lib/domain/models/data/feedback');
 
-server.register(require('inject-then'));
-
 describe('Acceptance | Controller | feedback-controller', function () {
 
   after(function (done) {
@@ -13,7 +11,7 @@ describe('Acceptance | Controller | feedback-controller', function () {
   describe('POST /api/feedbacks', function () {
 
     beforeEach(function (done) {
-      knex('feedbacks').delete().then(() => done() );
+      knex('feedbacks').delete().then(() => done());
     });
 
     afterEach(function (done) {
@@ -47,14 +45,14 @@ describe('Acceptance | Controller | feedback-controller', function () {
     };
 
     it('should return 201 HTTP status code', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         expect(response.statusCode).to.equal(201);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -62,7 +60,7 @@ describe('Acceptance | Controller | feedback-controller', function () {
     });
 
     it('should add a new feedback into the database', function (done) {
-      server.injectThen(options).then(() => {
+      server.inject(options, () => {
         Feedback.count().then((afterFeedbacksNumber) => {
           expect(afterFeedbacksNumber).to.equal(1);
           done();
@@ -72,7 +70,7 @@ describe('Acceptance | Controller | feedback-controller', function () {
 
     it('should return persisted feedback', function (done) {
       // when
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         const feedback = response.result.data;
 
         // then

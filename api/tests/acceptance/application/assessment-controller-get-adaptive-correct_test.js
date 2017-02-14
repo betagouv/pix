@@ -102,7 +102,7 @@ describe('Acceptance | API | Assessments', function () {
     it('should return the second challenge if the first answer is correct', function (done) {
 
       const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/w_first_challenge' };
-      server.injectThen(challengeData).then((response) => {
+      server.inject(challengeData, (response) => {
         expect(response.result.data.id).to.equal('w_second_challenge');
         done();
       });
