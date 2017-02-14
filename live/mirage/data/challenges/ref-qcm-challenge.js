@@ -1,7 +1,6 @@
 // QCM challenge with all field filled
 
 function getTimer() {
-
   const mirageTestingState = JSON.parse(localStorage.getItem('mirageTestingState'));
   return mirageTestingState && mirageTestingState.stubTimer ? mirageTestingState.stubTimer : 2;
 }

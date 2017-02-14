@@ -2,7 +2,7 @@ import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import {resetPostRequest, bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
+import { resetPostRequest, bodyOfLastPostRequest, urlOfLastPostRequest } from '../helpers/shared-state';
 import _ from 'pix-live/utils/lodash-custom';
 
 function getProposalInputs() {
@@ -69,11 +69,10 @@ describe('Acceptance | b1 - Afficher un QCU | ', function () {
   it('b1.7 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', async function () {
     resetPostRequest();
     const $proposalInputs = getProposalInputs();
-    await click($proposalInputs.eq(1)); // when click on second element ...
+    await click($proposalInputs.eq(1));
     expect($('.challenge-response__proposal-input:checked')).to.have.lengthOf(1);
     await click('.challenge-actions__action-validate');
-    expect(urlOfLastPostRequest()).to.equal('/api/answers'); // then save the second value
+    expect(urlOfLastPostRequest()).to.equal('/api/answers');
     expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('2');
-
   });
 });

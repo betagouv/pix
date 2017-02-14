@@ -43,7 +43,7 @@ describe('Acceptance | b3 - Afficher un QROC | ', function () {
     resetPostRequest();
     fillIn('input[data-uid="qroc-proposal-uid"]', 'My New Answer');
     await click('.challenge-actions__action-validate');
-    expect(urlOfLastPostRequest()).to.equal('/api/answers'); // then save the second value
+    expect(urlOfLastPostRequest()).to.equal('/api/answers');
     expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('My New Answer');
   });
 

@@ -13,8 +13,8 @@ import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-
 export default function () {
 
   this.passthrough('/write-coverage');
-  this.passthrough('https://fonts.googleapis.com/css?family=');
-  this.passthrough('https://formspree.io/**');
+  this.post('https://fonts.googleapis.com/**', () => {});
+  this.post('https://formspree.io/**', () => {});
   this.post('https://sentry.io/**', () => {});
 
   this.namespace = 'http://localhost:3000/api';
