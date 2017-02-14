@@ -11,7 +11,6 @@ function _buildAnswer(result) {
 
 describe('Unit | Service | ChallengeService', function () {
 
-
   const allCases = [
     {case: 'ok', oppositeCase: 'ko'},
     {case: 'ko', oppositeCase: 'ok'},

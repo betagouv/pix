@@ -43,7 +43,7 @@ describe('Unit | Repository | AnswerRepository', function () {
       knex('answers').delete().then(() => {done();});
     });
 
-    it('should findByChallengeAndAssessment', function (done) {
+    it('should find the answer by challenge and assessment and return its in an object', function (done) {
       expect(AnswerRepository.findByChallengeAndAssessment).to.exist;
       AnswerRepository.findByChallengeAndAssessment('challenge_1234', 1234).then(function(foundAnswers) {
         expect(foundAnswers).to.exist;
@@ -92,7 +92,7 @@ describe('Unit | Repository | AnswerRepository', function () {
       knex('answers').delete().then(() => {done();});
     });
 
-    it('should findByChallenge', function (done) {
+    it('should find all answers by challenge', function (done) {
 
       expect(AnswerRepository.findByChallenge).to.exist;
 
@@ -112,6 +112,5 @@ describe('Unit | Repository | AnswerRepository', function () {
       });
     });
   });
-
-
+  
 });

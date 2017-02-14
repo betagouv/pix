@@ -64,7 +64,7 @@ describe('Unit | Router | ChallengeRouter', function () {
     });
   });
 
-  describe('', function () {
+  describe('PUT /api/challenges/{id}/validate', function () {
 
     before(function () {
       sinon.stub(ChallengeController, 'revalidateAnswers', (request, reply) => reply('ok'));
