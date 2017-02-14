@@ -1,6 +1,7 @@
+const {describe, it, expect} = require('../../../test-helper');
 const service = require('../../../../lib/domain/services/email-validator');
 
-describe('Unit | Service | EmailValidator', function () {
+describe('Unit | Service | email-validator', function () {
 
   it('should return false when email is not provided', function () {
     expect(service.emailIsValid()).to.be.false;

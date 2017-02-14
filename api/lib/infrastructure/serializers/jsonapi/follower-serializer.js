@@ -1,5 +1,5 @@
 const JSONAPISerializer = require('./jsonapi-serializer');
-const Follower = require('../../domain/models/data/follower');
+const Follower = require('../../../domain/models/data/follower');
 
 class FollowerSerializer extends JSONAPISerializer {
 
