@@ -116,7 +116,7 @@ describe('Acceptance | API | Assessments', function () {
     it('should return the second challenge if the first answer is correct', function (done) {
 
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/w_first_challenge' };
-      server.injectThen(options, (response) => {
+      server.inject(options, (response) => {
         expect(response.result.data.id).to.equal('w_second_challenge');
         done();
       });
