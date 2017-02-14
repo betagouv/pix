@@ -133,8 +133,8 @@ define('pix-live/tests/acceptance/a3-voir-liste-tests-test', ['exports', 'mocha'
       });
 
       (0, _mocha.it)('a3.2.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-        var courseChallenges = '8 épreuves';
-        (0, _chai.expect)($course.find('.course-number-of-challenges').text()).to.contains(courseChallenges);
+        var courseChallenges = '5 épreuves';
+        (0, _chai.expect)($course.find('.course-number-of-challenges').text().trim()).to.equal(courseChallenges);
       });
 
       (0, _mocha.it)('a3.2.4 on affiche son image', function () {
@@ -309,7 +309,7 @@ define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test.lint-test'
     });
   });
 });
-define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveTestsHelpersSharedState, _pixLiveUtilsLodashCustom) {
 
   function getProposalInputs() {
     return $('.challenge-response__proposal-input');
@@ -411,6 +411,32 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
         }
       }, null, this);
     });
+
+    (0, _mocha.it)('b1.7 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', function callee$1$0() {
+      var $proposalInputs;
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            $proposalInputs = getProposalInputs();
+            context$2$0.next = 4;
+            return regeneratorRuntime.awrap(click($proposalInputs.eq(1)));
+
+          case 4:
+            (0, _chai.expect)($('.challenge-response__proposal-input:checked')).to.have.lengthOf(1);
+            context$2$0.next = 7;
+            return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
+
+          case 7:
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('2');
+
+          case 9:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, this);
+    });
   });
 });
 
@@ -424,7 +450,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test.lint-test', ['exports'], f
     });
   });
 });
-define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveTestsHelpersSharedState, _pixLiveUtilsLodashCustom) {
 
   function visitTimedChallenge() {
     visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
@@ -512,6 +538,25 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
         (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
       });
     });
+
+    (0, _mocha.it)('b2.12 If an user validate the challenge, the api is request to save the answer of the user', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            context$2$0.next = 3;
+            return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
+
+          case 3:
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('1,2');
+
+          case 5:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, this);
+    });
   });
 });
 define('pix-live/tests/acceptance/b2-epreuve-qcm-test.lint-test', ['exports'], function (exports) {
@@ -523,7 +568,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test.lint-test', ['exports'], f
     });
   });
 });
-define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/shared-state', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersSharedState, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveUtilsLodashCustom) {
 
   (0, _mocha.describe)('Acceptance | b3 - Afficher un QROC | ', function () {
 
@@ -558,6 +603,26 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
         (0, _chai.expect)($('.alert').text().trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
       });
     });
+
+    (0, _mocha.it)('b3.4 It should save the answer of the user when user validate', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            fillIn('input[data-uid="qroc-proposal-uid"]', 'My New Answer');
+            context$2$0.next = 4;
+            return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
+
+          case 4:
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('My New Answer');
+
+          case 6:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, this);
+    });
   });
 });
 define('pix-live/tests/acceptance/b3-epreuve-qroc-test.lint-test', ['exports'], function (exports) {
@@ -569,7 +634,7 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test.lint-test', ['exports'], 
     });
   });
 });
-define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveTestsHelpersSharedState, _pixLiveUtilsLodashCustom) {
 
   (0, _mocha.describe)('Acceptance | b4 - Afficher un QROCM | ', function () {
 
@@ -610,6 +675,28 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['exports', 'mocha', '
             (0, _chai.expect)($('.alert').text().trim()).to.equal('Pour valider, saisir au moins une réponse. Sinon, passer.');
 
           case 5:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, this);
+    });
+
+    (0, _mocha.it)('b4.4 It should save the answer of the user when user validate', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            $(':input:eq(0)').val('stuff1');
+            $(':input:eq(1)').val('stuff2');
+            $(':input:eq(2)').val('stuff3');
+            context$2$0.next = 6;
+            return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
+
+          case 6:
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('logiciel1: stuff1\nlogiciel2: stuff2\nlogiciel3: stuff3\n');
+
+          case 8:
           case 'end':
             return context$2$0.stop();
         }
@@ -976,7 +1063,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'moch
           while (1) switch (context$3$0.prev = context$3$0.next) {
             case 0:
               context$3$0.next = 2;
-              return regeneratorRuntime.awrap(visit('/assessments/ref_assessment_id/challenges/multiple_files_challenge_id'));
+              return regeneratorRuntime.awrap(visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id'));
 
             case 2:
               context$3$0.next = 4;
@@ -1210,26 +1297,13 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test.lint-tes
     });
   });
 });
-define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveUtilsLodashCustom) {
+define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveTestsHelpersSharedState, _pixLiveUtilsLodashCustom) {
 
   function getValidateActionLink() {
     return $('.challenge-actions__action-validate');
   }
   function getSkipActionLink() {
     return $('.challenge-actions__action-skip');
-  }
-
-  function fullUrlOfLastPostRequest() {
-    return $($('.last-post-request-url')[0]).text();
-  }
-  function urlOfLastPostRequest() {
-    var postedOn = fullUrlOfLastPostRequest().split('/api/').pop();
-    postedOn = '/api/' + postedOn;
-    return postedOn;
-  }
-
-  function bodyOfLastPostRequest() {
-    return JSON.parse($($('.last-post-request-body')[0]).text());
   }
 
   function visitTimedChallenge() {
@@ -1240,15 +1314,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
     });
   }
 
-  function visitTimedQruChallenge() {
-    visit(TIMED_QRU_CHALLENGE_URI);
-    andThen(function () {
-      var buttonConfirm = findWithAssert(CHALLENGE_ITEM_WARNING_BUTTON);
-      buttonConfirm.click();
-    });
-  }
   var TIMED_CHALLENGE_URI = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
-  var TIMED_QRU_CHALLENGE_URI = '/assessments/ref_assessment_id/challenges/ref_qru_challenge_id';
   var CHALLENGE_ITEM_WARNING_BUTTON = '.challenge-item-warning button';
 
   (0, _mocha.describe)('Acceptance | H1 - Timeout Jauge | ', function () {
@@ -1280,103 +1346,30 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
     (0, _mocha.describe)('Test quand la jauge est affichée', function () {
       (0, _mocha.describe)('Format d\'affichage', function () {
 
-        (0, _mocha.it)('valeur 2 en backend est affichée 0:02 dans le timer', function () {
-          visitTimedChallenge();
-          andThen(function () {
-            var $countDown = findWithAssert('.timeout-jauge-remaining');
-            (0, _chai.expect)($countDown.text().trim()).to.equal('0:02');
-          });
+        beforeEach(function () {
+          (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
+          visit('/');
+        });
+
+        afterEach(function () {
+          (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
         });
 
         (0, _mocha.it)('valeur 70 en backend est affichée 1:10 dans le timer', function () {
-          visitTimedQruChallenge();
+          (0, _pixLiveTestsHelpersSharedState.setTestingState)({ stubTimer: 70 });
+          visitTimedChallenge();
+
           andThen(function () {
             var $countDown = findWithAssert('.timeout-jauge-remaining');
             (0, _chai.expect)($countDown.text().trim()).to.equal('1:10');
           });
         });
 
-        (0, _mocha.it)('Le timer se décharge progressivement', function () {
+        (0, _mocha.it)('valeur 2 en backend est affichée 0:02 dans le timer', function () {
           visitTimedChallenge();
           andThen(function () {
-            triggerEvent('.timeout-jauge', 'resetElapsedTime');
-          });
-          // cas 1 : pas encore chargé
-          andThen(function () {
-            var $jaugeProgress = findWithAssert('.timeout-jauge-progress');
-            (0, _chai.expect)($jaugeProgress.width()).to.equal(0);
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 2 : moitié chargé (50 signifie ici 50% de la largeur du compteur)
-          andThen(function () {
-            var $jaugeProgress = findWithAssert('.timeout-jauge-progress');
-            (0, _chai.expect)($jaugeProgress.width()).to.equal(50);
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 3 : complètement chargé (100 signifie ici 100% de la largeur du compteur)
-          andThen(function () {
-            var $jaugeProgress = findWithAssert('.timeout-jauge-progress');
-            (0, _chai.expect)($jaugeProgress.width()).to.equal(100);
-          });
-        });
-
-        (0, _mocha.it)('Décremente le compteur toutes les secondes, et s\'arrête définitivement à 0:00', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-          andThen(function () {
-            triggerEvent('.timeout-jauge', 'resetElapsedTime');
-          });
-          // cas 1 : pas encore chargé
-          andThen(function () {
-            var $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
-            (0, _chai.expect)($jaugeRemaining.text().trim()).to.equal('0:02');
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 2 : moitié chargé
-          andThen(function () {
-            var $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
-            (0, _chai.expect)($jaugeRemaining.text().trim()).to.equal('0:01');
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 3 : complètement chargé
-          andThen(function () {
-            var $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
-            (0, _chai.expect)($jaugeRemaining.text().trim()).to.equal('0:00');
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 4 : trop chargé (temps imparti dépassé)
-          andThen(function () {
-            var $jaugeRemaining = findWithAssert('.timeout-jauge-remaining');
-            (0, _chai.expect)($jaugeRemaining.text().trim()).to.equal('0:00');
-          });
-        });
-
-        (0, _mocha.it)('Affiche le pictogramme en noir, ou en rouge lorsque le timer est à 0:00', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-          andThen(function () {
-            triggerEvent('.timeout-jauge', 'resetElapsedTime');
-          });
-          // cas 1 : pas encore chargé : picto noir
-          andThen(function () {
-            var $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
-            (0, _chai.expect)($jaugeClock.attr('fill')).to.equal('black');
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 2 : moitié chargé : picto noir
-          andThen(function () {
-            var $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
-            (0, _chai.expect)($jaugeClock.attr('fill')).to.equal('black');
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 3 : complètement chargé : picto rouge
-          andThen(function () {
-            var $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
-            (0, _chai.expect)($jaugeClock.attr('fill')).to.equal('red');
-          });
-          triggerEvent('.timeout-jauge', 'simulateOneMoreSecond');
-          // cas 4 : trop chargé (temps imparti dépassé) : picto rouge
-          andThen(function () {
-            var $jaugeClock = findWithAssert('.timeout-jauge-clock svg path');
-            (0, _chai.expect)($jaugeClock.attr('fill')).to.equal('red');
+            var $countDown = findWithAssert('.timeout-jauge-remaining');
+            (0, _chai.expect)($countDown.text().trim()).to.equal('0:02');
           });
         });
       });
@@ -1388,13 +1381,15 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
             $('.last-post-request').remove();
+            var $countDown = findWithAssert('.timeout-jauge-remaining');
+            (0, _chai.expect)($countDown.text().trim()).to.equal('0:02');
           });
           andThen(function () {
             click(getValidateActionLink());
           });
           andThen(function () {
-            (0, _chai.expect)(urlOfLastPostRequest()).to.equal('/api/answers');
-            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(2);
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.timeout')).to.equal(2);
           });
         });
 
@@ -1411,12 +1406,13 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
             click(getValidateActionLink());
           });
           andThen(function () {
-            (0, _chai.expect)(urlOfLastPostRequest()).to.equal('/api/answers');
-            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(-1);
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.timeout')).to.equal(-1);
           });
         });
 
         (0, _mocha.it)('Si l\'utilisateur ABANDONNE et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
+          (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
           visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
@@ -1426,12 +1422,13 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
             click(getSkipActionLink());
           });
           andThen(function () {
-            (0, _chai.expect)(urlOfLastPostRequest()).to.equal('/api/answers');
-            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(2);
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.timeout')).to.equal(2);
           });
         });
 
         (0, _mocha.it)('Si l\'utilisateur ABANDONNE et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
+          (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
           visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
@@ -1444,8 +1441,8 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
             click(getSkipActionLink());
           });
           andThen(function () {
-            (0, _chai.expect)(urlOfLastPostRequest()).to.equal('/api/answers');
-            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(-1);
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.timeout')).to.equal(-1);
           });
         });
       });
@@ -1456,6 +1453,102 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test.lint-test', ['exports'],
   'use strict';
 
   describe('ESLint - acceptance/h1-timeout-jauge-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  var TIMED_CHALLENGE_URL = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
+  var NOT_TIMED_CHALLENGE_URL = '/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id';
+  var CHALLENGE_ITEM_WARNING_BUTTON = '.challenge-item-warning button';
+
+  (0, _mocha.describe)('Acceptance | h2 - Warning prochaine page timée  | ', function () {
+
+    var application = undefined;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.describe)('h2- Test affichage ou non de la page avec le warning', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        visit(TIMED_CHALLENGE_URL);
+      });
+
+      //XXX: Deux cas car on test aussi une absence d'affichage
+      (0, _mocha.it)('h2.1- doit cacher le contenu du challenge si l\'épreuve est timée mais l\'afficher dans le cas contraire ', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              (0, _chai.expect)($('.challenge-statement')).to.have.lengthOf(0);
+              context$3$0.next = 3;
+              return regeneratorRuntime.awrap(visit(NOT_TIMED_CHALLENGE_URL));
+
+            case 3:
+              (0, _chai.expect)($('.challenge-statement')).to.have.lengthOf(1);
+
+            case 4:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('h2.2- doit afficher le warning si l\'épreuve est timée mais ne pas l\'afficher dans le cas contraire ', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(1);
+              context$3$0.next = 3;
+              return regeneratorRuntime.awrap(visit(NOT_TIMED_CHALLENGE_URL));
+
+            case 3:
+              (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(0);
+
+            case 4:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('h2.3- vérifier que le timer n\'est pas démarré automatiquement lorsque l\'épreuve est timée', function () {
+        (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(0);
+      });
+    });
+
+    (0, _mocha.describe)('h2-Test comportement lorsque le bouton de confirmation est cliqué', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        visit(TIMED_CHALLENGE_URL);
+        click(CHALLENGE_ITEM_WARNING_BUTTON);
+      });
+
+      (0, _mocha.it)('h2.1- vérifier que le warning est caché ', function () {
+        (0, _chai.expect)($(CHALLENGE_ITEM_WARNING_BUTTON)).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('h2.2- vérifier que le contenu de l\'épreuve est affiché', function () {
+        (0, _chai.expect)($('.challenge-statement').css('display')).to.contains('block');
+      });
+
+      (0, _mocha.it)('h2.3- vérifier que le timer est démarré ', function () {
+        (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/h2-page-warning-timee-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/h2-page-warning-timee-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -2819,6 +2912,42 @@ define('pix-live/tests/helpers/resolver.lint-test', ['exports'], function (expor
   'use strict';
 
   describe('ESLint - helpers/resolver.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/helpers/shared-state', ['exports'], function (exports) {
+  exports.resetTestingState = resetTestingState;
+  exports.setTestingState = setTestingState;
+  exports.resetPostRequest = resetPostRequest;
+  exports.urlOfLastPostRequest = urlOfLastPostRequest;
+  exports.bodyOfLastPostRequest = bodyOfLastPostRequest;
+
+  function resetTestingState() {
+    localStorage.setItem('mirageTestingState', null);
+  }
+
+  function setTestingState(state) {
+    localStorage.setItem('mirageTestingState', JSON.stringify(state));
+  }
+
+  function resetPostRequest() {
+    localStorage.setItem('miragePostUrl', null);
+  }
+
+  function urlOfLastPostRequest() {
+    return JSON.parse(localStorage.getItem('miragePostUrl')).url;
+  }
+
+  function bodyOfLastPostRequest() {
+    return JSON.parse(JSON.parse(localStorage.getItem('miragePostUrl')).body);
+  }
+});
+define('pix-live/tests/helpers/shared-state.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - helpers/shared-state.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -4258,40 +4387,6 @@ define('pix-live/tests/unit/helpers/strip-instruction-test.lint-test', ['exports
   'use strict';
 
   describe('ESLint - unit/helpers/strip-instruction-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/unit/initializers/ajax-interceptor-test', ['exports', 'chai', 'mocha', 'ember', 'pix-live/initializers/ajax-interceptor', 'pix-live/tests/helpers/destroy-app'], function (exports, _chai, _mocha, _ember, _pixLiveInitializersAjaxInterceptor, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)('Unit | Initializer | ajax interceptor', function () {
-    var application = undefined;
-
-    (0, _mocha.beforeEach)(function () {
-      _ember['default'].run(function () {
-        application = _ember['default'].Application.create();
-        application.deferReadiness();
-      });
-    });
-
-    afterEach(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    // Replace this with your real tests.
-    (0, _mocha.it)('works', function () {
-      (0, _pixLiveInitializersAjaxInterceptor.initialize)(application);
-
-      // you would normally confirm the results of the initializer here
-      (0, _chai.expect)(true).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/initializers/ajax-interceptor-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - unit/initializers/ajax-interceptor-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
