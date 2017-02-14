@@ -24,7 +24,7 @@
 
 /* Input
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-.follower-enter {
+.follower-email {
   height: 46px;
   width: 100%;
   border: none;
@@ -40,7 +40,7 @@
 
 /* Button
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-.follower-button {
+.follower-form__button {
   position: relative;
   border: 1px solid #c3d0ff;
   border-radius: 4px;
@@ -53,10 +53,10 @@
   outline: none;
 }
 
-.follower-button.is-default {
+.follower-form__button--default{
   background: var(--follower-button-default);
 }
-.follower-button.is-sending{
+.follower-form__button--pending{
   background: var(--follower-button-sending);
 }
 

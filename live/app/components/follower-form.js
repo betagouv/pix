@@ -1,40 +1,46 @@
 import Ember from 'ember';
-const timeoutMessage = 1500;
+const messageDisplayDuration = 1500;
 
-function hideMessageDiv(context){
+function hideMessageDiv(context) {
   Ember.run.later(function () {
-    context.set('isSubmited', false);
-  }, timeoutMessage);
+    context.set('status', 'empty');
+  }, messageDisplayDuration);
 }
 export default Ember.Component.extend({
   emailValidator: Ember.inject.service('email-validator'),
   store: Ember.inject.service(),
-  hasError: null,
-  isSubmited: false,
-  defaultMessage: {
+  status: 'empty', // empty | pending | success | error
+  messages: {
     error: 'Votre adresse n\'est pas valide',
     success: 'Merci pour votre inscription'
   },
 
-  hasMessage: Ember.computed('hasError', 'isSubmited', function () {
-    if (!this.get('isSubmited')) {
-      return false;
-    }
-    if (!this.get('hasError')) {
-      return false;
-    }
-    return true;
+  hasError: Ember.computed('status', function () {
+    return this.get('status') === 'error';
+  }),
+
+  isPending: Ember.computed('status', function () {
+    return this.get('status') === 'pending';
+  }),
+
+  hasSuccess: Ember.computed('status', function () {
+    return this.get('status') === 'success';
+  }),
+
+  hasMessage: Ember.computed('hasError', 'hasSuccess', function () {
+    return this.get('hasError') || this.get('hasSuccess');
+  }),
+
+  messageClassName: Ember.computed('status', function () {
+    return (this.get('status') === 'error') ? 'has-error' : 'has-success';
   }),
 
   infoMessage: Ember.computed('hasError', function () {
-    return (this.get('hasError')) ? this.get('defaultMessage.error') : this.get('defaultMessage.success');
+    return (this.get('hasError')) ? this.get('messages.error') : this.get('messages.success');
   }),
 
-  submitButtonText: Ember.computed('isSubmited', function () {
-    if (!this.get('isSubmited')) {
-      return 's\'inscrire';
-    }
-    return 'envoi en cours';
+  submitButtonText: Ember.computed('status', function () {
+    return (this.get('status') === 'pending') ? 'envoi en cours' : 's\'inscrire';
   }),
 
   _checkEmail(email){
@@ -46,26 +52,24 @@ export default Ember.Component.extend({
 
   actions: {
     submit(){
-      this.set('isSubmited', true);
-      const email = this.get('followerEmail').trim();
-      if (!this._checkEmail(email)) {
-        this.set('hasError', true);
+      this.set('status', 'pending');
+      const email = (this.get('followerEmail'))? this.get('followerEmail').trim() : '';
+      if (!this._checkEmail(email) || email.length<1) {
+        this.set('status', 'error');
         hideMessageDiv(this);
-        Ember.Logger.info('false');
         return;
       }
 
       const store = this.get('store');
       const follower = store.createRecord('follower', {email: email});
       follower.save()
-        .then((followerSaved) => {
-          Ember.Logger.info('true', followerSaved);
-          this.set('hasError', false);
+        .then(() => {
+          this.set('status', 'success');
           hideMessageDiv(this);
+          this.set('followerEmail', null);
         })
-        .catch((err) => {
-          Ember.Logger.info(err);
-          this.set('hasError', true);
+        .catch(() => {
+          this.set('status', 'error');
           hideMessageDiv(this);
         });
     }
