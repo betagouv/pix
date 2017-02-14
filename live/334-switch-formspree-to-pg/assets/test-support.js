@@ -20375,12 +20375,13 @@ define('ember-test-helpers/test-module-for-component', ['exports', 'ember-test-h
       }
 
       var integrationOption = callbacks.integration;
+      var hasNeeds = Array.isArray(callbacks.needs);
 
       _get(Object.getPrototypeOf(_default.prototype), 'constructor', this).call(this, 'component:' + componentName, description, callbacks);
 
       this.componentName = componentName;
 
-      if (callbacks.needs || callbacks.unit || integrationOption === false) {
+      if (hasNeeds || callbacks.unit || integrationOption === false) {
         this.isUnitTest = true;
       } else if (integrationOption) {
         this.isUnitTest = false;
