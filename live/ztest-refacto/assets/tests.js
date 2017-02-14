@@ -2188,6 +2188,15 @@ define('pix-live/tests/components/course-banner.lint-test', ['exports'], functio
     });
   });
 });
+define('pix-live/tests/components/feedback-panel.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/feedback-panel.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/components/first-page.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -3325,6 +3334,242 @@ define('pix-live/tests/integration/components/corner-ribbon-test.lint-test', ['e
     });
   });
 });
+define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (exports, _ember, _chai, _mocha, _emberMocha, _emberTestHelpersWait) {
+
+  var LINK_VIEW = '.feedback-panel__view--link';
+  var FORM_VIEW = '.feedback-panel__view--form';
+  var MERCIX_VIEW = '.feedback-panel__view--mercix';
+  var OPEN_LINK = '.feedback-panel__open-link';
+  var BUTTON_SEND = '.feedback-panel__button--send';
+  var BUTTON_CANCEL = '.feedback-panel__button--cancel';
+
+  function expectLinkViewToBeVisible(component) {
+    (0, _chai.expect)(component.$(LINK_VIEW)).to.have.length(1);
+    (0, _chai.expect)(component.$(FORM_VIEW)).to.have.length(0);
+    (0, _chai.expect)(component.$(MERCIX_VIEW)).to.have.length(0);
+  }
+
+  function expectFormViewToBeVisible(component) {
+    (0, _chai.expect)(component.$(LINK_VIEW)).to.have.length(0);
+    (0, _chai.expect)(component.$(FORM_VIEW)).to.have.length(1);
+    (0, _chai.expect)(component.$(MERCIX_VIEW)).to.have.length(0);
+  }
+
+  function expectMercixViewToBeVisible(component) {
+    (0, _chai.expect)(component.$(LINK_VIEW)).to.have.length(0);
+    (0, _chai.expect)(component.$(FORM_VIEW)).to.have.length(0);
+    (0, _chai.expect)(component.$(MERCIX_VIEW)).to.have.length(1);
+  }
+
+  (0, _mocha.describe)('Integration | Component | feedback-panel', function () {
+
+    (0, _emberMocha.setupComponentTest)('feedback-panel', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('Default rendering', function () {
+
+      (0, _mocha.it)('should display only the "link" view', function () {
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'W1nXUGqH',
+          'block': '{"statements":[["append",["unknown",["feedback-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // then
+        expectLinkViewToBeVisible(this);
+      });
+    });
+
+    (0, _mocha.describe)('Link view', function () {
+
+      beforeEach(function () {
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'DnUF9xqA',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status"],["FORM_CLOSED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+      });
+
+      (0, _mocha.it)('should display only the "link" view', function () {
+        expectLinkViewToBeVisible(this);
+      });
+
+      (0, _mocha.it)('the link label should be "Signaler un problème"', function () {
+        (0, _chai.expect)(this.$(OPEN_LINK).text()).to.contains('Signaler un problème');
+      });
+
+      (0, _mocha.it)('clicking on the open link should hide the "link" view and display the "form" view', function () {
+        // when
+        this.$(OPEN_LINK).click();
+        // then
+        expectFormViewToBeVisible(this);
+      });
+    });
+
+    (0, _mocha.describe)('Form view', function () {
+
+      var isSaveMethodCalled = false;
+      var storeStub = _ember['default'].Service.extend({
+        createRecord: function createRecord() {
+          return Object.create({
+            save: function save() {
+              isSaveMethodCalled = true;
+              return _ember['default'].RSVP.resolve();
+            }
+          });
+        }
+      });
+      beforeEach(function () {
+        // configure answer & cie. model object
+        var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
+        var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
+        var answer = _ember['default'].Object.extend({ id: 'answer_id', assessment: assessment, challenge: challenge }).create();
+
+        // render component
+        this.set('answer', answer);
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'yNmlycrx',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["answer","status"],[["get",["answer"]],"FORM_OPENED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // stub store service
+        this.register('service:store', storeStub);
+        this.inject.service('store', { as: 'store' });
+        isSaveMethodCalled = false;
+      });
+
+      (0, _mocha.it)('should display only the "form" view', function () {
+        expectFormViewToBeVisible(this);
+      });
+
+      (0, _mocha.it)('should contain email input field', function () {
+        var $email = this.$('input.feedback-panel__field--email');
+        (0, _chai.expect)($email).to.have.length(1);
+        (0, _chai.expect)($email.attr('placeholder')).to.equal('Votre email (optionnel)');
+      });
+
+      (0, _mocha.it)('should contain content textarea field', function () {
+        var $password = this.$('textarea.feedback-panel__field--content');
+        (0, _chai.expect)($password).to.have.length(1);
+        (0, _chai.expect)($password.attr('placeholder')).to.equal('Votre message');
+      });
+
+      (0, _mocha.it)('should contain "send" button with label "Envoyer" and placeholder "Votre email (optionnel)"', function () {
+        var $buttonSend = this.$(BUTTON_SEND);
+        (0, _chai.expect)($buttonSend).to.have.length(1);
+        (0, _chai.expect)($buttonSend.text()).to.equal('Envoyer');
+      });
+
+      (0, _mocha.it)('should contain "cancel" button with label "Annuler" and placeholder "Votre message"', function () {
+        var $buttonCancel = this.$(BUTTON_CANCEL);
+        (0, _chai.expect)($buttonCancel).to.have.length(1);
+        (0, _chai.expect)($buttonCancel.text()).to.equal('Annuler');
+      });
+
+      (0, _mocha.it)('clicking on "cancel" button should close the "form" view and and display the "link" view', function () {
+        // when
+        this.$(BUTTON_CANCEL).click();
+        // then
+        expectLinkViewToBeVisible(this);
+      });
+
+      (0, _mocha.it)('clicking on "send" button should save the feedback into the store / API and display the "mercix" view', function () {
+        var _this = this;
+
+        // given
+        var $content = this.$('.feedback-panel__field--content');
+        $content.val('Prêtes-moi ta plume, pour écrire un mot');
+        $content.change();
+
+        // when
+        this.$(BUTTON_SEND).click();
+        // then
+        return (0, _emberTestHelpersWait['default'])().then(function () {
+          (0, _chai.expect)(isSaveMethodCalled).to.be['true'];
+          expectMercixViewToBeVisible(_this);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('Mercix view', function () {
+
+      beforeEach(function () {
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ZrAQqlp+',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status"],["FORM_SUBMITTED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+      });
+
+      (0, _mocha.it)('should display only the "mercix" view', function () {
+        expectMercixViewToBeVisible(this);
+      });
+    });
+
+    (0, _mocha.describe)('Error management', function () {
+
+      (0, _mocha.it)('should display error if "content" is blank', function () {
+        // given
+        this.render(_ember['default'].HTMLBars.template({
+          'id': '2cm8XB2f',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status","content"],["FORM_OPENED","   "]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // when
+        this.$(BUTTON_SEND).click();
+
+        // then
+        (0, _chai.expect)(this.$('.alert')).to.have.length(1);
+        expectFormViewToBeVisible(this);
+      });
+
+      (0, _mocha.it)('should display error if "email" is set but invalid', function () {
+        // given
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'IelwLHOR',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status","content","email"],["FORM_OPENED","Lorem ipsum dolor sit amet","wrong_email"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // when
+        this.$(BUTTON_SEND).click();
+
+        (0, _chai.expect)(this.$('.alert')).to.have.length(1);
+        expectFormViewToBeVisible(this);
+      });
+
+      (0, _mocha.it)('should not display error if "form" view (with error) was closed and re-opened', function () {
+        // given
+        this.render(_ember['default'].HTMLBars.template({
+          'id': '2cm8XB2f',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status","content"],["FORM_OPENED","   "]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        this.$(BUTTON_SEND).click();
+        (0, _chai.expect)(this.$('.alert')).to.have.length(1);
+
+        // when
+        this.$(BUTTON_CANCEL).click();
+        this.$(OPEN_LINK).click();
+
+        // then
+        (0, _chai.expect)(this.$('.alert')).to.have.length(0);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/feedback-panel-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/feedback-panel-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/integration/components/first-page-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | FirstPageComponent', function () {
@@ -3685,6 +3930,15 @@ define('pix-live/tests/models/course.lint-test', ['exports'], function (exports)
     });
   });
 });
+define('pix-live/tests/models/feedback.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - models/feedback.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/models/solution.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -3869,14 +4123,13 @@ define('pix-live/tests/transforms/array.lint-test', ['exports'], function (expor
     });
   });
 });
-define('pix-live/tests/unit/adapters/solution-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/unit/adapters/solution-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModule)('adapter:solution', 'Unit | Adapter | solution', {
-    // Specify the other units that are required for this test.
-    // needs: ['serializer:foo']
-  }, function () {
-    // Replace this with your real tests.
-    (0, _emberMocha.it)('exists', function () {
+  (0, _mocha.describe)('Unit | Adapters | solution', function () {
+
+    (0, _emberMocha.setupTest)('adapter:solution', {});
+
+    (0, _mocha.it)('exists', function () {
       var adapter = this.subject();
       (0, _chai.expect)(adapter).to.be.ok;
     });
@@ -3886,6 +4139,87 @@ define('pix-live/tests/unit/adapters/solution-test.lint-test', ['exports'], func
   'use strict';
 
   describe('ESLint - unit/adapters/solution-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Component | feedback-panel', function () {
+
+    (0, _emberMocha.setupTest)('component:feedback-panel', {});
+
+    (0, _mocha.describe)('#isFormClosed', function () {
+
+      (0, _mocha.it)('should return true by default', function () {
+        // given
+        var component = this.subject();
+
+        // when
+        var isFormClosed = component.get('isFormClosed');
+
+        // then
+        (0, _chai.expect)(isFormClosed).to.be['true'];
+      });
+
+      (0, _mocha.it)('should return true if status equals "FORM_CLOSED"', function () {
+        // given
+        var component = this.subject();
+        component.set('status', 'FORM_CLOSED');
+
+        // when
+        var isFormClosed = component.get('isFormClosed');
+
+        // then
+        (0, _chai.expect)(isFormClosed).to.be['true'];
+      });
+
+      (0, _mocha.it)('should return false if status is not equal to "FORM_CLOSED"', function () {
+        // given
+        var component = this.subject();
+        component.set('status', 'FORM_OPENED');
+
+        // when
+        var isFormClosed = component.get('isFormClosed');
+
+        // then
+        (0, _chai.expect)(isFormClosed).to.be['false'];
+      });
+    });
+
+    (0, _mocha.describe)('#isFormOpened', function () {
+
+      (0, _mocha.it)('should return true if status equals "FORM_OPENED"', function () {
+        // given
+        var component = this.subject();
+        component.set('status', 'FORM_OPENED');
+
+        // when
+        var isFormClosed = component.get('isFormOpened');
+
+        // then
+        (0, _chai.expect)(isFormClosed).to.be['true'];
+      });
+
+      (0, _mocha.it)('should return false if status is not equal to "FORM_OPENED"', function () {
+        // given
+        var component = this.subject();
+        component.set('status', 'FORM_CLOSED');
+
+        // when
+        var isFormClosed = component.get('isFormOpened');
+
+        // then
+        (0, _chai.expect)(isFormClosed).to.be['false'];
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/feedback-panel-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/components/feedback-panel-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -4388,6 +4722,29 @@ define('pix-live/tests/unit/models/course-test.lint-test', ['exports'], function
     });
   });
 });
+define('pix-live/tests/unit/models/feedback-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Model | feedback', function () {
+
+    (0, _emberMocha.setupModelTest)('feedback', {
+      needs: ['model:assessment', 'model:challenge']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var model = this.subject();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/models/feedback-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/models/feedback-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Route | Assessments.ChallengeRoute', function () {
@@ -4883,6 +5240,15 @@ define('pix-live/tests/utils/call-only-once.lint-test', ['exports'], function (e
   'use strict';
 
   describe('ESLint - utils/call-only-once.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/utils/email-validator.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - utils/email-validator.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
