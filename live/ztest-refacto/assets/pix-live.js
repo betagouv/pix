@@ -1352,11 +1352,8 @@ define('pix-live/initializers/ajax-interceptor', ['exports', 'pix-live/config/en
     if (_pixLiveConfigEnvironment['default'].environment === 'test') {
       $(document).ajaxComplete(function (event, xhr, settings) {
         if ('POST' === settings.type) {
-
-          var url = '/api' + settings.url.split('api')[1];
-
           localStorage.setItem('miragePostUrl', JSON.stringify({
-            url: url,
+            url: '/api' + settings.url.split('api')[1],
             body: settings.data
           }));
         }
@@ -1664,8 +1661,8 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
   exports['default'] = function () {
 
     this.passthrough('/write-coverage');
-    this.passthrough('https://fonts.googleapis.com/css?family=');
-    this.passthrough('https://formspree.io/**');
+    this.post('https://fonts.googleapis.com/**', function () {});
+    this.post('https://formspree.io/**', function () {});
     this.post('https://sentry.io/**', function () {});
 
     this.namespace = 'http://localhost:3000/api';
@@ -1927,7 +1924,6 @@ define('pix-live/mirage/data/challenges/ref-qcm-challenge', ['exports'], functio
   // QCM challenge with all field filled
 
   function getTimer() {
-
     var mirageTestingState = JSON.parse(localStorage.getItem('mirageTestingState'));
     return mirageTestingState && mirageTestingState.stubTimer ? mirageTestingState.stubTimer : 2;
   }
@@ -3668,7 +3664,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+3ab9f8a5"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+242ba16a"});
 }
 
 /* jshint ignore:end */

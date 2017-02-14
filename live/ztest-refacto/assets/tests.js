@@ -423,13 +423,12 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
             return regeneratorRuntime.awrap(click($proposalInputs.eq(1)));
 
           case 4:
-            // when click on second element ...
             (0, _chai.expect)($('.challenge-response__proposal-input:checked')).to.have.lengthOf(1);
             context$2$0.next = 7;
             return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
 
           case 7:
-            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers'); // then save the second value
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
             (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('2');
 
           case 9:
@@ -615,7 +614,7 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
             return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
 
           case 4:
-            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers'); // then save the second value
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
             (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('My New Answer');
 
           case 6:
