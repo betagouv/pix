@@ -16,10 +16,10 @@ function _saveFollower(email){
     new Follower({email: email})
       .save()
       .then((emailSaved) => {
-        return resolve(emailSaved)
+        return resolve(emailSaved);
       })
       .catch((err) => {
-        return reject(Boom.badImplementation(err))
+        return reject(Boom.badImplementation(err));
       });
   });
 }
@@ -38,7 +38,7 @@ module.exports = {
       .then(_assertFollowerNotExist)
       .then(() => _saveFollower(email))
       .then((follower) => {
-        reply(followerSerializer.serialize(follower)).code(201)
+        reply(followerSerializer.serialize(follower)).code(201);
       })
       .catch((err) => reply(err));
   }
