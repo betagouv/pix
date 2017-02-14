@@ -54,7 +54,6 @@ describe('Unit | Repository | AnswerRepository', function () {
     });
   });
 
-
   describe('findByChallenge', function () {
 
     const inserted_answer_1 = {
@@ -112,5 +111,5 @@ describe('Unit | Repository | AnswerRepository', function () {
       });
     });
   });
-  
+
 });
