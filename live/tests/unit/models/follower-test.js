@@ -1,19 +1,17 @@
 import { expect } from 'chai';
-import { describeModel, it } from 'ember-mocha';
+import {describe, it} from 'mocha';
+import {setupModelTest} from 'ember-mocha';
 
-describeModel(
-  'follower',
-  'Unit | Model | follower',
-  {
+describe('Follower', function () {
+  setupModelTest('follower', {
     // Specify the other units that are required for this test.
-      needs: []
-  },
-  function() {
-    // Replace this with your real tests.
-    it('exists', function() {
-      let model = this.subject();
-      // var store = this.store();
-      expect(model).to.be.ok;
-    });
-  }
-);
+    needs: []
+  });
+
+  // Replace this with your real tests.
+  it('exists', function () {
+    const model = this.subject();
+    // var store = this.store();
+    expect(model).to.be.ok;
+  });
+});
