@@ -11,7 +11,6 @@ module.exports = {
 
   getRevalidationStatistics(oldAnswers, newAnswers) {
 
-    // only id and result properties are needed.
     const oldAnswersResult = _.map(oldAnswers, (o) => { return {id : o.id, result: o.attributes.result};});
     const newAnswersResult = _.map(newAnswers, (o) => { return {id : o.id, result: o.attributes.result};});
 

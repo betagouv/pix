@@ -10,26 +10,25 @@ const solutionRepository = require('../../infrastructure/repositories/solution-r
 
 module.exports = {
 
-
   revalidate(existingAnswer) {
     return new Promise((resolve, reject) => {
-      solutionRepository
+      const currentResult = existingAnswer.get('result');
+      if (currentResult === 'timedout' || currentResult === 'aband') {
+        resolve(existingAnswer);
+      } else {
+        solutionRepository
         .get(existingAnswer.get('challengeId'))
         .then((solution) => {
-          if (existingAnswer.get('result') === 'timedout' || existingAnswer.get('result') === 'aband') {
-            resolve(existingAnswer);
-          } else {
-            const answerCorrectness = this.match(existingAnswer, solution);
-            new Answer({ id: existingAnswer.id })
+          const answerCorrectness = this.match(existingAnswer, solution);
+          new Answer({ id: existingAnswer.id })
               .save({
                 result: answerCorrectness,
               }, { method: 'update' })
               .then((updatedAnswer) => resolve(updatedAnswer).code(200))
               .catch((err) => reject(Boom.badImplementation(err)));
-          }
         });
+      }
     });
-
   },
 
   _timedOut(result, answerTimeout) {

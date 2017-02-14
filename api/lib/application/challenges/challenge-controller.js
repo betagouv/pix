@@ -22,10 +22,10 @@ module.exports = {
     return answerRepository
             .findByChallenge(challengeId)
             .then(oldAnswers => {
-              const promises = oldAnswers.map(oldAnswer => solutionService.revalidate(oldAnswer));
-              Promise.all(promises).then(newAnswers => {
-                const result = challengeService.getRevalidationStatistics(oldAnswers, newAnswers);
-                return reply(result);
+              const revalidatedAnswers = oldAnswers.map(oldAnswer => solutionService.revalidate(oldAnswer));
+              Promise.all(revalidatedAnswers).then(newAnswers => {
+                const revalidationStatistics = challengeService.getRevalidationStatistics(oldAnswers, newAnswers);
+                return reply(revalidationStatistics);
               });
             })
             .catch((err) => reply(Boom.badImplementation(err)));
@@ -49,7 +49,6 @@ module.exports = {
 
   refresh(request, reply) {
 
-
     repository
       .refresh(request.params.id)
       .then((challenge) => reply(serializer.serialize(challenge)))
@@ -58,4 +57,3 @@ module.exports = {
   }
 
 };
-
