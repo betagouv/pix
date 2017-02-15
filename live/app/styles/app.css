@@ -42,7 +42,19 @@
     max-width: 900px;
   }
 }
+#assessment-challenge .container {
+  max-width: 990px;
+  padding-right: 15px;
+  padding-left: 15px;
+  width: 100%;
+}
 
+@media (min-width: 1024px) {
+  #assessment-challenge .container {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
 body {
   font-family: var(--font-lato);
   background-color: var(--light-grey1);
