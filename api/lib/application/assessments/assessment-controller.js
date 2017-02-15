@@ -10,6 +10,7 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const _ = require('../../infrastructure/utils/lodash-utils');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
+const analysisUtils = require('./analysis-utils');
 
 module.exports = {
 
@@ -37,29 +38,51 @@ module.exports = {
               .then(challenges => {
 
                 const knowledgeOf = {};
+                const difficultyOf = {};
                 _.forEach(challenges, challenge => {
                   knowledgeOf[challenge.id] = challenge.knowledge;
+                  difficultyOf[challenge.id] = parseInt(challenge.knowledge[0][challenge.knowledge[0].length - 1]);
                 });
 
                 const acquired = [];
-                const not_acquired = [];
+                const notAcquired = [];
+                const history = [];
                 answerRepository.findByAssessment(assessment.get('id')).then((answers) => {
 
-                  const modelAnswers = _.map(answers.models, (o) => o.attributes);
+                  if(answers.length == 0) {
+                    const serializedAssessment = assessmentSerializer.serialize(assessment);
+                    return reply(serializedAssessment);
+                  }
+
+                  const modelAnswers = _.map(answers.models, o => o.attributes);
 
                   _.forEach(modelAnswers, function(answer) {
                     if(answer.result == 'ok') {
+                      history.push({diff: difficultyOf[answer.challengeId], outcome: 1});
                       acquired.push(...knowledgeOf[answer.challengeId] || []);
                       // propagate <-
                     } else {
-                      not_acquired.push(...knowledgeOf[answer.challengeId] || []);
+                      history.push({diff: difficultyOf[answer.challengeId], outcome: 0});
+                      notAcquired.push(...knowledgeOf[answer.challengeId] || []);
                       // propagate ->
                     }
-                    // Based on this data, we can infer the level of the learner, and their acquired knowledge
                   });
 
-                  console.error('acquired', acquired);
-                  console.error('not acquired', not_acquired);
+                  let estimatedLevel = 0;
+                  let minScore = 1000;
+                  for(let level = 0; level <= 6; level += 0.5) {
+                    let score = analysisUtils.derivativeLogLikelihood(level, history);
+                    if(score < minScore) {
+                      minScore = score;
+                      estimatedLevel = level;
+                    }
+                  }
+                  assessment.attributes.estimatedLevel = estimatedLevel;  // Maybe this is a hack
+                  assessment.attributes.notAcquired = notAcquired;
+                  assessment.attributes.acquired = acquired;
+
+                  const serializedAssessment = assessmentSerializer.serialize(assessment);
+                  return reply(serializedAssessment);
 
                 });
 
@@ -67,8 +90,6 @@ module.exports = {
 
           }).catch((err) => reply(Boom.badImplementation(err)));
 
-        const serializedAssessment = assessmentSerializer.serialize(assessment);
-        return reply(serializedAssessment);
       })
       .catch((err) => reply(Boom.badImplementation(err)));
 

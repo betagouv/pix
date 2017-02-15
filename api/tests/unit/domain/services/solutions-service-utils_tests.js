@@ -1,6 +1,5 @@
 const { describe, it } = require('mocha');
 const { expect } = require('chai');
-const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 const service = require('../../../../lib/domain/services/solution-service-utils');
 
 
@@ -35,7 +34,7 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
         expect(result).to.be.false;
       });
 
-      });
+    });
 
   });
 });
