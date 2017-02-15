@@ -1,9 +1,6 @@
 const plugins = [{ register: require('blipp') }];
 
-if (process.env.NODE_ENV === 'test') {
-
-} else {
-
+//if (process.env.NODE_ENV === 'test') {}
   plugins.push({
     register: require('good'),
     options: {
@@ -21,6 +18,5 @@ if (process.env.NODE_ENV === 'test') {
       }
     }
   });
-}
 
 module.exports = plugins;
