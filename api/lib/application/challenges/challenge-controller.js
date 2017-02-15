@@ -1,8 +1,9 @@
 const Boom = require('boom');
 
-const answerRepository = require('../../infrastructure/repositories/answer-repository');
-const repository = require('../../infrastructure/repositories/challenge-repository');
-const serializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
+const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
+const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
+const solutionRepository = require('../../infrastructure/repositories/solution-repository');
+
 
 const solutionService = require('../../domain/services/solution-service');
 const challengeService = require('../../domain/services/challenge-service');
@@ -11,9 +12,9 @@ module.exports = {
 
   list(request, reply) {
 
-    repository
+    challengeRepository
       .list()
-      .then((challenges) => reply(serializer.serializeArray(challenges)))
+      .then((challenges) => reply(challengeSerializer.serializeArray(challenges)))
       .catch((err) => reply(Boom.badImplementation(err)));
   },
 
@@ -34,9 +35,9 @@ module.exports = {
 
   get(request, reply) {
 
-    repository
+    challengeRepository
       .get(request.params.id)
-      .then((challenge) => reply(serializer.serialize(challenge)))
+      .then((challenge) => reply(challengeSerializer.serialize(challenge)))
       .catch((err) => {
         let error = Boom.badImplementation(err);
         if ('MODEL_ID_NOT_FOUND' == err.error.type) {
@@ -49,9 +50,17 @@ module.exports = {
 
   refresh(request, reply) {
 
-    repository
+    challengeRepository
       .refresh(request.params.id)
-      .then((challenge) => reply(serializer.serialize(challenge)))
+      .then((challenge) => reply(challengeSerializer.serialize(challenge)))
+      .catch((err) => reply(Boom.badImplementation(err)));
+  },
+
+  refreshSolution(request, reply) {
+
+    solutionRepository
+      .refresh(request.params.id)
+      .then(() => reply('ok'))
       .catch((err) => reply(Boom.badImplementation(err)));
 
   }

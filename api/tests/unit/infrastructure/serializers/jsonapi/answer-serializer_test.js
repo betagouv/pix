@@ -2,7 +2,7 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
 const Answer = require('../../../../../lib/domain/models/data/answer');
 
-describe('Unit | Serializer | JSONAPI | AnswerSerializer', function () {
+describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
 
   const modelObject = new Answer({
     id: 'answer_id',
@@ -63,6 +63,7 @@ describe('Unit | Serializer | JSONAPI | AnswerSerializer', function () {
       expect(answer.get('challengeId')).to.equal(jsonAnswer.data.relationships.challenge.data.id);
       expect(answer.get('value')).to.equal(jsonAnswer.data.attributes.value);
       expect(answer.get('result')).to.equal(jsonAnswer.data.attributes.result);
+      expect(answer.get('timeout')).to.equal(jsonAnswer.data.attributes.timeout);
     });
 
   });
