@@ -15,23 +15,21 @@ const CourseItem = Ember.Component.extend({
     return imageUrl ? imageUrl : '/assets/images/course-default-image.png';
   }),
 
-  /*
-   didInsertElement () {
-   const that = this;
-   Ember.run.scheduleOnce('afterRender', this, function () {
-   $('button[data-confirm]').click(function() {
-   $('#js-modal-mobile').modal('hide');
-   that.get('router').transitionTo(that.get('course_url'), that.get('course_id'));
-   });
-   });
+  didInsertElement () {
+    const that = this;
+    Ember.run.scheduleOnce('afterRender', this, function () {
+      $('button[data-confirm]').click(function () {
+        $('#js-modal-mobile').modal('hide');
+        that.get('routing').transitionTo('courses', this.get('course.id'));
+      });
+    });
 
-   if (ENV.environment === 'test') {
-   this.$().on('simulateMobileScreen', function() {
-   that.set('isSimulatedMobileScreen', 'true');
-   });
-   }
-   },
-   */
+    if (ENV.environment === 'test') {
+      this.$().on('simulateMobileScreen', function () {
+        that.set('isSimulatedMobileScreen', 'true');
+      });
+    }
+  },
 
   _isMobile () {
     if (ENV.environment !== 'test') {
