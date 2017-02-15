@@ -607,9 +607,24 @@ define('pix-live/components/course-item', ['exports', 'ember'], function (export
 });
 define('pix-live/components/course-list', ['exports', 'ember', 'pix-live/config/environment'], function (exports, _ember, _pixLiveConfigEnvironment) {
 
+  function _userNotAlreadyWarnedAboutMobileIncompleteSupport(that) {
+    return that._isMobile() && !localStorage.getItem('pix-mobile-warning');
+  }
+
+  function _rememberThatUserIsNowAware() {
+    localStorage.setItem('pix-mobile-warning', 'true');
+  }
+
+  function _storeCourseToDisplayAfterWarning(that, course) {
+    that.set('selectedCourse', course);
+  }
+
+  function _displayWarningModel() {
+    $('#js-modal-mobile').modal();
+  }
+
   var CourseList = _ember['default'].Component.extend({
 
-    // private
     courses: null,
     selectedCourse: null,
 
@@ -639,10 +654,10 @@ define('pix-live/components/course-list', ['exports', 'ember', 'pix-live/config/
 
     actions: {
       startCourse: function startCourse(course) {
-        if (this._isMobile() && !localStorage.getItem('pix-mobile-warning')) {
-          localStorage.setItem('pix-mobile-warning', 'true');
-          this.set('selectedCourse', course);
-          $('#js-modal-mobile').modal();
+        if (_userNotAlreadyWarnedAboutMobileIncompleteSupport(this)) {
+          _rememberThatUserIsNowAware();
+          _storeCourseToDisplayAfterWarning(this, course);
+          _displayWarningModel();
         } else {
           this.sendAction('startCourse', course);
         }
@@ -3862,7 +3877,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+1cf3792d"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+ebb7d14f"});
 }
 
 /* jshint ignore:end */
