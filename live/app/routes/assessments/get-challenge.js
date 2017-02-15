@@ -22,6 +22,10 @@ export default Ember.Route.extend({
     });
   },
 
+  afterModel() {
+    Ember.Logger.info('get-challenge#afterModel');
+  },
+
   serialize(model) {
     return {
       assessment_id: model.assessment.id,
