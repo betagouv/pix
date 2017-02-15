@@ -3353,29 +3353,134 @@ define('pix-live/tests/integration/components/corner-ribbon-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/integration/components/course-item-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/course-item-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | course item', function () {
+
     (0, _emberMocha.setupComponentTest)('course-item', {
       integration: true
     });
 
-    (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#course-item}}
-      //     template content
-      //   {{/course-item}}
-      // `);
+    (0, _mocha.describe)('rendering:', function () {
 
-      this.render(Ember.HTMLBars.template({
-        'id': '9SOyPEls',
-        'block': '{"statements":[["append",["unknown",["course-item"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-        'meta': {}
-      }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _mocha.it)('renders', function () {
+        this.render(_ember['default'].HTMLBars.template({
+          'id': '9SOyPEls',
+          'block': '{"statements":[["append",["unknown",["course-item"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render course picture if it is defined', function () {
+        // given
+        var course = _ember['default'].Object.create({ imageUrl: 'image_src' });
+        this.set('course', course);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ldqh36hZ',
+          'block': '{"statements":[["append",["helper",["course-item"],null,[["course"],[["get",["course"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        var $picture = this.$('.course-item__picture');
+        (0, _chai.expect)($picture.attr('src')).to.equal(course.get('imageUrl'));
+      });
+
+      (0, _mocha.it)('should render default picture if course picture is not defined', function () {
+        // given
+        var course = _ember['default'].Object.create();
+        this.set('course', course);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ldqh36hZ',
+          'block': '{"statements":[["append",["helper",["course-item"],null,[["course"],[["get",["course"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        var $picture = this.$('.course-item__picture');
+        (0, _chai.expect)($picture.attr('src')).to.equal('/assets/images/course-default-image.png');
+      });
+
+      (0, _mocha.it)('should render course name', function () {
+        // given
+        var course = _ember['default'].Object.create({ name: 'name_value' });
+        this.set('course', course);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ldqh36hZ',
+          'block': '{"statements":[["append",["helper",["course-item"],null,[["course"],[["get",["course"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        var $name = this.$('.course-item__name');
+        (0, _chai.expect)($name.text().trim()).to.equal(course.get('name'));
+      });
+
+      (0, _mocha.it)('should render course description', function () {
+        // given
+        var course = _ember['default'].Object.create({ description: 'description_value' });
+        this.set('course', course);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ldqh36hZ',
+          'block': '{"statements":[["append",["helper",["course-item"],null,[["course"],[["get",["course"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        var $description = this.$('.course-item__description');
+        (0, _chai.expect)($description.text().trim()).to.equal(course.get('description'));
+      });
+
+      (0, _mocha.it)('should render a "start" button', function () {
+        // given
+        var course = _ember['default'].Object.create();
+        this.set('course', course);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ldqh36hZ',
+          'block': '{"statements":[["append",["helper",["course-item"],null,[["course"],[["get",["course"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        var $startAction = this.$('.course-item__action--start');
+        (0, _chai.expect)($startAction.text().trim()).to.equal('Démarrer le test');
+      });
+    });
+
+    (0, _mocha.describe)('behaviours:', function () {
+
+      (0, _mocha.it)('should send action "startCourse" with course in argument when clicking on "start" button', function () {
+        // given
+        var course = _ember['default'].Object.create({ id: 'course_id' });
+        this.set('course', course);
+        var actualCourse = undefined;
+        this.on('actionHandler', function (receivedCourse) {
+          actualCourse = receivedCourse;
+        });
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'xVrQ+R+D',
+          'block': '{"statements":[["append",["helper",["course-item"],null,[["course","startCourse"],[["get",["course"]],"actionHandler"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        var $startAction = this.$('.course-item__action--start');
+        $startAction.click();
+        (0, _chai.expect)(actualCourse.get('id')).to.equal(course.get('id'));
+      });
     });
   });
 });
