@@ -3493,29 +3493,40 @@ define('pix-live/tests/integration/components/course-item-test.lint-test', ['exp
     });
   });
 });
-define('pix-live/tests/integration/components/course-list-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/course-list-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
-  (0, _mocha.describe)('Integration | Component | course list', function () {
+  _mocha.describe.only('Integration | Component | course list', function () {
+
     (0, _emberMocha.setupComponentTest)('course-list', {
       integration: true
     });
 
-    (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#course-list}}
-      //     template content
-      //   {{/course-list}}
-      // `);
+    (0, _mocha.describe)('rendering:', function () {
 
-      this.render(Ember.HTMLBars.template({
-        'id': 'SiQ4ynL+',
-        'block': '{"statements":[["append",["unknown",["course-list"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-        'meta': {}
-      }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _mocha.it)('renders', function () {
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'SiQ4ynL+',
+          'block': '{"statements":[["append",["unknown",["course-list"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render as many course-item as courses elements', function () {
+        // given
+        var courses = [_ember['default'].Object.create({ id: '1' }), _ember['default'].Object.create({ id: '2' }), _ember['default'].Object.create({ id: '3' })];
+        this.set('courses', courses);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ojVuhFHL',
+          'block': '{"statements":[["append",["helper",["course-list"],null,[["courses"],[["get",["courses"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.course-list__li')).to.have.length(courses.length);
+      });
     });
   });
 });
