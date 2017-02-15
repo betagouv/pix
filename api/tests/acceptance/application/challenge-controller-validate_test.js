@@ -66,6 +66,7 @@ describe('Acceptance | API | ChallengeController', function () {
       result: 'aband',
       challengeId: 'challenge_1234'
     };
+
     const timedout_answer = {
       value: '1,2,3',
       result: 'timedout',
@@ -94,14 +95,14 @@ describe('Acceptance | API | ChallengeController', function () {
     const options = { method: 'PUT', url: '/api/challenges/challenge_1234/validate' };
 
     it('should return 200 HTTP status code', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options).then((response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options).then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -109,7 +110,7 @@ describe('Acceptance | API | ChallengeController', function () {
     });
 
     it('should be able to transform all related answer, but not unrelated answer(s)', function (done) {
-      server.injectThen(options).then(() => {
+      server.inject(options).then(() => {
         knex.select('*').from('answers').then((answers) => {
           const answer_1 = answers[0];
           const answer_2 = answers[1];
@@ -123,7 +124,7 @@ describe('Acceptance | API | ChallengeController', function () {
     });
 
     it('should be able to change "ok", "ko", "partially", "unimplemented"', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options).then((response) => {
         const payload = response.payload;
         const result = JSON.parse(payload);
         expect(result.ok).to.equal(3);
@@ -139,7 +140,7 @@ describe('Acceptance | API | ChallengeController', function () {
     });
 
     it('should NOT be able to change "timedout", "aband"', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options).then((response) => {
         const payload = response.payload;
         const result = JSON.parse(payload);
         expect(result.timedout).to.equal(1);

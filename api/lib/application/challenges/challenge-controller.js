@@ -4,7 +4,7 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
-
+const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionService = require('../../domain/services/solution-service');
 const challengeService = require('../../domain/services/challenge-service');
 
