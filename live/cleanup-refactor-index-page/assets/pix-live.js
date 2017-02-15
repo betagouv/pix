@@ -2976,11 +2976,12 @@ define('pix-live/routes/courses', ['exports', 'ember'], function (exports, _embe
   });
 });
 define('pix-live/routes/courses/create-assessment', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Route.extend({
 
-    _urlForNextChallenge: function _urlForNextChallenge(adapter, assessmentId) {
-      return adapter.buildURL('assessment', assessmentId) + '/next';
-    },
+  function _urlForNextChallenge(adapter, assessmentId) {
+    return adapter.buildURL('assessment', assessmentId) + '/next';
+  }
+
+  exports['default'] = _ember['default'].Route.extend({
 
     model: function model(params) {
       var store = this.get('store');
@@ -2990,13 +2991,12 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'ember'], functi
     afterModel: function afterModel(course) {
       var _this = this;
 
-      // FIXME: manage the case when assessment's course has no challenge
       var store = this.get('store');
-
-      var assessment = store.createRecord('assessment', { course: course, userName: null, userEmail: null });
+      var assessment = store.createRecord('assessment', { course: course });
       assessment.save().then(function () {
         var adapter = store.adapterFor('application');
-        adapter.ajax(_this._urlForNextChallenge(adapter, assessment.get('id') /* no current challenge */), 'GET').then(function (challenge) {
+        // TODO replace with a real & better challenge adapter
+        adapter.ajax(_urlForNextChallenge(adapter, assessment.get('id') /* no current challenge */), 'GET').then(function (challenge) {
           if (challenge) {
             store.findRecord('challenge', challenge.data.id).then(function (challenge) {
               _this.transitionTo('assessments.get-challenge', { assessment: assessment, challenge: challenge });
@@ -3877,7 +3877,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+ebb7d14f"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+7bd264ed"});
 }
 
 /* jshint ignore:end */
