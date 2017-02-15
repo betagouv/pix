@@ -7,7 +7,7 @@ module.exports = Bookshelf.model('Answer', {
 
   tableName: 'answers',
 
-  assessment: function () {
+  assessment() {
     return this.belongsTo(Assessment);
   }
 

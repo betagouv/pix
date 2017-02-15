@@ -2,7 +2,7 @@ const { describe, it, before, after, beforeEach, expect, sinon } = require('../.
 const Hapi = require('hapi');
 const AssessmentController = require('../../../../lib/application/assessments/assessment-controller');
 
-describe('Unit | Router | AssessmentRouter', function () {
+describe('Unit | Router | assessment-router', function () {
 
   let server;
 
@@ -36,7 +36,7 @@ describe('Unit | Router | AssessmentRouter', function () {
 
   describe('GET /api/assessments/assessment_id/next', function () {
 
-    before(function () {
+    before(function () {      
       sinon.stub(AssessmentController, 'getNextChallenge', (request, reply) => reply('ok'));
     });
 
