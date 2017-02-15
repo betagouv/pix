@@ -1,8 +1,6 @@
 const {describe, it, before, after, beforeEach, afterEach, expect, knex} = require('../../test-helper');
 const server = require('../../../server');
 
-server.register(require('inject-then'));
-
 describe('Acceptance | Controller | follower-controller', function () {
 
   beforeEach(function (done) {
@@ -29,7 +27,7 @@ describe('Acceptance | Controller | follower-controller', function () {
         }
       };
 
-      server.injectThen({method: 'POST', url: '/api/followers', payload}).then((response) => {
+      server.inject({method: 'POST', url: '/api/followers', payload}).then((response) => {
         expect(response.statusCode).to.equal(201);
         expect(response.headers['content-type']).to.contain('application/json');
         const follower = response.result;
@@ -49,8 +47,8 @@ describe('Acceptance | Controller | follower-controller', function () {
           }
         }
       };
-      server.injectThen({method: 'POST', url: '/api/followers', payload}).then(_ => {
-        server.injectThen({method: 'POST', url: '/api/followers', payload}).then((res) => {
+      server.inject({method: 'POST', url: '/api/followers', payload}).then(_ => {
+        server.inject({method: 'POST', url: '/api/followers', payload}).then((res) => {
           expect(res.statusCode).to.equal(409);
           done();
         });

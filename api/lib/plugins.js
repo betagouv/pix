@@ -2,8 +2,6 @@ const plugins = [{ register: require('blipp') }];
 
 if (process.env.NODE_ENV === 'test') {
 
-  plugins.push({ register: require('inject-then') });
-
 } else {
 
   plugins.push({
