@@ -3495,7 +3495,7 @@ define('pix-live/tests/integration/components/course-item-test.lint-test', ['exp
 });
 define('pix-live/tests/integration/components/course-list-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
-  _mocha.describe.only('Integration | Component | course list', function () {
+  (0, _mocha.describe)('Integration | Component | course list', function () {
 
     (0, _emberMocha.setupComponentTest)('course-list', {
       integration: true
