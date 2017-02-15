@@ -2,7 +2,6 @@ import Ember from 'ember';
 
 const CourseItem = Ember.Component.extend({
 
-  // Private
   course: null,
 
   imageUrl: Ember.computed('course', function () {
