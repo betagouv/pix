@@ -474,10 +474,10 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
     });
 
     (0, _mocha.it)('b2.6 It should render an ordered list of instruction', function () {
-      (0, _chai.expect)($('.challenge-response__proposal:nth-child(1)').text().trim()).to.equal('possibilite 1, et/ou');
-      (0, _chai.expect)($('.challenge-response__proposal:nth-child(2)').text().trim()).to.equal('possibilite 2, et/ou');
-      (0, _chai.expect)($('.challenge-response__proposal:nth-child(3)').text().trim()).to.equal('possibilite 3, et/ou');
-      (0, _chai.expect)($('.challenge-response__proposal:nth-child(4)').text().trim()).to.equal('possibilite 4');
+      (0, _chai.expect)($('.proposal-text:eq(0)').text().trim()).to.equal('possibilite 1, et/ou');
+      (0, _chai.expect)($('.proposal-text:eq(1)').text().trim()).to.equal('possibilite 2, et/ou');
+      (0, _chai.expect)($('.proposal-text:eq(2)').text().trim()).to.equal('possibilite 3, et/ou');
+      (0, _chai.expect)($('.proposal-text:eq(3)').text().trim()).to.equal('possibilite 4');
     });
 
     (0, _mocha.it)('b2.7 Error alert box should be hidden by default', function () {
@@ -496,18 +496,17 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
       });
     });
 
-    (0, _mocha.it)('b2.10 If an user check a checkbox, it is checked', function () {
-      (0, _chai.expect)($('input:checkbox:checked:nth-child(1)').is(':checked')).to.equal(false);
-      $('.challenge-response__proposal:nth-child(1) input').click();
+    (0, _mocha.it)('b2.9 If an user check a checkbox, it is checked', function () {
+      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(0);
+      $('.blabla input[type="checkbox"]:eq(1)').click();
       andThen(function () {
-        (0, _chai.expect)($('input:checkbox:checked:nth-child(1)').is(':checked')).to.equal(true);
         (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
       });
     });
 
-    (0, _mocha.it)('b2.11 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function () {
+    (0, _mocha.it)('b2.10 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function () {
       (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
-      click($('.challenge-response__proposal:nth-child(2) input'));
+      $('.blabla input[type="checkbox"]:eq(2)').click();
       andThen(function () {
         (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
       });
@@ -950,7 +949,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'moch
           while (1) switch (context$3$0.prev = context$3$0.next) {
             case 0:
               context$3$0.next = 2;
-              return regeneratorRuntime.awrap(click('.challenge-response__proposal-label'));
+              return regeneratorRuntime.awrap(click('.proposal-text'));
 
             case 2:
               context$3$0.next = 4;
