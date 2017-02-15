@@ -1,9 +1,25 @@
 import Ember from 'ember';
 import ENV from 'pix-live/config/environment';
 
+
+function _userNotAlreadyWarnedAboutMobileIncompleteSupport(that) {
+  return that._isMobile() && !localStorage.getItem('pix-mobile-warning');
+}
+
+function _rememberThatUserIsNowAware() {
+  localStorage.setItem('pix-mobile-warning', 'true');
+}
+
+function _storeCourseToDisplayAfterWarning(that, course) {
+  that.set('selectedCourse', course);
+}
+
+function _displayWarningModel() {
+  $('#js-modal-mobile').modal();
+}
+
 const CourseList = Ember.Component.extend({
 
-  // private
   courses: null,
   selectedCourse: null,
 
@@ -33,10 +49,10 @@ const CourseList = Ember.Component.extend({
 
   actions: {
     startCourse(course) {
-      if (this._isMobile() && !localStorage.getItem('pix-mobile-warning')) {
-        localStorage.setItem('pix-mobile-warning', 'true');
-        this.set('selectedCourse', course);
-        $('#js-modal-mobile').modal();
+      if (_userNotAlreadyWarnedAboutMobileIncompleteSupport(this)) {
+        _rememberThatUserIsNowAware();
+        _storeCourseToDisplayAfterWarning(this, course);
+        _displayWarningModel();
       } else {
         this.sendAction('startCourse', course);
       }
