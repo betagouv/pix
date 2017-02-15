@@ -44,7 +44,7 @@ describe('Acceptance | a4 - Démarrer un test |', function () {
 
 
     // test on mobile
-    triggerEvent('.index-page', 'simulateMobileScreen');
+    triggerEvent('.course-list', 'simulateMobileScreen');
 
     // clear local storage
     andThen(() => {

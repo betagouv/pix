@@ -12,7 +12,7 @@
   <div class="course-item__actions">
     {{!-- iPhone needs style="cursor: pointer;" to trigger the event !! --}}
     {{!-- https://github.com/emberjs/ember.js/issues/605#issuecomment-57037709 --}}
-    <button {{action "startCourse"}} class="course-item__action course-item__action--start button">
+    <button {{action "startCourse" course}} class="course-item__action course-item__action--start button">
       Démarrer le test
     </button>
   </div>
