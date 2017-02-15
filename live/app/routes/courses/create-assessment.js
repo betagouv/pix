@@ -1,10 +1,10 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
+function _urlForNextChallenge(adapter, assessmentId) {
+  return adapter.buildURL('assessment', assessmentId) + '/next';
+}
 
-  _urlForNextChallenge: function (adapter, assessmentId) {
-    return adapter.buildURL('assessment', assessmentId) + '/next';
-  },
+export default Ember.Route.extend({
 
   model(params) {
     const store = this.get('store');
@@ -12,13 +12,12 @@ export default Ember.Route.extend({
   },
 
   afterModel(course) {
-    // FIXME: manage the case when assessment's course has no challenge
     const store = this.get('store');
-
-    const assessment = store.createRecord('assessment', { course, userName: null, userEmail: null });
+    const assessment = store.createRecord('assessment', { course });
     assessment.save().then(() => {
       const adapter = store.adapterFor('application');
-      adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id') /* no current challenge */), 'GET')
+      // TODO replace with a real & better challenge adapter
+      adapter.ajax(_urlForNextChallenge(adapter, assessment.get('id') /* no current challenge */), 'GET')
         .then(challenge => {
           if (challenge) {
             store.findRecord('challenge', challenge.data.id).then(challenge => {
@@ -29,7 +28,6 @@ export default Ember.Route.extend({
           }
         });
     });
-
   }
 
 });

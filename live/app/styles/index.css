@@ -92,38 +92,6 @@
   margin-left: 15px;
 }
 
-.index-page-challenges__cards .container {
-  max-width: 1180px;
-}
-
-.index-page-challenges__cards .courses {
-  list-style-type: none;
-  padding: 30px 0;
-}
-
-.index-page-challenges__cards .course-item .course {
-  padding: 0;
-}
-
-.index-page-challenges__cards .course-item .course .course-picture {
-  width: 100%;
-  height: 170px;
-  text-align: center;
-  margin: 0 auto;
-  display: block;
-}
-
-.index-page-challenges__cards .course-item .course .course-content {
-  padding: 15px;
-  height: 115px;
-  overflow: hidden;
-  text-align: center;
-}
-
-.index-page-challenges__cards .course-item .course .course-name {
-  color: var(--pix-blue);
-}
-
 /* Email
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .index-page-email {
