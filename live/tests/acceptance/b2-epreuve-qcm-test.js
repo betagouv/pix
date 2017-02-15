@@ -96,6 +96,6 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
     resetPostRequest();
     await click('.challenge-actions__action-validate');
     expect(urlOfLastPostRequest()).to.equal('/api/answers');
-    expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('1,2');
+    expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('2,3');
   });
 });

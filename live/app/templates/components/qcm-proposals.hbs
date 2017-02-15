@@ -1,10 +1,10 @@
 {{#each labeledCheckboxes as |labeledCheckbox index|}}
 <div class="blabla">
   <input type="checkbox"
-         id="answerinput{{inc index}}"
+         id="{{inc index}}"
          checked={{labeledCheckbox.[1]}}
-         name="answerinput{{inc index}}"/>
-  <label for="answerinput{{inc index}}" >
+         name="{{inc index}}"/>
+  <label for="{{inc index}}" >
            {{!-- text of proposal  --}}
            <span class="proposal-text">{{labeledCheckbox.[0]}}</span>
 
