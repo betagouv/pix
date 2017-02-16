@@ -78,36 +78,28 @@
  * Configure Radios that are NOT in proposals
  *
  **/
-.blibli svg {
-  position: absolute;
-  left: -.5em;
-  top: .1em;
-}
 
-.blibli label {
-  display: inline-block;
-  padding-left: 1.5em;
-  position: relative;
-  cursor: pointer;
+ .challenge-statement__picture-container {
+  height: 100%;
+  display: flex;
 }
-
-.blibli input[type="radio"] {
+.challenge-statement__file-option-input {
   opacity: 0;
 }
-
-.blibli input[type="radio"]:checked ~ label svg.radio2-off {
+/*XXX Can't use BEM properly when using CSS state manipulation*/
+.challenge-statement__file-option-input:checked ~ label svg.radio2-off {
   opacity: 0;
   transition: opacity .2s linear;
 }
-.blibli input[type="radio"]:not(:checked) ~ label svg.radio2-off {
+.challenge-statement__file-option-input:not(:checked) ~ label svg.radio2-off {
   opacity: 1;
   transition: opacity .2s linear;
 }
-.blibli input[type="radio"]:checked ~ label svg.radio2-on {
+.challenge-statement__file-option-input:checked ~ label svg.radio2-on {
   opacity: 1;
   transition: opacity .2s linear;
 }
-.blibli input[type="radio"]:not(:checked) ~ label svg.radio2-on {
+.challenge-statement__file-option-input:not(:checked) ~ label svg.radio2-on {
   opacity: 0;
   transition: opacity .2s linear;
 }
