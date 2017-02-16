@@ -325,19 +325,19 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
     });
 
     (0, _mocha.it)('b1.1 Une liste de radiobuttons doit s\'afficher', function () {
-      var $proposals = $('.blabla input[type="radio"]');
+      var $proposals = $('.input-radio-proposal');
       (0, _chai.expect)($proposals).to.have.lengthOf(4);
     });
 
     (0, _mocha.it)('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', function () {
-      (0, _chai.expect)($('.blabla input:radio:checked')).to.have.lengthOf(1);
+      (0, _chai.expect)($('.input-radio-proposal:checked')).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', function () {
-      (0, _chai.expect)($('.blabla .proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
-      (0, _chai.expect)($('.blabla .proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
-      (0, _chai.expect)($('.blabla .proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
-      (0, _chai.expect)($('.blabla .proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
+      (0, _chai.expect)($('.proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
+      (0, _chai.expect)($('.proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
+      (0, _chai.expect)($('.proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
+      (0, _chai.expect)($('.proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
     });
 
     (0, _mocha.it)('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', function callee$1$0() {
@@ -372,23 +372,23 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
           case 0:
 
             // Given
-            (0, _chai.expect)($('.blabla input[type="radio"]:eq(0)').is(':checked')).to.equal(false);
-            (0, _chai.expect)($('.blabla input[type="radio"]:eq(1)').is(':checked')).to.equal(true);
-            (0, _chai.expect)($('.blabla input[type="radio"]:eq(2)').is(':checked')).to.equal(false);
-            (0, _chai.expect)($('.blabla input[type="radio"]:eq(3)').is(':checked')).to.equal(false);
+            (0, _chai.expect)($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
+            (0, _chai.expect)($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(true);
+            (0, _chai.expect)($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
+            (0, _chai.expect)($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
 
             // When
             context$2$0.next = 6;
-            return regeneratorRuntime.awrap(click($('.blabla label:eq(0)')));
+            return regeneratorRuntime.awrap(click($('.label-checkbox-proposal:eq(0)')));
 
           case 6:
             // Click on label trigger the event.
 
             // Then
-            (0, _chai.expect)($('.blabla input[type="radio"]:eq(0)').is(':checked')).to.equal(true);
-            (0, _chai.expect)($('.blabla input[type="radio"]:eq(1)').is(':checked')).to.equal(false);
-            (0, _chai.expect)($('.blabla input[type="radio"]:eq(2)').is(':checked')).to.equal(false);
-            (0, _chai.expect)($('.blabla input[type="radio"]:eq(3)').is(':checked')).to.equal(false);
+            (0, _chai.expect)($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(true);
+            (0, _chai.expect)($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(false);
+            (0, _chai.expect)($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
+            (0, _chai.expect)($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
 
           case 10:
           case 'end':
@@ -405,14 +405,14 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
             (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
 
             // Given
-            (0, _chai.expect)($('.blabla input[type="radio"]:eq(0)').is(':checked')).to.equal(false);
-            (0, _chai.expect)($('.blabla input[type="radio"]:eq(1)').is(':checked')).to.equal(true);
-            (0, _chai.expect)($('.blabla input[type="radio"]:eq(2)').is(':checked')).to.equal(false);
-            (0, _chai.expect)($('.blabla input[type="radio"]:eq(3)').is(':checked')).to.equal(false);
+            (0, _chai.expect)($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
+            (0, _chai.expect)($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(true);
+            (0, _chai.expect)($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
+            (0, _chai.expect)($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
 
             // When
             context$2$0.next = 7;
-            return regeneratorRuntime.awrap(click($('.blabla label:eq(3)')));
+            return regeneratorRuntime.awrap(click($('.label-checkbox-proposal:eq(3)')));
 
           case 7:
             context$2$0.next = 9;
@@ -517,7 +517,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
 
     (0, _mocha.it)('b2.9 If an user check a checkbox, it is checked', function () {
       (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(0);
-      $('.blabla input[type="checkbox"]:eq(1)').click();
+      $('.input-checkbox-proposal:eq(1)').click();
       andThen(function () {
         (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
       });
@@ -525,13 +525,13 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
 
     (0, _mocha.it)('b2.10 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function () {
       (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
-      $('.blabla input[type="checkbox"]:eq(2)').click();
+      $('.input-checkbox-proposal:eq(2)').click();
       andThen(function () {
         (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
       });
     });
 
-    (0, _mocha.it)('b2.12 If an user validate the challenge, the api is request to save the answer of the user', function callee$1$0() {
+    (0, _mocha.it)('b2.11 If an user validate the challenge, the api is request to save the answer of the user', function callee$1$0() {
       return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
