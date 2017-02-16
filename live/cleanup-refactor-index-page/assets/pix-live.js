@@ -14,6 +14,21 @@ define('pix-live/adapters/application', ['exports', 'ember-data', 'pix-live/conf
 
   });
 });
+define('pix-live/adapters/challenge', ['exports', 'pix-live/adapters/application', 'rsvp'], function (exports, _pixLiveAdaptersApplication, _rsvp) {
+  exports['default'] = _pixLiveAdaptersApplication['default'].extend({
+
+    queryNext: function queryNext(store, assessmentId) {
+      return this.ajax(this.host + '/' + this.namespace + '/assessments/' + assessmentId + '/next', 'GET').then(function (payload) {
+        var challenge = null;
+        if (payload) {
+          challenge = store.push(payload);
+        }
+        return _rsvp['default'].resolve(challenge);
+      });
+    }
+
+  });
+});
 define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application', 'ember'], function (exports, _pixLiveAdaptersApplication, _ember) {
   exports['default'] = _pixLiveAdaptersApplication['default'].extend({
     // XXX : can't find in the docs why query params are in 3rd position
@@ -2057,7 +2072,7 @@ define('pix-live/mirage/data/challenges/raw-qcm-challenge', ['exports'], functio
   // QCM challenge with all field filled
   exports['default'] = {
     data: {
-      type: 'challenges',
+      type: 'challenge',
       id: 'raw_qcm_challenge_id',
       attributes: {
         type: 'QCM',
@@ -2080,7 +2095,7 @@ define('pix-live/mirage/data/challenges/ref-qcm-challenge', ['exports'], functio
       this.data.attributes.timer = getTimer();
     },
     data: {
-      type: 'challenges',
+      type: 'challenge',
       id: 'ref_qcm_challenge_id',
       attributes: {
         type: 'QCM',
@@ -2097,7 +2112,7 @@ define('pix-live/mirage/data/challenges/ref-qcu-challenge', ['exports'], functio
   // QCM challenge with all field filled
   exports['default'] = {
     data: {
-      type: 'challenges',
+      type: 'challenge',
       id: 'ref_qcu_challenge_id',
       attributes: {
         type: 'QCU',
@@ -2113,7 +2128,7 @@ define('pix-live/mirage/data/challenges/ref-qcu-challenge', ['exports'], functio
 define('pix-live/mirage/data/challenges/ref-qroc-challenge', ['exports'], function (exports) {
   exports['default'] = {
     data: {
-      type: 'challenges',
+      type: 'challenge',
       id: 'ref_qroc_challenge_id',
       attributes: {
         type: 'QROC',
@@ -2126,7 +2141,7 @@ define('pix-live/mirage/data/challenges/ref-qroc-challenge', ['exports'], functi
 define('pix-live/mirage/data/challenges/ref-qrocm-challenge', ['exports'], function (exports) {
   exports['default'] = {
     data: {
-      type: 'challenges',
+      type: 'challenge',
       id: 'ref_qrocm_challenge_id',
       attributes: {
         type: 'QROCM',
@@ -2140,7 +2155,7 @@ define('pix-live/mirage/data/challenges/ref-qru-challenge', ['exports'], functio
   // QRU challenge with all fields filled
   exports['default'] = {
     data: {
-      type: 'challenges',
+      type: 'challenge',
       id: 'ref_qru_challenge_id',
       attributes: {
         type: 'QRU',
@@ -2976,11 +2991,6 @@ define('pix-live/routes/courses', ['exports', 'ember'], function (exports, _embe
   });
 });
 define('pix-live/routes/courses/create-assessment', ['exports', 'ember'], function (exports, _ember) {
-
-  function _urlForNextChallenge(adapter, assessmentId) {
-    return adapter.buildURL('assessment', assessmentId) + '/next';
-  }
-
   exports['default'] = _ember['default'].Route.extend({
 
     model: function model(params) {
@@ -2992,15 +3002,12 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'ember'], functi
       var _this = this;
 
       var store = this.get('store');
+      var challengeAdapter = store.adapterFor('challenge');
       var assessment = store.createRecord('assessment', { course: course });
       assessment.save().then(function () {
-        var adapter = store.adapterFor('application');
-        // TODO replace with a real & better challenge adapter
-        adapter.ajax(_urlForNextChallenge(adapter, assessment.get('id') /* no current challenge */), 'GET').then(function (challenge) {
+        challengeAdapter.queryNext(store, assessment.get('id')).then(function (challenge) {
           if (challenge) {
-            store.findRecord('challenge', challenge.data.id).then(function (challenge) {
-              _this.transitionTo('assessments.get-challenge', { assessment: assessment, challenge: challenge });
-            });
+            _this.transitionTo('assessments.get-challenge', { assessment: assessment, challenge: challenge });
           } else {
             _this.transitionTo('assessments.get-results', { assessment: assessment });
           }
@@ -3877,7 +3884,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+7bd264ed"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+4ad76a5a"});
 }
 
 /* jshint ignore:end */
