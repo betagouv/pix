@@ -78,7 +78,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
 
   it('b2.9 If an user check a checkbox, it is checked', function () {
     expect($('input:checkbox:checked')).to.have.lengthOf(0);
-    $('.blabla input[type="checkbox"]:eq(1)').click();
+    $('.input-checkbox-proposal:eq(1)').click();
     andThen(() => {
       expect($('input:checkbox:checked')).to.have.lengthOf(1);
     });
@@ -86,13 +86,13 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
 
   it('b2.10 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function () {
     expect($('input:checkbox:checked')).to.have.lengthOf(1);
-    $('.blabla input[type="checkbox"]:eq(2)').click();
+    $('.input-checkbox-proposal:eq(2)').click();
     andThen(() => {
       expect($('input:checkbox:checked')).to.have.lengthOf(2);
     });
   });
 
-  it('b2.12 If an user validate the challenge, the api is request to save the answer of the user', async function () {
+  it('b2.11 If an user validate the challenge, the api is request to save the answer of the user', async function () {
     resetPostRequest();
     await click('.challenge-actions__action-validate');
     expect(urlOfLastPostRequest()).to.equal('/api/answers');

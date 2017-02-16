@@ -26,8 +26,7 @@
 .input-checkbox-proposal {
   opacity: 0;
 }
-
-/*XXX Can't use BEM properly here because of CSS state manipulation*/
+/*XXX Can't use BEM properly when using CSS state manipulation*/
 .input-checkbox-proposal:checked ~ label svg.checkbox-off {
   opacity: 0;
   transition: opacity .2s linear;
@@ -51,23 +50,23 @@
  * Configure Radios of proposals
  *
  **/
-.blabla input[type="radio"] {
+.input-radio-proposal {
   opacity: 0;
 }
-
-.blabla input[type="radio"]:checked ~ label svg.radio-off {
+/*XXX Can't use BEM properly when using CSS state manipulation*/
+.input-radio-proposal:checked ~ label svg.radio-off {
   opacity: 0;
   transition: opacity .2s linear;
 }
-.blabla input[type="radio"]:not(:checked) ~ label svg.radio-off {
+.input-radio-proposal:not(:checked) ~ label svg.radio-off {
   opacity: 1;
   transition: opacity .2s linear;
 }
-.blabla input[type="radio"]:checked ~ label svg.radio-on {
+.input-radio-proposal:checked ~ label svg.radio-on {
   opacity: 1;
   transition: opacity .2s linear;
 }
-.blabla input[type="radio"]:not(:checked) ~ label svg.radio-on {
+.input-radio-proposal:not(:checked) ~ label svg.radio-on {
   opacity: 0;
   transition: opacity .2s linear;
 }
@@ -81,7 +80,6 @@
   position: absolute;
   left: -.5em;
   top: .1em;
-  /*border: 2px solid #fff;*/
 }
 
 .blibli label {
@@ -118,33 +116,32 @@
  * Configure Checkboxes that MUST be disabled
  *
  **/
-.blublu svg {
-  position: absolute;
-  left: -.5em;
-  top: .1em;
+.proposal-comparison-window {
+  margin-left: 10px;
 }
-.blublu label {
+/*cursor: pointer is disabled here*/
+.label-proposal-comparison-window {
   display: inline-block;
   padding-left: 1.5em;
   position: relative;
 }
+.checkbox-comparison-window {
+  opacity: 0;
+  display: none;
+}
 
-.blublu input[type="checkbox"] {
+.checkbox-comparison-window:checked ~ label svg.checkbox-disabled-on {
   opacity: 0;
 }
 
-.blublu input[type="checkbox"]:checked ~ label svg.checkbox-disabled-on {
-  opacity: 0;
-}
-
-.blublu input[type="checkbox"]:not(:checked) ~ label svg.checkbox-disabled-off {
+.checkbox-comparison-window:not(:checked) ~ label svg.checkbox-disabled-off {
   opacity: 1;
 }
 
-.blublu input[type="checkbox"]:checked ~ label svg.checkbox-disabled-on {
+.checkbox-comparison-window:checked ~ label svg.checkbox-disabled-on {
   opacity: 1;
 }
 
-.blublu input[type="checkbox"]:not(:checked) ~ label svg.checkbox-disabled-on {
+.checkbox-comparison-window:not(:checked) ~ label svg.checkbox-disabled-on {
   opacity: 0;
 }

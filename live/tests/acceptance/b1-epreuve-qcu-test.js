@@ -20,19 +20,19 @@ describe('Acceptance | b1 - Afficher un QCU | ', function () {
   });
 
   it('b1.1 Une liste de radiobuttons doit s\'afficher', function () {
-    const $proposals = $('.blabla input[type="radio"]');
+    const $proposals = $('.input-radio-proposal');
     expect($proposals).to.have.lengthOf(4);
   });
 
   it('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', function () {
-    expect($('.blabla input:radio:checked')).to.have.lengthOf(1);
+    expect($('.input-radio-proposal:checked')).to.have.lengthOf(1);
   });
 
   it('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', function () {
-    expect($('.blabla .proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
-    expect($('.blabla .proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
-    expect($('.blabla .proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
-    expect($('.blabla .proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
+    expect($('.proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
+    expect($('.proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
+    expect($('.proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
+    expect($('.proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
   });
 
   it('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', async function () {
@@ -52,19 +52,19 @@ describe('Acceptance | b1 - Afficher un QCU | ', function () {
   it('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', async function () {
 
     // Given
-    expect($('.blabla input[type="radio"]:eq(0)').is(':checked')).to.equal(false);
-    expect($('.blabla input[type="radio"]:eq(1)').is(':checked')).to.equal(true);
-    expect($('.blabla input[type="radio"]:eq(2)').is(':checked')).to.equal(false);
-    expect($('.blabla input[type="radio"]:eq(3)').is(':checked')).to.equal(false);
+    expect($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
+    expect($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(true);
+    expect($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
+    expect($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
 
     // When
-    await click($('.blabla label:eq(0)')); // Click on label trigger the event.
+    await click($('.label-checkbox-proposal:eq(0)')); // Click on label trigger the event.
 
     // Then
-    expect($('.blabla input[type="radio"]:eq(0)').is(':checked')).to.equal(true);
-    expect($('.blabla input[type="radio"]:eq(1)').is(':checked')).to.equal(false);
-    expect($('.blabla input[type="radio"]:eq(2)').is(':checked')).to.equal(false);
-    expect($('.blabla input[type="radio"]:eq(3)').is(':checked')).to.equal(false);
+    expect($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(true);
+    expect($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(false);
+    expect($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
+    expect($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
   });
 
   it('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', async function () {
@@ -72,13 +72,13 @@ describe('Acceptance | b1 - Afficher un QCU | ', function () {
     resetPostRequest();
 
     // Given
-    expect($('.blabla input[type="radio"]:eq(0)').is(':checked')).to.equal(false);
-    expect($('.blabla input[type="radio"]:eq(1)').is(':checked')).to.equal(true);
-    expect($('.blabla input[type="radio"]:eq(2)').is(':checked')).to.equal(false);
-    expect($('.blabla input[type="radio"]:eq(3)').is(':checked')).to.equal(false);
+    expect($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
+    expect($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(true);
+    expect($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
+    expect($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
 
     // When
-    await click($('.blabla label:eq(3)'));
+    await click($('.label-checkbox-proposal:eq(3)'));
     await click('.challenge-actions__action-validate');
 
     // Then
