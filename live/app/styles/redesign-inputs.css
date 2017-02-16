@@ -12,6 +12,7 @@
 .label-checkbox-proposal {
   display: inline-block;
   padding-left: 20px;
+  line-height: 20px;
   position: relative;
   cursor: pointer;
 }
@@ -75,11 +76,21 @@
 
 /**
  *
- * Configure Radios that are NOT in proposals
+ * Configure Radios of input files
  *
  **/
-
- .challenge-statement__picture-container {
+.picture-checkbox-file-input {
+  position: absolute;
+  left: -.5em;
+  top: .1em;
+}
+.label-checkbox-file-input {
+  display: inline-block;
+  padding-left: 18px;
+  position: relative;
+  cursor: pointer;
+}
+.challenge-statement__picture-container {
   height: 100%;
   display: flex;
 }
