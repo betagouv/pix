@@ -1,3 +1,9 @@
+
+/**
+ *
+ * Trick label & SVG to replace built-in checkboxes & radiobuttons.
+ *
+ **/
 .blabla svg {
   position: absolute;
   left: -.5em;
@@ -11,10 +17,16 @@
   cursor: pointer;
 
 }
+
+
+
+/**
+ *
+ * Configure Checkboxes of proposals
+ *
+ **/
 .blabla input[type="checkbox"] {
   opacity: 0;
-  width: 40px;
-  height: 40px;
 }
 
 .blabla input[type="checkbox"]:checked ~ label svg.checkboxoff {
@@ -33,3 +45,32 @@
   opacity: 0;
   transition: opacity .2s linear;
 }
+
+
+/**
+ *
+ * Configure Radios of proposals
+ *
+ **/
+.blabla input[type="radio"] {
+  opacity: 0;
+}
+
+.blabla input[type="radio"]:checked ~ label svg.radio-off {
+  opacity: 0;
+  transition: opacity .2s linear;
+}
+.blabla input[type="radio"]:not(:checked) ~ label svg.radio-off {
+  opacity: 1;
+  transition: opacity .2s linear;
+}
+.blabla input[type="radio"]:checked ~ label svg.radio-on {
+  opacity: 1;
+  transition: opacity .2s linear;
+}
+.blabla input[type="radio"]:not(:checked) ~ label svg.radio-on {
+  opacity: 0;
+  transition: opacity .2s linear;
+}
+
+
