@@ -73,4 +73,29 @@
   transition: opacity .2s linear;
 }
 
+/**
+ *
+ * Configure Radios that are NOT in proposals
+ *
+ **/
+/*.blibli input[type="radio"] {
+  opacity: 0;
+}*/
+
+.blibli input[type="radio"]:checked ~ label svg.radio2-off {
+  opacity: 0;
+  transition: opacity .2s linear;
+}
+.blibli input[type="radio"]:not(:checked) ~ label svg.radio2-off {
+  opacity: 1;
+  transition: opacity .2s linear;
+}
+.blibli input[type="radio"]:checked ~ label svg.radio2-on {
+  opacity: 1;
+  transition: opacity .2s linear;
+}
+.blibli input[type="radio"]:not(:checked) ~ label svg.radio2-on {
+  opacity: 0;
+  transition: opacity .2s linear;
+}
 
