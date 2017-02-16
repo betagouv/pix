@@ -24,6 +24,10 @@
   height: 100%;
   display: flex;
 }
+.index-page-hero__box-item {
+  margin-top: auto;
+  margin-bottom: auto;
+}
 
 @media (min-width: 992px) {
   .index-page-hero__box-item {
