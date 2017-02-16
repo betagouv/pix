@@ -311,10 +311,6 @@ define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test.lint-test'
 });
 define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveTestsHelpersSharedState, _pixLiveUtilsLodashCustom) {
 
-  function getProposalInputs() {
-    return $('.challenge-response__proposal-input');
-  }
-
   var application = undefined;
 
   (0, _mocha.describe)('Acceptance | b1 - Afficher un QCU | ', function () {
@@ -329,19 +325,19 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
     });
 
     (0, _mocha.it)('b1.1 Une liste de radiobuttons doit s\'afficher', function () {
-      var $proposals = $('.challenge-response__proposal-input[type="radio"]');
+      var $proposals = $('.blabla input[type="radio"]');
       (0, _chai.expect)($proposals).to.have.lengthOf(4);
     });
 
     (0, _mocha.it)('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', function () {
-      (0, _chai.expect)($('.challenge-response__proposal-input:radio:checked')).to.have.lengthOf(1);
+      (0, _chai.expect)($('.blabla input:radio:checked')).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', function () {
-      (0, _chai.expect)($('.challenge-response__proposal:nth-child(1)').text().trim()).to.equal('1ere possibilite');
-      (0, _chai.expect)($('.challenge-response__proposal:nth-child(2)').text().trim()).to.equal('2eme possibilite');
-      (0, _chai.expect)($('.challenge-response__proposal:nth-child(3)').text().trim()).to.equal('3eme possibilite');
-      (0, _chai.expect)($('.challenge-response__proposal:nth-child(4)').text().trim()).to.equal('4eme possibilite');
+      (0, _chai.expect)($('.proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
+      (0, _chai.expect)($('.proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
+      (0, _chai.expect)($('.proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
+      (0, _chai.expect)($('.proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
     });
 
     (0, _mocha.it)('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', function callee$1$0() {
@@ -349,6 +345,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
       return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
+
             // given
             $(':radio').prop('checked', false);
 
@@ -369,69 +366,65 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
       }, null, this);
     });
 
-    (0, _mocha.it)('b1.5 Si un utilisateur clique sur un radiobutton, il est coché', function callee$1$0() {
-      var $proposalInputs;
+    (0, _mocha.it)('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', function callee$1$0() {
       return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
-            $proposalInputs = getProposalInputs();
 
-            (0, _chai.expect)($proposalInputs.first().is(':checked')).to.equal(false);
-            context$2$0.next = 4;
-            return regeneratorRuntime.awrap(click($proposalInputs.first()));
+            // Given
+            (0, _chai.expect)($('.blabla input[type="radio"]:eq(0)').is(':checked')).to.equal(false);
+            (0, _chai.expect)($('.blabla input[type="radio"]:eq(1)').is(':checked')).to.equal(true);
+            (0, _chai.expect)($('.blabla input[type="radio"]:eq(2)').is(':checked')).to.equal(false);
+            (0, _chai.expect)($('.blabla input[type="radio"]:eq(3)').is(':checked')).to.equal(false);
 
-          case 4:
-            (0, _chai.expect)($proposalInputs.first().is(':checked')).to.equal(true);
-            (0, _chai.expect)($('.challenge-response__proposal-input:checked')).to.have.lengthOf(1);
+            // When
+            context$2$0.next = 6;
+            return regeneratorRuntime.awrap(click($('.blabla label:eq(0)')));
 
           case 6:
+            // Click on label trigger the event.
+
+            // Then
+            (0, _chai.expect)($('.blabla input[type="radio"]:eq(0)').is(':checked')).to.equal(true);
+            (0, _chai.expect)($('.blabla input[type="radio"]:eq(1)').is(':checked')).to.equal(false);
+            (0, _chai.expect)($('.blabla input[type="radio"]:eq(2)').is(':checked')).to.equal(false);
+            (0, _chai.expect)($('.blabla input[type="radio"]:eq(3)').is(':checked')).to.equal(false);
+
+          case 10:
           case 'end':
             return context$2$0.stop();
         }
       }, null, this);
     });
 
-    (0, _mocha.it)('b1.6 Si un utilisateur clique sur un radiobutton, il est coché, et tous les autres sont décochés', function callee$1$0() {
-      var checkedProposalInputsSelector;
+    (0, _mocha.it)('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', function callee$1$0() {
       return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
-            checkedProposalInputsSelector = '.challenge-response__proposal-input:checked';
-
-            (0, _chai.expect)($(checkedProposalInputsSelector)).to.have.lengthOf(1);
-            context$2$0.next = 4;
-            return regeneratorRuntime.awrap(click($('.challenge-response__proposal-input').get(2)));
-
-          case 4:
-            (0, _chai.expect)($(checkedProposalInputsSelector)).to.have.lengthOf(1);
-
-          case 5:
-          case 'end':
-            return context$2$0.stop();
-        }
-      }, null, this);
-    });
-
-    (0, _mocha.it)('b1.7 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', function callee$1$0() {
-      var $proposalInputs;
-      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
-        while (1) switch (context$2$0.prev = context$2$0.next) {
-          case 0:
+            // Given
             (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
-            $proposalInputs = getProposalInputs();
-            context$2$0.next = 4;
-            return regeneratorRuntime.awrap(click($proposalInputs.eq(1)));
 
-          case 4:
-            (0, _chai.expect)($('.challenge-response__proposal-input:checked')).to.have.lengthOf(1);
+            // Given
+            (0, _chai.expect)($('.blabla input[type="radio"]:eq(0)').is(':checked')).to.equal(false);
+            (0, _chai.expect)($('.blabla input[type="radio"]:eq(1)').is(':checked')).to.equal(true);
+            (0, _chai.expect)($('.blabla input[type="radio"]:eq(2)').is(':checked')).to.equal(false);
+            (0, _chai.expect)($('.blabla input[type="radio"]:eq(3)').is(':checked')).to.equal(false);
+
+            // When
             context$2$0.next = 7;
-            return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
+            return regeneratorRuntime.awrap(click($('.blabla label:eq(3)')));
 
           case 7:
-            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
-            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('2');
+            context$2$0.next = 9;
+            return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
 
           case 9:
+
+            // Then
+            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('4');
+
+          case 11:
           case 'end':
             return context$2$0.stop();
         }
@@ -3720,7 +3713,7 @@ define('pix-live/tests/integration/components/qcu-proposals-test', ['exports', '
         }));
 
         // then
-        (0, _chai.expect)(this.$('.challenge-response__proposal-input')).to.have.lengthOf(proposals.length);
+        (0, _chai.expect)(this.$('.proposal-text')).to.have.lengthOf(proposals.length);
       });
     });
   });
