@@ -23,23 +23,24 @@
  * Configure Checkboxes of proposals
  *
  **/
-.blabla input[type="checkbox"] {
+.input-checkbox-proposal {
   opacity: 0;
 }
 
-.blabla input[type="checkbox"]:checked ~ label svg.checkboxoff {
+/*XXX Can't use BEM properly here because of CSS state manipulation*/
+.input-checkbox-proposal:checked ~ label svg.checkbox-off {
   opacity: 0;
   transition: opacity .2s linear;
 }
-.blabla input[type="checkbox"]:not(:checked) ~ label svg.checkboxoff {
+.input-checkbox-proposal:not(:checked) ~ label svg.checkbox-off {
   opacity: 1;
   transition: opacity .2s linear;
 }
-.blabla input[type="checkbox"]:checked ~ label svg.checkboxon {
+.input-checkbox-proposal:checked ~ label svg.checkbox-on {
   opacity: 1;
   transition: opacity .2s linear;
 }
-.blabla input[type="checkbox"]:not(:checked) ~ label svg.checkboxon {
+.input-checkbox-proposal:not(:checked) ~ label svg.checkbox-on {
   opacity: 0;
   transition: opacity .2s linear;
 }
