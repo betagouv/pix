@@ -11,7 +11,7 @@
 }
 .label-checkbox-proposal {
   display: inline-block;
-  padding-left: 1.5em;
+  padding-left: 20px;
   position: relative;
   cursor: pointer;
 }
@@ -25,6 +25,7 @@
  **/
 .input-checkbox-proposal {
   opacity: 0;
+  display: none;
 }
 /*XXX Can't use BEM properly when using CSS state manipulation*/
 .input-checkbox-proposal:checked ~ label svg.checkbox-off {
@@ -52,6 +53,7 @@
  **/
 .input-radio-proposal {
   opacity: 0;
+  display: none;
 }
 /*XXX Can't use BEM properly when using CSS state manipulation*/
 .input-radio-proposal:checked ~ label svg.radio-off {
@@ -119,10 +121,13 @@
 .proposal-comparison-window {
   margin-left: 10px;
 }
+.proposal-paragraph {
+  margin-left: 7px;
+}
 /*cursor: pointer is disabled here*/
 .label-proposal-comparison-window {
   display: inline-block;
-  padding-left: 1.5em;
+  padding-left: 20px;
   position: relative;
 }
 .checkbox-comparison-window {
@@ -130,6 +135,7 @@
   display: none;
 }
 
+/*XXX Can't use BEM properly when using CSS state manipulation*/
 .checkbox-comparison-window:checked ~ label svg.checkbox-disabled-on {
   opacity: 0;
 }
@@ -145,3 +151,5 @@
 .checkbox-comparison-window:not(:checked) ~ label svg.checkbox-disabled-on {
   opacity: 0;
 }
+
+
