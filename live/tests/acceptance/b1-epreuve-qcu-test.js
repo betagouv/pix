@@ -29,10 +29,10 @@ describe('Acceptance | b1 - Afficher un QCU | ', function () {
   });
 
   it('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', function () {
-    expect($('.proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
-    expect($('.proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
-    expect($('.proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
-    expect($('.proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
+    expect($('.blabla .proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
+    expect($('.blabla .proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
+    expect($('.blabla .proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
+    expect($('.blabla .proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
   });
 
   it('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', async function () {
