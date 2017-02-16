@@ -1,9 +1,5 @@
 import Ember from 'ember';
 
-function _urlForNextChallenge(adapter, assessmentId) {
-  return adapter.buildURL('assessment', assessmentId) + '/next';
-}
-
 export default Ember.Route.extend({
 
   model(params) {
@@ -13,20 +9,16 @@ export default Ember.Route.extend({
 
   afterModel(course) {
     const store = this.get('store');
+    const challengeAdapter = store.adapterFor('challenge');
     const assessment = store.createRecord('assessment', { course });
     assessment.save().then(() => {
-      const adapter = store.adapterFor('application');
-      // TODO replace with a real & better challenge adapter
-      adapter.ajax(_urlForNextChallenge(adapter, assessment.get('id') /* no current challenge */), 'GET')
-        .then(challenge => {
-          if (challenge) {
-            store.findRecord('challenge', challenge.data.id).then(challenge => {
-              this.transitionTo('assessments.get-challenge', { assessment, challenge });
-            });
-          } else {
-            this.transitionTo('assessments.get-results', { assessment });
-          }
-        });
+      challengeAdapter.queryNext(store, assessment.get('id')).then(challenge => {
+        if (challenge) {
+          this.transitionTo('assessments.get-challenge', { assessment, challenge });
+        } else {
+          this.transitionTo('assessments.get-results', { assessment });
+        }
+      });
     });
   }
 
