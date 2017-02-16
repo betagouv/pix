@@ -334,10 +334,10 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
     });
 
     (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', function () {
-      (0, _chai.expect)($('.proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
-      (0, _chai.expect)($('.proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
-      (0, _chai.expect)($('.proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
-      (0, _chai.expect)($('.proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
+      (0, _chai.expect)($('.blabla .proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
+      (0, _chai.expect)($('.blabla .proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
+      (0, _chai.expect)($('.blabla .proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
+      (0, _chai.expect)($('.blabla .proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
     });
 
     (0, _mocha.it)('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', function callee$1$0() {
