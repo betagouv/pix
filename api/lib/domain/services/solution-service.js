@@ -20,10 +20,8 @@ module.exports = {
         .get(existingAnswer.get('challengeId'))
         .then((solution) => {
           const answerCorrectness = this.match(existingAnswer, solution);
-          new Answer({ id: existingAnswer.id })
-              .save({
-                result: answerCorrectness,
-              }, { method: 'update' })
+          new Answer({ id: existingAnswer.id, result: answerCorrectness })
+              .save()
               .then((updatedAnswer) => resolve(updatedAnswer))
               .catch((err) => reject(Boom.badImplementation(err)));
         });
