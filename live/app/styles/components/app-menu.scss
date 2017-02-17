@@ -7,7 +7,7 @@
   }
 }
 
-.app-menu{
+.app-menu {
   display: flex;
   flex-direction: column;
   order : 1;
@@ -18,24 +18,25 @@
   }
 }
 
-.app-menu__item{
+.app-menu__item {
   display:none;
   @media (min-width: 992px) {
     margin-right: 28px;
     display: block;
   }
 }
-.app-menu__item a{
+
+.app-menu__item a {
   cursor: pointer;
   font-size: 15px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
-  color: var(--charcoal-grey);
-  font-family: var(--font-lato);
+  color: $charcoal-grey;
+  font-family: $font-lato;
   display: block;
   padding: 10px 0px;
-  border: 1px solid var(--charcoal-grey);
+  border: 1px solid $charcoal-grey;
   @media (min-width: 992px) {
     display: inline;
     border: none;

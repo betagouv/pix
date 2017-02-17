@@ -4,7 +4,7 @@
   justify-content: space-around;
   align-self: center;
   background-color: #fafafa;
-  color: var(--charcoal-grey);
+  color: $charcoal-grey;
   text-rendering: optimizeLegibility;
 }
 
@@ -24,13 +24,13 @@
 }
 
 .project-page li {
-  color: var(--project-blue);
+  color: $project-blue;
 }
 
 .project-page hr {
   width: 50px;
   height: 4px;
-  background-color: var(--project-blue);
+  background-color: $project-blue;
   margin: 0 auto 20px;
   border-radius: 2px;
   border: none;
@@ -114,11 +114,11 @@ p.project-page__populations-headline {
 }
 
 .project-page__value-header-name {
-  color: var(--project-blue);
+  color: $project-blue;
 }
 
 .project-page__presentation {
-  background-color: var(--project-blue);
+  background-color: $project-blue;
   color: #ffffff;
   font-size: 20px;
   line-height: 28px;

@@ -6,9 +6,9 @@
 }
 
 #home-loading .ball-zig-zag > div:nth-child(2) {
-  background-color: var(--pix-blue);
+  background-color: $pix-blue;
 }
 
 #home-loading .ball-zig-zag > div:nth-child(1) {
-  background-color: var(--pix-yellow);
+  background-color: $pix-yellow;
 }

@@ -23,7 +23,7 @@
 }
 
 #home .course-item .course .course-content .course-name {
-  color: var(--pix-blue);
+  color: $pix-blue;
 }
 
 #home .course-item .course .course-number-of-challenges {
@@ -39,15 +39,15 @@
 }
 
 #home .course-item .course .course-actions > .start-button {
-  background-color: var(--pix-blue);
-  border-color: var(--pix-blue);
-  border-bottom: 1px solid var(--pix-blue1);
+  background-color: $pix-blue;
+  border-color: $pix-blue;
+  border-bottom: 1px solid $pix-blue1;
   text-transform: none;
 }
 
 #home .course-item .course .course-actions > .start-button:hover,
 #home .course-item .course .course-actions > .start-button:active {
-  background-color: var(--pix-yellow);
-  border-color: var(--pix-yellow);
-  border-bottom: 1px solid var(--pix-yellow1);
+  background-color: $pix-yellow;
+  border-color: $pix-yellow;
+  border-bottom: 1px solid $pix-yellow1;
 }
