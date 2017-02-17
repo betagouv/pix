@@ -52,8 +52,8 @@
 }
 
 
-@media (min-width: 1024px) {
-  .assessment-challenge-container .container {
+.assessment-challenge-container .container {
+  @media (min-width: 1024px) {
     padding-right: 0;
     padding-left: 0;
   }
