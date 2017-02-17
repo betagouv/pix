@@ -1,7 +1,12 @@
 import Ember from 'ember';
 
-export default Ember.Component.extend({
+const QROCAnswerComparisonBox = Ember.Component.extend({
 
-  const solutions = null;
-  const answers = null;
+
 });
+
+QROCAnswerComparisonBox.reopenClass({
+  positionalParams: ['answer', 'solution']
+});
+
+export default QROCAnswerComparisonBox;

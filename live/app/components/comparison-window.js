@@ -3,6 +3,13 @@ import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
 
 const ComparisonWindow = Ember.Component.extend({
 
+  answer: null,
+  challenge: null,
+  solution: null,
+  index: null,
+
+  isAssessmentChallengeTypeQroc: Ember.computed.equal('challenge.type', 'QROC'),
+
   solutionArray: Ember.computed('solution', function() {
     return this.get('solution').get('_valueAsArrayOfBoolean');
   }),

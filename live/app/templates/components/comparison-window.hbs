@@ -3,7 +3,7 @@
 
     <div class="routable-modal--content comparison-window--content">
 
-      <div class="routable-modal--header comparison-window--header">
+      <div class="routable-modal--header comparison-window__header">
         {{#routable-modal-close-button class="routable-modal--close-button"}}
 
         <div class="close-button-container">
@@ -53,7 +53,7 @@
 
       <div class="routable-modal--body comparison-window--body">
 
-        <div class="rounded-panel comparison-window__instruction">
+        <div class="rounded-panel comparison-window__challenge-instruction">
           <div class="rounded-panel__row ">
             {{markdown-to-html
                 class="challenge-statement__instruction"
@@ -70,42 +70,48 @@
          {{/if}}
         </div>
 
-        {{#if (eq answer.challenge.type "QCM") }}
-        <div class="rounded-panel comparison-window__proposals">
-          <div class="rounded-panel__row ">
-            {{#each labeledCheckboxes as |labeledCheckbox index|}}
-            <p class="challenge-response__proposal">
-              <label class="challenge-response__proposal-label">
-                {{!-- checkbox --}}
-                <input class="comparison-window-boolean"
-                       type="checkbox"
-                       disabled="disabled"
-                       name="{{inc index}}"
-                       checked={{labeledCheckbox.[1]}}
-                />
-                {{!-- text of proposal  --}}
-                <span
-                  class="comparison-window-oracle"
-                  data-goodness="{{if (get solutionArray (concat index)) 'good' 'bad'}}"
-                  data-checked={{if labeledCheckbox.[1] 'yes' 'no'}}
-                >
-                    {{labeledCheckbox.[0]}}
-                </span>
-              </label>
-            </p>
-            {{/each}}
+        <div class="comparison-window__corrected-answers">
+          {{#if (eq answer.challenge.type "QCM") }}
+          <div class="rounded-panel comparison-window__proposals">
+            <div class="rounded-panel__row ">
+              {{#each labeledCheckboxes as |labeledCheckbox index|}}
+              <p class="challenge-response__proposal">
+                <label class="challenge-response__proposal-label">
+                  {{!-- checkbox --}}
+                  <input class="comparison-window-boolean"
+                         type="checkbox"
+                         disabled="disabled"
+                         name="{{inc index}}"
+                         checked={{labeledCheckbox.[1]}}
+                  />
+                  {{!-- text of proposal  --}}
+                  <span
+                    class="comparison-window-oracle"
+                    data-goodness="{{if (get solutionArray (concat index)) 'good' 'bad'}}"
+                    data-checked={{if labeledCheckbox.[1] 'yes' 'no'}}
+                  >
+                      {{labeledCheckbox.[0]}}
+                  </span>
+                </label>
+              </p>
+              {{/each}}
+            </div>
           </div>
+          {{/if}}
+
+          {{#if isAssessmentChallengeTypeQroc}}
+            <div class="comparison-window__corrected-answers--qroc">
+              {{qroc-answer-comparison-box answer=answer solution=solution }}
+            </div>
+          {{/if}}
+
         </div>
-        {{/if}}
-
-        {{#if (eq answer.challenge.type "QROC")}}
-          {{qroc-answer-comparison-box}}
-        {{/if}}
-
       </div>
 
       <div class="routable-modal--footer comparison-window--footer">
-        {{feedback-panel answer}}
+        <div class="comparison-window__feedback-panel">
+          {{feedback-panel answer}}
+        </div>
       </div>
     </div>
   </div>
