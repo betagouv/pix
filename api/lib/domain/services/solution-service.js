@@ -24,7 +24,7 @@ module.exports = {
               .save({
                 result: answerCorrectness,
               }, { method: 'update' })
-              .then((updatedAnswer) => resolve(updatedAnswer).code(200))
+              .then((updatedAnswer) => resolve(updatedAnswer))
               .catch((err) => reject(Boom.badImplementation(err)));
         });
       }
