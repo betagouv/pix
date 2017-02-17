@@ -23,6 +23,7 @@
 @import 'components/course-banner';
 @import 'components/challenge-stay';
 @import 'components/modal-mobile';
+@import 'components/timeout-jauge';
 @import 'components/warning-timing-page';
 @import 'components/app-menu';
 @import 'components/get-results';
@@ -43,8 +44,8 @@
 }
 
 body {
-  font-family: var(--font-lato);
-  background-color: var(--light-grey1);
+  font-family: $font-lato;
+  background-color: $light-grey1;
 }
 
 .body {
@@ -60,7 +61,7 @@ body {
 .container .title {
   display: block;
   text-rendering: optimizeLegibility;
-  color: var(--dark-grey5);
+  color: $dark-grey5;
   font-size: 30px;
   font-weight: 600;
   margin-bottom: 20px;
