@@ -3860,6 +3860,18 @@ define('pix-live/tests/integration/components/qroc-answer-comparison-box-test', 
         'meta': {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
+
+      (0, _mocha.describe)('rendering', function () {
+
+        (0, _mocha.it)('', function () {
+          // given
+
+          // when
+
+          // then
+
+        });
+      });
     });
   });
 });
