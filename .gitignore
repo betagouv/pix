@@ -27,3 +27,7 @@
 
 # system
 .DS_Store
+
+# Custom
+
+**/.gitkeep
