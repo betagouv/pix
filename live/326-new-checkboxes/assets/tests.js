@@ -379,7 +379,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
 
             // When
             context$2$0.next = 6;
-            return regeneratorRuntime.awrap(click($('.label-checkbox-proposal:eq(0)')));
+            return regeneratorRuntime.awrap(click($('.label-checkbox-proposal--qcu:eq(0)')));
 
           case 6:
             // Click on label trigger the event.
@@ -412,7 +412,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
 
             // When
             context$2$0.next = 7;
-            return regeneratorRuntime.awrap(click($('.label-checkbox-proposal:eq(3)')));
+            return regeneratorRuntime.awrap(click($('.label-checkbox-proposal--qcu:eq(3)')));
 
           case 7:
             context$2$0.next = 9;
