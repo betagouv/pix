@@ -43,7 +43,7 @@
   }
 }
 
-/*XXX: On augmente le poids avec la class du parent afin d'overrider la class*/
+/*XXX: On augmente le poids avec la class du parent afin d'overrider la class .container de boostrap*/
 .assessment-challenge-container .container {
   max-width: 990px;
   padding-right: 15px;
