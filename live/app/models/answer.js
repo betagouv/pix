@@ -28,6 +28,9 @@ export default Model.extend(ValueAsArrayOfBoolean, ValueAsArrayOfString, {
   }),
   isResultTimedOut: computed('result', function () {
     return this.get('result') === 'timedout';
+  }),
+  resultStatus : Ember.computed('result', function(){
+    return this.get('result');
   })
 
 });

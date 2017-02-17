@@ -1,0 +1,24 @@
+<div class="result-list__item">
+  <div class="result-list__index">
+    {{add index 1}}
+  </div>
+
+  <div class="result-list__icon">
+    <div data-toggle="tooltip" data-placement="top" title="{{resultContent.title}}">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="{{resultContent.icon}}" fill="{{resultContent.color}}"/></svg>
+    </div>
+  </div>
+
+  <div class="result-list__instruction">
+    {{strip-instruction (convert-to-html answer.challenge.instruction)}}
+  </div>
+
+  <div class="result-list__correction">
+    {{#if (eq answer.challenge.type "QCM")}}
+      <button class="result-list__correction__button"
+        {{action (route-action "openComparison" assessment.id answer.id (add index 1))}}> RÉPONSE
+      </button>
+    {{/if}}
+  </div>
+
+</div>

@@ -1,1 +1,21 @@
-{{get-result assessment=model}}
+<div class='assessment-results' id='assessment-results'>
+
+  <div class="assessment-results__course-banner">
+    {{course-banner course=assessment.course}}
+  </div>
+
+  <div class="assessment-results__title">
+
+  </div>
+
+  <div class="assessment-results__list">
+
+  </div>
+
+  <div class="assessment-results__index-link-container">
+    {{#link-to 'index' class='assessment-results__index-link__element' tagName='button'}}
+      <span class="assessment-results-back">Revenir à la liste des tests</span>
+    {{/link-to}}
+  </div>
+
+</div>
