@@ -6,8 +6,8 @@
  **/
 .picture-checkbox-proposal--qcm {
   position: absolute;
-  left: -.5em;
-  top: .1em;
+  left: -11px;
+  top: 3px;
 }
 .label-checkbox-proposal--qcm {
   display: inline-block;
@@ -54,8 +54,8 @@
  **/
 .picture-checkbox-proposal--qcu {
   position: absolute;
-  left: -.5em;
-  top: .1em;
+  left: -11px;
+  top: 3px;
 }
 .label-checkbox-proposal--qcu {
   display: inline-block;
@@ -94,8 +94,8 @@
  **/
 .picture-checkbox-downloadable {
   position: absolute;
-  left: -.5em;
-  top: .1em;
+  left: -8px;
+  top: 1px;
 }
 .label-checkbox-downloadable {
   display: inline-block;
@@ -136,8 +136,8 @@
  **/
 .picture-checkbox-proposal--comparison {
   position: absolute;
-  left: -.5em;
-  top: .1em;
+  left: -11px;
+  top: 3px;
 }
 .label-checkbox-proposal--comparison {
   display: inline-block;
