@@ -391,47 +391,40 @@ describe('Unit | Service | SolutionService', function () {
       id: 1,
       value: '1,2,3',
       result: 'ko',
-      challengeId: 'challenge_1234'
+      challengeId: 'any_challenge_id'
     };
 
     const ok_answer = {
       id: 2,
       value: '1, 2, 3',
       result: 'partially',
-      challengeId: 'challenge_1234'
-    };
-
-    const unrelated_answer = {
-      id: 3,
-      value: '1,2,3',
-      result: 'ko',
-      challengeId: 'challenge_000'
+      challengeId: 'any_challenge_id'
     };
 
     const unimplemented_answer = {
       id: 4,
       value: '1,2,3',
       result: 'unimplemented',
-      challengeId: 'challenge_1234'
+      challengeId: 'any_challenge_id'
     };
 
     const aband_answer = {
       id: 5,
       value: '#ABAND#',
       result: 'aband',
-      challengeId: 'challenge_1234'
+      challengeId: 'any_challenge_id'
     };
 
     const timedout_answer = {
       id: 6,
       value: '1,2,3',
       result: 'timedout',
-      challengeId: 'challenge_1234'
+      challengeId: 'any_challenge_id'
     };
 
     before(function (done) {
       knex('answers').delete().then(() => {
-        knex('answers').insert([ko_answer, ok_answer, unrelated_answer, unimplemented_answer, aband_answer, timedout_answer]).then(() => {
+        knex('answers').insert([ko_answer, ok_answer, unimplemented_answer, aband_answer, timedout_answer]).then(() => {
           done();
         });
       });
@@ -449,6 +442,17 @@ describe('Unit | Service | SolutionService', function () {
         expect(foundAnswer.attributes.value).equals(timedout_answer.value);
         expect(foundAnswer.attributes.result).equals(timedout_answer.result);
         expect(foundAnswer.attributes.challengeId).equals(timedout_answer.challengeId);
+        done();
+      });
+    });
+
+    it('If the answer is aband, resolve to the answer itself, unchanged', function (done) {
+      expect(service.revalidate).to.exist;
+      service.revalidate(new Answer(aband_answer)).then(function (foundAnswer) {
+        expect(foundAnswer.id).equals(aband_answer.id);
+        expect(foundAnswer.attributes.value).equals(aband_answer.value);
+        expect(foundAnswer.attributes.result).equals(aband_answer.result);
+        expect(foundAnswer.attributes.challengeId).equals(aband_answer.challengeId);
         done();
       });
     });
@@ -478,6 +482,56 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
+    it('If the answer is ok, resolve to the answer itself, with result corresponding to the matching', function (done) {
+
+      // given
+      const MATCHING_RETURNS = '#ANY_RESULT#';
+
+      sinon.stub(SolutionRepository, 'get').resolves({}); // avoid HTTP call, but what it replies doesn't matter
+      sinon.stub(service, 'match').returns(MATCHING_RETURNS);
+      expect(service.revalidate).to.exist;
+
+      // when
+      service.revalidate(new Answer(ok_answer)).then(function (foundAnswer) {
+
+        // then
+        expect(SolutionRepository.get.callOnce);
+        expect(service.match.callOnce);
+        expect(foundAnswer.id).equals(ok_answer.id);
+        expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS);
+
+        SolutionRepository.get.restore();
+        service.match.restore();
+        done();
+      });
+
+    });
+
+
+    it('If the answer is unimplemented, resolve to the answer itself, with result corresponding to the matching', function (done) {
+
+      // given
+      const MATCHING_RETURNS = '#ANY_RESULT#';
+
+      sinon.stub(SolutionRepository, 'get').resolves({}); // avoid HTTP call, but what it replies doesn't matter
+      sinon.stub(service, 'match').returns(MATCHING_RETURNS);
+      expect(service.revalidate).to.exist;
+
+      // when
+      service.revalidate(new Answer(unimplemented_answer)).then(function (foundAnswer) {
+
+        // then
+        expect(SolutionRepository.get.callOnce);
+        expect(service.match.callOnce);
+        expect(foundAnswer.id).equals(unimplemented_answer.id);
+        expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS);
+
+        SolutionRepository.get.restore();
+        service.match.restore();
+        done();
+      });
+
+    });
 
   });
 
