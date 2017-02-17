@@ -10,9 +10,7 @@ module.exports = function (defaults) {
     // XXX https://karolgalanciak.com/blog/2015/12/18/ember-and-es7-async-slash-await/
     'ember-cli-babel': {
       includePolyfill: true
-    },
-
-    sassOptions: {}
+    }
 
   });
 
