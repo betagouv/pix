@@ -2,8 +2,32 @@
 
 <div class="rounded-panel comparison-window__proposals">
   <div class="rounded-panel__row ">
-    {{solution.value}}
-    {{answer.value}}
+
+    {{#if answer.isResultOk}}
+      <input value="{{answerToDisplay}}">
+
+    {{else if answer.isResultWithoutAnswer}}
+      <input value="{{answerToDisplay}}">
+      <div> -> La bonne Reponse</div>
+      <div>{{solutionToDisplay}}</div>
+
+    {{else if answer.isResultPartiallyOk}}
+      <input value="{{answerToDisplay}}">
+      <div> -> La bonne Reponse</div>
+      <div>{{solutionToDisplay}}</div>
+
+    {{else if answer.isResultNotOk}}
+      <input value="{{answerToDisplay}}">
+      <div> -> La bonne Reponse</div>
+      <div>{{solutionToDisplay}}</div>
+
+    {{else if answer.isResultTimedOut}}
+      <input value="{{answerToDisplay}}">
+      <div> -> La bonne Reponse</div>
+      <div>{{solutionToDisplay}}</div>
+
+    {{/if}}
+
   </div>
 </div>
 

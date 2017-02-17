@@ -20,5 +20,17 @@ describe('Integration | Component | qroc answer comparison box', function() {
 
     this.render(hbs`{{qroc-answer-comparison-box}}`);
     expect(this.$()).to.have.length(1);
+
+    describe('rendering', function () {
+
+      it('', function () {
+        // given
+
+        // when
+
+        // then
+
+      });
+    });
   });
 });
