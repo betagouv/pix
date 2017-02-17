@@ -5,5 +5,20 @@
 @import 'globals/dimension';
 
 /* 3rd-party */
+@import 'vendor/ember-routable-modal/core';
+@import 'vendor/ember-routable-modal/dialog';
+
+
+/* components */
 @import 'components/rounded-panel';
+@import 'components/app-header';
+@import 'components/app-footer';
+@import 'components/first-page';
+@import 'components/corner-ribbon';
+@import 'components/challenge-statement';
+@import 'components/challenge-response';
+@import 'components/challenge-actions';
+@import 'components/feedback-panel';
+@import 'components/load-email';
+@import 'components/course-banner';
 

@@ -8,16 +8,14 @@
 - Footer
 */
 
-:root {
-  --first-page-hero-height:  580px;
-}
+$first-page-hero-height:  580px;
 
 /* Hero
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .first-page-hero {
   background-image: url('/images/stock-photo2.jpg');
   background-size: cover;
-  height: var(--first-page-hero-height);
+  height: $first-page-hero-height;
   width: 100%;
 }
 
@@ -74,7 +72,7 @@
 /* Challenges
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .first-page-challenges {
-  background-color: var(--light-grey1);
+  background-color: $light-grey1;
 }
 
 /* XXX : issue raised, impossible to put a margin-top to title (single direction margin declaration) */
@@ -123,7 +121,7 @@
         text-align: center;
 
         & .course-name {
-          color: var(--pix-blue);
+          color: $pix-blue;
         }
       }
 
@@ -139,16 +137,16 @@
         padding-bottom: 30px;
 
         & > .start-button {
-          background-color: var(--pix-blue);
-          border-color: var(--pix-blue);
-          border-bottom: 1px solid var(--pix-blue1);
+          background-color: $pix-blue;
+          border-color: $pix-blue;
+          border-bottom: 1px solid $pix-blue1;
           text-transform: none;
 
           &:hover,
           &:active {
-            background-color: var(--pix-yellow);
-            border-color: var(--pix-yellow);
-            border-bottom: 1px solid var(--pix-yellow1);
+            background-color: $pix-yellow;
+            border-color: $pix-yellow;
+            border-bottom: 1px solid $pix-yellow1;
           }
         }
       }
@@ -163,7 +161,7 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .first-page-email {
   height: 385px;
-  background-color: var(--pix-blue);
+  background-color: $pix-blue;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -258,21 +256,21 @@
   background: #ffffff;
 }
 
-.first-page-about a{
+.first-page-about a {
   display: block;
   width: 201px;
   height: 36px;
   line-height: 36px;
   border-radius: 3px;
   border: none;
-  background-color: var(--marigold);
+  background-color: $marigold;
   font-size: 14px;
   font-weight: bold;
   font-style: normal;
   font-stretch: normal;
   text-align: center;
-  color: var(--charcoal-grey);
-  font-family: var(--font-lato);
+  color: $charcoal-grey;
+  font-family: $font-lato;
   text-decoration: none;
   cursor: pointer;
 }
