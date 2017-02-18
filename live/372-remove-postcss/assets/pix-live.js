@@ -1427,6 +1427,39 @@ define('pix-live/initializers/ajax-interceptor', ['exports', 'pix-live/config/en
     initialize: initialize
   };
 });
+define('pix-live/initializers/ajax-prefilter', ['exports'], function (exports) {
+  exports.initialize = initialize;
+
+  function getPosition(string, subString, index) {
+    return string.split(subString, index).join(subString).length;
+  }
+
+  function stripCharBeforeApi(url) {
+
+    if (url && url.indexOf && url.indexOf('/api/') >= 0) {
+      var position = getPosition(url, '/', 3);
+      var urlBase = url.substring(0, position);
+      var urlSuffix = url.substring(position, url.length);
+      if (urlSuffix.indexOf('/api/') !== 0) {
+        var cleanedSuffix = urlSuffix.substring(urlSuffix.indexOf('/api/'));
+        return urlBase + cleanedSuffix;
+      }
+    }
+
+    return url;
+  }
+
+  function initialize() /* application */{
+    $.ajaxPrefilter(function (options) {
+      options.url = stripCharBeforeApi(options.url);
+    });
+  }
+
+  exports['default'] = {
+    name: 'ajax-prefilter',
+    initialize: initialize
+  };
+});
 define('pix-live/initializers/app-version', ['exports', 'ember-cli-app-version/initializer-factory', 'pix-live/config/environment'], function (exports, _emberCliAppVersionInitializerFactory, _pixLiveConfigEnvironment) {
   var _config$APP = _pixLiveConfigEnvironment['default'].APP;
   var name = _config$APP.name;
@@ -3788,7 +3821,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+9eb89232"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+ea8775ab"});
 }
 
 /* jshint ignore:end */
