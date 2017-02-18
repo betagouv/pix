@@ -20,8 +20,6 @@ function stripCharBeforeApi(url) {
 
 export function initialize(/* application */) {
   $.ajaxPrefilter( function(options) {
-    // Always add "?debug=1" to every URL
-    // options.url += (options.url.indexOf("?") < 0 ? : "?" : "&") + "debug=1";
     options.url = stripCharBeforeApi(options.url);
   });
 }
