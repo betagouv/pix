@@ -25,7 +25,7 @@ module.exports = function (defaults) {
             module: postcssImport,
             options: {}
           },
-          // single-file transformations (eg: variables, nesting, etc.)
+          // single-file transformations (eg: variables, nesting, etc)
           {
             module: cssnext,
             options: {
