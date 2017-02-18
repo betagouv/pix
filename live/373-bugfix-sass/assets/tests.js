@@ -2,7 +2,7 @@
 
 define('pix-live/tests/acceptance/a1-page-accueil-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)('Acceptance | a1 - Accéder à la plateforme pour démarrer un test', function () {
+  _mocha.describe.only('Acceptance | a1 - Accéder à la plateforme pour démarrer un test', function () {
 
     var application = undefined;
 
