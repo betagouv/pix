@@ -2026,6 +2026,15 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test.lint-test'
     });
   });
 });
+define('pix-live/tests/adapters/answer.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - adapters/answer.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/adapters/application.lint-test', ['exports'], function (exports) {
   'use strict';
 
