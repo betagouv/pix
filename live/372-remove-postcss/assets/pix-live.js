@@ -6,20 +6,6 @@
 
 /* jshint ignore:end */
 
-define('pix-live/adapters/answer', ['exports', 'pix-live/adapters/application', 'ember'], function (exports, _pixLiveAdaptersApplication, _ember) {
-  exports['default'] = _pixLiveAdaptersApplication['default'].extend({
-    // XXX : can't find in the docs why query params are in 3rd position
-    // XXX : need the small 'if' for production. Hacky, icky, ugly.
-    queryRecord: function queryRecord(modelName, clazz, query) {
-      var prefix = '/';
-      if (this.host !== '/') {
-        prefix = this.host + '/';
-      }
-
-      return _ember['default'].$.getJSON(prefix + this.namespace + '/answers?assessment=' + query.assessmentId + '&challenge=' + query.challengeId);
-    }
-  });
-});
 define('pix-live/adapters/application', ['exports', 'ember-data', 'pix-live/config/environment'], function (exports, _emberData, _pixLiveConfigEnvironment) {
   exports['default'] = _emberData['default'].JSONAPIAdapter.extend({
 
@@ -2765,7 +2751,7 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp']
       var promises = {
         assessment: store.findRecord('assessment', assessmentId),
         challenge: store.findRecord('challenge', challengeId),
-        answers: store.queryRecord('answer', { assessmentId: assessmentId, challengeId: challengeId })
+        answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
       };
 
       return _rsvp['default'].hash(promises).then(function (model) {
@@ -3802,7 +3788,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+05713b29"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+a0f0bfe3"});
 }
 
 /* jshint ignore:end */
