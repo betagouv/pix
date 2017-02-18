@@ -14,7 +14,7 @@ export default Ember.Route.extend({
     const promises = {
       assessment: store.findRecord('assessment', assessmentId),
       challenge: store.findRecord('challenge', challengeId),
-      answers: store.queryRecord('answer', {assessmentId, challengeId})
+      answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
     };
 
     return RSVP.hash(promises).then(model => {
