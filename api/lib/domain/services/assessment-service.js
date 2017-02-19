@@ -9,7 +9,7 @@ function _selectNextInAdaptiveMode(assessment) {
 
     const answerIds = assessment.related('answers').pluck('id');
 
-    Answer.where('id', 'IN', answerIds).fetchAll().then((answers) => {
+    Answer.where('id', 'IN', answerIds).orderBy('createdAt').fetchAll().then((answers) => { // FIXME
       const responsePattern = answers.map(answer => (answer.attributes.result == 'ok') ? 'ok' : 'ko').join('-');
 
       Scenario.where('path', responsePattern).orderBy('updatedAt', 'DESC').fetch().then((scenario) => {

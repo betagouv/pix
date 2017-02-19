@@ -1,3 +1,4 @@
+/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const Boom = require('boom');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
@@ -9,6 +10,8 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const _ = require('../../infrastructure/utils/lodash-utils');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
+const Answer = require('../../domain/models/data/answer');
+const Scenario = require('../../domain/models/data/scenario');
 
 module.exports = {
 
@@ -67,8 +70,26 @@ module.exports = {
 
                 const challengesLength = _.get(course, 'challenges.length', 0);
 
-                if (challengesLength > 0 && _.isEqual(answersLength, challengesLength)) {
+                let testIsOver = false;
+                if (course.isAdaptive) {
+                  testIsOver = challengesLength > 0 && _.isEqual(answersLength, challengesLength);
+                } else {
+                  const responsePattern = answers.map(answer => (answer.attributes.result == 'ok') ? 'ok' : 'ko').join('-');
 
+                  Scenario.where('path', responsePattern).orderBy('updatedAt', 'DESC').fetch().then((scenario) => {
+                    if (!scenario) {
+                      testIsOver = true;
+                    } else if(scenario.attributes.nextChallengeId == 'null') {
+                      testIsOver = true;
+                    } else {
+                      testIsOver = false;
+                    }
+                  });
+  
+                }
+
+                if (testIsOver) {
+                  console.error('ok, is it over');
                   const modelAnswers = _.map(answers.models, (o) => o.attributes);
                   const requestedAnswer = _.find(modelAnswers, { id: _.parseInt(request.params.answerId) });
 
