@@ -45,7 +45,7 @@ describe('Acceptance | API | Assessments', function () {
           .reply(200, {
             'id': 'first_challenge',
             'fields': {
-              // a bunch of fields
+              'Bonnes réponses': 'fromage'
             },
           }
           );
@@ -54,7 +54,7 @@ describe('Acceptance | API | Assessments', function () {
           .reply(200, {
             'id': 'second_challenge',
             'fields': {
-              // a bunch of fields
+              'Bonnes réponses': 'truite'
             },
           }
           );
@@ -63,7 +63,7 @@ describe('Acceptance | API | Assessments', function () {
           .reply(200, {
             'id': 'third_challenge',
             'fields': {
-              // a bunch of fields
+              'Bonnes réponses': 'dromadaire'
             },
           }
           );
@@ -74,7 +74,9 @@ describe('Acceptance | API | Assessments', function () {
 
   after(function (done) {
     nock.cleanAll();
-    server.stop(done);
+    knex('scenarios').delete().then(() => {
+      server.stop(done);
+    });
   });
 
   describe('GET /api/assessments/:id', function () {
@@ -429,6 +431,7 @@ describe('Acceptance | API | Assessments', function () {
     afterEach(function (done) {
       knex('assessments').delete().then(() => {
         knex('answers').delete().then(() => {
+          // Keep scenarios for the other functions
           done();
         });
       });
@@ -543,63 +546,6 @@ describe('Acceptance | API | Assessments', function () {
     it('should return null if 2 answers are given', function (done) {
 
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge' };
-      server.inject(options, (response) => {
-        expect(response.result).to.equal('null');
-        done();
-      });
-    });
-  });
-
-  describe('(non-adaptive end of test) GET /api/assessments/:assessment_id/solutions/:answer_id', function () {
-
-    //assessment
-    let insertedAssessmentId = null;
-    let insertedAnswerId = null;
-
-    const insertedAssessment = {
-      userName: 'John Doe',
-      userEmail: 'john.doe@mailmail.com',
-      courseId: 'non_adaptive_course_id'
-    };
-
-    beforeEach(function (done) {
-      knex('assessments').delete().then(() => {
-        knex('assessments').insert([insertedAssessment]).then((rows) => {
-          insertedAssessmentId = rows[0];
-
-          const inserted_answer_1 = {
-            value: 'any bad answer',
-            result: 'ko',
-            challengeId: 'anyChallengeIdFromAirtable',
-            assessmentId: insertedAssessmentId
-          };
-          const inserted_answer_2 = {
-            value: 'any good answer',
-            result: 'ok',
-            challengeId: 'anyChallengeIdFromAirtable',
-            assessmentId: insertedAssessmentId
-          };
-          knex('answers').delete().then(() => {
-            knex('answers').insert([inserted_answer_1, inserted_answer_2]).then((rows) => {
-              insertedAnswerId = rows[0];
-              done();
-            });
-          });
-        });
-      });
-    });
-
-    afterEach(function (done) {
-      knex('assessments').delete().then(() => {
-        knex('answers').delete().then(() => {
-          done();
-        });
-      });
-    });
-
-    it('should return null if only 2 answers over 3 are given', function (done) {
-
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId };
       server.inject(options, (response) => {
         expect(response.result).to.equal('null');
         done();
