@@ -76,17 +76,13 @@ function treatmentT1(strArg) {
 // Remove punctuation
 function treatmentT2(strArg) {
   if (_.isString(strArg)) {
-    return strArg.replace(/[^a-zA-Z ]+/g, '').replace('/ {2,}/',' ').replace( /\s\s+/g, ' ' );
+    return strArg.replace(/[^a-zA-Z0-9 ]+/g, '').replace('/ {2,}/',' ').replace( /\s\s+/g, ' ' );
   }
   return '';
 }
 
 // Calculate the smallest levenshtein distance
-function treatmentT3(userAnswer, adminAnswers) {
-
-  if (_.isNotArrayOfString(adminAnswers)) return null;
-  if (_.isNotString(userAnswer)) return null;
-  if (_.isEmpty(adminAnswers)) return null;
+function smallestLevenshteinDistance(userAnswer, adminAnswers) {
 
   let min = _levenshtein(userAnswer, adminAnswers[0]);
   if (adminAnswers.length === 1) {
@@ -101,6 +97,16 @@ function treatmentT3(userAnswer, adminAnswers) {
     return min;
   }
 
+}
+
+// Calculate the smallest levenshtein distance
+function treatmentT3(userAnswer, adminAnswers) {
+
+  if (_.isNotArrayOfString(adminAnswers)) return null;
+  if (_.isNotString(userAnswer)) return null;
+  if (_.isEmpty(adminAnswers)) return null;
+
+  return smallestLevenshteinDistance(userAnswer, adminAnswers) / userAnswer.length;
 
 }
 
@@ -118,6 +124,7 @@ module.exports = {
   fuzzyMatchingWithAnswers,
   treatmentT1,
   treatmentT2,
+  smallestLevenshteinDistance,
   treatmentT3,
   areStringListEquivalent
 };

@@ -1,6 +1,5 @@
 const { describe, it } = require('mocha');
 const { expect } = require('chai');
-const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 const service = require('../../../../lib/domain/services/solution-service-utils');
 
 
@@ -85,28 +84,39 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
     it('Should exist', function () {
       expect(service.treatmentT3).to.exist;
     });
-    it('Should return null no input is given', function () {
+    it('Should return null if no input is given', function () {
       expect(service.treatmentT3()).to.equal(null);
     });
-    it('Should return null wrong inputs are given, for example "new Date()" and "new Date()"', function () {
+    it('Should return null if wrong input is given, for example "new Date(), new Date()"', function () {
       expect(service.treatmentT3(new Date(), new Date())).to.equal(null);
     });
-    it('Should return null if no adminAnswer are given', function () {
-      expect(service.treatmentT3('', [])).to.equal(null);
+    it('Should return the ratio levenshtein / userAnswer.length', function () {
+      expect(service.treatmentT3('a1', ['a1'])).to.equal(0);
+      expect(service.treatmentT3('a1', ['a1', 'a2', 'a3'])).to.equal(0);
+      expect(service.treatmentT3('abbbbbbbbb', ['bbbbbbbbbb'])).to.equal(0.1);
+      expect(service.treatmentT3('quack', ['quacks', 'azertyqwerk'])).to.equal(0.2);
+      expect(service.treatmentT3('book', ['back', 'buck'])).to.equal(0.5);
+      expect(service.treatmentT3('a', ['bbbbbbbbbb'])).to.equal(10);
+    });
+  });
+
+  describe('smallestLevenshteinDistance', function() {
+    it('Should exist', function () {
+      expect(service.smallestLevenshteinDistance).to.exist;
     });
     it('Should return levenshtein distance if only one adminAnswer is given', function () {
-      expect(service.treatmentT3('', [''])).to.equal(0);
-      expect(service.treatmentT3('a', ['a'])).to.equal(0);
-      expect(service.treatmentT3('a', ['ab'])).to.equal(1);
-      expect(service.treatmentT3('book', ['back'])).to.equal(2);
+      expect(service.smallestLevenshteinDistance('', [''])).to.equal(0);
+      expect(service.smallestLevenshteinDistance('a', ['a'])).to.equal(0);
+      expect(service.smallestLevenshteinDistance('a', ['ab'])).to.equal(1);
+      expect(service.smallestLevenshteinDistance('book', ['back'])).to.equal(2);
     });
     it('Should return the smallest levenshtein distance if many adminAnswers are given', function () {
-      expect(service.treatmentT3('', ['', 'a'])).to.equal(0);
-      expect(service.treatmentT3('a', ['a', 'ab'])).to.equal(0);
-      expect(service.treatmentT3('a', ['ab', 'abdcef'])).to.equal(1);
-      expect(service.treatmentT3('a', ['abcdef', 'ab'])).to.equal(1);
-      expect(service.treatmentT3('a', ['abcdef', 'ab', 'azerty'])).to.equal(1);
-      expect(service.treatmentT3('book', ['back', 'buck'])).to.equal(2);
+      expect(service.smallestLevenshteinDistance('', ['', 'a'])).to.equal(0);
+      expect(service.smallestLevenshteinDistance('a', ['a', 'ab'])).to.equal(0);
+      expect(service.smallestLevenshteinDistance('a', ['ab', 'abdcef'])).to.equal(1);
+      expect(service.smallestLevenshteinDistance('a', ['abcdef', 'ab'])).to.equal(1);
+      expect(service.smallestLevenshteinDistance('a', ['abcdef', 'ab', 'azerty'])).to.equal(1);
+      expect(service.smallestLevenshteinDistance('book', ['back', 'buck'])).to.equal(2);
     });
   });
 

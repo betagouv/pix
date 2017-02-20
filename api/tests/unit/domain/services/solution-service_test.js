@@ -138,32 +138,52 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
-    describe('if solution type is QROC', function () {
-
-      it('should return "ko" when answer does not match any solution variants', function () {
-        const answer = buildAnswer('unmatching answer');
-        const solution = buildSolution('QROC', 'unmatched solution variant');
-        expect(service.match(answer, solution)).to.equal('ko');
-      });
+    describe.only('if solution type is QROC', function () {
 
       const successfulCases = [
-        {answer: 'Answer', solution: 'Answer'},
-        {answer: 'ANSWER', solution: 'answer'},
-        {answer: 'answer', solution: 'ANSWER'},
-        {answer: 'answer with spaces', solution: 'Answer With Spaces'},
-        {answer: 'with accents', solution: 'wîth àccénts'},
-        {answer: 'variant 1', solution: 'variant 1\nvariant 2\nvariant 3\n'},
-        {answer: 'variant 2', solution: 'variant 1\nvariant 2\nvariant 3\n'},
-        {answer: 'variant 3', solution: 'variant 1\nvariant 2\nvariant 3\n'}
+        {case:'(single solution) same answer and solution', answer: 'Answer', solution: 'Answer'},
+        {case:'(single solution) same answer and solution, but first is uppercased, last is lowercased', answer: 'ANSWER', solution: 'answer'},
+        {case:'(single solution) answer with spaces', answer: 'aaa bbb ccc', solution: 'aaabbbccc'},
+        {case:'(single solution) answer with accent, but solution hasnt', answer: 'wîth àccénts', solution: 'with accents'},
+        {case:'(single solution) answer is 0.1 away from solution', answer: '0123456789', solution: '123456789'},
+        {case:'(single solution) answer is 0.25 away from solution', answer: '01234', solution: '1234'},
+        {case:'(multiple solutions) answer is amongst solution', answer: 'variant 1', solution: 'variant 1\nvariant 2\nvariant 3\n'},
+        {case:'(multiple solutions) answer is 0.2 away from a solution', answer: 'quack', solution: 'quacks\nazertysqdf\nblablabla\n'},
+        {case:'(multiple solutions) answer is 0.25 away from a solution', answer: 'quak', solution: 'qvak\nqwak\nanything\n'}
       ];
 
       successfulCases.forEach(function (testCase) {
-        it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
+        it(testCase.case + ', should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
           const answer = buildAnswer(testCase.answer);
           const solution = buildSolution('QROC', testCase.solution);
           expect(service.match(answer, solution)).to.equal('ok');
         });
       });
+
+
+      const failingCases = [
+        {case:'solution do not exists', answer: 'any answer'},
+        {case:'solution is empty', answer: '', solution : ''},
+        {case:'answer is not a String', answer: new Date(), solution : ''},
+        {case:'solution is not a String', answer: 'a', solution : new Date()},
+        {case:'answer does not match any solution variants', answer: 'abadanswer', solution: 'unmatched solution variant'},
+        {case:'(single solution) answer is 0.3 away from solution', answer: '0123456789', solution: '1234567'},
+        {case:'(single solution) answer is 0.5 away from solution', answer: '0123456789', solution: '12345'},
+        {case:'(single solution) answer is 10 away from solution', answer: 'a', solution: '0123456789'},
+        {case:'(single solution) same answer and solution, but answer is lowercased, solution is uppercased', answer: 'answer', solution: 'ANSWER'},
+        {case:'(single solution) answer without accent, but solution has', answer: 'with accents', solution: 'wîth àccénts'},
+        {case:'(multiple solutions) answer is minimum 0.4 away from a solution', answer: 'quaks', solution: 'qvakes\nqwakes\nanything\n'}
+      ];
+
+      failingCases.forEach(function (testCase) {
+        it(testCase.case + ', should return "ko" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
+          const answer = buildAnswer(testCase.answer);
+          const solution = buildSolution('QROC', testCase.solution);
+          expect(service.match(answer, solution)).to.equal('ko');
+        });
+      });
+
+
     });
 
     describe('if solution type is QROCM-ind', function () {
