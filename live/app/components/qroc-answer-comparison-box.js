@@ -5,7 +5,6 @@ const QROCAnswerComparisonBox = Ember.Component.extend({
   answer: null,
   solution: null,
 
-
   answerToDisplay: Ember.computed('answer', function () {
     const answer = this.get('answer.value');
     if (answer === '#ABAND#'){
@@ -15,9 +14,14 @@ const QROCAnswerComparisonBox = Ember.Component.extend({
   }),
 
   solutionToDisplay: Ember.computed('solution.value', function () {
-    const SolutionVariants = this.get('solution.value').split("\n");
-    const solution = SolutionVariants[0];
+    const solutionVariants = this.get('solution.value');
+    if (solutionVariants === null || solutionVariants === undefined){
+      return '';
+    }
+    const solutionVariantsArray = solutionVariants.split('\n');
+    const solution = solutionVariantsArray[0];
     return solution;
+
   }),
 
 
