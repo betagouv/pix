@@ -310,6 +310,58 @@ define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test.lint-test'
     });
   });
 });
+define('pix-live/tests/acceptance/a6-souscrire-follower-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)('Acceptance | a6 - souscrire en tant que follower', function () {
+
+    var application = undefined;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.it)('a6- Lorsque je souscris avec une adresse mail valide, je suis bien enregistré', function callee$1$0(done) {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            context$2$0.next = 2;
+            return regeneratorRuntime.awrap(visit('/'));
+
+          case 2:
+            context$2$0.next = 4;
+            return regeneratorRuntime.awrap(fillIn('.follower-email', 'florian@pix.fr'));
+
+          case 4:
+            context$2$0.next = 6;
+            return regeneratorRuntime.awrap(click('.follower-form__button'));
+
+          case 6:
+            // then
+            //expect($('.follower-info-message.has-success')).to.be.exist;
+            (0, _chai.expect)(true).to.be['true'];
+            done();
+
+          case 8:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, this);
+    });
+  });
+});
+define('pix-live/tests/acceptance/a6-souscrire-follower-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/a6-souscrire-follower-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveTestsHelpersSharedState, _pixLiveUtilsLodashCustom) {
 
   var application = undefined;
@@ -2226,19 +2278,19 @@ define('pix-live/tests/components/first-page.lint-test', ['exports'], function (
     });
   });
 });
-define('pix-live/tests/components/get-result.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/follower-form.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - components/get-result.js', function () {
+  describe('ESLint - components/follower-form.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
   });
 });
-define('pix-live/tests/components/load-email.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/get-result.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - components/load-email.js', function () {
+  describe('ESLint - components/get-result.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -3803,6 +3855,56 @@ define('pix-live/tests/integration/components/first-page-test.lint-test', ['expo
     });
   });
 });
+define('pix-live/tests/integration/components/follower-form-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | follower form', function () {
+    (0, _emberMocha.setupComponentTest)('follower-form', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      this.render(Ember.HTMLBars.template({
+        'id': 'O9xGjXjO',
+        'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.describe)('Test Component form', function () {
+      (0, _mocha.it)('should render submit button', function () {
+        //When
+        this.render(Ember.HTMLBars.template({
+          'id': 'O9xGjXjO',
+          'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        //then
+        (0, _chai.expect)(this.$('.follower-form__button').length).to.equal(1);
+      });
+
+      (0, _mocha.it)('should return true if input exist', function () {
+        //When
+        this.render(Ember.HTMLBars.template({
+          'id': 'O9xGjXjO',
+          'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        //then
+        (0, _chai.expect)(this.$('.follower-email').length).to.equal(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/follower-form-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/follower-form-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/integration/components/get-result-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | GetResultComponent', function () {
@@ -3825,33 +3927,6 @@ define('pix-live/tests/integration/components/get-result-test.lint-test', ['expo
   'use strict';
 
   describe('ESLint - integration/components/get-result-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/integration/components/load-email-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
-
-  (0, _mocha.describe)('Integration | Component | LoadEmailComponent', function () {
-
-    (0, _emberMocha.setupComponentTest)('load-email', {
-      integration: true
-    });
-
-    (0, _mocha.it)('renders', function () {
-      this.render(Ember.HTMLBars.template({
-        'id': 'z3Qabjdv',
-        'block': '{"statements":[["append",["unknown",["load-email"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-        'meta': {}
-      }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
-    });
-  });
-});
-define('pix-live/tests/integration/components/load-email-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - integration/components/load-email-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -4145,6 +4220,15 @@ define('pix-live/tests/models/feedback.lint-test', ['exports'], function (export
     });
   });
 });
+define('pix-live/tests/models/follower.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - models/follower.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/models/solution.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -4307,6 +4391,15 @@ define('pix-live/tests/services/delay.lint-test', ['exports'], function (exports
     });
   });
 });
+define('pix-live/tests/services/email-validator.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - services/email-validator.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/test-helper', ['exports', 'pix-live/tests/helpers/resolver', 'ember-mocha'], function (exports, _pixLiveTestsHelpersResolver, _emberMocha) {
 
   (0, _emberMocha.setResolver)(_pixLiveTestsHelpersResolver['default']);
@@ -4426,6 +4519,47 @@ define('pix-live/tests/unit/components/feedback-panel-test.lint-test', ['exports
   'use strict';
 
   describe('ESLint - unit/components/feedback-panel-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/components/follower-form-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Component | followerComponent', function () {
+    (0, _emberMocha.setupTest)('component:follower-form', {});
+
+    (0, _mocha.describe)('Computed property', function () {
+      var component = undefined;
+
+      function initComponent() {
+        component = this.subject();
+      }
+
+      (0, _mocha.it)('should returns true when hasError change', function () {
+        initComponent.call(this);
+        // when
+        component.set('hasError', true);
+        // then
+        (0, _chai.expect)(component.get('infoMessage')).to.exist;
+      });
+
+      (0, _mocha.it)('should returns an error message when hasError get true', function () {
+        // given
+        initComponent.call(this);
+        // when
+        component.set('hasError', true);
+        component.set('isSubmited', true);
+        // then
+        (0, _chai.expect)(component.get('infoMessage')).to.equal('Votre adresse n\'est pas valide');
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/follower-form-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/components/follower-form-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -4951,6 +5085,31 @@ define('pix-live/tests/unit/models/feedback-test.lint-test', ['exports'], functi
     });
   });
 });
+define('pix-live/tests/unit/models/follower-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Follower', function () {
+    (0, _emberMocha.setupModelTest)('follower', {
+      // Specify the other units that are required for this test.
+      needs: []
+    });
+
+    // Replace this with your real tests.
+    (0, _mocha.it)('exists', function () {
+      var model = this.subject();
+      // var store = this.store();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/models/follower-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/models/follower-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Route | Assessments.ChallengeRoute', function () {
@@ -5282,6 +5441,44 @@ define('pix-live/tests/unit/services/delay-test.lint-test', ['exports'], functio
   'use strict';
 
   describe('ESLint - unit/services/delay-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/services/email-validator-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Service | EmailValidatorService', function () {
+
+    (0, _emberMocha.setupTest)('service:email-validator', {});
+    var validator = undefined;
+    beforeEach(function () {
+      validator = this.subject();
+    });
+
+    (0, _mocha.it)('exists', function () {
+      (0, _chai.expect)(validator).to.be.ok;
+    });
+
+    (0, _mocha.describe)('Test all case Invalid and then valid email', function () {
+      ['', ' ', null, 'INVALID_EMAIL', 'INVALID_EMAIL@', 'INVALID_EMAIL@pix', 'INVALID_EMAIL@pix.', '@pix.fr', '@pix'].forEach(function (badEmail) {
+        (0, _mocha.it)('should return false when email is invalid: ' + badEmail, function () {
+          (0, _chai.expect)(validator.emailIsValid(badEmail)).to.be['false'];
+        });
+      });
+
+      ['follower@pix.fr', 'follower@pix.fr ', ' follower@pix.fr', ' follower@pix.fr ', ' follower-beta@pix.fr ', ' follower_beta@pix.fr ', 'follower+beta@pix.fr', 'follower+beta@pix.gouv.fr', 'follower+beta@pix.beta.gouv.fr'].forEach(function (validEmail) {
+        (0, _mocha.it)('should return true if provided email is valid: ' + validEmail, function () {
+          (0, _chai.expect)(validator.emailIsValid(validEmail)).to.be['true'];
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/services/email-validator-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/services/email-validator-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
