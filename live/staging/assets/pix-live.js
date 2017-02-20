@@ -445,7 +445,7 @@ define('pix-live/components/challenge-item-qcu', ['exports', 'pix-live/component
 
     // XXX : data is extracted from DOM of child component, breaking child encapsulation.
     // This is not "the Ember way", however it makes code easier to read,
-    // and moreover, it is a much more robust solution when you need to test it properly.
+    // and moreover, is a much more robust solution when you need to test it properly.
     _getAnswerValue: function _getAnswerValue() {
       return this.$('.challenge-proposals input:radio:checked').map(function () {
         return this.name;
@@ -3883,7 +3883,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+cf79d470"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+e13cc0b0"});
 }
 
 /* jshint ignore:end */
