@@ -3,13 +3,13 @@ import {describe, it} from 'mocha';
 import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe.only('Integration | Component | result list', function () {
+describe.only('Integration | Component | result item', function () {
   setupComponentTest('result-list', {
     integration: true
   });
 
   function renderComponent() {
-    this.render(hbs`{{result-list answer index}}`);
+    this.render(hbs`{{result-item answer index}}`);
   }
 
   function addItemsToComponent(item,value){

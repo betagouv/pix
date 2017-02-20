@@ -1,7 +1,7 @@
 <div class='assessment-results' id='assessment-results'>
 
   <div class="assessment-results__course-banner">
-    {{course-banner course=assessment.course}}
+    {{course-banner course=model.course}}
   </div>
 
   <div class='container'>
@@ -11,9 +11,8 @@
     </div>
 
     <div class="assessment-results__list">
-      {{log model}}
-      {{#each assessment.answers as |answer index|}}
-        {{result-list answer index}}
+      {{#each model.answers as |answer index|}}
+        {{result-item answer index}}
       {{/each}}
     </div>
 

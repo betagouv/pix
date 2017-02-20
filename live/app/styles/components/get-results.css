@@ -1,45 +1,3 @@
-/* Whole assessments container
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.assessment-results {
-
-  /* Forces bootstrap's default by including bootstrap props into .assessment-results container */
-  & .tooltip-inner {
-    padding-top: 13px;
-    width: auto;
-    padding-left: 16px;
-    padding-right: 16px;
-    height: 48px;
-    background-color: var(--tooltip-background-color);
-    color: var(--tooltip-color);
-    font-family: var(--font-lato);
-    font-size: 14px;
-    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
-    border: solid 1px #ffffff;
-  }
-
-  & .tooltip.top .tooltip-arrow {
-    border-top-color: #e6e6e6;
-  }
-
-  & .tooltip.in {
-    opacity: 1;
-    transition: opacity 1s ease;
-  }
-
-  & .tooltip.top .tooltip-arrow {
-    bottom: -4px;
-    left: 50%;
-    margin-left: -13px;
-    border-width: 10px 13px 0;
-  }
-
-  /* XXX : See https://github.com/sgmap/pix/issues/211 */
-  & [data-lines="2"] + div .tooltip-inner {
-    padding-top: 3px;
-  }
-}
-
-
 /* Title
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .assessment-results__title {
@@ -57,9 +15,12 @@
 .assessment-results__list {
   display: flex;
   flex-direction: column;
+  &:nth-last-child(1) {
+     margin-bottom: 20px;
+  }
 }
 
-.assessment-results__list-item {
+.result-list__item {
   width: auto;
   height: 80px;
   border-radius: 5px;
@@ -72,18 +33,14 @@
     border: solid 2px #446eff;
     transition: border-color 1s ease;
   }
-
-  &:nth-last-child(1) {
-    margin-bottom: 20px;
-  }
 }
 
-.assessment-results__result {
+.result-list__item {
   display: flex;
   height: 80px;
   align-items: center;
 }
-.assessment-results__result-index {
+.result-list__index {
   width: 11px;
   height: 24px;
   font-family: var(--font-open-sans);
@@ -91,26 +48,26 @@
   font-weight: bold;
   text-align: center;
   color: #3e4149;
-  margin-left: 15px;
+  margin-left: 22px;
 }
-.assessment-results__result-line {
+.result-list__item-line {
   width: 2px;
   height: 61px;
   border: solid 1.5px #d5d5d5;
-  margin-left: 15px;
+  margin-left: 22px;
 }
-.assessment-results__result-instruction {
+.result-list__instruction {
   font-family: ;
   font-size: 18px;
   margin-left: 14px;
   height: 30px;
   overflow: hidden;
 }
-.assessment-results__result-img {
+.result-list__icon {
   margin-left: 14px;
 }
 
-.assessment-results__result-correction {
+.result-list__correction {
   width: 73px;
   font-family: var(--font-lato);
   font-size: 12px;
@@ -121,7 +78,7 @@
   height: 21px; /* XXX : should be aligned with flexbox */
 }
 
-.assessment-results__result-correction-button {
+.result-list__correction__button {
   border:none;
   outline:0;
   background-color: transparent;
