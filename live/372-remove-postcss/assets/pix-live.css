@@ -940,30 +940,27 @@ button.routable-modal--close:active {
 .app-menu-wrapper {
   background: white;
   position: absolute; }
-
-@media (min-width: 992px) {
-  .app-menu-wrapper {
-    margin-left: 257px;
-    position: static; } }
+  @media (min-width: 992px) {
+    .app-menu-wrapper {
+      margin-left: 257px;
+      position: static; } }
 
 .app-menu {
   display: flex;
   flex-direction: column;
   order: 1; }
-
-@media (min-width: 992px) {
-  .app-menu {
-    display: flex;
-    flex-direction: row;
-    order: 1; } }
+  @media (min-width: 992px) {
+    .app-menu {
+      display: flex;
+      flex-direction: row;
+      order: 1; } }
 
 .app-menu__item {
   display: none; }
-
-@media (min-width: 992px) {
-  .app-menu__item {
-    margin-right: 28px;
-    display: block; } }
+  @media (min-width: 992px) {
+    .app-menu__item {
+      margin-right: 28px;
+      display: block; } }
 
 .app-menu__item a {
   cursor: pointer;
@@ -976,11 +973,10 @@ button.routable-modal--close:active {
   display: block;
   padding: 10px 0;
   border: 1px solid #3e4149; }
-
-@media (min-width: 992px) {
-  .app-menu__item a {
-    display: inline;
-    border: none; } }
+  @media (min-width: 992px) {
+    .app-menu__item a {
+      display: inline;
+      border: none; } }
 
 /* Whole assessments container
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -1421,15 +1417,29 @@ button.routable-modal--close:active {
 .project-page .rounded-panel {
   margin-left: 10px;
   margin-right: 10px; }
+  @media (min-width: 992px) {
+    .project-page .rounded-panel {
+      margin-bottom: 50px;
+      margin-left: auto;
+      margin-right: auto; } }
 
 .project-page__panel {
   margin-bottom: 50px;
   padding: 20px; }
+  @media (min-width: 992px) {
+    .project-page__panel {
+      width: 940px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 50px 70px 40px; } }
 
 /* Specific styles */
 .project-page__header {
   padding: 20px 40px 20px;
   margin-bottom: 0; }
+  @media (min-width: 992px) {
+    .project-page__header {
+      padding: 50px 40px 40px; } }
 
 .project-page__header-text {
   font-size: 22px;
@@ -1438,6 +1448,10 @@ button.routable-modal--close:active {
   font-style: italic;
   line-height: 28px;
   margin-top: 0; }
+  @media (min-width: 992px) {
+    .project-page__header-text {
+      font-size: 40px;
+      line-height: 50px; } }
 
 p.project-page__populations-headline {
   font-weight: 900;
@@ -1498,22 +1512,6 @@ p.project-page__populations-headline {
 
 hr.project-page__presentation-header-line {
   background-color: #ffffff; }
-
-@media (min-width: 992px) {
-  .project-page .rounded-panel {
-    margin-bottom: 50px;
-    margin-left: auto;
-    margin-right: auto; }
-  .project-page__panel {
-    width: 940px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 50px 70px 40px; }
-  .project-page__header {
-    padding: 50px 40px 40px; }
-  .project-page__header-text {
-    font-size: 40px;
-    line-height: 50px; } }
 
 #course-preview strong {
   color: #446eff;
