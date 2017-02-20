@@ -4458,9 +4458,9 @@ define('pix-live/tests/unit/components/qcu-proposals-test.lint-test', ['exports'
     });
   });
 });
-define('pix-live/tests/unit/components/qroc-answer-comparison-box', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/components/qroc-answer-comparison-box-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  _mocha.describe.skip('Unit | Component | qroc-answer-comparison-box', function () {
+  (0, _mocha.describe)('Unit | Component | qroc-answer-comparison-box', function () {
 
     (0, _emberMocha.setupTest)('component:qroc-answer-comparison-box', {});
 
@@ -4468,34 +4468,52 @@ define('pix-live/tests/unit/components/qroc-answer-comparison-box', ['exports', 
 
       (0, _mocha.it)('should return an empty string if the answer is #ABAND#', function () {
         // given
+        var answer = {
+          value: '#ABAND#'
+        };
         var component = this.subject();
-        component.set('answer.value', '#ABAND#');
-
+        component.set('answer', answer);
         // when
         var answerToDisplay = component.get('answerToDisplay');
-
         // then
         (0, _chai.expect)(answerToDisplay).to.equal('');
+      });
+
+      (0, _mocha.it)('should return the answer if the answer is not #ABAND#', function () {
+        // given
+        var answer = {
+          value: 'La Reponse B'
+        };
+        var component = this.subject();
+        component.set('answer', answer);
+        // when
+        var answerToDisplay = component.get('answerToDisplay');
+        // then
+        (0, _chai.expect)(answerToDisplay).to.equal('La Reponse B');
       });
     });
 
     (0, _mocha.describe)('#solutionToDisplay', function () {
 
-      (0, _mocha.it)('', function () {
+      (0, _mocha.it)('should return the first solution if the solution has some variants', function () {
         // given
-
+        var solution = {
+          value: 'Reponse\nreponse\nréponse'
+        };
+        var component = this.subject();
+        component.set('solution', solution);
         // when
-
+        var solutionToDisplay = component.get('solutionToDisplay');
         // then
-
+        (0, _chai.expect)(solutionToDisplay).to.equal('Reponse');
       });
     });
   });
 });
-define('pix-live/tests/unit/components/qroc-answer-comparison-box.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/components/qroc-answer-comparison-box-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - unit/components/qroc-answer-comparison-box.js', function () {
+  describe('ESLint - unit/components/qroc-answer-comparison-box-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });

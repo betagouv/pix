@@ -880,7 +880,6 @@ define('pix-live/components/qroc-answer-comparison-box', ['exports', 'ember'], f
       var solution = solutionVariantsArray[0];
       return solution;
     })
-
   });
 
   QROCAnswerComparisonBox.reopenClass({
@@ -3830,7 +3829,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+6216a7b0"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+a797d6e0"});
 }
 
 /* jshint ignore:end */
