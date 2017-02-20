@@ -22,9 +22,7 @@ const QROCAnswerComparisonBox = Ember.Component.extend({
     const solution = solutionVariantsArray[0];
     return solution;
 
-  }),
-
-
+  })
 });
 
 QROCAnswerComparisonBox.reopenClass({
