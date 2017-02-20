@@ -1,7 +1,10 @@
-.app-menu-wrapper{
+.app-menu-wrapper {
   background: white;
   position: absolute;
-  @media (min-width: 992px) {
+}
+
+@media (min-width: 992px) {
+  .app-menu-wrapper {
     margin-left: 257px;
     position: static;
   }
@@ -10,8 +13,11 @@
 .app-menu {
   display: flex;
   flex-direction: column;
-  order : 1;
-  @media (min-width: 992px) {
+  order: 1;
+}
+
+@media (min-width: 992px) {
+  .app-menu {
     display: flex;
     flex-direction: row;
     order: 1;
@@ -19,8 +25,11 @@
 }
 
 .app-menu__item {
-  display:none;
-  @media (min-width: 992px) {
+  display: none;
+}
+
+@media (min-width: 992px) {
+  .app-menu__item {
     margin-right: 28px;
     display: block;
   }
@@ -35,9 +44,12 @@
   color: $charcoal-grey;
   font-family: $font-lato;
   display: block;
-  padding: 10px 0px;
+  padding: 10px 0;
   border: 1px solid $charcoal-grey;
-  @media (min-width: 992px) {
+}
+
+@media (min-width: 992px) {
+  .app-menu__item a {
     display: inline;
     border: none;
   }

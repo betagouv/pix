@@ -7,10 +7,8 @@
   border-bottom-right-radius: 5px;
 }
 
-/*
- * "Link" view
- * --------------------------------------------------------------------------
- */
+/* "Link" view
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .feedback-panel__open-link {
   cursor: pointer;
@@ -24,10 +22,8 @@
   color: $charcoal-grey;
 }
 
-/*
- * "Form" view
- * --------------------------------------------------------------------------
- */
+/* "Form" view
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .feedback-panel__form-title {
   font-size: 15px;
@@ -49,6 +45,9 @@
 
 .feedback-panel__form {
   width: 100%;
+  @media (min-width: 992px) {
+    width: 50%;
+  }
 }
 
 .feedback-panel__group {
@@ -83,10 +82,8 @@
   color: white;
 }
 
-/*
- * "Mercix" view
- * --------------------------------------------------------------------------
- */
+/* "Mercix" view
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .feedback-panel__view--mercix {
   text-align: center;
@@ -95,16 +92,4 @@
   color: $charcoal-grey;
   padding-top: 20px;
   padding-bottom: 10px;
-}
-
-/*
- * RWD
- * --------------------------------------------------------------------------
- */
-
-@media (min-width: 992px) {
-
-  .feedback-panel__form {
-    width: 50%;
-  }
 }

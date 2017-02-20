@@ -1,10 +1,18 @@
 .comparison-window {
   padding: 0 15px;
+
+  @media (min-width: 992px) {
+    padding: 0;
+  }
 }
 
 .comparison-window--dialog {
   max-width: 900px;
   margin-top: 40px;
+
+  @media (min-width: 992px) {
+    margin-top: 60px;
+  }
 }
 
 .comparison-window--content,
@@ -17,6 +25,10 @@
   display: flex;
   flex-direction: column;
   padding: 15px 15px 0;
+
+  @media (min-width: 992px) {
+    padding: 20px 40px 10px;
+  }
 }
 
 .comparison-window__instruction {
@@ -89,23 +101,6 @@
   margin-left: 15px;
 }
 
-/*Close button*/
 .close-button-container {
   display: flex;
-}
-
-@media (min-width: 992px) {
-
-  .comparison-window {
-    padding: 0;
-  }
-
-  .comparison-window--dialog {
-    margin-top: 60px;
-  }
-
-  .comparison-window--body {
-    padding: 20px 40px 10px;
-  }
-
 }
