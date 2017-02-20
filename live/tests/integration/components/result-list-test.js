@@ -3,7 +3,7 @@ import {describe, it} from 'mocha';
 import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe.only('Integration | Component | result list', function () {
+describe('Integration | Component | result list', function () {
   setupComponentTest('result-list', {
     integration: true
   });
