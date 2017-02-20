@@ -3,7 +3,7 @@ import {describe, it} from 'mocha';
 import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | result list', function () {
+describe.only('Integration | Component | result list', function () {
   setupComponentTest('result-list', {
     integration: true
   });
@@ -67,7 +67,7 @@ describe('Integration | Component | result list', function () {
 
   describe('Component behavior', function () {
 
-    it.skip('should render an icon when', function () {
+    it('should render an red icon when aswer is false', function () {
       // When
       addItemsToComponent.call(this, 'answer', '');
       addItemsToComponent.call(this, 'index', 0);

@@ -40,7 +40,7 @@ const resultContent = {
 
 const resultList = Ember.Component.extend({
   resultContent: Ember.computed('answer', function () {
-    resultContent[this.get('answer.resultStatus')];
+    resultContent[this.get('answer.status')];
   })
 });
 
