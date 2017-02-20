@@ -1,5 +1,6 @@
 const jsYaml = require('js-yaml');
-const _ = require('lodash');
+const _ = require('../../infrastructure/utils/lodash-utils');
+const utils = require('./solution-service-utils');
 
 
 function applyTreatmentsToAnswers(answers) {
@@ -27,33 +28,51 @@ function compareAnswersAndSolutions(answers, solutions) {
   });
   return validations;
 }
-function calculateResult(validations) {
+
+// function calculateResult(validations) {
+//   let result = 'ok';
+
+//   _.each(validations, (validation) => {
+//     if (validation === false) {
+//       result = 'ko';
+//     }
+//   });
+//   return result;
+// }
+function calculateResult(treatedAnswers) {
   let result = 'ok';
 
-  _.each(validations, (validation) => {
-    if (validation === false) {
+  _.each(treatedAnswers, (treatedAnswer) => {
+    if (treatedAnswer.t1t2t3Ratio > 0.25) {
       result = 'ko';
     }
   });
   return result;
 }
+
 module.exports = {
 
   match (yamlAnswer, yamlSolution) {
 
+    if (_.isNotString(yamlAnswer)
+        || _.isNotString(yamlSolution)
+        || _.isEmpty(yamlSolution)
+        || !_.includes(yamlSolution, '\n')) {
+      return 'ko';
+    }
+
     //convert YAML to JSObject
-    let answers = jsYaml.load(yamlAnswer);
-    let solutions = jsYaml.load(yamlSolution);
+    const answers = jsYaml.load(yamlAnswer);
+    const solutions = jsYaml.load(yamlSolution);
 
-    //Treatments
-    answers = applyTreatmentsToAnswers(answers);
-    solutions = applyTreatmentsToSolutions(solutions);
+    const treatedAnswers = _.map(answers, function(answer, keyAnswer) {
+      const solutionsToAnswer = solutions[keyAnswer];
+      return utils.treatmentT1T2T3(answer, solutionsToAnswer);
+    });
 
-    //Comparison
-    const validations = compareAnswersAndSolutions(answers, solutions);
 
     //Restitution
-    return calculateResult(validations);
+    return calculateResult(treatedAnswers);
 
   }
 

@@ -44,6 +44,24 @@ const _levenshtein = (a, b) => {
   return row[a.length];
 };
 
+// Calculate the smallest levenshtein distance
+function smallestLevenshteinDistance(userAnswer, adminAnswers) {
+
+  let min = _levenshtein(userAnswer, adminAnswers[0]);
+  if (adminAnswers.length === 1) {
+    return min;
+  } else {
+    _.each (adminAnswers, (adminAnswer) => {
+      const currentLevenshtein = _levenshtein(userAnswer, adminAnswer);
+      if (currentLevenshtein < min) {
+        min = currentLevenshtein;
+      }
+    });
+    return min;
+  }
+
+}
+
 function areStringListEquivalent(listA, listB) {
   let result = false;
   try {
@@ -82,24 +100,6 @@ function treatmentT2(strArg) {
 }
 
 // Calculate the smallest levenshtein distance
-function smallestLevenshteinDistance(userAnswer, adminAnswers) {
-
-  let min = _levenshtein(userAnswer, adminAnswers[0]);
-  if (adminAnswers.length === 1) {
-    return min;
-  } else {
-    _.each (adminAnswers, (adminAnswer) => {
-      const currentLevenshtein = _levenshtein(userAnswer, adminAnswer);
-      if (currentLevenshtein < min) {
-        min = currentLevenshtein;
-      }
-    });
-    return min;
-  }
-
-}
-
-// Calculate the smallest levenshtein distance
 function treatmentT3(userAnswer, adminAnswers) {
 
   if (_.isNotArrayOfString(adminAnswers)) return null;
@@ -107,6 +107,25 @@ function treatmentT3(userAnswer, adminAnswers) {
   if (_.isEmpty(adminAnswers)) return null;
 
   return smallestLevenshteinDistance(userAnswer, adminAnswers) / userAnswer.length;
+
+}
+
+function treatmentT1T2T3(userAnswer, adminAnswers) {
+
+  if (_.isNotArrayOfString(adminAnswers)) return null;
+  if (_.isNotString(userAnswer)) return null;
+  if (_.isEmpty(adminAnswers)) return null;
+
+  return {
+    original: userAnswer,
+    t1: treatmentT1(userAnswer),
+    t1t2: treatmentT2(treatmentT1(userAnswer)),
+    t2: treatmentT2(userAnswer),
+    t1t3Ratio: treatmentT3(treatmentT1(userAnswer), adminAnswers),
+    t2t3Ratio: treatmentT3(treatmentT2(userAnswer), adminAnswers),
+    t1t2t3Ratio: treatmentT3(treatmentT2(treatmentT1(userAnswer)), adminAnswers),
+    t3Ratio: treatmentT3(userAnswer, adminAnswers),
+  };
 
 }
 
@@ -120,12 +139,13 @@ function fuzzyMatchingWithAnswers(userAnswer, correctAnswersList) {
 }
 
 module.exports = {
+  smallestLevenshteinDistance,
   removeAccentsSpacesUppercase,
   fuzzyMatchingWithAnswers,
   treatmentT1,
   treatmentT2,
-  smallestLevenshteinDistance,
   treatmentT3,
+  treatmentT1T2T3,
   areStringListEquivalent
 };
 

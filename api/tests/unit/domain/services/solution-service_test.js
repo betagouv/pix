@@ -186,45 +186,59 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
+
     describe('if solution type is QROCM-ind', function () {
 
-      it('should return "ko" when answer does not match any solution variants', function () {
-        const answer = buildAnswer('answer: unmatching answer');
-        const solution = buildSolution('QROCM-ind', 'answer:\n- unmatched solution variant');
-        expect(service.match(answer, solution)).to.equal('ko');
-      });
-
       const successfulCases = [{
+        case: '(nominal case) Each answer strictly respect a corresponding solution',
         answer: '9lettres: courgette\n6lettres: tomate',
-        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot'
-      }, {
-        answer: '9lettres: courgette\n6lettres: etamot',
-        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot'
-      }, {
-        answer: 'a: "1"\nb: "2"',
-        solution: 'a:\n- 1\nb:\n- 2'
-      }, {
-        answer: `num1:\n- 4\nnum2:\n- 2\nnum3:\n- 1\nnum4:\n- 3`,
-        solution: `num1:\n- 4\nnum2:\n- 2\nnum3:\n- 1\nnum4:\n- 3`
-      }];
+        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
+      },
+      {
+        case: '(nominal case) Each answer strictly respect another corresponding solution',
+        answer: '9lettres: courgette\n6lettres: chicon',
+        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
+      },
+      {
+        case: '(nominal case) Each answer correctly match its solution, with worst levenshtein distance below or equal to 0.25',
+        answer: '9lettres: abcd\n6lettres: ghjkl',
+        solution: '9lettres:\n- abcde\n6lettres:\n- ghjklm\n- ghjklp\n- ghjklz'
+      }
+      ];
 
       successfulCases.forEach(function (testCase) {
-        it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
+        it(testCase.case + ', should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
           const answer = buildAnswer(testCase.answer);
           const solution = buildSolution('QROCM-ind', testCase.solution);
           expect(service.match(answer, solution)).to.equal('ok');
         });
       });
 
-      const failedCases = [
+      const failingCases = [
+        {case:'solution do not exists', answer: 'any answer'},
+        {case:'solution is empty', answer: '', solution : ''},
+        {case:'answer is not a String', answer: new Date(), solution : ''},
+        {case:'solution is not a String', answer: 'a', solution : new Date()},
+        {case:'solution has no separator \\n', answer: 'blabla', solution : 'blabla'},
         {
-          answer: '9lettres: courgette\n6lettres: tomates', // notice "s" at the end of tomates
-          solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot'
+          case: 'Each answer points to the solution of another question',
+          answer: '9lettres: tomate\n6lettres: courgette',
+          solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
         },
+        {
+          case: 'One of the levenshtein distance is above 0.25',
+          answer: '9lettres: abcde\n6lettres: ghjkl',
+          solution: '9lettres:\n- abcdefg\n6lettres:\n- ghjklm\n- ghjklp\n- ghjklz'
+        },
+        {
+          case: 'All of the levenshtein distance are above 0.25',
+          answer: '9lettres: abcde\n6lettres: ghjklpE11!!',
+          solution: '9lettres:\n- abcdefg\n6lettres:\n- ghjklm\n- ghjklp\n- ghjklz'
+        }
       ];
 
-      failedCases.forEach(function (testCase) {
-        it('should return "ko" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
+      failingCases.forEach(function (testCase) {
+        it(testCase.case + ', should return "ko" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
           const answer = buildAnswer(testCase.answer);
           const solution = buildSolution('QROCM-ind', testCase.solution);
           expect(service.match(answer, solution)).to.equal('ko');
@@ -232,6 +246,53 @@ describe('Unit | Service | SolutionService', function () {
       });
 
     });
+
+    // describe('if solution type is QROCM-ind', function () {
+
+    //   it('should return "ko" when answer does not match any solution variants', function () {
+    //     const answer = buildAnswer('answer: unmatching answer');
+    //     const solution = buildSolution('QROCM-ind', 'answer:\n- unmatched solution variant');
+    //     expect(service.match(answer, solution)).to.equal('ko');
+    //   });
+
+    //   const successfulCases = [{
+    //     answer: '9lettres: courgette\n6lettres: tomate',
+    //     solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot'
+    //   }, {
+    //     answer: '9lettres: courgette\n6lettres: etamot',
+    //     solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot'
+    //   }, {
+    //     answer: 'a: "1"\nb: "2"',
+    //     solution: 'a:\n- 1\nb:\n- 2'
+    //   }, {
+    //     answer: `num1:\n- 4\nnum2:\n- 2\nnum3:\n- 1\nnum4:\n- 3`,
+    //     solution: `num1:\n- 4\nnum2:\n- 2\nnum3:\n- 1\nnum4:\n- 3`
+    //   }];
+
+    //   successfulCases.forEach(function (testCase) {
+    //     it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
+    //       const answer = buildAnswer(testCase.answer);
+    //       const solution = buildSolution('QROCM-ind', testCase.solution);
+    //       expect(service.match(answer, solution)).to.equal('ok');
+    //     });
+    //   });
+
+    //   const failedCases = [
+    //     {
+    //       answer: '9lettres: courgette\n6lettres: tomates', // notice "s" at the end of tomates
+    //       solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot'
+    //     },
+    //   ];
+
+    //   failedCases.forEach(function (testCase) {
+    //     it('should return "ko" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
+    //       const answer = buildAnswer(testCase.answer);
+    //       const solution = buildSolution('QROCM-ind', testCase.solution);
+    //       expect(service.match(answer, solution)).to.equal('ko');
+    //     });
+    //   });
+
+    // });
 
     describe('if solution type is QROCM-dep', function () {
 
