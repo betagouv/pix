@@ -1,6 +1,7 @@
 /* globals */
 @import url('globals/alert.css');
 @import url('globals/buttons.css');
+@import url('globals/redesign-inputs.css');
 @import url('globals/dimension.css');
 @import url('globals/flexbox-helpers.css');
 @import url('globals/rounded-panel.css');
@@ -36,9 +37,6 @@
 @import url('index.css');
 @import url('project.css');
 @import url('courses/get-preview.css');
-
-/* redesign */
-@import url('redesign-inputs.css');
 
 
 @media (min-width: 1200px) {
