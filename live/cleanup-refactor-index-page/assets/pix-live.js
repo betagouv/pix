@@ -634,7 +634,7 @@ define('pix-live/components/course-list', ['exports', 'ember', 'pix-live/config/
     that.set('selectedCourse', course);
   }
 
-  function _displayWarningModel() {
+  function _displayWarningModal() {
     $('#js-modal-mobile').modal();
   }
 
@@ -672,7 +672,7 @@ define('pix-live/components/course-list', ['exports', 'ember', 'pix-live/config/
         if (_userNotAlreadyWarnedAboutMobileIncompleteSupport(this)) {
           _rememberThatUserIsNowAware();
           _storeCourseToDisplayAfterWarning(this, course);
-          _displayWarningModel();
+          _displayWarningModal();
         } else {
           this.sendAction('startCourse', course);
         }
@@ -3884,7 +3884,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+4ad76a5a"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+fc948c26"});
 }
 
 /* jshint ignore:end */
