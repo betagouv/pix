@@ -28,7 +28,17 @@ function removeAccentsSpacesUppercase(rawAnswer) {
 }
 
 function treatmentT1(strArg) {
-  return removeAccentsSpacesUppercase(strArg);
+  if (_.isString(strArg)) {
+    return removeAccentsSpacesUppercase(strArg);
+  }
+  return '';
+}
+
+function treatmentT2(strArg) {
+  if (_.isString(strArg)) {
+    return strArg.replace(/[^a-zA-Z ]+/g, '').replace('/ {2,}/',' ').replace( /\s\s+/g, ' ' );
+  }
+  return '';
 }
 
 function fuzzyMatchingWithAnswers(userAnswer, correctAnswersList) {
@@ -44,6 +54,7 @@ module.exports = {
   removeAccentsSpacesUppercase,
   fuzzyMatchingWithAnswers,
   treatmentT1,
+  treatmentT2,
   areStringListEquivalent
 };
 

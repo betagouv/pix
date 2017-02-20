@@ -1,6 +1,5 @@
 const { describe, it } = require('mocha');
 const { expect } = require('chai');
-const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 const service = require('../../../../lib/domain/services/solution-service-utils');
 
 
@@ -40,23 +39,44 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
   });
 
   describe('treatmentT1', function() {
-    it('should exist', function () {
+    it('Should exist', function () {
       expect(service.treatmentT1).to.exist;
     });
-    it('should return the input if no treatment applies, for example "m" => "m"', function () {
+    it('Should return empty String if no input is given', function () {
+      expect(service.treatmentT1()).to.equal('');
+    });
+    it('Should return empty String if wrong input is given, for example "new Date()"', function () {
+      expect(service.treatmentT1(new Date())).to.equal('');
+    });
+    it('Should return the input if no treatment applies, for example "m" => "m"', function () {
       expect(service.treatmentT1('m')).to.equal('m');
     });
-    it('should remove accents, for example "brûlée" => "brulee"', function () {
+    it('Should remove accents & diacritics, for example "çrûlée" => "crulee"', function () {
+      expect(service.treatmentT1('çrûlée')).to.equal('crulee');
+    });
+    it('Should remove uppercase, for example "BrûLée" => "brulee"', function () {
       expect(service.treatmentT1('brûlée')).to.equal('brulee');
     });
-    it('should remove uppercase, for example "BrûLée" => "brulee"', function () {
-      expect(service.treatmentT1('brûlée')).to.equal('brulee');
-    });
-    it('should remove space between, for example "Crème BrûLée" => "cremebrulee"', function () {
+    it('Should remove space between, for example "Crème BrûLée" => "cremebrulee"', function () {
       expect(service.treatmentT1('Crème BrûLée')).to.equal('cremebrulee');
     });
-    it('should remove leading and trailing spaces, for example " Crème BrûLée  "=> "cremebrulee"', function () {
+    it('Should remove leading and trailing spaces, for example " Crème BrûLée  "=> "cremebrulee"', function () {
       expect(service.treatmentT1('Crème BrûLée')).to.equal('cremebrulee');
+    });
+  });
+
+  describe('treatmentT2', function() {
+    it('Should exist', function () {
+      expect(service.treatmentT2).to.exist;
+    });
+    it('Should return empty String if no input is given', function () {
+      expect(service.treatmentT2()).to.equal('');
+    });
+    it('Should return empty String if wrong input is given, for example "new Date()"', function () {
+      expect(service.treatmentT2(new Date())).to.equal('');
+    });
+    it('Should remove all punctation from String, example "Th!!is., -/ is #! an $ % ^ & * example ;: {} of a = -_ string with `~)() punctuation" => "This is an example of a string with punctuation"', function () {
+      expect(service.treatmentT2('Th!!is., -/ is #! an $ % ^ & * example ;: {} of a = -_ string with `~)() punctuation')).to.equal('This is an example of a string with punctuation');
     });
   });
 });
