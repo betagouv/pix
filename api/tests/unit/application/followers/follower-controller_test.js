@@ -16,7 +16,6 @@ describe('Unit | Controller | FollowerController', function () {
   });
 
   describe('#save', function () {
-
     it('should return 400 status code when email provided is not valid', function (done) {
       //Given
       const follower = {"email": "testeur@follower.pix"};

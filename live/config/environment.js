@@ -38,7 +38,7 @@ module.exports = function (environment) {
 
   if (environment === 'development') {
     // LOG
-    ENV.APP.LOG_RESOLVER = true;
+    ENV.APP.LOG_RESOLVER = false;
     ENV.APP.LOG_ACTIVE_GENERATION = false;
     ENV.APP.LOG_TRANSITIONS = false;
     ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
