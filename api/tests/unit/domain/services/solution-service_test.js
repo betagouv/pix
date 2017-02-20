@@ -138,7 +138,7 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
-    describe.only('if solution type is QROC', function () {
+    describe('if solution type is QROC', function () {
 
       const successfulCases = [
         {case:'(single solution) same answer and solution', answer: 'Answer', solution: 'Answer'},
