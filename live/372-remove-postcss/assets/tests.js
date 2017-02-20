@@ -2998,15 +2998,6 @@ define('pix-live/tests/initializers/ajax-interceptor.lint-test', ['exports'], fu
     });
   });
 });
-define('pix-live/tests/initializers/ajax-prefilter.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - initializers/ajax-prefilter.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/initializers/router.lint-test', ['exports'], function (exports) {
   'use strict';
 
