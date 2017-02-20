@@ -1,4 +1,3 @@
-/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const Boom = require('boom');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
@@ -11,6 +10,20 @@ const _ = require('../../infrastructure/utils/lodash-utils');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const analysisUtils = require('./analysis-utils');
+
+function nextNode(node, dir) {
+  return node.slice(0, -1) + (parseInt(node.slice(-1)) + dir);
+}
+
+function propagateAcquix(allKnowledge, startNode, dir) {
+  const nodeList = [];
+  let node = startNode;
+  while(allKnowledge.hasOwnProperty(node)) {
+    nodeList.push(node);
+    node = nextNode(node, dir);
+  }
+  return nodeList;
+}
 
 module.exports = {
 
@@ -39,9 +52,13 @@ module.exports = {
 
                 const knowledgeOf = {};
                 const difficultyOf = {};
+                const allKnowledge = {};
                 _.forEach(challenges, challenge => {
-                  knowledgeOf[challenge.id] = challenge.knowledge;
-                  difficultyOf[challenge.id] = parseInt(challenge.knowledge[0][challenge.knowledge[0].length - 1]);
+                  if(challenge.knowledge !== undefined) {
+                    challenge.knowledge.forEach(knowledge => allKnowledge[knowledge] = 1);
+                    knowledgeOf[challenge.id] = challenge.knowledge;
+                    difficultyOf[challenge.id] = parseInt(challenge.knowledge[0].slice(-1));
+                  }
                 });
 
                 const acquired = [];
@@ -49,7 +66,7 @@ module.exports = {
                 const history = [];
                 answerRepository.findByAssessment(assessment.get('id')).then((answers) => {
 
-                  if(answers.length == 0) {
+                  if (answers.length == 0) {
                     const serializedAssessment = assessmentSerializer.serialize(assessment);
                     return reply(serializedAssessment);
                   }
@@ -57,21 +74,22 @@ module.exports = {
                   const modelAnswers = _.map(answers.models, o => o.attributes);
 
                   _.forEach(modelAnswers, function(answer) {
-                    if(answer.result == 'ok') {
+                    const startNode = knowledgeOf[answer.challengeId][0];
+                    if (answer.result == 'ok') {
                       history.push({diff: difficultyOf[answer.challengeId], outcome: 1});
-                      acquired.push(...knowledgeOf[answer.challengeId] || []);
-                      // propagate <-
+                      if (startNode !== undefined)
+                        acquired.push(...propagateAcquix(allKnowledge, startNode, -1));
                     } else {
                       history.push({diff: difficultyOf[answer.challengeId], outcome: 0});
-                      notAcquired.push(...knowledgeOf[answer.challengeId] || []);
-                      // propagate ->
+                      if (startNode !== undefined)
+                        notAcquired.push(...propagateAcquix(allKnowledge, startNode, 1));
                     }
                   });
 
                   let estimatedLevel = 0;
                   let minScore = 1000;
                   for(let level = 0; level <= 6; level += 0.5) {
-                    let score = analysisUtils.derivativeLogLikelihood(level, history);
+                    const score = analysisUtils.derivativeLogLikelihood(level, history);
                     if(score < minScore) {
                       minScore = score;
                       estimatedLevel = level;

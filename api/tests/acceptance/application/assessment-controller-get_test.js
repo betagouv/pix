@@ -16,38 +16,38 @@ describe('Acceptance | API | Assessments GET', function () {
           // a bunch of fields
           'Adaptatif ?': true,
           '\u00c9preuves': [
-            'z_second_challenge',
-            'z_first_challenge',
+            'y_third_challenge',
+            'y_second_challenge',
+            'y_first_challenge'
           ],
         },
       });
 
     nock('https://api.airtable.com')
-    .get('/v0/test-base/Epreuves/z_first_challenge')
+    .get('/v0/test-base/Epreuves/y_first_challenge')
     .query(true)
-    .times(3)
     .reply(200, {
-      'id': 'z_first_challenge',
+      'id': 'y_first_challenge',
       'fields': {
-        'acquis': ['@acquix3']
+        'acquis': ['@web5']
       },
     });
     nock('https://api.airtable.com')
-      .get('/v0/test-base/Epreuves/z_second_challenge')
+      .get('/v0/test-base/Epreuves/y_second_challenge')
       .query(true)
       .reply(200, {
-        'id': 'z_second_challenge',
+        'id': 'y_second_challenge',
         'fields': {
-          'acquis': ['@acquix5']
+          'acquis': ['@url1']
         },
       });
     nock('https://api.airtable.com')
-      .get('/v0/test-base/Epreuves/z_third_challenge')
+      .get('/v0/test-base/Epreuves/y_third_challenge')
       .query(true)
       .reply(200, {
-        'id': 'z_third_challenge',
+        'id': 'y_third_challenge',
         'fields': {
-          // a bunch of fields
+          'acquis': ['@web4']
         },
       });
 
@@ -164,12 +164,12 @@ describe('Acceptance | API | Assessments GET', function () {
           const inserted_answers = [{
             value: 'any good answer',
             result: 'ok',
-            challengeId: 'z_first_challenge',
+            challengeId: 'y_first_challenge',
             assessmentId: inserted_assessment_id
           }, {
             value: 'any bad answer',
             result: 'ko',
-            challengeId: 'z_second_challenge',
+            challengeId: 'y_second_challenge',
             assessmentId: inserted_assessment_id
           }];
           knex('answers').delete().then(() => {
@@ -237,9 +237,9 @@ describe('Acceptance | API | Assessments GET', function () {
               'attributes': {
                 'user-name': 'John Doe',
                 'user-email': 'john.doe@mailmail.com',
-                'estimated-level': 4,
-                'not-acquired': ['@acquix5'],
-                'acquired': ['@acquix3']
+                'estimated-level': 3,
+                'not-acquired': ['@url1'],
+                'acquired': ['@web5', '@web4']
               },
               'relationships': {
                 'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },

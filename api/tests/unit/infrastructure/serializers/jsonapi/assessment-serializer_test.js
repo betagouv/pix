@@ -13,11 +13,14 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
 
   const jsonAssessment = {
     data: {
-      type: "assessments",
+      type: 'assessments',
       id: 'assessment_id',
       attributes: {
-        "user-name": 'Jon Snow',
-        "user-email": 'jsnow@winterfell.got'
+        'acquired': undefined,
+        'estimated-level': undefined,
+        'not-acquired': undefined,
+        'user-name': 'Jon Snow',
+        'user-email': 'jsnow@winterfell.got'
       },
       relationships: {
         course: {
