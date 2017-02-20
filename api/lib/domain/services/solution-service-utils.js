@@ -86,7 +86,20 @@ function treatmentT3(userAnswer, adminAnswers) {
 
   if (_.isNotArrayOfString(adminAnswers)) return null;
   if (_.isNotString(userAnswer)) return null;
+  if (_.isEmpty(adminAnswers)) return null;
 
+  let min = _levenshtein(userAnswer, adminAnswers[0]);
+  if (adminAnswers.length === 1) {
+    return min;
+  } else {
+    _.each (adminAnswers, (adminAnswer) => {
+      const currentLevenshtein = _levenshtein(userAnswer, adminAnswer);
+      if (currentLevenshtein < min) {
+        min = currentLevenshtein;
+      }
+    });
+    return min;
+  }
 
 
 }

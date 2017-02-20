@@ -80,6 +80,7 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
       expect(service.treatmentT2('Th!!is., -/ is #! an $ % ^ & * example ;: {} of a = -_ string with `~)() punctuation')).to.equal('This is an example of a string with punctuation');
     });
   });
+
   describe('treatmentT3', function() {
     it('Should exist', function () {
       expect(service.treatmentT3).to.exist;
@@ -90,5 +91,23 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
     it('Should return null wrong inputs are given, for example "new Date()" and "new Date()"', function () {
       expect(service.treatmentT3(new Date(), new Date())).to.equal(null);
     });
+    it('Should return null if no adminAnswer are given', function () {
+      expect(service.treatmentT3('', [])).to.equal(null);
+    });
+    it('Should return levenshtein distance if only one adminAnswer is given', function () {
+      expect(service.treatmentT3('', [''])).to.equal(0);
+      expect(service.treatmentT3('a', ['a'])).to.equal(0);
+      expect(service.treatmentT3('a', ['ab'])).to.equal(1);
+      expect(service.treatmentT3('book', ['back'])).to.equal(2);
+    });
+    it('Should return the smallest levenshtein distance if many adminAnswers are given', function () {
+      expect(service.treatmentT3('', ['', 'a'])).to.equal(0);
+      expect(service.treatmentT3('a', ['a', 'ab'])).to.equal(0);
+      expect(service.treatmentT3('a', ['ab', 'abdcef'])).to.equal(1);
+      expect(service.treatmentT3('a', ['abcdef', 'ab'])).to.equal(1);
+      expect(service.treatmentT3('a', ['abcdef', 'ab', 'azerty'])).to.equal(1);
+      expect(service.treatmentT3('book', ['back', 'buck'])).to.equal(2);
+    });
   });
+
 });
