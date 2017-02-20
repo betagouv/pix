@@ -9,36 +9,7 @@ function applyTreatmentsToAnswers(answers) {
   });
   return answers;
 }
-function applyTreatmentsToSolutions(solutions) {
-  _.each(solutions, (solution, index) => {
-    const validOptions = [];
-    solution.forEach((validValue) => {
-      validOptions.push(validValue.toString().trim().toLowerCase());
-    });
-    solutions[index] = validOptions;
-  });
-  return solutions;
-}
-function compareAnswersAndSolutions(answers, solutions) {
-  const validations = {};
-  const keys = Object.keys(answers);
 
-  keys.forEach((key) => {
-    validations[key] = solutions[key].includes(answers[key]);
-  });
-  return validations;
-}
-
-// function calculateResult(validations) {
-//   let result = 'ok';
-
-//   _.each(validations, (validation) => {
-//     if (validation === false) {
-//       result = 'ko';
-//     }
-//   });
-//   return result;
-// }
 function calculateResult(treatedAnswers) {
   let result = 'ok';
 
