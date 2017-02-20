@@ -12,8 +12,8 @@ function _selectNextInAdaptiveMode(assessment) {
         const responsePattern = assessmentUtils.getResponsePattern(answers);
         return assessmentUtils.getNextChallengeFromScenarios(responsePattern);
       })
-      .then(nextChallengeId => resolve(nextChallengeId))
-      .catch((error) => reject(error));
+      .then(resolve)
+      .catch(reject);
   });
 }
 

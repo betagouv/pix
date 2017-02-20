@@ -1,7 +1,6 @@
 const Scenario = require('../../domain/models/data/scenario');
 
 function getResponsePattern(answers) {
-  // if answers are correct, incorrect, partial, the response Pattern will be: 'ok-ko-ko'
   return answers.map(answer => (answer.attributes.result === 'ok') ? 'ok' : 'ko').join('-');
 }
 

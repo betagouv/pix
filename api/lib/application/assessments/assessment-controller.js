@@ -10,7 +10,6 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const _ = require('../../infrastructure/utils/lodash-utils');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
-const Scenario = require('../../domain/models/data/scenario');
 
 module.exports = {
 
