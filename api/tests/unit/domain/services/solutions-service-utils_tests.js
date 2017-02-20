@@ -4,7 +4,7 @@ const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 const service = require('../../../../lib/domain/services/solution-service-utils');
 
 
-describe.only('Unit | Domain | Services | solution-service-utils', function () {
+describe('Unit | Domain | Services | solution-service-utils', function () {
 
   describe('#fuzzyMatchingWithAnswers', function () {
 
