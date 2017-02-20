@@ -5,16 +5,22 @@
 @import url('globals/flexbox-helpers.css');
 @import url('globals/rounded-panel.css');
 
+/* 3rd-party */
+@import url('vendor/ember-routable-modal/core.css');
+@import url('vendor/ember-routable-modal/dialog.css');
+
 /* components */
 @import url('globals/fonts.css');
 @import url('globals/palette.css');
 @import url('components/app-header.css');
 @import url('components/app-footer.css');
-@import url('components/first-page.css');
 @import url('components/corner-ribbon.css');
 @import url('components/challenge-statement.css');
 @import url('components/challenge-response.css');
 @import url('components/challenge-actions.css');
+@import url('components/course-item.css');
+@import url('components/course-list.css');
+@import url('components/feedback-panel.css');
 @import url('components/load-email.css');
 @import url('components/course-banner.css');
 @import url('components/challenge-stay.css');
@@ -22,14 +28,15 @@
 @import url('components/timeout-jauge.css');
 @import url('components/warning-timing-page.css');
 @import url('components/app-menu.css');
+@import url('components/get-results.css');
+@import url('components/comparison-window.css');
 
 /* views */
-@import url('home.css');
-@import url('home-loading.css');
 @import url('index.css');
 @import url('project.css');
 @import url('courses/get-preview.css');
-@import url('assessments/get-results.css');
+@import url('courses.css');
+@import url('courses-loading.css');
 
 @media (min-width: 1200px) {
   .container {
@@ -37,6 +44,21 @@
   }
 }
 
+/*XXX: On augmente le poids avec la class du parent afin d'overrider la class .container de boostrap*/
+.assessment-challenge-container .container {
+  max-width: 990px;
+  padding-right: 15px;
+  padding-left: 15px;
+  width: 100%;
+}
+
+
+.assessment-challenge-container .container {
+  @media (min-width: 1024px) {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
 body {
   font-family: var(--font-lato);
   background-color: var(--light-grey1);

@@ -1,7 +1,8 @@
+const { describe, it, before, after, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const CourseController = require('../../../../lib/application/courses/course-controller');
 
-describe('Unit | Router | CourseRouter', function () {
+describe('Unit | Router | course-router', function () {
 
   let server;
 

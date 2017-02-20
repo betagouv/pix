@@ -1,6 +1,7 @@
 const Boom = require('boom');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
-const challengeSerializer = require('../../infrastructure/serializers/challenge-serializer');
+const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
+const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
 module.exports = {
 
@@ -31,6 +32,14 @@ module.exports = {
     challengeRepository
       .refresh(request.params.id)
       .then((challenge) => reply(challengeSerializer.serialize(challenge)))
+      .catch((err) => reply(Boom.badImplementation(err)));
+  },
+
+  refreshSolution(request, reply) {
+
+    solutionRepository
+      .refresh(request.params.id)
+      .then(() => reply('ok'))
       .catch((err) => reply(Boom.badImplementation(err)));
   }
 

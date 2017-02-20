@@ -2,6 +2,8 @@ import { describe, it, before, after } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
+import {resetPostRequest, bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
+import _ from 'pix-live/utils/lodash-custom';
 
 function visitTimedChallenge() {
   visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
@@ -48,7 +50,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
   });
 
   it('b2.5 By default, already checked checkboxes are checked', function () {
-    expect($('input:checkbox:checked')).to.have.lengthOf(3);
+    expect($('input:checkbox:checked')).to.have.lengthOf(2);
   });
 
   it('b2.6 It should render an ordered list of instruction', function () {
@@ -64,7 +66,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
 
   it('b2.8 Error alert box should be displayed if user validate without checking a checkbox', function () {
     const $validateLink = $('.challenge-actions__action-validate');
-    expect($('input:checkbox:checked')).to.have.lengthOf(3);
+    expect($('input:checkbox:checked')).to.have.lengthOf(2);
     $('input:checkbox').prop('checked', false);
     expect($('input:checkbox:checked')).to.have.lengthOf(0);
     click($validateLink);
@@ -90,5 +92,12 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
     andThen(() => {
       expect($('input:checkbox:checked')).to.have.lengthOf(2);
     });
+  });
+
+  it('b2.12 If an user validate the challenge, the api is request to save the answer of the user', async function () {
+    resetPostRequest();
+    await click('.challenge-actions__action-validate');
+    expect(urlOfLastPostRequest()).to.equal('/api/answers');
+    expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('1,2');
   });
 });

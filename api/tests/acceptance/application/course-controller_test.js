@@ -1,15 +1,7 @@
-/* global describe, before, after, knex, nock, it, expect */
+const { describe, it, before, after, expect, nock } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | API | Courses', function () {
-
-  before(function (done) {
-    knex.migrate.latest().then(() => {
-      knex.seed.run().then(() => {
-        done();
-      });
-    });
-  });
 
   after(function (done) {
     server.stop(done);
@@ -18,8 +10,10 @@ describe('Acceptance | API | Courses', function () {
   describe('GET /api/courses', function () {
 
     before(function (done) {
+      nock.cleanAll();
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Tests?view=PIX%20view')
+        .get('/v0/test-base/Tests')
+        .query(true)
         .times(3)
         .reply(200, {
           'records': [{
@@ -60,14 +54,14 @@ describe('Acceptance | API | Courses', function () {
     const options = { method: 'GET', url: '/api/courses' };
 
     it('should return 200 HTTP status code', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -75,7 +69,7 @@ describe('Acceptance | API | Courses', function () {
     });
 
     it('should return all the courses from the tests referential', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         const courses = response.result.data;
         expect(courses.length).to.equal(5);
         done();
@@ -86,8 +80,10 @@ describe('Acceptance | API | Courses', function () {
   describe('GET /api/courses/:course_id', function () {
 
     before(function (done) {
+      nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Tests/course_id')
+        .query(true)
         .times(3)
         .reply(200, {
           id: 'course_id',
@@ -103,7 +99,7 @@ describe('Acceptance | API | Courses', function () {
             'Durée': 13,
             'Adaptatif ?': true,
             'Épreuves': [
-              'challenge_id',
+              'k_challenge_id',
             ],
             'Ordre affichage': 2,
             'Preview': 'http://development.pix.beta.gouv.fr/courses/course_id/preview',
@@ -113,10 +109,11 @@ describe('Acceptance | API | Courses', function () {
           createdTime: '2016-08-09T15:17:53.000Z'
         });
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Epreuves/challenge_id')
+        .get('/v0/test-base/Epreuves/k_challenge_id')
+        .query(true)
         .times(3)
         .reply(200, {
-          id: 'challenge_id',
+          id: 'k_challenge_id',
           fields: {},
         });
       done();
@@ -130,14 +127,14 @@ describe('Acceptance | API | Courses', function () {
     const options = { method: 'GET', url: '/api/courses/course_id' };
 
     it('should return 200 HTTP status code', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -145,7 +142,7 @@ describe('Acceptance | API | Courses', function () {
     });
 
     it('should return the expected course', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         const course = response.result.data;
         expect(course.id).to.equal('course_id');
         expect(course.attributes.name).to.equal('A la recherche de l\'information #01');

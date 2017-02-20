@@ -1,10 +1,11 @@
+const { describe, it, before, afterEach, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const Course = require('../../../../lib/domain/models/referential/course');
 const CourseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
-const CourseSerializer = require('../../../../lib/infrastructure/serializers/course-serializer');
+const CourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
 const cache = require('../../../../lib/infrastructure/cache');
 
-describe('Unit | Controller | CourseController', function () {
+describe('Unit | Controller | course-controller', function () {
 
   let server;
 
