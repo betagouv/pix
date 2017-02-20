@@ -28,17 +28,14 @@
   text-transform: uppercase;
   outline: none;
   border-radius: 0.3125em;
-  border: 1px solid #78C182;
   padding: 12px 22px;
   text-align: center;
-  background-color: #78C182;
-  background-image: none;
+  background: #78C182 none;
   text-decoration: none;
   display: inline-block;
-  border-bottom: 1px solid #55b162;
+  border: 1px solid;
   box-shadow: 0 1px 1px -1px #909297;
-  cursor: pointer;
-  outline: none; }
+  cursor: pointer; }
 
 .button-primary {
   color: #fff;
@@ -48,14 +45,13 @@
   text-transform: uppercase;
   outline: none;
   border-radius: 0.3125em;
-  border: 1px solid #78C182;
   padding: 12px 22px;
   text-align: center;
   background-color: #78C182;
   background-image: none;
   text-decoration: none;
   display: inline-block;
-  border-bottom: 1px solid #55b162;
+  border: 1px solid;
   box-shadow: 0 1px 1px -1px #909297; }
 
 .button-primary:hover,
@@ -74,14 +70,13 @@
   text-transform: uppercase;
   outline: none;
   border-radius: 0.3125em;
-  border: 1px solid #a5a7ab;
   padding: 12px 22px;
   text-align: center;
   background-color: #a5a7ab;
   background-image: none;
   text-decoration: none;
   display: inline-block;
-  border-bottom: 1px solid #8b8d92;
+  border: 1px solid;
   box-shadow: 0 1px 1px -1px #909297; }
 
 .button-secondary:hover,
@@ -175,7 +170,7 @@ button.routable-modal--close:active {
   flex-direction: row;
   align-items: center;
   justify-content: center; }
-  @media screen and (min-width: 992px) {
+  @media (min-width: 992px) {
     .app-header-container {
       justify-content: initial; } }
 
@@ -204,11 +199,10 @@ button.routable-modal--close:active {
 
 .app-header-logo {
   margin-top: 12px; }
-
-@media (max-width: 992px) {
-  .app-header-logo-svg {
-    width: 130px;
-    height: 80px; } }
+  @media (max-width: 992px) {
+    .app-header-logo {
+      width: 130px;
+      height: 80px; } }
 
 .app-header-navbar {
   background-color: #fff; }
@@ -224,11 +218,21 @@ button.routable-modal--close:active {
   align-items: center;
   flex-direction: column;
   justify-content: space-around; }
+  @media (min-width: 992px) {
+    .app-footer {
+      flex-direction: row;
+      justify-content: space-around;
+      margin: 0 auto;
+      height: 150px; } }
 
 .app-footer__pix-logo {
   order: 0;
   margin-top: 20px;
   margin-bottom: 20px; }
+  @media (min-width: 992px) {
+    .app-footer__pix-logo {
+      order: 0;
+      margin: 0; } }
 
 .app-footer__pix-logo-img {
   height: 80px; }
@@ -236,10 +240,18 @@ button.routable-modal--close:active {
 .app-footer__item-contact {
   order: 1;
   margin-bottom: 30px; }
+  @media (min-width: 992px) {
+    .app-footer__item-contact {
+      order: 1;
+      margin: 0; } }
 
 .app-footer__item-marianne {
   order: 2;
   margin-bottom: 30px; }
+  @media (min-width: 992px) {
+    .app-footer__item-marianne {
+      order: 2;
+      margin: 0; } }
 
 .app-footer__logo-marianne-img {
   height: 60px; }
@@ -247,236 +259,6 @@ button.routable-modal--close:active {
 .app-footer__link-text {
   color: #3e4149;
   margin: 0 5px; }
-
-@media (min-width: 992px) {
-  .app-footer {
-    flex-direction: row;
-    justify-content: space-around;
-    margin: 0 auto;
-    height: 150px; }
-  .app-footer__pix-logo {
-    order: 0;
-    margin: 0; }
-  .app-footer__item-contact {
-    order: 1;
-    margin: 0; }
-  .app-footer__item-marianne {
-    order: 2;
-    margin: 0; } }
-
-/* Table of contents
-––––––––––––––––––––––––––––––––––––––––––––––––––
-- Hero
-- Challenges
-- Email
-- Features
-- Footer
-*/
-/* Hero
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.first-page-hero {
-  background-image: url("/images/stock-photo2.jpg");
-  background-size: cover;
-  height: 580px;
-  width: 100%; }
-
-.first-page-hero__box {
-  height: 100%;
-  display: flex; }
-
-.first-page-hero__box-item {
-  margin-top: auto;
-  margin-bottom: auto; }
-  @media (min-width: 992px) {
-    .first-page-hero__box-item {
-      margin-top: auto;
-      margin-bottom: 5%;
-      margin-left: 160px; } }
-
-.first-page-hero__main-value-prop {
-  font-size: 40px;
-  font-weight: 900;
-  line-height: 1;
-  color: #ffffff;
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-bottom: 15px;
-  max-width: 845px; }
-  @media (min-width: 992px) {
-    .first-page-hero__main-value-prop {
-      font-size: 65px;
-      font-weight: 900;
-      color: #ffffff;
-      margin-bottom: 24px;
-      width: 830px; } }
-
-.first-page-hero__sub-value-prop {
-  font-size: 20px;
-  font-weight: bold;
-  color: #ffffff;
-  margin-left: 15px;
-  margin-right: 15px;
-  max-width: 567px; }
-  @media (min-width: 992px) {
-    .first-page-hero__sub-value-prop {
-      font-size: 26px;
-      font-weight: bold;
-      color: #ffffff; } }
-
-/* Challenges
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.first-page-challenges {
-  background-color: #f2f3f4; }
-
-/* XXX : issue raised, impossible to put a margin-top to title (single direction margin declaration) */
-.first-page-challenges__empty {
-  margin-bottom: 56px; }
-
-.first-page-challenges__title {
-  font-size: 36px;
-  line-height: 0.8;
-  text-align: center;
-  color: #3d68ff;
-  margin-bottom: 52px;
-  margin-right: 15px;
-  margin-left: 15px; }
-
-.first-page-challenges__cards.container {
-  max-width: 1180px; }
-
-.first-page-challenges__cards .courses {
-  list-style-type: none;
-  padding: 30px 0; }
-
-.first-page-challenges__cards .course-item .course {
-  padding: 0; }
-  .first-page-challenges__cards .course-item .course .course-picture {
-    width: 100%;
-    height: 170px;
-    text-align: center;
-    margin: 0 auto;
-    display: block; }
-  .first-page-challenges__cards .course-item .course .course-content {
-    padding: 15px;
-    height: 115px;
-    overflow: hidden;
-    text-align: center; }
-    .first-page-challenges__cards .course-item .course .course-content .course-name {
-      color: #446eff; }
-  .first-page-challenges__cards .course-item .course .course-number-of-challenges {
-    text-align: center;
-    padding: 15px;
-    padding-bottom: 5px; }
-  .first-page-challenges__cards .course-item .course .course-actions {
-    text-align: center;
-    padding: 15px;
-    padding-bottom: 30px; }
-    .first-page-challenges__cards .course-item .course .course-actions > .start-button {
-      background-color: #446eff;
-      border-color: #446eff;
-      border-bottom: 1px solid #2861CF;
-      text-transform: none; }
-      .first-page-challenges__cards .course-item .course .course-actions > .start-button:hover, .first-page-challenges__cards .course-item .course .course-actions > .start-button:active {
-        background-color: #FDBD2C;
-        border-color: #FDBD2C;
-        border-bottom: 1px solid #CF9C24; }
-
-/* Email
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.first-page-email {
-  height: 385px;
-  background-color: #446eff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center; }
-  @media (min-width: 992px) {
-    .first-page-email {
-      height: 270px; } }
-
-.first-page-email__title {
-  font-size: 24px;
-  margin-bottom: 24px;
-  font-weight: bold;
-  text-align: center;
-  color: white;
-  margin-left: 15px;
-  margin-right: 15px; }
-  @media (min-width: 992px) {
-    .first-page-email__title {
-      font-size: 34px;
-      margin-left: 0px;
-      margin-right: 0px; } }
-
-/* Features
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.first-page-features {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  padding-top: 50px; }
-  @media (min-width: 992px) {
-    .first-page-features {
-      padding-top: 75px;
-      flex-direction: row; } }
-
-.first-page-feature {
-  height: 260px;
-  width: 200px; }
-  @media (min-width: 992px) {
-    .first-page-feature {
-      height: 294px;
-      margin-left: 35px; }
-      .first-page-feature:first-child {
-        margin-left: 0px; } }
-
-.first-page-feature__icon-container {
-  display: flex;
-  justify-content: center;
-  height: 107px; }
-
-.first-page-feature__title {
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 1.4;
-  text-align: center;
-  margin-top: 20px;
-  color: #3e4149; }
-  @media (min-width: 992px) {
-    .first-page-feature__title:first-child {
-      margin-left: 0px; } }
-
-.first-page-feature__text {
-  font-size: 15px;
-  margin-top: 12px;
-  color: #3e4149;
-  text-align: center; }
-
-.first-page-about {
-  padding-bottom: 80px;
-  display: flex;
-  justify-content: center;
-  background: #ffffff; }
-
-.first-page-about a {
-  display: block;
-  width: 201px;
-  height: 36px;
-  line-height: 36px;
-  border-radius: 3px;
-  border: none;
-  background-color: #ffbe00;
-  font-size: 14px;
-  font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  text-align: center;
-  color: #3e4149;
-  font-family: "Lato", Arial, sans-serif;
-  text-decoration: none;
-  cursor: pointer; }
 
 .corner-ribbon-wrapper {
   position: absolute;
@@ -511,15 +293,65 @@ button.routable-modal--close:active {
   cursor: none;
   pointer-events: none; }
 
+.challenge-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 30px; }
+
+.challenge-actions__action {
+  cursor: pointer;
+  text-align: center; }
+
+.challenge-actions__action-skip {
+  color: #3e4149;
+  margin-right: 15px; }
+
+.challenge-actions__action-skip:hover {
+  color: #3e4149; }
+
+.challenge-actions__action-skip-text {
+  width: 55px;
+  height: 19px;
+  font-family: "Open Sans", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600; }
+
+.challenge-actions__action-validate {
+  width: 130px;
+  height: 46px;
+  border-radius: 23px;
+  background-color: #12caa1;
+  color: #ffffff; }
+
+.challenge-actions__action-validate:hover {
+  color: #ffffff; }
+
+.challenge-actions__action-validate-text {
+  width: 76px;
+  line-height: 46px;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  text-transform: uppercase; }
+
+.challenge-response {
+  font-size: 17px; }
+
+.challenge-response__proposal-label {
+  font-weight: 400;
+  width: 100%; }
+
 .challenge-statement {
   /* XXX required to let "help tooltip" displaying well even if instruction section is short (1 line) */
   overflow: visible; }
 
 .challenge-statement__instruction-section {
   font-size: 14px; }
-  @media (min-width: 700px) {
-    .challenge-statement__instruction-section {
-      font-size: 20px; } }
+
+@media (min-width: 700px) {
+  .challenge-statement__instruction-section {
+    font-size: 20px; } }
 
 .challenge-statement__illustration-section {
   display: block;
@@ -646,55 +478,6 @@ button.routable-modal--close:active {
   font-weight: 900;
   text-transform: uppercase; }
 
-.challenge-response {
-  font-size: 17px; }
-
-.challenge-response__proposal-label {
-  font-weight: 400;
-  width: 100%; }
-
-.challenge-actions {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: 30px; }
-
-.challenge-actions__action {
-  cursor: pointer;
-  text-align: center; }
-
-.challenge-actions__action-skip {
-  color: #3e4149;
-  margin-right: 15px; }
-
-.challenge-actions__action-skip:hover {
-  color: #3e4149; }
-
-.challenge-actions__action-skip-text {
-  width: 55px;
-  height: 19px;
-  font-family: "Open Sans", Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 600; }
-
-.challenge-actions__action-validate {
-  width: 130px;
-  height: 46px;
-  border-radius: 23px;
-  background-color: #12caa1;
-  color: #ffffff; }
-
-.challenge-actions__action-validate:hover {
-  color: #ffffff; }
-
-.challenge-actions__action-validate-text {
-  width: 76px;
-  line-height: 46px;
-  font-family: "Lato", Arial, sans-serif;
-  font-size: 16px;
-  font-weight: 900;
-  text-transform: uppercase; }
-
 .challenge-stay__container {
   width: 100%;
   height: 40px;
@@ -716,6 +499,75 @@ button.routable-modal--close:active {
     .challenge-stay__text {
       font-size: 16px; } }
 
+.course-banner {
+  background-color: #446eff;
+  color: white;
+  margin-bottom: 30px; }
+
+.course-banner-wrapper {
+  display: flex;
+  align-items: center;
+  min-height: 100px; }
+
+.course-banner-name {
+  font-size: 28px; }
+
+.course-banner-home-link {
+  font-size: 16px;
+  margin-left: auto;
+  text-align: right;
+  /* stand above BETA ribbon */
+  z-index: 999;
+  color: white; }
+
+.course-banner-home-link:hover {
+  color: white; }
+
+.course-item {
+  padding: 0; }
+
+.course-item__picture {
+  width: 100%;
+  height: 170px;
+  text-align: center;
+  margin: 0 auto;
+  display: block; }
+
+.course-item__content {
+  padding: 15px;
+  height: 115px;
+  overflow: hidden;
+  text-align: center; }
+
+.course-item__name {
+  color: #446eff; }
+
+.course-item__challenges-number {
+  text-align: center;
+  padding: 15px 15px 5px; }
+
+.course-item__actions {
+  text-align: center;
+  padding: 15px 15px 30px; }
+
+.course-item__action--start {
+  background-color: #446eff;
+  border-color: #446eff;
+  border-bottom: 1px solid #2861CF;
+  text-transform: none; }
+
+.course-item__action--start:hover {
+  background-color: #FDBD2C;
+  border-color: #FDBD2C;
+  border-bottom: 1px solid #CF9C24; }
+
+.course-list.container {
+  max-width: 1180px; }
+
+.course-list__ul {
+  list-style-type: none;
+  padding: 30px 0; }
+
 .feedback-panel {
   background-color: #dedede;
   color: #3e4149;
@@ -724,10 +576,8 @@ button.routable-modal--close:active {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px; }
 
-/*
- * "Link" view
- * --------------------------------------------------------------------------
- */
+/* "Link" view
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
 .feedback-panel__open-link {
   cursor: pointer;
   color: inherit;
@@ -738,10 +588,8 @@ button.routable-modal--close:active {
 .feedback-panel__open-link:active {
   color: #3e4149; }
 
-/*
- * "Form" view
- * --------------------------------------------------------------------------
- */
+/* "Form" view
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
 .feedback-panel__form-title {
   font-size: 15px;
   font-weight: 900;
@@ -758,6 +606,9 @@ button.routable-modal--close:active {
 
 .feedback-panel__form {
   width: 100%; }
+  @media (min-width: 992px) {
+    .feedback-panel__form {
+      width: 50%; } }
 
 .feedback-panel__group {
   margin-bottom: 10px; }
@@ -786,10 +637,8 @@ button.routable-modal--close:active {
   background-color: #7d808b;
   color: white; }
 
-/*
- * "Mercix" view
- * --------------------------------------------------------------------------
- */
+/* "Mercix" view
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
 .feedback-panel__view--mercix {
   text-align: center;
   font-family: "Lato", Arial, sans-serif;
@@ -797,14 +646,6 @@ button.routable-modal--close:active {
   color: #3e4149;
   padding-top: 20px;
   padding-bottom: 10px; }
-
-/*
- * RWD
- * --------------------------------------------------------------------------
- */
-@media (min-width: 992px) {
-  .feedback-panel__form {
-    width: 50%; } }
 
 /* Form
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -927,74 +768,32 @@ button.routable-modal--close:active {
   opacity: 1;
   transition: opacity 250ms 1.5s ease-in; }
 
-.course-banner {
-  background-color: #446eff;
-  color: white;
-  margin-bottom: 30px; }
+/* XXX : Forces bootstrap's default by including bootstrap props into .modal-mobile  container */
+.modal-mobile .modal-header {
+  border: none;
+  text-align: center;
+  margin-top: 29px; }
 
-.course-banner-wrapper {
+.modal-mobile .modal-title {
+  line-height: 0; }
+
+.modal-mobile .modal-body {
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 300;
+  text-align: center;
+  color: #3e4149; }
+
+.modal-mobile .modal-footer {
+  border: none; }
+
+.modal-mobile .modal.fade.in {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  min-height: 100px; }
-
-.course-banner-name {
-  font-size: 28px; }
-
-.course-banner-home-link {
-  font-size: 16px;
-  margin-left: auto;
-  text-align: right;
-  /* stand above BETA ribbon */
-  z-index: 999;
-  color: white; }
-
-.course-banner-home-link:hover {
-  color: white; }
-
-.challenge-stay__container {
-  width: 100%;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  background-color: #ffbe00;
-  border-radius: 5px;
-  margin-bottom: 11px;
-  padding-left: 20px; }
-
-.challenge-stay__icon {
-  display: flex; }
-
-.challenge-stay__text {
-  padding-left: 15px;
-  font-size: 12px;
-  font-weight: bold; }
-  @media (min-width: 700px) {
-    .challenge-stay__text {
-      font-size: 16px; } }
-
-.modal-mobile {
-  /* XXX : Forces bootstrap's default by including bootstrap props into .modal-mobile  container */ }
-  .modal-mobile .modal-header {
-    border: none;
-    text-align: center;
-    margin-top: 29px; }
-  .modal-mobile .modal-title {
-    line-height: 0; }
-  .modal-mobile .modal-body {
-    font-family: "Lato", Arial, sans-serif;
-    font-size: 22px;
-    font-weight: 300;
-    text-align: center;
-    color: #3e4149; }
-  .modal-mobile .modal-footer {
-    border: none; }
-  .modal-mobile .modal.fade.in {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.5);
-    transition: all 1s ease; }
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  transition: all 1s ease; }
 
 .modal-button-container {
   display: flex;
@@ -1005,16 +804,17 @@ button.routable-modal--close:active {
   background-color: #446eff;
   border-color: #446eff;
   border-bottom: 1px solid #2861CF;
-  text-transform: none;
   height: 46px;
   border-radius: 23px;
   text-transform: uppercase;
   padding-right: 40px;
   padding-left: 40px; }
-  .modal-mobile__confirm-button:hover, .modal-mobile__confirm-button:active {
-    background-color: #FDBD2C;
-    border-color: #FDBD2C;
-    border-bottom: 1px solid #CF9C24; }
+
+.modal-mobile__confirm-button:hover,
+.modal-mobile__confirm-button:active {
+  background-color: #FDBD2C;
+  border-color: #FDBD2C;
+  border-bottom: 1px solid #CF9C24; }
 
 .modal-mobile__dismiss-link {
   cursor: pointer;
@@ -1115,7 +915,7 @@ button.routable-modal--close:active {
   height: 50px;
   border-radius: 7px;
   background-color: #d8d8d8;
-  margin: 0px auto;
+  margin: 0 auto;
   line-height: 50px;
   display: flex;
   flex-direction: row;
@@ -1140,27 +940,30 @@ button.routable-modal--close:active {
 .app-menu-wrapper {
   background: white;
   position: absolute; }
-  @media (min-width: 992px) {
-    .app-menu-wrapper {
-      margin-left: 257px;
-      position: static; } }
+
+@media (min-width: 992px) {
+  .app-menu-wrapper {
+    margin-left: 257px;
+    position: static; } }
 
 .app-menu {
   display: flex;
   flex-direction: column;
   order: 1; }
-  @media (min-width: 992px) {
-    .app-menu {
-      display: flex;
-      flex-direction: row;
-      order: 1; } }
+
+@media (min-width: 992px) {
+  .app-menu {
+    display: flex;
+    flex-direction: row;
+    order: 1; } }
 
 .app-menu__item {
   display: none; }
-  @media (min-width: 992px) {
-    .app-menu__item {
-      margin-right: 28px;
-      display: block; } }
+
+@media (min-width: 992px) {
+  .app-menu__item {
+    margin-right: 28px;
+    display: block; } }
 
 .app-menu__item a {
   cursor: pointer;
@@ -1171,42 +974,46 @@ button.routable-modal--close:active {
   color: #3e4149;
   font-family: "Lato", Arial, sans-serif;
   display: block;
-  padding: 10px 0px;
+  padding: 10px 0;
   border: 1px solid #3e4149; }
-  @media (min-width: 992px) {
-    .app-menu__item a {
-      display: inline;
-      border: none; } }
+
+@media (min-width: 992px) {
+  .app-menu__item a {
+    display: inline;
+    border: none; } }
 
 /* Whole assessments container
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-.assessment-results {
-  /* Forces bootstrap's default by including bootstrap props into .assessment-results container */
-  /* XXX : See https://github.com/sgmap/pix/issues/211 */ }
-  .assessment-results .tooltip-inner {
-    padding-top: 13px;
-    width: auto;
-    padding-left: 16px;
-    padding-right: 16px;
-    height: 48px;
-    background-color: #e6e6e6;
-    color: #3e4149;
-    font-family: "Lato", Arial, sans-serif;
-    font-size: 14px;
-    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
-    border: solid 1px #ffffff; }
-  .assessment-results .tooltip.top .tooltip-arrow {
-    border-top-color: #e6e6e6; }
-  .assessment-results .tooltip.in {
-    opacity: 1;
-    transition: opacity 1s ease; }
-  .assessment-results .tooltip.top .tooltip-arrow {
-    bottom: -4px;
-    left: 50%;
-    margin-left: -13px;
-    border-width: 10px 13px 0; }
-  .assessment-results [data-lines="2"] + div .tooltip-inner {
-    padding-top: 3px; }
+/* Forces bootstrap's default by including bootstrap props into .assessment-results container */
+.assessment-results .tooltip-inner {
+  padding-top: 13px;
+  width: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  height: 48px;
+  background-color: #e6e6e6;
+  color: #3e4149;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
+  border: solid 1px #ffffff; }
+
+.assessment-results .tooltip.top .tooltip-arrow {
+  border-top-color: #e6e6e6; }
+
+.assessment-results .tooltip.in {
+  opacity: 1;
+  transition: opacity 1s ease; }
+
+.assessment-results .tooltip.top .tooltip-arrow {
+  bottom: -4px;
+  left: 50%;
+  margin-left: -13px;
+  border-width: 10px 13px 0; }
+
+/* XXX : See https://github.com/sgmap/pix/issues/211 */
+.assessment-results [data-lines="2"] + div .tooltip-inner {
+  padding-top: 3px; }
 
 /* Title
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -1232,12 +1039,14 @@ button.routable-modal--close:active {
   background-color: #ffffff;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   margin-bottom: 10px; }
-  .assessment-results-list-item:hover {
-    box-shadow: none;
-    border: solid 2px #446eff;
-    transition: border-color 1s ease; }
-  .assessment-results-list-item:nth-last-child(1) {
-    margin-bottom: 20px; }
+
+.assessment-results-list-item:hover {
+  box-shadow: none;
+  border: solid 2px #446eff;
+  transition: border-color 1s ease; }
+
+.assessment-results-list-item:nth-last-child(1) {
+  margin-bottom: 20px; }
 
 .assessment-results-result {
   display: flex;
@@ -1311,10 +1120,16 @@ button.routable-modal--close:active {
 
 .comparison-window {
   padding: 0 15px; }
+  @media (min-width: 992px) {
+    .comparison-window {
+      padding: 0; } }
 
 .comparison-window--dialog {
   max-width: 900px;
   margin-top: 40px; }
+  @media (min-width: 992px) {
+    .comparison-window--dialog {
+      margin-top: 60px; } }
 
 .comparison-window--content,
 .comparison-window--body {
@@ -1325,6 +1140,9 @@ button.routable-modal--close:active {
   display: flex;
   flex-direction: column;
   padding: 15px 15px 0; }
+  @media (min-width: 992px) {
+    .comparison-window--body {
+      padding: 20px 40px 10px; } }
 
 .comparison-window__instruction {
   margin: 0 0 15px;
@@ -1387,112 +1205,185 @@ button.routable-modal--close:active {
   border: solid 1.5px #d5d5d5;
   margin-left: 15px; }
 
-/*Close button*/
 .close-button-container {
   display: flex; }
 
-@media (min-width: 992px) {
-  .comparison-window {
-    padding: 0; }
-  .comparison-window--dialog {
-    margin-top: 60px; }
-  .comparison-window--body {
-    padding: 20px 40px 10px; } }
-
 /* views */
-#home .courses {
-  list-style-type: none;
-  padding: 30px 0; }
+/* Table of contents
+––––––––––––––––––––––––––––––––––––––––––––––––––
+- Hero
+- Challenges
+- Email
+- Features
+- Footer
+*/
+/* Hero
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.index-page-hero {
+  background-image: url("/images/stock-photo2.jpg");
+  background-size: cover;
+  height: 580px;
+  width: 100%; }
 
-#home .course-item .course {
-  padding: 0; }
+.index-page-hero__box {
+  height: 100%;
+  display: flex; }
 
-#home .course-item .course .course-picture {
-  width: 100%;
-  height: 170px;
+.index-page-hero__box-item {
+  margin-top: auto;
+  margin-bottom: auto; }
+  @media (min-width: 992px) {
+    .index-page-hero__box-item {
+      margin-top: auto;
+      margin-bottom: 5%;
+      margin-left: 160px; } }
+
+.index-page-hero__main-value-prop {
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1;
+  color: #ffffff;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  max-width: 845px; }
+  @media (min-width: 992px) {
+    .index-page-hero__main-value-prop {
+      font-size: 65px;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 24px;
+      width: 830px; } }
+
+.index-page-hero__sub-value-prop {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-left: 15px;
+  margin-right: 15px;
+  max-width: 567px; }
+  @media (min-width: 992px) {
+    .index-page-hero__sub-value-prop {
+      font-size: 26px;
+      font-weight: bold;
+      color: #ffffff; } }
+
+/* Challenges
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.index-page-challenges {
+  background-color: #f2f3f4; }
+
+/* XXX : issue raised, impossible to put a margin-top to title (single direction margin declaration) */
+.index-page-challenges__empty {
+  margin-bottom: 56px; }
+
+.index-page-challenges__title {
+  font-size: 36px;
+  line-height: 0.8;
   text-align: center;
-  margin: 0 auto;
-  display: block; }
+  color: #3d68ff;
+  margin-bottom: 52px;
+  margin-right: 15px;
+  margin-left: 15px; }
 
-#home .course-item .course .course-content {
-  padding: 15px;
-  height: 115px;
-  overflow: hidden;
+/* Email
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.index-page-email {
+  height: 385px;
+  background-color: #446eff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; }
+  @media (min-width: 992px) {
+    .index-page-email {
+      height: 270px; } }
+
+.index-page-email__title {
+  font-size: 24px;
+  margin-bottom: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  margin-left: 15px;
+  margin-right: 15px; }
+  @media (min-width: 992px) {
+    .index-page-email__title {
+      font-size: 34px;
+      margin-left: 0;
+      margin-right: 0; } }
+
+/* Features
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.index-page-features {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding-top: 50px; }
+  @media (min-width: 992px) {
+    .index-page-features {
+      padding-top: 75px;
+      flex-direction: row; } }
+
+.index-page-feature {
+  height: 260px;
+  width: 200px; }
+  @media (min-width: 992px) {
+    .index-page-feature {
+      height: 294px;
+      margin-left: 35px; } }
+
+@media (min-width: 992px) {
+  .index-page-feature:first-child {
+    margin-left: 0; } }
+
+.index-page-feature__icon-container {
+  display: flex;
+  justify-content: center;
+  height: 107px; }
+
+.index-page-feature__title {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+  text-align: center;
+  margin-top: 20px;
+  color: #3e4149; }
+  @media (min-width: 992px) {
+    .index-page-feature__title {
+      margin-left: 0; } }
+
+.index-page-feature__text {
+  font-size: 15px;
+  margin-top: 12px;
+  color: #3e4149;
   text-align: center; }
 
-#home .course-item .course .course-content .course-name {
-  color: #446eff; }
+.index-page-about {
+  padding-bottom: 80px;
+  display: flex;
+  justify-content: center;
+  background: #ffffff; }
 
-#home .course-item .course .course-number-of-challenges {
+.index-page-about a {
+  display: block;
+  width: 201px;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 3px;
+  border: none;
+  background-color: #ffbe00;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
   text-align: center;
-  padding: 15px;
-  padding-bottom: 5px; }
-
-#home .course-item .course .course-actions {
-  text-align: center;
-  padding: 15px;
-  padding-bottom: 30px; }
-
-#home .course-item .course .course-actions > .start-button {
-  background-color: #446eff;
-  border-color: #446eff;
-  border-bottom: 1px solid #2861CF;
-  text-transform: none; }
-
-#home .course-item .course .course-actions > .start-button:hover,
-#home .course-item .course .course-actions > .start-button:active {
-  background-color: #FDBD2C;
-  border-color: #FDBD2C;
-  border-bottom: 1px solid #CF9C24; }
-
-#home-loading .loader-container {
-  width: 1em;
-  height: 3em;
-  margin: 0 auto;
-  padding-top: 180px; }
-
-#home-loading .ball-zig-zag > div:nth-child(2) {
-  background-color: #446eff; }
-
-#home-loading .ball-zig-zag > div:nth-child(1) {
-  background-color: #FDBD2C; }
-
-#index .cover {
-  background-image: url("/images/stock-photo-113728127.jpg");
-  height: 100%;
-  background-size: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  content: ' '; }
-
-#index .cover::after {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  content: '';
-  bottom: 10%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent); }
-
-#index .presentation {
-  text-align: center;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  color: #FFF;
-  font-smoothing: antialiased;
-  text-shadow: 0px 0px 1px rgba(48, 50, 58, 0.6), 0px 1px 1px rgba(48, 50, 58, 0.6);
-  margin: 0.3em 0; }
-
-#index .presentation h1 {
-  font-weight: 600;
-  font-size: 40px; }
-
-#index .presentation h2 {
-  font-weight: 400;
-  font-size: 21px;
-  color: #fff; }
+  color: #3e4149;
+  font-family: "Lato", Arial, sans-serif;
+  text-decoration: none;
+  cursor: pointer; }
 
 .project-page {
   display: flex;

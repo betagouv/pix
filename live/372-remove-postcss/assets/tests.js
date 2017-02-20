@@ -20,11 +20,11 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['exports', 'mocha', 'c
     });
 
     (0, _mocha.it)('a1.1 la landing page contient un pitch de présentation', function () {
-      (0, _chai.expect)(findWithAssert('.first-page-hero__main-value-prop').text()).to.contains('Développez vos compétences numériques');
+      (0, _chai.expect)(findWithAssert('.index-page-hero__main-value-prop').text()).to.contains('Développez vos compétences numériques');
     });
 
     (0, _mocha.it)('a1.2 Sur la landing page, un lien pointant vers la page projet est présent dans les valeurs pix', function () {
-      findWithAssert('.first-page-about a[href="/projet"]');
+      findWithAssert('.index-page-about a[href="/projet"]');
     });
   });
 });
@@ -111,7 +111,7 @@ define('pix-live/tests/acceptance/a3-voir-liste-tests-test', ['exports', 'mocha'
     });
 
     (0, _mocha.it)('a3.1 on affiche autant de tests que remontés par l\'API', function () {
-      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(3);
+      (0, _chai.expect)(findWithAssert('.course-item')).to.have.lengthOf(3);
     });
 
     (0, _mocha.describe)('a3.2 pour un test donné avec toutes les informations', function () {
@@ -119,22 +119,22 @@ define('pix-live/tests/acceptance/a3-voir-liste-tests-test', ['exports', 'mocha'
       var $course = undefined;
 
       (0, _mocha.beforeEach)(function () {
-        $course = findWithAssert('.course[data-id="ref_course_id"]');
+        $course = findWithAssert('.course-item[data-id="ref_course_id"]');
       });
 
       (0, _mocha.it)('a3.2.1 on affiche son nom', function () {
         var courseTitle = 'First Course';
-        (0, _chai.expect)($course.find('.course-name').text()).to.contains(courseTitle);
+        (0, _chai.expect)($course.find('.course-item__name').text()).to.contains(courseTitle);
       });
 
       (0, _mocha.it)('a3.2.2 on affiche sa description', function () {
         var courseDescription = 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.';
-        (0, _chai.expect)($course.find('.course-description').text()).to.contains(courseDescription);
+        (0, _chai.expect)($course.find('.course-item__description').text()).to.contains(courseDescription);
       });
 
       (0, _mocha.it)('a3.2.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
         var courseChallenges = '5 épreuves';
-        (0, _chai.expect)($course.find('.course-number-of-challenges').text().trim()).to.equal(courseChallenges);
+        (0, _chai.expect)($course.find('.course-item__challenges-number').text().trim()).to.equal(courseChallenges);
       });
 
       (0, _mocha.it)('a3.2.4 on affiche son image', function () {
@@ -143,12 +143,12 @@ define('pix-live/tests/acceptance/a3-voir-liste-tests-test', ['exports', 'mocha'
       });
 
       (0, _mocha.it)('a3.2.5 on affiche un bouton "démarrer le test"', function () {
-        (0, _chai.expect)($course.find('.start-button').text()).to.contains('Démarrer le test');
+        (0, _chai.expect)($course.find('.course-item__action--start').text()).to.contains('Démarrer le test');
       });
     });
 
     (0, _mocha.it)('a3.3 pour un test dont il manque l\'image, on affiche une image placeholder', function () {
-      var $course = findWithAssert('.course[data-id="raw_course_id"]');
+      var $course = findWithAssert('.course-item[data-id="raw_course_id"]');
       (0, _chai.expect)($course.find('img')[0].src).to.contains('images/course-default-image.png');
     });
   });
@@ -166,6 +166,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember'
 
   var URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
   var MODAL_SELECTOR = '.modal.fade.js-modal-mobile.in';
+  var START_BUTTON = '.course-item__action--start';
 
   (0, _mocha.describe)('Acceptance | a4 - Démarrer un test |', function () {
 
@@ -181,12 +182,12 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember'
     });
 
     (0, _mocha.it)('a4.1 Je peux démarrer un test depuis la liste des tests de la page d\'accueil', function () {
-      var $startLink = findWithAssert('.start-button');
+      var $startLink = findWithAssert(START_BUTTON);
       (0, _chai.expect)($startLink.text()).to.contains('Démarrer le test');
     });
 
     (0, _mocha.it)('a4.2 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function () {
-      var $startLink = findWithAssert('.start-button');
+      var $startLink = findWithAssert(START_BUTTON);
       return click($startLink).then(function () {
         findWithAssert('#assessment-challenge');
         (0, _chai.expect)(currentURL()).to.contains(URL_OF_FIRST_TEST);
@@ -195,12 +196,12 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember'
 
     (0, _mocha.it)('a4.3 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function (done) {
 
-      var $startLink = findWithAssert('.start-button');
+      var $startLink = findWithAssert(START_BUTTON);
 
       (0, _chai.expect)($(MODAL_SELECTOR)).to.have.lengthOf(0);
 
       // test on mobile
-      triggerEvent('.first-page', 'simulateMobileScreen');
+      triggerEvent('.course-list', 'simulateMobileScreen');
 
       // clear local storage
       andThen(function () {
@@ -229,8 +230,8 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember'
     });
 
     (0, _mocha.it)('a4.4 Quand je RE-démarre un test sur mobile, la modale NE s\'affiche PAS', function (done) {
-      var $startLink = findWithAssert('.start-button');
-      triggerEvent('.first-page', 'simulateMobileScreen');
+      var $startLink = findWithAssert(START_BUTTON);
+      triggerEvent('.index-page', 'simulateMobileScreen');
 
       andThen(function () {
         _ember['default'].run.later(function () {
@@ -2035,6 +2036,15 @@ define('pix-live/tests/adapters/application.lint-test', ['exports'], function (e
     });
   });
 });
+define('pix-live/tests/adapters/challenge.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - adapters/challenge.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/adapters/solution.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2183,6 +2193,24 @@ define('pix-live/tests/components/course-banner.lint-test', ['exports'], functio
   'use strict';
 
   describe('ESLint - components/course-banner.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/course-item.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/course-item.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/course-list.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/course-list.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -3334,6 +3362,192 @@ define('pix-live/tests/integration/components/corner-ribbon-test.lint-test', ['e
     });
   });
 });
+define('pix-live/tests/integration/components/course-item-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | course item', function () {
+
+    (0, _emberMocha.setupComponentTest)('course-item', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('rendering:', function () {
+
+      (0, _mocha.it)('renders', function () {
+        this.render(_ember['default'].HTMLBars.template({
+          'id': '9SOyPEls',
+          'block': '{"statements":[["append",["unknown",["course-item"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render course picture if it is defined', function () {
+        // given
+        var course = _ember['default'].Object.create({ imageUrl: 'image_src' });
+        this.set('course', course);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ldqh36hZ',
+          'block': '{"statements":[["append",["helper",["course-item"],null,[["course"],[["get",["course"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        var $picture = this.$('.course-item__picture');
+        (0, _chai.expect)($picture.attr('src')).to.equal(course.get('imageUrl'));
+      });
+
+      (0, _mocha.it)('should render default picture if course picture is not defined', function () {
+        // given
+        var course = _ember['default'].Object.create();
+        this.set('course', course);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ldqh36hZ',
+          'block': '{"statements":[["append",["helper",["course-item"],null,[["course"],[["get",["course"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        var $picture = this.$('.course-item__picture');
+        (0, _chai.expect)($picture.attr('src')).to.equal('/assets/images/course-default-image.png');
+      });
+
+      (0, _mocha.it)('should render course name', function () {
+        // given
+        var course = _ember['default'].Object.create({ name: 'name_value' });
+        this.set('course', course);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ldqh36hZ',
+          'block': '{"statements":[["append",["helper",["course-item"],null,[["course"],[["get",["course"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        var $name = this.$('.course-item__name');
+        (0, _chai.expect)($name.text().trim()).to.equal(course.get('name'));
+      });
+
+      (0, _mocha.it)('should render course description', function () {
+        // given
+        var course = _ember['default'].Object.create({ description: 'description_value' });
+        this.set('course', course);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ldqh36hZ',
+          'block': '{"statements":[["append",["helper",["course-item"],null,[["course"],[["get",["course"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        var $description = this.$('.course-item__description');
+        (0, _chai.expect)($description.text().trim()).to.equal(course.get('description'));
+      });
+
+      (0, _mocha.it)('should render a "start" button', function () {
+        // given
+        var course = _ember['default'].Object.create();
+        this.set('course', course);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ldqh36hZ',
+          'block': '{"statements":[["append",["helper",["course-item"],null,[["course"],[["get",["course"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        var $startAction = this.$('.course-item__action--start');
+        (0, _chai.expect)($startAction.text().trim()).to.equal('Démarrer le test');
+      });
+    });
+
+    (0, _mocha.describe)('behaviours:', function () {
+
+      (0, _mocha.it)('should send action "startCourse" with course in argument when clicking on "start" button', function () {
+        // given
+        var course = _ember['default'].Object.create({ id: 'course_id' });
+        this.set('course', course);
+        var actualCourse = undefined;
+        this.on('actionHandler', function (receivedCourse) {
+          actualCourse = receivedCourse;
+        });
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'xVrQ+R+D',
+          'block': '{"statements":[["append",["helper",["course-item"],null,[["course","startCourse"],[["get",["course"]],"actionHandler"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        var $startAction = this.$('.course-item__action--start');
+        $startAction.click();
+        (0, _chai.expect)(actualCourse.get('id')).to.equal(course.get('id'));
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/course-item-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/course-item-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/integration/components/course-list-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | course list', function () {
+
+    (0, _emberMocha.setupComponentTest)('course-list', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('rendering:', function () {
+
+      (0, _mocha.it)('renders', function () {
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'SiQ4ynL+',
+          'block': '{"statements":[["append",["unknown",["course-list"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render as many course-item as courses elements', function () {
+        // given
+        var courses = [_ember['default'].Object.create({ id: '1' }), _ember['default'].Object.create({ id: '2' }), _ember['default'].Object.create({ id: '3' })];
+        this.set('courses', courses);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ojVuhFHL',
+          'block': '{"statements":[["append",["helper",["course-list"],null,[["courses"],[["get",["courses"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.course-list__li')).to.have.length(courses.length);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/course-list-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/course-list-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (exports, _ember, _chai, _mocha, _emberMocha, _emberTestHelpersWait) {
 
   var LINK_VIEW = '.feedback-panel__view--link';
@@ -4011,6 +4225,15 @@ define('pix-live/tests/routes/challenges/get-preview.lint-test', ['exports'], fu
     });
   });
 });
+define('pix-live/tests/routes/courses.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - routes/courses.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/routes/courses/create-assessment.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -4033,15 +4256,6 @@ define('pix-live/tests/routes/courses/get-course-preview.lint-test', ['exports']
   'use strict';
 
   describe('ESLint - routes/courses/get-course-preview.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/home.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - routes/home.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -4808,6 +5022,27 @@ define('pix-live/tests/unit/routes/challenges/get-preview-test.lint-test', ['exp
     });
   });
 });
+define('pix-live/tests/unit/routes/courses-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Route | courses', function () {
+
+    (0, _emberMocha.setupTest)('route:courses', {});
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/courses-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/routes/courses-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/unit/routes/courses/get-challenge-preview-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Route | ChallengePreview', function () {
@@ -4845,27 +5080,6 @@ define('pix-live/tests/unit/routes/courses/get-course-preview-test.lint-test', [
   'use strict';
 
   describe('ESLint - unit/routes/courses/get-course-preview-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/unit/routes/home-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
-
-  (0, _mocha.describe)('Unit | Route | home', function () {
-
-    (0, _emberMocha.setupTest)('route:home', {});
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/home-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - unit/routes/home-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
