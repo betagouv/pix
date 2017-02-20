@@ -29,6 +29,7 @@
 @import url('components/app-menu.css');
 @import url('components/get-results.css');
 @import url('components/comparison-window.css');
+@import url('components/qroc-answer-comparison-box.css');
 
 /* views */
 @import url('home.css');

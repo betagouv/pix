@@ -15,9 +15,11 @@ const QROCAnswerComparisonBox = Ember.Component.extend({
   }),
 
   solutionToDisplay: Ember.computed('solution.value', function () {
-    const solution = this.get('solution.value');
+    const SolutionVariants = this.get('solution.value').split("\n");
+    const solution = SolutionVariants[0];
     return solution;
   }),
+
 
 });
 
