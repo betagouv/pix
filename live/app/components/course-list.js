@@ -14,7 +14,7 @@ function _storeCourseToDisplayAfterWarning(that, course) {
   that.set('selectedCourse', course);
 }
 
-function _displayWarningModel() {
+function _displayWarningModal() {
   $('#js-modal-mobile').modal();
 }
 
@@ -52,7 +52,7 @@ const CourseList = Ember.Component.extend({
       if (_userNotAlreadyWarnedAboutMobileIncompleteSupport(this)) {
         _rememberThatUserIsNowAware();
         _storeCourseToDisplayAfterWarning(this, course);
-        _displayWarningModel();
+        _displayWarningModal();
       } else {
         this.sendAction('startCourse', course);
       }
