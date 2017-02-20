@@ -1,5 +1,6 @@
 const { describe, it } = require('mocha');
 const { expect } = require('chai');
+const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 const service = require('../../../../lib/domain/services/solution-service-utils');
 
 
@@ -77,6 +78,17 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
     });
     it('Should remove all punctation from String, example "Th!!is., -/ is #! an $ % ^ & * example ;: {} of a = -_ string with `~)() punctuation" => "This is an example of a string with punctuation"', function () {
       expect(service.treatmentT2('Th!!is., -/ is #! an $ % ^ & * example ;: {} of a = -_ string with `~)() punctuation')).to.equal('This is an example of a string with punctuation');
+    });
+  });
+  describe('treatmentT3', function() {
+    it('Should exist', function () {
+      expect(service.treatmentT3).to.exist;
+    });
+    it('Should return null no input is given', function () {
+      expect(service.treatmentT3()).to.equal(null);
+    });
+    it('Should return null wrong inputs are given, for example "new Date()" and "new Date()"', function () {
+      expect(service.treatmentT3(new Date(), new Date())).to.equal(null);
     });
   });
 });
