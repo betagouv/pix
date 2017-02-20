@@ -2,6 +2,7 @@ const Boom = require('boom');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
+const assessmentUtils = require('../../domain/services/assessment-service-utils');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const solutionSerializer = require('../../infrastructure/serializers/jsonapi/solution-serializer');
@@ -72,11 +73,9 @@ module.exports = {
                 if (!course.isAdaptive) {
                   return challengesLength > 0 && _.isEqual(answersLength, challengesLength);
                 } else {
-                  const responsePattern = answers.map(answer => (answer.attributes.result == 'ok') ? 'ok' : 'ko').join('-');
-
-                  return Scenario.where('path', responsePattern).orderBy('updatedAt', 'DESC').fetch().then((scenario) => {
-                    return (scenario == null || scenario.attributes.nextChallengeId == 'null');
-                  });
+                  const responsePattern = assessmentUtils.getResponsePattern(answers);
+                  return assessmentUtils.getNextChallengeFromScenarios(responsePattern)
+                    .then(nextChallengeId => nextChallengeId === null);
                 }
               })
               .then((testIsOver) => {
