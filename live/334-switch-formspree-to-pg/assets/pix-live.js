@@ -3177,6 +3177,7 @@ define('pix-live/services/email-validator', ['exports', 'ember'], function (expo
         return false;
       }
 
+      //XXX: Cf - http://stackoverflow.com/a/46181/5430854
       var pattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
       return pattern.test(email.trim());
@@ -3874,7 +3875,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+61adfd3e"});
+  require("pix-live/app")["default"].create({"API_HOST":"/","name":"pix-live","version":"5.0.0+8133ee11"});
 }
 
 /* jshint ignore:end */
