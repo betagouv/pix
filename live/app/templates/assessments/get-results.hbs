@@ -4,18 +4,24 @@
     {{course-banner course=assessment.course}}
   </div>
 
-  <div class="assessment-results__title">
+  <div class='container'>
 
-  </div>
+    <div class="assessment-results__title">
+      Vos résultats
+    </div>
 
-  <div class="assessment-results__list">
+    <div class="assessment-results__list">
+      {{#each assessment.answers as |answer index|}}
+        {{result-list answer index}}
+      {{/each}}
+    </div>
 
-  </div>
+    <div class="assessment-results__index-link-container">
+      {{#link-to 'index' class='assessment-results__index-link__element' tagName='button'}}
+        <span class="assessment-results-back">Revenir à la liste des tests</span>
+      {{/link-to}}
+    </div>
 
-  <div class="assessment-results__index-link-container">
-    {{#link-to 'index' class='assessment-results__index-link__element' tagName='button'}}
-      <span class="assessment-results-back">Revenir à la liste des tests</span>
-    {{/link-to}}
   </div>
 
 </div>
