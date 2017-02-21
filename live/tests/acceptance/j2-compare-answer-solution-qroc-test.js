@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe.only(`Acceptance | j2 - Comparer réponses et solutions pour un QROC | `, function () {
+describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', function () {
 
   const RESULT_URL = '/assessments/ref_assessment_id/results';
   const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4';
@@ -27,9 +27,9 @@ describe.only(`Acceptance | j2 - Comparer réponses et solutions pour un QROC | 
     destroyApp(application);
   });
 
-  describe(`j2.1 Possibilité de voir la correction d'un challenge QROC depuis la page résultat`, function () {
+  describe('j2.1 Possibilité de voir la correction d\'un challenge QROC depuis la page résultat', function () {
 
-    it(`affiche le lien REPONSE vers la modale depuis l'ecran des resultats pour un QROC`, async function () {
+    it('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', async function () {
       await visit(RESULT_URL);
       expect($('.assessment-results-list-item:eq(3) .js-correct-answer').text()).to.contain('RÉPONSE');
     });
@@ -39,19 +39,17 @@ describe.only(`Acceptance | j2 - Comparer réponses et solutions pour un QROC | 
       expect($('.comparison-window')).to.have.lengthOf(0);
       await click('.assessment-results-result-correction-button');
       expect($('.comparison-window')).to.have.lengthOf(1);
-      // XXX test env needs the modal to be closed manually
       await click('.close-button-container');
       expect($('.comparison-window')).to.have.lengthOf(0);
     });
 
-    it(`possible d'accéder à la modale depuis l'URL`, async function () {
+    it('possible d\'accéder à la modale depuis l\'URL', async function () {
       await visit(COMPARISON_MODAL_URL);
       expect($('.comparison-window')).to.have.lengthOf(1);
-      // XXX test env needs the modal to be closed manually
       await click('.close-button-container');
       expect($('.comparison-window')).to.have.lengthOf(0);
     });
-  })
+  });
 
   describe('j2.2 Contenu de la modale de correction pour un QROC', function () {
 
@@ -65,7 +63,6 @@ describe.only(`Acceptance | j2 - Comparer réponses et solutions pour un QROC | 
       expect($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
       expect($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(1);
 
-      // XXX test env needs the modal to be closed manually
       await click('.close-button-container');
       expect($('.comparison-window')).to.have.lengthOf(0);
     });
@@ -78,7 +75,6 @@ describe.only(`Acceptance | j2 - Comparer réponses et solutions pour un QROC | 
       await visit(COMPARISON_MODAL_URL);
       expect($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
 
-      // XXX test env needs the modal to be closed manually
       await click('.close-button-container');
       expect($('.comparison-window')).to.have.lengthOf(0);
 
