@@ -1,7 +1,7 @@
 const { describe, it, after, before, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | API | Solutions of Assessments', function () {
+describe('Acceptance | API | assessment-controller-get-solutions', function () {
 
   before(function (done) {
     knex.migrate.latest().then(() => {

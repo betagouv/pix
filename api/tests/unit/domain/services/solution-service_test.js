@@ -4,7 +4,6 @@ const service = require('../../../../lib/domain/services/solution-service');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Solution = require('../../../../lib/domain/models/referential/solution');
 const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
-// const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const SolutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 
 describe('Unit | Service | SolutionService', function () {
@@ -185,8 +184,8 @@ describe('Unit | Service | SolutionService', function () {
         answer: 'a: "1"\nb: "2"',
         solution: 'a:\n- 1\nb:\n- 2'
       }, {
-        answer: `num1:\n- 4\nnum2:\n- 2\nnum3:\n- 1\nnum4:\n- 3`,
-        solution: `num1:\n- 4\nnum2:\n- 2\nnum3:\n- 1\nnum4:\n- 3`
+        answer: 'num1:\n- 4\nnum2:\n- 2\nnum3:\n- 1\nnum4:\n- 3',
+        solution: 'num1:\n- 4\nnum2:\n- 2\nnum3:\n- 1\nnum4:\n- 3'
       }];
 
       successfulCases.forEach(function (testCase) {
@@ -436,8 +435,7 @@ describe('Unit | Service | SolutionService', function () {
 
 
     it('If the answer is timedout, resolve to the answer itself, unchanged', function (done) {
-      expect(service.revalidate).to.exist;
-      service.revalidate(new Answer(timedout_answer)).then(function (foundAnswer) {
+      service.revalidate(new Answer(timedout_answer)).then((foundAnswer) =>  {
         expect(foundAnswer.id).equals(timedout_answer.id);
         expect(foundAnswer.attributes.value).equals(timedout_answer.value);
         expect(foundAnswer.attributes.result).equals(timedout_answer.result);
@@ -447,8 +445,7 @@ describe('Unit | Service | SolutionService', function () {
     });
 
     it('If the answer is aband, resolve to the answer itself, unchanged', function (done) {
-      expect(service.revalidate).to.exist;
-      service.revalidate(new Answer(aband_answer)).then(function (foundAnswer) {
+      service.revalidate(new Answer(aband_answer)).then((foundAnswer) =>  {
         expect(foundAnswer.id).equals(aband_answer.id);
         expect(foundAnswer.attributes.value).equals(aband_answer.value);
         expect(foundAnswer.attributes.result).equals(aband_answer.result);
@@ -458,16 +455,14 @@ describe('Unit | Service | SolutionService', function () {
     });
 
     it('If the answer is ko, resolve to the answer itself, with result corresponding to the matching', function (done) {
-
       // given
       const MATCHING_RETURNS = '#ANY_RESULT#';
 
       sinon.stub(SolutionRepository, 'get').resolves({}); // avoid HTTP call, but what it replies doesn't matter
       sinon.stub(service, 'match').returns(MATCHING_RETURNS);
-      expect(service.revalidate).to.exist;
 
       // when
-      service.revalidate(new Answer(ko_answer)).then(function (foundAnswer) {
+      service.revalidate(new Answer(ko_answer)).then((foundAnswer) =>  {
 
         // then
         expect(SolutionRepository.get.callOnce);
@@ -489,10 +484,9 @@ describe('Unit | Service | SolutionService', function () {
 
       sinon.stub(SolutionRepository, 'get').resolves({}); // avoid HTTP call, but what it replies doesn't matter
       sinon.stub(service, 'match').returns(MATCHING_RETURNS);
-      expect(service.revalidate).to.exist;
 
       // when
-      service.revalidate(new Answer(ok_answer)).then(function (foundAnswer) {
+      service.revalidate(new Answer(ok_answer)).then((foundAnswer) =>  {
 
         // then
         expect(SolutionRepository.get.callOnce);
@@ -507,7 +501,6 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
-
     it('If the answer is unimplemented, resolve to the answer itself, with result corresponding to the matching', function (done) {
 
       // given
@@ -515,10 +508,9 @@ describe('Unit | Service | SolutionService', function () {
 
       sinon.stub(SolutionRepository, 'get').resolves({}); // avoid HTTP call, but what it replies doesn't matter
       sinon.stub(service, 'match').returns(MATCHING_RETURNS);
-      expect(service.revalidate).to.exist;
 
       // when
-      service.revalidate(new Answer(unimplemented_answer)).then(function (foundAnswer) {
+      service.revalidate(new Answer(unimplemented_answer)).then((foundAnswer) =>  {
 
         // then
         expect(SolutionRepository.get.callOnce);
