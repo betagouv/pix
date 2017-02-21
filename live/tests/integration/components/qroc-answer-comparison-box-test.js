@@ -2,13 +2,16 @@ import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
+import Ember from 'ember'; 
 
-const ANSWER_BLOCK = '.answer-block';
-const ANSWER_INPUT = '.answer-block__input';
-const SOLUTION_BLOCK = '.solution-block';
-const SOLUTION_DISPLAY = '.solution-block__display';
+const ANSWER_BLOCK = '.correction-qroc-box__answer';
+const ANSWER_INPUT = '.correction-qroc-box--answer__input';
+const SOLUTION_BLOCK = '.correction-qroc-box__solution';
+const SOLUTION_DISPLAY = '.correction-qroc-box__solution-text';
 
-describe.only('Integration | Component | qroc answer comparison box', function () {
+const RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
+
+describe('Integration | Component | qroc answer comparison box', function () {
   setupComponentTest('qroc-answer-comparison-box', {
     integration: true
   });
@@ -45,7 +48,7 @@ describe.only('Integration | Component | qroc answer comparison box', function (
       expect(answerBlock).to.have.length(1);
       expect(answerInput.css('font-weight')).to.be.equal('bold');
       expect(answerInput.css('text-decoration')).to.be.equal('none');
-      expect(answerInput.css('color')).to.be.equal('rgb(19, 201, 160)');
+      expect(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
       expect(solutionBlock).to.have.length(0);
     });
   });
@@ -78,7 +81,7 @@ describe.only('Integration | Component | qroc answer comparison box', function (
       const blockSolutionText = this.$(SOLUTION_DISPLAY);
       // then
       expect(blockSolution).to.have.length(1);
-      expect(blockSolutionText.css('color')).to.be.equal('rgb(19, 201, 160)');
+      expect(blockSolutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
       expect(blockSolutionText.css('font-weight')).to.be.equal('bold');
     });
   });

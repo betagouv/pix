@@ -49,5 +49,45 @@ describe('Unit | Component | qroc-answer-comparison-box', function () {
       // then
       expect(solutionToDisplay).to.equal('Reponse');
     });
+
+    it('should return the solution', function () {
+      // given
+      const solution = {
+        value: 'Reponse'
+      };
+      const component = this.subject();
+      component.set('solution', solution);
+      // when
+      const solutionToDisplay = component.get('solutionToDisplay');
+      // then
+      expect(solutionToDisplay).to.equal('Reponse');
+    });
+
+    it('should return an empty string if the solution is null', function () {
+      // given
+      const emptySolution = {
+        value: ''
+      };
+      const component = this.subject();
+      component.set('solution', emptySolution);
+      // when
+      const solutionToDisplay = component.get('solutionToDisplay');
+      // then
+      expect(solutionToDisplay).to.equal('');
+    });
+
+    it('should return an empty string if the solution is an empty String', function () {
+      // given
+      const solutionNull = {
+        value: null
+      };
+      const component = this.subject();
+      component.set('solution', solutionNull);
+      // when
+      const solutionToDisplay = component.get('solutionToDisplay');
+      // then
+      expect(solutionToDisplay).to.equal('');
+    });
+
   });
 });
