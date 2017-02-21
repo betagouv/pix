@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() {
+describe.only('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() {
 
   let application;
 
@@ -24,8 +24,8 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
     findWithAssert('.assessment-results__list');
   });
 
-  it.skip('c1.2 le tableau récapitulatif contient les instructions ', function () {
-    const $proposals = findWithAssert('.assessment-results-result');
+  it('c1.2 le tableau récapitulatif contient les instructions ', function () {
+    const $proposals = findWithAssert('.result-list__item');
     expect($proposals.text()).to.contains('Un QCM propose plusieurs choix');
     expect($proposals.text()).to.contains('Un QCU propose plusieurs choix');
     expect($proposals.text()).to.contains('Un QROC est une question ouverte');
@@ -67,8 +67,8 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
   });
 
 
-  it.skip('c1.9 Le nom du test est affiché', function() {
-    expect(findWithAssert('.assessment-results__title').text()).to.contains('First Course');
+  it('c1.9 Le nom du test est affiché', function() {
+    expect(findWithAssert('.course-banner-name').text()).to.contains('First Course');
   });
 
   it('c1.10 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {

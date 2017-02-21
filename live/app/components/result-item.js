@@ -39,12 +39,14 @@ const contentReference = {
 
 };
 
-const resultList = Ember.Component.extend({
+const timeOutAfterRender = 1000; //XXX: Wait before execute plugin
+
+const resultItem = Ember.Component.extend({
   didRender() {
     this._super(...arguments);
-    $(function () {
-      $('div [data-toggle="tooltip"]').tooltip();
-    });
+    Ember.run.debounce(this,function(){
+      $('[data-toggle="tooltip"]').tooltip();
+    },timeOutAfterRender);
   },
 
   resultItemContent: Ember.computed('answer.result', function () {
@@ -54,8 +56,8 @@ const resultList = Ember.Component.extend({
 });
 
 
-resultList.reopenClass({
+resultItem.reopenClass({
   positionalParams: ['answer', 'index']
 });
 
-export default resultList;
+export default resultItem;

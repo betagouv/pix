@@ -23,7 +23,7 @@
 
  .tooltip.in {
     opacity: 1;
-    transition: opacity 1s ease;
+    transition: opacity .75s ease;
   }
 
  .tooltip.top .tooltip-arrow {
