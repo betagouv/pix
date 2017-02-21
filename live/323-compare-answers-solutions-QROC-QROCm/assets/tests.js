@@ -3839,7 +3839,12 @@ define('pix-live/tests/integration/components/qcu-proposals-test.lint-test', ['e
 });
 define('pix-live/tests/integration/components/qroc-answer-comparison-box-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _mocha.describe)('Integration | Component | qroc answer comparison box', function () {
+  var ANSWER_BLOCK = '.answer-block';
+  var ANSWER_INPUT = '.answer-block__input';
+  var SOLUTION_BLOCK = '.solution-block';
+  var SOLUTION_DISPLAY = '.solution-block__display';
+
+  _mocha.describe.only('Integration | Component | qroc answer comparison box', function () {
     (0, _emberMocha.setupComponentTest)('qroc-answer-comparison-box', {
       integration: true
     });
@@ -3852,6 +3857,82 @@ define('pix-live/tests/integration/components/qroc-answer-comparison-box-test', 
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
     });
+
+    (0, _mocha.it)('should disabled all inputs', function () {
+      // given
+      this.render(Ember.HTMLBars.template({
+        'id': 'ThOsB1Kc',
+        'block': '{"statements":[["append",["unknown",["qroc-answer-comparison-box"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      var input = this.$('input');
+      // then
+      (0, _chai.expect)(input).to.be.disabled;
+    });
+
+    (0, _mocha.describe)('comparison when the answer is right', function () {
+
+      var assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
+      var challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
+      var answer = Ember.Object.extend({ id: 'answer_id', isResultOk: true, assessment: assessment, challenge: challenge }).create();
+
+      (0, _mocha.it)('should diplay the answer in bold green and not the solution', function () {
+        // given
+        this.set('answer', answer);
+        this.render(Ember.HTMLBars.template({
+          'id': '8mO6ACoT',
+          'block': '{"statements":[["append",["helper",["qroc-answer-comparison-box"],null,[["answer"],[["get",["answer"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // when
+        var answerInput = this.$(ANSWER_INPUT);
+        var answerBlock = this.$(ANSWER_BLOCK);
+        var solutionBlock = this.$(SOLUTION_BLOCK);
+        // then
+        (0, _chai.expect)(answerInput).to.have.length(1);
+        (0, _chai.expect)(answerBlock).to.have.length(1);
+        (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('bold');
+        (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('none');
+        (0, _chai.expect)(answerInput.css('color')).to.be.equal('rgb(19, 201, 160)');
+        (0, _chai.expect)(solutionBlock).to.have.length(0);
+      });
+    });
+
+    (0, _mocha.describe)('comparison when the answer is false', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        var assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
+        var challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
+        var answer = Ember.Object.extend({ id: 'answer_id', isResultOk: false, assessment: assessment, challenge: challenge }).create();
+
+        this.set('answer', answer);
+        this.render(Ember.HTMLBars.template({
+          'id': '8mO6ACoT',
+          'block': '{"statements":[["append",["helper",["qroc-answer-comparison-box"],null,[["answer"],[["get",["answer"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+      });
+
+      (0, _mocha.it)('should display the false answer line-through', function () {
+        // given
+        var answerBlock = this.$(ANSWER_BLOCK);
+        var answerInput = this.$(ANSWER_INPUT);
+        // then
+        (0, _chai.expect)(answerBlock).to.have.length(1);
+        (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
+        (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('line-through');
+      });
+
+      (0, _mocha.it)('should display the solution with a arrow and the solution in bold green', function () {
+        // given
+        var blockSolution = this.$(SOLUTION_BLOCK);
+        var blockSolutionText = this.$(SOLUTION_DISPLAY);
+        // then
+        (0, _chai.expect)(blockSolution).to.have.length(1);
+        (0, _chai.expect)(blockSolutionText.css('color')).to.be.equal('rgb(19, 201, 160)');
+        (0, _chai.expect)(blockSolutionText.css('font-weight')).to.be.equal('bold');
+      });
+    });
   });
 });
 define('pix-live/tests/integration/components/qroc-answer-comparison-box-test.lint-test', ['exports'], function (exports) {
@@ -3859,7 +3940,10 @@ define('pix-live/tests/integration/components/qroc-answer-comparison-box-test.li
 
   describe('ESLint - integration/components/qroc-answer-comparison-box-test.js', function () {
     it('should pass ESLint', function () {
-      // precompiled test passed
+      // precompiled test failed
+      var error = new chai.AssertionError('integration/components/qroc-answer-comparison-box-test.js should pass ESLint.\n31:24  - \'Ember\' is not defined. (no-undef)\n32:23  - \'Ember\' is not defined. (no-undef)\n33:20  - \'Ember\' is not defined. (no-undef)\n56:26  - \'Ember\' is not defined. (no-undef)\n57:25  - \'Ember\' is not defined. (no-undef)\n58:22  - \'Ember\' is not defined. (no-undef)');
+      error.stack = undefined;
+      throw error;
     });
   });
 });
