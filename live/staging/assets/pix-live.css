@@ -1735,6 +1735,16 @@ hr.project-page__presentation-header-line {
   .container {
     max-width: 900px; } }
 
+.assessment-challenge-container .container {
+  max-width: 990px;
+  padding-right: 15px;
+  padding-left: 15px;
+  width: 100%; }
+  @media (min-width: 1024px) {
+    .assessment-challenge-container .container {
+      padding-right: 0;
+      padding-left: 0; } }
+
 body {
   font-family: "Lato", Arial, sans-serif;
   background-color: #f2f3f4; }
