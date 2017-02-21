@@ -61,17 +61,19 @@
                 markdown=challenge.instruction}}
           </div>
 
-         {{#if challenge.illustrationUrl}}
-         <div class="rounded-panel__row challenge-statement__illustration-section">
-           <img class="challenge-statement__illustration"
+          {{#if challenge.illustrationUrl}}
+          <div class="rounded-panel__row challenge-statement__illustration-section">
+            <img class="challenge-statement__illustration"
                 src="{{ challenge.illustrationUrl }}"
                 alt="Illustration de l'épreuve">
-         </div>
-         {{/if}}
+          </div>
+          {{/if}}
         </div>
-
-        <div class="rounded-panel comparison-window__proposals">
+        <div class="comparison-window__corrected-answers">
+        {{#if isAssessmentChallengeTypeQCM}}
+        <div class="rounded-panel comparison-window__proposals comparison-window__corrected-answers">
           <div class="rounded-panel__row ">
+
             {{#each labeledCheckboxes as |labeledCheckbox index|}}
             <p class="challenge-response__proposal proposal-comparison-window proposal-paragraph">
               {{!-- checkbox --}}
@@ -95,15 +97,15 @@
               </label>
             </p>
             {{/each}}
-
           </div>
-          {{/if}}
+        </div>
+        {{/if}}
 
-          {{#if isAssessmentChallengeTypeQroc}}
-            <div class="comparison-window__corrected-answers comparison-window__corrected-answers--qroc">
-              {{qroc-answer-comparison-box answer=answer solution=solution }}
-            </div>
-          {{/if}}
+        {{#if isAssessmentChallengeTypeQroc}}
+          <div class="comparison-window__corrected-answers comparison-window__corrected-answers--qroc">
+            {{qroc-solution-panel answer=answer solution=solution }}
+          </div>
+        {{/if}}
 
         </div>
       </div>

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const QROCAnswerComparisonBox = Ember.Component.extend({
+const QrocSolutionPanel = Ember.Component.extend({
 
   answer: null,
   solution: null,
@@ -8,7 +8,7 @@ const QROCAnswerComparisonBox = Ember.Component.extend({
   answerToDisplay: Ember.computed('answer', function () {
     const answer = this.get('answer.value');
     if (answer === '#ABAND#'){
-      return '';
+      return 'Pas de réponse';
     }
     return this.get('answer.value');
   }),
@@ -25,8 +25,8 @@ const QROCAnswerComparisonBox = Ember.Component.extend({
   })
 });
 
-QROCAnswerComparisonBox.reopenClass({
+QrocSolutionPanel.reopenClass({
   positionalParams: ['answer', 'solution']
 });
 
-export default QROCAnswerComparisonBox;
+export default QrocSolutionPanel;

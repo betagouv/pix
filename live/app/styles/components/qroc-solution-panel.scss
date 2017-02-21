@@ -21,6 +21,13 @@
   text-decoration: line-through;
 }
 
+.correction-qroc-box__input-no-answer{
+  font-family: var(--font-lato);
+  font-size: 16px;
+  color: var(--charcoal-grey);
+  font-style: italic;
+}
+
 .correction-qroc-box__solution {
   display: flex;
   align-items: center;
