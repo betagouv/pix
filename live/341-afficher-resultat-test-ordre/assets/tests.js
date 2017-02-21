@@ -961,7 +961,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test.lint-test', ['e
 });
 define('pix-live/tests/acceptance/c1-recapitulatif-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function () {
+  _mocha.describe.only('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function () {
 
     var application = undefined;
 
@@ -982,8 +982,8 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['exports', 'mocha', '
       findWithAssert('.assessment-results__list');
     });
 
-    _mocha.it.skip('c1.2 le tableau récapitulatif contient les instructions ', function () {
-      var $proposals = findWithAssert('.assessment-results-result');
+    (0, _mocha.it)('c1.2 le tableau récapitulatif contient les instructions ', function () {
+      var $proposals = findWithAssert('.result-list__item');
       (0, _chai.expect)($proposals.text()).to.contains('Un QCM propose plusieurs choix');
       (0, _chai.expect)($proposals.text()).to.contains('Un QCU propose plusieurs choix');
       (0, _chai.expect)($proposals.text()).to.contains('Un QROC est une question ouverte');
@@ -1023,8 +1023,8 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['exports', 'mocha', '
       });
     });
 
-    _mocha.it.skip('c1.9 Le nom du test est affiché', function () {
-      (0, _chai.expect)(findWithAssert('.assessment-results__title').text()).to.contains('First Course');
+    (0, _mocha.it)('c1.9 Le nom du test est affiché', function () {
+      (0, _chai.expect)(findWithAssert('.course-banner-name').text()).to.contains('First Course');
     });
 
     (0, _mocha.it)('c1.10 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
@@ -3918,33 +3918,6 @@ define('pix-live/tests/integration/components/follower-form-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/integration/components/get-result-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
-
-  (0, _mocha.describe)('Integration | Component | GetResultComponent', function () {
-
-    (0, _emberMocha.setupComponentTest)('get-result', {
-      integration: true
-    });
-
-    (0, _mocha.it)('renders', function () {
-      this.render(Ember.HTMLBars.template({
-        'id': '3SRZb6VX',
-        'block': '{"statements":[["append",["unknown",["get-result"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-        'meta': {}
-      }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
-    });
-  });
-});
-define('pix-live/tests/integration/components/get-result-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - integration/components/get-result-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/qcm-proposals-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | QcmProposals', function () {
@@ -4800,7 +4773,7 @@ define('pix-live/tests/unit/components/result-item-test', ['exports', 'chai', 'm
     result: 'RANDOM_RESULT'
   };
 
-  _mocha.describe.only('Unit | Component | result-item-component', function () {
+  (0, _mocha.describe)('Unit | Component | result-item-component', function () {
     (0, _emberMocha.setupTest)('component:result-item', {});
 
     var component = undefined;

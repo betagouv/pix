@@ -1113,12 +1113,14 @@ define('pix-live/components/result-item', ['exports', 'ember'], function (export
 
   };
 
-  var resultList = _ember['default'].Component.extend({
+  var timeOutAfterRender = 1000; //XXX: Wait before execute plugin
+
+  var resultItem = _ember['default'].Component.extend({
     didRender: function didRender() {
       this._super.apply(this, arguments);
-      $(function () {
-        $('div [data-toggle="tooltip"]').tooltip();
-      });
+      _ember['default'].run.debounce(this, function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      }, timeOutAfterRender);
     },
 
     resultItemContent: _ember['default'].computed('answer.result', function () {
@@ -1127,11 +1129,11 @@ define('pix-live/components/result-item', ['exports', 'ember'], function (export
     })
   });
 
-  resultList.reopenClass({
+  resultItem.reopenClass({
     positionalParams: ['answer', 'index']
   });
 
-  exports['default'] = resultList;
+  exports['default'] = resultItem;
 });
 define('pix-live/components/routable-modal-backdrop', ['exports', 'ember-routable-modal/components/backdrop'], function (exports, _emberRoutableModalComponentsBackdrop) {
   Object.defineProperty(exports, 'default', {
@@ -3090,7 +3092,6 @@ define('pix-live/routes/assessments/get-comparison', ['exports', 'ember', 'ember
 });
 define('pix-live/routes/assessments/get-results', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
-
     model: function model(params) {
       return this.store.findRecord('assessment', params.assessment_id, { reload: true });
     },
@@ -4067,7 +4068,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"5.0.0+2e98f455"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"5.0.0+65b6530d"});
 }
 
 /* jshint ignore:end */

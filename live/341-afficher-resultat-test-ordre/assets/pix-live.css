@@ -1335,7 +1335,7 @@ button.routable-modal--close:active {
     border-top-color: #e6e6e6; }
   .result-list__icon .tooltip.in {
     opacity: 1;
-    transition: opacity 1s ease; }
+    transition: opacity .75s ease; }
   .result-list__icon .tooltip.top .tooltip-arrow {
     bottom: -4px;
     left: 50%;
