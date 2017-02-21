@@ -58,7 +58,7 @@ describe('int938 Integration | Component | WindowComparison', function () {
       // then
       expect(this.$()).to.have.length(1);
       expect(this.$('.comparison-window--body .challenge-statement__instruction').text()).to.equal('This is the instruction');
-      expect(this.$('.assessment-results-result-index').text().trim()).to.equal('3');
+      expect(this.$('.result-list__index').text().trim()).to.equal('3');
     });
   });
 });
