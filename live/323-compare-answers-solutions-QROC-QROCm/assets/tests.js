@@ -2026,7 +2026,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test.lint-test'
 });
 define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  _mocha.describe.only('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', function () {
+  (0, _mocha.describe)('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', function () {
 
     var RESULT_URL = '/assessments/ref_assessment_id/results';
     var COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4';
@@ -2083,7 +2083,6 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['expor
 
             case 5:
               (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
-              // XXX test env needs the modal to be closed manually
               context$3$0.next = 8;
               return regeneratorRuntime.awrap(click('.close-button-container'));
 
@@ -2106,7 +2105,6 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['expor
 
             case 2:
               (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
-              // XXX test env needs the modal to be closed manually
               context$3$0.next = 5;
               return regeneratorRuntime.awrap(click('.close-button-container'));
 
@@ -2142,7 +2140,6 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['expor
               (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
               (0, _chai.expect)($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(1);
 
-              // XXX test env needs the modal to be closed manually
               context$3$0.next = 11;
               return regeneratorRuntime.awrap(click('.close-button-container'));
 
@@ -2172,7 +2169,6 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['expor
             case 5:
               (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
 
-              // XXX test env needs the modal to be closed manually
               context$3$0.next = 8;
               return regeneratorRuntime.awrap(click('.close-button-container'));
 
@@ -2239,10 +2235,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test.lint-test
 
   describe('ESLint - acceptance/j2-compare-answer-solution-qroc-test.js', function () {
     it('should pass ESLint', function () {
-      // precompiled test failed
-      var error = new chai.AssertionError('acceptance/j2-compare-answer-solution-qroc-test.js should pass ESLint.\n6:15  - Strings must use singlequote. (quotes)\n30:12  - Strings must use singlequote. (quotes)\n32:8  - Strings must use singlequote. (quotes)\n47:8  - Strings must use singlequote. (quotes)\n54:5  - Missing semicolon. (semi)');
-      error.stack = undefined;
-      throw error;
+      // precompiled test passed
     });
   });
 });
