@@ -48,10 +48,7 @@ const resultList = Ember.Component.extend({
   },
 
   resultItemContent: Ember.computed('answer.result', function () {
-    /* eslint-disable no-alert, no-console */
-    console.log(this.get('answer.result'));
-    /* eslint-enable no-alert, no-console */
-    if(!this.get('answer.result')) return ;
+    if(!this.get('answer.result')) return;
     return contentReference[this.get('answer.result')] || contentReference['default'];
   })
 });
