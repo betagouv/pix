@@ -3837,20 +3837,22 @@ define('pix-live/tests/integration/components/qcu-proposals-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/integration/components/qroc-answer-comparison-box-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/qroc-answer-comparison-box-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
 
-  var ANSWER_BLOCK = '.answer-block';
-  var ANSWER_INPUT = '.answer-block__input';
-  var SOLUTION_BLOCK = '.solution-block';
-  var SOLUTION_DISPLAY = '.solution-block__display';
+  var ANSWER_BLOCK = '.correction-qroc-box__answer';
+  var ANSWER_INPUT = '.correction-qroc-box--answer__input';
+  var SOLUTION_BLOCK = '.correction-qroc-box__solution';
+  var SOLUTION_DISPLAY = '.correction-qroc-box__solution-text';
 
-  _mocha.describe.only('Integration | Component | qroc answer comparison box', function () {
+  var RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
+
+  (0, _mocha.describe)('Integration | Component | qroc answer comparison box', function () {
     (0, _emberMocha.setupComponentTest)('qroc-answer-comparison-box', {
       integration: true
     });
 
     (0, _mocha.it)('renders', function () {
-      this.render(Ember.HTMLBars.template({
+      this.render(_ember['default'].HTMLBars.template({
         'id': 'ThOsB1Kc',
         'block': '{"statements":[["append",["unknown",["qroc-answer-comparison-box"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
         'meta': {}
@@ -3860,7 +3862,7 @@ define('pix-live/tests/integration/components/qroc-answer-comparison-box-test', 
 
     (0, _mocha.it)('should disabled all inputs', function () {
       // given
-      this.render(Ember.HTMLBars.template({
+      this.render(_ember['default'].HTMLBars.template({
         'id': 'ThOsB1Kc',
         'block': '{"statements":[["append",["unknown",["qroc-answer-comparison-box"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
         'meta': {}
@@ -3872,14 +3874,14 @@ define('pix-live/tests/integration/components/qroc-answer-comparison-box-test', 
 
     (0, _mocha.describe)('comparison when the answer is right', function () {
 
-      var assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
-      var challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
-      var answer = Ember.Object.extend({ id: 'answer_id', isResultOk: true, assessment: assessment, challenge: challenge }).create();
+      var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
+      var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
+      var answer = _ember['default'].Object.extend({ id: 'answer_id', isResultOk: true, assessment: assessment, challenge: challenge }).create();
 
       (0, _mocha.it)('should diplay the answer in bold green and not the solution', function () {
         // given
         this.set('answer', answer);
-        this.render(Ember.HTMLBars.template({
+        this.render(_ember['default'].HTMLBars.template({
           'id': '8mO6ACoT',
           'block': '{"statements":[["append",["helper",["qroc-answer-comparison-box"],null,[["answer"],[["get",["answer"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
@@ -3893,7 +3895,7 @@ define('pix-live/tests/integration/components/qroc-answer-comparison-box-test', 
         (0, _chai.expect)(answerBlock).to.have.length(1);
         (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('bold');
         (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('none');
-        (0, _chai.expect)(answerInput.css('color')).to.be.equal('rgb(19, 201, 160)');
+        (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
         (0, _chai.expect)(solutionBlock).to.have.length(0);
       });
     });
@@ -3901,12 +3903,12 @@ define('pix-live/tests/integration/components/qroc-answer-comparison-box-test', 
     (0, _mocha.describe)('comparison when the answer is false', function () {
 
       (0, _mocha.beforeEach)(function () {
-        var assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
-        var challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
-        var answer = Ember.Object.extend({ id: 'answer_id', isResultOk: false, assessment: assessment, challenge: challenge }).create();
+        var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
+        var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
+        var answer = _ember['default'].Object.extend({ id: 'answer_id', isResultOk: false, assessment: assessment, challenge: challenge }).create();
 
         this.set('answer', answer);
-        this.render(Ember.HTMLBars.template({
+        this.render(_ember['default'].HTMLBars.template({
           'id': '8mO6ACoT',
           'block': '{"statements":[["append",["helper",["qroc-answer-comparison-box"],null,[["answer"],[["get",["answer"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
@@ -3929,7 +3931,7 @@ define('pix-live/tests/integration/components/qroc-answer-comparison-box-test', 
         var blockSolutionText = this.$(SOLUTION_DISPLAY);
         // then
         (0, _chai.expect)(blockSolution).to.have.length(1);
-        (0, _chai.expect)(blockSolutionText.css('color')).to.be.equal('rgb(19, 201, 160)');
+        (0, _chai.expect)(blockSolutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
         (0, _chai.expect)(blockSolutionText.css('font-weight')).to.be.equal('bold');
       });
     });
@@ -3940,10 +3942,7 @@ define('pix-live/tests/integration/components/qroc-answer-comparison-box-test.li
 
   describe('ESLint - integration/components/qroc-answer-comparison-box-test.js', function () {
     it('should pass ESLint', function () {
-      // precompiled test failed
-      var error = new chai.AssertionError('integration/components/qroc-answer-comparison-box-test.js should pass ESLint.\n31:24  - \'Ember\' is not defined. (no-undef)\n32:23  - \'Ember\' is not defined. (no-undef)\n33:20  - \'Ember\' is not defined. (no-undef)\n56:26  - \'Ember\' is not defined. (no-undef)\n57:25  - \'Ember\' is not defined. (no-undef)\n58:22  - \'Ember\' is not defined. (no-undef)');
-      error.stack = undefined;
-      throw error;
+      // precompiled test passed
     });
   });
 });
@@ -4590,6 +4589,45 @@ define('pix-live/tests/unit/components/qroc-answer-comparison-box-test', ['expor
         var solutionToDisplay = component.get('solutionToDisplay');
         // then
         (0, _chai.expect)(solutionToDisplay).to.equal('Reponse');
+      });
+
+      (0, _mocha.it)('should return the solution', function () {
+        // given
+        var solution = {
+          value: 'Reponse'
+        };
+        var component = this.subject();
+        component.set('solution', solution);
+        // when
+        var solutionToDisplay = component.get('solutionToDisplay');
+        // then
+        (0, _chai.expect)(solutionToDisplay).to.equal('Reponse');
+      });
+
+      (0, _mocha.it)('should return an empty string if the solution is null', function () {
+        // given
+        var emptySolution = {
+          value: ''
+        };
+        var component = this.subject();
+        component.set('solution', emptySolution);
+        // when
+        var solutionToDisplay = component.get('solutionToDisplay');
+        // then
+        (0, _chai.expect)(solutionToDisplay).to.equal('');
+      });
+
+      (0, _mocha.it)('should return an empty string if the solution is an empty String', function () {
+        // given
+        var solutionNull = {
+          value: null
+        };
+        var component = this.subject();
+        component.set('solution', solutionNull);
+        // when
+        var solutionToDisplay = component.get('solutionToDisplay');
+        // then
+        (0, _chai.expect)(solutionToDisplay).to.equal('');
       });
     });
   });
