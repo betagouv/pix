@@ -64,14 +64,14 @@
   border-radius: 5px;
 }
 
-.assessment-results-result-titre {
+.assessment-comparison__title {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-left: 15px;
 }
 
-.assessment-results-result-text {
+.assessment-results__title-text {
   display: flex;
   margin-left: 9px;
   max-width: 618.5px;
