@@ -7,14 +7,14 @@
   padding: 8px;
 }
 
-.rightAnswer {
+.answer-block__input-right-answer {
   font-family: var(--font-lato);
   font-size: 16px;
-  font-weight: 900;
+  font-weight: bold;
   color: #13c9a0;
 }
 
-.wrongAnswer{
+.answer-block__input-wrong-answer{
   font-family: var(--font-lato);
   font-size: 16px;
   color: var(--charcoal-grey);
