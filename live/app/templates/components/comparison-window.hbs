@@ -107,6 +107,24 @@
           </div>
         {{/if}}
 
+          {{#if isAssessmentChallengeTypeQrocm}}
+          <div class="comparison-window__corrected-answers comparison-window__corrected-answers--qrocm">
+            {{qrocm-solution-panel answer=answer solution=solution }}
+          </div>
+        {{/if}}
+
+        {{#if isAssessmentChallengeTypeQrocmInd}}
+          <div class="comparison-window__corrected-answers comparison-window__corrected-answers--qrocm">
+            {{qrocm-solution-panel answer=answer solution=solution challenge=challenge}}
+          </div>
+        {{/if}}
+
+        {{#if isAssessmentChallengeTypeQrocmDep}}
+          <div class="comparison-window__corrected-answers comparison-window__corrected-answers--qrocm">
+            {{qrocm-solution-panel answer=answer solution=solution challenge=challenge}}
+          </div>
+        {{/if}}
+
         </div>
       </div>
 
