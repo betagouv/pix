@@ -39,7 +39,7 @@ const contentReference = {
 
 };
 
-const timeOutAfterRender = 1000; //XXX: Wait before execute plugin
+const timeOutAfterRender = 1000; //XXX: Wait after attribute rendering
 
 const resultItem = Ember.Component.extend({
   didRender() {
@@ -52,7 +52,17 @@ const resultItem = Ember.Component.extend({
   resultItemContent: Ember.computed('answer.result', function () {
     if(!this.get('answer.result')) return;
     return contentReference[this.get('answer.result')] || contentReference['default'];
-  })
+  }),
+
+  actions: {
+    openComparisonPopin(){
+      const assessmentId = this.get('answer.assessment.id');
+      const answerId = this.get('answer.id');
+      const index = this.get('answer.index') + 1;
+
+      this.sendAction('openComparison', assessmentId, answerId, index);
+    }
+  }
 });
 
 

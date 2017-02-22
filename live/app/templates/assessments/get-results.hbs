@@ -9,10 +9,9 @@
     <div class="assessment-results__title">
       Vos résultats
     </div>
-
     <div class="assessment-results__list">
       {{#each model.answers as |answer index|}}
-        {{result-item answer index}}
+        {{result-item answer index openComparison="openComparison"}}
       {{/each}}
     </div>
 

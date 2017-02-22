@@ -42,13 +42,13 @@
   <div class="result-list__instruction">
     {{strip-instruction (convert-to-html answer.challenge.instruction)}}
   </div>
-
   <div class="result-list__correction">
     {{#if (eq answer.challenge.type "QCM")}}
       <button class="result-list__correction__button js-correct-answer"
-        {{action (route-action "openComparison" answer.assessment.id answer.id (add index 1))}}> RÉPONSE
+        {{action "openComparisonPopin"}}> RÉPONSE
       </button>
     {{/if}}
   </div>
+
 
 </div>

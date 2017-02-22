@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe.only('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() {
+describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() {
 
   let application;
 
