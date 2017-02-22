@@ -32,6 +32,9 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
     it('Should remove leading and trailing spaces, for example " Crème BrûLée  "=> "cremebrulee"', function () {
       expect(service._treatmentT1('Crème BrûLée')).to.equal('cremebrulee');
     });
+    it('Should remove all spaces, even multiplied & repeated for example " Crème BrûLée   1  "=> "cremebrulee1"', function () {
+      expect(service._treatmentT1(' Crème BrûLée   1  ')).to.equal('cremebrulee1');
+    });
   });
 
   describe('_treatmentT2', function() {
@@ -82,5 +85,36 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
       expect(service._smallestLevenshteinDistance('book', ['back', 'buck'])).to.equal(2);
     });
   });
+
+  describe('treatmentT1T2T3', function() {
+    it('Should exist', function () {
+      expect(service.treatmentT1T2T3).to.exist;
+    });
+    it('Should return null if adminAnswers is not an array of String', function () {
+      expect(service.treatmentT1T2T3('quack', [new Date(), new Date()])).to.equal(null);
+    });
+    it('Should return t1 treatment', function () {
+      expect(service.treatmentT1T2T3(' Crème BrûLée 1 ', ['any']).t1).to.equal('cremebrulee1');
+    });
+    it('Should return t2 treatment', function () {
+      expect(service.treatmentT1T2T3('Th!!is.,', ['any']).t2).to.equal('This');
+    });
+    it('Should return t1 & t2 treatment', function () {
+      expect(service.treatmentT1T2T3('Th!!is., is  Crème BrûLée 1 ', ['any']).t1t2).to.equal('thisiscremebrulee1');
+    });
+    it('Should return t3 ratio', function () {
+      expect(service.treatmentT1T2T3('beck', ['back', 'book']).t3Ratio).to.equal(0.25);
+    });
+    it('Should return t3 ratio applied to t1', function () {
+      expect(service.treatmentT1T2T3(' Béck ', ['back', 'book']).t1t3Ratio).to.equal(0.25);
+    });
+    it('Should return t3 ratio applied to t2', function () {
+      expect(service.treatmentT1T2T3('th!!is.', ['that', 'those']).t2t3Ratio).to.equal(0.5);
+    });
+    it('Should return t3 ratio applied to t1 and t2', function () {
+      expect(service.treatmentT1T2T3('th!!as.  Brùlèe', ['thatsbrulee', 'blabla']).t1t2t3Ratio).to.equal(0.1);
+    });
+  });
+
 
 });

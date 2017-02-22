@@ -60,7 +60,7 @@ function _removeAccentsSpacesUppercase(rawAnswer) {
   // Remove accents/diacritics in a string in JavaScript
   // http://stackoverflow.com/a/37511463/827989
   // replace \u00A0\ is for unbreakable space which can come from excel copypaste
-  return rawAnswer.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u00A0/g, ' ').replace(' ', '');
+  return rawAnswer.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u00A0/g, ' ').replace(/\s/g, '');
 
 }
 
