@@ -16,14 +16,137 @@ function _getSolutionKeys(solutions) {
   return Object.keys(solutions);
 }
 
+/*------------------------------------------------
 
+Calculates ALL possible validations for ALL answers
+
+Example
+
+answers
+{ num1: 'google.fr', num2: 'bad answer', num3: 'bad answer' };
+
+solutions
+{ Google: 'google,google.fr,google search', Yahoo: 'yahoo,yahoo answer', Bing: 'bing' };
+
+Returns
+
+
+{
+  "google.fr_num1": [
+    {
+      "userAnswer": "google.fr"
+      "adminAnswers": "[\"google\",\"google.fr\",\"google search\"]"
+      "t1": "google.fr"
+      "t1t2": "googlefr"
+      "t1t2t3Ratio": 0.15
+      "t1t3Ratio": 0
+      "t2": "googlefr"
+      "t2t3Ratio": 0.15
+      "t3Ratio": 0
+    }
+    {
+      "userAnswer": "google.fr"
+      "adminAnswers": "[\"yahoo\",\"yahoo answer\"]"
+      "t1": "google.fr"
+      "t1t2": "googlefr"
+      "t1t2t3Ratio": 1
+      "t1t3Ratio": 1
+      "t2": "googlefr"
+      "t2t3Ratio": 1
+      "t3Ratio": 1
+    }
+    {
+      "userAnswer": "google.fr"
+      "adminAnswers": "[\"bing\"]"
+      "t1": "google.fr"
+      "t1t2": "googlefr"
+      "t1t2t3Ratio": 0.875
+      "t1t3Ratio": 0.88
+      "t2": "googlefr"
+      "t2t3Ratio": 0.875
+      "t3Ratio": 0.88
+    }
+  ],
+  "bad answer_num2": [
+    {
+      "userAnswer": "bad answer"
+      "adminAnswers": "[\"google\",\"google.fr\",\"google search\"]"
+      "t1": "badanswer"
+      "t1t2": "badanswer"
+      "t1t2t3Ratio": 0.88
+      "t1t3Ratio": 0.88
+      "t2": "bad answer"
+      "t2t3Ratio": 0.9
+      "t3Ratio": 0.9
+    }
+    {
+      "userAnswer": "bad answer"
+      "adminAnswers": "[\"yahoo\",\"yahoo answer\"]"
+      "t1": "badanswer"
+      "t1t2": "badanswer"
+      "t1t2t3Ratio": 0.55
+      "t1t3Ratio": 0.55
+      "t2": "bad answer"
+      "t2t3Ratio": 0.4
+      "t3Ratio": 0.4
+    }
+    {
+      "userAnswer": "bad answer"
+      "adminAnswers": "[\"bing\"]"
+      "t1": "badanswer"
+      "t1t2": "badanswer"
+      "t1t2t3Ratio": 0.77
+      "t1t3Ratio": 0.77
+      "t2": "bad answer"
+      "t2t3Ratio": 0.8
+      "t3Ratio": 0.8
+    }
+  ],
+  "bad answer_num3": [
+    {
+      "userAnswer": "bad answer"
+      "adminAnswers": "[\"google\",\"google.fr\",\"google search\"]"
+      "t1": "badanswer"
+      "t1t2": "badanswer"
+      "t1t2t3Ratio": 0.88
+      "t1t3Ratio": 0.88
+      "t2": "bad answer"
+      "t2t3Ratio": 0.9
+      "t3Ratio": 0.9
+    }
+    {
+      "userAnswer": "bad answer"
+      "adminAnswers": "[\"yahoo\",\"yahoo answer\"]"
+      "t1": "badanswer"
+      "t1t2": "badanswer"
+      "t1t2t3Ratio": 0.55
+      "t1t3Ratio": 0.55
+      "t2": "bad answer"
+      "t2t3Ratio": 0.4
+      "t3Ratio": 0.4
+    }
+    {
+      "userAnswer": "bad answer"
+      "adminAnswers": "[\"bing\"]"
+      "t1": "badanswer"
+      "t1t2": "badanswer"
+      "t1t2t3Ratio": 0.77
+      "t1t3Ratio": 0.77
+      "t2": "bad answer"
+      "t2t3Ratio": 0.8
+      "t3Ratio": 0.8
+    }
+  ]
+
+}
+------------------------------------------------ */
 function _calculateValidation(answers, solutions) {
 
   const validations = {};
 
-  _.each(answers, (answer) => {
+  _.each(answers, (answer, index) => {
 
-    const indexation = answer + '_' + _.guid();
+    const indexation = answer + '_' + index;
     const solutionKeys = _getSolutionKeys(solutions);
 
     _.each(solutionKeys, (solutionKey) => {
@@ -41,29 +164,22 @@ function _calculateValidation(answers, solutions) {
   return validations;
 }
 
-function _numberOfGoodAnswers(newValidations) {
-  const allGoodAnswers = _goodAnswers(newValidations);
-  // console.log('');
-  // console.log('allGoodAnswers- - - - - - - - - - - - - - - - - - - - ', allGoodAnswers);
+function _numberOfGoodAnswers(fullValidations) {
+  const allGoodAnswers = _goodAnswers(fullValidations);
   const uniqGoodAnswers = _.uniqBy(allGoodAnswers, 'adminAnswers');
-  // console.log('uniqGoodAnswers- - - - - - - - - - - - - - - - - - - - ', uniqGoodAnswers);
   return uniqGoodAnswers.length;
 }
 
-function _goodAnswers(newValidations) {
-  // rawGoodAnswers contains good answers, and null values to represent bad answers.
-  const rawGoodAnswers = _.map(newValidations, (newValidation) => {
-    return _goodAnswer(newValidation);
-  });
-
-  //removes null values, so that we keep only good answers
-  const goodAnswers = _.filter(rawGoodAnswers, (e) => e !== null);
-  return goodAnswers;
+function _goodAnswers(fullValidations) {
+  return _.chain(fullValidations)
+          .map(_goodAnswer) // null values to represents bad answers.
+          .filter((e) => e !== null)
+          .value();
 }
 
 // the lowest t1t2t3 ratio is below 0.25
-function _goodAnswer(newValidation) {
-  const bestAnswerSoFar = _.minBy(newValidation, (e) => e.t1t2t3Ratio);
+function _goodAnswer(fullValidation) {
+  const bestAnswerSoFar = _.minBy(fullValidation, (e) => e.t1t2t3Ratio);
   return bestAnswerSoFar.t1t2t3Ratio <= 0.25 ? bestAnswerSoFar : null;
 }
 
@@ -71,7 +187,7 @@ function _calculateResult(scoring, validations) {
   let result = 'ok';
 
   const numberOfGoodAnswers = _numberOfGoodAnswers(validations);
-// console.log('_.size(validations)- - - - - - - - - - - - - - - - - - - - ', _.size(validations);
+
   if (_.isEmpty(scoring)) {
     if (numberOfGoodAnswers !== _.size(validations)) {
       result = 'ko';
@@ -93,28 +209,22 @@ function _calculateResult(scoring, validations) {
 }
 
 module.exports = {
-
+  _calculateValidation,
   match(yamlAnswer, yamlSolution, yamlScoring) {
     // Convert Yaml to JS objects
-    let answers = jsYaml.safeLoad(yamlAnswer);
+    const answers = jsYaml.safeLoad(yamlAnswer);
     let solutions = jsYaml.safeLoad(yamlSolution);
     const scoring = jsYaml.safeLoad(yamlScoring);
 
-    // Treatments
-    answers = _applyTreatments(answers);
+
+    // We allow the admin to mistakenly enter uppercases and spaces before/after actual solution
     solutions = _applyTreatments(solutions);
 
     // Comparisons
     // const validations = _compareAnswersAndSolutions(answers, solutions);
-    const newValidations = _calculateValidation(answers, solutions);
-// console.log('validations- - - - - - - - - - - - - - - - - - - - - ', validations);
-// console.log('solutions- - - - - - - - - - - - - - - - - - - - ', solutions);
-// console.log('newValidations - - - - - - - - - - - - - - - - - - - - - ', newValidations);
-    // console.log('new _numberOfGoodAnswers- - - - - - - - - - - - - - - - - - - - ', _numberOfGoodAnswers(newValidations));
-    // console.log('answers- - - - - - - - - - - - - - - - - - - - ', answers);
-// console.log('solutions- - - - - - - - - - - - - - - - - - - - ', solutions);
-    // Restitution
-    return _calculateResult(scoring, newValidations);
+    const fullValidations = _calculateValidation(answers, solutions);
+
+    return _calculateResult(scoring, fullValidations);
   }
 
 };

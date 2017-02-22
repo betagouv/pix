@@ -2,13 +2,17 @@ const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 
-
-function applyTreatmentsToAnswers(answers) {
-  _.each(answers, (answer, index) => {
-    answers[index] = answer.toString().trim().toLowerCase();
+function _applyTreatmentsToSolutions(solutions) {
+  _.each(solutions, (solution, index) => {
+    const validOptions = [];
+    solution.forEach((validValue) => {
+      validOptions.push(validValue.toString().trim().toLowerCase());
+    });
+    solutions[index] = validOptions;
   });
-  return answers;
+  return solutions;
 }
+
 
 function calculateResult(treatedAnswers) {
   let result = 'ok';
@@ -34,7 +38,9 @@ module.exports = {
 
     //convert YAML to JSObject
     const answers = jsYaml.load(yamlAnswer);
-    const solutions = jsYaml.load(yamlSolution);
+    let solutions = jsYaml.load(yamlSolution);
+
+    solutions = _applyTreatmentsToSolutions(solutions);
 
     const treatedAnswers = _.map(answers, function(answer, keyAnswer) {
       const solutionsToAnswer = solutions[keyAnswer];
