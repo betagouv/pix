@@ -45,7 +45,7 @@ const _levenshtein = (a, b) => {
 };
 
 // Calculate the smallest levenshtein distance
-function smallestLevenshteinDistance(userAnswer, adminAnswers) {
+function _smallestLevenshteinDistance(userAnswer, adminAnswers) {
 
   let min = _levenshtein(userAnswer, adminAnswers[0]);
   if (adminAnswers.length === 1) {
@@ -62,19 +62,7 @@ function smallestLevenshteinDistance(userAnswer, adminAnswers) {
 
 }
 
-function areStringListEquivalent(listA, listB) {
-  let result = false;
-  try {
-    const trimmedListA = listA.split(',').map(s => s.trim());
-    const trimmedListB = listB.split(',').map(s => s.trim());
-    result = (trimmedListA.sort().join(',') === trimmedListB.sort().join(','));
-  } catch (e) {
-    result = false;
-  }
-  return result;
-}
-
-function removeAccentsSpacesUppercase(rawAnswer) {
+function _removeAccentsSpacesUppercase(rawAnswer) {
   // Remove accents/diacritics in a string in JavaScript
   // http://stackoverflow.com/a/37511463/827989
   // replace \u00A0\ is for unbreakable space which can come from excel copypaste
@@ -85,7 +73,7 @@ function removeAccentsSpacesUppercase(rawAnswer) {
 // Remove diacritics
 function _treatmentT1(strArg) {
   if (_.isString(strArg)) {
-    return removeAccentsSpacesUppercase(strArg);
+    return _removeAccentsSpacesUppercase(strArg);
   }
   return '';
 }
@@ -106,7 +94,7 @@ function _treatmentT3(userAnswer, adminAnswers) {
   if (_.isNotString(userAnswer)) return null;
   if (_.isEmpty(adminAnswers)) return null;
 
-  return smallestLevenshteinDistance(userAnswer, adminAnswers) / userAnswer.length;
+  return _smallestLevenshteinDistance(userAnswer, adminAnswers) / userAnswer.length;
 
 }
 
@@ -131,23 +119,22 @@ function treatmentT1T2T3(userAnswer, adminAnswers) {
 }
 
 function fuzzyMatchingWithAnswers(userAnswer, correctAnswersList) {
-  userAnswer = removeAccentsSpacesUppercase(userAnswer);
+  userAnswer = _removeAccentsSpacesUppercase(userAnswer);
   const correctAnswersArray = _arrayToNonEmptyStringArray(correctAnswersList);
   const result = _.some(correctAnswersArray, function(possibleAnswer) {
-    return userAnswer === removeAccentsSpacesUppercase(possibleAnswer);
+    return userAnswer === _removeAccentsSpacesUppercase(possibleAnswer);
   });
   return result ;
 }
 
 module.exports = {
-  smallestLevenshteinDistance,
-  removeAccentsSpacesUppercase,
+  _smallestLevenshteinDistance,
+  _removeAccentsSpacesUppercase,
   fuzzyMatchingWithAnswers,
   _treatmentT1,
   _treatmentT2,
   _treatmentT3,
   treatmentT1T2T3,
-  areStringListEquivalent
 };
 
 

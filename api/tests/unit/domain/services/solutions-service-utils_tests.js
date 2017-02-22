@@ -100,23 +100,23 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
     });
   });
 
-  describe('smallestLevenshteinDistance', function() {
+  describe('_smallestLevenshteinDistance', function() {
     it('Should exist', function () {
-      expect(service.smallestLevenshteinDistance).to.exist;
+      expect(service._smallestLevenshteinDistance).to.exist;
     });
     it('Should return levenshtein distance if only one adminAnswer is given', function () {
-      expect(service.smallestLevenshteinDistance('', [''])).to.equal(0);
-      expect(service.smallestLevenshteinDistance('a', ['a'])).to.equal(0);
-      expect(service.smallestLevenshteinDistance('a', ['ab'])).to.equal(1);
-      expect(service.smallestLevenshteinDistance('book', ['back'])).to.equal(2);
+      expect(service._smallestLevenshteinDistance('', [''])).to.equal(0);
+      expect(service._smallestLevenshteinDistance('a', ['a'])).to.equal(0);
+      expect(service._smallestLevenshteinDistance('a', ['ab'])).to.equal(1);
+      expect(service._smallestLevenshteinDistance('book', ['back'])).to.equal(2);
     });
     it('Should return the smallest levenshtein distance if many adminAnswers are given', function () {
-      expect(service.smallestLevenshteinDistance('', ['', 'a'])).to.equal(0);
-      expect(service.smallestLevenshteinDistance('a', ['a', 'ab'])).to.equal(0);
-      expect(service.smallestLevenshteinDistance('a', ['ab', 'abdcef'])).to.equal(1);
-      expect(service.smallestLevenshteinDistance('a', ['abcdef', 'ab'])).to.equal(1);
-      expect(service.smallestLevenshteinDistance('a', ['abcdef', 'ab', 'azerty'])).to.equal(1);
-      expect(service.smallestLevenshteinDistance('book', ['back', 'buck'])).to.equal(2);
+      expect(service._smallestLevenshteinDistance('', ['', 'a'])).to.equal(0);
+      expect(service._smallestLevenshteinDistance('a', ['a', 'ab'])).to.equal(0);
+      expect(service._smallestLevenshteinDistance('a', ['ab', 'abdcef'])).to.equal(1);
+      expect(service._smallestLevenshteinDistance('a', ['abcdef', 'ab'])).to.equal(1);
+      expect(service._smallestLevenshteinDistance('a', ['abcdef', 'ab', 'azerty'])).to.equal(1);
+      expect(service._smallestLevenshteinDistance('book', ['back', 'buck'])).to.equal(2);
     });
   });
 
