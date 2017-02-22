@@ -2572,15 +2572,6 @@ define('pix-live/tests/components/qrocm-proposal.lint-test', ['exports'], functi
     });
   });
 });
-define('pix-live/tests/components/qrocm-solution-panel.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - components/qrocm-solution-panel.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/components/timeout-jauge.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -4532,41 +4523,6 @@ define('pix-live/tests/integration/components/qrocm-proposal-test.lint-test', ['
     });
   });
 });
-define('pix-live/tests/integration/components/qrocm-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
-
-  (0, _mocha.describe)('Integration | Component | qrocm solution panel', function () {
-    (0, _emberMocha.setupComponentTest)('qrocm-solution-panel', {
-      integration: true
-    });
-
-    (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#qrocm-solution-panel}}
-      //     template content
-      //   {{/qrocm-solution-panel}}
-      // `);
-
-      this.render(Ember.HTMLBars.template({
-        'id': 'LsPG1Tkd',
-        'block': '{"statements":[["append",["unknown",["qrocm-solution-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-        'meta': {}
-      }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
-    });
-  });
-});
-define('pix-live/tests/integration/components/qrocm-solution-panel-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - integration/components/qrocm-solution-panel-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/window-comparison-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
 
   (0, _mocha.describe)('int938 Integration | Component | WindowComparison', function () {
@@ -5262,19 +5218,6 @@ define('pix-live/tests/unit/components/qroc-solution-panel-test.lint-test', ['ex
   'use strict';
 
   describe('ESLint - unit/components/qroc-solution-panel-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define("pix-live/tests/unit/components/qrocm-solution-panel-test", ["exports"], function (exports) {});
-/**
- * Created by brm on 22/02/2017.
- */
-define('pix-live/tests/unit/components/qrocm-solution-panel-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - unit/components/qrocm-solution-panel-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
