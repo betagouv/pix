@@ -11,11 +11,9 @@ module.exports = {
 
     const solutions = solution.split('\n').filter(Boolean); // removes empty String
 
-    const treatmentT1 = utils.treatmentT1(answer);
-    const treatmentT2 = utils.treatmentT2(treatmentT1);
-    const treatmentT3 = utils.treatmentT3(treatmentT2, solutions);
+    const treatedAnswer = utils.treatmentT1T2T3(answer, solutions);
 
-    if (treatmentT3 <= 0.25) {
+    if (treatedAnswer.t1t2t3Ratio <= 0.25) {
       return 'ok';
     }
     return 'ko';

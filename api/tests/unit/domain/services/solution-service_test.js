@@ -166,7 +166,7 @@ describe('Unit | Service | SolutionService', function () {
         {case:'solution is empty', answer: '', solution : ''},
         {case:'answer is not a String', answer: new Date(), solution : ''},
         {case:'solution is not a String', answer: 'a', solution : new Date()},
-        {case:'answer does not match any solution variants', answer: 'abadanswer', solution: 'unmatched solution variant'},
+        {case:'answer does not match any solution variants', answer: 'abandoned answer', solution: 'unmatched solution variant'},
         {case:'(single solution) answer is 0.3 away from solution', answer: '0123456789', solution: '1234567'},
         {case:'(single solution) answer is 0.5 away from solution', answer: '0123456789', solution: '12345'},
         {case:'(single solution) answer is 10 away from solution', answer: 'a', solution: '0123456789'},

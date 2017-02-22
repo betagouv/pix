@@ -14,7 +14,7 @@ function _applyTreatmentsToSolutions(solutions) {
 }
 
 
-function calculateResult(treatedAnswers) {
+function _calculateResult(treatedAnswers) {
   let result = 'ok';
 
   _.each(treatedAnswers, (treatedAnswer) => {
@@ -49,7 +49,7 @@ module.exports = {
 
 
     //Restitution
-    return calculateResult(treatedAnswers);
+    return _calculateResult(treatedAnswers);
 
   }
 
