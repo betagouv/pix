@@ -4370,7 +4370,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['expor
   var RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
   var NO_ANSWER_GREY = 'rgb(51, 51, 51)';
 
-  _mocha.describe.only('Integration | Component | qroc solution panel', function () {
+  (0, _mocha.describe)('Integration | Component | qroc solution panel', function () {
     (0, _emberMocha.setupComponentTest)('qroc-solution-panel', {
       integration: true
     });
