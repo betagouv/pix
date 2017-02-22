@@ -5,38 +5,7 @@ const service = require('../../../../lib/domain/services/solution-service-utils'
 
 describe('Unit | Domain | Services | solution-service-utils', function () {
 
-  describe('#fuzzyMatchingWithAnswers', function () {
 
-    const correctAnswersList = ['60 582 555', '60582555'];
-
-    [
-    { title: 'a string without space', value: '60582555' },
-    { title: 'a string with spaces', value: '60 582 555' },
-    { title: 'a string with not-breakable spaces', value: '60 582 555' },
-    { title: 'a string with normal spaces and not-breakable spaces', value: '60 582 555  ' }
-    ].forEach(userAnswer => {
-
-      it(`should return true even when user answer is ${userAnswer.title}`, function () {
-        const result = service.fuzzyMatchingWithAnswers(userAnswer.value, correctAnswersList);
-        expect(result).to.be.true;
-      });
-    });
-
-    [
-    { title: 'a string with unexpected normal spaces beetween numbers', value: '6 0 582 555' },
-    { title: 'when there is no answer', value: '' },
-    { title: 'when it is not the right value', value: '1' },
-    { title: 'when it is not a number', value: 'A' }
-    ].forEach(userAnswer => {
-
-      it(`should return true even when user answer is ${userAnswer.title}`, function () {
-        const result = service.fuzzyMatchingWithAnswers(userAnswer.value, correctAnswersList);
-        expect(result).to.be.false;
-      });
-
-    });
-
-  });
 
   describe('_treatmentT1', function() {
     it('Should exist', function () {
@@ -83,12 +52,6 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
   describe('_treatmentT3', function() {
     it('Should exist', function () {
       expect(service._treatmentT3).to.exist;
-    });
-    it('Should return null if no input is given', function () {
-      expect(service._treatmentT3()).to.equal(null);
-    });
-    it('Should return null if wrong input is given, for example "new Date(), new Date()"', function () {
-      expect(service._treatmentT3(new Date(), new Date())).to.equal(null);
     });
     it('Should return the ratio levenshtein / userAnswer.length', function () {
       expect(service._treatmentT3('a1', ['a1'])).to.equal(0);

@@ -40,8 +40,10 @@ module.exports = {
     const answers = jsYaml.load(yamlAnswer);
     let solutions = jsYaml.load(yamlSolution);
 
+    //Pre - Treatment
     solutions = _applyTreatmentsToSolutions(solutions);
 
+    //Comparison
     const treatedAnswers = _.map(answers, function(answer, keyAnswer) {
       const solutionsToAnswer = solutions[keyAnswer];
       return utils.treatmentT1T2T3(answer, solutionsToAnswer);

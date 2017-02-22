@@ -1,11 +1,5 @@
 const _ = require('../../../lib/infrastructure/utils/lodash-utils');
 
-function _arrayToNonEmptyStringArray(arr) {
-  if (_.isArray(arr)) {
-    return arr.filter(e => e != null).map(String);
-  }
-  return [];
-}
 
 // as offered by https://gist.github.com/andrei-m/982927
 const _levenshtein = (a, b) => {
@@ -90,10 +84,6 @@ function _treatmentT2(strArg) {
 // Calculate the smallest levenshtein distance
 function _treatmentT3(userAnswer, adminAnswers) {
 
-  if (_.isNotArrayOfString(adminAnswers)) return null;
-  if (_.isNotString(userAnswer)) return null;
-  if (_.isEmpty(adminAnswers)) return null;
-
   return _smallestLevenshteinDistance(userAnswer, adminAnswers) / userAnswer.length;
 
 }
@@ -118,19 +108,10 @@ function treatmentT1T2T3(userAnswer, adminAnswers) {
 
 }
 
-function fuzzyMatchingWithAnswers(userAnswer, correctAnswersList) {
-  userAnswer = _removeAccentsSpacesUppercase(userAnswer);
-  const correctAnswersArray = _arrayToNonEmptyStringArray(correctAnswersList);
-  const result = _.some(correctAnswersArray, function(possibleAnswer) {
-    return userAnswer === _removeAccentsSpacesUppercase(possibleAnswer);
-  });
-  return result ;
-}
+
 
 module.exports = {
   _smallestLevenshteinDistance,
-  _removeAccentsSpacesUppercase,
-  fuzzyMatchingWithAnswers,
   _treatmentT1,
   _treatmentT2,
   _treatmentT3,
