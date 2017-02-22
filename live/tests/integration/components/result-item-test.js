@@ -26,9 +26,11 @@ const answer = Ember.Object.create({
   }
 });
 
+const expectedPath = 'M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z';
+
 const expectedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieur...';
 
-describe.only('Integration | Component | result item', function () {
+describe('Integration | Component | result item', function () {
   setupComponentTest('result-item', {
     integration: true
   });
@@ -75,7 +77,7 @@ describe.only('Integration | Component | result item', function () {
       expect(this.$('.result-list__instruction').text()).to.contain('\n');
     });
 
-    it('component render an instruction which contain -', function () {
+    it(`component render an instruction which contain ${expectedChallengeInstruction}`, function () {
       // When
       addPropertyToComponent.call(this, 'answer', answer);
       addPropertyToComponent.call(this, 'index', 0);
@@ -93,6 +95,27 @@ describe.only('Integration | Component | result item', function () {
       this.render(hbs`{{result-item answer index}}`);
       // Then
       expect(this.$('.result-list__correction__button').text().trim()).to.deep.equal('RÉPONSE');
+    });
+
+    it('component render tooltip with title Réponse incorrecte', function () {
+      // When
+      addPropertyToComponent.call(this, 'answer', answer);
+      addPropertyToComponent.call(this, 'index', 0);
+
+      this.render(hbs`{{result-item answer index}}`);
+      // Then
+      expect(this.$('div[data-toggle="tooltip"]').attr('title').trim()).to.equal('Réponse incorrecte');
+    });
+
+    it('component render tooltip with svg', function () {
+      // When
+      addPropertyToComponent.call(this, 'answer', answer);
+      addPropertyToComponent.call(this, 'index', 0);
+
+      this.render(hbs`{{result-item answer index}}`);
+      // Then
+      expect(this.$('svg path').attr('d')).to.equal(expectedPath);
+      expect(this.$('svg path').attr('fill')).to.equal('#ff4600');
     });
   });
 

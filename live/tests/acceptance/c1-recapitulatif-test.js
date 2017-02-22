@@ -33,7 +33,7 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
   });
 
 
-  it.skip('c1.3 Pour une bonne réponse, le tableau récapitulatif donne une indication adéquate', function () {
+  it('c1.3 Pour une bonne réponse, le tableau récapitulatif donne une indication adéquate', function () {
     const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
     expect($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
   });
