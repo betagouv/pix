@@ -248,7 +248,7 @@ describe('Unit | Service | SolutionService', function () {
     });
 
 
-    describe('if solution type is QROCM-dep', function () {
+    describe  ('if solution type is QROCM-dep', function () {
 
       it('should return "ko" for badly formatted solution', function () {
         const answer = buildAnswer('num1: Google\nnum2: Yahoo');
@@ -302,7 +302,13 @@ describe('Unit | Service | SolutionService', function () {
       const maximalScoreCases = [
         {
           when: '3 correct answers are given, and scoring is 1-3',
-          answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: bing',
+          answer: 'num1: " google.fr"\nnum2: "yahoo answer "\nnum3: bing',
+          solution: threePossibleSolutions,
+          scoring: '1: @acquix\n2: @acquix\n3: @acquix'
+        },
+        {
+          when: '3 correct answers are given, (all 3 have punctation, accent and spaces errors), and scoring is 1-3',
+          answer: 'num1: " g Ooglé.FR!!--"\nnum2: "  Y?,,ahoo AnSwer "\nnum3: BìNg()()(',
           solution: threePossibleSolutions,
           scoring: '1: @acquix\n2: @acquix\n3: @acquix'
         },
@@ -326,6 +332,12 @@ describe('Unit | Service | SolutionService', function () {
         {
           when: '1 correct answers are given + 2 wrong, and scoring is 1-3',
           answer: 'num1: " google.fr"\nnum2: "bad answer"\nnum3: "bad answer"',
+          solution: threePossibleSolutions,
+          scoring: '1: @acquix\n2: @acquix\n3: @acquix'
+        },
+        {
+          when: '1 correct answers are given (despite accent, punctation and spacing errors) + 2 wrong, and scoring is 1-3',
+          answer: 'num1: " gooG lè!!.fr"\nnum2: "bad answer"\nnum3: "bad answer"',
           solution: threePossibleSolutions,
           scoring: '1: @acquix\n2: @acquix\n3: @acquix'
         },

@@ -16,34 +16,6 @@ function _getSolutionKeys(solutions) {
   return Object.keys(solutions);
 }
 
-function _removeMatchedSolutionIfExist(matchingSolutionKey, solutions) {
-  if (matchingSolutionKey) {
-    solutions = _.omit(solutions, matchingSolutionKey);
-  }
-  return solutions;
-}
-
-function _compareAnswersAndSolutions(answers, solutions) {
-
-  const validations = {};
-  _.each(answers, (answer) => {
-    validations[answer] = false;
-    const solutionKeys = _getSolutionKeys(solutions);
-    let matchingSolutionKey = null;
-    _.each(solutionKeys, (solutionKey) => {
-      if (validations[answer] === false) {
-        const solutionVariants = solutions[solutionKey];
-        if (!_.isEmpty(answer) && solutionVariants.includes(answer)) {
-          validations[answer] = true;
-          matchingSolutionKey = solutionKey;
-        }
-      }
-    });
-    solutions = _removeMatchedSolutionIfExist(matchingSolutionKey, solutions);
-  });
-  return validations;
-}
-
 
 function _calculateValidation(answers, solutions) {
 
