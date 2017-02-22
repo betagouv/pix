@@ -23,11 +23,6 @@ function _removeMatchedSolutionIfExist(matchingSolutionKey, solutions) {
   return solutions;
 }
 
-function _hasBadAnswers(validations) {
-  const badAnswers = _.filter(validations, (item) => item === false);
-  return !_.isEmpty(badAnswers);
-}
-
 function _compareAnswersAndSolutions(answers, solutions) {
 
   const validations = {};
@@ -53,66 +48,70 @@ function _compareAnswersAndSolutions(answers, solutions) {
 function _calculateValidation(answers, solutions) {
 
   const validations = {};
+
   _.each(answers, (answer) => {
+
+    const indexation = answer + '_' + _.guid();
     const solutionKeys = _getSolutionKeys(solutions);
+
     _.each(solutionKeys, (solutionKey) => {
+
       const solutionVariants = solutions[solutionKey];
-      if (_.isUndefined(validations[answer])) {
-        validations[answer] = [];
+
+      if (_.isUndefined(validations[indexation])) {
+        validations[indexation] = [];
       }
-        // console.log('answer- - - - - - - - - - - - - - - - - - - - ', answer);
-        // console.log('index- - - - - - - - - - - - - - - - - - - - ', index);
-        // console.log('solutionVariants- - - - - - - - - - - - - - - - - - - - ', solutionVariants);
-      validations[answer].push(utils.treatmentT1T2T3(answer, solutionVariants.split(',')));
-        // console.log('validations[' + answer + '_' + index + '] - - - - - - - - - - - - - - - - - - - - ', validations[answer + '_' + index]);
-        // console.log('');
+
+      validations[indexation].push(utils.treatmentT1T2T3(answer, solutionVariants.split(',')));
+
     });
   });
   return validations;
 }
 
-function _numberOfGoodAnswers(answers, newValidations) {
-  return _.filter(newValidations, _isGoodAnswer).length;
-  // let result = 0;
-  // _.each(answers, function(answer) {
-  //   // const groupedAnswer = _.groupBy(newValidations, function(e) {return e.userAnswer === answer;})[true];
-  //   const answerValidation = newValidations[answer];
-  //   console.log('newValidations- - - - - - - - - - - - - - - - - - - - ', newValidations);
-  //   // if (_isGoodAnswer(groupedAnswer)) {
-  //   //   result += 1;
-  //   // }
-  //   console.log('answer - - - - - - - - - - - - - - - - - - - - ', answer);
-  //   // console.log('groupedAnswer - - - - - - - - - - - - - - - - - - - - ', groupedAnswer);
-  //   console.log('');
-  // });
-  // return result;
+function _numberOfGoodAnswers(newValidations) {
+  const allGoodAnswers = _goodAnswers(newValidations);
+  // console.log('');
+  // console.log('allGoodAnswers- - - - - - - - - - - - - - - - - - - - ', allGoodAnswers);
+  const uniqGoodAnswers = _.uniqBy(allGoodAnswers, 'adminAnswers');
+  // console.log('uniqGoodAnswers- - - - - - - - - - - - - - - - - - - - ', uniqGoodAnswers);
+  return uniqGoodAnswers.length;
+}
+
+function _goodAnswers(newValidations) {
+  // rawGoodAnswers contains good answers, and null values to represent bad answers.
+  const rawGoodAnswers = _.map(newValidations, (newValidation) => {
+    return _goodAnswer(newValidation);
+  });
+
+  //removes null values, so that we keep only good answers
+  const goodAnswers = _.filter(rawGoodAnswers, (e) => e !== null);
+  return goodAnswers;
 }
 
 // the lowest t1t2t3 ratio is below 0.25
-function _isGoodAnswer(newValidation) {
-  return _.minBy(newValidation, (e) => e.t1t2t3Ratio).t1t2t3Ratio <= 0.25;
-}
-
-function _numberOfBadAnswers(newValidations) {
-  return newValidations.length - _numberOfGoodAnswers(newValidations);
+function _goodAnswer(newValidation) {
+  const bestAnswerSoFar = _.minBy(newValidation, (e) => e.t1t2t3Ratio);
+  return bestAnswerSoFar.t1t2t3Ratio <= 0.25 ? bestAnswerSoFar : null;
 }
 
 function _calculateResult(scoring, validations) {
   let result = 'ok';
 
+  const numberOfGoodAnswers = _numberOfGoodAnswers(validations);
+// console.log('_.size(validations)- - - - - - - - - - - - - - - - - - - - ', _.size(validations);
   if (_.isEmpty(scoring)) {
-    if (_hasBadAnswers(validations)) {
+    if (numberOfGoodAnswers !== _.size(validations)) {
       result = 'ko';
     }
   } else {
 
-    const nbGoodAnswers = _.filter(validations, (item) => item === true).length;
     const minGrade = _.min(Object.keys(scoring));
     const maxGrade = _.max(Object.keys(scoring));
 
-    if (nbGoodAnswers >= maxGrade) {
+    if (numberOfGoodAnswers >= maxGrade) {
       result = 'ok';
-    } else if (nbGoodAnswers >= minGrade) {
+    } else if (numberOfGoodAnswers >= minGrade) {
       result = 'partially';
     } else {
       result = 'ko';
@@ -134,16 +133,16 @@ module.exports = {
     solutions = _applyTreatments(solutions);
 
     // Comparisons
-    const validations = _compareAnswersAndSolutions(answers, solutions);
+    // const validations = _compareAnswersAndSolutions(answers, solutions);
     const newValidations = _calculateValidation(answers, solutions);
 // console.log('validations- - - - - - - - - - - - - - - - - - - - - ', validations);
 // console.log('solutions- - - - - - - - - - - - - - - - - - - - ', solutions);
-// console.log('newValidations- - - - - - - - - - - - - - - - - - - - - ', newValidations);
-console.log('new _numberOfGoodAnswers- - - - - - - - - - - - - - - - - - - - ', _numberOfGoodAnswers(answers, newValidations));
+// console.log('newValidations - - - - - - - - - - - - - - - - - - - - - ', newValidations);
+    // console.log('new _numberOfGoodAnswers- - - - - - - - - - - - - - - - - - - - ', _numberOfGoodAnswers(newValidations));
     // console.log('answers- - - - - - - - - - - - - - - - - - - - ', answers);
 // console.log('solutions- - - - - - - - - - - - - - - - - - - - ', solutions);
     // Restitution
-    return _calculateResult(scoring, validations);
+    return _calculateResult(scoring, newValidations);
   }
 
 };

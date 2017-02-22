@@ -118,7 +118,7 @@ function treatmentT1T2T3(userAnswer, adminAnswers) {
 
   return {
     userAnswer: userAnswer,
-    adminAnswers: adminAnswers,
+    adminAnswers: JSON.stringify(adminAnswers),
     t1: treatmentT1(userAnswer),
     t1t2: treatmentT2(treatmentT1(userAnswer)),
     t2: treatmentT2(userAnswer),
