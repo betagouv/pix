@@ -285,7 +285,7 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
-    describe('if solution type is QROCM-dep with scoring', function () {
+    describe.only('if solution type is QROCM-dep with scoring', function () {
 
       it('should return "ko" for badly formatted solution', function () {
         const answer = buildAnswer('num1: Google\nnum2: Yahoo');
@@ -359,11 +359,17 @@ describe('Unit | Service | SolutionService', function () {
           scoring: '1: @acquix\n2: @acquix\n3: @acquix'
         },
         {
-          when: 'duplicate good answer is given and scoring is 2-3',
+          when: 'similar good answer is given and scoring is 2-3',
           answer: 'num1: "google"\nnum2: "google.fr"',
           solution: twoPossibleSolutions,
           scoring: '2: @acquix\n3: @acquix'
         },
+        {
+          when: 'duplicate good answer exactly, and scoring is 2-3',
+          answer: 'num1: "google"\nnum2: "google"',
+          solution: twoPossibleSolutions,
+          scoring: '2: @acquix\n3: @acquix'
+        }
       ];
 
       failedCases.forEach(function (testCase) {

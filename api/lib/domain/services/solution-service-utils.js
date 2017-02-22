@@ -117,7 +117,8 @@ function treatmentT1T2T3(userAnswer, adminAnswers) {
   if (_.isEmpty(adminAnswers)) return null;
 
   return {
-    original: userAnswer,
+    userAnswer: userAnswer,
+    adminAnswers: adminAnswers,
     t1: treatmentT1(userAnswer),
     t1t2: treatmentT2(treatmentT1(userAnswer)),
     t2: treatmentT2(userAnswer),

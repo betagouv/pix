@@ -1,6 +1,8 @@
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
+const utils = require('./solution-service-utils');
+
 
 function _applyTreatments(objects) {
   const result = {};
@@ -34,7 +36,7 @@ function _compareAnswersAndSolutions(answers, solutions) {
     const solutionKeys = _getSolutionKeys(solutions);
     let matchingSolutionKey = null;
     _.each(solutionKeys, (solutionKey) => {
-      if (validations[answer] == false) {
+      if (validations[answer] === false) {
         const solutionVariants = solutions[solutionKey];
         if (!_.isEmpty(answer) && solutionVariants.includes(answer)) {
           validations[answer] = true;
@@ -47,6 +49,54 @@ function _compareAnswersAndSolutions(answers, solutions) {
   return validations;
 }
 
+
+function _calculateValidation(answers, solutions) {
+
+  const validations = {};
+  _.each(answers, (answer) => {
+    const solutionKeys = _getSolutionKeys(solutions);
+    _.each(solutionKeys, (solutionKey) => {
+      const solutionVariants = solutions[solutionKey];
+      if (_.isUndefined(validations[answer])) {
+        validations[answer] = [];
+      }
+        // console.log('answer- - - - - - - - - - - - - - - - - - - - ', answer);
+        // console.log('index- - - - - - - - - - - - - - - - - - - - ', index);
+        // console.log('solutionVariants- - - - - - - - - - - - - - - - - - - - ', solutionVariants);
+      validations[answer].push(utils.treatmentT1T2T3(answer, solutionVariants.split(',')));
+        // console.log('validations[' + answer + '_' + index + '] - - - - - - - - - - - - - - - - - - - - ', validations[answer + '_' + index]);
+        // console.log('');
+    });
+  });
+  return validations;
+}
+
+function _numberOfGoodAnswers(answers, newValidations) {
+  return _.filter(newValidations, _isGoodAnswer).length;
+  // let result = 0;
+  // _.each(answers, function(answer) {
+  //   // const groupedAnswer = _.groupBy(newValidations, function(e) {return e.userAnswer === answer;})[true];
+  //   const answerValidation = newValidations[answer];
+  //   console.log('newValidations- - - - - - - - - - - - - - - - - - - - ', newValidations);
+  //   // if (_isGoodAnswer(groupedAnswer)) {
+  //   //   result += 1;
+  //   // }
+  //   console.log('answer - - - - - - - - - - - - - - - - - - - - ', answer);
+  //   // console.log('groupedAnswer - - - - - - - - - - - - - - - - - - - - ', groupedAnswer);
+  //   console.log('');
+  // });
+  // return result;
+}
+
+// the lowest t1t2t3 ratio is below 0.25
+function _isGoodAnswer(newValidation) {
+  return _.minBy(newValidation, (e) => e.t1t2t3Ratio).t1t2t3Ratio <= 0.25;
+}
+
+function _numberOfBadAnswers(newValidations) {
+  return newValidations.length - _numberOfGoodAnswers(newValidations);
+}
+
 function _calculateResult(scoring, validations) {
   let result = 'ok';
 
@@ -56,7 +106,7 @@ function _calculateResult(scoring, validations) {
     }
   } else {
 
-    const nbGoodAnswers = _.filter(validations, (item) => item == true).length;
+    const nbGoodAnswers = _.filter(validations, (item) => item === true).length;
     const minGrade = _.min(Object.keys(scoring));
     const maxGrade = _.max(Object.keys(scoring));
 
@@ -85,7 +135,13 @@ module.exports = {
 
     // Comparisons
     const validations = _compareAnswersAndSolutions(answers, solutions);
-
+    const newValidations = _calculateValidation(answers, solutions);
+// console.log('validations- - - - - - - - - - - - - - - - - - - - - ', validations);
+// console.log('solutions- - - - - - - - - - - - - - - - - - - - ', solutions);
+// console.log('newValidations- - - - - - - - - - - - - - - - - - - - - ', newValidations);
+console.log('new _numberOfGoodAnswers- - - - - - - - - - - - - - - - - - - - ', _numberOfGoodAnswers(answers, newValidations));
+    // console.log('answers- - - - - - - - - - - - - - - - - - - - ', answers);
+// console.log('solutions- - - - - - - - - - - - - - - - - - - - ', solutions);
     // Restitution
     return _calculateResult(scoring, validations);
   }
