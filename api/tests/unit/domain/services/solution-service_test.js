@@ -143,6 +143,7 @@ describe('Unit | Service | SolutionService', function () {
       const successfulCases = [
         {case:'(single solution) same answer and solution', answer: 'Answer', solution: 'Answer'},
         {case:'(single solution) same answer and solution, but first is uppercased, last is lowercased', answer: 'ANSWER', solution: 'answer'},
+        {case:'(single solution) same answer and solution, but answer is lowercased, solution is uppercased', answer: 'answer', solution: 'ANSWER'},
         {case:'(single solution) answer with spaces', answer: 'aaa bbb ccc', solution: 'aaabbbccc'},
         {case:'(single solution) answer with accent, but solution hasnt', answer: 'wîth àccénts', solution: 'with accents'},
         {case:'(single solution) answer is 0.1 away from solution', answer: '0123456789', solution: '123456789'},
@@ -170,7 +171,6 @@ describe('Unit | Service | SolutionService', function () {
         {case:'(single solution) answer is 0.3 away from solution', answer: '0123456789', solution: '1234567'},
         {case:'(single solution) answer is 0.5 away from solution', answer: '0123456789', solution: '12345'},
         {case:'(single solution) answer is 10 away from solution', answer: 'a', solution: '0123456789'},
-        {case:'(single solution) same answer and solution, but answer is lowercased, solution is uppercased', answer: 'answer', solution: 'ANSWER'},
         {case:'(single solution) answer without accent, but solution has', answer: 'with accents', solution: 'wîth àccénts'},
         {case:'(multiple solutions) answer is minimum 0.4 away from a solution', answer: 'quaks', solution: 'qvakes\nqwakes\nanything\n'}
       ];

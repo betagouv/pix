@@ -1,6 +1,13 @@
 const utils = require('./solution-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
+function _applySolutionsTreatments(solutions) {
+  return _.map(solutions, (solution) => {
+    return solution.toString().trim().toLowerCase();
+  });
+}
+
+
 module.exports = {
 
   match (answer, solution) {
@@ -11,7 +18,8 @@ module.exports = {
 
     const solutions = solution.split('\n').filter(Boolean); // removes empty String
 
-    const treatedAnswer = utils.treatmentT1T2T3(answer, solutions);
+    const treatedSolutions = _applySolutionsTreatments(solutions);
+    const treatedAnswer = utils.treatmentT1T2T3(answer, treatedSolutions);
 
     if (treatedAnswer.t1t2t3Ratio <= 0.25) {
       return 'ok';
