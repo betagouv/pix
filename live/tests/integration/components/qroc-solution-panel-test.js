@@ -70,7 +70,7 @@ describe('Integration | Component | qroc solution panel', function () {
       const answerBlock = this.$(ANSWER_BLOCK);
       const answerInput = this.$(ANSWER_INPUT);
       // then
-      expect(answerBlock).to.have.length(1);
+      expect(answerBlock).to.have.lengthOf(1);
       expect(answerInput.css('font-weight')).to.be.equal('400');
       expect(answerInput.css('text-decoration')).to.be.equal('line-through');
 
@@ -81,7 +81,7 @@ describe('Integration | Component | qroc solution panel', function () {
       const blockSolution = this.$(SOLUTION_BLOCK);
       const blockSolutionText = this.$(SOLUTION_DISPLAY);
       // then
-      expect(blockSolution).to.have.length(1);
+      expect(blockSolution).to.have.lengthOf(1);
       expect(blockSolutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
       expect(blockSolutionText.css('font-weight')).to.be.equal('bold');
     });
@@ -102,7 +102,7 @@ describe('Integration | Component | qroc solution panel', function () {
         const answerBlock = this.$(ANSWER_BLOCK);
         const answerInput = this.$(ANSWER_INPUT);
         // then
-        expect(answerBlock).to.have.length(1);
+        expect(answerBlock).to.have.lengthOf(1);
         expect(answerInput.css('font-style')).to.be.equal('italic');
         expect(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
       });
