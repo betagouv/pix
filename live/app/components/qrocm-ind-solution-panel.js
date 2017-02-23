@@ -9,7 +9,7 @@ const QrocmSolutionPanel = Ember.Component.extend({
   labelsAsArray : Ember.computed('challenge', function() {
     const labels = this.get('challenge.proposals');
     //let labelsInArray = labels.split('\n\n');
-    let labelsInArray = labels.split(/{*}\n\n/);
+    const labelsInArray = labels.split(/{*}\n\n/);
     return labelsInArray;
   })
 
