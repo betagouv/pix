@@ -4,7 +4,6 @@ const service = require('../../../../lib/domain/services/solution-service');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Solution = require('../../../../lib/domain/models/referential/solution');
 const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
-// const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const SolutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 
 describe('Unit | Service | SolutionService', function () {
@@ -245,6 +244,11 @@ describe('Unit | Service | SolutionService', function () {
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
       },
       {
+        case: 'Solution has spaces in-between',
+        answer: '9lettres: abcdefg\n6lettres: ghjkl',
+        solution: '9lettres:\n- a b c d e f g\n6lettres:\n- ghjklm\n- ghjklp\n- ghjklz'
+      },
+      {
         case: '(nominal case) Each answer strictly respect another corresponding solution',
         answer: '9lettres: patate\n6lettres: legume',
         solution: '9lettres:\n- courgette \n- patate\n6lettres:\n- tomate\n- chicon\n- legume'
@@ -280,11 +284,6 @@ describe('Unit | Service | SolutionService', function () {
           answer: '9lettres: abcde\n6lettres: ghjkl',
           //abcdefg below creates a levenshtein distance above 0.25
           solution: '9lettres:\n- abcdefg\n6lettres:\n- ghjklm\n- ghjklp\n- ghjklz'
-        },
-        {
-          case: 'Solution has spaces in-between',
-          answer: '9lettres: abcdefg\n6lettres: ghjkl',
-          solution: '9lettres:\n- a b c d e f g\n6lettres:\n- ghjklm\n- ghjklp\n- ghjklz'
         },
         {
           case: 'All of the levenshtein distances are above 0.25',

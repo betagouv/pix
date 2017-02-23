@@ -4,7 +4,7 @@ const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 
 
-function _applyTreatments(objects) {
+function _applyTreatmentsToSolutions(objects) {
   const result = {};
   _.each(objects, (value, key) => {
     result[key] = value.toString().trim().toLowerCase();
@@ -226,12 +226,10 @@ module.exports = {
 
 
     // We allow the admin to mistakenly enter uppercases and spaces before/after actual solution
-    solutions = _applyTreatments(solutions);
+    solutions = _applyTreatmentsToSolutions(solutions);
 
     // Comparisons
     const fullValidations = _calculateValidation(answers, solutions);
-
-    console.log('fullValidations- - - - - - - - - - - - - - - - - - - - ', fullValidations);
 
     return _calculateResult(scoring, fullValidations);
   }

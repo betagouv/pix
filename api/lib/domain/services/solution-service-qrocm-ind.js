@@ -2,15 +2,20 @@ const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 
+/*
+*
+* solutions looks like :
+*
+* { '9lettres': [ 'courgette' ],
+*   '6lettres': [ 'tomate', 'chicon', 'legume' ] }
+*
+*/
 function _applyTreatmentsToSolutions(solutions) {
-  _.each(solutions, (solution, index) => {
-    const validOptions = [];
-    solution.forEach((validValue) => {
-      validOptions.push(validValue.toString().trim().toLowerCase());
+  return _.mapValues(solutions, (validSolutions) => {
+    return _.map(validSolutions, (validSolution) => {
+      return utils._treatmentT2(utils._treatmentT1(validSolution));
     });
-    solutions[index] = validOptions;
   });
-  return solutions;
 }
 
 

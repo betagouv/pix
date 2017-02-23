@@ -1,7 +1,7 @@
 const utils = require('./solution-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
-function _applySolutionTreatments(solution) {
+function _applyTreatmentsToSolutions(solution) {
   return  _.chain(solution)
             .split('\n')
             .reject(_.isEmpty)
@@ -26,7 +26,7 @@ module.exports = {
     }
 
     const treatedAnswer = _applyAnswerTreatment(answer);
-    const treatedSolutions = _applySolutionTreatments(solution);
+    const treatedSolutions = _applyTreatmentsToSolutions(solution);
 
     const validations = utils.treatmentT1T2T3(treatedAnswer, treatedSolutions);
 
