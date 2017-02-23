@@ -58,7 +58,7 @@ const resultItem = Ember.Component.extend({
     openComparisonPopin(){
       const assessmentId = this.get('answer.assessment.id');
       const answerId = this.get('answer.id');
-      const index = this.get('answer.index') + 1;
+      const index = this.get('index') + 1;
 
       this.sendAction('openComparison', assessmentId, answerId, index);
     }

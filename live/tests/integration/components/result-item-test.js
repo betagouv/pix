@@ -4,7 +4,6 @@ import {describe, it} from 'mocha';
 import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-
 const providedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)';
 
 const emberChallengeObject = Ember.Object.create({
@@ -118,6 +117,4 @@ describe('Integration | Component | result item', function () {
       expect(this.$('svg path').attr('fill')).to.equal('#ff4600');
     });
   });
-
-
 });
