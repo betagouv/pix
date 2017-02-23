@@ -29,16 +29,13 @@ define('pix-live/adapters/challenge', ['exports', 'pix-live/adapters/application
 
   });
 });
-define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application', 'ember'], function (exports, _pixLiveAdaptersApplication, _ember) {
+define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application', 'ember', 'rsvp'], function (exports, _pixLiveAdaptersApplication, _ember, _rsvp) {
   exports['default'] = _pixLiveAdaptersApplication['default'].extend({
-    // XXX : can't find in the docs why query params are in 3rd position
-    // XXX : need the small 'if' for production. Hacky, icky, ugly.
+
     queryRecord: function queryRecord(modelName, clazz, query) {
-      var prefix = '/';
-      if (this.host !== '/') {
-        prefix = this.host + '/';
-      }
-      return _ember['default'].$.getJSON(prefix + this.namespace + '/assessments/' + query.assessmentId + '/solutions/' + query.answerId);
+      return _ember['default'].$.getJSON(this.host + '/' + this.namespace + '/assessments/' + query.assessmentId + '/solutions/' + query.answerId, function (data) {
+        return _rsvp['default'].resolve(data);
+      });
     }
   });
 });
@@ -3965,7 +3962,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.1+2df65a9a"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.1+9fdf97e9"});
 }
 
 /* jshint ignore:end */
