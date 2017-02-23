@@ -14,8 +14,7 @@ export default Ember.Route.extend({
     assessment.save().then(() => {
       challengeAdapter.queryNext(store, assessment.get('id')).then(challenge => {
         if (challenge) {
-          // force transition to call the model hook by passing IDs instead of models
-          this.transitionTo('assessments.get-challenge', assessment.get('id'), challenge.get('id'));
+          this.transitionTo('assessments.get-challenge', { assessment, challenge });
         } else {
           this.transitionTo('assessments.get-results', { assessment });
         }
