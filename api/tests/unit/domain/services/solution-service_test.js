@@ -200,57 +200,57 @@ describe('Unit | Service | SolutionService', function () {
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
       },
       {
-        case: '(nominal case) leading/trailing spaces in solution',
+        case: 'leading/trailing spaces in solution',
         answer: '9lettres: c o u r g e t t e\n6lettres: t o m a t e',
         solution: '9lettres:\n-  courgette   \n6lettres:\n-   tomate    \n-   chicon    \n- legume   '
       },
       {
-        case: '(nominal case) uppercases and leading/trailing spaces in solution',
+        case: 'uppercases and leading/trailing spaces in solution',
         answer: '9lettres: c o u r g e t t e\n6lettres: t o m a t e',
         solution: '9lettres:\n-  COUrgETTE   \n6lettres:\n-   TOmaTE    \n-   CHICON    \n- LEGUME   '
       },
       {
-        case: '(nominal case) spaces in answer',
+        case: 'spaces in answer',
         answer: '9lettres: c o u r g e t t e\n6lettres: t o m a t e',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
       },
       {
-        case: '(nominal case) answer with levenshtein distance below 0.25',
+        case: 'answer with levenshtein distance below 0.25',
         answer: '9lettres: ourgette\n6lettres: tomae',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
       },
       {
-        case: '(nominal case) answer with uppercases',
+        case: 'answer with uppercases',
         answer: '9lettres: COURGETTE\n6lettres: TOMATE',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
       },
       {
-        case: '(nominal case) answer with uppercases and spaces',
+        case: 'answer with uppercases and spaces',
         answer: '9lettres: C O U R G E T T E\n6lettres: T O M A T E',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
       },
       {
-        case: '(nominal case) answer with uppercases spaces, and levenshtein > 0 but <= 0.25',
+        case: 'answer with uppercases spaces, and levenshtein > 0 but <= 0.25',
         answer: '9lettres: C O U G E T T E\n6lettres:  O M A T E',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
       },
       {
-        case: '(nominal case) answer with uppercases spaces, and levenshtein > 0 but <= 0.25, and accents',
+        case: 'answer with uppercases spaces, and levenshtein > 0 but <= 0.25, and accents',
         answer: '9lettres: ç O u -- ;" ;--- _ \' grè TTÊ\n6lettres:  O M A T E',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
       },
       {
-        case: '(nominal case) unbreakable spaces in answer',
+        case: 'unbreakable spaces in answer',
         answer: '9lettres: c o u r g e t t e\n6lettres: t o m a t e',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
       },
       {
         case: '(nominal case) Each answer strictly respect another corresponding solution',
-        answer: '9lettres: courgette\n6lettres: chicon',
-        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
+        answer: '9lettres: patate\n6lettres: legume',
+        solution: '9lettres:\n- courgette \n- patate\n6lettres:\n- tomate\n- chicon\n- legume'
       },
       {
-        case: '(nominal case) Each answer correctly match its solution, with worst levenshtein distance below or equal to 0.25',
+        case: 'Each answer correctly match its solution, with worst levenshtein distance below or equal to 0.25',
         answer: '9lettres: abcd\n6lettres: ghjkl',
         solution: '9lettres:\n- abcde\n6lettres:\n- ghjklm\n- ghjklp\n- ghjklz'
       }
