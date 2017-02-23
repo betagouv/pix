@@ -14,7 +14,7 @@ export default Ember.Route.extend({
     assessment.save().then(() => {
       challengeAdapter.queryNext(store, assessment.get('id')).then(challenge => {
         if (challenge) {
-          this.transitionTo('assessments.get-challenge', { assessment, challenge });
+          this.transitionTo('assessments.get-challenge', assessment.get('id'), challenge.get('id'));
         } else {
           this.transitionTo('assessments.get-results', { assessment });
         }
