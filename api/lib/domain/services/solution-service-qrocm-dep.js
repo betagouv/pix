@@ -107,13 +107,14 @@ module.exports = {
       return 'ko';
     }
 
+    // remove unbreakable spaces
     // Convert Yaml to JS objects
-    const answers = jsYaml.safeLoad(yamlAnswer);
+    const answers = jsYaml.safeLoad(yamlAnswer.replace(/\u00A0/g, ' '));
     const solutions = jsYaml.safeLoad(yamlSolution);
     const scoring = jsYaml.safeLoad(yamlScoring);
 
 
-    // We allow the admin to mistakenly enter uppercases and spaces before/after actual solution
+    // Pre-Treatments
     const treatedSolutions = _applyTreatmentsToSolutions(solutions);
     const treatedAnswers = _applyTreatmentsToAnswers(answers);
 

@@ -43,8 +43,8 @@ module.exports = {
 
     // remove unbreakable spaces
     // and convert YAML to JSObject
-    const answers = jsYaml.load(yamlAnswer.replace(/\u00A0/g, ' '));
-    const solutions = jsYaml.load(yamlSolution);
+    const answers = jsYaml.safeLoad(yamlAnswer.replace(/\u00A0/g, ' '));
+    const solutions = jsYaml.safeLoad(yamlSolution);
 
     //Pre - Treatment
     const treatedSolutions = _applyTreatmentsToSolutions(solutions);
