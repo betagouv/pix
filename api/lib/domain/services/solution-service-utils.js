@@ -1,52 +1,16 @@
 const _ = require('../../../lib/infrastructure/utils/lodash-utils');
+const levenshtein = require('fast-levenshtein');
 
-
-// as offered by https://gist.github.com/andrei-m/982927
-const _levenshtein = (a, b) => {
-  if (a.length === 0) return b.length;
-  if (b.length === 0) return a.length;
-  let tmp, i, j, prev, val;
-  // swap to save some memory O(min(a,b)) instead of O(a)
-  if (a.length > b.length) {
-    tmp = a;
-    a = b;
-    b = tmp;
-  }
-
-  const row = Array(a.length + 1);
-  // init the row
-  for (i = 0; i <= a.length; i++) {
-    row[i] = i;
-  }
-
-  // fill in the rest
-  for (i = 1; i <= b.length; i++) {
-    prev = i;
-    for (j = 1; j <= a.length; j++) {
-      if (b[i-1] === a[j-1]) {
-        val = row[j-1]; // match
-      } else {
-        val = Math.min(row[j-1] + 1, // substitution
-              Math.min(prev + 1,     // insertion
-                       row[j] + 1));  // deletion
-      }
-      row[j - 1] = prev;
-      prev = val;
-    }
-    row[a.length] = prev;
-  }
-  return row[a.length];
-};
 
 // Calculate the smallest levenshtein distance
 function _smallestLevenshteinDistance(userAnswer, adminAnswers) {
 
-  let min = _levenshtein(userAnswer, adminAnswers[0]);
+  let min = levenshtein.get(userAnswer, adminAnswers[0]);
   if (adminAnswers.length === 1) {
     return min;
   } else {
     _.each (adminAnswers, (adminAnswer) => {
-      const currentLevenshtein = _levenshtein(userAnswer, adminAnswer);
+      const currentLevenshtein = levenshtein.get(userAnswer, adminAnswer);
       if (currentLevenshtein < min) {
         min = currentLevenshtein;
       }
