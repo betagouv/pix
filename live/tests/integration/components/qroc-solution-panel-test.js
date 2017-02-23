@@ -19,14 +19,14 @@ describe('Integration | Component | qroc solution panel', function () {
 
   it('renders', function () {
     this.render(hbs`{{qroc-solution-panel}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
   it('should disabled all inputs', function () {
-    // given
+    // when
     this.render(hbs`{{qroc-solution-panel}}`);
-    const input = this.$('input');
     // then
+    const input = this.$('input');
     expect(input).to.be.disabled;
   });
 
@@ -45,12 +45,12 @@ describe('Integration | Component | qroc solution panel', function () {
       const answerBlock = this.$(ANSWER_BLOCK);
       const solutionBlock = this.$(SOLUTION_BLOCK);
       // then
-      expect(answerInput).to.have.length(1);
-      expect(answerBlock).to.have.length(1);
+      expect(answerInput).to.have.lengthOf(1);
+      expect(answerBlock).to.have.lengthOf(1);
       expect(answerInput.css('font-weight')).to.be.equal('bold');
       expect(answerInput.css('text-decoration')).to.be.equal('none');
       expect(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-      expect(solutionBlock).to.have.length(0);
+      expect(solutionBlock).to.have.lengthOf(0);
     });
   });
 

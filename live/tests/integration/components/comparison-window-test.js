@@ -14,12 +14,10 @@ describe('Integration | Component | comparison window', function () {
 
     it('renders', function () {
       this.render(hbs`{{comparison-window}}`);
-      expect(this.$()).to.have.length(1);
+      expect(this.$()).to.have.lengthOf(1);
     });
 
     it('should render challenge result (in the header)', function () {
-      // given
-
       // when
       this.render(hbs`{{comparison-window}}`);
       // then
@@ -27,8 +25,6 @@ describe('Integration | Component | comparison window', function () {
     });
 
     it('should render challenge instruction', function () {
-      // given
-
       // when
       this.render(hbs`{{comparison-window}}`);
       // then
@@ -36,8 +32,6 @@ describe('Integration | Component | comparison window', function () {
     });
 
     it('should render corrected answers when challenge', function () {
-      // given
-
       // when
       this.render(hbs`{{comparison-window}}`);
       // then
