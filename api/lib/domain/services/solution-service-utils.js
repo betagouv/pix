@@ -117,5 +117,3 @@ module.exports = {
   _treatmentT3,
   treatmentT1T2T3,
 };
-
-
