@@ -1132,7 +1132,7 @@ define('pix-live/components/result-item', ['exports', 'ember'], function (export
       openComparisonPopin: function openComparisonPopin() {
         var assessmentId = this.get('answer.assessment.id');
         var answerId = this.get('answer.id');
-        var index = this.get('answer.index') + 1;
+        var index = this.get('index') + 1;
 
         this.sendAction('openComparison', assessmentId, answerId, index);
       }
@@ -4078,7 +4078,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"5.0.0+27c03470"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"5.0.0+6fd51d94"});
 }
 
 /* jshint ignore:end */
