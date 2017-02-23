@@ -3064,6 +3064,7 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'ember'], functi
       assessment.save().then(function () {
         challengeAdapter.queryNext(store, assessment.get('id')).then(function (challenge) {
           if (challenge) {
+            // force transition to call the model hook by passing IDs instead of models
             _this.transitionTo('assessments.get-challenge', assessment.get('id'), challenge.get('id'));
           } else {
             _this.transitionTo('assessments.get-results', { assessment: assessment });
@@ -3971,7 +3972,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+e5d708bb"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+c58143f0"});
 }
 
 /* jshint ignore:end */
