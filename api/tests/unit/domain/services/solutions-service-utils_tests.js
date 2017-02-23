@@ -20,20 +20,20 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
     it('Should remove uppercase, for example "BrûLée" => "brulee"', function () {
       expect(service._treatmentT1('brûlée')).to.equal('brulee');
     });
-    it('Should NOT remove single space between, for example "Crème BrûLée" => "creme brulee"', function () {
-      expect(service._treatmentT1('Crème BrûLée')).to.equal('creme brulee');
+    it('Should remove single space between, for example "Crème BrûLée" => "cremebrulee"', function () {
+      expect(service._treatmentT1('Crème BrûLée')).to.equal('cremebrulee');
     });
-    it('Should replace double space between into one, for example "Crème  BrûLée" => "creme brulee"', function () {
-      expect(service._treatmentT1('Crème  BrûLée')).to.equal('creme brulee');
+    it('Should replace double space between into one, for example "Crème  BrûLée" => "cremebrulee"', function () {
+      expect(service._treatmentT1('Crème  BrûLée')).to.equal('cremebrulee');
     });
-    it('Should remove all consecutive spaces between into one, for example "Crème      BrûLée" => "creme brulee"', function () {
-      expect(service._treatmentT1('Crème      BrûLée')).to.equal('creme brulee');
+    it('Should remove all consecutive spaces between into one, for example "CrèmeBrûLée" => "cremebrulee"', function () {
+      expect(service._treatmentT1('Crème      BrûLée')).to.equal('cremebrulee');
     });
     it('Should remove leading and trailing spaces, for example " Crème BrûLée  "=> "creme brulee"', function () {
-      expect(service._treatmentT1('Crème BrûLée')).to.equal('creme brulee');
+      expect(service._treatmentT1('Crème BrûLée')).to.equal('cremebrulee');
     });
-    it('Should remove all spaces, even multiplied & repeated for example " Crème BrûLée   1   2  "=> "creme brulee 1 2"', function () {
-      expect(service._treatmentT1(' Crème BrûLée   1   2  ')).to.equal('creme brulee 1 2');
+    it('Should remove all spaces, even multiplied & repeated for example " Crème BrûLée   1   2  "=> "cremebrulee12"', function () {
+      expect(service._treatmentT1(' Crème BrûLée   1   2  ')).to.equal('cremebrulee12');
     });
   });
 
@@ -88,13 +88,13 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
       expect(service.treatmentT1T2T3('quack', [new Date(), new Date()])).to.equal(null);
     });
     it('Should return t1 treatment', function () {
-      expect(service.treatmentT1T2T3(' Crème BrûLée 1 ', ['any']).t1).to.equal('creme brulee 1');
+      expect(service.treatmentT1T2T3(' Crème BrûLée 1 ', ['any']).t1).to.equal('cremebrulee1');
     });
     it('Should return t2 treatment', function () {
       expect(service.treatmentT1T2T3('Th!!is.,', ['any']).t2).to.equal('This');
     });
     it('Should return t1 & t2 treatment', function () {
-      expect(service.treatmentT1T2T3('Th!!is., is  Crème BrûLée 1 ', ['any']).t1t2).to.equal('this is creme brulee 1');
+      expect(service.treatmentT1T2T3('Th!!is., is  Crème BrûLée 1 ', ['any']).t1t2).to.equal('thisiscremebrulee1');
     });
     it('Should return t3 ratio', function () {
       expect(service.treatmentT1T2T3('beck', ['back', 'book']).t3Ratio).to.equal(0.25);
@@ -106,7 +106,7 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
       expect(service.treatmentT1T2T3('th!!is.', ['that', 'those']).t2t3Ratio).to.equal(0.5);
     });
     it('Should return t3 ratio applied to t1 and t2', function () {
-      expect(service.treatmentT1T2T3('é E1', ['e e12', 'blabla']).t1t2t3Ratio).to.equal(0.25);
+      expect(service.treatmentT1T2T3('éeE1', ['eee12', 'blabla']).t1t2t3Ratio).to.equal(0.25);
     });
   });
 

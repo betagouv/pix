@@ -145,11 +145,13 @@ describe('Unit | Service | SolutionService', function () {
         {case:'(single solution) same answer and solution', answer: 'Answer', solution: 'Answer'},
         {case:'(single solution) same answer and solution, but first is uppercased, last is lowercased', answer: 'ANSWER', solution: 'answer'},
         {case:'(single solution) same answer and solution, but answer is lowercased, solution is uppercased', answer: 'answer', solution: 'ANSWER'},
-        {case:'(single solution) answer with spaces', answer: 'aaa bbb ccc', solution: 'aaabbbccc'},
-        {case:'(single solution) answer with accent, but solution hasnt', answer: 'wîth àccénts', solution: 'with accents'},
+        {case:'(single solution) answer with spaces, solution hasnt', answer: 'a b c d e', solution: 'abcde'},
+        {case:'(single solution) answer with unbreakable spaces, solution hasnt', answer: 'a b c d e', solution: 'abcde'},
+        {case:'(single solution) solution with trailing spaces', answer: 'abcd', solution: '    abcd   '},
+        {case:'(single solution) solution with trailing spaces and uppercase', answer: 'aaa bbb ccc', solution: '    AAABBBCCC   '},
+        {case:'(single solution) answer with accent, but solution hasnt', answer: 'îàé êêê', solution: 'iae eee'},
         {case:'(single solution) answer is 0.1 away from solution', answer: '0123456789', solution: '123456789'},
         {case:'(single solution) answer is 0.25 away from solution', answer: '01234', solution: '1234'},
-        {case:'(single solution) answer with unbreakable space is 0.25 away from solution', answer: ' 1234', solution: '1234'},
         {case:'(multiple solutions) answer is amongst solution', answer: 'variant 1', solution: 'variant 1\nvariant 2\nvariant 3\n'},
         {case:'(multiple solutions) answer is 0.2 away from a solution', answer: 'quack', solution: 'quacks\nazertysqdf\nblablabla\n'},
         {case:'(multiple solutions) answer is 0.25 away from a solution', answer: 'quak', solution: 'qvak\nqwak\nanything\n'}
@@ -170,6 +172,7 @@ describe('Unit | Service | SolutionService', function () {
         {case:'solution is empty', answer: '', solution : ''},
         {case:'answer is not a String', answer: new Date(), solution : ''},
         {case:'answer does not match any solution variants', answer: 'abandoned answer', solution: 'unmatched solution variant'},
+        {case:'(single solution) solution contains too much spaces', answer: 'a b c d e', solution: 'a b c d e'},
         {case:'(single solution) answer is 0.3 away from solution', answer: '0123456789', solution: '1234567'},
         {case:'(single solution) answer is 0.5 away from solution', answer: '0123456789', solution: '12345'},
         {case:'(single solution) answer is 10 away from solution', answer: 'a', solution: '0123456789'},
@@ -194,6 +197,11 @@ describe('Unit | Service | SolutionService', function () {
       const successfulCases = [{
         case: '(nominal case) Each answer strictly respect a corresponding solution',
         answer: '9lettres: courgette\n6lettres: tomate',
+        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
+      },
+      {
+        case: '(nominal case) spaces in answer',
+        answer: '9lettres: c o u r g e t t e\n6lettres: t o m a t e',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
       },
       {

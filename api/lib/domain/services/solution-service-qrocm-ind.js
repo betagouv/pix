@@ -14,11 +14,11 @@ function _applyTreatmentsToSolutions(solutions) {
 }
 
 
-function _calculateResult(treatedAnswers) {
+function _calculateResult(validations) {
   let result = 'ok';
 
-  _.each(treatedAnswers, (treatedAnswer) => {
-    if (treatedAnswer.t1t2t3Ratio > 0.25) {
+  _.each(validations, (validation) => {
+    if (validation.t1t2t3Ratio > 0.25) {
       result = 'ko';
     }
   });
@@ -42,16 +42,17 @@ module.exports = {
 
     //Pre - Treatment
     solutions = _applyTreatmentsToSolutions(solutions);
+    // XXX : pretreatment of answer is missing (unbreakable spaces)
 
     //Comparison
-    const treatedAnswers = _.map(answers, function(answer, keyAnswer) {
+    const validations = _.map(answers, function(answer, keyAnswer) {
       const solutionsToAnswer = solutions[keyAnswer];
       return utils.treatmentT1T2T3(answer, solutionsToAnswer);
     });
 
 
     //Restitution
-    return _calculateResult(treatedAnswers);
+    return _calculateResult(validations);
 
   }
 

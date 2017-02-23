@@ -8,8 +8,13 @@ function _applySolutionTreatments(solution) {
             .map(_.trim)
             .map(_.toLower)
             .value();
-
 }
+
+// remove unbreakable space
+function _applyAnswerTreatment(strArg) {
+  return strArg.replace(/\u00A0/g, ' ');
+}
+
 
 
 module.exports = {
@@ -20,10 +25,12 @@ module.exports = {
       return 'ko';
     }
 
+    const treatedAnswer = _applyAnswerTreatment(answer);
     const treatedSolutions = _applySolutionTreatments(solution);
-    const treatedAnswer = utils.treatmentT1T2T3(answer, treatedSolutions);
 
-    if (treatedAnswer.t1t2t3Ratio <= 0.25) {
+    const validations = utils.treatmentT1T2T3(treatedAnswer, treatedSolutions);
+
+    if (validations.t1t2t3Ratio <= 0.25) {
       return 'ok';
     }
     return 'ko';
