@@ -3,17 +3,19 @@ const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 
-
-function _applyTreatmentsToSolutions(objects) {
-  const result = {};
-  _.each(objects, (value, key) => {
-    result[key] = value.toString().trim().toLowerCase();
+/*
+*
+* solutions looks like
+* { Google: [ 'Google', 'google.fr', 'Google Search' ],
+*   Yahoo: [ 'Yahoo', 'Yahoo Answer' ],
+*   Bing: [ 'Bing' ] }
+*/
+function _applyTreatmentsToSolutions(solutions) {
+  return _.mapValues(solutions, (validSolutions) => {
+    return _.map(validSolutions, (validSolution) => {
+      return utils._treatmentT2(utils._treatmentT1(validSolution));
+    });
   });
-  return result;
-}
-
-function _getSolutionKeys(solutions) {
-  return Object.keys(solutions);
 }
 
 /*------------------------------------------------
@@ -147,7 +149,7 @@ function _calculateValidation(answers, solutions) {
   _.each(answers, (answer, index) => {
 
     const indexation = answer + '_' + index;
-    const solutionKeys = _getSolutionKeys(solutions);
+    const solutionKeys = Object.keys(solutions);
 
     _.each(solutionKeys, (solutionKey) => {
 
@@ -157,7 +159,7 @@ function _calculateValidation(answers, solutions) {
         validations[indexation] = [];
       }
 
-      validations[indexation].push(utils.treatmentT1T2T3(answer, solutionVariants.split(',')));
+      validations[indexation].push(utils.treatmentT1T2T3(answer, solutionVariants));
 
     });
   });

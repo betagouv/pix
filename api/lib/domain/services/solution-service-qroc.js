@@ -1,13 +1,18 @@
 const utils = require('./solution-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
-function _applyTreatmentsToSolutions(solution) {
+function _applyPreTreatmentsToSolutions(solution) {
   return  _.chain(solution)
             .split('\n')
             .reject(_.isEmpty)
-            .map(_.trim)
-            .map(_.toLower)
             .value();
+}
+
+function _applyTreatmentsToSolutions(solution) {
+  const pretreatedSolutions = _applyPreTreatmentsToSolutions(solution);
+  return  _.map(pretreatedSolutions, (pretreatedSolution) => {
+    return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
+  });
 }
 
 // remove unbreakable space

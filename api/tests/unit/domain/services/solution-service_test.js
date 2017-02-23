@@ -151,6 +151,8 @@ describe('Unit | Service | SolutionService', function () {
         {case:'(single solution) answer with accent, but solution hasnt', answer: 'îàé êêê', solution: 'iae eee'},
         {case:'(single solution) answer is 0.1 away from solution', answer: '0123456789', solution: '123456789'},
         {case:'(single solution) answer is 0.25 away from solution', answer: '01234', solution: '1234'},
+        {case:'(single solution) solution contains too much spaces', answer: 'a b c d e', solution: 'a b c d e'},
+        {case:'(single solution) answer without accent, but solution has', answer: 'with accents eee', solution: 'wîth àccénts êêê'},
         {case:'(multiple solutions) answer is amongst solution', answer: 'variant 1', solution: 'variant 1\nvariant 2\nvariant 3\n'},
         {case:'(multiple solutions) answer is 0.2 away from a solution', answer: 'quack', solution: 'quacks\nazertysqdf\nblablabla\n'},
         {case:'(multiple solutions) answer is 0.25 away from a solution', answer: 'quak', solution: 'qvak\nqwak\nanything\n'}
@@ -171,11 +173,9 @@ describe('Unit | Service | SolutionService', function () {
         {case:'solution is empty', answer: '', solution : ''},
         {case:'answer is not a String', answer: new Date(), solution : ''},
         {case:'answer does not match any solution variants', answer: 'abandoned answer', solution: 'unmatched solution variant'},
-        {case:'(single solution) solution contains too much spaces', answer: 'a b c d e', solution: 'a b c d e'},
         {case:'(single solution) answer is 0.3 away from solution', answer: '0123456789', solution: '1234567'},
         {case:'(single solution) answer is 0.5 away from solution', answer: '0123456789', solution: '12345'},
         {case:'(single solution) answer is 10 away from solution', answer: 'a', solution: '0123456789'},
-        {case:'(single solution) answer without accent, but solution has', answer: 'with accents eee', solution: 'wîth àccénts êêê'},
         {case:'(multiple solutions) answer is minimum 0.4 away from a solution', answer: 'quaks', solution: 'qvakes\nqwakes\nanything\n'}
       ];
 
@@ -348,12 +348,22 @@ describe('Unit | Service | SolutionService', function () {
 
       const maximalScoreCases = [
         {
-          when: 'Both answers are correct',
+          when: 'Both answers are correct with 1 solution',
+          answer: 'num1: Google\nnum2: Yahoo',
+          solution: 'Google:\n- Google\nYahoo:\n- Yahoo'
+        },
+        {
+          when: 'Both answers are correct with 2 solutions',
           answer: 'num1: Google\nnum2: Yahoo',
           solution: twoPossibleSolutions
         },
         {
-          when: 'Both answers are correct, 2nd version',
+          when: 'Both answers are correct, and solutions contains spaces everywhere',
+          answer: 'num1: Google\nnum2: Yahoo',
+          solution: 'Google:\n-  G o o g le  \nYahoo:\n-   Y a h o    o   '
+        },
+        {
+          when: 'Both answers are correct with 2 solutions, 2nd version',
           answer: 'num1: Google Search\nnum2: Yahoo Answer',
           solution: twoPossibleSolutions
         },
@@ -402,7 +412,7 @@ describe('Unit | Service | SolutionService', function () {
         },
         {
           when: '3 correct answers are given, (all 3 have punctation, accent and spaces errors), and scoring is 1-3',
-          answer: 'num1: " g Ooglé.FR!!--"\nnum2: "  Y?,,ahoo AnSwer "\nnum3: BìNg()()(',
+          answer: 'num1: " g Ooglé.FR!!--"\nnum2: "  Y?,,a h o o AnSwer "\nnum3: BìNg()()(',
           solution: threePossibleSolutions,
           scoring: '1: @acquix\n2: @acquix\n3: @acquix'
         },
