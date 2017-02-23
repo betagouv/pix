@@ -36,17 +36,17 @@ module.exports = {
       return 'ko';
     }
 
-    //convert YAML to JSObject
-    const answers = jsYaml.load(yamlAnswer);
-    let solutions = jsYaml.load(yamlSolution);
+    // remove unbreakable spaces
+    // and convert YAML to JSObject
+    const answers = jsYaml.load(yamlAnswer.replace(/\u00A0/g, ' '));
+    const solutions = jsYaml.load(yamlSolution);
 
     //Pre - Treatment
-    solutions = _applyTreatmentsToSolutions(solutions);
-    // XXX : pretreatment of answer is missing (unbreakable spaces)
+    const treatedSolutions = _applyTreatmentsToSolutions(solutions);
 
     //Comparison
     const validations = _.map(answers, function(answer, keyAnswer) {
-      const solutionsToAnswer = solutions[keyAnswer];
+      const solutionsToAnswer = treatedSolutions[keyAnswer];
       return utils.treatmentT1T2T3(answer, solutionsToAnswer);
     });
 
