@@ -2,20 +2,20 @@ const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 
-/*
-*
-* solutions looks like :
-*
-* { '9lettres': [ 'courgette' ],
-*   '6lettres': [ 'tomate', 'chicon', 'legume' ] }
-*
-*/
 function _applyTreatmentsToSolutions(solutions) {
   return _.mapValues(solutions, (validSolutions) => {
     return _.map(validSolutions, (validSolution) => {
-      return utils._treatmentT2(utils._treatmentT1(validSolution));
+      // toString() in case the admin entered number as solution,
+      // yaml converter may convert it into number and not string.
+      return utils._treatmentT2(utils._treatmentT1(validSolution.toString()));
     });
   });
+}
+
+function _applyTreatmentsToAnswers(answers) {
+  // toString() in case the user entered number as solution,
+  // yaml converter may convert it into number and not string.
+  return _.mapValues(answers, _.toString);
 }
 
 
@@ -48,13 +48,13 @@ module.exports = {
 
     //Pre - Treatment
     const treatedSolutions = _applyTreatmentsToSolutions(solutions);
+    const treatedAnswers = _applyTreatmentsToAnswers(answers);
 
     //Comparison
-    const validations = _.map(answers, function(answer, keyAnswer) {
+    const validations = _.map(treatedAnswers, function(answer, keyAnswer) {
       const solutionsToAnswer = treatedSolutions[keyAnswer];
       return utils.treatmentT1T2T3(answer, solutionsToAnswer);
     });
-
 
     //Restitution
     return _calculateResult(validations);

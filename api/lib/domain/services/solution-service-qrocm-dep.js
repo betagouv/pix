@@ -13,135 +13,21 @@ const utils = require('./solution-service-utils');
 function _applyTreatmentsToSolutions(solutions) {
   return _.mapValues(solutions, (validSolutions) => {
     return _.map(validSolutions, (validSolution) => {
-      return utils._treatmentT2(utils._treatmentT1(validSolution));
+      // toString() in case the admin entered number as solution,
+      // yaml converter may convert it into number and not string.
+      return utils._treatmentT2(utils._treatmentT1(validSolution.toString()));
     });
   });
 }
 
-/*------------------------------------------------
 
-Calculates ALL possible validations for ALL answers
-
-Example
-
-answers
-{ num1: 'google.fr', num2: 'bad answer', num3: 'bad answer' };
-
-solutions
-{ Google: 'google,google.fr,google search', Yahoo: 'yahoo,yahoo answer', Bing: 'bing' };
-
-Returns
-
-
-{
-  "google.fr_num1": [
-    {
-      "userAnswer": "google.fr"
-      "adminAnswers": "[\"google\",\"google.fr\",\"google search\"]"
-      "t1": "google.fr"
-      "t1t2": "googlefr"
-      "t1t2t3Ratio": 0.15
-      "t1t3Ratio": 0
-      "t2": "googlefr"
-      "t2t3Ratio": 0.15
-      "t3Ratio": 0
-    }
-    {
-      "userAnswer": "google.fr"
-      "adminAnswers": "[\"yahoo\",\"yahoo answer\"]"
-      "t1": "google.fr"
-      "t1t2": "googlefr"
-      "t1t2t3Ratio": 1
-      "t1t3Ratio": 1
-      "t2": "googlefr"
-      "t2t3Ratio": 1
-      "t3Ratio": 1
-    }
-    {
-      "userAnswer": "google.fr"
-      "adminAnswers": "[\"bing\"]"
-      "t1": "google.fr"
-      "t1t2": "googlefr"
-      "t1t2t3Ratio": 0.875
-      "t1t3Ratio": 0.88
-      "t2": "googlefr"
-      "t2t3Ratio": 0.875
-      "t3Ratio": 0.88
-    }
-  ],
-  "bad answer_num2": [
-    {
-      "userAnswer": "bad answer"
-      "adminAnswers": "[\"google\",\"google.fr\",\"google search\"]"
-      "t1": "badanswer"
-      "t1t2": "badanswer"
-      "t1t2t3Ratio": 0.88
-      "t1t3Ratio": 0.88
-      "t2": "bad answer"
-      "t2t3Ratio": 0.9
-      "t3Ratio": 0.9
-    }
-    {
-      "userAnswer": "bad answer"
-      "adminAnswers": "[\"yahoo\",\"yahoo answer\"]"
-      "t1": "badanswer"
-      "t1t2": "badanswer"
-      "t1t2t3Ratio": 0.55
-      "t1t3Ratio": 0.55
-      "t2": "bad answer"
-      "t2t3Ratio": 0.4
-      "t3Ratio": 0.4
-    }
-    {
-      "userAnswer": "bad answer"
-      "adminAnswers": "[\"bing\"]"
-      "t1": "badanswer"
-      "t1t2": "badanswer"
-      "t1t2t3Ratio": 0.77
-      "t1t3Ratio": 0.77
-      "t2": "bad answer"
-      "t2t3Ratio": 0.8
-      "t3Ratio": 0.8
-    }
-  ],
-  "bad answer_num3": [
-    {
-      "userAnswer": "bad answer"
-      "adminAnswers": "[\"google\",\"google.fr\",\"google search\"]"
-      "t1": "badanswer"
-      "t1t2": "badanswer"
-      "t1t2t3Ratio": 0.88
-      "t1t3Ratio": 0.88
-      "t2": "bad answer"
-      "t2t3Ratio": 0.9
-      "t3Ratio": 0.9
-    }
-    {
-      "userAnswer": "bad answer"
-      "adminAnswers": "[\"yahoo\",\"yahoo answer\"]"
-      "t1": "badanswer"
-      "t1t2": "badanswer"
-      "t1t2t3Ratio": 0.55
-      "t1t3Ratio": 0.55
-      "t2": "bad answer"
-      "t2t3Ratio": 0.4
-      "t3Ratio": 0.4
-    }
-    {
-      "userAnswer": "bad answer"
-      "adminAnswers": "[\"bing\"]"
-      "t1": "badanswer"
-      "t1t2": "badanswer"
-      "t1t2t3Ratio": 0.77
-      "t1t3Ratio": 0.77
-      "t2": "bad answer"
-      "t2t3Ratio": 0.8
-      "t3Ratio": 0.8
-    }
-  ]
-
+function _applyTreatmentsToAnswers(answers) {
+  // toString() in case the user entered number as solution,
+  // yaml converter may convert it into number and not string.
+  return _.mapValues(answers, _.toString);
 }
------------------------------------------------- */
+
+
 function _calculateValidation(answers, solutions) {
 
   const validations = {};
@@ -223,15 +109,16 @@ module.exports = {
 
     // Convert Yaml to JS objects
     const answers = jsYaml.safeLoad(yamlAnswer);
-    let solutions = jsYaml.safeLoad(yamlSolution);
+    const solutions = jsYaml.safeLoad(yamlSolution);
     const scoring = jsYaml.safeLoad(yamlScoring);
 
 
     // We allow the admin to mistakenly enter uppercases and spaces before/after actual solution
-    solutions = _applyTreatmentsToSolutions(solutions);
+    const treatedSolutions = _applyTreatmentsToSolutions(solutions);
+    const treatedAnswers = _applyTreatmentsToAnswers(answers);
 
     // Comparisons
-    const fullValidations = _calculateValidation(answers, solutions);
+    const fullValidations = _calculateValidation(treatedAnswers, treatedSolutions);
 
     return _calculateResult(scoring, fullValidations);
   }

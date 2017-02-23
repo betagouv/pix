@@ -199,6 +199,11 @@ describe('Unit | Service | SolutionService', function () {
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
       },
       {
+        case: 'solution contains numbers',
+        answer: 'num1: 888\nnum2: 64',
+        solution: 'num1:\n- 888\nnum2:\n- 64'
+      },
+      {
         case: 'leading/trailing spaces in solution',
         answer: '9lettres: c o u r g e t t e\n6lettres: t o m a t e',
         solution: '9lettres:\n-  courgette   \n6lettres:\n-   tomate    \n-   chicon    \n- legume   '
@@ -351,6 +356,11 @@ describe('Unit | Service | SolutionService', function () {
           when: 'Both answers are correct with 1 solution',
           answer: 'num1: Google\nnum2: Yahoo',
           solution: 'Google:\n- Google\nYahoo:\n- Yahoo'
+        },
+        {
+          when: 'Both answers are correct with 1 solution that contains only numbers',
+          answer: 'num1: 123\nnum2: 987',
+          solution: 'Google:\n- 987\nYahoo:\n- 123'
         },
         {
           when: 'Both answers are correct with 2 solutions',
