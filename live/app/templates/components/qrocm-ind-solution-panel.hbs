@@ -2,6 +2,11 @@
   <div class="rounded-panel__row ">
 
     <div>challenge : {{challenge.proposals}}</div>
+    <div>
+      {{#each labelsAsArray as |label|}}
+        <div>{{label}}</div>
+      {{/each}}
+    </div>
     <div>answer : {{answer.value}}</div>
     <div>solution : {{solution.value}}</div>
 
