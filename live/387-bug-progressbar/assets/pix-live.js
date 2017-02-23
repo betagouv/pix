@@ -2897,21 +2897,22 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp']
     assessmentService: _ember['default'].inject.service('assessment'),
 
     model: function model(params) {
-      var _this = this;
-
       var store = this.get('store');
 
       var assessmentId = params.assessment_id;
       var challengeId = params.challenge_id;
 
-      var promises = {
+      return _rsvp['default'].hash({
         assessment: store.findRecord('assessment', assessmentId),
         challenge: store.findRecord('challenge', challengeId),
         answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
-      };
+      });
+    },
 
-      return _rsvp['default'].hash(promises).then(function (model) {
-        return _this._addProgressToModel(model);
+    afterModel: function afterModel(model) {
+      return model.assessment.get('course').then(function (course) {
+        model.progress = course.getProgress(model.challenge);
+        return model;
       });
     },
 
@@ -2925,11 +2926,11 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp']
     actions: {
 
       saveAnswerAndNavigate: function saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout) {
-        var _this2 = this;
+        var _this = this;
 
         var answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment);
         answer.save().then(function () {
-          _this2._navigateToNextView(currentChallenge, assessment);
+          _this._navigateToNextView(currentChallenge, assessment);
         });
       }
     },
@@ -2948,22 +2949,15 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp']
     },
 
     _navigateToNextView: function _navigateToNextView(currentChallenge, assessment) {
-      var _this3 = this;
+      var _this2 = this;
 
       var adapter = this.get('store').adapterFor('application');
       adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET').then(function (nextChallenge) {
         if (nextChallenge) {
-          _this3.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
+          _this2.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
         } else {
-          _this3.transitionTo('assessments.get-results', assessment.get('id'));
+          _this2.transitionTo('assessments.get-results', assessment.get('id'));
         }
-      });
-    },
-
-    _addProgressToModel: function _addProgressToModel(model) {
-      return model.assessment.get('course').then(function (course) {
-        model.progress = course.getProgress(model.challenge);
-        return model;
       });
     }
 
@@ -3064,8 +3058,7 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'ember'], functi
       assessment.save().then(function () {
         challengeAdapter.queryNext(store, assessment.get('id')).then(function (challenge) {
           if (challenge) {
-            // force transition to call the model hook by passing IDs instead of models
-            _this.transitionTo('assessments.get-challenge', assessment.get('id'), challenge.get('id'));
+            _this.transitionTo('assessments.get-challenge', { assessment: assessment, challenge: challenge });
           } else {
             _this.transitionTo('assessments.get-results', { assessment: assessment });
           }
@@ -3972,7 +3965,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+c58143f0"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+db064de1"});
 }
 
 /* jshint ignore:end */
