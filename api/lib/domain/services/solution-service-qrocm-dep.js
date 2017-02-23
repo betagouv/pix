@@ -210,6 +210,15 @@ function _calculateResult(scoring, validations) {
 
 module.exports = {
   match(yamlAnswer, yamlSolution, yamlScoring) {
+
+    // Validate inputs
+    if (_.isNotString(yamlAnswer)
+        || _.isNotString(yamlSolution)
+        || _.isEmpty(yamlAnswer)
+        || !_.includes(yamlSolution, '\n')) {
+      return 'ko';
+    }
+
     // Convert Yaml to JS objects
     const answers = jsYaml.safeLoad(yamlAnswer);
     let solutions = jsYaml.safeLoad(yamlSolution);
@@ -220,8 +229,9 @@ module.exports = {
     solutions = _applyTreatments(solutions);
 
     // Comparisons
-    // const validations = _compareAnswersAndSolutions(answers, solutions);
     const fullValidations = _calculateValidation(answers, solutions);
+
+    console.log('fullValidations- - - - - - - - - - - - - - - - - - - - ', fullValidations);
 
     return _calculateResult(scoring, fullValidations);
   }
