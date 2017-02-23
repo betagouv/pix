@@ -16,7 +16,10 @@ module.exports = {
       return 'ko';
     }
 
-    const solutions = solution.split('\n').filter(Boolean); // removes empty String
+    const solutions = _.chain(solution)
+                        .split('\n')
+                        .reject(_.isEmpty)
+                        .value();
 
     const treatedSolutions = _applySolutionsTreatments(solutions);
     const treatedAnswer = utils.treatmentT1T2T3(answer, treatedSolutions);

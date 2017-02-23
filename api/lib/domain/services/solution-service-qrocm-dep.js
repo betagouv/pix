@@ -209,7 +209,6 @@ function _calculateResult(scoring, validations) {
 }
 
 module.exports = {
-  _calculateValidation,
   match(yamlAnswer, yamlSolution, yamlScoring) {
     // Convert Yaml to JS objects
     const answers = jsYaml.safeLoad(yamlAnswer);
