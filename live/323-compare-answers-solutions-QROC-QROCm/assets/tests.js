@@ -3617,10 +3617,12 @@ define('pix-live/tests/integration/components/comparison-window-test', ['exports
           'block': '{"statements":[["append",["unknown",["comparison-window"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
-        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$()).to.have.length(1);
       });
 
       (0, _mocha.it)('should render challenge result (in the header)', function () {
+        // given
+
         // when
         this.render(_ember['default'].HTMLBars.template({
           'id': 'kLNjDWRU',
@@ -3632,6 +3634,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['exports
       });
 
       (0, _mocha.it)('should render challenge instruction', function () {
+        // given
+
         // when
         this.render(_ember['default'].HTMLBars.template({
           'id': 'kLNjDWRU',
@@ -3643,6 +3647,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['exports
       });
 
       (0, _mocha.it)('should render corrected answers when challenge', function () {
+        // given
+
         // when
         this.render(_ember['default'].HTMLBars.template({
           'id': 'kLNjDWRU',
@@ -4364,7 +4370,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['expor
   var RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
   var NO_ANSWER_GREY = 'rgb(51, 51, 51)';
 
-  (0, _mocha.describe)('Integration | Component | qroc solution panel', function () {
+  _mocha.describe.only('Integration | Component | qroc solution panel', function () {
     (0, _emberMocha.setupComponentTest)('qroc-solution-panel', {
       integration: true
     });
@@ -4375,18 +4381,18 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['expor
         'block': '{"statements":[["append",["unknown",["qroc-solution-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
         'meta': {}
       }));
-      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
+      (0, _chai.expect)(this.$()).to.have.length(1);
     });
 
     (0, _mocha.it)('should disabled all inputs', function () {
-      // when
+      // given
       this.render(_ember['default'].HTMLBars.template({
         'id': 'd0K2Guv4',
         'block': '{"statements":[["append",["unknown",["qroc-solution-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
         'meta': {}
       }));
-      // then
       var input = this.$('input');
+      // then
       (0, _chai.expect)(input).to.be.disabled;
     });
 
@@ -4409,12 +4415,12 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['expor
         var answerBlock = this.$(ANSWER_BLOCK);
         var solutionBlock = this.$(SOLUTION_BLOCK);
         // then
-        (0, _chai.expect)(answerInput).to.have.lengthOf(1);
-        (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
+        (0, _chai.expect)(answerInput).to.have.length(1);
+        (0, _chai.expect)(answerBlock).to.have.length(1);
         (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('bold');
         (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('none');
         (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-        (0, _chai.expect)(solutionBlock).to.have.lengthOf(0);
+        (0, _chai.expect)(solutionBlock).to.have.length(0);
       });
     });
 
