@@ -25,7 +25,7 @@ module.exports = function (environment) {
     },
 
     googleFonts: [
-      'Lato', // main font
+      'Lato:400,700,900', // main font
       'Open+Sans' // used for ex. on buttons
     ],
 
