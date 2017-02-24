@@ -2,26 +2,70 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | qrocm-solution-panel', function () {
+describe.only('Unit | Component | qrocm-solution-panel', function () {
 
   setupTest('component:qrocm-ind-solution-panel', {});
 
-  describe.skip('#answerToDisplay', function () {
+  describe('#labelsInArray', function () {
 
     it('should return the labels of input in an array', function () {
       //given
       const challenge = {
-        proposals : 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}\n\nDisque dur externe : ${num3}\n\nCD-R / DVD-R : ${num4}'
+        proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}\n\nDisque dur externe : ${num3}\n\nCD-R / DVD-R : ${num4}'
       };
       const expectedResult = ['Clé USB : ', 'Carte mémoire (SD) : ', 'Disque dur externe : ', 'CD-R / DVD-R : '];
       const component = this.subject();
       component.set('challenge', challenge);
-
       //when
-      const labelsAsArray = component.get('labelsAsArray');
+      const labelsAsArray = component.get('labelsInArray');
       //then
-      expect(labelsAsArray).to.be.equal(expectedResult);
+      expect(labelsAsArray).to.be.deep.equal(expectedResult);
     });
 
+    it('should return the labels of input in an array even if there is line jump at the end', function () {
+      //given
+      const challenge = {
+        proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}\n\n'
+      };
+      const expectedResult = ['Clé USB : ', 'Carte mémoire (SD) : '];
+      const component = this.subject();
+      component.set('challenge', challenge);
+      //when
+      const labelsAsArray = component.get('labelsInArray');
+      //then
+      expect(labelsAsArray).to.be.deep.equal(expectedResult);
+    });
+
+    it('should return an array with empty label, if there is no proposal in challenge object', function () {
+      //given
+      const challenge = {
+        proposals: ''
+      };
+      const expectedResult = [];
+      const component = this.subject();
+      component.set('challenge', challenge);
+      //when
+      const labelsAsArray = component.get('labelsInArray');
+      //then
+      expect(labelsAsArray).to.be.deep.equal(expectedResult);
+    });
+
+  });
+
+  describe('#answersToDisplay', function () {
+
+
+  });
+
+  describe('#solutionToDisplay', function () {
+
+    it('', function () {
+      // given
+
+      // when
+
+      // then
+
+    });
   });
 });

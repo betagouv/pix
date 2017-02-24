@@ -1,13 +1,17 @@
 <div class="qrocm-solution-panel rounded-panel">
   <div class="rounded-panel__row ">
-
-    <div>challenge : {{challenge.proposals}}</div>
+    <div>{{challenge.proposals}}</div>
     <div>
-      {{#each labelsAsArray as |label|}}
+      {{#each labelsInArray as |label|}}
         <div>{{label}}</div>
       {{/each}}
     </div>
     <div>answer : {{answer.value}}</div>
+    <div>
+      {{#each answersToDsplay as |answer|}}
+        <div>{{answer}}</div>
+      {{/each}}
+    </div>
     <div>solution : {{solution.value}}</div>
 
   </div>
