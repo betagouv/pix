@@ -517,11 +517,7 @@ button.routable-modal--close:active {
   overflow: visible; }
 
 .challenge-statement__instruction strong {
-  font-style: italic;
-  color: #3e4149; }
-
-.challenge-statement__instruction-section {
-  font-size: 14px; }
+  font-weight: 900; }
 
 @media (min-width: 700px) {
   .challenge-statement__instruction-section {
