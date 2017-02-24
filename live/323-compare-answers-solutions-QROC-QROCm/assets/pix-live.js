@@ -1025,14 +1025,15 @@ define('pix-live/components/qroc-solution-panel', ['exports', 'ember'], function
       if (answer === '#ABAND#') {
         return 'Pas de réponse';
       }
-      return this.get('answer.value');
+      return answer;
     }),
 
     solutionToDisplay: _ember['default'].computed('solution.value', function () {
       var solutionVariants = this.get('solution.value');
-      if (solutionVariants === null || solutionVariants === undefined) {
+      if (!solutionVariants) {
         return '';
       }
+
       var solutionVariantsArray = solutionVariants.split('\n');
       var solution = solutionVariantsArray[0];
       return solution;
@@ -4007,7 +4008,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+5a1d33ef"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+e4affe61"});
 }
 
 /* jshint ignore:end */

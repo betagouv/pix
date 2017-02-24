@@ -1413,21 +1413,21 @@ button.routable-modal--close:active {
   padding: 8px 8px 12px 10px; }
 
 .correction-qroc-box__input-right-answer {
-  font-family: var(--font-lato);
+  font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
   font-weight: bold;
   color: #13c9a0; }
 
 .correction-qroc-box__input-wrong-answer {
-  font-family: var(--font-lato);
+  font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
-  color: var(--charcoal-grey);
+  color: #3e4149;
   text-decoration: line-through; }
 
 .correction-qroc-box__input-no-answer {
-  font-family: var(--font-lato);
+  font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
-  color: var(--charcoal-grey);
+  color: #3e4149;
   font-style: italic; }
 
 .correction-qroc-box__solution {
@@ -1437,7 +1437,7 @@ button.routable-modal--close:active {
 
 .correction-qroc-box__solution-text {
   height: 19px;
-  font-family: var(--font-lato);
+  font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
   font-weight: bold;
   color: #13c9a0;
