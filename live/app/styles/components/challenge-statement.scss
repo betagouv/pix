@@ -4,7 +4,10 @@
 }
 
 .challenge-statement__instruction {
-  font-weight: bold;
+  strong{
+    font-style: italic;
+    color: $charcoal-grey;
+  }
   &-section {
     font-size: 14px;
   }
