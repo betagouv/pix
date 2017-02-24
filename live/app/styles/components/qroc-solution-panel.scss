@@ -8,23 +8,23 @@
 }
 
 .correction-qroc-box__input-right-answer {
-  font-family: var(--font-lato);
+  font-family: $font-lato;
   font-size: 16px;
   font-weight: bold;
   color: #13c9a0;
 }
 
 .correction-qroc-box__input-wrong-answer{
-  font-family: var(--font-lato);
+  font-family: $font-lato;
   font-size: 16px;
-  color: var(--charcoal-grey);
+  color: $charcoal-grey;
   text-decoration: line-through;
 }
 
 .correction-qroc-box__input-no-answer{
-  font-family: var(--font-lato);
+  font-family: $font-lato;
   font-size: 16px;
-  color: var(--charcoal-grey);
+  color: $charcoal-grey;
   font-style: italic;
 }
 
@@ -36,7 +36,7 @@
 
 .correction-qroc-box__solution-text {
   height: 19px;
-  font-family: var(--font-lato);
+  font-family: $font-lato;
   font-size: 16px;
   font-weight: bold;
   color: #13c9a0;

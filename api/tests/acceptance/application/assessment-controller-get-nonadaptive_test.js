@@ -62,7 +62,7 @@ describe('Acceptance | API | Assessments GET (non adaptive)', function () {
 
     let insertedAssessmentId = null;
 
-    const inserted_assessment = {
+    const insertedAssessment = {
       userName: 'John Doe',
       userEmail: 'john.doe@mailmail.com',
       courseId: 'a_non_adaptive_course_id'
@@ -70,7 +70,7 @@ describe('Acceptance | API | Assessments GET (non adaptive)', function () {
 
     beforeEach(function (done) {
       knex('assessments').delete().then(() => {
-        knex('assessments').insert([inserted_assessment]).then((rows) => {
+        knex('assessments').insert([insertedAssessment]).then((rows) => {
           insertedAssessmentId = rows[0];
           done();
         });

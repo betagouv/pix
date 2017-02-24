@@ -10,18 +10,18 @@ const QrocSolutionPanel = Ember.Component.extend({
     if (answer === '#ABAND#'){
       return 'Pas de réponse';
     }
-    return this.get('answer.value');
+    return answer;
   }),
 
   solutionToDisplay: Ember.computed('solution.value', function () {
     const solutionVariants = this.get('solution.value');
-    if (solutionVariants === null || solutionVariants === undefined){
+    if (!solutionVariants){
       return '';
     }
+
     const solutionVariantsArray = solutionVariants.split('\n');
     const solution = solutionVariantsArray[0];
     return solution;
-
   })
 });
 
