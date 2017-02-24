@@ -6,7 +6,7 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
 
   setupTest('component:qrocm-ind-solution-panel', {});
 
-  describe('#labelsInArray', function () {
+  describe.skip('#labelsInArray', function () {
 
     it('should return the labels of input in an array', function () {
       //given
@@ -52,7 +52,7 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
 
   });
 
-  describe('#answersToDisplay', function () {
+  describe.skip('#answersToDisplay', function () {
     const challenge = {
       proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}'
     };
@@ -63,12 +63,13 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
       value: 'smiley1:\n- :-)\n- :)\n- :-D\n- :D:))\n\nsmiley2:\n- :-(\n- :(\n- :(('
     };
 
+    const result = [{label: 'content', answer:':)', solution: ':-)'}, {label: 'triste', answer:':(', solution: ':-('}];w
 
 
 
   });
 
-  describe('#solutionToDisplay', function () {
+  describe.skip('#solutionToDisplay', function () {
 
     it('', function () {
       // given
