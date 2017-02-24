@@ -516,10 +516,12 @@ button.routable-modal--close:active {
   /* XXX required to let "help tooltip" displaying well even if instruction section is short (1 line) */
   overflow: visible; }
 
-.challenge-statement__instruction {
-  font-weight: bold; }
-  .challenge-statement__instruction-section {
-    font-size: 14px; }
+.challenge-statement__instruction strong {
+  font-style: italic;
+  color: #3e4149; }
+
+.challenge-statement__instruction-section {
+  font-size: 14px; }
 
 @media (min-width: 700px) {
   .challenge-statement__instruction-section {
