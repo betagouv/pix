@@ -3,8 +3,11 @@
   overflow: visible;
 }
 
-.challenge-statement__instruction-section {
-  font-size: 14px;
+.challenge-statement__instruction {
+  font-weight: bold;
+  &-section {
+    font-size: 14px;
+  }
 }
 
 @media (min-width: 700px) {
