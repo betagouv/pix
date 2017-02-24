@@ -53,6 +53,17 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
   });
 
   describe('#answersToDisplay', function () {
+    const challenge = {
+      proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}'
+    };
+    const answer = {
+      value: 'smiley1: \':)\' smiley2: \':(\''
+    };
+    const solution = {
+      value: 'smiley1:\n- :-)\n- :)\n- :-D\n- :D:))\n\nsmiley2:\n- :-(\n- :(\n- :(('
+    };
+
+
 
 
   });
