@@ -77,27 +77,31 @@ module.exports = {
                   const modelAnswers = _.map(answers.models, o => o.attributes);
 
                   _.forEach(modelAnswers, function(answer) {
-                    const startNode = knowledgeOf[answer.challengeId][0];
-                    if (answer.result == 'ok') {
-                      history.push({diff: difficultyOf[answer.challengeId], outcome: 1});
-                      if (startNode !== undefined)
-                        acquired.push(...propagateAcquix(allKnowledge, startNode, -1));
-                    } else {
-                      history.push({diff: difficultyOf[answer.challengeId], outcome: 0});
-                      if (startNode !== undefined)
-                        notAcquired.push(...propagateAcquix(allKnowledge, startNode, 1));
+                    if(knowledgeOf.hasOwnProperty(answer.challengeId)) {
+                      const startNode = knowledgeOf[answer.challengeId][0];
+                      if (answer.result == 'ok') {
+                        history.push({diff: difficultyOf[answer.challengeId], outcome: 1});
+                        if (startNode !== undefined)
+                          acquired.push(...propagateAcquix(allKnowledge, startNode, -1));
+                      } else {
+                        history.push({diff: difficultyOf[answer.challengeId], outcome: 0});
+                        if (startNode !== undefined)
+                          notAcquired.push(...propagateAcquix(allKnowledge, startNode, 1));
+                      }
                     }
                   });
 
                   const pixScore = Math.round(64 * acquired.length / Object.keys(knowledgeOf).length);
 
-                  let estimatedLevel = 0;
+                  let estimatedLevel = 4;
                   let minScore = 1000;
-                  for(let level = 0; level <= 6; level += 0.5) {
-                    const score = analysisUtils.derivativeLogLikelihood(level, history);
-                    if(score < minScore) {
-                      minScore = score;
-                      estimatedLevel = level;
+                  if (history.length > 0) { 
+                    for(let level = 0; level <= 6; level += 0.5) {
+                      const score = analysisUtils.derivativeLogLikelihood(level, history);
+                      if(score < minScore) {
+                        minScore = score;
+                        estimatedLevel = level;
+                      }
                     }
                   }
                   assessment.attributes.estimatedLevel = estimatedLevel;  // For the reviewer: maybe this is a hack?
