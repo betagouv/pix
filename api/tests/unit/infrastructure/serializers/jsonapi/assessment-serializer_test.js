@@ -19,6 +19,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
         'acquired': undefined,
         'estimated-level': undefined,
         'not-acquired': undefined,
+        'pix-score': undefined,
         'user-name': 'Jon Snow',
         'user-email': 'jsnow@winterfell.got'
       },
@@ -54,8 +55,8 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
       // then
       expect(assessment.get('id')).to.equal(jsonAssessment.data.id);
       expect(assessment.get('courseId')).to.equal(jsonAssessment.data.relationships.course.data.id);
-      expect(assessment.get('userName')).to.equal(jsonAssessment.data.attributes["user-name"]);
-      expect(assessment.get('userEmail')).to.equal(jsonAssessment.data.attributes["user-email"]);
+      expect(assessment.get('userName')).to.equal(jsonAssessment.data.attributes['user-name']);
+      expect(assessment.get('userEmail')).to.equal(jsonAssessment.data.attributes['user-email']);
     });
 
   });

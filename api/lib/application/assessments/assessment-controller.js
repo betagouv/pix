@@ -27,6 +27,9 @@ function propagateAcquix(allKnowledge, startNode, dir) {
 
 module.exports = {
 
+  nextNode,
+  propagateAcquix,
+
   save(request, reply) {
 
     const assessment = assessmentSerializer.deserialize(request.payload);
@@ -86,6 +89,8 @@ module.exports = {
                     }
                   });
 
+                  const pixScore = Math.round(64 * acquired.length / Object.keys(knowledgeOf).length);
+
                   let estimatedLevel = 0;
                   let minScore = 1000;
                   for(let level = 0; level <= 6; level += 0.5) {
@@ -95,7 +100,8 @@ module.exports = {
                       estimatedLevel = level;
                     }
                   }
-                  assessment.attributes.estimatedLevel = estimatedLevel;  // Maybe this is a hack
+                  assessment.attributes.estimatedLevel = estimatedLevel;  // For the reviewer: maybe this is a hack?
+                  assessment.attributes.pixScore = pixScore;
                   assessment.attributes.notAcquired = notAcquired;
                   assessment.attributes.acquired = acquired;
 

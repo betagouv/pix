@@ -128,6 +128,7 @@ describe('Acceptance | API | Assessments GET', function () {
                 'user-name': 'John Doe',
                 'user-email': 'john.doe@mailmail.com',
                 'estimated-level': undefined,
+                'pix-score': undefined,
                 'not-acquired': undefined,
                 'acquired': undefined
               },
@@ -238,6 +239,7 @@ describe('Acceptance | API | Assessments GET', function () {
                 'user-name': 'John Doe',
                 'user-email': 'john.doe@mailmail.com',
                 'estimated-level': 3,
+                'pix-score': 43,
                 'not-acquired': ['@url1'],
                 'acquired': ['@web5', '@web4']
               },
