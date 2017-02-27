@@ -1266,6 +1266,48 @@ define('pix-live/controllers/courses/get-challenge-preview', ['exports', 'ember'
 
   });
 });
+define('pix-live/helpers/abs', ['exports', 'ember-math-helpers/helpers/abs'], function (exports, _emberMathHelpersHelpersAbs) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAbs['default'];
+    }
+  });
+  Object.defineProperty(exports, 'abs', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAbs.abs;
+    }
+  });
+});
+define('pix-live/helpers/acos', ['exports', 'ember-math-helpers/helpers/acos'], function (exports, _emberMathHelpersHelpersAcos) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAcos['default'];
+    }
+  });
+  Object.defineProperty(exports, 'acos', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAcos.acos;
+    }
+  });
+});
+define('pix-live/helpers/acosh', ['exports', 'ember-math-helpers/helpers/acosh'], function (exports, _emberMathHelpersHelpersAcosh) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAcosh['default'];
+    }
+  });
+  Object.defineProperty(exports, 'acosh', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAcosh.acosh;
+    }
+  });
+});
 define('pix-live/helpers/add', ['exports', 'ember-math-helpers/helpers/add'], function (exports, _emberMathHelpersHelpersAdd) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -1289,6 +1331,76 @@ define('pix-live/helpers/app-version', ['exports', 'ember', 'pix-live/config/env
   }
 
   exports['default'] = _ember['default'].Helper.helper(appVersion);
+});
+define('pix-live/helpers/asin', ['exports', 'ember-math-helpers/helpers/asin'], function (exports, _emberMathHelpersHelpersAsin) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAsin['default'];
+    }
+  });
+  Object.defineProperty(exports, 'asin', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAsin.asin;
+    }
+  });
+});
+define('pix-live/helpers/asinh', ['exports', 'ember-math-helpers/helpers/asinh'], function (exports, _emberMathHelpersHelpersAsinh) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAsinh['default'];
+    }
+  });
+  Object.defineProperty(exports, 'asinh', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAsinh.asinh;
+    }
+  });
+});
+define('pix-live/helpers/atan', ['exports', 'ember-math-helpers/helpers/atan'], function (exports, _emberMathHelpersHelpersAtan) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAtan['default'];
+    }
+  });
+  Object.defineProperty(exports, 'atan', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAtan.atan;
+    }
+  });
+});
+define('pix-live/helpers/atan2', ['exports', 'ember-math-helpers/helpers/atan2'], function (exports, _emberMathHelpersHelpersAtan2) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAtan2['default'];
+    }
+  });
+  Object.defineProperty(exports, 'atan2', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAtan2.atan2;
+    }
+  });
+});
+define('pix-live/helpers/atanh', ['exports', 'ember-math-helpers/helpers/atanh'], function (exports, _emberMathHelpersHelpersAtanh) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAtanh['default'];
+    }
+  });
+  Object.defineProperty(exports, 'atanh', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAtanh.atanh;
+    }
+  });
 });
 define('pix-live/helpers/bs-contains', ['exports', 'ember-bootstrap/helpers/bs-contains'], function (exports, _emberBootstrapHelpersBsContains) {
   Object.defineProperty(exports, 'default', {
@@ -1346,6 +1458,20 @@ define('pix-live/helpers/bs-read-path', ['exports', 'ember-bootstrap/helpers/bs-
     }
   });
 });
+define('pix-live/helpers/cbrt', ['exports', 'ember-math-helpers/helpers/cbrt'], function (exports, _emberMathHelpersHelpersCbrt) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersCbrt['default'];
+    }
+  });
+  Object.defineProperty(exports, 'cbrt', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersCbrt.cbrt;
+    }
+  });
+});
 define('pix-live/helpers/ceil', ['exports', 'ember-math-helpers/helpers/ceil'], function (exports, _emberMathHelpersHelpersCeil) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -1357,6 +1483,20 @@ define('pix-live/helpers/ceil', ['exports', 'ember-math-helpers/helpers/ceil'], 
     enumerable: true,
     get: function get() {
       return _emberMathHelpersHelpersCeil.ceil;
+    }
+  });
+});
+define('pix-live/helpers/clz32', ['exports', 'ember-math-helpers/helpers/clz32'], function (exports, _emberMathHelpersHelpersClz32) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersClz32['default'];
+    }
+  });
+  Object.defineProperty(exports, 'clz32', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersClz32.clz32;
     }
   });
 });
@@ -1374,6 +1514,34 @@ define('pix-live/helpers/convert-to-html', ['exports', 'ember', 'pix-live/utils/
   exports['default'] = _ember['default'].Helper.helper(convertToHtml);
 });
 /* global showdown */
+define('pix-live/helpers/cos', ['exports', 'ember-math-helpers/helpers/cos'], function (exports, _emberMathHelpersHelpersCos) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersCos['default'];
+    }
+  });
+  Object.defineProperty(exports, 'cos', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersCos.cos;
+    }
+  });
+});
+define('pix-live/helpers/cosh', ['exports', 'ember-math-helpers/helpers/cosh'], function (exports, _emberMathHelpersHelpersCosh) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersCosh['default'];
+    }
+  });
+  Object.defineProperty(exports, 'cosh', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersCosh.cosh;
+    }
+  });
+});
 define('pix-live/helpers/div', ['exports', 'ember-math-helpers/helpers/div'], function (exports, _emberMathHelpersHelpersDiv) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -1395,6 +1563,34 @@ define('pix-live/helpers/eq', ['exports', 'ember'], function (exports, _ember) {
     return params[0] === params[1];
   };
   exports['default'] = _ember['default'].Helper.helper(eq);
+});
+define('pix-live/helpers/exp', ['exports', 'ember-math-helpers/helpers/exp'], function (exports, _emberMathHelpersHelpersExp) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersExp['default'];
+    }
+  });
+  Object.defineProperty(exports, 'exp', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersExp.exp;
+    }
+  });
+});
+define('pix-live/helpers/expm1', ['exports', 'ember-math-helpers/helpers/expm1'], function (exports, _emberMathHelpersHelpersExpm1) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersExpm1['default'];
+    }
+  });
+  Object.defineProperty(exports, 'expm1', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersExpm1.expm1;
+    }
+  });
 });
 define('pix-live/helpers/extract-extension', ['exports', 'ember'], function (exports, _ember) {
   exports.extractExtension = extractExtension;
@@ -1421,6 +1617,48 @@ define('pix-live/helpers/floor', ['exports', 'ember-math-helpers/helpers/floor']
     }
   });
 });
+define('pix-live/helpers/fround', ['exports', 'ember-math-helpers/helpers/fround'], function (exports, _emberMathHelpersHelpersFround) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersFround['default'];
+    }
+  });
+  Object.defineProperty(exports, 'fround', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersFround.fround;
+    }
+  });
+});
+define('pix-live/helpers/hypot', ['exports', 'ember-math-helpers/helpers/hypot'], function (exports, _emberMathHelpersHelpersHypot) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersHypot['default'];
+    }
+  });
+  Object.defineProperty(exports, 'hypot', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersHypot.hypot;
+    }
+  });
+});
+define('pix-live/helpers/imul', ['exports', 'ember-math-helpers/helpers/imul'], function (exports, _emberMathHelpersHelpersImul) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersImul['default'];
+    }
+  });
+  Object.defineProperty(exports, 'imul', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersImul.imul;
+    }
+  });
+});
 define('pix-live/helpers/inc', ['exports', 'ember'], function (exports, _ember) {
   exports.inc = inc;
 
@@ -1429,6 +1667,62 @@ define('pix-live/helpers/inc', ['exports', 'ember'], function (exports, _ember) 
   }
 
   exports['default'] = _ember['default'].Helper.helper(inc);
+});
+define('pix-live/helpers/log-e', ['exports', 'ember-math-helpers/helpers/log-e'], function (exports, _emberMathHelpersHelpersLogE) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLogE['default'];
+    }
+  });
+  Object.defineProperty(exports, 'logE', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLogE.logE;
+    }
+  });
+});
+define('pix-live/helpers/log10', ['exports', 'ember-math-helpers/helpers/log10'], function (exports, _emberMathHelpersHelpersLog10) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLog10['default'];
+    }
+  });
+  Object.defineProperty(exports, 'log10', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLog10.log10;
+    }
+  });
+});
+define('pix-live/helpers/log1p', ['exports', 'ember-math-helpers/helpers/log1p'], function (exports, _emberMathHelpersHelpersLog1p) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLog1p['default'];
+    }
+  });
+  Object.defineProperty(exports, 'log1p', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLog1p.log1p;
+    }
+  });
+});
+define('pix-live/helpers/log2', ['exports', 'ember-math-helpers/helpers/log2'], function (exports, _emberMathHelpersHelpersLog2) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLog2['default'];
+    }
+  });
+  Object.defineProperty(exports, 'log2', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLog2.log2;
+    }
+  });
 });
 define('pix-live/helpers/max', ['exports', 'ember-math-helpers/helpers/max'], function (exports, _emberMathHelpersHelpersMax) {
   Object.defineProperty(exports, 'default', {
@@ -1553,6 +1847,34 @@ define('pix-live/helpers/route-action', ['exports', 'ember-route-action-helper/h
     }
   });
 });
+define('pix-live/helpers/sign', ['exports', 'ember-math-helpers/helpers/sign'], function (exports, _emberMathHelpersHelpersSign) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersSign['default'];
+    }
+  });
+  Object.defineProperty(exports, 'sign', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersSign.sign;
+    }
+  });
+});
+define('pix-live/helpers/sin', ['exports', 'ember-math-helpers/helpers/sin'], function (exports, _emberMathHelpersHelpersSin) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersSin['default'];
+    }
+  });
+  Object.defineProperty(exports, 'sin', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersSin.sin;
+    }
+  });
+});
 define('pix-live/helpers/singularize', ['exports', 'ember-inflector/lib/helpers/singularize'], function (exports, _emberInflectorLibHelpersSingularize) {
   exports['default'] = _emberInflectorLibHelpersSingularize['default'];
 });
@@ -1593,6 +1915,48 @@ define('pix-live/helpers/sub', ['exports', 'ember-math-helpers/helpers/sub'], fu
     enumerable: true,
     get: function get() {
       return _emberMathHelpersHelpersSub.sub;
+    }
+  });
+});
+define('pix-live/helpers/tan', ['exports', 'ember-math-helpers/helpers/tan'], function (exports, _emberMathHelpersHelpersTan) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersTan['default'];
+    }
+  });
+  Object.defineProperty(exports, 'tan', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersTan.tan;
+    }
+  });
+});
+define('pix-live/helpers/tanh', ['exports', 'ember-math-helpers/helpers/tanh'], function (exports, _emberMathHelpersHelpersTanh) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersTanh['default'];
+    }
+  });
+  Object.defineProperty(exports, 'tanh', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersTanh.tanh;
+    }
+  });
+});
+define('pix-live/helpers/trunc', ['exports', 'ember-math-helpers/helpers/trunc'], function (exports, _emberMathHelpersHelpersTrunc) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersTrunc['default'];
+    }
+  });
+  Object.defineProperty(exports, 'trunc', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersTrunc.trunc;
     }
   });
 });
@@ -1668,7 +2032,7 @@ define('pix-live/initializers/data-adapter', ['exports', 'ember'], function (exp
     initialize: function initialize() {}
   };
 });
-define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember-cli-mirage/utils/read-modules', 'pix-live/config/environment', 'pix-live/mirage/config', 'ember-cli-mirage/server', 'lodash/object/assign'], function (exports, _emberCliMirageUtilsReadModules, _pixLiveConfigEnvironment, _pixLiveMirageConfig, _emberCliMirageServer, _lodashObjectAssign) {
+define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember-cli-mirage/utils/read-modules', 'pix-live/config/environment', 'pix-live/mirage/config', 'ember-cli-mirage/server', 'lodash/assign'], function (exports, _emberCliMirageUtilsReadModules, _pixLiveConfigEnvironment, _pixLiveMirageConfig, _emberCliMirageServer, _lodashAssign) {
   exports.startMirage = startMirage;
   exports['default'] = {
     name: 'ember-cli-mirage',
@@ -1690,7 +2054,7 @@ define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember-cli-mirage/u
 
     var environment = env.environment;
     var modules = (0, _emberCliMirageUtilsReadModules['default'])(env.modulePrefix);
-    var options = (0, _lodashObjectAssign['default'])(modules, { environment: environment, baseConfig: _pixLiveMirageConfig['default'], testConfig: _pixLiveMirageConfig.testConfig });
+    var options = (0, _lodashAssign['default'])(modules, { environment: environment, baseConfig: _pixLiveMirageConfig['default'], testConfig: _pixLiveMirageConfig.testConfig });
 
     return new _emberCliMirageServer['default'](options);
   }
@@ -4024,7 +4388,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+e350f134"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+80d24f4f"});
 }
 
 /* jshint ignore:end */
