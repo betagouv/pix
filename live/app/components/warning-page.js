@@ -2,7 +2,7 @@ import Ember from 'ember';
 import _ from 'pix-live/utils/lodash-custom';
 
 function fmtMSS(s) {
-  if (!_.isInteger(s))
+  if (!_.isInteger(s) || !s || s === null)
     return 0;
   return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
 }
@@ -13,17 +13,33 @@ export default Ember.Component.extend({
     return (parseInt(count) > 1) ? mystring + 's' : mystring;
   },
 
-  _formatTimeToHuman(allocatedTime){
-    if(typeof allocatedTime === undefined) return 0;
-    const timeArr = allocatedTime.toString().split(':');
-    const seconds = (parseInt(timeArr[1])<1)? '' : ' et ' + timeArr[1] + this._pluralize(' seconde', timeArr[1]);
-    return timeArr[0] + this._pluralize(' minute', timeArr[0]) + seconds;
+  _getTime(allocatedTime){
+    return allocatedTime.toString().split(':');
   },
 
-  didInsertElement(){
-    this.set('allocatedTime', fmtMSS(this.get('time')));
-    this.set('allocatedHumanTime', this._formatTimeToHuman(this.get('allocatedTime')));
+  _getSeconds(seconds){
+    return (seconds<1)? '' : seconds + this._pluralize(' seconde', seconds);
   },
+
+  _getMinutes(minutes){
+    return (minutes<1)? '' : minutes + this._pluralize(' minute', minutes);
+  },
+
+  _formatTimeToHuman(allocatedTime){
+    if(! allocatedTime || allocatedTime == 0) return '';
+    const time = this._getTime(allocatedTime);
+
+    const glue = (time[0]<1 || time[1]<1)? '' : ' et ';
+    return this._getMinutes(time[0]) + glue + this._getSeconds(time[1]);
+  },
+
+  allocatedHumanTime: Ember.computed('time', function(){
+    return this._formatTimeToHuman(fmtMSS(this.get('time')));
+  }),
+
+  allocatedTime: Ember.computed('time', function(){
+    return fmtMSS(this.get('time'));
+  }),
 
   actions: {
     confirmWarning() {
