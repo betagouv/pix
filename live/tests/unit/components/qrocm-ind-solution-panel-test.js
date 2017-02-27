@@ -6,7 +6,7 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
 
   setupTest('component:qrocm-ind-solution-panel', {});
 
-  describe.skip('#labelsInArray', function () {
+  describe('#labelsInArray', function () {
 
     it('should return the labels of input in an array', function () {
       //given
@@ -52,32 +52,29 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
 
   });
 
-  describe.skip('#answersToDisplay', function () {
-    const challenge = {
-      proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}'
-    };
-    const answer = {
-      value: 'smiley1: \':)\' smiley2: \':(\''
-    };
-    const solution = {
-      value: 'smiley1:\n- :-)\n- :)\n- :-D\n- :D:))\n\nsmiley2:\n- :-(\n- :(\n- :(('
-    };
+  describe('#dataToDisplay', function () {
 
-    const result = [{label: 'content', answer:':)', solution: ':-)'}, {label: 'triste', answer:':(', solution: ':-('}];w
+    it('should return an array with data to display', function () {
+      const challenge = {
+        proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}'
+      };
+      const answer = {
+        value: 'smiley1: \':)\' smiley2: \':(\''
+      };
+      const solution = {
+        value: 'smiley1:\n- :-)\n- :)\n- :-D\n- :D:))\n\nsmiley2:\n- :-(\n- :(\n- :(('
+      };
 
+      const component = this.subject();
+      component.set('challenge', challenge);
+      component.set('answer', answer);
+      component.set('solution', solution);
+      const dataToDisplay = component.get('dataToDisplay');
 
-
-  });
-
-  describe.skip('#solutionToDisplay', function () {
-
-    it('', function () {
-      // given
-
-      // when
-
-      // then
+      const result = [{'label': 'content', 'answer':':)', 'solution': ':-)'}, {'label': 'triste', 'answer':':(', 'solution': ':-('}];
+      expect(dataToDisplay).to.be.deep.equal(result);
 
     });
+
   });
 });

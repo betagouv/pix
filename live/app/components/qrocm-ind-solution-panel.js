@@ -1,4 +1,6 @@
+/* global jsyaml */
 import Ember from 'ember';
+import _ from 'lodash';
 
 const QrocmIndSolutionPanel = Ember.Component.extend({
 
@@ -26,8 +28,34 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
     return this.get('answer.value');
   }),
 
-  solutionToDisplay : Ember.computed('', function () {
-    return null;
+  dataToDisplay: Ember.computed('answer', 'solution', function () {
+    const yamlAnswer = this.get('answer.value');
+    const yamlSolution = this.get('solution.value');
+    const yamlChallengeLabels = this.get('challenge.proposals').replace(/\$\{/g, '').replace(/}/g, '');
+
+    const answer = jsyaml.safeLoad(yamlAnswer);
+    const solution = jsyaml.safeLoad(yamlSolution);
+    const challengeLabelsLoadInBadOrder = jsyaml.safeLoad(yamlChallengeLabels);
+    const challengeLabels = _.invert(challengeLabelsLoadInBadOrder);
+
+    const ProposalsInput = _.keys(challengeLabels);
+    const dataToDisplay = [];
+
+    ProposalsInput.forEach((keyWord) => {
+      const answerToDisplay = answer[keyWord];
+      const solutionToDisplay = solution[keyWord][0];
+      const labelToDisplay = challengeLabels[keyWord];
+
+      const proposalData = {
+        label : labelToDisplay,
+        answer : answerToDisplay,
+        solution : solutionToDisplay
+      };
+
+      dataToDisplay.push(proposalData);
+    });
+
+    return dataToDisplay;
   })
 
 });
