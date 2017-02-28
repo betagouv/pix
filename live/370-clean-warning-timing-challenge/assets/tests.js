@@ -5260,7 +5260,7 @@ define('pix-live/tests/unit/components/warning-time-page-test', ['exports', 'cha
         (0, _chai.expect)(component.get('allocatedHumanTime')).to.equal('10 secondes');
       });
 
-      (0, _mocha.it)('should return 1:00 when passing 60', function () {
+      (0, _mocha.it)('AllocatedTime should return 1:00 when passing 60', function () {
         // when
         component.set('time', 60);
         // then
@@ -5274,7 +5274,7 @@ define('pix-live/tests/unit/components/warning-time-page-test', ['exports', 'cha
         (0, _chai.expect)(component.get('allocatedHumanTime')).to.equal('1 minute');
       });
 
-      (0, _mocha.it)('should return 1:01 when passing 61', function () {
+      (0, _mocha.it)('AllocatedTime should return 1:01 when passing 61', function () {
         // when
         component.set('time', 61);
         // then
@@ -5288,14 +5288,14 @@ define('pix-live/tests/unit/components/warning-time-page-test', ['exports', 'cha
         (0, _chai.expect)(component.get('allocatedHumanTime')).to.equal('1 minute et 1 seconde');
       });
 
-      (0, _mocha.it)('should return 1:10 when passing 70', function () {
+      (0, _mocha.it)('AllocatedTime should return 1:10 when passing 70', function () {
         // when
         component.set('time', 70);
         // then
         (0, _chai.expect)(component.get('allocatedTime')).to.equal('1:10');
       });
 
-      (0, _mocha.it)('should return 2:01 when passing 121', function () {
+      (0, _mocha.it)('AllocatedTime should return 2:01 when passing 121', function () {
         // when
         component.set('time', 121);
         // then
@@ -6256,6 +6256,19 @@ define('pix-live/tests/unit/utils/lodash-custom-test', ['exports', 'chai', 'moch
       [{ value: undefined, expected: false }, { value: null, expected: false }, { value: new Date(), expected: false }, { value: '', expected: false }, { value: 'abcd', expected: true }].forEach(function (item) {
         (0, _mocha.it)('should return ' + item.expected + ' when value is ' + item.value, function () {
           (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNonEmptyString(item.value)).to.equal(item.expected);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#isNotInteger(s)', function () {
+
+      (0, _mocha.it)('when no arg, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNotInteger()).to.equal(true);
+      });
+
+      [{ value: undefined, expected: true }, { value: 'undefined', expected: true }, { value: null, expected: true }, { value: '', expected: true }, { value: 'abcd', expected: true }].forEach(function (item) {
+        (0, _mocha.it)('should return ' + item.expected + ' when value is ' + item.value, function () {
+          (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNotInteger(item.value)).to.equal(item.expected);
         });
       });
     });

@@ -1206,8 +1206,8 @@ define('pix-live/components/user-menu', ['exports', 'ember'], function (exports,
 define('pix-live/components/warning-page', ['exports', 'ember', 'pix-live/utils/lodash-custom'], function (exports, _ember, _pixLiveUtilsLodashCustom) {
 
   function fmtMSS(s, type) {
-    if (!_pixLiveUtilsLodashCustom['default'].isInteger(s) || !s || s === null) return 0;
-    if (type == 'jauge') {
+    if (_pixLiveUtilsLodashCustom['default'].isNotInteger(s)) return 0;
+    if (type === 'jauge') {
       return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
     }
     return (s - (s %= 60)) / 60 + ':' + s;
@@ -1232,7 +1232,7 @@ define('pix-live/components/warning-page', ['exports', 'ember', 'pix-live/utils/
     },
 
     _formatTimeToHuman: function _formatTimeToHuman(allocatedTime) {
-      if (!allocatedTime || allocatedTime == 0) return '';
+      if (!allocatedTime || allocatedTime === 0) return '';
       var time = this._getTime(allocatedTime);
 
       var glue = time[0] < 1 || time[1] < 1 ? '' : ' et ';
@@ -4342,6 +4342,9 @@ define('pix-live/utils/lodash-custom', ['exports'], function (exports) {
       return _.some(x, function (value) {
         return _.isTruthy(value);
       });
+    },
+    isNotInteger: function isNotInteger(x) {
+      return !_.isInteger(x) || x === null || !x || typeof x === 'undefined';
     }
   }, { chain: false });
 
@@ -4391,7 +4394,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+71e47e4a"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+34b43525"});
 }
 
 /* jshint ignore:end */
