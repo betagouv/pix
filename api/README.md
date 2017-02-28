@@ -1,4 +1,4 @@
-PIX-API 
+PIX-API
 =======
 
 NPM tasks
