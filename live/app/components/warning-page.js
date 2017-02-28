@@ -1,10 +1,12 @@
 import Ember from 'ember';
 import _ from 'pix-live/utils/lodash-custom';
 
-function fmtMSS(s) {
-  if (!_.isInteger(s) || !s || s === null)
-    return 0;
-  return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
+function fmtMSS(s, type) {
+  if (!_.isInteger(s) || !s || s === null)  return 0;
+  if(type=='jauge') {
+    return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
+  }
+  return (s - (s %= 60)) / 60 + ':' + s;
 }
 
 export default Ember.Component.extend({
@@ -38,7 +40,7 @@ export default Ember.Component.extend({
   }),
 
   allocatedTime: Ember.computed('time', function(){
-    return fmtMSS(this.get('time'));
+    return fmtMSS(this.get('time'), 'jauge');
   }),
 
   actions: {

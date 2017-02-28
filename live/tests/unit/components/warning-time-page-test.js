@@ -8,9 +8,9 @@ describe('Unit | Component | warning-page-component ', function () {
 
   let component;
 
-  function initComponent() {
+  beforeEach(function() {
     component = this.subject();
-  }
+  });
 
   describe('#Test rendering Property', function () {
 
@@ -22,8 +22,6 @@ describe('Unit | Component | warning-page-component ', function () {
       0
     ].forEach((value) => {
       it(`AllocatedTime should return 0 when passing ${value}`, function () {
-        // given
-        initComponent.call(this);
         // when
         component.set('time', value);
         // then
@@ -31,8 +29,6 @@ describe('Unit | Component | warning-page-component ', function () {
       });
 
       it(`AllocatedHumanTime should return '' when passing ${value}`, function () {
-        // given
-        initComponent.call(this);
         // when
         component.set('time', value);
         // then
@@ -41,8 +37,6 @@ describe('Unit | Component | warning-page-component ', function () {
     });
 
     it('AllocatedTime should return 0:10 when passing 10', function () {
-      // given
-      initComponent.call(this);
       // when
       component.set('time', 10);
       // then
@@ -50,8 +44,6 @@ describe('Unit | Component | warning-page-component ', function () {
     });
 
     it('AllocatedHumanTime should return 10 secondes when passing 10', function () {
-      // given
-      initComponent.call(this);
       // when
       component.set('time', 10);
       // then
@@ -60,8 +52,6 @@ describe('Unit | Component | warning-page-component ', function () {
 
 
     it('should return 1:00 when passing 60', function () {
-      // given
-      initComponent.call(this);
       // when
       component.set('time', 60);
       // then
@@ -69,8 +59,6 @@ describe('Unit | Component | warning-page-component ', function () {
     });
 
     it('AllocatedHumanTime should return 1 minute when passing 10', function () {
-      // given
-      initComponent.call(this);
       // when
       component.set('time', 60);
       // then
@@ -79,41 +67,49 @@ describe('Unit | Component | warning-page-component ', function () {
 
 
     it('should return 1:01 when passing 61', function () {
-      // given
-      initComponent.call(this);
       // when
       component.set('time', 61);
       // then
       expect(component.get('allocatedTime')).to.equal('1:01');
     });
 
-    it('AllocatedHumanTime should return 1 minute et 01 seconde when passing 61', function () {
-      // given
-      initComponent.call(this);
+    it('AllocatedHumanTime should return 1 minute et 1 seconde when passing 61', function () {
       // when
       component.set('time', 61);
       // then
-      expect(component.get('allocatedHumanTime')).to.equal('1 minute et 01 seconde');
+      expect(component.get('allocatedHumanTime')).to.equal('1 minute et 1 seconde');
     });
 
 
     it('should return 1:10 when passing 70', function () {
-      // given
-      initComponent.call(this);
       // when
       component.set('time', 70);
       // then
       expect(component.get('allocatedTime')).to.equal('1:10');
     });
 
+    it('should return 2:01 when passing 121', function () {
+      // when
+      component.set('time', 121);
+      // then
+      expect(component.get('allocatedTime')).to.equal('2:01');
+    });
+
+    it('AllocatedHumanTime should return 2 minutes et 1 seconde when passing 10', function () {
+      // when
+      component.set('time', 121);
+      // then
+      expect(component.get('allocatedHumanTime')).to.equal('2 minutes et 1 seconde');
+    });
+
     it('AllocatedHumanTime should return 2 minutes et 10 secondes when passing 10', function () {
-      // given
-      initComponent.call(this);
       // when
       component.set('time', 130);
       // then
       expect(component.get('allocatedHumanTime')).to.equal('2 minutes et 10 secondes');
     });
+
+
   });
 
 });
