@@ -1720,9 +1720,9 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
     var CSS_LINETHROUGH_ON = 'line-through';
     var CSS_LINETHROUGH_OFF = 'none';
 
-    var TEXT_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results__title-text';
-    var SVG_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-comparison__title svg';
-    var INDEX_OF_RESULT_SELECTOR = '.comparison-window--header .result-list__index';
+    var TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title-text';
+    var SVG_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title svg';
+    var INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__result-item-index';
 
     var TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
     var IMAGE_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__illustration-section';
@@ -1904,12 +1904,12 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
 
             case 2:
               (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED)).to.exist;
-              //expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
+              (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
 
-              context$3$0.next = 5;
+              context$3$0.next = 6;
               return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
 
-            case 5:
+            case 6:
               (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED).is(':checked')).to.equal(true);
               (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
               (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
@@ -1917,13 +1917,13 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
               (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
 
               // XXX test env needs the modal to be closed manually
-              context$3$0.next = 12;
+              context$3$0.next = 13;
               return regeneratorRuntime.awrap(click('.close-button-container'));
 
-            case 12:
+            case 13:
               (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
 
-            case 13:
+            case 14:
             case 'end':
               return context$3$0.stop();
           }
@@ -2070,6 +2070,221 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test.lint-test'
   'use strict';
 
   describe('ESLint - acceptance/j1-compare-answer-solution-qcm-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', function () {
+
+    var RESULT_URL = '/assessments/ref_assessment_id/results';
+    var COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4';
+
+    var TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title .comparison-window__title-text';
+    var SVG_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title svg';
+    var INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__result-item-index';
+
+    var TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
+
+    var CORRECTION_BOX_QROC = '.comparison-window__corrected-answers--qroc';
+
+    var FEEDBACK_LINK = '.comparison-window__feedback-panel';
+    var application = undefined;
+
+    before(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    after(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.describe)('j2.1 Possibilité de voir la correction d\'un challenge QROC depuis la page résultat', function () {
+
+      (0, _mocha.it)('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($('.result-list__item .js-correct-answer').text()).to.contain('RÉPONSE');
+
+            case 3:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('ouvre la modale si on clique sur REPONSE', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(click('.result-list__correction__button'));
+
+            case 5:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
+              context$3$0.next = 8;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 8:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 9:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 2:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 5:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 6:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+    });
+
+    (0, _mocha.describe)('j2.2 Contenu de la modale de correction pour un QROC', function () {
+
+      (0, _mocha.it)('contient un header', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+              (0, _chai.expect)($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+              (0, _chai.expect)($(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+
+              context$3$0.next = 7;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 7:
+              (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
+              (0, _chai.expect)($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(1);
+
+              context$3$0.next = 11;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 11:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 12:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('contient une instruction', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(0);
+
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 5:
+              (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
+
+              context$3$0.next = 8;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 8:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 9:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('contient une zone de correction', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 2:
+              (0, _chai.expect)($(CORRECTION_BOX_QROC)).to.have.lengthOf(1);
+
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 5:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 6:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('contient un lien vers feedback', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 2:
+              (0, _chai.expect)($(FEEDBACK_LINK)).to.have.lengthOf(1);
+
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 5:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 6:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/j2-compare-answer-solution-qroc-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -2291,15 +2506,6 @@ define('pix-live/tests/components/follower-form.lint-test', ['exports'], functio
     });
   });
 });
-define('pix-live/tests/components/get-result.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - components/get-result.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/components/modal-mobile.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2340,6 +2546,15 @@ define('pix-live/tests/components/qroc-proposal.lint-test', ['exports'], functio
   'use strict';
 
   describe('ESLint - components/qroc-proposal.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/qroc-solution-panel.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/qroc-solution-panel.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -3392,6 +3607,142 @@ define('pix-live/tests/integration/components/challenge-stay-test.lint-test', ['
     });
   });
 });
+define('pix-live/tests/integration/components/comparison-window-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
+
+  var challenge = _ember['default'].Object.create({
+    instruction: 'This is the instruction',
+    proposals: '' + '- 1ere possibilite\n ' + '- 2eme possibilite\n ' + '- 3eme possibilite\n' + '- 4eme possibilite'
+  });
+
+  var answer = _ember['default'].Object.create({
+    value: '1,2',
+    result: 'ko'
+  });
+
+  var solution = _ember['default'].Object.create({
+    value: '2,3'
+  });
+
+  (0, _mocha.describe)('Integration | Component | comparison window', function () {
+
+    (0, _emberMocha.setupComponentTest)('comparison-window', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('rendering', function () {
+
+      (0, _mocha.it)('renders', function () {
+
+        this.set('answer', answer);
+        this.set('index', '3');
+        this.set('challenge', challenge);
+        this.set('solution', solution);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'hUhE+Aig',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["challenge","answer","solution","index"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should render challenge result (in the header)', function () {
+        this.set('answer', answer);
+        this.set('index', '3');
+        this.set('challenge', challenge);
+        this.set('solution', solution);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'hUhE+Aig',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["challenge","answer","solution","index"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.comparison-window__header')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render challenge instruction', function () {
+        // when
+        this.set('answer', answer);
+        this.set('index', '3');
+        this.set('challenge', challenge);
+        this.set('solution', solution);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'hUhE+Aig',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["challenge","answer","solution","index"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // then
+        (0, _chai.expect)(this.$('.challenge-statement__instruction')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render corrected answers when challenge', function () {
+        // when
+        this.set('answer', answer);
+        this.set('index', '3');
+        this.set('challenge', challenge);
+        this.set('solution', solution);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'hUhE+Aig',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["challenge","answer","solution","index"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // then
+        (0, _chai.expect)(this.$('.comparison-window__corrected-answers')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render corrected answers when challenge type is QROC', function () {
+        // given
+        var challenge = _ember['default'].Object.create({ type: 'QROC' });
+        this.set('challenge', challenge);
+        this.set('answer', answer);
+        this.set('index', '3');
+        this.set('solution', solution);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'hUhE+Aig',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["challenge","answer","solution","index"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // then
+        (0, _chai.expect)(this.$('.comparison-window__corrected-answers--qroc')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render a feedback panel', function () {
+        this.set('challenge', challenge);
+        this.set('answer', answer);
+        this.set('index', '3');
+        this.set('solution', solution);
+        //when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'hUhE+Aig',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["challenge","answer","solution","index"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        //then
+        (0, _chai.expect)(this.$('.comparison-window__feedback-panel')).to.have.length(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/comparison-window-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/comparison-window-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/integration/components/corner-ribbon-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
 
   describe('Integration | Component | CornerRibbonComponent', function () {
@@ -4029,6 +4380,142 @@ define('pix-live/tests/integration/components/qroc-proposal-test.lint-test', ['e
     });
   });
 });
+define('pix-live/tests/integration/components/qroc-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
+
+  var ANSWER_BLOCK = '.correction-qroc-box__answer';
+  var ANSWER_INPUT = '.correction-qroc-box--answer__input';
+  var SOLUTION_BLOCK = '.correction-qroc-box__solution';
+  var SOLUTION_DISPLAY = '.correction-qroc-box__solution-text';
+
+  var RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
+  var NO_ANSWER_GREY = 'rgb(62, 65, 73)';
+
+  (0, _mocha.describe)('Integration | Component | qroc solution panel', function () {
+    (0, _emberMocha.setupComponentTest)('qroc-solution-panel', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      this.render(_ember['default'].HTMLBars.template({
+        'id': 'd0K2Guv4',
+        'block': '{"statements":[["append",["unknown",["qroc-solution-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.it)('should disabled all inputs', function () {
+      // when
+      this.render(_ember['default'].HTMLBars.template({
+        'id': 'd0K2Guv4',
+        'block': '{"statements":[["append",["unknown",["qroc-solution-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      // then
+      var input = this.$('input');
+      (0, _chai.expect)(input).to.be.disabled;
+    });
+
+    (0, _mocha.describe)('comparison when the answer is right', function () {
+
+      var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
+      var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
+      var answer = _ember['default'].Object.extend({ id: 'answer_id', isResultOk: true, assessment: assessment, challenge: challenge }).create();
+
+      (0, _mocha.it)('should diplay the answer in bold green and not the solution', function () {
+        // given
+        this.set('answer', answer);
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'wYkLQEux',
+          'block': '{"statements":[["append",["helper",["qroc-solution-panel"],null,[["answer"],[["get",["answer"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // when
+        var answerInput = this.$(ANSWER_INPUT);
+        var answerBlock = this.$(ANSWER_BLOCK);
+        var solutionBlock = this.$(SOLUTION_BLOCK);
+        // then
+        (0, _chai.expect)(answerInput).to.have.lengthOf(1);
+        (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
+        (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('bold');
+        (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('none');
+        (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
+        (0, _chai.expect)(solutionBlock).to.have.lengthOf(0);
+      });
+    });
+
+    (0, _mocha.describe)('comparison when the answer is false', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
+        var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
+        var answer = _ember['default'].Object.extend({ id: 'answer_id', isResultNotOk: true, assessment: assessment, challenge: challenge }).create();
+
+        this.set('answer', answer);
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'wYkLQEux',
+          'block': '{"statements":[["append",["helper",["qroc-solution-panel"],null,[["answer"],[["get",["answer"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+      });
+
+      (0, _mocha.it)('should display the false answer line-through', function () {
+        // given
+        var answerBlock = this.$(ANSWER_BLOCK);
+        var answerInput = this.$(ANSWER_INPUT);
+        // then
+        (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
+        (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
+        (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('line-through');
+      });
+
+      (0, _mocha.it)('should display the solution with a arrow and the solution in bold green', function () {
+        // given
+        var blockSolution = this.$(SOLUTION_BLOCK);
+        var blockSolutionText = this.$(SOLUTION_DISPLAY);
+        // then
+        (0, _chai.expect)(blockSolution).to.have.lengthOf(1);
+        (0, _chai.expect)(blockSolutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
+        (0, _chai.expect)(blockSolutionText.css('font-weight')).to.be.equal('bold');
+      });
+
+      (0, _mocha.describe)('comparison when the answer was not given', function () {
+
+        (0, _mocha.beforeEach)(function () {
+          var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
+          var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
+          var answer = _ember['default'].Object.extend({ id: 'answer_id', isResultWithoutAnswer: true, assessment: assessment, challenge: challenge }).create();
+
+          this.set('answer', answer);
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'wYkLQEux',
+            'block': '{"statements":[["append",["helper",["qroc-solution-panel"],null,[["answer"],[["get",["answer"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+        });
+
+        (0, _mocha.it)('should display PAS DE REPONSE in italic', function () {
+          // given
+          var answerBlock = this.$(ANSWER_BLOCK);
+          var answerInput = this.$(ANSWER_INPUT);
+          // then
+          (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
+          (0, _chai.expect)(answerInput.css('font-style')).to.be.equal('italic');
+          (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/qroc-solution-panel-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/qroc-solution-panel-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/integration/components/qrocm-proposal-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | QrocmProposalComponent', function () {
@@ -4254,7 +4741,7 @@ define('pix-live/tests/integration/components/window-comparison-test', ['exports
         // then
         (0, _chai.expect)(this.$()).to.have.length(1);
         (0, _chai.expect)(this.$('.comparison-window--body .challenge-statement__instruction').text()).to.equal('This is the instruction');
-        (0, _chai.expect)(this.$('.result-list__index').text().trim()).to.equal('3');
+        (0, _chai.expect)(this.$('.comparison-window__result-item-index').text().trim()).to.equal('3');
       });
     });
   });
@@ -4799,6 +5286,106 @@ define('pix-live/tests/unit/components/qcu-proposals-test.lint-test', ['exports'
     });
   });
 });
+define('pix-live/tests/unit/components/qroc-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Component | qroc-solution-panel', function () {
+
+    (0, _emberMocha.setupTest)('component:qroc-solution-panel', {});
+
+    (0, _mocha.describe)('#answerToDisplay', function () {
+
+      (0, _mocha.it)('should return an empty string if the answer is #ABAND#', function () {
+        // given
+        var answer = {
+          value: '#ABAND#'
+        };
+        var component = this.subject();
+        component.set('answer', answer);
+        // when
+        var answerToDisplay = component.get('answerToDisplay');
+        // then
+        (0, _chai.expect)(answerToDisplay).to.equal('Pas de réponse');
+      });
+
+      (0, _mocha.it)('should return the answer if the answer is not #ABAND#', function () {
+        // given
+        var answer = {
+          value: 'La Reponse B'
+        };
+        var component = this.subject();
+        component.set('answer', answer);
+        // when
+        var answerToDisplay = component.get('answerToDisplay');
+        // then
+        (0, _chai.expect)(answerToDisplay).to.equal('La Reponse B');
+      });
+    });
+
+    (0, _mocha.describe)('#solutionToDisplay', function () {
+
+      (0, _mocha.it)('should return the first solution if the solution has some variants', function () {
+        // given
+        var solution = {
+          value: 'Reponse\nreponse\nréponse'
+        };
+        var component = this.subject();
+        component.set('solution', solution);
+        // when
+        var solutionToDisplay = component.get('solutionToDisplay');
+        // then
+        (0, _chai.expect)(solutionToDisplay).to.equal('Reponse');
+      });
+
+      (0, _mocha.it)('should return the solution', function () {
+        // given
+        var solution = {
+          value: 'Reponse'
+        };
+        var component = this.subject();
+        component.set('solution', solution);
+        // when
+        var solutionToDisplay = component.get('solutionToDisplay');
+        // then
+        (0, _chai.expect)(solutionToDisplay).to.equal('Reponse');
+      });
+
+      (0, _mocha.it)('should return an empty string if the solution is null', function () {
+        // given
+        var emptySolution = {
+          value: ''
+        };
+        var component = this.subject();
+        component.set('solution', emptySolution);
+        // when
+        var solutionToDisplay = component.get('solutionToDisplay');
+        // then
+        (0, _chai.expect)(solutionToDisplay).to.equal('');
+      });
+
+      (0, _mocha.it)('should return an empty string if the solution is an empty String', function () {
+        // given
+        var solutionNull = {
+          value: null
+        };
+        var component = this.subject();
+        component.set('solution', solutionNull);
+        // when
+        var solutionToDisplay = component.get('solutionToDisplay');
+        // then
+        (0, _chai.expect)(solutionToDisplay).to.equal('');
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/qroc-solution-panel-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/components/qroc-solution-panel-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/unit/components/result-item-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   var undefinedAnswer = 'undefined';
@@ -4831,15 +5418,13 @@ define('pix-live/tests/unit/components/result-item-test', ['exports', 'chai', 'm
 
     var component = undefined;
 
-    function initComponent() {
+    beforeEach(function () {
       component = this.subject();
-    }
+    });
 
     (0, _mocha.describe)('#resultItemContent Computed property - undefined case', function () {
       [undefinedAnswer, answerWithEmptyResult, answerWithUndefinedResult, answerWithNullResult].forEach(function (answer) {
         (0, _mocha.it)('should returns false when answer provided is: ' + answer.name, function () {
-          // given
-          initComponent.call(this);
           // when
           component.set('answer', answer);
           // then
@@ -4850,8 +5435,6 @@ define('pix-live/tests/unit/components/result-item-test', ['exports', 'chai', 'm
 
     (0, _mocha.describe)('#resultItemContent Computed property - defined case', function () {
       (0, _mocha.it)('should returns true when answer provided with result ok', function () {
-        // given
-        initComponent.call(this);
         // when
         component.set('answer', answerWithOkResult);
         // then
@@ -4859,8 +5442,6 @@ define('pix-live/tests/unit/components/result-item-test', ['exports', 'chai', 'm
       });
 
       (0, _mocha.it)('should returns true when answer provided with result uncommon value by not null or undefined ', function () {
-        // given
-        initComponent.call(this);
         // when
         component.set('answer', answerWithRandomResult);
         // then
