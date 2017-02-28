@@ -56,7 +56,7 @@ _.mixin({
       && !(_.isNaN(x))                         // not a NaN
       && !(_.isArray(x) && _.isEmpty(x))   // not an empty array
       && !(_.isObject(x) && _.isEmpty(x)); // not an empty object
-  },
+    },
   // Not enough value to test a one line function, mainly an alias here.
   /* istanbul ignore next */
   isFalsy: function(x) {
@@ -70,6 +70,13 @@ _.mixin({
     if (_.isEmpty(x)) return false;
     return _.some(x, function(value) {
       return _.isTruthy(value);
+    });
+  },
+  // See http://veerasundar.com/blog/2013/01/underscore-js-and-guid-function/
+  guid: function() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+      return v.toString(16);
     });
   }
 }, {chain: false});

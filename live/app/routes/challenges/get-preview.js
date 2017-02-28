@@ -1,22 +1,23 @@
 import Ember from 'ember';
-import RSVP from 'rsvp';
-import getChallengeType from '../../utils/get-challenge-type';
+import _ from 'pix-live/utils/lodash-custom';
 
 export default Ember.Route.extend({
 
   model(params) {
     const store = this.get('store');
-    const challengePromise = store.findRecord('challenge', params.challenge_id);
-
-    return RSVP.hash({
-      challenge: challengePromise
-    });
+    return store.findRecord('challenge', params.challenge_id);
   },
 
-  setupController: function(controller, model) {
-    this._super(controller, model);
-    const challengeType =  getChallengeType(model.challenge.get('type'));
-    controller.set('challengeItemType', 'challenge-item-' + challengeType);
+  afterModel(challenge) {
+    const store = this.get('store');
+
+    // creates a fake course
+    const course = store.createRecord('course', {id: 'null' + _.guid(), challenges: [challenge]});
+    const assessment = store.createRecord('assessment', { course });
+
+    assessment.save().then(() => {
+      this.transitionTo('assessments.get-challenge', { assessment, challenge });
+    });
   }
 
 });

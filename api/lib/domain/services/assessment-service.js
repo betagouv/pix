@@ -63,6 +63,10 @@ module.exports = {
         resolve(null);
       }
 
+      if (_.startsWith(assessment.get('courseId'), 'null')) {
+        resolve(null);
+      }
+
       const courseId = assessment.get('courseId');
       courseRepository
         .get(courseId)

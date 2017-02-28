@@ -14,7 +14,7 @@ const solutionRepository = require('../../infrastructure/repositories/solution-r
 module.exports = {
 
   save(request, reply) {
-
+console.log('request.payload- - - - - - - - - - - - - - - - - - - - ', JSON.stringify(request.payload));
     const assessment = assessmentSerializer.deserialize(request.payload);
 
     return assessment.save()
@@ -39,12 +39,14 @@ module.exports = {
     assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
+        console.log('assessment- - - - - - - - - - - - - - - - - - - - ', assessment);
         return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
       })
       .then((nextChallengeId) => {
         return (nextChallengeId) ? challengeRepository.get(nextChallengeId) : null;
       })
       .then((challenge) => {
+        console.log('(new Date()).getTime()- - - - - - - - - - - - - - - - - - - - ', challenge);
         return (challenge) ? reply(challengeSerializer.serialize(challenge)) : reply('null');
       })
       .catch((err) => reply(Boom.badImplementation(err)));
@@ -58,7 +60,7 @@ module.exports = {
         if (_.isEmpty(assessment)) {
           return reply('null');
         }
-        
+
         return answerRepository.findByAssessment(assessment.get('id'))
           .then((answers) => {
             const answersLength = _.get(answers, 'length', 0);
