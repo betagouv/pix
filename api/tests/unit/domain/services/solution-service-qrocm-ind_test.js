@@ -5,7 +5,7 @@ const Answer = require('../../../../lib/domain/models/data/answer');
 const Solution = require('../../../../lib/domain/models/referential/solution');
 const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 
-describe('Unit | Service | SolutionServiceQROC ', function () {
+describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
 
 
   function buildSolution(type, value, scoring) {
