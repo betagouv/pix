@@ -51,7 +51,7 @@ describe('Unit | Component | warning-page-component ', function () {
     });
 
 
-    it('should return 1:00 when passing 60', function () {
+    it('AllocatedTime should return 1:00 when passing 60', function () {
       // when
       component.set('time', 60);
       // then
@@ -66,7 +66,7 @@ describe('Unit | Component | warning-page-component ', function () {
     });
 
 
-    it('should return 1:01 when passing 61', function () {
+    it('AllocatedTime should return 1:01 when passing 61', function () {
       // when
       component.set('time', 61);
       // then
@@ -81,14 +81,14 @@ describe('Unit | Component | warning-page-component ', function () {
     });
 
 
-    it('should return 1:10 when passing 70', function () {
+    it('AllocatedTime should return 1:10 when passing 70', function () {
       // when
       component.set('time', 70);
       // then
       expect(component.get('allocatedTime')).to.equal('1:10');
     });
 
-    it('should return 2:01 when passing 121', function () {
+    it('AllocatedTime should return 2:01 when passing 121', function () {
       // when
       component.set('time', 121);
       // then
