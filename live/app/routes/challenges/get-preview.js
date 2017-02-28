@@ -10,13 +10,15 @@ export default Ember.Route.extend({
 
   afterModel(challenge) {
     const store = this.get('store');
-
+    const that = this;
     // creates a fake course
     const course = store.createRecord('course', {id: 'null' + _.guid(), challenges: [challenge]});
     const assessment = store.createRecord('assessment', { course });
+    const solutionAdapter = store.adapterFor('solution');
 
-    assessment.save().then(() => {
-      this.transitionTo('assessments.get-challenge', { assessment, challenge });
+    solutionAdapter.refreshRecord('solution', {challengeId : challenge.get('id')});
+    return assessment.save().then(() => {
+      return that.transitionTo('assessments.get-challenge', { assessment, challenge });
     });
   }
 

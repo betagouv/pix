@@ -56,7 +56,7 @@ _.mixin({
       && !(_.isNaN(x))                         // not a NaN
       && !(_.isArray(x) && _.isEmpty(x))   // not an empty array
       && !(_.isObject(x) && _.isEmpty(x)); // not an empty object
-    },
+  },
   // Not enough value to test a one line function, mainly an alias here.
   /* istanbul ignore next */
   isFalsy: function(x) {
