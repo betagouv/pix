@@ -7,7 +7,7 @@ export default Ember.Route.extend({
   },
 
   afterModel(courseId) {
-    this.transitionTo('courses.create-assessment', { courseId });
+    this.transitionTo('courses.create-assessment', courseId);
   }
 
 });
