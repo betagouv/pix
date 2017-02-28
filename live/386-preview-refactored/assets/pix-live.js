@@ -1962,6 +1962,9 @@ define('pix-live/initializers/ajax-interceptor', ['exports', 'pix-live/config/en
             body: settings.data
           }));
         }
+        if ('POST' === settings.type) {
+          localStorage.setItem('POST_ON_URL_' + settings.url.split('api')[1], settings.data);
+        }
       });
     }
   }
@@ -4406,7 +4409,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+26977d9b"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+5c8cd6a1"});
 }
 
 /* jshint ignore:end */

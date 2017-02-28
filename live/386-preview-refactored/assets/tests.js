@@ -455,7 +455,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
             // Given
-            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
 
             // Given
             (0, _chai.expect)($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
@@ -588,7 +588,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
       return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
-            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
             context$2$0.next = 3;
             return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
 
@@ -653,7 +653,7 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
       return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
-            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
             fillIn('input[data-uid="qroc-proposal-uid"]', 'My New Answer');
             context$2$0.next = 4;
             return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
@@ -730,7 +730,7 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['exports', 'mocha', '
       return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
-            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
             $(':input:eq(0)').val('stuff1');
             $(':input:eq(1)').val('stuff2');
             $(':input:eq(2)').val('stuff3');
@@ -1153,30 +1153,43 @@ define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test', ['exports',
       (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
     });
 
-    (0, _mocha.describe)('e1 - Prévisualiser une épreuve |', function () {
+    (0, _mocha.describe)('e1 - Prévisualiser une épreuve | ', function () {
 
       (0, _mocha.beforeEach)(function () {
+        // localStorage.clear();
+        (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
         visit('/');
       });
 
       (0, _mocha.it)('e1.1 Il y a une demande de création d\'un assessment avec un course vide', function callee$2$0() {
-        var idFirstChars;
+        var postOnAssessment, postOnAssessmentObj, idFirstChars;
         return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
           while (1) switch (context$3$0.prev = context$3$0.next) {
             case 0:
-              (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
-              context$3$0.next = 3;
+              postOnAssessment = localStorage.getItem('POST_ON_URL_/assessments');
+
+              (0, _chai.expect)(postOnAssessment).not.to.exist;
+
+              // When
+              context$3$0.next = 4;
               return regeneratorRuntime.awrap(visit('/challenges/ref_qcu_challenge_id/preview'));
 
-            case 3:
-              (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/assessments');
-              (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.relationships.course.data.type')).to.equal('courses');
-              (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.type')).to.equal('assessments');
-              idFirstChars = _pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.relationships.course.data.id').substring(0, 4);
+            case 4:
 
+              // Then
+              postOnAssessment = localStorage.getItem('POST_ON_URL_/assessments');
+              (0, _chai.expect)(postOnAssessment).to.exist;
+              postOnAssessmentObj = JSON.parse(postOnAssessment);
+
+              (0, _chai.expect)(typeof postOnAssessment).to.equal('string');
+              (0, _chai.expect)(typeof postOnAssessmentObj).to.equal('object');
+              (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(postOnAssessmentObj, 'data.type')).to.equal('assessments');
+              idFirstChars = _pixLiveUtilsLodashCustom['default'].get(postOnAssessmentObj, 'data.relationships.course.data.id').substring(0, 4);
+
+              (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(postOnAssessmentObj, 'data.relationships.course.data.type')).to.deep.equal('courses');
               (0, _chai.expect)(idFirstChars).to.equal('null');
 
-            case 8:
+            case 13:
             case 'end':
               return context$3$0.stop();
           }
@@ -1200,9 +1213,41 @@ define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test', ['exports',
           }
         }, null, this);
       });
+
+      (0, _mocha.it)('e1.3 Il y a une demande de rafraichissement du cache des solutions', function callee$2$0() {
+        var postOnAssessment;
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              postOnAssessment = localStorage.getItem('POST_ON_URL_/challenges/ref_qcu_challenge_id/solution');
+
+              (0, _chai.expect)(postOnAssessment).not.to.exist;
+
+              // When
+              context$3$0.next = 4;
+              return regeneratorRuntime.awrap(visit('/challenges/ref_qcu_challenge_id/preview'));
+
+            case 4:
+
+              // Then
+              postOnAssessment = localStorage.getItem('POST_ON_URL_/challenges/ref_qcu_challenge_id/solution');
+              (0, _chai.expect)(postOnAssessment).to.exist;
+
+            case 6:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
     });
   });
 });
+
+// Given
+
+// Given
+
+// Given
 define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -1481,7 +1526,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
         });
 
         (0, _mocha.it)('Si l\'utilisateur ABANDONNE et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
-          (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+          (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
           visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
@@ -1497,7 +1542,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
         });
 
         (0, _mocha.it)('Si l\'utilisateur ABANDONNE et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
-          (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+          (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
           visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
@@ -3238,20 +3283,15 @@ define('pix-live/tests/helpers/resolver.lint-test', ['exports'], function (expor
 define('pix-live/tests/helpers/shared-state', ['exports'], function (exports) {
   exports.resetTestingState = resetTestingState;
   exports.setTestingState = setTestingState;
-  exports.resetPostRequest = resetPostRequest;
   exports.urlOfLastPostRequest = urlOfLastPostRequest;
   exports.bodyOfLastPostRequest = bodyOfLastPostRequest;
 
   function resetTestingState() {
-    localStorage.setItem('mirageTestingState', null);
+    localStorage.clear();
   }
 
   function setTestingState(state) {
     localStorage.setItem('mirageTestingState', JSON.stringify(state));
-  }
-
-  function resetPostRequest() {
-    localStorage.setItem('miragePostUrl', null);
   }
 
   function urlOfLastPostRequest() {
