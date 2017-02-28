@@ -17,7 +17,7 @@ describe('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
     destroyApp(application);
   });
 
-  describe.only('e1 - Prévisualiser une épreuve |', function () {
+  describe('e1 - Prévisualiser une épreuve |', function () {
 
     beforeEach(function () {
       visit('/');
