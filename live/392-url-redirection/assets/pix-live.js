@@ -3454,7 +3454,7 @@ define('pix-live/routes/courses/create-assessment-old', ['exports', 'ember'], fu
     },
 
     afterModel: function afterModel(courseId) {
-      this.transitionTo('courses.create-assessment', { courseId: courseId });
+      this.transitionTo('courses.create-assessment', courseId);
     }
 
   });
@@ -4386,7 +4386,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+e7ddea0e"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+0d898a6e"});
 }
 
 /* jshint ignore:end */
