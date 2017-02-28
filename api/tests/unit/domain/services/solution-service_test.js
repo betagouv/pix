@@ -368,6 +368,11 @@ describe('Unit | Service | SolutionService', function () {
           solution: twoPossibleSolutions
         },
         {
+          when: 'Both answers are correct with 2 solutions, and there are unbreakable spaces in both answers',
+          answer: 'num1: G o o g l e  \nnum2:  Y a h o o ',
+          solution: twoPossibleSolutions
+        },
+        {
           when: 'Both answers are correct, and solutions contains spaces everywhere',
           answer: 'num1: Google\nnum2: Yahoo',
           solution: 'Google:\n-  G o o g le  \nYahoo:\n-   Y a h o    o   '
