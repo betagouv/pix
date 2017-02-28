@@ -5,13 +5,12 @@ const service = require('../../../../lib/domain/services/assessment-service');
 describe('Unit | Service | AssessmentService', function () {
 
 
-
-  it('should exist', function () {
+  it('Should exist', function () {
     expect(service).to.exist;
   });
-  it('getAssessmentNextChallengeId should exist', function () {
+
+  it('#getAssessmentNextChallengeId should exist', function () {
     expect(service.getAssessmentNextChallengeId).to.exist;
   });
-
 
 });
