@@ -4,8 +4,8 @@
 }
 
 .challenge-statement__instruction {
-  -webkit-font-smoothing: antialiased !important;
-  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased !important;
+  font-smoothing: grayscale;
   strong{
     font-weight: 900;
   }
