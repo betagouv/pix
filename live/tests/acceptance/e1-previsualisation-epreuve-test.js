@@ -2,6 +2,8 @@ import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
+import { resetPostRequest, bodyOfLastPostRequest, urlOfLastPostRequest } from '../helpers/shared-state';
+import _ from 'pix-live/utils/lodash-custom';
 
 describe('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
 
@@ -15,29 +17,27 @@ describe('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
     destroyApp(application);
   });
 
-  describe('e1 - Prévisualiser une épreuve |', function () {
+  describe.only('e1 - Prévisualiser une épreuve |', function () {
 
     beforeEach(function () {
-      visit('/challenges/ref_qcu_challenge_id/preview');
+      visit('/');
     });
 
-    it('e1.1 Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
-      expect(currentURL()).to.equal('/challenges/ref_qcu_challenge_id/preview');
-      expect(findWithAssert('#challenge-preview'));
+    it('e1.1 Il y a une demande de création d\'un assessment avec un course vide', async function () {
+      resetPostRequest();
+      await visit('/challenges/ref_qcu_challenge_id/preview');
+      expect(urlOfLastPostRequest()).to.equal('/api/assessments');
+      expect(_.get(bodyOfLastPostRequest(), 'data.relationships.course.data.type')).to.equal('courses');
+      expect(_.get(bodyOfLastPostRequest(), 'data.type')).to.equal('assessments');
+      const idFirstChars = _.get(bodyOfLastPostRequest(), 'data.relationships.course.data.id').substring(0,4);
+      expect(idFirstChars).to.equal('null');
     });
 
-    describe('On affiche', function () {
-
-      let $challenge;
-
-      beforeEach(function () {
-        $challenge = findWithAssert('#challenge-preview');
-      });
-
-      it('e1.2 la consigne de l\'épreuve', function () {
-        expect($challenge.find('.challenge-statement__instruction').text()).to.contain('Un QCU propose plusieurs choix, l\'utilisateur peut en choisir un seul');
-      });
-
+    it('e1.2 On affiche l\'assessment retourné par le serveur', async function () {
+      await visit('/challenges/ref_qcu_challenge_id/preview');
+      expect(currentURL()).to.equal('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+      expect(findWithAssert('#assessment-challenge'));
     });
+
   });
 });

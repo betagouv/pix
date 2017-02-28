@@ -7,7 +7,7 @@ export default function (schema, request) {
 
   const answer = JSON.parse(request.requestBody);
   const courseId = answer.data.relationships.course.data.id;
-
+console.log('request.requestBody- - - - - - - - - - - - - - - - - - - - ', request.requestBody);
   const allAssessments = [
     rawAssessment,
     refAssessment
@@ -21,6 +21,8 @@ export default function (schema, request) {
 
   if (assessment) {
     return assessment.obj;
+  } else if (_.startsWith(courseId, 'null')) {
+    return refAssessment;
   } else {
     throw new Error('undefined new assessment, sorry');
   }
