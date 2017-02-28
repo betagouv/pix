@@ -1,6 +1,13 @@
 <div class="qrocm-solution-panel rounded-panel">
   <div class="rounded-panel__row ">
 
+    <div style="border:1px solid red">
+      <div>{{challenge.proposals}}</div>
+      <div>{{answer.value}}</div>
+      <div>{{solution.value}}</div>
+      <div>{{dataToDisplay}}</div>
+
+    </div>
     <div>
       {{#each dataToDisplay as |input|}}
         <div>

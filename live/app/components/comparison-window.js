@@ -23,5 +23,8 @@ const ComparisonWindow = Ember.Component.extend({
 
 });
 
+ComparisonWindow.reopenClass({
+  positionalParams: ['answer', 'solution', 'challenge']
+});
 
 export default ComparisonWindow;

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe.only('Unit | Component | qrocm-solution-panel', function () {
+describe('Unit | Component | qrocm-solution-panel', function () {
 
   setupTest('component:qrocm-ind-solution-panel', {});
 
@@ -73,6 +73,7 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
 
       const result = [{'label': 'content', 'answer':':)', 'solution': [':-)', ':)', ':-D', ':D', ':))'], 'rightAnswer' : true },
         {'label': 'triste', 'answer':':(', 'solution': [':-(', ':(', ':(('], 'rightAnswer': true}];
+
       expect(dataToDisplay).to.be.deep.equal(result);
 
     });
@@ -96,6 +97,42 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
 
       const result = [{'label': 'Clé USB', 'answer':'1', 'solution': [2], 'rightAnswer' : false },
         {'label': 'Carte mémoire (SD)', 'answer':'2', 'solution': [1], 'rightAnswer': false}];
+
+      expect(dataToDisplay).to.be.deep.equal(result);
+
+    });
+
+    it.only('should return an array with data to display DEBUG', function () {
+      const challenge = {
+        proposals: '- alain@pix.fr : ${num1}\n' +
+        '- leonie@pix.fr : ${num2}\n' +
+        '- Programme_Pix.pdf : ${num3}\n' +
+        '- lucie@pix.fr : ${num4}\n' +
+        '- Programme du festival Pix : ${num5}\n' +
+        '- jeremy@pix.fr : ${num6}'
+      };
+      const answer = {
+        value: 'num1: \'1\' num2: \'2\' num3: \'3\' num4: \'4\' num5: \'5\' num6: \'6\''
+      };
+      const solution = {
+        value: 'num1:\n- 2\nnum2:\n- 3\n- 4\nnum3:\n- 6\nnum4:\n- 1\nnum5:\n- 5\nnum6:\n- 2'
+      };
+
+      const component = this.subject();
+      component.set('challenge', challenge);
+      component.set('answer', answer);
+      component.set('solution', solution);
+      const dataToDisplay = component.get('dataToDisplay');
+
+      const result = [{ 'label': 'alain@pix.fr', 'answer': '1', 'solution': [2], 'rightAnswer': false },
+        { 'label': 'leonie@pix.fr', 'answer': '2', 'solution': [3], 'rightAnswer': false },
+        { 'label': 'Programme_Pix.pdf', 'answer': '3', 'solution': [4], 'rightAnswer': false },
+        { 'label': 'lucie@pix.fr', 'answer': '4', 'solution': [1], 'rightAnswer': false },
+        { 'label': 'Programme du festival Pix', 'answer': '5', 'solution': [5], 'rightAnswer': true },
+        { 'label': 'jeremy@pix.fr', 'answer': '6', 'solution': [2], 'rightAnswer': false }];
+
+      console.log(dataToDisplay);
+      console.log(result);
 
       expect(dataToDisplay).to.be.deep.equal(result);
 

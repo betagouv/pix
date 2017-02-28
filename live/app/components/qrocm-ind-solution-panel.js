@@ -26,14 +26,18 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
     const challengeLabelsLoadInBadOrder = jsyaml.safeLoad(yamlChallengeLabels);
     const challengeLabels = _.invert(challengeLabelsLoadInBadOrder);
 
+    console.log('_answer : ' + JSON.stringify(_answer));
+    console.log('_solution : ' + JSON.stringify(_solution));
+    console.log('challengeLabels : ' + JSON.stringify(challengeLabels));
+
     const proposalsInput = _.keys(challengeLabels);
     const dataToDisplay = [];
 
     proposalsInput.forEach((keyWord) => {
-      const answerToDisplay = _answer[keyWord].toString();
+      const answerToDisplay = _answer[keyWord];
       const solutionToDisplay = _solution[keyWord];
       const labelToDisplay = challengeLabels[keyWord];
-      const rightAnswer = answerToDisplay === _solution[keyWord] || _.contains(_solution[keyWord], _answer[keyWord]);
+      const rightAnswer = (answerToDisplay === _solution[keyWord] || _.contains(_solution[keyWord], _answer[keyWord]));
 
       const proposalData = {
         label: labelToDisplay,
