@@ -1153,7 +1153,7 @@ define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test', ['exports',
       (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
     });
 
-    _mocha.describe.only('e1 - Prévisualiser une épreuve |', function () {
+    (0, _mocha.describe)('e1 - Prévisualiser une épreuve |', function () {
 
       (0, _mocha.beforeEach)(function () {
         visit('/');
@@ -6251,10 +6251,7 @@ define('pix-live/tests/utils/lodash-custom.lint-test', ['exports'], function (ex
 
   describe('ESLint - utils/lodash-custom.js', function () {
     it('should pass ESLint', function () {
-      // precompiled test failed
-      var error = new chai.AssertionError('utils/lodash-custom.js should pass ESLint.\n59:5  - Expected indentation of 2 spaces but found 4. (indent)');
-      error.stack = undefined;
-      throw error;
+      // precompiled test passed
     });
   });
 });

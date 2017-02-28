@@ -36,6 +36,11 @@ define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application'
       return _ember['default'].$.getJSON(this.host + '/' + this.namespace + '/assessments/' + query.assessmentId + '/solutions/' + query.answerId, function (data) {
         return _rsvp['default'].resolve(data);
       });
+    },
+    refreshRecord: function refreshRecord(modelName, clazz) {
+      return _ember['default'].$.post(this.host + '/' + this.namespace + '/challenges/' + clazz.challengeId + '/solution', function (data) {
+        return _rsvp['default'].resolve(data);
+      });
     }
   });
 });
@@ -2257,7 +2262,7 @@ define("pix-live/instance-initializers/ember-data", ["exports", "ember-data/-pri
     initialize: _emberDataPrivateInstanceInitializersInitializeStoreService["default"]
   };
 });
-define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/post-followers', 'pix-live/mirage/routes/post-feedbacks'], function (exports, _pixLiveMirageRoutesGetChallenge, _pixLiveMirageRoutesGetChallenges, _pixLiveMirageRoutesGetNextChallenge, _pixLiveMirageRoutesGetAssessmentSolutions, _pixLiveMirageRoutesGetCourse, _pixLiveMirageRoutesGetCourses, _pixLiveMirageRoutesGetAnswer, _pixLiveMirageRoutesPostAnswers, _pixLiveMirageRoutesGetAssessment, _pixLiveMirageRoutesPostAssessments, _pixLiveMirageRoutesGetAnswerByChallengeAndAssessment, _pixLiveMirageRoutesPostFollowers, _pixLiveMirageRoutesPostFeedbacks) {
+define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/post-followers', 'pix-live/mirage/routes/post-feedbacks', 'pix-live/mirage/routes/post-refresh-solution'], function (exports, _pixLiveMirageRoutesGetChallenge, _pixLiveMirageRoutesGetChallenges, _pixLiveMirageRoutesGetNextChallenge, _pixLiveMirageRoutesGetAssessmentSolutions, _pixLiveMirageRoutesGetCourse, _pixLiveMirageRoutesGetCourses, _pixLiveMirageRoutesGetAnswer, _pixLiveMirageRoutesPostAnswers, _pixLiveMirageRoutesGetAssessment, _pixLiveMirageRoutesPostAssessments, _pixLiveMirageRoutesGetAnswerByChallengeAndAssessment, _pixLiveMirageRoutesPostFollowers, _pixLiveMirageRoutesPostFeedbacks, _pixLiveMirageRoutesPostRefreshSolution) {
   exports['default'] = function () {
 
     this.passthrough('/write-coverage');
@@ -2272,6 +2277,8 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
 
     this.get('/challenges', _pixLiveMirageRoutesGetChallenges['default']);
     this.get('/challenges/:id', _pixLiveMirageRoutesGetChallenge['default']);
+
+    this.post('/challenges/:challengeId/solution', _pixLiveMirageRoutesPostRefreshSolution['default']);
 
     this.post('/assessments', _pixLiveMirageRoutesPostAssessments['default']);
     this.get('/assessments/:id', _pixLiveMirageRoutesGetAssessment['default']);
@@ -2924,7 +2931,7 @@ define('pix-live/mirage/routes/post-assessments', ['exports', 'pix-live/utils/lo
 
     var answer = JSON.parse(request.requestBody);
     var courseId = answer.data.relationships.course.data.id;
-    console.log('request.requestBody- - - - - - - - - - - - - - - - - - - - ', request.requestBody);
+
     var allAssessments = [_pixLiveMirageDataAssessmentsRawAssessment['default'], _pixLiveMirageDataAssessmentsRefAssessment['default']];
 
     var assessments = _pixLiveUtilsLodashCustom['default'].map(allAssessments, function (oneAssessment) {
@@ -2950,6 +2957,12 @@ define('pix-live/mirage/routes/post-feedbacks', ['exports', 'pix-live/mirage/dat
 define('pix-live/mirage/routes/post-followers', ['exports', 'pix-live/mirage/data/followers'], function (exports, _pixLiveMirageDataFollowers) {
   exports['default'] = function () {
     return _pixLiveMirageDataFollowers['default'];
+  };
+});
+define('pix-live/mirage/routes/post-refresh-solution', ['exports'], function (exports) {
+  exports['default'] = function () {
+
+    return 'ok';
   };
 });
 define('pix-live/models/answer', ['exports', 'ember', 'ember-data', 'pix-live/models/answer/value-as-array-of-boolean-mixin', 'pix-live/models/answer/value-as-array-of-string-mixin'], function (exports, _ember, _emberData, _pixLiveModelsAnswerValueAsArrayOfBooleanMixin, _pixLiveModelsAnswerValueAsArrayOfStringMixin) {
@@ -3426,16 +3439,16 @@ define('pix-live/routes/challenges/get-preview', ['exports', 'ember', 'pix-live/
     },
 
     afterModel: function afterModel(challenge) {
-      var _this = this;
-
       var store = this.get('store');
-
+      var that = this;
       // creates a fake course
       var course = store.createRecord('course', { id: 'null' + _pixLiveUtilsLodashCustom['default'].guid(), challenges: [challenge] });
       var assessment = store.createRecord('assessment', { course: course });
+      var solutionAdapter = store.adapterFor('solution');
 
-      assessment.save().then(function () {
-        _this.transitionTo('assessments.get-challenge', { assessment: assessment, challenge: challenge });
+      solutionAdapter.refreshRecord('solution', { challengeId: challenge.get('id') });
+      return assessment.save().then(function () {
+        return that.transitionTo('assessments.get-challenge', { assessment: assessment, challenge: challenge });
       });
     }
 
@@ -4134,10 +4147,7 @@ define('pix-live/tests/mirage/mirage/routes/post-answers.lint-test', ['exports']
 define('pix-live/tests/mirage/mirage/routes/post-assessments.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/routes/post-assessments.js', function () {
     it('should pass ESLint', function () {
-      // precompiled test failed
-      var error = new chai.AssertionError('mirage/routes/post-assessments.js should pass ESLint.\n10:1  - Expected indentation of 2 spaces but found 0. (indent)\n10:1  - Unexpected console statement. (no-console)');
-      error.stack = undefined;
-      throw error;
+      // precompiled test passed
     });
   });
 });
@@ -4150,6 +4160,13 @@ define('pix-live/tests/mirage/mirage/routes/post-feedbacks.lint-test', ['exports
 });
 define('pix-live/tests/mirage/mirage/routes/post-followers.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/routes/post-followers.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/mirage/mirage/routes/post-refresh-solution.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/routes/post-refresh-solution.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -4389,7 +4406,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+6d66e65a"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+26977d9b"});
 }
 
 /* jshint ignore:end */
