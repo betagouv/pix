@@ -34,11 +34,16 @@ function _selectNextInNormalMode(currentChallengeId, challenges) {
 
 function selectNextChallengeId(course, currentChallengeId, assessment) {
 
+console.log('course- - - - - - - - - - - - - - - - - - - - ', course);
+console.log('currentChallengeId- - - - - - - - - - - - - - - - - - - - ', currentChallengeId);
+console.log('assessment- - - - - - - - - - - - - - - - - - - - ', assessment);
+
   return new Promise((resolve) => {
 
     const challenges = course.challenges;
 
     if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
+      console.log('yep!!!- - - - - - - - - - - - - - - - - - - - ');
       return resolve(challenges[0]);
     }
 
@@ -58,10 +63,13 @@ module.exports = {
     return new Promise((resolve, reject) => {
 
       const courseId = assessment.get('courseId');
+      console.log('courseId- - - - - - - - - - - - - - - - - - - - ', courseId);
+      let a = courseRepository.get(courseId);
+      console.log('a- - - - - - - - - - - - - - - - - - - - ', a);
       courseRepository
-      .get(courseId)
-      .then((course) => resolve(selectNextChallengeId(course, currentChallengeId, assessment)))
-      .catch((error) => reject(error));
+        .get(courseId)
+        .then((course) => resolve(selectNextChallengeId(course, currentChallengeId, assessment)))
+        .catch((error) => reject(error));
     });
   }
 
