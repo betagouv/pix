@@ -71,6 +71,18 @@ describe('Unit | Service | AssessmentService', function () {
 
     });
 
+    it ('Should resolves to "null" if courseId starts with "null"', function (done) {
+
+      sinon.stub(courseRepository, 'get').resolves({challenges:['1st_challenge', '2nd_challenge']});
+
+      service.getAssessmentNextChallengeId(_buildAssessment({courseId:'null22'}), '1st_challenge').then(function(result) {
+        expect(result).to.equal(null);
+        courseRepository.get.restore();
+        done();
+      });
+
+    });
+
   });
 
 });
