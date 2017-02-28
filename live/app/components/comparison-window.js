@@ -13,7 +13,6 @@ const ComparisonWindow = Ember.Component.extend({
   isAssessmentChallengeTypeQrocmInd: Ember.computed.equal('challenge.type', 'QROCM-ind'),
   isAssessmentChallengeTypeQrocmDep: Ember.computed.equal('challenge.type', 'QROCM-dep'),
 
-
   solutionArray: Ember.computed('solution', function() {
     return this.get('solution').get('_valueAsArrayOfBoolean');
   }),
@@ -24,8 +23,5 @@ const ComparisonWindow = Ember.Component.extend({
 
 });
 
-ComparisonWindow.reopenClass({
-  positionalParams: ['answer','challenge','solution','index']
-});
 
 export default ComparisonWindow;

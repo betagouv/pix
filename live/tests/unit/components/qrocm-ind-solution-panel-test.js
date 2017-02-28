@@ -54,7 +54,7 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
 
   describe('#dataToDisplay', function () {
 
-    it('should return an array with data to display', function () {
+    it('should return an array with data to display (case when the answers are right)', function () {
       const challenge = {
         proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}'
       };
@@ -62,7 +62,7 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
         value: 'smiley1: \':)\' smiley2: \':(\''
       };
       const solution = {
-        value: 'smiley1:\n- :-)\n- :)\n- :-D\n- :D:))\n\nsmiley2:\n- :-(\n- :(\n- :(('
+        value: 'smiley1:\n- :-)\n- :)\n- :-D\n- :D\n- :))\n\nsmiley2:\n- :-(\n- :(\n- :(('
       };
 
       const component = this.subject();
@@ -71,7 +71,32 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
       component.set('solution', solution);
       const dataToDisplay = component.get('dataToDisplay');
 
-      const result = [{'label': 'content', 'answer':':)', 'solution': ':-)'}, {'label': 'triste', 'answer':':(', 'solution': ':-('}];
+      const result = [{'label': 'content', 'answer':':)', 'solution': [':-)', ':)', ':-D', ':D', ':))'], 'rightAnswer' : true },
+        {'label': 'triste', 'answer':':(', 'solution': [':-(', ':(', ':(('], 'rightAnswer': true}];
+      expect(dataToDisplay).to.be.deep.equal(result);
+
+    });
+
+    it('should return an array with data to display (case when there is wrong answers)', function () {
+      const challenge = {
+        proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}'
+      };
+      const answer = {
+        value: 'num1: \'1\' num2: \'2\''
+      };
+      const solution = {
+        value: 'num1:\n- 2\nnum2:\n- 1'
+      };
+
+      const component = this.subject();
+      component.set('challenge', challenge);
+      component.set('answer', answer);
+      component.set('solution', solution);
+      const dataToDisplay = component.get('dataToDisplay');
+
+      const result = [{'label': 'Clé USB', 'answer':'1', 'solution': [2], 'rightAnswer' : false },
+        {'label': 'Carte mémoire (SD)', 'answer':'2', 'solution': [1], 'rightAnswer': false}];
+
       expect(dataToDisplay).to.be.deep.equal(result);
 
     });
