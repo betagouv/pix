@@ -24,9 +24,9 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
   const CSS_LINETHROUGH_OFF = 'none';
 
 
-  const TEXT_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results__title-text';
-  const SVG_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-comparison__title svg';
-  const INDEX_OF_RESULT_SELECTOR = '.comparison-window--header .result-list__index';
+  const TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title-text';
+  const SVG_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title svg';
+  const INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__result-item-index';
 
   const TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
   const IMAGE_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__illustration-section';
@@ -127,6 +127,7 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
 
       await visit(RESULT_URL);
       expect($(CHECKBOX_CORRECT_AND_CHECKED)).to.exist;
+      expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
 
       await visit(COMPARISON_MODAL_URL);
       expect($(CHECKBOX_CORRECT_AND_CHECKED).is(':checked')).to.equal(true);

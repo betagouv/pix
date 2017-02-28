@@ -27,12 +27,12 @@ const answerWithRandomResult = {
   result: 'RANDOM_RESULT'
 };
 
-describe.only('Unit | Component | result-item-component', function () {
+describe('Unit | Component | result-item-component', function () {
   setupTest('component:result-item', {});
 
   let component;
 
-  describe(function(){
+  beforeEach(function(){
     component = this.subject();
   });
 
