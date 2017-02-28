@@ -25,18 +25,114 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
     return answer.get('value');
   }
 
+  describe('if solution type is QROCM-dep', function () {
+
+    const failedCases = [
+      {
+        when: 'Badly formatted solution',
+        answer: 'num1: Google\nnum2: Yahoo',
+        solution: 'solution like a QCU',
+      },
+      {
+        when: 'Answer is empty and solution is also empty',
+        answer: '',
+        solution: '\n',
+      },
+      {
+        when: 'Answer is empty and solution is normal',
+        answer: '',
+        solution: twoPossibleSolutions,
+      },
+      {
+        when: 'Solution is not a String',
+        answer: 'num1: " google.fr"\nnum2: "Yahoo"',
+        solution: {a: new Date()},
+      },
+      {
+        when: 'Answer is incorrect',
+        answer: 'num1: Foo\nnum2: Bar',
+        solution: twoPossibleSolutions,
+      },
+      {
+        when: 'User duplicated a correct answer',
+        answer: 'num1: google.fr\nnum2: google.fr',
+        solution: twoPossibleSolutions,
+      }
+    ];
+
+    failedCases.forEach(function (testCase) {
+      it('Should return "ko" when : ' + testCase.when + ' , answer is ' + testCase.answer + '", and solution is "' + escape(testCase.solution) + '"', function () {
+        const answer = buildAnswer(testCase.answer);
+        const solution = buildSolution('QROCM-dep', testCase.solution);
+        expect(service.match(answer, solution.value, solution.scoring)).to.equal('ko');
+      });
+    });
+
+    const maximalScoreCases = [
+      {
+        when: 'Both answers are correct with 1 solution',
+        answer: 'num1: Google\nnum2: Yahoo',
+        solution: 'Google:\n- Google\nYahoo:\n- Yahoo'
+      },
+      {
+        when: 'Both answers are correct with 1 solution that contains only numbers',
+        answer: 'num1: 123\nnum2: 987',
+        solution: 'Google:\n- 987\nYahoo:\n- 123'
+      },
+      {
+        when: 'Both answers are correct with 2 solutions',
+        answer: 'num1: Google\nnum2: Yahoo',
+        solution: twoPossibleSolutions
+      },
+      {
+        when: 'Both answers are correct with 2 solutions, and there are unbreakable spaces in both answers',
+        answer: 'num1: G o o g l e  \nnum2:  Y a h o o ',
+        solution: twoPossibleSolutions
+      },
+      {
+        when: 'Both answers are correct, and solutions contains spaces everywhere',
+        answer: 'num1: Google\nnum2: Yahoo',
+        solution: 'Google:\n-  G o o g le  \nYahoo:\n-   Y a h o    o   '
+      },
+      {
+        when: 'Both answers are correct with 2 solutions, 2nd version',
+        answer: 'num1: Google Search\nnum2: Yahoo Answer',
+        solution: twoPossibleSolutions
+      },
+      {
+        when: 'Both answers are correct, with levenshtein 0 < x =< 0.25, uppercase, space and punctuation errors',
+        answer: 'num1: GooGLe!!! earch  \nnum2:  Yahoo  n-?swer  ',
+        solution: twoPossibleSolutions
+      },
+      {
+        when: 'All answers are correct, with 3 solutions',
+        answer: 'num1: Google Search\nnum2: Yahoo Answer\nnum3: Bing',
+        solution: threePossibleSolutions
+      }
+    ];
+
+    maximalScoreCases.forEach(function (testCase) {
+      it('Should return "ok" when : ' + testCase.when + ' , answer is ' + testCase.answer + '", and solution is "' + escape(testCase.solution) + '"', function () {
+        const answer = buildAnswer(testCase.answer);
+        const solution = buildSolution('QROCM-dep', testCase.solution);
+        expect(service.match(answer, solution.value, solution.scoring)).to.equal('ok');
+      });
+    });
+
+  });
+
   describe('if solution type is QROCM-dep with scoring', function () {
 
     it('should return "ko" for badly formatted solution', function () {
       const answer = buildAnswer('num1: Google\nnum2: Yahoo');
       const solution = buildSolution('QROCM-dep', 'solution like a QCU', '1: @acquix');
-      expect(service.match(answer, solution)).to.equal('ko');
+      expect(service.match(answer, solution.value, solution.scoring)).to.equal('ko');
     });
 
     it('should return "ko" when answer is incorrect', function () {
       const answer = buildAnswer('num1: Foo\nnum2: Bar');
       const solution = buildSolution('QROCM-dep', twoPossibleSolutions, '1: @acquix');
-      expect(service.match(answer, solution)).to.equal('ko');
+      expect(service.match(answer, solution.value, solution.scoring)).to.equal('ko');
     });
 
     const maximalScoreCases = [
@@ -57,7 +153,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
         answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: bing',
         solution: threePossibleSolutions,
         scoring: '1: @acquix\n2: @acquix'
-      },
+      }
     ];
 
     maximalScoreCases.forEach(function (testCase) {
@@ -86,7 +182,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
         answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: ""',
         solution: threePossibleSolutions,
         scoring: '1: @acquix\n2: @acquix\n3: @acquix'
-      },
+      }
     ];
 
     partialScoreCases.forEach(function (testCase) {
