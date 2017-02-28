@@ -1139,7 +1139,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test.lint-test', ['expor
     });
   });
 });
-define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveTestsHelpersSharedState, _pixLiveUtilsLodashCustom) {
 
   (0, _mocha.describe)('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
 
@@ -1153,28 +1153,52 @@ define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test', ['exports',
       (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
     });
 
-    (0, _mocha.describe)('e1 - Prévisualiser une épreuve |', function () {
+    _mocha.describe.only('e1 - Prévisualiser une épreuve |', function () {
 
       (0, _mocha.beforeEach)(function () {
-        visit('/challenges/ref_qcu_challenge_id/preview');
+        visit('/');
       });
 
-      (0, _mocha.it)('e1.1 Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
-        (0, _chai.expect)(currentURL()).to.equal('/challenges/ref_qcu_challenge_id/preview');
-        (0, _chai.expect)(findWithAssert('#challenge-preview'));
+      (0, _mocha.it)('e1.1 Il y a une demande de création d\'un assessment avec un course vide', function callee$2$0() {
+        var idFirstChars;
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+              context$3$0.next = 3;
+              return regeneratorRuntime.awrap(visit('/challenges/ref_qcu_challenge_id/preview'));
+
+            case 3:
+              (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/assessments');
+              (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.relationships.course.data.type')).to.equal('courses');
+              (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.type')).to.equal('assessments');
+              idFirstChars = _pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.relationships.course.data.id').substring(0, 4);
+
+              (0, _chai.expect)(idFirstChars).to.equal('null');
+
+            case 8:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
       });
 
-      (0, _mocha.describe)('On affiche', function () {
+      (0, _mocha.it)('e1.2 On affiche l\'assessment retourné par le serveur', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit('/challenges/ref_qcu_challenge_id/preview'));
 
-        var $challenge = undefined;
+            case 2:
+              (0, _chai.expect)(currentURL()).to.equal('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+              (0, _chai.expect)(findWithAssert('#assessment-challenge'));
 
-        (0, _mocha.beforeEach)(function () {
-          $challenge = findWithAssert('#challenge-preview');
-        });
-
-        (0, _mocha.it)('e1.2 la consigne de l\'épreuve', function () {
-          (0, _chai.expect)($challenge.find('.challenge-statement__instruction').text()).to.contain('Un QCU propose plusieurs choix, l\'utilisateur peut en choisir un seul');
-        });
+            case 4:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
       });
     });
   });
@@ -6227,7 +6251,10 @@ define('pix-live/tests/utils/lodash-custom.lint-test', ['exports'], function (ex
 
   describe('ESLint - utils/lodash-custom.js', function () {
     it('should pass ESLint', function () {
-      // precompiled test passed
+      // precompiled test failed
+      var error = new chai.AssertionError('utils/lodash-custom.js should pass ESLint.\n59:5  - Expected indentation of 2 spaces but found 4. (indent)');
+      error.stack = undefined;
+      throw error;
     });
   });
 });

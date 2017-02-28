@@ -2924,7 +2924,7 @@ define('pix-live/mirage/routes/post-assessments', ['exports', 'pix-live/utils/lo
 
     var answer = JSON.parse(request.requestBody);
     var courseId = answer.data.relationships.course.data.id;
-
+    console.log('request.requestBody- - - - - - - - - - - - - - - - - - - - ', request.requestBody);
     var allAssessments = [_pixLiveMirageDataAssessmentsRawAssessment['default'], _pixLiveMirageDataAssessmentsRefAssessment['default']];
 
     var assessments = _pixLiveUtilsLodashCustom['default'].map(allAssessments, function (oneAssessment) {
@@ -2935,6 +2935,8 @@ define('pix-live/mirage/routes/post-assessments', ['exports', 'pix-live/utils/lo
 
     if (assessment) {
       return assessment.obj;
+    } else if (_pixLiveUtilsLodashCustom['default'].startsWith(courseId, 'null')) {
+      return _pixLiveMirageDataAssessmentsRefAssessment['default'];
     } else {
       throw new Error('undefined new assessment, sorry');
     }
@@ -3415,22 +3417,26 @@ define('pix-live/routes/assessments/get-results', ['exports', 'ember'], function
 
   });
 });
-define('pix-live/routes/challenges/get-preview', ['exports', 'ember', 'rsvp', 'pix-live/utils/get-challenge-type'], function (exports, _ember, _rsvp, _pixLiveUtilsGetChallengeType) {
+define('pix-live/routes/challenges/get-preview', ['exports', 'ember', 'pix-live/utils/lodash-custom'], function (exports, _ember, _pixLiveUtilsLodashCustom) {
   exports['default'] = _ember['default'].Route.extend({
 
     model: function model(params) {
       var store = this.get('store');
-      var challengePromise = store.findRecord('challenge', params.challenge_id);
-
-      return _rsvp['default'].hash({
-        challenge: challengePromise
-      });
+      return store.findRecord('challenge', params.challenge_id);
     },
 
-    setupController: function setupController(controller, model) {
-      this._super(controller, model);
-      var challengeType = (0, _pixLiveUtilsGetChallengeType['default'])(model.challenge.get('type'));
-      controller.set('challengeItemType', 'challenge-item-' + challengeType);
+    afterModel: function afterModel(challenge) {
+      var _this = this;
+
+      var store = this.get('store');
+
+      // creates a fake course
+      var course = store.createRecord('course', { id: 'null' + _pixLiveUtilsLodashCustom['default'].guid(), challenges: [challenge] });
+      var assessment = store.createRecord('assessment', { course: course });
+
+      assessment.save().then(function () {
+        _this.transitionTo('assessments.get-challenge', { assessment: assessment, challenge: challenge });
+      });
     }
 
   });
@@ -4128,7 +4134,10 @@ define('pix-live/tests/mirage/mirage/routes/post-answers.lint-test', ['exports']
 define('pix-live/tests/mirage/mirage/routes/post-assessments.lint-test', ['exports'], function (exports) {
   describe('ESLint - mirage/routes/post-assessments.js', function () {
     it('should pass ESLint', function () {
-      // precompiled test passed
+      // precompiled test failed
+      var error = new chai.AssertionError('mirage/routes/post-assessments.js should pass ESLint.\n10:1  - Expected indentation of 2 spaces but found 0. (indent)\n10:1  - Unexpected console statement. (no-console)');
+      error.stack = undefined;
+      throw error;
     });
   });
 });
@@ -4323,6 +4332,14 @@ define('pix-live/utils/lodash-custom', ['exports'], function (exports) {
       return _.some(x, function (value) {
         return _.isTruthy(value);
       });
+    },
+    // See http://veerasundar.com/blog/2013/01/underscore-js-and-guid-function/
+    guid: function guid() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0,
+            v = c == 'x' ? r : r & 0x3 | 0x8;
+        return v.toString(16);
+      });
     }
   }, { chain: false });
 
@@ -4372,7 +4389,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+c93ce565"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+6d66e65a"});
 }
 
 /* jshint ignore:end */
