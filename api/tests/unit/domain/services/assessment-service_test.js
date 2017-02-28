@@ -10,7 +10,7 @@ function _buildAssessment(assessmentObject) {
   return answer;
 }
 
-describe.only('Unit | Service | AssessmentService', function () {
+describe('Unit | Service | AssessmentService', function () {
 
 
   it('Should exist', function () {
@@ -22,17 +22,19 @@ describe.only('Unit | Service | AssessmentService', function () {
   });
 
   describe('#getAssessmentNextChallengeId |', function () {
+
     it ('Should return the first challenge if no currentChallengeId is given', function (done) {
 
       sinon.stub(courseRepository, 'get').resolves({challenges:['the_first_challenge']});
 
       service.getAssessmentNextChallengeId(_buildAssessment({courseId:'22'}), null).then(function(result) {
         expect(result).to.equal('the_first_challenge');
+        courseRepository.get.restore();
         done();
       });
 
-      courseRepository.get.restore();
     });
+
 
     it ('Should return the next challenge if currentChallengeId is given', function (done) {
 
@@ -40,12 +42,34 @@ describe.only('Unit | Service | AssessmentService', function () {
 
       service.getAssessmentNextChallengeId(_buildAssessment({courseId:'22'}), '1st_challenge').then(function(result) {
         expect(result).to.equal('2nd_challenge');
+        courseRepository.get.restore();
         done();
       });
 
-      courseRepository.get.restore();
     });
 
+
+    it ('Should resolves to "null" if no assessment is given', function (done) {
+
+      service.getAssessmentNextChallengeId().then(function(result) {
+        expect(result).to.equal(null);
+        done();
+      });
+
+    });
+
+
+    it ('Should resolves to "null" if no courseId is given', function (done) {
+
+      sinon.stub(courseRepository, 'get').resolves({challenges:['1st_challenge', '2nd_challenge']});
+
+      service.getAssessmentNextChallengeId(_buildAssessment({}), '1st_challenge').then(function(result) {
+        expect(result).to.equal(null);
+        courseRepository.get.restore();
+        done();
+      });
+
+    });
 
   });
 

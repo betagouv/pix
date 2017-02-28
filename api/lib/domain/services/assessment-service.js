@@ -6,7 +6,6 @@ const _ = require('../../infrastructure/utils/lodash-utils');
 function _selectNextInAdaptiveMode(assessment) {
 
   return new Promise((resolve, reject) => {
-
     answerRepository.findByAssessment(assessment.get('id'))
       .then((answers) => {
         const responsePattern = assessmentUtils.getResponsePattern(answers);
@@ -34,16 +33,11 @@ function _selectNextInNormalMode(currentChallengeId, challenges) {
 
 function selectNextChallengeId(course, currentChallengeId, assessment) {
 
-console.log('course- - - - - - - - - - - - - - - - - - - - ', course);
-console.log('currentChallengeId- - - - - - - - - - - - - - - - - - - - ', currentChallengeId);
-console.log('assessment- - - - - - - - - - - - - - - - - - - - ', assessment);
-
   return new Promise((resolve) => {
 
     const challenges = course.challenges;
 
     if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
-      console.log('yep!!!- - - - - - - - - - - - - - - - - - - - ');
       return resolve(challenges[0]);
     }
 
@@ -57,15 +51,19 @@ console.log('assessment- - - - - - - - - - - - - - - - - - - - ', assessment);
 
 
 module.exports = {
-
   getAssessmentNextChallengeId(assessment, currentChallengeId) {
 
     return new Promise((resolve, reject) => {
 
+      if (!assessment) {
+        resolve(null);
+      }
+
+      if (!assessment.get('courseId')) {
+        resolve(null);
+      }
+
       const courseId = assessment.get('courseId');
-      console.log('courseId- - - - - - - - - - - - - - - - - - - - ', courseId);
-      let a = courseRepository.get(courseId);
-      console.log('a- - - - - - - - - - - - - - - - - - - - ', a);
       courseRepository
         .get(courseId)
         .then((course) => resolve(selectNextChallengeId(course, currentChallengeId, assessment)))
