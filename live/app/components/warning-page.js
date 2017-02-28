@@ -2,7 +2,7 @@ import Ember from 'ember';
 import _ from 'pix-live/utils/lodash-custom';
 
 function fmtMSS(s, type) {
-  if (!_.isInteger(s) || !s || s === null)  return 0;
+  if (_.isNotInteger(s))  return 0;
   if(type === 'jauge') {
     return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
   }

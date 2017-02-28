@@ -23,6 +23,25 @@ describe('Unit | Utility | lodash custom', function () {
     });
   });
 
+  describe('#isNotInteger(s)', function () {
+
+    it('when no arg, returns false', function () {
+      expect(_.isNotInteger()).to.equal(true);
+    });
+
+    [
+      { value: undefined, expected: true },
+      { value: 'undefined', expected: true },
+      { value: null, expected: true },
+      { value: '', expected: true },
+      { value: 'abcd', expected: true }
+    ].forEach((item) => {
+      it(`should return ${item.expected} when value is ${item.value}`, function () {
+        expect(_.isNotInteger(item.value)).to.equal(item.expected);
+      });
+    });
+  });
+
   describe('#isTruthy', function () {
 
     it('when no arg, returns false', function () {
