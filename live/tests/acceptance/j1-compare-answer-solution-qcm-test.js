@@ -127,8 +127,6 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
 
       await visit(RESULT_URL);
       expect($(CHECKBOX_CORRECT_AND_CHECKED)).to.exist;
-      //expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
-
 
       await visit(COMPARISON_MODAL_URL);
       expect($(CHECKBOX_CORRECT_AND_CHECKED).is(':checked')).to.equal(true);

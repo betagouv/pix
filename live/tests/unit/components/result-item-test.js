@@ -27,14 +27,14 @@ const answerWithRandomResult = {
   result: 'RANDOM_RESULT'
 };
 
-describe('Unit | Component | result-item-component', function () {
+describe.only('Unit | Component | result-item-component', function () {
   setupTest('component:result-item', {});
 
   let component;
 
-  function initComponent() {
+  describe(function(){
     component = this.subject();
-  }
+  });
 
   describe('#resultItemContent Computed property - undefined case', function () {
     [
@@ -44,8 +44,6 @@ describe('Unit | Component | result-item-component', function () {
       answerWithNullResult
     ].forEach(function (answer) {
       it(`should returns false when answer provided is: ${answer.name}`, function () {
-        // given
-        initComponent.call(this);
         // when
         component.set('answer', answer);
         // then
@@ -57,8 +55,6 @@ describe('Unit | Component | result-item-component', function () {
 
   describe('#resultItemContent Computed property - defined case', function () {
     it('should returns true when answer provided with result ok', function () {
-      // given
-      initComponent.call(this);
       // when
       component.set('answer', answerWithOkResult);
       // then
@@ -66,8 +62,6 @@ describe('Unit | Component | result-item-component', function () {
     });
 
     it('should returns true when answer provided with result uncommon value by not null or undefined ', function () {
-      // given
-      initComponent.call(this);
       // when
       component.set('answer', answerWithRandomResult);
       // then
