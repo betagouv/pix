@@ -37,6 +37,7 @@ define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application'
         return _rsvp['default'].resolve(data);
       });
     },
+
     refreshRecord: function refreshRecord(modelName, clazz) {
       return _ember['default'].$.post(this.host + '/' + this.namespace + '/challenges/' + clazz.challengeId + '/solution', function (data) {
         return _rsvp['default'].resolve(data);
@@ -4409,7 +4410,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+8d48c56e"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+b642c722"});
 }
 
 /* jshint ignore:end */
