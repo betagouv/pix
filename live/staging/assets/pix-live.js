@@ -3289,6 +3289,7 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('courses.get-course-preview', { path: '/courses/:course_id/preview' });
     this.route('courses.get-challenge-preview', { path: '/courses/:course_id/preview/challenges/:challenge_id' });
     this.route('courses.create-assessment', { path: '/courses/:course_id' });
+    this.route('courses.create-assessment-old', { path: '/courses/:course_id/assessment' });
 
     this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
     this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
@@ -3443,6 +3444,23 @@ define('pix-live/routes/courses', ['exports', 'ember'], function (exports, _embe
     model: function model() {
       return this.store.findAll('course');
     }
+  });
+});
+define('pix-live/routes/courses/create-assessment-old', ['exports', 'ember'], function (exports, _ember) {
+
+  /*
+  * keep old URL /courses/:course_id/assessment, with redirection
+  */
+  exports['default'] = _ember['default'].Route.extend({
+
+    model: function model(params) {
+      return params.course_id;
+    },
+
+    afterModel: function afterModel(courseId) {
+      this.transitionTo('courses.create-assessment', courseId);
+    }
+
   });
 });
 define('pix-live/routes/courses/create-assessment', ['exports', 'ember'], function (exports, _ember) {
@@ -4372,7 +4390,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+6cbdfc58"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+208bb008"});
 }
 
 /* jshint ignore:end */
