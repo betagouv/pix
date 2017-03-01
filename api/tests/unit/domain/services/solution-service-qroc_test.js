@@ -4,7 +4,7 @@ const service = require('../../../../lib/domain/services/solution-service-qroc')
 
 describe('Unit | Service | SolutionServiceQROC ', function () {
 
-  describe('match, combining cases without deactivations', function () {
+  describe('match, combining most weird cases without deactivations', function () {
 
     const successfulCases = [
 
