@@ -5,15 +5,15 @@ const service = require('../../../lib/application/assessments/analysis-utils');
 
 describe('Acceptance | Application | analysis-utils', function () {
 
-  describe('#proba', function () {
+  describe('#probaOfCorrectAnswer', function () {
 
     [
-      { title: 'theta equals diff', theta: 2, diff: 2, answer: 0.5 },
-      { title: 'various arguments are passed', theta: Math.log(0.5), diff: 0, answer: 1/3 },
+      { title: 'difficulty of question equals level of learner', theta: 2, diff: 2, answer: 0.5 },
+      { title: 'level of learner is less than the difficulty of question', theta: Math.log(0.5), diff: 0, answer: 1/3 },
     ].forEach(testCase => {
 
       it(`should return ${testCase.answer} when ${testCase.title}`, function () {
-        const result = service.proba(testCase.theta, testCase.diff);
+        const result = service.probaOfCorrectAnswer(testCase.theta, testCase.diff);
         expect(result).to.equal(testCase.answer);
       });
     });

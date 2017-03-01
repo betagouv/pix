@@ -69,7 +69,7 @@ module.exports = {
                 const history = [];
                 answerRepository.findByAssessment(assessment.get('id')).then((answers) => {
 
-                  if (answers.length == 0) {
+                  if (answers.length === 0) {
                     const serializedAssessment = assessmentSerializer.serialize(assessment);
                     return reply(serializedAssessment);
                   }
@@ -79,7 +79,7 @@ module.exports = {
                   _.forEach(modelAnswers, function(answer) {
                     if(knowledgeOf.hasOwnProperty(answer.challengeId)) {
                       const startNode = knowledgeOf[answer.challengeId][0];
-                      if (answer.result == 'ok') {
+                      if (answer.result === 'ok') {
                         history.push({diff: difficultyOf[answer.challengeId], outcome: 1});
                         if (startNode !== undefined)
                           acquired.push(...propagateAcquix(allKnowledge, startNode, -1));

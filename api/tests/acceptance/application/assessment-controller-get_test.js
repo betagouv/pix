@@ -114,8 +114,6 @@ describe('Acceptance | API | Assessments GET', function () {
     });
 
     it('should return the expected assessment', function (done) {
-      // XXX: incomplete test, should also demonstrate that it returns the whole answer grape.
-      // See https://github.com/sgmap/pix/issues/205
       knex.select('id')
         .from('assessments')
         .limit(1)
@@ -225,8 +223,6 @@ describe('Acceptance | API | Assessments GET', function () {
     });
 
     it('should return the expected assessment', function (done) {
-      // XXX: incomplete test, should also demonstrate that it returns the whole answer grape.
-      // See https://github.com/sgmap/pix/issues/205
       knex.select('id')
         .from('assessments')
         .limit(1)
