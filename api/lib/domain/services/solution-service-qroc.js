@@ -33,6 +33,10 @@ function _applyTreatmentsToSolutions(solution, deactivations) {
     else if (deactivationsService.hasOnlyT1T2(deactivations)) {
       return pretreatedSolution;
     }
+    // Only T1 and T3 are deactivated
+    else if (deactivationsService.hasOnlyT1T3(deactivations)) {
+      return utils._treatmentT2(pretreatedSolution);
+    }
 
   });
 }
@@ -80,6 +84,14 @@ function _calculateResult(validations, deactivations) {
   // Only T1 and T2 are deactivated
   else if (deactivationsService.hasOnlyT1T2(deactivations)) {
     if (validations.t3Ratio <= 0.25) {
+      return 'ok';
+    }
+    return 'ko';
+  }
+
+  // Only T1 and T3 are deactivated
+  else if (deactivationsService.hasOnlyT1T3(deactivations)) {
+    if (_.includes(validations.adminAnswers, validations.t2)) {
       return 'ok';
     }
     return 'ko';
