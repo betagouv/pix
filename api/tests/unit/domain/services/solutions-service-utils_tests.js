@@ -44,33 +44,63 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
     it('Should exist', function () {
       expect(service._treatmentT3).to.exist;
     });
-    it('Should return the ratio levenshtein / userAnswer.length', function () {
-      expect(service._treatmentT3('a1', ['a1'])).to.equal(0);
-      expect(service._treatmentT3('a1', ['a1', 'a2', 'a3'])).to.equal(0);
-      expect(service._treatmentT3('abbbbbbbbb', ['bbbbbbbbbb'])).to.equal(0.1);
-      expect(service._treatmentT3('quack', ['quacks', 'azertyqwerk'])).to.equal(0.2);
-      expect(service._treatmentT3('book', ['back', 'buck'])).to.equal(0.5);
-      expect(service._treatmentT3('a', ['bbbbbbbbbb'])).to.equal(10);
+    describe ('Should return the ratio levenshtein / userAnswer.length', function () {
+
+      const successfulCases = [
+        { should: 'If only one adminAnswer', userAnswer: 'a1', adminAnswer: ['a1'], output: 0 },
+        { should: 'If many adminAnswers', userAnswer: 'a1', adminAnswer: ['a1', 'a2', 'a3'], output: 0 },
+        { should: 'If ratio is 0.1, single adminAnswer', userAnswer: 'abbbbbbbbb', adminAnswer: ['bbbbbbbbbb'], output: 0.1 },
+        { should: 'If ratio is 0.2, multiple adminAnswer', userAnswer: 'quack', adminAnswer: ['quacks', 'azertyqwerk'], output: 0.2 },
+        { should: 'If ratio is 0.5, multiple adminAnswer', userAnswer: 'book', adminAnswer: ['back', 'buck'], output: 0.5 },
+        { should: 'If ratio is 10, single adminAnswer', userAnswer: 'a', adminAnswer: ['bbbbbbbbbb'], output: 10 },
+      ];
+
+      successfulCases.forEach(function (testCase) {
+        it(testCase.should + ', for example userAnswer ' + JSON.stringify(testCase.userAnswer) + ', and adminAnswer ' + JSON.stringify(testCase.adminAnswer) + ' => ' + testCase.output + '', function () {
+          expect(service._treatmentT3(testCase.userAnswer, testCase.adminAnswer)).to.equal(testCase.output);
+        });
+      });
     });
   });
 
   describe('_getSmallestLevenshteinDistance', function() {
+
     it('Should exist', function () {
       expect(service._getSmallestLevenshteinDistance).to.exist;
     });
-    it('Should return levenshtein distance if only one adminAnswer is given', function () {
-      expect(service._getSmallestLevenshteinDistance('', [''])).to.equal(0);
-      expect(service._getSmallestLevenshteinDistance('a', ['a'])).to.equal(0);
-      expect(service._getSmallestLevenshteinDistance('a', ['ab'])).to.equal(1);
-      expect(service._getSmallestLevenshteinDistance('book', ['back'])).to.equal(2);
+
+    describe('Should return levenshtein distance if only one adminAnswer is given', function () {
+
+      const successfulCases = [
+        { should: 'If both are empty', arg1: '', arg2: [''], output: 0 },
+        { should: 'If both are same', arg1: 'a', arg2: ['a'], output: 0 },
+        { should: 'If they have one different character', arg1: 'a', arg2: ['ab'], output: 1 },
+        { should: 'If they have two different characters', arg1: 'book', arg2: ['back'], output: 2 },
+      ];
+
+      successfulCases.forEach(function (testCase) {
+        it(testCase.should + ', for example arg1 ' + JSON.stringify(testCase.arg1) + ', and arg2 ' + JSON.stringify(testCase.arg2) + ' => ' + testCase.output + '', function () {
+          expect(service._getSmallestLevenshteinDistance(testCase.arg1, testCase.arg2)).to.equal(testCase.output);
+        });
+      });
+
     });
-    it('Should return the smallest levenshtein distance if many adminAnswers are given', function () {
-      expect(service._getSmallestLevenshteinDistance('', ['', 'a'])).to.equal(0);
-      expect(service._getSmallestLevenshteinDistance('a', ['a', 'ab'])).to.equal(0);
-      expect(service._getSmallestLevenshteinDistance('a', ['ab', 'abdcef'])).to.equal(1);
-      expect(service._getSmallestLevenshteinDistance('a', ['abcdef', 'ab'])).to.equal(1);
-      expect(service._getSmallestLevenshteinDistance('a', ['abcdef', 'ab', 'azerty'])).to.equal(1);
-      expect(service._getSmallestLevenshteinDistance('book', ['back', 'buck'])).to.equal(2);
+    describe('Should return the smallest levenshtein distance if many adminAnswers are given', function () {
+
+      const successfulCases = [
+        { should: 'If the smallest difference is 0', arg1: '', arg2: ['', 'a'], output: 0 },
+        { should: 'If the smallest difference is 0, with non empty args', arg1: 'a', arg2: ['a', 'ab'], output: 0 },
+        { should: 'If the smallest difference is 1, smallest is at position 0 in array', arg1: 'a', arg2: ['ab', 'abdcef'], output: 1 },
+        { should: 'If the smallest difference is 1, smallest is at position 1 in array', arg1: 'a', arg2: ['abdcef', 'ab'], output: 1 },
+        { should: 'If the smallest difference is 1, with 3 differents String as arg2', arg1: 'a', arg2: ['abcdef', 'ab', 'azerty'], output: 1 },
+        { should: 'If the difference is 2 for all elements', arg1: 'book', arg2: ['back', 'buck'], output: 2 },
+      ];
+
+      successfulCases.forEach(function (testCase) {
+        it(testCase.should + ', for example arg1 ' + JSON.stringify(testCase.arg1) + ', and arg2 ' + JSON.stringify(testCase.arg2) + ' => ' + testCase.output + '', function () {
+          expect(service._getSmallestLevenshteinDistance(testCase.arg1, testCase.arg2)).to.equal(testCase.output);
+        });
+      });
     });
   });
 
