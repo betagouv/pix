@@ -12,6 +12,7 @@ function _applyPreTreatmentsToSolutions(solution) {
 function _applyTreatmentsToSolutions(solution, deactivations) {
   const pretreatedSolutions = _applyPreTreatmentsToSolutions(solution);
   return  _.map(pretreatedSolutions, (pretreatedSolution) => {
+
     // default behaviour : all treatments applies
     if (deactivationsService.isDefault(deactivations)) {
       return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
@@ -24,6 +25,10 @@ function _applyTreatmentsToSolutions(solution, deactivations) {
     else if (deactivationsService.hasOnlyT2(deactivations)) {
       return utils._treatmentT1(pretreatedSolution);
     }
+    // Only T3 is deactivated
+    else if (deactivationsService.hasOnlyT3(deactivations)) {
+      return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
+    }
 
   });
 }
@@ -35,6 +40,7 @@ function _applyAnswerTreatment(strArg) {
 
 
 function _calculateResult(validations, deactivations) {
+
   // default behaviour
   if (deactivationsService.isDefault(deactivations)) {
     if (validations.t1t2t3Ratio <= 0.25) {
@@ -54,6 +60,14 @@ function _calculateResult(validations, deactivations) {
   // Only T2 is deactivated
   else if (deactivationsService.hasOnlyT2(deactivations)) {
     if (validations.t1t3Ratio <= 0.25) {
+      return 'ok';
+    }
+    return 'ko';
+  }
+
+  // Only T3 is deactivated
+  else if (deactivationsService.hasOnlyT3(deactivations)) {
+    if (_.includes(validations.adminAnswers, validations.t1t2)) {
       return 'ok';
     }
     return 'ko';
