@@ -1,4 +1,5 @@
 const utils = require('./solution-service-utils');
+const deactivationsService = require('./deactivations-service');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
 function _applyPreTreatmentsToSolutions(solution) {
@@ -11,13 +12,13 @@ function _applyPreTreatmentsToSolutions(solution) {
 function _applyTreatmentsToSolutions(solution, deactivations) {
   const pretreatedSolutions = _applyPreTreatmentsToSolutions(solution);
   return  _.map(pretreatedSolutions, (pretreatedSolution) => {
-    // default behaviour : all treatments T1, T2, T3 applies
-    if (!deactivations || (!deactivations.t1) && (!deactivations.t2) && (!deactivations.t3)) {
+    // default behaviour : all treatments applies
+    if (deactivationsService.isDefault(deactivations)) {
       return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
     }
 
     // Only T1 applies
-    if (deactivations.t1 && (!deactivations.t2) && (!deactivations.t3)) {
+    else if (deactivationsService.hasOnlyT1(deactivations)) {
       return utils._treatmentT2(pretreatedSolution);
     }
 
@@ -32,7 +33,7 @@ function _applyAnswerTreatment(strArg) {
 
 function _calculateResult(validations, deactivations) {
   // default behaviour
-  if (!deactivations || (!deactivations.t1) && (!deactivations.t2) && (!deactivations.t3)) {
+  if (deactivationsService.isDefault(deactivations)) {
     if (validations.t1t2t3Ratio <= 0.25) {
       return 'ok';
     }
@@ -40,7 +41,7 @@ function _calculateResult(validations, deactivations) {
   }
 
   // Only T1 is deactivated
-  if (deactivations.t1 && (!deactivations.t2) && (!deactivations.t3)) {
+  else if (deactivationsService.hasOnlyT1(deactivations)) {
     if (validations.t2t3Ratio <= 0.25) {
       return 'ok';
     }
@@ -64,9 +65,5 @@ module.exports = {
 
     return _calculateResult(validations, deactivations);
 
-    // if (validations.t1t2t3Ratio <= 0.25) {
-    //   return 'ok';
-    // }
-    // return 'ko';
   }
 };
