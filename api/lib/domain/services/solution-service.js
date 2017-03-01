@@ -3,6 +3,7 @@ const Boom = require('boom');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
 const solutionServiceQcm = require('./solution-service-qcm');
+const solutionServiceQcu = require('./solution-service-qcu');
 const solutionServiceQroc = require('./solution-service-qroc');
 const solutionServiceQrocmInd = require('./solution-service-qrocm-ind');
 const solutionServiceQrocmDep = require('./solution-service-qrocm-dep');
@@ -57,7 +58,7 @@ module.exports = {
     }
 
     if (solution.type === 'QCU') {
-      result = (answerValue === solutionValue) ? 'ok' : 'ko';
+      result = solutionServiceQcu.match(answerValue, solutionValue);
     }
 
     if (solution.type === 'QCM') {
