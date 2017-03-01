@@ -29,16 +29,13 @@ define('pix-live/adapters/challenge', ['exports', 'pix-live/adapters/application
 
   });
 });
-define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application', 'ember'], function (exports, _pixLiveAdaptersApplication, _ember) {
+define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application', 'ember', 'rsvp'], function (exports, _pixLiveAdaptersApplication, _ember, _rsvp) {
   exports['default'] = _pixLiveAdaptersApplication['default'].extend({
-    // XXX : can't find in the docs why query params are in 3rd position
-    // XXX : need the small 'if' for production. Hacky, icky, ugly.
+
     queryRecord: function queryRecord(modelName, clazz, query) {
-      var prefix = '/';
-      if (this.host !== '/') {
-        prefix = this.host + '/';
-      }
-      return _ember['default'].$.getJSON(prefix + this.namespace + '/assessments/' + query.assessmentId + '/solutions/' + query.answerId);
+      return _ember['default'].$.getJSON(this.host + '/' + this.namespace + '/assessments/' + query.assessmentId + '/solutions/' + query.answerId, function (data) {
+        return _rsvp['default'].resolve(data);
+      });
     }
   });
 });
@@ -572,6 +569,17 @@ define('pix-live/components/comparison-window', ['exports', 'ember', 'pix-live/u
 
   var ComparisonWindow = _ember['default'].Component.extend({
 
+    answer: null,
+    challenge: null,
+    solution: null,
+    index: null,
+
+    isAssessmentChallengeTypeQroc: _ember['default'].computed.equal('challenge.type', 'QROC'),
+    isAssessmentChallengeTypeQCM: _ember['default'].computed.equal('challenge.type', 'QCM'),
+    isAssessmentChallengeTypeQrocm: _ember['default'].computed.equal('challenge.type', 'QROCM'),
+    isAssessmentChallengeTypeQrocmInd: _ember['default'].computed.equal('challenge.type', 'QROCM-IND'),
+    isAssessmentChallengeTypeQrocmDep: _ember['default'].computed.equal('challenge.type', 'QROCM-DEP'),
+
     solutionArray: _ember['default'].computed('solution', function () {
       return this.get('solution').get('_valueAsArrayOfBoolean');
     }),
@@ -1005,6 +1013,39 @@ define('pix-live/components/qroc-proposal', ['exports', 'ember'], function (expo
     }
   });
 });
+define('pix-live/components/qroc-solution-panel', ['exports', 'ember'], function (exports, _ember) {
+
+  var QrocSolutionPanel = _ember['default'].Component.extend({
+
+    answer: null,
+    solution: null,
+
+    answerToDisplay: _ember['default'].computed('answer', function () {
+      var answer = this.get('answer.value');
+      if (answer === '#ABAND#') {
+        return 'Pas de réponse';
+      }
+      return answer;
+    }),
+
+    solutionToDisplay: _ember['default'].computed('solution.value', function () {
+      var solutionVariants = this.get('solution.value');
+      if (!solutionVariants) {
+        return '';
+      }
+
+      var solutionVariantsArray = solutionVariants.split('\n');
+      var solution = solutionVariantsArray[0];
+      return solution;
+    })
+  });
+
+  QrocSolutionPanel.reopenClass({
+    positionalParams: ['answer', 'solution']
+  });
+
+  exports['default'] = QrocSolutionPanel;
+});
 define('pix-live/components/qrocm-proposal', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     classNames: ['qrocm-proposal'],
@@ -1209,6 +1250,48 @@ define('pix-live/controllers/courses/get-challenge-preview', ['exports', 'ember'
 
   });
 });
+define('pix-live/helpers/abs', ['exports', 'ember-math-helpers/helpers/abs'], function (exports, _emberMathHelpersHelpersAbs) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAbs['default'];
+    }
+  });
+  Object.defineProperty(exports, 'abs', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAbs.abs;
+    }
+  });
+});
+define('pix-live/helpers/acos', ['exports', 'ember-math-helpers/helpers/acos'], function (exports, _emberMathHelpersHelpersAcos) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAcos['default'];
+    }
+  });
+  Object.defineProperty(exports, 'acos', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAcos.acos;
+    }
+  });
+});
+define('pix-live/helpers/acosh', ['exports', 'ember-math-helpers/helpers/acosh'], function (exports, _emberMathHelpersHelpersAcosh) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAcosh['default'];
+    }
+  });
+  Object.defineProperty(exports, 'acosh', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAcosh.acosh;
+    }
+  });
+});
 define('pix-live/helpers/add', ['exports', 'ember-math-helpers/helpers/add'], function (exports, _emberMathHelpersHelpersAdd) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -1232,6 +1315,76 @@ define('pix-live/helpers/app-version', ['exports', 'ember', 'pix-live/config/env
   }
 
   exports['default'] = _ember['default'].Helper.helper(appVersion);
+});
+define('pix-live/helpers/asin', ['exports', 'ember-math-helpers/helpers/asin'], function (exports, _emberMathHelpersHelpersAsin) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAsin['default'];
+    }
+  });
+  Object.defineProperty(exports, 'asin', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAsin.asin;
+    }
+  });
+});
+define('pix-live/helpers/asinh', ['exports', 'ember-math-helpers/helpers/asinh'], function (exports, _emberMathHelpersHelpersAsinh) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAsinh['default'];
+    }
+  });
+  Object.defineProperty(exports, 'asinh', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAsinh.asinh;
+    }
+  });
+});
+define('pix-live/helpers/atan', ['exports', 'ember-math-helpers/helpers/atan'], function (exports, _emberMathHelpersHelpersAtan) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAtan['default'];
+    }
+  });
+  Object.defineProperty(exports, 'atan', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAtan.atan;
+    }
+  });
+});
+define('pix-live/helpers/atan2', ['exports', 'ember-math-helpers/helpers/atan2'], function (exports, _emberMathHelpersHelpersAtan2) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAtan2['default'];
+    }
+  });
+  Object.defineProperty(exports, 'atan2', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAtan2.atan2;
+    }
+  });
+});
+define('pix-live/helpers/atanh', ['exports', 'ember-math-helpers/helpers/atanh'], function (exports, _emberMathHelpersHelpersAtanh) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAtanh['default'];
+    }
+  });
+  Object.defineProperty(exports, 'atanh', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersAtanh.atanh;
+    }
+  });
 });
 define('pix-live/helpers/bs-contains', ['exports', 'ember-bootstrap/helpers/bs-contains'], function (exports, _emberBootstrapHelpersBsContains) {
   Object.defineProperty(exports, 'default', {
@@ -1289,6 +1442,20 @@ define('pix-live/helpers/bs-read-path', ['exports', 'ember-bootstrap/helpers/bs-
     }
   });
 });
+define('pix-live/helpers/cbrt', ['exports', 'ember-math-helpers/helpers/cbrt'], function (exports, _emberMathHelpersHelpersCbrt) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersCbrt['default'];
+    }
+  });
+  Object.defineProperty(exports, 'cbrt', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersCbrt.cbrt;
+    }
+  });
+});
 define('pix-live/helpers/ceil', ['exports', 'ember-math-helpers/helpers/ceil'], function (exports, _emberMathHelpersHelpersCeil) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -1300,6 +1467,20 @@ define('pix-live/helpers/ceil', ['exports', 'ember-math-helpers/helpers/ceil'], 
     enumerable: true,
     get: function get() {
       return _emberMathHelpersHelpersCeil.ceil;
+    }
+  });
+});
+define('pix-live/helpers/clz32', ['exports', 'ember-math-helpers/helpers/clz32'], function (exports, _emberMathHelpersHelpersClz32) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersClz32['default'];
+    }
+  });
+  Object.defineProperty(exports, 'clz32', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersClz32.clz32;
     }
   });
 });
@@ -1317,6 +1498,34 @@ define('pix-live/helpers/convert-to-html', ['exports', 'ember', 'pix-live/utils/
   exports['default'] = _ember['default'].Helper.helper(convertToHtml);
 });
 /* global showdown */
+define('pix-live/helpers/cos', ['exports', 'ember-math-helpers/helpers/cos'], function (exports, _emberMathHelpersHelpersCos) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersCos['default'];
+    }
+  });
+  Object.defineProperty(exports, 'cos', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersCos.cos;
+    }
+  });
+});
+define('pix-live/helpers/cosh', ['exports', 'ember-math-helpers/helpers/cosh'], function (exports, _emberMathHelpersHelpersCosh) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersCosh['default'];
+    }
+  });
+  Object.defineProperty(exports, 'cosh', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersCosh.cosh;
+    }
+  });
+});
 define('pix-live/helpers/div', ['exports', 'ember-math-helpers/helpers/div'], function (exports, _emberMathHelpersHelpersDiv) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -1338,6 +1547,34 @@ define('pix-live/helpers/eq', ['exports', 'ember'], function (exports, _ember) {
     return params[0] === params[1];
   };
   exports['default'] = _ember['default'].Helper.helper(eq);
+});
+define('pix-live/helpers/exp', ['exports', 'ember-math-helpers/helpers/exp'], function (exports, _emberMathHelpersHelpersExp) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersExp['default'];
+    }
+  });
+  Object.defineProperty(exports, 'exp', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersExp.exp;
+    }
+  });
+});
+define('pix-live/helpers/expm1', ['exports', 'ember-math-helpers/helpers/expm1'], function (exports, _emberMathHelpersHelpersExpm1) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersExpm1['default'];
+    }
+  });
+  Object.defineProperty(exports, 'expm1', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersExpm1.expm1;
+    }
+  });
 });
 define('pix-live/helpers/extract-extension', ['exports', 'ember'], function (exports, _ember) {
   exports.extractExtension = extractExtension;
@@ -1364,6 +1601,48 @@ define('pix-live/helpers/floor', ['exports', 'ember-math-helpers/helpers/floor']
     }
   });
 });
+define('pix-live/helpers/fround', ['exports', 'ember-math-helpers/helpers/fround'], function (exports, _emberMathHelpersHelpersFround) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersFround['default'];
+    }
+  });
+  Object.defineProperty(exports, 'fround', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersFround.fround;
+    }
+  });
+});
+define('pix-live/helpers/hypot', ['exports', 'ember-math-helpers/helpers/hypot'], function (exports, _emberMathHelpersHelpersHypot) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersHypot['default'];
+    }
+  });
+  Object.defineProperty(exports, 'hypot', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersHypot.hypot;
+    }
+  });
+});
+define('pix-live/helpers/imul', ['exports', 'ember-math-helpers/helpers/imul'], function (exports, _emberMathHelpersHelpersImul) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersImul['default'];
+    }
+  });
+  Object.defineProperty(exports, 'imul', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersImul.imul;
+    }
+  });
+});
 define('pix-live/helpers/inc', ['exports', 'ember'], function (exports, _ember) {
   exports.inc = inc;
 
@@ -1372,6 +1651,62 @@ define('pix-live/helpers/inc', ['exports', 'ember'], function (exports, _ember) 
   }
 
   exports['default'] = _ember['default'].Helper.helper(inc);
+});
+define('pix-live/helpers/log-e', ['exports', 'ember-math-helpers/helpers/log-e'], function (exports, _emberMathHelpersHelpersLogE) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLogE['default'];
+    }
+  });
+  Object.defineProperty(exports, 'logE', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLogE.logE;
+    }
+  });
+});
+define('pix-live/helpers/log10', ['exports', 'ember-math-helpers/helpers/log10'], function (exports, _emberMathHelpersHelpersLog10) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLog10['default'];
+    }
+  });
+  Object.defineProperty(exports, 'log10', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLog10.log10;
+    }
+  });
+});
+define('pix-live/helpers/log1p', ['exports', 'ember-math-helpers/helpers/log1p'], function (exports, _emberMathHelpersHelpersLog1p) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLog1p['default'];
+    }
+  });
+  Object.defineProperty(exports, 'log1p', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLog1p.log1p;
+    }
+  });
+});
+define('pix-live/helpers/log2', ['exports', 'ember-math-helpers/helpers/log2'], function (exports, _emberMathHelpersHelpersLog2) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLog2['default'];
+    }
+  });
+  Object.defineProperty(exports, 'log2', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersLog2.log2;
+    }
+  });
 });
 define('pix-live/helpers/max', ['exports', 'ember-math-helpers/helpers/max'], function (exports, _emberMathHelpersHelpersMax) {
   Object.defineProperty(exports, 'default', {
@@ -1496,6 +1831,34 @@ define('pix-live/helpers/route-action', ['exports', 'ember-route-action-helper/h
     }
   });
 });
+define('pix-live/helpers/sign', ['exports', 'ember-math-helpers/helpers/sign'], function (exports, _emberMathHelpersHelpersSign) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersSign['default'];
+    }
+  });
+  Object.defineProperty(exports, 'sign', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersSign.sign;
+    }
+  });
+});
+define('pix-live/helpers/sin', ['exports', 'ember-math-helpers/helpers/sin'], function (exports, _emberMathHelpersHelpersSin) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersSin['default'];
+    }
+  });
+  Object.defineProperty(exports, 'sin', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersSin.sin;
+    }
+  });
+});
 define('pix-live/helpers/singularize', ['exports', 'ember-inflector/lib/helpers/singularize'], function (exports, _emberInflectorLibHelpersSingularize) {
   exports['default'] = _emberInflectorLibHelpersSingularize['default'];
 });
@@ -1536,6 +1899,48 @@ define('pix-live/helpers/sub', ['exports', 'ember-math-helpers/helpers/sub'], fu
     enumerable: true,
     get: function get() {
       return _emberMathHelpersHelpersSub.sub;
+    }
+  });
+});
+define('pix-live/helpers/tan', ['exports', 'ember-math-helpers/helpers/tan'], function (exports, _emberMathHelpersHelpersTan) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersTan['default'];
+    }
+  });
+  Object.defineProperty(exports, 'tan', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersTan.tan;
+    }
+  });
+});
+define('pix-live/helpers/tanh', ['exports', 'ember-math-helpers/helpers/tanh'], function (exports, _emberMathHelpersHelpersTanh) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersTanh['default'];
+    }
+  });
+  Object.defineProperty(exports, 'tanh', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersTanh.tanh;
+    }
+  });
+});
+define('pix-live/helpers/trunc', ['exports', 'ember-math-helpers/helpers/trunc'], function (exports, _emberMathHelpersHelpersTrunc) {
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersTrunc['default'];
+    }
+  });
+  Object.defineProperty(exports, 'trunc', {
+    enumerable: true,
+    get: function get() {
+      return _emberMathHelpersHelpersTrunc.trunc;
     }
   });
 });
@@ -1611,7 +2016,7 @@ define('pix-live/initializers/data-adapter', ['exports', 'ember'], function (exp
     initialize: function initialize() {}
   };
 });
-define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember-cli-mirage/utils/read-modules', 'pix-live/config/environment', 'pix-live/mirage/config', 'ember-cli-mirage/server', 'lodash/object/assign'], function (exports, _emberCliMirageUtilsReadModules, _pixLiveConfigEnvironment, _pixLiveMirageConfig, _emberCliMirageServer, _lodashObjectAssign) {
+define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember-cli-mirage/utils/read-modules', 'pix-live/config/environment', 'pix-live/mirage/config', 'ember-cli-mirage/server', 'lodash/assign'], function (exports, _emberCliMirageUtilsReadModules, _pixLiveConfigEnvironment, _pixLiveMirageConfig, _emberCliMirageServer, _lodashAssign) {
   exports.startMirage = startMirage;
   exports['default'] = {
     name: 'ember-cli-mirage',
@@ -1633,7 +2038,7 @@ define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember-cli-mirage/u
 
     var environment = env.environment;
     var modules = (0, _emberCliMirageUtilsReadModules['default'])(env.modulePrefix);
-    var options = (0, _lodashObjectAssign['default'])(modules, { environment: environment, baseConfig: _pixLiveMirageConfig['default'], testConfig: _pixLiveMirageConfig.testConfig });
+    var options = (0, _lodashAssign['default'])(modules, { environment: environment, baseConfig: _pixLiveMirageConfig['default'], testConfig: _pixLiveMirageConfig.testConfig });
 
     return new _emberCliMirageServer['default'](options);
   }
@@ -3003,9 +3408,8 @@ define('pix-live/routes/assessments/get-results', ['exports', 'ember'], function
     },
 
     actions: {
-
       openComparison: function openComparison(assessment_id, answer_id, index) {
-        this.get('router').transitionTo('assessments.get-comparison', assessment_id, answer_id, index);
+        this.transitionTo('assessments.get-comparison', assessment_id, answer_id, index);
       }
     }
 
@@ -3370,7 +3774,7 @@ define("pix-live/templates/components/challenge-stay", ["exports"], function (ex
   exports["default"] = Ember.HTMLBars.template({ "id": "oY6w6udg", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge-stay\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge-stay__container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge-stay__icon\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M9,22A1,1 0 0,1 8,21V18H4A2,2 0 0,1 2,16V4C2,2.89 2.9,2 4,2H20A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H13.9L10.2,21.71C10,21.9 9.75,22 9.5,22V22H9M13,10V6H11V10H13M13,14V12H11V14H13Z\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge-stay__text\"],[\"flush-element\"],[\"text\",\"Vous devez répondre à cette question sans sortir de cette page !\"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/challenge-stay.hbs" } });
 });
 define("pix-live/templates/components/comparison-window", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "X+mICTva", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"comparison-window\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"routable-modal--dialog comparison-window--dialog\"],[\"flush-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"routable-modal--content comparison-window--content\"],[\"flush-element\"],[\"text\",\"\\n\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"routable-modal--header comparison-window--header\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"routable-modal-close-button\"],null,[[\"class\"],[\"routable-modal--close-button\"]],10],[\"text\",\"        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-index\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"append\",[\"unknown\",[\"index\"]],false],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-light-line\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-titre\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultOk\"]]],null,9,8],[\"text\",\"        \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"routable-modal--body comparison-window--body\"],[\"flush-element\"],[\"text\",\"\\n\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"rounded-panel comparison-window__instruction\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"rounded-panel__row \"],[\"flush-element\"],[\"text\",\"\\n            \"],[\"append\",[\"helper\",[\"markdown-to-html\"],null,[[\"class\",\"extensions\",\"markdown\"],[\"challenge-statement__instruction\",\"targetBlank\",[\"get\",[\"challenge\",\"instruction\"]]]]],false],[\"text\",\"\\n          \"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"block\",[\"if\"],[[\"get\",[\"challenge\",\"illustrationUrl\"]]],null,1],[\"text\",\"        \"],[\"close-element\"],[\"text\",\"\\n\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"rounded-panel comparison-window__proposals\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"rounded-panel__row \"],[\"flush-element\"],[\"text\",\"\\n\\n\\n\\n\\n\\n\"],[\"block\",[\"each\"],[[\"get\",[\"labeledCheckboxes\"]]],null,0],[\"text\",\"\\n\\n\\n\\n\\n          \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"routable-modal--footer comparison-window--footer\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"append\",[\"helper\",[\"feedback-panel\"],[[\"get\",[\"answer\"]]],null],false],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"\\n            \"],[\"open-element\",\"p\",[]],[\"static-attr\",\"class\",\"challenge-response__proposal proposal-comparison-window proposal-paragraph\"],[\"flush-element\"],[\"text\",\"\\n\\n\"],[\"text\",\"              \"],[\"open-element\",\"input\",[]],[\"static-attr\",\"class\",\"comparison-window-boolean checkbox-comparison-window\"],[\"static-attr\",\"type\",\"checkbox\"],[\"static-attr\",\"disabled\",\"disabled\"],[\"dynamic-attr\",\"name\",[\"concat\",[[\"helper\",[\"inc\"],[[\"get\",[\"index\"]]],null]]]],[\"dynamic-attr\",\"checked\",[\"unknown\",[\"labeledCheckbox\",\"1\"]],null],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n\\n              \"],[\"open-element\",\"label\",[]],[\"static-attr\",\"class\",\"challenge-response__proposal-label label-checkbox-proposal--comparison\"],[\"flush-element\"],[\"text\",\"\\n\\n\"],[\"text\",\"                \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"comparison-window-oracle\"],[\"dynamic-attr\",\"data-goodness\",[\"concat\",[[\"helper\",[\"if\"],[[\"helper\",[\"get\"],[[\"get\",[\"solutionArray\"]],[\"helper\",[\"concat\"],[[\"get\",[\"index\"]]],null]],null],\"good\",\"bad\"],null]]]],[\"dynamic-attr\",\"data-checked\",[\"helper\",[\"if\"],[[\"get\",[\"labeledCheckbox\",\"1\"]],\"yes\",\"no\"],null],null],[\"flush-element\"],[\"text\",\"\\n                    \"],[\"append\",[\"unknown\",[\"labeledCheckbox\",\"0\"]],false],[\"text\",\"\\n                \"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"text\",\"                \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"class\",\"checkbox-disabled-on picture-checkbox-proposal--comparison\"],[\"static-attr\",\"width\",\"18px\"],[\"static-attr\",\"height\",\"18px\"],[\"static-attr\",\"viewBox\",\"0 0 18 18\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"Styles\"],[\"static-attr\",\"stroke\",\"none\"],[\"static-attr\",\"stroke-width\",\"1\"],[\"static-attr\",\"fill\",\"none\"],[\"static-attr\",\"fill-rule\",\"evenodd\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"Icons\"],[\"static-attr\",\"transform\",\"translate(-293.000000, -89.000000)\"],[\"static-attr\",\"fill\",\"#7D808B\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"icontest--checkbox-disabled\"],[\"static-attr\",\"transform\",\"translate(292.000000, 88.000000)\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M8,15 L3,10 L4.41,8.58 L8,12.17 L15.59,4.58 L17,6 L8,15 Z M17,1 L3,1 C1.89,1 1,1.89 1,3 L1,17 C1,18.1045695 1.8954305,19 3,19 L17,19 C18.1045695,19 19,18.1045695 19,17 L19,3 C19,1.89 18.1,1 17,1 Z\"],[\"static-attr\",\"id\",\"Shape\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n                \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"class\",\"checkbox-disabled-off picture-checkbox-proposal--comparison\"],[\"static-attr\",\"width\",\"18px\"],[\"static-attr\",\"height\",\"18px\"],[\"static-attr\",\"viewBox\",\"0 0 18 18\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"Styles\"],[\"static-attr\",\"stroke\",\"none\"],[\"static-attr\",\"stroke-width\",\"1\"],[\"static-attr\",\"fill\",\"none\"],[\"static-attr\",\"fill-rule\",\"evenodd\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"Icons\"],[\"static-attr\",\"transform\",\"translate(-213.000000, -89.000000)\"],[\"static-attr\",\"fill\",\"#7D808B\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"icontest--checkbox-off\"],[\"static-attr\",\"transform\",\"translate(212.000000, 88.000000)\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M17,1 L3,1 C1.89,1 1,1.89 1,3 L1,17 C1,18.1045695 1.8954305,19 3,19 L17,19 C18.1045695,19 19,18.1045695 19,17 L19,3 C19,1.89 18.1,1 17,1 L17,1 Z M17,3 L17,17 L3,17 L3,3 L17,3 Z\"],[\"static-attr\",\"id\",\"Shape\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n\\n              \"],[\"close-element\"],[\"text\",\"\\n\\n            \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"labeledCheckbox\",\"index\"]},{\"statements\":[[\"text\",\"         \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"rounded-panel__row challenge-statement__illustration-section\"],[\"flush-element\"],[\"text\",\"\\n           \"],[\"open-element\",\"img\",[]],[\"static-attr\",\"class\",\"challenge-statement__illustration\"],[\"dynamic-attr\",\"src\",[\"concat\",[[\"unknown\",[\"challenge\",\"illustrationUrl\"]]]]],[\"static-attr\",\"alt\",\"Illustration de l'épreuve\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n         \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"data-lines\",\"2\"],[\"static-attr\",\"title\",\"Correction automatique en cours de développement ;)\"],[\"flush-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 -2 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z\"],[\"static-attr\",\"fill\",\"#446eff\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n          \"]],\"locals\":[]},{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Temps dépassé\"],[\"flush-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 -2 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M11,17A1,1 0 0,0 12,18A1,1 0 0,0 13,17A1,1 0 0,0 12,16A1,1 0 0,0 11,17M11,3V7H13V5.08C16.39,5.57 19,8.47 19,12A7,7 0 0,1 12,19A7,7 0 0,1 5,12C5,10.32 5.59,8.78 6.58,7.58L12,13L13.41,11.59L6.61,4.79V4.81C4.42,6.45 3,9.05 3,12A9,9 0 0,0 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3M18,12A1,1 0 0,0 17,11A1,1 0 0,0 16,12A1,1 0 0,0 17,13A1,1 0 0,0 18,12M6,12A1,1 0 0,0 7,13A1,1 0 0,0 8,12A1,1 0 0,0 7,11A1,1 0 0,0 6,12Z\"],[\"static-attr\",\"fill\",\"red\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-text\"],[\"flush-element\"],[\"text\",\"Vous avez dépassé le temps imparti\"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultTimedOut\"]]],null,3,2]],\"locals\":[]},{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Sans réponse\"],[\"flush-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 -2 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M8,8L13,12L8,16M14,8H16V16H14\"],[\"static-attr\",\"fill\",\"#3e4149\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-text\"],[\"flush-element\"],[\"text\",\"Vous n'avez pas donné de réponse\"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultWithoutAnswer\"]]],null,5,4]],\"locals\":[]},{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Réponse incorrecte\"],[\"flush-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24px\"],[\"static-attr\",\"height\",\"24px\"],[\"static-attr\",\"viewBox\",\"0 -2 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z\"],[\"static-attr\",\"fill\",\"#ff4600\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-text\"],[\"flush-element\"],[\"text\",\"Vous n'avez pas la bonne réponse\"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultNotOk\"]]],null,7,6]],\"locals\":[]},{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Réponse correcte\"],[\"flush-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 -2 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z\"],[\"static-attr\",\"fill\",\"#30d5b0\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-text\"],[\"flush-element\"],[\"text\",\"Vous avez la bonne réponse !\"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"close-button-container\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"div\",[]],[\"flush-element\"],[\"text\",\"fermer \"],[\"close-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"div\",[]],[\"flush-element\"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 0 24 27\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16,14.59L13.41,12L16,9.41L14.59,8Z\"],[\"static-attr\",\"fill\",\"white\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/comparison-window.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "vt/S1loy", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"comparison-window\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"routable-modal--dialog comparison-window--dialog\"],[\"flush-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"routable-modal--content comparison-window--content\"],[\"flush-element\"],[\"text\",\"\\n\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"routable-modal--header comparison-window__header\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"routable-modal-close-button\"],null,[[\"class\"],[\"routable-modal--close-button\"]],12],[\"text\",\"        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-index\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"append\",[\"unknown\",[\"index\"]],false],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-light-line\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-titre\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultOk\"]]],null,11,10],[\"text\",\"        \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"routable-modal--body comparison-window--body\"],[\"flush-element\"],[\"text\",\"\\n\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"rounded-panel comparison-window__challenge-instruction\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"rounded-panel__row \"],[\"flush-element\"],[\"text\",\"\\n            \"],[\"append\",[\"helper\",[\"markdown-to-html\"],null,[[\"class\",\"extensions\",\"markdown\"],[\"challenge-statement__instruction\",\"targetBlank\",[\"get\",[\"challenge\",\"instruction\"]]]]],false],[\"text\",\"\\n          \"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"block\",[\"if\"],[[\"get\",[\"challenge\",\"illustrationUrl\"]]],null,3],[\"text\",\"        \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"comparison-window__corrected-answers\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"isAssessmentChallengeTypeQCM\"]]],null,2],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"isAssessmentChallengeTypeQroc\"]]],null,0],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"routable-modal--footer comparison-window--footer\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"comparison-window__feedback-panel\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"append\",[\"helper\",[\"feedback-panel\"],[[\"get\",[\"answer\"]]],null],false],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"          \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"comparison-window__corrected-answers comparison-window__corrected-answers--qroc\"],[\"flush-element\"],[\"text\",\"\\n            \"],[\"append\",[\"helper\",[\"qroc-solution-panel\"],null,[[\"answer\",\"solution\"],[[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false],[\"text\",\"\\n          \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"p\",[]],[\"static-attr\",\"class\",\"challenge-response__proposal proposal-comparison-window proposal-paragraph\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"text\",\"              \"],[\"open-element\",\"input\",[]],[\"static-attr\",\"class\",\"comparison-window-boolean checkbox-comparison-window\"],[\"static-attr\",\"type\",\"checkbox\"],[\"static-attr\",\"disabled\",\"disabled\"],[\"dynamic-attr\",\"name\",[\"concat\",[[\"helper\",[\"inc\"],[[\"get\",[\"index\"]]],null]]]],[\"dynamic-attr\",\"checked\",[\"unknown\",[\"labeledCheckbox\",\"1\"]],null],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"label\",[]],[\"static-attr\",\"class\",\"challenge-response__proposal-label label-checkbox-proposal--comparison\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"text\",\"                \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"comparison-window-oracle\"],[\"dynamic-attr\",\"data-goodness\",[\"concat\",[[\"helper\",[\"if\"],[[\"helper\",[\"get\"],[[\"get\",[\"solutionArray\"]],[\"helper\",[\"concat\"],[[\"get\",[\"index\"]]],null]],null],\"good\",\"bad\"],null]]]],[\"dynamic-attr\",\"data-checked\",[\"helper\",[\"if\"],[[\"get\",[\"labeledCheckbox\",\"1\"]],\"yes\",\"no\"],null],null],[\"flush-element\"],[\"text\",\"\\n                    \"],[\"append\",[\"unknown\",[\"labeledCheckbox\",\"0\"]],false],[\"text\",\"\\n                \"],[\"close-element\"],[\"text\",\"\\n\"],[\"text\",\"                \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"class\",\"checkbox-disabled-on picture-checkbox-proposal--comparison\"],[\"static-attr\",\"width\",\"18px\"],[\"static-attr\",\"height\",\"18px\"],[\"static-attr\",\"viewBox\",\"0 0 18 18\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"Styles\"],[\"static-attr\",\"stroke\",\"none\"],[\"static-attr\",\"stroke-width\",\"1\"],[\"static-attr\",\"fill\",\"none\"],[\"static-attr\",\"fill-rule\",\"evenodd\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"Icons\"],[\"static-attr\",\"transform\",\"translate(-293.000000, -89.000000)\"],[\"static-attr\",\"fill\",\"#7D808B\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"icontest--checkbox-disabled\"],[\"static-attr\",\"transform\",\"translate(292.000000, 88.000000)\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M8,15 L3,10 L4.41,8.58 L8,12.17 L15.59,4.58 L17,6 L8,15 Z M17,1 L3,1 C1.89,1 1,1.89 1,3 L1,17 C1,18.1045695 1.8954305,19 3,19 L17,19 C18.1045695,19 19,18.1045695 19,17 L19,3 C19,1.89 18.1,1 17,1 Z\"],[\"static-attr\",\"id\",\"Shape\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n                \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"class\",\"checkbox-disabled-off picture-checkbox-proposal--comparison\"],[\"static-attr\",\"width\",\"18px\"],[\"static-attr\",\"height\",\"18px\"],[\"static-attr\",\"viewBox\",\"0 0 18 18\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"Styles\"],[\"static-attr\",\"stroke\",\"none\"],[\"static-attr\",\"stroke-width\",\"1\"],[\"static-attr\",\"fill\",\"none\"],[\"static-attr\",\"fill-rule\",\"evenodd\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"Icons\"],[\"static-attr\",\"transform\",\"translate(-213.000000, -89.000000)\"],[\"static-attr\",\"fill\",\"#7D808B\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"icontest--checkbox-off\"],[\"static-attr\",\"transform\",\"translate(212.000000, 88.000000)\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M17,1 L3,1 C1.89,1 1,1.89 1,3 L1,17 C1,18.1045695 1.8954305,19 3,19 L17,19 C18.1045695,19 19,18.1045695 19,17 L19,3 C19,1.89 18.1,1 17,1 L17,1 Z M17,3 L17,17 L3,17 L3,3 L17,3 Z\"],[\"static-attr\",\"id\",\"Shape\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n              \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"labeledCheckbox\",\"index\"]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"rounded-panel comparison-window__proposals comparison-window__corrected-answers\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"rounded-panel__row \"],[\"flush-element\"],[\"text\",\"\\n\\n\"],[\"block\",[\"each\"],[[\"get\",[\"labeledCheckboxes\"]]],null,1],[\"text\",\"          \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"          \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"rounded-panel__row challenge-statement__illustration-section\"],[\"flush-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"img\",[]],[\"static-attr\",\"class\",\"challenge-statement__illustration\"],[\"dynamic-attr\",\"src\",[\"concat\",[[\"unknown\",[\"challenge\",\"illustrationUrl\"]]]]],[\"static-attr\",\"alt\",\"Illustration de l'épreuve\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n          \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"data-lines\",\"2\"],[\"static-attr\",\"title\",\"Correction automatique en cours de développement ;)\"],[\"flush-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 -2 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z\"],[\"static-attr\",\"fill\",\"#446eff\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-text\"],[\"flush-element\"],[\"text\",\"Cette correction est en cours de développement\"],[\"close-element\"],[\"text\",\"\\n          \"]],\"locals\":[]},{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Temps dépassé\"],[\"flush-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 -2 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M11,17A1,1 0 0,0 12,18A1,1 0 0,0 13,17A1,1 0 0,0 12,16A1,1 0 0,0 11,17M11,3V7H13V5.08C16.39,5.57 19,8.47 19,12A7,7 0 0,1 12,19A7,7 0 0,1 5,12C5,10.32 5.59,8.78 6.58,7.58L12,13L13.41,11.59L6.61,4.79V4.81C4.42,6.45 3,9.05 3,12A9,9 0 0,0 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3M18,12A1,1 0 0,0 17,11A1,1 0 0,0 16,12A1,1 0 0,0 17,13A1,1 0 0,0 18,12M6,12A1,1 0 0,0 7,13A1,1 0 0,0 8,12A1,1 0 0,0 7,11A1,1 0 0,0 6,12Z\"],[\"static-attr\",\"fill\",\"red\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-text\"],[\"flush-element\"],[\"text\",\"Vous avez dépassé le temps imparti\"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultTimedOut\"]]],null,5,4]],\"locals\":[]},{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Sans réponse\"],[\"flush-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 -2 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M8,8L13,12L8,16M14,8H16V16H14\"],[\"static-attr\",\"fill\",\"#3e4149\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-text\"],[\"flush-element\"],[\"text\",\"Vous n'avez pas donné de réponse\"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultWithoutAnswer\"]]],null,7,6]],\"locals\":[]},{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Réponse incorrecte\"],[\"flush-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24px\"],[\"static-attr\",\"height\",\"24px\"],[\"static-attr\",\"viewBox\",\"0 -2 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z\"],[\"static-attr\",\"fill\",\"#ff4600\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-text\"],[\"flush-element\"],[\"text\",\"Vous n'avez pas la bonne réponse\"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultNotOk\"]]],null,9,8]],\"locals\":[]},{\"statements\":[[\"text\",\"            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Réponse correcte\"],[\"flush-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 -2 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z\"],[\"static-attr\",\"fill\",\"#30d5b0\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-text\"],[\"flush-element\"],[\"text\",\"Vous avez la bonne réponse !\"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"close-button-container\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"div\",[]],[\"flush-element\"],[\"text\",\"fermer \"],[\"close-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"div\",[]],[\"flush-element\"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 0 24 27\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16,14.59L13.41,12L16,9.41L14.59,8Z\"],[\"static-attr\",\"fill\",\"white\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/comparison-window.hbs" } });
 });
 define("pix-live/templates/components/corner-ribbon", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "iPqZz3Yr", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"corner-ribbon-wrapper\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"corner-ribbon\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"ribbon\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"a\",[]],[\"static-attr\",\"href\",\"https://github.com/sgmap/pix\"],[\"flush-element\"],[\"text\",\"BÊTA\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/corner-ribbon.hbs" } });
@@ -3436,7 +3840,7 @@ define("pix-live/templates/components/form-element/vertical/textarea", ["exports
   exports["default"] = Ember.HTMLBars.template({ "id": "re+h4qpT", "block": "{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"hasLabel\"]]],null,0],[\"append\",[\"helper\",[\"bs-textarea\"],null,[[\"id\",\"value\",\"name\",\"placeholder\",\"autofocus\",\"disabled\",\"required\",\"cols\",\"rows\"],[[\"get\",[\"formElementId\"]],[\"get\",[\"value\"]],[\"get\",[\"name\"]],[\"get\",[\"placeholder\"]],[\"get\",[\"autofocus\"]],[\"get\",[\"disabled\"]],[\"get\",[\"required\"]],[\"get\",[\"cols\"]],[\"get\",[\"rows\"]]]]],false],[\"text\",\"\\n\"],[\"partial\",\"components/form-element/feedback-icon\"],[\"text\",\"\\n\"],[\"partial\",\"components/form-element/errors\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"    \"],[\"open-element\",\"label\",[]],[\"dynamic-attr\",\"class\",[\"concat\",[\"control-label \",[\"helper\",[\"if\"],[[\"get\",[\"invisibleLabel\"]],\"sr-only\"],null]]]],[\"dynamic-attr\",\"for\",[\"concat\",[[\"unknown\",[\"formElementId\"]]]]],[\"flush-element\"],[\"append\",[\"unknown\",[\"label\"]],false],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":true}", "meta": { "moduleName": "pix-live/templates/components/form-element/vertical/textarea.hbs" } });
 });
 define("pix-live/templates/components/get-result", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "xN7iUrFv", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results\"],[\"static-attr\",\"id\",\"assessment-results\"],[\"flush-element\"],[\"text\",\"\\n\\n  \"],[\"append\",[\"helper\",[\"course-banner\"],null,[[\"course\"],[[\"get\",[\"assessment\",\"course\"]]]]],false],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"container\"],[\"flush-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-title\"],[\"flush-element\"],[\"text\",\"\\n      Vos résultats\\n    \"],[\"close-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-list\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"assessment\",\"answers\"]]],null,12],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-link\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"link-to\"],[\"index\"],[[\"class\",\"tagName\"],[\"assessment-results-link-home\",\"button\"]],0],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"close-element\"],[\"text\",\"\\n\\n\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"  \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"assessment-results-back\"],[\"flush-element\"],[\"text\",\"Revenir à la liste des tests\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"class\",\"assessment-results-result-correction-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],[\"helper\",[\"route-action\"],[\"openComparison\",[\"get\",[\"assessment\",\"id\"]],[\"get\",[\"answer\",\"id\"]],[\"helper\",[\"add\"],[[\"get\",[\"index\"]],1],null]],null]]],[\"flush-element\"],[\"text\",\" RÉPONSE \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"       \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"data-lines\",\"2\"],[\"static-attr\",\"title\",\"Correction automatique en cours de développement ;)\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z\"],[\"static-attr\",\"fill\",\"#446eff\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Temps dépassé\"],[\"flush-element\"],[\"text\",\"\\n         \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M11,17A1,1 0 0,0 12,18A1,1 0 0,0 13,17A1,1 0 0,0 12,16A1,1 0 0,0 11,17M11,3V7H13V5.08C16.39,5.57 19,8.47 19,12A7,7 0 0,1 12,19A7,7 0 0,1 5,12C5,10.32 5.59,8.78 6.58,7.58L12,13L13.41,11.59L6.61,4.79V4.81C4.42,6.45 3,9.05 3,12A9,9 0 0,0 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3M18,12A1,1 0 0,0 17,11A1,1 0 0,0 16,12A1,1 0 0,0 17,13A1,1 0 0,0 18,12M6,12A1,1 0 0,0 7,13A1,1 0 0,0 8,12A1,1 0 0,0 7,11A1,1 0 0,0 6,12Z\"],[\"static-attr\",\"fill\",\"red\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n       \"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultTimedOut\"]]],null,3,2]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Réponse partielle\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"width\",\"22\"],[\"static-attr\",\"height\",\"22\"],[\"static-attr\",\"viewBox\",\"0 0 24 25\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"flush-element\"],[\"open-element\",\"defs\",[]],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M941,28.7873535 C944.182598,28.7873535 947.234845,30.0516356 949.485281,32.3020721 C951.735718,34.5525087 953,37.6047556 953,40.7873535 C953,47.4147705 947.627417,52.7873535 941,52.7873535 C937.817402,52.7873535 934.765155,51.5230714 932.514719,49.2726349 C930.264282,47.0221983 929,43.9699514 929,40.7873535 C929,37.6047556 930.264282,34.5525087 932.514719,32.3020721 C934.765155,30.0516356 937.817402,28.7873535 941,28.7873535 L941,28.7873535 Z\"],[\"static-attr\",\"id\",\"path-1\"],[\"flush-element\"],[\"close-element\"],[\"open-element\",\"mask\",[]],[\"static-attr\",\"id\",\"mask-2\"],[\"static-attr\",\"maskContentUnits\",\"userSpaceOnUse\"],[\"static-attr\",\"maskUnits\",\"objectBoundingBox\"],[\"static-attr\",\"x\",\"0\"],[\"static-attr\",\"y\",\"0\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"fill\",\"white\"],[\"flush-element\"],[\"open-element\",\"use\",[]],[\"static-attr\",\"xlink:href\",\"#path-1\",\"http://www.w3.org/1999/xlink\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"Résultats\"],[\"static-attr\",\"stroke\",\"none\"],[\"static-attr\",\"stroke-width\",\"1\"],[\"static-attr\",\"fill\",\"none\"],[\"static-attr\",\"fill-rule\",\"evenodd\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"test-fin-1\"],[\"static-attr\",\"transform\",\"translate(-1155.000000, -532.000000)\"],[\"static-attr\",\"stroke\",\"#FFBE00\"],[\"static-attr\",\"stroke-width\",\"14\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"Group3\"],[\"static-attr\",\"transform\",\"translate(226.000000, 504.000000)\"],[\"flush-element\"],[\"open-element\",\"use\",[]],[\"static-attr\",\"id\",\"Shape-Copy-3\"],[\"static-attr\",\"mask\",\"url(#mask-2)\"],[\"static-attr\",\"xlink:href\",\"#path-1\",\"http://www.w3.org/1999/xlink\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultPartiallyOk\"]]],null,5,4]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Sans réponse\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M8,8L13,12L8,16M14,8H16V16H14\"],[\"static-attr\",\"fill\",\"#3e4149\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultWithoutAnswer\"]]],null,7,6]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Réponse incorrecte\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24px\"],[\"static-attr\",\"height\",\"24px\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z\"],[\"static-attr\",\"fill\",\"#ff4600\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultNotOk\"]]],null,9,8]],\"locals\":[]},{\"statements\":[[\"text\",\"         \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Réponse correcte\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z\"],[\"static-attr\",\"fill\",\"#30d5b0\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-list-item assessment-results-result\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-index\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"append\",[\"helper\",[\"add\"],[[\"get\",[\"index\"]],1],null],false],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-line\"],[\"flush-element\"],[\"text\",\"\\n\\n        \"],[\"close-element\"],[\"text\",\"\\n\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-img\"],[\"flush-element\"],[\"text\",\"\\n\\n\"],[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultOk\"]]],null,11,10],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-instruction\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"append\",[\"helper\",[\"strip-instruction\"],[[\"helper\",[\"convert-to-html\"],[[\"get\",[\"answer\",\"challenge\",\"instruction\"]]],null]],null],false],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"js-correct-answer assessment-results-result-correction\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"helper\",[\"eq\"],[[\"get\",[\"answer\",\"challenge\",\"type\"]],\"QCM\"],null]],null,1],[\"text\",\"    \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"answer\",\"index\"]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/get-result.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "wTqPqxpt", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results\"],[\"static-attr\",\"id\",\"assessment-results\"],[\"flush-element\"],[\"text\",\"\\n\\n  \"],[\"append\",[\"helper\",[\"course-banner\"],null,[[\"course\"],[[\"get\",[\"assessment\",\"course\"]]]]],false],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"container\"],[\"flush-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-title\"],[\"flush-element\"],[\"text\",\"\\n      Vos résultats\\n    \"],[\"close-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-list\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"assessment\",\"answers\"]]],null,14],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-link\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"link-to\"],[\"index\"],[[\"class\",\"tagName\"],[\"assessment-results-link-home\",\"button\"]],0],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"close-element\"],[\"text\",\"\\n\\n\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"  \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"assessment-results-back\"],[\"flush-element\"],[\"text\",\"Revenir à la liste des tests\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"class\",\"assessment-results-result-correction-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],[\"helper\",[\"route-action\"],[\"openComparison\",[\"get\",[\"assessment\",\"id\"]],[\"get\",[\"answer\",\"id\"]],[\"helper\",[\"add\"],[[\"get\",[\"index\"]],1],null]],null]]],[\"flush-element\"],[\"text\",\" RÉPONSE \"],[\"close-element\"],[\"text\",\"\\n      \"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"helper\",[\"eq\"],[[\"get\",[\"answer\",\"challenge\",\"type\"]],\"QROC\"],null]],null,1]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"class\",\"assessment-results-result-correction-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],[\"helper\",[\"route-action\"],[\"openComparison\",[\"get\",[\"assessment\",\"id\"]],[\"get\",[\"answer\",\"id\"]],[\"helper\",[\"add\"],[[\"get\",[\"index\"]],1],null]],null]]],[\"flush-element\"],[\"text\",\" RÉPONSE \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"       \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"data-lines\",\"2\"],[\"static-attr\",\"title\",\"Correction automatique en cours de développement ;)\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z\"],[\"static-attr\",\"fill\",\"#446eff\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Temps dépassé\"],[\"flush-element\"],[\"text\",\"\\n         \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M11,17A1,1 0 0,0 12,18A1,1 0 0,0 13,17A1,1 0 0,0 12,16A1,1 0 0,0 11,17M11,3V7H13V5.08C16.39,5.57 19,8.47 19,12A7,7 0 0,1 12,19A7,7 0 0,1 5,12C5,10.32 5.59,8.78 6.58,7.58L12,13L13.41,11.59L6.61,4.79V4.81C4.42,6.45 3,9.05 3,12A9,9 0 0,0 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3M18,12A1,1 0 0,0 17,11A1,1 0 0,0 16,12A1,1 0 0,0 17,13A1,1 0 0,0 18,12M6,12A1,1 0 0,0 7,13A1,1 0 0,0 8,12A1,1 0 0,0 7,11A1,1 0 0,0 6,12Z\"],[\"static-attr\",\"fill\",\"red\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n       \"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultTimedOut\"]]],null,5,4]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Réponse partielle\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"width\",\"22\"],[\"static-attr\",\"height\",\"22\"],[\"static-attr\",\"viewBox\",\"0 0 24 25\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"flush-element\"],[\"open-element\",\"defs\",[]],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M941,28.7873535 C944.182598,28.7873535 947.234845,30.0516356 949.485281,32.3020721 C951.735718,34.5525087 953,37.6047556 953,40.7873535 C953,47.4147705 947.627417,52.7873535 941,52.7873535 C937.817402,52.7873535 934.765155,51.5230714 932.514719,49.2726349 C930.264282,47.0221983 929,43.9699514 929,40.7873535 C929,37.6047556 930.264282,34.5525087 932.514719,32.3020721 C934.765155,30.0516356 937.817402,28.7873535 941,28.7873535 L941,28.7873535 Z\"],[\"static-attr\",\"id\",\"path-1\"],[\"flush-element\"],[\"close-element\"],[\"open-element\",\"mask\",[]],[\"static-attr\",\"id\",\"mask-2\"],[\"static-attr\",\"maskContentUnits\",\"userSpaceOnUse\"],[\"static-attr\",\"maskUnits\",\"objectBoundingBox\"],[\"static-attr\",\"x\",\"0\"],[\"static-attr\",\"y\",\"0\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"fill\",\"white\"],[\"flush-element\"],[\"open-element\",\"use\",[]],[\"static-attr\",\"xlink:href\",\"#path-1\",\"http://www.w3.org/1999/xlink\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"Résultats\"],[\"static-attr\",\"stroke\",\"none\"],[\"static-attr\",\"stroke-width\",\"1\"],[\"static-attr\",\"fill\",\"none\"],[\"static-attr\",\"fill-rule\",\"evenodd\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"test-fin-1\"],[\"static-attr\",\"transform\",\"translate(-1155.000000, -532.000000)\"],[\"static-attr\",\"stroke\",\"#FFBE00\"],[\"static-attr\",\"stroke-width\",\"14\"],[\"flush-element\"],[\"open-element\",\"g\",[]],[\"static-attr\",\"id\",\"Group3\"],[\"static-attr\",\"transform\",\"translate(226.000000, 504.000000)\"],[\"flush-element\"],[\"open-element\",\"use\",[]],[\"static-attr\",\"id\",\"Shape-Copy-3\"],[\"static-attr\",\"mask\",\"url(#mask-2)\"],[\"static-attr\",\"xlink:href\",\"#path-1\",\"http://www.w3.org/1999/xlink\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultPartiallyOk\"]]],null,7,6]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Sans réponse\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M8,8L13,12L8,16M14,8H16V16H14\"],[\"static-attr\",\"fill\",\"#3e4149\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultWithoutAnswer\"]]],null,9,8]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Réponse incorrecte\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24px\"],[\"static-attr\",\"height\",\"24px\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z\"],[\"static-attr\",\"fill\",\"#ff4600\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultNotOk\"]]],null,11,10]],\"locals\":[]},{\"statements\":[[\"text\",\"         \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"data-toggle\",\"tooltip\"],[\"static-attr\",\"data-placement\",\"top\"],[\"static-attr\",\"title\",\"Réponse correcte\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z\"],[\"static-attr\",\"fill\",\"#30d5b0\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-list-item assessment-results-result\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-index\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"append\",[\"helper\",[\"add\"],[[\"get\",[\"index\"]],1],null],false],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-line\"],[\"flush-element\"],[\"text\",\"\\n\\n        \"],[\"close-element\"],[\"text\",\"\\n\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-img\"],[\"flush-element\"],[\"text\",\"\\n\\n\"],[\"block\",[\"if\"],[[\"get\",[\"answer\",\"isResultOk\"]]],null,13,12],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"assessment-results-result-instruction\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"append\",[\"helper\",[\"strip-instruction\"],[[\"helper\",[\"convert-to-html\"],[[\"get\",[\"answer\",\"challenge\",\"instruction\"]]],null]],null],false],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"js-correct-answer assessment-results-result-correction\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"helper\",[\"eq\"],[[\"get\",[\"answer\",\"challenge\",\"type\"]],\"QCM\"],null]],null,3,2],[\"text\",\"    \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"answer\",\"index\"]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/get-result.hbs" } });
 });
 define("pix-live/templates/components/identification-form", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "qi9YIM7H", "block": "{\"statements\":[[\"open-element\",\"form\",[]],[\"static-attr\",\"id\",\"identification-form\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"identify\"],[[\"on\"],[\"submit\"]]],[\"flush-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"form-group\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"label\",[]],[\"static-attr\",\"for\",\"firstName\"],[\"flush-element\"],[\"text\",\"Prénom\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"input\"],null,[[\"id\",\"type\",\"value\",\"class\",\"autofocus\",\"autocomplete\"],[\"firstName\",\"text\",[\"get\",[\"user\",\"firstName\"]],\"form-control\",\"true\",\"fname\"]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"form-group\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"label\",[]],[\"static-attr\",\"for\",\"lastName\"],[\"flush-element\"],[\"text\",\"Nom\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"input\"],null,[[\"id\",\"type\",\"value\",\"class\",\"autocomplete\"],[\"lastName\",\"text\",[\"get\",[\"user\",\"lastName\"]],\"form-control\",\"lname\"]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"form-group\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"label\",[]],[\"static-attr\",\"for\",\"email\"],[\"flush-element\"],[\"text\",\"Adresse e-mail\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"input\"],null,[[\"id\",\"type\",\"value\",\"class\",\"autocomplete\"],[\"email\",\"email\",[\"get\",[\"user\",\"email\"]],\"form-control\",\"email\"]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"block\",[\"if\"],[[\"get\",[\"hasError\"]]],null,0],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"identification-form-actions pull-right\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"class\",\"button button-primary\"],[\"static-attr\",\"type\",\"submit\"],[\"flush-element\"],[\"text\",\"Identifiez-vous\"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"alert alert-danger\"],[\"static-attr\",\"role\",\"alert\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"append\",[\"unknown\",[\"errorMessage\"]],false],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/identification-form.hbs" } });
@@ -3455,6 +3859,9 @@ define("pix-live/templates/components/qcu-proposals", ["exports"], function (exp
 });
 define("pix-live/templates/components/qroc-proposal", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "podAFB6T", "block": "{\"statements\":[[\"block\",[\"each\"],[[\"get\",[\"blocks\"]]],null,3]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"    \"],[\"open-element\",\"hr\",[]],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"    \"],[\"open-element\",\"input\",[]],[\"static-attr\",\"class\",\"challenge-response__proposal-input\"],[\"static-attr\",\"type\",\"text\"],[\"dynamic-attr\",\"name\",[\"unknown\",[\"block\",\"input\"]],null],[\"dynamic-attr\",\"placeholder\",[\"unknown\",[\"block\",\"placeholder\"]],null],[\"dynamic-attr\",\"value\",[\"concat\",[[\"unknown\",[\"answerValue\"]]]]],[\"static-attr\",\"data-uid\",\"qroc-proposal-uid\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"    \"],[\"open-element\",\"span\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"block\",\"text\"]],false],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"block\",\"text\"]]],null,2],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"block\",\"input\"]]],null,1],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"block\",\"breakline\"]]],null,0],[\"text\",\"\\n\"]],\"locals\":[\"block\"]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/qroc-proposal.hbs" } });
+});
+define("pix-live/templates/components/qroc-solution-panel", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template({ "id": "Ui9RmvZb", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qroc-box rounded-panel\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"rounded-panel__row \"],[\"flush-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qroc-box__answer\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"input\",[]],[\"dynamic-attr\",\"class\",[\"concat\",[[\"helper\",[\"if\"],[[\"get\",[\"answer\",\"isResultOk\"]],\"correction-qroc-box__input-right-answer\",[\"helper\",[\"if\"],[[\"get\",[\"answer\",\"isResultNotOk\"]],\"correction-qroc-box__input-wrong-answer\",[\"helper\",[\"if\"],[[\"get\",[\"answer\",\"isResultWithoutAnswer\"]],\"correction-qroc-box__input-no-answer\"],null]],null]],null],\" correction-qroc-box--answer__input\"]]],[\"dynamic-attr\",\"value\",[\"concat\",[[\"unknown\",[\"answerToDisplay\"]]]]],[\"static-attr\",\"disabled\",\"\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\\n\\n\"],[\"block\",[\"unless\"],[[\"get\",[\"answer\",\"isResultOk\"]]],null,0],[\"text\",\"\\n\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qroc-box__solution\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"style\",\"width:18px;height:18px\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"path\",[]],[\"static-attr\",\"fill\",\"#12caa1\"],[\"static-attr\",\"d\",\"M5,21A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V19C21,20.11 20.1,21 19,21H5M6,13H14.5L11,16.5L12.42,17.92L18.34,12L12.42,6.08L11,7.5L14.5,11H6V13Z\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qroc-box__solution-text\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"solutionToDisplay\"]],false],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/qroc-solution-panel.hbs" } });
 });
 define("pix-live/templates/components/qrocm-proposal", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "6zSSg6Bf", "block": "{\"statements\":[[\"block\",[\"each\"],[[\"get\",[\"blocks\"]]],null,3]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"    \"],[\"open-element\",\"hr\",[]],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"    \"],[\"open-element\",\"input\",[]],[\"static-attr\",\"class\",\"challenge-response__proposal-input\"],[\"static-attr\",\"type\",\"text\"],[\"dynamic-attr\",\"name\",[\"unknown\",[\"block\",\"input\"]],null],[\"dynamic-attr\",\"placeholder\",[\"unknown\",[\"block\",\"placeholder\"]],null],[\"dynamic-attr\",\"value\",[\"helper\",[\"property-of\"],[[\"get\",[\"answersValue\"]],[\"get\",[\"block\",\"input\"]]],null],null],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"    \"],[\"open-element\",\"span\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"block\",\"text\"]],false],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"block\",\"text\"]]],null,2],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"block\",\"input\"]]],null,1],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"block\",\"breakline\"]]],null,0],[\"text\",\"\\n\"]],\"locals\":[\"block\"]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/qrocm-proposal.hbs" } });
@@ -3965,7 +4372,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.1+31e1d036"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+b323c052"});
 }
 
 /* jshint ignore:end */
