@@ -4,6 +4,7 @@ const _ = require('../../infrastructure/utils/lodash-utils');
 
 const solutionServiceQcm = require('./solution-service-qcm');
 const solutionServiceQcu = require('./solution-service-qcu');
+const solutionServiceQru = require('./solution-service-qru');
 const solutionServiceQroc = require('./solution-service-qroc');
 const solutionServiceQrocmInd = require('./solution-service-qrocm-ind');
 const solutionServiceQrocmDep = require('./solution-service-qrocm-dep');
@@ -54,7 +55,7 @@ module.exports = {
     }
 
     if (solution.type === 'QRU') {
-      result = 'unimplemented';
+      result = solutionServiceQru.match(answerValue, solutionValue);
     }
 
     if (solution.type === 'QCU') {
@@ -77,7 +78,9 @@ module.exports = {
       result = solutionServiceQrocmDep.match(answerValue, solutionValue, solutionScoring);
     }
 
-    result = this._timedOut(result, answerTimeout);
+    if (answerTimeout) {
+      result = this._timedOut(result, answerTimeout);
+    }
 
     return result;
   }
