@@ -3447,6 +3447,10 @@ define('pix-live/routes/courses', ['exports', 'ember'], function (exports, _embe
   });
 });
 define('pix-live/routes/courses/create-assessment-old', ['exports', 'ember'], function (exports, _ember) {
+
+  /*
+  * keep old URL /courses/:course_id/assessment, with redirection
+  */
   exports['default'] = _ember['default'].Route.extend({
 
     model: function model(params) {
@@ -4386,7 +4390,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+0d898a6e"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+f131c5e9"});
 }
 
 /* jshint ignore:end */
