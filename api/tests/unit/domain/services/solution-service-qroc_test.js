@@ -2,7 +2,7 @@ const { describe, it, expect } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/solution-service-qroc');
 
-describe('Unit | Service | SolutionServiceQROC ', function () {
+describe.only('Unit | Service | SolutionServiceQROC ', function () {
 
   describe('match, combining cases without deactivations', function () {
 
@@ -145,6 +145,31 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
       {when:'reverted punctuation stress', output: 'ok', answer: 'punct',       solution: '.!p-u-n-c-t', deactivations: {t3:true}},
       {when:'levenshtein stress',          output: 'ko', answer: '0123456789',  solution: '123456789',   deactivations: {t3:true}},
       {when:'reverted levenshtein stress', output: 'ko', answer: '123456789',   solution: '0123456789',  deactivations: {t3:true}},
+    ];
+
+    allCases.forEach(function (caze) {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+        expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.equal(caze.output);
+      });
+    });
+  });
+
+  describe('match, single solution, t1 and t2 deactivated', function () {
+
+    const allCases = [
+      {when:'no stress',                   output: 'ok', answer: 'Answer',      solution: 'Answer',      deactivations: {t1:true, t2:true}},
+      {when:'spaces stress',               output: 'ko', answer: 'a b c d e',   solution: 'abcde',       deactivations: {t1:true, t2:true}},
+      {when:'reverted spaces stress',      output: 'ko', answer: 'abcde',       solution: 'a b c d e',   deactivations: {t1:true, t2:true}},
+      {when:'uppercase stress',            output: 'ko', answer: 'ANSWER',      solution: 'answer',      deactivations: {t1:true, t2:true}},
+      {when:'reverted uppercase stress',   output: 'ko', answer: 'answer',      solution: 'ANSWER',      deactivations: {t1:true, t2:true}},
+      {when:'accent stress',               output: 'ko', answer: 'îàé êêê',     solution: 'iae eee',     deactivations: {t1:true, t2:true}},
+      {when:'reverted accent stress',      output: 'ko', answer: 'iae eee',     solution: 'îàé êêê',     deactivations: {t1:true, t2:true}},
+      {when:'diacritic stress',            output: 'ko', answer: 'ççççç',       solution: 'ccccc',       deactivations: {t1:true, t2:true}},
+      {when:'reverted diacritic stress',   output: 'ko', answer: 'ccccc',       solution: 'ççççç',       deactivations: {t1:true, t2:true}},
+      {when:'punctuation stress',          output: 'ko', answer: '.!p-u-n-c-t', solution: 'punct',       deactivations: {t1:true, t2:true}},
+      {when:'reverted punctuation stress', output: 'ko', answer: 'punct',       solution: '.!p-u-n-c-t', deactivations: {t1:true, t2:true}},
+      {when:'levenshtein stress',          output: 'ok', answer: '0123456789',  solution: '123456789',   deactivations: {t1:true, t2:true}},
+      {when:'reverted levenshtein stress', output: 'ok', answer: '123456789',   solution: '0123456789',  deactivations: {t1:true, t2:true}},
     ];
 
     allCases.forEach(function (caze) {
