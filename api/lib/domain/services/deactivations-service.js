@@ -6,7 +6,24 @@ module.exports = {
   },
 
   hasOnlyT1(deactivations) {
-    return deactivations.t1 && (!deactivations.t2) && (!deactivations.t3);
+    if (deactivations && deactivations.t1 && (!deactivations.t2) && (!deactivations.t3)) {
+      return true;
+    }
+    return false;
+  },
+
+  hasOnlyT2(deactivations) {
+    if (deactivations && deactivations.t2 && (!deactivations.t1) && (!deactivations.t3)) {
+      return true;
+    }
+    return false;
+  },
+
+  hasOnlyT3(deactivations) {
+    if (deactivations && deactivations.t3 && (!deactivations.t1) && (!deactivations.t2)) {
+      return true;
+    }
+    return false;
   }
 
 };
