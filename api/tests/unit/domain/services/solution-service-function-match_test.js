@@ -13,11 +13,12 @@ const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 
 describe('Unit | Service | SolutionService', function () {
 
-  function buildSolution(type, value, scoring) {
+  function buildSolution(type, value, scoring, deactivations) {
     const solution = new Solution({id: 'solution_id'});
     solution.type = type;
     solution.value = value;
     solution.scoring = _.ensureString(scoring).replace(/@/g, '');
+    solution.deactivations = deactivations;
     return solution;
   }
 
@@ -186,15 +187,20 @@ describe('Unit | Service | SolutionService', function () {
 
         // Given
         const answer = buildAnswer('qrocAnswer');
-        const solution = buildSolution('QROC', 'qrocSolution');
+        const solution = buildSolution('QROC', 'qrocSolution', null, {t1:true});
 
-        sinon.stub(serviceQroc, 'match').withArgs('qrocAnswer', 'qrocSolution').returns('qrocMatching');
-        sinon.stub(service, '_timedOut').returns('resultOfTimeout');
+        const serviceQroc$match = sinon.stub(serviceQroc, 'match');
+        const service$_timedOut = sinon.stub(service, '_timedOut');
+
+        serviceQroc$match.returns('qrocMatching');
 
         // When
         const underTest = service.match(answer, solution);
 
         // Then
+        sinon.assert.calledOnce(serviceQroc$match);
+        sinon.assert.calledWithExactly(serviceQroc$match, 'qrocAnswer', 'qrocSolution', {t1:true});
+        sinon.assert.notCalled(service$_timedOut);
         expect(underTest).to.equal('qrocMatching');
         serviceQroc.match.restore();
         service._timedOut.restore();
@@ -205,16 +211,24 @@ describe('Unit | Service | SolutionService', function () {
 
         // Given
         const answer = buildAnswer('qrocAnswer', -15);
-        const solution = buildSolution('QROC', 'qrocSolution');
+        const solution = buildSolution('QROC', 'qrocSolution', null, {t1:true});
+        const serviceQroc$match = sinon.stub(serviceQroc, 'match');
+        const service$_timedOut = sinon.stub(service, '_timedOut');
 
-        sinon.stub(serviceQroc, 'match').withArgs('qrocAnswer', 'qrocSolution').returns('qrocMatching');
-        sinon.stub(service, '_timedOut').returns('resultOfTimeout');
+        serviceQroc$match.returns('qrocMatching');
+        service$_timedOut.returns('resultOfTimeout');
 
         // When
         const underTest = service.match(answer, solution);
 
         // Then
+        sinon.assert.calledOnce(serviceQroc$match);
+        sinon.assert.calledWithExactly(serviceQroc$match, 'qrocAnswer', 'qrocSolution', {t1:true});
+        sinon.assert.calledOnce(service$_timedOut);
+        sinon.assert.calledWithExactly(service$_timedOut, 'qrocMatching', -15);
+
         expect(underTest).to.equal('resultOfTimeout');
+
         serviceQroc.match.restore();
         service._timedOut.restore();
 
@@ -236,14 +250,18 @@ describe('Unit | Service | SolutionService', function () {
         // Given
         const answer = buildAnswer('qrocmIndAnswer');
         const solution = buildSolution('QROCM-ind', 'qrocmIndSolution');
+        const serviceQrocmInd$match = sinon.stub(serviceQrocmInd, 'match');
+        const service$_timedOut = sinon.stub(service, '_timedOut');
 
-        sinon.stub(serviceQrocmInd, 'match').withArgs('qrocmIndAnswer', 'qrocmIndSolution').returns('qrocmIndMatching');
-        sinon.stub(service, '_timedOut').returns('resultOfTimeout');
+        serviceQrocmInd$match.returns('qrocmIndMatching');
 
         // When
         const underTest = service.match(answer, solution);
 
         // Then
+        sinon.assert.calledOnce(serviceQrocmInd$match);
+        sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution');
+        sinon.assert.notCalled(service$_timedOut);
         expect(underTest).to.equal('qrocmIndMatching');
         serviceQrocmInd.match.restore();
         service._timedOut.restore();
@@ -255,14 +273,21 @@ describe('Unit | Service | SolutionService', function () {
         // Given
         const answer = buildAnswer('qrocmIndAnswer', -15);
         const solution = buildSolution('QROCM-ind', 'qrocmIndSolution');
+        const serviceQrocmInd$match = sinon.stub(serviceQrocmInd, 'match');
+        const service$_timedOut = sinon.stub(service, '_timedOut');
 
-        sinon.stub(serviceQrocmInd, 'match').withArgs('qrocmIndAnswer', 'qrocmIndSolution').returns('qrocmIndMatching');
-        sinon.stub(service, '_timedOut').returns('resultOfTimeout');
+        serviceQrocmInd$match.returns('qrocmIndMatching');
+        service$_timedOut.returns('resultOfTimeout');
 
         // When
         const underTest = service.match(answer, solution);
 
         // Then
+        sinon.assert.calledOnce(serviceQrocmInd$match);
+        sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution');
+        sinon.assert.calledOnce(service$_timedOut);
+        sinon.assert.calledWithExactly(service$_timedOut, 'qrocmIndMatching', -15);
+
         expect(underTest).to.equal('resultOfTimeout');
         serviceQrocmInd.match.restore();
         service._timedOut.restore();
@@ -283,15 +308,19 @@ describe('Unit | Service | SolutionService', function () {
 
         // Given
         const answer = buildAnswer('qrocmDepAnswer');
-        const solution = buildSolution('QROCM-dep', 'qrocmDepSolution');
+        const solution = buildSolution('QROCM-dep', 'qrocmDepSolution', 'anyScoring');
+        const serviceQrocmDep$match = sinon.stub(serviceQrocmDep, 'match');
+        const service$_timedOut = sinon.stub(service, '_timedOut');
 
-        sinon.stub(serviceQrocmDep, 'match').withArgs('qrocmDepAnswer', 'qrocmDepSolution').returns('qrocmDepMatching');
-        sinon.stub(service, '_timedOut').returns('resultOfTimeout');
+        serviceQrocmDep$match.returns('qrocmDepMatching');
 
         // When
         const underTest = service.match(answer, solution);
 
         // Then
+        sinon.assert.calledOnce(serviceQrocmDep$match);
+        sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring');
+        sinon.assert.notCalled(service$_timedOut);
         expect(underTest).to.equal('qrocmDepMatching');
         serviceQrocmDep.match.restore();
         service._timedOut.restore();
@@ -302,15 +331,22 @@ describe('Unit | Service | SolutionService', function () {
 
         // Given
         const answer = buildAnswer('qrocmDepAnswer', -15);
-        const solution = buildSolution('QROCM-dep', 'qrocmDepSolution');
+        const solution = buildSolution('QROCM-dep', 'qrocmDepSolution', 'anyScoring');
+        const serviceQrocmDep$match = sinon.stub(serviceQrocmDep, 'match');
+        const service$_timedOut = sinon.stub(service, '_timedOut');
 
-        sinon.stub(serviceQrocmDep, 'match').withArgs('qrocmDepAnswer', 'qrocmDepSolution').returns('qrocmDepMatching');
-        sinon.stub(service, '_timedOut').returns('resultOfTimeout');
+        serviceQrocmDep$match.returns('qrocmDepMatching');
+        service$_timedOut.returns('resultOfTimeout');
 
         // When
         const underTest = service.match(answer, solution);
 
         // Then
+        sinon.assert.calledOnce(serviceQrocmDep$match);
+        sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring');
+        sinon.assert.calledOnce(service$_timedOut);
+        sinon.assert.calledWithExactly(service$_timedOut, 'qrocmDepMatching', -15);
+
         expect(underTest).to.equal('resultOfTimeout');
         serviceQrocmDep.match.restore();
         service._timedOut.restore();

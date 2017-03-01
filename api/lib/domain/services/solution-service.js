@@ -49,6 +49,7 @@ module.exports = {
     const answerTimeout = answer.get('timeout');
     const solutionValue = solution.value;
     const solutionScoring = solution.scoring;
+    const deactivations = solution.deactivations;
 
     if ('#ABAND#' === answerValue) {
       return 'aband';
@@ -67,7 +68,7 @@ module.exports = {
     }
 
     if (solution.type === 'QROC') {
-      result = solutionServiceQroc.match(answerValue, solutionValue);
+      result = solutionServiceQroc.match(answerValue, solutionValue, deactivations);
     }
 
     if (solution.type === 'QROCM-ind') {
