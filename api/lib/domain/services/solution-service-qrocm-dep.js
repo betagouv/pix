@@ -3,18 +3,10 @@ const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 
-/*
-*
-* solutions looks like
-* { Google: [ 'Google', 'google.fr', 'Google Search' ],
-*   Yahoo: [ 'Yahoo', 'Yahoo Answer' ],
-*   Bing: [ 'Bing' ] }
-*/
+
 function _applyTreatmentsToSolutions(solutions) {
   return _.mapValues(solutions, (validSolutions) => {
     return _.map(validSolutions, (validSolution) => {
-      // toString() in case the admin entered number as solution,
-      // yaml converter may convert it into number and not string.
       return utils._treatmentT2(utils._treatmentT1(validSolution.toString()));
     });
   });
@@ -22,8 +14,6 @@ function _applyTreatmentsToSolutions(solutions) {
 
 
 function _applyTreatmentsToAnswers(answers) {
-  // toString() in case the user entered number as solution,
-  // yaml converter may convert it into number and not string.
   return _.mapValues(answers, _.toString);
 }
 
@@ -60,14 +50,14 @@ function _numberOfGoodAnswers(fullValidations) {
 
 function _goodAnswers(fullValidations) {
   return _.chain(fullValidations)
-          .map(_goodAnswer) // null values to represents bad answers.
+          .map(_goodAnswer)
           .filter((e) => e !== null)
           .value();
 }
 
 // the lowest t1t2t3 ratio is below 0.25
-function _goodAnswer(fullValidation) {
-  const bestAnswerSoFar = _.minBy(fullValidation, (e) => e.t1t2t3Ratio);
+function _goodAnswer(allValidations) {
+  const bestAnswerSoFar = _.minBy(allValidations, (oneValidation) => oneValidation.t1t2t3Ratio);
   return bestAnswerSoFar.t1t2t3Ratio <= 0.25 ? bestAnswerSoFar : null;
 }
 
@@ -76,10 +66,10 @@ function _calculateResult(scoring, validations) {
 
   const numberOfGoodAnswers = _numberOfGoodAnswers(validations);
 
-  if (_.isEmpty(scoring)) {
-    if (numberOfGoodAnswers !== _.size(validations)) {
-      result = 'ko';
-    }
+  if (_.isEmpty(scoring) && numberOfGoodAnswers !== _.size(validations)) {
+    result = 'ko';
+  } else if (_.isEmpty(scoring) && numberOfGoodAnswers === _.size(validations)) {
+    result = 'ok';
   } else {
 
     const minGrade = _.min(Object.keys(scoring));
@@ -96,6 +86,10 @@ function _calculateResult(scoring, validations) {
   return result;
 }
 
+function _applyPreTreatmentsToAnswer(yamlAnswer) {
+  return yamlAnswer.replace(/\u00A0/g, ' ');
+}
+
 module.exports = {
   match(yamlAnswer, yamlSolution, yamlScoring) {
 
@@ -107,14 +101,17 @@ module.exports = {
       return 'ko';
     }
 
+    // Pre-Treatments
+    const preTreatedAnswers = _applyPreTreatmentsToAnswer(yamlAnswer);
+
     // remove unbreakable spaces
     // Convert Yaml to JS objects
-    const answers = jsYaml.safeLoad(yamlAnswer.replace(/\u00A0/g, ' '));
+    const answers = jsYaml.safeLoad(preTreatedAnswers);
     const solutions = jsYaml.safeLoad(yamlSolution);
     const scoring = jsYaml.safeLoad(yamlScoring);
 
 
-    // Pre-Treatments
+    // Treatments
     const treatedSolutions = _applyTreatmentsToSolutions(solutions);
     const treatedAnswers = _applyTreatmentsToAnswers(answers);
 

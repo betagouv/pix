@@ -2,41 +2,40 @@ const _ = require('../../../lib/infrastructure/utils/lodash-utils');
 const levenshtein = require('fast-levenshtein');
 
 
-// Calculate the smallest levenshtein distance
-function _smallestLevenshteinDistance(userAnswer, adminAnswers) {
+function _getSmallestLevenshteinDistance(userAnswer, adminAnswers) {
 
   let min = levenshtein.get(userAnswer, adminAnswers[0]);
+
   if (adminAnswers.length === 1) {
     return min;
-  } else {
-    _.each (adminAnswers, (adminAnswer) => {
-      const currentLevenshtein = levenshtein.get(userAnswer, adminAnswer);
-      if (currentLevenshtein < min) {
-        min = currentLevenshtein;
-      }
-    });
-    return min;
   }
+
+  _.each (adminAnswers, (adminAnswer) => {
+    const currentLevenshtein = levenshtein.get(userAnswer, adminAnswer);
+    if (currentLevenshtein < min) {
+      min = currentLevenshtein;
+    }
+  });
+
+  return min;
+
 
 }
 
 
 function _treatmentT1(strArg) {
-  // Remove accents/diacritics in a string in JavaScript
-  // http://stackoverflow.com/a/37511463/827989
-  // replace \u00A0\ is for unbreakable space which can come from excel copypaste
+  // Remove accents/diacritics, see http://stackoverflow.com/a/37511463/827989
   return strArg.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s/g, '');
 }
 
 
-// Remove punctuation
 function _treatmentT2(strArg) {
+  // Remove punctuation
   return strArg.replace(/[^a-zA-Z0-9 ]+/g, '').replace('/ {2,}/',' ').replace( /\s\s+/g, ' ' );
 }
 
-// Calculate the smallest levenshtein distance
 function _treatmentT3(userAnswer, adminAnswers) {
-  return _smallestLevenshteinDistance(userAnswer, adminAnswers) / userAnswer.length;
+  return _getSmallestLevenshteinDistance(userAnswer, adminAnswers) / userAnswer.length;
 }
 
 function treatmentT1T2T3(userAnswer, adminAnswers) {
@@ -62,7 +61,7 @@ function treatmentT1T2T3(userAnswer, adminAnswers) {
 
 
 module.exports = {
-  _smallestLevenshteinDistance,
+  _getSmallestLevenshteinDistance,
   _treatmentT1,
   _treatmentT2,
   _treatmentT3,

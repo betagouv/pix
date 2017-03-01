@@ -11,30 +11,24 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
     it('Should exist', function () {
       expect(service._treatmentT1).to.exist;
     });
-    it('Should return the input if no treatment applies, for example "m" => "m"', function () {
-      expect(service._treatmentT1('m')).to.equal('m');
+
+    const successfulCases = [
+      { should: 'Should return the input if no treatment applies', input: 'm', output: 'm' },
+      { should: 'Should remove accents & diacritics', input: 'çrûlée', output: 'crulee' },
+      { should: 'Should remove uppercase', input: 'BrûLée', output: 'brulee' },
+      { should: 'Should remove single space between', input: 'Crème BrûLée', output: 'cremebrulee' },
+      { should: 'Should replace double space between into one', input: 'Crème  BrûLée', output: 'cremebrulee' },
+      { should: 'Should remove all consecutive spaces between into one', input: 'CrèmeBrûLée', output: 'cremebrulee' },
+      { should: 'Should remove leading and trailing spaces', input: ' Crème BrûLée  ', output: 'cremebrulee' },
+      { should: 'Should remove all spaces, even multiplied & repeated', input: ' Crème BrûLée   1   2  ', output: 'cremebrulee12' }
+    ];
+
+    successfulCases.forEach(function (testCase) {
+      it(testCase.should + ', for example "' + testCase.input + '" => "' + testCase.output + '"', function () {
+        expect(service._treatmentT1(testCase.input)).to.equal(testCase.output);
+      });
     });
-    it('Should remove accents & diacritics, for example "çrûlée" => "crulee"', function () {
-      expect(service._treatmentT1('çrûlée')).to.equal('crulee');
-    });
-    it('Should remove uppercase, for example "BrûLée" => "brulee"', function () {
-      expect(service._treatmentT1('brûlée')).to.equal('brulee');
-    });
-    it('Should remove single space between, for example "Crème BrûLée" => "cremebrulee"', function () {
-      expect(service._treatmentT1('Crème BrûLée')).to.equal('cremebrulee');
-    });
-    it('Should replace double space between into one, for example "Crème  BrûLée" => "cremebrulee"', function () {
-      expect(service._treatmentT1('Crème  BrûLée')).to.equal('cremebrulee');
-    });
-    it('Should remove all consecutive spaces between into one, for example "CrèmeBrûLée" => "cremebrulee"', function () {
-      expect(service._treatmentT1('Crème      BrûLée')).to.equal('cremebrulee');
-    });
-    it('Should remove leading and trailing spaces, for example " Crème BrûLée  "=> "creme brulee"', function () {
-      expect(service._treatmentT1('Crème BrûLée')).to.equal('cremebrulee');
-    });
-    it('Should remove all spaces, even multiplied & repeated for example " Crème BrûLée   1   2  "=> "cremebrulee12"', function () {
-      expect(service._treatmentT1(' Crème BrûLée   1   2  ')).to.equal('cremebrulee12');
-    });
+
   });
 
   describe('_treatmentT2', function() {
@@ -60,23 +54,23 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
     });
   });
 
-  describe('_smallestLevenshteinDistance', function() {
+  describe('_getSmallestLevenshteinDistance', function() {
     it('Should exist', function () {
-      expect(service._smallestLevenshteinDistance).to.exist;
+      expect(service._getSmallestLevenshteinDistance).to.exist;
     });
     it('Should return levenshtein distance if only one adminAnswer is given', function () {
-      expect(service._smallestLevenshteinDistance('', [''])).to.equal(0);
-      expect(service._smallestLevenshteinDistance('a', ['a'])).to.equal(0);
-      expect(service._smallestLevenshteinDistance('a', ['ab'])).to.equal(1);
-      expect(service._smallestLevenshteinDistance('book', ['back'])).to.equal(2);
+      expect(service._getSmallestLevenshteinDistance('', [''])).to.equal(0);
+      expect(service._getSmallestLevenshteinDistance('a', ['a'])).to.equal(0);
+      expect(service._getSmallestLevenshteinDistance('a', ['ab'])).to.equal(1);
+      expect(service._getSmallestLevenshteinDistance('book', ['back'])).to.equal(2);
     });
     it('Should return the smallest levenshtein distance if many adminAnswers are given', function () {
-      expect(service._smallestLevenshteinDistance('', ['', 'a'])).to.equal(0);
-      expect(service._smallestLevenshteinDistance('a', ['a', 'ab'])).to.equal(0);
-      expect(service._smallestLevenshteinDistance('a', ['ab', 'abdcef'])).to.equal(1);
-      expect(service._smallestLevenshteinDistance('a', ['abcdef', 'ab'])).to.equal(1);
-      expect(service._smallestLevenshteinDistance('a', ['abcdef', 'ab', 'azerty'])).to.equal(1);
-      expect(service._smallestLevenshteinDistance('book', ['back', 'buck'])).to.equal(2);
+      expect(service._getSmallestLevenshteinDistance('', ['', 'a'])).to.equal(0);
+      expect(service._getSmallestLevenshteinDistance('a', ['a', 'ab'])).to.equal(0);
+      expect(service._getSmallestLevenshteinDistance('a', ['ab', 'abdcef'])).to.equal(1);
+      expect(service._getSmallestLevenshteinDistance('a', ['abcdef', 'ab'])).to.equal(1);
+      expect(service._getSmallestLevenshteinDistance('a', ['abcdef', 'ab', 'azerty'])).to.equal(1);
+      expect(service._getSmallestLevenshteinDistance('book', ['back', 'buck'])).to.equal(2);
     });
   });
 

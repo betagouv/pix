@@ -5,16 +5,12 @@ const utils = require('./solution-service-utils');
 function _applyTreatmentsToSolutions(solutions) {
   return _.mapValues(solutions, (validSolutions) => {
     return _.map(validSolutions, (validSolution) => {
-      // toString() in case the admin entered number as solution,
-      // yaml converter may convert it into number and not string.
       return utils._treatmentT2(utils._treatmentT1(validSolution.toString()));
     });
   });
 }
 
 function _applyTreatmentsToAnswers(answers) {
-  // toString() in case the user entered number as solution,
-  // yaml converter may convert it into number and not string.
   return _.mapValues(answers, _.toString);
 }
 
@@ -30,6 +26,11 @@ function _calculateResult(validations) {
   return result;
 }
 
+function _applyPreTreatmentsToAnswer(yamlAnswer) {
+  return yamlAnswer.replace(/\u00A0/g, ' ');
+}
+
+
 module.exports = {
 
   match (yamlAnswer, yamlSolution) {
@@ -41,12 +42,15 @@ module.exports = {
       return 'ko';
     }
 
+    // Pre-Treatments
+    const preTreatedAnswers = _applyPreTreatmentsToAnswer(yamlAnswer);
+
     // remove unbreakable spaces
     // and convert YAML to JSObject
-    const answers = jsYaml.safeLoad(yamlAnswer.replace(/\u00A0/g, ' '));
+    const answers = jsYaml.safeLoad(preTreatedAnswers);
     const solutions = jsYaml.safeLoad(yamlSolution);
 
-    //Pre - Treatment
+    // Treatments
     const treatedSolutions = _applyTreatmentsToSolutions(solutions);
     const treatedAnswers = _applyTreatmentsToAnswers(answers);
 
