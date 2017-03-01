@@ -1,26 +1,8 @@
 const { describe, it, expect } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/solution-service-qroc');
-const Answer = require('../../../../lib/domain/models/data/answer');
-const Solution = require('../../../../lib/domain/models/referential/solution');
-const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 
 describe('Unit | Service | SolutionServiceQROC ', function () {
-
-
-  function buildSolution(type, value, scoring) {
-    const solution = new Solution({id: 'solution_id'});
-    solution.type = type;
-    solution.value = value;
-    solution.scoring = _.ensureString(scoring).replace(/@/g, '');
-    return solution.value;
-  }
-
-  function buildAnswer(value, timeout) {
-    const answer = new Answer({id: 'answer_id'});
-    answer.attributes = {value, timeout};
-    return answer.get('value');
-  }
 
   describe('match | if solution type is QROC', function () {
 
@@ -44,11 +26,9 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
       {case:'(multiple solutions) answer is 0.25 away from the closest solution', answer: 'quak', solution: 'qvak\nqwak\nanything\n'}
     ];
 
-    successfulCases.forEach(function (testCase) {
-      it (testCase.case + ', should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
-        const answer = buildAnswer(testCase.answer);
-        const solution = buildSolution('QROC', testCase.solution);
-        expect(service.match(answer, solution)).to.equal('ok');
+    successfulCases.forEach(function (caze) {
+      it (caze.case + ', should return "ok" when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+        expect(service.match(caze.answer, caze.solution)).to.equal('ok');
       });
     });
 
@@ -65,33 +45,36 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
       {case:'(multiple solutions) answer is minimum 0.4 away from a solution', answer: 'quaks', solution: 'qvakes\nqwakes\nanything\n'}
     ];
 
-    failingCases.forEach(function (testCase) {
-      it(testCase.case + ', should return "ko" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
-        const answer = buildAnswer(testCase.answer);
-        const solution = buildSolution('QROC', testCase.solution);
-        expect(service.match(answer, solution)).to.equal('ko');
+    failingCases.forEach(function (caze) {
+      it(caze.case + ', should return "ko" when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+        expect(service.match(caze.answer, caze.solution)).to.equal('ko');
       });
     });
 
   });
 
-  describe.skip('match, with deactivated treatments | if solution type is QROC', function () {
-    const allCases = [
-      {case:'(single solution, no stress, t1 deactivated)',                   output: 'ok', answer: 'Answer',      solution: 'Answer', deactivations: {t1:true}},
-      {case:'(single solution, accent stress, t1 deactivated)',               output: 'ok', answer: 'îàé êêê',     solution: 'iae eee', deactivations: {t1:true}},
-      {case:'(single solution, reverted accent stress, t1 deactivated)',      output: 'ok', answer: 'iae eee',     solution: 'îàé êêê', deactivations: {t1:true}},
-      {case:'(single solution, punctuation stress, t1 deactivated)',          output: 'ok', answer: '.!p-u-n-c-t', solution: 'punct', deactivations: {t1:true}},
-      {case:'(single solution, reverted punctuation stress, t1 deactivated)', output: 'ok', answer: 'punct',       solution: '.!p-u-n-c-t', deactivations: {t1:true}},
-      {case:'(single solution, levenshtein stress, t1 deactivated)',          output: 'ok', answer: '0123456789',  solution: '123456789', deactivations: {t1:true}},
-      {case:'(single solution, reverted levenshtein stress, t1 deactivated)', output: 'ok', answer: '123456789',   solution: '0123456789', deactivations: {t1:true}},
 
+  describe.skip('match, single solution, t1 deactivated', function () {
+
+    const allCases = [
+      {when:'no stress',                   output: 'ok', answer: 'Answer',      solution: 'Answer',      deactivations: {t1:true}},
+      {when:'spaces stress',               output: 'ko', answer: 'abcde',       solution: 'a b c d e',   deactivations: {t1:true}},
+      {when:'reverted spaces stress',      output: 'ko', answer: 'a b c d e',   solution: 'abcde',       deactivations: {t1:true}},
+      {when:'uppercase stress',            output: 'ko', answer: 'answer',      solution: 'ANSWER',      deactivations: {t1:true}},
+      {when:'reverted uppercase stress',   output: 'ko', answer: 'ANSWER',      solution: 'answer',      deactivations: {t1:true}},
+      {when:'accent stress',               output: 'ko', answer: 'îàé êêê',     solution: 'iae eee',     deactivations: {t1:true}},
+      {when:'reverted accent stress',      output: 'ko', answer: 'iae eee',     solution: 'îàé êêê',     deactivations: {t1:true}},
+      {when:'diacritic stress',            output: 'ko', answer: 'ççççç',       solution: 'ccccc',       deactivations: {t1:true}},
+      {when:'reverted diacritic stress',   output: 'ko', answer: 'ccccc',       solution: 'ççççç',       deactivations: {t1:true}},
+      {when:'punctuation stress',          output: 'ok', answer: '.!p-u-n-c-t', solution: 'punct',       deactivations: {t1:true}},
+      {when:'reverted punctuation stress', output: 'ok', answer: 'punct',       solution: '.!p-u-n-c-t', deactivations: {t1:true}},
+      {when:'levenshtein stress',          output: 'ok', answer: '0123456789',  solution: '123456789',   deactivations: {t1:true}},
+      {when:'reverted levenshtein stress', output: 'ok', answer: '123456789',   solution: '0123456789',  deactivations: {t1:true}},
     ];
 
-    allCases.forEach(function (testCase) {
-      it(testCase.case + ', should return "ko" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
-        const answer = buildAnswer(testCase.answer);
-        const solution = buildSolution('QROC', testCase.solution);
-        expect(service.match(answer, solution)).to.equal('ko');
+    allCases.forEach(function (caze) {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+        expect(service.match(caze.answer, caze.solution)).to.equal(caze.output);
       });
     });
   });

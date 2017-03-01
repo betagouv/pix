@@ -24,7 +24,7 @@ function _getSmallestLevenshteinDistance(userAnswer, adminAnswers) {
 
 
 function _treatmentT1(strArg) {
-  // Remove accents/diacritics, see http://stackoverflow.com/a/37511463/827989
+  // Remove uppercase/spaces/accents/diacritics, see http://stackoverflow.com/a/37511463/827989
   return strArg.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s/g, '');
 }
 
