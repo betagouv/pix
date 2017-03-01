@@ -54,14 +54,14 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
   });
 
 
-  describe.skip('match, single solution, t1 deactivated', function () {
+  describe('match, single solution, t1 deactivated', function () {
 
     const allCases = [
       {when:'no stress',                   output: 'ok', answer: 'Answer',      solution: 'Answer',      deactivations: {t1:true}},
-      {when:'spaces stress',               output: 'ko', answer: 'abcde',       solution: 'a b c d e',   deactivations: {t1:true}},
-      {when:'reverted spaces stress',      output: 'ko', answer: 'a b c d e',   solution: 'abcde',       deactivations: {t1:true}},
-      {when:'uppercase stress',            output: 'ko', answer: 'answer',      solution: 'ANSWER',      deactivations: {t1:true}},
-      {when:'reverted uppercase stress',   output: 'ko', answer: 'ANSWER',      solution: 'answer',      deactivations: {t1:true}},
+      {when:'spaces stress',               output: 'ko', answer: 'a b c d e',   solution: 'abcde',       deactivations: {t1:true}},
+      {when:'reverted spaces stress',      output: 'ko', answer: 'abcde',       solution: 'a b c d e',   deactivations: {t1:true}},
+      {when:'uppercase stress',            output: 'ko', answer: 'ANSWER',      solution: 'answer',      deactivations: {t1:true}},
+      {when:'reverted uppercase stress',   output: 'ko', answer: 'answer',      solution: 'ANSWER',      deactivations: {t1:true}},
       {when:'accent stress',               output: 'ko', answer: 'îàé êêê',     solution: 'iae eee',     deactivations: {t1:true}},
       {when:'reverted accent stress',      output: 'ko', answer: 'iae eee',     solution: 'îàé êêê',     deactivations: {t1:true}},
       {when:'diacritic stress',            output: 'ko', answer: 'ççççç',       solution: 'ccccc',       deactivations: {t1:true}},
@@ -74,7 +74,7 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
 
     allCases.forEach(function (caze) {
       it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
-        expect(service.match(caze.answer, caze.solution)).to.equal(caze.output);
+        expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.equal(caze.output);
       });
     });
   });

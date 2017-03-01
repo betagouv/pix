@@ -8,10 +8,19 @@ function _applyPreTreatmentsToSolutions(solution) {
             .value();
 }
 
-function _applyTreatmentsToSolutions(solution) {
+function _applyTreatmentsToSolutions(solution, deactivations) {
   const pretreatedSolutions = _applyPreTreatmentsToSolutions(solution);
   return  _.map(pretreatedSolutions, (pretreatedSolution) => {
-    return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
+    // default behaviour : all treatments T1, T2, T3 applies
+    if (!deactivations || (!deactivations.t1) && (!deactivations.t2) && (!deactivations.t3)) {
+      return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
+    }
+
+    // Only T1 applies
+    if (deactivations.t1 && (!deactivations.t2) && (!deactivations.t3)) {
+      return utils._treatmentT2(pretreatedSolution);
+    }
+
   });
 }
 
@@ -21,23 +30,43 @@ function _applyAnswerTreatment(strArg) {
 }
 
 
+function _calculateResult(validations, deactivations) {
+  // default behaviour
+  if (!deactivations || (!deactivations.t1) && (!deactivations.t2) && (!deactivations.t3)) {
+    if (validations.t1t2t3Ratio <= 0.25) {
+      return 'ok';
+    }
+    return 'ko';
+  }
+
+  // Only T1 is deactivated
+  if (deactivations.t1 && (!deactivations.t2) && (!deactivations.t3)) {
+    if (validations.t2t3Ratio <= 0.25) {
+      return 'ok';
+    }
+    return 'ko';
+  }
+}
+
 
 module.exports = {
 
-  match (answer, solution) {
+  match (answer, solution, deactivations) {
 
     if (_.isNotString(answer) || _.isNotString(solution) || _.isEmpty(solution)) {
       return 'ko';
     }
 
     const treatedAnswer = _applyAnswerTreatment(answer);
-    const treatedSolutions = _applyTreatmentsToSolutions(solution);
+    const treatedSolutions = _applyTreatmentsToSolutions(solution, deactivations);
 
     const validations = utils.treatmentT1T2T3(treatedAnswer, treatedSolutions);
 
-    if (validations.t1t2t3Ratio <= 0.25) {
-      return 'ok';
-    }
-    return 'ko';
+    return _calculateResult(validations, deactivations);
+
+    // if (validations.t1t2t3Ratio <= 0.25) {
+    //   return 'ok';
+    // }
+    // return 'ko';
   }
 };
