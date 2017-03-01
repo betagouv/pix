@@ -62,7 +62,7 @@ describe('Acceptance | API | Assessments', function () {
 
   describe('(adaptive) GET /api/assessments/:assessment_id/next', function () {
 
-    let inserted_assessment_id = null;
+    let insertedAssessmentId = null;
 
     const inserted_assessment = {
       userName: 'John Doe',
@@ -73,7 +73,7 @@ describe('Acceptance | API | Assessments', function () {
     beforeEach(function (done) {
       knex('assessments').delete().then(() => {
         knex('assessments').insert([inserted_assessment]).then((rows) => {
-          inserted_assessment_id = rows[0];
+          insertedAssessmentId = rows[0];
           done();
         });
       });
@@ -84,16 +84,16 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return 200 HTTP status code', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+      server.inject(options, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+      server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -101,8 +101,8 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return the first challenge if no challenge specified', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+      server.inject(options, (response) => {
         expect(response.result.data.id).to.equal('z_first_challenge');
         done();
       });

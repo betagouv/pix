@@ -2,7 +2,7 @@ const { describe, it, before, after, beforeEach, expect, sinon } = require('../.
 const Hapi = require('hapi');
 const ChallengeController = require('../../../../lib/application/challenges/challenge-controller');
 
-describe('Unit | Router | ChallengeRouter', function () {
+describe('Unit | Router | challenge-router', function () {
 
   let server;
 
@@ -64,6 +64,21 @@ describe('Unit | Router | ChallengeRouter', function () {
     });
   });
 
+  describe('PUT /api/challenges/{id}/validate', function () {
+
+    before(function () {
+      sinon.stub(ChallengeController, 'revalidateAnswers', (request, reply) => reply('ok'));
+    });
+
+    after(function () {
+      ChallengeController.revalidateAnswers.restore();
+    });
+
+    it('should exist', function (done) {
+      expectRouteToExist({ method: 'PUT', url: '/api/challenges/{id}/validate' }, done);
+    });
+  });
+  
   describe('POST /api/challenges/{id}/solution', function () {
 
     before(function () {

@@ -34,7 +34,7 @@ describe('Acceptance | d1 - Valider une épreuve |', function () {
   describe('quand je valide ma réponse à une épreuve', function () {
 
     it('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante', async function () {
-      await click('.challenge-response__proposal-label');
+      await click('.proposal-text');
       await click('.challenge-actions__action-validate');
       expect(currentURL()).to.contains('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
     });
@@ -45,7 +45,7 @@ describe('Acceptance | d1 - Valider une épreuve |', function () {
     });
 
     it('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', async function () {
-      await visit('/assessments/ref_assessment_id/challenges/multiple_files_challenge_id');
+      await visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
       await click('.challenge-response__proposal-input');
       await click('.challenge-actions__action-validate');
       expect(currentURL()).to.contains('/assessments/ref_assessment_id/results');

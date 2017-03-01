@@ -1,31 +1,19 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
-const Answer = require('../../domain/models/data/answer');
+const answerRepository = require('../../infrastructure/repositories/answer-repository');
+const assessmentUtils = require('./assessment-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
-function _selectNextInAdaptiveMode(assessment, challenges) {
+function _selectNextInAdaptiveMode(assessment) {
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
 
-    const answerIds = assessment.related('answers').pluck('id');
-
-    // Check input
-    // else if (answerIds.length > 1) { // if there is more than one answer, user reached the end of test
-    if (answerIds.length > 1) { // if there is more than one answer, user reached the end of test
-      resolve(null);
-    }
-    // ADAPTIVE TEST HAPPENS HERE
-    else if (answerIds.length === 1) {
-      Answer.where('id', _.first(answerIds)).fetch().then((firstAnswerToFirstChallenge) => {
-
-        if (firstAnswerToFirstChallenge.attributes.result === 'ok') {
-          resolve(_.second(challenges));
-        } else {
-          resolve(_.third(challenges));
-        }
-      });
-    }
-
-
+    answerRepository.findByAssessment(assessment.get('id'))
+      .then((answers) => {
+        const responsePattern = assessmentUtils.getResponsePattern(answers);
+        return assessmentUtils.getNextChallengeFromScenarios(responsePattern);
+      })
+      .then(resolve)
+      .catch(reject);
   });
 }
 
@@ -55,7 +43,7 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
     }
 
     if (course.isAdaptive) {
-      return resolve(_selectNextInAdaptiveMode(assessment, challenges));
+      return resolve(_selectNextInAdaptiveMode(assessment));
     } else {
       return resolve(_selectNextInNormalMode(currentChallengeId, challenges));
     }
