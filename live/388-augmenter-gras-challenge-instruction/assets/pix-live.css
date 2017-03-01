@@ -545,10 +545,6 @@ button.routable-modal--close:active {
   /* XXX required to let "help tooltip" displaying well even if instruction section is short (1 line) */
   overflow: visible; }
 
-.challenge-statement__instruction {
-  font-smoothing: antialiased !important;
-  font-smoothing: grayscale; }
-
 .challenge-statement__instruction strong {
   font-weight: 900; }
 
