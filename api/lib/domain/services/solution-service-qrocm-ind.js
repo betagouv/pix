@@ -26,6 +26,11 @@ function _applyTreatmentsToSolutions(solutions, deactivations) {
         return utils._treatmentT2(utils._treatmentT1(validSolution));
       }
 
+      // Only T1 and T2 are deactivated
+      else if (deactivationsService.hasOnlyT1T2(deactivations)) {
+        return validSolution;
+      }
+
     });
   });
 }
@@ -68,6 +73,13 @@ function _calculateResult(validations, deactivations) {
       }
     }
 
+    // Only T1 and T2 are deactivated
+    else if (deactivationsService.hasOnlyT1T2(deactivations)) {
+      if (validation.t3Ratio > 0.25) {
+        result = 'ko';
+      }
+    }
+
   });
   return result;
 }
@@ -102,7 +114,9 @@ module.exports = {
     //Comparison
     const validations = _.map(treatedAnswers, function(answer, keyAnswer) {
       const solutionsToAnswer = treatedSolutions[keyAnswer];
-      return utils.treatmentT1T2T3(answer, solutionsToAnswer);
+      const strSolutionsToAnswer = _.map(solutionsToAnswer, _.toString);
+      const result = utils.treatmentT1T2T3(answer, strSolutionsToAnswer);
+      return result;
     });
 
     //Restitution
