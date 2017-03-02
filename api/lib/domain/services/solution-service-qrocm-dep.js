@@ -22,7 +22,12 @@ function _applyTreatmentsToSolutions(solutions, deactivations) {
       else if (deactivationsService.hasOnlyT3(deactivations)) {
         return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
       }
-      return pretreatedSolution;
+      else if (deactivationsService.hasOnlyT1T2(deactivations)) {
+        return pretreatedSolution;
+      }
+      else if (deactivationsService.hasOnlyT1T3(deactivations)) {
+        return utils._treatmentT2(pretreatedSolution);
+      }
     });
   });
 }
@@ -81,8 +86,11 @@ function _goodAnswer(allValidations, deactivations) {
     return bestAnswerSoFar.t1t3Ratio <= 0.25 ? bestAnswerSoFar : null;
   } else if (deactivationsService.hasOnlyT3(deactivations)) {
     return _.includes(bestAnswerSoFar.adminAnswers, bestAnswerSoFar.t1t2) ? bestAnswerSoFar : null;
+  } else if (deactivationsService.hasOnlyT1T2(deactivations)) {
+    return bestAnswerSoFar.t3Ratio <= 0.25 ? bestAnswerSoFar : null;
+  } else if (deactivationsService.hasOnlyT1T3(deactivations)) {
+    return _.includes(bestAnswerSoFar.adminAnswers, bestAnswerSoFar.t2) ? bestAnswerSoFar : null;
   }
-  return null;
 }
 
 function _calculateResult(scoring, validations, deactivations) {
