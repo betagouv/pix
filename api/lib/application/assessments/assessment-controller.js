@@ -12,16 +12,16 @@ const answerRepository = require('../../infrastructure/repositories/answer-repos
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const analysisUtils = require('./analysis-utils');
 
-function nextNode(node, dir) {
-  return node.slice(0, -1) + (parseInt(node.slice(-1)) + dir);
+function nextNode(node, direction) {
+  return node.slice(0, -1) + (parseInt(node.slice(-1)) + direction);
 }
 
-function propagateAcquix(allKnowledge, startNode, dir) {
+function propagateAcquix(allKnowledge, startNode, direction) {
   const nodeList = [];
   let node = startNode;
   while(allKnowledge.hasOwnProperty(node)) {
     nodeList.push(node);
-    node = nextNode(node, dir);
+    node = nextNode(node, direction);
   }
   return nodeList;
 }
