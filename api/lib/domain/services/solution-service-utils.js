@@ -25,13 +25,13 @@ function _getSmallestLevenshteinDistance(userAnswer, adminAnswers) {
 
 function _treatmentT1(strArg) {
   // Remove uppercase/spaces/accents/diacritics, see http://stackoverflow.com/a/37511463/827989
-  return strArg.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s/g, '');
+  return strArg.toString().trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s/g, '');
 }
 
 
 function _treatmentT2(strArg) {
   // Remove punctuation
-  return strArg.replace(/[^a-zA-Z0-9 ]+/g, '').replace('/ {2,}/',' ').replace( /\s\s+/g, ' ' );
+  return strArg.toString().replace(/[^a-zA-Z0-9 ]+/g, '').replace('/ {2,}/',' ').replace( /\s\s+/g, ' ' );
 }
 
 function _treatmentT3(userAnswer, adminAnswers) {

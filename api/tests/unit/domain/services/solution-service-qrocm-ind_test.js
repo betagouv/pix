@@ -120,19 +120,43 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
   describe('match, strong focus on treatments', function () {
 
     const allCases = [
-      {when:'no stress',                   output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume',      deactivations: {}},
-      {when:'spaces stress',               output: 'ok', answer: '9lettres: courgette\n6lettres: c h i c o n',   solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume',      deactivations: {}},
-      {when:'reverted spaces stress',      output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- t o m a t e\n- chicon\n- legume', deactivations: {}},
-      {when:'uppercase stress',            output: 'ok', answer: '9lettres: courgette\n6lettres: CHICON',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume',      deactivations: {}},
-      {when:'reverted uppercase stress',   output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- CHICON\n- legume',      deactivations: {}},
-      {when:'accent stress',               output: 'ok', answer: '9lettres: courgette\n6lettres: îàéùô',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- iaeuo\n- legume',       deactivations: {}},
-      {when:'reverted accent stress',      output: 'ok', answer: '9lettres: courgette\n6lettres: iaeuo',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- îàéùô\n- legume',       deactivations: {}},
-      {when:'diacritic stress',            output: 'ok', answer: '9lettres: courgette\n6lettres: ççççç',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ccccc\n- legume',       deactivations: {}},
-      {when:'reverted diacritic stress',   output: 'ok', answer: '9lettres: courgette\n6lettres: ccccc',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ççççç\n- legume',       deactivations: {}},
-      {when:'punctuation stress',          output: 'ok', answer: '9lettres: courgette\n6lettres: .!p-u-n-c-t',   solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- punct\n- legume',       deactivations: {}},
-      {when:'reverted punctuation stress', output: 'ok', answer: '9lettres: courgette\n6lettres: punct',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- .!p-u-n-c-t\n- legume', deactivations: {}},
-      {when:'levenshtein stress',          output: 'ok', answer: '9lettres: courgette\n6lettres: 0123456789',    solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 123456789\n- legume',   deactivations: {}},
-      {when:'reverted levenshtein stress', output: 'ok', answer: '9lettres: courgette\n6lettres: 123456789',     solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 0123456789\n- legume',  deactivations: {}},
+      {when:'no stress',                   output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',      deactivations: {}},
+      {when:'spaces stress',               output: 'ok', answer: '9lettres: courgette\n6lettres: c h i c o n',   solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',      deactivations: {}},
+      {when:'reverted spaces stress',      output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n-  c h i c o n \n- legume\n', deactivations: {}},
+      {when:'uppercase stress',            output: 'ok', answer: '9lettres: courgette\n6lettres: CHICON',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',      deactivations: {}},
+      {when:'reverted uppercase stress',   output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- CHICON\n- legume\n',      deactivations: {}},
+      {when:'accent stress',               output: 'ok', answer: '9lettres: courgette\n6lettres: îàéùô',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- iaeuo\n- legume\n',       deactivations: {}},
+      {when:'reverted accent stress',      output: 'ok', answer: '9lettres: courgette\n6lettres: iaeuo',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- îàéùô\n- legume\n',       deactivations: {}},
+      {when:'diacritic stress',            output: 'ok', answer: '9lettres: courgette\n6lettres: ççççç',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ccccc\n- legume\n',       deactivations: {}},
+      {when:'reverted diacritic stress',   output: 'ok', answer: '9lettres: courgette\n6lettres: ccccc',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ççççç\n- legume\n',       deactivations: {}},
+      {when:'punctuation stress',          output: 'ok', answer: '9lettres: courgette\n6lettres: .!p-u-n-c-t',   solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- punct\n- legume\n',       deactivations: {}},
+      {when:'reverted punctuation stress', output: 'ok', answer: '9lettres: courgette\n6lettres: punct',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- .!p-u-n-c-t\n- legume\n', deactivations: {}},
+      {when:'levenshtein stress',          output: 'ok', answer: '9lettres: courgette\n6lettres: 0123456789',    solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 123456789\n- legume\n',   deactivations: {}},
+      {when:'reverted levenshtein stress', output: 'ok', answer: '9lettres: courgette\n6lettres: 123456789',     solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 0123456789\n- legume\n',  deactivations: {}},
+    ];
+
+    allCases.forEach(function (caze) {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+        expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.equal(caze.output);
+      });
+    });
+  });
+
+  describe('match, t1 deactivated', function () {
+    const allCases = [
+      {when:'no stress',                   output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',      deactivations: {t1:true}},
+      {when:'spaces stress',               output: 'ko', answer: '9lettres: courgette\n6lettres: c h i c o n',   solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',      deactivations: {t1:true}},
+      {when:'reverted spaces stress',      output: 'ko', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n-  c h i c o n \n- legume\n', deactivations: {t1:true}},
+      {when:'uppercase stress',            output: 'ko', answer: '9lettres: courgette\n6lettres: CHICON',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',      deactivations: {t1:true}},
+      {when:'reverted uppercase stress',   output: 'ko', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- CHICON\n- legume\n',      deactivations: {t1:true}},
+      {when:'accent stress',               output: 'ko', answer: '9lettres: courgette\n6lettres: îàéùô',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- iaeuo\n- legume\n',       deactivations: {t1:true}},
+      {when:'reverted accent stress',      output: 'ko', answer: '9lettres: courgette\n6lettres: iaeuo',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- îàéùô\n- legume\n',       deactivations: {t1:true}},
+      {when:'diacritic stress',            output: 'ko', answer: '9lettres: courgette\n6lettres: ççççç',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ccccc\n- legume\n',       deactivations: {t1:true}},
+      {when:'reverted diacritic stress',   output: 'ko', answer: '9lettres: courgette\n6lettres: ccccc',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ççççç\n- legume\n',       deactivations: {t1:true}},
+      {when:'punctuation stress',          output: 'ok', answer: '9lettres: courgette\n6lettres: .!p-u-n-c-t',   solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- punct\n- legume\n',       deactivations: {t1:true}},
+      {when:'reverted punctuation stress', output: 'ok', answer: '9lettres: courgette\n6lettres: punct',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- .!p-u-n-c-t\n- legume\n', deactivations: {t1:true}},
+      {when:'levenshtein stress',          output: 'ok', answer: '9lettres: courgette\n6lettres: 0123456789',    solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 123456789\n- legume\n',   deactivations: {t1:true}},
+      {when:'reverted levenshtein stress', output: 'ok', answer: '9lettres: courgette\n6lettres: 123456789',     solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 0123456789\n- legume\n',  deactivations: {t1:true}},
     ];
 
     allCases.forEach(function (caze) {

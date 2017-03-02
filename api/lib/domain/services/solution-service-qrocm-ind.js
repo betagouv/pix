@@ -1,11 +1,21 @@
 const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
+const deactivationsService = require('./deactivations-service');
 
-function _applyTreatmentsToSolutions(solutions) {
+function _applyTreatmentsToSolutions(solutions, deactivations) {
   return _.mapValues(solutions, (validSolutions) => {
     return _.map(validSolutions, (validSolution) => {
-      return utils._treatmentT2(utils._treatmentT1(validSolution.toString()));
+
+      if (deactivationsService.isDefault(deactivations)) {
+        return utils._treatmentT2(utils._treatmentT1(validSolution));
+      }
+
+      // Only T1 is deactivated
+      else if (deactivationsService.hasOnlyT1(deactivations)) {
+        return utils._treatmentT2(validSolution);
+      }
+
     });
   });
 }
@@ -15,13 +25,25 @@ function _applyTreatmentsToAnswers(answers) {
 }
 
 
-function _calculateResult(validations) {
+function _calculateResult(validations, deactivations) {
   let result = 'ok';
 
   _.each(validations, (validation) => {
-    if (validation.t1t2t3Ratio > 0.25) {
-      result = 'ko';
+
+    // default behaviour : all T1, T2 and T3 are ACTIVATED
+    if (deactivationsService.isDefault(deactivations)) {
+      if (validation.t1t2t3Ratio > 0.25) {
+        result = 'ko';
+      }
     }
+
+    // Only T1 deactivated
+    else if (deactivationsService.hasOnlyT1(deactivations)) {
+      if (validation.t2t3Ratio > 0.25) {
+        result = 'ko';
+      }
+    }
+
   });
   return result;
 }
@@ -33,7 +55,7 @@ function _applyPreTreatmentsToAnswer(yamlAnswer) {
 
 module.exports = {
 
-  match (yamlAnswer, yamlSolution) {
+  match (yamlAnswer, yamlSolution, deactivations) {
 
     if (_.isNotString(yamlAnswer)
         || _.isNotString(yamlSolution)
@@ -45,13 +67,12 @@ module.exports = {
     // Pre-Treatments
     const preTreatedAnswers = _applyPreTreatmentsToAnswer(yamlAnswer);
 
-    // remove unbreakable spaces
     // and convert YAML to JSObject
     const answers = jsYaml.safeLoad(preTreatedAnswers);
     const solutions = jsYaml.safeLoad(yamlSolution);
 
     // Treatments
-    const treatedSolutions = _applyTreatmentsToSolutions(solutions);
+    const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations);
     const treatedAnswers = _applyTreatmentsToAnswers(answers);
 
     //Comparison
@@ -61,7 +82,7 @@ module.exports = {
     });
 
     //Restitution
-    return _calculateResult(validations);
+    return _calculateResult(validations, deactivations);
 
   }
 
