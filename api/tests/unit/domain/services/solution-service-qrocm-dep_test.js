@@ -219,13 +219,13 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
     ];
 
     allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + caze.solution + '"', function () {
         expect(service.match(caze.answer, caze.solution, caze.scoring, caze.deactivations)).to.equal(caze.output);
       });
     });
   });
 
-  describe.skip('match, t1 deactivated', function () {
+  describe('match, t1 deactivated', function () {
 
     const allCases = [
       {when:'no stress',                      output: 'ok',        answer: 'num1: pqrs\nnum2: efgh',         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',       scoring: '1: acquix\n2: acquix',  deactivations: {t1:true}},
@@ -244,7 +244,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
     ];
 
     allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + caze.solution + '"', function () {
         expect(service.match(caze.answer, caze.solution, caze.scoring, caze.deactivations)).to.equal(caze.output);
       });
     });
