@@ -1,46 +1,59 @@
 import Ember from 'ember';
 import _ from 'pix-live/utils/lodash-custom';
 
-function fmtMSS(s, type) {
-  if (_.isNotInteger(s))  return 0;
-  if(type === 'jauge') {
-    return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
+function _pluralize(word, count) {
+  if (!count) {
+    return '';
   }
-  return (s - (s %= 60)) / 60 + ':' + s;
+  return (count > 1) ? `${count} ${word}s` : `${count} ${word}`;
+}
+
+function _getMinutes(time) {
+  return Math.floor(time / 60);
+}
+
+function _getSeconds(time) {
+  return time % 60;
+}
+
+function _formatTimeForText(time) {
+
+  if (_.isNotInteger(time)) {
+    return '';
+  }
+  const minutes = _getMinutes(time);
+  const seconds = _getSeconds(time);
+
+  const formattedMinutes = _pluralize('minute', minutes);
+  const formattedSeconds = _pluralize('seconde', seconds);
+  const joiningWord = (!minutes || !seconds) ? '' : ' et ';
+
+  return  `${formattedMinutes}${joiningWord}${formattedSeconds}`;
+}
+
+function _formatTimeForButton(time) {
+
+  if (_.isNotInteger(time)) {
+    return 0;
+  }
+
+  const minutes = _getMinutes(time);
+  const seconds = _getSeconds(time);
+
+  const formattedMinutes = minutes;
+  const formattedSeconds = (seconds < 9) ? `0${seconds}` : `${seconds}`;
+
+  return `${formattedMinutes}:${formattedSeconds}`;
 }
 
 export default Ember.Component.extend({
 
-  _pluralize(mystring, count) {
-    return (parseInt(count) > 1) ? mystring + 's' : mystring;
-  },
-
-  _getTime(allocatedTime) {
-    return allocatedTime.toString().split(':');
-  },
-
-  _getSeconds(seconds) {
-    return (seconds<1)? '' : seconds + this._pluralize(' seconde', seconds);
-  },
-
-  _getMinutes(minutes) {
-    return (minutes<1)? '' : minutes + this._pluralize(' minute', minutes);
-  },
-
-  _formatTimeToHuman(allocatedTime) {
-    if(! allocatedTime || allocatedTime === 0) return '';
-    const time = this._getTime(allocatedTime);
-
-    const glue = (time[0] < 1 || time[1] < 1)? '' : ' et ';
-    return this._getMinutes(time[0]) + glue + this._getSeconds(time[1]);
-  },
-
-  allocatedHumanTime: Ember.computed('time', function(){
-    return this._formatTimeToHuman(fmtMSS(this.get('time')));
+  allocatedHumanTime: Ember.computed('time', function () {
+    return _formatTimeForText(this.get('time'));
   }),
 
-  allocatedTime: Ember.computed('time', function(){
-    return fmtMSS(this.get('time'), 'jauge');
+  allocatedTime: Ember.computed('time', function () {
+    return _formatTimeForButton(this.get('time'));
   }),
 
   actions: {
