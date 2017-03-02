@@ -36,6 +36,12 @@ define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application'
       return _ember['default'].$.getJSON(this.host + '/' + this.namespace + '/assessments/' + query.assessmentId + '/solutions/' + query.answerId, function (data) {
         return _rsvp['default'].resolve(data);
       });
+    },
+    // refresh cache
+    refreshRecord: function refreshRecord(modelName, clazz) {
+      return _ember['default'].$.post(this.host + '/' + this.namespace + '/challenges/' + clazz.challengeId + '/solution', function (data) {
+        return _rsvp['default'].resolve(data);
+      });
     }
   });
 });
@@ -1225,6 +1231,7 @@ define('pix-live/components/warning-page', ['exports', 'ember', 'pix-live/utils/
     if (_pixLiveUtilsLodashCustom['default'].isNotInteger(time)) {
       return '';
     }
+
     var minutes = _getMinutes(time);
     var seconds = _getSeconds(time);
 
@@ -1237,7 +1244,7 @@ define('pix-live/components/warning-page', ['exports', 'ember', 'pix-live/utils/
 
   function _formatTimeForButton(time) {
 
-    if (_pixLiveUtilsLodashCustom['default'].isNotInteger(time)) {
+    if (_pixLiveUtilsLodashCustom['default'].isNotInteger(time) || !time) {
       return 0;
     }
 
@@ -1989,6 +1996,9 @@ define('pix-live/initializers/ajax-interceptor', ['exports', 'pix-live/config/en
             body: settings.data
           }));
         }
+        if ('POST' === settings.type) {
+          localStorage.setItem('POST_ON_URL_' + settings.url.split('api')[1], settings.data);
+        }
       });
     }
   }
@@ -2289,7 +2299,7 @@ define("pix-live/instance-initializers/ember-data", ["exports", "ember-data/-pri
     initialize: _emberDataPrivateInstanceInitializersInitializeStoreService["default"]
   };
 });
-define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/post-followers', 'pix-live/mirage/routes/post-feedbacks'], function (exports, _pixLiveMirageRoutesGetChallenge, _pixLiveMirageRoutesGetChallenges, _pixLiveMirageRoutesGetNextChallenge, _pixLiveMirageRoutesGetAssessmentSolutions, _pixLiveMirageRoutesGetCourse, _pixLiveMirageRoutesGetCourses, _pixLiveMirageRoutesGetAnswer, _pixLiveMirageRoutesPostAnswers, _pixLiveMirageRoutesGetAssessment, _pixLiveMirageRoutesPostAssessments, _pixLiveMirageRoutesGetAnswerByChallengeAndAssessment, _pixLiveMirageRoutesPostFollowers, _pixLiveMirageRoutesPostFeedbacks) {
+define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/post-followers', 'pix-live/mirage/routes/post-feedbacks', 'pix-live/mirage/routes/post-refresh-solution'], function (exports, _pixLiveMirageRoutesGetChallenge, _pixLiveMirageRoutesGetChallenges, _pixLiveMirageRoutesGetNextChallenge, _pixLiveMirageRoutesGetAssessmentSolutions, _pixLiveMirageRoutesGetCourse, _pixLiveMirageRoutesGetCourses, _pixLiveMirageRoutesGetAnswer, _pixLiveMirageRoutesPostAnswers, _pixLiveMirageRoutesGetAssessment, _pixLiveMirageRoutesPostAssessments, _pixLiveMirageRoutesGetAnswerByChallengeAndAssessment, _pixLiveMirageRoutesPostFollowers, _pixLiveMirageRoutesPostFeedbacks, _pixLiveMirageRoutesPostRefreshSolution) {
   exports['default'] = function () {
 
     this.passthrough('/write-coverage');
@@ -2304,6 +2314,8 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
 
     this.get('/challenges', _pixLiveMirageRoutesGetChallenges['default']);
     this.get('/challenges/:id', _pixLiveMirageRoutesGetChallenge['default']);
+
+    this.post('/challenges/:challengeId/solution', _pixLiveMirageRoutesPostRefreshSolution['default']);
 
     this.post('/assessments', _pixLiveMirageRoutesPostAssessments['default']);
     this.get('/assessments/:id', _pixLiveMirageRoutesGetAssessment['default']);
@@ -2967,6 +2979,8 @@ define('pix-live/mirage/routes/post-assessments', ['exports', 'pix-live/utils/lo
 
     if (assessment) {
       return assessment.obj;
+    } else if (_pixLiveUtilsLodashCustom['default'].startsWith(courseId, 'null')) {
+      return _pixLiveMirageDataAssessmentsRefAssessment['default'];
     } else {
       throw new Error('undefined new assessment, sorry');
     }
@@ -2980,6 +2994,12 @@ define('pix-live/mirage/routes/post-feedbacks', ['exports', 'pix-live/mirage/dat
 define('pix-live/mirage/routes/post-followers', ['exports', 'pix-live/mirage/data/followers'], function (exports, _pixLiveMirageDataFollowers) {
   exports['default'] = function () {
     return _pixLiveMirageDataFollowers['default'];
+  };
+});
+define('pix-live/mirage/routes/post-refresh-solution', ['exports'], function (exports) {
+  exports['default'] = function () {
+
+    return 'ok';
   };
 });
 define('pix-live/models/answer', ['exports', 'ember', 'ember-data', 'pix-live/models/answer/value-as-array-of-boolean-mixin', 'pix-live/models/answer/value-as-array-of-string-mixin'], function (exports, _ember, _emberData, _pixLiveModelsAnswerValueAsArrayOfBooleanMixin, _pixLiveModelsAnswerValueAsArrayOfStringMixin) {
@@ -3321,6 +3341,7 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('courses.get-course-preview', { path: '/courses/:course_id/preview' });
     this.route('courses.get-challenge-preview', { path: '/courses/:course_id/preview/challenges/:challenge_id' });
     this.route('courses.create-assessment', { path: '/courses/:course_id' });
+    this.route('courses.create-assessment-old', { path: '/courses/:course_id/assessment' });
 
     this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
     this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
@@ -3447,22 +3468,26 @@ define('pix-live/routes/assessments/get-results', ['exports', 'ember'], function
 
   });
 });
-define('pix-live/routes/challenges/get-preview', ['exports', 'ember', 'rsvp', 'pix-live/utils/get-challenge-type'], function (exports, _ember, _rsvp, _pixLiveUtilsGetChallengeType) {
+define('pix-live/routes/challenges/get-preview', ['exports', 'ember', 'pix-live/utils/lodash-custom'], function (exports, _ember, _pixLiveUtilsLodashCustom) {
   exports['default'] = _ember['default'].Route.extend({
 
     model: function model(params) {
       var store = this.get('store');
-      var challengePromise = store.findRecord('challenge', params.challenge_id);
-
-      return _rsvp['default'].hash({
-        challenge: challengePromise
-      });
+      return store.findRecord('challenge', params.challenge_id);
     },
 
-    setupController: function setupController(controller, model) {
-      this._super(controller, model);
-      var challengeType = (0, _pixLiveUtilsGetChallengeType['default'])(model.challenge.get('type'));
-      controller.set('challengeItemType', 'challenge-item-' + challengeType);
+    afterModel: function afterModel(challenge) {
+      var store = this.get('store');
+      var that = this;
+      // creates a fake course
+      var course = store.createRecord('course', { id: 'null' + _pixLiveUtilsLodashCustom['default'].guid(), challenges: [challenge] });
+      var assessment = store.createRecord('assessment', { course: course });
+      var solutionAdapter = store.adapterFor('solution');
+
+      solutionAdapter.refreshRecord('solution', { challengeId: challenge.get('id') });
+      return assessment.save().then(function () {
+        return that.transitionTo('assessments.get-challenge', { assessment: assessment, challenge: challenge });
+      });
     }
 
   });
@@ -3475,6 +3500,23 @@ define('pix-live/routes/courses', ['exports', 'ember'], function (exports, _embe
     model: function model() {
       return this.store.findAll('course');
     }
+  });
+});
+define('pix-live/routes/courses/create-assessment-old', ['exports', 'ember'], function (exports, _ember) {
+
+  /*
+  * keep old URL /courses/:course_id/assessment, with redirection
+  */
+  exports['default'] = _ember['default'].Route.extend({
+
+    model: function model(params) {
+      return params.course_id;
+    },
+
+    afterModel: function afterModel(courseId) {
+      this.transitionTo('courses.create-assessment', courseId);
+    }
+
   });
 });
 define('pix-live/routes/courses/create-assessment', ['exports', 'ember'], function (exports, _ember) {
@@ -4178,6 +4220,13 @@ define('pix-live/tests/mirage/mirage/routes/post-followers.lint-test', ['exports
     });
   });
 });
+define('pix-live/tests/mirage/mirage/routes/post-refresh-solution.lint-test', ['exports'], function (exports) {
+  describe('ESLint - mirage/routes/post-refresh-solution.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/transforms/array', ['exports', 'ember-data'], function (exports, _emberData) {
   exports['default'] = _emberData['default'].Transform.extend({
 
@@ -4356,8 +4405,18 @@ define('pix-live/utils/lodash-custom', ['exports'], function (exports) {
         return _.isTruthy(value);
       });
     },
+
     isNotInteger: function isNotInteger(x) {
-      return !_.isInteger(x) || x === null || !x || typeof x === 'undefined';
+      return !_.isInteger(x);
+    },
+
+    // See http://veerasundar.com/blog/2013/01/underscore-js-and-guid-function/
+    guid: function guid() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0,
+            v = c == 'x' ? r : r & 0x3 | 0x8;
+        return v.toString(16);
+      });
     }
   }, { chain: false });
 
@@ -4407,7 +4466,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+69380e9c"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+fc12bf03"});
 }
 
 /* jshint ignore:end */
