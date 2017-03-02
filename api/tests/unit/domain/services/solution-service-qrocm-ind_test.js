@@ -1,28 +1,10 @@
 const { describe, it, expect } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/solution-service-qrocm-ind');
-const Answer = require('../../../../lib/domain/models/data/answer');
-const Solution = require('../../../../lib/domain/models/referential/solution');
-const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 
 describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
 
-
-  function buildSolution(type, value, scoring) {
-    const solution = new Solution({id: 'solution_id'});
-    solution.type = type;
-    solution.value = value;
-    solution.scoring = _.ensureString(scoring).replace(/@/g, '');
-    return solution.value;
-  }
-
-  function buildAnswer(value, timeout) {
-    const answer = new Answer({id: 'answer_id'});
-    answer.attributes = {value, timeout};
-    return answer.get('value');
-  }
-
-  describe('if solution type is QROCM-ind', function () {
+  describe('Nominal and weird, combined cases', function () {
 
     const successfulCases = [{
       case: '(nominal case) Each answer strictly respect a corresponding solution',
@@ -98,9 +80,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
 
     successfulCases.forEach(function (testCase) {
       it(testCase.case + ', should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
-        const answer = buildAnswer(testCase.answer);
-        const solution = buildSolution('QROCM-ind', testCase.solution);
-        expect(service.match(answer, solution)).to.equal('ok');
+        expect(service.match(testCase.answer, testCase.solution)).to.equal('ok');
       });
     });
 
@@ -130,12 +110,37 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
 
     failingCases.forEach(function (testCase) {
       it(testCase.case + ', should return "ko" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
-        const answer = buildAnswer(testCase.answer);
-        const solution = buildSolution('QROCM-ind', testCase.solution);
-        expect(service.match(answer, solution)).to.equal('ko');
+        expect(service.match(testCase.answer, testCase.solution)).to.equal('ko');
       });
     });
 
   });
+
+
+  describe('match, strong focus on treatments', function () {
+
+    const allCases = [
+      {when:'no stress',                   output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume',      deactivations: {}},
+      {when:'spaces stress',               output: 'ok', answer: '9lettres: courgette\n6lettres: c h i c o n',   solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume',      deactivations: {}},
+      {when:'reverted spaces stress',      output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- t o m a t e\n- chicon\n- legume', deactivations: {}},
+      {when:'uppercase stress',            output: 'ok', answer: '9lettres: courgette\n6lettres: CHICON',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume',      deactivations: {}},
+      {when:'reverted uppercase stress',   output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- CHICON\n- legume',      deactivations: {}},
+      {when:'accent stress',               output: 'ok', answer: '9lettres: courgette\n6lettres: îàéùô',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- iaeuo\n- legume',       deactivations: {}},
+      {when:'reverted accent stress',      output: 'ok', answer: '9lettres: courgette\n6lettres: iaeuo',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- îàéùô\n- legume',       deactivations: {}},
+      {when:'diacritic stress',            output: 'ok', answer: '9lettres: courgette\n6lettres: ççççç',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ccccc\n- legume',       deactivations: {}},
+      {when:'reverted diacritic stress',   output: 'ok', answer: '9lettres: courgette\n6lettres: ccccc',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ççççç\n- legume',       deactivations: {}},
+      {when:'punctuation stress',          output: 'ok', answer: '9lettres: courgette\n6lettres: .!p-u-n-c-t',   solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- punct\n- legume',       deactivations: {}},
+      {when:'reverted punctuation stress', output: 'ok', answer: '9lettres: courgette\n6lettres: punct',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- .!p-u-n-c-t\n- legume', deactivations: {}},
+      {when:'levenshtein stress',          output: 'ok', answer: '9lettres: courgette\n6lettres: 0123456789',    solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 123456789\n- legume',   deactivations: {}},
+      {when:'reverted levenshtein stress', output: 'ok', answer: '9lettres: courgette\n6lettres: 123456789',     solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 0123456789\n- legume',  deactivations: {}},
+    ];
+
+    allCases.forEach(function (caze) {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+        expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.equal(caze.output);
+      });
+    });
+  });
+
 });
 
