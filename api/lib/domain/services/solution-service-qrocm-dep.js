@@ -9,7 +9,7 @@ function _applyTreatmentsToSolutions(solutions, deactivations) {
   return _.mapValues(solutions, (validSolutions) => {
     return _.map(validSolutions, (validSolution) => {
       const pretreatedSolution = validSolution.toString();
-      // default behaviour : all treatments applies
+
       if (deactivationsService.isDefault(deactivations)) {
         return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
       }
@@ -27,6 +27,9 @@ function _applyTreatmentsToSolutions(solutions, deactivations) {
       }
       else if (deactivationsService.hasOnlyT1T3(deactivations)) {
         return utils._treatmentT2(pretreatedSolution);
+      }
+      else if (deactivationsService.hasT1T2T3(deactivations)) {
+        return pretreatedSolution;
       }
     });
   });
@@ -80,16 +83,24 @@ function _goodAnswer(allValidations, deactivations) {
   const bestAnswerSoFar = _.minBy(allValidations, (oneValidation) => oneValidation.t1t2t3Ratio);
   if (deactivationsService.isDefault(deactivations)) {
     return bestAnswerSoFar.t1t2t3Ratio <= 0.25 ? bestAnswerSoFar : null;
-  } else if (deactivationsService.hasOnlyT1(deactivations)) {
+  }
+  else if (deactivationsService.hasOnlyT1(deactivations)) {
     return bestAnswerSoFar.t2t3Ratio <= 0.25 ? bestAnswerSoFar : null;
-  } else if (deactivationsService.hasOnlyT2(deactivations)) {
+  }
+  else if (deactivationsService.hasOnlyT2(deactivations)) {
     return bestAnswerSoFar.t1t3Ratio <= 0.25 ? bestAnswerSoFar : null;
-  } else if (deactivationsService.hasOnlyT3(deactivations)) {
+  }
+  else if (deactivationsService.hasOnlyT3(deactivations)) {
     return _.includes(bestAnswerSoFar.adminAnswers, bestAnswerSoFar.t1t2) ? bestAnswerSoFar : null;
-  } else if (deactivationsService.hasOnlyT1T2(deactivations)) {
+  }
+  else if (deactivationsService.hasOnlyT1T2(deactivations)) {
     return bestAnswerSoFar.t3Ratio <= 0.25 ? bestAnswerSoFar : null;
-  } else if (deactivationsService.hasOnlyT1T3(deactivations)) {
+  }
+  else if (deactivationsService.hasOnlyT1T3(deactivations)) {
     return _.includes(bestAnswerSoFar.adminAnswers, bestAnswerSoFar.t2) ? bestAnswerSoFar : null;
+  }
+  else if (deactivationsService.hasT1T2T3(deactivations)) {
+    return _.includes(bestAnswerSoFar.adminAnswers, bestAnswerSoFar.userAnswer) ? bestAnswerSoFar : null;
   }
 }
 
