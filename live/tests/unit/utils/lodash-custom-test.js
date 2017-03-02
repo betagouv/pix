@@ -34,7 +34,10 @@ describe('Unit | Utility | lodash custom', function () {
       { value: 'undefined', expected: true },
       { value: null, expected: true },
       { value: '', expected: true },
-      { value: 'abcd', expected: true }
+      { value: 'abcd', expected: true },
+      { value: 0, expected: false },
+      { value: 5, expected: false },
+      { value: '5', expected: true }
     ].forEach((item) => {
       it(`should return ${item.expected} when value is ${item.value}`, function () {
         expect(_.isNotInteger(item.value)).to.equal(item.expected);
