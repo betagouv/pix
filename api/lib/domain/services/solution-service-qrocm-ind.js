@@ -31,6 +31,11 @@ function _applyTreatmentsToSolutions(solutions, deactivations) {
         return validSolution;
       }
 
+      // Only T1 and T3 are deactivated
+      else if (deactivationsService.hasOnlyT1T3(deactivations)) {
+        return utils._treatmentT2(validSolution);
+      }
+
     });
   });
 }
@@ -76,6 +81,13 @@ function _calculateResult(validations, deactivations) {
     // Only T1 and T2 are deactivated
     else if (deactivationsService.hasOnlyT1T2(deactivations)) {
       if (validation.t3Ratio > 0.25) {
+        result = 'ko';
+      }
+    }
+
+    // Only T1 and T3 are deactivated
+    else if (deactivationsService.hasOnlyT1T3(deactivations)) {
+      if (!_.includes(validation.adminAnswers, validation.t2)) {
         result = 'ko';
       }
     }
