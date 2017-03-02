@@ -200,29 +200,54 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
 
   });
 
-  // describe('match, strong focus on treatments', function () {
+  describe('match, strong focus on treatments', function () {
 
-  //   const allCases = [
-  //     {when:'no stress',                   output: 'ok', answer: 'Answer',      solution: 'Answer',      deactivations: {}},
-  //     {when:'spaces stress',               output: 'ok', answer: 'a b c d e',   solution: 'abcde',       deactivations: {}},
-  //     {when:'reverted spaces stress',      output: 'ok', answer: 'abcde',       solution: 'a b c d e',   deactivations: {}},
-  //     {when:'uppercase stress',            output: 'ok', answer: 'ANSWER',      solution: 'answer',      deactivations: {}},
-  //     {when:'reverted uppercase stress',   output: 'ok', answer: 'answer',      solution: 'ANSWER',      deactivations: {}},
-  //     {when:'accent stress',               output: 'ok', answer: 'îàé êêê',     solution: 'iae eee',     deactivations: {}},
-  //     {when:'reverted accent stress',      output: 'ok', answer: 'iae eee',     solution: 'îàé êêê',     deactivations: {}},
-  //     {when:'diacritic stress',            output: 'ok', answer: 'ççççç',       solution: 'ccccc',       deactivations: {}},
-  //     {when:'reverted diacritic stress',   output: 'ok', answer: 'ccccc',       solution: 'ççççç',       deactivations: {}},
-  //     {when:'punctuation stress',          output: 'ok', answer: '.!p-u-n-c-t', solution: 'punct',       deactivations: {}},
-  //     {when:'reverted punctuation stress', output: 'ok', answer: 'punct',       solution: '.!p-u-n-c-t', deactivations: {}},
-  //     {when:'levenshtein stress',          output: 'ok', answer: '0123456789',  solution: '123456789',   deactivations: {}},
-  //     {when:'reverted levenshtein stress', output: 'ok', answer: '123456789',   solution: '0123456789',  deactivations: {}},
-  //   ];
+    const allCases = [
+      {when:'no stress',                      output: 'ok', answer: 'num1: pqrs\nnum2: efgh',         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',        scoring: '1: acquix\n2: acquix',  deactivations: {}},
+      {when:'spaces stress',                  output: 'ok', answer: 'num1: p q r s \nnum2: efgh',     solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',        scoring: '1: acquix\n2: acquix',  deactivations: {}},
+      {when:'reverted spaces stress',         output: 'ok', answer: 'num1: pqrs \nnum2: efgh',        solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- p q r s \n',    scoring: '1: acquix\n2: acquix',  deactivations: {}},
+      {when:'uppercase stress',               output: 'ok', answer: 'num1: PQRS \nnum2: efgh',        solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',        scoring: '1: acquix\n2: acquix',  deactivations: {}},
+      {when:'reverted uppercase stress',      output: 'ok', answer: 'num1: pqrs \nnum2: efgh',        solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- PQRS\n',        scoring: '1: acquix\n2: acquix',  deactivations: {}},
+      {when:'accent stress',                  output: 'ok', answer: 'num1: ÿüôî \nnum2: efgh',        solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- yuoi\n',        scoring: '1: acquix\n2: acquix',  deactivations: {}},
+      {when:'reverted accent stress',         output: 'ok', answer: 'num1: yuoi \nnum2: efgh',        solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ÿüôî\n',        scoring: '1: acquix\n2: acquix',  deactivations: {}},
+      {when:'diacritic stress',               output: 'ok', answer: 'num1: ççççç \nnum2: efgh',       solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ccccc\n',       scoring: '1: acquix\n2: acquix',  deactivations: {}},
+      {when:'reverted diacritic stress',      output: 'ok', answer: 'num1: ccccc \nnum2: efgh',       solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ççççç\n',       scoring: '1: acquix\n2: acquix',  deactivations: {}},
+      {when:'punctuation stress',             output: 'ok', answer: 'num1: +p?q-r!s+ \nnum2: efgh',   solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',        scoring: '1: acquix\n2: acquix',  deactivations: {}},
+      {when:'reverted punctuation stress',    output: 'ok', answer: 'num1: pqrs \nnum2: efgh',        solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- +p?q-r!s+\n',   scoring: '1: acquix\n2: acquix',  deactivations: {}},
+      {when:'levenshtein stress',             output: 'ok', answer: 'num1: 0123456789 \nnum2: efgh',  solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 123456789\n',   scoring: '1: acquix\n2: acquix',  deactivations: {}},
+      {when:'reverted levenshtein stress',    output: 'ok', answer: 'num1: 123456789 \nnum2: efgh',   solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 0123456789\n',  scoring: '1: acquix\n2: acquix',  deactivations: {}},
+    ];
 
-  //   allCases.forEach(function (caze) {
-  //     it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
-  //       expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.equal(caze.output);
-  //     });
-  //   });
-  // });
+    allCases.forEach(function (caze) {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+        expect(service.match(caze.answer, caze.solution, caze.scoring, caze.deactivations)).to.equal(caze.output);
+      });
+    });
+  });
+
+  describe.skip('match, t1 deactivated', function () {
+
+    const allCases = [
+      {when:'no stress',                      output: 'ok',        answer: 'num1: pqrs\nnum2: efgh',         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',       scoring: '1: acquix\n2: acquix',  deactivations: {t1:true}},
+      {when:'spaces stress',                  output: 'partially', answer: 'num1: p q r s \nnum2: efgh',     solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',       scoring: '1: acquix\n2: acquix',  deactivations: {t1:true}},
+      {when:'reverted spaces stress',         output: 'partially', answer: 'num1: pqrs \nnum2: efgh',        solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- p q r s \n',   scoring: '1: acquix\n2: acquix',  deactivations: {t1:true}},
+      {when:'uppercase stress',               output: 'partially', answer: 'num1: PQRS \nnum2: efgh',        solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',       scoring: '1: acquix\n2: acquix',  deactivations: {t1:true}},
+      {when:'reverted uppercase stress',      output: 'partially', answer: 'num1: pqrs \nnum2: efgh',        solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- PQRS\n',       scoring: '1: acquix\n2: acquix',  deactivations: {t1:true}},
+      {when:'accent stress',                  output: 'partially', answer: 'num1: ÿüôî \nnum2: efgh',        solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- yuoi\n',       scoring: '1: acquix\n2: acquix',  deactivations: {t1:true}},
+      {when:'reverted accent stress',         output: 'partially', answer: 'num1: yuoi \nnum2: efgh',        solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ÿüôî\n',       scoring: '1: acquix\n2: acquix',  deactivations: {t1:true}},
+      {when:'diacritic stress',               output: 'partially', answer: 'num1: ççççç \nnum2: efgh',       solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ccccc\n',      scoring: '1: acquix\n2: acquix',  deactivations: {t1:true}},
+      {when:'reverted diacritic stress',      output: 'partially', answer: 'num1: ccccc \nnum2: efgh',       solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ççççç\n',      scoring: '1: acquix\n2: acquix',  deactivations: {t1:true}},
+      {when:'punctuation stress',             output: 'ok',        answer: 'num1: +p?q-r!s+ \nnum2: efgh',   solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',       scoring: '1: acquix\n2: acquix',  deactivations: {t1:true}},
+      {when:'reverted punctuation stress',    output: 'ok',        answer: 'num1: pqrs \nnum2: efgh',        solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- +p?q-r!s+\n',  scoring: '1: acquix\n2: acquix',  deactivations: {t1:true}},
+      {when:'levenshtein stress',             output: 'ok',        answer: 'num1: 0123456789 \nnum2: efgh',  solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 123456789\n',  scoring: '1: acquix\n2: acquix',  deactivations: {t1:true}},
+      {when:'reverted levenshtein stress',    output: 'ok',        answer: 'num1: 123456789 \nnum2: efgh',   solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 0123456789\n',  scoring: '1: acquix\n2: acquix', deactivations: {t1:true}},
+    ];
+
+    allCases.forEach(function (caze) {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+        expect(service.match(caze.answer, caze.solution, caze.scoring, caze.deactivations)).to.equal(caze.output);
+      });
+    });
+  });
 
 });
