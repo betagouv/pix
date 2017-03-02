@@ -108,7 +108,7 @@ module.exports = {
     // Convert Yaml to JS objects
     const answers = jsYaml.safeLoad(preTreatedAnswers);
     const solutions = jsYaml.safeLoad(yamlSolution);
-    const scoring = jsYaml.safeLoad(yamlScoring);
+    const scoring = jsYaml.safeLoad(_.ensureString(yamlScoring));
 
 
     // Treatments
