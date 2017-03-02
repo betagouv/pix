@@ -21,6 +21,7 @@ function _formatTimeForText(time) {
   if (_.isNotInteger(time)) {
     return '';
   }
+
   const minutes = _getMinutes(time);
   const seconds = _getSeconds(time);
 
@@ -28,12 +29,12 @@ function _formatTimeForText(time) {
   const formattedSeconds = _pluralize('seconde', seconds);
   const joiningWord = (!minutes || !seconds) ? '' : ' et ';
 
-  return  `${formattedMinutes}${joiningWord}${formattedSeconds}`;
+  return `${formattedMinutes}${joiningWord}${formattedSeconds}`;
 }
 
 function _formatTimeForButton(time) {
 
-  if (_.isNotInteger(time)) {
+  if (_.isNotInteger(time) || !time) {
     return 0;
   }
 

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe.only('Unit | Component | warning-page-component ', function () {
+describe('Unit | Component | warning-page-component ', function () {
 
   setupTest('component:warning-page', {});
 

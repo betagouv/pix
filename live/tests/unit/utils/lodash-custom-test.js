@@ -23,7 +23,7 @@ describe('Unit | Utility | lodash custom', function () {
     });
   });
 
-  describe('#isNotInteger(s)', function () {
+  describe('#isNotInteger', function () {
 
     it('when no arg, returns false', function () {
       expect(_.isNotInteger()).to.equal(true);

@@ -73,10 +73,7 @@ _.mixin({
     });
   },
   isNotInteger: function (x) {
-    return !_.isInteger(x)
-          || x === null
-          || !x
-          || typeof x === 'undefined';
+    return !_.isInteger(x);
   },
 }, {chain: false});
 
