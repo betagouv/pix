@@ -6318,7 +6318,7 @@ define('pix-live/tests/unit/utils/lodash-custom-test', ['exports', 'chai', 'moch
         (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNotInteger()).to.equal(true);
       });
 
-      [{ value: undefined, expected: true }, { value: 'undefined', expected: true }, { value: null, expected: true }, { value: '', expected: true }, { value: 'abcd', expected: true }].forEach(function (item) {
+      [{ value: undefined, expected: true }, { value: 'undefined', expected: true }, { value: null, expected: true }, { value: '', expected: true }, { value: 'abcd', expected: true }, { value: 0, expected: false }, { value: 5, expected: false }, { value: '5', expected: true }].forEach(function (item) {
         (0, _mocha.it)('should return ' + item.expected + ' when value is ' + item.value, function () {
           (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNotInteger(item.value)).to.equal(item.expected);
         });
