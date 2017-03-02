@@ -16,6 +16,16 @@ function _applyTreatmentsToSolutions(solutions, deactivations) {
         return utils._treatmentT2(validSolution);
       }
 
+      // Only T2 is deactivated
+      else if (deactivationsService.hasOnlyT2(deactivations)) {
+        return utils._treatmentT1(validSolution);
+      }
+
+      // Only T3 is deactivated
+      else if (deactivationsService.hasOnlyT3(deactivations)) {
+        return utils._treatmentT2(utils._treatmentT1(validSolution));
+      }
+
     });
   });
 }
@@ -40,6 +50,20 @@ function _calculateResult(validations, deactivations) {
     // Only T1 deactivated
     else if (deactivationsService.hasOnlyT1(deactivations)) {
       if (validation.t2t3Ratio > 0.25) {
+        result = 'ko';
+      }
+    }
+
+    // Only T2 deactivated
+    else if (deactivationsService.hasOnlyT2(deactivations)) {
+      if (validation.t1t3Ratio > 0.25) {
+        result = 'ko';
+      }
+    }
+
+    // Only T3 deactivated
+    else if (deactivationsService.hasOnlyT3(deactivations)) {
+      if (!_.includes(validation.adminAnswers, validation.t1t2)) {
         result = 'ko';
       }
     }
