@@ -162,7 +162,7 @@ define('pix-live/tests/acceptance/a3-voir-liste-tests-test.lint-test', ['exports
     });
   });
 });
-define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _ember, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (exports, _ember, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveUtilsLodashCustom) {
 
   var URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
   var MODAL_SELECTOR = '.modal.fade.js-modal-mobile.in';
@@ -186,7 +186,41 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember'
       (0, _chai.expect)($startLink.text()).to.contains('Démarrer le test');
     });
 
-    (0, _mocha.it)('a4.2 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function () {
+    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            context$2$0.next = 2;
+            return regeneratorRuntime.awrap(visit('/courses/ref_course_id'));
+
+          case 2:
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.equal(true);
+
+          case 3:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, this);
+    });
+
+    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis l\'ancienne url "courses/:course_id/assessment"', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            context$2$0.next = 2;
+            return regeneratorRuntime.awrap(visit('/courses/ref_course_id/assessment'));
+
+          case 2:
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.equal(true);
+
+          case 3:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, this);
+    });
+
+    (0, _mocha.it)('a4.4 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function () {
       var $startLink = findWithAssert(START_BUTTON);
       return click($startLink).then(function () {
         findWithAssert('#assessment-challenge');
@@ -194,7 +228,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember'
       });
     });
 
-    (0, _mocha.it)('a4.3 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function (done) {
+    (0, _mocha.it)('a4.5 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function (done) {
 
       var $startLink = findWithAssert(START_BUTTON);
 
@@ -229,7 +263,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember'
       });
     });
 
-    (0, _mocha.it)('a4.4 Quand je RE-démarre un test sur mobile, la modale NE s\'affiche PAS', function (done) {
+    (0, _mocha.it)('a4.6 Quand je RE-démarre un test sur mobile, la modale NE s\'affiche PAS', function (done) {
       var $startLink = findWithAssert(START_BUTTON);
       triggerEvent('.index-page', 'simulateMobileScreen');
 
@@ -455,7 +489,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
             // Given
-            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
 
             // Given
             (0, _chai.expect)($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
@@ -588,7 +622,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
       return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
-            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
             context$2$0.next = 3;
             return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
 
@@ -653,7 +687,7 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
       return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
-            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
             fillIn('input[data-uid="qroc-proposal-uid"]', 'My New Answer');
             context$2$0.next = 4;
             return regeneratorRuntime.awrap(click('.challenge-actions__action-validate'));
@@ -730,7 +764,7 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['exports', 'mocha', '
       return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
-            (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+            (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
             $(':input:eq(0)').val('stuff1');
             $(':input:eq(1)').val('stuff2');
             $(':input:eq(2)').val('stuff3');
@@ -1139,7 +1173,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test.lint-test', ['expor
     });
   });
 });
-define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveTestsHelpersSharedState, _pixLiveUtilsLodashCustom) {
 
   (0, _mocha.describe)('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
 
@@ -1153,32 +1187,101 @@ define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test', ['exports',
       (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
     });
 
-    (0, _mocha.describe)('e1 - Prévisualiser une épreuve |', function () {
+    (0, _mocha.describe)('e1 - Prévisualiser une épreuve | ', function () {
 
       (0, _mocha.beforeEach)(function () {
-        visit('/challenges/ref_qcu_challenge_id/preview');
+        // localStorage.clear();
+        (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
+        visit('/');
       });
 
-      (0, _mocha.it)('e1.1 Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
-        (0, _chai.expect)(currentURL()).to.equal('/challenges/ref_qcu_challenge_id/preview');
-        (0, _chai.expect)(findWithAssert('#challenge-preview'));
+      (0, _mocha.it)('e1.1 Il y a une demande de création d\'un assessment avec un course vide', function callee$2$0() {
+        var postOnAssessment, postOnAssessmentObj, idFirstChars;
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              postOnAssessment = localStorage.getItem('POST_ON_URL_/assessments');
+
+              (0, _chai.expect)(postOnAssessment).not.to.exist;
+
+              // When
+              context$3$0.next = 4;
+              return regeneratorRuntime.awrap(visit('/challenges/ref_qcu_challenge_id/preview'));
+
+            case 4:
+
+              // Then
+              postOnAssessment = localStorage.getItem('POST_ON_URL_/assessments');
+              (0, _chai.expect)(postOnAssessment).to.exist;
+              postOnAssessmentObj = JSON.parse(postOnAssessment);
+
+              (0, _chai.expect)(typeof postOnAssessment).to.equal('string');
+              (0, _chai.expect)(typeof postOnAssessmentObj).to.equal('object');
+              (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(postOnAssessmentObj, 'data.type')).to.equal('assessments');
+              idFirstChars = _pixLiveUtilsLodashCustom['default'].get(postOnAssessmentObj, 'data.relationships.course.data.id').substring(0, 4);
+
+              (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get(postOnAssessmentObj, 'data.relationships.course.data.type')).to.deep.equal('courses');
+              (0, _chai.expect)(idFirstChars).to.equal('null');
+
+            case 13:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
       });
 
-      (0, _mocha.describe)('On affiche', function () {
+      (0, _mocha.it)('e1.2 On affiche l\'assessment retourné par le serveur', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit('/challenges/ref_qcu_challenge_id/preview'));
 
-        var $challenge = undefined;
+            case 2:
+              (0, _chai.expect)(currentURL()).to.equal('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+              (0, _chai.expect)(findWithAssert('#assessment-challenge'));
 
-        (0, _mocha.beforeEach)(function () {
-          $challenge = findWithAssert('#challenge-preview');
-        });
+            case 4:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
 
-        (0, _mocha.it)('e1.2 la consigne de l\'épreuve', function () {
-          (0, _chai.expect)($challenge.find('.challenge-statement__instruction').text()).to.contain('Un QCU propose plusieurs choix, l\'utilisateur peut en choisir un seul');
-        });
+      (0, _mocha.it)('e1.3 Il y a une demande de rafraichissement du cache des solutions', function callee$2$0() {
+        var postOnAssessment;
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              postOnAssessment = localStorage.getItem('POST_ON_URL_/challenges/ref_qcu_challenge_id/solution');
+
+              (0, _chai.expect)(postOnAssessment).not.to.exist;
+
+              // When
+              context$3$0.next = 4;
+              return regeneratorRuntime.awrap(visit('/challenges/ref_qcu_challenge_id/preview'));
+
+            case 4:
+
+              // Then
+              postOnAssessment = localStorage.getItem('POST_ON_URL_/challenges/ref_qcu_challenge_id/solution');
+              (0, _chai.expect)(postOnAssessment).to.exist;
+
+            case 6:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
       });
     });
   });
 });
+
+// Given
+
+// Given
+
+// Given
 define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -1457,7 +1560,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
         });
 
         (0, _mocha.it)('Si l\'utilisateur ABANDONNE et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
-          (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+          (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
           visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
@@ -1473,7 +1576,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
         });
 
         (0, _mocha.it)('Si l\'utilisateur ABANDONNE et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
-          (0, _pixLiveTestsHelpersSharedState.resetPostRequest)();
+          (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
           visitTimedChallenge();
           andThen(function () {
             triggerEvent('.timeout-jauge', 'resetElapsedTime');
@@ -1716,9 +1819,9 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
     var CSS_LINETHROUGH_ON = 'line-through';
     var CSS_LINETHROUGH_OFF = 'none';
 
-    var TEXT_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre .assessment-results-result-text';
-    var SVG_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre svg';
-    var INDEX_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-index';
+    var TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .assessment-results-result-titre .assessment-results-result-text';
+    var SVG_OF_RESULT_SELECTOR = '.comparison-window__header .assessment-results-result-titre svg';
+    var INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .assessment-results-result-index';
 
     var TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
     var IMAGE_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__illustration-section';
@@ -1757,10 +1860,8 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
               (0, _chai.expect)($('.assessment-results-list-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
               (0, _chai.expect)($('.assessment-results-list-item:eq(1) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QCU
               (0, _chai.expect)($('.assessment-results-list-item:eq(2) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QRU
-              (0, _chai.expect)($('.assessment-results-list-item:eq(3) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROC
-              (0, _chai.expect)($('.assessment-results-list-item:eq(4) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROCM
 
-            case 7:
+            case 5:
             case 'end':
               return context$3$0.stop();
           }
@@ -2071,6 +2172,221 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test.lint-test'
     });
   });
 });
+define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', function () {
+
+    var RESULT_URL = '/assessments/ref_assessment_id/results';
+    var COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4';
+
+    var TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .assessment-results-result-titre .assessment-results-result-text';
+    var SVG_OF_RESULT_SELECTOR = '.comparison-window__header .assessment-results-result-titre svg';
+    var INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .assessment-results-result-index';
+
+    var TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
+
+    var CORRECTION_BOX_QROC = '.comparison-window__corrected-answers--qroc';
+
+    var FEEDBACK_LINK = '.comparison-window__feedback-panel';
+    var application = undefined;
+
+    before(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    after(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.describe)('j2.1 Possibilité de voir la correction d\'un challenge QROC depuis la page résultat', function () {
+
+      (0, _mocha.it)('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($('.assessment-results-list-item:eq(3) .js-correct-answer').text()).to.contain('RÉPONSE');
+
+            case 3:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('ouvre la modale si on clique sur REPONSE', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(click('.assessment-results-result-correction-button'));
+
+            case 5:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
+              context$3$0.next = 8;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 8:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 9:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 2:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 5:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 6:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+    });
+
+    (0, _mocha.describe)('j2.2 Contenu de la modale de correction pour un QROC', function () {
+
+      (0, _mocha.it)('contient un header', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+              (0, _chai.expect)($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+              (0, _chai.expect)($(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+
+              context$3$0.next = 7;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 7:
+              (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
+              (0, _chai.expect)($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(1);
+
+              context$3$0.next = 11;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 11:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 12:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('contient une instruction', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(RESULT_URL));
+
+            case 2:
+              (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(0);
+
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 5:
+              (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
+
+              context$3$0.next = 8;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 8:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 9:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('contient une zone de correction', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 2:
+              (0, _chai.expect)($(CORRECTION_BOX_QROC)).to.have.lengthOf(1);
+
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 5:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 6:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('contient un lien vers feedback', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
+
+            case 2:
+              (0, _chai.expect)($(FEEDBACK_LINK)).to.have.lengthOf(1);
+
+              context$3$0.next = 5;
+              return regeneratorRuntime.awrap(click('.close-button-container'));
+
+            case 5:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+            case 6:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/j2-compare-answer-solution-qroc-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/adapters/application.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2336,6 +2652,15 @@ define('pix-live/tests/components/qroc-proposal.lint-test', ['exports'], functio
   'use strict';
 
   describe('ESLint - components/qroc-proposal.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/qroc-solution-panel.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/qroc-solution-panel.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -2992,20 +3317,15 @@ define('pix-live/tests/helpers/resolver.lint-test', ['exports'], function (expor
 define('pix-live/tests/helpers/shared-state', ['exports'], function (exports) {
   exports.resetTestingState = resetTestingState;
   exports.setTestingState = setTestingState;
-  exports.resetPostRequest = resetPostRequest;
   exports.urlOfLastPostRequest = urlOfLastPostRequest;
   exports.bodyOfLastPostRequest = bodyOfLastPostRequest;
 
   function resetTestingState() {
-    localStorage.setItem('mirageTestingState', null);
+    localStorage.clear();
   }
 
   function setTestingState(state) {
     localStorage.setItem('mirageTestingState', JSON.stringify(state));
-  }
-
-  function resetPostRequest() {
-    localStorage.setItem('miragePostUrl', null);
   }
 
   function urlOfLastPostRequest() {
@@ -3374,6 +3694,95 @@ define('pix-live/tests/integration/components/challenge-stay-test.lint-test', ['
   'use strict';
 
   describe('ESLint - integration/components/challenge-stay-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/integration/components/comparison-window-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
+
+  (0, _mocha.describe)('Integration | Component | comparison window', function () {
+
+    (0, _emberMocha.setupComponentTest)('comparison-window', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('rendering', function () {
+
+      (0, _mocha.it)('renders', function () {
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'kLNjDWRU',
+          'block': '{"statements":[["append",["unknown",["comparison-window"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should render challenge result (in the header)', function () {
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'kLNjDWRU',
+          'block': '{"statements":[["append",["unknown",["comparison-window"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // then
+        (0, _chai.expect)(this.$('.comparison-window__header')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render challenge instruction', function () {
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'kLNjDWRU',
+          'block': '{"statements":[["append",["unknown",["comparison-window"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // then
+        (0, _chai.expect)(this.$('.comparison-window__challenge-instruction')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render corrected answers when challenge', function () {
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'kLNjDWRU',
+          'block': '{"statements":[["append",["unknown",["comparison-window"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // then
+        (0, _chai.expect)(this.$('.comparison-window__corrected-answers')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render corrected answers when challenge type is QROC', function () {
+        // given
+        var challenge = _ember['default'].Object.create({ type: 'QROC' });
+        this.set('challenge', challenge);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'IeNDjLd7',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["challenge"],[["get",["challenge"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // then
+        (0, _chai.expect)(this.$('.comparison-window__corrected-answers--qroc')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render a feedback panel', function () {
+        //when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'kLNjDWRU',
+          'block': '{"statements":[["append",["unknown",["comparison-window"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        //then
+        (0, _chai.expect)(this.$('.comparison-window__feedback-panel')).to.have.length(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/comparison-window-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/comparison-window-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -4043,6 +4452,142 @@ define('pix-live/tests/integration/components/qroc-proposal-test.lint-test', ['e
     });
   });
 });
+define('pix-live/tests/integration/components/qroc-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
+
+  var ANSWER_BLOCK = '.correction-qroc-box__answer';
+  var ANSWER_INPUT = '.correction-qroc-box--answer__input';
+  var SOLUTION_BLOCK = '.correction-qroc-box__solution';
+  var SOLUTION_DISPLAY = '.correction-qroc-box__solution-text';
+
+  var RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
+  var NO_ANSWER_GREY = 'rgb(62, 65, 73)';
+
+  (0, _mocha.describe)('Integration | Component | qroc solution panel', function () {
+    (0, _emberMocha.setupComponentTest)('qroc-solution-panel', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      this.render(_ember['default'].HTMLBars.template({
+        'id': 'd0K2Guv4',
+        'block': '{"statements":[["append",["unknown",["qroc-solution-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.it)('should disabled all inputs', function () {
+      // when
+      this.render(_ember['default'].HTMLBars.template({
+        'id': 'd0K2Guv4',
+        'block': '{"statements":[["append",["unknown",["qroc-solution-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      // then
+      var input = this.$('input');
+      (0, _chai.expect)(input).to.be.disabled;
+    });
+
+    (0, _mocha.describe)('comparison when the answer is right', function () {
+
+      var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
+      var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
+      var answer = _ember['default'].Object.extend({ id: 'answer_id', isResultOk: true, assessment: assessment, challenge: challenge }).create();
+
+      (0, _mocha.it)('should diplay the answer in bold green and not the solution', function () {
+        // given
+        this.set('answer', answer);
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'wYkLQEux',
+          'block': '{"statements":[["append",["helper",["qroc-solution-panel"],null,[["answer"],[["get",["answer"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // when
+        var answerInput = this.$(ANSWER_INPUT);
+        var answerBlock = this.$(ANSWER_BLOCK);
+        var solutionBlock = this.$(SOLUTION_BLOCK);
+        // then
+        (0, _chai.expect)(answerInput).to.have.lengthOf(1);
+        (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
+        (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('bold');
+        (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('none');
+        (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
+        (0, _chai.expect)(solutionBlock).to.have.lengthOf(0);
+      });
+    });
+
+    (0, _mocha.describe)('comparison when the answer is false', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
+        var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
+        var answer = _ember['default'].Object.extend({ id: 'answer_id', isResultNotOk: true, assessment: assessment, challenge: challenge }).create();
+
+        this.set('answer', answer);
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'wYkLQEux',
+          'block': '{"statements":[["append",["helper",["qroc-solution-panel"],null,[["answer"],[["get",["answer"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+      });
+
+      (0, _mocha.it)('should display the false answer line-through', function () {
+        // given
+        var answerBlock = this.$(ANSWER_BLOCK);
+        var answerInput = this.$(ANSWER_INPUT);
+        // then
+        (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
+        (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
+        (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('line-through');
+      });
+
+      (0, _mocha.it)('should display the solution with a arrow and the solution in bold green', function () {
+        // given
+        var blockSolution = this.$(SOLUTION_BLOCK);
+        var blockSolutionText = this.$(SOLUTION_DISPLAY);
+        // then
+        (0, _chai.expect)(blockSolution).to.have.lengthOf(1);
+        (0, _chai.expect)(blockSolutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
+        (0, _chai.expect)(blockSolutionText.css('font-weight')).to.be.equal('bold');
+      });
+
+      (0, _mocha.describe)('comparison when the answer was not given', function () {
+
+        (0, _mocha.beforeEach)(function () {
+          var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
+          var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
+          var answer = _ember['default'].Object.extend({ id: 'answer_id', isResultWithoutAnswer: true, assessment: assessment, challenge: challenge }).create();
+
+          this.set('answer', answer);
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'wYkLQEux',
+            'block': '{"statements":[["append",["helper",["qroc-solution-panel"],null,[["answer"],[["get",["answer"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+        });
+
+        (0, _mocha.it)('should display PAS DE REPONSE in italic', function () {
+          // given
+          var answerBlock = this.$(ANSWER_BLOCK);
+          var answerInput = this.$(ANSWER_INPUT);
+          // then
+          (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
+          (0, _chai.expect)(answerInput.css('font-style')).to.be.equal('italic');
+          (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/qroc-solution-panel-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/qroc-solution-panel-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/integration/components/qrocm-proposal-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | QrocmProposalComponent', function () {
@@ -4305,6 +4850,15 @@ define('pix-live/tests/routes/courses.lint-test', ['exports'], function (exports
   'use strict';
 
   describe('ESLint - routes/courses.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/routes/courses/create-assessment-old.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - routes/courses/create-assessment-old.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -4665,6 +5219,161 @@ define('pix-live/tests/unit/components/qcu-proposals-test.lint-test', ['exports'
   'use strict';
 
   describe('ESLint - unit/components/qcu-proposals-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/components/qroc-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Component | qroc-solution-panel', function () {
+
+    (0, _emberMocha.setupTest)('component:qroc-solution-panel', {});
+
+    (0, _mocha.describe)('#answerToDisplay', function () {
+
+      (0, _mocha.it)('should return an empty string if the answer is #ABAND#', function () {
+        // given
+        var answer = {
+          value: '#ABAND#'
+        };
+        var component = this.subject();
+        component.set('answer', answer);
+        // when
+        var answerToDisplay = component.get('answerToDisplay');
+        // then
+        (0, _chai.expect)(answerToDisplay).to.equal('Pas de réponse');
+      });
+
+      (0, _mocha.it)('should return the answer if the answer is not #ABAND#', function () {
+        // given
+        var answer = {
+          value: 'La Reponse B'
+        };
+        var component = this.subject();
+        component.set('answer', answer);
+        // when
+        var answerToDisplay = component.get('answerToDisplay');
+        // then
+        (0, _chai.expect)(answerToDisplay).to.equal('La Reponse B');
+      });
+    });
+
+    (0, _mocha.describe)('#solutionToDisplay', function () {
+
+      (0, _mocha.it)('should return the first solution if the solution has some variants', function () {
+        // given
+        var solution = {
+          value: 'Reponse\nreponse\nréponse'
+        };
+        var component = this.subject();
+        component.set('solution', solution);
+        // when
+        var solutionToDisplay = component.get('solutionToDisplay');
+        // then
+        (0, _chai.expect)(solutionToDisplay).to.equal('Reponse');
+      });
+
+      (0, _mocha.it)('should return the solution', function () {
+        // given
+        var solution = {
+          value: 'Reponse'
+        };
+        var component = this.subject();
+        component.set('solution', solution);
+        // when
+        var solutionToDisplay = component.get('solutionToDisplay');
+        // then
+        (0, _chai.expect)(solutionToDisplay).to.equal('Reponse');
+      });
+
+      (0, _mocha.it)('should return an empty string if the solution is null', function () {
+        // given
+        var emptySolution = {
+          value: ''
+        };
+        var component = this.subject();
+        component.set('solution', emptySolution);
+        // when
+        var solutionToDisplay = component.get('solutionToDisplay');
+        // then
+        (0, _chai.expect)(solutionToDisplay).to.equal('');
+      });
+
+      (0, _mocha.it)('should return an empty string if the solution is an empty String', function () {
+        // given
+        var solutionNull = {
+          value: null
+        };
+        var component = this.subject();
+        component.set('solution', solutionNull);
+        // when
+        var solutionToDisplay = component.get('solutionToDisplay');
+        // then
+        (0, _chai.expect)(solutionToDisplay).to.equal('');
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/qroc-solution-panel-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/components/qroc-solution-panel-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/components/warning-time-page-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Component | warning-page-component ', function () {
+
+    (0, _emberMocha.setupTest)('component:warning-page', {});
+
+    var component = undefined;
+
+    beforeEach(function () {
+      component = this.subject();
+    });
+
+    (0, _mocha.describe)('#Test rendering Property', function () {
+
+      (0, _mocha.describe)('#allocatedTime', function () {
+        [{ input: '', expected: 0 }, { input: ' ', expected: 0 }, { input: 'undefined', expected: 0 }, { input: null, expected: 0 }, { input: 0, expected: 0 }, { input: 1, expected: '0:01' }, { input: 10, expected: '0:10' }, { input: 60, expected: '1:00' }, { input: 61, expected: '1:01' }, { input: 70, expected: '1:10' }, { input: 120, expected: '2:00' }, { input: 121, expected: '2:01' }, { input: 122, expected: '2:02' }, { input: 130, expected: '2:10' }].forEach(function (data) {
+          (0, _mocha.it)('should return "' + data.expected + '" when passing ' + data.input, function () {
+            // given
+            component.set('time', data.input);
+
+            // when
+            var allocatedTime = component.get('allocatedTime');
+
+            // then
+            (0, _chai.expect)(allocatedTime).to.equal(data.expected);
+          });
+        });
+      });
+
+      (0, _mocha.describe)('#allocatedHumanTime', function () {
+        [{ input: '', expected: '' }, { input: ' ', expected: '' }, { input: 'undefined', expected: '' }, { input: null, expected: '' }, { input: 0, expected: '' }, { input: 1, expected: '1 seconde' }, { input: 10, expected: '10 secondes' }, { input: 60, expected: '1 minute' }, { input: 61, expected: '1 minute et 1 seconde' }, { input: 70, expected: '1 minute et 10 secondes' }, { input: 120, expected: '2 minutes' }, { input: 121, expected: '2 minutes et 1 seconde' }, { input: 122, expected: '2 minutes et 2 secondes' }, { input: 130, expected: '2 minutes et 10 secondes' }].forEach(function (data) {
+          (0, _mocha.it)('should return "' + data.expected + '" when passing ' + data.input, function () {
+            // given
+            component.set('time', data.input);
+
+            // when
+            var allocatedHumanTime = component.get('allocatedHumanTime');
+
+            // then
+            (0, _chai.expect)(allocatedHumanTime).to.equal(data.expected);
+          });
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/warning-time-page-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/components/warning-time-page-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -5599,6 +6308,19 @@ define('pix-live/tests/unit/utils/lodash-custom-test', ['exports', 'chai', 'moch
       [{ value: undefined, expected: false }, { value: null, expected: false }, { value: new Date(), expected: false }, { value: '', expected: false }, { value: 'abcd', expected: true }].forEach(function (item) {
         (0, _mocha.it)('should return ' + item.expected + ' when value is ' + item.value, function () {
           (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNonEmptyString(item.value)).to.equal(item.expected);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#isNotInteger', function () {
+
+      (0, _mocha.it)('when no arg, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNotInteger()).to.equal(true);
+      });
+
+      [{ value: undefined, expected: true }, { value: 'undefined', expected: true }, { value: null, expected: true }, { value: '', expected: true }, { value: 'abcd', expected: true }, { value: 0, expected: false }, { value: 5, expected: false }, { value: '5', expected: true }].forEach(function (item) {
+        (0, _mocha.it)('should return ' + item.expected + ' when value is ' + item.value, function () {
+          (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNotInteger(item.value)).to.equal(item.expected);
         });
       });
     });
