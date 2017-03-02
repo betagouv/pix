@@ -76,7 +76,7 @@ module.exports = {
     }
 
     if (solution.type === 'QROCM-dep') {
-      result = solutionServiceQrocmDep.match(answerValue, solutionValue, solutionScoring);
+      result = solutionServiceQrocmDep.match(answerValue, solutionValue, solutionScoring, deactivations);
     }
 
     if (answerTimeout) {

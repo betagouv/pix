@@ -308,7 +308,7 @@ describe('Unit | Service | SolutionService', function () {
 
         // Given
         const answer = buildAnswer('qrocmDepAnswer');
-        const solution = buildSolution('QROCM-dep', 'qrocmDepSolution', 'anyScoring');
+        const solution = buildSolution('QROCM-dep', 'qrocmDepSolution', 'anyScoring', {t1:true});
         const serviceQrocmDep$match = sinon.stub(serviceQrocmDep, 'match');
         const service$_timedOut = sinon.stub(service, '_timedOut');
 
@@ -319,7 +319,7 @@ describe('Unit | Service | SolutionService', function () {
 
         // Then
         sinon.assert.calledOnce(serviceQrocmDep$match);
-        sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring');
+        sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', {t1:true});
         sinon.assert.notCalled(service$_timedOut);
         expect(underTest).to.equal('qrocmDepMatching');
         serviceQrocmDep.match.restore();
@@ -331,7 +331,7 @@ describe('Unit | Service | SolutionService', function () {
 
         // Given
         const answer = buildAnswer('qrocmDepAnswer', -15);
-        const solution = buildSolution('QROCM-dep', 'qrocmDepSolution', 'anyScoring');
+        const solution = buildSolution('QROCM-dep', 'qrocmDepSolution', 'anyScoring', {t1:true});
         const serviceQrocmDep$match = sinon.stub(serviceQrocmDep, 'match');
         const service$_timedOut = sinon.stub(service, '_timedOut');
 
@@ -343,7 +343,7 @@ describe('Unit | Service | SolutionService', function () {
 
         // Then
         sinon.assert.calledOnce(serviceQrocmDep$match);
-        sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring');
+        sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', {t1:true});
         sinon.assert.calledOnce(service$_timedOut);
         sinon.assert.calledWithExactly(service$_timedOut, 'qrocmDepMatching', -15);
 
