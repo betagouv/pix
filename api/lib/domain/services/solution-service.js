@@ -72,7 +72,7 @@ module.exports = {
     }
 
     if (solution.type === 'QROCM-ind') {
-      result = solutionServiceQrocmInd.match(answerValue, solutionValue);
+      result = solutionServiceQrocmInd.match(answerValue, solutionValue, deactivations);
     }
 
     if (solution.type === 'QROCM-dep') {

@@ -249,7 +249,7 @@ describe('Unit | Service | SolutionService', function () {
 
         // Given
         const answer = buildAnswer('qrocmIndAnswer');
-        const solution = buildSolution('QROCM-ind', 'qrocmIndSolution');
+        const solution = buildSolution('QROCM-ind', 'qrocmIndSolution', null, {t1:true});
         const serviceQrocmInd$match = sinon.stub(serviceQrocmInd, 'match');
         const service$_timedOut = sinon.stub(service, '_timedOut');
 
@@ -260,7 +260,7 @@ describe('Unit | Service | SolutionService', function () {
 
         // Then
         sinon.assert.calledOnce(serviceQrocmInd$match);
-        sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution');
+        sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution', {t1:true});
         sinon.assert.notCalled(service$_timedOut);
         expect(underTest).to.equal('qrocmIndMatching');
         serviceQrocmInd.match.restore();
@@ -272,7 +272,7 @@ describe('Unit | Service | SolutionService', function () {
 
         // Given
         const answer = buildAnswer('qrocmIndAnswer', -15);
-        const solution = buildSolution('QROCM-ind', 'qrocmIndSolution');
+        const solution = buildSolution('QROCM-ind', 'qrocmIndSolution', null, {t1:true});
         const serviceQrocmInd$match = sinon.stub(serviceQrocmInd, 'match');
         const service$_timedOut = sinon.stub(service, '_timedOut');
 
@@ -284,7 +284,7 @@ describe('Unit | Service | SolutionService', function () {
 
         // Then
         sinon.assert.calledOnce(serviceQrocmInd$match);
-        sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution');
+        sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution', {t1:true});
         sinon.assert.calledOnce(service$_timedOut);
         sinon.assert.calledWithExactly(service$_timedOut, 'qrocmIndMatching', -15);
 
