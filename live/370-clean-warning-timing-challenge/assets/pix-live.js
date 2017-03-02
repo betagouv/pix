@@ -1205,46 +1205,59 @@ define('pix-live/components/user-menu', ['exports', 'ember'], function (exports,
 });
 define('pix-live/components/warning-page', ['exports', 'ember', 'pix-live/utils/lodash-custom'], function (exports, _ember, _pixLiveUtilsLodashCustom) {
 
-  function fmtMSS(s, type) {
-    if (_pixLiveUtilsLodashCustom['default'].isNotInteger(s)) return 0;
-    if (type === 'jauge') {
-      return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
+  function _pluralize(word, count) {
+    if (!count) {
+      return '';
     }
-    return (s - (s %= 60)) / 60 + ':' + s;
+    return count > 1 ? count + ' ' + word + 's' : count + ' ' + word;
+  }
+
+  function _getMinutes(time) {
+    return Math.floor(time / 60);
+  }
+
+  function _getSeconds(time) {
+    return time % 60;
+  }
+
+  function _formatTimeForText(time) {
+
+    if (_pixLiveUtilsLodashCustom['default'].isNotInteger(time)) {
+      return '';
+    }
+    var minutes = _getMinutes(time);
+    var seconds = _getSeconds(time);
+
+    var formattedMinutes = _pluralize('minute', minutes);
+    var formattedSeconds = _pluralize('seconde', seconds);
+    var joiningWord = !minutes || !seconds ? '' : ' et ';
+
+    return '' + formattedMinutes + joiningWord + formattedSeconds;
+  }
+
+  function _formatTimeForButton(time) {
+
+    if (_pixLiveUtilsLodashCustom['default'].isNotInteger(time)) {
+      return 0;
+    }
+
+    var minutes = _getMinutes(time);
+    var seconds = _getSeconds(time);
+
+    var formattedMinutes = minutes;
+    var formattedSeconds = seconds < 9 ? '0' + seconds : '' + seconds;
+
+    return formattedMinutes + ':' + formattedSeconds;
   }
 
   exports['default'] = _ember['default'].Component.extend({
 
-    _pluralize: function _pluralize(mystring, count) {
-      return parseInt(count) > 1 ? mystring + 's' : mystring;
-    },
-
-    _getTime: function _getTime(allocatedTime) {
-      return allocatedTime.toString().split(':');
-    },
-
-    _getSeconds: function _getSeconds(seconds) {
-      return seconds < 1 ? '' : seconds + this._pluralize(' seconde', seconds);
-    },
-
-    _getMinutes: function _getMinutes(minutes) {
-      return minutes < 1 ? '' : minutes + this._pluralize(' minute', minutes);
-    },
-
-    _formatTimeToHuman: function _formatTimeToHuman(allocatedTime) {
-      if (!allocatedTime || allocatedTime === 0) return '';
-      var time = this._getTime(allocatedTime);
-
-      var glue = time[0] < 1 || time[1] < 1 ? '' : ' et ';
-      return this._getMinutes(time[0]) + glue + this._getSeconds(time[1]);
-    },
-
     allocatedHumanTime: _ember['default'].computed('time', function () {
-      return this._formatTimeToHuman(fmtMSS(this.get('time')));
+      return _formatTimeForText(this.get('time'));
     }),
 
     allocatedTime: _ember['default'].computed('time', function () {
-      return fmtMSS(this.get('time'), 'jauge');
+      return _formatTimeForButton(this.get('time'));
     }),
 
     actions: {
@@ -4394,7 +4407,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+34b43525"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+69380e9c"});
 }
 
 /* jshint ignore:end */

@@ -5219,7 +5219,8 @@ define('pix-live/tests/unit/components/qroc-solution-panel-test.lint-test', ['ex
 });
 define('pix-live/tests/unit/components/warning-time-page-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _mocha.describe)('Unit | Component | warning-page-component ', function () {
+  _mocha.describe.only('Unit | Component | warning-page-component ', function () {
+
     (0, _emberMocha.setupTest)('component:warning-page', {});
 
     var component = undefined;
@@ -5230,90 +5231,34 @@ define('pix-live/tests/unit/components/warning-time-page-test', ['exports', 'cha
 
     (0, _mocha.describe)('#Test rendering Property', function () {
 
-      ['', ' ', 'undefined', null, 0].forEach(function (value) {
-        (0, _mocha.it)('AllocatedTime should return 0 when passing ' + value, function () {
-          // when
-          component.set('time', value);
-          // then
-          (0, _chai.expect)(component.get('allocatedTime')).to.equal(0);
+      (0, _mocha.describe)('#allocatedTime', function () {
+        [{ input: '', expected: 0 }, { input: ' ', expected: 0 }, { input: 'undefined', expected: 0 }, { input: null, expected: 0 }, { input: 0, expected: 0 }, { input: 1, expected: '0:01' }, { input: 10, expected: '0:10' }, { input: 60, expected: '1:00' }, { input: 61, expected: '1:01' }, { input: 70, expected: '1:10' }, { input: 120, expected: '2:00' }, { input: 121, expected: '2:01' }, { input: 122, expected: '2:02' }, { input: 130, expected: '2:10' }].forEach(function (data) {
+          (0, _mocha.it)('should return "' + data.expected + '" when passing ' + data.input, function () {
+            // given
+            component.set('time', data.input);
+
+            // when
+            var allocatedTime = component.get('allocatedTime');
+
+            // then
+            (0, _chai.expect)(allocatedTime).to.equal(data.expected);
+          });
         });
+      });
 
-        (0, _mocha.it)('AllocatedHumanTime should return \'\' when passing ' + value, function () {
-          // when
-          component.set('time', value);
-          // then
-          (0, _chai.expect)(component.get('allocatedHumanTime')).to.equal('');
+      (0, _mocha.describe)('#allocatedHumanTime', function () {
+        [{ input: '', expected: '' }, { input: ' ', expected: '' }, { input: 'undefined', expected: '' }, { input: null, expected: '' }, { input: 0, expected: '' }, { input: 1, expected: '1 seconde' }, { input: 10, expected: '10 secondes' }, { input: 60, expected: '1 minute' }, { input: 61, expected: '1 minute et 1 seconde' }, { input: 70, expected: '1 minute et 10 secondes' }, { input: 120, expected: '2 minutes' }, { input: 121, expected: '2 minutes et 1 seconde' }, { input: 122, expected: '2 minutes et 2 secondes' }, { input: 130, expected: '2 minutes et 10 secondes' }].forEach(function (data) {
+          (0, _mocha.it)('should return "' + data.expected + '" when passing ' + data.input, function () {
+            // given
+            component.set('time', data.input);
+
+            // when
+            var allocatedHumanTime = component.get('allocatedHumanTime');
+
+            // then
+            (0, _chai.expect)(allocatedHumanTime).to.equal(data.expected);
+          });
         });
-      });
-
-      (0, _mocha.it)('AllocatedTime should return 0:10 when passing 10', function () {
-        // when
-        component.set('time', 10);
-        // then
-        (0, _chai.expect)(component.get('allocatedTime')).to.equal('0:10');
-      });
-
-      (0, _mocha.it)('AllocatedHumanTime should return 10 secondes when passing 10', function () {
-        // when
-        component.set('time', 10);
-        // then
-        (0, _chai.expect)(component.get('allocatedHumanTime')).to.equal('10 secondes');
-      });
-
-      (0, _mocha.it)('AllocatedTime should return 1:00 when passing 60', function () {
-        // when
-        component.set('time', 60);
-        // then
-        (0, _chai.expect)(component.get('allocatedTime')).to.equal('1:00');
-      });
-
-      (0, _mocha.it)('AllocatedHumanTime should return 1 minute when passing 10', function () {
-        // when
-        component.set('time', 60);
-        // then
-        (0, _chai.expect)(component.get('allocatedHumanTime')).to.equal('1 minute');
-      });
-
-      (0, _mocha.it)('AllocatedTime should return 1:01 when passing 61', function () {
-        // when
-        component.set('time', 61);
-        // then
-        (0, _chai.expect)(component.get('allocatedTime')).to.equal('1:01');
-      });
-
-      (0, _mocha.it)('AllocatedHumanTime should return 1 minute et 1 seconde when passing 61', function () {
-        // when
-        component.set('time', 61);
-        // then
-        (0, _chai.expect)(component.get('allocatedHumanTime')).to.equal('1 minute et 1 seconde');
-      });
-
-      (0, _mocha.it)('AllocatedTime should return 1:10 when passing 70', function () {
-        // when
-        component.set('time', 70);
-        // then
-        (0, _chai.expect)(component.get('allocatedTime')).to.equal('1:10');
-      });
-
-      (0, _mocha.it)('AllocatedTime should return 2:01 when passing 121', function () {
-        // when
-        component.set('time', 121);
-        // then
-        (0, _chai.expect)(component.get('allocatedTime')).to.equal('2:01');
-      });
-
-      (0, _mocha.it)('AllocatedHumanTime should return 2 minutes et 1 seconde when passing 10', function () {
-        // when
-        component.set('time', 121);
-        // then
-        (0, _chai.expect)(component.get('allocatedHumanTime')).to.equal('2 minutes et 1 seconde');
-      });
-
-      (0, _mocha.it)('AllocatedHumanTime should return 2 minutes et 10 secondes when passing 10', function () {
-        // when
-        component.set('time', 130);
-        // then
-        (0, _chai.expect)(component.get('allocatedHumanTime')).to.equal('2 minutes et 10 secondes');
       });
     });
   });
