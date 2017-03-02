@@ -1211,28 +1211,61 @@ define('pix-live/components/user-menu', ['exports', 'ember'], function (exports,
 });
 define('pix-live/components/warning-page', ['exports', 'ember', 'pix-live/utils/lodash-custom'], function (exports, _ember, _pixLiveUtilsLodashCustom) {
 
-  function fmtMSS(s) {
-    if (!_pixLiveUtilsLodashCustom['default'].isInteger(s)) return 0;
-    return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
+  function _pluralize(word, count) {
+    if (!count) {
+      return '';
+    }
+    return count > 1 ? count + ' ' + word + 's' : count + ' ' + word;
+  }
+
+  function _getMinutes(time) {
+    return Math.floor(time / 60);
+  }
+
+  function _getSeconds(time) {
+    return time % 60;
+  }
+
+  function _formatTimeForText(time) {
+
+    if (_pixLiveUtilsLodashCustom['default'].isNotInteger(time)) {
+      return '';
+    }
+
+    var minutes = _getMinutes(time);
+    var seconds = _getSeconds(time);
+
+    var formattedMinutes = _pluralize('minute', minutes);
+    var formattedSeconds = _pluralize('seconde', seconds);
+    var joiningWord = !minutes || !seconds ? '' : ' et ';
+
+    return '' + formattedMinutes + joiningWord + formattedSeconds;
+  }
+
+  function _formatTimeForButton(time) {
+
+    if (_pixLiveUtilsLodashCustom['default'].isNotInteger(time) || !time) {
+      return 0;
+    }
+
+    var minutes = _getMinutes(time);
+    var seconds = _getSeconds(time);
+
+    var formattedMinutes = minutes;
+    var formattedSeconds = seconds < 9 ? '0' + seconds : '' + seconds;
+
+    return formattedMinutes + ':' + formattedSeconds;
   }
 
   exports['default'] = _ember['default'].Component.extend({
 
-    _pluralize: function _pluralize(mystring, count) {
-      return parseInt(count) > 1 ? mystring + 's' : mystring;
-    },
+    allocatedHumanTime: _ember['default'].computed('time', function () {
+      return _formatTimeForText(this.get('time'));
+    }),
 
-    _formatTimeToHuman: function _formatTimeToHuman(allocatedTime) {
-      if (typeof allocatedTime === undefined) return 0;
-      var timeArr = allocatedTime.toString().split(':');
-      var seconds = parseInt(timeArr[1]) < 1 ? '' : ' et ' + timeArr[1] + this._pluralize(' seconde', timeArr[1]);
-      return timeArr[0] + this._pluralize(' minute', timeArr[0]) + seconds;
-    },
-
-    didInsertElement: function didInsertElement() {
-      this.set('allocatedTime', fmtMSS(this.get('time')));
-      this.set('allocatedHumanTime', this._formatTimeToHuman(this.get('allocatedTime')));
-    },
+    allocatedTime: _ember['default'].computed('time', function () {
+      return _formatTimeForButton(this.get('time'));
+    }),
 
     actions: {
       confirmWarning: function confirmWarning() {
@@ -3926,7 +3959,7 @@ define("pix-live/templates/components/user-menu", ["exports"], function (exports
   exports["default"] = Ember.HTMLBars.template({ "id": "wuppAta7", "block": "{\"statements\":[[\"open-element\",\"a\",[]],[\"dynamic-attr\",\"href\",[\"concat\",[[\"unknown\",[\"rootURL\"]],\"#\"]]],[\"static-attr\",\"class\",\"dropdown-toggle\"],[\"static-attr\",\"data-toggle\",\"dropdown\"],[\"static-attr\",\"role\",\"button\"],[\"static-attr\",\"aria-haspopup\",\"true\"],[\"static-attr\",\"aria-expanded\",\"false\"],[\"flush-element\"],[\"text\",\"John \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"caret\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n\"],[\"open-element\",\"ul\",[]],[\"static-attr\",\"class\",\"dropdown-menu\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"li\",[]],[\"flush-element\"],[\"open-element\",\"a\",[]],[\"dynamic-attr\",\"href\",[\"concat\",[[\"unknown\",[\"rootURL\"]],\"preferences\"]]],[\"flush-element\"],[\"text\",\"Préférences\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"role\",\"separator\"],[\"static-attr\",\"class\",\"divider\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"li\",[]],[\"flush-element\"],[\"open-element\",\"a\",[]],[\"dynamic-attr\",\"href\",[\"concat\",[[\"unknown\",[\"rootURL\"]]]]],[\"flush-element\"],[\"text\",\"Déconnexion\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/user-menu.hbs" } });
 });
 define("pix-live/templates/components/warning-page", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "SWdY1pAE", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge-item-warning\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge-item-warning__instruction-primary\"],[\"flush-element\"],[\"text\",\"\\n    Attention,\"],[\"open-element\",\"br\",[]],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n    vous disposerez de \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"challenge-item-warning__instruction-time\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"allocatedHumanTime\"]],false],[\"close-element\"],[\"text\",\" pour\\n    réussir l’épreuve.\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge-item-warning__intruction-secondary\"],[\"flush-element\"],[\"text\",\"\\n    Vous pourrez continuer à répondre ensuite, mais l’épreuve ne sera pas considérée comme réussie.\\n  \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge-item-warning__allocated-time\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge__allocated-time__jauge\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"25\"],[\"static-attr\",\"ght\",\"25\"],[\"static-attr\",\"viewBox\",\"0 0 21 21\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M11,17A1,1 0 0,0 12,18A1,1 0 0,0 13,17A1,1 0 0,0 12,16A1,1 0 0,0 11,17M11,3V7H13V5.08C16.39,5.57 19,8.47 19,12A7,7 0 0,1 12,19A7,7 0 0,1 5,12C5,10.32 5.59,8.78 6.58,7.58L12,13L13.41,11.59L6.61,4.79V4.81C4.42,6.45 3,9.05 3,12A9,9 0 0,0 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3M18,12A1,1 0 0,0 17,11A1,1 0 0,0 16,12A1,1 0 0,0 17,13A1,1 0 0,0 18,12M6,12A1,1 0 0,0 7,13A1,1 0 0,0 8,12A1,1 0 0,0 7,11A1,1 0 0,0 6,12Z\"],[\"static-attr\",\"fill\",\"black\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"challenge__allocated-time__value\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"allocatedTime\"]],false],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge-item-warning__action\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"class\",\"challenge-item-warning__confirm-btn\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"confirmWarning\"]],[\"flush-element\"],[\"text\",\"Commencer l'épreuve\"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/warning-page.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "YgAjEug3", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge-item-warning\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge-item-warning__instruction-primary\"],[\"flush-element\"],[\"text\",\"\\n    Vous disposerez de \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"challenge-item-warning__instruction-time\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"allocatedHumanTime\"]],false],[\"close-element\"],[\"text\",\" pour\\n    réussir l’épreuve.\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge-item-warning__intruction-secondary\"],[\"flush-element\"],[\"text\",\"\\n    Vous pourrez continuer à répondre ensuite, mais l’épreuve ne sera pas considérée comme réussie.\\n  \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge-item-warning__allocated-time\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge__allocated-time__jauge\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"25\"],[\"static-attr\",\"ght\",\"25\"],[\"static-attr\",\"viewBox\",\"0 0 21 21\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M11,17A1,1 0 0,0 12,18A1,1 0 0,0 13,17A1,1 0 0,0 12,16A1,1 0 0,0 11,17M11,3V7H13V5.08C16.39,5.57 19,8.47 19,12A7,7 0 0,1 12,19A7,7 0 0,1 5,12C5,10.32 5.59,8.78 6.58,7.58L12,13L13.41,11.59L6.61,4.79V4.81C4.42,6.45 3,9.05 3,12A9,9 0 0,0 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3M18,12A1,1 0 0,0 17,11A1,1 0 0,0 16,12A1,1 0 0,0 17,13A1,1 0 0,0 18,12M6,12A1,1 0 0,0 7,13A1,1 0 0,0 8,12A1,1 0 0,0 7,11A1,1 0 0,0 6,12Z\"],[\"static-attr\",\"fill\",\"black\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"challenge__allocated-time__value\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"allocatedTime\"]],false],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"challenge-item-warning__action\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"class\",\"challenge-item-warning__confirm-btn\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"confirmWarning\"]],[\"flush-element\"],[\"text\",\"Commencer l'épreuve\"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/warning-page.hbs" } });
 });
 define("pix-live/templates/courses-loading", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "VFE4RSTE", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"id\",\"home-loading\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"loader-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"loader\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"loader-inner ball-zig-zag\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"ball-spinner\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"ball-spinner\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/courses-loading.hbs" } });
@@ -4372,6 +4405,11 @@ define('pix-live/utils/lodash-custom', ['exports'], function (exports) {
         return _.isTruthy(value);
       });
     },
+
+    isNotInteger: function isNotInteger(x) {
+      return !_.isInteger(x);
+    },
+
     // See http://veerasundar.com/blog/2013/01/underscore-js-and-guid-function/
     guid: function guid() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -4428,7 +4466,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+c5c3b2e5"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+be4401c3"});
 }
 
 /* jshint ignore:end */

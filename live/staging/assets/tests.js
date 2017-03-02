@@ -5324,6 +5324,61 @@ define('pix-live/tests/unit/components/qroc-solution-panel-test.lint-test', ['ex
     });
   });
 });
+define('pix-live/tests/unit/components/warning-time-page-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Component | warning-page-component ', function () {
+
+    (0, _emberMocha.setupTest)('component:warning-page', {});
+
+    var component = undefined;
+
+    beforeEach(function () {
+      component = this.subject();
+    });
+
+    (0, _mocha.describe)('#Test rendering Property', function () {
+
+      (0, _mocha.describe)('#allocatedTime', function () {
+        [{ input: '', expected: 0 }, { input: ' ', expected: 0 }, { input: 'undefined', expected: 0 }, { input: null, expected: 0 }, { input: 0, expected: 0 }, { input: 1, expected: '0:01' }, { input: 10, expected: '0:10' }, { input: 60, expected: '1:00' }, { input: 61, expected: '1:01' }, { input: 70, expected: '1:10' }, { input: 120, expected: '2:00' }, { input: 121, expected: '2:01' }, { input: 122, expected: '2:02' }, { input: 130, expected: '2:10' }].forEach(function (data) {
+          (0, _mocha.it)('should return "' + data.expected + '" when passing ' + data.input, function () {
+            // given
+            component.set('time', data.input);
+
+            // when
+            var allocatedTime = component.get('allocatedTime');
+
+            // then
+            (0, _chai.expect)(allocatedTime).to.equal(data.expected);
+          });
+        });
+      });
+
+      (0, _mocha.describe)('#allocatedHumanTime', function () {
+        [{ input: '', expected: '' }, { input: ' ', expected: '' }, { input: 'undefined', expected: '' }, { input: null, expected: '' }, { input: 0, expected: '' }, { input: 1, expected: '1 seconde' }, { input: 10, expected: '10 secondes' }, { input: 60, expected: '1 minute' }, { input: 61, expected: '1 minute et 1 seconde' }, { input: 70, expected: '1 minute et 10 secondes' }, { input: 120, expected: '2 minutes' }, { input: 121, expected: '2 minutes et 1 seconde' }, { input: 122, expected: '2 minutes et 2 secondes' }, { input: 130, expected: '2 minutes et 10 secondes' }].forEach(function (data) {
+          (0, _mocha.it)('should return "' + data.expected + '" when passing ' + data.input, function () {
+            // given
+            component.set('time', data.input);
+
+            // when
+            var allocatedHumanTime = component.get('allocatedHumanTime');
+
+            // then
+            (0, _chai.expect)(allocatedHumanTime).to.equal(data.expected);
+          });
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/warning-time-page-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/components/warning-time-page-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/unit/helpers/convert-to-html-test', ['exports', 'chai', 'mocha', 'pix-live/helpers/convert-to-html'], function (exports, _chai, _mocha, _pixLiveHelpersConvertToHtml) {
 
   (0, _mocha.describe)('Unit | Helpers | ConvertToHtmlHelper', function () {
@@ -6253,6 +6308,19 @@ define('pix-live/tests/unit/utils/lodash-custom-test', ['exports', 'chai', 'moch
       [{ value: undefined, expected: false }, { value: null, expected: false }, { value: new Date(), expected: false }, { value: '', expected: false }, { value: 'abcd', expected: true }].forEach(function (item) {
         (0, _mocha.it)('should return ' + item.expected + ' when value is ' + item.value, function () {
           (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNonEmptyString(item.value)).to.equal(item.expected);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#isNotInteger', function () {
+
+      (0, _mocha.it)('when no arg, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNotInteger()).to.equal(true);
+      });
+
+      [{ value: undefined, expected: true }, { value: 'undefined', expected: true }, { value: null, expected: true }, { value: '', expected: true }, { value: 'abcd', expected: true }, { value: 0, expected: false }, { value: 5, expected: false }, { value: '5', expected: true }].forEach(function (item) {
+        (0, _mocha.it)('should return ' + item.expected + ' when value is ' + item.value, function () {
+          (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNotInteger(item.value)).to.equal(item.expected);
         });
       });
     });
