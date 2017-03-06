@@ -2,43 +2,37 @@
   <div class="rounded-panel__row ">
 
     <div style="border:1px solid red">
-      <div>{{challenge.proposals}}</div>
       <div>{{answer.value}}</div>
       <div>{{solution.value}}</div>
-      <div>{{dataToDisplay}}</div>
+      <div>{{validityObject}}</div>
     </div>
-
-    <div style="border:1px solid blue ;">
-      <div>Test Avec </div>
-      <div>
-        {{#each challenge._proposalsAsBlocks as |proposal|}}
-          <div>{{proposal}}</div>
-        {{/each}}
-      </div>
-    </div>
-
-
 
     <div>
-      {{#each dataToDisplay as |input|}}
-        <div>
-          {{input.label}} :
-          <input class=""
-                 value="{{input.answer}}"
-                 disabled>
-        </div>
-        {{#unless input.rightAnswer}}
-        <div>
-          <svg style="width:18px;height:18px" viewBox="0 0 24 24">
-            <path fill="#12caa1"
-                  d="M5,21A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V19C21,20.11 20.1,21 19,21H5M6,13H14.5L11,16.5L12.42,17.92L18.34,12L12.42,6.08L11,7.5L14.5,11H6V13Z"/>
-          </svg>
-          <div>
-            {{input.solution}}
-          </div>
-        </div>
-        {{/unless}}
-      {{/each}}
+      <div>
+        {{#each challenge._proposalsAsBlocks as |proposal|}}
+
+          {{#if proposal.text}}
+            <span>{{proposal.text}}</span>
+          {{/if}}
+
+          {{#if proposal.input}}
+            <input class="challenge-response__proposal-input"
+                   type="text"
+                   value={{property-of answerObject proposal.input}}
+                     disabled>
+
+            {{#if (property-of validityOfEachAnswer proposal.input)}}
+              <div>Bonne reponse</div>
+            {{else}}
+              <div>Mauvaise reponse</div>
+            {{/if}}
+          {{/if}}
+
+          {{#if proposal.breakline}}
+            <hr>
+          {{/if}}
+        {{/each}}
+      </div>
     </div>
 
   </div>

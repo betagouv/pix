@@ -4,53 +4,44 @@ import _ from 'lodash';
 
 const QrocmIndSolutionPanel = Ember.Component.extend({
 
-  labelsInArray: Ember.computed('challenge', function () {
-    const labels = this.get('challenge.proposals');
-    const labelsInArray = labels.replace(/\$\{.+}/g, '').split(/\n\n/); //{num1}\n\n ou {num3}\n\n (convention d'ecriture dans AirTable)
-    labelsInArray.forEach((label, index) => {
-      if (label === '') {
-        labelsInArray.splice(index);
-      }
-    });
-    return labelsInArray;
+  answerObject: Ember.computed('answer',function () {
+    const yamlAnswer = this.get('answer.value');
+    const answers = jsyaml.safeLoad(yamlAnswer);
+
+    return answers;
   }),
 
-  dataToDisplay: Ember.computed('answer', 'solution', 'challenge', function () {
-    //Get interesting value
-    const yamlAnswer = this.get('answer.value');
+  solutionObject: Ember.computed('solution', function(){
     const yamlSolution = this.get('solution.value');
-    let yamlChallengeLabels = this.get('challenge.proposals');
-    yamlChallengeLabels = yamlChallengeLabels.replace(/\$\{/g, '').replace(/}/g, '').replace(/- /g, '');
+    const solution = jsyaml.safeLoad(yamlSolution);
+    return solution;
+  }),
 
-    //Transform yaml to object
-    const _answer = jsyaml.safeLoad(yamlAnswer);
-    const _solution = jsyaml.safeLoad(yamlSolution);
-    const challengeLabelsLoadInBadOrder = jsyaml.safeLoad(yamlChallengeLabels);
+  validityObject: Ember.computed('answer',function () {
+    const yamlAnswer = this.get('answer.value');
+    const answers = jsyaml.safeLoad(yamlAnswer);
+    console.log('answers ' + typeof answers + ' ' + JSON.stringify(answers));
 
-    const challengeLabels = _.invert(challengeLabelsLoadInBadOrder);
+    const yamlSolution = this.get('solution.value');
+    const solution = jsyaml.safeLoad(yamlSolution);
+    console.log('solution ' + typeof solution + ' ' + JSON.stringify(solution));
 
-    //Take keys (a key for each input)
-    const proposalsInput = _.keys(challengeLabels);
-    const dataToDisplay = [];
+    const validityOfEachAnswer = {};
 
-    proposalsInput.forEach((keyWord) => {
-      const answerToDisplay = _answer[keyWord];
-      const solutionToDisplay = _solution[keyWord];
-      const labelToDisplay = challengeLabels[keyWord];
-      const rightAnswer = (answerToDisplay === _solution[keyWord] || _.contains(_solution[keyWord].toString(), _answer[keyWord]));
+    _.each(answers, function (value, key) {
+      console.log('key ' + typeof key + ' ' + JSON.stringify(key));
+      if (solution[key].toString().includes(answers[key]) || answers[key] === solution[key]){
+        validityOfEachAnswer[key] = true;
+      } else {
+        validityOfEachAnswer[key] = false;
+      }
 
-      const proposalData = {
-        label: labelToDisplay,
-        answer: answerToDisplay,
-        solution: solutionToDisplay,
-        rightAnswer: rightAnswer
-      };
-
-      dataToDisplay.push(proposalData);
     });
+    console.log('validityOfEachAnswer ' + JSON.stringify(validityOfEachAnswer));
 
-    return dataToDisplay;
-  })
+    return validityOfEachAnswer;
+  }),
+
 });
 
 QrocmIndSolutionPanel.reopenClass({
