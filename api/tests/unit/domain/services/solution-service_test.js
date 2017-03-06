@@ -23,7 +23,7 @@ describe('Unit | Service | SolutionService', function () {
     const answer = new Answer({id: 'answer_id'});
     answer.attributes = {value, timeout};
     return answer;
-  }
+  }   
 
   describe('#match', function () {
 
