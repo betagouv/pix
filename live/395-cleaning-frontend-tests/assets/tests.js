@@ -993,7 +993,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test.lint-test', ['e
 });
 define('pix-live/tests/acceptance/c1-recapitulatif-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  _mocha.describe.skip('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function () {
+  (0, _mocha.describe)('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function () {
 
     var application = undefined;
 
@@ -1022,37 +1022,10 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['exports', 'mocha', '
       (0, _chai.expect)($proposals.text()).to.contains('Un QROCM est une question ouverte');
     });
 
-    (0, _mocha.it)('c1.3 Pour une bonne réponse, le tableau récapitulatif donne une indication adéquate', function () {
+    // See get-result-test.js too see all possibilities
+    (0, _mocha.it)('c1.3 Pour une mauvaise réponse, le tableau récapitulatif donne une indication adéquate', function () {
       var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
       (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
-    });
-
-    (0, _mocha.it)('c1.4 Pour une mauvaise réponse, le tableau récapitulatif donne une indication adéquate', function () {
-      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
-      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse correcte');
-    });
-
-    (0, _mocha.it)('c1.5 Pour une réponse dont la validation n\'est pas encore implémentée, le tableau récapitulatif donne une indication adéquate', function () {
-      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(3)');
-      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Correction automatique en cours de développement ;)');
-    });
-
-    (0, _mocha.it)('c1.6 Pour une réponse dont l\'utilisateur a cliqué sur \'Je Passe\', le tableau récapitulatif donne une indication adéquate', function () {
-      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(2)');
-      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Sans réponse');
-    });
-
-    (0, _mocha.it)('c1.7 Pour une réponse dont l\'utilisateur n\'a qu\'une partie des bonnes réponse, le tableau récapitulatif donne une indication adéquate', function () {
-      var $cell = findWithAssert('div[data-toggle="tooltip"]:eq(4)');
-      (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse partielle');
-    });
-
-    (0, _mocha.it)('c1.8 Pour une réponse dont l\'utilisateur a bien répondu mais trop tard, le tableau récapitulatif donne une indication adéquate', function () {
-      visit('/assessments/raw_assessment_id/results');
-      andThen(function () {
-        var $picto = findWithAssert('.assessment-results-result-img > div');
-        (0, _chai.expect)($picto.data('original-title')).to.contain('Temps dépassé');
-      });
     });
 
     (0, _mocha.it)('c1.9 Le nom du test est affiché', function () {
