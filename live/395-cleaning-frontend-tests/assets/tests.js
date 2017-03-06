@@ -3672,7 +3672,7 @@ define('pix-live/tests/integration/components/challenge-stay-test.lint-test', ['
 });
 define('pix-live/tests/integration/components/comparison-window-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
 
-  (0, _mocha.describe)('Integration | Component | comparison window', function () {
+  (0, _mocha.describe)('Integration | Component | comparison-window', function () {
 
     (0, _emberMocha.setupComponentTest)('comparison-window', {
       integration: true
@@ -3698,6 +3698,62 @@ define('pix-live/tests/integration/components/comparison-window-test', ['exports
         }));
         // then
         (0, _chai.expect)(this.$('.comparison-window__header')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render an SVG that correspond to a correct answer', function () {
+        // given
+        var answer = _ember['default'].Object.extend({ id: 'answer_id', isResultOk: true }).create();
+        this.set('answer', answer);
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': '7lS4VbSh',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["answer"],[["get",["answer"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // then
+        (0, _chai.expect)(this.$('svg.svg-correct-answer')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render an SVG that correspond to an incorrect answer', function () {
+        // given
+        var answer = _ember['default'].Object.extend({ id: 'answer_id', isResultNotOk: true }).create();
+        this.set('answer', answer);
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': '7lS4VbSh',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["answer"],[["get",["answer"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // then
+        (0, _chai.expect)(this.$('svg.svg-incorrect-answer')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render an SVG that correspond to an abandoned answer', function () {
+        // given
+        var answer = _ember['default'].Object.extend({ id: 'answer_id', isResultWithoutAnswer: true }).create();
+        this.set('answer', answer);
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': '7lS4VbSh',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["answer"],[["get",["answer"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // then
+        (0, _chai.expect)(this.$('svg.svg-without-answer')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render an SVG that correspond to a timedout answer', function () {
+        // given
+        var answer = _ember['default'].Object.extend({ id: 'answer_id', isResultTimedOut: true }).create();
+        this.set('answer', answer);
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': '7lS4VbSh',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["answer"],[["get",["answer"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // then
+        (0, _chai.expect)(this.$('svg.svg-timedout-answer')).to.have.length(1);
       });
 
       (0, _mocha.it)('should render challenge instruction', function () {
@@ -4689,75 +4745,6 @@ define('pix-live/tests/integration/components/qrocm-proposal-test.lint-test', ['
   'use strict';
 
   describe('ESLint - integration/components/qrocm-proposal-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/integration/components/window-comparison-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
-
-  (0, _mocha.describe)('Integration | Component | WindowComparison', function () {
-
-    (0, _emberMocha.setupComponentTest)('comparison-window', {
-      integration: true
-    });
-
-    /* Rendering
-    ----------------------------------------------------- */
-
-    (0, _mocha.describe)('Rendering', function () {
-
-      var answer = undefined;
-      var challenge = undefined;
-      var solution = undefined;
-
-      beforeEach(function () {
-
-        challenge = _ember['default'].Object.create({
-          instruction: 'This is the instruction',
-          proposals: '' + '- 1ere possibilite\n ' + '- 2eme possibilite\n ' + '- 3eme possibilite\n' + '- 4eme possibilite'
-        });
-
-        answer = _ember['default'].Object.create({
-          value: '1,2',
-          result: 'ko'
-        });
-
-        solution = _ember['default'].Object.create({
-          value: '2,3'
-        });
-      });
-
-      // Inspired from:
-      // - Ember-mocha: https://github.com/emberjs/ember-mocha#setup-component-tests
-      // - Ember: https://guides.emberjs.com/v2.10.0/testing/testing-components
-      // -        https://guides.emberjs.com/v2.10.0/tutorial/autocomplete-component/
-      (0, _mocha.it)('should render', function () {
-        // given
-        this.set('answer', answer);
-        this.set('index', '3');
-        this.set('challenge', challenge);
-        this.set('solution', solution);
-
-        // when
-        this.render(_ember['default'].HTMLBars.template({
-          'id': 'hUhE+Aig',
-          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["challenge","answer","solution","index"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-          'meta': {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
-        (0, _chai.expect)(this.$('.comparison-window--body .challenge-statement__instruction').text()).to.equal('This is the instruction');
-        (0, _chai.expect)(this.$('.assessment-results-result-index').text().trim()).to.equal('3');
-      });
-    });
-  });
-});
-define('pix-live/tests/integration/components/window-comparison-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - integration/components/window-comparison-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
