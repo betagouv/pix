@@ -68,10 +68,6 @@ _.mixin({
   },
   isNotArrayOfString: function (x) {
     return !_.isArrayOfString(x);
-  },
-  /* istanbul ignore next */
-  isAmongst: function(element, collection) {
-    return _.includes(collection, element);
   }
 
 });

@@ -13,35 +13,27 @@ function _applyTreatmentsToSolutions(solution, deactivations) {
   const pretreatedSolutions = _applyPreTreatmentsToSolutions(solution);
   return  _.map(pretreatedSolutions, (pretreatedSolution) => {
 
-    // default behaviour : all treatments applies
     if (deactivationsService.isDefault(deactivations)) {
       return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
     }
-    // Only T1 is deactivated
     else if (deactivationsService.hasOnlyT1(deactivations)) {
       return utils._treatmentT2(pretreatedSolution);
     }
-    // Only T2 is deactivated
     else if (deactivationsService.hasOnlyT2(deactivations)) {
       return utils._treatmentT1(pretreatedSolution);
     }
-    // Only T3 is deactivated
     else if (deactivationsService.hasOnlyT3(deactivations)) {
       return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
     }
-    // Only T1 and T2 are deactivated
     else if (deactivationsService.hasOnlyT1T2(deactivations)) {
       return pretreatedSolution;
     }
-    // Only T1 and T3 are deactivated
     else if (deactivationsService.hasOnlyT1T3(deactivations)) {
       return utils._treatmentT2(pretreatedSolution);
     }
-    // Only T2 and T3 are deactivated
     else if (deactivationsService.hasOnlyT2T3(deactivations)) {
       return utils._treatmentT1(pretreatedSolution);
     }
-    // Only T1, T2 and T3 are deactivated
     else if (deactivationsService.hasT1T2T3(deactivations)) {
       return pretreatedSolution;
     }
@@ -57,69 +49,55 @@ function _applyAnswerTreatment(strArg) {
 
 function _calculateResult(validations, deactivations) {
 
-  // default behaviour
   if (deactivationsService.isDefault(deactivations)) {
     if (validations.t1t2t3Ratio <= 0.25) {
       return 'ok';
     }
     return 'ko';
   }
-
-  // Only T1 is deactivated
   else if (deactivationsService.hasOnlyT1(deactivations)) {
     if (validations.t2t3Ratio <= 0.25) {
       return 'ok';
     }
     return 'ko';
   }
-
-  // Only T2 is deactivated
   else if (deactivationsService.hasOnlyT2(deactivations)) {
     if (validations.t1t3Ratio <= 0.25) {
       return 'ok';
     }
     return 'ko';
   }
-
-  // Only T3 is deactivated
   else if (deactivationsService.hasOnlyT3(deactivations)) {
     if (_.includes(validations.adminAnswers, validations.t1t2)) {
       return 'ok';
     }
     return 'ko';
   }
-
-  // Only T1 and T2 are deactivated
   else if (deactivationsService.hasOnlyT1T2(deactivations)) {
     if (validations.t3Ratio <= 0.25) {
       return 'ok';
     }
     return 'ko';
   }
-
-  // Only T1 and T3 are deactivated
   else if (deactivationsService.hasOnlyT1T3(deactivations)) {
     if (_.includes(validations.adminAnswers, validations.t2)) {
       return 'ok';
     }
     return 'ko';
   }
-
-  // Only T2 and T3 are deactivated
   else if (deactivationsService.hasOnlyT2T3(deactivations)) {
     if (_.includes(validations.adminAnswers, validations.t1)) {
       return 'ok';
     }
     return 'ko';
   }
-
-  // T1, T2 and T3 are deactivated
   else if (deactivationsService.hasT1T2T3(deactivations)) {
     if (_.includes(validations.adminAnswers, validations.userAnswer)) {
       return 'ok';
     }
     return 'ko';
   }
+
 }
 
 
