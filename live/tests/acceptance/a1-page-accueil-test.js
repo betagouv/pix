@@ -28,4 +28,14 @@ describe('Acceptance | a1 - Accéder à la plateforme pour démarrer un test', f
     findWithAssert('.index-page-about a[href="/projet"]');
   });
 
+  it('a1.3 Le logo est présent sur la page index', async function () {
+    await visit('/');
+    findWithAssert($('.app-header-logo-svg'));
+  });
+
+  it('a1.4 Le logo est présent sur la page d\'une épreuve', async function () {
+    await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+    findWithAssert($('.app-header-logo-svg'));
+  });
+
 });
