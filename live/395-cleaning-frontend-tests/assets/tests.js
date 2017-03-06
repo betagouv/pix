@@ -26,32 +26,8 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['exports', 'mocha', 'c
     (0, _mocha.it)('a1.2 Sur la landing page, un lien pointant vers la page projet est présent dans les valeurs pix', function () {
       findWithAssert('.index-page-about a[href="/projet"]');
     });
-  });
-});
-define('pix-live/tests/acceptance/a1-page-accueil-test.lint-test', ['exports'], function (exports) {
-  'use strict';
 
-  describe('ESLint - acceptance/a1-page-accueil-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/acceptance/a2-afficher-logo-pix-test', ['exports', 'mocha', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)('Acceptance | a2 - Afficher le logo PIX | ', function () {
-
-    var application = undefined;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.it)('a2.1 Le logo est présent sur la page index', function callee$1$0() {
+    (0, _mocha.it)('a1.3 Le logo est présent sur la page index', function callee$1$0() {
       return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
@@ -68,7 +44,7 @@ define('pix-live/tests/acceptance/a2-afficher-logo-pix-test', ['exports', 'mocha
       }, null, this);
     });
 
-    (0, _mocha.it)('a2.2 Le logo est présent sur la page d\'une épreuve', function callee$1$0() {
+    (0, _mocha.it)('a1.4 Le logo est présent sur la page d\'une épreuve', function callee$1$0() {
       return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
@@ -86,10 +62,10 @@ define('pix-live/tests/acceptance/a2-afficher-logo-pix-test', ['exports', 'mocha
     });
   });
 });
-define('pix-live/tests/acceptance/a2-afficher-logo-pix-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/a1-page-accueil-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - acceptance/a2-afficher-logo-pix-test.js', function () {
+  describe('ESLint - acceptance/a1-page-accueil-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -111,7 +87,7 @@ define('pix-live/tests/acceptance/a3-voir-liste-tests-test', ['exports', 'mocha'
     });
 
     (0, _mocha.it)('a3.1 on affiche autant de tests que remontés par l\'API', function () {
-      (0, _chai.expect)(findWithAssert('.course-item')).to.have.lengthOf(2);
+      (0, _chai.expect)(findWithAssert('.course-item')).to.have.lengthOf(1);
     });
 
     (0, _mocha.describe)('a3.2 pour un test donné avec toutes les informations', function () {
@@ -309,19 +285,19 @@ define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['export
       var $course = undefined;
 
       (0, _mocha.beforeEach)(function () {
-        $course = findWithAssert('.course[data-id="adaptive_course_id"]');
+        $course = findWithAssert('.course[data-id="ref_course_id"]');
       });
 
       (0, _mocha.it)('a5.2.1 on affiche son nom', function () {
-        (0, _chai.expect)($course.find('.course-name').text()).to.contains('Adaptive Course');
+        (0, _chai.expect)($course.find('.course-name').text()).to.contains('First Course');
       });
 
       (0, _mocha.it)('a5.2.2 on affiche sa description', function () {
-        (0, _chai.expect)($course.find('.course-description').text()).to.contains('Est un test adaptatif');
+        (0, _chai.expect)($course.find('.course-description').text()).to.contains('Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage');
       });
 
       (0, _mocha.it)('a5.2.3 on affiche son image', function () {
-        (0, _chai.expect)($course.find('img')[0].src).to.equal('http://fakeimg.pl/350x200/?text=Adaptive%20Course');
+        (0, _chai.expect)($course.find('img')[0].src).to.equal('http://fakeimg.pl/350x200/?text=First%20Course');
       });
 
       (0, _mocha.it)('a5.2.4 on affiche un bouton "démarrer le test"', function () {
