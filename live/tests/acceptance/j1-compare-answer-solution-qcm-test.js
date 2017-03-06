@@ -60,7 +60,7 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
       expect($('.result-list__item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
       expect($('.result-list__item:eq(1) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QCU
       expect($('.result-list__item:eq(2) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QRU
-      expect($('.result-list__item:eq(3) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROC
+      expect($('.result-list__item:eq(3) .js-correct-answer').text()).to.contain('RÉPONSE'); //QROC
       expect($('.result-list__item:eq(4) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROCM
     });
   });
