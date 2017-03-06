@@ -1,14 +1,12 @@
 import _ from 'pix-live/utils/lodash-custom';
 
 import refCourse      from '../data/courses/ref-course';
-import rawCourse      from '../data/courses/raw-course';
 import adaptiveCourse from '../data/courses/adaptive-course';
 
 export default function (schema, request) {
 
   const allCourses = [
     refCourse.data,
-    rawCourse.data,
     adaptiveCourse.data
   ];
 

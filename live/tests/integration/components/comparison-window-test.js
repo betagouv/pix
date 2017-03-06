@@ -4,7 +4,7 @@ import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 
-describe('Integration | Component | comparison window', function () {
+describe('a238 Integration | Component | comparison window', function () {
 
   setupComponentTest('comparison-window', {
     integration: true
@@ -16,6 +16,38 @@ describe('Integration | Component | comparison window', function () {
       this.render(hbs`{{comparison-window}}`);
       expect(this.$()).to.have.lengthOf(1);
     });
+
+    // it('should render the SVG that represents an incorrect answer if the answer is incorrect', function () {
+    //   // given
+    //   const challenge = Ember.Object.create({
+    //     instruction: 'This is the instruction',
+    //     proposals: '' +
+    //                 '- 1ere possibilite\n ' +
+    //                 '- 2eme possibilite\n ' +
+    //                 '- 3eme possibilite\n' +
+    //                 '- 4eme possibilite'
+    //   });
+
+    //   const answer = Ember.Object.create({
+    //     value: '1,2',
+    //     result: 'ko'
+    //   });
+
+    //   const solution = Ember.Object.create({
+    //     value: '2,3'
+    //   });
+
+    //   this.set('answer', answer);
+    //   this.set('index', '3');
+    //   this.set('challenge', challenge);
+    //   this.set('solution', solution);
+
+    //   // when
+    //   this.render(hbs`{{comparison-window challenge=challenge answer=answer solution=solution index=index}}`);
+
+    //   // then
+    //   expect(this.$('.svg-incorrect-answer')).to.have.length(1);
+    // });
 
     it('should render challenge result (in the header)', function () {
       // when
