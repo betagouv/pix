@@ -4,7 +4,7 @@ import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 
-describe('Integration | Component | comparison window', function () {
+describe('Integration | Component | comparison-window', function () {
 
   setupComponentTest('comparison-window', {
     integration: true
@@ -22,6 +22,46 @@ describe('Integration | Component | comparison window', function () {
       this.render(hbs`{{comparison-window}}`);
       // then
       expect(this.$('.comparison-window__header')).to.have.length(1);
+    });
+
+    it('should render an SVG that correspond to a correct answer', function () {
+      // given
+      const answer = Ember.Object.extend({ id: 'answer_id', isResultOk: true }).create();
+      this.set('answer', answer);
+      // when
+      this.render(hbs`{{comparison-window answer=answer }}`);
+      // then
+      expect(this.$('svg.svg-correct-answer')).to.have.length(1);
+    });
+
+    it('should render an SVG that correspond to an incorrect answer', function () {
+      // given
+      const answer = Ember.Object.extend({ id: 'answer_id', isResultNotOk: true }).create();
+      this.set('answer', answer);
+      // when
+      this.render(hbs`{{comparison-window answer=answer }}`);
+      // then
+      expect(this.$('svg.svg-incorrect-answer')).to.have.length(1);
+    });
+
+    it('should render an SVG that correspond to an abandoned answer', function () {
+      // given
+      const answer = Ember.Object.extend({ id: 'answer_id', isResultWithoutAnswer: true }).create();
+      this.set('answer', answer);
+      // when
+      this.render(hbs`{{comparison-window answer=answer }}`);
+      // then
+      expect(this.$('svg.svg-without-answer')).to.have.length(1);
+    });
+
+    it('should render an SVG that correspond to a timedout answer', function () {
+      // given
+      const answer = Ember.Object.extend({ id: 'answer_id', isResultTimedOut: true }).create();
+      this.set('answer', answer);
+      // when
+      this.render(hbs`{{comparison-window answer=answer }}`);
+      // then
+      expect(this.$('svg.svg-timedout-answer')).to.have.length(1);
     });
 
     it('should render challenge instruction', function () {
