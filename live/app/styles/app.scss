@@ -30,6 +30,8 @@
 @import 'components/app-menu';
 @import 'components/get-results';
 @import 'components/comparison-window';
+@import 'components/qroc-solution-panel';
+
 
 /* views */
 @import 'index';
@@ -40,6 +42,18 @@
 @media (min-width: 1200px) {
   .container {
     max-width: 900px;
+  }
+}
+
+.assessment-challenge-container .container {
+  max-width: 990px;
+  padding-right: 15px;
+  padding-left: 15px;
+  width: 100%;
+
+  @media (min-width: 1024px) {
+    padding-right: 0;
+    padding-left: 0;
   }
 }
 
