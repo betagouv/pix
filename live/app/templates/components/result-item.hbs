@@ -43,7 +43,7 @@
     {{strip-instruction (convert-to-html answer.challenge.instruction)}}
   </div>
   <div class="result-list__correction">
-    {{#if (eq answer.challenge.type "QCM")}}
+    {{#if hasResponseButton}}
       <button class="result-list__correction__button js-correct-answer"
         {{action "openComparisonPopin"}}> RÉPONSE
       </button>

@@ -40,18 +40,24 @@ const contentReference = {
 };
 
 const timeOutAfterRender = 1000; //XXX: Wait after attribute rendering
+const allowedButtonFor = ['QCM', 'QROC', 'QCU'];
 
 const resultItem = Ember.Component.extend({
   didRender() {
     this._super(...arguments);
-    Ember.run.debounce(this,function(){
+    Ember.run.debounce(this, function () {
       $('[data-toggle="tooltip"]').tooltip();
-    },timeOutAfterRender);
+    }, timeOutAfterRender);
   },
 
   resultItemContent: Ember.computed('answer.result', function () {
-    if(!this.get('answer.result')) return;
+    if (!this.get('answer.result')) return;
     return contentReference[this.get('answer.result')] || contentReference['default'];
+  }),
+
+  hasResponseButton: Ember.computed('answer.challenge.type', function () {
+    if (!this.get('answer.challenge.type')) return;
+    return allowedButtonFor.indexOf(this.get('answer.challenge.type')) > -1;
   }),
 
   actions: {
