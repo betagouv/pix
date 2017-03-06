@@ -16,20 +16,20 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
   }),
 
   dataToDisplay: Ember.computed('answer', 'solution', 'challenge', function () {
+    //Get interesting value
     const yamlAnswer = this.get('answer.value');
     const yamlSolution = this.get('solution.value');
-    let yamlChallengeLabels = this.get('challenge.proposals');//.replace(/\$\{/g, '').replace(/}/g, '');
-    yamlChallengeLabels = yamlChallengeLabels.replace(/\$\{/g, '').replace(/}/g, '');
+    let yamlChallengeLabels = this.get('challenge.proposals');
+    yamlChallengeLabels = yamlChallengeLabels.replace(/\$\{/g, '').replace(/}/g, '').replace(/- /g, '');
 
+    //Transform yaml to object
     const _answer = jsyaml.safeLoad(yamlAnswer);
     const _solution = jsyaml.safeLoad(yamlSolution);
     const challengeLabelsLoadInBadOrder = jsyaml.safeLoad(yamlChallengeLabels);
+
     const challengeLabels = _.invert(challengeLabelsLoadInBadOrder);
 
-    console.log('_answer : ' + JSON.stringify(_answer));
-    console.log('_solution : ' + JSON.stringify(_solution));
-    console.log('challengeLabels : ' + JSON.stringify(challengeLabels));
-
+    //Take keys (a key for each input)
     const proposalsInput = _.keys(challengeLabels);
     const dataToDisplay = [];
 
@@ -37,7 +37,7 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
       const answerToDisplay = _answer[keyWord];
       const solutionToDisplay = _solution[keyWord];
       const labelToDisplay = challengeLabels[keyWord];
-      const rightAnswer = (answerToDisplay === _solution[keyWord] || _.contains(_solution[keyWord], _answer[keyWord]));
+      const rightAnswer = (answerToDisplay === _solution[keyWord] || _.contains(_solution[keyWord].toString(), _answer[keyWord]));
 
       const proposalData = {
         label: labelToDisplay,
@@ -50,32 +50,7 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
     });
 
     return dataToDisplay;
-  }),
-
-  /*dataToDisplay: Ember.computed('answer', 'solution', 'challenge', function () {
-   const yamlAnswer = this.get('answer.value');
-   const yamlSolution = this.get('solution.value');
-   const yamlChallengeLabels = this.get('challenge.proposals').replace(/\$\{/g, '').replace(/}/g, '');
-
-   const _answer = jsyaml.safeLoad(yamlAnswer);
-   const _solution = jsyaml.safeLoad(yamlSolution);
-   const challengeLabelsLoadInBadOrder = jsyaml.safeLoad(yamlChallengeLabels);
-   const challengeLabels = _.invert(challengeLabelsLoadInBadOrder);
-
-   const ProposalsInput = _.keys(challengeLabels);
-   const dataToDisplay = [];
-
-   /!*ProposalsInput.forEach(function(keyWord) {
-   const answerToDisplay = _answer[keyWord].toString();
-   const solutionToDisplay = _solution[keyWord];
-   const labelToDisplay = challengeLabels[keyWord];
-   const rightAnswer = (answerToDisplay === _solution[keyWord] || _.contains(_solution[keyWord], _answer[keyWord]));
-   });*!/
-
-   /!*return [{ 'label': 'Clé USB', 'answer': '1', 'solution': [2], 'rightAnswer': false },
-   { 'label': 'Carte mémoire (SD)', 'answer': '2', 'solution': [1], 'rightAnswer': false }
-   ];*!/
-})*/
+  })
 });
 
 QrocmIndSolutionPanel.reopenClass({

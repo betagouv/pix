@@ -6,8 +6,19 @@
       <div>{{answer.value}}</div>
       <div>{{solution.value}}</div>
       <div>{{dataToDisplay}}</div>
-
     </div>
+
+    <div style="border:1px solid blue ;">
+      <div>Test Avec </div>
+      <div>
+        {{#each challenge._proposalsAsBlocks as |proposal|}}
+          <div>{{proposal}}</div>
+        {{/each}}
+      </div>
+    </div>
+
+
+
     <div>
       {{#each dataToDisplay as |input|}}
         <div>
