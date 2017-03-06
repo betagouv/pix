@@ -1388,12 +1388,10 @@ button.routable-modal--close:active {
   font-family: "Open Sans", Arial, sans-serif;
   color: #ffffff; }
 
-/* Whole assessments container
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.result-list__icon {
+.result-item__icon {
   /* Forces bootstrap's default by including bootstrap props into .assessment-results container */
   /* XXX : See https://github.com/sgmap/pix/issues/211 */ }
-  .result-list__icon .tooltip-inner {
+  .result-item__icon .tooltip-inner {
     padding-top: 13px;
     width: auto;
     padding-left: 16px;
@@ -1405,17 +1403,17 @@ button.routable-modal--close:active {
     font-size: 14px;
     box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
     border: solid 1px #ffffff; }
-  .result-list__icon .tooltip.top .tooltip-arrow {
+  .result-item__icon .tooltip.top .tooltip-arrow {
     border-top-color: #e6e6e6; }
-  .result-list__icon .tooltip.in {
+  .result-item__icon .tooltip.in {
     opacity: 1;
     transition: opacity .75s ease; }
-  .result-list__icon .tooltip.top .tooltip-arrow {
+  .result-item__icon .tooltip.top .tooltip-arrow {
     bottom: -4px;
     left: 50%;
     margin-left: -13px;
     border-width: 10px 13px 0; }
-  .result-list__icon [data-lines="2"] + div .tooltip-inner {
+  .result-item__icon [data-lines="2"] + div .tooltip-inner {
     padding-top: 3px; }
 
 .comparison-window {
