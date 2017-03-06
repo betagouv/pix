@@ -4,7 +4,7 @@ import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 
-describe('int938 Integration | Component | WindowComparison', function () {
+describe('Integration | Component | WindowComparison', function () {
 
   setupComponentTest('comparison-window', {
     integration: true
