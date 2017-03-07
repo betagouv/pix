@@ -4,36 +4,10 @@
     <div style="border:1px solid red">
       <div>{{answer.value}}</div>
       <div>{{solution.value}}</div>
-      <div>{{validityObject}}</div>
+      <div>{{challenge.proposals}}</div>
     </div>
 
-    <div>
-      <div>
-        {{#each challenge._proposalsAsBlocks as |proposal|}}
-
-          {{#if proposal.text}}
-            <span>{{proposal.text}}</span>
-          {{/if}}
-
-          {{#if proposal.input}}
-            <input class="challenge-response__proposal-input"
-                   type="text"
-                   value={{property-of answerObject proposal.input}}
-                     disabled>
-
-            {{#if (property-of validityOfEachAnswer proposal.input)}}
-              <div>Bonne reponse</div>
-            {{else}}
-              <div>Mauvaise reponse</div>
-            {{/if}}
-          {{/if}}
-
-          {{#if proposal.breakline}}
-            <hr>
-          {{/if}}
-        {{/each}}
-      </div>
-    </div>
+    
 
   </div>
 </div>

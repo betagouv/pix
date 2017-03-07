@@ -17,30 +17,43 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
     return solution;
   }),
 
-  validityObject: Ember.computed('answer',function () {
-    const yamlAnswer = this.get('answer.value');
-    const answers = jsyaml.safeLoad(yamlAnswer);
-    console.log('answers ' + typeof answers + ' ' + JSON.stringify(answers));
+  labelsObject : Ember.computed('challenge', function(){
+    const proposalsBrut = this.get('challenge.proposals').replace(/\n/g, '');
 
-    const yamlSolution = this.get('solution.value');
-    const solution = jsyaml.safeLoad(yamlSolution);
-    console.log('solution ' + typeof solution + ' ' + JSON.stringify(solution));
+    const proposalsSplitted = proposalsBrut.split(/\$\{|}/).slice(0, -1);
 
-    const validityOfEachAnswer = {};
-
-    _.each(answers, function (value, key) {
-      console.log('key ' + typeof key + ' ' + JSON.stringify(key));
-      if (solution[key].toString().includes(answers[key]) || answers[key] === solution[key]){
-        validityOfEachAnswer[key] = true;
-      } else {
-        validityOfEachAnswer[key] = false;
+    const labelsObject = {};
+    proposalsSplitted.forEach((element, index) => {
+      if (index % 2 != 0){
+        labelsObject[element] = proposalsSplitted[index - 1];
       }
-
     });
-    console.log('validityOfEachAnswer ' + JSON.stringify(validityOfEachAnswer));
 
-    return validityOfEachAnswer;
+    return labelsObject;
   }),
+
+  dataToDisplay : Ember.computed( 'solutionObject', function() {
+    const labelsObject = this.get('labelsObject');
+    const answerObject = this.get('answerObject');
+    const solutionObject = this.get('solutionObject');
+
+    const keys = _.keys(labelsObject);
+    const dataToDisplay = [];
+
+    keys.forEach(function (element) {
+      const isRightAnswer = _.includes(solutionObject[element].toString(), answerObject[element]) || answerObject[element] === solutionObject[element];
+      const labelAnswerSolution = {
+        label : labelsObject[element],
+        answer : answerObject[element],
+        solution : solutionObject[element],
+        rightAnswer : isRightAnswer
+      };
+
+      dataToDisplay.push(labelAnswerSolution);
+    });
+
+    return dataToDisplay;
+  })
 
 });
 
