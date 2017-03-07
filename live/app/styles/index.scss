@@ -1,26 +1,51 @@
-/* Table of contents
-––––––––––––––––––––––––––––––––––––––––––––––––––
-- Hero
-- Challenges
-- Email
-- Features
-- Footer
-*/
+.index-page {
 
-$index-page-hero-height: 580px;
+}
+
+.index-page__background {
+  position: absolute;
+  background: url("/images/index-hero-background.jpg");
+  background-size: cover;
+  height: 700px;
+  width: 100%;
+  z-index: -1;
+}
 
 /* Hero
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .index-page-hero {
-  background-image: url("/images/stock-photo2.jpg");
-  background-size: cover;
-  height: $index-page-hero-height;
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0.50) 5%,rgba(30,30,30,0.25) 100%);
+  height: 700px;
   width: 100%;
 }
 
-.index-page-hero__box {
-  height: 100%;
-  display: flex;
+.index-page-hero__content {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.index-page-hero__title {
+  margin-top: 270px;
+  height: 70px;
+  font-size: 50px;
+  line-height: 1.4;
+  font-family: $font-raleway;
+  font-weight: 700;
+  color: $white;
+  text-align: center;
+}
+
+.index-page-hero__description {
+  font-family: $font-raleway;
+  color: $white;
+  text-align: center;
+  font-size: 22px;
+  padding: 0 200px;
+  font-weight: 300;
+}
+
+.index-page-hero__subscribe-button {
+
 }
 
 .index-page-hero__box-item {
@@ -35,7 +60,7 @@ $index-page-hero-height: 580px;
 }
 
 .index-page-hero__main-value-prop {
-  font-size: 40px;
+  font-size: 50px;
   font-weight: 900;
   line-height: 1;
   color: #ffffff;

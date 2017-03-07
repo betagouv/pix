@@ -1,0 +1,89 @@
+.header-navbar {
+  background-color: transparent;
+  height: 100px;
+  padding-top: 20px;
+}
+
+.header-navbar__container {
+  margin: 0 auto;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Logo
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.header-navbar-logo {
+  display: inline-block;
+  position: relative;
+  width: 106px;
+  height: 80px;
+}
+
+.header-navbar-logo__link {
+  display: inline-block;
+
+  &:hover,
+  &:active,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+.header-navbar-logo__image {
+  width: 100%;
+}
+
+.header-navbar-logo__beta {
+  color: $marigold;
+  font-family: $font-lato;
+  font-size: 12px;
+  letter-spacing: 10px;
+  font-weight: 900;
+  position: absolute;
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+  bottom: 0;
+  height: 15px;
+}
+
+/* Links
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.header-navbar-links {
+  padding: 20px 0;
+}
+
+.header-navbar-links__list {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  display: flex;
+}
+
+.header-navbar-links__item {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+
+.header-navbar-links__link {
+  text-transform: uppercase;
+  color: $white;
+  font-size: 13px;
+  font-family: $font-lato;
+  width: 100%;
+
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $marigold;
+    text-decoration: none;
+  }
+}
+

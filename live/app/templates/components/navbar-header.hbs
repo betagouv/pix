@@ -1,0 +1,36 @@
+<div class="header-navbar">
+
+  <div class="header-navbar__container">
+
+    <!-- Logo (left) -->
+    <div class="header-navbar-logo">
+      {{#link-to "index" class="header-navbar-logo__link"}}
+        <img class="header-navbar-logo__image" src="{{rootURL}}images/pix-logo.svg">
+        <span class="header-navbar-logo__beta">Béta</span>
+      {{/link-to}}
+    </div>
+
+    <!-- Links (right) -->
+    <div class="header-navbar-links">
+      <ul class="header-navbar-links__list">
+        <li class="header-navbar-links__item">
+          {{#link-to "project" class="header-navbar-links__link header-navbar-links__link--project"}}Projet{{/link-to}}
+        </li>
+        <li class="header-navbar-links__item">
+          {{#link-to "index" class="header-navbar-links__link header-navbar-links__link--community"}}Communauté{{/link-to}}
+        </li>
+        <li class="header-navbar-links__item">
+          {{#link-to "index" class="header-navbar-links__link header-navbar-links__link--competences"}}Compétences{{/link-to}}
+        </li>
+        <li class="header-navbar-links__item">
+          {{#link-to "index" class="header-navbar-links__link header-navbar-links__link--faq"}}FAQ{{/link-to}}
+        </li>
+        <li class="header-navbar-links__item">
+          {{#link-to "index" class="header-navbar-links__link header-navbar-links__link--bloq"}}Blog{{/link-to}}
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
