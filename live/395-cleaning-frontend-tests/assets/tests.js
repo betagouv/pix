@@ -4715,6 +4715,34 @@ define('pix-live/tests/integration/components/timeout-jauge-test', ['exports', '
         // then
         (0, _chai.expect)(this.$('.timeout-jauge')).to.have.lengthOf(1);
       });
+
+      (0, _mocha.it)('It renders a red clock if time is over', function () {
+        // given
+        // when
+        this.render(Ember.HTMLBars.template({
+          'id': 'mKkmjVMa',
+          'block': '{"statements":[["append",["helper",["timeout-jauge"],null,[["allotedTime"],[0]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.svg-timeout-clock-black')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.svg-timeout-clock-red')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('It renders a black clock if time is not over', function () {
+        // given
+        // when
+        this.render(Ember.HTMLBars.template({
+          'id': 'KUzLMFLz',
+          'block': '{"statements":[["append",["helper",["timeout-jauge"],null,[["allotedTime"],[1]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.svg-timeout-clock-red')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.svg-timeout-clock-black')).to.have.lengthOf(1);
+      });
     });
   });
 });
