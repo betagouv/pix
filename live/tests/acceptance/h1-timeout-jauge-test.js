@@ -67,7 +67,6 @@ describe('Acceptance | H1 - Timeout Jauge | ', function () {
       it('Si l\'utilisateur valide, demande la sauvegarde du temps restant en secondes', function () {
         visitTimedChallenge();
         andThen(() => {
-          $('.last-post-request').remove();
           const $countDown = findWithAssert('.timeout-jauge-remaining');
           expect($countDown.text().trim()).to.equal('0:02');
         });
@@ -77,20 +76,19 @@ describe('Acceptance | H1 - Timeout Jauge | ', function () {
         andThen(() => {
           expect(urlOfLastPostRequest()).to.equal('/api/answers');
           expect(_.get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(2);
+          expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('2,4');
         });
       });
 
       it('Si l\'utilisateur ABANDONNE, demande la sauvegarde du temps restant en secondes', function () {
         visitTimedChallenge();
         andThen(() => {
-          $('.last-post-request').remove();
-        });
-        andThen(() => {
           click(getSkipActionLink());
         });
         andThen(() => {
           expect(urlOfLastPostRequest()).to.equal('/api/answers');
           expect(_.get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(2);
+          expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('#ABAND#');
         });
       });
 
