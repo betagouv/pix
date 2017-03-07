@@ -52,6 +52,10 @@ export default Ember.Component.extend({
     return 100 - (get(this, 'remainingSeconds') / actualAllotedTime) * 100;
   }),
 
+  hasFinished: computed('remainingSeconds', function() {
+    return get(this, 'remainingSeconds') <= 0;
+  }),
+
   _start: function() {
     this._stop();
     set(this, '_currentTime', Date.now());
