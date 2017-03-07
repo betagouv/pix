@@ -9,7 +9,7 @@ const BUTTON_SEND = '.follower-form__button';
 const INPUT_EMAIL = '.follower-email';
 
 
-describe.only('Integration | Component | follower form', function() {
+describe('Integration | Component | follower form', function() {
   setupComponentTest('follower-form', {
     integration: true
   });
