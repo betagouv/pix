@@ -79,7 +79,6 @@ export default Ember.Component.extend({
       set(this, '_currentTime', now);
       set(this, '_timer', run.later(this, this._tick, _tickInterval));
     }
-
   },
 
 
@@ -88,20 +87,6 @@ export default Ember.Component.extend({
     this._super(...arguments);
     this._start();
   },
-
-  // Ember Lifecycle Hook
-  didInsertElement() {
-    if (ENV.environment === 'test') {
-      const that = this;
-      this.$().on('simulateOneMoreSecond', function() {
-        set(that, '_elapsedTime', get(that, '_elapsedTime') + 1000);
-      });
-      this.$().on('reset_ElapsedTime', function() {
-        set(that, '_elapsedTime', 0);
-      });
-    }
-  },
-
 
   // Ember Lifecycle Hook
   willDestroyElement() {
