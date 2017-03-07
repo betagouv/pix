@@ -823,14 +823,18 @@ define('pix-live/components/first-page', ['exports', 'ember', 'pix-live/config/e
 
   });
 });
-define('pix-live/components/follower-form', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/components/follower-form', ['exports', 'ember', 'pix-live/config/environment'], function (exports, _ember, _pixLiveConfigEnvironment) {
+
   var messageDisplayDuration = 1500;
 
   function hideMessageDiv(context) {
-    _ember['default'].run.later(function () {
-      context.set('status', 'empty');
-    }, messageDisplayDuration);
+    if (_pixLiveConfigEnvironment['default'].environment !== 'test') {
+      _ember['default'].run.later(function () {
+        context.set('status', 'empty');
+      }, messageDisplayDuration);
+    }
   }
+
   exports['default'] = _ember['default'].Component.extend({
     emailValidator: _ember['default'].inject.service('email-validator'),
     store: _ember['default'].inject.service(),
@@ -2495,21 +2499,13 @@ define('pix-live/mirage/data/assessments/ref-assessment', ['exports', 'pix-live/
 define('pix-live/mirage/data/challenges/ref-qcm-challenge', ['exports'], function (exports) {
   // QCM challenge with all field filled
 
-  function getTimer() {
-    var mirageTestingState = JSON.parse(localStorage.getItem('mirageTestingState'));
-    return mirageTestingState && mirageTestingState.stubTimer ? mirageTestingState.stubTimer : 2;
-  }
-
   exports['default'] = {
-    recalculate: function recalculate() {
-      this.data.attributes.timer = getTimer();
-    },
     data: {
       type: 'challenge',
       id: 'ref_qcm_challenge_id',
       attributes: {
         type: 'QCM',
-        timer: getTimer(),
+        timer: 2,
         instruction: 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)',
         attachments: ['http://example_of_url'],
         'illustration-url': 'http://fakeimg.pl/350x200/?text=PictureOfQCM',
@@ -2741,10 +2737,6 @@ define('pix-live/mirage/routes/get-challenge', ['exports', 'pix-live/utils/lodas
     var challenge = _pixLiveUtilsLodashCustom['default'].find(challenges, { id: request.params.id });
 
     if (challenge) {
-      if (challenge.obj.recalculate) {
-        challenge.obj.recalculate();
-      }
-
       return challenge.obj;
     } else {
       throw new Error('The challenge you required in the fake server does not exist ' + request.params.id);
@@ -2873,7 +2865,11 @@ define('pix-live/mirage/routes/post-feedbacks', ['exports', 'pix-live/mirage/dat
   };
 });
 define('pix-live/mirage/routes/post-followers', ['exports', 'pix-live/mirage/data/followers'], function (exports, _pixLiveMirageDataFollowers) {
-  exports['default'] = function () {
+  exports['default'] = function (schema, request) {
+    /* eslint-disable */
+    console.log('POST on api/followers with requestBody- - - - - - - - - - - - - - - - - - - - ', request.requestBody);
+    /* eslint-enable */
+
     return _pixLiveMirageDataFollowers['default'];
   };
 });
@@ -4319,7 +4315,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.3+a00b844d"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.3+5eb7dcd1"});
 }
 
 /* jshint ignore:end */

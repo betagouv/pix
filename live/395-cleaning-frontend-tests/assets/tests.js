@@ -315,58 +315,6 @@ define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test.lint-test'
     });
   });
 });
-define('pix-live/tests/acceptance/a6-souscrire-follower-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)('Acceptance | a6 - souscrire en tant que follower', function () {
-
-    var application = undefined;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.it)('a6- Lorsque je souscris avec une adresse mail valide, je suis bien enregistré', function callee$1$0(done) {
-      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
-        while (1) switch (context$2$0.prev = context$2$0.next) {
-          case 0:
-            context$2$0.next = 2;
-            return regeneratorRuntime.awrap(visit('/'));
-
-          case 2:
-            context$2$0.next = 4;
-            return regeneratorRuntime.awrap(fillIn('.follower-email', 'florian@pix.fr'));
-
-          case 4:
-            context$2$0.next = 6;
-            return regeneratorRuntime.awrap(click('.follower-form__button'));
-
-          case 6:
-            // then
-            //expect($('.follower-info-message.has-success')).to.be.exist;
-            (0, _chai.expect)(true).to.be['true'];
-            done();
-
-          case 8:
-          case 'end':
-            return context$2$0.stop();
-        }
-      }, null, this);
-    });
-  });
-});
-define('pix-live/tests/acceptance/a6-souscrire-follower-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/a6-souscrire-follower-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveTestsHelpersSharedState, _pixLiveUtilsLodashCustom) {
 
   var application = undefined;
@@ -4226,15 +4174,18 @@ define('pix-live/tests/integration/components/first-page-test.lint-test', ['expo
     });
   });
 });
-define('pix-live/tests/integration/components/follower-form-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/follower-form-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait'], function (exports, _chai, _mocha, _emberMocha, _ember, _emberTestHelpersWait) {
 
-  (0, _mocha.describe)('Integration | Component | follower form', function () {
+  var BUTTON_SEND = '.follower-form__button';
+  var INPUT_EMAIL = '.follower-email';
+
+  _mocha.describe.only('Integration | Component | follower form', function () {
     (0, _emberMocha.setupComponentTest)('follower-form', {
       integration: true
     });
 
     (0, _mocha.it)('renders', function () {
-      this.render(Ember.HTMLBars.template({
+      this.render(_ember['default'].HTMLBars.template({
         'id': 'O9xGjXjO',
         'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
         'meta': {}
@@ -4245,7 +4196,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
     (0, _mocha.describe)('Test Component form', function () {
       (0, _mocha.it)('should render submit button', function () {
         //When
-        this.render(Ember.HTMLBars.template({
+        this.render(_ember['default'].HTMLBars.template({
           'id': 'O9xGjXjO',
           'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
@@ -4256,13 +4207,69 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
 
       (0, _mocha.it)('should return true if input exist', function () {
         //When
-        this.render(Ember.HTMLBars.template({
+        this.render(_ember['default'].HTMLBars.template({
           'id': 'O9xGjXjO',
           'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
         //then
-        (0, _chai.expect)(this.$('.follower-email').length).to.equal(1);
+        (0, _chai.expect)(this.$(INPUT_EMAIL).length).to.equal(1);
+      });
+    });
+
+    (0, _mocha.describe)('Form view', function () {
+      var isSaveMethodCalled = false;
+      var saveMethodBody = null;
+      var saveMethodUrl = null;
+
+      var storeStub = _ember['default'].Service.extend({
+        createRecord: function createRecord() {
+          var createRecordArgs = arguments;
+          return Object.create({
+            save: function save() {
+              isSaveMethodCalled = true;
+              saveMethodUrl = createRecordArgs[0];
+              saveMethodBody = createRecordArgs[1];
+              return _ember['default'].RSVP.resolve();
+            }
+          });
+        }
+      });
+
+      beforeEach(function () {
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'O9xGjXjO',
+          'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // stub store service
+        this.register('service:store', storeStub);
+        this.inject.service('store', { as: 'store' });
+
+        isSaveMethodCalled = false;
+        saveMethodBody = null;
+        saveMethodUrl = null;
+      });
+
+      (0, _mocha.it)('clicking on "send" button should save the email of the follower', function () {
+        // given
+        var EMAIL_VALUE = 'myemail@gemail.com';
+        var $email = this.$(INPUT_EMAIL);
+        $email.val(EMAIL_VALUE);
+        $email.change();
+
+        // when
+        (0, _chai.expect)(this.$(BUTTON_SEND).length).to.equal(1);
+        (0, _chai.expect)(this.$(INPUT_EMAIL).length).to.equal(1);
+        this.$(BUTTON_SEND).click();
+
+        // then
+        return (0, _emberTestHelpersWait['default'])().then(function () {
+          (0, _chai.expect)(isSaveMethodCalled).to.be['true'];
+          (0, _chai.expect)(saveMethodUrl).to.equal('follower');
+          (0, _chai.expect)(saveMethodBody).to.deep.equal({ email: 'myemail@gemail.com' });
+        });
       });
     });
   });
