@@ -1115,19 +1115,36 @@ define('pix-live/components/timeout-jauge', ['exports', 'ember', 'pix-live/utils
 
   exports['default'] = _ember['default'].Component.extend({
 
+    // public props, passed from template
+    allotedTime: null,
+
+    _totalTime: _ember['default'].computed('allotedTime', function () {
+      var actualAllotedTime = get(this, 'allotedTime');
+      if (!_pixLiveUtilsLodashCustom['default'].isNumeric(actualAllotedTime)) {
+        return 0;
+      }
+      return 1000 * actualAllotedTime;
+    }),
+
+    _tickInterval: 1000,
+
+    _timer: null,
+    elapsedTime: null,
+    currentTime: Date.now(),
+
     // Ember Lifecycle Hook
     init: function init() {
       this._super.apply(this, arguments);
 
-      set(this, 'totalTime', 1000 * get(this, 'allotedTime'));
-      set(this, 'tickInterval', 1000);
-      set(this, 'timer', null);
-      this.reset();
+      // set(this, '_totalTime', 1000 * get(this, 'allotedTime'));
+      // set(this, '_tickInterval', 1000);
+      // set(this, '_timer', null);
+      // this.reset();
       this.start();
     },
 
     remainingSeconds: computed('elapsedTime', function () {
-      return _pixLiveUtilsLodashCustom['default'].round((get(this, 'totalTime') - get(this, 'elapsedTime')) / 1000);
+      return _pixLiveUtilsLodashCustom['default'].round((get(this, '_totalTime') - get(this, 'elapsedTime')) / 1000);
     }),
 
     remainingTime: computed('remainingSeconds', function () {
@@ -1142,13 +1159,17 @@ define('pix-live/components/timeout-jauge', ['exports', 'ember', 'pix-live/utils
     }),
 
     percentageOfTimeout: computed('elapsedTime', function () {
-      return 100 - get(this, 'remainingSeconds') / get(this, 'allotedTime') * 100;
+      var actualAllotedTime = get(this, 'allotedTime');
+      if (!_pixLiveUtilsLodashCustom['default'].isNumeric(actualAllotedTime) || !_pixLiveUtilsLodashCustom['default'].isStrictlyPositiveInteger(actualAllotedTime.toString())) {
+        return 0;
+      }
+      return 100 - get(this, 'remainingSeconds') / actualAllotedTime * 100;
     }),
 
-    reset: function reset() {
-      set(this, 'elapsedTime', 0);
-      set(this, 'currentTime', Date.now());
-    },
+    // reset: function() {
+    //   set(this, 'elapsedTime', 0);
+    //   set(this, 'currentTime', Date.now());
+    // },
 
     start: function start() {
       this.stop();
@@ -1157,25 +1178,25 @@ define('pix-live/components/timeout-jauge', ['exports', 'ember', 'pix-live/utils
     },
 
     stop: function stop() {
-      var timer = get(this, 'timer');
+      var _timer = get(this, '_timer');
 
-      if (timer) {
-        run.cancel(timer);
-        set(this, 'timer', null);
+      if (_timer) {
+        run.cancel(_timer);
+        set(this, '_timer', null);
       }
     },
 
     tick: function tick() {
       if (_pixLiveConfigEnvironment['default'].environment !== 'test') {
 
-        var tickInterval = get(this, 'tickInterval');
+        var _tickInterval = get(this, '_tickInterval');
         var currentTime = get(this, 'currentTime');
         var elapsedTime = get(this, 'elapsedTime');
         var now = Date.now();
 
         set(this, 'elapsedTime', elapsedTime + (now - currentTime));
         set(this, 'currentTime', now);
-        set(this, 'timer', run.later(this, this.tick, tickInterval));
+        set(this, '_timer', run.later(this, this.tick, _tickInterval));
       }
     },
 
@@ -4261,6 +4282,13 @@ define('pix-live/utils/lodash-custom', ['exports'], function (exports) {
       return !_.isInteger(x);
     },
 
+    isNumeric: function isNumeric(value) {
+      if (typeof value === 'number') return true;
+      var str = (value || '').toString();
+      if (!str) return false;
+      return !isNaN(str);
+    },
+
     // See http://veerasundar.com/blog/2013/01/underscore-js-and-guid-function/
     guid: function guid() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -4317,7 +4345,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.3+90fe96ef"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.3+36465ac1"});
 }
 
 /* jshint ignore:end */

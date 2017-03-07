@@ -4082,6 +4082,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
       var isSaveMethodCalled = false;
       var saveMethodBody = null;
       var saveMethodUrl = null;
+
       var storeStub = _ember['default'].Service.extend({
         createRecord: function createRecord() {
           var createRecordArgs = arguments;
@@ -4095,6 +4096,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
           });
         }
       });
+
       beforeEach(function () {
         // configure answer & cie. model object
         var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
@@ -4741,6 +4743,41 @@ define('pix-live/tests/integration/components/qrocm-proposal-test.lint-test', ['
   'use strict';
 
   describe('ESLint - integration/components/qrocm-proposal-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/integration/components/timeout-jauge-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | TimeoutJauge', function () {
+
+    (0, _emberMocha.setupComponentTest)('timeout-jauge', {
+      integration: true
+    });
+
+    /* Rendering
+    ----------------------------------------------------- */
+    (0, _mocha.describe)('Rendering', function () {
+      (0, _mocha.it)('It renders', function () {
+        // given
+        // when
+        this.render(Ember.HTMLBars.template({
+          'id': 'OXRSqSZy',
+          'block': '{"statements":[["append",["unknown",["timeout-jauge"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.timeout-jauge')).to.have.lengthOf(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/timeout-jauge-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/timeout-jauge-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -5441,6 +5478,74 @@ define('pix-live/tests/unit/components/qroc-solution-panel-test.lint-test', ['ex
   'use strict';
 
   describe('ESLint - unit/components/qroc-solution-panel-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/components/timeout-jauge-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Component | timeout-jauge-component ', function () {
+
+    (0, _emberMocha.setupTest)('component:timeout-jauge', {});
+
+    var component = undefined;
+
+    beforeEach(function () {
+      component = this.subject();
+    });
+
+    (0, _mocha.describe)('#Test rendering Property', function () {
+
+      (0, _mocha.describe)('#remainingSeconds', function () {
+        [{ allotedTime: new Date(), expected: 0 }, { allotedTime: '  ', expected: 0 }, { allotedTime: undefined, expected: 0 }, { allotedTime: null, expected: 0 }, { allotedTime: '0', expected: 0 }, { allotedTime: '40', expected: 40 }, { allotedTime: '70', expected: 70 }, { allotedTime: '120', expected: 120 }, { allotedTime: 150, expected: 150 }].forEach(function (data) {
+
+          (0, _mocha.it)('should return "' + data.expected + '" when alloting ' + data.allotedTime, function () {
+            // given
+            component.set('allotedTime', data.allotedTime);
+            // when
+            var remainingSeconds = component.get('remainingSeconds');
+            // then
+            (0, _chai.expect)(remainingSeconds).to.equal(data.expected);
+          });
+        });
+      });
+
+      (0, _mocha.describe)('#remainingTime', function () {
+        [{ allotedTime: new Date(), expected: '0:00' }, { allotedTime: '  ', expected: '0:00' }, { allotedTime: undefined, expected: '0:00' }, { allotedTime: null, expected: '0:00' }, { allotedTime: '0', expected: '0:00' }, { allotedTime: '40', expected: '0:40' }, { allotedTime: '70', expected: '1:10' }, { allotedTime: '120', expected: '2:00' }, { allotedTime: 150, expected: '2:30' }].forEach(function (data) {
+
+          (0, _mocha.it)('should return "' + data.expected + '" when alloting ' + data.allotedTime, function () {
+            // given
+            component.set('allotedTime', data.allotedTime);
+            // when
+            var remainingTime = component.get('remainingTime');
+            // then
+            (0, _chai.expect)(remainingTime).to.equal(data.expected);
+          });
+        });
+      });
+
+      (0, _mocha.describe)('#percentageOfTimeout', function () {
+        [{ allotedTime: new Date(), elapsedTime: 4000, expected: 0 }, { allotedTime: '  ', elapsedTime: 4000, expected: 0 }, { allotedTime: undefined, elapsedTime: 4000, expected: 0 }, { allotedTime: null, elapsedTime: 4000, expected: 0 }, { allotedTime: '0', elapsedTime: 4000, expected: 0 }, { allotedTime: '40', elapsedTime: 4000, expected: 10 }, { allotedTime: '70', elapsedTime: 35000, expected: 50 }, { allotedTime: '120', elapsedTime: 120000, expected: 100 }, { allotedTime: 150, elapsedTime: 225000, expected: 150 }].forEach(function (data) {
+
+          (0, _mocha.it)('should return "' + data.expected + '" when alloting ' + data.allotedTime + ' and elapsedTime is ' + data.elapsedTime, function () {
+            // given
+            component.set('allotedTime', data.allotedTime);
+            component.set('elapsedTime', data.elapsedTime);
+            // when
+            var percentageOfTimeout = component.get('percentageOfTimeout');
+            // then
+            (0, _chai.expect)(percentageOfTimeout).to.equal(data.expected);
+          });
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/timeout-jauge-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/components/timeout-jauge-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -6470,6 +6575,54 @@ define('pix-live/tests/unit/utils/lodash-custom-test', ['exports', 'chai', 'moch
         (0, _mocha.it)('should return ' + item.expected + ' when value is ' + item.value, function () {
           (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].hasSomeTruthyProps(item.value)).to.equal(item.expected);
         });
+      });
+    });
+
+    (0, _mocha.describe)('#isNumeric', function () {
+      (0, _mocha.it)('should return true if its already a number type', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(0)).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(2)).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(17)).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(+17)).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(-17)).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(-0)).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(.0)).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(.17)).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(-.17)).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(1e17)).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(1e-17)).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(Infinity)).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(-Infinity)).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(new Number('123'))).to.be['true'];
+      });
+
+      (0, _mocha.it)('should return true if its a string that looks like a number', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(new String('1337'))).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('1337')).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('-1337')).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('1337.17')).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('-1337.17')).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('0017')).to.be['true'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('00000.017')).to.be['true'];
+      });
+
+      (0, _mocha.it)('should return false if its a string does not look like a number', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('abc')).to.be['false'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('6qwerty0')).to.be['false'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('17%')).to.be['false'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('-17%')).to.be['false'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('#17')).to.be['false'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('2^18')).to.be['false'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('17px')).to.be['false'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('*')).to.be['false'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('')).to.be['false'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(true)).to.be['false'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(false)).to.be['false'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric([])).to.be['false'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric({})).to.be['false'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(function () {})).to.be['false'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(undefined)).to.be['false'];
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(null)).to.be['false'];
       });
     });
   });
