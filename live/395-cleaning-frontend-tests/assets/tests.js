@@ -1453,7 +1453,6 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
         (0, _mocha.it)('Si l\'utilisateur valide, demande la sauvegarde du temps restant en secondes', function () {
           visitTimedChallenge();
           andThen(function () {
-            $('.last-post-request').remove();
             var $countDown = findWithAssert('.timeout-jauge-remaining');
             (0, _chai.expect)($countDown.text().trim()).to.equal('0:02');
           });
@@ -1463,20 +1462,19 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
           andThen(function () {
             (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
             (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.timeout')).to.equal(2);
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('2,4');
           });
         });
 
         (0, _mocha.it)('Si l\'utilisateur ABANDONNE, demande la sauvegarde du temps restant en secondes', function () {
           visitTimedChallenge();
           andThen(function () {
-            $('.last-post-request').remove();
-          });
-          andThen(function () {
             click(getSkipActionLink());
           });
           andThen(function () {
             (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
             (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.timeout')).to.equal(2);
+            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('#ABAND#');
           });
         });
       });
