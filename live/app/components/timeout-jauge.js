@@ -16,6 +16,7 @@ export default Ember.Component.extend({
   // public props, passed from template
   allotedTime: null,
 
+
   _totalTime: Ember.computed('allotedTime', function () {
     const actualAllotedTime = get(this, 'allotedTime');
     if (!_.isNumeric(actualAllotedTime)) {
@@ -23,28 +24,18 @@ export default Ember.Component.extend({
     }
     return 1000 * actualAllotedTime;
   }),
-
   _tickInterval: 1000,
-
   _timer: null,
-  elapsedTime: null,
-  currentTime: Date.now(),
+  _elapsedTime: null,
+  _currentTime: Date.now(),
 
-  // Ember Lifecycle Hook
-  init() {
-    this._super(...arguments);
 
-    // set(this, '_totalTime', 1000 * get(this, 'allotedTime'));
-    // set(this, '_tickInterval', 1000);
-    // set(this, '_timer', null);
-    // this.reset();
-    this.start();
-  },
-
-  remainingSeconds: computed('elapsedTime', function() {
-    return _.round((get(this, '_totalTime') - get(this, 'elapsedTime')) / 1000);
+  // public
+  remainingSeconds: computed('_elapsedTime', function() {
+    return _.round((get(this, '_totalTime') - get(this, '_elapsedTime')) / 1000);
   }),
 
+  // public
   remainingTime: computed('remainingSeconds', function() {
     if (get(this, 'remainingSeconds') < 0) {
       return '0:00';
@@ -52,11 +43,8 @@ export default Ember.Component.extend({
     return fmtMSS(get(this, 'remainingSeconds'));
   }),
 
-  hasFinished: computed('remainingSeconds', function() {
-    return get(this, 'remainingSeconds') <= 0;
-  }),
-
-  percentageOfTimeout: computed('elapsedTime', function() {
+  // public
+  percentageOfTimeout: computed('_elapsedTime', function() {
     const actualAllotedTime = get(this, 'allotedTime');
     if (!_.isNumeric(actualAllotedTime) || !_.isStrictlyPositiveInteger(actualAllotedTime.toString())) {
       return 0;
@@ -64,18 +52,13 @@ export default Ember.Component.extend({
     return 100 - (get(this, 'remainingSeconds') / actualAllotedTime) * 100;
   }),
 
-  // reset: function() {
-  //   set(this, 'elapsedTime', 0);
-  //   set(this, 'currentTime', Date.now());
-  // },
-
-  start: function() {
-    this.stop();
-    set(this, 'currentTime', Date.now());
-    this.tick();
+  _start: function() {
+    this._stop();
+    set(this, '_currentTime', Date.now());
+    this._tick();
   },
 
-  stop: function() {
+  _stop: function() {
     const _timer = get(this, '_timer');
 
     if (_timer) {
@@ -84,19 +67,26 @@ export default Ember.Component.extend({
     }
   },
 
-  tick: function() {
+  _tick: function() {
     if (ENV.environment !== 'test') {
 
       const _tickInterval = get(this, '_tickInterval');
-      const currentTime = get(this, 'currentTime');
-      const elapsedTime = get(this, 'elapsedTime');
+      const _currentTime = get(this, '_currentTime');
+      const _elapsedTime = get(this, '_elapsedTime');
       const now = Date.now();
 
-      set(this, 'elapsedTime', elapsedTime + (now - currentTime));
-      set(this, 'currentTime', now);
-      set(this, '_timer', run.later(this, this.tick, _tickInterval));
+      set(this, '_elapsedTime', _elapsedTime + (now - _currentTime));
+      set(this, '_currentTime', now);
+      set(this, '_timer', run.later(this, this._tick, _tickInterval));
     }
 
+  },
+
+
+  // Ember Lifecycle Hook
+  init() {
+    this._super(...arguments);
+    this._start();
   },
 
   // Ember Lifecycle Hook
@@ -104,10 +94,10 @@ export default Ember.Component.extend({
     if (ENV.environment === 'test') {
       const that = this;
       this.$().on('simulateOneMoreSecond', function() {
-        set(that, 'elapsedTime', get(that, 'elapsedTime') + 1000);
+        set(that, '_elapsedTime', get(that, '_elapsedTime') + 1000);
       });
-      this.$().on('resetElapsedTime', function() {
-        set(that, 'elapsedTime', 0);
+      this.$().on('reset_ElapsedTime', function() {
+        set(that, '_elapsedTime', 0);
       });
     }
   },
@@ -115,7 +105,7 @@ export default Ember.Component.extend({
 
   // Ember Lifecycle Hook
   willDestroyElement() {
-    this.stop();
+    this._stop();
   }
 
 });

@@ -65,21 +65,21 @@ describe('Unit | Component | timeout-jauge-component ', function () {
 
     describe('#percentageOfTimeout', function () {
       [
-        { allotedTime: new Date(), elapsedTime:4000,    expected: 0 },
-        { allotedTime: '  ',       elapsedTime:4000,    expected: 0 },
-        { allotedTime: undefined,  elapsedTime:4000,    expected: 0 },
-        { allotedTime: null,       elapsedTime:4000,    expected: 0 },
-        { allotedTime: '0',        elapsedTime:4000,    expected: 0 },
-        { allotedTime: '40',       elapsedTime:4000,    expected: 10 },
-        { allotedTime: '70',       elapsedTime:35000,   expected: 50 },
-        { allotedTime: '120',      elapsedTime:120000,  expected: 100 },
-        { allotedTime: 150,        elapsedTime:225000,  expected: 150 }
+        { allotedTime: new Date(), _elapsedTime:4000,    expected: 0 },
+        { allotedTime: '  ',       _elapsedTime:4000,    expected: 0 },
+        { allotedTime: undefined,  _elapsedTime:4000,    expected: 0 },
+        { allotedTime: null,       _elapsedTime:4000,    expected: 0 },
+        { allotedTime: '0',        _elapsedTime:4000,    expected: 0 },
+        { allotedTime: '40',       _elapsedTime:4000,    expected: 10 },
+        { allotedTime: '70',       _elapsedTime:35000,   expected: 50 },
+        { allotedTime: '120',      _elapsedTime:120000,  expected: 100 },
+        { allotedTime: 150,        _elapsedTime:225000,  expected: 150 }
       ].forEach((data) => {
 
-        it(`should return "${data.expected}" when alloting ${data.allotedTime} and elapsedTime is ${data.elapsedTime}`, function () {
+        it(`should return "${data.expected}" when alloting ${data.allotedTime} and _elapsedTime is ${data._elapsedTime}`, function () {
           // given
           component.set('allotedTime', data.allotedTime);
-          component.set('elapsedTime', data.elapsedTime);
+          component.set('_elapsedTime', data._elapsedTime);
           // when
           const percentageOfTimeout = component.get('percentageOfTimeout');
           // then
