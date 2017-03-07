@@ -4004,7 +4004,7 @@ define('pix-live/tests/integration/components/course-list-test.lint-test', ['exp
     });
   });
 });
-define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (exports, _ember, _chai, _mocha, _emberMocha, _emberTestHelpersWait) {
+define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait', 'pix-live/utils/lodash-custom'], function (exports, _ember, _chai, _mocha, _emberMocha, _emberTestHelpersWait, _pixLiveUtilsLodashCustom) {
 
   var LINK_VIEW = '.feedback-panel__view--link';
   var FORM_VIEW = '.feedback-panel__view--form';
@@ -4080,11 +4080,16 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
     (0, _mocha.describe)('Form view', function () {
 
       var isSaveMethodCalled = false;
+      var saveMethodBody = null;
+      var saveMethodUrl = null;
       var storeStub = _ember['default'].Service.extend({
         createRecord: function createRecord() {
+          var createRecordArgs = arguments;
           return Object.create({
             save: function save() {
               isSaveMethodCalled = true;
+              saveMethodUrl = createRecordArgs[0];
+              saveMethodBody = createRecordArgs[1];
               return _ember['default'].RSVP.resolve();
             }
           });
@@ -4107,7 +4112,10 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
         // stub store service
         this.register('service:store', storeStub);
         this.inject.service('store', { as: 'store' });
+
         isSaveMethodCalled = false;
+        saveMethodBody = null;
+        saveMethodUrl = null;
       });
 
       (0, _mocha.it)('should display only the "form" view', function () {
@@ -4149,15 +4157,27 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
         var _this = this;
 
         // given
+        var CONTENT_VALUE = 'Prêtes-moi ta plume, pour écrire un mot';
+        var EMAIL_VALUE = 'myemail@gemail.com';
         var $content = this.$('.feedback-panel__field--content');
-        $content.val('Prêtes-moi ta plume, pour écrire un mot');
+        var $email = this.$('.feedback-panel__field--email');
+        $content.val(CONTENT_VALUE);
+        $email.val(EMAIL_VALUE);
         $content.change();
+        $email.change();
 
         // when
         this.$(BUTTON_SEND).click();
+
         // then
         return (0, _emberTestHelpersWait['default'])().then(function () {
           (0, _chai.expect)(isSaveMethodCalled).to.be['true'];
+          (0, _chai.expect)(saveMethodUrl).to.equal('feedback');
+          (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isObject(saveMethodBody)).to.equal(true);
+          (0, _chai.expect)(saveMethodBody.assessement).to.exists;
+          (0, _chai.expect)(saveMethodBody.challenge).to.exists;
+          (0, _chai.expect)(saveMethodBody.content).to.equal(CONTENT_VALUE);
+          (0, _chai.expect)(saveMethodBody.email).to.equal(EMAIL_VALUE);
           expectMercixViewToBeVisible(_this);
         });
       });
