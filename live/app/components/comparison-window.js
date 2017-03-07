@@ -69,6 +69,10 @@ const ComparisonWindow = Ember.Component.extend({
     return labeledCheckboxes(this.get('challenge').get('_proposalsAsArray'), this.get('answer').get('_valueAsArrayOfBoolean'));
   }),
 
+  propositionsLabel: Ember.computed('answer', function() {
+    return labeledCheckboxes(this.get('challenge').get('_proposalsAsArray'), this.get('answer').get('_valueAsArrayOfBoolean'));
+  }),
+
   resultItemContent: Ember.computed('answer.result', function () {
     if(!this.get('answer.result')) return ;
     return contentReference[this.get('answer.result')] || contentReference['default'];

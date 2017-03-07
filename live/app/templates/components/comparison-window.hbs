@@ -152,7 +152,8 @@
 
       {{#if isAssessmentChallengeTypeQCU}}
         <div class="comparison-window__corrected-answers comparison-window__corrected-answers--qroc">
-          {{qroc-solution-panel answer=answer solution=solution }}
+          {{qcu-solution-panel propositionsLabel }}
+          {{log propositionsLabel 'First part'}}
         </div>
       {{/if}}
 
