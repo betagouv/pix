@@ -1125,28 +1125,17 @@ define('pix-live/components/timeout-jauge', ['exports', 'ember', 'pix-live/utils
       }
       return 1000 * actualAllotedTime;
     }),
-
     _tickInterval: 1000,
-
     _timer: null,
-    elapsedTime: null,
-    currentTime: Date.now(),
+    _elapsedTime: null,
+    _currentTime: Date.now(),
 
-    // Ember Lifecycle Hook
-    init: function init() {
-      this._super.apply(this, arguments);
-
-      // set(this, '_totalTime', 1000 * get(this, 'allotedTime'));
-      // set(this, '_tickInterval', 1000);
-      // set(this, '_timer', null);
-      // this.reset();
-      this.start();
-    },
-
-    remainingSeconds: computed('elapsedTime', function () {
-      return _pixLiveUtilsLodashCustom['default'].round((get(this, '_totalTime') - get(this, 'elapsedTime')) / 1000);
+    // public
+    remainingSeconds: computed('_elapsedTime', function () {
+      return _pixLiveUtilsLodashCustom['default'].round((get(this, '_totalTime') - get(this, '_elapsedTime')) / 1000);
     }),
 
+    // public
     remainingTime: computed('remainingSeconds', function () {
       if (get(this, 'remainingSeconds') < 0) {
         return '0:00';
@@ -1154,11 +1143,8 @@ define('pix-live/components/timeout-jauge', ['exports', 'ember', 'pix-live/utils
       return fmtMSS(get(this, 'remainingSeconds'));
     }),
 
-    hasFinished: computed('remainingSeconds', function () {
-      return get(this, 'remainingSeconds') <= 0;
-    }),
-
-    percentageOfTimeout: computed('elapsedTime', function () {
+    // public
+    percentageOfTimeout: computed('_elapsedTime', function () {
       var actualAllotedTime = get(this, 'allotedTime');
       if (!_pixLiveUtilsLodashCustom['default'].isNumeric(actualAllotedTime) || !_pixLiveUtilsLodashCustom['default'].isStrictlyPositiveInteger(actualAllotedTime.toString())) {
         return 0;
@@ -1166,18 +1152,13 @@ define('pix-live/components/timeout-jauge', ['exports', 'ember', 'pix-live/utils
       return 100 - get(this, 'remainingSeconds') / actualAllotedTime * 100;
     }),
 
-    // reset: function() {
-    //   set(this, 'elapsedTime', 0);
-    //   set(this, 'currentTime', Date.now());
-    // },
-
-    start: function start() {
-      this.stop();
-      set(this, 'currentTime', Date.now());
-      this.tick();
+    _start: function _start() {
+      this._stop();
+      set(this, '_currentTime', Date.now());
+      this._tick();
     },
 
-    stop: function stop() {
+    _stop: function _stop() {
       var _timer = get(this, '_timer');
 
       if (_timer) {
@@ -1186,18 +1167,24 @@ define('pix-live/components/timeout-jauge', ['exports', 'ember', 'pix-live/utils
       }
     },
 
-    tick: function tick() {
+    _tick: function _tick() {
       if (_pixLiveConfigEnvironment['default'].environment !== 'test') {
 
         var _tickInterval = get(this, '_tickInterval');
-        var currentTime = get(this, 'currentTime');
-        var elapsedTime = get(this, 'elapsedTime');
+        var _currentTime = get(this, '_currentTime');
+        var _elapsedTime = get(this, '_elapsedTime');
         var now = Date.now();
 
-        set(this, 'elapsedTime', elapsedTime + (now - currentTime));
-        set(this, 'currentTime', now);
-        set(this, '_timer', run.later(this, this.tick, _tickInterval));
+        set(this, '_elapsedTime', _elapsedTime + (now - _currentTime));
+        set(this, '_currentTime', now);
+        set(this, '_timer', run.later(this, this._tick, _tickInterval));
       }
+    },
+
+    // Ember Lifecycle Hook
+    init: function init() {
+      this._super.apply(this, arguments);
+      this._start();
     },
 
     // Ember Lifecycle Hook
@@ -1208,10 +1195,10 @@ define('pix-live/components/timeout-jauge', ['exports', 'ember', 'pix-live/utils
         (function () {
           var that = _this;
           _this.$().on('simulateOneMoreSecond', function () {
-            set(that, 'elapsedTime', get(that, 'elapsedTime') + 1000);
+            set(that, '_elapsedTime', get(that, '_elapsedTime') + 1000);
           });
-          _this.$().on('resetElapsedTime', function () {
-            set(that, 'elapsedTime', 0);
+          _this.$().on('reset_ElapsedTime', function () {
+            set(that, '_elapsedTime', 0);
           });
         })();
       }
@@ -1219,7 +1206,7 @@ define('pix-live/components/timeout-jauge', ['exports', 'ember', 'pix-live/utils
 
     // Ember Lifecycle Hook
     willDestroyElement: function willDestroyElement() {
-      this.stop();
+      this._stop();
     }
 
   });
@@ -4345,7 +4332,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.3+36465ac1"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.3+cd031a3b"});
 }
 
 /* jshint ignore:end */
