@@ -4179,7 +4179,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
   var BUTTON_SEND = '.follower-form__button';
   var INPUT_EMAIL = '.follower-email';
 
-  _mocha.describe.only('Integration | Component | follower form', function () {
+  (0, _mocha.describe)('Integration | Component | follower form', function () {
     (0, _emberMocha.setupComponentTest)('follower-form', {
       integration: true
     });
