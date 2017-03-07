@@ -4,54 +4,53 @@ import _ from 'lodash';
 
 const QrocmIndSolutionPanel = Ember.Component.extend({
 
-  answerObject: Ember.computed('answer',function () {
+  answerAsObject: Ember.computed('answer.value',function () {
     const yamlAnswer = this.get('answer.value');
     const answers = jsyaml.safeLoad(yamlAnswer);
-
     return answers;
   }),
 
-  solutionObject: Ember.computed('solution', function(){
+  solutionAsObject: Ember.computed('solution.value', function(){
     const yamlSolution = this.get('solution.value');
     const solution = jsyaml.safeLoad(yamlSolution);
     return solution;
   }),
 
-  labelsObject : Ember.computed('challenge', function(){
+  labelsAsObject : Ember.computed('challenge.proposals', function(){
     const proposalsBrut = this.get('challenge.proposals').replace(/\n/g, '');
-
     const proposalsSplitted = proposalsBrut.split(/\$\{|}/).slice(0, -1);
-
-    const labelsObject = {};
+    const labelsAsObject = {};
     proposalsSplitted.forEach((element, index) => {
       if (index % 2 != 0){
-        labelsObject[element] = proposalsSplitted[index - 1];
+        labelsAsObject[element] = proposalsSplitted[index - 1];
       }
     });
-
-    return labelsObject;
+    return labelsAsObject;
   }),
 
-  dataToDisplay : Ember.computed( 'solutionObject', function() {
-    const labelsObject = this.get('labelsObject');
-    const answerObject = this.get('answerObject');
-    const solutionObject = this.get('solutionObject');
+  dataToDisplay : Ember.computed('labelsAsObject', 'answerAsObject', 'solutionAsObject', function() {
+    const labelsAsObject = this.get('labelsAsObject');
+    const answerAsObject = this.get('answerAsObject');
+    const solutionAsObject = this.get('solutionAsObject');
 
-    const keys = _.keys(labelsObject);
+    const keys = _.keys(labelsAsObject);
     const dataToDisplay = [];
 
     keys.forEach(function (element) {
-      const isRightAnswer = _.includes(solutionObject[element].toString(), answerObject[element]) || answerObject[element] === solutionObject[element];
+      solutionAsObject[element].forEach((solution, index) => {
+        solutionAsObject[element][index] = solution.toString();
+      });
+
+      const isRightAnswer = _.includes(solutionAsObject[element], answerAsObject[element]);
       const labelAnswerSolution = {
-        label : labelsObject[element],
-        answer : answerObject[element],
-        solution : solutionObject[element],
+        label : labelsAsObject[element],
+        answer : answerAsObject[element],
+        solution : solutionAsObject[element],
         rightAnswer : isRightAnswer
       };
 
       dataToDisplay.push(labelAnswerSolution);
     });
-
     return dataToDisplay;
   })
 

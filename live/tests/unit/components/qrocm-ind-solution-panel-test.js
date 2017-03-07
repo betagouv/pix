@@ -51,10 +51,10 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
 
       //When
       const dataToDisplay = component.get('dataToDisplay');
+      const result = [{'label': 'Clé USB : ', 'answer':'1', 'solution': ['2'], 'rightAnswer' : false },
+        {'label': 'Carte mémoire (SD) : ', 'answer':'2', 'solution': ['1'], 'rightAnswer': false}];
 
       //then
-      const result = [{'label': 'Clé USB : ', 'answer':'1', 'solution': [2], 'rightAnswer' : false },
-        {'label': 'Carte mémoire (SD) : ', 'answer':'2', 'solution': [1], 'rightAnswer': false}];
 
       expect(dataToDisplay).to.be.deep.equal(result);
 
@@ -84,12 +84,12 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
       component.set('solution', solution);
       const dataToDisplay = component.get('dataToDisplay');
 
-      const result = [{ 'label': '- alain@pix.fr : ', 'answer': '1', 'solution': [2], 'rightAnswer': false },
-        { 'label': '- leonie@pix.fr : ', 'answer': '2', 'solution': [3, 4], 'rightAnswer': false },
-        { 'label': '- Programme_Pix.pdf : ', 'answer': '3', 'solution': [6], 'rightAnswer': false },
-        { 'label': '- lucie@pix.fr : ', 'answer': '4', 'solution': [1], 'rightAnswer': false },
-        { 'label': '- Programme du festival Pix : ', 'answer': '5', 'solution': [5], 'rightAnswer': true },
-        { 'label': '- jeremy@pix.fr : ', 'answer': '6', 'solution': [2], 'rightAnswer': false }];
+      const result = [{ 'label': '- alain@pix.fr : ', 'answer': '1', 'solution': ['2'], 'rightAnswer': false },
+        { 'label': '- leonie@pix.fr : ', 'answer': '2', 'solution': ['3', '4'], 'rightAnswer': false },
+        { 'label': '- Programme_Pix.pdf : ', 'answer': '3', 'solution': ['6'], 'rightAnswer': false },
+        { 'label': '- lucie@pix.fr : ', 'answer': '4', 'solution': ['1'], 'rightAnswer': false },
+        { 'label': '- Programme du festival Pix : ', 'answer': '5', 'solution': ['5'], 'rightAnswer': true },
+        { 'label': '- jeremy@pix.fr : ', 'answer': '6', 'solution': ['2'], 'rightAnswer': false }];
 
       //THEN
       expect(dataToDisplay).to.be.deep.equal(result);
@@ -116,8 +116,8 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
       component.set('solution', solution);
       const dataToDisplay = component.get('dataToDisplay');
 
-      const result = [{'label': '- Combien le dossier “projet PIX” contient-il de dossiers ? ', 'answer':'2', 'solution': [1], 'rightAnswer' : false },
-        {'label': '- Combien le dossier “images” contient-il de fichiers ? ', 'answer':'3', 'solution': [6], 'rightAnswer': false}];
+      const result = [{'label': '- Combien le dossier “projet PIX” contient-il de dossiers ? ', 'answer':'2', 'solution': ['1'], 'rightAnswer' : false },
+        {'label': '- Combien le dossier “images” contient-il de fichiers ? ', 'answer':'3', 'solution': ['6'], 'rightAnswer': false}];
 
       //THEN
       expect(dataToDisplay).to.be.deep.equal(result);
@@ -126,7 +126,7 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
 
   });
 
-  describe('#labelsObject', function () {
+  describe('#labelsAsObject', function () {
 
     it('should return an object with labels and key on the input', function () {
       // given
@@ -147,10 +147,10 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
       // when
       const component = this.subject();
       component.set('challenge', challenge);
-      const labelsObject = component.get('labelsObject');
+      const labelsAsObject = component.get('labelsAsObject');
 
       // then
-      expect(labelsObject).to.be.deep.equal(result);
+      expect(labelsAsObject).to.be.deep.equal(result);
 
     });
 
@@ -169,10 +169,10 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
       // when
       const component = this.subject();
       component.set('challenge', challenge);
-      const labelsObject = component.get('labelsObject');
+      const labelsAsObject = component.get('labelsAsObject');
 
       // then
-      expect(labelsObject).to.be.deep.equal(result);
+      expect(labelsAsObject).to.be.deep.equal(result);
     });
 
     it('should return an object with labels and key on the input', function () {
@@ -198,10 +198,10 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
       // when
       const component = this.subject();
       component.set('challenge', challenge);
-      const labelsObject = component.get('labelsObject');
+      const labelsAsObject = component.get('labelsAsObject');
 
       // then
-      expect(labelsObject).to.be.deep.equal(result);
+      expect(labelsAsObject).to.be.deep.equal(result);
     });
   });
 });

@@ -1,13 +1,18 @@
 <div class="qrocm-solution-panel rounded-panel">
   <div class="rounded-panel__row ">
 
-    <div style="border:1px solid red">
-      <div>{{answer.value}}</div>
-      <div>{{solution.value}}</div>
-      <div>{{challenge.proposals}}</div>
-    </div>
+    <div>
+      {{#each dataToDisplay as |row|}}
+        <div>
+          <span>{{row.label}}</span>
+          <input value="{{row.answer}}" disabled>
+        </div>
+        {{#unless row.rightAnswer}}
+          <div>La bonne reponse est : {{row.solution}}</div>
+        {{/unless}}
 
-    
+      {{/each}}
+    </div>
 
   </div>
 </div>
