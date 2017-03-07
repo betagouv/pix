@@ -1188,23 +1188,6 @@ define('pix-live/components/timeout-jauge', ['exports', 'ember', 'pix-live/utils
     },
 
     // Ember Lifecycle Hook
-    didInsertElement: function didInsertElement() {
-      var _this = this;
-
-      if (_pixLiveConfigEnvironment['default'].environment === 'test') {
-        (function () {
-          var that = _this;
-          _this.$().on('simulateOneMoreSecond', function () {
-            set(that, '_elapsedTime', get(that, '_elapsedTime') + 1000);
-          });
-          _this.$().on('reset_ElapsedTime', function () {
-            set(that, '_elapsedTime', 0);
-          });
-        })();
-      }
-    },
-
-    // Ember Lifecycle Hook
     willDestroyElement: function willDestroyElement() {
       this._stop();
     }
@@ -4332,7 +4315,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.3+cd031a3b"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.3+51b0813c"});
 }
 
 /* jshint ignore:end */

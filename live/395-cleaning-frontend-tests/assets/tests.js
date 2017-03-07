@@ -1439,42 +1439,20 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
     });
 
     (0, _mocha.describe)('Test quand la jauge est affichée', function () {
-      (0, _mocha.describe)('Format d\'affichage', function () {
 
-        beforeEach(function () {
-          (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
-          visit('/');
-        });
-
-        afterEach(function () {
-          (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
-        });
-
-        (0, _mocha.it)('valeur 70 en backend est affichée 1:10 dans le timer', function () {
-          (0, _pixLiveTestsHelpersSharedState.setTestingState)({ stubTimer: 70 });
-          visitTimedChallenge();
-
-          andThen(function () {
-            var $countDown = findWithAssert('.timeout-jauge-remaining');
-            (0, _chai.expect)($countDown.text().trim()).to.equal('1:10');
-          });
-        });
-
-        (0, _mocha.it)('valeur 2 en backend est affichée 0:02 dans le timer', function () {
-          visitTimedChallenge();
-          andThen(function () {
-            var $countDown = findWithAssert('.timeout-jauge-remaining');
-            (0, _chai.expect)($countDown.text().trim()).to.equal('0:02');
-          });
-        });
+      beforeEach(function () {
+        (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
+        visit('/');
       });
 
+      afterEach(function () {
+        (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
+      });
       (0, _mocha.describe)('Sauvegarde du temps passé | ', function () {
 
-        (0, _mocha.it)('Si l\'utilisateur valide et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
-          visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        (0, _mocha.it)('Si l\'utilisateur valide, demande la sauvegarde du temps restant en secondes', function () {
+          visitTimedChallenge();
           andThen(function () {
-            triggerEvent('.timeout-jauge', 'resetElapsedTime');
             $('.last-post-request').remove();
             var $countDown = findWithAssert('.timeout-jauge-remaining');
             (0, _chai.expect)($countDown.text().trim()).to.equal('0:02');
@@ -1488,29 +1466,9 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
           });
         });
 
-        (0, _mocha.it)('Si l\'utilisateur valide et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
+        (0, _mocha.it)('Si l\'utilisateur ABANDONNE, demande la sauvegarde du temps restant en secondes', function () {
           visitTimedChallenge();
           andThen(function () {
-            triggerEvent('.timeout-jauge', 'resetElapsedTime');
-            $('.last-post-request').remove();
-          });
-          andThen(function () {
-            triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // 1 second left
-            triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // 0 second left
-            triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // -1 second below 0
-            click(getValidateActionLink());
-          });
-          andThen(function () {
-            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
-            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.timeout')).to.equal(-1);
-          });
-        });
-
-        (0, _mocha.it)('Si l\'utilisateur ABANDONNE et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
-          (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
-          visitTimedChallenge();
-          andThen(function () {
-            triggerEvent('.timeout-jauge', 'resetElapsedTime');
             $('.last-post-request').remove();
           });
           andThen(function () {
@@ -1519,25 +1477,6 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
           andThen(function () {
             (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
             (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.timeout')).to.equal(2);
-          });
-        });
-
-        (0, _mocha.it)('Si l\'utilisateur ABANDONNE et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
-          (0, _pixLiveTestsHelpersSharedState.resetTestingState)();
-          visitTimedChallenge();
-          andThen(function () {
-            triggerEvent('.timeout-jauge', 'resetElapsedTime');
-            $('.last-post-request').remove();
-          });
-          andThen(function () {
-            triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // 1 second left
-            triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // 0 second left
-            triggerEvent('.timeout-jauge', 'simulateOneMoreSecond'); // -1 second below 0
-            click(getSkipActionLink());
-          });
-          andThen(function () {
-            (0, _chai.expect)((0, _pixLiveTestsHelpersSharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
-            (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].get((0, _pixLiveTestsHelpersSharedState.bodyOfLastPostRequest)(), 'data.attributes.timeout')).to.equal(-1);
           });
         });
       });
@@ -5498,11 +5437,12 @@ define('pix-live/tests/unit/components/timeout-jauge-test', ['exports', 'chai', 
     (0, _mocha.describe)('#Test rendering Property', function () {
 
       (0, _mocha.describe)('#remainingSeconds', function () {
-        [{ allotedTime: new Date(), expected: 0 }, { allotedTime: '  ', expected: 0 }, { allotedTime: undefined, expected: 0 }, { allotedTime: null, expected: 0 }, { allotedTime: '0', expected: 0 }, { allotedTime: '40', expected: 40 }, { allotedTime: '70', expected: 70 }, { allotedTime: '120', expected: 120 }, { allotedTime: 150, expected: 150 }].forEach(function (data) {
+        [{ allotedTime: new Date(), _elapsedTime: 0, expected: 0 }, { allotedTime: '  ', _elapsedTime: 0, expected: 0 }, { allotedTime: undefined, _elapsedTime: 0, expected: 0 }, { allotedTime: null, _elapsedTime: 0, expected: 0 }, { allotedTime: '0', _elapsedTime: 0, expected: 0 }, { allotedTime: '40', _elapsedTime: 0, expected: 40 }, { allotedTime: '70', _elapsedTime: 0, expected: 70 }, { allotedTime: '120', _elapsedTime: 0, expected: 120 }, { allotedTime: 150, _elapsedTime: 0, expected: 150 }, { allotedTime: '120', _elapsedTime: 60000, expected: 60 }, { allotedTime: '120', _elapsedTime: 90000, expected: 30 }, { allotedTime: '120', _elapsedTime: 120000, expected: 0 }, { allotedTime: '120', _elapsedTime: 150000, expected: -30 }].forEach(function (data) {
 
-          (0, _mocha.it)('should return "' + data.expected + '" when alloting ' + data.allotedTime, function () {
+          (0, _mocha.it)('should return "' + data.expected + '" when alloting ' + data.allotedTime + ' and _elapsedTime is ' + data._elapsedTime + 'ms', function () {
             // given
             component.set('allotedTime', data.allotedTime);
+            component.set('_elapsedTime', data._elapsedTime);
             // when
             var remainingSeconds = component.get('remainingSeconds');
             // then
@@ -5512,11 +5452,12 @@ define('pix-live/tests/unit/components/timeout-jauge-test', ['exports', 'chai', 
       });
 
       (0, _mocha.describe)('#remainingTime', function () {
-        [{ allotedTime: new Date(), expected: '0:00' }, { allotedTime: '  ', expected: '0:00' }, { allotedTime: undefined, expected: '0:00' }, { allotedTime: null, expected: '0:00' }, { allotedTime: '0', expected: '0:00' }, { allotedTime: '40', expected: '0:40' }, { allotedTime: '70', expected: '1:10' }, { allotedTime: '120', expected: '2:00' }, { allotedTime: 150, expected: '2:30' }].forEach(function (data) {
+        [{ allotedTime: new Date(), _elapsedTime: 0, expected: '0:00' }, { allotedTime: '  ', _elapsedTime: 0, expected: '0:00' }, { allotedTime: undefined, _elapsedTime: 0, expected: '0:00' }, { allotedTime: null, _elapsedTime: 0, expected: '0:00' }, { allotedTime: '0', _elapsedTime: 0, expected: '0:00' }, { allotedTime: '40', _elapsedTime: 0, expected: '0:40' }, { allotedTime: '70', _elapsedTime: 0, expected: '1:10' }, { allotedTime: '120', _elapsedTime: 0, expected: '2:00' }, { allotedTime: 150, _elapsedTime: 0, expected: '2:30' }, { allotedTime: '120', _elapsedTime: 60000, expected: '1:00' }, { allotedTime: '120', _elapsedTime: 90000, expected: '0:30' }, { allotedTime: '120', _elapsedTime: 120000, expected: '0:00' }, { allotedTime: '120', _elapsedTime: 150000, expected: '0:00' }].forEach(function (data) {
 
-          (0, _mocha.it)('should return "' + data.expected + '" when alloting ' + data.allotedTime, function () {
+          (0, _mocha.it)('should return "' + data.expected + '" when alloting ' + data.allotedTime + ' and _elapsedTime is ' + data._elapsedTime + 'ms', function () {
             // given
             component.set('allotedTime', data.allotedTime);
+            component.set('_elapsedTime', data._elapsedTime);
             // when
             var remainingTime = component.get('remainingTime');
             // then
@@ -5528,7 +5469,7 @@ define('pix-live/tests/unit/components/timeout-jauge-test', ['exports', 'chai', 
       (0, _mocha.describe)('#percentageOfTimeout', function () {
         [{ allotedTime: new Date(), _elapsedTime: 4000, expected: 0 }, { allotedTime: '  ', _elapsedTime: 4000, expected: 0 }, { allotedTime: undefined, _elapsedTime: 4000, expected: 0 }, { allotedTime: null, _elapsedTime: 4000, expected: 0 }, { allotedTime: '0', _elapsedTime: 4000, expected: 0 }, { allotedTime: '40', _elapsedTime: 4000, expected: 10 }, { allotedTime: '70', _elapsedTime: 35000, expected: 50 }, { allotedTime: '120', _elapsedTime: 120000, expected: 100 }, { allotedTime: 150, _elapsedTime: 225000, expected: 150 }].forEach(function (data) {
 
-          (0, _mocha.it)('should return "' + data.expected + '" when alloting ' + data.allotedTime + ' and _elapsedTime is ' + data._elapsedTime, function () {
+          (0, _mocha.it)('should return "' + data.expected + '" when alloting ' + data.allotedTime + ' and _elapsedTime is ' + data._elapsedTime + 'ms', function () {
             // given
             component.set('allotedTime', data.allotedTime);
             component.set('_elapsedTime', data._elapsedTime);
