@@ -76,6 +76,7 @@ describe('Integration | Component | feedback-panel', function () {
     let isSaveMethodCalled = false;
     let saveMethodBody = null;
     let saveMethodUrl = null;
+
     const storeStub = Ember.Service.extend({
       createRecord() {
         const createRecordArgs = arguments;
@@ -89,6 +90,7 @@ describe('Integration | Component | feedback-panel', function () {
         });
       }
     });
+
     beforeEach(function () {
       // configure answer & cie. model object
       const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();

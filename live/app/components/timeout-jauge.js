@@ -13,19 +13,36 @@ function fmtMSS (s) {return (s-(s%=60))/60+(9<s?':':':0')+s;}
 
 export default Ember.Component.extend({
 
+  // public props, passed from template
+  allotedTime: null,
+
+  _totalTime: Ember.computed('allotedTime', function () {
+    const actualAllotedTime = get(this, 'allotedTime');
+    if (!_.isNumeric(actualAllotedTime)) {
+      return 0;
+    }
+    return 1000 * actualAllotedTime;
+  }),
+
+  _tickInterval: 1000,
+
+  _timer: null,
+  elapsedTime: null,
+  currentTime: Date.now(),
+
   // Ember Lifecycle Hook
   init() {
     this._super(...arguments);
 
-    set(this, 'totalTime', 1000 * get(this, 'allotedTime'));
-    set(this, 'tickInterval', 1000);
-    set(this, 'timer', null);
-    this.reset();
+    // set(this, '_totalTime', 1000 * get(this, 'allotedTime'));
+    // set(this, '_tickInterval', 1000);
+    // set(this, '_timer', null);
+    // this.reset();
     this.start();
   },
 
   remainingSeconds: computed('elapsedTime', function() {
-    return _.round((get(this, 'totalTime') - get(this, 'elapsedTime')) / 1000);
+    return _.round((get(this, '_totalTime') - get(this, 'elapsedTime')) / 1000);
   }),
 
   remainingTime: computed('remainingSeconds', function() {
@@ -40,13 +57,17 @@ export default Ember.Component.extend({
   }),
 
   percentageOfTimeout: computed('elapsedTime', function() {
-    return 100 - (get(this, 'remainingSeconds') / get(this, 'allotedTime')) * 100;
+    const actualAllotedTime = get(this, 'allotedTime');
+    if (!_.isNumeric(actualAllotedTime) || !_.isStrictlyPositiveInteger(actualAllotedTime.toString())) {
+      return 0;
+    }
+    return 100 - (get(this, 'remainingSeconds') / actualAllotedTime) * 100;
   }),
 
-  reset: function() {
-    set(this, 'elapsedTime', 0);
-    set(this, 'currentTime', Date.now());
-  },
+  // reset: function() {
+  //   set(this, 'elapsedTime', 0);
+  //   set(this, 'currentTime', Date.now());
+  // },
 
   start: function() {
     this.stop();
@@ -55,25 +76,25 @@ export default Ember.Component.extend({
   },
 
   stop: function() {
-    const timer = get(this, 'timer');
+    const _timer = get(this, '_timer');
 
-    if (timer) {
-      run.cancel(timer);
-      set(this, 'timer', null);
+    if (_timer) {
+      run.cancel(_timer);
+      set(this, '_timer', null);
     }
   },
 
   tick: function() {
     if (ENV.environment !== 'test') {
 
-      const tickInterval = get(this, 'tickInterval');
+      const _tickInterval = get(this, '_tickInterval');
       const currentTime = get(this, 'currentTime');
       const elapsedTime = get(this, 'elapsedTime');
       const now = Date.now();
 
       set(this, 'elapsedTime', elapsedTime + (now - currentTime));
       set(this, 'currentTime', now);
-      set(this, 'timer', run.later(this, this.tick, tickInterval));
+      set(this, '_timer', run.later(this, this.tick, _tickInterval));
     }
 
   },
