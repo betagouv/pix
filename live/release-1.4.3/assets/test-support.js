@@ -20121,8 +20121,8 @@ define('ember-test-helpers/abstract-test-module', ['exports', 'ember-test-helper
 
   exports['default'] = _default;
 });
-define('ember-test-helpers/build-registry', ['exports', 'ember'], function (exports, _ember) {
-  /* globals global, self, requirejs, require */
+define('ember-test-helpers/build-registry', ['exports', 'require', 'ember'], function (exports, _require, _ember) {
+  /* globals global, self, requirejs */
 
   'use strict';
 
@@ -20222,7 +20222,7 @@ define('ember-test-helpers/build-registry', ['exports', 'ember'], function (expo
       // available on the globalContext and hence ember-data wouldn't be setup
       // correctly for the tests; that's why we import and call setupContainer
       // here; also see https://github.com/emberjs/data/issues/4071 for context
-      var setupContainer = require('ember-data/setup-container')['default'];
+      var setupContainer = (0, _require['default'])('ember-data/setup-container')['default'];
       setupContainer(registry || container);
     } else if (globalContext.DS) {
       var DS = globalContext.DS;
@@ -20894,8 +20894,8 @@ define('ember-test-helpers/test-module-for-integration', ['exports', 'ember', 'e
 
   exports['default'] = _default;
 });
-define('ember-test-helpers/test-module-for-model', ['exports', 'ember-test-helpers/test-module', 'ember'], function (exports, _emberTestHelpersTestModule, _ember) {
-  /* global DS, require, requirejs */ // added here to prevent an import from erroring when ED is not present
+define('ember-test-helpers/test-module-for-model', ['exports', 'require', 'ember-test-helpers/test-module', 'ember'], function (exports, _require, _emberTestHelpersTestModule, _ember) {
+  /* global DS, requirejs */ // added here to prevent an import from erroring when ED is not present
 
   'use strict';
 
@@ -20931,7 +20931,7 @@ define('ember-test-helpers/test-module-for-model', ['exports', 'ember-test-helpe
         var adapterFactory = container.factoryFor ? container.factoryFor('adapter:application') : container.lookupFactory('adapter:application');
         if (!adapterFactory) {
           if (requirejs.entries['ember-data/adapters/json-api']) {
-            adapterFactory = require('ember-data/adapters/json-api')['default'];
+            adapterFactory = (0, _require['default'])('ember-data/adapters/json-api')['default'];
           }
 
           // when ember-data/adapters/json-api is provided via ember-cli shims
