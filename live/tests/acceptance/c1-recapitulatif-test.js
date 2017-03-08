@@ -1,18 +1,18 @@
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { describe, it, before, after } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe.skip('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() {
+describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() {
 
   let application;
 
-  beforeEach(function () {
+  before(function () {
     application = startApp();
     visit('/assessments/ref_assessment_id/results');
   });
 
-  afterEach(function () {
+  after(function () {
     destroyApp(application);
   });
 
@@ -21,11 +21,11 @@ describe.skip('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', functi
   });
 
   it('c1.1 affiche une liste qui récapitule les réponses', function () {
-    findWithAssert('.assessment-results-list');
+    findWithAssert('.assessment-results__list');
   });
 
   it('c1.2 le tableau récapitulatif contient les instructions ', function () {
-    const $proposals = findWithAssert('.assessment-results-result');
+    const $proposals = findWithAssert('.result-item');
     expect($proposals.text()).to.contains('Un QCM propose plusieurs choix');
     expect($proposals.text()).to.contains('Un QCU propose plusieurs choix');
     expect($proposals.text()).to.contains('Un QROC est une question ouverte');
@@ -47,7 +47,11 @@ describe.skip('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', functi
   });
 
   it('c1.11. propose un moyen pour revenir à la liste des tests', function () {
-    findWithAssert('button.assessment-results-link-home');
+    findWithAssert('.assessment-results__index-link-container');
+  });
+
+  it('c1.12. La bannière est affichée', function () {
+    findWithAssert('.assessment-results__course-banner');
   });
 
 });
