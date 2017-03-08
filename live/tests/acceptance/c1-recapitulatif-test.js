@@ -32,7 +32,6 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
     expect($proposals.text()).to.contains('Un QROCM est une question ouverte');
   });
 
-  // See get-result-test.js too see all possibilities
   it('c1.3 Pour une mauvaise réponse, le tableau récapitulatif donne une indication adéquate', function () {
     const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
     expect($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
