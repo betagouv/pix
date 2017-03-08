@@ -2442,6 +2442,15 @@ define('pix-live/tests/components/qrocm-proposal.lint-test', ['exports'], functi
     });
   });
 });
+define('pix-live/tests/components/result-item.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/result-item.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/components/timeout-jauge.lint-test', ['exports'], function (exports) {
   'use strict';
 
