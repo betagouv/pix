@@ -72,9 +72,4 @@ const resultItem = Ember.Component.extend({
   }
 });
 
-
-resultItem.reopenClass({
-  positionalParams: ['answer', 'index']
-});
-
 export default resultItem;
