@@ -852,7 +852,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test.lint-test', ['e
 });
 define('pix-live/tests/acceptance/c1-recapitulatif-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function () {
+  _mocha.describe.skip('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function () {
 
     var application = undefined;
 
@@ -1572,7 +1572,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
     return str.match(/[a-zA-Z]/g).length;
   }
 
-  (0, _mocha.describe)('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', function () {
+  _mocha.describe.skip('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', function () {
 
     var RESULT_URL = '/assessments/ref_assessment_id/results';
     var COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1';
@@ -1946,15 +1946,12 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['expor
     var RESULT_URL = '/assessments/ref_assessment_id/results';
     var COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4';
 
-    var TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .assessment-results-result-titre .assessment-results-result-text';
     var SVG_OF_RESULT_SELECTOR = '.comparison-window__header .assessment-results-result-titre svg';
     var INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .assessment-results-result-index';
-
     var TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
-
     var CORRECTION_BOX_QROC = '.comparison-window__corrected-answers--qroc';
-
     var FEEDBACK_LINK = '.comparison-window__feedback-panel';
+
     var application = undefined;
 
     before(function () {
@@ -1967,66 +1964,27 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['expor
 
     (0, _mocha.describe)('j2.1 Possibilité de voir la correction d\'un challenge QROC depuis la page résultat', function () {
 
-      (0, _mocha.it)('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', function callee$2$0() {
-        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
-          while (1) switch (context$3$0.prev = context$3$0.next) {
-            case 0:
-              context$3$0.next = 2;
-              return regeneratorRuntime.awrap(visit(RESULT_URL));
-
-            case 2:
-              (0, _chai.expect)($('.assessment-results-list-item:eq(3) .js-correct-answer').text()).to.contain('RÉPONSE');
-
-            case 3:
-            case 'end':
-              return context$3$0.stop();
-          }
-        }, null, this);
+      before(function () {
+        visit(RESULT_URL);
       });
 
-      (0, _mocha.it)('ouvre la modale si on clique sur REPONSE', function callee$2$0() {
-        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
-          while (1) switch (context$3$0.prev = context$3$0.next) {
-            case 0:
-              context$3$0.next = 2;
-              return regeneratorRuntime.awrap(visit(RESULT_URL));
-
-            case 2:
-              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
-              context$3$0.next = 5;
-              return regeneratorRuntime.awrap(click('.assessment-results-result-correction-button'));
-
-            case 5:
-              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
-              context$3$0.next = 8;
-              return regeneratorRuntime.awrap(click('.close-button-container'));
-
-            case 8:
-              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
-
-            case 9:
-            case 'end':
-              return context$3$0.stop();
-          }
-        }, null, this);
+      (0, _mocha.it)('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', function () {
+        (0, _chai.expect)($('.result-item .js-correct-answer').text()).to.contain('RÉPONSE');
       });
 
-      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', function callee$2$0() {
+      (0, _mocha.it)('ne contient pas encore dinstruction, de lien vers un feedback, de zone de correction', function () {
+        (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(0);
+        (0, _chai.expect)($(FEEDBACK_LINK)).to.have.lengthOf(0);
+        (0, _chai.expect)($(CORRECTION_BOX_QROC)).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('n\'ouvre pas la modale par défaut', function callee$2$0() {
         return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
           while (1) switch (context$3$0.prev = context$3$0.next) {
             case 0:
-              context$3$0.next = 2;
-              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
-
-            case 2:
-              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
-              context$3$0.next = 5;
-              return regeneratorRuntime.awrap(click('.close-button-container'));
-
-            case 5:
               (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
 
-            case 6:
+            case 1:
             case 'end':
               return context$3$0.stop();
           }
@@ -2036,32 +1994,31 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['expor
 
     (0, _mocha.describe)('j2.2 Contenu de la modale de correction pour un QROC', function () {
 
+      before(function () {
+        visit(COMPARISON_MODAL_URL);
+      });
+
+      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
+
+            case 1:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
       (0, _mocha.it)('contient un header', function callee$2$0() {
         return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
           while (1) switch (context$3$0.prev = context$3$0.next) {
             case 0:
-              context$3$0.next = 2;
-              return regeneratorRuntime.awrap(visit(RESULT_URL));
-
-            case 2:
-              (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
-              (0, _chai.expect)($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
-              (0, _chai.expect)($(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
-
-              context$3$0.next = 7;
-              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
-
-            case 7:
               (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
               (0, _chai.expect)($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(1);
 
-              context$3$0.next = 11;
-              return regeneratorRuntime.awrap(click('.close-button-container'));
-
-            case 11:
-              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
-
-            case 12:
+            case 2:
             case 'end':
               return context$3$0.stop();
           }
@@ -2072,25 +2029,9 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['expor
         return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
           while (1) switch (context$3$0.prev = context$3$0.next) {
             case 0:
-              context$3$0.next = 2;
-              return regeneratorRuntime.awrap(visit(RESULT_URL));
-
-            case 2:
-              (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(0);
-
-              context$3$0.next = 5;
-              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
-
-            case 5:
               (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
 
-              context$3$0.next = 8;
-              return regeneratorRuntime.awrap(click('.close-button-container'));
-
-            case 8:
-              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
-
-            case 9:
+            case 1:
             case 'end':
               return context$3$0.stop();
           }
@@ -2101,19 +2042,9 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['expor
         return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
           while (1) switch (context$3$0.prev = context$3$0.next) {
             case 0:
-              context$3$0.next = 2;
-              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
-
-            case 2:
               (0, _chai.expect)($(CORRECTION_BOX_QROC)).to.have.lengthOf(1);
 
-              context$3$0.next = 5;
-              return regeneratorRuntime.awrap(click('.close-button-container'));
-
-            case 5:
-              (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
-
-            case 6:
+            case 1:
             case 'end':
               return context$3$0.stop();
           }
@@ -2124,19 +2055,26 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['expor
         return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
           while (1) switch (context$3$0.prev = context$3$0.next) {
             case 0:
-              context$3$0.next = 2;
-              return regeneratorRuntime.awrap(visit(COMPARISON_MODAL_URL));
-
-            case 2:
               (0, _chai.expect)($(FEEDBACK_LINK)).to.have.lengthOf(1);
 
-              context$3$0.next = 5;
+            case 1:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('il est possible de fermer la modale', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
               return regeneratorRuntime.awrap(click('.close-button-container'));
 
-            case 5:
+            case 2:
               (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
 
-            case 6:
+            case 3:
             case 'end':
               return context$3$0.stop();
           }
