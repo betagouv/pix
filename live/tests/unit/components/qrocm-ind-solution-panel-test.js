@@ -39,10 +39,10 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
         value : 'num1:\n- 4\nnum2:\n- 2\nnum3:\n- 1\nnum4:\n- 3'
       };
       const result = {
-        'num1': [4],
-        'num2': [2],
-        'num3': [1],
-        'num4': [3],
+        'num1': ['4'],
+        'num2': ['2'],
+        'num3': ['1'],
+        'num4': ['3'],
       };
       // when
       const component = this.subject();
@@ -59,9 +59,9 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
         value : 'num1:\n- 2\nnum2:\n- 3\n- 4\nnum3:\n- 1\n- 5\n- 6'
       };
       const result = {
-        'num1': [2],
-        'num2': [3, 4],
-        'num3': [1, 5, 6]
+        'num1': ['2'],
+        'num2': ['3', '4'],
+        'num3': ['1', '5', '6']
       };
       // when
       const component = this.subject();
@@ -165,8 +165,8 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
       const solution = {
         value: 'smiley1:\n- :-)\n- :)\n- :-D\n- :D\n- :))\n\nsmiley2:\n- :-(\n- :(\n- :(('
       };
-      const result = [{'label': 'content : ', 'answer':':)', 'solution': [':-)', ':)', ':-D', ':D', ':))'], 'rightAnswer' : true },
-        {'label': 'triste : ', 'answer':':(', 'solution': [':-(', ':(', ':(('], 'rightAnswer': true}];
+      const result = [{'label': 'content : ', 'answer':':)', 'solution': [':-)', ':)', ':-D', ':D', ':))'], 'rightAnswer' : true, 'wrongAnswer':false, 'noAnswer':false},
+        {'label': 'triste : ', 'answer':':(', 'solution': [':-(', ':(', ':(('], 'rightAnswer': true, 'wrongAnswer':false, 'noAnswer':false}];
 
 
       //when
@@ -191,6 +191,8 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
       const solution = {
         value: 'num1:\n- 2\nnum2:\n- 1'
       };
+      const result = [{'label': 'Clé USB : ', 'answer':'1', 'solution': ['2'], 'rightAnswer' : false, 'wrongAnswer' : true, 'noAnswer' : false },
+        {'label': 'Carte mémoire (SD) : ', 'answer':'2', 'solution': ['1'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false}];
 
       const component = this.subject();
       component.set('challenge', challenge);
@@ -199,11 +201,8 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
 
       //When
       const dataToDisplay = component.get('dataToDisplay');
-      const result = [{'label': 'Clé USB : ', 'answer':'1', 'solution': ['2'], 'rightAnswer' : false },
-        {'label': 'Carte mémoire (SD) : ', 'answer':'2', 'solution': ['1'], 'rightAnswer': false}];
 
       //then
-
       expect(dataToDisplay).to.be.deep.equal(result);
 
     });
@@ -227,8 +226,8 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
 
       //When
       const dataToDisplay = component.get('dataToDisplay');
-      const result = [{'label': 'Clé USB : ', 'answer':'Pas de réponse', 'solution': ['2'], 'rightAnswer' : false },
-        {'label': 'Carte mémoire (SD) : ', 'answer':'2', 'solution': ['1'], 'rightAnswer': false}];
+      const result = [{'label': 'Clé USB : ', 'answer':'Pas de réponse', 'solution': ['2'], 'rightAnswer' : false, 'wrongAnswer' : false, 'noAnswer' : true },
+        {'label': 'Carte mémoire (SD) : ', 'answer':'2', 'solution': ['1'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false}];
 
       //then
       expect(dataToDisplay).to.be.deep.equal(result);
@@ -259,12 +258,12 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
       component.set('solution', solution);
       const dataToDisplay = component.get('dataToDisplay');
 
-      const result = [{ 'label': '- alain@pix.fr : ', 'answer': '1', 'solution': ['2'], 'rightAnswer': false },
-        { 'label': '- leonie@pix.fr : ', 'answer': '2', 'solution': ['3', '4'], 'rightAnswer': false },
-        { 'label': '- Programme_Pix.pdf : ', 'answer': '3', 'solution': ['6'], 'rightAnswer': false },
-        { 'label': '- lucie@pix.fr : ', 'answer': '4', 'solution': ['1'], 'rightAnswer': false },
-        { 'label': '- Programme du festival Pix : ', 'answer': '5', 'solution': ['5'], 'rightAnswer': true },
-        { 'label': '- jeremy@pix.fr : ', 'answer': '6', 'solution': ['2'], 'rightAnswer': false }];
+      const result = [{ 'label': '- alain@pix.fr : ', 'answer': '1', 'solution': ['2'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
+        { 'label': '- leonie@pix.fr : ', 'answer': '2', 'solution': ['3', '4'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
+        { 'label': '- Programme_Pix.pdf : ', 'answer': '3', 'solution': ['6'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
+        { 'label': '- lucie@pix.fr : ', 'answer': '4', 'solution': ['1'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
+        { 'label': '- Programme du festival Pix : ', 'answer': '5', 'solution': ['5'], 'rightAnswer': true, 'wrongAnswer' : false, 'noAnswer' : false },
+        { 'label': '- jeremy@pix.fr : ', 'answer': '6', 'solution': ['2'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false }];
 
       //THEN
       expect(dataToDisplay).to.be.deep.equal(result);
@@ -291,8 +290,8 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
       component.set('solution', solution);
       const dataToDisplay = component.get('dataToDisplay');
 
-      const result = [{'label': '- Combien le dossier “projet PIX” contient-il de dossiers ? ', 'answer':'2', 'solution': ['1'], 'rightAnswer' : false },
-        {'label': '- Combien le dossier “images” contient-il de fichiers ? ', 'answer':'3', 'solution': ['6'], 'rightAnswer': false}];
+      const result = [{'label': '- Combien le dossier “projet PIX” contient-il de dossiers ? ', 'answer':'2', 'solution': ['1'], 'rightAnswer' : false, 'wrongAnswer' : true, 'noAnswer' : false },
+        {'label': '- Combien le dossier “images” contient-il de fichiers ? ', 'answer':'3', 'solution': ['6'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false}];
 
       //THEN
       expect(dataToDisplay).to.be.deep.equal(result);
