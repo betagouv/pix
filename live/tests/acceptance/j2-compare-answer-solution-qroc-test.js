@@ -11,12 +11,10 @@ describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', fu
   const TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title .comparison-window__title-text';
   const SVG_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title svg';
   const INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__result-item-index';
-
   const TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
-
   const CORRECTION_BOX_QROC = '.comparison-window__corrected-answers--qroc';
-
   const FEEDBACK_LINK = '.comparison-window__feedback-panel';
+
   let application;
 
   before(function () {
