@@ -4,16 +4,16 @@ import _ from 'lodash';
 
 const QrocmIndSolutionPanel = Ember.Component.extend({
 
-  answerAsObject: Ember.computed('answer.value',function () {
+  answersAsObject: Ember.computed('answer.value',function () {
     const yamlAnswer = this.get('answer.value');
     const answersObject = jsyaml.safeLoad(yamlAnswer);
     return answersObject;
   }),
 
-  solutionAsObject: Ember.computed('solution.value', function(){
+  solutionsAsObject: Ember.computed('solution.value', function(){
     const yamlSolution = this.get('solution.value');
-    const solutionObject = jsyaml.safeLoad(yamlSolution);
-    return solutionObject;
+    const solutionsObject = jsyaml.safeLoad(yamlSolution);
+    return solutionsObject;
   }),
 
   labelsAsObject : Ember.computed('challenge.proposals', function(){
@@ -28,24 +28,30 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
     return labelsAsObject;
   }),
 
-  dataToDisplay : Ember.computed('labelsAsObject', 'answerAsObject', 'solutionAsObject', function() {
+  dataToDisplay : Ember.computed('labelsAsObject', 'answersAsObject', 'solutionsAsObject', function() {
     const labelsAsObject = this.get('labelsAsObject');
-    const answerAsObject = this.get('answerAsObject');
-    const solutionAsObject = this.get('solutionAsObject');
+    const answersAsObject = this.get('answersAsObject');
+    const solutionsAsObject = this.get('solutionsAsObject');
 
     const keys = _.keys(labelsAsObject);
     const dataToDisplay = [];
 
     keys.forEach(function (element) {
-      solutionAsObject[element].forEach((solutionKey, index) => {
-        solutionAsObject[element][index] = solutionKey.toString();
+      solutionsAsObject[element].forEach((solutionKey, index) => {
+        solutionsAsObject[element][index] = solutionKey.toString();
       });
 
-      const isRightAnswer = _.includes(solutionAsObject[element], answerAsObject[element]);
+      _.each(answersAsObject, (value, key) => {
+        if (answersAsObject[key] === ''){
+          answersAsObject[key] = 'Pas de réponse';
+        }
+      });
+
+      const isRightAnswer = _.includes(solutionsAsObject[element], answersAsObject[element]);
       const labelAnswerSolution = {
         label : labelsAsObject[element],
-        answer : answerAsObject[element],
-        solution : solutionAsObject[element],
+        answer : answersAsObject[element],
+        solution : solutionsAsObject[element],
         rightAnswer : isRightAnswer
       };
 
