@@ -21,4 +21,79 @@ describe('Integration | Component | qrocm solution panel', function() {
     this.render(hbs`{{qrocm-solution-panel}}`);
     expect(this.$()).to.have.length(1);
   });
+
+  it('should disabled all inputs', function () {
+    // given
+    this.render(hbs`{{qroc-solution-panel}}`);
+    const input = this.$('input');
+    // then
+    expect(input).to.be.disabled;
+  });
+
+  describe('comparison of a qrocm-ind with a right answer, a wrong answer and one empty answer', function () {
+
+    describe('right answer display', function () {
+
+      it('should display the right answer in green bold', function () {
+        // given
+
+        // when
+
+        // then
+
+      });
+
+      it('should not display the solution', function () {
+        // given
+
+        // when
+
+        // then
+
+      });
+    });
+
+    describe('wrong answer display', function () {
+
+      it('should display the wrong answer in the second div line-throughed bold', function () {
+        // given
+
+        // when
+
+        // then
+
+      });
+
+      it('should display one solution in bold green below the input', function () {
+        // given
+
+        // when
+
+        // then
+
+      });
+    });
+
+    describe('no answer display', function () {
+
+      it('should display the empty answer in the third div with "pas de réponse" in italic', function () {
+        // given
+
+        // when
+
+        // then
+
+      });
+
+      it('should display one solution in bold green below the input', function () {
+        // given
+
+        // when
+
+        // then
+
+      });
+    });
+
+  });
 });

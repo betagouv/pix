@@ -153,7 +153,7 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
   });
 
   describe('#dataToDisplay', function () {
-
+    //A REFLECHIR S'IL NE VAUDRAIT PAS MIEUX DEFINIR DES LABELS,ANSWER ET SOLUTION AS OBJECT
     it('should return an array with data to display (case when the answers are right)', function () {
       //Given
       const challenge = {
@@ -165,8 +165,8 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
       const solution = {
         value: 'smiley1:\n- :-)\n- :)\n- :-D\n- :D\n- :))\n\nsmiley2:\n- :-(\n- :(\n- :(('
       };
-      const result = [{'label': 'content : ', 'answer':':)', 'solution': [':-)', ':)', ':-D', ':D', ':))'], 'rightAnswer' : true, 'wrongAnswer':false, 'noAnswer':false},
-        {'label': 'triste : ', 'answer':':(', 'solution': [':-(', ':(', ':(('], 'rightAnswer': true, 'wrongAnswer':false, 'noAnswer':false}];
+      const result = [{'label': 'content : ', 'answer':':)', 'solution': ':-)', 'rightAnswer' : true, 'wrongAnswer':false, 'noAnswer':false},
+        {'label': 'triste : ', 'answer':':(', 'solution': ':-(', 'rightAnswer': true, 'wrongAnswer':false, 'noAnswer':false}];
 
 
       //when
@@ -191,8 +191,8 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
       const solution = {
         value: 'num1:\n- 2\nnum2:\n- 1'
       };
-      const result = [{'label': 'Clé USB : ', 'answer':'1', 'solution': ['2'], 'rightAnswer' : false, 'wrongAnswer' : true, 'noAnswer' : false },
-        {'label': 'Carte mémoire (SD) : ', 'answer':'2', 'solution': ['1'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false}];
+      const result = [{'label': 'Clé USB : ', 'answer':'1', 'solution': '2', 'rightAnswer' : false, 'wrongAnswer' : true, 'noAnswer' : false },
+        {'label': 'Carte mémoire (SD) : ', 'answer':'2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false}];
 
       const component = this.subject();
       component.set('challenge', challenge);
@@ -201,6 +201,9 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
 
       //When
       const dataToDisplay = component.get('dataToDisplay');
+
+      console.log('dataToDisplay : ' + JSON.stringify(dataToDisplay));
+      console.log('resultttttttt : ' + JSON.stringify(result));
 
       //then
       expect(dataToDisplay).to.be.deep.equal(result);
@@ -226,8 +229,8 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
 
       //When
       const dataToDisplay = component.get('dataToDisplay');
-      const result = [{'label': 'Clé USB : ', 'answer':'Pas de réponse', 'solution': ['2'], 'rightAnswer' : false, 'wrongAnswer' : false, 'noAnswer' : true },
-        {'label': 'Carte mémoire (SD) : ', 'answer':'2', 'solution': ['1'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false}];
+      const result = [{'label': 'Clé USB : ', 'answer':'Pas de réponse', 'solution': '2', 'rightAnswer' : false, 'wrongAnswer' : false, 'noAnswer' : true },
+        {'label': 'Carte mémoire (SD) : ', 'answer':'2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false}];
 
       //then
       expect(dataToDisplay).to.be.deep.equal(result);
@@ -258,12 +261,12 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
       component.set('solution', solution);
       const dataToDisplay = component.get('dataToDisplay');
 
-      const result = [{ 'label': '- alain@pix.fr : ', 'answer': '1', 'solution': ['2'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
-        { 'label': '- leonie@pix.fr : ', 'answer': '2', 'solution': ['3', '4'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
-        { 'label': '- Programme_Pix.pdf : ', 'answer': '3', 'solution': ['6'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
-        { 'label': '- lucie@pix.fr : ', 'answer': '4', 'solution': ['1'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
-        { 'label': '- Programme du festival Pix : ', 'answer': '5', 'solution': ['5'], 'rightAnswer': true, 'wrongAnswer' : false, 'noAnswer' : false },
-        { 'label': '- jeremy@pix.fr : ', 'answer': '6', 'solution': ['2'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false }];
+      const result = [{ 'label': '- alain@pix.fr : ', 'answer': '1', 'solution': '2', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
+        { 'label': '- leonie@pix.fr : ', 'answer': '2', 'solution': '3', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
+        { 'label': '- Programme_Pix.pdf : ', 'answer': '3', 'solution': '6', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
+        { 'label': '- lucie@pix.fr : ', 'answer': '4', 'solution': '1', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
+        { 'label': '- Programme du festival Pix : ', 'answer': '5', 'solution': '5', 'rightAnswer': true, 'wrongAnswer' : false, 'noAnswer' : false },
+        { 'label': '- jeremy@pix.fr : ', 'answer': '6', 'solution': '2', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false }];
 
       //THEN
       expect(dataToDisplay).to.be.deep.equal(result);
@@ -290,8 +293,8 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
       component.set('solution', solution);
       const dataToDisplay = component.get('dataToDisplay');
 
-      const result = [{'label': '- Combien le dossier “projet PIX” contient-il de dossiers ? ', 'answer':'2', 'solution': ['1'], 'rightAnswer' : false, 'wrongAnswer' : true, 'noAnswer' : false },
-        {'label': '- Combien le dossier “images” contient-il de fichiers ? ', 'answer':'3', 'solution': ['6'], 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false}];
+      const result = [{'label': '- Combien le dossier “projet PIX” contient-il de dossiers ? ', 'answer':'2', 'solution': '1', 'rightAnswer' : false, 'wrongAnswer' : true, 'noAnswer' : false },
+        {'label': '- Combien le dossier “images” contient-il de fichiers ? ', 'answer':'3', 'solution': '6', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false}];
 
       //THEN
       expect(dataToDisplay).to.be.deep.equal(result);
