@@ -1,4 +1,5 @@
 import Ember from 'ember';
+
 const contentReference = {
   ok: {
     title: 'Réponse correcte',
@@ -55,9 +56,10 @@ const resultItem = Ember.Component.extend({
     return contentReference[this.get('answer.result')] || contentReference['default'];
   }),
 
-  hasResponseButton: Ember.computed('answer.challenge.type', function () {
-    if (!this.get('answer.challenge.type')) return;
-    return allowedButtonFor.indexOf(this.get('answer.challenge.type')) > -1;
+  validationImplementedForChallengeType: Ember.computed('answer.challenge.type', function () {
+    const implementedTypes = ['QCM', 'QROC'];
+    const challengeType = this.get('answer.challenge.type');
+    return implementedTypes.includes(challengeType);
   }),
 
   actions: {
