@@ -56,7 +56,7 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
       const labelAnswerSolution = {
         label: labelsAsObject[key],
         answer: answersAsObject[key],
-        solution: solutionsAsObject[key],
+        solution: solutionsAsObject[key][0],
         rightAnswer: isRightAnswer,
         wrongAnswer: isWrongAnswer,
         noAnswer: noAnswer

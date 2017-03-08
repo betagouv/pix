@@ -1,16 +1,17 @@
 .correction-qrocm{
   padding : 10px;
-  /*border: 1px solid red;*/
+  display: flex;
+  flex-direction: row;
 }
 
-.correction-qrocm__answer{
-
-}
-
-.correction-qrocm__answer-label{
+.correction-qrocm__label{
   font-family: var(--font-lato);
   font-size: 16px;
   color: var(--charcoal-grey);
+}
+
+.correction-qrocm__answer-solution{
+  margin-left: 10px;
 }
 
 .correction-qrocm__answer-input{
@@ -25,15 +26,15 @@
 .correction-qrocm__solution{
   display: flex;
   align-items: center;
-  margin-top: 2px;
-
-  border: solid 1px blue;
-
+  margin-top: 4px;
 }
 
 .correction-qrocm__solution-text{
   font-family: var(--font-lato);
   font-weight: bold;
   color: #13c9a0;
+  font-size: 16px;
+  margin-left: 3px;
+  padding-bottom: 1px;
 }
 
