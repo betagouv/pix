@@ -6,14 +6,14 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
 
   answerAsObject: Ember.computed('answer.value',function () {
     const yamlAnswer = this.get('answer.value');
-    const answers = jsyaml.safeLoad(yamlAnswer);
-    return answers;
+    const answersObject = jsyaml.safeLoad(yamlAnswer);
+    return answersObject;
   }),
 
   solutionAsObject: Ember.computed('solution.value', function(){
     const yamlSolution = this.get('solution.value');
-    const solution = jsyaml.safeLoad(yamlSolution);
-    return solution;
+    const solutionObject = jsyaml.safeLoad(yamlSolution);
+    return solutionObject;
   }),
 
   labelsAsObject : Ember.computed('challenge.proposals', function(){
@@ -37,8 +37,8 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
     const dataToDisplay = [];
 
     keys.forEach(function (element) {
-      solutionAsObject[element].forEach((solution, index) => {
-        solutionAsObject[element][index] = solution.toString();
+      solutionAsObject[element].forEach((solutionKey, index) => {
+        solutionAsObject[element][index] = solutionKey.toString();
       });
 
       const isRightAnswer = _.includes(solutionAsObject[element], answerAsObject[element]);
