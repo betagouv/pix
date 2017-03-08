@@ -54,159 +54,116 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
     destroyApp(application);
   });
 
-  describe('j1.1 Affiche sur la ligne de l\'épreuve le mot REPONSE pour un QCM sur l\'écran des résultats', function () {
-    it('j1.1.1 il l\'affiche pour un QCM mais pas pour les autres types d\'épreuves' , async function () {
-      await visit(RESULT_URL);
+  describe('j1.1 Sur l\'écran des résultats', function () {
+    before(function () {
+      visit(RESULT_URL);
+    });
+    it('j1.1.1 on n\'affiche un lien permettant de connaître la réponse pour un QCM' , async function () {
       expect($('.result-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
-      expect($('.result-item:eq(1) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QCU
-      expect($('.result-item:eq(2) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QRU
-      expect($('.result-item:eq(3) .js-correct-answer').text()).to.contain('RÉPONSE'); //QROC
-      expect($('.result-item:eq(4) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROCM
+    });
+    it('j1.1.2 on n\'affiche pas encore la modale ni son contenu' , async function () {
+      expect($('.comparison-window')).to.have.lengthOf(0);
+      expect($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+      expect($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+      expect($(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+      expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
     });
   });
 
   describe('j1.2 Accès à la modale', function () {
-    it('j1.2.2 On peut accèder directement à la modale via URL et fermer la modale' , async function () {
-      await visit(COMPARISON_MODAL_URL);
-      expect($('.comparison-window')).to.have.lengthOf(1);
-      // XXX test env needs the modal to be closed manually
-      await click('.close-button-container');
-      expect($('.comparison-window')).to.have.lengthOf(0);
+    before(function () {
+      visit(COMPARISON_MODAL_URL);
     });
-    it('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre' , async function () {
-      await visit(RESULT_URL);
-      expect($('.comparison-window')).to.have.lengthOf(0);
-      await click('.result-item__correction__button');
+    it('j1.2.2 On peut accèder directement à la modale via URL' , async function () {
       expect($('.comparison-window')).to.have.lengthOf(1);
-      // XXX test env needs the modal to be closed manually
-      await click('.close-button-container');
-      expect($('.comparison-window')).to.have.lengthOf(0);
     });
+
   });
 
   describe('j1.3 Contenu de la modale : résultat & instruction', function () {
 
+    before(function () {
+      visit(COMPARISON_MODAL_URL);
+    });
+
     it('j1.3.1 Vérification de l\'index, ainsi que l\'image et le texte du résultat dans le header', async function () {
 
-      await visit(RESULT_URL);
-      expect($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
-      expect($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
-      expect($(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
-
-      await visit(COMPARISON_MODAL_URL);
       expect($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('1');
       expect($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(1);
       expect(charCount($(TEXT_OF_RESULT_SELECTOR).text())).to.be.above(5);// XXX : Above 5 means "must be a sentence"
 
-      // XXX test env needs the modal to be closed manually
-      await click('.close-button-container');
-      expect($('.comparison-window')).to.have.lengthOf(0);
     });
 
     it('j1.3.2 Vérification de la présence de l\'instruction, texte et image', async function () {
 
-      await visit(RESULT_URL);
-      expect($(TEXT_OF_INSTRUCTION_SELECTOR)).to.exist;
-      expect($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.exist;
-
-      await visit(COMPARISON_MODAL_URL);
       expect(charCount($(TEXT_OF_INSTRUCTION_SELECTOR).text())).to.be.above(5);// XXX : Above 5 means "must be a sentence"
       expect($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
 
-      // XXX test env needs the modal to be closed manually
-      await click('.close-button-container');
-      expect($('.comparison-window')).to.have.lengthOf(0);
     });
+
+
+
+
 
   });
 
 
   describe('j1.4 Contenu de la modale : propositions', function () {
 
+    before(function () {
+      visit(COMPARISON_MODAL_URL);
+    });
+
     it('j1.4.1 QCM correcte et cochée', async function () {
 
-      await visit(RESULT_URL);
-      expect($(CHECKBOX_CORRECT_AND_CHECKED)).to.exist;
-      expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
-
-      await visit(COMPARISON_MODAL_URL);
       expect($(CHECKBOX_CORRECT_AND_CHECKED).is(':checked')).to.equal(true);
       expect(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
       expect($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
       expect($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
       expect($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
 
-      // XXX test env needs the modal to be closed manually
-      await click('.close-button-container');
-      expect($('.comparison-window')).to.have.lengthOf(0);
     });
 
     it('j1.4.2 QCM correcte et non cochée', async function () {
 
-      await visit(RESULT_URL);
-      expect($(CHECKBOX_CORRECT_AND_UNCHECKED)).to.have.lengthOf(0);
-      expect($(LABEL_CORRECT_AND_UNCHECKED)).to.have.lengthOf(0);
-
-
-      await visit(COMPARISON_MODAL_URL);
       expect($(CHECKBOX_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
       expect(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
       expect($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
       expect($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
       expect($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
 
-      // XXX test env needs the modal to be closed manually
-      await click('.close-button-container');
-      expect($('.comparison-window')).to.have.lengthOf(0);
     });
 
     it('j1.4.3 QCM incorrecte et cochée', async function () {
 
-      await visit(RESULT_URL);
-      expect($(CHECKBOX_INCORRECT_AND_CHECKED)).to.have.lengthOf(0);
-      expect($(LABEL_INCORRECT_AND_CHECKED)).to.have.lengthOf(0);
-
-
-      await visit(COMPARISON_MODAL_URL);
       expect($(CHECKBOX_INCORRECT_AND_CHECKED).is(':checked')).to.equal(true);
       expect(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
       expect($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
       expect($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
       expect($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_ON);
 
-      // XXX test env needs the modal to be closed manually
-      await click('.close-button-container');
-      expect($('.comparison-window')).to.have.lengthOf(0);
     });
 
     it('j1.4.4 QCM incorrecte et non cochée', async function () {
 
-      await visit(RESULT_URL);
-      expect($(CHECKBOX_INCORRECT_AND_UNCHECKED)).to.have.lengthOf(0);
-      expect($(LABEL_INCORRECT_AND_UNCHECKED)).to.have.lengthOf(0);
-
-
-      await visit(COMPARISON_MODAL_URL);
       expect($(CHECKBOX_INCORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
       expect(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
       expect($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
       expect($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
       expect($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
 
-      // XXX test env needs the modal to be closed manually
-      await click('.close-button-container');
-      expect($('.comparison-window')).to.have.lengthOf(0);
     });
 
     it('j1.4.5 Aucune case à cocher n\'est cliquable', async function () {
 
-      await visit(COMPARISON_MODAL_URL);
       const size = $('.comparison-window .comparison-window-boolean').length;
       _.times(size, function(index) {
         expect($('.comparison-window .comparison-window-boolean:eq('+ index + ')').is(':disabled')).to.equal(true);
       });
 
-      // XXX test env needs the modal to be closed manually
+    });
+
+    it('j1.4.6 On peut fermer la modale', async function () {
       await click('.close-button-container');
       expect($('.comparison-window')).to.have.lengthOf(0);
     });
