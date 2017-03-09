@@ -1,0 +1,15 @@
+.feature-list {
+  width: 100%;
+}
+
+.feature-list__ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.feature-list__li {
+  margin: 0 20px;
+}

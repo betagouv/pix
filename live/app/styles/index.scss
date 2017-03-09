@@ -15,13 +15,9 @@ $challenges-title-color: #3d68ff;
  - Partners
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-.index-page {
-
-}
-
 .index-page__background {
   position: absolute;
-  background: url("/images/index-hero-background.jpg");
+  background: url("/images/index-hero-bg.jpg");
   background-size: cover;
   height: 700px;
   width: 100%;
@@ -104,12 +100,15 @@ $challenges-title-color: #3d68ff;
 
 /* Community
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+
 .index-page-community {
   height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: $white;
+  background: url("/images/index-community-bg.png");
+  background-size: cover;
 
   @media (min-width: 992px) {
     height: 500px;
@@ -135,9 +134,9 @@ $challenges-title-color: #3d68ff;
 .index-page-community__description {
   margin-top: 10px;
   margin-bottom: 0;
-  font-family: $font-lato;
+  font-family: $font-raleway;
   font-size: 28px;
-  max-width: 560px;
+  max-width: 600px;
   text-align: center;
 }
 
@@ -163,62 +162,38 @@ $challenges-title-color: #3d68ff;
 
 /* Features
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+
 .index-page-features {
+  background-color: $white;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  background-color: white;
-  padding-top: 50px;
-
-  @media (min-width: 992px) {
-    padding-top: 75px;
-    flex-direction: row;
-  }
 }
 
-.index-page-feature {
-  height: 260px;
-  width: 200px;
-
-  @media (min-width: 992px) {
-    height: 294px;
-    margin-left: 35px;
-  }
-}
-
-.index-page-feature:first-child {
-
-  @media (min-width: 992px) {
-    margin-left: 0;
-  }
-}
-
-.index-page-feature__icon-container {
-  display: flex;
-  justify-content: center;
-  height: 107px;
-}
-
-.index-page-feature__title {
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 1.4;
+.index-page-features__project-button {
+  margin-top: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: $marigold;
+  text-transform: uppercase;
+  color: $charcoal-grey;
+  font-size: 13px;
   text-align: center;
-  margin-top: 20px;
-  color: #3e4149;
+  letter-spacing: 1px;
+  font-weight: 600;
+  font-family: $font-lato;
+  padding: 10px 30px;
 
-  @media (min-width: 992px) {
-    margin-left: 0;
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: none;
+    color: $charcoal-grey;
   }
 }
 
-.index-page-feature__text {
-  font-size: 15px;
-  margin-top: 12px;
-  color: #3e4149;
-  text-align: center;
-}
+/* Partners
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .index-page-about {
   padding-bottom: 80px;
