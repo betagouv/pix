@@ -8,8 +8,17 @@
   margin: 0;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
+
+  @media (min-width: 992px) {
+    flex-direction: row;
+  }
 }
 
 .feature-list__li {
-  margin: 0 20px;
+  margin-bottom: 20px;
+
+  @media (min-width: 992px) {
+    margin: 0 20px;
+  }
 }

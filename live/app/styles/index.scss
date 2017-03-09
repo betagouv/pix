@@ -25,13 +25,17 @@ $challenges-title-color: #3d68ff;
 }
 
 .index-page__section {
-  padding: 80px 0;
+  padding: 80px 20px;
+
+  @media (min-width: 992px) {
+    padding: 80px 0;
+  }
 }
 
 /* Hero
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .index-page__section--hero {
-  padding: 0;
+  padding-top: 0;
 }
 
 .index-page-hero {
@@ -46,14 +50,17 @@ $challenges-title-color: #3d68ff;
 }
 
 .index-page-hero__title {
-  margin-top: 270px;
-  height: 70px;
-  font-size: 50px;
+  margin-top: 140px;
   line-height: 1.4;
   font-family: $font-raleway;
   font-weight: 700;
   color: $white;
   text-align: center;
+
+  @media (min-width: 992px) {
+    font-size: 50px;
+    margin-top: 270px;
+  }
 }
 
 .index-page-hero__description {
@@ -61,8 +68,11 @@ $challenges-title-color: #3d68ff;
   color: $white;
   text-align: center;
   font-size: 22px;
-  padding: 0 200px;
   font-weight: 300;
+
+  @media (min-width: 992px) {
+    padding: 0 200px;
+  }
 }
 
 
@@ -138,6 +148,7 @@ $challenges-title-color: #3d68ff;
   font-size: 28px;
   max-width: 600px;
   text-align: center;
+  font-weight: 300;
 }
 
 .index-page-community__form {

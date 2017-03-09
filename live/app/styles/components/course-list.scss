@@ -8,6 +8,11 @@
   margin: 0;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
+
+  @media (min-width: 992px) {
+    flex-direction: row;
+  }
 }
 
 .course-list__li {
