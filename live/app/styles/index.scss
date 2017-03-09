@@ -10,7 +10,7 @@ $challenges-title-color: #3d68ff;
  - General
  - Hero
  - Challenges
- - Betatest
+ - Community
  - Features
  - Partners
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -86,9 +86,10 @@ $challenges-title-color: #3d68ff;
 }
 
 .index-page-challenges__title {
-  width: 600px;
+  max-width: 600px;
   font-size: 32px;
-  font-weight: 900;
+  font-family: $font-raleway;
+  font-weight: 800;
   color: $challenges-title-color;
   margin: 0 auto;
   text-transform: uppercase;
@@ -101,37 +102,50 @@ $challenges-title-color: #3d68ff;
   max-width: 1200px;
 }
 
-/* Email
+/* Community
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-.index-page-email {
-  height: 260px;
-  background-color: $pix-blue;
+.index-page-community {
+  height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  color: $white;
 
   @media (min-width: 992px) {
-    height: 350px;
+    height: 500px;
   }
 }
 
-.index-page-email__title {
+.index-page-community__title {
   font-size: 24px;
-  margin-bottom: 24px;
+  font-family: $font-raleway;
   font-weight: bold;
   text-align: center;
   color: white;
   text-transform: uppercase;
+  margin: 0;
 
   @media (min-width: 992px) {
     font-size: 36px;
-    margin-left: 0;
-    margin-right: 0;
+    font-weight: 800;
+    margin-top: 70px;
   }
 }
 
-.index-page-email__details {
+.index-page-community__description {
+  margin-top: 10px;
+  margin-bottom: 0;
+  font-family: $font-lato;
+  font-size: 28px;
+  max-width: 560px;
+  text-align: center;
+}
+
+.index-page-community__form {
+  margin-top: 70px;
+}
+
+.index-page-community__details {
   font-family: $font-lato;
   font-weight: normal;
   font-style: normal;

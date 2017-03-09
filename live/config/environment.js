@@ -27,7 +27,7 @@ module.exports = function (environment) {
     googleFonts: [
       'Lato:400,700,900', // main font, Challenge instructions
       'Open+Sans', // used for ex. on buttons
-      'Raleway:300,400,600,700' // used for index page titles
+      'Raleway:300,400,600,700,800' // used for index page titles
     ],
 
     // Set or update content security policies
