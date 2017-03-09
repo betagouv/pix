@@ -1,3 +1,20 @@
+/* Palette
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+$challenges-background-color: #fafafa;
+$challenges-title-color: #3d68ff;
+
+
+/* Sections:
+
+ - General
+ - Hero
+ - Challenges
+ - Betatest
+ - Features
+ - Partners
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
 .index-page {
 
 }
@@ -11,8 +28,16 @@
   z-index: -1;
 }
 
+.index-page__section {
+  padding: 80px 0;
+}
+
 /* Hero
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+.index-page__section--hero {
+  padding: 0;
+}
+
 .index-page-hero {
   background-image: linear-gradient(to bottom, rgba(0,0,0,0.50) 5%,rgba(30,30,30,0.25) 100%);
   height: 700px;
@@ -44,74 +69,36 @@
   font-weight: 300;
 }
 
-.index-page-hero__subscribe-button {
-
-}
-
-.index-page-hero__box-item {
-  margin-top: auto;
-  margin-bottom: auto;
-
-  @media (min-width: 992px) {
-    margin-top: auto;
-    margin-bottom: 5%;
-    margin-left: 160px;
-  }
-}
-
-.index-page-hero__main-value-prop {
-  font-size: 50px;
-  font-weight: 900;
-  line-height: 1;
-  color: #ffffff;
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-bottom: 15px;
-  max-width: 845px;
-
-  @media (min-width: 992px) {
-    font-size: 65px;
-    font-weight: 900;
-    color: #ffffff;
-    margin-bottom: 24px;
-    width: 830px;
-  }
-}
-
-.index-page-hero__sub-value-prop {
-  font-size: 20px;
-  font-weight: bold;
-  color: #ffffff;
-  margin-left: 15px;
-  margin-right: 15px;
-  max-width: 567px;
-
-  @media (min-width: 992px) {
-    font-size: 26px;
-    font-weight: bold;
-    color: #ffffff;
-  }
-}
 
 /* Challenges
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-.index-page-challenges {
-  background-color: $light-grey1;
+
+.index-page__section--challenges {
+  padding-bottom: 75px; // take into account course-item margin-bottom (5px)
 }
 
-/* XXX : issue raised, impossible to put a margin-top to title (single direction margin declaration) */
-.index-page-challenges__empty {
-  margin-bottom: 56px;
+
+.index-page-challenges {
+  background-color: $challenges-background-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .index-page-challenges__title {
-  font-size: 36px;
-  line-height: 0.8;
+  width: 600px;
+  font-size: 32px;
+  font-weight: 900;
+  color: $challenges-title-color;
+  margin: 0 auto;
+  text-transform: uppercase;
   text-align: center;
-  color: #3d68ff;
-  margin-bottom: 52px;
-  margin-right: 15px;
-  margin-left: 15px;
+  line-height: 1.2;
+}
+
+.index-page-challenges__list {
+  padding-top: 20px;
+  max-width: 1200px;
 }
 
 /* Email

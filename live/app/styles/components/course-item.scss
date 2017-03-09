@@ -1,5 +1,10 @@
 .course-item {
   padding: 0;
+  width: 280px;
+}
+
+.course-item .rounded-panel {
+  margin: 0; // FIXME: rounded-panel should not have margin
 }
 
 .course-item__picture {

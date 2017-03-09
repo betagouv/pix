@@ -1,8 +1,15 @@
-.course-list.container {
-  max-width: 1180px;
+.course-list {
+  width: 100%;
 }
 
 .course-list__ul {
   list-style-type: none;
-  padding: 30px 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.course-list__li {
+  margin: 10px;
 }
