@@ -9,12 +9,11 @@ function calculate(proposals) {
 }
 
 export default function proposalsAsArray(proposals) {
-  console.log('azermlkjazermlkjazermlkja000');
   // check pre-conditions
   const DEFAULT_RETURN_VALUE = [];
 
   if (_(proposals).isNotString()) return DEFAULT_RETURN_VALUE;
   if (_(proposals).isEmpty()) return DEFAULT_RETURN_VALUE;
-  console.log('azermlkjazermlkjazermlkja' + calculate(proposals));
+
   return calculate(proposals);
 }
