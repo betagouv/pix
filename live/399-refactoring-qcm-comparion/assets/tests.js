@@ -1809,7 +1809,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
     return str.match(/[a-zA-Z]/g).length;
   }
 
-  (0, _mocha.describe)('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', function () {
+  _mocha.describe.skip('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', function () {
 
     var RESULT_URL = '/assessments/ref_assessment_id/results';
     var COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1';
@@ -2180,7 +2180,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test.lint-test'
 });
 define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', function () {
+  _mocha.describe.skip('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', function () {
 
     var RESULT_URL = '/assessments/ref_assessment_id/results';
     var COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4';
@@ -4389,29 +4389,84 @@ define('pix-live/tests/integration/components/qcm-proposals-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/integration/components/qcm-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/qcm-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
 
-  (0, _mocha.describe)('Integration | Component | qcm solution panel', function () {
+  // const CHECKBOX_CORRECT_AND_CHECKED = '.comparison-window-boolean:eq(1)';
+  var LABEL_CORRECT_AND_CHECKED = '.comparison-window-oracle:eq(1)';
+
+  // const CHECKBOX_CORRECT_AND_UNCHECKED = '.comparison-window-boolean:eq(2)';
+  // const LABEL_CORRECT_AND_UNCHECKED = '.comparison-window-oracle:eq(2)';
+
+  // const CHECKBOX_INCORRECT_AND_CHECKED = '.comparison-window-boolean:eq(3)';
+  // const LABEL_INCORRECT_AND_CHECKED = '.comparison-window-oracle:eq(3)';
+
+  // const CHECKBOX_INCORRECT_AND_UNCHECKED = '.comparison-window-boolean:eq(0)';
+  // const LABEL_INCORRECT_AND_UNCHECKED = '.comparison-window-oracle:eq(0)';
+
+  (0, _mocha.describe)('Integration | Component | qcm-solution-panel.js', function () {
     (0, _emberMocha.setupComponentTest)('qcm-solution-panel', {
       integration: true
     });
 
-    (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#qcm-solution-panel}}
-      //     template content
-      //   {{/qcm-solution-panel}}
-      // `);
+    (0, _mocha.describe)('#Component should renders: ', function () {
+      (0, _mocha.it)('Should renders', function () {
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'tl+2p2hY',
+          'block': '{"statements":[["append",["unknown",["qcm-solution-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
 
-      this.render(Ember.HTMLBars.template({
-        'id': 'tl+2p2hY',
-        'block': '{"statements":[["append",["unknown",["qcm-solution-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-        'meta': {}
-      }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _mocha.it)('QCM correcte et cochée', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          var _this = this;
+
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+
+              _ember['default'].run(function () {
+                var store = _this.container.lookup('service:store');
+
+                // Given
+
+                // const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
+                // const challenge = Ember.Object.extend({ id: 'challenge_id', proposals:'a\nb\nc\nd', type: 'QCM' }).create();
+                // const answer = Ember.Object.extend({ id: 'answer_id', assessment, challenge, value:'3,4' }).create();
+                // const solution = Ember.Object.extend({ id: 'solution_id', value:'2,3' }).create();
+                var assessment = store.createRecord('assessment', { id: 'assessment_id' });
+                var challenge = store.createRecord('challenge', { id: 'challenge_id', proposals: '-foo\n- bar\n- qix\n- yon', type: 'QCM' });
+                var answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2,4' });
+                var solution = store.createRecord('solution', { id: 'solution_id', value: '2,3' });
+
+                _this.set('answer', answer);
+                _this.set('solution', solution);
+                _this.set('challenge', challenge);
+
+                // When
+                _this.render(_ember['default'].HTMLBars.template({
+                  'id': 'g45K7pGO',
+                  'block': '{"statements":[["append",["helper",["qcm-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+                  'meta': {}
+                }));
+
+                // Then
+                (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
+                // expect($(CHECKBOX_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
+
+                // expect($(CHECKBOX_CORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+                // expect(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
+                // expect($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
+                // expect($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
+                // expect($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+              });
+
+            case 1:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
     });
   });
 });
@@ -5783,19 +5838,10 @@ define('pix-live/tests/unit/models/answer-test.lint-test', ['exports'], function
 });
 define('pix-live/tests/unit/models/answer/value-as-array-of-boolean-mixin-test', ['exports', 'ember', 'chai', 'mocha', 'pix-live/models/answer/value-as-array-of-boolean-mixin'], function (exports, _ember, _chai, _mocha, _pixLiveModelsAnswerValueAsArrayOfBooleanMixin) {
 
-  _mocha.describe.only('Unit | Model | Value As Array of Boolean Mixin', function () {
+  (0, _mocha.describe)('Unit | Model | Value As Array of Boolean Mixin', function () {
 
-    var testData = [{ when: 'Empty String', input: '', expected: [] }, { when: 'Wrong type as input', input: new Date(), expected: [] }, { when: 'Undefined input', input: undefined, expected: [] }, { when: 'Nominal case', input: ',4, 2 , 2,1,  ,', expected: [true, true, false, true] }];
+    var testData = [{ when: 'Empty String', input: '', expected: [] }, { when: 'Wrong type as input', input: new Date(), expected: [] }, { when: 'Undefined input', input: undefined, expected: [] }, { when: 'Nominal case', input: '2,3', expected: [false, true, true] }, { when: 'Only one value', input: '4', expected: [false, false, false, true] }, { when: 'Resist to order empty space and empty value', input: ',4, 2 , 2,1,  ,', expected: [true, true, false, true] }];
 
-    /*,{ input: 'foo', expected: [] },
-    { input: '- foo', expected: ['foo'] },
-    { input: '-foo\n- bar', expected: ['foo', 'bar'] },
-    { input: '- cerf-volant', expected: ['cerf-volant'] },
-    { input: '- xi\n- foo mi', expected: ['xi', 'foo mi'] },
-    { input: '- joli\n- cerf-volant', expected: ['joli', 'cerf-volant'] },
-    { input: '- xi\n- foo\n- mi', expected: ['xi', 'foo', 'mi'] },
-    { input: '-- foo', expected: ['- foo'] },
-    { input: '- foo\n\r\t\n\r\t\n\r\t\n- bar', expected: ['foo', 'bar'] }*/
     var Challenge = _ember['default'].Object.extend(_pixLiveModelsAnswerValueAsArrayOfBooleanMixin['default'], {});
 
     testData.forEach(function (_ref) {
@@ -6638,7 +6684,7 @@ define('pix-live/tests/unit/utils/lodash-custom-test', ['exports', 'chai', 'moch
 
   (0, _mocha.describe)('Unit | Utility | lodash custom', function () {
 
-    (0, _mocha.describe)('#isNonEmptyString', function () {
+    (0, _mocha.describe)('#isNotEmptyString', function () {
 
       (0, _mocha.it)('when no arg, returns false', function () {
         (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNonEmptyString()).to.equal(false);
@@ -6647,6 +6693,19 @@ define('pix-live/tests/unit/utils/lodash-custom-test', ['exports', 'chai', 'moch
       [{ value: undefined, expected: false }, { value: null, expected: false }, { value: new Date(), expected: false }, { value: '', expected: false }, { value: 'abcd', expected: true }].forEach(function (item) {
         (0, _mocha.it)('should return ' + item.expected + ' when value is ' + item.value, function () {
           (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNonEmptyString(item.value)).to.equal(item.expected);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#isNotEmptyArray', function () {
+
+      (0, _mocha.it)('when no arg, returns false', function () {
+        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNonEmptyArray()).to.equal(false);
+      });
+
+      [{ value: undefined, expected: false }, { value: null, expected: false }, { value: new Date(), expected: false }, { value: [], expected: false }, { value: [''], expected: true }, { value: ['myvalue'], expected: true }, { value: ['1', null, true], expected: true }].forEach(function (item) {
+        (0, _mocha.it)('should return ' + item.expected + ' when value of array is ' + JSON.stringify(item.value), function () {
+          (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNonEmptyArray(item.value)).to.equal(item.expected);
         });
       });
     });
@@ -6695,6 +6754,57 @@ define('pix-live/tests/unit/utils/lodash-custom-test.lint-test', ['exports'], fu
   'use strict';
 
   describe('ESLint - unit/utils/lodash-custom-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/utils/proposals-as-array-test', ['exports', 'chai', 'mocha', 'pix-live/utils/proposals-as-array'], function (exports, _chai, _mocha, _pixLiveUtilsProposalsAsArray) {
+
+  (0, _mocha.describe)('Unit | Utility | proposals as array', function () {
+    // Replace this with your real tests.
+    var testData = [{ data: '', expected: [] }, { data: 'foo', expected: [] }, { data: '- foo', expected: ['foo'] }, { data: '-foo\n- bar', expected: ['foo', 'bar'] }, { data: '- cerf-volant', expected: ['cerf-volant'] }, { data: '- xi\n- foo mi', expected: ['xi', 'foo mi'] }, { data: '- joli\n- cerf-volant', expected: ['joli', 'cerf-volant'] }, { data: '- xi\n- foo\n- mi', expected: ['xi', 'foo', 'mi'] }, { data: '-- foo', expected: ['- foo'] }, { data: '- foo\n\r\t\n\r\t\n\r\t\n- bar', expected: ['foo', 'bar'] }];
+
+    testData.forEach(function (_ref) {
+      var data = _ref.data;
+      var expected = _ref.expected;
+
+      (0, _mocha.it)('"' + data.toString() + '" retourne [' + expected + ']', function () {
+        (0, _chai.expect)((0, _pixLiveUtilsProposalsAsArray['default'])(data)).to.deep.equal(expected);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/utils/proposals-as-array-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/utils/proposals-as-array-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/utils/value-as-array-of-boolean-test', ['exports', 'chai', 'mocha', 'pix-live/utils/value-as-array-of-boolean'], function (exports, _chai, _mocha, _pixLiveUtilsValueAsArrayOfBoolean) {
+
+  (0, _mocha.describe)('Unit | Utility | value as array of boolean', function () {
+    // Replace this with your real tests.
+    var testData = [{ when: 'Empty String', input: '', expected: [] }, { when: 'Wrong type as input', input: new Date(), expected: [] }, { when: 'Undefined input', input: undefined, expected: [] }, { when: 'Nominal case', input: '2,3', expected: [false, true, true] }, { when: 'Only one value', input: '4', expected: [false, false, false, true] }, { when: 'Resist to order, empty space and empty value', input: ',4, 2 , 2,1,  ,', expected: [true, true, false, true] }];
+
+    testData.forEach(function (_ref) {
+      var when = _ref.when;
+      var input = _ref.input;
+      var expected = _ref.expected;
+
+      (0, _mocha.it)('"' + when + '", example : "' + JSON.stringify(input) + '" retourne [' + expected + ']', function () {
+        (0, _chai.expect)((0, _pixLiveUtilsValueAsArrayOfBoolean['default'])(input)).to.deep.equal(expected);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/utils/value-as-array-of-boolean-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/utils/value-as-array-of-boolean-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -6749,6 +6859,24 @@ define('pix-live/tests/utils/lodash-custom.lint-test', ['exports'], function (ex
   'use strict';
 
   describe('ESLint - utils/lodash-custom.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/utils/proposals-as-array.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - utils/proposals-as-array.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/utils/value-as-array-of-boolean.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - utils/value-as-array-of-boolean.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
