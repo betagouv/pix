@@ -9,6 +9,21 @@ function _countResult(about, desiredResult) {
 
 module.exports = {
 
+  getKnowledgeData(challengeList) {
+    const challengesById = {};
+    const knowledgeTagSet = {};
+    _.forEach(challengeList, challenge => {
+      if(challenge.knowledgeTags !== undefined && challenge.knowledgeTags.length > 0) {
+        challengesById[challenge.id] = challenge;
+        challenge.knowledgeTags.forEach(knowledge => knowledgeTagSet[knowledge] = true);
+      }
+    });
+    return {
+      challengesById: challengesById,
+      knowledgeTagSet: knowledgeTagSet
+    };
+  },
+
   getRevalidationStatistics(oldAnswers, newAnswers) {
 
     const oldAnswersResult = _.map(oldAnswers, (o) => { return {id : o.id, result: o.attributes.result};});

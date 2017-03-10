@@ -1,6 +1,6 @@
 const { describe, it } = require('mocha');
 const { expect } = require('chai');
-const service = require('../../../lib/application/assessments/analysis-utils');
+const service = require('../../../lib/domain/services/analysis-utils');
 
 
 describe('Acceptance | Application | analysis-utils', function () {

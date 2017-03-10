@@ -16,9 +16,9 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
       type: 'assessment',
       id: 'assessment_id',
       attributes: {
-        'acquired': undefined,
+        'acquired-knowledge-tags': undefined,
         'estimated-level': undefined,
-        'not-acquired': undefined,
+        'not-acquired-knowledge-tags': undefined,
         'pix-score': undefined,
         'user-name': 'Jon Snow',
         'user-email': 'jsnow@winterfell.got'

@@ -3,6 +3,7 @@ const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/a
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
 const assessmentUtils = require('../../domain/services/assessment-service-utils');
+const challengeService = require('../../domain/services/challenge-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const solutionSerializer = require('../../infrastructure/serializers/jsonapi/solution-serializer');
@@ -10,26 +11,10 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const _ = require('../../infrastructure/utils/lodash-utils');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
-const analysisUtils = require('./analysis-utils');
 
-function nextNode(node, direction) {
-  return node.slice(0, -1) + (parseInt(node.slice(-1)) + direction);
-}
 
-function propagateAcquix(allKnowledge, startNode, direction) {
-  const nodeList = [];
-  let node = startNode;
-  while(allKnowledge.hasOwnProperty(node)) {
-    nodeList.push(node);
-    node = nextNode(node, direction);
-  }
-  return nodeList;
-}
 
 module.exports = {
-
-  nextNode,
-  propagateAcquix,
 
   save(request, reply) {
 
@@ -44,83 +29,31 @@ module.exports = {
 
     assessmentRepository
       .get(request.params.id)
-      .then((assessment) => {
+      .then(assessment => {
         courseRepository
           .get(assessment.get('courseId'))
-          .then((course) => {
+          .then(course => {
 
             const challengePromises = course.challenges.map(challengeId => challengeRepository.get(challengeId));
 
             Promise.all(challengePromises)
               .then(challenges => {
 
-                const knowledgeOf = {};
-                const difficultyOf = {};
-                const allKnowledge = {};
-                _.forEach(challenges, challenge => {
-                  if(challenge.knowledge !== undefined) {
-                    challenge.knowledge.forEach(knowledge => allKnowledge[knowledge] = 1);
-                    knowledgeOf[challenge.id] = challenge.knowledge;
-                    difficultyOf[challenge.id] = parseInt(challenge.knowledge[0].slice(-1));
-                  }
-                });
+                const knowledgeData = challengeService.getKnowledgeData(challenges);
 
-                const acquired = [];
-                const notAcquired = [];
-                const history = [];
-                answerRepository.findByAssessment(assessment.get('id')).then((answers) => {
-
-                  if (answers.length === 0) {
-                    const serializedAssessment = assessmentSerializer.serialize(assessment);
+                answerRepository
+                  .findByAssessment(assessment.get('id'))
+                  .then(answers => {
+                    const scoredAssessment = assessmentService.populateScore(assessment, answers, knowledgeData);           
+                    const serializedAssessment = assessmentSerializer.serialize(scoredAssessment);
                     return reply(serializedAssessment);
-                  }
-
-                  const modelAnswers = _.map(answers.models, o => o.attributes);
-
-                  _.forEach(modelAnswers, function(answer) {
-                    if(knowledgeOf.hasOwnProperty(answer.challengeId)) {
-                      const startNode = knowledgeOf[answer.challengeId][0];
-                      if (answer.result === 'ok') {
-                        history.push({diff: difficultyOf[answer.challengeId], outcome: 1});
-                        if (startNode !== undefined)
-                          acquired.push(...propagateAcquix(allKnowledge, startNode, -1));
-                      } else {
-                        history.push({diff: difficultyOf[answer.challengeId], outcome: 0});
-                        if (startNode !== undefined)
-                          notAcquired.push(...propagateAcquix(allKnowledge, startNode, 1));
-                      }
-                    }
                   });
-
-                  const pixScore = Math.round(64 * acquired.length / Object.keys(knowledgeOf).length);
-
-                  let estimatedLevel = 4;
-                  let minScore = 1000;
-                  if (history.length > 0) { 
-                    for(let level = 0; level <= 6; level += 0.5) {
-                      const score = analysisUtils.derivativeLogLikelihood(level, history);
-                      if(score < minScore) {
-                        minScore = score;
-                        estimatedLevel = level;
-                      }
-                    }
-                  }
-                  assessment.attributes.estimatedLevel = estimatedLevel;  // For the reviewer: maybe this is a hack?
-                  assessment.attributes.pixScore = pixScore;
-                  assessment.attributes.notAcquired = notAcquired;
-                  assessment.attributes.acquired = acquired;
-
-                  const serializedAssessment = assessmentSerializer.serialize(assessment);
-                  return reply(serializedAssessment);
-
-                });
 
               }).catch((err) => reply(Boom.badImplementation(err)));
 
           }).catch((err) => reply(Boom.badImplementation(err)));
 
-      })
-      .catch((err) => reply(Boom.badImplementation(err)));
+      }).catch((err) => reply(Boom.badImplementation(err)));
 
   },
 
@@ -170,11 +103,10 @@ module.exports = {
               .then((testIsOver) => {
 
                 if(testIsOver) {
-                  const modelAnswers = _.map(answers.models, (o) => o.attributes);
-                  const requestedAnswer = _.find(modelAnswers, { id: _.parseInt(request.params.answerId) });
+                  const requestedAnswer = answers.filter(answer => answer.id === _.parseInt(request.params.answerId))[0];
 
                   solutionRepository
-                    .get(requestedAnswer.challengeId)
+                    .get(requestedAnswer.get('challengeId'))
                     .then((solution) => {
                       return reply(solutionSerializer.serialize(solution));
                     });

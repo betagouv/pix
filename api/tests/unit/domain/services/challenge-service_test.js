@@ -5,7 +5,7 @@ const Answer = require('../../../../lib/domain/models/data/answer');
 
 function _buildAnswer(result) {
   const answer = new Answer({id: 'answer_id'});
-  answer.attributes = {result};
+  answer.attributes = {result: result};
   return answer;
 }
 

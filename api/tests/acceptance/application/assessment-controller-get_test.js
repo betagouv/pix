@@ -9,7 +9,7 @@ describe('Acceptance | API | Assessments GET', function () {
     nock('https://api.airtable.com')
       .get('/v0/test-base/Tests/anyFromAirTable')
       .query(true)
-      .times(4)
+      .times(5)
       .reply(200, {
         'id': 'the_adaptive_course_id',
         'fields': {
@@ -129,8 +129,8 @@ describe('Acceptance | API | Assessments GET', function () {
                 'user-email': 'john.doe@mailmail.com',
                 'estimated-level': undefined,
                 'pix-score': undefined,
-                'not-acquired': undefined,
-                'acquired': undefined
+                'not-acquired-knowledge-tags': undefined,
+                'acquired-knowledge-tags': undefined
               },
               'relationships': {
                 'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
@@ -237,9 +237,9 @@ describe('Acceptance | API | Assessments GET', function () {
                 'user-name': 'John Doe',
                 'user-email': 'john.doe@mailmail.com',
                 'estimated-level': 3,
-                'pix-score': 43,
-                'not-acquired': ['@url1'],
-                'acquired': ['@web5', '@web4']
+                'pix-score': 16,
+                'not-acquired-knowledge-tags': ['@url1'],
+                'acquired-knowledge-tags': ['@web5', '@web4']
               },
               'relationships': {
                 'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },

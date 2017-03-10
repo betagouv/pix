@@ -19,8 +19,8 @@ class AssessmentSerializer extends JSONAPISerializer {
     data.attributes['user-email'] = model.userEmail;
     data.attributes['estimated-level'] = model.estimatedLevel;
     data.attributes['pix-score'] = model.pixScore;
-    data.attributes['not-acquired'] = model.notAcquired;
-    data.attributes['acquired'] = model.acquired;
+    data.attributes['not-acquired-knowledge-tags'] = model.notAcquiredKnowledgeTags;
+    data.attributes['acquired-knowledge-tags'] = model.acquiredKnowledgeTags;
   }
 
   serializeRelationships(model, data) {
