@@ -153,28 +153,21 @@ describe('Unit | Component | qrocm-solution-panel', function () {
   });
 
   describe('#dataToDisplay', function () {
-    //A REFLECHIR S'IL NE VAUDRAIT PAS MIEUX DEFINIR DES LABELS,ANSWER ET SOLUTION AS OBJECT
     it('should return an array with data to display (case when the answers are right)', function () {
       //Given
-      const challenge = {
-        proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}'
-      };
-      const answer = {
-        value: 'smiley1: \':)\' smiley2: \':(\''
-      };
-      const solution = {
-        value: 'smiley1:\n- :-)\n- :)\n- :-D\n- :D\n- :))\n\nsmiley2:\n- :-(\n- :(\n- :(('
-      };
+      const labelsAsObject = {'smiley1':'content : ','smiley2':'triste : '};
+      const answersAsObject = {'smiley1':':)','smiley2':':('};
+      const solutionsAsObject = {'smiley1':[':-)',':)',':-D',':D',':))'],'smiley2':[':-(',':(',':((']};
       const result = [{'label': 'content : ', 'answer':':)', 'solution': ':-)', 'rightAnswer' : true, 'wrongAnswer':false, 'noAnswer':false},
         {'label': 'triste : ', 'answer':':(', 'solution': ':-(', 'rightAnswer': true, 'wrongAnswer':false, 'noAnswer':false}];
 
-
       //when
       const component = this.subject();
-      component.set('challenge', challenge);
-      component.set('answer', answer);
-      component.set('solution', solution);
+      component.set('labelsAsObject', labelsAsObject);
+      component.set('answersAsObject', answersAsObject);
+      component.set('solutionsAsObject', solutionsAsObject);
       const dataToDisplay = component.get('dataToDisplay');
+
       //Then
       expect(dataToDisplay).to.be.deep.equal(result);
 
@@ -182,22 +175,16 @@ describe('Unit | Component | qrocm-solution-panel', function () {
 
     it('should return an array with data to display (case when there is wrong answers)', function () {
       //Given
-      const challenge = {
-        proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}'
-      };
-      const answer = {
-        value: 'num1: \'1\' num2: \'2\''
-      };
-      const solution = {
-        value: 'num1:\n- 2\nnum2:\n- 1'
-      };
+      const labelsAsObject = {'num1':'Clé USB : ','num2':'Carte mémoire (SD) : '};
+      const answersAsObject = {'num1':'1','num2':'2'};
+      const solutionsAsObject = {'num1':['2'],'num2':['1']};
       const result = [{'label': 'Clé USB : ', 'answer':'1', 'solution': '2', 'rightAnswer' : false, 'wrongAnswer' : true, 'noAnswer' : false },
         {'label': 'Carte mémoire (SD) : ', 'answer':'2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false}];
 
       const component = this.subject();
-      component.set('challenge', challenge);
-      component.set('answer', answer);
-      component.set('solution', solution);
+      component.set('labelsAsObject', labelsAsObject);
+      component.set('answersAsObject', answersAsObject);
+      component.set('solutionsAsObject', solutionsAsObject);
 
       //When
       const dataToDisplay = component.get('dataToDisplay');
@@ -209,25 +196,19 @@ describe('Unit | Component | qrocm-solution-panel', function () {
 
     it('should return an array with data to display (case when there is some empty answer)', function () {
       //Given
-      const challenge = {
-        proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}'
-      };
-      const answer = {
-        value: 'num1: \'\' num2: \'2\''
-      };
-      const solution = {
-        value: 'num1:\n- 2\nnum2:\n- 1'
-      };
+      const labelsAsObject = {'num1':'Clé USB : ','num2':'Carte mémoire (SD) : '};
+      const answersAsObject = {'num1':'','num2':'2'};
+      const solutionsAsObject = {'num1':['2'],'num2':['1']};
+      const result = [{'label': 'Clé USB : ', 'answer':'Pas de réponse', 'solution': '2', 'rightAnswer' : false, 'wrongAnswer' : false, 'noAnswer' : true },
+        {'label': 'Carte mémoire (SD) : ', 'answer':'2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false}];
 
       const component = this.subject();
-      component.set('challenge', challenge);
-      component.set('answer', answer);
-      component.set('solution', solution);
+      component.set('labelsAsObject', labelsAsObject);
+      component.set('answersAsObject', answersAsObject);
+      component.set('solutionsAsObject', solutionsAsObject);
 
       //When
       const dataToDisplay = component.get('dataToDisplay');
-      const result = [{'label': 'Clé USB : ', 'answer':'Pas de réponse', 'solution': '2', 'rightAnswer' : false, 'wrongAnswer' : false, 'noAnswer' : true },
-        {'label': 'Carte mémoire (SD) : ', 'answer':'2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false}];
 
       //then
       expect(dataToDisplay).to.be.deep.equal(result);
@@ -236,34 +217,22 @@ describe('Unit | Component | qrocm-solution-panel', function () {
 
     it('should return an array with data to display (proposals contains a dash ("-"))', function () {
       //GIVEN
-      const challenge = {
-        proposals: '- alain@pix.fr : ${num1}\n' +
-        '- leonie@pix.fr : ${num2}\n' +
-        '- Programme_Pix.pdf : ${num3}\n' +
-        '- lucie@pix.fr : ${num4}\n' +
-        '- Programme du festival Pix : ${num5}\n' +
-        '- jeremy@pix.fr : ${num6}'
-      };
-      const answer = {
-        value: 'num1: \'1\' num2: \'2\' num3: \'3\' num4: \'4\' num5: \'5\' num6: \'6\''
-      };
-      const solution = {
-        value: 'num1:\n- 2\nnum2:\n- 3\n- 4\nnum3:\n- 6\nnum4:\n- 1\nnum5:\n- 5\nnum6:\n- 2'
-      };
-
-      //WHEN
-      const component = this.subject();
-      component.set('challenge', challenge);
-      component.set('answer', answer);
-      component.set('solution', solution);
-      const dataToDisplay = component.get('dataToDisplay');
-
+      const labelsAsObject = {'num1':'- alain@pix.fr : ','num2':'- leonie@pix.fr : ','num3':'- Programme_Pix.pdf : ','num4':'- lucie@pix.fr : ','num5':'- Programme du festival Pix : ','num6':'- jeremy@pix.fr : '};
+      const answersAsObject = {'num1':'1','num2':'2','num3':'3','num4':'4','num5':'5','num6':'6'};
+      const solutionsAsObject = {'num1':['2'],'num2':['3','4'],'num3':['6'],'num4':['1'],'num5':['5'],'num6':['2']};
       const result = [{ 'label': '- alain@pix.fr : ', 'answer': '1', 'solution': '2', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
         { 'label': '- leonie@pix.fr : ', 'answer': '2', 'solution': '3', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
         { 'label': '- Programme_Pix.pdf : ', 'answer': '3', 'solution': '6', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
         { 'label': '- lucie@pix.fr : ', 'answer': '4', 'solution': '1', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false },
         { 'label': '- Programme du festival Pix : ', 'answer': '5', 'solution': '5', 'rightAnswer': true, 'wrongAnswer' : false, 'noAnswer' : false },
         { 'label': '- jeremy@pix.fr : ', 'answer': '6', 'solution': '2', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false }];
+
+      //WHEN
+      const component = this.subject();
+      component.set('labelsAsObject', labelsAsObject);
+      component.set('answersAsObject', answersAsObject);
+      component.set('solutionsAsObject', solutionsAsObject);
+      const dataToDisplay = component.get('dataToDisplay');
 
       //THEN
       expect(dataToDisplay).to.be.deep.equal(result);
@@ -272,26 +241,19 @@ describe('Unit | Component | qrocm-solution-panel', function () {
 
     it('should return an array with data to display (proposals are questions)', function () {
       //GIVEN
-      const challenge = {
-        proposals: '- Combien le dossier “projet PIX” contient-il de dossiers ? ${Num1}\n\n' +
-        '- Combien le dossier “images” contient-il de fichiers ? ${Num2}'
-      };
-      const answer = {
-        value: 'Num1: \'2\' Num2: \'3\''
-      };
-      const solution = {
-        value: 'Num1:\n - 1\n\nNum2:\n - 6'
-      };
+      const labelsAsObject = {'Num1':'- Combien le dossier "projet PIX" contient-il de dossiers ? ','Num2':'- Combien le dossier "images" contient-il de fichiers ? '};
+      const answersAsObject = {'Num1':'2','Num2':'3'};
+      const solutionsAsObject = {'Num1':['1'],'Num2':['6']};
+      const result = [{'label': '- Combien le dossier "projet PIX" contient-il de dossiers ? ', 'answer':'2', 'solution': '1', 'rightAnswer' : false, 'wrongAnswer' : true, 'noAnswer' : false },
+        {'label': '- Combien le dossier "images" contient-il de fichiers ? ', 'answer':'3', 'solution': '6', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false}];
 
       //WHEN
       const component = this.subject();
-      component.set('challenge', challenge);
-      component.set('answer', answer);
-      component.set('solution', solution);
-      const dataToDisplay = component.get('dataToDisplay');
+      component.set('labelsAsObject', labelsAsObject);
+      component.set('answersAsObject', answersAsObject);
+      component.set('solutionsAsObject', solutionsAsObject);
 
-      const result = [{'label': '- Combien le dossier “projet PIX” contient-il de dossiers ? ', 'answer':'2', 'solution': '1', 'rightAnswer' : false, 'wrongAnswer' : true, 'noAnswer' : false },
-        {'label': '- Combien le dossier “images” contient-il de fichiers ? ', 'answer':'3', 'solution': '6', 'rightAnswer': false, 'wrongAnswer' : true, 'noAnswer' : false}];
+      const dataToDisplay = component.get('dataToDisplay');
 
       //THEN
       expect(dataToDisplay).to.be.deep.equal(result);

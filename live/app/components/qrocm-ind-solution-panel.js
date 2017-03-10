@@ -40,10 +40,10 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
     const answersAsObject = this.get('answersAsObject');
     const solutionsAsObject = this.get('solutionsAsObject');
 
-    const keys = _.keys(labelsAsObject);
+    const inputKeys = _.keys(labelsAsObject);
     const dataToDisplay = [];
 
-    keys.forEach(function (key) {
+    inputKeys.forEach(function (key) {
 
       const isRightAnswer = _.includes(solutionsAsObject[key], answersAsObject[key]);
       const noAnswer = answersAsObject[key] === '';

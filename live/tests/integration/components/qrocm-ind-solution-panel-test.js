@@ -17,7 +17,7 @@ const RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
 const NO_ANSWER_GREY = 'rgb(51, 51, 51)';
 
 
-describe.only('Integration | Component | qrocm solution panel', function () {
+describe('Integration | Component | qrocm solution panel', function () {
 
   setupComponentTest('qrocm-ind-solution-panel', {
     integration: true
@@ -48,7 +48,7 @@ describe.only('Integration | Component | qrocm solution panel', function () {
 
   it('should disabled all inputs', function () {
     // given
-    this.render(hbs`{{qrocm-ind-solution-panel answer solution challenge}}`);
+    this.render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
     const input = this.$('input');
     // then
     expect(input).to.be.disabled;
@@ -56,7 +56,7 @@ describe.only('Integration | Component | qrocm solution panel', function () {
 
   it('should contains three labels', function () {
     // given
-    this.render(hbs`{{qrocm-ind-solution-panel answer solution challenge}}`);
+    this.render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
     const labels = this.$(LABEL);
     // then
     expect(labels).to.have.length(3);
