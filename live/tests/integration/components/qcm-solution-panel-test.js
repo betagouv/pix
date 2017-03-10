@@ -4,20 +4,20 @@ import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 
-const CHECKBOX_CORRECT_AND_CHECKED = '.comparison-window .comparison-window-boolean:eq(1)';
-const LABEL_CORRECT_AND_CHECKED = '.comparison-window .comparison-window-oracle:eq(1)';
+const CHECKBOX_CORRECT_AND_CHECKED = '.comparison-window-boolean:eq(1)';
+const LABEL_CORRECT_AND_CHECKED = '.comparison-window-oracle:eq(1)';
 
-const CHECKBOX_CORRECT_AND_UNCHECKED = '.comparison-window .comparison-window-boolean:eq(2)';
-const LABEL_CORRECT_AND_UNCHECKED = '.comparison-window .comparison-window-oracle:eq(2)';
+const CHECKBOX_CORRECT_AND_UNCHECKED = '.comparison-window-boolean:eq(2)';
+const LABEL_CORRECT_AND_UNCHECKED = '.comparison-window-oracle:eq(2)';
 
-const CHECKBOX_INCORRECT_AND_CHECKED = '.comparison-window .comparison-window-boolean:eq(3)';
-const LABEL_INCORRECT_AND_CHECKED = '.comparison-window .comparison-window-oracle:eq(3)';
+const CHECKBOX_INCORRECT_AND_CHECKED = '.comparison-window-boolean:eq(3)';
+const LABEL_INCORRECT_AND_CHECKED = '.comparison-window-oracle:eq(3)';
 
-const CHECKBOX_INCORRECT_AND_UNCHECKED = '.comparison-window .comparison-window-boolean:eq(0)';
-const LABEL_INCORRECT_AND_UNCHECKED = '.comparison-window .comparison-window-oracle:eq(0)';
+const CHECKBOX_INCORRECT_AND_UNCHECKED = '.comparison-window-boolean:eq(0)';
+const LABEL_INCORRECT_AND_UNCHECKED = '.comparison-window-oracle:eq(0)';
 
 
-describe.only('Integration | Component | qcm-solution-panel.js', function () {
+describe('Integration | Component | qcm-solution-panel.js', function () {
   setupComponentTest('qcm-solution-panel', {
     integration: true
   });
@@ -40,8 +40,8 @@ describe.only('Integration | Component | qcm-solution-panel.js', function () {
       // const answer = Ember.Object.extend({ id: 'answer_id', assessment, challenge, value:'3,4' }).create();
       // const solution = Ember.Object.extend({ id: 'solution_id', value:'2,3' }).create();
       const assessment = store.createRecord('assessment', { id: 'assessment_id'});
-      const challenge = store.createRecord('challenge', { id: 'challenge_id', proposals:'a\nb\nc\nd', type: 'QCM' });
-      const answer = store.createRecord('answer', {id: 'answer_id', assessment, challenge, value:'3,4'});
+      const challenge = store.createRecord('challenge', { id: 'challenge_id', proposals:'-foo\n- bar\n- qix\n- yon', type: 'QCM' });
+      const answer = store.createRecord('answer', {id: 'answer_id', assessment, challenge, value:'2,4'});
       const solution = store.createRecord('solution', { id: 'solution_id', value:'2,3' });
 
       this.set('answer', answer);

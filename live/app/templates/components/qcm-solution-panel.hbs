@@ -1,7 +1,8 @@
 <div class="rounded-panel comparison-window__proposals comparison-window__corrected-answers comparison-window__corrected-answers--qcm">
   <div class="rounded-panel__row">
-  {{log labeledCheckboxes}}
+  {{log "yoyoyoyo" labeledCheckboxes}}
     {{#each labeledCheckboxes as |labeledCheckbox index|}}
+      {{log "index" index}}
       <p class="challenge-response__proposal proposal-comparison-window proposal-paragraph">
         {{!-- checkbox --}}
         <input class="comparison-window-boolean checkbox-comparison-window" type="checkbox" disabled="disabled" name="{{inc index}}" checked={{labeledCheckbox.[1]}}/>
