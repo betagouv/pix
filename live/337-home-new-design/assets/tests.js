@@ -4004,26 +4004,64 @@ define('pix-live/tests/integration/components/course-list-test.lint-test', ['exp
 define('pix-live/tests/integration/components/feature-item-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | feature item', function () {
+
     (0, _emberMocha.setupComponentTest)('feature-item', {
       integration: true
     });
 
-    (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#feature-item}}
-      //     template content
-      //   {{/feature-item}}
-      // `);
+    var feature = {
+      icon: 'coucou',
+      title: 'title_value',
+      description: 'description_value'
+    };
 
+    (0, _mocha.it)('renders', function () {
+      this.set('feature', feature);
       this.render(Ember.HTMLBars.template({
-        'id': 'ohkTNoMq',
-        'block': '{"statements":[["append",["unknown",["feature-item"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'id': 'k8aoFIfT',
+        'block': '{"statements":[["append",["helper",["feature-item"],null,[["feature"],[["get",["feature"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
         'meta': {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should render an icon', function () {
+      this.set('feature', feature);
+      this.render(Ember.HTMLBars.template({
+        'id': 'k8aoFIfT',
+        'block': '{"statements":[["append",["helper",["feature-item"],null,[["feature"],[["get",["feature"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+
+      var $icon = this.$('.feature-item__icon');
+      (0, _chai.expect)($icon).to.exist;
+      (0, _chai.expect)($icon.attr('src')).to.equal('images/icon-coucou.svg');
+    });
+
+    (0, _mocha.it)('should render an title', function () {
+      this.set('feature', feature);
+      this.render(Ember.HTMLBars.template({
+        'id': 'k8aoFIfT',
+        'block': '{"statements":[["append",["helper",["feature-item"],null,[["feature"],[["get",["feature"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+
+      var $title = this.$('.feature-item__title');
+      (0, _chai.expect)($title).to.exist;
+      (0, _chai.expect)($title.text().trim()).to.equal(feature.title);
+    });
+
+    (0, _mocha.it)('should render an description', function () {
+      this.set('feature', feature);
+      this.render(Ember.HTMLBars.template({
+        'id': 'k8aoFIfT',
+        'block': '{"statements":[["append",["helper",["feature-item"],null,[["feature"],[["get",["feature"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+
+      var $description = this.$('.feature-item__description');
+      (0, _chai.expect)($description).to.exist;
+      (0, _chai.expect)($description.text().trim()).to.equal(feature.description);
     });
   });
 });
@@ -4039,26 +4077,31 @@ define('pix-live/tests/integration/components/feature-item-test.lint-test', ['ex
 define('pix-live/tests/integration/components/feature-list-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | feature list', function () {
+
     (0, _emberMocha.setupComponentTest)('feature-list', {
       integration: true
     });
 
     (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#feature-list}}
-      //     template content
-      //   {{/feature-list}}
-      // `);
-
       this.render(Ember.HTMLBars.template({
         'id': '12Co2Nrn',
         'block': '{"statements":[["append",["unknown",["feature-list"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
         'meta': {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should always render 5 feature-items', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        'id': '12Co2Nrn',
+        'block': '{"statements":[["append",["unknown",["feature-list"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.feature-list__li')).to.have.lengthOf(5);
+      (0, _chai.expect)(this.$('.feature-item')).to.have.lengthOf(5);
     });
   });
 });
