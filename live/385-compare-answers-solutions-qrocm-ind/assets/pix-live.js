@@ -1087,10 +1087,10 @@ define('pix-live/components/qrocm-ind-solution-panel', ['exports', 'ember', 'lod
       var answersAsObject = this.get('answersAsObject');
       var solutionsAsObject = this.get('solutionsAsObject');
 
-      var keys = _lodash['default'].keys(labelsAsObject);
+      var inputKeys = _lodash['default'].keys(labelsAsObject);
       var dataToDisplay = [];
 
-      keys.forEach(function (key) {
+      inputKeys.forEach(function (key) {
 
         var isRightAnswer = _lodash['default'].includes(solutionsAsObject[key], answersAsObject[key]);
         var noAnswer = answersAsObject[key] === '';
@@ -4094,7 +4094,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+ee5a90bc"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.0+3c7887c4"});
 }
 
 /* jshint ignore:end */

@@ -4505,26 +4505,47 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test.lint-test
     });
   });
 });
-define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
+
+  var FIRST_CORRECTION_BLOCK = '.correction-qrocm:nth-child(1)';
+  var SECOND_CORRECTION_BLOCK = '.correction-qrocm:nth-child(2)';
+  var THIRD_CORRECTION_BLOCK = '.correction-qrocm:nth-child(3)';
+  var SOLUTION_BLOCK = '.correction-qrocm__solution';
+  var LABEL = '.correction-qrocm__label';
+  var INPUT = '.correction-qrocm__answer-input';
+  var SOLUTION_TEXT = '.correction-qrocm__solution-text';
+
+  var RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
+  var NO_ANSWER_GREY = 'rgb(51, 51, 51)';
 
   (0, _mocha.describe)('Integration | Component | qrocm solution panel', function () {
-    (0, _emberMocha.setupComponentTest)('qrocm-solution-panel', {
+
+    (0, _emberMocha.setupComponentTest)('qrocm-ind-solution-panel', {
       integration: true
     });
 
-    (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#qrocm-solution-panel}}
-      //     template content
-      //   {{/qrocm-solution-panel}}
-      // `);
+    var assessment = _ember['default'].Object.create({ id: 'assessment_id' });
+    var challenge = _ember['default'].Object.create({ id: 'challenge_id', proposals: 'answer1 : ${key1}\nCarte mémoire (SD) : ${key2}\nblabla : ${key3}' });
+    var answer = _ember['default'].Object.create({
+      id: 'answer_id',
+      value: 'key1: \'rightAnswer1\' key2: \'wrongAnswer2\' key3: \'\'',
+      assessment: assessment,
+      challenge: challenge
+    });
+    var solution = _ember['default'].Object.create({ value: 'key1:\n- rightAnswer1\nkey2:\n- rightAnswer20\n- rightAnswer21\nkey3 :\n- rightAnswer3' });
 
-      this.render(Ember.HTMLBars.template({
-        'id': 'LsPG1Tkd',
-        'block': '{"statements":[["append",["unknown",["qrocm-solution-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+    (0, _mocha.beforeEach)(function () {
+      this.set('answer', answer);
+      this.set('solution', solution);
+      this.set('challenge', challenge);
+    });
+
+    //Est-ce-que l'on test son render sans aucun parametre => a toi de voir oui pour etre sur
+
+    (0, _mocha.it)('renders', function () {
+      this.render(_ember['default'].HTMLBars.template({
+        'id': 'S1YJQuVj',
+        'block': '{"statements":[["append",["helper",["qrocm-ind-solution-panel"],null,[["answer","solution","challenge"],[["get",["answer"]],["get",["solution"]],["get",["challenge"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
         'meta': {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -4532,14 +4553,26 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
     (0, _mocha.it)('should disabled all inputs', function () {
       // given
-      this.render(Ember.HTMLBars.template({
-        'id': 'd0K2Guv4',
-        'block': '{"statements":[["append",["unknown",["qroc-solution-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+      this.render(_ember['default'].HTMLBars.template({
+        'id': 'S1YJQuVj',
+        'block': '{"statements":[["append",["helper",["qrocm-ind-solution-panel"],null,[["answer","solution","challenge"],[["get",["answer"]],["get",["solution"]],["get",["challenge"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
         'meta': {}
       }));
       var input = this.$('input');
       // then
       (0, _chai.expect)(input).to.be.disabled;
+    });
+
+    (0, _mocha.it)('should contains three labels', function () {
+      // given
+      this.render(_ember['default'].HTMLBars.template({
+        'id': 'S1YJQuVj',
+        'block': '{"statements":[["append",["helper",["qrocm-ind-solution-panel"],null,[["answer","solution","challenge"],[["get",["answer"]],["get",["solution"]],["get",["challenge"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      var labels = this.$(LABEL);
+      // then
+      (0, _chai.expect)(labels).to.have.length(3);
     });
 
     (0, _mocha.describe)('comparison of a qrocm-ind with a right answer, a wrong answer and one empty answer', function () {
@@ -4548,20 +4581,38 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
         (0, _mocha.it)('should display the right answer in green bold', function () {
           // given
-
-          // when
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'R+qycNfq',
+            'block': '{"statements":[["append",["helper",["qrocm-ind-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+          var answerBlock = this.$(FIRST_CORRECTION_BLOCK);
+          var answerLabel = this.$(FIRST_CORRECTION_BLOCK + ' ' + LABEL);
+          var answerInput = this.$(FIRST_CORRECTION_BLOCK + ' ' + INPUT);
 
           // then
+          (0, _chai.expect)(answerBlock).to.have.length(1);
+          (0, _chai.expect)(answerLabel).to.have.length(1);
+          (0, _chai.expect)(answerInput).to.have.length(1);
 
+          (0, _chai.expect)(answerLabel.css('color')).to.be.equal(NO_ANSWER_GREY);
+
+          (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
+          (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('bold');
+          (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('none');
         });
 
         (0, _mocha.it)('should not display the solution', function () {
           // given
-
-          // when
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'R+qycNfq',
+            'block': '{"statements":[["append",["helper",["qrocm-ind-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+          var solutionBlock = this.$(FIRST_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
 
           // then
-
+          (0, _chai.expect)(solutionBlock).to.have.length(0);
         });
       });
 
@@ -4569,20 +4620,42 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
         (0, _mocha.it)('should display the wrong answer in the second div line-throughed bold', function () {
           // given
-
-          // when
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'R+qycNfq',
+            'block': '{"statements":[["append",["helper",["qrocm-ind-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+          var answerBlock = this.$(SECOND_CORRECTION_BLOCK);
+          var answerLabel = this.$(SECOND_CORRECTION_BLOCK + ' ' + LABEL);
+          var answerInput = this.$(SECOND_CORRECTION_BLOCK + ' ' + INPUT);
 
           // then
+          (0, _chai.expect)(answerBlock).to.have.length(1);
+          (0, _chai.expect)(answerLabel).to.have.length(1);
+          (0, _chai.expect)(answerInput).to.have.length(1);
 
+          (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
+          (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
+          (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('line-through');
         });
 
         (0, _mocha.it)('should display one solution in bold green below the input', function () {
           // given
-
-          // when
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'R+qycNfq',
+            'block': '{"statements":[["append",["helper",["qrocm-ind-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+          var solutionBlock = this.$(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
+          var solutionText = this.$(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
 
           // then
+          (0, _chai.expect)(solutionBlock).to.have.length(1);
+          (0, _chai.expect)(solutionText).to.have.length(1);
 
+          (0, _chai.expect)(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
+          (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('bold');
+          (0, _chai.expect)(solutionText.css('text-decoration')).to.be.equal('none');
         });
       });
 
@@ -4590,20 +4663,42 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
         (0, _mocha.it)('should display the empty answer in the third div with "pas de réponse" in italic', function () {
           // given
-
-          // when
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'R+qycNfq',
+            'block': '{"statements":[["append",["helper",["qrocm-ind-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+          var answerBlock = this.$(THIRD_CORRECTION_BLOCK);
+          var answerLabel = this.$(THIRD_CORRECTION_BLOCK + ' ' + LABEL);
+          var answerInput = this.$(THIRD_CORRECTION_BLOCK + ' ' + INPUT);
 
           // then
+          (0, _chai.expect)(answerBlock).to.have.length(1);
+          (0, _chai.expect)(answerLabel).to.have.length(1);
+          (0, _chai.expect)(answerInput).to.have.length(1);
 
+          (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
+          (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
+          (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('none');
         });
 
         (0, _mocha.it)('should display one solution in bold green below the input', function () {
           // given
-
-          // when
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'R+qycNfq',
+            'block': '{"statements":[["append",["helper",["qrocm-ind-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+          var solutionBlock = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
+          var solutionText = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
 
           // then
+          (0, _chai.expect)(solutionBlock).to.have.length(1);
+          (0, _chai.expect)(solutionText).to.have.length(1);
 
+          (0, _chai.expect)(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
+          (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('bold');
+          (0, _chai.expect)(solutionText.css('text-decoration')).to.be.equal('none');
         });
       });
     });
@@ -5434,47 +5529,35 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports
     });
 
     (0, _mocha.describe)('#dataToDisplay', function () {
-      //A REFLECHIR S'IL NE VAUDRAIT PAS MIEUX DEFINIR DES LABELS,ANSWER ET SOLUTION AS OBJECT
       (0, _mocha.it)('should return an array with data to display (case when the answers are right)', function () {
         //Given
-        var challenge = {
-          proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}'
-        };
-        var answer = {
-          value: 'smiley1: \':)\' smiley2: \':(\''
-        };
-        var solution = {
-          value: 'smiley1:\n- :-)\n- :)\n- :-D\n- :D\n- :))\n\nsmiley2:\n- :-(\n- :(\n- :(('
-        };
+        var labelsAsObject = { 'smiley1': 'content : ', 'smiley2': 'triste : ' };
+        var answersAsObject = { 'smiley1': ':)', 'smiley2': ':(' };
+        var solutionsAsObject = { 'smiley1': [':-)', ':)', ':-D', ':D', ':))'], 'smiley2': [':-(', ':(', ':(('] };
         var result = [{ 'label': 'content : ', 'answer': ':)', 'solution': ':-)', 'rightAnswer': true, 'wrongAnswer': false, 'noAnswer': false }, { 'label': 'triste : ', 'answer': ':(', 'solution': ':-(', 'rightAnswer': true, 'wrongAnswer': false, 'noAnswer': false }];
 
         //when
         var component = this.subject();
-        component.set('challenge', challenge);
-        component.set('answer', answer);
-        component.set('solution', solution);
+        component.set('labelsAsObject', labelsAsObject);
+        component.set('answersAsObject', answersAsObject);
+        component.set('solutionsAsObject', solutionsAsObject);
         var dataToDisplay = component.get('dataToDisplay');
+
         //Then
         (0, _chai.expect)(dataToDisplay).to.be.deep.equal(result);
       });
 
       (0, _mocha.it)('should return an array with data to display (case when there is wrong answers)', function () {
         //Given
-        var challenge = {
-          proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}'
-        };
-        var answer = {
-          value: 'num1: \'1\' num2: \'2\''
-        };
-        var solution = {
-          value: 'num1:\n- 2\nnum2:\n- 1'
-        };
+        var labelsAsObject = { 'num1': 'Clé USB : ', 'num2': 'Carte mémoire (SD) : ' };
+        var answersAsObject = { 'num1': '1', 'num2': '2' };
+        var solutionsAsObject = { 'num1': ['2'], 'num2': ['1'] };
         var result = [{ 'label': 'Clé USB : ', 'answer': '1', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': 'Carte mémoire (SD) : ', 'answer': '2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }];
 
         var component = this.subject();
-        component.set('challenge', challenge);
-        component.set('answer', answer);
-        component.set('solution', solution);
+        component.set('labelsAsObject', labelsAsObject);
+        component.set('answersAsObject', answersAsObject);
+        component.set('solutionsAsObject', solutionsAsObject);
 
         //When
         var dataToDisplay = component.get('dataToDisplay');
@@ -5485,24 +5568,18 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports
 
       (0, _mocha.it)('should return an array with data to display (case when there is some empty answer)', function () {
         //Given
-        var challenge = {
-          proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}'
-        };
-        var answer = {
-          value: 'num1: \'\' num2: \'2\''
-        };
-        var solution = {
-          value: 'num1:\n- 2\nnum2:\n- 1'
-        };
+        var labelsAsObject = { 'num1': 'Clé USB : ', 'num2': 'Carte mémoire (SD) : ' };
+        var answersAsObject = { 'num1': '', 'num2': '2' };
+        var solutionsAsObject = { 'num1': ['2'], 'num2': ['1'] };
+        var result = [{ 'label': 'Clé USB : ', 'answer': 'Pas de réponse', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': false, 'noAnswer': true }, { 'label': 'Carte mémoire (SD) : ', 'answer': '2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }];
 
         var component = this.subject();
-        component.set('challenge', challenge);
-        component.set('answer', answer);
-        component.set('solution', solution);
+        component.set('labelsAsObject', labelsAsObject);
+        component.set('answersAsObject', answersAsObject);
+        component.set('solutionsAsObject', solutionsAsObject);
 
         //When
         var dataToDisplay = component.get('dataToDisplay');
-        var result = [{ 'label': 'Clé USB : ', 'answer': 'Pas de réponse', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': false, 'noAnswer': true }, { 'label': 'Carte mémoire (SD) : ', 'answer': '2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }];
 
         //then
         (0, _chai.expect)(dataToDisplay).to.be.deep.equal(result);
@@ -5510,24 +5587,17 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports
 
       (0, _mocha.it)('should return an array with data to display (proposals contains a dash ("-"))', function () {
         //GIVEN
-        var challenge = {
-          proposals: '- alain@pix.fr : ${num1}\n' + '- leonie@pix.fr : ${num2}\n' + '- Programme_Pix.pdf : ${num3}\n' + '- lucie@pix.fr : ${num4}\n' + '- Programme du festival Pix : ${num5}\n' + '- jeremy@pix.fr : ${num6}'
-        };
-        var answer = {
-          value: 'num1: \'1\' num2: \'2\' num3: \'3\' num4: \'4\' num5: \'5\' num6: \'6\''
-        };
-        var solution = {
-          value: 'num1:\n- 2\nnum2:\n- 3\n- 4\nnum3:\n- 6\nnum4:\n- 1\nnum5:\n- 5\nnum6:\n- 2'
-        };
+        var labelsAsObject = { 'num1': '- alain@pix.fr : ', 'num2': '- leonie@pix.fr : ', 'num3': '- Programme_Pix.pdf : ', 'num4': '- lucie@pix.fr : ', 'num5': '- Programme du festival Pix : ', 'num6': '- jeremy@pix.fr : ' };
+        var answersAsObject = { 'num1': '1', 'num2': '2', 'num3': '3', 'num4': '4', 'num5': '5', 'num6': '6' };
+        var solutionsAsObject = { 'num1': ['2'], 'num2': ['3', '4'], 'num3': ['6'], 'num4': ['1'], 'num5': ['5'], 'num6': ['2'] };
+        var result = [{ 'label': '- alain@pix.fr : ', 'answer': '1', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- leonie@pix.fr : ', 'answer': '2', 'solution': '3', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- Programme_Pix.pdf : ', 'answer': '3', 'solution': '6', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- lucie@pix.fr : ', 'answer': '4', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- Programme du festival Pix : ', 'answer': '5', 'solution': '5', 'rightAnswer': true, 'wrongAnswer': false, 'noAnswer': false }, { 'label': '- jeremy@pix.fr : ', 'answer': '6', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }];
 
         //WHEN
         var component = this.subject();
-        component.set('challenge', challenge);
-        component.set('answer', answer);
-        component.set('solution', solution);
+        component.set('labelsAsObject', labelsAsObject);
+        component.set('answersAsObject', answersAsObject);
+        component.set('solutionsAsObject', solutionsAsObject);
         var dataToDisplay = component.get('dataToDisplay');
-
-        var result = [{ 'label': '- alain@pix.fr : ', 'answer': '1', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- leonie@pix.fr : ', 'answer': '2', 'solution': '3', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- Programme_Pix.pdf : ', 'answer': '3', 'solution': '6', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- lucie@pix.fr : ', 'answer': '4', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- Programme du festival Pix : ', 'answer': '5', 'solution': '5', 'rightAnswer': true, 'wrongAnswer': false, 'noAnswer': false }, { 'label': '- jeremy@pix.fr : ', 'answer': '6', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }];
 
         //THEN
         (0, _chai.expect)(dataToDisplay).to.be.deep.equal(result);
@@ -5535,24 +5605,18 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports
 
       (0, _mocha.it)('should return an array with data to display (proposals are questions)', function () {
         //GIVEN
-        var challenge = {
-          proposals: '- Combien le dossier “projet PIX” contient-il de dossiers ? ${Num1}\n\n' + '- Combien le dossier “images” contient-il de fichiers ? ${Num2}'
-        };
-        var answer = {
-          value: 'Num1: \'2\' Num2: \'3\''
-        };
-        var solution = {
-          value: 'Num1:\n - 1\n\nNum2:\n - 6'
-        };
+        var labelsAsObject = { 'Num1': '- Combien le dossier "projet PIX" contient-il de dossiers ? ', 'Num2': '- Combien le dossier "images" contient-il de fichiers ? ' };
+        var answersAsObject = { 'Num1': '2', 'Num2': '3' };
+        var solutionsAsObject = { 'Num1': ['1'], 'Num2': ['6'] };
+        var result = [{ 'label': '- Combien le dossier "projet PIX" contient-il de dossiers ? ', 'answer': '2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- Combien le dossier "images" contient-il de fichiers ? ', 'answer': '3', 'solution': '6', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }];
 
         //WHEN
         var component = this.subject();
-        component.set('challenge', challenge);
-        component.set('answer', answer);
-        component.set('solution', solution);
-        var dataToDisplay = component.get('dataToDisplay');
+        component.set('labelsAsObject', labelsAsObject);
+        component.set('answersAsObject', answersAsObject);
+        component.set('solutionsAsObject', solutionsAsObject);
 
-        var result = [{ 'label': '- Combien le dossier “projet PIX” contient-il de dossiers ? ', 'answer': '2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- Combien le dossier “images” contient-il de fichiers ? ', 'answer': '3', 'solution': '6', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }];
+        var dataToDisplay = component.get('dataToDisplay');
 
         //THEN
         (0, _chai.expect)(dataToDisplay).to.be.deep.equal(result);
