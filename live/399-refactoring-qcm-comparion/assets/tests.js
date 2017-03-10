@@ -2636,6 +2636,15 @@ define('pix-live/tests/components/qcm-proposals.lint-test', ['exports'], functio
     });
   });
 });
+define('pix-live/tests/components/qcm-solution-panel.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/qcm-solution-panel.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/components/qcu-proposals.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -4380,6 +4389,41 @@ define('pix-live/tests/integration/components/qcm-proposals-test.lint-test', ['e
     });
   });
 });
+define('pix-live/tests/integration/components/qcm-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | qcm solution panel', function () {
+    (0, _emberMocha.setupComponentTest)('qcm-solution-panel', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      // Set any properties with this.set('myProperty', 'value');
+      // Handle any actions with this.on('myAction', function(val) { ... });
+      // Template block usage:
+      // this.render(hbs`
+      //   {{#qcm-solution-panel}}
+      //     template content
+      //   {{/qcm-solution-panel}}
+      // `);
+
+      this.render(Ember.HTMLBars.template({
+        'id': 'tl+2p2hY',
+        'block': '{"statements":[["append",["unknown",["qcm-solution-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+  });
+});
+define('pix-live/tests/integration/components/qcm-solution-panel-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/qcm-solution-panel-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/integration/components/qcu-proposals-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | QcuProposals', function () {
@@ -5737,6 +5781,44 @@ define('pix-live/tests/unit/models/answer-test.lint-test', ['exports'], function
     });
   });
 });
+define('pix-live/tests/unit/models/answer/value-as-array-of-boolean-mixin-test', ['exports', 'ember', 'chai', 'mocha', 'pix-live/models/answer/value-as-array-of-boolean-mixin'], function (exports, _ember, _chai, _mocha, _pixLiveModelsAnswerValueAsArrayOfBooleanMixin) {
+
+  _mocha.describe.only('Unit | Model | Value As Array of Boolean Mixin', function () {
+
+    var testData = [{ when: 'Empty String', input: '', expected: [] }, { when: 'Wrong type as input', input: new Date(), expected: [] }, { when: 'Undefined input', input: undefined, expected: [] }, { when: 'Nominal case', input: ',4, 2 , 2,1,  ,', expected: [true, true, false, true] }];
+
+    /*,{ input: 'foo', expected: [] },
+    { input: '- foo', expected: ['foo'] },
+    { input: '-foo\n- bar', expected: ['foo', 'bar'] },
+    { input: '- cerf-volant', expected: ['cerf-volant'] },
+    { input: '- xi\n- foo mi', expected: ['xi', 'foo mi'] },
+    { input: '- joli\n- cerf-volant', expected: ['joli', 'cerf-volant'] },
+    { input: '- xi\n- foo\n- mi', expected: ['xi', 'foo', 'mi'] },
+    { input: '-- foo', expected: ['- foo'] },
+    { input: '- foo\n\r\t\n\r\t\n\r\t\n- bar', expected: ['foo', 'bar'] }*/
+    var Challenge = _ember['default'].Object.extend(_pixLiveModelsAnswerValueAsArrayOfBooleanMixin['default'], {});
+
+    testData.forEach(function (_ref) {
+      var when = _ref.when;
+      var input = _ref.input;
+      var expected = _ref.expected;
+
+      (0, _mocha.it)('"' + when + '", example : "' + JSON.stringify(input) + '" retourne [' + expected + ']', function () {
+        var sut = Challenge.create({ value: input });
+        (0, _chai.expect)(sut.get('_valueAsArrayOfBoolean')).to.deep.equal(expected);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/models/answer/value-as-array-of-boolean-mixin-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/models/answer/value-as-array-of-boolean-mixin-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/unit/models/challenge-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Model | Challenge', function () {
@@ -6649,6 +6731,15 @@ define('pix-live/tests/utils/labeled-checkboxes.lint-test', ['exports'], functio
   'use strict';
 
   describe('ESLint - utils/labeled-checkboxes.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/utils/labeled-radios.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - utils/labeled-radios.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
