@@ -4,7 +4,7 @@ import _ from 'pix-live/utils/lodash-custom';
 
 describe('Unit | Utility | lodash custom', function () {
 
-  describe('#isNonEmptyString', function () {
+  describe('#isNotEmptyString', function () {
 
     it('when no arg, returns false', function () {
       expect(_.isNonEmptyString()).to.equal(false);
@@ -19,6 +19,27 @@ describe('Unit | Utility | lodash custom', function () {
     ].forEach((item) => {
       it(`should return ${item.expected} when value is ${item.value}`, function () {
         expect(_.isNonEmptyString(item.value)).to.equal(item.expected);
+      });
+    });
+  });
+
+  describe('#isNotEmptyArray', function () {
+
+    it('when no arg, returns false', function () {
+      expect(_.isNonEmptyArray()).to.equal(false);
+    });
+
+    [
+      { value: undefined, expected: false },
+      { value: null, expected: false },
+      { value: new Date(), expected: false },
+      { value: [], expected: false },
+      { value: [''], expected: true },
+      { value: ['myvalue'], expected: true },
+      { value: ['1', null, true], expected: true }
+    ].forEach((item) => {
+      it(`should return ${item.expected} when value of array is ${JSON.stringify(item.value)}`, function () {
+        expect(_.isNonEmptyArray(item.value)).to.equal(item.expected);
       });
     });
   });
