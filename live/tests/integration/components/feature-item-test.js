@@ -4,21 +4,48 @@ import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | feature item', function() {
+
   setupComponentTest('feature-item', {
     integration: true
   });
 
-  it('renders', function() {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
-    // Template block usage:
-    // this.render(hbs`
-    //   {{#feature-item}}
-    //     template content
-    //   {{/feature-item}}
-    // `);
+  const feature = {
+    icon: 'coucou',
+    title: 'title_value',
+    description: 'description_value'
+  };
 
-    this.render(hbs`{{feature-item}}`);
+  it('renders', function() {
+    this.set('feature', feature);
+    this.render(hbs`{{feature-item feature=feature}}`);
     expect(this.$()).to.have.length(1);
   });
+
+  it('should render an icon', function () {
+    this.set('feature', feature);
+    this.render(hbs`{{feature-item feature=feature}}`);
+
+    const $icon = this.$('.feature-item__icon');
+    expect($icon).to.exist;
+    expect($icon.attr('src')).to.equal('images/icon-coucou.svg');
+  });
+
+  it('should render an title', function () {
+    this.set('feature', feature);
+    this.render(hbs`{{feature-item feature=feature}}`);
+
+    const $title = this.$('.feature-item__title');
+    expect($title).to.exist;
+    expect($title.text().trim()).to.equal(feature.title);
+  });
+
+  it('should render an description', function () {
+    this.set('feature', feature);
+    this.render(hbs`{{feature-item feature=feature}}`);
+
+    const $description = this.$('.feature-item__description');
+    expect($description).to.exist;
+    expect($description.text().trim()).to.equal(feature.description);
+  });
+
 });
