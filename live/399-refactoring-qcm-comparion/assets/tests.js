@@ -4389,19 +4389,32 @@ define('pix-live/tests/integration/components/qcm-proposals-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/integration/components/qcm-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
+define('pix-live/tests/integration/components/qcm-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember', 'pix-live/utils/lodash-custom'], function (exports, _chai, _mocha, _emberMocha, _ember, _pixLiveUtilsLodashCustom) {
 
-  // const CHECKBOX_CORRECT_AND_CHECKED = '.comparison-window-boolean:eq(1)';
+  var CHECKBOX_CORRECT_AND_CHECKED = '.comparison-window-boolean:eq(1)';
   var LABEL_CORRECT_AND_CHECKED = '.comparison-window-oracle:eq(1)';
 
-  // const CHECKBOX_CORRECT_AND_UNCHECKED = '.comparison-window-boolean:eq(2)';
-  // const LABEL_CORRECT_AND_UNCHECKED = '.comparison-window-oracle:eq(2)';
+  var CHECKBOX_CORRECT_AND_UNCHECKED = '.comparison-window-boolean:eq(2)';
+  var LABEL_CORRECT_AND_UNCHECKED = '.comparison-window-oracle:eq(2)';
 
-  // const CHECKBOX_INCORRECT_AND_CHECKED = '.comparison-window-boolean:eq(3)';
-  // const LABEL_INCORRECT_AND_CHECKED = '.comparison-window-oracle:eq(3)';
+  var CHECKBOX_INCORRECT_AND_CHECKED = '.comparison-window-boolean:eq(3)';
+  var LABEL_INCORRECT_AND_CHECKED = '.comparison-window-oracle:eq(3)';
 
-  // const CHECKBOX_INCORRECT_AND_UNCHECKED = '.comparison-window-boolean:eq(0)';
-  // const LABEL_INCORRECT_AND_UNCHECKED = '.comparison-window-oracle:eq(0)';
+  var CHECKBOX_INCORRECT_AND_UNCHECKED = '.comparison-window-boolean:eq(0)';
+  var LABEL_INCORRECT_AND_UNCHECKED = '.comparison-window-oracle:eq(0)';
+
+  var CSS_BOLD_FONT_WEIGHT = '900';
+  var CSS_NORMAL_FONT_WEIGHT = '400';
+
+  var CSS_GREEN_COLOR = 'rgb(19, 201, 160)';
+  var CSS_BLACK_COLOR = 'rgb(51, 51, 51)';
+
+  var CSS_LINETHROUGH_ON = 'line-through';
+  var CSS_LINETHROUGH_OFF = 'none';
+
+  function charCount(str) {
+    return str.match(/[a-zA-Z]/g).length;
+  }
 
   (0, _mocha.describe)('Integration | Component | qcm-solution-panel.js', function () {
     (0, _emberMocha.setupComponentTest)('qcm-solution-panel', {
@@ -4409,6 +4422,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
     });
 
     (0, _mocha.describe)('#Component should renders: ', function () {
+
       (0, _mocha.it)('Should renders', function () {
         this.render(_ember['default'].HTMLBars.template({
           'id': 'tl+2p2hY',
@@ -4416,56 +4430,197 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
           'meta': {}
         }));
         (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
       });
 
-      (0, _mocha.it)('QCM correcte et cochée', function callee$2$0() {
-        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+      (0, _mocha.describe)('checkbox state', function () {
+
+        (0, _mocha.it)('QCM correcte et cochée', function () {
           var _this = this;
 
-          while (1) switch (context$3$0.prev = context$3$0.next) {
-            case 0:
+          _ember['default'].run(function () {
+            var store = _this.container.lookup('service:store');
 
-              _ember['default'].run(function () {
-                var store = _this.container.lookup('service:store');
+            // Given
+            var assessment = store.createRecord('assessment', { id: 'assessment_id' });
+            var challenge = store.createRecord('challenge', {
+              id: 'challenge_id',
+              proposals: '-foo\n- bar\n- qix\n- yon',
+              type: 'QCM'
+            });
 
-                // Given
+            var answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2,4' });
+            var solution = store.createRecord('solution', { id: 'solution_id', value: '2,3' });
 
-                // const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
-                // const challenge = Ember.Object.extend({ id: 'challenge_id', proposals:'a\nb\nc\nd', type: 'QCM' }).create();
-                // const answer = Ember.Object.extend({ id: 'answer_id', assessment, challenge, value:'3,4' }).create();
-                // const solution = Ember.Object.extend({ id: 'solution_id', value:'2,3' }).create();
-                var assessment = store.createRecord('assessment', { id: 'assessment_id' });
-                var challenge = store.createRecord('challenge', { id: 'challenge_id', proposals: '-foo\n- bar\n- qix\n- yon', type: 'QCM' });
-                var answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2,4' });
-                var solution = store.createRecord('solution', { id: 'solution_id', value: '2,3' });
+            _this.set('answer', answer);
+            _this.set('solution', solution);
+            _this.set('challenge', challenge);
+          });
 
-                _this.set('answer', answer);
-                _this.set('solution', solution);
-                _this.set('challenge', challenge);
+          // When
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'g45K7pGO',
+            'block': '{"statements":[["append",["helper",["qcm-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
 
-                // When
-                _this.render(_ember['default'].HTMLBars.template({
-                  'id': 'g45K7pGO',
-                  'block': '{"statements":[["append",["helper",["qcm-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-                  'meta': {}
-                }));
+          // Then
+          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
+          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
 
-                // Then
-                (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
-                // expect($(CHECKBOX_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
+          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+          (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+        });
 
-                // expect($(CHECKBOX_CORRECT_AND_CHECKED).is(':checked')).to.equal(true);
-                // expect(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
-                // expect($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
-                // expect($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
-                // expect($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
-              });
+        (0, _mocha.it)('QCM correcte et non cochée', function () {
+          var _this2 = this;
 
-            case 1:
-            case 'end':
-              return context$3$0.stop();
-          }
-        }, null, this);
+          _ember['default'].run(function () {
+            var store = _this2.container.lookup('service:store');
+
+            // Given
+            var assessment = store.createRecord('assessment', { id: 'assessment_id' });
+            var challenge = store.createRecord('challenge', {
+              id: 'challenge_id',
+              proposals: '-foo\n- bar\n- qix\n- yon',
+              type: 'QCM'
+            });
+
+            var answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2,4' });
+            var solution = store.createRecord('solution', { id: 'solution_id', value: '2,3' });
+
+            _this2.set('answer', answer);
+            _this2.set('solution', solution);
+            _this2.set('challenge', challenge);
+          });
+
+          // When
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'g45K7pGO',
+            'block': '{"statements":[["append",["helper",["qcm-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // Then
+          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+          (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+        });
+
+        (0, _mocha.it)('QCM incorrecte et cochée', function () {
+          var _this3 = this;
+
+          _ember['default'].run(function () {
+            var store = _this3.container.lookup('service:store');
+
+            // Given
+            var assessment = store.createRecord('assessment', { id: 'assessment_id' });
+            var challenge = store.createRecord('challenge', {
+              id: 'challenge_id',
+              proposals: '-foo\n- bar\n- qix\n- yon',
+              type: 'QCM'
+            });
+
+            var answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2,4' });
+            var solution = store.createRecord('solution', { id: 'solution_id', value: '2,3' });
+
+            _this3.set('answer', answer);
+            _this3.set('solution', solution);
+            _this3.set('challenge', challenge);
+          });
+
+          // When
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'g45K7pGO',
+            'block': '{"statements":[["append",["helper",["qcm-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // Then
+          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+          (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_ON);
+        });
+
+        (0, _mocha.it)('QCM incorrecte et non cochée', function () {
+          var _this4 = this;
+
+          _ember['default'].run(function () {
+            var store = _this4.container.lookup('service:store');
+
+            // Given
+            var assessment = store.createRecord('assessment', { id: 'assessment_id' });
+            var challenge = store.createRecord('challenge', {
+              id: 'challenge_id',
+              proposals: '-foo\n- bar\n- qix\n- yon',
+              type: 'QCM'
+            });
+
+            var answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2,4' });
+            var solution = store.createRecord('solution', { id: 'solution_id', value: '2,3' });
+
+            _this4.set('answer', answer);
+            _this4.set('solution', solution);
+            _this4.set('challenge', challenge);
+          });
+
+          // When
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'g45K7pGO',
+            'block': '{"statements":[["append",["helper",["qcm-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // Then
+          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+          (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+        });
+
+        (0, _mocha.it)('Aucune case à cocher n\'est cliquable', function () {
+          var _this5 = this;
+
+          _ember['default'].run(function () {
+            var store = _this5.container.lookup('service:store');
+
+            // Given
+            var assessment = store.createRecord('assessment', { id: 'assessment_id' });
+            var challenge = store.createRecord('challenge', {
+              id: 'challenge_id',
+              proposals: '-foo\n- bar\n- qix\n- yon',
+              type: 'QCM'
+            });
+
+            var answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2,4' });
+            var solution = store.createRecord('solution', { id: 'solution_id', value: '2,3' });
+
+            _this5.set('answer', answer);
+            _this5.set('solution', solution);
+            _this5.set('challenge', challenge);
+          });
+
+          // When
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'g45K7pGO',
+            'block': '{"statements":[["append",["helper",["qcm-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // Then
+          var size = $('.comparison-window .comparison-window-boolean').length;
+          _pixLiveUtilsLodashCustom['default'].times(size, function (index) {
+            (0, _chai.expect)($('.comparison-window .comparison-window-boolean:eq(' + index + ')').is(':disabled')).to.equal(true);
+          });
+        });
       });
     });
   });
