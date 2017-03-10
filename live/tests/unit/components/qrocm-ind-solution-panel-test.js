@@ -135,7 +135,7 @@ describe('Unit | Component | qrocm-solution-panel', function () {
 
       const result = {
         'num1' : '- alain@pix.fr : ',
-        'num2' : '- leonie@pix.fr : ',
+        'num2' : ' - leonie@pix.fr : ',
         'num3' : '- Programme_Pix.pdf : ',
         'num4' : '- lucie@pix.fr : ',
         'num5' : '- Programme du festival Pix : ',
