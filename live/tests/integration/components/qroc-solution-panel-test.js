@@ -12,7 +12,8 @@ const SOLUTION_DISPLAY = '.correction-qroc-box__solution-text';
 const RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
 const NO_ANSWER_GREY = 'rgb(51, 51, 51)';
 
-describe('Integration | Component | qroc solution panel', function () {
+
+describe.only('Integration | Component | qroc solution panel', function () {
   setupComponentTest('qroc-solution-panel', {
     integration: true
   });
@@ -70,7 +71,7 @@ describe('Integration | Component | qroc solution panel', function () {
       const answerBlock = this.$(ANSWER_BLOCK);
       const answerInput = this.$(ANSWER_INPUT);
       // then
-      expect(answerBlock).to.have.length(1);
+      expect(answerBlock).to.have.lengthOf(1);
       expect(answerInput.css('font-weight')).to.be.equal('400');
       expect(answerInput.css('text-decoration')).to.be.equal('line-through');
 
@@ -80,8 +81,9 @@ describe('Integration | Component | qroc solution panel', function () {
       // given
       const blockSolution = this.$(SOLUTION_BLOCK);
       const blockSolutionText = this.$(SOLUTION_DISPLAY);
+
       // then
-      expect(blockSolution).to.have.length(1);
+      expect(blockSolution).to.have.lengthOf(1);
       expect(blockSolutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
       expect(blockSolutionText.css('font-weight')).to.be.equal('bold');
     });
