@@ -2562,6 +2562,15 @@ define('pix-live/tests/components/navbar-header.lint-test', ['exports'], functio
     });
   });
 });
+define('pix-live/tests/components/pix-logo.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/pix-logo.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/components/progress-bar.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -3902,7 +3911,7 @@ define('pix-live/tests/integration/components/course-item-test', ['exports', 'em
         (0, _chai.expect)($nbChallenges.text().trim()).to.equal('4 épreuves');
       });
 
-      (0, _mocha.it)('should render a "begin" button', function () {
+      (0, _mocha.it)('should render a link to begin the course', function () {
         // given
         var course = _ember['default'].Object.create();
         this.set('course', course);
@@ -3917,6 +3926,23 @@ define('pix-live/tests/integration/components/course-item-test', ['exports', 'em
         // then
         var $startAction = this.$('.course-item__begin-button');
         (0, _chai.expect)($startAction.text().trim()).to.equal('Commencer');
+      });
+
+      (0, _mocha.it)('should render a link containing the course name in title', function () {
+        // given
+        var course = _ember['default'].Object.create({ name: 'My course' });
+        this.set('course', course);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ldqh36hZ',
+          'block': '{"statements":[["append",["helper",["course-item"],null,[["course"],[["get",["course"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        var $startAction = this.$('.course-item__begin-button');
+        (0, _chai.expect)($startAction.attr('title')).to.equal('Commencer le test \"My course\"');
       });
     });
 
@@ -4448,16 +4474,12 @@ define('pix-live/tests/integration/components/navbar-header-test', ['exports', '
     });
 
     (0, _mocha.it)('should display the Pix logo', function () {
-      (0, _chai.expect)(this.$('.navbar-header-logo__image')).to.have.length(1);
-      (0, _chai.expect)(this.$('.navbar-header-logo__image').attr('src')).to.equal('images/pix-logo.svg');
-    });
-
-    (0, _mocha.it)('should redirect to index page when clicking on the Pix logo', function () {
-      (0, _chai.expect)(this.$('.navbar-header-logo__link')).to.exist;
+      (0, _chai.expect)(this.$('.navbar-header-logo')).to.have.lengthOf(1);
+      (0, _chai.expect)(this.$('.pix-logo')).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should display a link to "project" page', function () {
-      (0, _chai.expect)(this.$('.navbar-header-links__link--project')).to.exist;
+      (0, _chai.expect)(this.$('.navbar-header-links__link--project')).to.have.lengthOf(1);
     });
   });
 });
@@ -4465,6 +4487,44 @@ define('pix-live/tests/integration/components/navbar-header-test.lint-test', ['e
   'use strict';
 
   describe('ESLint - integration/components/navbar-header-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/integration/components/pix-logo-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | pix logo', function () {
+
+    (0, _emberMocha.setupComponentTest)('pix-logo', {
+      integration: true
+    });
+
+    (0, _mocha.beforeEach)(function () {
+      this.render(Ember.HTMLBars.template({
+        'id': 'MtdoQIJl',
+        'block': '{"statements":[["append",["unknown",["pix-logo"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+    });
+
+    (0, _mocha.it)('renders', function () {
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.it)('should display the logo', function () {
+      (0, _chai.expect)(this.$('.pix-logo__image').attr('src')).to.equal('images/pix-logo.svg');
+    });
+
+    (0, _mocha.it)('should display "béta"', function () {
+      (0, _chai.expect)(this.$().text().trim()).to.equal('Béta');
+    });
+  });
+});
+define('pix-live/tests/integration/components/pix-logo-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/pix-logo-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
