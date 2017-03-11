@@ -1,8 +1,13 @@
 .navbar-header {
   background-color: transparent;
-  height: 100px;
-  padding-top: 20px;
+  padding: 20px 0;
   float: none;
+  color: $white;
+}
+
+.navbar-header--white {
+  background-color: white;
+  color: $slate-grey;
 }
 
 .navbar-header__container {
@@ -86,11 +91,10 @@
 
 .navbar-header-links__link {
   text-transform: uppercase;
-  color: $white;
   font-size: 13px;
   font-family: $font-lato;
   width: 100%;
-
+  color: inherit;
 
   &:hover,
   &:focus,

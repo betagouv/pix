@@ -82,7 +82,7 @@ describe('Integration | Component | course item', function () {
       expect($nbChallenges.text().trim()).to.equal('4 épreuves');
     });
 
-    it('should render a "begin" button', function () {
+    it('should render a link to begin the course', function () {
       // given
       const course = Ember.Object.create();
       this.set('course', course);
@@ -93,6 +93,19 @@ describe('Integration | Component | course item', function () {
       // then
       const $startAction = this.$('.course-item__begin-button');
       expect($startAction.text().trim()).to.equal('Commencer');
+    });
+
+    it('should render a link containing the course name in title', function () {
+      // given
+      const course = Ember.Object.create({ name: 'My course'});
+      this.set('course', course);
+
+      // when
+      this.render(hbs`{{course-item course=course}}`);
+
+      // then
+      const $startAction = this.$('.course-item__begin-button');
+      expect($startAction.attr('title')).to.equal('Commencer le test \"My course\"');
     });
   });
 

@@ -18,16 +18,12 @@ describe('Integration | Component | navbar-header', function() {
   });
 
   it('should display the Pix logo', function () {
-    expect(this.$('.navbar-header-logo__image')).to.have.length(1);
-    expect(this.$('.navbar-header-logo__image').attr('src')).to.equal('images/pix-logo.svg');
-  });
-
-  it('should redirect to index page when clicking on the Pix logo', function () {
-    expect(this.$('.navbar-header-logo__link')).to.exist;
+    expect(this.$('.navbar-header-logo')).to.have.lengthOf(1);
+    expect(this.$('.pix-logo')).to.have.lengthOf(1);
   });
 
   it('should display a link to "project" page', function () {
-    expect(this.$('.navbar-header-links__link--project')).to.exist;
+    expect(this.$('.navbar-header-links__link--project')).to.have.lengthOf(1);
   });
 
 });
