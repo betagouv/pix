@@ -970,8 +970,6 @@ button.routable-modal--close:active {
   margin: 0;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
   -ms-flex-direction: column;
   flex-direction: column; }
   @media (min-width: 992px) {
@@ -1017,8 +1015,6 @@ button.routable-modal--close:active {
   margin: 0;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
   -ms-flex-direction: column;
   flex-direction: column; }
   @media (min-width: 992px) {
@@ -1525,6 +1521,7 @@ button.routable-modal--close:active {
   text-align: center;
   width: 100%;
   bottom: 0;
+  left: 4px;
   height: 15px; }
 
 .correction-qroc-box--answer__input {
