@@ -424,13 +424,13 @@ button.routable-modal--close:active {
     .app-footer__section {
       margin-bottom: 0; } }
 
-.app-footer__pix-logo {
+.app-footer__section--pix-logo {
   -ms-flex-order: 0;
   order: 0;
   width: 260px;
   text-align: center; }
   @media (min-width: 992px) {
-    .app-footer__pix-logo {
+    .app-footer__section--pix-logo {
       margin: 0; } }
 
 .app-footer__section--contact {
