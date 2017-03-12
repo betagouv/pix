@@ -2010,7 +2010,8 @@ button.routable-modal--close:active {
 .project-page__header {
   padding: 60px 20px;
   width: 100%;
-  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+  /*background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient($blue, $blue);*/
+  background: linear-gradient(to bottom, #4570fb 0%, #2248c2 100%);
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
