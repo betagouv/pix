@@ -1463,11 +1463,21 @@ define('pix-live/helpers/add', ['exports', 'ember-math-helpers/helpers/add'], fu
     }
   });
 });
-define('pix-live/helpers/app-version', ['exports', 'ember', 'pix-live/config/environment'], function (exports, _ember, _pixLiveConfigEnvironment) {
+define('pix-live/helpers/app-version', ['exports', 'ember', 'pix-live/config/environment', 'ember-cli-app-version/utils/regexp'], function (exports, _ember, _pixLiveConfigEnvironment, _emberCliAppVersionUtilsRegexp) {
   exports.appVersion = appVersion;
   var version = _pixLiveConfigEnvironment['default'].APP.version;
 
-  function appVersion() {
+  function appVersion(_) {
+    var hash = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+    if (hash.hideSha) {
+      return version.match(_emberCliAppVersionUtilsRegexp.versionRegExp)[0];
+    }
+
+    if (hash.hideVersion) {
+      return version.match(_emberCliAppVersionUtilsRegexp.shaRegExp)[0];
+    }
+
     return version;
   }
 
@@ -4565,7 +4575,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.4+bb01cc13"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.4+9ba849a6"});
 }
 
 /* jshint ignore:end */
