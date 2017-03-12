@@ -2,7 +2,7 @@
 
   <div class="index-page__background"></div>
 
-  <div class="index-page__section index-page__section--hero index-page-hero">
+  <section class="index-page__section index-page__section--hero index-page-hero">
     <div class="index-page-hero__navbar-header">
       {{navbar-header}}
     </div>
@@ -10,29 +10,29 @@
       <h1 class="index-page-hero__title">Développez vos compétences numériques</h1>
       <p class="index-page-hero__description">PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.</p>
     </div>
-  </div>
+  </section>
 
-  <div class="index-page__section index-page__section--challenges index-page-challenges">
+  <section class="index-page__section index-page__section--challenges index-page-challenges">
     <h2 class="index-page-challenges__title">Découvrez nos épreuves et aidez‑nous à les améliorer !</h2>
     <div class="index-page-challenges__list">
       {{course-list courses=model startCourse='startCourse'}}
     </div>
-  </div>
+  </section>
 
-  <div class="index-page__section index-page__section--community index-page-community">
+  <section class="index-page__section index-page__section--community index-page-community">
     <h2 class="index-page-community__title">Rejoindre la communauté</h2>
     <p class="index-page-community__description">Vous souhaitez devenir béta‑testeur<br>ou être informé(e) du développement de Pix ?</p>
     <div class="index-page-community__form">
       {{follower-form}}
     </div>
-  </div>
+  </section>
 
-  <div class="index-page__section index-page__section--features index-page-features">
+  <section class="index-page__section index-page__section--features index-page-features">
     <div class="index-page-features__list">
       {{feature-list}}
     </div>
     {{#link-to 'project' class="index-page-features__project-button"}}En savoir plus sur le projet{{/link-to}}
-  </div>
+  </section>
 
 </div>
 
