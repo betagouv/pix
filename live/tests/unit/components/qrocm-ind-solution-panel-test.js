@@ -75,7 +75,7 @@ describe('Unit | Component | qrocm-solution-panel', function () {
 
   describe('#labelsAsObject', function () {
 
-    it('should return an object with labels and key on the input', function () {
+    it('should return an object with labels and key on the input 1', function () {
       // given
       const challenge = {
         proposals: 'Clé USB : ${num1}\n\n' +
@@ -101,7 +101,7 @@ describe('Unit | Component | qrocm-solution-panel', function () {
 
     });
 
-    it('should return an object with labels and key on the input', function () {
+    it('should return an object with labels and key on the input 2', function () {
       // given
       const challenge = {
         proposals: '- Combien le dossier “projet PIX” contient-il de dossiers ? ${Num1}\n\n' +
@@ -122,7 +122,7 @@ describe('Unit | Component | qrocm-solution-panel', function () {
       expect(labelsAsObject).to.be.deep.equal(result);
     });
 
-    it('should return an object with labels and key on the input', function () {
+    it('should return an object with labels and key on the input 3', function () {
       // given
       const challenge = {
         proposals: '- alain@pix.fr : ${num1}\n' +
@@ -135,7 +135,7 @@ describe('Unit | Component | qrocm-solution-panel', function () {
 
       const result = {
         'num1' : '- alain@pix.fr : ',
-        'num2' : ' - leonie@pix.fr : ',
+        'num2' : '- leonie@pix.fr : ',
         'num3' : '- Programme_Pix.pdf : ',
         'num4' : '- lucie@pix.fr : ',
         'num5' : '- Programme du festival Pix : ',

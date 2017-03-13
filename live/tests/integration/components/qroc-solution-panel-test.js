@@ -10,10 +10,10 @@ const SOLUTION_BLOCK = '.correction-qroc-box__solution';
 const SOLUTION_DISPLAY = '.correction-qroc-box__solution-text';
 
 const RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
-const NO_ANSWER_GREY = 'rgb(51, 51, 51)';
+const NO_ANSWER_GREY = 'rgb(62, 65, 73)';
 
 
-describe.only('Integration | Component | qroc solution panel', function () {
+describe('Integration | Component | qroc solution panel', function () {
   setupComponentTest('qroc-solution-panel', {
     integration: true
   });
@@ -35,7 +35,7 @@ describe.only('Integration | Component | qroc solution panel', function () {
 
     const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
     const challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
-    const answer = Ember.Object.extend({ id: 'answer_id', isResultOk: true, assessment, challenge }).create();
+    const answer = Ember.Object.extend({ id: 'answer_id', result: 'ok', assessment, challenge }).create();
 
     it('should diplay the answer in bold green and not the solution', function () {
       // given
@@ -60,7 +60,7 @@ describe.only('Integration | Component | qroc solution panel', function () {
     beforeEach(function () {
       const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
       const challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
-      const answer = Ember.Object.extend({ id: 'answer_id', isResultNotOk: true, assessment, challenge }).create();
+      const answer = Ember.Object.extend({ id: 'answer_id', result:'ko', assessment, challenge }).create();
 
       this.set('answer', answer);
       this.render(hbs`{{qroc-solution-panel answer=answer}}`);
@@ -93,7 +93,7 @@ describe.only('Integration | Component | qroc solution panel', function () {
       beforeEach(function () {
         const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
         const challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
-        const answer = Ember.Object.extend({ id: 'answer_id', isResultWithoutAnswer: true, assessment, challenge }).create();
+        const answer = Ember.Object.extend({ id: 'answer_id', result: 'aband', assessment, challenge }).create();
 
         this.set('answer', answer);
         this.render(hbs`{{qroc-solution-panel answer=answer}}`);

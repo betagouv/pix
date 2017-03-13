@@ -56,8 +56,8 @@ const ComparisonWindow = Ember.Component.extend({
   isAssessmentChallengeTypeQroc: Ember.computed.equal('challenge.type', 'QROC'),
   isAssessmentChallengeTypeQcm: Ember.computed.equal('challenge.type', 'QCM'),
   isAssessmentChallengeTypeQrocm: Ember.computed.equal('challenge.type', 'QROCM'),
-  isAssessmentChallengeTypeQrocmInd: Ember.computed.equal('challenge.type', 'QROCM-IND'),
-  isAssessmentChallengeTypeQrocmDep: Ember.computed.equal('challenge.type', 'QROCM-DEP'),
+  isAssessmentChallengeTypeQrocmInd: Ember.computed.equal('challenge.type', 'QROCM-ind'),
+  isAssessmentChallengeTypeQrocmDep: Ember.computed.equal('challenge.type', 'QROCM-dep'),
 
   solutionArray: Ember.computed('solution', function () {
     return this.get('solution').get('_valueAsArrayOfBoolean');

@@ -56,7 +56,7 @@ const resultItem = Ember.Component.extend({
   }),
 
   validationImplementedForChallengeType: Ember.computed('answer.challenge.type', function () {
-    const implementedTypes = ['QCM', 'QROC'];
+    const implementedTypes = ['QCM', 'QROC', 'QROCM-ind'];
     const challengeType = this.get('answer.challenge.type');
     return implementedTypes.includes(challengeType);
   }),
