@@ -13,7 +13,6 @@ function fmtMSS (s) {return (s-(s%=60))/60+(9<s?':':':0')+s;}
 
 export default Ember.Component.extend({
 
-  // public props, passed from template
   allotedTime: null,
 
 
@@ -30,12 +29,10 @@ export default Ember.Component.extend({
   _currentTime: Date.now(),
 
 
-  // public
   remainingSeconds: computed('_elapsedTime', function() {
     return _.round((get(this, '_totalTime') - get(this, '_elapsedTime')) / 1000);
   }),
 
-  // public
   remainingTime: computed('remainingSeconds', function() {
     if (get(this, 'remainingSeconds') < 0) {
       return '0:00';
@@ -43,7 +40,6 @@ export default Ember.Component.extend({
     return fmtMSS(get(this, 'remainingSeconds'));
   }),
 
-  // public
   percentageOfTimeout: computed('_elapsedTime', function() {
     const actualAllotedTime = get(this, 'allotedTime');
     if (!_.isNumeric(actualAllotedTime) || !_.isStrictlyPositiveInteger(actualAllotedTime.toString())) {
