@@ -50,8 +50,8 @@ $challenges-title-color: #3d68ff;
 }
 
 .index-page-hero__title {
-  margin-top: 80px;
-  line-height: 1.4;
+  margin-top: 160px;
+  line-height: 1.2;
   font-family: $font-raleway;
   font-weight: 700;
   color: $white;
@@ -69,6 +69,8 @@ $challenges-title-color: #3d68ff;
   text-align: center;
   font-size: 22px;
   font-weight: 300;
+  padding-top : 20px;
+  line-height : 1.2;
 
   @media (min-width: 992px) {
     padding: 0 200px;
