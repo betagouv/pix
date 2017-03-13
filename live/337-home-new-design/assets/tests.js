@@ -26,21 +26,21 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['exports', 'mocha', 'c
       });
 
       (0, _mocha.it)('a1.1 avec un titre', function () {
-        var expectedTitle = 'Développez vos compétences numériques';
-        (0, _chai.expect)(findWithAssert('.index-page-hero__title').text().trim()).to.equal(expectedTitle);
+        var $title = findWithAssert('.index-page-hero__title');
+        (0, _chai.expect)($title.text().trim()).to.equal('Développez vos compétences numériques');
       });
 
       (0, _mocha.it)('a1.2 avec un descriptif', function () {
-        var expectedDescription = 'PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.';
-        (0, _chai.expect)(findWithAssert('.index-page-hero__description').text().trim()).to.equal(expectedDescription);
+        var $description = findWithAssert('.index-page-hero__description');
+        (0, _chai.expect)($description.text().trim()).to.equal('PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.');
       });
     });
 
     (0, _mocha.describe)('une section "Challenges"', function () {
 
       (0, _mocha.it)('a1.3 avec un titre', function () {
-        var expectedTitle = 'Découvrez nos épreuves et aidez‑nous à les améliorer !';
-        (0, _chai.expect)(findWithAssert('.index-page-challenges__title').text().trim()).to.equal(expectedTitle);
+        var $title = findWithAssert('.index-page-challenges__title');
+        (0, _chai.expect)($title.text().trim()).to.equal('Découvrez nos épreuves et aidez‑nous à les améliorer !');
       });
 
       (0, _mocha.it)('a1.4 avec la liste des challenges', function () {

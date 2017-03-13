@@ -74,6 +74,7 @@ define('pix-live/components/app-header', ['exports', 'ember'], function (exports
 define('pix-live/components/app-menu', ['exports', 'ember'], function (exports, _ember) {
 
   var AppMenu = _ember['default'].Component.extend({
+
     defaultItems: [{
       title: 'Le projet',
       href: '/projet'
@@ -575,6 +576,7 @@ define('pix-live/components/challenge-stay', ['exports', 'ember'], function (exp
   exports['default'] = _ember['default'].Component.extend({});
 });
 define('pix-live/components/comparison-window', ['exports', 'ember', 'pix-live/utils/labeled-checkboxes'], function (exports, _ember, _pixLiveUtilsLabeledCheckboxes) {
+
   var contentReference = {
     ok: {
       title: 'Vous avez la bonne réponse !',
@@ -4652,7 +4654,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.3+139a81e3"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.3+3fc6f596"});
 }
 
 /* jshint ignore:end */

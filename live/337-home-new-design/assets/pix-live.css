@@ -332,72 +332,6 @@ button.routable-modal--close:active {
   height: 100px;
   padding-top: 20px; }
 
-/*
-.app-header {
-  background-color: white;
-}
-
-.app-header-container {
-  height: $app-header-height;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  @media (min-width: 992px) {
-    justify-content: initial;
-  }
-}
-
-.app-header-container-marianne {
-  display: none;
-
-  @media (min-width: 992px) {
-    position: relative;
-    height: 120px;
-    display: block;
-    order: 0;
-    margin-left: 130px;
-  }
-}
-
-.app-header-marianne {
-  margin-top: 35px;
-}
-
-.app-header-container-logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  order: 2;
-
-  @media (min-width: 992px) {
-    margin-left: 433px;
-    order: 0;
-  }
-}
-
-.app-header-logo {
-  margin-top: 12px;
-
-  @media (max-width: 992px) {
-    width: 130px;
-    height: 80px;
-  }
-}
-
-.app-header-navbar {
-  background-color: #fff;
-}
-
-.navbar-header__brand {
-  height: 75px;
-  display: flex;
-  align-items: center;
-  padding-left: 15px;
-}
-*/
 .app-footer {
   padding: 20px;
   display: -ms-flexbox;
@@ -1825,8 +1759,8 @@ button.routable-modal--close:active {
   max-width: 1200px; }
 
 .index-page-hero__title {
-  margin-top: 80px;
-  line-height: 1.4;
+  margin-top: 160px;
+  line-height: 1.2;
   font-family: "Raleway", Arial, sans-serif;
   font-weight: 700;
   color: #ffffff;
@@ -1841,7 +1775,9 @@ button.routable-modal--close:active {
   color: #ffffff;
   text-align: center;
   font-size: 22px;
-  font-weight: 300; }
+  font-weight: 300;
+  padding-top: 20px;
+  line-height: 1.2; }
   @media (min-width: 992px) {
     .index-page-hero__description {
       padding: 0 200px; } }
@@ -2010,8 +1946,7 @@ button.routable-modal--close:active {
 .project-page__header {
   padding: 60px 20px;
   width: 100%;
-  /*background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient($blue, $blue);*/
-  background: linear-gradient(to bottom, #4570fb 0%, #2248c2 100%);
+  background: linear-gradient(to bottom, #3d68ff 0%, #2248c2 100%);
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
