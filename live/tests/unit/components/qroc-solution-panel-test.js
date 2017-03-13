@@ -2,16 +2,105 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | qroc-solution-panel', function () {
+describe.only('Unit | Component | qroc-solution-panel', function () {
 
   setupTest('component:qroc-solution-panel', {});
+
+  describe('#isResultOk', function () {
+
+    it('should return true when result is ok', function () {
+      // given
+      const answer = {
+        result: 'ok'
+      };
+      const component = this.subject();
+      component.set('answer', answer);
+      // when
+      const isResultOk = component.get('isResultOk');
+      // then
+      expect(isResultOk).to.be.true;
+    });
+
+    it('should return true when result is not ok', function () {
+      // given
+      const answer = {
+        result: 'ko'
+      };
+      const component = this.subject();
+      component.set('answer', answer);
+      // when
+      const isResultOk = component.get('isResultOk');
+      // then
+      expect(isResultOk).to.be.false;
+    });
+
+  });
+  describe('#isResultNotOk', function () {
+
+    it('should return true when result is ko', function () {
+      // given
+      const answer = {
+        result: 'ko'
+      };
+      const component = this.subject();
+      component.set('answer', answer);
+      // when
+      const isResultOk = component.get('isResultNotOk');
+      // then
+      expect(isResultOk).to.be.true;
+    });
+
+    it('should return true when result is not ko', function () {
+      // given
+      const answer = {
+        result: 'ok'
+      };
+      const component = this.subject();
+      component.set('answer', answer);
+      // when
+      const isResultOk = component.get('isResultNotOk');
+      // then
+      expect(isResultOk).to.be.false;
+    });
+
+  });
+
+  describe('#isResultWithoutAnswer', function () {
+
+    it('should return true when result is aband', function () {
+      // given
+      const answer = {
+        result: 'aband'
+      };
+      const component = this.subject();
+      component.set('answer', answer);
+      // when
+      const isResultWithoutAnswer = component.get('isResultWithoutAnswer');
+      // then
+      expect(isResultWithoutAnswer).to.be.true;
+    });
+
+    it('should return false when result is not aband', function () {
+      // given
+      const answer = {
+        result: 'ko'
+      };
+      const component = this.subject();
+      component.set('answer', answer);
+      // when
+      const isResultWithoutAnswer = component.get('isResultWithoutAnswer');
+      // then
+      expect(isResultWithoutAnswer).to.be.false;
+    });
+
+  });
 
   describe('#answerToDisplay', function () {
 
     it('should return PAS DE REPONSE if the answer is #ABAND#', function () {
       // given
       const answer = {
-        value:'#ABAND#'
+        value: '#ABAND#'
       };
       const component = this.subject();
       component.set('answer', answer);
@@ -24,7 +113,7 @@ describe('Unit | Component | qroc-solution-panel', function () {
     it('should return the answer if the answer is not #ABAND#', function () {
       // given
       const answer = {
-        value:'La Reponse B'
+        value: 'La Reponse B'
       };
       const component = this.subject();
       component.set('answer', answer);
