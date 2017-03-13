@@ -6,6 +6,7 @@ import _ from 'pix-live/utils/lodash-custom';
 
 
 export default Ember.Component.extend({
+  classNames : ['qcm-solution-panel'],
   answer: null,
   solution: null,
   challenge: null,

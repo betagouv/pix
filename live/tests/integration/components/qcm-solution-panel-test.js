@@ -5,17 +5,17 @@ import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import _ from 'pix-live/utils/lodash-custom';
 
-const CHECKBOX_CORRECT_AND_CHECKED = '.comparison-window-boolean:eq(1)';
-const LABEL_CORRECT_AND_CHECKED = '.comparison-window-oracle:eq(1)';
+const CHECKBOX_CORRECT_AND_CHECKED = '.qcm-panel__proposal-checkbox:eq(1)';
+const LABEL_CORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(1)';
 
-const CHECKBOX_CORRECT_AND_UNCHECKED = '.comparison-window-boolean:eq(2)';
-const LABEL_CORRECT_AND_UNCHECKED = '.comparison-window-oracle:eq(2)';
+const CHECKBOX_CORRECT_AND_UNCHECKED = '.qcm-panel__proposal-checkbox:eq(2)';
+const LABEL_CORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(2)';
 
-const CHECKBOX_INCORRECT_AND_CHECKED = '.comparison-window-boolean:eq(3)';
-const LABEL_INCORRECT_AND_CHECKED = '.comparison-window-oracle:eq(3)';
+const CHECKBOX_INCORRECT_AND_CHECKED = '.qcm-panel__proposal-checkbox:eq(3)';
+const LABEL_INCORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(3)';
 
-const CHECKBOX_INCORRECT_AND_UNCHECKED = '.comparison-window-boolean:eq(0)';
-const LABEL_INCORRECT_AND_UNCHECKED = '.comparison-window-oracle:eq(0)';
+const CHECKBOX_INCORRECT_AND_UNCHECKED = '.qcm-panel__proposal-checkbox:eq(0)';
+const LABEL_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(0)';
 
 
 const CSS_BOLD_FONT_WEIGHT = '900';
@@ -200,9 +200,9 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
         this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        const size = $('.comparison-window .comparison-window-boolean').length;
+        const size = $('.comparison-window .qcm-panel__proposal-checkbox').length;
         _.times(size, function(index) {
-          expect($('.comparison-window .comparison-window-boolean:eq('+ index + ')').is(':disabled')).to.equal(true);
+          expect($('.comparison-window .qcm-panel__proposal-checkbox:eq('+ index + ')').is(':disabled')).to.equal(true);
         });
       });
 
