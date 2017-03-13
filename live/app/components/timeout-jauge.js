@@ -82,13 +82,11 @@ export default Ember.Component.extend({
   },
 
 
-  // Ember Lifecycle Hook
   init() {
     this._super(...arguments);
     this._start();
   },
 
-  // Ember Lifecycle Hook
   willDestroyElement() {
     this._stop();
   }
