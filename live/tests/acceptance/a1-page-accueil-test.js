@@ -27,21 +27,21 @@ describe('Acceptance | a1 - La page d\'accueil', function () {
     });
 
     it('a1.1 avec un titre', function () {
-      const expectedTitle = 'Développez vos compétences numériques';
-      expect(findWithAssert('.index-page-hero__title').text().trim()).to.equal(expectedTitle);
+      const $title = findWithAssert('.index-page-hero__title');
+      expect($title.text().trim()).to.equal('Développez vos compétences numériques');
     });
 
     it('a1.2 avec un descriptif', function () {
-      const expectedDescription = 'PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.';
-      expect(findWithAssert('.index-page-hero__description').text().trim()).to.equal(expectedDescription);
+      const $description = findWithAssert('.index-page-hero__description');
+      expect($description.text().trim()).to.equal('PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.');
     });
   });
 
   describe('une section "Challenges"', function () {
 
     it('a1.3 avec un titre', function () {
-      const expectedTitle = 'Découvrez nos épreuves et aidez‑nous à les améliorer !';
-      expect(findWithAssert('.index-page-challenges__title').text().trim()).to.equal(expectedTitle);
+      const $title = findWithAssert('.index-page-challenges__title');
+      expect($title.text().trim()).to.equal('Découvrez nos épreuves et aidez‑nous à les améliorer !');
     });
 
     it('a1.4 avec la liste des challenges', function () {

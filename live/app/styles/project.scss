@@ -63,8 +63,7 @@
 .project-page__header {
   padding: 60px 20px;
   width: 100%;
-  /*background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient($blue, $blue);*/
-  background: linear-gradient(to bottom, rgba(69,112,251,1) 0%,rgba(34,72,194,1) 100%);
+  background: linear-gradient(to bottom, $blue 0%, #2248c2 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
