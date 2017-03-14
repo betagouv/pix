@@ -7,116 +7,96 @@ const courseSerializer = require('../../../../lib/infrastructure/serializers/air
 
 describe('Unit | Repository | course-repository', function () {
 
-  let stub;
+  let airtableBaseStub;
 
   beforeEach(function () {
     cache.flushAll();
-    stub = sinon.stub(Airtable, 'base');
+    airtableBaseStub = sinon.stub(Airtable, 'base');
   });
 
   afterEach(function () {
     cache.flushAll();
-    stub.restore();
+    airtableBaseStub.restore();
   });
 
   /*
-   * #list()
+   * #getProgressionTests()
    */
 
-  describe('#list()', function () {
+  describe('#getProgressionTests()', function () {
 
-    describe('when the courses have been previously fetched and cached', function () {
+    const cacheKey = 'course-repository_getProgressionTests';
+    let err;
+    let cachedValue;
 
-      it('should return the courses directly retrieved from the cache', function () {
-        // given
-        const cacheKey = 'course-repository_list';
-        const cachedValue = [{ course: '1' }, { course: '2' }, { course: '3' }];
-        cache.set(cacheKey, cachedValue);
-
-        // when
-        const result = CourseRepository.list();
-
-        // then
-        return expect(result).to.eventually.deep.equal(cachedValue);
+    before(function () {
+      sinon.stub(cache, 'get', (key, callback) => {
+        if (key !== cacheKey) {
+          throw new Error(`Wrong cache key (expected ${cacheKey})`);
+        }
+        callback(err, cachedValue);
       });
-
-      it('should not make call to Airtable', function () {
-        expect(stub.called).to.be.false;
-      });
-
     });
 
-    describe('when the cache throw an error', function () {
+    after(function () {
+      cache.get.restore();
+    });
 
+    it('should reject with an error when the cache throw an error', function () {
+      // given
       const cacheErrorMessage = 'Cache error';
+      err = new Error(cacheErrorMessage);
+      cachedValue = null;
 
-      before(function () {
-        sinon.stub(cache, 'get', (key, callback) => {
-          callback(new Error(cacheErrorMessage));
-        });
-      });
+      // when
+      const result = CourseRepository.getProgressionTests();
 
-      after(function () {
-        cache.get.restore();
-      });
-
-      it('should reject with thrown error', function () {
-        // when
-        const result = CourseRepository.list();
-
-        // then
-        return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
-      });
-
+      // then
+      return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
     });
 
-    describe('when the courses have not been previously cached', function () {
+    it('should resolve with the courses retrieved from the cache without calling the Airtable API when the courses have been previously fetched and cached', function () {
+      // given
+      err = null;
+      cachedValue = [{ course: '1' }, { course: '2' }, { course: '3' }];
+
+      // when
+      const result = CourseRepository.getProgressionTests();
+
+      // then
+      expect(airtableBaseStub.called).to.be.false;
+      return expect(result).to.eventually.deep.equal(cachedValue);
+    });
+
+    it('should resolve with the courses fetched from Airtable when the cache entry is empty', function () {
+      // given
+      err = null;
+      cachedValue = null;
 
       const record_1 = { id: 'course_1' };
       const record_2 = { id: 'course_2' };
       const record_3 = { id: 'course_3' };
       const records = [record_1, record_2, record_3];
-
-      beforeEach(function () {
-        stub.returns({
-          select() {
-            return {
-              eachPage(pageCallback, cb) {
-                pageCallback(records, cb);
-              }
-            };
-          }
-        });
+      airtableBaseStub.returns({
+        select() {
+          return {
+            eachPage(pageCallback, cb) {
+              pageCallback(records, cb);
+            }
+          };
+        }
       });
 
-      it('should return the courses fetched from Airtable', function () {
-        // given
-        const courses = [
-          courseSerializer.deserialize(record_1),
-          courseSerializer.deserialize(record_2),
-          courseSerializer.deserialize(record_3)
-        ];
+      // when
+      const result = CourseRepository.getProgressionTests();
 
-        // when
-        const result = CourseRepository.list();
-
-        // then
-        return expect(result).to.eventually.deep.equal(courses);
-      });
-
-      it('should store the course in the cache', function () {
-        // given
-        const cacheKey = 'course-repository_list';
-
-        // when
-        CourseRepository.list().then(() => {
-
-          // then
-          cache.get(cacheKey, (err, cachedValue) => {
-            expect(cachedValue).to.exist;
-          });
-        });
-      });
+      // then
+      const courses = [
+        courseSerializer.deserialize(record_1),
+        courseSerializer.deserialize(record_2),
+        courseSerializer.deserialize(record_3)
+      ];
+      return expect(result).to.eventually.deep.equal(courses);
     });
 
   });
@@ -151,7 +131,7 @@ describe('Unit | Repository | course-repository', function () {
         CourseRepository.get(courseId);
 
         // then
-        expect(stub.called).to.be.false;
+        expect(airtableBaseStub.called).to.be.false;
       });
 
     });
@@ -185,7 +165,7 @@ describe('Unit | Repository | course-repository', function () {
       const record = { id: 'course_id' };
 
       beforeEach(function () {
-        stub.returns({
+        airtableBaseStub.returns({
           find(id, callback) {
             if (record.id !== id) callback(new Error());
             return callback(null, record);
@@ -235,7 +215,7 @@ describe('Unit | Repository | course-repository', function () {
     };
 
     beforeEach(function () {
-      stub.returns({
+      airtableBaseStub.returns({
         find(id, callback) {
           if (record.id !== id) callback(new Error());
           return callback(null, record);
