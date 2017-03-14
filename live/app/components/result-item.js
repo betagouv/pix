@@ -41,6 +41,7 @@ const contentReference = {
 };
 
 const timeOutAfterRender = 1000; //XXX: Wait after attribute rendering
+const allowedButtonFor = ['QCM', 'QROC', 'QCU'];
 
 const resultItem = Ember.Component.extend({
   didRender() {

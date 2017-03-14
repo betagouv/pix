@@ -55,7 +55,8 @@ const ComparisonWindow = Ember.Component.extend({
   index: null,
 
   isAssessmentChallengeTypeQroc: Ember.computed.equal('challenge.type', 'QROC'),
-  isAssessmentChallengeTypeQcm: Ember.computed.equal('challenge.type', 'QCM'),
+  isAssessmentChallengeTypeQCM: Ember.computed.equal('challenge.type', 'QCM'),
+  isAssessmentChallengeTypeQCU: Ember.computed.equal('challenge.type', 'QCU'),
   isAssessmentChallengeTypeQrocm: Ember.computed.equal('challenge.type', 'QROCM'),
   isAssessmentChallengeTypeQrocmInd: Ember.computed.equal('challenge.type', 'QROCM-IND'),
   isAssessmentChallengeTypeQrocmDep: Ember.computed.equal('challenge.type', 'QROCM-DEP'),
@@ -67,6 +68,10 @@ const ComparisonWindow = Ember.Component.extend({
   }),
 
   labeledCheckboxes: Ember.computed('answer', function () {
+    return labeledCheckboxes(this.get('challenge').get('_proposalsAsArray'), this.get('answer').get('_valueAsArrayOfBoolean'));
+  }),
+
+  propositionsLabel: Ember.computed('answer', function() {
     return labeledCheckboxes(this.get('challenge').get('_proposalsAsArray'), this.get('answer').get('_valueAsArrayOfBoolean'));
   }),
 
