@@ -6,32 +6,25 @@ import _ from 'pix-live/utils/lodash-custom';
 
 
 export default Ember.Component.extend({
-  classNames : ['qcm-solution-panel'],
+  classNames: ['qcm-solution-panel'],
   answer: null,
   solution: null,
   challenge: null,
 
   solutionArray: Ember.computed('solution', function () {
-
     const solution = this.get('solution.value');
-
-    if (_.isNonEmptyString(solution)) {
-      return valueAsArrayOfBoolean(solution);
-    }
-
-    return [];
-
+    return _.isNonEmptyString(solution) ? valueAsArrayOfBoolean(solution) : [];
   }),
 
   labeledCheckboxes: Ember.computed('answer', function () {
     const answer = this.get('answer.value');
+    let checkboxes  = [];
     if (_.isNonEmptyString(answer)) {
-      const proposals =  this.get('challenge.proposals');
+      const proposals = this.get('challenge.proposals');
       const proposalsArray = proposalsAsArray(proposals);
       const answerArray = valueAsArrayOfBoolean(answer);
-      const checkboxes = labeledCheckboxes(proposalsArray, answerArray);
-      return checkboxes;
+      checkboxes = labeledCheckboxes(proposalsArray, answerArray);
     }
-    return [];
+    return checkboxes;
   }),
 });
