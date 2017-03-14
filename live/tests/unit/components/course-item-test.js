@@ -6,9 +6,6 @@ describe('Unit | Component | CourseItemComponent', function () {
 
   setupTest('component:course-item', {});
 
-  /* Computed property "labeledRadios"
-   ----------------------------------------------------- */
-
   describe('Computed property "imageUrl"', function () {
     let component;
 

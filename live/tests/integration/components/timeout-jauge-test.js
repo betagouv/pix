@@ -13,7 +13,6 @@ describe('Integration | Component | TimeoutJauge', function () {
   ----------------------------------------------------- */
   describe('Rendering', function () {
     it('It renders', function () {
-      // given
       // when
       this.render(hbs`{{timeout-jauge }}`);
 
@@ -22,7 +21,6 @@ describe('Integration | Component | TimeoutJauge', function () {
     });
 
     it('It renders a red clock if time is over', function () {
-      // given
       // when
       this.render(hbs`{{timeout-jauge allotedTime=0}}`);
 
@@ -32,7 +30,6 @@ describe('Integration | Component | TimeoutJauge', function () {
     });
 
     it('It renders a black clock if time is not over', function () {
-      // given
       // when
       this.render(hbs`{{timeout-jauge allotedTime=1}}`);
 
