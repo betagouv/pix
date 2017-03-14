@@ -4408,6 +4408,12 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
   var CSS_LINETHROUGH_ON = 'line-through';
   var CSS_LINETHROUGH_OFF = 'none';
 
+  var assessment = null;
+  var challenge = null;
+  var answer = null;
+  var solution = null;
+  var store = null;
+
   function charCount(str) {
     return str.match(/[a-zA-Z]/g).length;
   }
@@ -4431,28 +4437,30 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
 
       (0, _mocha.describe)('checkbox state', function () {
 
-        (0, _mocha.it)('QCM correcte et cochée', function () {
+        before(function () {
           var _this = this;
 
           _ember['default'].run(function () {
-            var store = _this.container.lookup('service:store');
+            store = _this.container.lookup('service:store');
 
             // Given
-            var assessment = store.createRecord('assessment', { id: 'assessment_id' });
-            var challenge = store.createRecord('challenge', {
+            assessment = store.createRecord('assessment', { id: 'assessment_id' });
+            challenge = store.createRecord('challenge', {
               id: 'challenge_id',
               proposals: '-foo\n- bar\n- qix\n- yon',
               type: 'QCM'
             });
 
-            var answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2,4' });
-            var solution = store.createRecord('solution', { id: 'solution_id', value: '2,3' });
-
-            _this.set('answer', answer);
-            _this.set('solution', solution);
-            _this.set('challenge', challenge);
+            answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2,4' });
+            solution = store.createRecord('solution', { id: 'solution_id', value: '2,3' });
           });
+        });
 
+        (0, _mocha.it)('QCM correcte et cochée', function () {
+          //Given
+          this.set('answer', answer);
+          this.set('solution', solution);
+          this.set('challenge', challenge);
           // When
           this.render(_ember['default'].HTMLBars.template({
             'id': 'g45K7pGO',
@@ -4472,26 +4480,11 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
         });
 
         (0, _mocha.it)('QCM correcte et non cochée', function () {
-          var _this2 = this;
 
-          _ember['default'].run(function () {
-            var store = _this2.container.lookup('service:store');
-
-            // Given
-            var assessment = store.createRecord('assessment', { id: 'assessment_id' });
-            var challenge = store.createRecord('challenge', {
-              id: 'challenge_id',
-              proposals: '-foo\n- bar\n- qix\n- yon',
-              type: 'QCM'
-            });
-
-            var answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2,4' });
-            var solution = store.createRecord('solution', { id: 'solution_id', value: '2,3' });
-
-            _this2.set('answer', answer);
-            _this2.set('solution', solution);
-            _this2.set('challenge', challenge);
-          });
+          //Given
+          this.set('answer', answer);
+          this.set('solution', solution);
+          this.set('challenge', challenge);
 
           // When
           this.render(_ember['default'].HTMLBars.template({
@@ -4509,26 +4502,11 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
         });
 
         (0, _mocha.it)('QCM incorrecte et cochée', function () {
-          var _this3 = this;
 
-          _ember['default'].run(function () {
-            var store = _this3.container.lookup('service:store');
-
-            // Given
-            var assessment = store.createRecord('assessment', { id: 'assessment_id' });
-            var challenge = store.createRecord('challenge', {
-              id: 'challenge_id',
-              proposals: '-foo\n- bar\n- qix\n- yon',
-              type: 'QCM'
-            });
-
-            var answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2,4' });
-            var solution = store.createRecord('solution', { id: 'solution_id', value: '2,3' });
-
-            _this3.set('answer', answer);
-            _this3.set('solution', solution);
-            _this3.set('challenge', challenge);
-          });
+          //Given
+          this.set('answer', answer);
+          this.set('solution', solution);
+          this.set('challenge', challenge);
 
           // When
           this.render(_ember['default'].HTMLBars.template({
@@ -4546,26 +4524,10 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
         });
 
         (0, _mocha.it)('QCM incorrecte et non cochée', function () {
-          var _this4 = this;
-
-          _ember['default'].run(function () {
-            var store = _this4.container.lookup('service:store');
-
-            // Given
-            var assessment = store.createRecord('assessment', { id: 'assessment_id' });
-            var challenge = store.createRecord('challenge', {
-              id: 'challenge_id',
-              proposals: '-foo\n- bar\n- qix\n- yon',
-              type: 'QCM'
-            });
-
-            var answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2,4' });
-            var solution = store.createRecord('solution', { id: 'solution_id', value: '2,3' });
-
-            _this4.set('answer', answer);
-            _this4.set('solution', solution);
-            _this4.set('challenge', challenge);
-          });
+          //Given
+          this.set('answer', answer);
+          this.set('solution', solution);
+          this.set('challenge', challenge);
 
           // When
           this.render(_ember['default'].HTMLBars.template({
@@ -4583,26 +4545,10 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
         });
 
         (0, _mocha.it)('Aucune case à cocher n\'est cliquable', function () {
-          var _this5 = this;
-
-          _ember['default'].run(function () {
-            var store = _this5.container.lookup('service:store');
-
-            // Given
-            var assessment = store.createRecord('assessment', { id: 'assessment_id' });
-            var challenge = store.createRecord('challenge', {
-              id: 'challenge_id',
-              proposals: '-foo\n- bar\n- qix\n- yon',
-              type: 'QCM'
-            });
-
-            var answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2,4' });
-            var solution = store.createRecord('solution', { id: 'solution_id', value: '2,3' });
-
-            _this5.set('answer', answer);
-            _this5.set('solution', solution);
-            _this5.set('challenge', challenge);
-          });
+          //Given
+          this.set('answer', answer);
+          this.set('solution', solution);
+          this.set('challenge', challenge);
 
           // When
           this.render(_ember['default'].HTMLBars.template({

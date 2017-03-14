@@ -1075,26 +1075,20 @@ define('pix-live/components/qcm-solution-panel', ['exports', 'ember', 'pix-live/
     challenge: null,
 
     solutionArray: _ember['default'].computed('solution', function () {
-
       var solution = this.get('solution.value');
-
-      if (_pixLiveUtilsLodashCustom['default'].isNonEmptyString(solution)) {
-        return (0, _pixLiveUtilsValueAsArrayOfBoolean['default'])(solution);
-      }
-
-      return [];
+      return _pixLiveUtilsLodashCustom['default'].isNonEmptyString(solution) ? (0, _pixLiveUtilsValueAsArrayOfBoolean['default'])(solution) : [];
     }),
 
     labeledCheckboxes: _ember['default'].computed('answer', function () {
       var answer = this.get('answer.value');
+      var checkboxes = [];
       if (_pixLiveUtilsLodashCustom['default'].isNonEmptyString(answer)) {
         var proposals = this.get('challenge.proposals');
         var proposalsArray = (0, _pixLiveUtilsProposalsAsArray['default'])(proposals);
         var answerArray = (0, _pixLiveUtilsValueAsArrayOfBoolean['default'])(answer);
-        var checkboxes = (0, _pixLiveUtilsLabeledCheckboxes['default'])(proposalsArray, answerArray);
-        return checkboxes;
+        checkboxes = (0, _pixLiveUtilsLabeledCheckboxes['default'])(proposalsArray, answerArray);
       }
-      return [];
+      return checkboxes;
     })
   });
 });
@@ -4729,7 +4723,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.4+8c395200"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.4+bbd527e5"});
 }
 
 /* jshint ignore:end */
