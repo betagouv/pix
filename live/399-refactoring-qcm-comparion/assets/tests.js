@@ -966,7 +966,7 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['exports', 'mocha', '
       (0, _chai.expect)($cell.attr('data-original-title')).to.equal('Réponse partielle');
     });
 
-    (0, _mocha.it)('c1.8 Pour une réponse dont l\'utilisateur a bien répondu mais trop tard, le tableau récapitulatif donne' + ' une indication adéquate', function callee$1$0() {
+    (0, _mocha.it)('c1.8 Pour une réponse dont l\'utilisateur a bien répondu mais trop tard, le tableau récapitulatif donne  une indication adéquate', function callee$1$0() {
       var $picto;
       return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
         while (1) switch (context$2$0.prev = context$2$0.next) {
@@ -5991,7 +5991,7 @@ define('pix-live/tests/unit/models/answer/value-as-array-of-boolean-mixin-test',
 
   (0, _mocha.describe)('Unit | Model | Value As Array of Boolean Mixin', function () {
 
-    var testData = [{ when: 'Empty String', input: '', expected: [] }, { when: 'Wrong type as input', input: new Date(), expected: [] }, { when: 'Undefined input', input: undefined, expected: [] }, { when: 'Nominal case', input: '2,3', expected: [false, true, true] }, { when: 'Only one value', input: '4', expected: [false, false, false, true] }, { when: 'Resist to order empty space and empty value', input: ',4, 2 , 2,1,  ,', expected: [true, true, false, true] }];
+    var testData = [{ when: 'Empty String', input: '', expected: [] }, { when: 'Wrong type as input', input: new Date(), expected: [] }, { when: 'Undefined input', input: undefined, expected: [] }, { when: 'Nominal case', input: '2,3', expected: [false, true, true] }, { when: 'Only one value', input: '4', expected: [false, false, false, true] }, { when: 'Resist to order, empty space and empty value', input: ',4, 2 , 2,1,  ,', expected: [true, true, false, true] }];
 
     var Challenge = _ember['default'].Object.extend(_pixLiveModelsAnswerValueAsArrayOfBooleanMixin['default'], {});
 
