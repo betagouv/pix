@@ -27,9 +27,16 @@ const CSS_BLACK_COLOR = 'rgb(51, 51, 51)';
 const CSS_LINETHROUGH_ON = 'line-through';
 const CSS_LINETHROUGH_OFF = 'none';
 
+let assessment = null;
+let challenge = null;
+let answer = null;
+let solution = null;
+let store = null;
+
 function charCount(str) {
   return str.match(/[a-zA-Z]/g).length;
 }
+
 
 describe('Integration | Component | qcm-solution-panel.js', function () {
   setupComponentTest('qcm-solution-panel', {
@@ -46,26 +53,28 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
 
     describe('checkbox state', function () {
 
-      it('QCM correcte et cochée', function () {
+      before(function () {
         Ember.run(() => {
-          const store = this.container.lookup('service:store');
+          store = this.container.lookup('service:store');
 
           // Given
-          const assessment = store.createRecord('assessment', {id: 'assessment_id'});
-          const challenge = store.createRecord('challenge', {
+          assessment = store.createRecord('assessment', {id: 'assessment_id'});
+          challenge = store.createRecord('challenge', {
             id: 'challenge_id',
             proposals: '-foo\n- bar\n- qix\n- yon',
             type: 'QCM'
           });
 
-          const answer = store.createRecord('answer', {id: 'answer_id', assessment, challenge, value: '2,4'});
-          const solution = store.createRecord('solution', {id: 'solution_id', value: '2,3'});
-
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('challenge', challenge);
+          answer = store.createRecord('answer', {id: 'answer_id', assessment, challenge, value: '2,4'});
+          solution = store.createRecord('solution', {id: 'solution_id', value: '2,3'});
         });
+      });
 
+      it('QCM correcte et cochée', function () {
+        //Given
+        this.set('answer', answer);
+        this.set('solution', solution);
+        this.set('challenge', challenge);
         // When
         this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
@@ -82,24 +91,10 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
 
       it('QCM correcte et non cochée', function () {
 
-        Ember.run(() => {
-          const store = this.container.lookup('service:store');
-
-          // Given
-          const assessment = store.createRecord('assessment', {id: 'assessment_id'});
-          const challenge = store.createRecord('challenge', {
-            id: 'challenge_id',
-            proposals: '-foo\n- bar\n- qix\n- yon',
-            type: 'QCM'
-          });
-
-          const answer = store.createRecord('answer', {id: 'answer_id', assessment, challenge, value: '2,4'});
-          const solution = store.createRecord('solution', {id: 'solution_id', value: '2,3'});
-
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('challenge', challenge);
-        });
+        //Given
+        this.set('answer', answer);
+        this.set('solution', solution);
+        this.set('challenge', challenge);
 
         // When
         this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
@@ -114,24 +109,10 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
 
       it('QCM incorrecte et cochée', function () {
 
-        Ember.run(() => {
-          const store = this.container.lookup('service:store');
-
-          // Given
-          const assessment = store.createRecord('assessment', {id: 'assessment_id'});
-          const challenge = store.createRecord('challenge', {
-            id: 'challenge_id',
-            proposals: '-foo\n- bar\n- qix\n- yon',
-            type: 'QCM'
-          });
-
-          const answer = store.createRecord('answer', {id: 'answer_id', assessment, challenge, value: '2,4'});
-          const solution = store.createRecord('solution', {id: 'solution_id', value: '2,3'});
-
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('challenge', challenge);
-        });
+        //Given
+        this.set('answer', answer);
+        this.set('solution', solution);
+        this.set('challenge', challenge);
 
         // When
         this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
@@ -146,24 +127,10 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
       });
 
       it('QCM incorrecte et non cochée', function(){
-        Ember.run(() => {
-          const store = this.container.lookup('service:store');
-
-          // Given
-          const assessment = store.createRecord('assessment', {id: 'assessment_id'});
-          const challenge = store.createRecord('challenge', {
-            id: 'challenge_id',
-            proposals: '-foo\n- bar\n- qix\n- yon',
-            type: 'QCM'
-          });
-
-          const answer = store.createRecord('answer', {id: 'answer_id', assessment, challenge, value: '2,4'});
-          const solution = store.createRecord('solution', {id: 'solution_id', value: '2,3'});
-
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('challenge', challenge);
-        });
+        //Given
+        this.set('answer', answer);
+        this.set('solution', solution);
+        this.set('challenge', challenge);
 
         // When
         this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
@@ -177,24 +144,10 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
       });
 
       it('Aucune case à cocher n\'est cliquable', function(){
-        Ember.run(() => {
-          const store = this.container.lookup('service:store');
-
-          // Given
-          const assessment = store.createRecord('assessment', {id: 'assessment_id'});
-          const challenge = store.createRecord('challenge', {
-            id: 'challenge_id',
-            proposals: '-foo\n- bar\n- qix\n- yon',
-            type: 'QCM'
-          });
-
-          const answer = store.createRecord('answer', {id: 'answer_id', assessment, challenge, value: '2,4'});
-          const solution = store.createRecord('solution', {id: 'solution_id', value: '2,3'});
-
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('challenge', challenge);
-        });
+        //Given
+        this.set('answer', answer);
+        this.set('solution', solution);
+        this.set('challenge', challenge);
 
         // When
         this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
