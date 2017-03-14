@@ -35,7 +35,6 @@ describe('Acceptance | d1 - Valider une épreuve |', function () {
     expect($progressBar.text()).to.contains(expectedText);
   });
 
-
   it('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', function () {
     expect(findWithAssert('.challenge-actions__action-validate')).to.have.lengthOf(1);
   });
