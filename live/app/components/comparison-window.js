@@ -61,7 +61,8 @@ const ComparisonWindow = Ember.Component.extend({
 
   resultItemContent: Ember.computed('answer.result', function () {
     if (!this.get('answer.result')) return;
-    return contentReference[this.get('answer.result')] || contentReference['default'];
+    const answerStatus = this.get('answer.result');
+    return (answerStatus in contentReference)? contentReference[answerStatus] : '';
   })
 
 });
