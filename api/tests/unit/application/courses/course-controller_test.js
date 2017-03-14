@@ -70,7 +70,7 @@ describe('Unit | Controller | course-controller', function () {
 
   describe('#get', function () {
 
-    const course = new Course({ "id": "course_id" });
+    const course = new Course({ 'id': 'course_id' });
 
     it('should fetch and return the given course, serialized as JSONAPI', function (done) {
       // given

@@ -1,5 +1,5 @@
-const Airtable = require('../airtable');
 const cache = require('../cache');
+const airtable = require('../airtable');
 const serializer = require('../serializers/airtable/course-serializer');
 
 const AIRTABLE_TABLE_NAME = 'Tests';
@@ -7,32 +7,27 @@ const AIRTABLE_TABLE_NAME = 'Tests';
 function _getCourses(query, cacheKey) {
   return new Promise((resolve, reject) => {
     cache.get(cacheKey, (err, cachedValue) => {
-      if (err) {
-        return reject(err);
-      }
-      if (cachedValue) {
-        return resolve(cachedValue);
-      }
-      const courses = [];
-      Airtable
-        .base(AIRTABLE_TABLE_NAME)
-        .select(query)
-        .eachPage(
-          (records, fetchNextPage) => {
-            records.forEach(record => {
-              courses.push(serializer.deserialize(record));
-            });
-            fetchNextPage();
-          },
-          (err) => {
-            if (err) {
-              return reject(err);
-            }
-            cache.set(cacheKey, courses);
-            return resolve(courses);
-          });
+      if (err) return reject(err);
+      if (cachedValue) return resolve(cachedValue);
+      airtable
+        .getRecords(AIRTABLE_TABLE_NAME, query, serializer)
+        .then(courses => {
+          cache.set(cacheKey, courses);
+          return resolve(courses);
+        })
+        .catch(reject);
     });
   });
+}
+
+function _fetchCourse(id, cacheKey, resolve, reject) {
+  airtable
+    .getRecord(AIRTABLE_TABLE_NAME, id, serializer)
+    .then(course => {
+      cache.set(cacheKey, course);
+      return resolve(course);
+    })
+    .catch(reject);
 }
 
 module.exports = {
@@ -67,33 +62,20 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const cacheKey = `course-repository_get_${id}`;
       cache.get(cacheKey, (err, cachedValue) => {
-        if (err) {
-          return reject(err);
-        }
-        if (cachedValue) {
-          return resolve(cachedValue);
-        }
-        Airtable
-          .base(AIRTABLE_TABLE_NAME)
-          .find(id, (err, record) => {
-            if (err) {
-              return reject(err);
-            }
-            const course = serializer.deserialize(record);
-            cache.set(cacheKey, course);
-            return resolve(course);
-          });
+        if (err) return reject(err);
+        if (cachedValue) return resolve(cachedValue);
+        return _fetchCourse(id, cacheKey, resolve, reject);
       });
     });
   },
 
   refresh(id) {
-    const cacheKey = `course-repository_get_${id}`;
-    cache.del(cacheKey, (err) => {
-      if (err) {
-        return Promise.reject(err);
-      }
-      return this.get(id);
+    return new Promise((resolve, reject) => {
+      const cacheKey = `course-repository_get_${id}`;
+      cache.del(cacheKey, (err) => {
+        if (err) return reject(err);
+        return _fetchCourse(id, cacheKey, resolve, reject);
+      });
     });
   }
 
