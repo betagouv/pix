@@ -1999,7 +1999,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test.lint-test'
 });
 define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  _mocha.describe.skip('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', function () {
+  (0, _mocha.describe)('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', function () {
 
     var RESULT_URL = '/assessments/ref_assessment_id/results';
     var COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4';
