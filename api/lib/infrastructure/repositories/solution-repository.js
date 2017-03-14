@@ -32,7 +32,7 @@ module.exports = {
       const cacheKey = `solution-repository_get_${challengeId}`;
       cache.del(cacheKey, (err) => {
         if (err) return reject(err);
-        return _fetchSolution(challengeId, reject, cacheKey, resolve);
+        return _fetchSolution(challengeId, cacheKey, resolve, reject);
       });
     });
   }

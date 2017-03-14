@@ -1,277 +1,436 @@
-const { describe, it, before, after, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
-
-const Airtable = require('../../../../lib/infrastructure/airtable');
+const { describe, it, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/cache');
-const CourseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
+const airtable = require('../../../../lib/infrastructure/airtable');
+const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const courseSerializer = require('../../../../lib/infrastructure/serializers/airtable/course-serializer');
+
+function _buildCourse(id, name, description) {
+  return { id, name, description };
+}
 
 describe('Unit | Repository | course-repository', function () {
 
-  let airtableBaseStub;
+  let getRecord;
+  let getRecords;
 
   beforeEach(function () {
     cache.flushAll();
-    airtableBaseStub = sinon.stub(Airtable, 'base');
+    getRecord = sinon.stub(airtable, 'getRecord');
+    getRecords = sinon.stub(airtable, 'getRecords');
   });
 
   afterEach(function () {
     cache.flushAll();
-    airtableBaseStub.restore();
+    getRecord.restore();
+    getRecords.restore();
   });
 
   /*
-   * #getProgressionTests()
+   * #get
    */
 
-  describe('#getProgressionTests()', function () {
+  describe('#get', function () {
 
-    const cacheKey = 'course-repository_getProgressionTests';
-    let err;
-    let cachedValue;
+    const courseId = 'courseId';
+    const cacheKey = `course-repository_get_${courseId}`;
+    const course = { foo: 'bar' };
 
-    before(function () {
-      sinon.stub(cache, 'get', (key, callback) => {
-        if (key !== cacheKey) {
-          throw new Error(`Wrong cache key (expected ${cacheKey})`);
-        }
-        callback(err, cachedValue);
-      });
-    });
+    it('should resolve with the course directly retrieved from the cache without calling airtable when the course has been cached', function () {
+      // given
+      getRecord.resolves(true);
+      cache.set(cacheKey, course);
 
-    after(function () {
-      cache.get.restore();
+      // when
+      const result = courseRepository.get(courseId);
+
+      // then
+      expect(getRecord.notCalled).to.be.true;
+      return expect(result).to.eventually.deep.equal(course);
     });
 
     it('should reject with an error when the cache throw an error', function () {
       // given
       const cacheErrorMessage = 'Cache error';
-      err = new Error(cacheErrorMessage);
-      cachedValue = null;
+      sinon.stub(cache, 'get', (key, callback) => {
+        callback(new Error(cacheErrorMessage));
+      });
 
       // when
-      const result = CourseRepository.getProgressionTests();
+      const result = courseRepository.get(courseId);
 
       // then
+      cache.get.restore();
       return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
     });
 
-    it('should resolve with the courses retrieved from the cache without calling the Airtable API when the courses have been previously fetched and cached', function () {
-      // given
-      err = null;
-      cachedValue = [{ course: '1' }, { course: '2' }, { course: '3' }];
+    describe('when the course was not previously cached', function () {
 
-      // when
-      const result = CourseRepository.getProgressionTests();
-
-      // then
-      expect(airtableBaseStub.called).to.be.false;
-      return expect(result).to.eventually.deep.equal(cachedValue);
-    });
-
-    it('should resolve with the courses fetched from Airtable when the cache entry is empty', function () {
-      // given
-      err = null;
-      cachedValue = null;
-
-      const record_1 = { id: 'course_1' };
-      const record_2 = { id: 'course_2' };
-      const record_3 = { id: 'course_3' };
-      const records = [record_1, record_2, record_3];
-      airtableBaseStub.returns({
-        select() {
-          return {
-            eachPage(pageCallback, cb) {
-              pageCallback(records, cb);
-            }
-          };
-        }
+      beforeEach(function () {
+        getRecord.resolves(course);
       });
 
-      // when
-      const result = CourseRepository.getProgressionTests();
+      it('should resolve with the courses fetched from airtable', function (done) {
+        // when
+        const result = courseRepository.get(courseId);
 
-      // then
-      const courses = [
-        courseSerializer.deserialize(record_1),
-        courseSerializer.deserialize(record_2),
-        courseSerializer.deserialize(record_3)
-      ];
-      return expect(result).to.eventually.deep.equal(courses);
+        // then
+        expect(result).to.eventually.deep.equal(course);
+        done();
+      });
+
+      it('should cache the course fetched from airtable', function (done) {
+        // when
+        courseRepository.get(courseId).then(() => {
+
+          // then
+          cache.get(cacheKey, (err, cachedValue) => {
+            expect(cachedValue).to.exist;
+            done();
+          });
+        });
+      });
+
+      it('should query correctly airtable', function (done) {
+        // when
+        courseRepository.get(courseId).then(() => {
+
+          // then
+          expect(getRecord.calledWith('Tests', courseId, courseSerializer)).to.be.true;
+          done();
+        });
+      });
     });
-
   });
 
   /*
-   * #get(id)
+   * #refresh
    */
 
-  describe('#get(id)', function () {
+  describe('#refresh', function () {
 
-    describe('when the course has been previously fetched and cached', function () {
+    const courseId = 'course_id';
+    const cacheKey = `course-repository_get_${courseId}`;
 
-      const courseId = 'courseId';
-      const cacheKey = `course-repository_get_${courseId}`;
-      const cachedValue = { foo: 'bar' };
-
-      beforeEach(function () {
-        // given
-        cache.set(cacheKey, cachedValue);
-      });
-
-      it('should return the course directly retrieved from the cache', function () {
-        // when
-        const result = CourseRepository.get(courseId);
-
-        // then
-        return expect(result).to.eventually.deep.equal(cachedValue);
-      });
-
-      it('should not make call to Airtable', function () {
-        // when
-        CourseRepository.get(courseId);
-
-        // then
-        expect(airtableBaseStub.called).to.be.false;
-      });
-
-    });
-
-    describe('when the cache throw an error', function () {
-
+    it('should reject with an error when the cache throw an error', function () {
+      // given
       const cacheErrorMessage = 'Cache error';
-
-      before(function () {
-        sinon.stub(cache, 'get', (key, callback) => {
-          callback(new Error(cacheErrorMessage));
-        });
+      sinon.stub(cache, 'del', (key, callback) => {
+        callback(new Error(cacheErrorMessage));
       });
-
-      after(function () {
-        cache.get.restore();
-      });
-
-      it('should reject with thrown error', function () {
-        // when
-        const result = CourseRepository.get('course_id');
-
-        // then
-        return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
-      });
-
-    });
-
-    describe('when the course has not been previously cached', function () {
-
-      const record = { id: 'course_id' };
-
-      beforeEach(function () {
-        airtableBaseStub.returns({
-          find(id, callback) {
-            if (record.id !== id) callback(new Error());
-            return callback(null, record);
-          }
-        });
-      });
-
-      it('should return the course fetched from Airtable', function () {
-        // given
-        const course = courseSerializer.deserialize(record);
-
-        // when
-        const result = CourseRepository.get(course.id);
-
-        // then
-        return expect(result).to.eventually.deep.equal(course);
-      });
-
-      it('should store the course in the cache', function () {
-        // given
-        const courseId = 'course_id';
-
-        // when
-        CourseRepository.get(courseId);
-
-        cache.get(`course-repository_get_${courseId}`, (err, cachedValue) => {
-          expect(cachedValue).to.exist;
-        });
-      });
-    });
-  });
-
-  /*
-   * #refresh(id)
-   */
-
-  describe('#refresh(id)', function () {
-
-    const record = {
-      id: 'course_id',
-      'fields': {
-        'Consigne': 'Citez jusqu\'à 3 moteurs de recherche généralistes.',
-        'Propositions': '${moteur 1}\n${moteur 2}\n${moteur 3}',
-        'Type d\'épreuve': 'QROCM',
-        'Bonnes réponses': '${moteur 1} ou ${moteur 2} ou ${moteur 3} = \nGoogle\nBing\nQwant\nDuckduckgo\nYahoo\nYahoo Search\nLycos\nAltavista\nHotbot'
-      }
-    };
-
-    beforeEach(function () {
-      airtableBaseStub.returns({
-        find(id, callback) {
-          if (record.id !== id) callback(new Error());
-          return callback(null, record);
-        }
-      });
-    });
-
-    it('should return the course fetched from Airtable', function () {
-      // given
-      const course = courseSerializer.deserialize(record);
 
       // when
-      const result = CourseRepository.refresh(course.id);
+      const result = courseRepository.refresh(courseId);
+
+      // then
+      cache.del.restore();
+      return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+    });
+
+    it('should resolve with the course fetched from airtable when the course was not previously cached', function () {
+      // given
+      const course = {
+        id: courseId,
+        name: 'Course name',
+        description: 'Course description'
+      };
+      getRecord.resolves(course);
+
+      // when
+      const result = courseRepository.refresh(courseId);
 
       // then
       return expect(result).to.eventually.deep.equal(course);
     });
 
-    it('should store the course in the cache', function () {
+    it('should replace the old course by the new one in cache', function () {
       // given
-      const courseId = 'course_id';
+      const oldCourse = {
+        id: courseId,
+        name: 'Old course',
+        description: 'Old description of the course'
+      };
+      cache.set(cacheKey, oldCourse);
+      const newCourse = {
+        id: courseId,
+        name: 'New course',
+        description: 'new description of the course'
+      };
+      getRecord.resolves(newCourse);
 
       // when
-      CourseRepository.refresh(courseId);
+      courseRepository.refresh(courseId).then(() => {
 
-      // then
-      cache.get(`course-repository_get_${courseId}`, (err, cachedValue) => {
-        expect(cachedValue).to.exist;
+        // then
+        cache.get(cacheKey, (err, cachedValue) => {
+          expect(cachedValue).to.deep.equal(newCourse);
+        });
       });
     });
+  });
 
-    describe('when the cache throw an error', function () {
+  /*
+   * #getProgressionTests
+   */
 
+  describe('#getProgressionTests', function () {
+
+    const cacheKey = 'course-repository_getProgressionTests';
+    const courses = [
+      _buildCourse('course_id_1', 'Course #1', 'Desc. #1'),
+      _buildCourse('course_id_2', 'Course #2', 'Desc. #2'),
+      _buildCourse('course_id_3', 'Course #3', 'Desc. #3')
+    ];
+
+    it('should reject with an error when the cache throw an error', function (done) {
+      // given
       const cacheErrorMessage = 'Cache error';
+      sinon.stub(cache, 'get', (key, callback) => {
+        callback(new Error(cacheErrorMessage));
+      });
 
-      before(function () {
-        sinon.stub(cache, 'del', (key, callback) => {
-          callback(new Error(cacheErrorMessage));
+      // when
+      const result = courseRepository.getProgressionTests();
+
+      // then
+      cache.get.restore();
+      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+      done();
+    });
+
+    it('should resolve with the course directly retrieved from the cache without calling airtable when the course has been cached', function (done) {
+      // given
+      getRecords.resolves(true);
+      cache.set(cacheKey, courses);
+
+      // when
+      const result = courseRepository.getProgressionTests();
+
+      // then
+      expect(getRecords.notCalled).to.be.true;
+      expect(result).to.eventually.deep.equal(courses);
+      done();
+    });
+
+    describe('when courses have not been previsously cached', function () {
+
+      beforeEach(function () {
+        getRecords.resolves(courses);
+      });
+
+      it('should resolve with the courses fetched from airtable', function (done) {
+        // when
+        const result = courseRepository.getProgressionTests();
+
+        // then
+        expect(result).to.eventually.deep.equal(courses);
+        done();
+      });
+
+      it('should cache the course fetched from airtable', function (done) {
+        // when
+        courseRepository.getProgressionTests().then(() => {
+
+          // then
+          cache.get(cacheKey, (err, cachedValue) => {
+            expect(cachedValue).to.exist;
+            done();
+          });
         });
       });
 
-      after(function () {
-        cache.del.restore();
-      });
+      it('should query correctly airtable', function (done) {
+        // given
+        const expectedQuery = {
+          sort: [{ field: 'Ordre affichage', direction: 'asc' }],
+          view: 'Tests de progression'
+        };
 
-      it('should reject with thrown error', function () {
         // when
-        const result = CourseRepository.refresh('course_id');
+        courseRepository.getProgressionTests().then(() => {
 
-        // then
-        return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+          // then
+          expect(getRecords.calledWith('Tests', expectedQuery, courseSerializer)).to.be.true;
+          done();
+        });
       });
-
     });
 
   });
 
-})
-;
+  /*
+   * #getCoursesOfTheWeek
+   */
+
+  describe('#getCoursesOfTheWeek', function () {
+
+    const cacheKey = 'course-repository_getCoursesOfTheWeek';
+    const courses = [
+      _buildCourse('course_id_1', 'Course #1', 'Desc. #1'),
+      _buildCourse('course_id_2', 'Course #2', 'Desc. #2'),
+      _buildCourse('course_id_3', 'Course #3', 'Desc. #3')
+    ];
+
+    it('should reject with an error when the cache throw an error', function (done) {
+      // given
+      const cacheErrorMessage = 'Cache error';
+      sinon.stub(cache, 'get', (key, callback) => {
+        callback(new Error(cacheErrorMessage));
+      });
+
+      // when
+      const result = courseRepository.getCoursesOfTheWeek();
+
+      // then
+      cache.get.restore();
+      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+      done();
+    });
+
+    it('should resolve with the courses directly retrieved from the cache without calling airtable when the course has been cached', function (done) {
+      // given
+      getRecords.resolves(true);
+      cache.set(cacheKey, courses);
+
+      // when
+      const result = courseRepository.getCoursesOfTheWeek();
+
+      // then
+      expect(getRecords.notCalled).to.be.true;
+      expect(result).to.eventually.deep.equal(courses);
+      done();
+    });
+
+    describe('when courses have not been previsously cached', function () {
+
+      beforeEach(function () {
+        getRecords.resolves(courses);
+      });
+
+      it('should resolve with the courses fetched from airtable', function (done) {
+        // when
+        const result = courseRepository.getCoursesOfTheWeek();
+
+        // then
+        expect(result).to.eventually.deep.equal(courses);
+        done();
+      });
+
+      it('should cache the course fetched from airtable', function (done) {
+        // when
+        courseRepository.getCoursesOfTheWeek().then(() => {
+
+          // then
+          cache.get(cacheKey, (err, cachedValue) => {
+            expect(cachedValue).to.exist;
+            done();
+          });
+        });
+      });
+
+      it('should query correctly airtable', function (done) {
+        // given
+        const expectedQuery = {
+          sort: [{ field: 'Ordre affichage', direction: 'asc' }],
+          view: 'Défis de la semaine'
+        };
+
+        // when
+        courseRepository.getCoursesOfTheWeek().then(() => {
+
+          // then
+          expect(getRecords.calledWith('Tests', expectedQuery, courseSerializer)).to.be.true;
+          done();
+        });
+      });
+    });
+
+  });
+
+  /*
+   * #getAdaptiveCourses
+   */
+
+  describe('#getAdaptiveCourses', function () {
+
+    const cacheKey = 'course-repository_getAdaptiveCourses';
+    const courses = [
+      _buildCourse('course_id_1', 'Course #1', 'Desc. #1'),
+      _buildCourse('course_id_2', 'Course #2', 'Desc. #2'),
+      _buildCourse('course_id_3', 'Course #3', 'Desc. #3')
+    ];
+
+    it('should reject with an error when the cache throw an error', function (done) {
+      // given
+      const cacheErrorMessage = 'Cache error';
+      sinon.stub(cache, 'get', (key, callback) => {
+        callback(new Error(cacheErrorMessage));
+      });
+
+      // when
+      const result = courseRepository.getAdaptiveCourses();
+
+      // then
+      cache.get.restore();
+      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+      done();
+    });
+
+    it('should resolve with the courses directly retrieved from the cache without calling airtable when the course has been cached', function (done) {
+      // given
+      getRecords.resolves(true);
+      cache.set(cacheKey, courses);
+
+      // when
+      const result = courseRepository.getAdaptiveCourses();
+
+      // then
+      expect(getRecords.notCalled).to.be.true;
+      expect(result).to.eventually.deep.equal(courses);
+      done();
+    });
+
+    describe('when courses have not been previsously cached', function () {
+
+      beforeEach(function () {
+        getRecords.resolves(courses);
+      });
+
+      it('should resolve with the courses fetched from airtable', function (done) {
+        // when
+        const result = courseRepository.getAdaptiveCourses();
+
+        // then
+        expect(result).to.eventually.deep.equal(courses);
+        done();
+      });
+
+      it('should cache the course fetched from airtable', function (done) {
+        // when
+        courseRepository.getAdaptiveCourses().then(() => {
+
+          // then
+          cache.get(cacheKey, (err, cachedValue) => {
+            expect(cachedValue).to.exist;
+            done();
+          });
+        });
+      });
+
+      it('should query correctly airtable', function (done) {
+        // given
+        const expectedQuery = {
+          sort: [{ field: 'Ordre affichage', direction: 'asc' }],
+          view: 'Tests de positionnement'
+        };
+
+        // when
+        courseRepository.getAdaptiveCourses().then(() => {
+
+          // then
+          expect(getRecords.calledWith('Tests', expectedQuery, courseSerializer)).to.be.true;
+          done();
+        });
+      });
+    });
+  });
+});

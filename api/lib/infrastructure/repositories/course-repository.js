@@ -46,12 +46,13 @@ module.exports = {
       sort: [{ field: 'Ordre affichage', direction: 'asc' }],
       view: 'Défis de la semaine'
     };
-    const cacheKey = 'course-repository_getChallengesOfTheWeek';
+    const cacheKey = 'course-repository_getCoursesOfTheWeek';
     return _getCourses(query, cacheKey);
   },
 
   getAdaptiveCourses() {
     const query = {
+      sort: [{ field: 'Ordre affichage', direction: 'asc' }],
       view: 'Tests de positionnement'
     };
     const cacheKey = 'course-repository_getAdaptiveCourses';
