@@ -1010,7 +1010,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'moch
   (0, _mocha.describe)('Acceptance | d1 - Valider une épreuve |', function () {
 
     var application = undefined;
-
+    var PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
     (0, _mocha.before)(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
       visitTimedChallenge();
@@ -1021,13 +1021,12 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'moch
     });
 
     (0, _mocha.it)('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', function () {
-      var expectedText = '1';
-      var $progressBar = findWithAssert('.pix-progress-bar');
-      (0, _chai.expect)($progressBar.text()).to.contains(expectedText);
+      var $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
+      (0, _chai.expect)($progressBar.text().trim()).to.equal('1 / 5');
     });
 
     (0, _mocha.it)('d1.0b La barre de progression commence à 1, si j\'accède au challenge depuis depuis le lien Airtable', function callee$1$0() {
-      var expectedText, $progressBar;
+      var $progressBar;
       return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
         while (1) switch (context$2$0.prev = context$2$0.next) {
           case 0:
@@ -1039,12 +1038,11 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'moch
             return regeneratorRuntime.awrap(click('.challenge-item-warning button'));
 
           case 4:
-            expectedText = '1';
-            $progressBar = findWithAssert('.pix-progress-bar');
+            $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
 
-            (0, _chai.expect)($progressBar.text()).to.contains(expectedText);
+            (0, _chai.expect)($progressBar.text().trim()).to.equal('1 / 5');
 
-          case 7:
+          case 6:
           case 'end':
             return context$2$0.stop();
         }
