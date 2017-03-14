@@ -4,7 +4,7 @@ import _ from 'pix-live/utils/lodash-custom';
 
 describe('Unit | Utility | lodash custom', function () {
 
-  describe('#isNotEmptyString', function () {
+  describe('#isNonEmptyString', function () {
 
     it('when no arg, returns false', function () {
       expect(_.isNonEmptyString()).to.equal(false);
@@ -23,7 +23,7 @@ describe('Unit | Utility | lodash custom', function () {
     });
   });
 
-  describe('#isNotEmptyArray', function () {
+  describe('#isNonEmptyArray', function () {
 
     it('when no arg, returns false', function () {
       expect(_.isNonEmptyArray()).to.equal(false);
