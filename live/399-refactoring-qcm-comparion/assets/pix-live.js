@@ -638,7 +638,8 @@ define('pix-live/components/comparison-window', ['exports', 'ember'], function (
 
     resultItemContent: _ember['default'].computed('answer.result', function () {
       if (!this.get('answer.result')) return;
-      return contentReference[this.get('answer.result')] || contentReference['default'];
+      var answerStatus = this.get('answer.result');
+      return answerStatus in contentReference ? contentReference[answerStatus] : '';
     })
 
   });
@@ -4541,56 +4542,6 @@ define('pix-live/utils/labeled-checkboxes', ['exports', 'pix-live/utils/lodash-c
     .value();
   }
 });
-define('pix-live/utils/labeled-radios', ['exports', 'pix-live/utils/lodash-custom'], function (exports, _pixLiveUtilsLodashCustom) {
-  exports['default'] = labeledRadios;
-
-  /*
-   * Example :
-   * => Input :
-   *     proposals :  ['is sky red ?' , 'is sun red ?' , 'is grass red ?' , 'is cloud red ?']
-   * => Input :
-   *     userAnswers :  2
-   * => Input :
-   *     solution :  2
-   *
-   * WARNING : only first(s) userAnswers are given,
-   *           all others have implicitly the boolean value "false"
-   *
-   * => Output :
-   *    [['is sky red ?', false, false],
-   *     ['is sun red ?', true, false],
-   *     ['is grass red ?', false, false],
-   *     ['are clouds red ?' false, false]]
-   */
-
-  function labeledRadios(proposals, userAnswers, solution) {
-
-    // accept that user didn't give any answer yet
-    var definedUserAnswers = _pixLiveUtilsLodashCustom['default'].isNil(userAnswers) || _pixLiveUtilsLodashCustom['default'].isNaN(userAnswers) ? '' : _pixLiveUtilsLodashCustom['default'].parseInt(userAnswers); //2 or ''
-
-    // check pre-conditions
-    if ((0, _pixLiveUtilsLodashCustom['default'])(proposals).isNotArrayOfString()) return [];
-    if ((0, _pixLiveUtilsLodashCustom['default'])(proposals).isEmpty()) return [];
-    if (_pixLiveUtilsLodashCustom['default'].isNil(solution) || _pixLiveUtilsLodashCustom['default'].isNaN(solution)) return [];
-
-    var proposalsLength = (0, _pixLiveUtilsLodashCustom['default'])(proposals).size(); //4
-    var validProposalIndex = _pixLiveUtilsLodashCustom['default'].parseInt(solution) - 1; //1
-    var arrayOfFalse = _pixLiveUtilsLodashCustom['default'].times(proposalsLength, _pixLiveUtilsLodashCustom['default'].constant(false)); // [false, false, false, false]
-
-    var proposalStatus = _pixLiveUtilsLodashCustom['default'].clone(arrayOfFalse);
-    proposalStatus[validProposalIndex] = true; //[false, true, false, false]
-
-    var proposalsChecked = _pixLiveUtilsLodashCustom['default'].clone(arrayOfFalse);
-
-    if (_pixLiveUtilsLodashCustom['default'].size(definedUserAnswers) > 0) {
-      proposalsChecked[definedUserAnswers] = true; //[false, true, false, false]
-    }
-
-    return _pixLiveUtilsLodashCustom['default'].chain(proposals) // [false, true]
-    .zip(proposalStatus, proposalsChecked) // [['prop 1', false, false], ['prop 2', false, true], ['prop 3', true, false]]
-    .value();
-  }
-});
 define('pix-live/utils/lodash-custom', ['exports'], function (exports) {
   /* global _ */
 
@@ -4778,7 +4729,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.4+e0f8b537"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.4+8c395200"});
 }
 
 /* jshint ignore:end */

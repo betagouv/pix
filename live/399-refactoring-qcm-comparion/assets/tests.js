@@ -1731,7 +1731,7 @@ define('pix-live/tests/acceptance/i1-page-warning-timee-test.lint-test', ['expor
     });
   });
 });
-define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   // see http://stackoverflow.com/a/7349478/2595513
   function charCount(str) {
@@ -1905,10 +1905,10 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test', ['export
     });
   });
 });
-define('pix-live/tests/acceptance/j1-compare-answer-solution-qcm-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/j1-compare-answer-solution-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - acceptance/j1-compare-answer-solution-qcm-test.js', function () {
+  describe('ESLint - acceptance/j1-compare-answer-solution-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -6992,15 +6992,6 @@ define('pix-live/tests/utils/labeled-checkboxes.lint-test', ['exports'], functio
   'use strict';
 
   describe('ESLint - utils/labeled-checkboxes.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/utils/labeled-radios.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - utils/labeled-radios.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
