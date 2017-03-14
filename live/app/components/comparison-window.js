@@ -1,4 +1,5 @@
 import Ember from 'ember';
+
 const contentReference = {
   ok: {
     title: 'Vous avez la bonne réponse !',
