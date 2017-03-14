@@ -15,10 +15,6 @@ import refQrocmAnswer from '../data/answers/ref-qrocm-answer';
 
 export default function (schema, request) {
 
-  /* eslint-disable */
-  console.log('POST on api/answer with requestBody- - - - - - - - - - - - - - - - - - - - ', request.requestBody);
-  /* eslint-enable */
-
   const answer = JSON.parse(request.requestBody);
   const challengeId = answer.data.relationships.challenge.data.id;
 
