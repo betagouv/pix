@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe.only('Unit | Component | qrocm-solution-panel', function () {
+describe('Unit | Component | qrocm-solution-panel', function () {
 
   setupTest('component:qrocm-ind-solution-panel', {});
 
@@ -309,9 +309,6 @@ describe.only('Unit | Component | qrocm-solution-panel', function () {
 
       //When
       const dataToDisplay = component.get('dataToDisplay');
-
-      console.log('dataToDisplay : ' + JSON.stringify(dataToDisplay));
-      console.log('result : ' + JSON.stringify(result));
 
       //then
       expect(dataToDisplay).to.be.deep.equal(result);
