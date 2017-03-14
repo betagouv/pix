@@ -12,9 +12,13 @@ function hideMessageDiv(context) {
 }
 
 export default Ember.Component.extend({
+
+  classNames: ['follower-form'],
+
   emailValidator: Ember.inject.service('email-validator'),
   store: Ember.inject.service(),
   status: 'empty', // empty | pending | success | error
+
   messages: {
     error: 'Votre adresse n\'est pas valide',
     success: 'Merci pour votre inscription'
