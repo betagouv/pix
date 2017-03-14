@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | qrocm-solution-panel', function () {
+describe.only('Unit | Component | qrocm-solution-panel', function () {
 
   setupTest('component:qrocm-ind-solution-panel', {});
 
@@ -25,6 +25,20 @@ describe('Unit | Component | qrocm-solution-panel', function () {
       component.set('answer', answer);
       const answersAsObject = component.get('answersAsObject');
 
+      // then
+      expect(answersAsObject).to.be.deep.equal(result);
+    });
+
+    it('should return an empty object when the answer is aband', function () {
+      // given
+      const answer = {
+        value : '#ABAND#'
+      };
+      const result = {};
+      // when
+      const component = this.subject();
+      component.set('answer', answer);
+      const answersAsObject = component.get('answersAsObject');
       // then
       expect(answersAsObject).to.be.deep.equal(result);
     });
@@ -150,6 +164,26 @@ describe('Unit | Component | qrocm-solution-panel', function () {
       // then
       expect(labelsAsObject).to.be.deep.equal(result);
     });
+
+    it('should return object with labels and if the key of the input has a placeholder (after #), it does not keep the placeholder', function () {
+      // given
+      const challenge = {
+        proposals: 'Nom du fichier : ${nomfichier}\nTaille (en ko) : ${taille}\nType : ${type}\nDate de modification : ${datemodif#JJ/MM/AAAA}'
+      };
+      const result = {
+        'nomfichier' : 'Nom du fichier : ',
+        'taille' : 'Taille (en ko) : ',
+        'type' : 'Type : ',
+        'datemodif' : 'Date de modification : '
+      };
+      // when
+      const component = this.subject();
+      component.set('challenge', challenge);
+      const labelsAsObject = component.get('labelsAsObject');
+
+      // then
+      expect(labelsAsObject).to.be.deep.equal(result);
+    });
   });
 
   describe('#dataToDisplay', function () {
@@ -258,6 +292,29 @@ describe('Unit | Component | qrocm-solution-panel', function () {
       //THEN
       expect(dataToDisplay).to.be.deep.equal(result);
 
+    });
+
+    it('it should return Pas de réponse in each answer if the question was passed', function () {
+      //Given
+      const labelsAsObject = {'num1':'Clé USB : ','num2':'Carte mémoire (SD) : '};
+      const answersAsObject = {};
+      const solutionsAsObject = {'num1':['2'],'num2':['1']};
+      const result = [{'label': 'Clé USB : ', 'answer':'Pas de réponse', 'solution': '2', 'rightAnswer' : false, 'wrongAnswer' : false, 'noAnswer' : true },
+        {'label': 'Carte mémoire (SD) : ', 'answer':'Pas de réponse', 'solution': '1', 'rightAnswer': false, 'wrongAnswer' : false, 'noAnswer' : true}];
+
+      const component = this.subject();
+      component.set('labelsAsObject', labelsAsObject);
+      component.set('answersAsObject', answersAsObject);
+      component.set('solutionsAsObject', solutionsAsObject);
+
+      //When
+      const dataToDisplay = component.get('dataToDisplay');
+
+      console.log('dataToDisplay : ' + JSON.stringify(dataToDisplay));
+      console.log('result : ' + JSON.stringify(result));
+
+      //then
+      expect(dataToDisplay).to.be.deep.equal(result);
     });
 
   });

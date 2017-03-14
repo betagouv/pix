@@ -2,45 +2,74 @@
 import Ember from 'ember';
 import _ from 'lodash';
 
+function deletePlaceholderInLabel(keyInput) {
+  if (keyInput.indexOf('#') != -1) {
+    keyInput = keyInput.substring(0, keyInput.indexOf('#'));
+  }
+  return keyInput;
+}
+
+function transformSolutionsToString(solutionsAsObject) {
+  _.each(solutionsAsObject, function (potentialSolution) {
+    potentialSolution.forEach(function (value, index) {
+      potentialSolution[index] = potentialSolution[index].toString();
+    });
+  });
+  return solutionsAsObject;
+}
+
+function parseChallenge(proposals) {
+  const proposalsSplitted = proposals.split(/\$\{|}/).slice(0, -1);
+  const labelsAsObject = {};
+  proposalsSplitted.forEach((element, index) => {
+    if (index % 2 != 0) {
+      element = deletePlaceholderInLabel(element);
+      labelsAsObject[element] = proposalsSplitted[index - 1];
+    }
+  });
+  return labelsAsObject;
+}
+
+function fillAnswerOfPassedChallenge(answersAsObject, inputKeys) {
+  inputKeys.forEach(function (key) {
+    answersAsObject[key] = '';
+  });
+  return answersAsObject;
+}
+
 const QrocmIndSolutionPanel = Ember.Component.extend({
 
   answersAsObject: Ember.computed('answer.value', function () {
     const yamlAnswer = this.get('answer.value');
-    const answersObject = jsyaml.safeLoad(yamlAnswer);
+    let answersObject = {};
+    if (yamlAnswer != '#ABAND#') {
+      answersObject = jsyaml.safeLoad(yamlAnswer);
+    }
     return answersObject;
   }),
 
   solutionsAsObject: Ember.computed('solution.value', function () {
     const yamlSolution = this.get('solution.value');
-    const solutionsObject = jsyaml.safeLoad(yamlSolution);
-
-    _.each(solutionsObject, function (potentialSolution) {
-      potentialSolution.forEach(function (value, index) {
-        potentialSolution[index] = potentialSolution[index].toString();
-      });
-    });
-
-    return solutionsObject;
+    let solutionsAsObject = jsyaml.safeLoad(yamlSolution);
+    solutionsAsObject = transformSolutionsToString(solutionsAsObject);
+    return solutionsAsObject;
   }),
 
   labelsAsObject: Ember.computed('challenge.proposals', function () {
-    const proposalsBrut = this.get('challenge.proposals').replace(/\n/g, '');
-    const proposalsSplitted = proposalsBrut.split(/\$\{|}/).slice(0, -1);
-    const labelsAsObject = {};
-    proposalsSplitted.forEach((element, index) => {
-      if (index % 2 != 0) {
-        labelsAsObject[element] = proposalsSplitted[index - 1];
-      }
-    });
+    const proposals = this.get('challenge.proposals').replace(/\n/g, '');
+    const labelsAsObject = parseChallenge(proposals);
     return labelsAsObject;
   }),
 
   dataToDisplay: Ember.computed('labelsAsObject', 'answersAsObject', 'solutionsAsObject', function () {
     const labelsAsObject = this.get('labelsAsObject');
-    const answersAsObject = this.get('answersAsObject');
+    let answersAsObject = this.get('answersAsObject');
     const solutionsAsObject = this.get('solutionsAsObject');
 
     const inputKeys = _.keys(labelsAsObject);
+    if (_.isEmpty(answersAsObject)) {
+      answersAsObject = fillAnswerOfPassedChallenge(answersAsObject, inputKeys);
+    }
     const dataToDisplay = [];
 
     inputKeys.forEach(function (key) {
@@ -61,17 +90,14 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
         wrongAnswer: isWrongAnswer,
         noAnswer: noAnswer
       };
-
       dataToDisplay.push(labelAnswerSolution);
     });
+
     return dataToDisplay;
   })
 
 });
 
-QrocmIndSolutionPanel.reopenClass({
-  positionalParams: ['answer', 'solution', 'challenge']
-});
 
 export default QrocmIndSolutionPanel;
 

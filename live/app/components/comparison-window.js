@@ -55,7 +55,6 @@ const ComparisonWindow = Ember.Component.extend({
 
   isAssessmentChallengeTypeQroc: Ember.computed.equal('challenge.type', 'QROC'),
   isAssessmentChallengeTypeQcm: Ember.computed.equal('challenge.type', 'QCM'),
-  isAssessmentChallengeTypeQrocm: Ember.computed.equal('challenge.type', 'QROCM'),
   isAssessmentChallengeTypeQrocmInd: Ember.computed.equal('challenge.type', 'QROCM-ind'),
   isAssessmentChallengeTypeQrocmDep: Ember.computed.equal('challenge.type', 'QROCM-dep'),
 

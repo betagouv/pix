@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe.only('Unit | Component | qroc-solution-panel', function () {
+describe('Unit | Component | qroc-solution-panel', function () {
 
   setupTest('component:qroc-solution-panel', {});
 
