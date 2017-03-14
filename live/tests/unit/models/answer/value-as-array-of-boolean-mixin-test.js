@@ -11,7 +11,7 @@ describe('Unit | Model | Value As Array of Boolean Mixin', function () {
     { when: 'Undefined input', input: undefined, expected: [] },
     { when: 'Nominal case', input: '2,3', expected: [false, true, true] },
     { when: 'Only one value', input: '4', expected: [false, false, false, true] },
-    { when: 'Resist to order empty space and empty value', input: ',4, 2 , 2,1,  ,', expected: [true, true, false, true] },
+    { when: 'Resist to order, empty space and empty value', input: ',4, 2 , 2,1,  ,', expected: [true, true, false, true] },
 
   ];
 

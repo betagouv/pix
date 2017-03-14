@@ -57,12 +57,10 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function ()
     expect($cell.attr('data-original-title')).to.equal('Réponse partielle');
   });
 
-  it('c1.8 Pour une réponse dont l\'utilisateur a bien répondu mais trop tard, le tableau récapitulatif donne' +
-    ' une indication adéquate', async function () {
+  it('c1.8 Pour une réponse dont l\'utilisateur a bien répondu mais trop tard, le tableau récapitulatif donne  une indication adéquate', async function () {
     await visit('/assessments/raw_assessment_id/results');
     const $picto = findWithAssert('.result-item__icon>div');
     expect($picto.data('original-title')).to.contain('Temps dépassé');
-
   });
 
 
