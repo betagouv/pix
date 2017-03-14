@@ -5796,7 +5796,7 @@ define('pix-live/tests/unit/components/qroc-solution-panel-test.lint-test', ['ex
 });
 define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  _mocha.describe.only('Unit | Component | qrocm-solution-panel', function () {
+  (0, _mocha.describe)('Unit | Component | qrocm-solution-panel', function () {
 
     (0, _emberMocha.setupTest)('component:qrocm-ind-solution-panel', {});
 
@@ -6078,9 +6078,6 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports
         //When
         var dataToDisplay = component.get('dataToDisplay');
 
-        console.log('dataToDisplay : ' + JSON.stringify(dataToDisplay));
-        console.log('result : ' + JSON.stringify(result));
-
         //then
         (0, _chai.expect)(dataToDisplay).to.be.deep.equal(result);
       });
@@ -6092,10 +6089,7 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test.lint-test',
 
   describe('ESLint - unit/components/qrocm-ind-solution-panel-test.js', function () {
     it('should pass ESLint', function () {
-      // precompiled test failed
-      var error = new chai.AssertionError('unit/components/qrocm-ind-solution-panel-test.js should pass ESLint.\n313:7  - Unexpected console statement. (no-console)\n314:7  - Unexpected console statement. (no-console)');
-      error.stack = undefined;
-      throw error;
+      // precompiled test passed
     });
   });
 });
