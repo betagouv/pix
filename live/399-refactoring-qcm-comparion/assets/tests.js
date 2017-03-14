@@ -6835,7 +6835,7 @@ define('pix-live/tests/unit/utils/lodash-custom-test', ['exports', 'chai', 'moch
 
   (0, _mocha.describe)('Unit | Utility | lodash custom', function () {
 
-    (0, _mocha.describe)('#isNotEmptyString', function () {
+    (0, _mocha.describe)('#isNonEmptyString', function () {
 
       (0, _mocha.it)('when no arg, returns false', function () {
         (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNonEmptyString()).to.equal(false);
@@ -6848,7 +6848,7 @@ define('pix-live/tests/unit/utils/lodash-custom-test', ['exports', 'chai', 'moch
       });
     });
 
-    (0, _mocha.describe)('#isNotEmptyArray', function () {
+    (0, _mocha.describe)('#isNonEmptyArray', function () {
 
       (0, _mocha.it)('when no arg, returns false', function () {
         (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNonEmptyArray()).to.equal(false);
