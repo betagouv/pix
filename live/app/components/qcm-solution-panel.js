@@ -26,5 +26,5 @@ export default Ember.Component.extend({
       checkboxes = labeledCheckboxes(proposalsArray, answerArray);
     }
     return checkboxes;
-  }),
+  })
 });
