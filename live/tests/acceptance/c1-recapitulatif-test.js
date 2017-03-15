@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import { describe, it, before, after } from 'mocha';
 import { expect } from 'chai';
 
-=======
-import {describe, it, beforeEach, afterEach} from 'mocha';
-import {expect} from 'chai';
->>>>>>> dev
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
