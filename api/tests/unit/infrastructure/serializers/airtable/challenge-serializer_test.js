@@ -101,7 +101,7 @@ describe('Unit | Serializer | challenge-serializer', function () {
       expect(challenge.attachments[1]).to.equal(attachmentOdt.url);
     });
 
-    it('should revert attachments order because airtable return data in wrong order', function() {
+    it('should revert attachments order because Airtable return data in wrong order', function() {
       // given
       const attachment_1 = {
         url: 'https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.docx'

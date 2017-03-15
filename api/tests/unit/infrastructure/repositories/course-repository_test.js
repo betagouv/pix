@@ -35,7 +35,7 @@ describe('Unit | Repository | course-repository', function () {
     const cacheKey = `course-repository_get_${courseId}`;
     const course = { foo: 'bar' };
 
-    it('should resolve with the course directly retrieved from the cache without calling airtable when the course has been cached', function () {
+    it('should resolve with the course directly retrieved from the cache without calling airtable when the course has been cached', function (done) {
       // given
       getRecord.resolves(true);
       cache.set(cacheKey, course);
@@ -45,10 +45,11 @@ describe('Unit | Repository | course-repository', function () {
 
       // then
       expect(getRecord.notCalled).to.be.true;
-      return expect(result).to.eventually.deep.equal(course);
+      expect(result).to.eventually.deep.equal(course);
+      done();
     });
 
-    it('should reject with an error when the cache throw an error', function () {
+    it('should reject with an error when the cache throw an error', function (done) {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'get', (key, callback) => {
@@ -60,7 +61,8 @@ describe('Unit | Repository | course-repository', function () {
 
       // then
       cache.get.restore();
-      return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+      done();
     });
 
     describe('when the course was not previously cached', function () {
@@ -111,7 +113,7 @@ describe('Unit | Repository | course-repository', function () {
     const courseId = 'course_id';
     const cacheKey = `course-repository_get_${courseId}`;
 
-    it('should reject with an error when the cache throw an error', function () {
+    it('should reject with an error when the cache throw an error', function (done) {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'del', (key, callback) => {
@@ -123,10 +125,11 @@ describe('Unit | Repository | course-repository', function () {
 
       // then
       cache.del.restore();
-      return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+      done();
     });
 
-    it('should resolve with the course fetched from airtable when the course was not previously cached', function () {
+    it('should resolve with the course fetched from airtable when the course was not previously cached', function (done) {
       // given
       const course = {
         id: courseId,
@@ -139,7 +142,8 @@ describe('Unit | Repository | course-repository', function () {
       const result = courseRepository.refresh(courseId);
 
       // then
-      return expect(result).to.eventually.deep.equal(course);
+      expect(result).to.eventually.deep.equal(course);
+      done();
     });
 
     it('should replace the old course by the new one in cache', function () {

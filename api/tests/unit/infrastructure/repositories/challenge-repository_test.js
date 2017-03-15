@@ -26,10 +26,10 @@ describe('Unit | Repository | challenge-repository', function () {
   });
 
   /*
-   * #list()
+   * #list
    */
 
-  describe('#list()', function () {
+  describe('#list', function () {
 
     const cacheKey = 'challenge-repository_list';
     const challenges = [

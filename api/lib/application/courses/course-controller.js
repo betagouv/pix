@@ -20,11 +20,11 @@ module.exports = {
     _fetchCourses(request.query)
       .then(courses => {
         const response = courseSerializer.serializeArray(courses);
-        const challengeIds = courses.reduce((a, b) => {
-          if (b.challenges) {
-            return a.concat(b.challenges);
+        const challengeIds = courses.reduce((listOfId, course) => {
+          if (course.challenges) {
+            return listOfId.concat(course.challenges);
           }
-          return a;
+          return listOfId;
         }, []);
         const promises = challengeIds.map(challengeId => challengeRepository.get(challengeId));
         Promise.all(promises)

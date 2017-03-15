@@ -102,7 +102,7 @@ describe('Unit | Repository | solution-repository', function () {
    * #refresh
    */
 
-  describe('#refresh', function (done) {
+  describe('#refresh', function () {
 
     const challengeId = 'challenge_id';
     const cacheKey = `solution-repository_get_${challengeId}`;
