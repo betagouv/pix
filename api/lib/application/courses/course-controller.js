@@ -14,25 +14,29 @@ function _fetchCourses(query) {
   return courseRepository.getProgressionTests();
 }
 
+function _extractCoursesChallenges(courses) {
+  const challengeIds = courses.reduce((listOfId, course) => {
+    if (course.challenges) {
+      return listOfId.concat(course.challenges);
+    }
+    return listOfId;
+  }, []);
+  const challenges = challengeIds.map(challengeId => challengeRepository.get(challengeId));
+  return Promise.all(challenges);
+}
+
 module.exports = {
 
   list(request, reply) {
+    let response;
     _fetchCourses(request.query)
       .then(courses => {
-        const response = courseSerializer.serializeArray(courses);
-        const challengeIds = courses.reduce((listOfId, course) => {
-          if (course.challenges) {
-            return listOfId.concat(course.challenges);
-          }
-          return listOfId;
-        }, []);
-        const promises = challengeIds.map(challengeId => challengeRepository.get(challengeId));
-        Promise.all(promises)
-          .then(challenges => {
-            response.included = challenges.map(challenge => challengeSerializer.serialize(challenge).data);
-            return reply(response);
-          })
-          .catch(err => reply(Boom.badImplementation(err)));
+        response = courseSerializer.serializeArray(courses);
+        return _extractCoursesChallenges(courses);
+      })
+      .then(challenges => {
+        response.included = challenges.map(challenge => challengeSerializer.serialize(challenge).data);
+        return reply(response);
       })
       .catch(err => reply(Boom.badImplementation(err)));
   },
