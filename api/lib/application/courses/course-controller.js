@@ -5,13 +5,13 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 
 function _fetchCourses(query) {
-  if (query.isAdaptive) {
+  if (query.isAdaptive === 'true') {
     return courseRepository.getAdaptiveCourses();
   }
-  if (query.isCourseOfTheWeek) {
+  if (query.isCourseOfTheWeek === 'true') {
     return courseRepository.getCoursesOfTheWeek();
   }
-  return courseRepository.getProgressionTests();
+  return courseRepository.getProgressionCourses();
 }
 
 function _extractCoursesChallenges(courses) {

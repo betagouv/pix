@@ -33,7 +33,7 @@ describe('Unit | Controller | course-controller', function () {
 
     it('should fetch and return all the courses', function (done) {
       // given
-      sinon.stub(courseRepository, 'getProgressionTests').resolves(courses);
+      sinon.stub(courseRepository, 'getProgressionCourses').resolves(courses);
       sinon.stub(courseSerializer, 'serializeArray', () => courses);
 
       // when
@@ -43,7 +43,7 @@ describe('Unit | Controller | course-controller', function () {
         expect(res.result).to.deep.equal(courses);
 
         // after
-        courseRepository.getProgressionTests.restore();
+        courseRepository.getProgressionCourses.restore();
         courseSerializer.serializeArray.restore();
         done();
       });

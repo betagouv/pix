@@ -37,19 +37,56 @@ describe('Acceptance | a1 - La page d\'accueil', function () {
     });
   });
 
-  describe('une section "Challenges"', function () {
+  describe('contient une section "Challenges"', function () {
+
+    it.skip('a1.3 cachée si aucun test n\'est remonté', function () {
+      // given
+
+      // when
+
+      // then
+    });
+
+    it.skip('a1.4 visible si au moins 1 test est remonté', function () {
+      // given
+
+      // when
+
+      // then
+    });
+
+    it('a1.6 avec un titre', function () {
+      const $title = findWithAssert('.index-page-challenges__presentation-title');
+      expect($title.text().trim()).to.equal('Le défi Pix');
+    });
+
+    it('a1.7 avec un texte descriptif', function () {
+      const $description = findWithAssert('.index-page-challenges__presentation-text');
+      expect($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
+    });
+
+    it('a1.5 qui affiche 2 tests maximum', function () {
+      // given
+
+      // when
+
+      // then
+    });
+  });
+
+  describe('contient une section "Courses"', function () {
 
     it('a1.3 avec un titre', function () {
-      const $title = findWithAssert('.index-page-challenges__title');
+      const $title = findWithAssert('.index-page-courses__title');
       expect($title.text().trim()).to.equal('Découvrez nos épreuves et aidez‑nous à les améliorer !');
     });
 
     it('a1.4 avec la liste des challenges', function () {
-      findWithAssert('.index-page-challenges__list');
+      findWithAssert('.index-page-courses__course-list');
     });
   });
 
-  describe('une section "Community"', function () {
+  describe('contient une section "Community"', function () {
 
     it('a1.5 avec un titre', function () {
       findWithAssert('.index-page-community__title');
@@ -65,7 +102,7 @@ describe('Acceptance | a1 - La page d\'accueil', function () {
 
   });
 
-  describe('une section "Features"', function () {
+  describe('contient une section "Features"', function () {
 
     it('a1.8 avec la liste des featurettes', function () {
       findWithAssert('.index-page-features__list');

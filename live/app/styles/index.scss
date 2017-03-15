@@ -77,23 +77,62 @@ $challenges-title-color: #3d68ff;
   }
 }
 
-
 /* Challenges
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .index-page__section--challenges {
-  padding-bottom: 75px; // take into account course-item margin-bottom (5px)
+  padding: 0;
+}
+
+.index-page-challenges {
+  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+}
+
+.index-page-challenges__container {
+  padding: 70px 90px; // take into account course-item margin-bottom (5px)
+  margin: 0 auto;
+  max-width: 1200px;
+  display: flex;
+}
+
+.index-page-challenges__presentation {
+  font-family: $font-raleway;
+  color: $white;
+  max-width: 300px;
+}
+
+.index-page-challenges__presentation-title {
+  font-size: 60px;
+  font-weight: 800;
+}
+
+.index-page-challenges__presentation-text {
+  font-size: 37px;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.index-page-challenges__course-list {
+  display: flex;
+  margin-left: auto;
+}
+
+/* Courses
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.index-page__section--courses {
+  padding-bottom: 70px; // take into account course-item margin-bottom (5px)
 }
 
 
-.index-page-challenges {
+.index-page-courses {
   background-color: $challenges-background-color;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.index-page-challenges__title {
+.index-page-courses__title {
   max-width: 600px;
   font-size: 32px;
   font-family: $font-raleway;
@@ -105,7 +144,7 @@ $challenges-title-color: #3d68ff;
   line-height: 1.2;
 }
 
-.index-page-challenges__list {
+.index-page-courses__course-list {
   padding-top: 20px;
   max-width: 1200px;
 }
