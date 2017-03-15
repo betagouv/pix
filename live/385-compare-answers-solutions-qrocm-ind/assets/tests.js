@@ -4823,8 +4823,6 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
       this.set('challenge', challenge);
     });
 
-    //Est-ce-que l'on test son render sans aucun parametre => a toi de voir oui pour etre sur
-
     (0, _mocha.it)('renders', function () {
       this.render(_ember['default'].HTMLBars.template({
         'id': 'S1YJQuVj',
