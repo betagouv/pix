@@ -2175,6 +2175,15 @@ define('pix-live/tests/components/qcu-proposals.lint-test', ['exports'], functio
     });
   });
 });
+define('pix-live/tests/components/qcu-solution-panel.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/qcu-solution-panel.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/components/qroc-proposal.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -4458,6 +4467,246 @@ define('pix-live/tests/integration/components/qcu-proposals-test.lint-test', ['e
   'use strict';
 
   describe('ESLint - integration/components/qcu-proposals-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/integration/components/qcu-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember', 'pix-live/utils/lodash-custom'], function (exports, _chai, _mocha, _emberMocha, _ember, _pixLiveUtilsLodashCustom) {
+
+  var RADIO_CORRECT_AND_CHECKED = '.qcu-panel__proposal-radio:eq(1)';
+  var LABEL_CORRECT_AND_CHECKED = '.qcu-proposal-label__oracle:eq(1)';
+
+  var RADIO_CORRECT_AND_UNCHECKED = '.qcu-panel__proposal-radio:eq(1)';
+  var LABEL_CORRECT_AND_UNCHECKED = '.qcu-proposal-label__oracle:eq(1)';
+
+  var RADIO_INCORRECT_AND_CHECKED = '.qcu-panel__proposal-radio:eq(2)';
+  var LABEL_INCORRECT_AND_CHECKED = '.qcu-proposal-label__oracle:eq(2)';
+
+  var RADIO_INCORRECT_AND_UNCHECKED = '.qcu-panel__proposal-radio:eq(0)';
+  var LABEL_INCORRECT_AND_UNCHECKED = '.qcu-proposal-label__oracle:eq(0)';
+
+  var CSS_BOLD_FONT_WEIGHT = '900';
+  var CSS_NORMAL_FONT_WEIGHT = '400';
+
+  var CSS_GREEN_COLOR = 'rgb(19, 201, 160)';
+  var CSS_BLACK_COLOR = 'rgb(51, 51, 51)';
+
+  var CSS_LINETHROUGH_ON = 'line-through';
+  var CSS_LINETHROUGH_OFF = 'none';
+
+  var assessment = null;
+  var challenge = null;
+  var answer = null;
+  var solution = null;
+  var store = null;
+
+  function charCount(str) {
+    return str.match(/[a-zA-Z]/g).length;
+  }
+
+  (0, _mocha.describe)('Integration | Component | qcu-solution-panel.js', function () {
+    (0, _emberMocha.setupComponentTest)('qcu-solution-panel', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('#Component should renders: ', function () {
+
+      (0, _mocha.it)('Should renders', function () {
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'h5StfS3D',
+          'block': '{"statements":[["append",["unknown",["qcu-solution-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.describe)('Radio state', function () {
+
+        before(function () {
+          var _this = this;
+
+          _ember['default'].run(function () {
+            store = _this.container.lookup('service:store');
+
+            // Given
+            assessment = store.createRecord('assessment', { id: 'assessment_id' });
+            challenge = store.createRecord('challenge', {
+              id: 'challenge_id',
+              proposals: '-foo\n- bar\n- qix\n- yon',
+              type: 'QCM'
+            });
+
+            answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2' });
+            solution = store.createRecord('solution', { id: 'solution_id', value: '2' });
+          });
+        });
+
+        (0, _mocha.it)('QCU correcte et cochée', function () {
+          //Given
+          this.set('answer', answer);
+          this.set('solution', solution);
+          this.set('challenge', challenge);
+          // When
+          this.render(_ember['default'].HTMLBars.template({
+            'id': '5mvqj82b',
+            'block': '{"statements":[["append",["helper",["qcu-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // Then
+          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
+          (0, _chai.expect)($(RADIO_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
+
+          (0, _chai.expect)($(RADIO_CORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+          (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+        });
+
+        (0, _mocha.it)('QCU correcte et non cochée', function () {
+          var _this2 = this;
+
+          //Given
+          _ember['default'].run(function () {
+            store = _this2.container.lookup('service:store');
+
+            // Given
+            assessment = store.createRecord('assessment', { id: 'assessment_id' });
+            challenge = store.createRecord('challenge', {
+              id: 'challenge_id',
+              proposals: '-foo\n- bar\n- qix\n- yon',
+              type: 'QCM'
+            });
+
+            answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '3' });
+            solution = store.createRecord('solution', { id: 'solution_id', value: '2' });
+          });
+
+          this.set('answer', answer);
+          this.set('solution', solution);
+          this.set('challenge', challenge);
+
+          // When
+          this.render(_ember['default'].HTMLBars.template({
+            'id': '5mvqj82b',
+            'block': '{"statements":[["append",["helper",["qcu-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // Then
+          (0, _chai.expect)($(RADIO_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+          (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+        });
+
+        (0, _mocha.it)('QCU incorrecte et cochée', function () {
+          var _this3 = this;
+
+          //Given
+          _ember['default'].run(function () {
+            store = _this3.container.lookup('service:store');
+
+            // Given
+            assessment = store.createRecord('assessment', { id: 'assessment_id' });
+            challenge = store.createRecord('challenge', {
+              id: 'challenge_id',
+              proposals: '-foo\n- bar\n- qix\n- yon',
+              type: 'QCM'
+            });
+
+            answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '3' });
+            solution = store.createRecord('solution', { id: 'solution_id', value: '2' });
+          });
+
+          this.set('answer', answer);
+          this.set('solution', solution);
+          this.set('challenge', challenge);
+
+          // When
+          this.render(_ember['default'].HTMLBars.template({
+            'id': '5mvqj82b',
+            'block': '{"statements":[["append",["helper",["qcu-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // Then
+          (0, _chai.expect)($(RADIO_INCORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+          (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_ON);
+        });
+
+        (0, _mocha.it)('QCU incorrecte et non cochée', function () {
+          var _this4 = this;
+
+          //Given
+          _ember['default'].run(function () {
+            store = _this4.container.lookup('service:store');
+
+            // Given
+            assessment = store.createRecord('assessment', { id: 'assessment_id' });
+            challenge = store.createRecord('challenge', {
+              id: 'challenge_id',
+              proposals: '-foo\n- bar\n- qix\n- yon',
+              type: 'QCM'
+            });
+
+            answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2' });
+            solution = store.createRecord('solution', { id: 'solution_id', value: '2' });
+          });
+
+          this.set('answer', answer);
+          this.set('solution', solution);
+          this.set('challenge', challenge);
+
+          // When
+          this.render(_ember['default'].HTMLBars.template({
+            'id': '5mvqj82b',
+            'block': '{"statements":[["append",["helper",["qcu-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // Then
+          (0, _chai.expect)($(RADIO_INCORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+          (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+        });
+
+        (0, _mocha.it)('Aucune case à cocher n\'est cliquable', function () {
+          //Given
+          this.set('answer', answer);
+          this.set('solution', solution);
+          this.set('challenge', challenge);
+
+          // When
+          this.render(_ember['default'].HTMLBars.template({
+            'id': '5mvqj82b',
+            'block': '{"statements":[["append",["helper",["qcu-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // Then
+          var size = $('.comparison-window .qcu-panel__proposal-radio').length;
+          _pixLiveUtilsLodashCustom['default'].times(size, function (index) {
+            (0, _chai.expect)($('.comparison-window .qcu-panel__proposal-radio:eq(' + index + ')').is(':disabled')).to.equal(true);
+          });
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/qcu-solution-panel-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/qcu-solution-panel-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
