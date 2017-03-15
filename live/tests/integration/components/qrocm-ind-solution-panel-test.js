@@ -40,8 +40,6 @@ describe('Integration | Component | qrocm solution panel', function () {
     this.set('challenge', challenge);
   });
 
-  //Est-ce-que l'on test son render sans aucun parametre => a toi de voir oui pour etre sur
-
   it('renders', function () {
     this.render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
     expect(this.$()).to.have.length(1);
