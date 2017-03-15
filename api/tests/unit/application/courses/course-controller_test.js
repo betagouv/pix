@@ -26,14 +26,14 @@ describe('Unit | Controller | course-controller', function () {
   describe('#list', function () {
 
     const courses = [
-      new Course({ "id": "course_1" }),
-      new Course({ "id": "course_2" }),
-      new Course({ "id": "course_3" })
+      new Course({ id: 'course_1' }),
+      new Course({ id: 'course_2' }),
+      new Course({ id: 'course_3' })
     ];
 
     it('should fetch and return all the courses, serialized as JSONAPI', function (done) {
       // given
-      sinon.stub(CourseRepository, 'list').resolves(courses);
+      sinon.stub(CourseRepository, 'getProgressionTests').resolves(courses);
       sinon.stub(CourseSerializer, 'serializeArray', _ => courses);
 
       // when
@@ -43,7 +43,7 @@ describe('Unit | Controller | course-controller', function () {
         expect(res.result).to.deep.equal(courses);
 
         // after
-        CourseRepository.list.restore();
+        CourseRepository.getProgressionTests.restore();
         CourseSerializer.serializeArray.restore();
         done();
       });
@@ -51,7 +51,7 @@ describe('Unit | Controller | course-controller', function () {
 
     it('should fetch and return all the adaptive courses, serialized as JSONAPI', function (done) {
       // given
-      sinon.stub(CourseRepository, 'list').resolves(courses);
+      sinon.stub(CourseRepository, 'getProgressionTests').resolves(courses);
       sinon.stub(CourseSerializer, 'serializeArray', _ => courses);
 
       // when
@@ -61,7 +61,7 @@ describe('Unit | Controller | course-controller', function () {
         expect(res.result).to.deep.equal(courses);
 
         // after
-        CourseRepository.list.restore();
+        CourseRepository.getProgressionTests.restore();
         CourseSerializer.serializeArray.restore();
         done();
       });
