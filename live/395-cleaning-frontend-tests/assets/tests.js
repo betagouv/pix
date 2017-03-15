@@ -2,63 +2,76 @@
 
 define('pix-live/tests/acceptance/a1-page-accueil-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)('Acceptance | a1 - Accéder à la plateforme pour démarrer un test', function () {
+  (0, _mocha.describe)('Acceptance | a1 - La page d\'accueil', function () {
 
     var application = undefined;
 
-    (0, _mocha.beforeEach)(function () {
+    (0, _mocha.before)(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
       visit('/');
     });
 
-    (0, _mocha.afterEach)(function () {
+    (0, _mocha.after)(function () {
       (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
     });
 
-    (0, _mocha.it)('a1.0 peut visiter /', function () {
+    (0, _mocha.it)('a1.0 est accessible depuis "/"', function () {
       (0, _chai.expect)(currentURL()).to.equal('/');
     });
 
-    (0, _mocha.it)('a1.1 la landing page contient un pitch de présentation', function () {
-      (0, _chai.expect)(findWithAssert('.index-page-hero__main-value-prop').text()).to.contains('Développez vos compétences numériques');
+    (0, _mocha.describe)('contient une section "Hero"', function () {
+
+      (0, _mocha.it)('a1.0 avec la barre de navigation', function () {
+        findWithAssert('.index-page-hero__navbar-header');
+      });
+
+      (0, _mocha.it)('a1.1 avec un titre', function () {
+        var $title = findWithAssert('.index-page-hero__title');
+        (0, _chai.expect)($title.text().trim()).to.equal('Développez vos compétences numériques');
+      });
+
+      (0, _mocha.it)('a1.2 avec un descriptif', function () {
+        var $description = findWithAssert('.index-page-hero__description');
+        (0, _chai.expect)($description.text().trim()).to.equal('PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.');
+      });
     });
 
-    (0, _mocha.it)('a1.2 Sur la landing page, un lien pointant vers la page projet est présent dans les valeurs pix', function () {
-      findWithAssert('.index-page-about a[href="/projet"]');
+    (0, _mocha.describe)('une section "Challenges"', function () {
+
+      (0, _mocha.it)('a1.3 avec un titre', function () {
+        var $title = findWithAssert('.index-page-challenges__title');
+        (0, _chai.expect)($title.text().trim()).to.equal('Découvrez nos épreuves et aidez‑nous à les améliorer !');
+      });
+
+      (0, _mocha.it)('a1.4 avec la liste des challenges', function () {
+        findWithAssert('.index-page-challenges__list');
+      });
     });
 
-    (0, _mocha.it)('a1.3 Le logo est présent sur la page index', function callee$1$0() {
-      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
-        while (1) switch (context$2$0.prev = context$2$0.next) {
-          case 0:
-            context$2$0.next = 2;
-            return regeneratorRuntime.awrap(visit('/'));
+    (0, _mocha.describe)('une section "Community"', function () {
 
-          case 2:
-            findWithAssert($('.app-header-logo-svg'));
+      (0, _mocha.it)('a1.5 avec un titre', function () {
+        findWithAssert('.index-page-community__title');
+      });
 
-          case 3:
-          case 'end':
-            return context$2$0.stop();
-        }
-      }, null, this);
+      (0, _mocha.it)('a1.6 avec une description', function () {
+        findWithAssert('.index-page-community__description');
+      });
+
+      (0, _mocha.it)('a1.7 avec le formulaire d\'inscription en tant que béta-testeur', function () {
+        findWithAssert('.index-page-community__form');
+      });
     });
 
-    (0, _mocha.it)('a1.4 Le logo est présent sur la page d\'une épreuve', function callee$1$0() {
-      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
-        while (1) switch (context$2$0.prev = context$2$0.next) {
-          case 0:
-            context$2$0.next = 2;
-            return regeneratorRuntime.awrap(visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id'));
+    (0, _mocha.describe)('une section "Features"', function () {
 
-          case 2:
-            findWithAssert($('.app-header-logo-svg'));
+      (0, _mocha.it)('a1.8 avec la liste des featurettes', function () {
+        findWithAssert('.index-page-features__list');
+      });
 
-          case 3:
-          case 'end':
-            return context$2$0.stop();
-        }
-      }, null, this);
+      (0, _mocha.it)('a1.9 avec un lien vers la page "projet"', function () {
+        findWithAssert('.index-page-features__project-button[href="/projet"]');
+      });
     });
   });
 });
@@ -71,73 +84,11 @@ define('pix-live/tests/acceptance/a1-page-accueil-test.lint-test', ['exports'], 
     });
   });
 });
-define('pix-live/tests/acceptance/a3-voir-liste-tests-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  (0, _mocha.describe)('Acceptance | a3 - voir la liste des tests', function () {
-
-    var application = undefined;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _pixLiveTestsHelpersStartApp['default'])();
-      visit('/');
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.it)('a3.1 on affiche autant de tests que remontés par l\'API', function () {
-      (0, _chai.expect)(findWithAssert('.course-item')).to.have.lengthOf(1);
-    });
-
-    (0, _mocha.describe)('a3.2 pour un test donné avec toutes les informations', function () {
-
-      var $course = undefined;
-
-      (0, _mocha.beforeEach)(function () {
-        $course = findWithAssert('.course-item[data-id="ref_course_id"]');
-      });
-
-      (0, _mocha.it)('a3.2.1 on affiche son nom', function () {
-        var courseTitle = 'First Course';
-        (0, _chai.expect)($course.find('.course-item__name').text()).to.contains(courseTitle);
-      });
-
-      (0, _mocha.it)('a3.2.2 on affiche sa description', function () {
-        var courseDescription = 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.';
-        (0, _chai.expect)($course.find('.course-item__description').text()).to.contains(courseDescription);
-      });
-
-      (0, _mocha.it)('a3.2.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-        var courseChallenges = '5 épreuves';
-        (0, _chai.expect)($course.find('.course-item__challenges-number').text().trim()).to.equal(courseChallenges);
-      });
-
-      (0, _mocha.it)('a3.2.4 on affiche son image', function () {
-        var courseIllustrationUrl = 'http://fakeimg.pl/350x200/?text=First%20Course';
-        (0, _chai.expect)($course.find('img')[0].src).to.equal(courseIllustrationUrl);
-      });
-
-      (0, _mocha.it)('a3.2.5 on affiche un bouton "démarrer le test"', function () {
-        (0, _chai.expect)($course.find('.course-item__action--start').text()).to.contains('Démarrer le test');
-      });
-    });
-  });
-});
-define('pix-live/tests/acceptance/a3-voir-liste-tests-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/a3-voir-liste-tests-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (exports, _ember, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveUtilsLodashCustom) {
 
   var URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
   var MODAL_SELECTOR = '.modal.fade.js-modal-mobile.in';
-  var START_BUTTON = '.course-item__action--start';
+  var START_BUTTON = '.course-item__begin-button';
 
   (0, _mocha.describe)('Acceptance | a4 - Démarrer un test |', function () {
 
@@ -150,11 +101,6 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember'
 
     (0, _mocha.afterEach)(function () {
       (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.it)('a4.1 Je peux démarrer un test depuis la liste des tests de la page d\'accueil', function () {
-      var $startLink = findWithAssert(START_BUTTON);
-      (0, _chai.expect)($startLink.text()).to.contains('Démarrer le test');
     });
 
     (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', function callee$1$0() {
@@ -920,7 +866,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'moch
   (0, _mocha.describe)('Acceptance | d1 - Valider une épreuve |', function () {
 
     var application = undefined;
-
+    var PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
     (0, _mocha.before)(function () {
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
       visitTimedChallenge();
@@ -930,10 +876,33 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'moch
       (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
     });
 
-    (0, _mocha.it)('d1.0 La barre de progression commence à 1', function () {
-      var expectedText = '1';
-      var $progressBar = findWithAssert('.pix-progress-bar');
-      (0, _chai.expect)($progressBar.text()).to.contains(expectedText);
+    (0, _mocha.it)('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', function () {
+      var $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
+      (0, _chai.expect)($progressBar.text().trim()).to.equal('1 / 5');
+    });
+
+    (0, _mocha.it)('d1.0b La barre de progression commence à 1, si j\'accède au challenge depuis depuis le lien Airtable', function callee$1$0() {
+      var $progressBar;
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            context$2$0.next = 2;
+            return regeneratorRuntime.awrap(visit('/courses/ref_course_id'));
+
+          case 2:
+            context$2$0.next = 4;
+            return regeneratorRuntime.awrap(click('.challenge-item-warning button'));
+
+          case 4:
+            $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
+
+            (0, _chai.expect)($progressBar.text().trim()).to.equal('1 / 5');
+
+          case 6:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, this);
     });
 
     (0, _mocha.it)('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', function () {
@@ -2179,6 +2148,24 @@ define('pix-live/tests/components/course-list.lint-test', ['exports'], function 
     });
   });
 });
+define('pix-live/tests/components/feature-item.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/feature-item.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/feature-list.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/feature-list.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/components/feedback-panel.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2210,6 +2197,24 @@ define('pix-live/tests/components/modal-mobile.lint-test', ['exports'], function
   'use strict';
 
   describe('ESLint - components/modal-mobile.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/navbar-header.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/navbar-header.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/components/pix-logo.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - components/pix-logo.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -3538,7 +3543,24 @@ define('pix-live/tests/integration/components/course-item-test', ['exports', 'em
         (0, _chai.expect)($description.text().trim()).to.equal(course.get('description'));
       });
 
-      (0, _mocha.it)('should render a "start" button', function () {
+      (0, _mocha.it)('should render the number of challenges', function () {
+        // given
+        var course = _ember['default'].Object.create({ challenges: ['c1', 'c2', 'c3', 'c4'] });
+        this.set('course', course);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ldqh36hZ',
+          'block': '{"statements":[["append",["helper",["course-item"],null,[["course"],[["get",["course"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        var $nbChallenges = this.$('.course-item__challenges-number');
+        (0, _chai.expect)($nbChallenges.text().trim()).to.equal('4 épreuves');
+      });
+
+      (0, _mocha.it)('should render a link to begin the course', function () {
         // given
         var course = _ember['default'].Object.create();
         this.set('course', course);
@@ -3551,8 +3573,25 @@ define('pix-live/tests/integration/components/course-item-test', ['exports', 'em
         }));
 
         // then
-        var $startAction = this.$('.course-item__action--start');
-        (0, _chai.expect)($startAction.text().trim()).to.equal('Démarrer le test');
+        var $startAction = this.$('.course-item__begin-button');
+        (0, _chai.expect)($startAction.text().trim()).to.equal('Commencer');
+      });
+
+      (0, _mocha.it)('should render a link containing the course name in title', function () {
+        // given
+        var course = _ember['default'].Object.create({ name: 'My course' });
+        this.set('course', course);
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'ldqh36hZ',
+          'block': '{"statements":[["append",["helper",["course-item"],null,[["course"],[["get",["course"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        var $startAction = this.$('.course-item__begin-button');
+        (0, _chai.expect)($startAction.attr('title')).to.equal('Commencer le test \"My course\"');
       });
     });
 
@@ -3575,7 +3614,7 @@ define('pix-live/tests/integration/components/course-item-test', ['exports', 'em
         }));
 
         // then
-        var $startAction = this.$('.course-item__action--start');
+        var $startAction = this.$('.course-item__begin-button');
         $startAction.click();
         (0, _chai.expect)(actualCourse.get('id')).to.equal(course.get('id'));
       });
@@ -3632,6 +3671,119 @@ define('pix-live/tests/integration/components/course-list-test.lint-test', ['exp
   'use strict';
 
   describe('ESLint - integration/components/course-list-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/integration/components/feature-item-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | feature item', function () {
+
+    (0, _emberMocha.setupComponentTest)('feature-item', {
+      integration: true
+    });
+
+    var feature = {
+      icon: 'coucou',
+      title: 'title_value',
+      description: 'description_value'
+    };
+
+    (0, _mocha.it)('renders', function () {
+      this.set('feature', feature);
+      this.render(Ember.HTMLBars.template({
+        'id': 'k8aoFIfT',
+        'block': '{"statements":[["append",["helper",["feature-item"],null,[["feature"],[["get",["feature"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should render an icon', function () {
+      this.set('feature', feature);
+      this.render(Ember.HTMLBars.template({
+        'id': 'k8aoFIfT',
+        'block': '{"statements":[["append",["helper",["feature-item"],null,[["feature"],[["get",["feature"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+
+      var $icon = this.$('.feature-item__icon');
+      (0, _chai.expect)($icon).to.exist;
+      (0, _chai.expect)($icon.attr('src')).to.equal('images/icon-coucou.svg');
+    });
+
+    (0, _mocha.it)('should render an title', function () {
+      this.set('feature', feature);
+      this.render(Ember.HTMLBars.template({
+        'id': 'k8aoFIfT',
+        'block': '{"statements":[["append",["helper",["feature-item"],null,[["feature"],[["get",["feature"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+
+      var $title = this.$('.feature-item__title');
+      (0, _chai.expect)($title).to.exist;
+      (0, _chai.expect)($title.text().trim()).to.equal(feature.title);
+    });
+
+    (0, _mocha.it)('should render an description', function () {
+      this.set('feature', feature);
+      this.render(Ember.HTMLBars.template({
+        'id': 'k8aoFIfT',
+        'block': '{"statements":[["append",["helper",["feature-item"],null,[["feature"],[["get",["feature"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+
+      var $description = this.$('.feature-item__description');
+      (0, _chai.expect)($description).to.exist;
+      (0, _chai.expect)($description.text().trim()).to.equal(feature.description);
+    });
+  });
+});
+define('pix-live/tests/integration/components/feature-item-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/feature-item-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/integration/components/feature-list-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | feature list', function () {
+
+    (0, _emberMocha.setupComponentTest)('feature-list', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      this.render(Ember.HTMLBars.template({
+        'id': '12Co2Nrn',
+        'block': '{"statements":[["append",["unknown",["feature-list"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should always render 5 feature-items', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        'id': '12Co2Nrn',
+        'block': '{"statements":[["append",["unknown",["feature-list"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.feature-list__li')).to.have.lengthOf(5);
+      (0, _chai.expect)(this.$('.feature-item')).to.have.lengthOf(5);
+    });
+  });
+});
+define('pix-live/tests/integration/components/feature-list-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/feature-list-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -4026,6 +4178,83 @@ define('pix-live/tests/integration/components/follower-form-test.lint-test', ['e
   'use strict';
 
   describe('ESLint - integration/components/follower-form-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/integration/components/navbar-header-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | navbar-header', function () {
+
+    (0, _emberMocha.setupComponentTest)('header-navbar', {
+      integration: true
+    });
+
+    (0, _mocha.beforeEach)(function () {
+      this.render(Ember.HTMLBars.template({
+        'id': 'jsAxs+PS',
+        'block': '{"statements":[["append",["unknown",["navbar-header"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+    });
+
+    (0, _mocha.it)('renders', function () {
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should display the Pix logo', function () {
+      (0, _chai.expect)(this.$('.navbar-header-logo')).to.have.lengthOf(1);
+      (0, _chai.expect)(this.$('.pix-logo')).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.it)('should display a link to "project" page', function () {
+      (0, _chai.expect)(this.$('.navbar-header-links__link--project')).to.have.lengthOf(1);
+    });
+  });
+});
+define('pix-live/tests/integration/components/navbar-header-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/navbar-header-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/integration/components/pix-logo-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Integration | Component | pix logo', function () {
+
+    (0, _emberMocha.setupComponentTest)('pix-logo', {
+      integration: true
+    });
+
+    (0, _mocha.beforeEach)(function () {
+      this.render(Ember.HTMLBars.template({
+        'id': 'MtdoQIJl',
+        'block': '{"statements":[["append",["unknown",["pix-logo"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+    });
+
+    (0, _mocha.it)('renders', function () {
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.it)('should display the logo', function () {
+      (0, _chai.expect)(this.$('.pix-logo__image').attr('src')).to.equal('images/pix-logo.svg');
+    });
+
+    (0, _mocha.it)('should display "béta"', function () {
+      (0, _chai.expect)(this.$().text().trim()).to.equal('Béta');
+    });
+  });
+});
+define('pix-live/tests/integration/components/pix-logo-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - integration/components/pix-logo-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -4470,7 +4699,6 @@ define('pix-live/tests/integration/components/timeout-jauge-test', ['exports', '
     ----------------------------------------------------- */
     (0, _mocha.describe)('Rendering', function () {
       (0, _mocha.it)('It renders', function () {
-        // given
         // when
         this.render(Ember.HTMLBars.template({
           'id': 'OXRSqSZy',
@@ -4483,7 +4711,6 @@ define('pix-live/tests/integration/components/timeout-jauge-test', ['exports', '
       });
 
       (0, _mocha.it)('It renders a red clock if time is over', function () {
-        // given
         // when
         this.render(Ember.HTMLBars.template({
           'id': 'mKkmjVMa',
@@ -4497,7 +4724,6 @@ define('pix-live/tests/integration/components/timeout-jauge-test', ['exports', '
       });
 
       (0, _mocha.it)('It renders a black clock if time is not over', function () {
-        // given
         // when
         this.render(Ember.HTMLBars.template({
           'id': 'KUzLMFLz',
@@ -4839,9 +5065,6 @@ define('pix-live/tests/unit/components/course-item-test', ['exports', 'chai', 'm
   (0, _mocha.describe)('Unit | Component | CourseItemComponent', function () {
 
     (0, _emberMocha.setupTest)('component:course-item', {});
-
-    /* Computed property "labeledRadios"
-     ----------------------------------------------------- */
 
     (0, _mocha.describe)('Computed property "imageUrl"', function () {
       var component = undefined;
@@ -5254,7 +5477,7 @@ define('pix-live/tests/unit/components/result-item-test', ['exports', 'ember', '
 
     var component = undefined;
 
-    beforeEach(function () {
+    (0, _mocha.beforeEach)(function () {
       component = this.subject();
     });
 
@@ -6411,50 +6634,23 @@ define('pix-live/tests/unit/utils/lodash-custom-test', ['exports', 'chai', 'moch
     });
 
     (0, _mocha.describe)('#isNumeric', function () {
-      (0, _mocha.it)('should return true if its already a number type', function () {
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(0)).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(2)).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(17)).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(+17)).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(-17)).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(-0)).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(.0)).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(.17)).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(-.17)).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(1e17)).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(1e-17)).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(Infinity)).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(-Infinity)).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(new Number('123'))).to.be['true'];
+
+      [0, 2, 17, +17, -17, -0, .0, .17, -.17, 1e17, 1e-17, Infinity, -Infinity, new Number('123')].forEach(function (n) {
+        (0, _mocha.it)('should return true when it is already a number type [n=' + n + ']', function () {
+          (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(n)).to.be['true'];
+        });
       });
 
-      (0, _mocha.it)('should return true if its a string that looks like a number', function () {
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(new String('1337'))).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('1337')).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('-1337')).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('1337.17')).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('-1337.17')).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('0017')).to.be['true'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('00000.017')).to.be['true'];
+      [new String('1337'), '1337', '-1337', '1337.17', '-1337.17', '0017', '00000.017'].forEach(function (n) {
+        (0, _mocha.it)('should return true when it is a string that looks like a number [n=' + n + ']', function () {
+          (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(n)).to.be['true'];
+        });
       });
 
-      (0, _mocha.it)('should return false if its a string does not look like a number', function () {
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('abc')).to.be['false'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('6qwerty0')).to.be['false'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('17%')).to.be['false'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('-17%')).to.be['false'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('#17')).to.be['false'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('2^18')).to.be['false'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('17px')).to.be['false'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('*')).to.be['false'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric('')).to.be['false'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(true)).to.be['false'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(false)).to.be['false'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric([])).to.be['false'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric({})).to.be['false'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(function () {})).to.be['false'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(undefined)).to.be['false'];
-        (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(null)).to.be['false'];
+      ['abc', '6qwerty0', '17%', '-17%', '#17', '2^18', '17px', '*', '', true, false, [], {}, function () {}, undefined, null].forEach(function (n) {
+        (0, _mocha.it)('should return false when it is a string that does not look like a number [n=' + n + ']', function () {
+          (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isNumeric(n)).to.be['false'];
+        });
       });
     });
   });
