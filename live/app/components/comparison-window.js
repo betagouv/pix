@@ -63,9 +63,12 @@ const ComparisonWindow = Ember.Component.extend({
   isAssessmentChallengeTypeQrocmDep: Ember.computed.equal('challenge.type', 'QROCM-DEP'),
 
   resultItemContent: Ember.computed('answer.result', function () {
-    if (!this.get('answer.result')) return;
+    let resultItem = contentReference['default'];
     const answerStatus = this.get('answer.result');
-    return (answerStatus in contentReference) ? contentReference[answerStatus] : '';
+    if (answerStatus && (answerStatus in contentReference)) {
+      resultItem = contentReference[answerStatus];
+    }
+    return resultItem;
   })
 
 });
