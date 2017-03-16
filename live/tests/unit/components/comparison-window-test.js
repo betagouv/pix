@@ -25,14 +25,14 @@ describe('Unit | Component | comparison window', function () {
     component.set('answer', answer);
   });
 
-  describe('#resultItemContent', function () {
+  describe('#resultItem', function () {
 
     it('should return adapted title and tooltip when validation is unavailable (i.e. empty)', function () {
       // given
       answer.set('result', '');
 
       // when
-      resultItem = component.get('resultItemContent');
+      resultItem = component.get('resultItem');
 
       // then
       _assertResultItemTitle(resultItem, '');
@@ -44,7 +44,7 @@ describe('Unit | Component | comparison window', function () {
       answer.set('result', 'xxx');
 
       // when
-      resultItem = component.get('resultItemContent');
+      resultItem = component.get('resultItem');
 
       // then
       _assertResultItemTitle(resultItem, '');
@@ -57,7 +57,7 @@ describe('Unit | Component | comparison window', function () {
       answer.set('result', undefined);
 
       // when
-      resultItem = component.get('resultItemContent');
+      resultItem = component.get('resultItem');
 
       // then
       _assertResultItemTitle(resultItem, '');
@@ -69,7 +69,7 @@ describe('Unit | Component | comparison window', function () {
       answer.set('result', 'ok');
 
       // when
-      resultItem = component.get('resultItemContent');
+      resultItem = component.get('resultItem');
 
       // then
       _assertResultItemTitle(resultItem, 'Vous avez la bonne réponse !');
@@ -81,7 +81,7 @@ describe('Unit | Component | comparison window', function () {
       answer.set('result', 'ko');
 
       // when
-      resultItem = component.get('resultItemContent');
+      resultItem = component.get('resultItem');
 
       // then
       _assertResultItemTitle(resultItem, 'Vous n\'avez pas la bonne réponse');
@@ -93,7 +93,7 @@ describe('Unit | Component | comparison window', function () {
       answer.set('result', 'aband');
 
       // when
-      resultItem = component.get('resultItemContent');
+      resultItem = component.get('resultItem');
 
       // then
       _assertResultItemTitle(resultItem, 'Vous n\'avez pas donné de réponse');
@@ -105,11 +105,12 @@ describe('Unit | Component | comparison window', function () {
       answer.set('result', 'partially');
 
       // when
-      resultItem = component.get('resultItemContent');
+      resultItem = component.get('resultItem');
 
       // then
       _assertResultItemTitle(resultItem, 'Vous avez donné une réponse partielle');
       _assertResultItemTooltip(resultItem, 'Réponse partielle');
+      expect(resultItem.custom).to.be.true;
     });
 
     it('should return adapted title and tooltip when result is "timedout"', function () {
@@ -117,7 +118,7 @@ describe('Unit | Component | comparison window', function () {
       answer.set('result', 'timedout');
 
       // when
-      resultItem = component.get('resultItemContent');
+      resultItem = component.get('resultItem');
 
       // then
       _assertResultItemTitle(resultItem, 'Vous avez dépassé le temps imparti');
