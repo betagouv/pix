@@ -89,32 +89,58 @@ $challenges-title-color: #3d68ff;
 }
 
 .index-page-challenges__container {
-  padding: 70px 90px; // take into account course-item margin-bottom (5px)
-  margin: 0 auto;
   max-width: 1200px;
   display: flex;
+  flex-direction: column;
+  padding: 80px 0 70px 0;
+
+  @media (min-width: 992px) {
+    margin: 0 auto;
+    flex-direction: row;
+    padding: 70px 90px;
+  }
 }
 
 .index-page-challenges__presentation {
   font-family: $font-raleway;
   color: $white;
-  max-width: 300px;
+  text-align: center;
+
+  @media (min-width: 992px) {
+    max-width: 300px;
+    text-align: left;
+  }
 }
 
 .index-page-challenges__presentation-title {
-  font-size: 60px;
+  font-size: 50px;
   font-weight: 800;
+  margin-top: 0;
+
+  @media (min-width: 992px) {
+    font-size: 60px;
+  }
 }
 
 .index-page-challenges__presentation-text {
-  font-size: 37px;
+  font-size:26px;
   font-weight: 300;
   line-height: 1.2;
+
+  @media (min-width: 992px) {
+    font-size: 37px;
+  }
 }
 
 .index-page-challenges__course-list {
   display: flex;
-  margin-left: auto;
+  margin: 0 auto;
+  padding-top: 20px;
+
+  @media (min-width: 992px) {
+    margin-right: 0;
+    padding-top: 0;
+  }
 }
 
 /* Courses
