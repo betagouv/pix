@@ -7188,10 +7188,6 @@ define('pix-live/tests/utils/value-as-array-of-boolean.lint-test', ['exports'], 
     });
   });
 });
-/* jshint ignore:start */
-
 require('pix-live/tests/test-helper');
 EmberENV.TESTS_FILE_LOADED = true;
-
-/* jshint ignore:end */
 //# sourceMappingURL=tests.map
