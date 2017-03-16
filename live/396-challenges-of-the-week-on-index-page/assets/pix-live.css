@@ -906,7 +906,9 @@ button.routable-modal--close:active {
   @media (min-width: 992px) {
     .course-list__ul {
       -ms-flex-direction: row;
-      flex-direction: row; } }
+      flex-direction: row;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap; } }
 
 .course-list__li {
   margin: 10px; }
@@ -2176,30 +2178,53 @@ button.routable-modal--close:active {
   background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff); }
 
 .index-page-challenges__container {
-  padding: 70px 90px;
-  margin: 0 auto;
   max-width: 1200px;
   display: -ms-flexbox;
-  display: flex; }
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 80px 0 70px 0; }
+  @media (min-width: 992px) {
+    .index-page-challenges__container {
+      margin: 0 auto;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      padding: 70px 90px; } }
 
 .index-page-challenges__presentation {
   font-family: "Raleway", Arial, sans-serif;
   color: #ffffff;
-  max-width: 300px; }
+  text-align: center; }
+  @media (min-width: 992px) {
+    .index-page-challenges__presentation {
+      max-width: 300px;
+      text-align: left; } }
 
 .index-page-challenges__presentation-title {
-  font-size: 60px;
-  font-weight: 800; }
+  font-size: 50px;
+  font-weight: 800;
+  margin-top: 0; }
+  @media (min-width: 992px) {
+    .index-page-challenges__presentation-title {
+      font-size: 60px; } }
 
 .index-page-challenges__presentation-text {
-  font-size: 37px;
+  font-size: 26px;
   font-weight: 300;
   line-height: 1.2; }
+  @media (min-width: 992px) {
+    .index-page-challenges__presentation-text {
+      font-size: 37px; } }
 
 .index-page-challenges__course-list {
   display: -ms-flexbox;
   display: flex;
-  margin-left: auto; }
+  margin: 0 auto;
+  padding-top: 20px; }
+  @media (min-width: 992px) {
+    .index-page-challenges__course-list {
+      margin-right: 0;
+      padding-top: 0; } }
 
 /* Courses
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
