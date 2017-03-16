@@ -5428,6 +5428,141 @@ define('pix-live/tests/unit/adapters/solution-test.lint-test', ['exports'], func
     });
   });
 });
+define('pix-live/tests/unit/components/comparison-window-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
+
+  function _assertResultItemTitle(resultItem, expected) {
+    (0, _chai.expect)(resultItem.title).to.equal(expected);
+  }
+
+  function _assertResultItemTooltip(resultItem, expected) {
+    (0, _chai.expect)(resultItem.titleTooltip).to.equal(expected);
+  }
+
+  (0, _mocha.describe)('Unit | Component | comparison window', function () {
+
+    (0, _emberMocha.setupTest)('component:comparison-window', {});
+
+    var component = undefined;
+    var answer = undefined;
+    var resultItem = undefined;
+
+    (0, _mocha.beforeEach)(function () {
+      component = this.subject();
+      answer = _ember['default'].Object.create();
+      component.set('answer', answer);
+    });
+
+    (0, _mocha.describe)('#resultItem', function () {
+
+      (0, _mocha.it)('should return adapted title and tooltip when validation is unavailable (i.e. empty)', function () {
+        // given
+        answer.set('result', '');
+
+        // when
+        resultItem = component.get('resultItem');
+
+        // then
+        _assertResultItemTitle(resultItem, '');
+        _assertResultItemTooltip(resultItem, 'Correction automatique en cours de développement ;)');
+      });
+
+      (0, _mocha.it)('should return adapted title and tooltip when validation status is unknown', function () {
+        // given
+        answer.set('result', 'xxx');
+
+        // when
+        resultItem = component.get('resultItem');
+
+        // then
+        _assertResultItemTitle(resultItem, '');
+        _assertResultItemTooltip(resultItem, 'Correction automatique en cours de développement ;)');
+      });
+
+      (0, _mocha.it)('should return adapted title and tooltip when validation status is undefined', function () {
+        // given
+        var undefined = undefined;
+        answer.set('result', undefined);
+
+        // when
+        resultItem = component.get('resultItem');
+
+        // then
+        _assertResultItemTitle(resultItem, '');
+        _assertResultItemTooltip(resultItem, 'Correction automatique en cours de développement ;)');
+      });
+
+      (0, _mocha.it)('should return adapted title and tooltip when result is "ok"', function () {
+        // given
+        answer.set('result', 'ok');
+
+        // when
+        resultItem = component.get('resultItem');
+
+        // then
+        _assertResultItemTitle(resultItem, 'Vous avez la bonne réponse !');
+        _assertResultItemTooltip(resultItem, 'Réponse correcte');
+      });
+
+      (0, _mocha.it)('should return adapted title and tooltip when result is "ko"', function () {
+        // given
+        answer.set('result', 'ko');
+
+        // when
+        resultItem = component.get('resultItem');
+
+        // then
+        _assertResultItemTitle(resultItem, 'Vous n\'avez pas la bonne réponse');
+        _assertResultItemTooltip(resultItem, 'Réponse incorrecte');
+      });
+
+      (0, _mocha.it)('should return adapted title and tooltip when result is "aband"', function () {
+        // given
+        answer.set('result', 'aband');
+
+        // when
+        resultItem = component.get('resultItem');
+
+        // then
+        _assertResultItemTitle(resultItem, 'Vous n\'avez pas donné de réponse');
+        _assertResultItemTooltip(resultItem, 'Sans réponse');
+      });
+
+      (0, _mocha.it)('should return adapted title and tooltip when result is "partially"', function () {
+        // given
+        answer.set('result', 'partially');
+
+        // when
+        resultItem = component.get('resultItem');
+
+        // then
+        _assertResultItemTitle(resultItem, 'Vous avez donné une réponse partielle');
+        _assertResultItemTooltip(resultItem, 'Réponse partielle');
+        (0, _chai.expect)(resultItem.custom).to.be['true'];
+      });
+
+      (0, _mocha.it)('should return adapted title and tooltip when result is "timedout"', function () {
+        // given
+        answer.set('result', 'timedout');
+
+        // when
+        resultItem = component.get('resultItem');
+
+        // then
+        _assertResultItemTitle(resultItem, 'Vous avez dépassé le temps imparti');
+        _assertResultItemTooltip(resultItem, 'Temps dépassé');
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/comparison-window-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/components/comparison-window-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/unit/components/course-item-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Component | CourseItemComponent', function () {
