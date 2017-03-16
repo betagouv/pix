@@ -38,20 +38,12 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['exports', 'mocha', 'c
 
     (0, _mocha.describe)('contient une section "Challenges"', function () {
 
-      _mocha.it.skip('a1.3 cachée si aucun test n\'est remonté', function () {
-        // given
-
-        // when
-
-        // then
+      (0, _mocha.it)('a1.3 cachée si aucun test n\'est remonté', function () {
+        // FIXME find a way to test this correctly
       });
 
-      _mocha.it.skip('a1.4 visible si au moins 1 test est remonté', function () {
-        // given
-
-        // when
-
-        // then
+      (0, _mocha.it)('a1.4 visible si au moins 1 test est remonté', function () {
+        // FIXME find a way to test this correctly
       });
 
       (0, _mocha.it)('a1.6 avec un titre', function () {
@@ -64,49 +56,45 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['exports', 'mocha', 'c
         (0, _chai.expect)($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
       });
 
-      (0, _mocha.it)('a1.5 qui affiche 2 tests maximum', function () {
-        // given
-
-        // when
-
-        // then
+      (0, _mocha.it)('a1.8 qui affiche 2 tests maximum', function () {
+        // FIXME find a way to test this correctly
       });
     });
 
     (0, _mocha.describe)('contient une section "Courses"', function () {
 
-      (0, _mocha.it)('a1.3 avec un titre', function () {
+      (0, _mocha.it)('a1.9 avec un titre', function () {
         var $title = findWithAssert('.index-page-courses__title');
         (0, _chai.expect)($title.text().trim()).to.equal('Découvrez nos épreuves et aidez‑nous à les améliorer !');
       });
 
-      (0, _mocha.it)('a1.4 avec la liste des challenges', function () {
+      (0, _mocha.it)('a1.10 avec la liste des challenges', function () {
         findWithAssert('.index-page-courses__course-list');
       });
     });
 
     (0, _mocha.describe)('contient une section "Community"', function () {
 
-      (0, _mocha.it)('a1.5 avec un titre', function () {
+      (0, _mocha.it)('a1.11 avec un titre', function () {
         findWithAssert('.index-page-community__title');
       });
 
-      (0, _mocha.it)('a1.6 avec une description', function () {
+      (0, _mocha.it)('a1.12 avec une description', function () {
         findWithAssert('.index-page-community__description');
       });
 
-      (0, _mocha.it)('a1.7 avec le formulaire d\'inscription en tant que béta-testeur', function () {
+      (0, _mocha.it)('a1.13 avec le formulaire d\'inscription en tant que béta-testeur', function () {
         findWithAssert('.index-page-community__form');
       });
     });
 
     (0, _mocha.describe)('contient une section "Features"', function () {
 
-      (0, _mocha.it)('a1.8 avec la liste des featurettes', function () {
+      (0, _mocha.it)('a1.14 avec la liste des featurettes', function () {
         findWithAssert('.index-page-features__list');
       });
 
-      (0, _mocha.it)('a1.9 avec un lien vers la page "projet"', function () {
+      (0, _mocha.it)('a1.15 avec un lien vers la page "projet"', function () {
         findWithAssert('.index-page-features__project-button[href="/projet"]');
       });
     });
@@ -7050,10 +7038,6 @@ define('pix-live/tests/utils/value-as-array-of-boolean.lint-test', ['exports'], 
     });
   });
 });
-/* jshint ignore:start */
-
 require('pix-live/tests/test-helper');
 EmberENV.TESTS_FILE_LOADED = true;
-
-/* jshint ignore:end */
 //# sourceMappingURL=tests.map
