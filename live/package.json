@@ -58,7 +58,6 @@
     "tap-xunit": "1.7.0"
   },
   "scripts": {
-    "install": "npm install",
     "postinstall": "bower cache clean && bower install",
     "build": "ember build",
     "clean": "rm -rf tmp dist bower_components node_modules",
