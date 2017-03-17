@@ -73,7 +73,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
         answer = Ember.Object.create(correctAnswer);
       });
 
-      it('QCU correcte et cochée', function () {
+      it('QCU,la réponse correcte est cochée', function () {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
@@ -92,7 +92,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
         expect($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
       });
 
-      it('QCU correcte et non cochée', function () {
+      it('QCU, la réponse correcte n\'est pas cochée', function () {
         //Given
         answer = Ember.Object.create(unCorrectAnswer);
 
@@ -111,7 +111,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
         expect($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
       });
 
-      it('QCU incorrecte et non cochée', function () {
+      it('QCU, la réponse incorrecte n\'est pas cochée', function () {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
@@ -128,7 +128,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
         expect($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
       });
 
-      it('QCU incorrecte et cochée', function () {
+      it('QCU,la réponse incorrecte est cochée', function () {
         //Given
         answer = Ember.Object.create(unCorrectAnswer);
 
