@@ -4,34 +4,6 @@ import answerAsObject from 'pix-live/utils/answers-as-object';
 import solutionAsObject from 'pix-live/utils/solution-as-object';
 import labelAsObject from 'pix-live/utils/labels-as-object';
 
-/*function deletePlaceholderInLabel(keyInput) {
- if (keyInput.indexOf('#') != -1) {
- keyInput = keyInput.substring(0, keyInput.indexOf('#'));
- }
- return keyInput;
- }
-
- function transformSolutionsToString(solutionsAsObject) {
- _.each(solutionsAsObject, function (potentialSolution) {
- potentialSolution.forEach(function (value, index) {
- potentialSolution[index] = potentialSolution[index].toString();
- });
- });
- return solutionsAsObject;
- }
-
- function parseChallenge(proposals) {
- const proposalsSplitted = proposals.split(/\$\{|}/).slice(0, -1);
- const labelsAsObject = {};
- proposalsSplitted.forEach((element, index) => {
- if (index % 2 != 0) {
- element = deletePlaceholderInLabel(element);
- labelsAsObject[element] = proposalsSplitted[index - 1];
- }
- });
- return labelsAsObject;
- }*/
-
 function fillAnswerOfPassedChallenge(answersAsObject, inputKeys) {
   inputKeys.forEach(function (key) {
     answersAsObject[key] = '';
