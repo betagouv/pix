@@ -1,8 +1,8 @@
 import Ember from 'ember';
 import _ from 'lodash';
-import answerAsObject from 'pix-live/utils/answers-as-object';
-import solutionAsObject from 'pix-live/utils/solution-as-object';
-import labelAsObject from 'pix-live/utils/labels-as-object';
+import answersAsObject from 'pix-live/utils/answers-as-object';
+import solutionsAsObject from 'pix-live/utils/solution-as-object';
+import labelsAsObject from 'pix-live/utils/labels-as-object';
 
 function fillAnswerOfPassedChallenge(answersAsObject, inputKeys) {
   inputKeys.forEach(function (key) {
@@ -15,30 +15,28 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
 
   dataToDisplay: Ember.computed('challenge.proposals', 'answer.value', 'solution.value', function () {
 
-    const labelsAsObject = labelAsObject(this.get('challenge.proposals'));
-    let answersAsObject = answerAsObject(this.get('answer.value'));
-    const solutionsAsObject = solutionAsObject(this.get('solution.value'));
+    const labels = labelsAsObject(this.get('challenge.proposals'));
+    let answers = answersAsObject(this.get('answer.value'));
+    const solutions = solutionsAsObject(this.get('solution.value'));
 
-    const inputKeys = _.keys(labelsAsObject);
-    if (_.isEmpty(answersAsObject)) {
-      answersAsObject = fillAnswerOfPassedChallenge(answersAsObject, inputKeys);
+    const inputKeys = _.keys(labels);
+    if (_.isEmpty(answers)) {
+      answers = fillAnswerOfPassedChallenge(answers, inputKeys);
     }
     const dataToDisplay = [];
 
     inputKeys.forEach(function (key) {
-
-      const isRightAnswer = _.includes(solutionsAsObject[key], answersAsObject[key]);
-      const noAnswer = answersAsObject[key] === '';
+      const isRightAnswer = _.includes(solutions[key], answers[key]);
+      const noAnswer = answers[key] === '';
       const isWrongAnswer = !isRightAnswer && !noAnswer;
 
-      if (answersAsObject[key] === '') {
-        answersAsObject[key] = 'Pas de réponse';
+      if (answers[key] === '') {
+        answers[key] = 'Pas de réponse';
       }
-
       const labelAnswerSolution = {
-        label: labelsAsObject[key],
-        answer: answersAsObject[key],
-        solution: solutionsAsObject[key][0],
+        label: labels[key],
+        answer: answers[key],
+        solution: solutions[key][0],
         rightAnswer: isRightAnswer,
         wrongAnswer: isWrongAnswer,
         noAnswer: noAnswer

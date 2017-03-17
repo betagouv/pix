@@ -19,7 +19,5 @@ function parseChallenge(proposals) {
 }
 
 export default function labelsAsObject(labels) {
-
-  const labelsAsObject = parseChallenge(labels);
-  return labelsAsObject;
+  return parseChallenge(labels);
 }
