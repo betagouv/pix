@@ -28,11 +28,10 @@ const CSS_BLACK_COLOR = 'rgb(51, 51, 51)';
 const CSS_LINETHROUGH_ON = 'line-through';
 const CSS_LINETHROUGH_OFF = 'none';
 
-let assessment = {};
+const assessment = {};
 let challenge = null;
 let answer = null;
 let solution = null;
-let store = null;
 
 function charCount(str) {
   return str.match(/[a-zA-Z]/g).length;
