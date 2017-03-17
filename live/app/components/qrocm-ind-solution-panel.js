@@ -1,34 +1,36 @@
-/* global jsyaml */
 import Ember from 'ember';
 import _ from 'lodash';
+import answerAsObject from 'pix-live/utils/answers-as-object';
+import solutionAsObject from 'pix-live/utils/solution-as-object';
+import labelAsObject from 'pix-live/utils/labels-as-object';
 
-function deletePlaceholderInLabel(keyInput) {
-  if (keyInput.indexOf('#') != -1) {
-    keyInput = keyInput.substring(0, keyInput.indexOf('#'));
-  }
-  return keyInput;
-}
+/*function deletePlaceholderInLabel(keyInput) {
+ if (keyInput.indexOf('#') != -1) {
+ keyInput = keyInput.substring(0, keyInput.indexOf('#'));
+ }
+ return keyInput;
+ }
 
-function transformSolutionsToString(solutionsAsObject) {
-  _.each(solutionsAsObject, function (potentialSolution) {
-    potentialSolution.forEach(function (value, index) {
-      potentialSolution[index] = potentialSolution[index].toString();
-    });
-  });
-  return solutionsAsObject;
-}
+ function transformSolutionsToString(solutionsAsObject) {
+ _.each(solutionsAsObject, function (potentialSolution) {
+ potentialSolution.forEach(function (value, index) {
+ potentialSolution[index] = potentialSolution[index].toString();
+ });
+ });
+ return solutionsAsObject;
+ }
 
-function parseChallenge(proposals) {
-  const proposalsSplitted = proposals.split(/\$\{|}/).slice(0, -1);
-  const labelsAsObject = {};
-  proposalsSplitted.forEach((element, index) => {
-    if (index % 2 != 0) {
-      element = deletePlaceholderInLabel(element);
-      labelsAsObject[element] = proposalsSplitted[index - 1];
-    }
-  });
-  return labelsAsObject;
-}
+ function parseChallenge(proposals) {
+ const proposalsSplitted = proposals.split(/\$\{|}/).slice(0, -1);
+ const labelsAsObject = {};
+ proposalsSplitted.forEach((element, index) => {
+ if (index % 2 != 0) {
+ element = deletePlaceholderInLabel(element);
+ labelsAsObject[element] = proposalsSplitted[index - 1];
+ }
+ });
+ return labelsAsObject;
+ }*/
 
 function fillAnswerOfPassedChallenge(answersAsObject, inputKeys) {
   inputKeys.forEach(function (key) {
@@ -38,33 +40,34 @@ function fillAnswerOfPassedChallenge(answersAsObject, inputKeys) {
 }
 
 const QrocmIndSolutionPanel = Ember.Component.extend({
+  /*
+   answersAsObject: Ember.computed('answer.value', function () {
+   const yamlAnswer = this.get('answer.value');
+   let answersObject = {};
+   if (yamlAnswer != '#ABAND#') {
+   answersObject = jsyaml.safeLoad(yamlAnswer);
+   }
+   return answersObject;
+   }),*/
 
-  answersAsObject: Ember.computed('answer.value', function () {
-    const yamlAnswer = this.get('answer.value');
-    let answersObject = {};
-    if (yamlAnswer != '#ABAND#') {
-      answersObject = jsyaml.safeLoad(yamlAnswer);
-    }
-    return answersObject;
-  }),
+  /*solutionsAsObject: Ember.computed('solution.value', function () {
+   const yamlSolution = this.get('solution.value');
+   let solutionsAsObject = jsyaml.safeLoad(yamlSolution);
+   solutionsAsObject = transformSolutionsToString(solutionsAsObject);
+   return solutionsAsObject;
+   }),*/
 
-  solutionsAsObject: Ember.computed('solution.value', function () {
-    const yamlSolution = this.get('solution.value');
-    let solutionsAsObject = jsyaml.safeLoad(yamlSolution);
-    solutionsAsObject = transformSolutionsToString(solutionsAsObject);
-    return solutionsAsObject;
-  }),
+  /*labelsAsObject: Ember.computed('challenge.proposals', function () {
+   const proposals = this.get('challenge.proposals').replace(/\n/g, '');
+   const labelsAsObject = parseChallenge(proposals);
+   return labelsAsObject;
+   }),*/
 
-  labelsAsObject: Ember.computed('challenge.proposals', function () {
-    const proposals = this.get('challenge.proposals').replace(/\n/g, '');
-    const labelsAsObject = parseChallenge(proposals);
-    return labelsAsObject;
-  }),
+  dataToDisplay: Ember.computed('challenge.proposals', 'answer.value', 'solution.value', function () {
 
-  dataToDisplay: Ember.computed('labelsAsObject', 'answersAsObject', 'solutionsAsObject', function () {
-    const labelsAsObject = this.get('labelsAsObject');
-    let answersAsObject = this.get('answersAsObject');
-    const solutionsAsObject = this.get('solutionsAsObject');
+    const labelsAsObject = labelAsObject(this.get('challenge.proposals'));
+    let answersAsObject = answerAsObject(this.get('answer.value'));
+    const solutionsAsObject = solutionAsObject(this.get('solution.value'));
 
     const inputKeys = _.keys(labelsAsObject);
     if (_.isEmpty(answersAsObject)) {
