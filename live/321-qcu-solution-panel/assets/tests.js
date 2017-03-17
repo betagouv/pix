@@ -4495,11 +4495,10 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
   var CSS_LINETHROUGH_ON = 'line-through';
   var CSS_LINETHROUGH_OFF = 'none';
 
-  var assessment = null;
+  var assessment = {};
   var challenge = null;
   var answer = null;
   var solution = null;
-  var store = null;
 
   function charCount(str) {
     return str.match(/[a-zA-Z]/g).length;
@@ -4509,6 +4508,14 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
     (0, _emberMocha.setupComponentTest)('qcu-solution-panel', {
       integration: true
     });
+
+    var correctAnswer = {
+      id: 'answer_id', assessment: assessment, challenge: challenge, value: '2'
+    };
+
+    var unCorrectAnswer = {
+      id: 'answer_id', assessment: assessment, challenge: challenge, value: '3'
+    };
 
     (0, _mocha.describe)('#Component should renders: ', function () {
 
@@ -4525,22 +4532,17 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
       (0, _mocha.describe)('Radio state', function () {
 
         before(function () {
-          var _this = this;
-
-          _ember['default'].run(function () {
-            store = _this.container.lookup('service:store');
-
-            // Given
-            assessment = store.createRecord('assessment', { id: 'assessment_id' });
-            challenge = store.createRecord('challenge', {
-              id: 'challenge_id',
-              proposals: '-foo\n- bar\n- qix\n- yon',
-              type: 'QCM'
-            });
-
-            answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2' });
-            solution = store.createRecord('solution', { id: 'solution_id', value: '2' });
+          challenge = _ember['default'].Object.create({
+            id: 'challenge_id',
+            proposals: '-foo\n- bar\n- qix\n- yon',
+            type: 'QCM'
           });
+
+          solution = _ember['default'].Object.create({
+            id: 'solution_id', value: '2'
+          });
+
+          answer = _ember['default'].Object.create(correctAnswer);
         });
 
         (0, _mocha.it)('QCU correcte et cochée', function () {
@@ -4567,23 +4569,8 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
         });
 
         (0, _mocha.it)('QCU correcte et non cochée', function () {
-          var _this2 = this;
-
           //Given
-          _ember['default'].run(function () {
-            store = _this2.container.lookup('service:store');
-
-            // Given
-            assessment = store.createRecord('assessment', { id: 'assessment_id' });
-            challenge = store.createRecord('challenge', {
-              id: 'challenge_id',
-              proposals: '-foo\n- bar\n- qix\n- yon',
-              type: 'QCM'
-            });
-
-            answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '3' });
-            solution = store.createRecord('solution', { id: 'solution_id', value: '2' });
-          });
+          answer = _ember['default'].Object.create(unCorrectAnswer);
 
           this.set('answer', answer);
           this.set('solution', solution);
@@ -4604,24 +4591,30 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
           (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
         });
 
-        (0, _mocha.it)('QCU incorrecte et cochée', function () {
-          var _this3 = this;
-
+        (0, _mocha.it)('QCU incorrecte et non cochée', function () {
           //Given
-          _ember['default'].run(function () {
-            store = _this3.container.lookup('service:store');
+          this.set('answer', answer);
+          this.set('solution', solution);
+          this.set('challenge', challenge);
 
-            // Given
-            assessment = store.createRecord('assessment', { id: 'assessment_id' });
-            challenge = store.createRecord('challenge', {
-              id: 'challenge_id',
-              proposals: '-foo\n- bar\n- qix\n- yon',
-              type: 'QCM'
-            });
+          // When
+          this.render(_ember['default'].HTMLBars.template({
+            'id': '5mvqj82b',
+            'block': '{"statements":[["append",["helper",["qcu-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
 
-            answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '3' });
-            solution = store.createRecord('solution', { id: 'solution_id', value: '2' });
-          });
+          // Then
+          (0, _chai.expect)($(RADIO_INCORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+          (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+        });
+
+        (0, _mocha.it)('QCU incorrecte et cochée', function () {
+          //Given
+          answer = _ember['default'].Object.create(unCorrectAnswer);
 
           this.set('answer', answer);
           this.set('solution', solution);
@@ -4640,44 +4633,6 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_ON);
-        });
-
-        (0, _mocha.it)('QCU incorrecte et non cochée', function () {
-          var _this4 = this;
-
-          //Given
-          _ember['default'].run(function () {
-            store = _this4.container.lookup('service:store');
-
-            // Given
-            assessment = store.createRecord('assessment', { id: 'assessment_id' });
-            challenge = store.createRecord('challenge', {
-              id: 'challenge_id',
-              proposals: '-foo\n- bar\n- qix\n- yon',
-              type: 'QCM'
-            });
-
-            answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2' });
-            solution = store.createRecord('solution', { id: 'solution_id', value: '2' });
-          });
-
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('challenge', challenge);
-
-          // When
-          this.render(_ember['default'].HTMLBars.template({
-            'id': '5mvqj82b',
-            'block': '{"statements":[["append",["helper",["qcu-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-            'meta': {}
-          }));
-
-          // Then
-          (0, _chai.expect)($(RADIO_INCORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
-          (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
         });
 
         (0, _mocha.it)('Aucune case à cocher n\'est cliquable', function () {
