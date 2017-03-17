@@ -4232,8 +4232,9 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
   var CHECKBOX_CORRECT_AND_UNCHECKED = '.qcm-panel__proposal-checkbox:eq(2)';
   var LABEL_CORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(2)';
 
-  var CHECKBOX_INCORRECT_AND_CHECKED = '.qcm-panel__proposal-checkbox:eq(3)';
-  var LABEL_INCORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(3)';
+  var CHECKBOX_INCORRECT_AND_CHECKED = '.qcm-panel__proposal-checkbox:eq(0)';
+  var CHECKBOX_INCORRECT_AND_CHECKED_SECOND = '.qcm-panel__proposal-checkbox:eq(3)';
+  var LABEL_INCORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(0)';
 
   var CHECKBOX_INCORRECT_AND_UNCHECKED = '.qcm-panel__proposal-checkbox:eq(0)';
   var LABEL_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(0)';
@@ -4247,11 +4248,10 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
   var CSS_LINETHROUGH_ON = 'line-through';
   var CSS_LINETHROUGH_OFF = 'none';
 
-  var assessment = null;
+  var assessment = {};
   var challenge = null;
   var answer = null;
   var solution = null;
-  var store = null;
 
   function charCount(str) {
     return str.match(/[a-zA-Z]/g).length;
@@ -4275,27 +4275,29 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
       });
 
       (0, _mocha.describe)('checkbox state', function () {
+        var correctAnswer = {
+          id: 'answer_id', assessment: assessment, challenge: challenge, value: '2,4'
+        };
+
+        var unCorrectAnswer = {
+          id: 'answer_id', assessment: assessment, challenge: challenge, value: '1,4'
+        };
 
         before(function () {
-          var _this = this;
-
-          _ember['default'].run(function () {
-            store = _this.container.lookup('service:store');
-
-            // Given
-            assessment = store.createRecord('assessment', { id: 'assessment_id' });
-            challenge = store.createRecord('challenge', {
-              id: 'challenge_id',
-              proposals: '-foo\n- bar\n- qix\n- yon',
-              type: 'QCM'
-            });
-
-            answer = store.createRecord('answer', { id: 'answer_id', assessment: assessment, challenge: challenge, value: '2,4' });
-            solution = store.createRecord('solution', { id: 'solution_id', value: '2,3' });
+          challenge = _ember['default'].Object.create({
+            id: 'challenge_id',
+            proposals: '-foo\n- bar\n- qix\n- yon',
+            type: 'QCM'
           });
+
+          solution = _ember['default'].Object.create({
+            id: 'solution_id', value: '2,3'
+          });
+
+          answer = _ember['default'].Object.create(correctAnswer);
         });
 
-        (0, _mocha.it)('QCM correcte et cochée', function () {
+        (0, _mocha.it)('QCM, la réponse correcte est cochée', function () {
           //Given
           this.set('answer', answer);
           this.set('solution', solution);
@@ -4318,8 +4320,28 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
         });
 
-        (0, _mocha.it)('QCM correcte et non cochée', function () {
+        (0, _mocha.it)('QCM, aucune réponse incorrecte n\'est cochée', function () {
+          //Given
+          this.set('answer', answer);
+          this.set('solution', solution);
+          this.set('challenge', challenge);
 
+          // When
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'g45K7pGO',
+            'block': '{"statements":[["append",["helper",["qcm-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // Then
+          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+          (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+        });
+
+        (0, _mocha.it)('QCM, Au moins l\'une des réponse correcte n\'est pas cochée', function () {
           //Given
           this.set('answer', answer);
           this.set('solution', solution);
@@ -4340,9 +4362,10 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
           (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
         });
 
-        (0, _mocha.it)('QCM incorrecte et cochée', function () {
-
+        (0, _mocha.it)('QCM, au moins l\'une des réponse incorrecte est cochée', function () {
           //Given
+          answer = _ember['default'].Object.create(unCorrectAnswer);
+
           this.set('answer', answer);
           this.set('solution', solution);
           this.set('challenge', challenge);
@@ -4356,31 +4379,12 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
 
           // Then
           (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_CHECKED_SECOND).is(':checked')).to.equal(true);
+          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
           (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_ON);
-        });
-
-        (0, _mocha.it)('QCM incorrecte et non cochée', function () {
-          //Given
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('challenge', challenge);
-
-          // When
-          this.render(_ember['default'].HTMLBars.template({
-            'id': 'g45K7pGO',
-            'block': '{"statements":[["append",["helper",["qcm-solution-panel"],null,[["challenge","answer","solution"],[["get",["challenge"]],["get",["answer"]],["get",["solution"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-            'meta': {}
-          }));
-
-          // Then
-          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
-          (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
         });
 
         (0, _mocha.it)('Aucune case à cocher n\'est cliquable', function () {
