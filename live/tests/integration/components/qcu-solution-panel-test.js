@@ -36,7 +36,6 @@ function charCount(str) {
   return str.match(/[a-zA-Z]/g).length;
 }
 
-
 describe('Integration | Component | qcu-solution-panel.js', function () {
   setupComponentTest('qcu-solution-panel', {
     integration: true
