@@ -4549,7 +4549,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
           answer = _ember['default'].Object.create(correctAnswer);
         });
 
-        (0, _mocha.it)('QCU correcte et cochée', function () {
+        (0, _mocha.it)('QCU,la réponse correcte est cochée', function () {
           //Given
           this.set('answer', answer);
           this.set('solution', solution);
@@ -4572,7 +4572,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
         });
 
-        (0, _mocha.it)('QCU correcte et non cochée', function () {
+        (0, _mocha.it)('QCU, la réponse correcte n\'est pas cochée', function () {
           //Given
           answer = _ember['default'].Object.create(unCorrectAnswer);
 
@@ -4595,7 +4595,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
           (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
         });
 
-        (0, _mocha.it)('QCU incorrecte et non cochée', function () {
+        (0, _mocha.it)('QCU, la réponse incorrecte n\'est pas cochée', function () {
           //Given
           this.set('answer', answer);
           this.set('solution', solution);
@@ -4616,7 +4616,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
           (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
         });
 
-        (0, _mocha.it)('QCU incorrecte et cochée', function () {
+        (0, _mocha.it)('QCU,la réponse incorrecte est cochée', function () {
           //Given
           answer = _ember['default'].Object.create(unCorrectAnswer);
 
