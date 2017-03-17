@@ -40,28 +40,6 @@ function fillAnswerOfPassedChallenge(answersAsObject, inputKeys) {
 }
 
 const QrocmIndSolutionPanel = Ember.Component.extend({
-  /*
-   answersAsObject: Ember.computed('answer.value', function () {
-   const yamlAnswer = this.get('answer.value');
-   let answersObject = {};
-   if (yamlAnswer != '#ABAND#') {
-   answersObject = jsyaml.safeLoad(yamlAnswer);
-   }
-   return answersObject;
-   }),*/
-
-  /*solutionsAsObject: Ember.computed('solution.value', function () {
-   const yamlSolution = this.get('solution.value');
-   let solutionsAsObject = jsyaml.safeLoad(yamlSolution);
-   solutionsAsObject = transformSolutionsToString(solutionsAsObject);
-   return solutionsAsObject;
-   }),*/
-
-  /*labelsAsObject: Ember.computed('challenge.proposals', function () {
-   const proposals = this.get('challenge.proposals').replace(/\n/g, '');
-   const labelsAsObject = parseChallenge(proposals);
-   return labelsAsObject;
-   }),*/
 
   dataToDisplay: Ember.computed('challenge.proposals', 'answer.value', 'solution.value', function () {
 
