@@ -27,11 +27,10 @@ const CSS_BLACK_COLOR = 'rgb(51, 51, 51)';
 const CSS_LINETHROUGH_ON = 'line-through';
 const CSS_LINETHROUGH_OFF = 'none';
 
-let assessment = null;
+const assessment = {};
 let challenge = null;
 let answer = null;
 let solution = null;
-let store = null;
 
 function charCount(str) {
   return str.match(/[a-zA-Z]/g).length;
@@ -43,6 +42,14 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
     integration: true
   });
 
+  const correctAnswer = {
+    id: 'answer_id', assessment, challenge, value: '2'
+  };
+
+  const unCorrectAnswer = {
+    id: 'answer_id', assessment, challenge, value: '3'
+  };
+
   describe('#Component should renders: ', function () {
 
     it('Should renders', function () {
@@ -53,21 +60,18 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
 
     describe('Radio state', function () {
 
-      before(function () {
-        Ember.run(() => {
-          store = this.container.lookup('service:store');
-
-          // Given
-          assessment = store.createRecord('assessment', {id: 'assessment_id'});
-          challenge = store.createRecord('challenge', {
-            id: 'challenge_id',
-            proposals: '-foo\n- bar\n- qix\n- yon',
-            type: 'QCM'
-          });
-
-          answer = store.createRecord('answer', {id: 'answer_id', assessment, challenge, value: '2'});
-          solution = store.createRecord('solution', {id: 'solution_id', value: '2'});
+      before(function() {
+        challenge = Ember.Object.create({
+          id: 'challenge_id',
+          proposals: '-foo\n- bar\n- qix\n- yon',
+          type: 'QCM'
         });
+
+        solution = Ember.Object.create({
+          id: 'solution_id', value: '2'
+        });
+
+        answer = Ember.Object.create(correctAnswer);
       });
 
       it('QCU correcte et cochée', function () {
@@ -90,22 +94,8 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
       });
 
       it('QCU correcte et non cochée', function () {
-
         //Given
-        Ember.run(() => {
-          store = this.container.lookup('service:store');
-
-          // Given
-          assessment = store.createRecord('assessment', {id: 'assessment_id'});
-          challenge = store.createRecord('challenge', {
-            id: 'challenge_id',
-            proposals: '-foo\n- bar\n- qix\n- yon',
-            type: 'QCM'
-          });
-
-          answer = store.createRecord('answer', {id: 'answer_id', assessment, challenge, value: '3'});
-          solution = store.createRecord('solution', {id: 'solution_id', value: '2'});
-        });
+        answer = Ember.Object.create(unCorrectAnswer);
 
         this.set('answer', answer);
         this.set('solution', solution);
@@ -122,24 +112,26 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
         expect($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
       });
 
-      it('QCU incorrecte et cochée', function () {
-
+      it('QCU incorrecte et non cochée', function () {
         //Given
-        Ember.run(() => {
-          store = this.container.lookup('service:store');
+        this.set('answer', answer);
+        this.set('solution', solution);
+        this.set('challenge', challenge);
 
-          // Given
-          assessment = store.createRecord('assessment', {id: 'assessment_id'});
-          challenge = store.createRecord('challenge', {
-            id: 'challenge_id',
-            proposals: '-foo\n- bar\n- qix\n- yon',
-            type: 'QCM'
-          });
+        // When
+        this.render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
-          answer = store.createRecord('answer', {id: 'answer_id', assessment, challenge, value: '3'});
-          solution = store.createRecord('solution', {id: 'solution_id', value: '2'});
-        });
+        // Then
+        expect($(RADIO_INCORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+        expect(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
+        expect($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
+        expect($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
+        expect($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+      });
 
+      it('QCU incorrecte et cochée', function () {
+        //Given
+        answer = Ember.Object.create(unCorrectAnswer);
 
         this.set('answer', answer);
         this.set('solution', solution);
@@ -155,38 +147,6 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
         expect($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
         expect($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_ON);
 
-      });
-
-      it('QCU incorrecte et non cochée', function () {
-        //Given
-        Ember.run(() => {
-          store = this.container.lookup('service:store');
-
-          // Given
-          assessment = store.createRecord('assessment', {id: 'assessment_id'});
-          challenge = store.createRecord('challenge', {
-            id: 'challenge_id',
-            proposals: '-foo\n- bar\n- qix\n- yon',
-            type: 'QCM'
-          });
-
-          answer = store.createRecord('answer', {id: 'answer_id', assessment, challenge, value: '2'});
-          solution = store.createRecord('solution', {id: 'solution_id', value: '2'});
-        });
-
-        this.set('answer', answer);
-        this.set('solution', solution);
-        this.set('challenge', challenge);
-
-        // When
-        this.render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
-
-        // Then
-        expect($(RADIO_INCORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
-        expect(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
-        expect($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
-        expect($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
-        expect($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
       });
 
       it('Aucune case à cocher n\'est cliquable', function () {
