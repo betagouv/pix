@@ -65,6 +65,9 @@ _.mixin({
   isNonEmptyString: function (x) {
     return _.isString(x) && !_.isEmpty(x);
   },
+  isNonEmptyArray: function (x) {
+    return _.isArray(x) && !_.isEmpty(x);
+  },
   hasSomeTruthyProps: function (x) {
     if (!_.isObject(x)) return false;
     if (_.isEmpty(x)) return false;
@@ -77,6 +80,13 @@ _.mixin({
     return !_.isInteger(x);
   },
 
+  isNumeric: function isNumeric(value) {
+    if (typeof value === 'number') return true;
+    const str = (value || '').toString();
+    if (!str) return false;
+    return !isNaN(str);
+  },
+
   // See http://veerasundar.com/blog/2013/01/underscore-js-and-guid-function/
   guid: function() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -84,6 +94,7 @@ _.mixin({
       return v.toString(16);
     });
   }
+
 }, {chain: false});
 
 export default _;
