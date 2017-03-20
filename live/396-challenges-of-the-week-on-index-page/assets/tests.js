@@ -48,7 +48,7 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['exports', 'mocha', 'c
 
       (0, _mocha.it)('a1.6 avec un titre', function () {
         var $title = findWithAssert('.index-page-challenges__presentation-title');
-        (0, _chai.expect)($title.text().trim()).to.equal('Le défi Pix');
+        (0, _chai.expect)($title.text().trim()).to.equal('Le défi Pix de la semaine');
       });
 
       (0, _mocha.it)('a1.7 avec un texte descriptif', function () {
