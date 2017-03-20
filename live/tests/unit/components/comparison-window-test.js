@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe.only('Unit | Component | comparison-window', function () {
+describe('Unit | Component | comparison-window', function () {
 
   setupTest('component:comparison-window', {});
 
