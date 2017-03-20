@@ -5397,7 +5397,7 @@ define('pix-live/tests/unit/adapters/solution-test.lint-test', ['exports'], func
 });
 define('pix-live/tests/unit/components/comparison-window-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  _mocha.describe.only('Unit | Component | comparison-window', function () {
+  (0, _mocha.describe)('Unit | Component | comparison-window', function () {
 
     (0, _emberMocha.setupTest)('component:comparison-window', {});
 
