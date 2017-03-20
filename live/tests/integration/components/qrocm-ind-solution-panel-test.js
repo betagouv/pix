@@ -15,8 +15,6 @@ const SOLUTION_TEXT = '.correction-qrocm__solution-text';
 
 const RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
 const NO_ANSWER_GREY = 'rgb(62, 65, 73)';
-const NO_ANSWER_GREY2 = 'rgb(51, 51, 51)';
-
 
 describe('Integration | Component | qrocm solution panel', function () {
 
@@ -77,7 +75,7 @@ describe('Integration | Component | qrocm solution panel', function () {
         expect(answerLabel).to.have.length(1);
         expect(answerInput).to.have.length(1);
 
-        expect(answerLabel.css('color')).to.be.equal(NO_ANSWER_GREY2);
+        expect(answerLabel.css('color')).to.be.equal(NO_ANSWER_GREY);
 
         expect(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
         expect(answerInput.css('font-weight')).to.be.equal('bold');

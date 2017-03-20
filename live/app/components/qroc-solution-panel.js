@@ -30,10 +30,7 @@ const QrocSolutionPanel = Ember.Component.extend({
     if (!solutionVariants){
       return '';
     }
-
-    const solutionVariantsArray = solutionVariants.split('\n');
-    const solution = solutionVariantsArray[0];
-    return solution;
+    return solutionVariants.split('\n')[0];
   }),
 });
 

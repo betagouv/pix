@@ -5,16 +5,16 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Component | qroc-solution-panel', function () {
 
   setupTest('component:qroc-solution-panel', {});
+  const rightAnswer = { result: 'ok' };
+  const wrongAnswer = { result: 'ko' };
+  const noAnswer = { result: 'aband' };
 
   describe('#isResultOk', function () {
 
     it('should return true when result is ok', function () {
       // given
-      const answer = {
-        result: 'ok'
-      };
       const component = this.subject();
-      component.set('answer', answer);
+      component.set('answer', rightAnswer);
       // when
       const isResultOk = component.get('isResultOk');
       // then
@@ -23,11 +23,8 @@ describe('Unit | Component | qroc-solution-panel', function () {
 
     it('should return true when result is not ok', function () {
       // given
-      const answer = {
-        result: 'ko'
-      };
       const component = this.subject();
-      component.set('answer', answer);
+      component.set('answer', wrongAnswer);
       // when
       const isResultOk = component.get('isResultOk');
       // then
@@ -39,28 +36,22 @@ describe('Unit | Component | qroc-solution-panel', function () {
 
     it('should return true when result is ko', function () {
       // given
-      const answer = {
-        result: 'ko'
-      };
       const component = this.subject();
-      component.set('answer', answer);
+      component.set('answer', wrongAnswer);
       // when
-      const isResultOk = component.get('isResultNotOk');
+      const isResultNotOk = component.get('isResultNotOk');
       // then
-      expect(isResultOk).to.be.true;
+      expect(isResultNotOk).to.be.true;
     });
 
     it('should return true when result is not ko', function () {
       // given
-      const answer = {
-        result: 'ok'
-      };
       const component = this.subject();
-      component.set('answer', answer);
+      component.set('answer', rightAnswer);
       // when
-      const isResultOk = component.get('isResultNotOk');
+      const isResultNotOk = component.get('isResultNotOk');
       // then
-      expect(isResultOk).to.be.false;
+      expect(isResultNotOk).to.be.false;
     });
 
   });
@@ -69,11 +60,8 @@ describe('Unit | Component | qroc-solution-panel', function () {
 
     it('should return true when result is aband', function () {
       // given
-      const answer = {
-        result: 'aband'
-      };
       const component = this.subject();
-      component.set('answer', answer);
+      component.set('answer', noAnswer);
       // when
       const isResultWithoutAnswer = component.get('isResultWithoutAnswer');
       // then
@@ -82,11 +70,8 @@ describe('Unit | Component | qroc-solution-panel', function () {
 
     it('should return false when result is not aband', function () {
       // given
-      const answer = {
-        result: 'ko'
-      };
       const component = this.subject();
-      component.set('answer', answer);
+      component.set('answer', wrongAnswer);
       // when
       const isResultWithoutAnswer = component.get('isResultWithoutAnswer');
       // then

@@ -33,9 +33,9 @@ describe('Integration | Component | qroc solution panel', function () {
 
   describe('comparison when the answer is right', function () {
 
-    const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
-    const challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
-    const answer = Ember.Object.extend({ id: 'answer_id', result: 'ok', assessment, challenge }).create();
+    const assessment = Ember.Object.create({ id: 'assessment_id' });
+    const challenge = Ember.Object.create({ id: 'challenge_id' });
+    const answer = Ember.Object.create({ id: 'answer_id', result: 'ok', assessment, challenge });
 
     it('should diplay the answer in bold green and not the solution', function () {
       // given
@@ -58,9 +58,9 @@ describe('Integration | Component | qroc solution panel', function () {
   describe('comparison when the answer is false', function () {
 
     beforeEach(function () {
-      const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
-      const challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
-      const answer = Ember.Object.extend({ id: 'answer_id', result:'ko', assessment, challenge }).create();
+      const assessment = Ember.Object.create({ id: 'assessment_id' });
+      const challenge = Ember.Object.create({ id: 'challenge_id' });
+      const answer = Ember.Object.create({ id: 'answer_id', result:'ko', assessment, challenge });
 
       this.set('answer', answer);
       this.render(hbs`{{qroc-solution-panel answer=answer}}`);
@@ -91,9 +91,9 @@ describe('Integration | Component | qroc solution panel', function () {
     describe('comparison when the answer was not given', function () {
 
       beforeEach(function () {
-        const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
-        const challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
-        const answer = Ember.Object.extend({ id: 'answer_id', result: 'aband', assessment, challenge }).create();
+        const assessment = Ember.Object.create({ id: 'assessment_id' });
+        const challenge = Ember.Object.create({ id: 'challenge_id' });
+        const answer = Ember.Object.create({ id: 'answer_id', result: 'aband', assessment, challenge });
 
         this.set('answer', answer);
         this.render(hbs`{{qroc-solution-panel answer=answer}}`);
