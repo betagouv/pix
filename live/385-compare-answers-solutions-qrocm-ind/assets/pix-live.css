@@ -2086,9 +2086,9 @@ button.routable-modal--close:active {
   flex-direction: row; }
 
 .correction-qrocm__label {
-  font-family: var(--font-lato);
+  font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
-  color: var(--charcoal-grey); }
+  color: #3e4149; }
 
 .correction-qrocm__answer-solution {
   margin-left: 10px; }
@@ -2109,7 +2109,7 @@ button.routable-modal--close:active {
   margin-top: 4px; }
 
 .correction-qrocm__solution-text {
-  font-family: var(--font-lato);
+  font-family: "Lato", Arial, sans-serif;
   font-weight: bold;
   color: #13c9a0;
   font-size: 16px;

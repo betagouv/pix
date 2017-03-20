@@ -1150,18 +1150,15 @@ define('pix-live/components/qroc-solution-panel', ['exports', 'ember'], function
     solution: null,
 
     isResultOk: _ember['default'].computed('answer', function () {
-      var result = this.get('answer.result');
-      return result === 'ok';
+      return this.get('answer.result') === 'ok';
     }),
 
     isResultNotOk: _ember['default'].computed('answer', function () {
-      var result = this.get('answer.result');
-      return result === 'ko';
+      return this.get('answer.result') === 'ko';
     }),
 
     isResultWithoutAnswer: _ember['default'].computed('answer', function () {
-      var result = this.get('answer.result');
-      return result === 'aband';
+      return this.get('answer.result') === 'aband';
     }),
 
     answerToDisplay: _ember['default'].computed('answer', function () {
@@ -1177,10 +1174,7 @@ define('pix-live/components/qroc-solution-panel', ['exports', 'ember'], function
       if (!solutionVariants) {
         return '';
       }
-
-      var solutionVariantsArray = solutionVariants.split('\n');
-      var solution = solutionVariantsArray[0];
-      return solution;
+      return solutionVariants.split('\n')[0];
     })
   });
 
@@ -4674,6 +4668,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.1+2d73406c"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.1+5836978d"});
 }
 //# sourceMappingURL=pix-live.map

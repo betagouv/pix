@@ -4537,9 +4537,9 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['expor
 
     (0, _mocha.describe)('comparison when the answer is right', function () {
 
-      var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
-      var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
-      var answer = _ember['default'].Object.extend({ id: 'answer_id', result: 'ok', assessment: assessment, challenge: challenge }).create();
+      var assessment = _ember['default'].Object.create({ id: 'assessment_id' });
+      var challenge = _ember['default'].Object.create({ id: 'challenge_id' });
+      var answer = _ember['default'].Object.create({ id: 'answer_id', result: 'ok', assessment: assessment, challenge: challenge });
 
       (0, _mocha.it)('should diplay the answer in bold green and not the solution', function () {
         // given
@@ -4566,9 +4566,9 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['expor
     (0, _mocha.describe)('comparison when the answer is false', function () {
 
       (0, _mocha.beforeEach)(function () {
-        var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
-        var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
-        var answer = _ember['default'].Object.extend({ id: 'answer_id', result: 'ko', assessment: assessment, challenge: challenge }).create();
+        var assessment = _ember['default'].Object.create({ id: 'assessment_id' });
+        var challenge = _ember['default'].Object.create({ id: 'challenge_id' });
+        var answer = _ember['default'].Object.create({ id: 'answer_id', result: 'ko', assessment: assessment, challenge: challenge });
 
         this.set('answer', answer);
         this.render(_ember['default'].HTMLBars.template({
@@ -4602,9 +4602,9 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['expor
       (0, _mocha.describe)('comparison when the answer was not given', function () {
 
         (0, _mocha.beforeEach)(function () {
-          var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
-          var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
-          var answer = _ember['default'].Object.extend({ id: 'answer_id', result: 'aband', assessment: assessment, challenge: challenge }).create();
+          var assessment = _ember['default'].Object.create({ id: 'assessment_id' });
+          var challenge = _ember['default'].Object.create({ id: 'challenge_id' });
+          var answer = _ember['default'].Object.create({ id: 'answer_id', result: 'aband', assessment: assessment, challenge: challenge });
 
           this.set('answer', answer);
           this.render(_ember['default'].HTMLBars.template({
@@ -4648,7 +4648,6 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
   var RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
   var NO_ANSWER_GREY = 'rgb(62, 65, 73)';
-  var NO_ANSWER_GREY2 = 'rgb(51, 51, 51)';
 
   (0, _mocha.describe)('Integration | Component | qrocm solution panel', function () {
 
@@ -4725,7 +4724,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           (0, _chai.expect)(answerLabel).to.have.length(1);
           (0, _chai.expect)(answerInput).to.have.length(1);
 
-          (0, _chai.expect)(answerLabel.css('color')).to.be.equal(NO_ANSWER_GREY2);
+          (0, _chai.expect)(answerLabel.css('color')).to.be.equal(NO_ANSWER_GREY);
 
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
           (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('bold');
@@ -5685,16 +5684,16 @@ define('pix-live/tests/unit/components/qroc-solution-panel-test', ['exports', 'c
   (0, _mocha.describe)('Unit | Component | qroc-solution-panel', function () {
 
     (0, _emberMocha.setupTest)('component:qroc-solution-panel', {});
+    var rightAnswer = { result: 'ok' };
+    var wrongAnswer = { result: 'ko' };
+    var noAnswer = { result: 'aband' };
 
     (0, _mocha.describe)('#isResultOk', function () {
 
       (0, _mocha.it)('should return true when result is ok', function () {
         // given
-        var answer = {
-          result: 'ok'
-        };
         var component = this.subject();
-        component.set('answer', answer);
+        component.set('answer', rightAnswer);
         // when
         var isResultOk = component.get('isResultOk');
         // then
@@ -5703,11 +5702,8 @@ define('pix-live/tests/unit/components/qroc-solution-panel-test', ['exports', 'c
 
       (0, _mocha.it)('should return true when result is not ok', function () {
         // given
-        var answer = {
-          result: 'ko'
-        };
         var component = this.subject();
-        component.set('answer', answer);
+        component.set('answer', wrongAnswer);
         // when
         var isResultOk = component.get('isResultOk');
         // then
@@ -5718,28 +5714,22 @@ define('pix-live/tests/unit/components/qroc-solution-panel-test', ['exports', 'c
 
       (0, _mocha.it)('should return true when result is ko', function () {
         // given
-        var answer = {
-          result: 'ko'
-        };
         var component = this.subject();
-        component.set('answer', answer);
+        component.set('answer', wrongAnswer);
         // when
-        var isResultOk = component.get('isResultNotOk');
+        var isResultNotOk = component.get('isResultNotOk');
         // then
-        (0, _chai.expect)(isResultOk).to.be['true'];
+        (0, _chai.expect)(isResultNotOk).to.be['true'];
       });
 
       (0, _mocha.it)('should return true when result is not ko', function () {
         // given
-        var answer = {
-          result: 'ok'
-        };
         var component = this.subject();
-        component.set('answer', answer);
+        component.set('answer', rightAnswer);
         // when
-        var isResultOk = component.get('isResultNotOk');
+        var isResultNotOk = component.get('isResultNotOk');
         // then
-        (0, _chai.expect)(isResultOk).to.be['false'];
+        (0, _chai.expect)(isResultNotOk).to.be['false'];
       });
     });
 
@@ -5747,11 +5737,8 @@ define('pix-live/tests/unit/components/qroc-solution-panel-test', ['exports', 'c
 
       (0, _mocha.it)('should return true when result is aband', function () {
         // given
-        var answer = {
-          result: 'aband'
-        };
         var component = this.subject();
-        component.set('answer', answer);
+        component.set('answer', noAnswer);
         // when
         var isResultWithoutAnswer = component.get('isResultWithoutAnswer');
         // then
@@ -5760,11 +5747,8 @@ define('pix-live/tests/unit/components/qroc-solution-panel-test', ['exports', 'c
 
       (0, _mocha.it)('should return false when result is not aband', function () {
         // given
-        var answer = {
-          result: 'ko'
-        };
         var component = this.subject();
-        component.set('answer', answer);
+        component.set('answer', wrongAnswer);
         // when
         var isResultWithoutAnswer = component.get('isResultWithoutAnswer');
         // then
