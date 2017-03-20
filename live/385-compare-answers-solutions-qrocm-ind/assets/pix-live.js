@@ -629,8 +629,8 @@ define('pix-live/components/comparison-window', ['exports', 'ember'], function (
     isAssessmentChallengeTypeQroc: _ember['default'].computed.equal('challenge.type', 'QROC'),
     isAssessmentChallengeTypeQcm: _ember['default'].computed.equal('challenge.type', 'QCM'),
     isAssessmentChallengeTypeQrocm: _ember['default'].computed.equal('challenge.type', 'QROCM'),
-    isAssessmentChallengeTypeQrocmInd: _ember['default'].computed.equal('challenge.type', 'QROCM-IND'),
-    isAssessmentChallengeTypeQrocmDep: _ember['default'].computed.equal('challenge.type', 'QROCM-DEP'),
+    isAssessmentChallengeTypeQrocmInd: _ember['default'].computed.equal('challenge.type', 'QROCM-ind'),
+    isAssessmentChallengeTypeQrocmDep: _ember['default'].computed.equal('challenge.type', 'QROCM-dep'),
 
     resultItemContent: _ember['default'].computed('answer.result', function () {
       if (!this.get('answer.result')) return;
@@ -4668,6 +4668,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.1+5836978d"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.1+ae3cd28d"});
 }
 //# sourceMappingURL=pix-live.map

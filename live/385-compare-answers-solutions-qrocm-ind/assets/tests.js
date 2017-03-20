@@ -5395,6 +5395,119 @@ define('pix-live/tests/unit/adapters/solution-test.lint-test', ['exports'], func
     });
   });
 });
+define('pix-live/tests/unit/components/comparison-window-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  _mocha.describe.only('Unit | Component | comparison-window', function () {
+
+    (0, _emberMocha.setupTest)('component:comparison-window', {});
+
+    var challengeQroc = { type: 'QROC' };
+    var challengeQcm = { type: 'QCM' };
+    var challengeQrocmInd = { type: 'QROCM-ind' };
+    var challengeQrocmDep = { type: 'QROCM-dep' };
+
+    (0, _mocha.describe)('#isAssessmentChallengeTypeQroc', function () {
+
+      (0, _mocha.it)('should be true when the challenge is QROC', function () {
+        // given
+        var component = this.subject();
+        component.set('challenge', challengeQroc);
+        // when
+        var isAssessmentChallengeTypeQroc = component.get('isAssessmentChallengeTypeQroc');
+        // then
+        (0, _chai.expect)(isAssessmentChallengeTypeQroc).to.be['true'];
+      });
+
+      (0, _mocha.it)('should be false when the challenge is not QROCM-ind', function () {
+        // given
+        var component = this.subject();
+        component.set('challenge', challengeQrocmInd);
+        // when
+        var isAssessmentChallengeTypeQroc = component.get('isAssessmentChallengeTypeQroc');
+        // then
+        (0, _chai.expect)(isAssessmentChallengeTypeQroc).to.be['false'];
+      });
+    });
+
+    (0, _mocha.describe)('#isAssessmentChallengeTypeQcm', function () {
+
+      (0, _mocha.it)('should be true when the challenge is QCM', function () {
+        // given
+        var component = this.subject();
+        component.set('challenge', challengeQcm);
+        // when
+        var isAssessmentChallengeTypeQcm = component.get('isAssessmentChallengeTypeQcm');
+        // then
+        (0, _chai.expect)(isAssessmentChallengeTypeQcm).to.be['true'];
+      });
+
+      (0, _mocha.it)('should be false when the challenge is not QCM', function () {
+        // given
+        var component = this.subject();
+        component.set('challenge', challengeQroc);
+        // when
+        var isAssessmentChallengeTypeQcm = component.get('isAssessmentChallengeTypeQcm');
+        // then
+        (0, _chai.expect)(isAssessmentChallengeTypeQcm).to.be['false'];
+      });
+    });
+
+    (0, _mocha.describe)('#isAssessmentChallengeTypeQrocmInd', function () {
+
+      (0, _mocha.it)('should be true when the challenge is QROCM-ind', function () {
+        // given
+        var component = this.subject();
+        component.set('challenge', challengeQrocmInd);
+        // when
+        var isAssessmentChallengeTypeQrocmInd = component.get('isAssessmentChallengeTypeQrocmInd');
+        // then
+        (0, _chai.expect)(isAssessmentChallengeTypeQrocmInd).to.be['true'];
+      });
+
+      (0, _mocha.it)('should be true when the challenge is not QROCM-ind', function () {
+        // given
+        var component = this.subject();
+        component.set('challenge', challengeQroc);
+        // when
+        var isAssessmentChallengeTypeQrocmInd = component.get('isAssessmentChallengeTypeQrocmInd');
+        // then
+        (0, _chai.expect)(isAssessmentChallengeTypeQrocmInd).to.be['false'];
+      });
+    });
+
+    (0, _mocha.describe)('#isAssessmentChallengeTypeQrocmDep', function () {
+
+      (0, _mocha.it)('should be true when the challenge is QROCM-dep', function () {
+        // given
+        var component = this.subject();
+        component.set('challenge', challengeQrocmDep);
+        // when
+        var isAssessmentChallengeTypeQrocmDep = component.get('isAssessmentChallengeTypeQrocmDep');
+        // then
+        (0, _chai.expect)(isAssessmentChallengeTypeQrocmDep).to.be['true'];
+      });
+
+      (0, _mocha.it)('should be true when the challenge is not QROCM-dep', function () {
+        // given
+        var component = this.subject();
+        component.set('challenge', challengeQroc);
+        // when
+        var isAssessmentChallengeTypeQrocmDep = component.get('isAssessmentChallengeTypeQrocmDep');
+        // then
+        (0, _chai.expect)(isAssessmentChallengeTypeQrocmDep).to.be['false'];
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/comparison-window-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/components/comparison-window-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/unit/components/course-item-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Component | CourseItemComponent', function () {
