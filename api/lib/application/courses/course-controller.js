@@ -72,6 +72,13 @@ module.exports = {
       .refresh(request.params.id)
       .then(course => reply(courseSerializer.serialize(course)))
       .catch(err => reply(Boom.badImplementation(err)));
+  },
+
+  refreshAll(request, reply) {
+    courseRepository
+      .refreshAll()
+      .then(() => reply('Courses updated'))
+      .catch(reply);
   }
 
 };

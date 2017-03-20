@@ -437,4 +437,30 @@ describe('Unit | Repository | course-repository', function () {
       });
     });
   });
+
+  /*
+   * #refreshAll
+   */
+
+  describe('#refreshAll', function() {
+
+    it('should resolve with true when the clean succeeds', function (done) {
+      // given
+      sinon.stub(cache, 'del', (key, callback) => {
+        callback();
+      });
+
+      // when
+      courseRepository.refreshAll().then(() => {
+
+        // then
+        expect(cache.del.calledThrice).to.be.true;
+
+        // after
+        cache.del.restore();
+        done();
+      });
+    });
+  });
+
 });

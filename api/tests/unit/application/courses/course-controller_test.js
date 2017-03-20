@@ -131,4 +131,41 @@ describe('Unit | Controller | course-controller', function () {
     });
   });
 
+  describe('#refreshAll', function () {
+
+    it('should return "courses updated" if refresh is ok', function (done) {
+      // given
+      sinon.stub(courseRepository, 'refreshAll').resolves(true);
+
+      // when
+      server.inject({ method: 'PUT', url: '/api/courses' }, (res) => {
+
+        // then
+        expect(res.statusCode).to.equal(200);
+        expect(res.result).to.equal('Courses updated');
+
+        // after
+        courseRepository.refreshAll.restore();
+        done();
+      });
+    });
+
+    it('should return "courses updated" if refresh is ok', function (done) {
+      // given
+      const error = 'An internal server error occurred';
+      sinon.stub(courseRepository, 'refreshAll').rejects(error);
+
+      // when
+      server.inject({ method: 'PUT', url: '/api/courses' }, (res) => {
+
+        // then
+        expect(res.statusCode).to.equal(500);
+        expect(res.result.message).to.equal(error);
+
+        // after
+        courseRepository.refreshAll.restore();
+        done();
+      });
+    });
+  });
 });
