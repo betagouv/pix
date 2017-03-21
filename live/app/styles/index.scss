@@ -1,6 +1,6 @@
 $challenges-background-color: #fafafa;
 $challenges-title-color: #3d68ff;
-$background-height: 620px;
+$background-height: 700px;
 
 /* Sections:
 
@@ -47,7 +47,7 @@ $background-height: 620px;
 }
 
 .index-page-hero__title {
-  margin-top: 130px;
+  margin-top: 160px;
   line-height: 1.2;
   font-family: $font-raleway;
   font-weight: 700;
@@ -56,7 +56,7 @@ $background-height: 620px;
 
   @media (min-width: 992px) {
     font-size: 50px;
-    margin-top: 170px;
+    margin-top: 250px;
   }
 }
 

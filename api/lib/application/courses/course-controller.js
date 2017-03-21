@@ -25,19 +25,22 @@ function _extractCoursesChallenges(courses) {
   return Promise.all(challenges);
 }
 
+function _buildResponse(courses, challenges) {
+  const response = courseSerializer.serializeArray(courses);
+  response.included = challenges.map(challenge => challengeSerializer.serialize(challenge).data);
+  return response;
+}
+
 module.exports = {
 
   list(request, reply) {
-    let response;
+    let courses;
     _fetchCourses(request.query)
-      .then(courses => {
-        response = courseSerializer.serializeArray(courses);
+      .then(fetchedCourses => {
+        courses = fetchedCourses;
         return _extractCoursesChallenges(courses);
       })
-      .then(challenges => {
-        response.included = challenges.map(challenge => challengeSerializer.serialize(challenge).data);
-        return reply(response);
-      })
+      .then(challenges => reply(_buildResponse(courses, challenges)))
       .catch(err => reply(Boom.badImplementation(err)));
   },
 
