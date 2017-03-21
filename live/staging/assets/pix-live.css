@@ -3,6 +3,9 @@
 /* html background */
 /* hr */
 /* border-color */
+.text--marigold {
+  color: #ffbe00; }
+
 .alert {
   outline: none;
   border-radius: 0.3125em;
@@ -899,7 +902,9 @@ button.routable-modal--close:active {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
-  flex-direction: column; }
+  flex-direction: column;
+  -ms-flex-align: center;
+  align-items: center; }
   @media (min-width: 992px) {
     .course-list__ul {
       -ms-flex-direction: row;
@@ -907,6 +912,10 @@ button.routable-modal--close:active {
 
 .course-list__li {
   margin: 10px; }
+  @media (min-width: 992px) {
+    .course-list__li {
+      -ms-flex-direction: row;
+      flex-direction: row; } }
 
 .feature-item {
   padding: 0;
@@ -944,7 +953,9 @@ button.routable-modal--close:active {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
-  flex-direction: column; }
+  flex-direction: column;
+  -ms-flex-align: center;
+  align-items: center; }
   @media (min-width: 992px) {
     .feature-list__ul {
       -ms-flex-direction: row;
@@ -2101,8 +2112,6 @@ button.routable-modal--close:active {
   text-decoration: line-through; }
 
 /* views */
-/* Palette
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
 /* Sections:
 
  - General
@@ -2167,9 +2176,68 @@ button.routable-modal--close:active {
 /* Challenges
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .index-page__section--challenges {
-  padding-bottom: 75px; }
+  padding: 0; }
 
 .index-page-challenges {
+  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff); }
+
+.index-page-challenges__container {
+  max-width: 1200px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 80px 0 70px 0; }
+  @media (min-width: 992px) {
+    .index-page-challenges__container {
+      margin: 0 auto;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      padding: 70px 90px; } }
+
+.index-page-challenges__presentation {
+  font-family: "Raleway", Arial, sans-serif;
+  color: #ffffff;
+  text-align: center;
+  padding: 0 20px; }
+  @media (min-width: 992px) {
+    .index-page-challenges__presentation {
+      max-width: 400px;
+      text-align: left;
+      padding: 0; } }
+
+.index-page-challenges__presentation-title {
+  font-size: 42px;
+  font-weight: 800;
+  margin-top: 0; }
+  @media (min-width: 992px) {
+    .index-page-challenges__presentation-title {
+      font-size: 58px; } }
+
+.index-page-challenges__presentation-text {
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.2; }
+  @media (min-width: 992px) {
+    .index-page-challenges__presentation-text {
+      font-size: 37px; } }
+
+.index-page-challenges__course-list {
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0 auto;
+  padding-top: 20px; }
+  @media (min-width: 992px) {
+    .index-page-challenges__course-list {
+      margin-right: 0;
+      padding-top: 0; } }
+
+/* Courses
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.index-page__section--courses {
+  padding-bottom: 70px; }
+
+.index-page-courses {
   background-color: #fafafa;
   display: -ms-flexbox;
   display: flex;
@@ -2178,7 +2246,7 @@ button.routable-modal--close:active {
   -ms-flex-align: center;
   align-items: center; }
 
-.index-page-challenges__title {
+.index-page-courses__title {
   max-width: 600px;
   font-size: 32px;
   font-family: "Raleway", Arial, sans-serif;
@@ -2189,7 +2257,7 @@ button.routable-modal--close:active {
   text-align: center;
   line-height: 1.2; }
 
-.index-page-challenges__list {
+.index-page-courses__course-list {
   padding-top: 20px;
   max-width: 1200px; }
 
@@ -2328,7 +2396,7 @@ button.routable-modal--close:active {
 .project-page__header {
   padding: 60px 20px;
   width: 100%;
-  background: linear-gradient(to bottom, #3d68ff 0%, #2248c2 100%);
+  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;

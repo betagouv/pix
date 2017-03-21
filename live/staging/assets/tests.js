@@ -36,40 +36,65 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['exports', 'mocha', 'c
       });
     });
 
-    (0, _mocha.describe)('une section "Challenges"', function () {
+    (0, _mocha.describe)('contient une section "Challenges"', function () {
 
-      (0, _mocha.it)('a1.3 avec un titre', function () {
-        var $title = findWithAssert('.index-page-challenges__title');
-        (0, _chai.expect)($title.text().trim()).to.equal('Découvrez nos épreuves et aidez‑nous à les améliorer !');
+      (0, _mocha.it)('a1.3 cachée si aucun test n\'est remonté', function () {
+        // FIXME find a way to test this correctly
       });
 
-      (0, _mocha.it)('a1.4 avec la liste des challenges', function () {
-        findWithAssert('.index-page-challenges__list');
+      (0, _mocha.it)('a1.4 visible si au moins 1 test est remonté', function () {
+        // FIXME find a way to test this correctly
+      });
+
+      (0, _mocha.it)('a1.6 avec un titre', function () {
+        var $title = findWithAssert('.index-page-challenges__presentation-title');
+        (0, _chai.expect)($title.text().trim()).to.equal('Le défi Pix de la semaine');
+      });
+
+      (0, _mocha.it)('a1.7 avec un texte descriptif', function () {
+        var $description = findWithAssert('.index-page-challenges__presentation-text');
+        (0, _chai.expect)($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
+      });
+
+      (0, _mocha.it)('a1.8 qui affiche 2 tests maximum', function () {
+        // FIXME find a way to test this correctly
       });
     });
 
-    (0, _mocha.describe)('une section "Community"', function () {
+    (0, _mocha.describe)('contient une section "Courses"', function () {
 
-      (0, _mocha.it)('a1.5 avec un titre', function () {
+      (0, _mocha.it)('a1.9 avec un titre', function () {
+        var $title = findWithAssert('.index-page-courses__title');
+        (0, _chai.expect)($title.text().trim()).to.equal('Découvrez nos épreuves et aidez‑nous à les améliorer !');
+      });
+
+      (0, _mocha.it)('a1.10 avec la liste des challenges', function () {
+        findWithAssert('.index-page-courses__course-list');
+      });
+    });
+
+    (0, _mocha.describe)('contient une section "Community"', function () {
+
+      (0, _mocha.it)('a1.11 avec un titre', function () {
         findWithAssert('.index-page-community__title');
       });
 
-      (0, _mocha.it)('a1.6 avec une description', function () {
+      (0, _mocha.it)('a1.12 avec une description', function () {
         findWithAssert('.index-page-community__description');
       });
 
-      (0, _mocha.it)('a1.7 avec le formulaire d\'inscription en tant que béta-testeur', function () {
+      (0, _mocha.it)('a1.13 avec le formulaire d\'inscription en tant que béta-testeur', function () {
         findWithAssert('.index-page-community__form');
       });
     });
 
-    (0, _mocha.describe)('une section "Features"', function () {
+    (0, _mocha.describe)('contient une section "Features"', function () {
 
-      (0, _mocha.it)('a1.8 avec la liste des featurettes', function () {
+      (0, _mocha.it)('a1.14 avec la liste des featurettes', function () {
         findWithAssert('.index-page-features__list');
       });
 
-      (0, _mocha.it)('a1.9 avec un lien vers la page "projet"', function () {
+      (0, _mocha.it)('a1.15 avec un lien vers la page "projet"', function () {
         findWithAssert('.index-page-features__project-button[href="/projet"]');
       });
     });
@@ -5236,6 +5261,80 @@ define('pix-live/tests/unit/components/course-item-test.lint-test', ['exports'],
     });
   });
 });
+define('pix-live/tests/unit/components/course-list-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Component | course list', function () {
+
+    (0, _emberMocha.setupTest)('component:course-list', {});
+
+    (0, _mocha.describe)('#filteredCourses', function () {
+
+      var component = undefined;
+
+      var oneCourseArray = [{ id: 'course_id' }];
+      var fiveCoursesArray = [{ id: 'course_1' }, { id: 'course_2' }, { id: 'course_3' }, { id: 'course_4' }, { id: 'course_5' }];
+
+      (0, _mocha.beforeEach)(function () {
+        component = this.subject();
+      });
+
+      (0, _mocha.it)('should return an empty array when courses are null', function () {
+        // given
+        component.set('courses', null);
+
+        // when
+        var result = component.get('filteredCourses');
+
+        // then
+        (0, _chai.expect)(result).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('should return all courses when limit is not defined', function () {
+        // given
+        component.set('courses', fiveCoursesArray);
+
+        // when
+        var result = component.get('filteredCourses');
+
+        // then
+        (0, _chai.expect)(result).to.have.lengthOf(5);
+      });
+
+      (0, _mocha.it)('should return only 3 courses on 5 when limit is set to 2', function () {
+        // given
+        component.set('courses', fiveCoursesArray);
+        component.set('limit', 3);
+
+        // when
+        var result = component.get('filteredCourses');
+
+        // then
+        (0, _chai.expect)(result).to.have.lengthOf(3);
+      });
+
+      (0, _mocha.it)('should return only 1 course on 1 when limit is set to 3', function () {
+        // given
+        component.set('courses', oneCourseArray);
+        component.set('limit', 3);
+
+        // when
+        var result = component.get('filteredCourses');
+
+        // then
+        (0, _chai.expect)(result).to.have.lengthOf(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/course-list-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/components/course-list-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Component | feedback-panel', function () {
@@ -6939,10 +7038,6 @@ define('pix-live/tests/utils/value-as-array-of-boolean.lint-test', ['exports'], 
     });
   });
 });
-/* jshint ignore:start */
-
 require('pix-live/tests/test-helper');
 EmberENV.TESTS_FILE_LOADED = true;
-
-/* jshint ignore:end */
 //# sourceMappingURL=tests.map
