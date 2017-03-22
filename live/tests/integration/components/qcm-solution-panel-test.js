@@ -38,7 +38,7 @@ function charCount(str) {
 }
 
 
-describe('Integration | Component | qcm-solution-panel.js', function () {
+describe.only('Integration | Component | qcm-solution-panel.js', function () {
   setupComponentTest('qcm-solution-panel', {
     integration: true
   });
