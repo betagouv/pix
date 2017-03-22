@@ -50,35 +50,9 @@
 @import 'pages/assessment-challenge';
 @import 'pages/assessment-results';
 
-/* XXX : every above is to be refactored, don't put any CSS properties right here */
-@media (min-width: 1200px) {
-  .container {
-    max-width: 900px;
-  }
-}
-
 body {
   font-family: $font-lato;
   background-color: $light-grey1;
-}
-
-.body {
-  padding-top: 0;
-}
-
-.component-list {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-
-.container .title {
-  display: block;
-  text-rendering: optimizeLegibility;
-  color: $dark-grey5;
-  font-size: 30px;
-  font-weight: 600;
-  margin-bottom: 20px;
 }
 
 input[type="radio"],
