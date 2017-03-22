@@ -30,7 +30,6 @@
 @import 'components/feature-list';
 @import 'components/feedback-panel';
 @import 'components/follower-form';
-@import 'components/get-results';
 @import 'components/modal-mobile';
 @import 'components/navbar-header';
 @import 'components/pix-logo';
@@ -39,17 +38,17 @@
 @import 'components/timeout-jauge';
 @import 'components/warning-timing-page';
 @import 'components/app-menu';
-@import 'components/get-results';
 @import 'components/result-item';
 @import 'components/comparison-window';
 @import 'components/qroc-solution-panel';
 @import 'components/qcm-solution-panel';
 
 /* pages */
-@import 'index';
-@import 'project';
-@import 'courses/get-preview';
+@import 'pages/index';
+@import 'pages/project';
+@import 'pages/course-preview';
 @import 'pages/assessment-challenge';
+@import 'pages/assessment-results';
 
 /* XXX : every above is to be refactored, don't put any CSS properties right here */
 @media (min-width: 1200px) {
