@@ -11,6 +11,7 @@ class AnswerSerializer extends JSONAPISerializer {
     data.attributes.value = model.value;
     data.attributes.timeout = model.timeout;
     data.attributes.result = model.result;
+    /*data.attributes.resultQrocmDetails = 'Not yet implemented!';*/
   }
 
   serializeRelationships(model, data) {
