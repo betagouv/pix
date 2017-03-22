@@ -45,27 +45,16 @@
 @import 'components/qroc-solution-panel';
 @import 'components/qcm-solution-panel';
 
-/* views */
+/* pages */
 @import 'index';
 @import 'project';
 @import 'courses/get-preview';
+@import 'pages/assessment-challenge';
 
 /* XXX : every above is to be refactored, don't put any CSS properties right here */
 @media (min-width: 1200px) {
   .container {
     max-width: 900px;
-  }
-}
-
-.assessment-challenge-container .container {
-  max-width: 990px;
-  padding-right: 15px;
-  padding-left: 15px;
-  width: 100%;
-
-  @media (min-width: 1024px) {
-    padding-right: 0;
-    padding-left: 0;
   }
 }
 

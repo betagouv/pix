@@ -1,28 +1,34 @@
 .course-banner {
   background-color: $pix-blue;
   color: white;
-  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
 }
 
-.course-banner-wrapper {
+.course-banner__container {
   display: flex;
   align-items: center;
   min-height: 100px;
+  max-width: 990px;
+  width: 100%;
+  padding: 0 20px;
+
+  @media (min-width: 992px) {
+    padding: 0;
+  }
 }
 
-.course-banner-name {
+.course-banner__name {
   font-size: 28px;
 }
 
-.course-banner-home-link {
+.course-banner__home-link {
   font-size: 16px;
   margin-left: auto;
   text-align: right;
-  /* stand above BETA ribbon */
-  z-index: 999;
   color: white;
-}
 
-.course-banner-home-link:hover {
-  color: white;
+  &:hover {
+    color: white;
+  }
 }
