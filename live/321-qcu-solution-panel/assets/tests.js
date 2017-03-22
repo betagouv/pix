@@ -4235,17 +4235,17 @@ define('pix-live/tests/integration/components/qcm-proposals-test.lint-test', ['e
 });
 define('pix-live/tests/integration/components/qcm-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember', 'pix-live/utils/lodash-custom'], function (exports, _chai, _mocha, _emberMocha, _ember, _pixLiveUtilsLodashCustom) {
 
-  var CHECKBOX_CORRECT_AND_CHECKED = '.qcm-panel__proposal-checkbox:eq(1)';
+  var CHECKBOX_CORRECT_AND_CHECKED = '.qcm-proposal-label__checkbox-picture:eq(1)';
   var LABEL_CORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(1)';
 
-  var CHECKBOX_CORRECT_AND_UNCHECKED = '.qcm-panel__proposal-checkbox:eq(2)';
+  var CHECKBOX_CORRECT_AND_UNCHECKED = '.qcm-proposal-label__checkbox-picture:eq(2)';
   var LABEL_CORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(2)';
 
-  var CHECKBOX_INCORRECT_AND_CHECKED = '.qcm-panel__proposal-checkbox:eq(0)';
-  var CHECKBOX_INCORRECT_AND_CHECKED_SECOND = '.qcm-panel__proposal-checkbox:eq(3)';
+  var CHECKBOX_INCORRECT_AND_CHECKED = '.qcm-proposal-label__checkbox-picture:eq(0)';
+  var CHECKBOX_INCORRECT_AND_CHECKED_SECOND = '.qcm-proposal-label__checkbox-picture:eq(3)';
   var LABEL_INCORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(0)';
 
-  var CHECKBOX_INCORRECT_AND_UNCHECKED = '.qcm-panel__proposal-checkbox:eq(0)';
+  var CHECKBOX_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__checkbox-picture:eq(0)';
   var LABEL_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(0)';
 
   var CSS_BOLD_FONT_WEIGHT = '900';
@@ -4322,7 +4322,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
           (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
 
-          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED).hasClass('checkbox-disabled-on')).to.equal(true);
           (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
@@ -4343,7 +4343,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
           }));
 
           // Then
-          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_UNCHECKED).hasClass('checkbox-disabled-on')).to.equal(false);
           (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
@@ -4364,7 +4364,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
           }));
 
           // Then
-          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_UNCHECKED).hasClass('checkbox-disabled-on')).to.equal(false);
           (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
@@ -4387,8 +4387,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
           }));
 
           // Then
-          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_CHECKED).is(':checked')).to.equal(true);
-          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_CHECKED_SECOND).is(':checked')).to.equal(true);
+          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_CHECKED).hasClass('checkbox-disabled-on')).to.equal(true);
+          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_CHECKED_SECOND).hasClass('checkbox-disabled-on')).to.equal(true);
           (0, _chai.expect)($(CHECKBOX_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
           (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
@@ -4410,9 +4410,9 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
           }));
 
           // Then
-          var size = $('.comparison-window .qcm-panel__proposal-checkbox').length;
+          var size = $('.comparison-window .qcm-proposal-label__checkbox-picture').length;
           _pixLiveUtilsLodashCustom['default'].times(size, function (index) {
-            (0, _chai.expect)($('.comparison-window .qcm-panel__proposal-checkbox:eq(' + index + ')').is(':disabled')).to.equal(true);
+            (0, _chai.expect)($('.comparison-window .qcm-proposal-label__checkbox-picture:eq(' + index + ')').is(':disabled')).to.equal(true);
           });
         });
       });
