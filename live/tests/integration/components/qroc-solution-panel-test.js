@@ -12,7 +12,7 @@ const SOLUTION_DISPLAY = '.correction-qroc-box__solution-text';
 const RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
 const NO_ANSWER_GREY = 'rgb(62, 65, 73)';
 
-describe.only('Integration | Component | qroc solution panel', function () {
+describe('Integration | Component | qroc solution panel', function () {
   setupComponentTest('qroc-solution-panel', {
     integration: true
   });
