@@ -1815,11 +1815,16 @@ define('pix-live/helpers/div', ['exports', 'ember-math-helpers/helpers/div'], fu
   });
 });
 define('pix-live/helpers/eq', ['exports', 'ember'], function (exports, _ember) {
+  exports.eq = eq;
 
-  // borrowed from https://emberigniter.com/how-to-equals-conditional-comparison-handlebars/
-  var eq = function eq(params) {
-    return params[0] === params[1];
-  };
+  function eq(params /*, hash*/) {
+    var isEqual = false;
+    if (params && params[1]) {
+      isEqual = params[0] === params[1] ? true : false;
+    }
+    return isEqual;
+  }
+
   exports['default'] = _ember['default'].Helper.helper(eq);
 });
 define('pix-live/helpers/exp', ['exports', 'ember-math-helpers/helpers/exp'], function (exports, _emberMathHelpersHelpersExp) {
@@ -4598,6 +4603,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.4+6009e41b"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.4.4+39c90ad5"});
 }
 //# sourceMappingURL=pix-live.map
