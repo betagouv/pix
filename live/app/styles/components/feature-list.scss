@@ -8,9 +8,12 @@
   margin: 0;
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   @media (min-width: 992px) {
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 
