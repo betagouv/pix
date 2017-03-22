@@ -5,6 +5,6 @@ export default Ember.Component.extend({
   classNames: ['course-banner'],
 
   course: null,
-  withHomeLink: false,
+  withHomeLink: false
 
 });
