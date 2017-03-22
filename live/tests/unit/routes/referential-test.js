@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Route | project', function() {
+describe('Unit | Route | referential', function() {
 
-  setupTest('route:project', {
+  setupTest('route:referential', {
     // Specify the other units that are required for this test.
     // needs: ['controller:foo']
   });
