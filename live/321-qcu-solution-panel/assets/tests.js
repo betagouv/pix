@@ -2830,6 +2830,15 @@ define('pix-live/tests/helpers/inc.lint-test', ['exports'], function (exports) {
     });
   });
 });
+define('pix-live/tests/helpers/or.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - helpers/or.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/helpers/property-of.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -4478,16 +4487,15 @@ define('pix-live/tests/integration/components/qcu-proposals-test.lint-test', ['e
 });
 define('pix-live/tests/integration/components/qcu-solution-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember', 'pix-live/utils/lodash-custom'], function (exports, _chai, _mocha, _emberMocha, _ember, _pixLiveUtilsLodashCustom) {
 
-  var RADIO_CORRECT_AND_CHECKED = '.qcu-panel__proposal-radio:eq(1)';
+  var RADIO_CORRECT_AND_CHECKED = '.picture-radio-proposal--qcu:eq(1)';
   var LABEL_CORRECT_AND_CHECKED = '.qcu-proposal-label__oracle:eq(1)';
 
-  var RADIO_CORRECT_AND_UNCHECKED = '.qcu-panel__proposal-radio:eq(1)';
   var LABEL_CORRECT_AND_UNCHECKED = '.qcu-proposal-label__oracle:eq(1)';
 
-  var RADIO_INCORRECT_AND_CHECKED = '.qcu-panel__proposal-radio:eq(2)';
+  var RADIO_INCORRECT_AND_CHECKED = '.picture-radio-proposal--qcu:eq(2)';
   var LABEL_INCORRECT_AND_CHECKED = '.qcu-proposal-label__oracle:eq(2)';
 
-  var RADIO_INCORRECT_AND_UNCHECKED = '.qcu-panel__proposal-radio:eq(0)';
+  var RADIO_INCORRECT_AND_UNCHECKED = '.picture-radio-proposal--qcu:eq(0)';
   var LABEL_INCORRECT_AND_UNCHECKED = '.qcu-proposal-label__oracle:eq(0)';
 
   var CSS_BOLD_FONT_WEIGHT = '900';
@@ -4565,7 +4573,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
           (0, _chai.expect)($(RADIO_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
 
-          (0, _chai.expect)($(RADIO_CORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+          (0, _chai.expect)($(RADIO_CORRECT_AND_CHECKED).hasClass('radio-on')).to.equal(true);
           (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
@@ -4588,7 +4596,8 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
           }));
 
           // Then
-          (0, _chai.expect)($(RADIO_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+          (0, _chai.expect)($(RADIO_CORRECT_AND_CHECKED).hasClass('radio-off')).to.equal(true);
+
           (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
@@ -4609,7 +4618,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
           }));
 
           // Then
-          (0, _chai.expect)($(RADIO_INCORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+          (0, _chai.expect)($(RADIO_INCORRECT_AND_UNCHECKED).hasClass('radio-off')).to.equal(true);
           (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
@@ -4632,7 +4641,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
           }));
 
           // Then
-          (0, _chai.expect)($(RADIO_INCORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+          (0, _chai.expect)($(RADIO_INCORRECT_AND_CHECKED).hasClass('radio-on')).to.equal(true);
           (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
@@ -6151,7 +6160,7 @@ define('pix-live/tests/unit/helpers/eq-test', ['exports', 'chai', 'mocha', 'pix-
 
   (0, _mocha.describe)('Unit | Helper | Eq', function () {
     // Replace this with your real tests.
-    [{ input: '', output: false }, { input: null, output: false }, { input: NaN, output: false }, { input: 'Undefined', output: false }, { input: 0, output: false }, { input: 42, output: false }, { input: [42], output: false }, { input: [''], output: false }, { input: [null], output: false }, { input: [], output: false }, { input: ['', ''], output: false }, { input: [42, 43], output: false }, { input: [42, ''], output: false }, { input: [42, 0], output: false }, { input: [42, 'empty'], output: false }, { input: [42, null], output: false }, { input: [42, 'undefined'], output: false }, { input: [42, 42], output: true }].forEach(function (_ref) {
+    [{ input: '', output: false }, { input: null, output: false }, { input: NaN, output: false }, { input: 'Undefined', output: false }, { input: 0, output: false }, { input: 42, output: false }, { input: [42], output: false }, { input: [''], output: false }, { input: [null], output: false }, { input: [], output: false }, { input: ['', ''], output: true }, { input: [42, 43], output: false }, { input: [42, ''], output: false }, { input: [42, 0], output: false }, { input: [42, 'empty'], output: false }, { input: [42, null], output: false }, { input: [42, 'undefined'], output: false }, { input: [42, 42], output: true }].forEach(function (_ref) {
       var input = _ref.input;
       var output = _ref.output;
 
@@ -6187,6 +6196,32 @@ define('pix-live/tests/unit/helpers/extract-extension-test.lint-test', ['exports
   'use strict';
 
   describe('ESLint - unit/helpers/extract-extension-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/helpers/or-test', ['exports', 'chai', 'mocha', 'pix-live/helpers/or'], function (exports, _chai, _mocha, _pixLiveHelpersOr) {
+
+  (0, _mocha.describe)('Unit | Helper | or', function () {
+    // Replace this with your real tests.
+    [{ input: '', output: false }, { input: null, output: false }, { input: NaN, output: false }, { input: 'Undefined', output: false }, { input: 0, output: false }, { input: true, output: false }, { input: [true], output: false }, { input: [''], output: false }, { input: [null], output: false }, { input: [], output: false }, { input: ['', ''], output: false }, { input: [true, false], output: true }, { input: [true, ''], output: true }, { input: [true, 0], output: true }, { input: [true, 'empty'], output: true }, { input: [true, null], output: true }, { input: [true, 'undefined'], output: true }, { input: [true, true], output: true }].forEach(function (_ref) {
+      var input = _ref.input;
+      var output = _ref.output;
+
+      (0, _mocha.it)('should render ' + output + ' when ' + JSON.stringify(input) + ' provided', function () {
+        //When
+        var result = (0, _pixLiveHelpersOr.or)(input);
+        //then
+        (0, _chai.expect)(result).to.be.equal(output);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/helpers/or-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/helpers/or-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
