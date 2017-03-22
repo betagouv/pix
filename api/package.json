@@ -13,7 +13,7 @@
     "url": "https://github.com/sgmap/pix-api/issues"
   },
   "engines": {
-    "node": ">=6.9.0"
+    "node": ">= 7.7.4"
   },
   "homepage": "https://github.com/sgmap/pix-api#readme",
   "dependencies": {
