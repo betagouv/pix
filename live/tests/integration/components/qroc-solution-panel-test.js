@@ -12,7 +12,7 @@ const SOLUTION_DISPLAY = '.correction-qroc-box__solution-text';
 const RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
 const NO_ANSWER_GREY = 'rgb(62, 65, 73)';
 
-describe('Integration | Component | qroc solution panel', function () {
+describe.only('Integration | Component | qroc solution panel', function () {
   setupComponentTest('qroc-solution-panel', {
     integration: true
   });
@@ -76,12 +76,13 @@ describe('Integration | Component | qroc solution panel', function () {
 
     });
 
-    it('should display the solution with a arrow and the solution in bold green', function () {
+    it('should display the solution with an arrow and the solution in bold green', function () {
       // given
       const blockSolution = this.$(SOLUTION_BLOCK);
       const blockSolutionText = this.$(SOLUTION_DISPLAY);
       // then
       expect(blockSolution).to.have.lengthOf(1);
+      expect(blockSolution.css('align-items')).to.be.equal('flex-start');
       expect(blockSolutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
       expect(blockSolutionText.css('font-weight')).to.be.equal('bold');
     });
