@@ -15,7 +15,7 @@ describe('Unit | Helper | Eq', function () {
     {input: [''], output: false},
     {input: [null], output: false},
     {input: [], output: false},
-    {input: ['', ''], output: false},
+    {input: ['', ''], output: true},
     {input: [42, 43], output: false},
     {input: [42, ''], output: false},
     {input: [42, 0], output: false},

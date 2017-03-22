@@ -10,6 +10,7 @@ export default Ember.Component.extend({
   answer: null,
   solution: null,
   challenge: null,
+
   solutionArray: Ember.computed('solution', function () {
     const solution = this.get('solution.value');
     return _.isNonEmptyString(solution) ? valueAsArrayOfBoolean(solution) : [];

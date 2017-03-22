@@ -43,20 +43,3 @@
   position: relative;
   cursor: pointer;
 }
-
-/*XXX Can't use BEM properly when using CSS state manipulation*/
-.qcu-panel__proposal-radio:checked ~ label svg.radio-on {
-  opacity: 0;
-}
-
-.qcu-panel__proposal-radio:not(:checked) ~ label svg.radio-off {
-  opacity: 1;
-}
-
-.qcu-panel__proposal-radio:checked ~ label svg.radio-on {
-  opacity: 1;
-}
-
-.qcu-panel__proposal-radio:not(:checked) ~ label svg.radio-on {
-  opacity: 0;
-}

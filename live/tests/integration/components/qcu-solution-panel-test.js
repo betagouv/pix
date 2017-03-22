@@ -5,16 +5,15 @@ import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import _ from 'pix-live/utils/lodash-custom';
 
-const RADIO_CORRECT_AND_CHECKED = '.qcu-panel__proposal-radio:eq(1)';
+const RADIO_CORRECT_AND_CHECKED = '.picture-radio-proposal--qcu:eq(1)';
 const LABEL_CORRECT_AND_CHECKED = '.qcu-proposal-label__oracle:eq(1)';
 
-const RADIO_CORRECT_AND_UNCHECKED = '.qcu-panel__proposal-radio:eq(1)';
 const LABEL_CORRECT_AND_UNCHECKED = '.qcu-proposal-label__oracle:eq(1)';
 
-const RADIO_INCORRECT_AND_CHECKED = '.qcu-panel__proposal-radio:eq(2)';
+const RADIO_INCORRECT_AND_CHECKED = '.picture-radio-proposal--qcu:eq(2)';
 const LABEL_INCORRECT_AND_CHECKED = '.qcu-proposal-label__oracle:eq(2)';
 
-const RADIO_INCORRECT_AND_UNCHECKED = '.qcu-panel__proposal-radio:eq(0)';
+const RADIO_INCORRECT_AND_UNCHECKED = '.picture-radio-proposal--qcu:eq(0)';
 const LABEL_INCORRECT_AND_UNCHECKED = '.qcu-proposal-label__oracle:eq(0)';
 
 
@@ -85,7 +84,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
         expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
         expect($(RADIO_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
 
-        expect($(RADIO_CORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+        expect($(RADIO_CORRECT_AND_CHECKED).hasClass('radio-on')).to.equal(true);
         expect(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
         expect($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
         expect($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
@@ -104,7 +103,8 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
         this.render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        expect($(RADIO_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+        expect($(RADIO_CORRECT_AND_CHECKED).hasClass('radio-off')).to.equal(true);
+
         expect(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
         expect($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
         expect($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
@@ -121,7 +121,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
         this.render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        expect($(RADIO_INCORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+        expect($(RADIO_INCORRECT_AND_UNCHECKED).hasClass('radio-off')).to.equal(true);
         expect(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
         expect($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
         expect($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
@@ -140,7 +140,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
         this.render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        expect($(RADIO_INCORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+        expect($(RADIO_INCORRECT_AND_CHECKED).hasClass('radio-on')).to.equal(true);
         expect(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
         expect($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
         expect($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
