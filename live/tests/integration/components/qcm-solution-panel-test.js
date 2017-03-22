@@ -5,17 +5,17 @@ import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import _ from 'pix-live/utils/lodash-custom';
 
-const CHECKBOX_CORRECT_AND_CHECKED = '.qcm-panel__proposal-checkbox:eq(1)';
+const CHECKBOX_CORRECT_AND_CHECKED = '.qcm-proposal-label__checkbox-picture:eq(1)';
 const LABEL_CORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(1)';
 
-const CHECKBOX_CORRECT_AND_UNCHECKED = '.qcm-panel__proposal-checkbox:eq(2)';
+const CHECKBOX_CORRECT_AND_UNCHECKED = '.qcm-proposal-label__checkbox-picture:eq(2)';
 const LABEL_CORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(2)';
 
-const CHECKBOX_INCORRECT_AND_CHECKED = '.qcm-panel__proposal-checkbox:eq(0)';
-const CHECKBOX_INCORRECT_AND_CHECKED_SECOND = '.qcm-panel__proposal-checkbox:eq(3)';
+const CHECKBOX_INCORRECT_AND_CHECKED = '.qcm-proposal-label__checkbox-picture:eq(0)';
+const CHECKBOX_INCORRECT_AND_CHECKED_SECOND = '.qcm-proposal-label__checkbox-picture:eq(3)';
 const LABEL_INCORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(0)';
 
-const CHECKBOX_INCORRECT_AND_UNCHECKED = '.qcm-panel__proposal-checkbox:eq(0)';
+const CHECKBOX_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__checkbox-picture:eq(0)';
 const LABEL_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(0)';
 
 
@@ -38,7 +38,7 @@ function charCount(str) {
 }
 
 
-describe.only('Integration | Component | qcm-solution-panel.js', function () {
+describe('Integration | Component | qcm-solution-panel.js', function () {
   setupComponentTest('qcm-solution-panel', {
     integration: true
   });
@@ -86,7 +86,7 @@ describe.only('Integration | Component | qcm-solution-panel.js', function () {
         expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
         expect($(CHECKBOX_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
 
-        expect($(CHECKBOX_CORRECT_AND_CHECKED).is(':checked')).to.equal(true);
+        expect($(CHECKBOX_CORRECT_AND_CHECKED).hasClass('checkbox-disabled-on')).to.equal(true);
         expect(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
         expect($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
         expect($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
@@ -103,7 +103,7 @@ describe.only('Integration | Component | qcm-solution-panel.js', function () {
         this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        expect($(CHECKBOX_INCORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+        expect($(CHECKBOX_INCORRECT_AND_UNCHECKED).hasClass('checkbox-disabled-on')).to.equal(false);
         expect(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
         expect($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
         expect($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
@@ -120,7 +120,7 @@ describe.only('Integration | Component | qcm-solution-panel.js', function () {
         this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        expect($(CHECKBOX_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+        expect($(CHECKBOX_CORRECT_AND_UNCHECKED).hasClass('checkbox-disabled-on')).to.equal(false);
         expect(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
         expect($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
         expect($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
@@ -139,8 +139,8 @@ describe.only('Integration | Component | qcm-solution-panel.js', function () {
         this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        expect($(CHECKBOX_INCORRECT_AND_CHECKED).is(':checked')).to.equal(true);
-        expect($(CHECKBOX_INCORRECT_AND_CHECKED_SECOND).is(':checked')).to.equal(true);
+        expect($(CHECKBOX_INCORRECT_AND_CHECKED).hasClass('checkbox-disabled-on')).to.equal(true);
+        expect($(CHECKBOX_INCORRECT_AND_CHECKED_SECOND).hasClass('checkbox-disabled-on')).to.equal(true);
         expect($(CHECKBOX_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
         expect(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
         expect($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
@@ -159,9 +159,9 @@ describe.only('Integration | Component | qcm-solution-panel.js', function () {
         this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        const size = $('.comparison-window .qcm-panel__proposal-checkbox').length;
+        const size = $('.comparison-window .qcm-proposal-label__checkbox-picture').length;
         _.times(size, function (index) {
-          expect($('.comparison-window .qcm-panel__proposal-checkbox:eq(' + index + ')').is(':disabled')).to.equal(true);
+          expect($('.comparison-window .qcm-proposal-label__checkbox-picture:eq(' + index + ')').is(':disabled')).to.equal(true);
         });
       });
 
