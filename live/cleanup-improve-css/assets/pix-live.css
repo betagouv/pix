@@ -914,7 +914,9 @@ button.routable-modal--close:active {
   @media (min-width: 992px) {
     .course-list__ul {
       -ms-flex-direction: row;
-      flex-direction: row; } }
+      flex-direction: row;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap; } }
 
 .course-list__li {
   margin: 10px; }
@@ -965,7 +967,11 @@ button.routable-modal--close:active {
   @media (min-width: 992px) {
     .feature-list__ul {
       -ms-flex-direction: row;
-      flex-direction: row; } }
+      flex-direction: row;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      -ms-flex-pack: center;
+      justify-content: center; } }
 
 .feature-list__li {
   margin-bottom: 20px; }
