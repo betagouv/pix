@@ -95,6 +95,7 @@
   border-left: none;
 }
 
+/* XXX we do not have the choice here to bypass BEM for managing collapsible panel title in "closed" status. */
 .cp-is-open > .competences-domain__title-icon {
   border: solid 2px #979797;
   border-bottom: none;

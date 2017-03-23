@@ -1,41 +1,50 @@
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { describe, it, before, after } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe.skip('Acceptance | competences page', function() {
+describe.only('Acceptance | competences page', function() {
+
   let application;
 
-  beforeEach(function() {
+  before(function() {
+    // given
     application = startApp();
+
+    // when
+    visit('/competences');
   });
 
-  afterEach(function() {
+  after(function() {
     destroyApp(application);
   });
 
-  it('can visit /referentiel', function() {
-    visit('/referentiel');
-
-    return andThen(() => {
-      expect(currentURL()).to.equal('/competences');
-    });
+  it('can visit /competences', function() {
+    expect(currentURL()).to.equal('/competences');
   });
 
   it('should display page title', function() {
-    visit('/competences');
-
-    return andThen(() => {
-      expect(find('.referential-page__header-text')).to.have.lengthOf(1);
-    });
+    expect(find('.competences-page__header-text')).to.have.lengthOf(1);
   });
 
-  it('should display as many sections as referential domains', function() {
-    visit('/competences');
+  it('should display as many sections as competences domains', function() {
+    expect(find('.competences-domain')).to.have.lengthOf(5);
+  });
 
-    return andThen(() => {
-      expect(find('.referential-domain')).to.have.lengthOf(5);
-    });
+  it('should hide all sections by default', function() {
+      // given
+
+      // when
+
+      // then
+  });
+
+  it('should open a section when one clicks on its title', function() {
+      // given
+
+      // when
+
+      // then
   });
 
 });

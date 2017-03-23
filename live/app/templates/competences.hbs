@@ -15,19 +15,17 @@
           <h2 class="competences-domain__title">{{domain.title}}</h2>
           <span class="competences-domain__title-icon"></span>
         {{/panel.toggle}}
-        {{#panel.body}}
-          <div class="competences-domain__topics">
-            {{#each domain.topics as |topic|}}
-              <div class="domain-topic">
-                <h3 class="domain-topic__title">{{topic.title}}</h3>
-                <p class="domain-topic__description">{{topic.description}}</p>
-                <div class="domain-topic__themes">
-                  <h4 class="domain-topic__themes-title">Thématiques associées</h4>
-                  <p class="domain-topic__themes-content">{{topic.themes}}</p>
-                </div>
+        {{#panel.body class="competences-domain__topics"}}
+          {{#each domain.topics as |topic|}}
+            <div class="domain-topic">
+              <h3 class="domain-topic__title">{{topic.title}}</h3>
+              <p class="domain-topic__description">{{topic.description}}</p>
+              <div class="domain-topic__themes">
+                <h4 class="domain-topic__themes-title">Thématiques associées</h4>
+                <p class="domain-topic__themes-content">{{topic.themes}}</p>
               </div>
-            {{/each}}
-          </div>
+            </div>
+          {{/each}}
         {{/panel.body}}
       {{/panels.panel}}
     {{/each}}
