@@ -1,16 +1,12 @@
 import Ember from 'ember';
 
-function _hasAbandInValue(answer){
-  return answer.search(/#ABAND#/i) > -1;
-}
-
 export default Ember.Component.extend({
 
   classNames: ['qroc-proposal'],
 
   userAnswer : Ember.computed('answerValue', function(){
     const answer = this.get('answerValue') || '';
-    return _hasAbandInValue(answer)? '' : answer;
+    return answer.indexOf('#ABAND#') > -1? '' : answer;
   }),
 
   didInsertElement: function () {

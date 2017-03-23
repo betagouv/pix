@@ -26,10 +26,8 @@ describe('Integration | Component | QrocProposal', function () {
     it('should display a value when a non-empty value is providing by user', function () {
       // given
       this.set('answerValue', 'myValue');
-
       // when
       this.render(hbs`{{qroc-proposal blocks=blocks answerValue=answerValue}}`);
-
       // then
       expect(this.$('.challenge-response__proposal-input').val()).to.be.equal('myValue');
     });
@@ -37,12 +35,10 @@ describe('Integration | Component | QrocProposal', function () {
 
   describe('Component behavior when user skip challenge:', function(){
 
-
     [
       {input: 'aband', output: 'aband'},
-      {input: '#aband#', output: ''},
+      {input: '#aband#', output: '#aband#'},
       {input: 'aband#', output: 'aband#'},
-      {input: '#aband#', output: ''},
       {input: 'ABAND', output: 'ABAND'},
       {input: '#ABAND', output: '#ABAND'},
       {input: 'ABAND#', output: 'ABAND#'},
@@ -53,10 +49,8 @@ describe('Integration | Component | QrocProposal', function () {
       it(`should display '' value ${input} is providing to component`, function () {
         // given
         this.set('answerValue', input);
-
         // when
         this.render(hbs`{{qroc-proposal blocks=blocks answerValue=answerValue}}`);
-
         // then
         expect(this.$('.challenge-response__proposal-input').val()).to.be.equal(output);
       });
