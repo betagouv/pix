@@ -4733,14 +4733,12 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', '
       (0, _mocha.it)('should display a value when a non-empty value is providing by user', function () {
         // given
         this.set('answerValue', 'myValue');
-
         // when
         this.render(_ember['default'].HTMLBars.template({
           'id': 'kJs1JVvn',
           'block': '{"statements":[["append",["helper",["qroc-proposal"],null,[["blocks","answerValue"],[["get",["blocks"]],["get",["answerValue"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
-
         // then
         (0, _chai.expect)(this.$('.challenge-response__proposal-input').val()).to.be.equal('myValue');
       });
@@ -4748,21 +4746,19 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', '
 
     (0, _mocha.describe)('Component behavior when user skip challenge:', function () {
 
-      [{ input: 'aband', output: 'aband' }, { input: '#aband#', output: '' }, { input: 'aband#', output: 'aband#' }, { input: '#aband#', output: '' }, { input: 'ABAND', output: 'ABAND' }, { input: '#ABAND', output: '#ABAND' }, { input: 'ABAND#', output: 'ABAND#' }, { input: '#ABAND#', output: '' }, { input: '', output: '' }].forEach(function (_ref) {
+      [{ input: 'aband', output: 'aband' }, { input: '#aband#', output: '#aband#' }, { input: 'aband#', output: 'aband#' }, { input: 'ABAND', output: 'ABAND' }, { input: '#ABAND', output: '#ABAND' }, { input: 'ABAND#', output: 'ABAND#' }, { input: '#ABAND#', output: '' }, { input: '', output: '' }].forEach(function (_ref) {
         var input = _ref.input;
         var output = _ref.output;
 
         (0, _mocha.it)('should display \'\' value ' + input + ' is providing to component', function () {
           // given
           this.set('answerValue', input);
-
           // when
           this.render(_ember['default'].HTMLBars.template({
             'id': 'kJs1JVvn',
             'block': '{"statements":[["append",["helper",["qroc-proposal"],null,[["blocks","answerValue"],[["get",["blocks"]],["get",["answerValue"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
             'meta': {}
           }));
-
           // then
           (0, _chai.expect)(this.$('.challenge-response__proposal-input').val()).to.be.equal(output);
         });

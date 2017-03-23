@@ -1167,18 +1167,13 @@ define('pix-live/components/qcu-solution-panel', ['exports', 'ember', 'pix-live/
   });
 });
 define('pix-live/components/qroc-proposal', ['exports', 'ember'], function (exports, _ember) {
-
-  function _hasAbandInValue(answer) {
-    return answer.search(/#ABAND#/i) > -1;
-  }
-
   exports['default'] = _ember['default'].Component.extend({
 
     classNames: ['qroc-proposal'],
 
     userAnswer: _ember['default'].computed('answerValue', function () {
       var answer = this.get('answerValue') || '';
-      return _hasAbandInValue(answer) ? '' : answer;
+      return answer.indexOf('#ABAND#') > -1 ? '' : answer;
     }),
 
     didInsertElement: function didInsertElement() {
@@ -4696,6 +4691,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.1+895d47ad"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.1+e945739b"});
 }
 //# sourceMappingURL=pix-live.map
