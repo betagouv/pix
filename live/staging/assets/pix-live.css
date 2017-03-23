@@ -820,28 +820,34 @@ button.routable-modal--close:active {
 .course-banner {
   background-color: #446eff;
   color: white;
-  margin-bottom: 30px; }
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center; }
 
-.course-banner-wrapper {
+.course-banner__container {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
   align-items: center;
-  min-height: 100px; }
+  min-height: 100px;
+  max-width: 990px;
+  width: 100%;
+  padding: 0 20px; }
+  @media (min-width: 992px) {
+    .course-banner__container {
+      padding: 0; } }
 
-.course-banner-name {
+.course-banner__name {
   font-size: 28px; }
 
-.course-banner-home-link {
+.course-banner__home-link {
   font-size: 16px;
   margin-left: auto;
   text-align: right;
-  /* stand above BETA ribbon */
-  z-index: 999;
   color: white; }
-
-.course-banner-home-link:hover {
-  color: white; }
+  .course-banner__home-link:hover {
+    color: white; }
 
 .course-item {
   padding: 0;
@@ -1216,85 +1222,6 @@ button.routable-modal--close:active {
   border: solid 2px #12caa1;
   padding: 14px 91px;
   color: #12caa1; }
-
-/* Whole assessments container
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-/* Forces bootstrap's default by including bootstrap props into .assessment-results container */
-.assessment-results .tooltip-inner {
-  padding-top: 13px;
-  width: auto;
-  padding-left: 16px;
-  padding-right: 16px;
-  height: 48px;
-  background-color: #e6e6e6;
-  color: #3e4149;
-  font-family: "Lato", Arial, sans-serif;
-  font-size: 14px;
-  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
-  border: solid 1px #ffffff; }
-
-.assessment-results .tooltip.top .tooltip-arrow {
-  border-top-color: #e6e6e6; }
-
-.assessment-results .tooltip.in {
-  opacity: 1;
-  transition: opacity 1s ease; }
-
-.assessment-results .tooltip.top .tooltip-arrow {
-  bottom: -4px;
-  left: 50%;
-  margin-left: -13px;
-  border-width: 10px 13px 0; }
-
-/* XXX : See https://github.com/sgmap/pix/issues/211 */
-.assessment-results [data-lines="2"] + div .tooltip-inner {
-  padding-top: 3px; }
-
-/* Title
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.assessment-results__title {
-  min-width: 240px;
-  height: 48px;
-  font-size: 40px;
-  font-weight: 900;
-  color: #446eff;
-  margin-bottom: 26px; }
-
-/* List of results
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.assessment-results__list {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column; }
-  .assessment-results__list:nth-last-child(1) {
-    margin-bottom: 20px; }
-
-/* Button 'go back'
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.assessment-results__index-link-container {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: row-reverse;
-  flex-direction: row-reverse;
-  margin-bottom: 30px; }
-
-.assessment-results__index-link__element {
-  width: 275px;
-  height: 46px;
-  border-radius: 23px;
-  background-color: #446eff;
-  border: none; }
-
-.assessment-results__link-back {
-  width: 277px;
-  height: 22px;
-  text-transform: uppercase;
-  font-size: 16px;
-  font-weight: 600;
-  text-align: center;
-  font-family: "Open Sans", Arial, sans-serif;
-  color: #ffffff; }
 
 /* XXX : Forces bootstrap's default by including bootstrap props into .modal-mobile  container */
 .modal-mobile .modal-header {
@@ -1788,85 +1715,6 @@ button.routable-modal--close:active {
       display: inline;
       border: none; } }
 
-/* Whole assessments container
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-/* Forces bootstrap's default by including bootstrap props into .assessment-results container */
-.assessment-results .tooltip-inner {
-  padding-top: 13px;
-  width: auto;
-  padding-left: 16px;
-  padding-right: 16px;
-  height: 48px;
-  background-color: #e6e6e6;
-  color: #3e4149;
-  font-family: "Lato", Arial, sans-serif;
-  font-size: 14px;
-  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
-  border: solid 1px #ffffff; }
-
-.assessment-results .tooltip.top .tooltip-arrow {
-  border-top-color: #e6e6e6; }
-
-.assessment-results .tooltip.in {
-  opacity: 1;
-  transition: opacity 1s ease; }
-
-.assessment-results .tooltip.top .tooltip-arrow {
-  bottom: -4px;
-  left: 50%;
-  margin-left: -13px;
-  border-width: 10px 13px 0; }
-
-/* XXX : See https://github.com/sgmap/pix/issues/211 */
-.assessment-results [data-lines="2"] + div .tooltip-inner {
-  padding-top: 3px; }
-
-/* Title
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.assessment-results__title {
-  min-width: 240px;
-  height: 48px;
-  font-size: 40px;
-  font-weight: 900;
-  color: #446eff;
-  margin-bottom: 26px; }
-
-/* List of results
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.assessment-results__list {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column; }
-  .assessment-results__list:nth-last-child(1) {
-    margin-bottom: 20px; }
-
-/* Button 'go back'
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.assessment-results__index-link-container {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: row-reverse;
-  flex-direction: row-reverse;
-  margin-bottom: 30px; }
-
-.assessment-results__index-link__element {
-  width: 275px;
-  height: 46px;
-  border-radius: 23px;
-  background-color: #446eff;
-  border: none; }
-
-.assessment-results__link-back {
-  width: 277px;
-  height: 22px;
-  text-transform: uppercase;
-  font-size: 16px;
-  font-weight: 600;
-  text-align: center;
-  font-family: "Open Sans", Arial, sans-serif;
-  color: #ffffff; }
-
 .result-item {
   width: auto;
   height: 80px;
@@ -2167,7 +2015,7 @@ button.routable-modal--close:active {
   position: relative;
   cursor: pointer; }
 
-/* views */
+/* pages */
 /* Sections:
 
  - General
@@ -2544,40 +2392,130 @@ hr.project-page__presentation-header-line {
   color: #446eff;
   font-weight: 600; }
 
-/* XXX : every above is to be refactored, don't put any CSS properties right here */
-@media (min-width: 1200px) {
-  .container {
-    max-width: 900px; } }
+.assessment-challenge {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center; }
 
-.assessment-challenge-container .container {
+.assessment-challenge__content {
   max-width: 990px;
-  padding-right: 15px;
-  padding-left: 15px;
+  width: 100%;
+  padding: 0 20px; }
+  @media (min-width: 992px) {
+    .assessment-challenge__content {
+      padding: 0; } }
+
+.assessment-challenge__course-banner {
+  width: 100%;
+  margin-bottom: 30px; }
+
+.assessment-results {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center; }
+
+.assessment-results__course-banner {
+  width: 100%;
+  margin-bottom: 30px; }
+
+.assessment-results__content {
+  padding: 0 20px;
+  max-width: 990px;
   width: 100%; }
-  @media (min-width: 1024px) {
-    .assessment-challenge-container .container {
-      padding-right: 0;
-      padding-left: 0; } }
+  @media (min-width: 992px) {
+    .assessment-results__content {
+      padding: 0; } }
+
+/* Forces bootstrap's default by including bootstrap props into .assessment-results container */
+.assessment-results .tooltip-inner {
+  padding-top: 13px;
+  width: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  height: 48px;
+  background-color: #e6e6e6;
+  color: #3e4149;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
+  border: solid 1px #ffffff; }
+
+.assessment-results .tooltip.top .tooltip-arrow {
+  border-top-color: #e6e6e6; }
+
+.assessment-results .tooltip.in {
+  opacity: 1;
+  transition: opacity 1s ease; }
+
+.assessment-results .tooltip.top .tooltip-arrow {
+  bottom: -4px;
+  left: 50%;
+  margin-left: -13px;
+  border-width: 10px 13px 0; }
+
+/* XXX : See https://github.com/sgmap/pix/issues/211 */
+.assessment-results [data-lines="2"] + div .tooltip-inner {
+  padding-top: 3px; }
+
+/* Title
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.assessment-results__title {
+  min-width: 240px;
+  height: 48px;
+  font-size: 40px;
+  font-weight: 900;
+  color: #446eff;
+  margin-bottom: 26px; }
+
+/* List of results
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.assessment-results__list {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column; }
+  .assessment-results__list:nth-last-child(1) {
+    margin-bottom: 20px; }
+
+/* Button 'go back'
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.assessment-results__index-link-container {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+  margin-bottom: 30px; }
+
+.assessment-results__index-link__element {
+  width: 275px;
+  height: 46px;
+  border-radius: 23px;
+  background-color: #446eff;
+  border: none; }
+
+.assessment-results__link-back {
+  width: 277px;
+  height: 22px;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  font-family: "Open Sans", Arial, sans-serif;
+  color: #ffffff; }
 
 body {
   font-family: "Lato", Arial, sans-serif;
   background-color: #f2f3f4; }
-
-.body {
-  padding-top: 0; }
-
-.component-list {
-  margin: 0;
-  padding: 0;
-  list-style-type: none; }
-
-.container .title {
-  display: block;
-  text-rendering: optimizeLegibility;
-  color: #484c58;
-  font-size: 30px;
-  font-weight: 600;
-  margin-bottom: 20px; }
 
 input[type="radio"],
 input[type="checkbox"] {

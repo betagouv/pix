@@ -165,7 +165,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember'
     (0, _mocha.it)('a4.4 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function () {
       var $startLink = findWithAssert(START_BUTTON);
       return click($startLink).then(function () {
-        findWithAssert('#assessment-challenge');
+        findWithAssert('.assessment-challenge');
         (0, _chai.expect)(currentURL()).to.contains(URL_OF_FIRST_TEST);
       });
     });
@@ -765,7 +765,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['exports', '
     });
 
     (0, _mocha.it)('b7.0 Le nom du test est affiché', function () {
-      (0, _chai.expect)(findWithAssert('.course-banner-name').text()).to.contains('First Course');
+      (0, _chai.expect)(findWithAssert('.course-banner__name').text()).to.contains('First Course');
     });
 
     (0, _mocha.it)('b7.1 L\'instruction de l\'epreuve est affichée', function () {
@@ -795,13 +795,13 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['exports', '
     });
 
     (0, _mocha.it)('b7.5 Il existe un bouton "Revenir à la liste des tests"', function () {
-      var $courseListButton = findWithAssert('.course-banner-home-link');
+      var $courseListButton = findWithAssert('.course-banner__home-link');
       (0, _chai.expect)($courseListButton.text()).to.equal('Retour à la liste des tests');
     });
 
     (0, _mocha.it)('b7.6 Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers l\'index', function () {
       // when
-      click('.course-banner-home-link');
+      click('.course-banner__home-link');
 
       // then
       andThen(function () {
@@ -856,11 +856,11 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['exports', 'mocha', '
     });
 
     (0, _mocha.it)('c1.9 Le nom du test est affiché', function () {
-      (0, _chai.expect)(findWithAssert('.course-banner-name').text()).to.contains('First Course');
+      (0, _chai.expect)(findWithAssert('.course-banner__name').text()).to.contains('First Course');
     });
 
     (0, _mocha.it)('c1.10 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
-      (0, _chai.expect)(find('.course-banner-home-link')).to.have.lengthOf(0);
+      (0, _chai.expect)(find('.course-banner__home-link')).to.have.lengthOf(0);
     });
 
     (0, _mocha.it)('c1.11. propose un moyen pour revenir à la liste des tests', function () {
@@ -1064,7 +1064,7 @@ define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test', ['exports',
 
             case 2:
               (0, _chai.expect)(currentURL()).to.equal('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
-              (0, _chai.expect)(findWithAssert('#assessment-challenge'));
+              (0, _chai.expect)(findWithAssert('.assessment-challenge'));
 
             case 4:
             case 'end':
@@ -2119,15 +2119,6 @@ define('pix-live/tests/components/feedback-panel.lint-test', ['exports'], functi
     });
   });
 });
-define('pix-live/tests/components/first-page.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - components/first-page.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/components/follower-form.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -2249,15 +2240,6 @@ define('pix-live/tests/components/timeout-jauge.lint-test', ['exports'], functio
   'use strict';
 
   describe('ESLint - components/timeout-jauge.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/components/user-menu.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - components/user-menu.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -4018,33 +4000,6 @@ define('pix-live/tests/integration/components/feedback-panel-test.lint-test', ['
     });
   });
 });
-define('pix-live/tests/integration/components/first-page-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
-
-  (0, _mocha.describe)('Integration | Component | FirstPageComponent', function () {
-
-    (0, _emberMocha.setupComponentTest)('first-page', {
-      integration: true
-    });
-
-    (0, _mocha.it)('renders', function () {
-      this.render(Ember.HTMLBars.template({
-        'id': 'TW/+tSBf',
-        'block': '{"statements":[["append",["unknown",["first-page"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-        'meta': {}
-      }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
-    });
-  });
-});
-define('pix-live/tests/integration/components/first-page-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - integration/components/first-page-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/follower-form-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait'], function (exports, _chai, _mocha, _emberMocha, _ember, _emberTestHelpersWait) {
 
   var BUTTON_SEND = '.follower-form__button';
@@ -4218,7 +4173,7 @@ define('pix-live/tests/integration/components/pix-logo-test', ['exports', 'chai'
     });
 
     (0, _mocha.it)('should display "béta"', function () {
-      (0, _chai.expect)(this.$().text().trim()).to.equal('Béta');
+      (0, _chai.expect)(this.$().text().trim()).to.equal('Bêta');
     });
   });
 });
@@ -4292,6 +4247,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
   }
 
   (0, _mocha.describe)('Integration | Component | qcm-solution-panel.js', function () {
+
     (0, _emberMocha.setupComponentTest)('qcm-solution-panel', {
       integration: true
     });
@@ -4317,7 +4273,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
           id: 'answer_id', assessment: assessment, challenge: challenge, value: '1,4'
         };
 
-        before(function () {
+        (0, _mocha.before)(function () {
           challenge = _ember['default'].Object.create({
             id: 'challenge_id',
             proposals: '-foo\n- bar\n- qix\n- yon',
@@ -4377,6 +4333,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
 
         (0, _mocha.it)('QCM, Au moins l\'une des réponse correcte n\'est pas cochée', function () {
           //Given
+          answer = _ember['default'].Object.create(unCorrectAnswer);
+
           this.set('answer', answer);
           this.set('solution', solution);
           this.set('challenge', challenge);
@@ -4743,6 +4701,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['expor
   var NO_ANSWER_GREY = 'rgb(62, 65, 73)';
 
   (0, _mocha.describe)('Integration | Component | qroc solution panel', function () {
+
     (0, _emberMocha.setupComponentTest)('qroc-solution-panel', {
       integration: true
     });
