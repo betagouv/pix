@@ -2532,12 +2532,31 @@ hr.project-page__presentation-header-line {
   max-width: 940px; }
   @media (min-width: 992px) {
     .referential-page__header-text {
-      font-size: 36px; } }
+      font-size: 35px; } }
 
-.referential-domain {
+.referential-page__domains {
   max-width: 940px;
   width: 100%;
-  padding: 20px 40px; }
+  padding: 0 20px; }
+  @media (min-width: 992px) {
+    .referential-page__domains {
+      padding: 0; } }
+
+.referential-domain {
+  width: 100%;
+  padding: 20px; }
+  @media (min-width: 992px) {
+    .referential-domain {
+      padding: 20px 40px; } }
+
+.cp-Panel-body-inner {
+  overflow: visible; }
+
+.referential-domain__header {
+  color: #3e4149; }
+  .referential-domain__header:hover, .referential-domain__header:focus, .referential-domain__header:active {
+    color: #3e4149;
+    text-decoration: none; }
 
 .referential-domain__title {
   margin: 15px 0;

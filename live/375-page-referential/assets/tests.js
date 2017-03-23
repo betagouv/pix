@@ -4164,6 +4164,10 @@ define('pix-live/tests/integration/components/navbar-header-test', ['exports', '
     (0, _mocha.it)('should display a link to "project" page', function () {
       (0, _chai.expect)(this.$('.navbar-header-links__link--project')).to.have.lengthOf(1);
     });
+
+    (0, _mocha.it)('should display a link to "referential" page', function () {
+      (0, _chai.expect)(this.$('.navbar-header-links__link--referential')).to.have.lengthOf(1);
+    });
   });
 });
 define('pix-live/tests/integration/components/navbar-header-test.lint-test', ['exports'], function (exports) {
