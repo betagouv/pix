@@ -25,9 +25,11 @@ $captrain-green1: #55b162; /* border-color */
 $captrain-green2: #67b972;
 $captrain-green3: #4aa256;
 $green-dark: rgba(120, 193, 130, 0.50);
+$caribbean-green: #13c9a0;//qcm-solution-checkbox
 
 $red-dark: rgba(201, 48, 44, 0.50);
 $red: #ac2925;
+$blue: #3d68ff;
 
 $marigold: #ffbe00;
 
@@ -45,6 +47,7 @@ $download-action-color: #ffffff;
 
 $skip-action-color: #3e4149;
 $charcoal-grey: #3e4149;
+$slate-grey: #6a6d76;
 
 $project-blue: #3d68ff;
 $feedback-panel-background-color: #dedede;
@@ -54,4 +57,8 @@ $follower-button-sending: #12caa1;
 $follower-input: #7d808a;
 $follower-label-error: #f45c00;
 
+$white: #ffffff;
 
+.text--marigold {
+  color: $marigold;
+}

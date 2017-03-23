@@ -17,7 +17,6 @@ const solutionRepository = require('../../infrastructure/repositories/solution-r
 module.exports = {
 
   save(request, reply) {
-
     const assessment = assessmentSerializer.deserialize(request.payload);
 
     return assessment.save()
@@ -81,10 +80,11 @@ module.exports = {
         if (_.isEmpty(assessment)) {
           return reply('null');
         }
-        
+
         return answerRepository.findByAssessment(assessment.get('id'))
           .then((answers) => {
             const answersLength = _.get(answers, 'length', 0);
+            const courseId = assessment.get('courseId');
 
             courseRepository
               .get(assessment.get('courseId'))
@@ -96,7 +96,7 @@ module.exports = {
                   return challengesLength > 0 && _.isEqual(answersLength, challengesLength);
                 } else {
                   const responsePattern = assessmentUtils.getResponsePattern(answers);
-                  return assessmentUtils.getNextChallengeFromScenarios(responsePattern)
+                  return assessmentUtils.getNextChallengeFromScenarios(courseId, responsePattern)
                     .then(nextChallengeId => nextChallengeId === null);
                 }
               })

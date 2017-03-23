@@ -25,8 +25,9 @@ module.exports = function (environment) {
     },
 
     googleFonts: [
-      'Lato', // main font
-      'Open+Sans' // used for ex. on buttons
+      'Lato:300,400,700,900', // main font, Challenge instructions
+      'Open+Sans', // used for ex. on buttons
+      'Raleway:100,300,400,600,700,800' // used for index page titles
     ],
 
     // Set or update content security policies
@@ -45,7 +46,7 @@ module.exports = function (environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
-    ENV.APP.API_HOST= 'http://localhost:3000';
+    ENV.APP.API_HOST = 'http://localhost:3000';
   }
 
   if (environment === 'test') {
@@ -60,7 +61,7 @@ module.exports = function (environment) {
 
     ENV.APP.rootElement = '#ember-testing';
     ENV.googleFonts = [];
-    ENV.APP.API_HOST= 'http://localhost:3000';
+    ENV.APP.API_HOST = 'http://localhost:3000';
   }
 
   if (environment === 'integration') {

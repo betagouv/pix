@@ -6,11 +6,10 @@ const _ = require('../../infrastructure/utils/lodash-utils');
 function _selectNextInAdaptiveMode(assessment) {
 
   return new Promise((resolve, reject) => {
-
     answerRepository.findByAssessment(assessment.get('id'))
       .then(answers => {
         const responsePattern = assessmentUtils.getResponsePattern(answers);
-        return assessmentUtils.getNextChallengeFromScenarios(responsePattern);
+        return assessmentUtils.getNextChallengeFromScenarios(assessment.get('courseId'), responsePattern);
       })
       .then(resolve)
       .catch(reject);
@@ -162,11 +161,23 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
 
+      if (!assessment) {
+        resolve(null);
+      }
+
+      if (!assessment.get('courseId')) {
+        resolve(null);
+      }
+
+      if (_.startsWith(assessment.get('courseId'), 'null')) {
+        resolve(null);
+      }
+
       const courseId = assessment.get('courseId');
       courseRepository
-      .get(courseId)
-      .then((course) => resolve(selectNextChallengeId(course, currentChallengeId, assessment)))
-      .catch((error) => reject(error));
+        .get(courseId)
+        .then((course) => resolve(selectNextChallengeId(course, currentChallengeId, assessment)))
+        .catch((error) => reject(error));
     });
   }
 

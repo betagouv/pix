@@ -1,68 +1,126 @@
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
+const utils = require('./solution-service-utils');
+const deactivationsService = require('./deactivations-service');
 
-function _applyTreatments(objects) {
-  const result = {};
-  _.each(objects, (value, key) => {
-    result[key] = value.toString().trim().toLowerCase();
-  });
-  return result;
-}
 
-function _getSolutionKeys(solutions) {
-  return Object.keys(solutions);
-}
+function _applyTreatmentsToSolutions(solutions, deactivations) {
+  return _.mapValues(solutions, (validSolutions) => {
+    return _.map(validSolutions, (validSolution) => {
+      const pretreatedSolution = validSolution.toString();
 
-function _removeMatchedSolutionIfExist(matchingSolutionKey, solutions) {
-  if (matchingSolutionKey) {
-    solutions = _.omit(solutions, matchingSolutionKey);
-  }
-  return solutions;
-}
-
-function _hasBadAnswers(validations) {
-  const badAnswers = _.filter(validations, (item) => item === false);
-  return !_.isEmpty(badAnswers);
-}
-
-function _compareAnswersAndSolutions(answers, solutions) {
-
-  const validations = {};
-  _.each(answers, (answer) => {
-    validations[answer] = false;
-    const solutionKeys = _getSolutionKeys(solutions);
-    let matchingSolutionKey = null;
-    _.each(solutionKeys, (solutionKey) => {
-      if (validations[answer] == false) {
-        const solutionVariants = solutions[solutionKey];
-        if (!_.isEmpty(answer) && solutionVariants.includes(answer)) {
-          validations[answer] = true;
-          matchingSolutionKey = solutionKey;
-        }
+      if (deactivationsService.isDefault(deactivations)) {
+        return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
+      }
+      else if (deactivationsService.hasOnlyT1(deactivations)) {
+        return utils._treatmentT2(pretreatedSolution);
+      }
+      else if (deactivationsService.hasOnlyT2(deactivations)) {
+        return utils._treatmentT1(pretreatedSolution);
+      }
+      else if (deactivationsService.hasOnlyT3(deactivations)) {
+        return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
+      }
+      else if (deactivationsService.hasOnlyT1T2(deactivations)) {
+        return pretreatedSolution;
+      }
+      else if (deactivationsService.hasOnlyT1T3(deactivations)) {
+        return utils._treatmentT2(pretreatedSolution);
+      }
+      else if (deactivationsService.hasT1T2T3(deactivations)) {
+        return pretreatedSolution;
       }
     });
-    solutions = _removeMatchedSolutionIfExist(matchingSolutionKey, solutions);
+  });
+}
+
+
+function _applyTreatmentsToAnswers(answers) {
+  return _.mapValues(answers, _.toString);
+}
+
+
+function _calculateValidation(answers, solutions) {
+
+  const validations = {};
+
+  _.each(answers, (answer, index) => {
+
+    const indexation = answer + '_' + index;
+    const solutionKeys = Object.keys(solutions);
+
+    _.each(solutionKeys, (solutionKey) => {
+
+      const solutionVariants = solutions[solutionKey];
+
+      if (_.isUndefined(validations[indexation])) {
+        validations[indexation] = [];
+      }
+
+      validations[indexation].push(utils.treatmentT1T2T3(answer, solutionVariants));
+
+    });
   });
   return validations;
 }
 
-function _calculateResult(scoring, validations) {
+function _numberOfGoodAnswers(fullValidations, deactivations) {
+  const allGoodAnswers = _goodAnswers(fullValidations, deactivations);
+  const uniqGoodAnswers = _.uniqBy(allGoodAnswers, 'adminAnswers');
+  return uniqGoodAnswers.length;
+}
+
+function _goodAnswers(fullValidations, deactivations) {
+  return _.chain(fullValidations)
+          .map((fullValidation) => {return _goodAnswer(fullValidation, deactivations);})
+          .filter((e) => e !== null)
+          .value();
+}
+
+// the lowest t1t2t3 ratio is below 0.25
+function _goodAnswer(allValidations, deactivations) {
+  const bestAnswerSoFar = _.minBy(allValidations, (oneValidation) => oneValidation.t1t2t3Ratio);
+  if (deactivationsService.isDefault(deactivations)) {
+    return bestAnswerSoFar.t1t2t3Ratio <= 0.25 ? bestAnswerSoFar : null;
+  }
+  else if (deactivationsService.hasOnlyT1(deactivations)) {
+    return bestAnswerSoFar.t2t3Ratio <= 0.25 ? bestAnswerSoFar : null;
+  }
+  else if (deactivationsService.hasOnlyT2(deactivations)) {
+    return bestAnswerSoFar.t1t3Ratio <= 0.25 ? bestAnswerSoFar : null;
+  }
+  else if (deactivationsService.hasOnlyT3(deactivations)) {
+    return _.includes(bestAnswerSoFar.adminAnswers, bestAnswerSoFar.t1t2) ? bestAnswerSoFar : null;
+  }
+  else if (deactivationsService.hasOnlyT1T2(deactivations)) {
+    return bestAnswerSoFar.t3Ratio <= 0.25 ? bestAnswerSoFar : null;
+  }
+  else if (deactivationsService.hasOnlyT1T3(deactivations)) {
+    return _.includes(bestAnswerSoFar.adminAnswers, bestAnswerSoFar.t2) ? bestAnswerSoFar : null;
+  }
+  else if (deactivationsService.hasT1T2T3(deactivations)) {
+    return _.includes(bestAnswerSoFar.adminAnswers, bestAnswerSoFar.userAnswer) ? bestAnswerSoFar : null;
+  }
+}
+
+function _calculateResult(scoring, validations, deactivations) {
   let result = 'ok';
 
-  if (_.isEmpty(scoring)) {
-    if (_hasBadAnswers(validations)) {
-      result = 'ko';
-    }
+  const numberOfGoodAnswers = _numberOfGoodAnswers(validations, deactivations);
+
+  if (_.isEmpty(scoring) && numberOfGoodAnswers !== _.size(validations)) {
+    result = 'ko';
+  } else if (_.isEmpty(scoring) && numberOfGoodAnswers === _.size(validations)) {
+    result = 'ok';
   } else {
 
-    const nbGoodAnswers = _.filter(validations, (item) => item == true).length;
     const minGrade = _.min(Object.keys(scoring));
     const maxGrade = _.max(Object.keys(scoring));
 
-    if (nbGoodAnswers >= maxGrade) {
+    if (numberOfGoodAnswers >= maxGrade) {
       result = 'ok';
-    } else if (nbGoodAnswers >= minGrade) {
+    } else if (numberOfGoodAnswers >= minGrade) {
       result = 'partially';
     } else {
       result = 'ko';
@@ -71,23 +129,39 @@ function _calculateResult(scoring, validations) {
   return result;
 }
 
-module.exports = {
+function _applyPreTreatmentsToAnswer(yamlAnswer) {
+  return yamlAnswer.replace(/\u00A0/g, ' ');
+}
 
-  match(yamlAnswer, yamlSolution, yamlScoring) {
+module.exports = {
+  match(yamlAnswer, yamlSolution, yamlScoring, deactivations) {
+
+    // Validate inputs
+    if (_.isNotString(yamlAnswer)
+        || _.isNotString(yamlSolution)
+        || _.isEmpty(yamlAnswer)
+        || !_.includes(yamlSolution, '\n')) {
+      return 'ko';
+    }
+
+    // Pre-Treatments
+    const preTreatedAnswers = _applyPreTreatmentsToAnswer(yamlAnswer);
+
+    // remove unbreakable spaces
     // Convert Yaml to JS objects
-    let answers = jsYaml.safeLoad(yamlAnswer);
-    let solutions = jsYaml.safeLoad(yamlSolution);
-    const scoring = jsYaml.safeLoad(yamlScoring);
+    const answers = jsYaml.safeLoad(preTreatedAnswers);
+    const solutions = jsYaml.safeLoad(yamlSolution);
+    const scoring = jsYaml.safeLoad(_.ensureString(yamlScoring));
+
 
     // Treatments
-    answers = _applyTreatments(answers);
-    solutions = _applyTreatments(solutions);
+    const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations);
+    const treatedAnswers = _applyTreatmentsToAnswers(answers);
 
     // Comparisons
-    const validations = _compareAnswersAndSolutions(answers, solutions);
+    const fullValidations = _calculateValidation(treatedAnswers, treatedSolutions);
 
-    // Restitution
-    return _calculateResult(scoring, validations);
+    return _calculateResult(scoring, fullValidations, deactivations);
   }
 
 };

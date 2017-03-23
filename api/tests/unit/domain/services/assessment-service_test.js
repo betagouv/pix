@@ -1,9 +1,10 @@
-const { describe, it } = require('mocha');
-const { expect } = require('chai');
+const { describe, it, expect, sinon } = require('../../../test-helper');
+
 const service = require('../../../../lib/domain/services/assessment-service');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Assessment = require('../../../../lib/domain/models/data/assessment');
 const Challenge = require('../../../../lib/domain/models/referential/challenge');
+const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 
 
 function _buildChallenge(knowledgeTags) {
@@ -22,6 +23,14 @@ function _buildAssessment(estimatedLevel, pixScore, notAcquiredKnowledgeTags, ac
   return assessment;
 }
 
+function _buildAssessmentForCourse(courseId) {
+  const assessment = new Assessment({id: 'assessment_id'});
+  if (courseId) {
+    assessment.set('courseId', courseId);
+  }
+  return assessment;
+}
+
 function _buildAnswer(challengeId, result) {
   const answer = new Answer({id: 'answer_id'});
   answer.set('challengeId', challengeId);
@@ -31,6 +40,14 @@ function _buildAnswer(challengeId, result) {
 
 
 describe('Unit | Domain | Services | assessment-service', function () {
+
+  it('should exist', function () {
+    expect(service).to.exist;
+  });
+
+  it('#getAssessmentNextChallengeId should exist', function () {
+    expect(service.getAssessmentNextChallengeId).to.exist;
+  });
 
   describe('#_nextNode', function () {
 
@@ -96,4 +113,69 @@ describe('Unit | Domain | Services | assessment-service', function () {
     });
 
   });
+
+  describe('#getAssessmentNextChallengeId |', function () {
+
+    it ('Should return the first challenge if no currentChallengeId is given', function (done) {
+
+      sinon.stub(courseRepository, 'get').resolves({challenges:['the_first_challenge']});
+
+      service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), null).then(function(result) {
+        expect(result).to.equal('the_first_challenge');
+        courseRepository.get.restore();
+        done();
+      });
+
+    });
+
+
+    it ('Should return the next challenge if currentChallengeId is given', function (done) {
+
+      sinon.stub(courseRepository, 'get').resolves({challenges:['1st_challenge', '2nd_challenge']});
+
+      service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), '1st_challenge').then(function(result) {
+        expect(result).to.equal('2nd_challenge');
+        courseRepository.get.restore();
+        done();
+      });
+
+    });
+
+
+    it ('Should resolves to "null" if no assessment is given', function (done) {
+
+      service.getAssessmentNextChallengeId().then(function(result) {
+        expect(result).to.equal(null);
+        done();
+      });
+
+    });
+
+
+    it ('Should resolves to "null" if no courseId is given', function (done) {
+
+      sinon.stub(courseRepository, 'get').resolves({challenges:['1st_challenge', '2nd_challenge']});
+
+      service.getAssessmentNextChallengeId(_buildAssessmentForCourse(), '1st_challenge').then(function(result) {
+        expect(result).to.equal(null);
+        courseRepository.get.restore();
+        done();
+      });
+
+    });
+
+    it ('Should resolves to "null" if courseId starts with "null"', function (done) {
+
+      sinon.stub(courseRepository, 'get').resolves({challenges:['1st_challenge', '2nd_challenge']});
+
+      service.getAssessmentNextChallengeId(_buildAssessmentForCourse('null22'), '1st_challenge').then(function(result) {
+        expect(result).to.equal(null);
+        courseRepository.get.restore();
+        done();
+      });
+
+    });
+
+  });
+
 });

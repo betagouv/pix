@@ -1,7 +1,8 @@
 const _ = require('../../utils/lodash-utils');
 const Solution = require('../../../domain/models/referential/solution');
+const AirtableSerializer = require('./airtable-serializer');
 
-class SolutionSerializer {
+class SolutionSerializer extends AirtableSerializer {
 
   deserialize(airtableRecord) {
 
@@ -15,6 +16,10 @@ class SolutionSerializer {
 
       solution.type = fields['Type d\'épreuve'];
       solution.value = fields['Bonnes réponses'];
+      solution.deactivations = {};
+      solution.deactivations.t1 = fields['désactiver T1'];
+      solution.deactivations.t2 = fields['désactiver T2'];
+      solution.deactivations.t3 = fields['désactiver T3'];
       solution.scoring = _.ensureString(fields['Scoring']).replace(/@/g, ''); // XXX YAML ne supporte pas @
     }
 

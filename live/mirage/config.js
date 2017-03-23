@@ -4,6 +4,7 @@ import getNextChallenge from './routes/get-next-challenge';
 import getAssessmentSolutions from './routes/get-assessment-solutions';
 import getCourse from './routes/get-course';
 import getCourses from './routes/get-courses';
+import getCoursesOfTheWeek from './routes/get-courses-of-the-week';
 import getAnswer from './routes/get-answer';
 import postAnswers from './routes/post-answers';
 import getAssessment from './routes/get-assessment';
@@ -11,6 +12,7 @@ import postAssessments from './routes/post-assessments';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
 import postFollowers                     from './routes/post-followers';
 import postFeedbacks from './routes/post-feedbacks';
+import postRefreshSolution from './routes/post-refresh-solution';
 
 export default function () {
 
@@ -22,10 +24,13 @@ export default function () {
   this.namespace = 'http://localhost:3000/api';
 
   this.get('/courses', getCourses);
+  this.get('/courses?isCourseOfTheWeek=true', getCoursesOfTheWeek);
   this.get('/courses/:id', getCourse);
 
   this.get('/challenges', getChallenges);
   this.get('/challenges/:id', getChallenge);
+
+  this.post('/challenges/:challengeId/solution', postRefreshSolution);
 
   this.post('/assessments', postAssessments);
   this.get('/assessments/:id', getAssessment);
