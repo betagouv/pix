@@ -1,4 +1,4 @@
-.referential-page {
+.competences-page {
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -7,7 +7,7 @@
   text-rendering: optimizeLegibility;
 }
 
-.referential-page__header {
+.competences-page__header {
   padding: 60px 20px;
   width: 100%;
   background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
@@ -18,7 +18,7 @@
   margin: 0 0 50px;
 }
 
-.referential-page__header-text {
+.competences-page__header-text {
   text-align: center;
   margin: 0 auto;
   color: $white;
@@ -34,7 +34,7 @@
   }
 }
 
-.referential-page__domains {
+.competences-page__domains {
   max-width: 940px;
   width: 100%;
   padding: 0 20px;
@@ -45,7 +45,7 @@
   }
 }
 
-.referential-domain {
+.competences-domain {
   width: 100%;
   padding: 20px;
 
@@ -58,7 +58,7 @@
   overflow: visible;
 }
 
-.referential-domain__header {
+.competences-domain__header {
   color: $charcoal-grey;
 
   &:hover,
@@ -69,7 +69,7 @@
   }
 }
 
-.referential-domain__title {
+.competences-domain__title {
   margin: 15px 0;
   font-family: $font-raleway;
   font-size: 40px;

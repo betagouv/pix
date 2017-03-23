@@ -27,7 +27,7 @@ describe('Integration | Component | navbar-header', function() {
   });
 
   it('should display a link to "referential" page', function () {
-    expect(this.$('.navbar-header-links__link--referential')).to.have.lengthOf(1);
+    expect(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
   });
 
 });

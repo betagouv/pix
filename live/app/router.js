@@ -33,7 +33,7 @@ export default Router.map(function () {
   this.route('courses');
   this.route('placement-tests');
   this.route('project', { path: '/projet' });
-  this.route('referential', { path: '/referentiel'});
+  this.route('competences');
 
   this.route('challenges.get-preview', { path: '/challenges/:challenge_id/preview' });
 

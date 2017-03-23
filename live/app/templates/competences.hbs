@@ -1,20 +1,20 @@
-<div class="referential-page">
+<div class="competences-page">
 
   {{navbar-header class="navbar-header--white"}}
 
-  <div class="referential-page__panel referential-page__header">
-    <h1 class="referential-page__header-text">Retrouvez les 5 domaines de compétences que Pix souhaite évaluer, en
+  <div class="competences-page__panel competences-page__header">
+    <h1 class="competences-page__header-text">Retrouvez les 5 domaines de compétences que Pix souhaite évaluer, en
       accord avec le référentiel européen DIGCOMP.</h1>
   </div>
 
-  {{#cp-panels class="referential-page__domains" as |panels|}}
+  {{#cp-panels class="competences-page__domains" as |panels|}}
     {{#each model as |domain|}}
-      {{#panels.panel class="rounded-panel referential-domain" as |panel|}}
-        {{#panel.toggle class="referential-domain__header"}}
-          <h2 class="referential-domain__title">{{domain.title}}</h2>
+      {{#panels.panel class="rounded-panel competences-domain" as |panel|}}
+        {{#panel.toggle class="competences-domain__header"}}
+          <h2 class="competences-domain__title">{{domain.title}}</h2>
         {{/panel.toggle}}
         {{#panel.body}}
-          <div class="referential-domain__topics">
+          <div class="competences-domain__topics">
             {{#each domain.topics as |topic|}}
               <div class="domain-topic">
                 <h3 class="domain-topic__title">{{topic.title}}</h3>
