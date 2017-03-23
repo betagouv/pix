@@ -29,6 +29,7 @@ function _saveNewAnswer(newAnswer, reply) {
     .then((solution) => {
       const answerCorrectness = solutionService.match(newAnswer, solution);
       newAnswer.set('result', answerCorrectness);
+      newAnswer.set('resultQrocmDetails', resultDetails);
       newAnswer.set('timeout', newAnswer.get('timeout'));
       newAnswer.save()
         .then((newAnswer) => reply(answerSerializer.serialize(newAnswer)).code(201))
