@@ -107,6 +107,18 @@
   position: relative;
   cursor: pointer; }
 
+.qcu-proposal-label__radio-picture {
+  position: absolute;
+  left: -11px;
+  top: 3px; }
+
+.label-radio-proposal--qcu {
+  display: inline-block;
+  padding-left: 20px;
+  line-height: 21px;
+  position: relative;
+  cursor: pointer; }
+
 /**
  *
  * Configure Checkboxes of proposals
@@ -2116,6 +2128,44 @@ button.routable-modal--close:active {
 
 .qcm-proposal-label__oracle[data-goodness='bad'][data-checked='yes'] {
   text-decoration: line-through; }
+
+.qcu-panel__proposals {
+  margin: 0 0 15px;
+  font-size: 16px; }
+
+.qcu-panel__proposal-item {
+  margin-left: 7px; }
+
+.qcu-panel__proposal-radio {
+  opacity: 0;
+  display: none; }
+
+.qcu-panel__proposal-label {
+  font-weight: 400;
+  width: 100%;
+  display: inline-block;
+  padding-left: 20px;
+  line-height: 21px;
+  position: relative; }
+
+.qcu-proposal-label__oracle[data-goodness='good'] {
+  color: #13c9a0;
+  font-weight: 900; }
+
+.qcu-proposal-label__oracle[data-goodness='bad'][data-checked='yes'] {
+  text-decoration: line-through; }
+
+.picture-radio-proposal--qcu {
+  position: absolute;
+  left: -11px;
+  top: 3px; }
+
+.label-radio-proposal--qcu {
+  display: inline-block;
+  padding-left: 20px;
+  line-height: 21px;
+  position: relative;
+  cursor: pointer; }
 
 /* views */
 /* Sections:
