@@ -2537,7 +2537,8 @@ hr.project-page__presentation-header-line {
 .referential-page__domains {
   max-width: 940px;
   width: 100%;
-  padding: 0 20px; }
+  padding: 0 20px;
+  margin-bottom: 50px; }
   @media (min-width: 992px) {
     .referential-page__domains {
       padding: 0; } }
