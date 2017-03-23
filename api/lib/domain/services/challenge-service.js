@@ -21,7 +21,6 @@ module.exports = {
       }
     });
     [1, 2, 3, 4, 5, 6, 7, 8].forEach(level => nbKnowledgeTagsByLevel[level] = 0);
-    console.error('before', nbKnowledgeTagsByLevel);
     for(const knowledgeTag in knowledgeTagSet) {
       const difficulty = assessmentService._getDifficultyOfKnowledge(knowledgeTag);
       nbKnowledgeTagsByLevel[difficulty]++;

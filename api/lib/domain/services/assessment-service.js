@@ -66,13 +66,17 @@ function _getPerformanceStats(answers, knowledgeData) {
       const knowledgeTags = challenge.knowledgeTags;
       const mainKnowledgeTag = knowledgeTags[0];
       const difficulty = _getDifficultyOfKnowledge(mainKnowledgeTag);
+      let outcome = 0;
+      let direction = 1;
+      let tagBucket = notAcquiredKnowledgeTags;
       if (answer.get('result') === 'ok') {
-        performanceHistory.push({diff: difficulty, outcome: 1});
-        acquiredKnowledgeTags.push(..._propagateKnowledge(knowledgeData.knowledgeTagSet, mainKnowledgeTag, -1));
-      } else {
-        performanceHistory.push({diff: difficulty, outcome: 0});
-        notAcquiredKnowledgeTags.push(..._propagateKnowledge(knowledgeData.knowledgeTagSet, mainKnowledgeTag, 1));
+        outcome = 1;
+        direction = -1;
+        tagBucket = acquiredKnowledgeTags;
       }
+      const relatedKnowledgeTags = _propagateKnowledge(knowledgeData.knowledgeTagSet, mainKnowledgeTag, direction);
+      performanceHistory.push({difficulty, outcome});
+      tagBucket.push(...relatedKnowledgeTags);
     }
   });
   acquiredKnowledgeTags.forEach(knowledgeTag => {
@@ -87,20 +91,23 @@ function _getPerformanceStats(answers, knowledgeData) {
   };
 }
 
+function _add(a, b) {
+  return a + b;
+}
+
 function _computeDiagnosis(performanceStats, knowledgeData) {
 
   const firstFiveLevels = [1, 2, 3, 4, 5];
-  console.error('know', knowledgeData);
-  console.error('know', knowledgeData.nbKnowledgeTagsByLevel);
-  const pixScore = Math.floor(firstFiveLevels.map(level => {
+  let pixScore = 0;
+  firstFiveLevels.forEach(level => {
     if (knowledgeData.nbKnowledgeTagsByLevel[level] > 0) {
-      return performanceStats.nbAcquiredKnowledgeTagsByLevel[level] * 8 / knowledgeData.nbKnowledgeTagsByLevel[level];
-    } else {
-      return 0;
-    }}).reduce((a, b) => a + b));
+      pixScore += performanceStats.nbAcquiredKnowledgeTagsByLevel[level] * 8 / knowledgeData.nbKnowledgeTagsByLevel[level];
+    }
+  });
+  pixScore = Math.floor(pixScore);
 
-  const nbAcquiredKnowledgeTags = firstFiveLevels.map(level => performanceStats.nbAcquiredKnowledgeTagsByLevel[level]).reduce((a, b) => a + b);
-  const nbKnowledgeTags = firstFiveLevels.map(level => knowledgeData.nbKnowledgeTagsByLevel[level]).reduce((a, b) => a + b);
+  const nbAcquiredKnowledgeTags = firstFiveLevels.map(level => performanceStats.nbAcquiredKnowledgeTagsByLevel[level]).reduce(_add);
+  const nbKnowledgeTags = firstFiveLevels.map(level => knowledgeData.nbKnowledgeTagsByLevel[level]).reduce(_add);
 
   const highestLevel = Math.max(...firstFiveLevels.filter(level => knowledgeData.nbKnowledgeTagsByLevel[level] > 0));
   const estimatedLevel = Math.floor(nbAcquiredKnowledgeTags * highestLevel / nbKnowledgeTags);
