@@ -1,8 +1,4 @@
-/* jshint ignore:start */
 
-
-
-/* jshint ignore:end */
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function (process,global){
@@ -19549,6 +19545,158 @@ self.expect = self.chai.expect;
   define('chai', [], vendorModule);
 })();
 
+/* globals jQuery, Testem, require, requirejs */
+
+jQuery(document).ready(function() {
+  function getUrlParams() {
+    var i, param, name, value;
+    var urlParams = Object.create( null );
+    var params = location.search.slice( 1 ).split( "&" );
+    var length = params.length;
+
+    for ( i = 0; i < length; i++ ) {
+      if ( params[ i ] ) {
+        param = params[ i ].split( "=" );
+        name = decodeQueryParam( param[ 0 ] );
+
+        // Allow just a key to turn on a flag, e.g., test.html?noglobals
+        value = param.length === 1 ||
+          decodeQueryParam( param.slice( 1 ).join( "=" ) );
+        if ( name in urlParams ) {
+          urlParams[ name ] = [].concat( urlParams[ name ], value );
+        } else {
+          urlParams[ name ] = value;
+        }
+      }
+    }
+
+    return urlParams;
+  }
+
+  function decodeQueryParam( param ) {
+    return decodeURIComponent( param.replace( /\+/g, "%20" ) );
+  }
+
+  // Add the partition number(s) for better debugging when reading the reporter
+  if (window.Testem) {
+    Testem.on('test-result', function prependPartition(test) {
+      var urlParams = TestLoader._urlParams;
+      var split = urlParams._split;
+      if (split) {
+        test.name = 'Exam Partition #' + (urlParams._partition || 1) + ' - ' + test.name;
+      }
+    });
+  }
+
+  var testLoaderModulePath = 'ember-cli-test-loader/test-support/index';
+
+  if (!requirejs.entries[testLoaderModulePath]) {
+    testLoaderModulePath = 'ember-cli/test-loader';
+  }
+
+  var TestLoaderModule = require(testLoaderModulePath);
+  var TestLoader = TestLoaderModule['default'];
+
+  TestLoader._urlParams = getUrlParams();
+
+  var _super = {
+    require: TestLoader.prototype.require,
+    unsee: TestLoader.prototype.unsee,
+    loadModules: TestLoader.prototype.loadModules,
+  };
+
+  // "Require" the module by adding it to the array of test modules to load
+  TestLoader.prototype.require = function _require(name) {
+    this._testModules.push(name);
+  };
+
+  // Make unsee a no-op
+  TestLoader.prototype.unsee = function _unsee() {};
+
+  TestLoader.prototype.loadModules = function _loadSplitModules() {
+    var urlParams = TestLoader._urlParams;
+    var split = parseInt(urlParams._split, 10);
+    var partitions = urlParams._partition;
+
+    split = isNaN(split) ? 1 : split;
+
+    if (partitions === undefined) {
+      partitions = [1];
+    } else if (!Array.isArray(partitions)) {
+      partitions = [partitions];
+    }
+
+    var testLoader = this;
+
+    testLoader._testModules = [];
+    _super.loadModules.apply(testLoader, arguments);
+
+    var splitModules = splitTestModules(testLoader._testModules, split, partitions);
+
+    splitModules.forEach(function(moduleName) {
+      _super.require.call(testLoader, moduleName);
+      _super.unsee.call(testLoader, moduleName);
+    });
+  };
+
+  function splitTestModules(modules, split, partitions) {
+    if (split < 1) {
+      throw new Error('You must specify a split greater than 0');
+    }
+
+    var lintTestGroups = filterIntoGroups(modules, isLintTest, split);
+    var otherTestGroups = filterIntoGroups(modules, isNotLintTest, split);
+    var tests = [];
+
+    for (var i = 0; i < partitions.length; i++) {
+      var partition = parseInt(partitions[i], 10);
+      if (isNaN(partition)) {
+        throw new Error('You must specify numbers for partition (you specified \'' + partitions + '\')');
+      }
+
+      if (split < partition) {
+        throw new Error('You must specify partitions numbered less than or equal to your split value of ' + split);
+      } else  if (partition < 1) {
+        throw new Error('You must specify partitions numbered greater than 0');
+      }
+
+      var group = partition - 1;
+      tests = tests.concat(lintTestGroups[group], otherTestGroups[group]);
+    }
+
+    return tests;
+  }
+
+  function isLintTest(name) {
+    return name.match(/\.(jshint|(es)?lint-test)$/);
+  }
+
+  function isNotLintTest(name) {
+    return !isLintTest(name);
+  }
+
+  function filterIntoGroups(arr, filter, numGroups) {
+    var filtered = arr.filter(filter);
+    var groups = createGroups(numGroups);
+
+    for (var i = 0; i < filtered.length; i++) {
+      groups[i % numGroups].push(filtered[i]);
+    }
+
+    return groups;
+  }
+
+  function createGroups(num) {
+    var groups = new Array(num);
+
+    for (var i = 0; i < num; i++) {
+      groups[i] = [];
+    }
+
+    return groups;
+  }
+});
+
 define('ember-cli-test-loader/test-support/index', ['exports'], function (exports) {
   /* globals requirejs, require */
   "use strict";
@@ -19584,6 +19732,7 @@ define('ember-cli-test-loader/test-support/index', ['exports'], function (export
 
     return false;
   }
+
   function TestLoader() {
     this._didLogMissingUnsee = false;
   }
@@ -19659,7 +19808,6 @@ define('ember-cli-test-loader/test-support/index', ['exports'], function (export
   };
 });
 define('ember-mocha', ['exports', 'ember-mocha/describe-module', 'ember-mocha/describe-component', 'ember-mocha/describe-model', 'ember-mocha/setup-test-factory', 'mocha', 'ember-test-helpers'], function (exports, _emberMochaDescribeModule, _emberMochaDescribeComponent, _emberMochaDescribeModel, _emberMochaSetupTestFactory, _mocha, _emberTestHelpers) {
-  'use strict';
 
   var setupTest = (0, _emberMochaSetupTestFactory['default'])(_emberTestHelpers.TestModule);
   var setupAcceptanceTest = (0, _emberMochaSetupTestFactory['default'])(_emberTestHelpers.TestModuleForAcceptance);
@@ -19677,7 +19825,6 @@ define('ember-mocha', ['exports', 'ember-mocha/describe-module', 'ember-mocha/de
   exports.setResolver = _emberTestHelpers.setResolver;
 });
 define('ember-mocha/describe-component', ['exports', 'ember-mocha/mocha-module', 'ember-test-helpers'], function (exports, _emberMochaMochaModule, _emberTestHelpers) {
-  'use strict';
 
   function describeComponent(name, description, callbacks, tests) {
     (0, _emberMochaMochaModule.createModule)(_emberTestHelpers.TestModuleForComponent, name, description, callbacks, tests);
@@ -19690,7 +19837,6 @@ define('ember-mocha/describe-component', ['exports', 'ember-mocha/mocha-module',
   exports['default'] = describeComponent;
 });
 define('ember-mocha/describe-model', ['exports', 'ember-mocha/mocha-module', 'ember-test-helpers'], function (exports, _emberMochaMochaModule, _emberTestHelpers) {
-  'use strict';
 
   function describeModel(name, description, callbacks, tests) {
     (0, _emberMochaMochaModule.createModule)(_emberTestHelpers.TestModuleForModel, name, description, callbacks, tests);
@@ -19703,7 +19849,6 @@ define('ember-mocha/describe-model', ['exports', 'ember-mocha/mocha-module', 'em
   exports['default'] = describeModel;
 });
 define('ember-mocha/describe-module', ['exports', 'ember-mocha/mocha-module', 'ember-test-helpers'], function (exports, _emberMochaMochaModule, _emberTestHelpers) {
-  'use strict';
 
   function describeModule(name, description, callbacks, tests) {
     (0, _emberMochaMochaModule.createModule)(_emberTestHelpers.TestModule, name, description, callbacks, tests);
@@ -19716,8 +19861,6 @@ define('ember-mocha/describe-module', ['exports', 'ember-mocha/mocha-module', 'e
   exports['default'] = describeModule;
 });
 define('ember-mocha/mocha-module', ['exports', 'ember', 'mocha', 'ember-test-helpers'], function (exports, _ember, _mocha, _emberTestHelpers) {
-  'use strict';
-
   exports.createModule = createModule;
   exports.createOnly = createOnly;
   exports.createSkip = createSkip;
@@ -19779,8 +19922,6 @@ define('ember-mocha/mocha-module', ['exports', 'ember', 'mocha', 'ember-test-hel
   }
 });
 define('ember-mocha/setup-test-factory', ['exports', 'mocha', 'ember-test-helpers'], function (exports, _mocha, _emberTestHelpers) {
-  'use strict';
-
   exports['default'] = function (Constructor) {
     return function setupTest(moduleName, options) {
       var module;
@@ -19807,7 +19948,6 @@ define('ember-mocha/setup-test-factory', ['exports', 'mocha', 'ember-test-helper
   };
 });
 define('ember-test-helpers', ['exports', 'ember', 'ember-test-helpers/test-module', 'ember-test-helpers/test-module-for-acceptance', 'ember-test-helpers/test-module-for-integration', 'ember-test-helpers/test-module-for-component', 'ember-test-helpers/test-module-for-model', 'ember-test-helpers/test-context', 'ember-test-helpers/test-resolver'], function (exports, _ember, _emberTestHelpersTestModule, _emberTestHelpersTestModuleForAcceptance, _emberTestHelpersTestModuleForIntegration, _emberTestHelpersTestModuleForComponent, _emberTestHelpersTestModuleForModel, _emberTestHelpersTestContext, _emberTestHelpersTestResolver) {
-  'use strict';
 
   _ember['default'].testing = true;
 
@@ -19822,8 +19962,6 @@ define('ember-test-helpers', ['exports', 'ember', 'ember-test-helpers/test-modul
   exports.setResolver = _emberTestHelpersTestResolver.setResolver;
 });
 define('ember-test-helpers/-legacy-overrides', ['exports', 'ember', 'ember-test-helpers/has-ember-version'], function (exports, _ember, _emberTestHelpersHasEmberVersion) {
-  'use strict';
-
   exports.preGlimmerSetupIntegrationForComponent = preGlimmerSetupIntegrationForComponent;
 
   function preGlimmerSetupIntegrationForComponent() {
@@ -19916,8 +20054,6 @@ define('ember-test-helpers/-legacy-overrides', ['exports', 'ember', 'ember-test-
   }
 });
 define('ember-test-helpers/abstract-test-module', ['exports', 'ember-test-helpers/wait', 'ember-test-helpers/test-context', 'ember'], function (exports, _emberTestHelpersWait, _emberTestHelpersTestContext, _ember) {
-  'use strict';
-
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -20122,9 +20258,6 @@ define('ember-test-helpers/abstract-test-module', ['exports', 'ember-test-helper
   exports['default'] = _default;
 });
 define('ember-test-helpers/build-registry', ['exports', 'require', 'ember'], function (exports, _require, _ember) {
-  /* globals global, self, requirejs */
-
-  'use strict';
 
   function exposeRegistryMethodsWithoutDeprecations(container) {
     var methods = ['register', 'unregister', 'resolve', 'normalize', 'typeInjection', 'injection', 'factoryInjection', 'factoryTypeInjection', 'has', 'options', 'optionsForType'];
@@ -20245,9 +20378,8 @@ define('ember-test-helpers/build-registry', ['exports', 'require', 'ember'], fun
     };
   };
 });
+/* globals global, self, requirejs */
 define('ember-test-helpers/has-ember-version', ['exports', 'ember'], function (exports, _ember) {
-  'use strict';
-
   exports['default'] = hasEmberVersion;
 
   function hasEmberVersion(major, minor) {
@@ -20258,8 +20390,6 @@ define('ember-test-helpers/has-ember-version', ['exports', 'ember'], function (e
   }
 });
 define("ember-test-helpers/test-context", ["exports"], function (exports) {
-  "use strict";
-
   exports.setContext = setContext;
   exports.getContext = getContext;
   exports.unsetContext = unsetContext;
@@ -20278,8 +20408,6 @@ define("ember-test-helpers/test-context", ["exports"], function (exports) {
   }
 });
 define('ember-test-helpers/test-module-for-acceptance', ['exports', 'ember-test-helpers/abstract-test-module', 'ember', 'ember-test-helpers/test-context'], function (exports, _emberTestHelpersAbstractTestModule, _ember, _emberTestHelpersTestContext) {
-  'use strict';
-
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
   var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -20336,8 +20464,6 @@ define('ember-test-helpers/test-module-for-acceptance', ['exports', 'ember-test-
   exports['default'] = _default;
 });
 define('ember-test-helpers/test-module-for-component', ['exports', 'ember-test-helpers/test-module', 'ember', 'ember-test-helpers/has-ember-version', 'ember-test-helpers/-legacy-overrides'], function (exports, _emberTestHelpersTestModule, _ember, _emberTestHelpersHasEmberVersion, _emberTestHelpersLegacyOverrides) {
-  'use strict';
-
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
   var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -20670,8 +20796,6 @@ define('ember-test-helpers/test-module-for-component', ['exports', 'ember-test-h
   }
 });
 define('ember-test-helpers/test-module-for-integration', ['exports', 'ember', 'ember-test-helpers/abstract-test-module', 'ember-test-helpers/test-resolver', 'ember-test-helpers/build-registry', 'ember-test-helpers/has-ember-version', 'ember-test-helpers/-legacy-overrides', 'ember-test-helpers/test-module-for-component'], function (exports, _ember, _emberTestHelpersAbstractTestModule, _emberTestHelpersTestResolver, _emberTestHelpersBuildRegistry, _emberTestHelpersHasEmberVersion, _emberTestHelpersLegacyOverrides, _emberTestHelpersTestModuleForComponent) {
-  'use strict';
-
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
   var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -20895,10 +21019,6 @@ define('ember-test-helpers/test-module-for-integration', ['exports', 'ember', 'e
   exports['default'] = _default;
 });
 define('ember-test-helpers/test-module-for-model', ['exports', 'require', 'ember-test-helpers/test-module', 'ember'], function (exports, _require, _emberTestHelpersTestModule, _ember) {
-  /* global DS, requirejs */ // added here to prevent an import from erroring when ED is not present
-
-  'use strict';
-
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
   var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -20969,9 +21089,8 @@ define('ember-test-helpers/test-module-for-model', ['exports', 'require', 'ember
 
   exports['default'] = _default;
 });
+/* global DS, requirejs */ // added here to prevent an import from erroring when ED is not present
 define('ember-test-helpers/test-module', ['exports', 'ember', 'ember-test-helpers/abstract-test-module', 'ember-test-helpers/test-resolver', 'ember-test-helpers/build-registry', 'ember-test-helpers/has-ember-version'], function (exports, _ember, _emberTestHelpersAbstractTestModule, _emberTestHelpersTestResolver, _emberTestHelpersBuildRegistry, _emberTestHelpersHasEmberVersion) {
-  'use strict';
-
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
   var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -21282,8 +21401,6 @@ define('ember-test-helpers/test-module', ['exports', 'ember', 'ember-test-helper
   exports['default'] = _default;
 });
 define('ember-test-helpers/test-resolver', ['exports'], function (exports) {
-  'use strict';
-
   exports.setResolver = setResolver;
   exports.getResolver = getResolver;
   var __resolver__;
@@ -21301,10 +21418,6 @@ define('ember-test-helpers/test-resolver', ['exports'], function (exports) {
   }
 });
 define('ember-test-helpers/wait', ['exports', 'ember'], function (exports, _ember) {
-  /* globals self */
-
-  'use strict';
-
   var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
 
   exports._teardownAJAXHooks = _teardownAJAXHooks;
@@ -21398,8 +21511,8 @@ define('ember-test-helpers/wait', ['exports', 'ember'], function (exports, _embe
     });
   }
 });
+/* globals self */
 define('mocha', ['exports', 'ember'], function (exports, _ember) {
-  'use strict';
 
   /*global mocha, describe, context, it, before, after */
 
@@ -21476,8 +21589,6 @@ define('mocha', ['exports', 'ember'], function (exports, _ember) {
   exports.after = after;
   exports.afterEach = afterEach;
 });
-/* jshint ignore:start */
-
 runningTests = true;
 
 if (window.Testem) {
@@ -21485,6 +21596,4 @@ if (window.Testem) {
 }
 
 
-
-/* jshint ignore:end */
 //# sourceMappingURL=test-support.map
