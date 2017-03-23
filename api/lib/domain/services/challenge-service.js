@@ -1,4 +1,5 @@
 const _ = require('../../infrastructure/utils/lodash-utils');
+const assessmentService = require('./assessment-service');
 
 function _countResult(about, desiredResult) {
   return _.reduce(about, function(sum, o) {
@@ -12,15 +13,23 @@ module.exports = {
   getKnowledgeData(challengeList) {
     const challengesById = {};
     const knowledgeTagSet = {};
-    _.forEach(challengeList, challenge => {
-      if(challenge.knowledgeTags !== undefined && challenge.knowledgeTags.length > 0) {
+    const nbKnowledgeTagsByLevel = {};
+    challengeList.forEach(challenge => {
+      if(challenge.knowledgeTags && challenge.knowledgeTags.length > 0) {
         challengesById[challenge.id] = challenge;
         challenge.knowledgeTags.forEach(knowledge => knowledgeTagSet[knowledge] = true);
       }
     });
+    [1, 2, 3, 4, 5, 6, 7, 8].forEach(level => nbKnowledgeTagsByLevel[level] = 0);
+    console.error('before', nbKnowledgeTagsByLevel);
+    for(const knowledgeTag in knowledgeTagSet) {
+      const difficulty = assessmentService._getDifficultyOfKnowledge(knowledgeTag);
+      nbKnowledgeTagsByLevel[difficulty]++;
+    }
     return {
-      challengesById: challengesById,
-      knowledgeTagSet: knowledgeTagSet
+      challengesById,
+      knowledgeTagSet,
+      nbKnowledgeTagsByLevel
     };
   },
 

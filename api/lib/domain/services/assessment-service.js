@@ -53,6 +53,62 @@ function _propagateKnowledge(knowledgeList, startNode, direction) {
   return nodeList;
 }
 
+function _getPerformanceStats(answers, knowledgeData) {
+
+  const acquiredKnowledgeTags = [];
+  const notAcquiredKnowledgeTags = [];
+  const performanceHistory = [];
+  const nbAcquiredKnowledgeTagsByLevel = {};
+  [1, 2, 3, 4, 5, 6, 7, 8].forEach(level => nbAcquiredKnowledgeTagsByLevel[level] = 0);
+  _.forEach(answers, answer => {
+    const challenge = knowledgeData.challengesById[answer.get('challengeId')];
+    if (challenge) {
+      const knowledgeTags = challenge.knowledgeTags;
+      const mainKnowledgeTag = knowledgeTags[0];
+      const difficulty = _getDifficultyOfKnowledge(mainKnowledgeTag);
+      if (answer.get('result') === 'ok') {
+        performanceHistory.push({diff: difficulty, outcome: 1});
+        acquiredKnowledgeTags.push(..._propagateKnowledge(knowledgeData.knowledgeTagSet, mainKnowledgeTag, -1));
+      } else {
+        performanceHistory.push({diff: difficulty, outcome: 0});
+        notAcquiredKnowledgeTags.push(..._propagateKnowledge(knowledgeData.knowledgeTagSet, mainKnowledgeTag, 1));
+      }
+    }
+  });
+  acquiredKnowledgeTags.forEach(knowledgeTag => {
+    const difficulty = _getDifficultyOfKnowledge(knowledgeTag);
+    nbAcquiredKnowledgeTagsByLevel[difficulty]++;
+  });
+  return {
+    acquiredKnowledgeTags,
+    notAcquiredKnowledgeTags,
+    performanceHistory,
+    nbAcquiredKnowledgeTagsByLevel
+  };
+}
+
+function _computeDiagnosis(performanceStats, knowledgeData) {
+
+  const firstFiveLevels = [1, 2, 3, 4, 5];
+  console.error('know', knowledgeData);
+  console.error('know', knowledgeData.nbKnowledgeTagsByLevel);
+  const pixScore = Math.floor(firstFiveLevels.map(level => {
+    if (knowledgeData.nbKnowledgeTagsByLevel[level] > 0) {
+      return performanceStats.nbAcquiredKnowledgeTagsByLevel[level] * 8 / knowledgeData.nbKnowledgeTagsByLevel[level];
+    } else {
+      return 0;
+    }}).reduce((a, b) => a + b));
+
+  const nbAcquiredKnowledgeTags = firstFiveLevels.map(level => performanceStats.nbAcquiredKnowledgeTagsByLevel[level]).reduce((a, b) => a + b);
+  const nbKnowledgeTags = firstFiveLevels.map(level => knowledgeData.nbKnowledgeTagsByLevel[level]).reduce((a, b) => a + b);
+
+  const highestLevel = Math.max(...firstFiveLevels.filter(level => knowledgeData.nbKnowledgeTagsByLevel[level] > 0));
+  const estimatedLevel = Math.floor(nbAcquiredKnowledgeTags * highestLevel / nbKnowledgeTags);
+  return {
+    estimatedLevel,
+    pixScore
+  };
+}
 
 function selectNextChallengeId(course, currentChallengeId, assessment) {
 
@@ -85,59 +141,13 @@ module.exports = {
       return assessment;
     }
 
-    const acquiredKnowledgeTags = [];
-    const notAcquiredKnowledgeTags = [];
-    const performanceHistory = [];
+    const performanceStats = _getPerformanceStats(answers, knowledgeData);
+    const diagnosis = _computeDiagnosis(performanceStats, knowledgeData);
 
-    _.forEach(answers, answer => {
-      const challenge = knowledgeData.challengesById[answer.get('challengeId')];
-      if (challenge !== undefined) {
-        const knowledgeTags = challenge.knowledgeTags;
-        const mainKnowledgeTag = knowledgeTags[0];
-        const difficulty = _getDifficultyOfKnowledge(mainKnowledgeTag);
-        if (answer.get('result') === 'ok') {
-          performanceHistory.push({diff: difficulty, outcome: 1});
-          acquiredKnowledgeTags.push(..._propagateKnowledge(knowledgeData.knowledgeTagSet, mainKnowledgeTag, -1));
-        } else {
-          performanceHistory.push({diff: difficulty, outcome: 0});
-          notAcquiredKnowledgeTags.push(..._propagateKnowledge(knowledgeData.knowledgeTagSet, mainKnowledgeTag, 1));
-        }
-      }
-    });
-
-    const nbAcquiredKnowledgeTagsByLevel = {};
-    const nbKnowledgeTagsByLevel = {};
-
-    [1, 2, 3, 4, 5, 6, 7, 8].forEach(level => {
-      nbKnowledgeTagsByLevel[level] = 0;
-      nbAcquiredKnowledgeTagsByLevel[level] = 0;
-    });
-
-    _.forEach(acquiredKnowledgeTags, knowledgeTag => {
-      const difficulty = _getDifficultyOfKnowledge(knowledgeTag);
-      nbAcquiredKnowledgeTagsByLevel[difficulty]++;
-    });
-
-    for(const knowledgeTag in knowledgeData.knowledgeTagSet) {
-      const difficulty = _getDifficultyOfKnowledge(knowledgeTag);
-      nbKnowledgeTagsByLevel[difficulty]++;
-    }
-
-
-    const firstFiveLevels = [1, 2, 3, 4, 5];
-
-    const pixScore = Math.floor(firstFiveLevels.map(level => (nbKnowledgeTagsByLevel[level] > 0) ? nbAcquiredKnowledgeTagsByLevel[level] * 8 / nbKnowledgeTagsByLevel[level] : 0).reduce((a, b) => a + b));
-
-    const nbAcquiredKnowledgeTags = firstFiveLevels.map(level => nbAcquiredKnowledgeTagsByLevel[level]).reduce((a, b) => a + b);
-    const nbKnowledgeTags = firstFiveLevels.map(level => nbKnowledgeTagsByLevel[level]).reduce((a, b) => a + b);
-
-    const highestLevel = Math.max(...firstFiveLevels.filter(level => nbKnowledgeTagsByLevel[level] > 0));
-    const estimatedLevel = Math.floor(nbAcquiredKnowledgeTags * highestLevel / nbKnowledgeTags);
-
-    assessment.attributes.estimatedLevel = estimatedLevel;  // For the reviewer: maybe this is a hack?
-    assessment.attributes.pixScore = pixScore;
-    assessment.attributes.notAcquiredKnowledgeTags = notAcquiredKnowledgeTags;
-    assessment.attributes.acquiredKnowledgeTags = acquiredKnowledgeTags;
+    assessment.set('estimatedLevel', diagnosis.estimatedLevel);
+    assessment.set('pixScore', diagnosis.pixScore);
+    assessment.set('notAcquiredKnowledgeTags', performanceStats.notAcquiredKnowledgeTags);
+    assessment.set('acquiredKnowledgeTags', performanceStats.acquiredKnowledgeTags);
     return assessment;
   },
 

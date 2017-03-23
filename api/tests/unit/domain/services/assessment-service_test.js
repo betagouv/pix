@@ -14,18 +14,18 @@ function _buildChallenge(knowledgeTags) {
 
 function _buildAssessment(estimatedLevel, pixScore, notAcquiredKnowledgeTags, acquiredKnowledgeTags, cid) {
   const assessment = new Assessment({id: 'assessment_id'});
-  assessment.attributes.estimatedLevel = estimatedLevel;
-  assessment.attributes.pixScore = pixScore;
-  assessment.attributes.notAcquiredKnowledgeTags = notAcquiredKnowledgeTags;
-  assessment.attributes.acquiredKnowledgeTags = acquiredKnowledgeTags;
+  assessment.set('estimatedLevel', estimatedLevel);
+  assessment.set('pixScore', pixScore);
+  assessment.set('notAcquiredKnowledgeTags', notAcquiredKnowledgeTags);
+  assessment.set('acquiredKnowledgeTags', acquiredKnowledgeTags);
   assessment.cid = cid;
   return assessment;
 }
 
 function _buildAnswer(challengeId, result) {
   const answer = new Answer({id: 'answer_id'});
-  answer.attributes.challengeId = challengeId;
-  answer.attributes.result = result;
+  answer.set('challengeId', challengeId);
+  answer.set('result', result);
   return answer;
 }
 
@@ -72,7 +72,8 @@ describe('Unit | Domain | Services | assessment-service', function () {
         'challenge_web_2': _buildChallenge(['@web2']),
         'challenge_url_1': _buildChallenge(['@url1'])
       },
-      knowledgeTagSet: {'@web1': true, '@web2': true, '@url1': true}
+      knowledgeTagSet: {'@web1': true, '@web2': true, '@url1': true},
+      nbKnowledgeTagsByLevel: {1: 2, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0}
     };
 
     const assessment = new Assessment({id: 'assessment_id'});
@@ -87,7 +88,6 @@ describe('Unit | Domain | Services | assessment-service', function () {
       { answers: [partialAnswerWeb1, correctAnswerUrl1], title: 'web1 partial, url1 correct', score: 4, level: 0, acquired: ['@url1'], notAcquired: ['@web1', '@web2'] },
       { answers: [correctAnswerWeb2, correctAnswerUrl1], title: 'web2 correct, url1 correct', score: 16, level: 2, acquired: ['@web2', '@web1', '@url1'], notAcquired: [] },
     ].forEach(pattern => {
-
       it(`should compute ${pattern.score} and level ${pattern.level} when user pattern is ${pattern.title}`, function () {
         const scoredAssessment = service.populateScore(assessment, pattern.answers, knowledgeData);
         const expectedScoredAssessment = _buildAssessment(pattern.level, pattern.score, pattern.notAcquired, pattern.acquired, scoredAssessment.cid);
