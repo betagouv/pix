@@ -88,9 +88,10 @@ const domains = [{
 
 export default Ember.Route.extend({
 
+  panelActions: Ember.inject.service(),
+
   model() {
     return domains;
   }
-
 
 });

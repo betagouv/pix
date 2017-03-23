@@ -2,30 +2,34 @@
 
   {{navbar-header class="navbar-header--white"}}
 
-  <section class="referential-page__panel referential-page__header">
-    <h1 class="referential-page__header-text">Retrouver les 5 domaines de compétences que pix souhaite évaluer, en
+  <div class="referential-page__panel referential-page__header">
+    <h1 class="referential-page__header-text">Retrouvez les 5 domaines de compétences que Pix souhaite évaluer, en
       accord avec le référentiel européen DIGCOMP.</h1>
-  </section>
+  </div>
 
-  {{#each model as |domain|}}
-    <section class="rounded-panel referential-domain referential-domain--information">
-      <header class="referential-domain__header">
-        <h2 class="referential-domain__title">{{domain.title}}</h2>
-      </header>
-      <div class="referential-domain__topics">
-        {{#each domain.topics as |topic|}}
-          <div class="domain-topic">
-            <h3 class="domain-topic__title">{{topic.title}}</h3>
-            <p class="domain-topic__description">{{topic.description}}</p>
-            <div class="domain-topic__themes">
-              <h4 class="domain-topic__themes-title">Thématiques associées</h4>
-              <p class="domain-topic__themes-content">{{topic.themes}}</p>
-            </div>
+  {{#cp-panels class="referential-page__domains" as |panels|}}
+    {{#each model as |domain|}}
+      {{#panels.panel class="rounded-panel referential-domain" as |panel|}}
+        {{#panel.toggle class="referential-domain__header"}}
+          <h2 class="referential-domain__title">{{domain.title}}</h2>
+        {{/panel.toggle}}
+        {{#panel.body}}
+          <div class="referential-domain__topics">
+            {{#each domain.topics as |topic|}}
+              <div class="domain-topic">
+                <h3 class="domain-topic__title">{{topic.title}}</h3>
+                <p class="domain-topic__description">{{topic.description}}</p>
+                <div class="domain-topic__themes">
+                  <h4 class="domain-topic__themes-title">Thématiques associées</h4>
+                  <p class="domain-topic__themes-content">{{topic.themes}}</p>
+                </div>
+              </div>
+            {{/each}}
           </div>
-        {{/each}}
-      </div>
-    </section>
-  {{/each}}
+        {{/panel.body}}
+      {{/panels.panel}}
+    {{/each}}
+  {{/cp-panels}}
 
 </div>
 
