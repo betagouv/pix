@@ -60,6 +60,10 @@
 
 .competences-domain__header {
   color: $charcoal-grey;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
 
   &:hover,
   &:focus,
@@ -72,8 +76,29 @@
 .competences-domain__title {
   margin: 15px 0;
   font-family: $font-raleway;
-  font-size: 40px;
   font-weight: 500;
+  font-size: 26px;
+
+  @media (min-width: 992px) {
+    font-size: 40px;
+  }
+}
+
+.competences-domain__title-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-transform: rotate(-315deg);
+  transform: rotate(-315deg);
+  border: solid 2px #979797;
+  border-top: none;
+  border-left: none;
+}
+
+.cp-is-open > .competences-domain__title-icon {
+  border: solid 2px #979797;
+  border-bottom: none;
+  border-right: none;
 }
 
 .domain-topic {
@@ -112,4 +137,3 @@
   font-weight: 300;
   color: $charcoal-grey;
 }
-

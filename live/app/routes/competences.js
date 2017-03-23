@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 const domains = [{
   id: 'information-et-donnees',
-  title: 'Informations et données',
+  title: 'Informations et données',
   topics: [{
     title: 'Mener une recherche et une veille d’information',
     description: 'Mener une recherche et une veille d’information pour répondre à un besoin d’information et se tenir au courant de l’actualité d’u sujet (avec un moteur de recherche, au sein d’un réseau social, par abonnement à des flux ou des lettres d’information, ou tout autre moyen.)',
@@ -18,7 +18,7 @@ const domains = [{
   }]
 }, {
   id: 'communication-et-collaboration',
-  title: 'Communication et collaboration',
+  title: 'Communication et collaboration',
   topics: [{
     title: 'Interagir',
     description: 'Interagir avec des individus et de petits groupespour échanger dans divers contextes liés à la vie privée ou à une activité professionnelle, de façon ponctuelle et récurrente (avec une messagerie électronique, une messagerie instantanée, un système de visio-conférence, etc.).',
@@ -38,7 +38,7 @@ const domains = [{
   }]
 }, {
   id: 'creation-de-contenu',
-  title: 'Création de contenu',
+  title: 'Création de contenu',
   topics: [{
     title: 'Développer des documents textuels',
     description: 'Produire des documents à contenu majoritairement textuel pour communiquer des idées, rendre compte et valoriser ses travaux (avec des logiciels de traitement de texte, de présentation, de création de page web, de carte conceptuelle, etc.).',
@@ -58,7 +58,7 @@ const domains = [{
   }]
 }, {
   id: 'protection-et-securite',
-  title: 'Protection et sécurité',
+  title: 'Protection et sécurité',
   topics: [{
     title: 'Sécuriser l\'environnement numérique',
     description: 'Sécuriser les équipements, les communications et les données pour se prémunir contre les attaques, pièges, désagréments et incidents susceptibles de nuire au bon fonctionnement des matériels, logiciels, sites internet, et de compromettre les transactions et les données (avec des logiciels de protection, des techniques de chiffrement, la maîtrise de bonnes pratiques, etc.).',

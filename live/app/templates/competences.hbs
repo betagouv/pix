@@ -3,8 +3,9 @@
   {{navbar-header class="navbar-header--white"}}
 
   <div class="competences-page__panel competences-page__header">
-    <h1 class="competences-page__header-text">Retrouvez les 5 domaines de compétences que Pix souhaite évaluer, en
-      accord avec le référentiel européen DIGCOMP.</h1>
+    <h1 class="competences-page__header-text">
+      Retrouvez les 5 domaines de compétences que Pix souhaite évaluer, en accord avec le référentiel européen DIGCOMP.
+    </h1>
   </div>
 
   {{#cp-panels class="competences-page__domains" as |panels|}}
@@ -12,6 +13,7 @@
       {{#panels.panel class="rounded-panel competences-domain" as |panel|}}
         {{#panel.toggle class="competences-domain__header"}}
           <h2 class="competences-domain__title">{{domain.title}}</h2>
+          <span class="competences-domain__title-icon"></span>
         {{/panel.toggle}}
         {{#panel.body}}
           <div class="competences-domain__topics">
