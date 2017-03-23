@@ -4173,7 +4173,7 @@ define('pix-live/tests/integration/components/pix-logo-test', ['exports', 'chai'
     });
 
     (0, _mocha.it)('should display "béta"', function () {
-      (0, _chai.expect)(this.$().text().trim()).to.equal('Béta');
+      (0, _chai.expect)(this.$().text().trim()).to.equal('Bêta');
     });
   });
 });
