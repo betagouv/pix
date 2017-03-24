@@ -4663,7 +4663,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test.lint-test'
     });
   });
 });
-define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | QrocProposal', function () {
 
@@ -4671,13 +4671,56 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', '
       integration: true
     });
 
-    (0, _mocha.it)('renders', function () {
-      this.render(Ember.HTMLBars.template({
-        'id': '1i/FB0iM',
-        'block': '{"statements":[["append",["unknown",["qroc-proposal"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-        'meta': {}
-      }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+    beforeEach(function () {
+      var block = [];
+      block.push(_ember['default'].Object.create({ name: 'myInput', input: 'mylabel' }));
+      this.set('blocks', block);
+    });
+
+    (0, _mocha.describe)('Component behavior when user fill input of challenge:', function () {
+
+      (0, _mocha.it)('renders', function () {
+        this.render(_ember['default'].HTMLBars.template({
+          'id': '1i/FB0iM',
+          'block': '{"statements":[["append",["unknown",["qroc-proposal"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should display a value when a non-empty value is providing by user', function () {
+        // given
+        this.set('answerValue', 'myValue');
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'kJs1JVvn',
+          'block': '{"statements":[["append",["helper",["qroc-proposal"],null,[["blocks","answerValue"],[["get",["blocks"]],["get",["answerValue"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // then
+        (0, _chai.expect)(this.$('.challenge-response__proposal-input').val()).to.be.equal('myValue');
+      });
+    });
+
+    (0, _mocha.describe)('Component behavior when user skip challenge:', function () {
+
+      [{ input: 'aband', output: 'aband' }, { input: '#aband#', output: '#aband#' }, { input: 'aband#', output: 'aband#' }, { input: 'ABAND', output: 'ABAND' }, { input: '#ABAND', output: '#ABAND' }, { input: 'ABAND#', output: 'ABAND#' }, { input: '#ABAND#', output: '' }, { input: '', output: '' }].forEach(function (_ref) {
+        var input = _ref.input;
+        var output = _ref.output;
+
+        (0, _mocha.it)('should display \'\' value ' + input + ' is providing to component', function () {
+          // given
+          this.set('answerValue', input);
+          // when
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'kJs1JVvn',
+            'block': '{"statements":[["append",["helper",["qroc-proposal"],null,[["blocks","answerValue"],[["get",["blocks"]],["get",["answerValue"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+          // then
+          (0, _chai.expect)(this.$('.challenge-response__proposal-input').val()).to.be.equal(output);
+        });
+      });
     });
   });
 });
