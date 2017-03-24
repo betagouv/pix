@@ -42,7 +42,9 @@
                      id="attachment{{index}}"
                      class="challenge-statement__file-option-input"
                      name="attachment_selector"
-                     value="{{attachmentUrl}}"/>
+                     value="{{attachmentUrl}}"
+                     onchange={{action "checkState"}}
+              />
 
               {{!-- Surrounding label --}}
               <label for="attachment{{index}}" onclick={{action "selectAttachementUrl" attachmentUrl}} class="label-checkbox-downloadable">

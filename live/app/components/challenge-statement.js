@@ -2,14 +2,12 @@ import Ember from 'ember';
 
 const ChallengeStatement = Ember.Component.extend({
 
-  selectedAttachmentUrl: null,
+  selectedAttachmentUrl: Ember.computed('challenge.attachments', function(){
+    return this.get('challenge.attachments.firstObject');
+  }),
 
-  init() {
-    this._super(...arguments);
-    this.selectedAttachmentUrl = this.get('challenge.attachments.firstObject');
-  },
 
-  didInsertElement() {
+  didRender() {
     this._super(...arguments);
     const selectedRadio = this.$(`.challenge-statement__file-option-input[value="${this.selectedAttachmentUrl}"]`);
     selectedRadio.attr('checked', 'checked');
@@ -18,6 +16,13 @@ const ChallengeStatement = Ember.Component.extend({
   actions: {
     selectAttachementUrl(attachementUrl) {
       this.set('selectedAttachmentUrl', attachementUrl);
+    },
+
+    checkState(){
+      /* eslint-disable no-alert, no-console */
+      console.log('brm');
+
+      /* eslint-enable no-alert, no-console */
     }
   }
 });

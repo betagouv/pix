@@ -182,8 +182,6 @@ describe.only('Integration | Component | ChallengeStatement', function () {
         renderChallengeStatement(this);
 
         // then
-        console.log('this.$(\'.challenge-statement__file-option-input\') : ' +  JSON.stringify(this.$('.challenge-statement__file-option-input')));
-
         const $firstRadioButton = this.$('.challenge-statement__file-option-input')[0];
         const $secondRadioButton = this.$('.challenge-statement__file-option-input')[1];
         expect($firstRadioButton.checked).to.be.true;
@@ -198,8 +196,6 @@ describe.only('Integration | Component | ChallengeStatement', function () {
         renderChallengeStatement(this);
 
         // then
-        console.log('this.$(\'.challenge-statement__file-option-input\') : ' +  JSON.stringify(this.$('.challenge-statement__file-option-input')));
-
         const $firstRadioButton = this.$('.challenge-statement__file-option-input')[0];
         const $secondRadioButton = this.$('.challenge-statement__file-option-input')[1];
         expect($firstRadioButton.checked).to.be.true;
