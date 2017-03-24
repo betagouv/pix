@@ -1905,38 +1905,43 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test.lint-test
 });
 define('pix-live/tests/acceptance/k1-competences-page-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  _mocha.describe.skip('Acceptance | competences page', function () {
+  (0, _mocha.describe)('Acceptance | competences page', function () {
+
     var application = undefined;
 
-    (0, _mocha.beforeEach)(function () {
+    (0, _mocha.before)(function () {
+      // given
       application = (0, _pixLiveTestsHelpersStartApp['default'])();
+
+      // when
+      visit('/competences');
     });
 
-    (0, _mocha.afterEach)(function () {
+    (0, _mocha.after)(function () {
       (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
     });
 
-    (0, _mocha.it)('can visit /referentiel', function () {
-      visit('/referentiel');
-
-      return andThen(function () {
-        (0, _chai.expect)(currentURL()).to.equal('/competences');
-      });
+    (0, _mocha.it)('can visit /competences', function () {
+      (0, _chai.expect)(currentURL()).to.equal('/competences');
     });
 
     (0, _mocha.it)('should display page title', function () {
-      visit('/competences');
-
-      return andThen(function () {
-        (0, _chai.expect)(find('.referential-page__header-text')).to.have.lengthOf(1);
-      });
+      (0, _chai.expect)(find('.competences-page__header-text')).to.have.lengthOf(1);
     });
 
-    (0, _mocha.it)('should display as many sections as referential domains', function () {
-      visit('/competences');
+    (0, _mocha.it)('should display as many sections as competences domains', function () {
+      (0, _chai.expect)(find('.competences-domain')).to.have.lengthOf(5);
+    });
 
+    (0, _mocha.it)('should hide all sections by default', function () {
+      (0, _chai.expect)(find('.competences-domain__topics')).to.have.lengthOf(0);
+    });
+
+    (0, _mocha.it)('should open a section when one clicks on its title', function () {
+      var $firstSectionHeader = find('.competences-domain__header').first();
+      click($firstSectionHeader);
       return andThen(function () {
-        (0, _chai.expect)(find('.referential-domain')).to.have.lengthOf(5);
+        (0, _chai.expect)(find('.competences-domain__topics')).to.have.lengthOf(1);
       });
     });
   });

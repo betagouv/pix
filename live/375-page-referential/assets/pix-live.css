@@ -2573,7 +2573,14 @@ hr.project-page__presentation-header-line {
   overflow: visible; }
 
 .competences-domain__header {
-  color: #3e4149; }
+  color: #3e4149;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: justify;
+  justify-content: space-between; }
   .competences-domain__header:hover, .competences-domain__header:focus, .competences-domain__header:active {
     color: #3e4149;
     text-decoration: none; }
@@ -2581,8 +2588,27 @@ hr.project-page__presentation-header-line {
 .competences-domain__title {
   margin: 15px 0;
   font-family: "Raleway", Arial, sans-serif;
-  font-size: 40px;
-  font-weight: 500; }
+  font-weight: 500;
+  font-size: 26px; }
+  @media (min-width: 992px) {
+    .competences-domain__title {
+      font-size: 40px; } }
+
+.competences-domain__title-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  transform: rotate(-315deg);
+  border: solid 2px #979797;
+  border-top: none;
+  border-left: none; }
+
+/* XXX we do not have the choice here to bypass BEM for managing collapsible panel title in "closed" status. */
+.cp-is-open > .competences-domain__title-icon {
+  border: solid 2px #979797;
+  border-bottom: none;
+  border-right: none; }
 
 .domain-topic {
   border-top: 1px solid #d8d8d8;
