@@ -6,23 +6,13 @@ const ChallengeStatement = Ember.Component.extend({
     return this.get('challenge.attachments.firstObject');
   }),
 
-
-  didRender() {
-    this._super(...arguments);
-    const selectedRadio = this.$(`.challenge-statement__file-option-input[value="${this.selectedAttachmentUrl}"]`);
-    selectedRadio.attr('checked', 'checked');
-  },
+  attachmentsData: Ember.computed('challenge.attachements',function(){
+    return this.get('challenge.attachments');
+  }),
 
   actions: {
     selectAttachementUrl(attachementUrl) {
       this.set('selectedAttachmentUrl', attachementUrl);
-    },
-
-    checkState(){
-      /* eslint-disable no-alert, no-console */
-      console.log('brm');
-
-      /* eslint-enable no-alert, no-console */
     }
   }
 });

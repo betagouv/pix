@@ -34,17 +34,17 @@
           </div>
         </p>
         <ul class="challenge-statement__file-options">
-          {{#each challenge.attachments as |attachmentUrl index|}}
-            <li class="challenge-statement__file-option">
+          {{#each attachmentsData as |attachmentUrl index|}}
+            <li class="challenge-statement__file-option" {{action "boo"}}>
 
               {{!-- This radiobutton is hidden  - SVG displayed instead - but needed to handle behaviour. --}}
-              <input type="radio"
-                     id="attachment{{index}}"
-                     class="challenge-statement__file-option-input"
-                     name="attachment_selector"
-                     value="{{attachmentUrl}}"
-                     onchange={{action "checkState"}}
-              />
+                <input type="radio"
+                       id="attachment{{index}}"
+                       class="challenge-statement__file-option-input"
+                       name="attachment_selector"
+                       value="{{attachmentUrl}}"
+                       checked="{{if (eq attachmentUrl selectedAttachmentUrl) "checked"}}"
+                />
 
               {{!-- Surrounding label --}}
               <label for="attachment{{index}}" onclick={{action "selectAttachementUrl" attachmentUrl}} class="label-checkbox-downloadable">

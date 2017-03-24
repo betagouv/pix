@@ -4,7 +4,7 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe.only('Integration | Component | ChallengeStatement', function () {
+describe('Integration | Component | ChallengeStatement', function () {
 
   setupComponentTest('challenge-statement', {
     integration: true
@@ -140,14 +140,14 @@ describe.only('Integration | Component | ChallengeStatement', function () {
         hasSingleAttachment: false,
         hasMultipleAttachments: true
       };
+
       const challengeQROCDebug = {
-        id : 'recH8R4NkvmLFg2L3',
-        instruction : 'Dans la présentation à télécharger, un mot est caché sous le parchemin. Trouvez-le !'  ,
-        proposals: 'Mot : ${mot}',
+        instruction : 'Dans la présentation à télécharger, un mot est caché sous le parchemin. Trouvez-le !',
         hasInternetAllowed : false,
-        timer : undefined,
-        illustrationURL : undefined,
-        attachments: ['https://dl.airtable.com/EL9k935vQQS1wAGIhcZU_PIX_parchemin.ppt', 'https://dl.airtable.com/VGAwZSilQji6Spm9C9Tf_PIX_parchemin.odp']
+        hasSingleAttachment: false,
+        hasAttachment: true,
+        hasMultipleAttachments: true,
+        attachments: ['http://dl.airtable.com/EL9k935vQQS1wAGIhcZU_PIX_parchemin.ppt', 'http://dl.airtable.com/VGAwZSilQji6Spm9C9Tf_PIX_parchemin.odp']
       };
 
       it('should display as many radio button as attachments', function() {
