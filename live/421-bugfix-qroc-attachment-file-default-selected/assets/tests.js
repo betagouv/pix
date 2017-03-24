@@ -3214,7 +3214,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['expor
           hasMultipleAttachments: true
         };
 
-        var challengeQROCDebug = {
+        var challengeQROC = {
           instruction: 'Dans la présentation à télécharger, un mot est caché sous le parchemin. Trouvez-le !',
           hasInternetAllowed: false,
           hasSingleAttachment: false,
@@ -3260,9 +3260,9 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['expor
           (0, _chai.expect)($secondRadioButton.checked).to.be['false'];
         });
 
-        (0, _mocha.it)('DEBUG should select first attachment as default selected radio button', function () {
+        (0, _mocha.it)('should select first attachment as default selected radio button', function () {
           // given
-          addChallengeToContext(this, challengeQROCDebug);
+          addChallengeToContext(this, challengeQROC);
 
           // when
           renderChallengeStatement(this);
