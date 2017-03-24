@@ -4830,7 +4830,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['expor
 
       var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
       var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
-      var answer = _ember['default'].Object.extend({ id: 'answer_id', isResultOk: true, assessment: assessment, challenge: challenge }).create();
+      var answer = _ember['default'].Object.extend({ id: 'answer_id', result: 'ok', assessment: assessment, challenge: challenge }).create();
 
       (0, _mocha.it)('should diplay the answer in bold green and not the solution', function () {
         // given
@@ -4859,7 +4859,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['expor
       (0, _mocha.beforeEach)(function () {
         var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
         var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
-        var answer = _ember['default'].Object.extend({ id: 'answer_id', isResultNotOk: true, assessment: assessment, challenge: challenge }).create();
+        var answer = _ember['default'].Object.extend({ id: 'answer_id', result: 'ko', assessment: assessment, challenge: challenge }).create();
 
         this.set('answer', answer);
         this.render(_ember['default'].HTMLBars.template({
@@ -4879,12 +4879,13 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['expor
         (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('line-through');
       });
 
-      (0, _mocha.it)('should display the solution with a arrow and the solution in bold green', function () {
+      (0, _mocha.it)('should display the solution with an arrow and the solution in bold green', function () {
         // given
         var blockSolution = this.$(SOLUTION_BLOCK);
         var blockSolutionText = this.$(SOLUTION_DISPLAY);
         // then
         (0, _chai.expect)(blockSolution).to.have.lengthOf(1);
+        (0, _chai.expect)(blockSolution.css('align-items')).to.be.equal('stretch');
         (0, _chai.expect)(blockSolutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
         (0, _chai.expect)(blockSolutionText.css('font-weight')).to.be.equal('bold');
       });
@@ -4894,9 +4895,10 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['expor
         (0, _mocha.beforeEach)(function () {
           var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
           var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
-          var answer = _ember['default'].Object.extend({ id: 'answer_id', isResultWithoutAnswer: true, assessment: assessment, challenge: challenge }).create();
+          var answer = _ember['default'].Object.extend({ id: 'answer_id', result: 'aband', assessment: assessment, challenge: challenge }).create();
 
           this.set('answer', answer);
+          this.set('isResultWithoutAnswer', true);
           this.render(_ember['default'].HTMLBars.template({
             'id': 'wYkLQEux',
             'block': '{"statements":[["append",["helper",["qroc-solution-panel"],null,[["answer"],[["get",["answer"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -5986,6 +5988,93 @@ define('pix-live/tests/unit/components/qroc-solution-panel-test', ['exports', 'c
   (0, _mocha.describe)('Unit | Component | qroc-solution-panel', function () {
 
     (0, _emberMocha.setupTest)('component:qroc-solution-panel', {});
+
+    (0, _mocha.describe)('#isResultOk', function () {
+
+      (0, _mocha.it)('should return true when the answer is right', function () {
+        // given
+        var answer = {
+          result: 'ok'
+        };
+        var component = this.subject();
+        component.set('answer', answer);
+        // when
+        var isResultOk = component.get('isResultOk');
+        // then
+        (0, _chai.expect)(isResultOk).to.be['true'];
+      });
+
+      (0, _mocha.it)('should return false when the answer is wrong', function () {
+        // given
+        var answer = {
+          result: 'ko'
+        };
+        var component = this.subject();
+        component.set('answer', answer);
+        // when
+        var isResultOk = component.get('isResultOk');
+        // then
+        (0, _chai.expect)(isResultOk).to.be['false'];
+      });
+    });
+
+    (0, _mocha.describe)('#isResultKo', function () {
+
+      (0, _mocha.it)('should return true when the answer is wrong', function () {
+        // given
+        var answer = {
+          result: 'ko'
+        };
+        var component = this.subject();
+        component.set('answer', answer);
+        // when
+        var isResultKo = component.get('isResultKo');
+        // then
+        (0, _chai.expect)(isResultKo).to.be['true'];
+      });
+
+      (0, _mocha.it)('should return false when the answer is right', function () {
+        // given
+        var answer = {
+          result: 'ok'
+        };
+        var component = this.subject();
+        component.set('answer', answer);
+        // when
+        var isResultKo = component.get('isResultKo');
+        // then
+        (0, _chai.expect)(isResultKo).to.be['false'];
+      });
+    });
+
+    (0, _mocha.describe)('#isResultWithoutAnswer', function () {
+
+      (0, _mocha.it)('should return true when the answer is aband', function () {
+        // given
+        var answer = {
+          result: 'aband'
+        };
+        var component = this.subject();
+        component.set('answer', answer);
+        // when
+        var isResultWithoutAnswer = component.get('isResultWithoutAnswer');
+        // then
+        (0, _chai.expect)(isResultWithoutAnswer).to.be['true'];
+      });
+
+      (0, _mocha.it)('it should return false when the answer is not aband', function () {
+        // given
+        var answer = {
+          result: 'ok'
+        };
+        var component = this.subject();
+        component.set('answer', answer);
+        // when
+        var isResultWithoutAnswer = component.get('isResultWithoutAnswer');
+        // then
+        (0, _chai.expect)(isResultWithoutAnswer).to.be['false'];
+      });
+    });
 
     (0, _mocha.describe)('#answerToDisplay', function () {
 
