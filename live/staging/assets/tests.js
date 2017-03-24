@@ -1903,6 +1903,58 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test.lint-test
     });
   });
 });
+define('pix-live/tests/acceptance/k1-competences-page-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  (0, _mocha.describe)('Acceptance | competences page', function () {
+
+    var application = undefined;
+
+    (0, _mocha.before)(function () {
+      // given
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+
+      // when
+      visit('/competences');
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    (0, _mocha.it)('can visit /competences', function () {
+      (0, _chai.expect)(currentURL()).to.equal('/competences');
+    });
+
+    (0, _mocha.it)('should display page title', function () {
+      (0, _chai.expect)(find('.competences-page__header-text')).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.it)('should display as many sections as competences domains', function () {
+      (0, _chai.expect)(find('.competences-domain')).to.have.lengthOf(5);
+    });
+
+    (0, _mocha.it)('should hide all sections by default', function () {
+      (0, _chai.expect)(find('.competences-domain__topics')).to.have.lengthOf(0);
+    });
+
+    (0, _mocha.it)('should open a section when one clicks on its title', function () {
+      var $firstSectionHeader = find('.competences-domain__header').first();
+      click($firstSectionHeader);
+      return andThen(function () {
+        (0, _chai.expect)(find('.competences-domain__topics')).to.have.lengthOf(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/k1-competences-page-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/k1-competences-page-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/adapters/application.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -4137,6 +4189,10 @@ define('pix-live/tests/integration/components/navbar-header-test', ['exports', '
     (0, _mocha.it)('should display a link to "project" page', function () {
       (0, _chai.expect)(this.$('.navbar-header-links__link--project')).to.have.lengthOf(1);
     });
+
+    (0, _mocha.it)('should display a link to "referential" page', function () {
+      (0, _chai.expect)(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
+    });
   });
 });
 define('pix-live/tests/integration/components/navbar-header-test.lint-test', ['exports'], function (exports) {
@@ -5267,6 +5323,15 @@ define('pix-live/tests/routes/challenges/get-preview.lint-test', ['exports'], fu
   'use strict';
 
   describe('ESLint - routes/challenges/get-preview.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/routes/competences.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - routes/competences.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -6817,6 +6882,30 @@ define('pix-live/tests/unit/routes/challenges/get-preview-test.lint-test', ['exp
     });
   });
 });
+define('pix-live/tests/unit/routes/competences-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  (0, _mocha.describe)('Unit | Route | competences', function () {
+
+    (0, _emberMocha.setupTest)('route:competences', {
+      // Specify the other units that are required for this test.
+      // needs: ['controller:foo']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/competences-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/routes/competences-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/unit/routes/courses-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Route | courses', function () {
@@ -6925,6 +7014,7 @@ define('pix-live/tests/unit/routes/placement-tests-test.lint-test', ['exports'],
 define('pix-live/tests/unit/routes/project-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Route | project', function () {
+
     (0, _emberMocha.setupTest)('route:project', {
       // Specify the other units that are required for this test.
       // needs: ['controller:foo']

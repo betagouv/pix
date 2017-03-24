@@ -1292,7 +1292,8 @@ button.routable-modal--close:active {
   background-color: transparent;
   padding: 20px 0;
   float: none;
-  color: #ffffff; }
+  color: #ffffff;
+  width: 100%; }
 
 .navbar-header--white {
   background-color: white;
@@ -2512,6 +2513,134 @@ hr.project-page__presentation-header-line {
   text-align: center;
   font-family: "Open Sans", Arial, sans-serif;
   color: #ffffff; }
+
+.competences-page {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: column;
+  flex-flow: column;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #fafafa;
+  color: #3e4149;
+  text-rendering: optimizeLegibility; }
+
+.competences-page__header {
+  padding: 60px 20px;
+  width: 100%;
+  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 0 0 50px; }
+
+.competences-page__header-text {
+  text-align: center;
+  margin: 0 auto;
+  color: #ffffff;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 32px;
+  font-weight: bold;
+  font-style: italic;
+  line-height: 1.2;
+  max-width: 940px; }
+  @media (min-width: 992px) {
+    .competences-page__header-text {
+      font-size: 35px; } }
+
+.competences-page__domains {
+  max-width: 940px;
+  width: 100%;
+  padding: 0 20px;
+  margin-bottom: 50px; }
+  @media (min-width: 992px) {
+    .competences-page__domains {
+      padding: 0; } }
+
+.competences-domain {
+  width: 100%;
+  padding: 20px; }
+  @media (min-width: 992px) {
+    .competences-domain {
+      padding: 20px 40px; } }
+
+.cp-Panel-body-inner {
+  overflow: visible; }
+
+.competences-domain__header {
+  color: #3e4149;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: justify;
+  justify-content: space-between; }
+  .competences-domain__header:hover, .competences-domain__header:focus, .competences-domain__header:active {
+    color: #3e4149;
+    text-decoration: none; }
+
+.competences-domain__title {
+  margin: 15px 0;
+  font-family: "Raleway", Arial, sans-serif;
+  font-weight: 500;
+  font-size: 26px; }
+  @media (min-width: 992px) {
+    .competences-domain__title {
+      font-size: 40px; } }
+
+.competences-domain__title-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  transform: rotate(-315deg);
+  border: solid 2px #979797;
+  border-top: none;
+  border-left: none; }
+
+/* XXX we do not have the choice here to bypass BEM for managing collapsible panel title in "closed" status. */
+.cp-is-open > .competences-domain__title-icon {
+  border: solid 2px #979797;
+  border-bottom: none;
+  border-right: none; }
+
+.domain-topic {
+  border-top: 1px solid #d8d8d8;
+  padding: 26px 0 5px;
+  margin-top: 30px; }
+
+.domain-topic__title {
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #3d68ff;
+  margin-top: 0;
+  margin-bottom: 17px; }
+
+.domain-topic__description {
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #3e4149; }
+
+.domain-topic__themes-title {
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 0 0 5px 0; }
+
+.domain-topic__themes-content {
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: #3e4149; }
 
 body {
   font-family: "Lato", Arial, sans-serif;
