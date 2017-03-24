@@ -8,6 +8,9 @@
   "bugs": {
     "url": "https://github.com/sgmap/pix/issues"
   },
+  "engines": {
+    "node": ">=7.7.0"
+  },
   "main": "index.js",
   "devDependencies": {
     "codeclimate-test-reporter": "^0.4.0",
@@ -15,6 +18,9 @@
     "eslint": "^3.16.0",
     "lcov-result-merger": "^1.2.0",
     "npm-run-all": "^3.1.1"
+  },
+  "engines": {
+    "node": ">= 7.7.4"
   },
   "repository": {
     "type": "git",
@@ -27,6 +33,7 @@
     "clean": "node_modules/.bin/run-p clean:api clean:live clean:coverage",
     "install:api": "cd api && npm install",
     "install:live": "cd live && npm install",
+    "install:all": "npm install && node_modules/.bin/run-p install:api install:live",
     "postinstall": "node_modules/.bin/run-p install:api install:live",
     "start:api": "cd api && npm run start:watch",
     "start:live": "cd live && ember serve --proxy",
