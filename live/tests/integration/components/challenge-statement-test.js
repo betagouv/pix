@@ -4,7 +4,7 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | ChallengeStatement', function () {
+describe.only('Integration | Component | ChallengeStatement', function () {
 
   setupComponentTest('challenge-statement', {
     integration: true
@@ -140,6 +140,15 @@ describe('Integration | Component | ChallengeStatement', function () {
         hasSingleAttachment: false,
         hasMultipleAttachments: true
       };
+      const challengeQROCDebug = {
+        id : 'recH8R4NkvmLFg2L3',
+        instruction : 'Dans la présentation à télécharger, un mot est caché sous le parchemin. Trouvez-le !'  ,
+        proposals: 'Mot : ${mot}',
+        hasInternetAllowed : false,
+        timer : undefined,
+        illustrationURL : undefined,
+        attachments: ['https://dl.airtable.com/EL9k935vQQS1wAGIhcZU_PIX_parchemin.ppt', 'https://dl.airtable.com/VGAwZSilQji6Spm9C9Tf_PIX_parchemin.odp']
+      };
 
       it('should display as many radio button as attachments', function() {
         // given
@@ -173,6 +182,24 @@ describe('Integration | Component | ChallengeStatement', function () {
         renderChallengeStatement(this);
 
         // then
+        console.log('this.$(\'.challenge-statement__file-option-input\') : ' +  JSON.stringify(this.$('.challenge-statement__file-option-input')));
+
+        const $firstRadioButton = this.$('.challenge-statement__file-option-input')[0];
+        const $secondRadioButton = this.$('.challenge-statement__file-option-input')[1];
+        expect($firstRadioButton.checked).to.be.true;
+        expect($secondRadioButton.checked).to.be.false;
+      });
+
+      it('DEBUG should select first attachment as default selected radio button', function() {
+        // given
+        addChallengeToContext(this, challengeQROCDebug);
+
+        // when
+        renderChallengeStatement(this);
+
+        // then
+        console.log('this.$(\'.challenge-statement__file-option-input\') : ' +  JSON.stringify(this.$('.challenge-statement__file-option-input')));
+
         const $firstRadioButton = this.$('.challenge-statement__file-option-input')[0];
         const $secondRadioButton = this.$('.challenge-statement__file-option-input')[1];
         expect($firstRadioButton.checked).to.be.true;
