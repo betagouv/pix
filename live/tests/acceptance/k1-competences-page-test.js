@@ -32,19 +32,15 @@ describe.only('Acceptance | competences page', function() {
   });
 
   it('should hide all sections by default', function() {
-      // given
-
-      // when
-
-      // then
+    expect(find('.competences-domain__topics')).to.have.lengthOf(0);
   });
 
   it('should open a section when one clicks on its title', function() {
-      // given
-
-      // when
-
-      // then
+    const $firstSectionHeader = find('.competences-domain__header').first();
+    click($firstSectionHeader);
+    return andThen(() => {
+      expect(find('.competences-domain__topics')).to.have.lengthOf(1);
+    });
   });
 
 });
