@@ -1,7 +1,9 @@
 import Ember from 'ember';
 
 const ChallengeStatement = Ember.Component.extend({
-
+  
+  classNames: ['rounded-panel', 'challenge-statement'],
+  
   selectedAttachmentUrl: Ember.computed('challenge.attachments', function(){
     return this.get('challenge.attachments.firstObject');
   }),
