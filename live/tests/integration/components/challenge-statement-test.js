@@ -141,7 +141,7 @@ describe('Integration | Component | ChallengeStatement', function () {
         hasMultipleAttachments: true
       };
 
-      const challengeQROCDebug = {
+      const challengeQROC = {
         instruction : 'Dans la présentation à télécharger, un mot est caché sous le parchemin. Trouvez-le !',
         hasInternetAllowed : false,
         hasSingleAttachment: false,
@@ -188,9 +188,9 @@ describe('Integration | Component | ChallengeStatement', function () {
         expect($secondRadioButton.checked).to.be.false;
       });
 
-      it('DEBUG should select first attachment as default selected radio button', function() {
+      it('should select first attachment as default selected radio button', function() {
         // given
-        addChallengeToContext(this, challengeQROCDebug);
+        addChallengeToContext(this, challengeQROC);
 
         // when
         renderChallengeStatement(this);
