@@ -19,7 +19,6 @@ function _getSmallestLevenshteinDistance(userAnswer, adminAnswers) {
 
   return min;
 
-
 }
 
 

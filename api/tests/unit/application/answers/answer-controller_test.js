@@ -65,7 +65,7 @@ describe('Unit | Controller | answer-controller', function () {
     sinon.restore(Answer.prototype.save);
   });
 
-  describe.only('#save', function () {
+  describe.skip('#save', function () {
 
     it.skip('should return a successful response with HTTP code 201 when answer was saved', function (done) {
       // given

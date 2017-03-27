@@ -42,6 +42,7 @@ module.exports = {
     const answerTimeout = answer.get('timeout');
     const solutionValue = solution.value;
     const solutionScoring = solution.scoring;
+    const enabledTreatments = solution.enabledTreatments;
     const deactivations = solution.deactivations;
 
     if ('#ABAND#' === answerValue) {
@@ -65,7 +66,7 @@ module.exports = {
     }
 
     if (solution.type === 'QROCM-ind') {
-      result = solutionServiceQrocmInd.match(answerValue, solutionValue, deactivations);
+      result = solutionServiceQrocmInd.match(answerValue, solutionValue, deactivations, enabledTreatments);
     }
 
     if (solution.type === 'QROCM-dep') {

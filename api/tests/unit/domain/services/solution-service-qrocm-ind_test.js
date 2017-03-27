@@ -4,6 +4,7 @@ const service = require('../../../../lib/domain/services/solution-service-qrocm-
 
 describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
 
+  //Pour notre cas : enabledTreatments = ['t1', 't2', 't3']
   describe('Nominal and weird, combined cases', function () {
 
     const successfulCases = [{
@@ -84,6 +85,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
       });
     });
 
+    //Pour notre cas : enabledTreatments = ['t1', 't2', 't3']
     const failingCases = [
       {case:'solution do not exists', answer: 'any answer'},
       {case:'solution is empty', answer: '', solution : ''},
@@ -116,32 +118,33 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
 
   });
 
-
+  //Pour notre cas : enabledTreatments = ['t1', 't2', 't3']
   describe('match, strong focus on treatments', function () {
 
     const allCases = [
-      {when:'no stress',                   output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',      deactivations: {}},
-      {when:'spaces stress',               output: 'ok', answer: '9lettres: courgette\n6lettres: c h i c o n',   solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',      deactivations: {}},
-      {when:'reverted spaces stress',      output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n-  c h i c o n \n- legume\n', deactivations: {}},
-      {when:'uppercase stress',            output: 'ok', answer: '9lettres: courgette\n6lettres: CHICON',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',      deactivations: {}},
-      {when:'reverted uppercase stress',   output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- CHICON\n- legume\n',      deactivations: {}},
-      {when:'accent stress',               output: 'ok', answer: '9lettres: courgette\n6lettres: îàéùô',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- iaeuo\n- legume\n',       deactivations: {}},
-      {when:'reverted accent stress',      output: 'ok', answer: '9lettres: courgette\n6lettres: iaeuo',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- îàéùô\n- legume\n',       deactivations: {}},
-      {when:'diacritic stress',            output: 'ok', answer: '9lettres: courgette\n6lettres: ççççç',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ccccc\n- legume\n',       deactivations: {}},
-      {when:'reverted diacritic stress',   output: 'ok', answer: '9lettres: courgette\n6lettres: ccccc',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ççççç\n- legume\n',       deactivations: {}},
-      {when:'punctuation stress',          output: 'ok', answer: '9lettres: courgette\n6lettres: .!p-u-n-c-t',   solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- punct\n- legume\n',       deactivations: {}},
-      {when:'reverted punctuation stress', output: 'ok', answer: '9lettres: courgette\n6lettres: punct',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- .!p-u-n-c-t\n- legume\n', deactivations: {}},
-      {when:'levenshtein stress',          output: 'ok', answer: '9lettres: courgette\n6lettres: 0123456789',    solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 123456789\n- legume\n',   deactivations: {}},
-      {when:'reverted levenshtein stress', output: 'ok', answer: '9lettres: courgette\n6lettres: 123456789',     solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 0123456789\n- legume\n',  deactivations: {}},
+      {when:'no stress',                   output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',      deactivations: {}, enabledTreatments : ['t1', 't2', 't3']},
+      {when:'spaces stress',               output: 'ok', answer: '9lettres: courgette\n6lettres: c h i c o n',   solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',      deactivations: {}, enabledTreatments : ['t1', 't2', 't3']},
+      {when:'reverted spaces stress',      output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n-  c h i c o n \n- legume\n', deactivations: {}, enabledTreatments : ['t1', 't2', 't3']},
+      {when:'uppercase stress',            output: 'ok', answer: '9lettres: courgette\n6lettres: CHICON',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',      deactivations: {}, enabledTreatments : ['t1', 't2', 't3']},
+      {when:'reverted uppercase stress',   output: 'ok', answer: '9lettres: courgette\n6lettres: chicon',        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- CHICON\n- legume\n',      deactivations: {}, enabledTreatments : ['t1', 't2', 't3']},
+      {when:'accent stress',               output: 'ok', answer: '9lettres: courgette\n6lettres: îàéùô',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- iaeuo\n- legume\n',       deactivations: {}, enabledTreatments : ['t1', 't2', 't3']},
+      {when:'reverted accent stress',      output: 'ok', answer: '9lettres: courgette\n6lettres: iaeuo',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- îàéùô\n- legume\n',       deactivations: {}, enabledTreatments : ['t1', 't2', 't3']},
+      {when:'diacritic stress',            output: 'ok', answer: '9lettres: courgette\n6lettres: ççççç',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ccccc\n- legume\n',       deactivations: {}, enabledTreatments : ['t1', 't2', 't3']},
+      {when:'reverted diacritic stress',   output: 'ok', answer: '9lettres: courgette\n6lettres: ccccc',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ççççç\n- legume\n',       deactivations: {}, enabledTreatments : ['t1', 't2', 't3']},
+      {when:'punctuation stress',          output: 'ok', answer: '9lettres: courgette\n6lettres: .!p-u-n-c-t',   solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- punct\n- legume\n',       deactivations: {}, enabledTreatments : ['t1', 't2', 't3']},
+      {when:'reverted punctuation stress', output: 'ok', answer: '9lettres: courgette\n6lettres: punct',         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- .!p-u-n-c-t\n- legume\n', deactivations: {}, enabledTreatments : ['t1', 't2', 't3']},
+      {when:'levenshtein stress',          output: 'ok', answer: '9lettres: courgette\n6lettres: 0123456789',    solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 123456789\n- legume\n',   deactivations: {}, enabledTreatments : ['t1', 't2', 't3']},
+      {when:'reverted levenshtein stress', output: 'ok', answer: '9lettres: courgette\n6lettres: 123456789',     solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 0123456789\n- legume\n',  deactivations: {}, enabledTreatments : ['t1', 't2', 't3']},
     ];
 
     allCases.forEach(function (caze) {
       it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.equal(caze.output);
+        expect(service.match(caze.answer, caze.solution, caze.deactivations, caze.enabledTreatments)).to.equal(caze.output);
       });
     });
   });
 
+  //Pour notre cas : enabledTreatments = ['t2', 't3']
 
   describe('match, t1 deactivated', function () {
 
@@ -168,7 +171,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
     });
   });
 
-
+  //Pour notre cas : enabledTreatments = ['t1', 't3']
   describe('match, t2 deactivated', function () {
 
     const allCases = [
@@ -194,7 +197,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
     });
   });
 
-
+  //Pour notre cas : enabledTreatments = ['t1', 't2']
   describe('match, t3 deactivated', function () {
 
     const allCases = [
@@ -220,7 +223,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
     });
   });
 
-
+  //Pour notre cas : enabledTreatments = ['t3']
   describe('match, t1 and t2 deactivated', function () {
 
     const allCases = [
@@ -246,7 +249,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
     });
   });
 
-
+  //Pour notre cas : enabledTreatments = ['t2']
   describe('match, t1 and t3 deactivated', function () {
 
     const allCases = [
@@ -272,6 +275,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
     });
   });
 
+  //Pour notre cas : enabledTreatments = ['t1']
   describe('match, t2 and t3 deactivated', function () {
 
     const allCases = [
@@ -297,6 +301,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
     });
   });
 
+  //Pour notre cas : enabledTreatments = []
   describe('match, t1, t2 and t3 deactivated', function () {
 
     const allCases = [

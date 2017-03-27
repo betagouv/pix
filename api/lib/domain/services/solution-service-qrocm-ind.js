@@ -2,10 +2,27 @@ const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 const deactivationsService = require('./deactivations-service');
+const validationTreatments = require('./validation-treatments');
 
-function _applyTreatmentsToSolutions(solutions, deactivations) {
+function _applyTreatmentsToSolutions(solutions, deactivations, enabledTreatments) {
+
+  // TODO remove
   return _.mapValues(solutions, (validSolutions) => {
     return _.map(validSolutions, (validSolution) => {
+
+
+
+      if (_.contains(enabledTreatments, 't1')) {
+        validSolution = validationTreatments.t1(validSolution);
+      }
+
+      if (_.contains(enabledTreatments, 't2')) {
+        validSolution = validationTreatments.t2(validSolution);
+      }
+
+      return validSolution;
+
+
 
       if (deactivationsService.isDefault(deactivations)) {
         return utils._treatmentT2(utils._treatmentT1(validSolution));
@@ -99,36 +116,36 @@ function _applyPreTreatmentsToAnswer(yamlAnswer) {
 
 module.exports = {
 
-  match (yamlAnswer, yamlSolution, deactivations) {
+  match (yamlAnswer, yamlSolution, deactivations, enabledTreatments) {
 
     if (_.isNotString(yamlAnswer)
-        || _.isNotString(yamlSolution)
-        || _.isEmpty(yamlSolution)
-        || !_.includes(yamlSolution, '\n')) {
+      || _.isNotString(yamlSolution)
+      || _.isEmpty(yamlSolution)
+      || !_.includes(yamlSolution, '\n')) {
       return 'ko';
     }
 
-    // Pre-Treatments
+    // Pre-Treatments (A garder pour espace insécable qui peut etre présent)
     const preTreatedAnswers = _applyPreTreatmentsToAnswer(yamlAnswer);
 
-    // and convert YAML to JSObject
+    // Convert YAML to JSObject
     const answers = jsYaml.safeLoad(preTreatedAnswers);
     const solutions = jsYaml.safeLoad(yamlSolution);
 
     // Treatments
-    const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations);
+    const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations, enabledTreatments);
     const treatedAnswers = _applyTreatmentsToAnswers(answers);
 
     //Comparison
-    const validations = _.map(treatedAnswers, function(answer, keyAnswer) {
+    const validations = _.map(treatedAnswers, function (answer, keyAnswer) {
       const solutionsToAnswer = treatedSolutions[keyAnswer];
       const strSolutionsToAnswer = _.map(solutionsToAnswer, _.toString);
-      const result = utils.treatmentT1T2T3(answer, strSolutionsToAnswer);
+      const result = utils.treatmentT1T2T3(answer, strSolutionsToAnswer);//retourne la fonction pour chaqque traitement possible
       return result;
     });
 
     //Restitution
-    return _calculateResult(validations, deactivations);
+    return _calculateResult(validations, enabledTreatments);
 
   }
 
