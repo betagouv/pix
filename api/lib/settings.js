@@ -33,7 +33,7 @@ module.exports = (function () {
             base: 'test-base'
         };
 
-        mailjet: {
+        config.mailjet = {
             apiKey: 'test-api-ket',
             apiSecret: 'test-api-secret'
         };
