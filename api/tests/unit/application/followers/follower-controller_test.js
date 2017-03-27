@@ -21,7 +21,7 @@ describe('Unit | Controller | FollowerController', function () {
     it('should return 400 status code when email provided is not valid', function (done) {
       //Given
       const follower = {"email": "testeur@follower.pix"};
-      const emailValidatorStub = sinon.stub(EmailValidator,'emailIsValid').returns(false);
+      const emailValidatorStub = sinon.stub(EmailValidator, 'emailIsValid').returns(false);
       sinon.stub(followerSerializer, 'deserialize', _ => new Follower(follower));
 
       const spyMailjet = sinon.spy(Mailjet, 'sendWelcomeEmail');
