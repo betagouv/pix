@@ -1,18 +1,18 @@
 const _ = require('../../../lib/infrastructure/utils/lodash-utils');
 const levenshtein = require('fast-levenshtein');
 
-function _getSmallestLevenshteinDistance(userAnswer, adminAnswers) {
+function _getSmallestLevenshteinDistance(answer, solutionVariants) {
 
-  let min = levenshtein.get(userAnswer, adminAnswers[0]);
+  let min = levenshtein.get(answer, solutionVariants[0]);
 
-  if (adminAnswers.length === 1) {
+  if (solutionVariants.length === 1) {
     return min;
   }
 
-  _.each (adminAnswers, (adminAnswer) => {
-    const currentLevenshtein = levenshtein.get(userAnswer, adminAnswer);
-    if (currentLevenshtein < min) {
-      min = currentLevenshtein;
+  _.each(solutionVariants, (variant) => {
+    const levenshteinDistance = levenshtein.get(answer, variant);
+    if (levenshteinDistance < min) {
+      min = levenshteinDistance;
     }
   });
 
@@ -20,10 +20,10 @@ function _getSmallestLevenshteinDistance(userAnswer, adminAnswers) {
 
 }
 
-function t3(userAnswer, adminAnswers) {
-  return _getSmallestLevenshteinDistance(userAnswer, adminAnswers) / userAnswer.length;
+function t3(answer, solutionVariants) {
+  return _getSmallestLevenshteinDistance(answer, solutionVariants) / answer.length;
 }
 
-module.exports =  {
+module.exports = {
   t3
 };

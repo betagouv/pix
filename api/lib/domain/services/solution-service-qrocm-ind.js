@@ -1,120 +1,72 @@
 const jsYaml = require('js-yaml');
+const levenshtein = require('fast-levenshtein');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 const deactivationsService = require('./deactivations-service');
-const validationTreatments = require('./validation-treatments');
+const { t1, t2 } = require('./validation-treatments');
 
-function _applyTreatmentsToSolutions(solutions, deactivations, enabledTreatments) {
+function _applyTreatmentsTo(string, enabledTreatments) {
+  string = string.toString();
+  if (enabledTreatments.includes('t1')) {
+    string = t1(string);
+  }
+  if (enabledTreatments.includes('t2')) {
+    string = t2(string);
+  }
+  return string;
+}
 
-  // TODO remove
-  return _.mapValues(solutions, (validSolutions) => {
-    return _.map(validSolutions, (validSolution) => {
-
-
-
-      if (_.contains(enabledTreatments, 't1')) {
-        validSolution = validationTreatments.t1(validSolution);
-      }
-
-      if (_.contains(enabledTreatments, 't2')) {
-        validSolution = validationTreatments.t2(validSolution);
-      }
-
-      return validSolution;
-
-
-
-      if (deactivationsService.isDefault(deactivations)) {
-        return utils._treatmentT2(utils._treatmentT1(validSolution));
-      }
-      else if (deactivationsService.hasOnlyT1(deactivations)) {
-        return utils._treatmentT2(validSolution);
-      }
-      else if (deactivationsService.hasOnlyT2(deactivations)) {
-        return utils._treatmentT1(validSolution);
-      }
-      else if (deactivationsService.hasOnlyT3(deactivations)) {
-        return utils._treatmentT2(utils._treatmentT1(validSolution));
-      }
-      else if (deactivationsService.hasOnlyT1T2(deactivations)) {
-        return validSolution;
-      }
-      else if (deactivationsService.hasOnlyT1T3(deactivations)) {
-        return utils._treatmentT2(validSolution);
-      }
-      else if (deactivationsService.hasOnlyT2T3(deactivations)) {
-        return utils._treatmentT1(validSolution);
-      }
-      else if (deactivationsService.hasT1T2T3(deactivations)) {
-        return validSolution;
-      }
-
+function _applyTreatmentsToSolutions(solutions, enabledTreatments) {
+  return _.forEach(solutions, (solution, solutionKey) => {
+    solution.forEach((variant, variantIndex) => {
+      solutions[solutionKey][variantIndex] = _applyTreatmentsTo(variant, enabledTreatments);
     });
   });
 }
-
-function _applyTreatmentsToAnswers(answers) {
-  return _.mapValues(answers, _.toString);
+function _applyTreatmentsToAnswers(answers, enabledTreatments) {
+  return _.forEach(answers, (answer, answerKey) => {
+    answers[answerKey] = _applyTreatmentsTo(answer, enabledTreatments);
+  });
 }
 
-
-function _calculateResult(validations, deactivations) {
-  let result = 'ok';
-
-  _.each(validations, (validation) => {
-
-    if (deactivationsService.isDefault(deactivations)) {
-      if (validation.t1t2t3Ratio > 0.25) {
-        result = 'ko';
-      }
-    }
-    else if (deactivationsService.hasOnlyT1(deactivations)) {
-      if (validation.t2t3Ratio > 0.25) {
-        result = 'ko';
-      }
-    }
-    else if (deactivationsService.hasOnlyT2(deactivations)) {
-      if (validation.t1t3Ratio > 0.25) {
-        result = 'ko';
-      }
-    }
-    else if (deactivationsService.hasOnlyT3(deactivations)) {
-      if (!_.includes(validation.adminAnswers, validation.t1t2)) {
-        result = 'ko';
-      }
-    }
-    else if (deactivationsService.hasOnlyT1T2(deactivations)) {
-      if (validation.t3Ratio > 0.25) {
-        result = 'ko';
-      }
-    }
-    else if (deactivationsService.hasOnlyT1T3(deactivations)) {
-      if (!_.includes(validation.adminAnswers, validation.t2)) {
-        result = 'ko';
-      }
-    }
-    else if (deactivationsService.hasOnlyT2T3(deactivations)) {
-      if (!_.includes(validation.adminAnswers, validation.t1)) {
-        result = 'ko';
-      }
-    }
-    else if (deactivationsService.hasT1T2T3(deactivations)) {
-      if (!_.includes(validation.adminAnswers, validation.userAnswer)) {
-        result = 'ko';
-      }
-    }
-
+function _areApproximatevelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants) {
+  let smallestLevenshteinDistance = answer.length;
+  solutionVariants.forEach((variant) => {
+    const levenshteinDistance = levenshtein.get(answer, variant);
+    smallestLevenshteinDistance = Math.min(smallestLevenshteinDistance, levenshteinDistance);
   });
+  const ratio = smallestLevenshteinDistance / answer.length;
+  return ratio <= 0.25;
+}
 
+function _compareAnswersAndSolutions(answers, solutions, enabledTreatments) {
+  const results = {};
+  _.map(answers, (answer, answerKey) => {
+    const solutionVariants = solutions[answerKey];
+    if (enabledTreatments.includes('t3')) {
+      results[answerKey] = _areApproximatevelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants);
+    } else {
+      results[answerKey] = solutionVariants.includes(answer);
+    }
+  });
+  return results;
+}
+
+function _formatResult(resultDetails) {
+  let result = 'ok';
+  _.forEach(resultDetails, resultDetail => {
+    if (!resultDetail)
+      result = 'ko';
+  });
   return result;
 }
 
-function _applyPreTreatmentsToAnswer(yamlAnswer) {
-  return yamlAnswer.replace(/\u00A0/g, ' ');
-}
-
-
 module.exports = {
+
+  _applyTreatmentsToSolutions,
+  _applyTreatmentsToAnswers,
+  _compareAnswersAndSolutions,
+  _formatResult,
 
   match (yamlAnswer, yamlSolution, deactivations, enabledTreatments) {
 
@@ -125,28 +77,23 @@ module.exports = {
       return 'ko';
     }
 
-    // Pre-Treatments (A garder pour espace insécable qui peut etre présent)
-    const preTreatedAnswers = _applyPreTreatmentsToAnswer(yamlAnswer);
+    // Pre-treatments
+    const preTreatedAnswers = yamlAnswer.replace(/\u00A0/g, ' ');
+    const preTreatedSolutions = yamlSolution.replace(/\u00A0/g, ' ');
 
     // Convert YAML to JSObject
     const answers = jsYaml.safeLoad(preTreatedAnswers);
-    const solutions = jsYaml.safeLoad(yamlSolution);
+    const solutions = jsYaml.safeLoad(preTreatedSolutions);
 
     // Treatments
-    const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations, enabledTreatments);
-    const treatedAnswers = _applyTreatmentsToAnswers(answers);
+    const treatedSolutions = _applyTreatmentsToSolutions(solutions, enabledTreatments);
+    const treatedAnswers = _applyTreatmentsToAnswers(answers, enabledTreatments);
 
-    //Comparison
-    const validations = _.map(treatedAnswers, function (answer, keyAnswer) {
-      const solutionsToAnswer = treatedSolutions[keyAnswer];
-      const strSolutionsToAnswer = _.map(solutionsToAnswer, _.toString);
-      const result = utils.treatmentT1T2T3(answer, strSolutionsToAnswer);//retourne la fonction pour chaqque traitement possible
-      return result;
-    });
+    // Comparison
+    const resultDetails = _compareAnswersAndSolutions(treatedAnswers, treatedSolutions, enabledTreatments);
 
-    //Restitution
-    return _calculateResult(validations, enabledTreatments);
-
+    // Restitution
+    return _formatResult(resultDetails);
   }
 
 };
