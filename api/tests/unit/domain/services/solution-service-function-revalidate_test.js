@@ -92,13 +92,14 @@ describe('Unit | Service | SolutionService', function () {
       service.revalidate(new Answer(ko_answer)).then(function (foundAnswer) {
 
         // then
+        SolutionRepository.get.restore();
+        service.match.restore();
+
         expect(SolutionRepository.get.callOnce);
         expect(service.match.callOnce);
         expect(foundAnswer.id).equals(ko_answer.id);
         expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS);
 
-        SolutionRepository.get.restore();
-        service.match.restore();
         done();
       });
 
@@ -117,13 +118,14 @@ describe('Unit | Service | SolutionService', function () {
       service.revalidate(new Answer(ok_answer)).then(function (foundAnswer) {
 
         // then
+        SolutionRepository.get.restore();
+        service.match.restore();
+
         expect(SolutionRepository.get.callOnce);
         expect(service.match.callOnce);
         expect(foundAnswer.id).equals(ok_answer.id);
         expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS);
 
-        SolutionRepository.get.restore();
-        service.match.restore();
         done();
       });
 
@@ -143,13 +145,14 @@ describe('Unit | Service | SolutionService', function () {
       service.revalidate(new Answer(unimplemented_answer)).then(function (foundAnswer) {
 
         // then
+        SolutionRepository.get.restore();
+        service.match.restore();
+
         expect(SolutionRepository.get.callOnce);
         expect(service.match.callOnce);
         expect(foundAnswer.id).equals(unimplemented_answer.id);
         expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS);
 
-        SolutionRepository.get.restore();
-        service.match.restore();
         done();
       });
 
