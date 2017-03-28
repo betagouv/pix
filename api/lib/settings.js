@@ -20,8 +20,8 @@ module.exports = (function () {
     },
 
     mailjet: {
-      apiKey: '7efe76a3fd5a487b7bf20a3688750666',
-      apiSecret: 'c932bbba9429c842c318f790cc82b0e0'
+      apiKey: process.env.MJ_KEY,
+      apiSecret: process.env.MJ_SECRET
     }
   };
 
