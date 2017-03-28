@@ -6,7 +6,7 @@ const WELCOME_EMAIL_TEMPLATE_ID = '129291';
 function _formatPayload(email) {
   return {
     'FromEmail': 'communaute@pix.beta.gouv.fr',
-    'FromName': 'communauté pix',
+    'FromName': 'Communauté Pix',
     'Subject': 'Bienvenue dans la communauté Pix',
     'MJ-TemplateID': WELCOME_EMAIL_TEMPLATE_ID,
     'MJ-TemplateLanguage': 'true',
