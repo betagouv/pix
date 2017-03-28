@@ -18,7 +18,13 @@ module.exports = {
   sendWelcomeEmail(receiverEmail){
     return mailjet
       .post('send')
-      .request(_formatPayload(receiverEmail));
+      .request(_formatPayload(receiverEmail))
+      .then((result) => {
+        return result;
+      })
+      .catch((error) => {
+        return error;
+      });
   }
 };
 
