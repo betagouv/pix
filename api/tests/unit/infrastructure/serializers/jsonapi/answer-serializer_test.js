@@ -2,12 +2,13 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
 const Answer = require('../../../../../lib/domain/models/data/answer');
 
-describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
+describe.only('Unit | Serializer | JSONAPI | answer-serializer', function () {
 
   const modelObject = new Answer({
     id: 'answer_id',
     value: 'answer_value',
     timeout: 8,
+    elapsedTime: 30,
     result: 'result_value',
     assessmentId: 'assessment_id',
     challengeId: 'challenge_id'
@@ -20,6 +21,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
       attributes: {
         value: 'answer_value',
         timeout: 8,
+        elapsedTime: 30,
         result: 'result_value'
       },
       relationships: {
