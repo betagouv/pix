@@ -11,7 +11,7 @@ const Answer = require('../../../../lib/domain/models/data/answer');
 const Solution = require('../../../../lib/domain/models/referential/solution');
 const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 
-describe.skip('Unit | Service | SolutionService', function () {
+describe('Unit | Service | SolutionService', function () {
 
   function buildSolution(type, value, scoring, deactivations, enabledTreatments) {
     const solution = new Solution({ id: 'solution_id' });

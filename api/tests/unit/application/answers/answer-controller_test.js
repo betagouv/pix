@@ -4,7 +4,7 @@ const Answer = require('../../../../lib/domain/models/data/answer');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 const solutionService = require('../../../../lib/domain/services/solution-service');
 
-describe.skip('Unit | Controller | answer-controller', function () {
+describe('Unit | Controller | answer-controller', function () {
 
   let server;
 
@@ -56,6 +56,7 @@ describe.skip('Unit | Controller | answer-controller', function () {
     timeout: null
   });
 
+  /*
   before(function () {
     Answer.prototype.save = sinon.stub();
     Answer.prototype.save.resolves(persistedAnswer);
@@ -64,7 +65,7 @@ describe.skip('Unit | Controller | answer-controller', function () {
   after(function () {
     Answer.prototype.save.restore();
   });
-
+*/
   describe.skip('#save', function () {
 
     it.skip('should return a successful response with HTTP code 201 when answer was saved', function (done) {
