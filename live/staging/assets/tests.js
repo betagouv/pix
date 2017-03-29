@@ -3214,6 +3214,15 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['expor
           hasMultipleAttachments: true
         };
 
+        var challengeQROC = {
+          instruction: 'Dans la présentation à télécharger, un mot est caché sous le parchemin. Trouvez-le !',
+          hasInternetAllowed: false,
+          hasSingleAttachment: false,
+          hasAttachment: true,
+          hasMultipleAttachments: true,
+          attachments: ['http://dl.airtable.com/EL9k935vQQS1wAGIhcZU_PIX_parchemin.ppt', 'http://dl.airtable.com/VGAwZSilQji6Spm9C9Tf_PIX_parchemin.odp']
+        };
+
         (0, _mocha.it)('should display as many radio button as attachments', function () {
           // given
           addChallengeToContext(this, challenge);
@@ -3240,6 +3249,20 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['expor
         (0, _mocha.it)('should select first attachment as default selected radio buton', function () {
           // given
           addChallengeToContext(this, challenge);
+
+          // when
+          renderChallengeStatement(this);
+
+          // then
+          var $firstRadioButton = this.$('.challenge-statement__file-option-input')[0];
+          var $secondRadioButton = this.$('.challenge-statement__file-option-input')[1];
+          (0, _chai.expect)($firstRadioButton.checked).to.be['true'];
+          (0, _chai.expect)($secondRadioButton.checked).to.be['false'];
+        });
+
+        (0, _mocha.it)('should select first attachment as default selected radio button', function () {
+          // given
+          addChallengeToContext(this, challengeQROC);
 
           // when
           renderChallengeStatement(this);
