@@ -238,6 +238,16 @@ describe('Unit | Service | SolutionService', function () {
 
     describe('if solution type is QROCM-ind', function () {
 
+      //TODO : FIX ME When refacto of qrocm-dep and qroc done delete deactivations in parameters of buildSolution and delete this one
+      function buildSolutionQROCMind(type, value, scoring, enabledTreatments) {
+        const solution = new Solution({ id: 'solution_id' });
+        solution.type = type;
+        solution.value = value;
+        solution.scoring = _.ensureString(scoring).replace(/@/g, '');
+        solution.enabledTreatments = enabledTreatments;
+        return solution;
+      }
+
       it('Should return "aband" if answer is #ABAND#', function () {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QROCM-ind', 'some value');
@@ -248,7 +258,7 @@ describe('Unit | Service | SolutionService', function () {
 
         // Given
         const answer = buildAnswer('qrocmIndAnswer');
-        const solution = buildSolution('QROCM-ind', 'qrocmIndSolution', null, { t1: true }, ['t2', 't3']);
+        const solution = buildSolutionQROCMind('QROCM-ind', 'qrocmIndSolution', null, ['t2', 't3']);
         const serviceQrocmInd$match = sinon.stub(serviceQrocmInd, 'match');
         const service$_timedOut = sinon.stub(service, '_timedOut');
 
@@ -262,7 +272,7 @@ describe('Unit | Service | SolutionService', function () {
         service._timedOut.restore();
 
         sinon.assert.calledOnce(serviceQrocmInd$match);
-        sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution', { t1: true }, ['t2', 't3']);
+        sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution', ['t2', 't3']);
         sinon.assert.notCalled(service$_timedOut);
         expect(underTest).to.equal('qrocmIndMatching');
 
@@ -272,7 +282,7 @@ describe('Unit | Service | SolutionService', function () {
 
         // Given
         const answer = buildAnswer('qrocmIndAnswer', -15);
-        const solution = buildSolution('QROCM-ind', 'qrocmIndSolution', null, { t1: true }, ['t2', 't3']);
+        const solution = buildSolutionQROCMind('QROCM-ind', 'qrocmIndSolution', null, ['t2', 't3']);
         const serviceQrocmInd$match = sinon.stub(serviceQrocmInd, 'match');
         const service$_timedOut = sinon.stub(service, '_timedOut');
 
@@ -287,7 +297,7 @@ describe('Unit | Service | SolutionService', function () {
         service._timedOut.restore();
 
         sinon.assert.calledOnce(serviceQrocmInd$match);
-        sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution', { t1: true }, ['t2', 't3']);
+        sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution', ['t2', 't3']);
         sinon.assert.calledOnce(service$_timedOut);
         sinon.assert.calledWithExactly(service$_timedOut, 'qrocmIndMatching', -15);
 

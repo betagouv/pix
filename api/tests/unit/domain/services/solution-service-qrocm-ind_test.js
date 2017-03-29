@@ -175,7 +175,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
 
     successfulCases.forEach(function (testCase) {
       it(testCase.case + ', should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
-        expect(service.match(testCase.answer, testCase.solution, null, testCase.enabledTreatments)).to.equal('ok');
+        expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.equal('ok');
       });
     });
 
@@ -208,7 +208,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
 
     failingCases.forEach(function (testCase) {
       it(testCase.case + ', should return "ko" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
-        expect(service.match(testCase.answer, testCase.solution, null, testCase.enabledTreatments)).to.equal('ko');
+        expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.equal('ko');
       });
     });
 
@@ -222,7 +222,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: {},
         enabledTreatments: ['t1', 't2', 't3']
       },
       {
@@ -230,7 +229,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: c h i c o n',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: {},
         enabledTreatments: ['t1', 't2', 't3']
       },
       {
@@ -238,7 +236,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n-  c h i c o n \n- legume\n',
-        deactivations: {},
         enabledTreatments: ['t1', 't2', 't3']
       },
       {
@@ -246,7 +243,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: CHICON',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: {},
         enabledTreatments: ['t1', 't2', 't3']
       },
       {
@@ -254,7 +250,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- CHICON\n- legume\n',
-        deactivations: {},
         enabledTreatments: ['t1', 't2', 't3']
       },
       {
@@ -262,7 +257,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: îàéùô',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- iaeuo\n- legume\n',
-        deactivations: {},
         enabledTreatments: ['t1', 't2', 't3']
       },
       {
@@ -270,7 +264,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: iaeuo',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- îàéùô\n- legume\n',
-        deactivations: {},
         enabledTreatments: ['t1', 't2', 't3']
       },
       {
@@ -278,7 +271,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: ççççç',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ccccc\n- legume\n',
-        deactivations: {},
         enabledTreatments: ['t1', 't2', 't3']
       },
       {
@@ -286,7 +278,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: ccccc',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ççççç\n- legume\n',
-        deactivations: {},
         enabledTreatments: ['t1', 't2', 't3']
       },
       {
@@ -294,7 +285,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: .!p-u-n-c-t',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- punct\n- legume\n',
-        deactivations: {},
         enabledTreatments: ['t1', 't2', 't3']
       },
       {
@@ -302,7 +292,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: punct',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- .!p-u-n-c-t\n- legume\n',
-        deactivations: {},
         enabledTreatments: ['t1', 't2', 't3']
       },
       {
@@ -310,7 +299,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: 0123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 123456789\n- legume\n',
-        deactivations: {},
         enabledTreatments: ['t1', 't2', 't3']
       },
       {
@@ -318,14 +306,13 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: 123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 0123456789\n- legume\n',
-        deactivations: {},
         enabledTreatments: ['t1', 't2', 't3']
       },
     ];
 
     allCases.forEach(function (caze) {
       it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
-        const actual = service.match(caze.answer, caze.solution, caze.deactivations, caze.enabledTreatments);
+        const actual = service.match(caze.answer, caze.solution, caze.enabledTreatments);
         expect(actual).to.equal(caze.output);
       });
     });
@@ -339,7 +326,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t1: true },
         enabledTreatments: ['t2', 't3']
       },
       {
@@ -347,7 +333,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: c h i c o n',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t1: true },
         enabledTreatments: ['t2', 't3']
       },
       {
@@ -355,7 +340,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n-  c h i c o n \n- legume\n',
-        deactivations: { t1: true },
         enabledTreatments: ['t2', 't3']
       },
       {
@@ -363,7 +347,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: CHICON',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t1: true },
         enabledTreatments: ['t2', 't3']
       },
       {
@@ -371,7 +354,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- CHICON\n- legume\n',
-        deactivations: { t1: true },
         enabledTreatments: ['t2', 't3']
       },
       {
@@ -379,7 +361,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: îàéùô',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- iaeuo\n- legume\n',
-        deactivations: { t1: true },
         enabledTreatments: ['t2', 't3']
       },
       {
@@ -387,7 +368,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: iaeuo',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- îàéùô\n- legume\n',
-        deactivations: { t1: true },
         enabledTreatments: ['t2', 't3']
       },
       {
@@ -395,7 +375,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: ççççç',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ccccc\n- legume\n',
-        deactivations: { t1: true },
         enabledTreatments: ['t2', 't3']
       },
       {
@@ -403,7 +382,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: ccccc',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ççççç\n- legume\n',
-        deactivations: { t1: true },
         enabledTreatments: ['t2', 't3']
       },
       {
@@ -411,7 +389,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: .!p-u-n-c-t',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- punct\n- legume\n',
-        deactivations: { t1: true },
         enabledTreatments: ['t2', 't3']
       },
       {
@@ -419,7 +396,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: punct',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- .!p-u-n-c-t\n- legume\n',
-        deactivations: { t1: true },
         enabledTreatments: ['t2', 't3']
       },
       {
@@ -427,7 +403,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: 0123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 123456789\n- legume\n',
-        deactivations: { t1: true },
         enabledTreatments: ['t2', 't3']
       },
       {
@@ -435,14 +410,13 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: 123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 0123456789\n- legume\n',
-        deactivations: { t1: true },
         enabledTreatments: ['t2', 't3']
       },
     ];
 
     allCases.forEach(function (caze) {
       it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations, caze.enabledTreatments)).to.equal(caze.output);
+        expect(service.match(caze.answer, caze.solution, caze.enabledTreatments)).to.equal(caze.output);
       });
     });
   });
@@ -455,7 +429,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t2: true },
         enabledTreatments: ['t1', 't3']
       },
       {
@@ -463,7 +436,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: c h i c o n',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t2: true },
         enabledTreatments: ['t1', 't3']
       },
       {
@@ -471,7 +443,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n-  c h i c o n \n- legume\n',
-        deactivations: { t2: true },
         enabledTreatments: ['t1', 't3']
       },
       {
@@ -479,7 +450,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: CHICON',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t2: true },
         enabledTreatments: ['t1', 't3']
       },
       {
@@ -487,7 +457,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- CHICON\n- legume\n',
-        deactivations: { t2: true },
         enabledTreatments: ['t1', 't3']
       },
       {
@@ -495,7 +464,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: îàéùô',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- iaeuo\n- legume\n',
-        deactivations: { t2: true },
         enabledTreatments: ['t1', 't3']
       },
       {
@@ -503,7 +471,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: iaeuo',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- îàéùô\n- legume\n',
-        deactivations: { t2: true },
         enabledTreatments: ['t1', 't3']
       },
       {
@@ -511,7 +478,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: ççççç',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ccccc\n- legume\n',
-        deactivations: { t2: true },
         enabledTreatments: ['t1', 't3']
       },
       {
@@ -519,7 +485,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: ccccc',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ççççç\n- legume\n',
-        deactivations: { t2: true },
         enabledTreatments: ['t1', 't3']
       },
       {
@@ -527,7 +492,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: .!p-u-n-c-t',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- punct\n- legume\n',
-        deactivations: { t2: true },
         enabledTreatments: ['t1', 't3']
       },
       {
@@ -535,7 +499,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: punct',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- .!p-u-n-c-t\n- legume\n',
-        deactivations: { t2: true },
         enabledTreatments: ['t1', 't3']
       },
       {
@@ -543,7 +506,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: 0123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 123456789\n- legume\n',
-        deactivations: { t2: true },
         enabledTreatments: ['t1', 't3']
       },
       {
@@ -551,19 +513,17 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: 123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 0123456789\n- legume\n',
-        deactivations: { t2: true },
         enabledTreatments: ['t1', 't3']
       },
     ];
 
     allCases.forEach(function (caze) {
       it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations, caze.enabledTreatments)).to.equal(caze.output);
+        expect(service.match(caze.answer, caze.solution, caze.enabledTreatments)).to.equal(caze.output);
       });
     });
   });
 
-  //Pour notre cas : enabledTreatments : ['t1', 't2']
   describe('match, t3 deactivated', function () {
 
     const allCases = [
@@ -572,7 +532,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t3: true },
         enabledTreatments: ['t1', 't2']
       },
       {
@@ -580,7 +539,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: c h i c o n',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t3: true },
         enabledTreatments: ['t1', 't2']
       },
       {
@@ -588,7 +546,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n-  c h i c o n \n- legume\n',
-        deactivations: { t3: true },
         enabledTreatments: ['t1', 't2']
       },
       {
@@ -596,7 +553,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: CHICON',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t3: true },
         enabledTreatments: ['t1', 't2']
       },
       {
@@ -604,7 +560,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- CHICON\n- legume\n',
-        deactivations: { t3: true },
         enabledTreatments: ['t1', 't2']
       },
       {
@@ -612,7 +567,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: îàéùô',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- iaeuo\n- legume\n',
-        deactivations: { t3: true },
         enabledTreatments: ['t1', 't2']
       },
       {
@@ -620,7 +574,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: iaeuo',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- îàéùô\n- legume\n',
-        deactivations: { t3: true },
         enabledTreatments: ['t1', 't2']
       },
       {
@@ -628,7 +581,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: ççççç',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ccccc\n- legume\n',
-        deactivations: { t3: true },
         enabledTreatments: ['t1', 't2']
       },
       {
@@ -636,7 +588,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: ccccc',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ççççç\n- legume\n',
-        deactivations: { t3: true },
         enabledTreatments: ['t1', 't2']
       },
       {
@@ -644,7 +595,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: .!p-u-n-c-t',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- punct\n- legume\n',
-        deactivations: { t3: true },
         enabledTreatments: ['t1', 't2']
       },
       {
@@ -652,7 +602,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: punct',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- .!p-u-n-c-t\n- legume\n',
-        deactivations: { t3: true },
         enabledTreatments: ['t1', 't2']
       },
       {
@@ -660,7 +609,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: 0123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 123456789\n- legume\n',
-        deactivations: { t3: true },
         enabledTreatments: ['t1', 't2']
       },
       {
@@ -668,19 +616,17 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: 123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 0123456789\n- legume\n',
-        deactivations: { t3: true },
         enabledTreatments: ['t1', 't2']
       },
     ];
 
     allCases.forEach(function (caze) {
       it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations, caze.enabledTreatments)).to.equal(caze.output);
+        expect(service.match(caze.answer, caze.solution, caze.enabledTreatments)).to.equal(caze.output);
       });
     });
   });
 
-  //Pour notre cas : enabledTreatments : ['t3']
   describe('match, t1 and t2 deactivated', function () {
 
     const allCases = [
@@ -689,7 +635,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t1: true, t2: true },
         enabledTreatments: ['t3']
       },
       {
@@ -697,7 +642,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: c h i c o n',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t1: true, t2: true },
         enabledTreatments: ['t3']
       },
       {
@@ -705,7 +649,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n-  c h i c o n \n- legume\n',
-        deactivations: { t1: true, t2: true },
         enabledTreatments: ['t3']
       },
       {
@@ -713,7 +656,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: CHICON',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t1: true, t2: true },
         enabledTreatments: ['t3']
       },
       {
@@ -721,7 +663,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- CHICON\n- legume\n',
-        deactivations: { t1: true, t2: true },
         enabledTreatments: ['t3']
       },
       {
@@ -729,7 +670,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: îàéùô',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- iaeuo\n- legume\n',
-        deactivations: { t1: true, t2: true },
         enabledTreatments: ['t3']
       },
       {
@@ -737,7 +677,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: iaeuo',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- îàéùô\n- legume\n',
-        deactivations: { t1: true, t2: true },
         enabledTreatments: ['t3']
       },
       {
@@ -745,7 +684,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: ççççç',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ccccc\n- legume\n',
-        deactivations: { t1: true, t2: true },
         enabledTreatments: ['t3']
       },
       {
@@ -753,7 +691,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: ccccc',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ççççç\n- legume\n',
-        deactivations: { t1: true, t2: true },
         enabledTreatments: ['t3']
       },
       {
@@ -761,7 +698,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: .!p-u-n-c-t',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- punct\n- legume\n',
-        deactivations: { t1: true, t2: true },
         enabledTreatments: ['t3']
       },
       {
@@ -769,7 +705,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: punct',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- .!p-u-n-c-t\n- legume\n',
-        deactivations: { t1: true, t2: true },
         enabledTreatments: ['t3']
       },
       {
@@ -777,7 +712,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: 0123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 123456789\n- legume\n',
-        deactivations: { t1: true, t2: true },
         enabledTreatments: ['t3']
       },
       {
@@ -785,19 +719,17 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: 123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 0123456789\n- legume\n',
-        deactivations: { t1: true, t2: true },
         enabledTreatments: ['t3']
       },
     ];
 
     allCases.forEach(function (caze) {
       it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations, caze.enabledTreatments)).to.equal(caze.output);
+        expect(service.match(caze.answer, caze.solution, caze.enabledTreatments)).to.equal(caze.output);
       });
     });
   });
 
-  //Pour notre cas : enabledTreatments : ['t2']
   describe('match, t1 and t3 deactivated', function () {
 
     const allCases = [
@@ -806,7 +738,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t1: true, t3: true },
         enabledTreatments: ['t2']
       },
       {
@@ -814,7 +745,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: c h i c o n',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t1: true, t3: true },
         enabledTreatments: ['t2']
       },
       {
@@ -822,7 +752,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n-  c h i c o n \n- legume\n',
-        deactivations: { t1: true, t3: true },
         enabledTreatments: ['t2']
       },
       {
@@ -830,7 +759,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: CHICON',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t1: true, t3: true },
         enabledTreatments: ['t2']
       },
       {
@@ -838,7 +766,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- CHICON\n- legume\n',
-        deactivations: { t1: true, t3: true },
         enabledTreatments: ['t2']
       },
       {
@@ -846,7 +773,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: îàéùô',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- iaeuo\n- legume\n',
-        deactivations: { t1: true, t3: true },
         enabledTreatments: ['t2']
       },
       {
@@ -854,7 +780,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: iaeuo',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- îàéùô\n- legume\n',
-        deactivations: { t1: true, t3: true },
         enabledTreatments: ['t2']
       },
       {
@@ -862,7 +787,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: ççççç',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ccccc\n- legume\n',
-        deactivations: { t1: true, t3: true },
         enabledTreatments: ['t2']
       },
       {
@@ -870,7 +794,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: ccccc',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ççççç\n- legume\n',
-        deactivations: { t1: true, t3: true },
         enabledTreatments: ['t2']
       },
       {
@@ -878,7 +801,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: .!p-u-n-c-t',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- punct\n- legume\n',
-        deactivations: { t1: true, t3: true },
         enabledTreatments: ['t2']
       },
       {
@@ -886,7 +808,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: punct',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- .!p-u-n-c-t\n- legume\n',
-        deactivations: { t1: true, t3: true },
         enabledTreatments: ['t2']
       },
       {
@@ -894,7 +815,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: 0123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 123456789\n- legume\n',
-        deactivations: { t1: true, t3: true },
         enabledTreatments: ['t2']
       },
       {
@@ -902,19 +822,17 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: 123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 0123456789\n- legume\n',
-        deactivations: { t1: true, t3: true },
         enabledTreatments: ['t2']
       },
     ];
 
     allCases.forEach(function (caze) {
       it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations, caze.enabledTreatments)).to.equal(caze.output);
+        expect(service.match(caze.answer, caze.solution, caze.enabledTreatments)).to.equal(caze.output);
       });
     });
   });
 
-  //Pour notre cas : enabledTreatments : ['t1']
   describe('match, t2 and t3 deactivated', function () {
 
     const allCases = [
@@ -923,7 +841,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t2: true, t3: true },
         enabledTreatments: ['t1']
       },
       {
@@ -931,7 +848,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: c h i c o n',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t2: true, t3: true },
         enabledTreatments: ['t1']
       },
       {
@@ -939,7 +855,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n-  c h i c o n \n- legume\n',
-        deactivations: { t2: true, t3: true },
         enabledTreatments: ['t1']
       },
       {
@@ -947,7 +862,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: CHICON',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t2: true, t3: true },
         enabledTreatments: ['t1']
       },
       {
@@ -955,7 +869,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- CHICON\n- legume\n',
-        deactivations: { t2: true, t3: true },
         enabledTreatments: ['t1']
       },
       {
@@ -963,7 +876,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: îàéùô',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- iaeuo\n- legume\n',
-        deactivations: { t2: true, t3: true },
         enabledTreatments: ['t1']
       },
       {
@@ -971,7 +883,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: iaeuo',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- îàéùô\n- legume\n',
-        deactivations: { t2: true, t3: true },
         enabledTreatments: ['t1']
       },
       {
@@ -979,7 +890,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: ççççç',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ccccc\n- legume\n',
-        deactivations: { t2: true, t3: true },
         enabledTreatments: ['t1']
       },
       {
@@ -987,7 +897,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: ccccc',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ççççç\n- legume\n',
-        deactivations: { t2: true, t3: true },
         enabledTreatments: ['t1']
       },
       {
@@ -995,7 +904,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: .!p-u-n-c-t',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- punct\n- legume\n',
-        deactivations: { t2: true, t3: true },
         enabledTreatments: ['t1']
       },
       {
@@ -1003,7 +911,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: punct',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- .!p-u-n-c-t\n- legume\n',
-        deactivations: { t2: true, t3: true },
         enabledTreatments: ['t1']
       },
       {
@@ -1011,7 +918,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: 0123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 123456789\n- legume\n',
-        deactivations: { t2: true, t3: true },
         enabledTreatments: ['t1']
       },
       {
@@ -1019,19 +925,17 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: 123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 0123456789\n- legume\n',
-        deactivations: { t2: true, t3: true },
         enabledTreatments: ['t1']
       },
     ];
 
     allCases.forEach(function (caze) {
       it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations, caze.enabledTreatments)).to.equal(caze.output);
+        expect(service.match(caze.answer, caze.solution, caze.enabledTreatments)).to.equal(caze.output);
       });
     });
   });
 
-  //Pour notre cas : enabledTreatments = []
   describe('match, t1, t2 and t3 deactivated', function () {
 
     const allCases = [
@@ -1040,7 +944,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ok',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t1: true, t2: true, t3: true },
         enabledTreatments: []
       },
       {
@@ -1048,7 +951,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: c h i c o n',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t1: true, t2: true, t3: true },
         enabledTreatments: []
       },
       {
@@ -1056,7 +958,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n-  c h i c o n \n- legume\n',
-        deactivations: { t1: true, t2: true, t3: true },
         enabledTreatments: []
       },
       {
@@ -1064,7 +965,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: CHICON',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume\n',
-        deactivations: { t1: true, t2: true, t3: true },
         enabledTreatments: []
       },
       {
@@ -1072,7 +972,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: chicon',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- CHICON\n- legume\n',
-        deactivations: { t1: true, t2: true, t3: true },
         enabledTreatments: []
       },
       {
@@ -1080,7 +979,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: îàéùô',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- iaeuo\n- legume\n',
-        deactivations: { t1: true, t2: true, t3: true },
         enabledTreatments: []
       },
       {
@@ -1088,7 +986,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: iaeuo',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- îàéùô\n- legume\n',
-        deactivations: { t1: true, t2: true, t3: true },
         enabledTreatments: []
       },
       {
@@ -1096,7 +993,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: ççççç',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ccccc\n- legume\n',
-        deactivations: { t1: true, t2: true, t3: true },
         enabledTreatments: []
       },
       {
@@ -1104,7 +1000,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: ccccc',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- ççççç\n- legume\n',
-        deactivations: { t1: true, t2: true, t3: true },
         enabledTreatments: []
       },
       {
@@ -1112,7 +1007,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: .!p-u-n-c-t',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- punct\n- legume\n',
-        deactivations: { t1: true, t2: true, t3: true },
         enabledTreatments: []
       },
       {
@@ -1120,7 +1014,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: punct',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- .!p-u-n-c-t\n- legume\n',
-        deactivations: { t1: true, t2: true, t3: true },
         enabledTreatments: []
       },
       {
@@ -1128,7 +1021,6 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: 0123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 123456789\n- legume\n',
-        deactivations: { t1: true, t2: true, t3: true },
         enabledTreatments: []
       },
       {
@@ -1136,14 +1028,13 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         output: 'ko',
         answer: '9lettres: courgette\n6lettres: 123456789',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- 0123456789\n- legume\n',
-        deactivations: { t1: true, t2: true, t3: true },
         enabledTreatments: []
       },
     ];
 
     allCases.forEach(function (caze) {
       it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations, caze.enabledTreatments)).to.equal(caze.output);
+        expect(service.match(caze.answer, caze.solution, caze.enabledTreatments)).to.equal(caze.output);
       });
     });
   });

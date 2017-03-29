@@ -66,7 +66,7 @@ module.exports = {
     }
 
     if (solution.type === 'QROCM-ind') {
-      result = solutionServiceQrocmInd.match(answerValue, solutionValue, deactivations, enabledTreatments);
+      result = solutionServiceQrocmInd.match(answerValue, solutionValue, enabledTreatments);
     }
 
     if (solution.type === 'QROCM-dep') {

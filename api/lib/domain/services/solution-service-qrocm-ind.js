@@ -68,7 +68,7 @@ module.exports = {
   _compareAnswersAndSolutions,
   _formatResult,
 
-  match (yamlAnswer, yamlSolution, deactivations, enabledTreatments) {
+  match (yamlAnswer, yamlSolution, enabledTreatments) {
 
     if (_.isNotString(yamlAnswer)
       || _.isNotString(yamlSolution)
