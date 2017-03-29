@@ -14,6 +14,7 @@ const NO_ANSWER_GREY = 'rgb(62, 65, 73)';
 
 
 describe('Integration | Component | qroc solution panel', function () {
+
   setupComponentTest('qroc-solution-panel', {
     integration: true
   });
@@ -62,6 +63,7 @@ describe('Integration | Component | qroc solution panel', function () {
       const challenge = Ember.Object.create({ id: 'challenge_id' });
       const answer = Ember.Object.create({ id: 'answer_id', result:'ko', assessment, challenge });
 
+
       this.set('answer', answer);
       this.render(hbs`{{qroc-solution-panel answer=answer}}`);
     });
@@ -77,13 +79,14 @@ describe('Integration | Component | qroc solution panel', function () {
 
     });
 
-    it('should display the solution with a arrow and the solution in bold green', function () {
+    it('should display the solution with an arrow and the solution in bold green', function () {
       // given
       const blockSolution = this.$(SOLUTION_BLOCK);
       const blockSolutionText = this.$(SOLUTION_DISPLAY);
 
       // then
       expect(blockSolution).to.have.lengthOf(1);
+      expect(blockSolution.css('align-items')).to.be.equal('stretch');
       expect(blockSolutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
       expect(blockSolutionText.css('font-weight')).to.be.equal('bold');
     });
@@ -96,6 +99,7 @@ describe('Integration | Component | qroc solution panel', function () {
         const answer = Ember.Object.create({ id: 'answer_id', result: 'aband', assessment, challenge });
 
         this.set('answer', answer);
+        this.set('isResultWithoutAnswer', true);
         this.render(hbs`{{qroc-solution-panel answer=answer}}`);
       });
 

@@ -32,16 +32,16 @@ describe('Unit | Component | qroc-solution-panel', function () {
     });
 
   });
-  describe('#isResultNotOk', function () {
+  describe('#isResulKo', function () {
 
     it('should return true when result is ko', function () {
       // given
       const component = this.subject();
       component.set('answer', wrongAnswer);
       // when
-      const isResultNotOk = component.get('isResultNotOk');
+      const isResultKo = component.get('isResultKo');
       // then
-      expect(isResultNotOk).to.be.true;
+      expect(isResultKo).to.be.true;
     });
 
     it('should return true when result is not ko', function () {
@@ -49,9 +49,9 @@ describe('Unit | Component | qroc-solution-panel', function () {
       const component = this.subject();
       component.set('answer', rightAnswer);
       // when
-      const isResultNotOk = component.get('isResultNotOk');
+      const isResultKo = component.get('isResultKo');
       // then
-      expect(isResultNotOk).to.be.false;
+      expect(isResultKo).to.be.false;
     });
 
   });
@@ -78,6 +78,94 @@ describe('Unit | Component | qroc-solution-panel', function () {
       expect(isResultWithoutAnswer).to.be.false;
     });
 
+  });
+
+  describe('#isResultOk', function () {
+
+    it('should return true when the answer is right', function () {
+      // given
+      const answer = {
+        result:'ok'
+      };
+      const component = this.subject();
+      component.set('answer', answer);
+      // when
+      const isResultOk = component.get('isResultOk');
+      // then
+      expect(isResultOk).to.be.true;
+    });
+
+    it('should return false when the answer is wrong', function () {
+      // given
+      const answer = {
+        result:'ko'
+      };
+      const component = this.subject();
+      component.set('answer', answer);
+      // when
+      const isResultOk = component.get('isResultOk');
+      // then
+      expect(isResultOk).to.be.false;
+    });
+  });
+
+  describe('#isResultKo', function () {
+
+    it('should return true when the answer is wrong', function () {
+      // given
+      const answer = {
+        result:'ko'
+      };
+      const component = this.subject();
+      component.set('answer', answer);
+      // when
+      const isResultKo = component.get('isResultKo');
+      // then
+      expect(isResultKo).to.be.true;
+
+    });
+
+    it('should return false when the answer is right', function () {
+      // given
+      const answer = {
+        result:'ok'
+      };
+      const component = this.subject();
+      component.set('answer', answer);
+      // when
+      const isResultKo = component.get('isResultKo');
+      // then
+      expect(isResultKo).to.be.false;
+    });
+  });
+
+  describe('#isResultWithoutAnswer', function () {
+
+    it('should return true when the answer is aband', function () {
+      // given
+      const answer = {
+        result:'aband'
+      };
+      const component = this.subject();
+      component.set('answer', answer);
+      // when
+      const isResultWithoutAnswer = component.get('isResultWithoutAnswer');
+      // then
+      expect(isResultWithoutAnswer).to.be.true;
+    });
+
+    it('it should return false when the answer is not aband', function () {
+      // given
+      const answer = {
+        result:'ok'
+      };
+      const component = this.subject();
+      component.set('answer', answer);
+      // when
+      const isResultWithoutAnswer = component.get('isResultWithoutAnswer');
+      // then
+      expect(isResultWithoutAnswer).to.be.false;
+    });
   });
 
   describe('#answerToDisplay', function () {

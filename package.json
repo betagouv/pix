@@ -1,6 +1,6 @@
 {
   "name": "pix",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Plateforme d'évaluation et de certification des compétences numériques des citoyens francophones.",
   "author": "Team PIX",
   "license": "AGPL-3.0",
@@ -16,6 +16,9 @@
     "lcov-result-merger": "^1.2.0",
     "npm-run-all": "^3.1.1"
   },
+  "engines": {
+    "node": ">= 7.7.4"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sgmap/pix.git"
@@ -27,6 +30,7 @@
     "clean": "node_modules/.bin/run-p clean:api clean:live clean:coverage",
     "install:api": "cd api && npm install",
     "install:live": "cd live && npm install",
+    "install:all": "npm install && node_modules/.bin/run-p install:api install:live",
     "postinstall": "node_modules/.bin/run-p install:api install:live",
     "start:api": "cd api && npm run start:watch",
     "start:live": "cd live && ember serve --proxy",
