@@ -4057,7 +4057,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
   var BUTTON_SEND = '.follower-form__button';
   var INPUT_EMAIL = '.follower-email';
 
-  _mocha.describe.only('Integration | Component | follower form', function () {
+  (0, _mocha.describe)('Integration | Component | follower form', function () {
     (0, _emberMocha.setupComponentTest)('follower-form', {
       integration: true
     });
@@ -5839,32 +5839,48 @@ define('pix-live/tests/unit/components/feedback-panel-test.lint-test', ['exports
 });
 define('pix-live/tests/unit/components/follower-form-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
+  var errorMessages = {
+    error: {
+      invalid: 'Votre adresse n\'est pas valide',
+      exist: 'L\'e-mail choisi est déjà utilisé'
+    },
+    success: 'Merci pour votre inscription'
+  };
+
   (0, _mocha.describe)('Unit | Component | followerComponent', function () {
     (0, _emberMocha.setupTest)('component:follower-form', {});
 
-    (0, _mocha.describe)('Computed property', function () {
-      var component = undefined;
+    (0, _mocha.describe)('#Computed Properties behaviors: ', function () {
+      (0, _mocha.describe)('When status get <error>, computed :', function () {
+        [{ attribute: 'hasError', expected: true }, { attribute: 'isPending', expected: false }, { attribute: 'hasSuccess', expected: false }, { attribute: 'messageClassName', expected: 'has-error' }, { attribute: 'infoMessage', expected: errorMessages.error.invalid }, { attribute: 'submitButtonText', expected: 's\'inscrire' }, { attribute: 'hasMessage', expected: true }].forEach(function (_ref) {
+          var attribute = _ref.attribute;
+          var expected = _ref.expected;
 
-      function initComponent() {
-        component = this.subject();
-      }
-
-      (0, _mocha.it)('should returns true when hasError change', function () {
-        initComponent.call(this);
-        // when
-        component.set('hasError', true);
-        // then
-        (0, _chai.expect)(component.get('infoMessage')).to.exist;
+          (0, _mocha.it)('should return ' + expected + ' when passing ' + attribute, function () {
+            // given
+            var component = this.subject();
+            // when
+            component.set('status', 'error');
+            // then
+            (0, _chai.expect)(component.get(attribute)).to.equal(expected);
+          });
+        });
       });
 
-      (0, _mocha.it)('should returns an error message when hasError get true', function () {
-        // given
-        initComponent.call(this);
-        // when
-        component.set('hasError', true);
-        component.set('isSubmited', true);
-        // then
-        (0, _chai.expect)(component.get('infoMessage')).to.equal('Votre adresse n\'est pas valide');
+      (0, _mocha.describe)('When status get <success>, computed :', function () {
+        [{ attribute: 'hasError', expected: false }, { attribute: 'isPending', expected: false }, { attribute: 'hasSuccess', expected: true }, { attribute: 'messageClassName', expected: 'has-success' }, { attribute: 'infoMessage', expected: errorMessages.success }, { attribute: 'submitButtonText', expected: 's\'inscrire' }, { attribute: 'hasMessage', expected: true }].forEach(function (_ref2) {
+          var attribute = _ref2.attribute;
+          var expected = _ref2.expected;
+
+          (0, _mocha.it)('should return ' + expected + ' when passing ' + attribute, function () {
+            // given
+            var component = this.subject();
+            // when
+            component.set('status', 'success');
+            // then
+            (0, _chai.expect)(component.get(attribute)).to.equal(expected);
+          });
+        });
       });
     });
   });
