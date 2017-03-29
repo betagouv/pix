@@ -36,7 +36,7 @@ describe('Unit | Service | SolutionService', function () {
       it('Should return "aband" if answer is #ABAND#', function () {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QCU', 'some value');
-        expect(service.match(answer, solution)).to.equal('aband');
+        expect(service.match(answer, solution)).to.deep.equal({ result: 'aband', resultDetails: null });
       });
 
       it('Should return result of solution-service-qcu.match() | user didnt abandoned | no timeout', function () {
@@ -55,7 +55,7 @@ describe('Unit | Service | SolutionService', function () {
         serviceQcu.match.restore();
         service._timedOut.restore();
 
-        expect(underTest).to.equal('qcuMatching');
+        expect(underTest).to.deep.equal({result: 'qcuMatching', resultDetails: null});
       });
 
       it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
@@ -74,7 +74,7 @@ describe('Unit | Service | SolutionService', function () {
         serviceQcu.match.restore();
         service._timedOut.restore();
 
-        expect(underTest).to.equal('resultOfTimeout');
+        expect(underTest).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
       });
 
     });
@@ -84,7 +84,7 @@ describe('Unit | Service | SolutionService', function () {
       it('Should return "aband" if answer is #ABAND#', function () {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QRU', 'some value');
-        expect(service.match(answer, solution)).to.equal('aband');
+        expect(service.match(answer, solution)).to.deep.equal({result: 'aband', resultDetails: null});
       });
 
       it('Should return result of solution-service-qru.match() | user didnt abandoned | no timeout', function () {
@@ -103,7 +103,7 @@ describe('Unit | Service | SolutionService', function () {
         serviceQru.match.restore();
         service._timedOut.restore();
 
-        expect(underTest).to.equal('qruMatching');
+        expect(underTest).to.deep.equal({result: 'qruMatching', resultDetails: null});
       });
 
       it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
@@ -122,7 +122,7 @@ describe('Unit | Service | SolutionService', function () {
         serviceQru.match.restore();
         service._timedOut.restore();
 
-        expect(underTest).to.equal('resultOfTimeout');
+        expect(underTest).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
       });
     });
 
@@ -131,7 +131,7 @@ describe('Unit | Service | SolutionService', function () {
       it('Should return "aband" if answer is #ABAND#', function () {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QCM', 'some value');
-        expect(service.match(answer, solution)).to.equal('aband');
+        expect(service.match(answer, solution)).to.deep.equal({result: 'aband', resultDetails: null});
       });
 
       it('Should return result of solution-service-qcm.match() | user didnt abandoned | no timeout', function () {
@@ -150,7 +150,7 @@ describe('Unit | Service | SolutionService', function () {
         serviceQcm.match.restore();
         service._timedOut.restore();
 
-        expect(underTest).to.equal('qcmMatching');
+        expect(underTest).to.deep.equal({result: 'qcmMatching', resultDetails: null});
       });
 
       it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
@@ -169,7 +169,7 @@ describe('Unit | Service | SolutionService', function () {
         serviceQcm.match.restore();
         service._timedOut.restore();
 
-        expect(underTest).to.equal('resultOfTimeout');
+        expect(underTest).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
       });
 
     });
@@ -180,7 +180,7 @@ describe('Unit | Service | SolutionService', function () {
       it('Should return "aband" if answer is #ABAND#', function () {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QROC', 'some value');
-        expect(service.match(answer, solution)).to.equal('aband');
+        expect(service.match(answer, solution)).to.deep.equal({result: 'aband', resultDetails: null});
       });
 
       it('Should return result of solution-service-qroc.match() | user didnt abandoned | no timeout', function () {
@@ -204,7 +204,7 @@ describe('Unit | Service | SolutionService', function () {
         sinon.assert.calledOnce(serviceQroc$match);
         sinon.assert.calledWithExactly(serviceQroc$match, 'qrocAnswer', 'qrocSolution', { t1: true });
         sinon.assert.notCalled(service$_timedOut);
-        expect(underTest).to.equal('qrocMatching');
+        expect(underTest).to.deep.equal({result: 'qrocMatching', resultDetails: null});
       });
 
       it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
@@ -230,7 +230,7 @@ describe('Unit | Service | SolutionService', function () {
         sinon.assert.calledOnce(service$_timedOut);
         sinon.assert.calledWithExactly(service$_timedOut, 'qrocMatching', -15);
 
-        expect(underTest).to.equal('resultOfTimeout');
+        expect(underTest).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
       });
 
     });
@@ -251,7 +251,7 @@ describe('Unit | Service | SolutionService', function () {
       it('Should return "aband" if answer is #ABAND#', function () {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QROCM-ind', 'some value');
-        expect(service.match(answer, solution)).to.equal('aband');
+        expect(service.match(answer, solution)).to.deep.equal({result: 'aband', resultDetails: null});
       });
 
       it('Should return result of solution-service-qrocmInd.match() | user didnt abandoned | no timeout', function () {
@@ -262,7 +262,7 @@ describe('Unit | Service | SolutionService', function () {
         const serviceQrocmInd$match = sinon.stub(serviceQrocmInd, 'match');
         const service$_timedOut = sinon.stub(service, '_timedOut');
 
-        serviceQrocmInd$match.returns('qrocmIndMatching');
+        serviceQrocmInd$match.returns({result: 'qrocmIndMatching', resultDetails: {shi: true, fu: false, mi: true}});
 
         // When
         const underTest = service.match(answer, solution);
@@ -274,7 +274,7 @@ describe('Unit | Service | SolutionService', function () {
         sinon.assert.calledOnce(serviceQrocmInd$match);
         sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution', ['t2', 't3']);
         sinon.assert.notCalled(service$_timedOut);
-        expect(underTest).to.equal('qrocmIndMatching');
+        expect(underTest).to.deep.equal({result: 'qrocmIndMatching', resultDetails: {shi: true, fu: false, mi: true}});
 
       });
 
@@ -286,7 +286,7 @@ describe('Unit | Service | SolutionService', function () {
         const serviceQrocmInd$match = sinon.stub(serviceQrocmInd, 'match');
         const service$_timedOut = sinon.stub(service, '_timedOut');
 
-        serviceQrocmInd$match.returns('qrocmIndMatching');
+        serviceQrocmInd$match.returns({result: 'qrocmIndMatching', resultDetails: {shi: true, fu: false, mi: true}});
         service$_timedOut.returns('resultOfTimeout');
 
         // When
@@ -301,7 +301,7 @@ describe('Unit | Service | SolutionService', function () {
         sinon.assert.calledOnce(service$_timedOut);
         sinon.assert.calledWithExactly(service$_timedOut, 'qrocmIndMatching', -15);
 
-        expect(underTest).to.equal('resultOfTimeout');
+        expect(underTest).to.deep.equal({result: 'resultOfTimeout', resultDetails: {shi: true, fu: false, mi: true}});
       });
 
     });
@@ -311,7 +311,7 @@ describe('Unit | Service | SolutionService', function () {
       it('Should return "aband" if answer is #ABAND#', function () {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QROCM-dep', 'some value');
-        expect(service.match(answer, solution)).to.equal('aband');
+        expect(service.match(answer, solution)).to.deep.equal({result: 'aband', resultDetails: null});
       });
 
       it('Should return result of solution-service-qrocmDep.match() | user didnt abandoned | no timeout', function () {
@@ -334,7 +334,7 @@ describe('Unit | Service | SolutionService', function () {
         sinon.assert.calledOnce(serviceQrocmDep$match);
         sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', { t1: true });
         sinon.assert.notCalled(service$_timedOut);
-        expect(underTest).to.equal('qrocmDepMatching');
+        expect(underTest).to.deep.equal({result: 'qrocmDepMatching', resultDetails: null});
       });
 
       it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
@@ -360,7 +360,7 @@ describe('Unit | Service | SolutionService', function () {
         sinon.assert.calledOnce(service$_timedOut);
         sinon.assert.calledWithExactly(service$_timedOut, 'qrocmDepMatching', -15);
 
-        expect(underTest).to.equal('resultOfTimeout');
+        expect(underTest).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
       });
 
     });
@@ -371,13 +371,13 @@ describe('Unit | Service | SolutionService', function () {
       it('should return "aband" if answer is #ABAND#', function () {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('SOME_TYPE');
-        expect(service.match(answer, solution)).to.equal('aband');
+        expect(service.match(answer, solution)).to.deep.equal({result: 'aband', resultDetails: null});
       });
 
       it('should return "unimplemented" if answer is not #ABAND#', function () {
         const answer = buildAnswer('some value');
         const solution = buildSolution('SOME_TYPE');
-        expect(service.match(answer, solution)).to.equal('unimplemented');
+        expect(service.match(answer, solution)).to.deep.equal({result: 'unimplemented', resultDetails: null});
       });
 
     });

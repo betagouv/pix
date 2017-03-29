@@ -12,7 +12,8 @@ function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
       const answerCorrectness = solutionService.match(newAnswer, solution);
       new Answer({ id: existingAnswer.id })
         .save({
-          result: answerCorrectness,
+          result: answerCorrectness.result,
+          resultDetails: answerCorrectness.resultDetails,
           value: newAnswer.get('value'),
           timeout: newAnswer.get('timeout'),
           challengeId: existingAnswer.get('challengeId'),
@@ -27,8 +28,9 @@ function _saveNewAnswer(newAnswer, reply) {
   solutionRepository
     .get(newAnswer.get('challengeId'))
     .then((solution) => {
-      const answerCorrectness = solutionService.match(newAnswer, solution);
-      newAnswer.set('result', answerCorrectness);
+      const answerValidation = solutionService.match(newAnswer, solution);
+      newAnswer.set('result', answerValidation.result);
+      newAnswer.set('resultDetails', answerValidation.resultDetails);
       newAnswer.set('timeout', newAnswer.get('timeout'));
       newAnswer.save()
         .then((newAnswer) => reply(answerSerializer.serialize(newAnswer)).code(201))

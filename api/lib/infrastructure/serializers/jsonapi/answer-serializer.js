@@ -11,7 +11,7 @@ class AnswerSerializer extends JSONAPISerializer {
     data.attributes.value = model.value;
     data.attributes.timeout = model.timeout;
     data.attributes.result = model.result;
-    /*data.attributes.resultQrocmDetails = 'Not yet implemented!';*/
+    data.attributes.resultDetails = model.resultDetails;
   }
 
   serializeRelationships(model, data) {
@@ -36,6 +36,7 @@ class AnswerSerializer extends JSONAPISerializer {
     const answer = new Answer({
       value: json.data.attributes.value,
       result: json.data.attributes.result,
+      resultDetails : json.data.attributes.resultDetails,
       timeout: json.data.attributes.timeout,
       assessmentId: json.data.relationships.assessment.data.id,
       challengeId: json.data.relationships.challenge.data.id

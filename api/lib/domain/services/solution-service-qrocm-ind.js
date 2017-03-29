@@ -1,8 +1,6 @@
 const jsYaml = require('js-yaml');
 const levenshtein = require('fast-levenshtein');
 const _ = require('../../infrastructure/utils/lodash-utils');
-const utils = require('./solution-service-utils');
-const deactivationsService = require('./deactivations-service');
 const { t1, t2 } = require('./validation-treatments');
 
 function _applyTreatmentsTo(string, enabledTreatments) {
@@ -74,7 +72,7 @@ module.exports = {
       || _.isNotString(yamlSolution)
       || _.isEmpty(yamlSolution)
       || !_.includes(yamlSolution, '\n')) {
-      return 'ko';
+      return { result: 'ko' };
     }
 
     // Pre-treatments
@@ -93,7 +91,10 @@ module.exports = {
     const resultDetails = _compareAnswersAndSolutions(treatedAnswers, treatedSolutions, enabledTreatments);
 
     // Restitution
-    return _formatResult(resultDetails);
+    return {
+      result: _formatResult(resultDetails),
+      resultDetails: resultDetails
+    };
   }
 
 };

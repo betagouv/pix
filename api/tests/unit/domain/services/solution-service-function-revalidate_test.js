@@ -82,7 +82,7 @@ describe('Unit | Service | SolutionService', function () {
     it('If the answer is ko, resolve to the answer itself, with result corresponding to the matching', function (done) {
 
       // given
-      const MATCHING_RETURNS = '#ANY_RESULT#';
+      const MATCHING_RETURNS = {result: '#ANY_RESULT#', resultDetails: null};
 
       sinon.stub(SolutionRepository, 'get').resolves({}); // avoid HTTP call, but what it replies doesn't matter
       sinon.stub(service, 'match').returns(MATCHING_RETURNS);
@@ -98,7 +98,7 @@ describe('Unit | Service | SolutionService', function () {
         expect(SolutionRepository.get.callOnce);
         expect(service.match.callOnce);
         expect(foundAnswer.id).equals(ko_answer.id);
-        expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS);
+        expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS.result);
 
         done();
       });
@@ -108,7 +108,7 @@ describe('Unit | Service | SolutionService', function () {
     it('If the answer is ok, resolve to the answer itself, with result corresponding to the matching', function (done) {
 
       // given
-      const MATCHING_RETURNS = '#ANY_RESULT#';
+      const MATCHING_RETURNS = {result: '#ANY_RESULT#', resultDetails: null};
 
       sinon.stub(SolutionRepository, 'get').resolves({}); // avoid HTTP call, but what it replies doesn't matter
       sinon.stub(service, 'match').returns(MATCHING_RETURNS);
@@ -124,7 +124,7 @@ describe('Unit | Service | SolutionService', function () {
         expect(SolutionRepository.get.callOnce);
         expect(service.match.callOnce);
         expect(foundAnswer.id).equals(ok_answer.id);
-        expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS);
+        expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS.result);
 
         done();
       });
@@ -135,7 +135,7 @@ describe('Unit | Service | SolutionService', function () {
     it('If the answer is unimplemented, resolve to the answer itself, with result corresponding to the matching', function (done) {
 
       // given
-      const MATCHING_RETURNS = '#ANY_RESULT#';
+      const MATCHING_RETURNS = {result: '#ANY_RESULT#', resultDetails: null};
 
       sinon.stub(SolutionRepository, 'get').resolves({}); // avoid HTTP call, but what it replies doesn't matter
       sinon.stub(service, 'match').returns(MATCHING_RETURNS);
@@ -151,7 +151,7 @@ describe('Unit | Service | SolutionService', function () {
         expect(SolutionRepository.get.callOnce);
         expect(service.match.callOnce);
         expect(foundAnswer.id).equals(unimplemented_answer.id);
-        expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS);
+        expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS.result);
 
         done();
       });

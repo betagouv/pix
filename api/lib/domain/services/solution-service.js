@@ -20,7 +20,11 @@ module.exports = {
       .get(existingAnswer.get('challengeId'))
       .then((solution) => {
         const answerCorrectness = this.match(existingAnswer, solution);
-        return new Answer({ id: existingAnswer.id, result: answerCorrectness }).save();
+        return new Answer({
+          id: existingAnswer.id,
+          result: answerCorrectness.result,
+          resultDetails: answerCorrectness.resultDetails
+        }).save();
       });
   },
 
@@ -36,7 +40,10 @@ module.exports = {
 
   match(answer, solution) {
 
-    let result = 'unimplemented';
+    let response = {
+      result: 'unimplemented',
+      resultDetails: null
+    };
 
     const answerValue = answer.get('value');
     const answerTimeout = answer.get('timeout');
@@ -46,38 +53,39 @@ module.exports = {
     const deactivations = solution.deactivations;
 
     if ('#ABAND#' === answerValue) {
-      return 'aband';
+      response.result = 'aband';
+      return response;
     }
 
     if (solution.type === 'QRU') {
-      result = solutionServiceQru.match(answerValue, solutionValue);
+      response.result = solutionServiceQru.match(answerValue, solutionValue);
     }
 
     if (solution.type === 'QCU') {
-      result = solutionServiceQcu.match(answerValue, solutionValue);
+      response.result = solutionServiceQcu.match(answerValue, solutionValue);
     }
 
     if (solution.type === 'QCM') {
-      result = solutionServiceQcm.match(answerValue, solutionValue);
+      response.result = solutionServiceQcm.match(answerValue, solutionValue);
     }
 
     if (solution.type === 'QROC') {
-      result = solutionServiceQroc.match(answerValue, solutionValue, deactivations);
+      response.result = solutionServiceQroc.match(answerValue, solutionValue, deactivations);
     }
 
     if (solution.type === 'QROCM-ind') {
-      result = solutionServiceQrocmInd.match(answerValue, solutionValue, enabledTreatments);
+      response = solutionServiceQrocmInd.match(answerValue, solutionValue, enabledTreatments);
     }
 
     if (solution.type === 'QROCM-dep') {
-      result = solutionServiceQrocmDep.match(answerValue, solutionValue, solutionScoring, deactivations);
+      response.result = solutionServiceQrocmDep.match(answerValue, solutionValue, solutionScoring, deactivations);
     }
 
     if (answerTimeout) {
-      result = this._timedOut(result, answerTimeout);
+      response.result = this._timedOut(response.result, answerTimeout);
     }
 
-    return result;
+    return response;
   }
 
 };

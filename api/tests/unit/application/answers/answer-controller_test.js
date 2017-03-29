@@ -50,7 +50,7 @@ describe('Unit | Controller | answer-controller', function () {
     id: '1234',
     value: '2',
     result: '',
-    resultQrocmDetails: 'NumA: "ok",\nNumB: "ko",\nNumC: "empty",\nNumD: "ok"',
+    resultDetails: 'NumA: "ok",\nNumB: "ko",\nNumC: "empty",\nNumD: "ok"',
     assessmentId: 12,
     challengeId: 'recdTpx4c0kPPDTtf',
     timeout: null
@@ -85,7 +85,7 @@ describe('Unit | Controller | answer-controller', function () {
       });
     });
 
-    it('should return the field "resultQrocmDetails"', function (done) {
+    it('should return the field "resultDetails"', function (done) {
       // given
       sinon.stub(solutionRepository, 'get').resolves(null);
       sinon.stub(solutionService, 'match').returns('ok');
@@ -93,7 +93,7 @@ describe('Unit | Controller | answer-controller', function () {
       // when
       executeRequest(jsonAnswer, (res) => {
         // then
-        expect(res.result.data.attributes.resultQrocmDetails).to.equal(persistedAnswer.get('resultQrocmDetails'));
+        expect(res.result.data.attributes.resultQrocmDetails).to.equal(persistedAnswer.get('resultDetails'));
 
         // after
         solutionRepository.get.restore();
