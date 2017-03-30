@@ -4,6 +4,7 @@ const answerSerializer = require('../../infrastructure/serializers/jsonapi/answe
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionService = require('../../domain/services/solution-service');
+const jsYaml = require('js-yaml');
 
 function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
   solutionRepository
@@ -13,7 +14,7 @@ function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
       new Answer({ id: existingAnswer.id })
         .save({
           result: answerCorrectness.result,
-          resultDetails: answerCorrectness.resultDetails,
+          resultDetails: jsYaml.safeDump(answerCorrectness.resultDetails),
           value: newAnswer.get('value'),
           timeout: newAnswer.get('timeout'),
           challengeId: existingAnswer.get('challengeId'),
@@ -30,7 +31,7 @@ function _saveNewAnswer(newAnswer, reply) {
     .then((solution) => {
       const answerValidation = solutionService.match(newAnswer, solution);
       newAnswer.set('result', answerValidation.result);
-      newAnswer.set('resultDetails', answerValidation.resultDetails);
+      newAnswer.set('resultDetails', jsYaml.safeDump(answerValidation.resultDetails));
       newAnswer.set('timeout', newAnswer.get('timeout'));
       newAnswer.save()
         .then((newAnswer) => reply(answerSerializer.serialize(newAnswer)).code(201))

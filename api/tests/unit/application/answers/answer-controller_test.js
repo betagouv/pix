@@ -2,6 +2,7 @@ const { describe, it, before, after, expect, sinon } = require('../../../test-he
 const Hapi = require('hapi');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
+const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const solutionService = require('../../../../lib/domain/services/solution-service');
 
 describe('Unit | Controller | answer-controller', function () {
@@ -49,8 +50,8 @@ describe('Unit | Controller | answer-controller', function () {
   const persistedAnswer = new Answer({
     id: '1234',
     value: '2',
-    result: '',
-    resultDetails: 'NumA: "ok",\nNumB: "ko",\nNumC: "empty",\nNumD: "ok"',
+    result: 'ok',
+    resultDetails: 'NumA: true\nNumB: true\nNumC: true\nNumD: true\n',
     assessmentId: 12,
     challengeId: 'recdTpx4c0kPPDTtf',
     timeout: null
@@ -66,12 +67,13 @@ describe('Unit | Controller | answer-controller', function () {
     Answer.prototype.save.restore();
   });
 */
-  describe.skip('#save', function () {
+  describe('#save', function () {
 
-    it.skip('should return a successful response with HTTP code 201 when answer was saved', function (done) {
+    it('should return a successful response with HTTP code 201 when answer was created', function (done) {
       // given
+      sinon.stub(answerRepository, 'findByChallengeAndAssessment').resolves(null);
       sinon.stub(solutionRepository, 'get').resolves(null);
-      sinon.stub(solutionService, 'match').returns('ok');
+      sinon.stub(solutionService, 'match').returns({result : 'ok', resultDetails : {NumA : true, NumB : true, NumC : true, NumD : true}});
 
       // when
       executeRequest(jsonAnswer, (res) => {
@@ -79,6 +81,7 @@ describe('Unit | Controller | answer-controller', function () {
         expect(res.statusCode).to.equal(201);
 
         // after
+        answerRepository.findByChallengeAndAssessment.restore();
         solutionRepository.get.restore();
         solutionService.match.restore();
         done();
@@ -88,12 +91,12 @@ describe('Unit | Controller | answer-controller', function () {
     it('should return the field "resultDetails"', function (done) {
       // given
       sinon.stub(solutionRepository, 'get').resolves(null);
-      sinon.stub(solutionService, 'match').returns('ok');
+      sinon.stub(solutionService, 'match').returns({result : 'ok', resultDetails : {NumA : true, NumB : true, NumC : true, NumD : true}});
 
       // when
       executeRequest(jsonAnswer, (res) => {
         // then
-        expect(res.result.data.attributes.resultQrocmDetails).to.equal(persistedAnswer.get('resultDetails'));
+        expect(res.result.data.attributes.resultDetails).to.equal(persistedAnswer.get('resultDetails'));
 
         // after
         solutionRepository.get.restore();
