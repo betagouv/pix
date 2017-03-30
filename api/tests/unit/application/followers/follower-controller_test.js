@@ -10,7 +10,6 @@ describe('Unit | Controller | FollowerController', function () {
 
   let server;
 
-
   before(function () {
     server = this.server = new Hapi.Server();
     server.connection({port: null});
