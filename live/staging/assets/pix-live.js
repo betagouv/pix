@@ -922,8 +922,14 @@ define('pix-live/components/follower-form', ['exports', 'ember', 'pix-live/confi
     if (_pixLiveConfigEnvironment['default'].environment !== 'test') {
       _ember['default'].run.later(function () {
         context.set('status', 'empty');
+        context.set('errorType', 'invalid');
       }, messageDisplayDuration);
     }
+  }
+
+  function getErrorType(errors) {
+    var statusCode = parseInt(errors[0].status);
+    return statusCode === 409 ? 'exist' : 'invalid';
   }
 
   exports['default'] = _ember['default'].Component.extend({
@@ -932,10 +938,14 @@ define('pix-live/components/follower-form', ['exports', 'ember', 'pix-live/confi
 
     emailValidator: _ember['default'].inject.service('email-validator'),
     store: _ember['default'].inject.service(),
+    errorType: 'invalid',
     status: 'empty', // empty | pending | success | error
 
     messages: {
-      error: 'Votre adresse n\'est pas valide',
+      error: {
+        invalid: 'Votre adresse n\'est pas valide',
+        exist: 'L\'e-mail choisi est déjà utilisé'
+      },
       success: 'Merci pour votre inscription'
     },
 
@@ -960,7 +970,8 @@ define('pix-live/components/follower-form', ['exports', 'ember', 'pix-live/confi
     }),
 
     infoMessage: _ember['default'].computed('hasError', function () {
-      return this.get('hasError') ? this.get('messages.error') : this.get('messages.success');
+      var currentErrorType = this.get('errorType');
+      return this.get('hasError') ? this.get('messages.error')[currentErrorType] : this.get('messages.success');
     }),
 
     submitButtonText: _ember['default'].computed('status', function () {
@@ -992,7 +1003,10 @@ define('pix-live/components/follower-form', ['exports', 'ember', 'pix-live/confi
           _this.set('status', 'success');
           hideMessageDiv(_this);
           _this.set('followerEmail', null);
-        })['catch'](function () {
+        })['catch'](function (_ref) {
+          var errors = _ref.errors;
+
+          _this.set('errorType', getErrorType(errors));
           _this.set('status', 'error');
           hideMessageDiv(_this);
         });
@@ -4780,6 +4794,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.2+e37c5204"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.2+89353a5d"});
 }
 //# sourceMappingURL=pix-live.map
