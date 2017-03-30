@@ -3214,6 +3214,15 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['expor
           hasMultipleAttachments: true
         };
 
+        var challengeQROC = {
+          instruction: 'Dans la présentation à télécharger, un mot est caché sous le parchemin. Trouvez-le !',
+          hasInternetAllowed: false,
+          hasSingleAttachment: false,
+          hasAttachment: true,
+          hasMultipleAttachments: true,
+          attachments: ['http://dl.airtable.com/EL9k935vQQS1wAGIhcZU_PIX_parchemin.ppt', 'http://dl.airtable.com/VGAwZSilQji6Spm9C9Tf_PIX_parchemin.odp']
+        };
+
         (0, _mocha.it)('should display as many radio button as attachments', function () {
           // given
           addChallengeToContext(this, challenge);
@@ -3240,6 +3249,20 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['expor
         (0, _mocha.it)('should select first attachment as default selected radio buton', function () {
           // given
           addChallengeToContext(this, challenge);
+
+          // when
+          renderChallengeStatement(this);
+
+          // then
+          var $firstRadioButton = this.$('.challenge-statement__file-option-input')[0];
+          var $secondRadioButton = this.$('.challenge-statement__file-option-input')[1];
+          (0, _chai.expect)($firstRadioButton.checked).to.be['true'];
+          (0, _chai.expect)($secondRadioButton.checked).to.be['false'];
+        });
+
+        (0, _mocha.it)('should select first attachment as default selected radio button', function () {
+          // given
+          addChallengeToContext(this, challengeQROC);
 
           // when
           renderChallengeStatement(this);
@@ -4114,16 +4137,32 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
         }
       });
 
+      var errorObject = _ember['default'].Object.create({
+        errors: [{
+          status: 409
+        }]
+      });
+
+      var storeStubRejection = _ember['default'].Service.extend({
+        createRecord: function createRecord() {
+          var createRecordArgs = arguments;
+          return Object.create({
+            save: function save() {
+              isSaveMethodCalled = true;
+              saveMethodUrl = createRecordArgs[0];
+              saveMethodBody = createRecordArgs[1];
+              return _ember['default'].RSVP.reject(errorObject);
+            }
+          });
+        }
+      });
+
       beforeEach(function () {
         this.render(_ember['default'].HTMLBars.template({
           'id': 'O9xGjXjO',
           'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
-
-        // stub store service
-        this.register('service:store', storeStub);
-        this.inject.service('store', { as: 'store' });
 
         isSaveMethodCalled = false;
         saveMethodBody = null;
@@ -4132,6 +4171,10 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
 
       (0, _mocha.it)('clicking on "send" button should save the email of the follower', function () {
         // given
+        // stub store service
+        this.register('service:store', storeStub);
+        this.inject.service('store', { as: 'store' });
+
         var EMAIL_VALUE = 'myemail@gemail.com';
         var $email = this.$(INPUT_EMAIL);
         $email.val(EMAIL_VALUE);
@@ -4147,6 +4190,31 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
           (0, _chai.expect)(isSaveMethodCalled).to.be['true'];
           (0, _chai.expect)(saveMethodUrl).to.equal('follower');
           (0, _chai.expect)(saveMethodBody).to.deep.equal({ email: 'myemail@gemail.com' });
+        });
+      });
+
+      (0, _mocha.it)('clicking on "send" button should not save the email of the follower cause its already saved', function () {
+        var _this = this;
+
+        // given
+        this.register('service:store', storeStubRejection);
+
+        var EMAIL_VALUE = 'myemail@gemail.com';
+        var $email = this.$(INPUT_EMAIL);
+        $email.val(EMAIL_VALUE);
+        $email.change();
+
+        // when
+        (0, _chai.expect)(this.$(BUTTON_SEND).length).to.equal(1);
+        (0, _chai.expect)(this.$(INPUT_EMAIL).length).to.equal(1);
+        this.$(BUTTON_SEND).click();
+
+        // then
+        return (0, _emberTestHelpersWait['default'])().then(function () {
+          (0, _chai.expect)(isSaveMethodCalled).to.be['true'];
+          (0, _chai.expect)(saveMethodUrl).to.equal('follower');
+          (0, _chai.expect)(saveMethodBody).to.deep.equal({ email: 'myemail@gemail.com' });
+          (0, _chai.expect)(_this.$(INPUT_EMAIL).val()).to.equal('myemail@gemail.com');
         });
       });
     });
@@ -5839,32 +5907,48 @@ define('pix-live/tests/unit/components/feedback-panel-test.lint-test', ['exports
 });
 define('pix-live/tests/unit/components/follower-form-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
+  var errorMessages = {
+    error: {
+      invalid: 'Votre adresse n\'est pas valide',
+      exist: 'L\'e-mail choisi est déjà utilisé'
+    },
+    success: 'Merci pour votre inscription'
+  };
+
   (0, _mocha.describe)('Unit | Component | followerComponent', function () {
     (0, _emberMocha.setupTest)('component:follower-form', {});
 
-    (0, _mocha.describe)('Computed property', function () {
-      var component = undefined;
+    (0, _mocha.describe)('#Computed Properties behaviors: ', function () {
+      (0, _mocha.describe)('When status get <error>, computed :', function () {
+        [{ attribute: 'hasError', expected: true }, { attribute: 'isPending', expected: false }, { attribute: 'hasSuccess', expected: false }, { attribute: 'errorType', expected: 'invalid' }, { attribute: 'messageClassName', expected: 'has-error' }, { attribute: 'infoMessage', expected: errorMessages.error.invalid }, { attribute: 'submitButtonText', expected: 's\'inscrire' }, { attribute: 'hasMessage', expected: true }].forEach(function (_ref) {
+          var attribute = _ref.attribute;
+          var expected = _ref.expected;
 
-      function initComponent() {
-        component = this.subject();
-      }
-
-      (0, _mocha.it)('should returns true when hasError change', function () {
-        initComponent.call(this);
-        // when
-        component.set('hasError', true);
-        // then
-        (0, _chai.expect)(component.get('infoMessage')).to.exist;
+          (0, _mocha.it)('should return ' + expected + ' when passing ' + attribute, function () {
+            // given
+            var component = this.subject();
+            // when
+            component.set('status', 'error');
+            // then
+            (0, _chai.expect)(component.get(attribute)).to.equal(expected);
+          });
+        });
       });
 
-      (0, _mocha.it)('should returns an error message when hasError get true', function () {
-        // given
-        initComponent.call(this);
-        // when
-        component.set('hasError', true);
-        component.set('isSubmited', true);
-        // then
-        (0, _chai.expect)(component.get('infoMessage')).to.equal('Votre adresse n\'est pas valide');
+      (0, _mocha.describe)('When status get <success>, computed :', function () {
+        [{ attribute: 'hasError', expected: false }, { attribute: 'isPending', expected: false }, { attribute: 'hasSuccess', expected: true }, { attribute: 'errorType', expected: 'invalid' }, { attribute: 'messageClassName', expected: 'has-success' }, { attribute: 'infoMessage', expected: errorMessages.success }, { attribute: 'submitButtonText', expected: 's\'inscrire' }, { attribute: 'hasMessage', expected: true }].forEach(function (_ref2) {
+          var attribute = _ref2.attribute;
+          var expected = _ref2.expected;
+
+          (0, _mocha.it)('should return ' + expected + ' when passing ' + attribute, function () {
+            // given
+            var component = this.subject();
+            // when
+            component.set('status', 'success');
+            // then
+            (0, _chai.expect)(component.get(attribute)).to.equal(expected);
+          });
+        });
       });
     });
   });
