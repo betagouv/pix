@@ -20,7 +20,9 @@ function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
           challengeId: existingAnswer.get('challengeId'),
           assessmentId: existingAnswer.get('assessmentId')
         }, { method: 'update' })
-        .then((updatedAnswer) => reply(answerSerializer.serialize(updatedAnswer)).code(200))
+        .then((updatedAnswer) => {
+          return reply(answerSerializer.serialize(updatedAnswer)).code(200);
+        })
         .catch((err) => reply(Boom.badImplementation(err)));
     });
 }

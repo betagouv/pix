@@ -1,9 +1,8 @@
 /* global jsyaml */
 
-export default function answersAsObject(answer) {
-  let answersObject = {};
-  if (answer != '#ABAND#') {
-    answersObject = jsyaml.safeLoad(answer);
+export default function answersAsObject(answer, inputKeys) {
+  if (answer === '#ABAND#') {
+    return inputKeys.reduce((answersObject, key) => answersAsObject[key] = '', {});
   }
-  return answersObject;
+  return jsyaml.safeLoad(answer);
 }

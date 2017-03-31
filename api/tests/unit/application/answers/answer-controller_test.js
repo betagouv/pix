@@ -96,7 +96,7 @@ describe('Unit | Controller | answer-controller', function () {
       // when
       executeRequest(jsonAnswer, (res) => {
         // then
-        expect(res.result.data.attributes.resultDetails).to.equal(persistedAnswer.get('resultDetails'));
+        expect(res.result.data.attributes['result-details']).to.equal(persistedAnswer.get('resultDetails'));
 
         // after
         solutionRepository.get.restore();

@@ -5,8 +5,8 @@ function deletePlaceholderInLabel(keyInput) {
   return keyInput;
 }
 
-function parseChallenge(proposals) {
-  const proposalsWithoutLineBreak = proposals.replace(/\n/g, '');
+export default function labelsAsObject(labels) {
+  const proposalsWithoutLineBreak = labels.replace(/\n/g, '');
   const proposalsSplitted = proposalsWithoutLineBreak.split(/\$\{|}/).slice(0, -1);
   const labelsAsObject = {};
   proposalsSplitted.forEach((element, index) => {
@@ -16,8 +16,4 @@ function parseChallenge(proposals) {
     }
   });
   return labelsAsObject;
-}
-
-export default function labelsAsObject(labels) {
-  return parseChallenge(labels);
 }

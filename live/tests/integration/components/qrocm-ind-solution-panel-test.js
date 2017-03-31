@@ -27,6 +27,7 @@ describe('Integration | Component | qrocm solution panel', function () {
   const answer = Ember.Object.create({
     id: 'answer_id',
     value: 'key1: \'rightAnswer1\' key2: \'wrongAnswer2\' key3: \'\'',
+    resultDetails : 'key1: true\nkey2: false\nkey3: false',
     assessment,
     challenge
   });

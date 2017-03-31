@@ -20,7 +20,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
       id: 'answer_id',
       attributes: {
         value: 'answer_value',
-        resultDetails : 'resultDetails_value',
+        'result-details' : 'resultDetails_value',
         timeout: 8,
         result: 'result_value'
       },
@@ -65,7 +65,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
       expect(answer.get('challengeId')).to.equal(jsonAnswer.data.relationships.challenge.data.id);
       expect(answer.get('value')).to.equal(jsonAnswer.data.attributes.value);
       expect(answer.get('result')).to.equal(jsonAnswer.data.attributes.result);
-      expect(answer.get('resultDetails')).to.equal(jsonAnswer.data.attributes.resultDetails);
+      expect(answer.get('resultDetails')).to.equal(jsonAnswer.data.attributes['result-details']);
       expect(answer.get('timeout')).to.equal(jsonAnswer.data.attributes.timeout);
     });
 

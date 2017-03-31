@@ -3,32 +3,25 @@ import _ from 'lodash';
 import answersAsObject from 'pix-live/utils/answers-as-object';
 import solutionsAsObject from 'pix-live/utils/solution-as-object';
 import labelsAsObject from 'pix-live/utils/labels-as-object';
-
-function fillAnswerOfPassedChallenge(answersAsObject, inputKeys) {
-  inputKeys.forEach(function (key) {
-    answersAsObject[key] = '';
-  });
-  return answersAsObject;
-}
+import resultDetailsAsObject from 'pix-live/utils/result-details-as-object';
 
 const QrocmIndSolutionPanel = Ember.Component.extend({
-
-  dataToDisplay: Ember.computed('challenge.proposals', 'answer.value', 'solution.value', function () {
+  //TODO Renommer FieldsData
+  dataToDisplay : Ember.computed('challenge.proposals', 'answer.value', 'solution.value', function () {
 
     const labels = labelsAsObject(this.get('challenge.proposals'));
-    let answers = answersAsObject(this.get('answer.value'));
-    const solutions = solutionsAsObject(this.get('solution.value'));
-
     const inputKeys = _.keys(labels);
-    if (_.isEmpty(answers)) {
-      answers = fillAnswerOfPassedChallenge(answers, inputKeys);
-    }
+    const answers = answersAsObject(this.get('answer.value'), inputKeys);//TODO voir si on peut reformater en passant labels
+    const solutions = solutionsAsObject(this.get('solution.value'));
+    const resultDetails = resultDetailsAsObject(this.get('answer.resultDetails'));
+
+
     const dataToDisplay = [];
 
-    inputKeys.forEach(function (key) {
-      const isRightAnswer = _.includes(solutions[key], answers[key]);
-      const noAnswer = answers[key] === '';
-      const isWrongAnswer = !isRightAnswer && !noAnswer;
+    inputKeys.forEach((key) => {//Voir si on peut retourner directement la classe
+      const isRightAnswer = resultDetails[key];
+      const noAnswer = answers[key] === '' && !resultDetails[key];
+      const isWrongAnswer = answers[key] !== '' && !resultDetails[key];
 
       if (answers[key] === '') {
         answers[key] = 'Pas de réponse';

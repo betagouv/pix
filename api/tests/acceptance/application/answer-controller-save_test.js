@@ -113,7 +113,7 @@ describe('Acceptance | Controller | answer-controller', function () {
             expect(answer.id).to.equal(response.result.data.id);
             expect(answer.attributes.value).to.equal(model.get('value'));
             expect(answer.attributes.result).to.equal(model.get('result'));
-            expect(answer.attributes.resultDetails).to.equal(model.get('resultDetails'));
+            expect(answer.attributes['result-details']).to.equal(model.get('resultDetails'));
             expect(answer.relationships.assessment.data.id).to.equal(model.get('assessmentId'));
             expect(answer.relationships.challenge.data.id).to.equal(model.get('challengeId'));
 
