@@ -1,6 +1,6 @@
+import answersAsObject from 'pix-live/utils/answers-as-object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import answersAsObject from 'pix-live/utils/answers-as-object';
 
 describe('Unit | Utility | answers as object', function() {
 
@@ -27,15 +27,14 @@ describe('Unit | Utility | answers as object', function() {
 
     it('should return an empty object when the answer is aband', function () {
       // given
-      const answer = {
-        value : '#ABAND#'
-      };
-      const expectedResult = {};
+      const answer = { value : '#ABAND#' };
+      const inputKeys = ['key1', 'key2', 'key3'];
+      const expectedResult = { key1 : '', key2 : '', key3 : ''};
       // when
-      const result = answersAsObject(answer.value);
+      const result = answersAsObject(answer.value, inputKeys);
 
       // then
-      expect(result).to.be.deep.equal(expectedResult);
+      expect(result).to.deep.equal(expectedResult);
     });
 
   });

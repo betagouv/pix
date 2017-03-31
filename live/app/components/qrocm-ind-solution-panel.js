@@ -11,7 +11,7 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
 
     const labels = labelsAsObject(this.get('challenge.proposals'));
     const inputKeys = _.keys(labels);
-    const answers = answersAsObject(this.get('answer.value'), inputKeys);//TODO voir si on peut reformater en passant labels
+    const answers = answersAsObject(this.get('answer.value'), inputKeys);
     const solutions = solutionsAsObject(this.get('solution.value'));
     const resultDetails = resultDetailsAsObject(this.get('answer.resultDetails'));
 
