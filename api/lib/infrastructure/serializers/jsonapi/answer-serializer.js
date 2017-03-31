@@ -10,7 +10,7 @@ class AnswerSerializer extends JSONAPISerializer {
   serializeAttributes(model, data) {
     data.attributes.value = model.value;
     data.attributes.timeout = model.timeout;
-    data.attributes.elapsedTime = model.elapsedTime;
+    data.attributes['elapsed-time'] = model.elapsedTime;
     data.attributes.result = model.result;
   }
 
@@ -37,7 +37,7 @@ class AnswerSerializer extends JSONAPISerializer {
       value: json.data.attributes.value,
       result: json.data.attributes.result,
       timeout: json.data.attributes.timeout,
-      elapsedTime: json.data.attributes.elapsedTime,
+      elapsedTime: json.data.attributes['elapsed-time'],
       assessmentId: json.data.relationships.assessment.data.id,
       challengeId: json.data.relationships.challenge.data.id
     });

@@ -50,7 +50,7 @@ describe('Acceptance | Controller | answer-controller', function () {
             type: 'answer',
             attributes: {
               value: '1',
-              elapsedTime: 100
+              'elapsed-time': 100
             },
             relationships: {
               assessment: {
@@ -144,7 +144,7 @@ describe('Acceptance | Controller | answer-controller', function () {
         new Answer()
           .fetch()
           .then(function (model) {
-            expect(model.get('elapsedTime')).to.equal(options.payload.data.attributes.elapsedTime);
+            expect(model.get('elapsedTime')).to.equal(options.payload.data.attributes['elapsed-time']);
             done();
           });
       });
