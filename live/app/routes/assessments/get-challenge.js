@@ -34,19 +34,20 @@ export default Ember.Route.extend({
 
   actions: {
 
-    saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout) {
-      const answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment);
+    saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
+      const answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime);
       answer.save().then(() => {
         this._navigateToNextView(currentChallenge, assessment);
       });
     }
   },
 
-  _createAnswer(answerValue, answerTimeout, currentChallenge, assessment) {
+  _createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime) {
     return this.get('store').createRecord('answer', {
       value: answerValue,
       timeout: answerTimeout,
       challenge: currentChallenge,
+      elapsedTime: answerElapsedTime,
       assessment
     });
   },
