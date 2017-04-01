@@ -358,7 +358,7 @@ define('pix-live/components/challenge-actions', ['exports', 'ember'], function (
 
   });
 });
-define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-live/utils/call-only-once', 'pix-live/utils/lodash-custom'], function (exports, _ember, _pixLiveUtilsCallOnlyOnce, _pixLiveUtilsLodashCustom) {
+define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-live/utils/call-only-once', 'pix-live/utils/lodash-custom', 'pix-live/config/environment'], function (exports, _ember, _pixLiveUtilsCallOnlyOnce, _pixLiveUtilsLodashCustom, _pixLiveConfigEnvironment) {
 
   var get = _ember['default'].get;
 
@@ -366,8 +366,20 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-l
     tagName: 'article',
     classNames: ['challenge-item'],
     attributeBindings: ['challenge.id:data-challenge-id'],
+    _elapsedTime: null,
+    _timer: null,
+
+    init: function init() {
+      this._super.apply(this, arguments);
+      this._start();
+    },
 
     hasUserConfirmWarning: _ember['default'].computed('challenge', function () {
+      return false;
+    }),
+
+    elapsed: _ember['default'].computed('_elapsedTime', function () {
+      _ember['default'].Logger.info(this.get('_elapsedTime'), 'toto');
       return false;
     }),
 
@@ -383,6 +395,34 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-l
       return $('.timeout-jauge-remaining').attr('data-spent');
     },
 
+    _getElapsedTime: function _getElapsedTime() {
+      return this.get('_elapsedTime');
+    },
+
+    _start: function _start() {
+      this.set('_elapsedTime', 0);
+      this._tick();
+    },
+
+    _tick: function _tick() {
+      if (_pixLiveConfigEnvironment['default'].environment !== 'test') {
+        var timer = _ember['default'].run.later(this, function () {
+          var elapsedTime = this.get('_elapsedTime');
+          this.set('_elapsedTime', elapsedTime + 1);
+          this.notifyPropertyChange('_elapsedTime');
+          this._tick();
+        }, 1000);
+
+        this.set('_timer', timer);
+      }
+    },
+
+    willDestroyElement: function willDestroyElement() {
+      this._super.apply(this, arguments);
+      var timer = this.get('_timer');
+      _ember['default'].run.cancel(timer);
+    },
+
     actions: {
 
       validate: (0, _pixLiveUtilsCallOnlyOnce['default'])(function () {
@@ -391,12 +431,12 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-l
           return this.sendAction('onError', this.get('errorMessage'));
         }
         var answerValue = this._getAnswerValue();
-        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), answerValue, this._getTimeout());
+        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), answerValue, this._getTimeout(), this._getElapsedTime());
       }),
 
       skip: (0, _pixLiveUtilsCallOnlyOnce['default'])(function () {
         this.set('errorMessage', null);
-        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout());
+        this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout(), this._getElapsedTime());
       }),
 
       setUserConfirmation: (0, _pixLiveUtilsCallOnlyOnce['default'])(function () {
@@ -3196,6 +3236,7 @@ define('pix-live/models/answer', ['exports', 'ember-data', 'pix-live/models/answ
     value: attr('string'),
     result: attr('string'),
     timeout: attr('number'),
+    elapsedTime: attr('number'),
     assessment: belongsTo('assessment'),
     challenge: belongsTo('challenge')
   });
@@ -3551,21 +3592,22 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp']
 
     actions: {
 
-      saveAnswerAndNavigate: function saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout) {
+      saveAnswerAndNavigate: function saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
         var _this = this;
 
-        var answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment);
+        var answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime);
         answer.save().then(function () {
           _this._navigateToNextView(currentChallenge, assessment);
         });
       }
     },
 
-    _createAnswer: function _createAnswer(answerValue, answerTimeout, currentChallenge, assessment) {
+    _createAnswer: function _createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime) {
       return this.get('store').createRecord('answer', {
         value: answerValue,
         timeout: answerTimeout,
         challenge: currentChallenge,
+        elapsedTime: answerElapsedTime,
         assessment: assessment
       });
     },
@@ -4794,6 +4836,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.2+4420e937"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.2+75ffa63b"});
 }
 //# sourceMappingURL=pix-live.map
