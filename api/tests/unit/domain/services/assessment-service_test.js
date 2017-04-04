@@ -178,4 +178,14 @@ describe('Unit | Domain | Services | assessment-service', function () {
 
   });
 
+  describe('#getScoredAssessment', () => {
+
+    it('checks sanity', () => {
+      expect(service.getScoredAssessment).to.exist;
+    });
+
+
+
+  });
+
 });

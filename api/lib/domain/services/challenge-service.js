@@ -1,29 +1,54 @@
 const _ = require('../../infrastructure/utils/lodash-utils');
 
 function _countResult(about, desiredResult) {
-  return _.reduce(about, function(sum, o) {
+  return _.reduce(about, function (sum, o) {
     return sum + (o.result === desiredResult ? 1 : 0);
   }, 0);
 }
 
+const PIX_LEVELS_FROM_1_TO_8 = [ 1, 2, 3, 4, 5, 6, 7, 8 ];
 
+function _initializeNbKnowledgeTagsByLevel() {
+  const nbKnowledgeTagsByLevel = {};
+  PIX_LEVELS_FROM_1_TO_8.forEach(level => {
+    nbKnowledgeTagsByLevel[ level ] = 0
+  });
+  return nbKnowledgeTagsByLevel;
+}
+
+function _mapChallengesById(challengesWithKnowledgeTags) {
+  return challengesWithKnowledgeTags.reduce((challenges, challenge) => {
+    challenges[ challenge.id ] = challenge;
+    return challenges;
+  }, {});
+}
+
+function _mapKnowledgeTags(challengesWithKnowledgeTags) {
+  return challengesWithKnowledgeTags.reduce((knowledgeTags, challenge) => {
+    challenge.knowledgeTags.forEach((knowledge) => {
+      knowledgeTags[ knowledge ] = true;
+    });
+    return knowledgeTags;
+  }, {});
+}
+function _mapNbKnowledgeTagsByLevel(knowledgeTagSet) {
+  const nbKnowledgeTagsByLevel = _initializeNbKnowledgeTagsByLevel();
+  for (const knowledgeTag in knowledgeTagSet) {
+    const knowledgeLevel = parseInt(knowledgeTag.slice(-1));
+    nbKnowledgeTagsByLevel[ knowledgeLevel ]++;
+  }
+  return nbKnowledgeTagsByLevel;
+}
 module.exports = {
 
+  // TODO move to assessment-service
   getKnowledgeData(challengeList) {
-    const challengesById = {};
-    const knowledgeTagSet = {};
-    const nbKnowledgeTagsByLevel = {};
-    challengeList.forEach(challenge => {
-      if(challenge.knowledgeTags && challenge.knowledgeTags.length > 0) {
-        challengesById[challenge.id] = challenge;
-        challenge.knowledgeTags.forEach(knowledge => knowledgeTagSet[knowledge] = true);
-      }
-    });
-    [1, 2, 3, 4, 5, 6, 7, 8].forEach(level => nbKnowledgeTagsByLevel[level] = 0);
-    for(const knowledgeTag in knowledgeTagSet) {
-      const knowledgeLevel = parseInt(knowledgeTag.slice(-1));
-      nbKnowledgeTagsByLevel[knowledgeLevel]++;
-    }
+    const challengesWithKnowledgeTags = challengeList.filter(challenge => !_.isEmpty(challenge.knowledgeTags));
+
+    const challengesById = _mapChallengesById(challengesWithKnowledgeTags);
+    const knowledgeTagSet = _mapKnowledgeTags(challengesWithKnowledgeTags);
+    const nbKnowledgeTagsByLevel = _mapNbKnowledgeTagsByLevel(knowledgeTagSet);
+
     return {
       challengesById,
       knowledgeTagSet,
@@ -33,8 +58,12 @@ module.exports = {
 
   getRevalidationStatistics(oldAnswers, newAnswers) {
 
-    const oldAnswersResult = _.map(oldAnswers, (o) => { return {id : o.id, result: o.attributes.result};});
-    const newAnswersResult = _.map(newAnswers, (o) => { return {id : o.id, result: o.attributes.result};});
+    const oldAnswersResult = _.map(oldAnswers, (o) => {
+      return { id: o.id, result: o.attributes.result };
+    });
+    const newAnswersResult = _.map(newAnswers, (o) => {
+      return { id: o.id, result: o.attributes.result };
+    });
 
     const okNewCount = _countResult(newAnswersResult, 'ok');
     const koNewCount = _countResult(newAnswersResult, 'ko');
