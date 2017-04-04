@@ -1,5 +1,4 @@
 const _ = require('../../infrastructure/utils/lodash-utils');
-const assessmentService = require('./assessment-service');
 
 function _countResult(about, desiredResult) {
   return _.reduce(about, function(sum, o) {
@@ -22,8 +21,8 @@ module.exports = {
     });
     [1, 2, 3, 4, 5, 6, 7, 8].forEach(level => nbKnowledgeTagsByLevel[level] = 0);
     for(const knowledgeTag in knowledgeTagSet) {
-      const difficulty = assessmentService._getDifficultyOfKnowledge(knowledgeTag);
-      nbKnowledgeTagsByLevel[difficulty]++;
+      const knowledgeLevel = parseInt(knowledgeTag.slice(-1));
+      nbKnowledgeTagsByLevel[knowledgeLevel]++;
     }
     return {
       challengesById,

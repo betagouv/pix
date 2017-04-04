@@ -3,7 +3,6 @@ const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/a
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
 const assessmentUtils = require('../../domain/services/assessment-service-utils');
-const challengeService = require('../../domain/services/challenge-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const solutionSerializer = require('../../infrastructure/serializers/jsonapi/solution-serializer');
@@ -11,7 +10,6 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const _ = require('../../infrastructure/utils/lodash-utils');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
-
 
 
 module.exports = {
@@ -25,35 +23,17 @@ module.exports = {
   },
 
   get(request, reply) {
+    const assessmentId = request.params.id;
 
-    assessmentRepository
-      .get(request.params.id)
-      .then(assessment => {
-        courseRepository
-          .get(assessment.get('courseId'))
-          .then(course => {
-
-            const challengePromises = course.challenges.map(challengeId => challengeRepository.get(challengeId));
-
-            Promise.all(challengePromises)
-              .then(challenges => {
-
-                const knowledgeData = challengeService.getKnowledgeData(challenges);
-
-                answerRepository
-                  .findByAssessment(assessment.get('id'))
-                  .then(answers => {
-                    const scoredAssessment = assessmentService.populateScore(assessment, answers, knowledgeData);           
-                    const serializedAssessment = assessmentSerializer.serialize(scoredAssessment);
-                    return reply(serializedAssessment);
-                  });
-
-              }).catch((err) => reply(Boom.badImplementation(err)));
-
-          }).catch((err) => reply(Boom.badImplementation(err)));
-
-      }).catch((err) => reply(Boom.badImplementation(err)));
-
+    return assessmentService
+      .getScoredAssessment(assessmentId)
+      .then((assessment) => {
+        const serializedAssessment = assessmentSerializer.serialize(assessment);
+        return reply(serializedAssessment);
+      })
+      .catch(err => {
+        reply(Boom.badImplementation(err));
+      });
   },
 
   getNextChallenge(request, reply) {
@@ -102,8 +82,8 @@ module.exports = {
               })
               .then((testIsOver) => {
 
-                if(testIsOver) {
-                  const requestedAnswer = answers.filter(answer => answer.id === _.parseInt(request.params.answerId))[0];
+                if (testIsOver) {
+                  const requestedAnswer = answers.filter(answer => answer.id === _.parseInt(request.params.answerId))[ 0 ];
 
                   solutionRepository
                     .get(requestedAnswer.get('challengeId'))

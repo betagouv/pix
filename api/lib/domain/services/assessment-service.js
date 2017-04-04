@@ -1,5 +1,9 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
+const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
+const challengeService = require('../../domain/services/challenge-service');
+const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
+
 const assessmentUtils = require('./assessment-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
@@ -32,7 +36,6 @@ function _selectNextInNormalMode(currentChallengeId, challenges) {
 
 
 function _getDifficultyOfKnowledge(knowledgeTag) {
-
   return parseInt(knowledgeTag.slice(-1));
 }
 
@@ -134,10 +137,38 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
   });
 }
 
+function getScoredAssessment(assessmentId) {
+  return new Promise((resolve) => {
+    assessmentRepository
+      .get(assessmentId)
+      .then(assessment => {
+        courseRepository
+          .get(assessment.get('courseId'))
+          .then(course => {
+            const challengePromises = course.challenges.map(challengeId => challengeRepository.get(challengeId));
+
+            Promise.all(challengePromises)
+              .then(challenges => {
+                const knowledgeData = challengeService.getKnowledgeData(challenges);
+
+                answerRepository
+                  .findByAssessment(assessment.get('id'))
+                  .then(answers => {
+                    const scoredAssessment = this.populateScore(assessment, answers, knowledgeData);
+
+                    resolve(scoredAssessment);
+                  });
+
+              })
+
+          })
+      })
+  });
+}
+
 
 module.exports = {
 
-  _getDifficultyOfKnowledge,
   _nextNode,
   _propagateKnowledge,
 
@@ -179,6 +210,8 @@ module.exports = {
         .then((course) => resolve(selectNextChallengeId(course, currentChallengeId, assessment)))
         .catch((error) => reject(error));
     });
-  }
+  },
+
+  getScoredAssessment
 
 };
