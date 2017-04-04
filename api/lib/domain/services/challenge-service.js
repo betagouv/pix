@@ -11,7 +11,7 @@ const PIX_LEVELS_FROM_1_TO_8 = [ 1, 2, 3, 4, 5, 6, 7, 8 ];
 function _initializeNbKnowledgeTagsByLevel() {
   const nbKnowledgeTagsByLevel = {};
   PIX_LEVELS_FROM_1_TO_8.forEach(level => {
-    nbKnowledgeTagsByLevel[ level ] = 0
+    nbKnowledgeTagsByLevel[ level ] = 0;
   });
   return nbKnowledgeTagsByLevel;
 }

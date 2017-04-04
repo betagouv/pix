@@ -158,11 +158,9 @@ function getScoredAssessment(assessmentId) {
 
                     resolve(scoredAssessment);
                   });
-
-              })
-
-          })
-      })
+              });
+          });
+      });
   });
 }
 
