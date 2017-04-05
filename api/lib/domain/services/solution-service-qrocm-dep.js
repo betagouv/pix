@@ -2,6 +2,7 @@ const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 const deactivationsService = require('./deactivations-service');
+const { applyPreTreatments } = require('./validation-treatments');
 
 function _applyTreatmentsToSolutions(solutions, deactivations) {
   return _.mapValues(solutions, (validSolutions) => {
@@ -125,10 +126,6 @@ function _formatResult(scoring, validations, deactivations) {
   return result;
 }
 
-function _applyPreTreatments(string) {
-  return string.replace(/\u00A0/g, ' ');
-}
-
 module.exports = {
 
   match(yamlAnswer, yamlSolution, yamlScoring, deactivations) {
@@ -141,7 +138,7 @@ module.exports = {
     }
 
     // Pre-Treatments
-    const preTreatedAnswers = _applyPreTreatments(yamlAnswer);
+    const preTreatedAnswers = applyPreTreatments(yamlAnswer);
 
     // Convert Yaml to JS objects
     const answers = jsYaml.safeLoad(preTreatedAnswers);

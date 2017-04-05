@@ -1,30 +1,19 @@
 const jsYaml = require('js-yaml');
 const levenshtein = require('fast-levenshtein');
 const _ = require('../../infrastructure/utils/lodash-utils');
-const { t1, t2 } = require('./validation-treatments');
-
-function _applyTreatmentsTo(string, enabledTreatments) {
-  string = string.toString();
-  if (enabledTreatments.includes('t1')) {
-    string = t1(string);
-  }
-  if (enabledTreatments.includes('t2')) {
-    string = t2(string);
-  }
-  return string;
-}
+const { applyPreTreatments, applyTreatments } = require('./validation-treatments');
 
 function _applyTreatmentsToSolutions(solutions, enabledTreatments) {
   return _.forEach(solutions, (solution, solutionKey) => {
     solution.forEach((variant, variantIndex) => {
-      solutions[solutionKey][variantIndex] = _applyTreatmentsTo(variant, enabledTreatments);
+      solutions[solutionKey][variantIndex] = applyTreatments(variant, enabledTreatments);
     });
   });
 }
 
 function _applyTreatmentsToAnswers(answers, enabledTreatments) {
   return _.forEach(answers, (answer, answerKey) => {
-    answers[answerKey] = _applyTreatmentsTo(answer, enabledTreatments);
+    answers[answerKey] = applyTreatments(answer, enabledTreatments);
   });
 }
 
@@ -60,10 +49,6 @@ function _formatResult(resultDetails) {
   return result;
 }
 
-function _applyPreTreatments(string) {
-  return string.replace(/\u00A0/g, ' ');
-}
-
 module.exports = {
 
   _applyTreatmentsToSolutions,
@@ -74,15 +59,14 @@ module.exports = {
   match (yamlAnswer, yamlSolution, enabledTreatments) {
 
     if (!_.isString(yamlAnswer)
-      || !_.isString(yamlSolution)
       || _.isEmpty(yamlSolution)
       || !_.includes(yamlSolution, '\n')) {
       return { result: 'ko' };
     }
 
     // Pre-treatments
-    const preTreatedAnswers = _applyPreTreatments(yamlAnswer);
-    const preTreatedSolutions = _applyPreTreatments(yamlSolution);
+    const preTreatedAnswers = applyPreTreatments(yamlAnswer);
+    const preTreatedSolutions = applyPreTreatments(yamlSolution);
 
     // Convert YAML to JSObject
     const answers = jsYaml.safeLoad(preTreatedAnswers);
