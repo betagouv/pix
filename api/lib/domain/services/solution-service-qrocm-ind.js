@@ -21,6 +21,7 @@ function _applyTreatmentsToSolutions(solutions, enabledTreatments) {
     });
   });
 }
+
 function _applyTreatmentsToAnswers(answers, enabledTreatments) {
   return _.forEach(answers, (answer, answerKey) => {
     answers[answerKey] = _applyTreatmentsTo(answer, enabledTreatments);

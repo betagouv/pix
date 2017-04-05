@@ -22,7 +22,7 @@ describe('Unit | Utility | answers as object', function() {
       const result = answersAsObject(answer.value);
 
       // then
-      expect(result).to.be.deep.equal(expectedResult);
+      expect(result).to.deep.equal(expectedResult);
     });
 
     it('should return an empty object when the answer is aband', function () {
