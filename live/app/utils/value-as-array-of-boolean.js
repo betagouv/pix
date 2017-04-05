@@ -1,6 +1,7 @@
 import _ from 'pix-live/utils/lodash-custom';
 
 export default function valueAsArrayOfBoolean(value) {
+  //value : 1,2
   return _.chain(value)                                                  // in the worst case : ',4, 2 , 2,1,  ,'
     .checkPoint((e) => _.isString(e) ? e : '')                           // check if string
     .split(',')                                                          // now ['', '4', ' 2 ', ' 2', '1', '  ', '']
@@ -13,4 +14,6 @@ export default function valueAsArrayOfBoolean(value) {
     .map((e) => e - 1)                                                   // now [0, 1, 3]
     .thru((e) => _.times(_.max(e) + 1, (o) => _(e).includes(o)))
     .value();
+
+  //output : [true, true, false, false]
 }
