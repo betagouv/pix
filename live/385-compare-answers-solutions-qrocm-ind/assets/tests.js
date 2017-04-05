@@ -4990,6 +4990,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
     var answer = _ember['default'].Object.create({
       id: 'answer_id',
       value: 'key1: \'rightAnswer1\' key2: \'wrongAnswer2\' key3: \'\'',
+      resultDetails: 'key1: true\nkey2: false\nkey3: false',
       assessment: assessment,
       challenge: challenge
     });
@@ -6584,8 +6585,9 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports
       (0, _mocha.it)('should return an array with data to display (case when the answers are right)', function () {
         //Given
         var challenge = { proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' };
-        var answer = { value: 'smiley1: \':)\' smiley2: \':(\'' };
+        var answer = { value: 'smiley1: \':)\' smiley2: \':(\'', resultDetails: 'smiley1: true\nsmiley2: true' };
         var solution = { value: 'smiley1: \n - :-)\n - :)\n - :-D\n - :D\n - :))\n\nsmiley2:\n - :-(\n - :(\n - :((' };
+
         var result = [{ 'label': 'content : ', 'answer': ':)', 'solution': ':-)', 'rightAnswer': true, 'wrongAnswer': false, 'noAnswer': false }, { 'label': 'triste : ', 'answer': ':(', 'solution': ':-(', 'rightAnswer': true, 'wrongAnswer': false, 'noAnswer': false }];
 
         //when
@@ -6602,15 +6604,15 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports
       (0, _mocha.it)('should return an array with data to display (case when there is wrong answers)', function () {
         //Given
         var challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
-        var answer = { value: 'num1: \'1\' num2: \'2\'' };
+        var answer = { value: 'num1: \'1\' num2: \'2\'', resultDetails: 'num1: false\nnum2: false' };
         var solution = { value: 'num1: \n - 2\n\nnum2:\n - 1' };
-
         var result = [{ 'label': 'Clé USB : ', 'answer': '1', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': 'Carte mémoire (SD) : ', 'answer': '2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }];
 
         var component = this.subject();
         component.set('challenge', challenge);
         component.set('answer', answer);
         component.set('solution', solution);
+
         //When
         var dataToDisplay = component.get('dataToDisplay');
 
@@ -6621,7 +6623,7 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports
       (0, _mocha.it)('should return an array with data to display (case when there is some empty answer)', function () {
         //Given
         var challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
-        var answer = { value: 'num1: \'\' num2: \'2\'' };
+        var answer = { value: 'num1: \'\' num2: \'2\'', resultDetails: 'num1: false\nnum2: false' };
         var solution = { value: 'num1: \n - 2\n\nnum2:\n - 1' };
 
         var result = [{ 'label': 'Clé USB : ', 'answer': 'Pas de réponse', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': false, 'noAnswer': true }, { 'label': 'Carte mémoire (SD) : ', 'answer': '2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }];
@@ -6630,9 +6632,9 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports
         component.set('challenge', challenge);
         component.set('answer', answer);
         component.set('solution', solution);
+
         //When
         var dataToDisplay = component.get('dataToDisplay');
-
         //then
         (0, _chai.expect)(dataToDisplay).to.be.deep.equal(result);
       });
@@ -6640,8 +6642,9 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports
       (0, _mocha.it)('should return an array with data to display (proposals contains a dash ("-"))', function () {
         //GIVEN
         var challenge = { proposals: '- alain@pix.fr : ${num1}\n\n- leonie@pix.fr : ${num2}\n\n- Programme_Pix.pdf : ${num3}\n\n- lucie@pix.fr : ${num4}\n\n- Programme du festival Pix : ${num5}\n\n- jeremy@pix.fr : ${num6}' };
-        var answer = { value: 'num1: \'1\' num2: \'2\' num3: \'3\' num4: \'4\' num5: \'5\' num6: \'6\'' };
+        var answer = { value: 'num1: \'1\' num2: \'2\' num3: \'3\' num4: \'4\' num5: \'5\' num6: \'6\'', resultDetails: 'num1: false\nnum2: false\nnum3: false\nnum4: false\nnum5: true\nnum6: false' };
         var solution = { value: 'num1: \n - 2\n\nnum2:\n - 3\n - 4\n\nnum3:\n - 6\n\nnum4:\n - 1\n\nnum5:\n - 5\n\nnum6:\n - 2' };
+
         var result = [{ 'label': '- alain@pix.fr : ', 'answer': '1', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- leonie@pix.fr : ', 'answer': '2', 'solution': '3', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- Programme_Pix.pdf : ', 'answer': '3', 'solution': '6', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- lucie@pix.fr : ', 'answer': '4', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- Programme du festival Pix : ', 'answer': '5', 'solution': '5', 'rightAnswer': true, 'wrongAnswer': false, 'noAnswer': false }, { 'label': '- jeremy@pix.fr : ', 'answer': '6', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }];
 
         //WHEN
@@ -6660,8 +6663,9 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports
       (0, _mocha.it)('should return an array with data to display (proposals are questions)', function () {
         //GIVEN
         var challenge = { proposals: '- Combien le dossier "projet PIX" contient-il de dossiers ? ${Num1}\n\n- Combien le dossier "images" contient-il de fichiers ? ${Num2}' };
-        var answer = { value: 'Num1: \'2\' Num2: \'3\'' };
+        var answer = { value: 'Num1: \'2\' Num2: \'3\'', resultDetails: 'Num1: false\nNum2: false' };
         var solution = { value: 'Num1:\n - 1\n\nNum2:\n - 6' };
+
         var result = [{ 'label': '- Combien le dossier "projet PIX" contient-il de dossiers ? ', 'answer': '2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- Combien le dossier "images" contient-il de fichiers ? ', 'answer': '3', 'solution': '6', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }];
 
         //WHEN
@@ -6679,7 +6683,7 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports
       (0, _mocha.it)('it should return Pas de réponse in each answer if the question was passed', function () {
         //Given
         var challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
-        var answer = { value: '#ABAND#' };
+        var answer = { value: '#ABAND#', resultDetails: 'num1: false\nnum2: false' };
         var solution = { value: 'num1: \n - 2\n\nnum2:\n - 1' };
 
         var result = [{ 'label': 'Clé USB : ', 'answer': 'Pas de réponse', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': false, 'noAnswer': true }, { 'label': 'Carte mémoire (SD) : ', 'answer': 'Pas de réponse', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': false, 'noAnswer': true }];
@@ -7873,7 +7877,7 @@ define('pix-live/tests/unit/transforms/array-test.lint-test', ['exports'], funct
     });
   });
 });
-define('pix-live/tests/unit/utils/answers-as-object-test', ['exports', 'chai', 'mocha', 'pix-live/utils/answers-as-object'], function (exports, _chai, _mocha, _pixLiveUtilsAnswersAsObject) {
+define('pix-live/tests/unit/utils/answers-as-object-test', ['exports', 'pix-live/utils/answers-as-object', 'chai', 'mocha'], function (exports, _pixLiveUtilsAnswersAsObject, _chai, _mocha) {
 
   (0, _mocha.describe)('Unit | Utility | answers as object', function () {
 
@@ -7895,20 +7899,19 @@ define('pix-live/tests/unit/utils/answers-as-object-test', ['exports', 'chai', '
         var result = (0, _pixLiveUtilsAnswersAsObject['default'])(answer.value);
 
         // then
-        (0, _chai.expect)(result).to.be.deep.equal(expectedResult);
+        (0, _chai.expect)(result).to.deep.equal(expectedResult);
       });
 
       (0, _mocha.it)('should return an empty object when the answer is aband', function () {
         // given
-        var answer = {
-          value: '#ABAND#'
-        };
-        var expectedResult = {};
+        var answer = { value: '#ABAND#' };
+        var inputKeys = ['key1', 'key2', 'key3'];
+        var expectedResult = { key1: '', key2: '', key3: '' };
         // when
-        var result = (0, _pixLiveUtilsAnswersAsObject['default'])(answer.value);
+        var result = (0, _pixLiveUtilsAnswersAsObject['default'])(answer.value, inputKeys);
 
         // then
-        (0, _chai.expect)(result).to.be.deep.equal(expectedResult);
+        (0, _chai.expect)(result).to.deep.equal(expectedResult);
       });
     });
   });
@@ -8356,6 +8359,15 @@ define('pix-live/tests/utils/proposals-as-array.lint-test', ['exports'], functio
   'use strict';
 
   describe('ESLint - utils/proposals-as-array.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/utils/result-details-as-object.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - utils/result-details-as-object.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
