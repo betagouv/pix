@@ -1,12 +1,12 @@
 import _ from 'pix-live/utils/lodash-custom';
 
-export default function labeledCheckboxes (proposals, userAnswers) {
+export default function checkedProposals(proposals, userAnswers) {
 
-  const definedUserAnswers = _.isNil(userAnswers) ? [] : userAnswers;
+  userAnswers = _.isNil(userAnswers) ? [] : userAnswers;
   let checkedLabels = [];
 
-  if (argumentsAreValids(proposals, definedUserAnswers)) {
-    const fullSizeUserAnswers = normalizeSizeOf(proposals, definedUserAnswers);
+  if (argumentsAreValids(proposals, userAnswers)) {
+    const fullSizeUserAnswers = normalizeSizeOf(proposals, userAnswers);
 
     checkedLabels = _.zip(proposals,fullSizeUserAnswers);
   }
@@ -22,7 +22,7 @@ function argumentsAreValids(proposals, definedUserAnswers) {
 
 function normalizeSizeOf(proposals, definedUserAnswers){
 
-  const sizeDifference    = _(proposals).size() - _(definedUserAnswers).size(); // 2
+  const sizeDifference = _(proposals).size() - _(definedUserAnswers).size(); // 2
   const arrayOfFalse = _.times(sizeDifference, _.constant(false));// [false, false]
 
   return definedUserAnswers.concat(arrayOfFalse);

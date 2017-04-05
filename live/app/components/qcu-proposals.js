@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
+import checkedProposals from 'pix-live/utils/checked-proposals';
 
 function _uncheckAllRadioButtons() {
   this.$(':radio').prop('checked', false);
@@ -14,7 +14,7 @@ export default Ember.Component.extend({
   tagName: 'div',
 
   labeledRadios: Ember.computed('proposals', 'answers', function() {
-    return labeledCheckboxes(this.get('proposals'), this.get('answers'));
+    return checkedProposals(this.get('proposals'), this.get('answers'));
   }),
 
   actions: {

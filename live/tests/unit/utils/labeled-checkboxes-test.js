@@ -1,8 +1,8 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
+import checkedProposals from 'pix-live/utils/checked-proposals';
 
-describe('Unit | Utility | labeled checkboxes', function () {
+describe('Unit | Utility | checked proposals', function () {
 
   describe('Success cases', function () {
 
@@ -66,7 +66,7 @@ describe('Unit | Utility | labeled checkboxes', function () {
           + JSON.stringify(testCase.output)
           + ' when ' + testCase.when,
           () => {
-            expect(JSON.stringify(labeledCheckboxes(testCase.proposals, testCase.answers))).to.equal(JSON.stringify(testCase.output));
+            expect(JSON.stringify(checkedProposals(testCase.proposals, testCase.answers))).to.equal(JSON.stringify(testCase.output));
           });
       });
 

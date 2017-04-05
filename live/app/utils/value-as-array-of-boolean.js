@@ -15,5 +15,5 @@ export default function valueAsArrayOfBoolean(value) {
     .thru((e) => _.times(_.max(e) + 1, (o) => _(e).includes(o)))
     .value();
 
-  //output : [true, true, false, false]
+
 }
