@@ -60,6 +60,10 @@ function _formatResult(resultDetails) {
   return result;
 }
 
+function _applyPreTreatments(string) {
+  return string.replace(/\u00A0/g, ' ');
+}
+
 module.exports = {
 
   _applyTreatmentsToSolutions,
@@ -77,8 +81,8 @@ module.exports = {
     }
 
     // Pre-treatments
-    const preTreatedAnswers = yamlAnswer.replace(/\u00A0/g, ' ');
-    const preTreatedSolutions = yamlSolution.replace(/\u00A0/g, ' ');
+    const preTreatedAnswers = _applyPreTreatments(yamlAnswer);
+    const preTreatedSolutions = _applyPreTreatments(yamlSolution);
 
     // Convert YAML to JSObject
     const answers = jsYaml.safeLoad(preTreatedAnswers);

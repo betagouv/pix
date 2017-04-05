@@ -223,21 +223,21 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
       },
       {
         case: 'solution has no separator \\n',
-        output : {result : 'ko'},
+        output: { result: 'ko' },
         answer: 'blabla',
         solution: 'blabla',
         enabledTreatments: ['t1', 't2', 't3']
       },
       {
         case: 'Each answer points to the solution of another question',
-        output : {result : 'ko', resultDetails : {'9lettres': false, '6lettres' : false}},
+        output: { result: 'ko', resultDetails: { '9lettres': false, '6lettres': false } },
         answer: '9lettres: tomate\n6lettres: courgette',
         solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume',
         enabledTreatments: ['t1', 't2', 't3']
       },
       {
         case: 'One of the levenshtein distance is above 0.25',
-        output : {result : 'ko', resultDetails : {'9lettres': false, '6lettres' : true}},
+        output: { result: 'ko', resultDetails: { '9lettres': false, '6lettres': true } },
         answer: '9lettres: abcde\n6lettres: ghjkl',
         //abcdefg below creates a levenshtein distance above 0.25
         solution: '9lettres:\n- abcdefg\n6lettres:\n- ghjklm\n- ghjklp\n- ghjklz',
@@ -245,7 +245,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
       },
       {
         case: 'All of the levenshtein distances are above 0.25',
-        output : {result : 'ko', resultDetails : {'9lettres': false, '6lettres' : false}},
+        output: { result: 'ko', resultDetails: { '9lettres': false, '6lettres': false } },
         answer: '9lettres: abcde\n6lettres: ghjklpE11!!',
         solution: '9lettres:\n- abcdefg\n6lettres:\n- ghjklm\n- ghjklp\n- ghjklz',
         enabledTreatments: ['t1', 't2', 't3']

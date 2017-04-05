@@ -129,30 +129,30 @@ function _calculateResult(scoring, validations, deactivations) {
   return result;
 }
 
-function _applyPreTreatmentsToAnswer(yamlAnswer) {
-  return yamlAnswer.replace(/\u00A0/g, ' ');
+function _applyPreTreatments(string) {
+  return string.replace(/\u00A0/g, ' ');
 }
 
 module.exports = {
+
   match(yamlAnswer, yamlSolution, yamlScoring, deactivations) {
 
     // Validate inputs
-    if (_.isNotString(yamlAnswer)
-        || _.isNotString(yamlSolution)
+    if (!_.isString(yamlAnswer)
+        || !_.isString(yamlSolution)
         || _.isEmpty(yamlAnswer)
         || !_.includes(yamlSolution, '\n')) {
       return 'ko';
     }
 
     // Pre-Treatments
-    const preTreatedAnswers = _applyPreTreatmentsToAnswer(yamlAnswer);
+    const preTreatedAnswers = _applyPreTreatments(yamlAnswer);
 
     // remove unbreakable spaces
     // Convert Yaml to JS objects
     const answers = jsYaml.safeLoad(preTreatedAnswers);
     const solutions = jsYaml.safeLoad(yamlSolution);
     const scoring = jsYaml.safeLoad(_.ensureString(yamlScoring));
-
 
     // Treatments
     const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations);
