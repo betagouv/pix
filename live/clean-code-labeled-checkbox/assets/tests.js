@@ -7402,9 +7402,9 @@ define('pix-live/tests/unit/transforms/array-test.lint-test', ['exports'], funct
     });
   });
 });
-define('pix-live/tests/unit/utils/labeled-checkboxes-test', ['exports', 'mocha', 'chai', 'pix-live/utils/labeled-checkboxes'], function (exports, _mocha, _chai, _pixLiveUtilsLabeledCheckboxes) {
+define('pix-live/tests/unit/utils/labeled-checkboxes-test', ['exports', 'mocha', 'chai', 'pix-live/utils/checked-proposals'], function (exports, _mocha, _chai, _pixLiveUtilsCheckedProposals) {
 
-  (0, _mocha.describe)('Unit | Utility | labeled checkboxes', function () {
+  (0, _mocha.describe)('Unit | Utility | checked proposals', function () {
 
     (0, _mocha.describe)('Success cases', function () {
 
@@ -7460,7 +7460,7 @@ define('pix-live/tests/unit/utils/labeled-checkboxes-test', ['exports', 'mocha',
         output: []
       }].forEach(function (testCase) {
         (0, _mocha.it)('Should reply to proposals' + JSON.stringify(testCase.proposals) + ' and answers ' + JSON.stringify(testCase.answers) + ' with ' + JSON.stringify(testCase.output) + ' when ' + testCase.when, function () {
-          (0, _chai.expect)(JSON.stringify((0, _pixLiveUtilsLabeledCheckboxes['default'])(testCase.proposals, testCase.answers))).to.equal(JSON.stringify(testCase.output));
+          (0, _chai.expect)(JSON.stringify((0, _pixLiveUtilsCheckedProposals['default'])(testCase.proposals, testCase.answers))).to.equal(JSON.stringify(testCase.output));
         });
       });
     });
@@ -7635,6 +7635,15 @@ define('pix-live/tests/utils/call-only-once.lint-test', ['exports'], function (e
     });
   });
 });
+define('pix-live/tests/utils/checked-proposals.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - utils/checked-proposals.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/utils/email-validator.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -7648,15 +7657,6 @@ define('pix-live/tests/utils/get-challenge-type.lint-test', ['exports'], functio
   'use strict';
 
   describe('ESLint - utils/get-challenge-type.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/utils/labeled-checkboxes.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - utils/labeled-checkboxes.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
