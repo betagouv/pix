@@ -97,6 +97,7 @@ module.exports = {
 
   match (answer, solution, deactivations) {
 
+    // Input checking
     if (!_.isString(answer)
       || !_.isString(solution)
       || _.isEmpty(solution)) {

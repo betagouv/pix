@@ -130,7 +130,7 @@ module.exports = {
 
   match(yamlAnswer, yamlSolution, yamlScoring, deactivations) {
 
-    // Validate inputs
+    // Input checking
     if (!_.isString(yamlAnswer)
         || _.isEmpty(yamlAnswer)
         || !_.includes(yamlSolution, '\n')) {

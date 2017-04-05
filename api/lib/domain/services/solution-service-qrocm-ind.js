@@ -58,6 +58,7 @@ module.exports = {
 
   match (yamlAnswer, yamlSolution, enabledTreatments) {
 
+    // Input checking
     if (!_.isString(yamlAnswer)
       || _.isEmpty(yamlSolution)
       || !_.includes(yamlSolution, '\n')) {
