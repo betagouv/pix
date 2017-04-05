@@ -68,8 +68,8 @@ module.exports = {
 
   match (yamlAnswer, yamlSolution, enabledTreatments) {
 
-    if (_.isNotString(yamlAnswer)
-      || _.isNotString(yamlSolution)
+    if (!_.isString(yamlAnswer)
+      || !_.isString(yamlSolution)
       || _.isEmpty(yamlSolution)
       || !_.includes(yamlSolution, '\n')) {
       return { result: 'ko' };
