@@ -11,40 +11,40 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
 
     const failedCases = [
       {
-        when: 'Badly formatted solution',
-        answer: 'num1: Google\nnum2: Yahoo',
-        solution: 'solution like a QCU',
+        when: 'Answer is not a String',
+        answer: { foo: 'bar' },
+        solution: 'Google:\n- Google\nYahoo:\n- Yahoo',
       },
       {
-        when: 'Answer is empty and solution is also empty',
+        when: 'Solution is not a String',
+        answer: 'num1: Google\nnum2: Yahoo',
+        solution: 0,
+      },
+      {
+        when: 'Answer is empty',
         answer: '',
         solution: '\n',
       },
       {
         when: 'Answer is empty and solution is normal',
         answer: '',
-        solution: twoPossibleSolutions,
-      },
-      {
-        when: 'Solution is not a String',
-        answer: 'num1: " google.fr"\nnum2: "Yahoo"',
-        solution: { a: new Date() },
+        solution: 'Google:\n- Google\nYahoo:\n- Yahoo',
       },
       {
         when: 'Answer is incorrect',
         answer: 'num1: Foo\nnum2: Bar',
-        solution: twoPossibleSolutions,
+        solution: 'Google:\n- Google\nYahoo:\n- Yahoo',
       },
       {
         when: 'User duplicated a correct answer',
         answer: 'num1: google.fr\nnum2: google.fr',
-        solution: twoPossibleSolutions,
+        solution: 'Google:\n- Google\nYahoo:\n- Yahoo',
       }
     ];
 
-    failedCases.forEach(function (testCase) {
-      it('Should return "ko" when : ' + testCase.when + ' , answer is ' + testCase.answer + '", and solution is "' + escape(testCase.solution) + '"', function () {
-        expect(service.match(testCase.answer, 'QROCM-dep')).to.equal('ko');
+    failedCases.forEach((testCase) => {
+      it(`should return "ko" when ${testCase.when}`, () => {
+        expect(service.match(testCase.answer, testCase.solution)).to.equal('ko');
       });
     });
 
@@ -92,7 +92,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
     ];
 
     maximalScoreCases.forEach(function (testCase) {
-      it('Should return "ok" when : ' + testCase.when + ' , answer is ' + testCase.answer + '", and solution is "' + escape(testCase.solution) + '"', function () {
+      it(`Should return "ok" when ${testCase.when}`, function () {
         expect(service.match(testCase.answer, testCase.solution)).to.equal('ok');
       });
     });
@@ -131,7 +131,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
     ];
 
     maximalScoreCases.forEach(function (testCase) {
-      it('should return "ok" when ' + testCase.when, function () {
+      it(`should return "ok" when ${testCase.when}`, function () {
         expect(service.match(testCase.answer, testCase.solution, testCase.scoring)).to.equal('ok');
       });
     });
@@ -159,7 +159,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
 
     partialScoreCases.forEach(function (testCase) {
 
-      it('should return "partially" when ' + testCase.when, function () {
+      it(`should return "partially" when ${testCase.when}`, function () {
         expect(service.match(testCase.answer, testCase.solution, testCase.scoring)).to.equal('partially');
       });
 
@@ -193,7 +193,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
     ];
 
     failedCases.forEach(function (testCase) {
-      it('should return "ko" when ' + testCase.when, function () {
+      it(`should return "ko" when ${testCase.when}`, function () {
         expect(service.match(testCase.answer, testCase.solution, testCase.scoring)).to.equal('ko');
       });
     });
@@ -310,7 +310,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
     ];
 
     allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + caze.solution + '"', function () {
+      it(`${caze.when}, should return ${caze.output} when answer is "${caze.answer}" and solution is "${caze.solution}"`, function () {
         expect(service.match(caze.answer, caze.solution, caze.scoring, caze.deactivations)).to.equal(caze.output);
       });
     });

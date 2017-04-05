@@ -1,9 +1,7 @@
-/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 const deactivationsService = require('./deactivations-service');
-
 
 function _applyTreatmentsToSolutions(solutions, deactivations) {
   return _.mapValues(solutions, (validSolutions) => {
@@ -35,13 +33,11 @@ function _applyTreatmentsToSolutions(solutions, deactivations) {
   });
 }
 
-
 function _applyTreatmentsToAnswers(answers) {
   return _.mapValues(answers, _.toString);
 }
 
-
-function _calculateValidation(answers, solutions) {
+function _compareAnswersAndSolutions(answers, solutions) {
 
   const validations = {};
 
@@ -104,7 +100,7 @@ function _goodAnswer(allValidations, deactivations) {
   }
 }
 
-function _calculateResult(scoring, validations, deactivations) {
+function _formatResult(scoring, validations, deactivations) {
   let result = 'ok';
 
   const numberOfGoodAnswers = _numberOfGoodAnswers(validations, deactivations);
@@ -139,7 +135,6 @@ module.exports = {
 
     // Validate inputs
     if (!_.isString(yamlAnswer)
-        || !_.isString(yamlSolution)
         || _.isEmpty(yamlAnswer)
         || !_.includes(yamlSolution, '\n')) {
       return 'ko';
@@ -148,7 +143,6 @@ module.exports = {
     // Pre-Treatments
     const preTreatedAnswers = _applyPreTreatments(yamlAnswer);
 
-    // remove unbreakable spaces
     // Convert Yaml to JS objects
     const answers = jsYaml.safeLoad(preTreatedAnswers);
     const solutions = jsYaml.safeLoad(yamlSolution);
@@ -159,9 +153,9 @@ module.exports = {
     const treatedAnswers = _applyTreatmentsToAnswers(answers);
 
     // Comparisons
-    const fullValidations = _calculateValidation(treatedAnswers, treatedSolutions);
+    const fullValidations = _compareAnswersAndSolutions(treatedAnswers, treatedSolutions);
 
-    return _calculateResult(scoring, fullValidations, deactivations);
+    return _formatResult(scoring, fullValidations, deactivations);
   }
 
 };
