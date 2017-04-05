@@ -17,7 +17,6 @@ function _getSmallestLevenshteinDistance(answer, solutionVariants) {
   });
 
   return min;
-
 }
 
 function t3(answer, solutionVariants) {
@@ -25,5 +24,6 @@ function t3(answer, solutionVariants) {
 }
 
 module.exports = {
+  _getSmallestLevenshteinDistance,
   t3
 };

@@ -2,7 +2,7 @@ const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 const deactivationsService = require('./deactivations-service');
-const { applyPreTreatments } = require('./validation-treatments');
+const { t1, t2, applyPreTreatments } = require('./validation-treatments');
 
 function _applyTreatmentsToSolutions(solutions, deactivations) {
   return _.mapValues(solutions, (validSolutions) => {
@@ -10,22 +10,22 @@ function _applyTreatmentsToSolutions(solutions, deactivations) {
       const pretreatedSolution = validSolution.toString();
 
       if (deactivationsService.isDefault(deactivations)) {
-        return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
+        return t2(t1(pretreatedSolution));
       }
       else if (deactivationsService.hasOnlyT1(deactivations)) {
-        return utils._treatmentT2(pretreatedSolution);
+        return t2(pretreatedSolution);
       }
       else if (deactivationsService.hasOnlyT2(deactivations)) {
-        return utils._treatmentT1(pretreatedSolution);
+        return t1(pretreatedSolution);
       }
       else if (deactivationsService.hasOnlyT3(deactivations)) {
-        return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
+        return t2(t1(pretreatedSolution));
       }
       else if (deactivationsService.hasOnlyT1T2(deactivations)) {
         return pretreatedSolution;
       }
       else if (deactivationsService.hasOnlyT1T3(deactivations)) {
-        return utils._treatmentT2(pretreatedSolution);
+        return t2(pretreatedSolution);
       }
       else if (deactivationsService.hasT1T2T3(deactivations)) {
         return pretreatedSolution;

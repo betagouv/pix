@@ -8,12 +8,17 @@ describe('Unit | Service | Validation Treatments', function () {
    */
 
   describe('#t1', function () {
+
+    it('checks sanity', () => {
+      expect(t1).to.exist;
+    });
+
     [
       { description: 'white spaces', input: '  foo  bar  ', expected: 'foobar' },
       { description: 'unbreakable spaces', input: 'unbreakable spaces', expected: 'unbreakablespaces' },
       { description: 'accents', input: 'àâäéèêëîïôöòûùüñń', expected: 'aaaeeeeiiooouuunn' },
       { description: 'cédille', input: 'hameçon', expected: 'hamecon' },
-      { description: 'casse', input: 'SHI-fu-Mi', expected: 'shi-fu-mi' }
+      { description: 'case', input: 'SHI-fu-Mi', expected: 'shi-fu-mi' }
     ].forEach((scenario) => {
       it(`should return the given string without "${scenario.description}"`, function () {
         expect(t1(scenario.input)).to.equal(scenario.expected);
@@ -23,6 +28,11 @@ describe('Unit | Service | Validation Treatments', function () {
     it('should not modify æ and œ', function () {
       expect(t1('æ/œ')).to.equal('æ/œ');
     });
+
+    it('should return (a copy of) the given string unmodified if it contains no concerned characters', () => {
+      expect(t1('shi-foo-bar')).to.equal('shi-foo-bar');
+    });
+
   });
 
   /**
@@ -30,6 +40,11 @@ describe('Unit | Service | Validation Treatments', function () {
    */
 
   describe('#t2', function () {
+
+    it('checks sanity', () => {
+      expect(t2).to.exist;
+    });
+
     [
       { description: 'all point types', input: '?Allo?,:;.', expected: 'Allo' },
       { description: 'slashs', input: '\\o/', expected: 'o' },
@@ -41,6 +56,15 @@ describe('Unit | Service | Validation Treatments', function () {
         expect(t2(scenario.input)).to.equal(scenario.expected);
       });
     });
+
+    it('should return (a copy of) the given string unmodified if it contains no concerned characters', () => {
+      expect(t2('shi foo bar')).to.equal('shi foo bar');
+    });
+
+    it('should return the good result even for complex phrase', () => {
+      expect(t2('Th!!is., -/ is #! an $ % ^ & * example ;: {} of a = -_ string with `~)() punctuation')).to.equal('This is an example of a string with punctuation');
+    });
+
   });
 
   /**
@@ -68,61 +92,27 @@ describe('Unit | Service | Validation Treatments', function () {
 
   describe('#applyTreatments', () => {
 
+    const input = ' Shi Foo-Bar ';
+
     it('should return the given string without applying any treatment when the enabled treatments array is not defined', () => {
-      // given
-      const input = ' Shi Foo-Bar ';
-
-      // when
-      const actual = applyTreatments(input);
-
-      // then
-      expect(actual).to.equal(input);
+      expect(applyTreatments(input)).to.equal(input);
     });
 
     it('should return the given string without applying any treatment when the enabled treatments array is empty', () => {
-      // given
-      const input = ' Shi Foo-Bar ';
-
-      // when
-      const actual = applyTreatments(input, []);
-
-      // then
-      expect(actual).to.equal(input);
+      expect(applyTreatments(input, [])).to.equal(input);
     });
 
     it('should return the given string without applying any treatment when the enabled treatments array does not contain "t1" nor "t2"', () => {
-      // given
-      const input = ' Shi Foo-Bar ';
-
-      // when
-      const actual = applyTreatments(input, ['t1000']);
-
-      // then
-      expect(actual).to.equal(input);
+      expect(applyTreatments(input, ['t1000'])).to.equal(input);
     });
 
     it('should return a string with "t1" applied if it is set as enabled treatment', () => {
-      // given
-      const input = ' Shi Foo-Bar ';
-
-      // when
-      const actual = applyTreatments(input, ['t1']);
-
-      // then
-      expect(actual).to.equal('shifoo-bar');
+      expect(applyTreatments(input, ['t1'])).to.equal('shifoo-bar');
     });
 
     it('should return a string with "t2" applied if it is set as enabled treatment', () => {
-      // given
-      const input = ' Shi Foo-Bar ';
-
-      // when
-      const actual = applyTreatments(input, ['t2']);
-
-      // then
-      expect(actual).to.equal(' Shi FooBar ');
+      expect(applyTreatments(input, ['t2'])).to.equal(' Shi FooBar ');
     });
   });
-
 
 });
