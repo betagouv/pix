@@ -1,5 +1,8 @@
 const _ = require('../../infrastructure/utils/lodash-utils');
 
+const OUTCOME_FROM_A_CORRECT_ANSWER = 1;
+const OUTCOME_FROM_A_WRONG_ANSWER = 0;
+
 function _getDifficultyOfKnowledge(knowledgeTag) {
   return parseInt(knowledgeTag.slice(-1));
 }
@@ -20,39 +23,55 @@ function propagateKnowledge(knowledgeList, startNode, direction) {
 }
 
 
-function getPerformanceStats(answers, knowledgeData) {
+function _createPerformanceRecord(challenge, answer) {
+  const knowledgeTags = challenge.knowledgeTags;
+  const mainKnowledgeTag = knowledgeTags[ 0 ];
+  const difficulty = _getDifficultyOfKnowledge(mainKnowledgeTag);
 
-  const acquiredKnowledgeTags = [];
-  const notAcquiredKnowledgeTags = [];
-  const performanceHistory = [];
+  const outcome = (answer.get('result') === 'ok') ? OUTCOME_FROM_A_CORRECT_ANSWER : OUTCOME_FROM_A_WRONG_ANSWER;
+
+  return { difficulty, outcome };
+}
+
+function _evaluateAcquiredSkillTagsByLevel(acquiredKnowledgeTags) {
   const nbAcquiredKnowledgeTagsByLevel = {};
-
   [ 1, 2, 3, 4, 5, 6, 7, 8 ].forEach(level => nbAcquiredKnowledgeTagsByLevel[ level ] = 0);
-
-  _.forEach(answers, answer => {
-    const challenge = knowledgeData.challengesById[ answer.get('challengeId') ];
-    if (challenge) {
-      const knowledgeTags = challenge.knowledgeTags;
-      const mainKnowledgeTag = knowledgeTags[ 0 ];
-      const difficulty = _getDifficultyOfKnowledge(mainKnowledgeTag);
-      let outcome = 0;
-      let direction = 1;
-      let tagBucket = notAcquiredKnowledgeTags;
-      if (answer.get('result') === 'ok') {
-        outcome = 1;
-        direction = -1;
-        tagBucket = acquiredKnowledgeTags;
-      }
-      const relatedKnowledgeTags = propagateKnowledge(knowledgeData.knowledgeTagSet, mainKnowledgeTag, direction);
-      performanceHistory.push({ difficulty, outcome });
-      tagBucket.push(...relatedKnowledgeTags);
-    }
-  });
 
   acquiredKnowledgeTags.forEach(knowledgeTag => {
     const difficulty = _getDifficultyOfKnowledge(knowledgeTag);
     nbAcquiredKnowledgeTagsByLevel[ difficulty ]++;
   });
+
+  return nbAcquiredKnowledgeTagsByLevel;
+}
+
+function getPerformanceStats(answers, knowledgeData) {
+
+  const acquiredKnowledgeTags = [];
+  const notAcquiredKnowledgeTags = [];
+  const performanceHistory = [];
+
+  _.forEach(answers, answer => {
+    const challenge = knowledgeData.challengesById[ answer.get('challengeId') ];
+    if (challenge) {
+
+      const knowledgeTags = challenge.knowledgeTags;
+      const mainKnowledgeTag = knowledgeTags[ 0 ];
+
+      if (answer.get('result') === 'ok') {
+        const listOfAcquiredSkillTags = propagateKnowledge(knowledgeData.knowledgeTagSet, mainKnowledgeTag, -1);
+        acquiredKnowledgeTags.push(...listOfAcquiredSkillTags);
+      } else {
+        const listOfUnknownSkillTags = propagateKnowledge(knowledgeData.knowledgeTagSet, mainKnowledgeTag, 1);
+        notAcquiredKnowledgeTags.push(...listOfUnknownSkillTags);
+      }
+
+      const performanceRecord = _createPerformanceRecord(challenge, answer);
+      performanceHistory.push(performanceRecord);
+    }
+  });
+
+  const nbAcquiredKnowledgeTagsByLevel = _evaluateAcquiredSkillTagsByLevel(acquiredKnowledgeTags);
 
   return {
     acquiredKnowledgeTags,

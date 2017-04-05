@@ -57,7 +57,10 @@ describe.only('Unit | Domain | scoring', function () {
     ].forEach(testCase => {
 
       it(`should return ${testCase.answer} when ${testCase.title} and node is ${testCase.node}`, function () {
+        // When
         const result = scoring.propagateKnowledge(allKnowledge, testCase.startNode, testCase.dir);
+
+        // Then
         expect(result.sort()).to.deep.equal(testCase.answer.sort());
       });
     });
@@ -120,7 +123,7 @@ describe.only('Unit | Domain | scoring', function () {
 
   });
 
-  describe.only('#getPerformanceStats', () => {
+  describe('#getPerformanceStats', () => {
 
     const knowledgeData = {
       challengesById: {
@@ -132,14 +135,13 @@ describe.only('Unit | Domain | scoring', function () {
       nbKnowledgeTagsByLevel: { 1: 2, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }
     };
 
-
     it('checks sanity', () => {
       expect(scoring.getPerformanceStats).to.exist;
     });
 
     it('should return the list of acquired knowledge and not acquired ones', () => {
       // When
-      let result = scoring.getPerformanceStats();
+      const result = scoring.getPerformanceStats();
 
       // Then
       expect(result.acquiredKnowledgeTags).to.be.an('array');
@@ -152,10 +154,10 @@ describe.only('Unit | Domain | scoring', function () {
         const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'ok');
 
         // When
-        const result = scoring.getPerformanceStats([correctAnswerWeb1], knowledgeData);
+        const result = scoring.getPerformanceStats([ correctAnswerWeb1 ], knowledgeData);
 
         // Then
-        expect(result.acquiredKnowledgeTags).to.deep.equal(['@web1']);
+        expect(result.acquiredKnowledgeTags).to.deep.equal([ '@web1' ]);
       });
 
       it('should not add Skill tags when level is only partially acquired', () => {
@@ -163,7 +165,7 @@ describe.only('Unit | Domain | scoring', function () {
         const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'partial');
 
         // When
-        const result = scoring.getPerformanceStats([correctAnswerWeb1], knowledgeData);
+        const result = scoring.getPerformanceStats([ correctAnswerWeb1 ], knowledgeData);
 
         // Then
         expect(result.acquiredKnowledgeTags).to.deep.equal([]);
@@ -174,7 +176,7 @@ describe.only('Unit | Domain | scoring', function () {
         const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'ko');
 
         // When
-        const result = scoring.getPerformanceStats([correctAnswerWeb1], knowledgeData);
+        const result = scoring.getPerformanceStats([ correctAnswerWeb1 ], knowledgeData);
 
         // Then
         expect(result.acquiredKnowledgeTags).to.deep.equal([]);
@@ -185,10 +187,10 @@ describe.only('Unit | Domain | scoring', function () {
         const correctAnswerWeb2 = _buildAnswer('challenge_web_2', 'ok');
 
         // When
-        const result = scoring.getPerformanceStats([correctAnswerWeb2], knowledgeData);
+        const result = scoring.getPerformanceStats([ correctAnswerWeb2 ], knowledgeData);
 
         // Then
-        expect(result.acquiredKnowledgeTags).to.deep.equal(['@web2', '@web1']);
+        expect(result.acquiredKnowledgeTags).to.deep.equal([ '@web2', '@web1' ]);
       });
     });
 
@@ -198,10 +200,10 @@ describe.only('Unit | Domain | scoring', function () {
         const incorrectAnswerUrl1 = _buildAnswer('challenge_url_1', 'ko');
 
         // When
-        const result = scoring.getPerformanceStats([incorrectAnswerUrl1], knowledgeData);
+        const result = scoring.getPerformanceStats([ incorrectAnswerUrl1 ], knowledgeData);
 
         // Then
-        expect(result.notAcquiredKnowledgeTags).to.deep.equal(['@url1']);
+        expect(result.notAcquiredKnowledgeTags).to.deep.equal([ '@url1' ]);
       });
 
       it('should contains every related skill tags', () => {
@@ -209,10 +211,10 @@ describe.only('Unit | Domain | scoring', function () {
         const partialAnswerWeb1 = _buildAnswer('challenge_web_1', 'partial');
 
         // When
-        const result = scoring.getPerformanceStats([partialAnswerWeb1], knowledgeData);
+        const result = scoring.getPerformanceStats([ partialAnswerWeb1 ], knowledgeData);
 
         // Then
-        expect(result.notAcquiredKnowledgeTags).to.deep.equal(['@web1', '@web2']);
+        expect(result.notAcquiredKnowledgeTags).to.deep.equal([ '@web1', '@web2' ]);
       });
 
       // TODO Dans ce cas, le tableau contient un état instable (J'ai appris ET je n'ai pas appris)
@@ -222,11 +224,11 @@ describe.only('Unit | Domain | scoring', function () {
         const correctAnswerWeb2 = _buildAnswer('challenge_web_2', 'ok');
 
         // When
-        const result = scoring.getPerformanceStats([wrongAnswerWeb1, correctAnswerWeb2], knowledgeData);
+        const result = scoring.getPerformanceStats([ wrongAnswerWeb1, correctAnswerWeb2 ], knowledgeData);
 
         // Then
-        expect(result.acquiredKnowledgeTags).to.deep.equal(['@web2', '@web1']);
-        expect(result.notAcquiredKnowledgeTags).to.deep.equal(['@web1', '@web2']);
+        expect(result.acquiredKnowledgeTags).to.deep.equal([ '@web2', '@web1' ]);
+        expect(result.notAcquiredKnowledgeTags).to.deep.equal([ '@web1', '@web2' ]);
       });
 
       it('should have every skill tags when level is not acquired', () => {
@@ -234,10 +236,10 @@ describe.only('Unit | Domain | scoring', function () {
         const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'ko');
 
         // When
-        const result = scoring.getPerformanceStats([correctAnswerWeb1], knowledgeData);
+        const result = scoring.getPerformanceStats([ correctAnswerWeb1 ], knowledgeData);
 
         // Then
-        expect(result.notAcquiredKnowledgeTags).to.deep.equal(['@web1', '@web2']);
+        expect(result.notAcquiredKnowledgeTags).to.deep.equal([ '@web1', '@web2' ]);
       });
 
       // TODO Ici, c'est étrange qu'un ne retrouve pas web_1 quelque part
@@ -246,18 +248,18 @@ describe.only('Unit | Domain | scoring', function () {
         const partialAnswerWeb2 = _buildAnswer('challenge_web_2', 'partial');
 
         // When
-        const result = scoring.getPerformanceStats([partialAnswerWeb2], knowledgeData);
+        const result = scoring.getPerformanceStats([ partialAnswerWeb2 ], knowledgeData);
 
         // Then
         expect(result.acquiredKnowledgeTags).to.deep.equal([]);
-        expect(result.notAcquiredKnowledgeTags).to.deep.equal(['@web2']);
+        expect(result.notAcquiredKnowledgeTags).to.deep.equal([ '@web2' ]);
       });
     });
 
     describe('the field performanceHistory', () => {
       it('should be given as a result', () => {
         // When
-        let result = scoring.getPerformanceStats();
+        const result = scoring.getPerformanceStats();
 
         // Then
         expect(result.performanceHistory).to.be.an('array');
@@ -268,10 +270,10 @@ describe.only('Unit | Domain | scoring', function () {
         const correctAnswerUrl1 = _buildAnswer('challenge_url_1', 'ok');
 
         // When
-        const result = scoring.getPerformanceStats([correctAnswerUrl1], knowledgeData);
+        const result = scoring.getPerformanceStats([ correctAnswerUrl1 ], knowledgeData);
 
         // Then
-        expect(result.performanceHistory).to.deep.equal([{ difficulty: 1, outcome: 1 }]);
+        expect(result.performanceHistory).to.deep.equal([ { difficulty: 1, outcome: 1 } ]);
       });
 
       it('should add a performance input when the answer is correct and save the difficulty', () => {
@@ -279,10 +281,10 @@ describe.only('Unit | Domain | scoring', function () {
         const correctAnswerWeb2 = _buildAnswer('challenge_web_2', 'ok');
 
         // When
-        const result = scoring.getPerformanceStats([correctAnswerWeb2], knowledgeData);
+        const result = scoring.getPerformanceStats([ correctAnswerWeb2 ], knowledgeData);
 
         // Then
-        expect(result.performanceHistory).to.deep.equal([{ difficulty: 2, outcome: 1 }]);
+        expect(result.performanceHistory).to.deep.equal([ { difficulty: 2, outcome: 1 } ]);
       });
 
 
@@ -291,10 +293,10 @@ describe.only('Unit | Domain | scoring', function () {
         const partialAnswerUrl1 = _buildAnswer('challenge_url_1', 'partial');
 
         // When
-        const result = scoring.getPerformanceStats([partialAnswerUrl1], knowledgeData);
+        const result = scoring.getPerformanceStats([ partialAnswerUrl1 ], knowledgeData);
 
         // Then
-        expect(result.performanceHistory).to.deep.equal([{ difficulty: 1, outcome: 0 }]);
+        expect(result.performanceHistory).to.deep.equal([ { difficulty: 1, outcome: 0 } ]);
       });
 
       it('should not record an outcome from an answer which is wrong', () => {
@@ -302,10 +304,10 @@ describe.only('Unit | Domain | scoring', function () {
         const wrongAnswerUrl1 = _buildAnswer('challenge_url_1', 'ko');
 
         // When
-        const result = scoring.getPerformanceStats([wrongAnswerUrl1], knowledgeData);
+        const result = scoring.getPerformanceStats([ wrongAnswerUrl1 ], knowledgeData);
 
         // Then
-        expect(result.performanceHistory).to.deep.equal([{ difficulty: 1, outcome: 0 }]);
+        expect(result.performanceHistory).to.deep.equal([ { difficulty: 1, outcome: 0 } ]);
       });
 
     });
@@ -313,7 +315,7 @@ describe.only('Unit | Domain | scoring', function () {
     describe('the nbAcquiredKnowledgeTagsByLevel', () => {
       it('should be an array and have a default value', () => {
         // When
-        let result = scoring.getPerformanceStats();
+        const result = scoring.getPerformanceStats();
 
         // Then
         expect(result.nbAcquiredKnowledgeTagsByLevel).to.be.an('object');
@@ -328,7 +330,7 @@ describe.only('Unit | Domain | scoring', function () {
         const correctAnswerUrl1 = _buildAnswer('challenge_url_1', 'ok');
 
         // When
-        const result = scoring.getPerformanceStats([correctAnswerWeb2, correctAnswerUrl1], knowledgeData);
+        const result = scoring.getPerformanceStats([ correctAnswerWeb2, correctAnswerUrl1 ], knowledgeData);
 
         // Then
         expect(result.nbAcquiredKnowledgeTagsByLevel).to.deep.equal({
