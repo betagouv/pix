@@ -19,7 +19,7 @@ module.exports = {
     return solutionRepository
       .get(existingAnswer.get('challengeId'))
       .then((solution) => {
-        const answerCorrectness = this.match(existingAnswer, solution);
+        const answerCorrectness = this.validate(existingAnswer, solution);
         return new Answer({
           id: existingAnswer.id,
           result: answerCorrectness.result,
@@ -38,7 +38,7 @@ module.exports = {
     return result;
   },
 
-  match(answer, solution) {
+  validate(answer, solution) {
 
     let response = {
       result: 'unimplemented',

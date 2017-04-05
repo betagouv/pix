@@ -10,7 +10,7 @@ function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
   solutionRepository
     .get(existingAnswer.get('challengeId'))
     .then((solution) => {
-      const answerCorrectness = solutionService.match(newAnswer, solution);
+      const answerCorrectness = solutionService.validate(newAnswer, solution);
       new Answer({ id: existingAnswer.id })
         .save({
           result: answerCorrectness.result,
@@ -31,7 +31,7 @@ function _saveNewAnswer(newAnswer, reply) {
   solutionRepository
     .get(newAnswer.get('challengeId'))
     .then((solution) => {
-      const answerValidation = solutionService.match(newAnswer, solution);
+      const answerValidation = solutionService.validate(newAnswer, solution);
       newAnswer.set('result', answerValidation.result);
       newAnswer.set('resultDetails', jsYaml.safeDump(answerValidation.resultDetails));
       newAnswer.set('timeout', newAnswer.get('timeout'));
