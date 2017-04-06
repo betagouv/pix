@@ -7,23 +7,22 @@ export default function checkedProposals(proposals, userAnswers) {
 
   if (argumentsAreValids(proposals, userAnswers)) {
     const fullSizeUserAnswers = normalizeSizeOf(proposals, userAnswers);
-
     checkedLabels = _.zip(proposals,fullSizeUserAnswers);
   }
   return checkedLabels;
 }
 
 function argumentsAreValids(proposals, definedUserAnswers) {
-  return !(_(definedUserAnswers).isNotArrayOfBoolean() ||
-          _(definedUserAnswers).size() > _(proposals).size() ||
-          _(proposals).isNotArrayOfString() ||
-          _(proposals).isEmpty());
+  return !(_(definedUserAnswers).isNotArrayOfBoolean()
+            || _(definedUserAnswers).size() > _(proposals).size()
+            || _(proposals).isNotArrayOfString()
+            || _(proposals).isEmpty());
 }
 
 function normalizeSizeOf(proposals, definedUserAnswers){
 
-  const sizeDifference = _(proposals).size() - _(definedUserAnswers).size(); // 2
-  const arrayOfFalse = _.times(sizeDifference, _.constant(false));// [false, false]
+  const sizeDifference = _(proposals).size() - _(definedUserAnswers).size();
+  const arrayOfFalse = _.times(sizeDifference, _.constant(false));
 
   return definedUserAnswers.concat(arrayOfFalse);
 }

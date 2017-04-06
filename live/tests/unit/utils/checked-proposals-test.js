@@ -32,11 +32,6 @@ describe('Unit | Utility | checked proposals', function () {
       answers: [true],
       output: [['prop 1', true], ['prop 2', false], ['prop 3', false], ['prop 4', false]]
     }, {
-      when: 'wrong type for answers',
-      proposals: ['prop 1', 'prop 2', 'prop 3', 'prop 4'],
-      answers: new Date(),
-      output: []
-    }, {
       when: 'wrong format for answers\'s elements',
       proposals: ['prop 1', 'prop 2', 'prop 3', 'prop 4'],
       answers: [true, 'false'],
@@ -44,11 +39,6 @@ describe('Unit | Utility | checked proposals', function () {
     }, {
       when: 'no proposals',
       proposals: [],
-      answers: [false, true],
-      output: []
-    }, {
-      when: 'wrong format for proposals',
-      proposals: {}, // object !
       answers: [false, true],
       output: []
     }, {
