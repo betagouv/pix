@@ -339,4 +339,96 @@ describe.only('Unit | Domain | scoring', function () {
       });
     });
   });
+
+  describe('#computeDiagnosis', () => {
+    it('should exists', () => {
+      expect(scoring.computeDiagnosis).to.exist;
+    });
+
+    describe('the field pixScore', () => {
+      const knowledgeData = {
+        challengesById: {
+          'challenge_web_1': _buildChallenge([ '@web1' ]),
+          'challenge_web_2': _buildChallenge([ '@web2' ]),
+          'challenge_url_1': _buildChallenge([ '@url1' ]),
+          'challenge_social_1': _buildChallenge([ '@soc1' ]),
+        },
+        knowledgeTagSet: { '@web1': true, '@web2': true, '@url1': true },
+        nbKnowledgeTagsByLevel: { 1: 2, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }
+      };
+
+      let testCases = [
+        {
+          performanceStats: {
+            nbAcquiredKnowledgeTagsByLevel: {
+              "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0
+            }
+          },
+          expectedEstimatedLevel: 0,
+          expectedPixScore: 0
+        },
+        {
+          performanceStats: {
+            nbAcquiredKnowledgeTagsByLevel: {
+              "1": 1, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0
+            }
+          },
+          expectedEstimatedLevel: 0,
+          expectedPixScore: 4
+        },
+        {
+          performanceStats: {
+            nbAcquiredKnowledgeTagsByLevel: {
+              "1": 2, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0
+            }
+          },
+          expectedEstimatedLevel: 1,
+          expectedPixScore: 8
+        },
+        {
+          performanceStats: {
+            nbAcquiredKnowledgeTagsByLevel: {
+              "1": 0, "2": 1, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0
+            }
+          },
+          expectedEstimatedLevel: 0,
+          expectedPixScore: 8
+        },
+        {
+          performanceStats: {
+            nbAcquiredKnowledgeTagsByLevel: {
+              "1": 2, "2": 1, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0
+            }
+          },
+          expectedEstimatedLevel: 2,
+          expectedPixScore: 16
+        }
+      ];
+
+      describe('the field pixscore', () => {
+        testCases.forEach((testCase, index) => {
+          it(`on case #${index}, it should equal ${testCase.expectedPixScore}`, () => {
+            // When
+            const result = scoring.computeDiagnosis(testCase.performanceStats, knowledgeData);
+
+            // Then
+            expect(result.pixScore).to.equal(testCase.expectedPixScore);
+          });
+        });
+      });
+
+      describe('the field estimatedLevel ', () => {
+        testCases.forEach((testCase, index) => {
+          it(`on case #${index}, it should equal ${testCase.expectedEstimatedLevel}`, () => {
+            // When
+            const result = scoring.computeDiagnosis(testCase.performanceStats, knowledgeData);
+
+            // Then
+            expect(result.estimatedLevel).to.equal(testCase.expectedEstimatedLevel);
+          });
+        });
+
+      });
+    })
+  });
 });

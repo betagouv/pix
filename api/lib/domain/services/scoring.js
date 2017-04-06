@@ -85,15 +85,17 @@ function _add(a, b) {
   return a + b;
 }
 
-function _computeDiagnosis(performanceStats, knowledgeData) {
+function computeDiagnosis(performanceStats, knowledgeData) {
 
   const firstFiveLevels = [ 1, 2, 3, 4, 5 ];
   let pixScore = 0;
+
   firstFiveLevels.forEach(level => {
     if (knowledgeData.nbKnowledgeTagsByLevel[ level ] > 0) {
       pixScore += performanceStats.nbAcquiredKnowledgeTagsByLevel[ level ] * 8 / knowledgeData.nbKnowledgeTagsByLevel[ level ];
     }
   });
+
   pixScore = Math.floor(pixScore);
 
   const nbAcquiredKnowledgeTags = firstFiveLevels.map(level => performanceStats.nbAcquiredKnowledgeTagsByLevel[ level ]).reduce(_add);
@@ -101,6 +103,7 @@ function _computeDiagnosis(performanceStats, knowledgeData) {
 
   const highestLevel = Math.max(...firstFiveLevels.filter(level => knowledgeData.nbKnowledgeTagsByLevel[ level ] > 0));
   const estimatedLevel = Math.floor(nbAcquiredKnowledgeTags * highestLevel / nbKnowledgeTags);
+
   return {
     estimatedLevel,
     pixScore
@@ -113,8 +116,9 @@ module.exports = {
   propagateKnowledge,
 
   getPerformanceStats,
+  computeDiagnosis,
 
-  // TODO A deplacer ailleurs, une fois que getPerformanceStats et _computeDiagnosis seront exposés
+  // TODO A deplacer ailleurs, une fois que getPerformanceStats et computeDiagnosis seront exposés
   populateScore(assessment, answers, knowledgeData) {
 
     if (answers.length === 0) {
@@ -122,7 +126,7 @@ module.exports = {
     }
 
     const performanceStats = getPerformanceStats(answers, knowledgeData);
-    const diagnosis = _computeDiagnosis(performanceStats, knowledgeData);
+    const diagnosis = computeDiagnosis(performanceStats, knowledgeData);
 
     assessment.set('estimatedLevel', diagnosis.estimatedLevel);
     assessment.set('pixScore', diagnosis.pixScore);
