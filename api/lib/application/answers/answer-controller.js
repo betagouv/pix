@@ -35,6 +35,7 @@ function _saveNewAnswer(newAnswer, reply) {
       newAnswer.set('result', answerValidation.result);
       newAnswer.set('resultDetails', jsYaml.safeDump(answerValidation.resultDetails));
       newAnswer.set('timeout', newAnswer.get('timeout'));
+      newAnswer.set('elapsedTime', newAnswer.get('elapsedTime'));
       newAnswer.save()
         .then((newAnswer) => reply(answerSerializer.serialize(newAnswer)).code(201))
         .catch((err) => reply(Boom.badImplementation(err)));
@@ -46,7 +47,6 @@ module.exports = {
   save(request, reply) {
 
     const newAnswer = answerSerializer.deserialize(request.payload);
-
     answerRepository
       .findByChallengeAndAssessment(newAnswer.get('challengeId'), newAnswer.get('assessmentId'))
       .then(existingAnswer => {

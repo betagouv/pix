@@ -48,7 +48,8 @@ describe('Acceptance | Controller | answer-controller', function () {
           data: {
             type: 'answer',
             attributes: {
-              value: '1'
+              value: '1',
+              'elapsed-time': 100
             },
             relationships: {
               assessment: {
@@ -134,6 +135,19 @@ describe('Acceptance | Controller | answer-controller', function () {
           expect(afterAnswersNumber).to.equal(1);
           done();
         });
+      });
+    });
+
+    it('should return persisted answer with elapsedTime', function (done) {
+      // when
+      server.inject(options, () => {
+        // then
+        new Answer()
+          .fetch()
+          .then(function (model) {
+            expect(model.get('elapsedTime')).to.equal(options.payload.data.attributes['elapsed-time']);
+            done();
+          });
       });
     });
 

@@ -15,7 +15,8 @@ describe('Acceptance | Controller | answer-controller', function () {
         data: {
           type: 'answer',
           attributes: {
-            value: '1'
+            value: '1',
+            'elapsed-time': 100
           },
           relationships: {
             assessment: {
@@ -97,6 +98,7 @@ describe('Acceptance | Controller | answer-controller', function () {
           .then(function (model) {
             expect(model.id).to.be.a('number');
             expect(model.get('value')).to.equal(options.payload.data.attributes.value);
+            expect(model.get('elapsedTime')).to.equal(options.payload.data.attributes['elapsed-time']);
             expect(model.get('result')).to.equal('ok');
             expect(model.get('resultDetails')).to.equal('null\n');
             expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
