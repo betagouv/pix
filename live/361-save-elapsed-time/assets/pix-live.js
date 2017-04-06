@@ -378,11 +378,6 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-l
       return false;
     }),
 
-    elapsed: _ember['default'].computed('_elapsedTime', function () {
-      _ember['default'].Logger.info(this.get('_elapsedTime'), 'toto');
-      return false;
-    }),
-
     hasChallengeTimer: _ember['default'].computed('challenge', function () {
       return this.hasTimerDefined();
     }),
@@ -405,7 +400,7 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-l
     },
 
     _tick: function _tick() {
-      if (_pixLiveConfigEnvironment['default'].environment !== 'test') {
+      if (_pixLiveConfigEnvironment['default'].isChallengeTimerEnable) {
         var timer = _ember['default'].run.later(this, function () {
           var elapsedTime = this.get('_elapsedTime');
           this.set('_elapsedTime', elapsedTime + 1);
@@ -3590,18 +3585,6 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp']
       };
     },
 
-    actions: {
-
-      saveAnswerAndNavigate: function saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
-        var _this = this;
-
-        var answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime);
-        answer.save().then(function () {
-          _this._navigateToNextView(currentChallenge, assessment);
-        });
-      }
-    },
-
     _createAnswer: function _createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime) {
       return this.get('store').createRecord('answer', {
         value: answerValue,
@@ -3617,16 +3600,28 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp']
     },
 
     _navigateToNextView: function _navigateToNextView(currentChallenge, assessment) {
-      var _this2 = this;
+      var _this = this;
 
       var adapter = this.get('store').adapterFor('application');
       adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET').then(function (nextChallenge) {
         if (nextChallenge) {
-          _this2.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
+          _this.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
         } else {
-          _this2.transitionTo('assessments.get-results', assessment.get('id'));
+          _this.transitionTo('assessments.get-results', assessment.get('id'));
         }
       });
+    },
+
+    actions: {
+
+      saveAnswerAndNavigate: function saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
+        var _this2 = this;
+
+        var answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime);
+        answer.save().then(function () {
+          _this2._navigateToNextView(currentChallenge, assessment);
+        });
+      }
     }
 
   });
@@ -4836,6 +4831,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.2+75ffa63b"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.2+75cf5a8f"});
 }
 //# sourceMappingURL=pix-live.map
