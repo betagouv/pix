@@ -1219,39 +1219,55 @@ define('pix-live/components/qroc-solution-panel', ['exports', 'ember'], function
 });
 define('pix-live/components/qrocm-ind-solution-panel', ['exports', 'ember', 'lodash', 'pix-live/utils/answers-as-object', 'pix-live/utils/solution-as-object', 'pix-live/utils/labels-as-object', 'pix-live/utils/result-details-as-object'], function (exports, _ember, _lodash, _pixLiveUtilsAnswersAsObject, _pixLiveUtilsSolutionAsObject, _pixLiveUtilsLabelsAsObject, _pixLiveUtilsResultDetailsAsObject) {
 
+  function _computeAnswerOutcome(answers, resultDetails, labelKey) {
+    if (answers[labelKey] === '') {
+      return 'empty';
+    }
+    if (resultDetails[labelKey]) {
+      return 'ok';
+    }
+    return 'ko';
+  }
+
+  function _computeInputClass(answerOutcome) {
+    if (answerOutcome === 'empty') {
+      return 'correction-qroc-box__input-no-answer';
+    }
+    if (answerOutcome === 'ok') {
+      return 'correction-qroc-box__input-right-answer';
+    }
+    return 'correction-qroc-box__input-wrong-answer';
+  }
+
   var QrocmIndSolutionPanel = _ember['default'].Component.extend({
-    //TODO Renommer FieldsData
-    dataToDisplay: _ember['default'].computed('challenge.proposals', 'answer.value', 'solution.value', function () {
+
+    inputFields: _ember['default'].computed('challenge.proposals', 'answer.value', 'solution.value', function () {
 
       var labels = (0, _pixLiveUtilsLabelsAsObject['default'])(this.get('challenge.proposals'));
-      var inputKeys = _lodash['default'].keys(labels);
-      var answers = (0, _pixLiveUtilsAnswersAsObject['default'])(this.get('answer.value'), inputKeys);
+      var answers = (0, _pixLiveUtilsAnswersAsObject['default'])(this.get('answer.value'), _lodash['default'].keys(labels));
       var solutions = (0, _pixLiveUtilsSolutionAsObject['default'])(this.get('solution.value'));
       var resultDetails = (0, _pixLiveUtilsResultDetailsAsObject['default'])(this.get('answer.resultDetails'));
 
-      var dataToDisplay = [];
+      var inputFields = [];
 
-      inputKeys.forEach(function (key) {
-        //Voir si on peut retourner directement la classe
-        var isRightAnswer = resultDetails[key];
-        var noAnswer = answers[key] === '' && !resultDetails[key];
-        var isWrongAnswer = answers[key] !== '' && !resultDetails[key];
+      _lodash['default'].forEach(labels, function (label, labelKey) {
+        var answerOutcome = _computeAnswerOutcome(answers, resultDetails, labelKey);
+        var inputClass = _computeInputClass(answerOutcome);
 
-        if (answers[key] === '') {
-          answers[key] = 'Pas de réponse';
+        if (answers[labelKey] === '') {
+          answers[labelKey] = 'Pas de réponse';
         }
-        var labelAnswerSolution = {
-          label: labels[key],
-          answer: answers[key],
-          solution: solutions[key][0],
-          rightAnswer: isRightAnswer,
-          wrongAnswer: isWrongAnswer,
-          noAnswer: noAnswer
+        var inputField = {
+          label: labels[labelKey],
+          answer: answers[labelKey],
+          solution: solutions[labelKey][0],
+          emptyOrWrongAnswer: answerOutcome === 'empty' || answerOutcome === 'ko',
+          inputClass: inputClass
         };
-        dataToDisplay.push(labelAnswerSolution);
+        inputFields.push(inputField);
       });
 
-      return dataToDisplay;
+      return inputFields;
     })
 
   });
@@ -4286,7 +4302,7 @@ define("pix-live/templates/components/qroc-solution-panel", ["exports"], functio
   exports["default"] = Ember.HTMLBars.template({ "id": "oEjCYd2p", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qroc-box rounded-panel\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"rounded-panel__row \"],[\"flush-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qroc-box__answer\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"input\",[]],[\"dynamic-attr\",\"class\",[\"concat\",[[\"helper\",[\"if\"],[[\"get\",[\"isResultOk\"]],\"correction-qroc-box__input-right-answer\",[\"helper\",[\"if\"],[[\"get\",[\"isResultKo\"]],\"correction-qroc-box__input-wrong-answer\",[\"helper\",[\"if\"],[[\"get\",[\"isResultWithoutAnswer\"]],\"correction-qroc-box__input-no-answer\"],null]],null]],null],\" correction-qroc-box--answer__input\"]]],[\"dynamic-attr\",\"value\",[\"concat\",[[\"unknown\",[\"answerToDisplay\"]]]]],[\"static-attr\",\"disabled\",\"\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"block\",[\"unless\"],[[\"get\",[\"isResultOk\"]]],null,0],[\"text\",\"\\n\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qroc-box__solution\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"style\",\"width:18px;height:18px\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"fill\",\"#12caa1\"],[\"static-attr\",\"d\",\"M5,21A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V19C21,20.11 20.1,21 19,21H5M6,13H14.5L11,16.5L12.42,17.92L18.34,12L12.42,6.08L11,7.5L14.5,11H6V13Z\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qroc-box__solution-text\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"solutionToDisplay\"]],false],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/qroc-solution-panel.hbs" } });
 });
 define("pix-live/templates/components/qrocm-ind-solution-panel", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "P1F5xDcV", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"qrocm-solution-panel rounded-panel\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"rounded-panel__row \"],[\"flush-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"div\",[]],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"dataToDisplay\"]]],null,1],[\"text\",\"    \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"              \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qrocm__solution\"],[\"flush-element\"],[\"text\",\"\\n                \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"style\",\"width:18px;height:18px\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"text\",\"\\n                  \"],[\"open-element\",\"path\",[]],[\"static-attr\",\"fill\",\"#12caa1\"],[\"static-attr\",\"d\",\"M5,21A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V19C21,20.11 20.1,21 19,21H5M6,13H14.5L11,16.5L12.42,17.92L18.34,12L12.42,6.08L11,7.5L14.5,11H6V13Z\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n                \"],[\"close-element\"],[\"text\",\"\\n\\n                \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qrocm__solution-text\"],[\"flush-element\"],[\"text\",\"\\n                  \"],[\"append\",[\"unknown\",[\"row\",\"solution\"]],false],[\"text\",\"\\n                \"],[\"close-element\"],[\"text\",\"\\n              \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qrocm\"],[\"flush-element\"],[\"text\",\"\\n\\n          \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qrocm__label\"],[\"flush-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"span\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"row\",\"label\"]],false],[\"close-element\"],[\"text\",\"\\n          \"],[\"close-element\"],[\"text\",\"\\n\\n          \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qrocm__answer-solution\"],[\"flush-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qrocm__answer\"],[\"flush-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"input\",[]],[\"dynamic-attr\",\"value\",[\"concat\",[[\"unknown\",[\"row\",\"answer\"]]]]],[\"dynamic-attr\",\"class\",[\"concat\",[\"correction-qrocm__answer-input\\n                   \",[\"helper\",[\"if\"],[[\"get\",[\"row\",\"rightAnswer\"]],\"correction-qroc-box__input-right-answer\"],null],\"\\n                       \",[\"helper\",[\"if\"],[[\"get\",[\"row\",\"noAnswer\"]],\"correction-qroc-box__input-no-answer\"],null],\"\\n                       \",[\"helper\",[\"if\"],[[\"get\",[\"row\",\"wrongAnswer\"]],\"correction-qroc-box__input-wrong-answer\"],null]]]],[\"static-attr\",\"disabled\",\"\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"block\",[\"unless\"],[[\"get\",[\"row\",\"rightAnswer\"]]],null,0],[\"text\",\"          \"],[\"close-element\"],[\"text\",\"\\n\\n        \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"row\"]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/qrocm-ind-solution-panel.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "SnEcsAvD", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"qrocm-solution-panel rounded-panel\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"rounded-panel__row \"],[\"flush-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"div\",[]],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"each\"],[[\"get\",[\"inputFields\"]]],null,1],[\"text\",\"    \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"              \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qrocm__solution\"],[\"flush-element\"],[\"text\",\"\\n                \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"style\",\"width:18px;height:18px\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"text\",\"\\n                  \"],[\"open-element\",\"path\",[]],[\"static-attr\",\"fill\",\"#12caa1\"],[\"static-attr\",\"d\",\"M5,21A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V19C21,20.11 20.1,21 19,21H5M6,13H14.5L11,16.5L12.42,17.92L18.34,12L12.42,6.08L11,7.5L14.5,11H6V13Z\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n                \"],[\"close-element\"],[\"text\",\"\\n\\n                \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qrocm__solution-text\"],[\"flush-element\"],[\"text\",\"\\n                  \"],[\"append\",[\"unknown\",[\"field\",\"solution\"]],false],[\"text\",\"\\n                \"],[\"close-element\"],[\"text\",\"\\n              \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qrocm\"],[\"flush-element\"],[\"text\",\"\\n\\n          \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qrocm__label\"],[\"flush-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"span\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"field\",\"label\"]],false],[\"close-element\"],[\"text\",\"\\n          \"],[\"close-element\"],[\"text\",\"\\n\\n          \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qrocm__answer-solution\"],[\"flush-element\"],[\"text\",\"\\n            \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"correction-qrocm__answer\"],[\"flush-element\"],[\"text\",\"\\n              \"],[\"open-element\",\"input\",[]],[\"dynamic-attr\",\"value\",[\"concat\",[[\"unknown\",[\"field\",\"answer\"]]]]],[\"dynamic-attr\",\"class\",[\"concat\",[\"correction-qrocm__answer-input \",[\"unknown\",[\"field\",\"inputClass\"]]]]],[\"static-attr\",\"disabled\",\"\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n            \"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"block\",[\"if\"],[[\"get\",[\"field\",\"emptyOrWrongAnswer\"]]],null,0],[\"text\",\"          \"],[\"close-element\"],[\"text\",\"\\n\\n        \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[\"field\"]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/qrocm-ind-solution-panel.hbs" } });
 });
 define("pix-live/templates/components/qrocm-proposal", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "6zSSg6Bf", "block": "{\"statements\":[[\"block\",[\"each\"],[[\"get\",[\"blocks\"]]],null,3]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"    \"],[\"open-element\",\"hr\",[]],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"    \"],[\"open-element\",\"input\",[]],[\"static-attr\",\"class\",\"challenge-response__proposal-input\"],[\"static-attr\",\"type\",\"text\"],[\"dynamic-attr\",\"name\",[\"unknown\",[\"block\",\"input\"]],null],[\"dynamic-attr\",\"placeholder\",[\"unknown\",[\"block\",\"placeholder\"]],null],[\"dynamic-attr\",\"value\",[\"helper\",[\"property-of\"],[[\"get\",[\"answersValue\"]],[\"get\",[\"block\",\"input\"]]],null],null],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"    \"],[\"open-element\",\"span\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"block\",\"text\"]],false],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"block\",\"text\"]]],null,2],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"block\",\"input\"]]],null,1],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"block\",\"breakline\"]]],null,0],[\"text\",\"\\n\"]],\"locals\":[\"block\"]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/qrocm-proposal.hbs" } });
@@ -4910,6 +4926,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+42654c7d"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+dd5e94ca"});
 }
 //# sourceMappingURL=pix-live.map

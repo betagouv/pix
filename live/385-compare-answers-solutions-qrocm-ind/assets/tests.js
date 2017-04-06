@@ -6647,123 +6647,237 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports
 
     (0, _emberMocha.setupTest)('component:qrocm-ind-solution-panel', {});
 
-    (0, _mocha.describe)('#dataToDisplay', function () {
-      (0, _mocha.it)('should return an array with data to display (case when the answers are right)', function () {
-        //Given
-        var challenge = { proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' };
-        var answer = { value: 'smiley1: \':)\' smiley2: \':(\'', resultDetails: 'smiley1: true\nsmiley2: true' };
-        var solution = { value: 'smiley1: \n - :-)\n - :)\n - :-D\n - :D\n - :))\n\nsmiley2:\n - :-(\n - :(\n - :((' };
+    (0, _mocha.describe)('#inputFields', function () {
 
-        var result = [{ 'label': 'content : ', 'answer': ':)', 'solution': ':-)', 'rightAnswer': true, 'wrongAnswer': false, 'noAnswer': false }, { 'label': 'triste : ', 'answer': ':(', 'solution': ':-(', 'rightAnswer': true, 'wrongAnswer': false, 'noAnswer': false }];
+      var challenge = undefined;
+      var answer = undefined;
+      var solution = undefined;
 
-        //when
-        var component = this.subject();
+      (0, _mocha.beforeEach)(function () {
+        challenge = {};
+        answer = {};
+        solution = {};
+      });
+
+      function _getComponentInputFields(context) {
+        var component = context.subject();
         component.set('challenge', challenge);
         component.set('answer', answer);
         component.set('solution', solution);
-        var dataToDisplay = component.get('dataToDisplay');
+        return component.get('inputFields');
+      }
+
+      (0, _mocha.it)('should return an array with data to display (case when the answers are right)', function () {
+        //Given
+        challenge = { proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' };
+        answer = { value: 'smiley1: \':)\' smiley2: \':(\'', resultDetails: 'smiley1: true\nsmiley2: true' };
+        solution = { value: 'smiley1: \n - :-)\n - :)\n - :-D\n - :D\n - :))\n\nsmiley2:\n - :-(\n - :(\n - :((' };
+
+        var expectedFieldsData = [{
+          label: 'content : ',
+          answer: ':)',
+          solution: ':-)',
+          emptyOrWrongAnswer: false,
+          inputClass: 'correction-qroc-box__input-right-answer'
+        }, {
+          label: 'triste : ',
+          answer: ':(',
+          solution: ':-(',
+          emptyOrWrongAnswer: false,
+          inputClass: 'correction-qroc-box__input-right-answer'
+        }];
+
+        //when
+        var inputFields = _getComponentInputFields(this);
 
         //Then
-        (0, _chai.expect)(dataToDisplay).to.be.deep.equal(result);
+        (0, _chai.expect)(inputFields).to.be.deep.equal(expectedFieldsData);
       });
 
       (0, _mocha.it)('should return an array with data to display (case when there is wrong answers)', function () {
         //Given
-        var challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
-        var answer = { value: 'num1: \'1\' num2: \'2\'', resultDetails: 'num1: false\nnum2: false' };
-        var solution = { value: 'num1: \n - 2\n\nnum2:\n - 1' };
-        var result = [{ 'label': 'Clé USB : ', 'answer': '1', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': 'Carte mémoire (SD) : ', 'answer': '2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }];
-
-        var component = this.subject();
-        component.set('challenge', challenge);
-        component.set('answer', answer);
-        component.set('solution', solution);
+        challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
+        answer = { value: 'num1: \'1\' num2: \'2\'', resultDetails: 'num1: false\nnum2: false' };
+        solution = { value: 'num1: \n - 2\n\nnum2:\n - 1' };
+        var result = [{
+          label: 'Clé USB : ',
+          answer: '1',
+          solution: '2',
+          emptyOrWrongAnswer: true,
+          inputClass: 'correction-qroc-box__input-wrong-answer'
+        }, {
+          label: 'Carte mémoire (SD) : ',
+          answer: '2',
+          solution: '1',
+          emptyOrWrongAnswer: true,
+          inputClass: 'correction-qroc-box__input-wrong-answer'
+        }];
 
         //When
-        var dataToDisplay = component.get('dataToDisplay');
+        var inputFields = _getComponentInputFields(this);
 
         //then
-        (0, _chai.expect)(dataToDisplay).to.be.deep.equal(result);
+        (0, _chai.expect)(inputFields).to.be.deep.equal(result);
       });
 
       (0, _mocha.it)('should return an array with data to display (case when there is some empty answer)', function () {
         //Given
-        var challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
-        var answer = { value: 'num1: \'\' num2: \'2\'', resultDetails: 'num1: false\nnum2: false' };
-        var solution = { value: 'num1: \n - 2\n\nnum2:\n - 1' };
+        challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
+        answer = { value: 'num1: \'\' num2: \'2\'', resultDetails: 'num1: false\nnum2: false' };
+        solution = { value: 'num1: \n - 2\n\nnum2:\n - 1' };
 
-        var result = [{ 'label': 'Clé USB : ', 'answer': 'Pas de réponse', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': false, 'noAnswer': true }, { 'label': 'Carte mémoire (SD) : ', 'answer': '2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }];
-
-        var component = this.subject();
-        component.set('challenge', challenge);
-        component.set('answer', answer);
-        component.set('solution', solution);
+        var result = [{
+          label: 'Clé USB : ',
+          answer: 'Pas de réponse',
+          solution: '2',
+          emptyOrWrongAnswer: true,
+          inputClass: 'correction-qroc-box__input-no-answer'
+        }, {
+          label: 'Carte mémoire (SD) : ',
+          answer: '2',
+          solution: '1',
+          emptyOrWrongAnswer: true,
+          inputClass: 'correction-qroc-box__input-wrong-answer'
+        }];
 
         //When
-        var dataToDisplay = component.get('dataToDisplay');
+        var inputFields = _getComponentInputFields(this);
+
         //then
-        (0, _chai.expect)(dataToDisplay).to.be.deep.equal(result);
+        (0, _chai.expect)(inputFields).to.be.deep.equal(result);
       });
 
       (0, _mocha.it)('should return an array with data to display (proposals contains a dash ("-"))', function () {
-        //GIVEN
-        var challenge = { proposals: '- alain@pix.fr : ${num1}\n\n- leonie@pix.fr : ${num2}\n\n- Programme_Pix.pdf : ${num3}\n\n- lucie@pix.fr : ${num4}\n\n- Programme du festival Pix : ${num5}\n\n- jeremy@pix.fr : ${num6}' };
-        var answer = { value: 'num1: \'1\' num2: \'2\' num3: \'3\' num4: \'4\' num5: \'5\' num6: \'6\'', resultDetails: 'num1: false\nnum2: false\nnum3: false\nnum4: false\nnum5: true\nnum6: false' };
-        var solution = { value: 'num1: \n - 2\n\nnum2:\n - 3\n - 4\n\nnum3:\n - 6\n\nnum4:\n - 1\n\nnum5:\n - 5\n\nnum6:\n - 2' };
+        // given
+        challenge = { proposals: '- alain@pix.fr : ${num1}\n\n- leonie@pix.fr : ${num2}\n\n- Programme_Pix.pdf : ${num3}\n\n- lucie@pix.fr : ${num4}\n\n- Programme du festival Pix : ${num5}\n\n- jeremy@pix.fr : ${num6}' };
+        answer = {
+          value: 'num1: \'1\' num2: \'2\' num3: \'3\' num4: \'4\' num5: \'5\' num6: \'6\'',
+          resultDetails: 'num1: false\nnum2: false\nnum3: false\nnum4: false\nnum5: true\nnum6: false'
+        };
+        solution = { value: 'num1: \n - 2\n\nnum2:\n - 3\n - 4\n\nnum3:\n - 6\n\nnum4:\n - 1\n\nnum5:\n - 5\n\nnum6:\n - 2' };
 
-        var result = [{ 'label': '- alain@pix.fr : ', 'answer': '1', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- leonie@pix.fr : ', 'answer': '2', 'solution': '3', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- Programme_Pix.pdf : ', 'answer': '3', 'solution': '6', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- lucie@pix.fr : ', 'answer': '4', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- Programme du festival Pix : ', 'answer': '5', 'solution': '5', 'rightAnswer': true, 'wrongAnswer': false, 'noAnswer': false }, { 'label': '- jeremy@pix.fr : ', 'answer': '6', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }];
+        var result = [{
+          label: '- alain@pix.fr : ',
+          answer: '1',
+          solution: '2',
+          emptyOrWrongAnswer: true,
+          inputClass: 'correction-qroc-box__input-wrong-answer'
+        }, {
+          label: '- leonie@pix.fr : ',
+          answer: '2',
+          solution: '3',
+          emptyOrWrongAnswer: true,
+          inputClass: 'correction-qroc-box__input-wrong-answer'
+        }, {
+          label: '- Programme_Pix.pdf : ',
+          answer: '3',
+          solution: '6',
+          emptyOrWrongAnswer: true,
+          inputClass: 'correction-qroc-box__input-wrong-answer'
+        }, {
+          label: '- lucie@pix.fr : ',
+          answer: '4',
+          solution: '1',
+          emptyOrWrongAnswer: true,
+          inputClass: 'correction-qroc-box__input-wrong-answer'
+        }, {
+          label: '- Programme du festival Pix : ',
+          answer: '5',
+          solution: '5',
+          emptyOrWrongAnswer: false,
+          inputClass: 'correction-qroc-box__input-right-answer'
+        }, {
+          label: '- jeremy@pix.fr : ',
+          answer: '6',
+          solution: '2',
+          emptyOrWrongAnswer: true,
+          inputClass: 'correction-qroc-box__input-wrong-answer'
+        }];
 
-        //WHEN
-        var component = this.subject();
+        // when
+        var inputFields = _getComponentInputFields(this);
 
-        component.set('challenge', challenge);
-        component.set('answer', answer);
-        component.set('solution', solution);
-
-        var dataToDisplay = component.get('dataToDisplay');
-
-        //THEN
-        (0, _chai.expect)(dataToDisplay).to.be.deep.equal(result);
+        // then
+        (0, _chai.expect)(inputFields).to.be.deep.equal(result);
       });
 
       (0, _mocha.it)('should return an array with data to display (proposals are questions)', function () {
-        //GIVEN
-        var challenge = { proposals: '- Combien le dossier "projet PIX" contient-il de dossiers ? ${Num1}\n\n- Combien le dossier "images" contient-il de fichiers ? ${Num2}' };
-        var answer = { value: 'Num1: \'2\' Num2: \'3\'', resultDetails: 'Num1: false\nNum2: false' };
-        var solution = { value: 'Num1:\n - 1\n\nNum2:\n - 6' };
+        // given
+        challenge = { proposals: '- Combien le dossier "projet PIX" contient-il de dossiers ? ${Num1}\n\n- Combien le dossier "images" contient-il de fichiers ? ${Num2}' };
+        answer = { value: 'Num1: \'2\' Num2: \'3\'', resultDetails: 'Num1: false\nNum2: false' };
+        solution = { value: 'Num1:\n - 1\n\nNum2:\n - 6' };
 
-        var result = [{ 'label': '- Combien le dossier "projet PIX" contient-il de dossiers ? ', 'answer': '2', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }, { 'label': '- Combien le dossier "images" contient-il de fichiers ? ', 'answer': '3', 'solution': '6', 'rightAnswer': false, 'wrongAnswer': true, 'noAnswer': false }];
+        var result = [{
+          label: '- Combien le dossier "projet PIX" contient-il de dossiers ? ',
+          answer: '2',
+          solution: '1',
+          emptyOrWrongAnswer: true,
+          inputClass: 'correction-qroc-box__input-wrong-answer'
+        }, {
+          label: '- Combien le dossier "images" contient-il de fichiers ? ',
+          answer: '3',
+          solution: '6',
+          emptyOrWrongAnswer: true,
+          inputClass: 'correction-qroc-box__input-wrong-answer'
+        }];
 
-        //WHEN
-        var component = this.subject();
-        component.set('challenge', challenge);
-        component.set('answer', answer);
-        component.set('solution', solution);
+        // when
+        var inputFields = _getComponentInputFields(this);
 
-        var dataToDisplay = component.get('dataToDisplay');
-
-        //THEN
-        (0, _chai.expect)(dataToDisplay).to.be.deep.equal(result);
+        // then
+        (0, _chai.expect)(inputFields).to.be.deep.equal(result);
       });
 
-      (0, _mocha.it)('it should return Pas de réponse in each answer if the question was passed', function () {
-        //Given
-        var challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
-        var answer = { value: '#ABAND#', resultDetails: 'num1: false\nnum2: false' };
-        var solution = { value: 'num1: \n - 2\n\nnum2:\n - 1' };
+      (0, _mocha.it)('it should return "Pas de réponse" in each answer if the question was passed', function () {
+        // given
+        challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
+        answer = { value: '#ABAND#', resultDetails: 'num1: false\nnum2: false' };
+        solution = { value: 'num1: \n - 2\n\nnum2:\n - 1' };
 
-        var result = [{ 'label': 'Clé USB : ', 'answer': 'Pas de réponse', 'solution': '2', 'rightAnswer': false, 'wrongAnswer': false, 'noAnswer': true }, { 'label': 'Carte mémoire (SD) : ', 'answer': 'Pas de réponse', 'solution': '1', 'rightAnswer': false, 'wrongAnswer': false, 'noAnswer': true }];
+        var result = [{
+          label: 'Clé USB : ',
+          answer: 'Pas de réponse',
+          solution: '2',
+          emptyOrWrongAnswer: true,
+          inputClass: 'correction-qroc-box__input-no-answer'
+        }, {
+          label: 'Carte mémoire (SD) : ',
+          answer: 'Pas de réponse',
+          solution: '1',
+          emptyOrWrongAnswer: true,
+          inputClass: 'correction-qroc-box__input-no-answer'
+        }];
 
-        var component = this.subject();
-        component.set('challenge', challenge);
-        component.set('answer', answer);
-        component.set('solution', solution);
+        // when
+        var inputFields = _getComponentInputFields(this);
 
-        //When
-        var dataToDisplay = component.get('dataToDisplay');
+        // then
+        (0, _chai.expect)(inputFields).to.be.deep.equal(result);
+      });
 
-        //then
-        (0, _chai.expect)(dataToDisplay).to.be.deep.equal(result);
+      /**
+       * _inputClass
+       */
+
+      (0, _mocha.it)('should return "correction-qroc-box__input-right-answer" CSS class when answer is right', function () {
+        // given
+        challenge = { proposals: 'Clé USB : ${num1}' };
+        answer = { value: 'num1: \'2\'', resultDetails: 'num1: true' };
+        solution = { value: 'num1: \n - 2' };
+
+        var result = [{
+          label: 'Clé USB : ',
+          answer: '2',
+          solution: '2',
+          emptyOrWrongAnswer: false,
+          inputClass: 'correction-qroc-box__input-right-answer'
+        }];
+
+        // when
+        var inputFields = _getComponentInputFields(this);
+
+        // then
+        (0, _chai.expect)(inputFields).to.be.deep.equal(result);
       });
     });
   });
