@@ -32,16 +32,6 @@ export default Ember.Route.extend({
     };
   },
 
-  actions: {
-
-    saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
-      const answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime);
-      answer.save().then(() => {
-        this._navigateToNextView(currentChallenge, assessment);
-      });
-    }
-  },
-
   _createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime) {
     return this.get('store').createRecord('answer', {
       value: answerValue,
@@ -66,6 +56,16 @@ export default Ember.Route.extend({
           this.transitionTo('assessments.get-results', assessment.get('id'));
         }
       });
-  }
+  },
+
+  actions: {
+
+    saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
+      const answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime);
+      answer.save().then(() => {
+        this._navigateToNextView(currentChallenge, assessment);
+      });
+    }
+  },
 
 });

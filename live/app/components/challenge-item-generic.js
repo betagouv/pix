@@ -21,11 +21,6 @@ const ChallengeItemGeneric = Ember.Component.extend({
     return false;
   }),
 
-  elapsed: Ember.computed('_elapsedTime', function () {
-    Ember.Logger.info(this.get('_elapsedTime'), 'toto');
-    return false;
-  }),
-
   hasChallengeTimer: Ember.computed('challenge', function () {
     return this.hasTimerDefined();
   }),
@@ -42,13 +37,13 @@ const ChallengeItemGeneric = Ember.Component.extend({
     return this.get('_elapsedTime');
   },
 
-  _start: function () {
+  _start(){
     this.set('_elapsedTime', 0);
     this._tick();
   },
 
-  _tick: function () {
-    if (ENV.environment !== 'test') {
+  _tick(){
+    if (ENV.isChallengeTimerEnable) {
       const timer = Ember.run.later(this, function () {
         const elapsedTime = this.get('_elapsedTime');
         this.set('_elapsedTime', elapsedTime + 1);
@@ -60,7 +55,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
     }
   },
 
-  willDestroyElement() {
+  willDestroyElement(){
     this._super(...arguments);
     const timer = this.get('_timer');
     Ember.run.cancel(timer);
