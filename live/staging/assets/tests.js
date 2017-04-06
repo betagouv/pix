@@ -234,7 +234,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test.lint-test', ['exports
 });
 define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
-  (0, _mocha.describe)('Acceptance | a5 - voir la liste des tests adaptatifs', function () {
+  (0, _mocha.describe)('Acceptance | a5 - La page des tests adaptatifs', function () {
 
     var application = undefined;
 
@@ -247,32 +247,14 @@ define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['export
       (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
     });
 
-    (0, _mocha.it)('a5.1 on affiche autant de tests que remontés par l\'API', function () {
-      (0, _chai.expect)(findWithAssert('.course')).to.have.lengthOf(1);
+    (0, _mocha.it)('a5.0 est accessible depuis "/placement-tests"', function () {
+      (0, _chai.expect)(currentURL()).to.equal('/placement-tests');
     });
 
-    (0, _mocha.describe)('a5.2 pour un test donné avec toutes les informations', function () {
+    (0, _mocha.describe)('a5.1 contient une section', function () {
 
-      var $course = undefined;
-
-      (0, _mocha.beforeEach)(function () {
-        $course = findWithAssert('.course[data-id="ref_course_id"]');
-      });
-
-      (0, _mocha.it)('a5.2.1 on affiche son nom', function () {
-        (0, _chai.expect)($course.find('.course-name').text()).to.contains('First Course');
-      });
-
-      (0, _mocha.it)('a5.2.2 on affiche sa description', function () {
-        (0, _chai.expect)($course.find('.course-description').text()).to.contains('Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage');
-      });
-
-      (0, _mocha.it)('a5.2.3 on affiche son image', function () {
-        (0, _chai.expect)($course.find('img')[0].src).to.equal('http://fakeimg.pl/350x200/?text=First%20Course');
-      });
-
-      (0, _mocha.it)('a5.2.4 on affiche un bouton "démarrer le test"', function () {
-        (0, _chai.expect)($course.find('.start-button').text()).to.contains('Démarrer le test');
+      (0, _mocha.it)('a5.1.1 avec la liste des tests', function () {
+        findWithAssert('.placement-tests-page-courses__course-list');
       });
     });
   });
@@ -3534,7 +3516,7 @@ define('pix-live/tests/integration/components/course-item-test', ['exports', 'em
 
         // then
         var $picture = this.$('.course-item__picture');
-        (0, _chai.expect)($picture.attr('src')).to.equal('/assets/images/course-default-image.png');
+        (0, _chai.expect)($picture.attr('src')).to.equal('/images/course-default-image.png');
       });
 
       (0, _mocha.it)('should render course name', function () {
@@ -5736,7 +5718,7 @@ define('pix-live/tests/unit/components/course-item-test', ['exports', 'chai', 'm
 
         // then
         (0, _chai.expect)(imageUrl).to.exists;
-        (0, _chai.expect)(imageUrl).to.equal('/assets/images/course-default-image.png');
+        (0, _chai.expect)(imageUrl).to.equal('/images/course-default-image.png');
       });
     });
   });
