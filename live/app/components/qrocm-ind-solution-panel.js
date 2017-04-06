@@ -5,39 +5,55 @@ import solutionsAsObject from 'pix-live/utils/solution-as-object';
 import labelsAsObject from 'pix-live/utils/labels-as-object';
 import resultDetailsAsObject from 'pix-live/utils/result-details-as-object';
 
+function _computeAnswerOutcome(answers, resultDetails, labelKey) {
+  if (answers[labelKey] === '') {
+    return 'empty';
+  }
+  if (resultDetails[labelKey]) {
+    return 'ok';
+  }
+  return 'ko';
+}
+
+function _computeInputClass(answerOutcome) {
+  if (answerOutcome === 'empty') {
+    return 'correction-qroc-box__input-no-answer';
+  }
+  if (answerOutcome === 'ok') {
+    return 'correction-qroc-box__input-right-answer';
+  }
+  return 'correction-qroc-box__input-wrong-answer';
+}
+
 const QrocmIndSolutionPanel = Ember.Component.extend({
-  //TODO Renommer FieldsData
-  dataToDisplay : Ember.computed('challenge.proposals', 'answer.value', 'solution.value', function () {
+
+  inputFields: Ember.computed('challenge.proposals', 'answer.value', 'solution.value', function () {
 
     const labels = labelsAsObject(this.get('challenge.proposals'));
-    const inputKeys = _.keys(labels);
-    const answers = answersAsObject(this.get('answer.value'), inputKeys);
+    const answers = answersAsObject(this.get('answer.value'), _.keys(labels));
     const solutions = solutionsAsObject(this.get('solution.value'));
     const resultDetails = resultDetailsAsObject(this.get('answer.resultDetails'));
 
+    const inputFields = [];
 
-    const dataToDisplay = [];
+    _.forEach(labels, (label, labelKey) => {
+      const answerOutcome = _computeAnswerOutcome(answers, resultDetails, labelKey);
+      const inputClass = _computeInputClass(answerOutcome);
 
-    inputKeys.forEach((key) => {//Voir si on peut retourner directement la classe
-      const isRightAnswer = resultDetails[key];
-      const noAnswer = answers[key] === '' && !resultDetails[key];
-      const isWrongAnswer = answers[key] !== '' && !resultDetails[key];
-
-      if (answers[key] === '') {
-        answers[key] = 'Pas de réponse';
+      if (answers[labelKey] === '') {
+        answers[labelKey] = 'Pas de réponse';
       }
-      const labelAnswerSolution = {
-        label: labels[key],
-        answer: answers[key],
-        solution: solutions[key][0],
-        rightAnswer: isRightAnswer,
-        wrongAnswer: isWrongAnswer,
-        noAnswer: noAnswer
+      const inputField = {
+        label: labels[labelKey],
+        answer: answers[labelKey],
+        solution: solutions[labelKey][0],
+        emptyOrWrongAnswer: (answerOutcome === 'empty' || answerOutcome === 'ko'),
+        inputClass
       };
-      dataToDisplay.push(labelAnswerSolution);
+      inputFields.push(inputField);
     });
 
-    return dataToDisplay;
+    return inputFields;
   })
 
 });

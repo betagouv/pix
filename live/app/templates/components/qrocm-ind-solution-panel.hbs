@@ -2,24 +2,19 @@
   <div class="rounded-panel__row ">
 
     <div>
-      {{#each dataToDisplay as |row|}}
+      {{#each inputFields as |field|}}
         <div class="correction-qrocm">
 
           <div class="correction-qrocm__label">
-            <span>{{row.label}}</span>
+            <span>{{field.label}}</span>
           </div>
 
           <div class="correction-qrocm__answer-solution">
             <div class="correction-qrocm__answer">
-              <input value="{{row.answer}}"
-                     class="correction-qrocm__answer-input
-                   {{if row.rightAnswer "correction-qroc-box__input-right-answer"}}
-                       {{if row.noAnswer "correction-qroc-box__input-no-answer"}}
-                       {{if row.wrongAnswer "correction-qroc-box__input-wrong-answer"}}"
-                     disabled>
+              <input value="{{field.answer}}" class="correction-qrocm__answer-input {{field.inputClass}}" disabled>
             </div>
 
-            {{#unless row.rightAnswer}}
+            {{#if field.emptyOrWrongAnswer}}
               <div class="correction-qrocm__solution">
                 <svg style="width:18px;height:18px" viewBox="0 0 24 24">
                   <path fill="#12caa1"
@@ -27,10 +22,10 @@
                 </svg>
 
                 <div class="correction-qrocm__solution-text">
-                  {{row.solution}}
+                  {{field.solution}}
                 </div>
               </div>
-            {{/unless}}
+            {{/if}}
           </div>
 
         </div>
