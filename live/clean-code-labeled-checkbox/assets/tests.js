@@ -7402,7 +7402,7 @@ define('pix-live/tests/unit/transforms/array-test.lint-test', ['exports'], funct
     });
   });
 });
-define('pix-live/tests/unit/utils/labeled-checkboxes-test', ['exports', 'mocha', 'chai', 'pix-live/utils/checked-proposals'], function (exports, _mocha, _chai, _pixLiveUtilsCheckedProposals) {
+define('pix-live/tests/unit/utils/checked-proposals-test', ['exports', 'mocha', 'chai', 'pix-live/utils/checked-proposals'], function (exports, _mocha, _chai, _pixLiveUtilsCheckedProposals) {
 
   (0, _mocha.describe)('Unit | Utility | checked proposals', function () {
 
@@ -7434,11 +7434,6 @@ define('pix-live/tests/unit/utils/labeled-checkboxes-test', ['exports', 'mocha',
         answers: [true],
         output: [['prop 1', true], ['prop 2', false], ['prop 3', false], ['prop 4', false]]
       }, {
-        when: 'wrong type for answers',
-        proposals: ['prop 1', 'prop 2', 'prop 3', 'prop 4'],
-        answers: new Date(),
-        output: []
-      }, {
         when: 'wrong format for answers\'s elements',
         proposals: ['prop 1', 'prop 2', 'prop 3', 'prop 4'],
         answers: [true, 'false'],
@@ -7446,11 +7441,6 @@ define('pix-live/tests/unit/utils/labeled-checkboxes-test', ['exports', 'mocha',
       }, {
         when: 'no proposals',
         proposals: [],
-        answers: [false, true],
-        output: []
-      }, {
-        when: 'wrong format for proposals',
-        proposals: {}, // object !
         answers: [false, true],
         output: []
       }, {
@@ -7466,10 +7456,10 @@ define('pix-live/tests/unit/utils/labeled-checkboxes-test', ['exports', 'mocha',
     });
   });
 });
-define('pix-live/tests/unit/utils/labeled-checkboxes-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/utils/checked-proposals-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
-  describe('ESLint - unit/utils/labeled-checkboxes-test.js', function () {
+  describe('ESLint - unit/utils/checked-proposals-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });

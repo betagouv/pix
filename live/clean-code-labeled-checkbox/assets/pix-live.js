@@ -4561,7 +4561,6 @@ define('pix-live/utils/checked-proposals', ['exports', 'pix-live/utils/lodash-cu
 
     if (argumentsAreValids(proposals, userAnswers)) {
       var fullSizeUserAnswers = normalizeSizeOf(proposals, userAnswers);
-
       checkedLabels = _pixLiveUtilsLodashCustom['default'].zip(proposals, fullSizeUserAnswers);
     }
     return checkedLabels;
@@ -4573,8 +4572,8 @@ define('pix-live/utils/checked-proposals', ['exports', 'pix-live/utils/lodash-cu
 
   function normalizeSizeOf(proposals, definedUserAnswers) {
 
-    var sizeDifference = (0, _pixLiveUtilsLodashCustom['default'])(proposals).size() - (0, _pixLiveUtilsLodashCustom['default'])(definedUserAnswers).size(); // 2
-    var arrayOfFalse = _pixLiveUtilsLodashCustom['default'].times(sizeDifference, _pixLiveUtilsLodashCustom['default'].constant(false)); // [false, false]
+    var sizeDifference = (0, _pixLiveUtilsLodashCustom['default'])(proposals).size() - (0, _pixLiveUtilsLodashCustom['default'])(definedUserAnswers).size();
+    var arrayOfFalse = _pixLiveUtilsLodashCustom['default'].times(sizeDifference, _pixLiveUtilsLodashCustom['default'].constant(false));
 
     return definedUserAnswers.concat(arrayOfFalse);
   }
@@ -4789,6 +4788,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+59ae42a7"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+5aee3fbc"});
 }
 //# sourceMappingURL=pix-live.map
