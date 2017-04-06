@@ -7,7 +7,7 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const assessmentUtils = require('./assessment-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
-const scoringCalculator = require('../../domain/services/scoring');
+const scoringService = require('../../domain/services/scoring-service');
 
 function _selectNextInAdaptiveMode(assessment) {
 
@@ -36,6 +36,23 @@ function _selectNextInNormalMode(currentChallengeId, challenges) {
 
 }
 
+
+function _completeAssessmentWithScore(assessment, answers, knowledgeData) {
+
+  if (answers.length === 0) {
+    return assessment;
+  }
+
+  const performanceStats = scoringService.getPerformanceStats(answers, knowledgeData);
+  const diagnosis = scoringService.computeDiagnosis(performanceStats, knowledgeData);
+
+  assessment.set('estimatedLevel', diagnosis.estimatedLevel);
+  assessment.set('pixScore', diagnosis.pixScore);
+  assessment.set('notAcquiredKnowledgeTags', performanceStats.notAcquiredKnowledgeTags);
+  assessment.set('acquiredKnowledgeTags', performanceStats.acquiredKnowledgeTags);
+
+  return assessment;
+}
 
 function selectNextChallengeId(course, currentChallengeId, assessment) {
 
@@ -72,7 +89,7 @@ function getScoredAssessment(assessmentId) {
                 answerRepository
                   .findByAssessment(assessment.get('id'))
                   .then(answers => {
-                    const scoredAssessment = scoringCalculator.populateScore(assessment, answers, knowledgeData);
+                    const scoredAssessment = _completeAssessmentWithScore(assessment, answers, knowledgeData);
 
                     resolve(scoredAssessment);
                   });
@@ -109,6 +126,8 @@ function getAssessmentNextChallengeId(assessment, currentChallengeId) {
 module.exports = {
 
   getAssessmentNextChallengeId,
-  getScoredAssessment
+  getScoredAssessment,
+
+  _completeAssessmentWithScore
 
 };

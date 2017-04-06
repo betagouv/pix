@@ -1,26 +1,17 @@
 const { describe, it, expect, sinon } = require('../../../test-helper');
 
-const service = require('../../../../lib/domain/services/assessment-service');
-const Answer = require('../../../../lib/domain/models/data/answer');
-const Assessment = require('../../../../lib/domain/models/data/assessment');
-const Challenge = require('../../../../lib/domain/models/referential/challenge');
-const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
+const pathToSource = '../../../..';
+const service = require(pathToSource + '/lib/domain/services/assessment-service');
 
+const Assessment = require(pathToSource + '/lib/domain/models/data/assessment');
+const Challenge = require(pathToSource + '/lib/domain/models/referential/challenge');
+const courseRepository = require(pathToSource + '/lib/infrastructure/repositories/course-repository');
+const Answer = require(pathToSource + '/lib/domain/models/data/answer');
 
 function _buildChallenge(knowledgeTags) {
   const challenge = new Challenge({ id: 'challenge_id' });
   challenge.knowledgeTags = knowledgeTags;
   return challenge;
-}
-
-function _buildAssessment(estimatedLevel, pixScore, notAcquiredKnowledgeTags, acquiredKnowledgeTags, cid) {
-  const assessment = new Assessment({ id: 'assessment_id' });
-  assessment.set('estimatedLevel', estimatedLevel);
-  assessment.set('pixScore', pixScore);
-  assessment.set('notAcquiredKnowledgeTags', notAcquiredKnowledgeTags);
-  assessment.set('acquiredKnowledgeTags', acquiredKnowledgeTags);
-  assessment.cid = cid;
-  return assessment;
 }
 
 function _buildAssessmentForCourse(courseId) {
@@ -39,7 +30,19 @@ function _buildAnswer(challengeId, result) {
 }
 
 
-describe('Unit | Domain | Services | assessment-service', function () {
+function _buildAssessment(estimatedLevel, pixScore, notAcquiredKnowledgeTags, acquiredKnowledgeTags, cid) {
+  const assessment = new Assessment({ id: 'assessment_id' });
+  assessment.set('estimatedLevel', estimatedLevel);
+  assessment.set('pixScore', pixScore);
+  assessment.set('notAcquiredKnowledgeTags', notAcquiredKnowledgeTags);
+  assessment.set('acquiredKnowledgeTags', acquiredKnowledgeTags);
+  assessment.cid = cid;
+  return assessment;
+}
+
+
+
+describe.only('Unit | Domain | Services | assessment-service', function () {
 
   it('should exist', function () {
     expect(service).to.exist;
@@ -49,7 +52,7 @@ describe('Unit | Domain | Services | assessment-service', function () {
     expect(service.getAssessmentNextChallengeId).to.exist;
   });
 
-  describe('#getAssessmentNextChallengeId |', function () {
+  describe('#getAssessmentNextChallengeId', function () {
 
     it('Should return the first challenge if no currentChallengeId is given', function (done) {
 
@@ -118,6 +121,64 @@ describe('Unit | Domain | Services | assessment-service', function () {
     it('checks sanity', () => {
       expect(service.getScoredAssessment).to.exist;
     });
+  });
+
+  describe('#_completeAssessmentWithScore', function () {
+
+    const knowledgeData = {
+      challengesById: {
+        'challenge_web_1': _buildChallenge([ '@web1' ]),
+        'challenge_web_2': _buildChallenge([ '@web2' ]),
+        'challenge_url_1': _buildChallenge([ '@url1' ]),
+        'challenge_social_1': _buildChallenge([ '@soc1' ]),
+      },
+      knowledgeTagSet: { '@web1': true, '@web2': true, '@url1': true },
+      nbKnowledgeTagsByLevel: { 1: 2, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }
+    };
+
+    const assessment = new Assessment({ id: 'assessment_id' });
+
+    const correctAnswerWeb2 = _buildAnswer('challenge_web_2', 'ok');
+    const partialAnswerWeb1 = _buildAnswer('challenge_web_1', 'partial');
+    const incorrectAnswerUrl1 = _buildAnswer('challenge_url_1', 'ko');
+    const correctAnswerUrl1 = _buildAnswer('challenge_url_1', 'ok');
+
+    [
+      {
+        answers: [ correctAnswerWeb2, incorrectAnswerUrl1 ],
+        title: 'web2 correct, url1 incorrect',
+        score: 12,
+        level: 1,
+        acquired: [ '@web2', '@web1' ],
+        notAcquired: [ '@url1' ]
+      },
+      {
+        answers: [ partialAnswerWeb1, correctAnswerUrl1 ],
+        title: 'web1 partial, url1 correct',
+        score: 4,
+        level: 0,
+        acquired: [ '@url1' ],
+        notAcquired: [ '@web1', '@web2' ]
+      },
+      {
+        answers: [ correctAnswerWeb2, correctAnswerUrl1 ],
+        title: 'web2 correct, url1 correct',
+        score: 16,
+        level: 2,
+        acquired: [ '@web2', '@web1', '@url1' ],
+        notAcquired: []
+      }
+    ]
+      .forEach(pattern => {
+        it(`should compute ${pattern.score} and level ${pattern.level} when user pattern is ${pattern.title}`, function () {
+          // When
+          const scoredAssessment = service._completeAssessmentWithScore(assessment, pattern.answers, knowledgeData);
+
+          // Then
+          const expectedScoredAssessment = _buildAssessment(pattern.level, pattern.score, pattern.notAcquired, pattern.acquired, scoredAssessment.cid);
+          expect(scoredAssessment).to.deep.equal(expectedScoredAssessment);
+        });
+      });
 
   });
 

@@ -116,23 +116,6 @@ module.exports = {
   propagateKnowledge,
 
   getPerformanceStats,
-  computeDiagnosis,
-
-  // TODO A deplacer ailleurs, une fois que getPerformanceStats et computeDiagnosis seront exposés
-  populateScore(assessment, answers, knowledgeData) {
-
-    if (answers.length === 0) {
-      return assessment;
-    }
-
-    const performanceStats = getPerformanceStats(answers, knowledgeData);
-    const diagnosis = computeDiagnosis(performanceStats, knowledgeData);
-
-    assessment.set('estimatedLevel', diagnosis.estimatedLevel);
-    assessment.set('pixScore', diagnosis.pixScore);
-    assessment.set('notAcquiredKnowledgeTags', performanceStats.notAcquiredKnowledgeTags);
-    assessment.set('acquiredKnowledgeTags', performanceStats.acquiredKnowledgeTags);
-    return assessment;
-  },
+  computeDiagnosis
 
 };
