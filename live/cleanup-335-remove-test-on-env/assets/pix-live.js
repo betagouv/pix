@@ -775,7 +775,7 @@ define('pix-live/components/course-list', ['exports', 'ember', 'pix-live/config/
         });
       });
 
-      if (_pixLiveConfigEnvironment['default'].environment === 'test') {
+      if (_pixLiveConfigEnvironment['default'].isInTestMode) {
         this.$().on('simulateMobileScreen', function () {
           that.set('isSimulatedMobileScreen', 'true');
         });
@@ -783,11 +783,11 @@ define('pix-live/components/course-list', ['exports', 'ember', 'pix-live/config/
     },
 
     _isMobile: function _isMobile() {
-      if (_pixLiveConfigEnvironment['default'].isInTestMode) {
+      if (!_pixLiveConfigEnvironment['default'].isInTestMode) {
         return $(window).width() < 767;
-      } else {
-        return this.get('isSimulatedMobileScreen');
       }
+
+      return this.get('isSimulatedMobileScreen');
     },
 
     actions: {
@@ -951,15 +951,11 @@ define('pix-live/components/feedback-panel', ['exports', 'ember', 'pix-live/util
 });
 define('pix-live/components/follower-form', ['exports', 'ember', 'pix-live/config/environment'], function (exports, _ember, _pixLiveConfigEnvironment) {
 
-  var messageDisplayDuration = 1500;
-
   function hideMessageDiv(context) {
-    if (_pixLiveConfigEnvironment['default'].isInTestMode) {
-      _ember['default'].run.later(function () {
-        context.set('status', 'empty');
-        context.set('errorType', 'invalid');
-      }, messageDisplayDuration);
-    }
+    _ember['default'].run.later(function () {
+      context.set('status', 'empty');
+      context.set('errorType', 'invalid');
+    }, _pixLiveConfigEnvironment['default'].MESSAGE_DISPLAY_DURATION);
   }
 
   function getErrorType(errors) {
@@ -1454,7 +1450,7 @@ define('pix-live/components/timeout-jauge', ['exports', 'ember', 'pix-live/utils
     },
 
     _tick: function _tick() {
-      if (_pixLiveConfigEnvironment['default'].isInTestMode) {
+      if (!_pixLiveConfigEnvironment['default'].isInTestMode) {
 
         var _tickInterval = get(this, '_tickInterval');
         var _currentTime = get(this, '_currentTime');
@@ -4838,6 +4834,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+93606045"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+551183f2"});
 }
 //# sourceMappingURL=pix-live.map
