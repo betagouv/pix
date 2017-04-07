@@ -83,7 +83,7 @@ describe('Unit | Domain | Service | scoring', function () {
     });
 
     describe('the field acquiredKnowledgeTags', () => {
-      it('should add Skill tags when level 1 is acquired', () => {
+      it('should add knowledge tags when level 1 is acquired', () => {
         // Given
         const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'ok');
 
@@ -94,7 +94,7 @@ describe('Unit | Domain | Service | scoring', function () {
         expect(result.acquiredKnowledgeTags).to.deep.equal([ '@web1' ]);
       });
 
-      it('should not add Skill tags when level is only partially acquired', () => {
+      it('should not add knowledge tags when level is only partially acquired', () => {
         // Given
         const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'partial');
 
@@ -105,7 +105,7 @@ describe('Unit | Domain | Service | scoring', function () {
         expect(result.acquiredKnowledgeTags).to.deep.equal([]);
       });
 
-      it('should not add Skill tags when level is not acquired', () => {
+      it('should not add knowledge tags when level is not acquired', () => {
         // Given
         const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'ko');
 
@@ -116,7 +116,7 @@ describe('Unit | Domain | Service | scoring', function () {
         expect(result.acquiredKnowledgeTags).to.deep.equal([]);
       });
 
-      it('should validate skill 1 and 2 when level 2 is acquired', () => {
+      it('should validate knowledge 1 and 2 when level 2 is acquired', () => {
         // Given
         const correctAnswerWeb2 = _buildAnswer('challenge_web_2', 'ok');
 
@@ -129,7 +129,7 @@ describe('Unit | Domain | Service | scoring', function () {
     });
 
     describe('the field notAcquiredKnowledgeTags', () => {
-      it('should have Skill tags when an answer is KO', () => {
+      it('should have knowledge tags when an answer is KO', () => {
         // Given
         const incorrectAnswerUrl1 = _buildAnswer('challenge_url_1', 'ko');
 
@@ -140,7 +140,7 @@ describe('Unit | Domain | Service | scoring', function () {
         expect(result.notAcquiredKnowledgeTags).to.deep.equal([ '@url1' ]);
       });
 
-      it('should contains every related skill tags', () => {
+      it('should contains every related knowledge tags', () => {
         // Given
         const partialAnswerWeb1 = _buildAnswer('challenge_web_1', 'partial');
 
@@ -152,7 +152,7 @@ describe('Unit | Domain | Service | scoring', function () {
       });
 
       // TODO Dans ce cas, le tableau contient un état instable (J'ai appris ET je n'ai pas appris)
-      it('should contains every related skill tags', () => {
+      it('should contains every related knowledge tags', () => {
         // Given
         const wrongAnswerWeb1 = _buildAnswer('challenge_web_1', 'ko');
         const correctAnswerWeb2 = _buildAnswer('challenge_web_2', 'ok');
@@ -165,7 +165,7 @@ describe('Unit | Domain | Service | scoring', function () {
         expect(result.notAcquiredKnowledgeTags).to.deep.equal([ '@web1', '@web2' ]);
       });
 
-      it('should have every skill tags when level is not acquired', () => {
+      it('should have every knowledge tags when level is not acquired', () => {
         // Given
         const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'ko');
 
@@ -258,7 +258,7 @@ describe('Unit | Domain | Service | scoring', function () {
         });
       });
 
-      it('should be filled by acquired skill levels', () => {
+      it('should be filled by acquired knowledge levels', () => {
         // Given
         const correctAnswerWeb2 = _buildAnswer('challenge_web_2', 'ok');
         const correctAnswerUrl1 = _buildAnswer('challenge_url_1', 'ok');

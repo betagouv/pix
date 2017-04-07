@@ -263,7 +263,7 @@ describe('Unit | Domain | Services | assessment-service', function () {
           getChallengeStub.onSecondCall().returns(Promise.resolve(secondFakeChallenge));
         });
 
-        it('should get skillData each one', () => {
+        it('should get knowledgeData each one', () => {
           // When
           let promise = service.getScoredAssessment(ASSESSMENT_ID);
 
