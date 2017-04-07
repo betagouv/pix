@@ -22,7 +22,9 @@ module.exports = (function () {
     mailjet: {
       apiKey: process.env.MJ_KEY,
       apiSecret: process.env.MJ_SECRET
-    }
+    },
+
+    isInTestMode : false
   };
 
   if (process.env.NODE_ENV === 'test') {
@@ -37,6 +39,8 @@ module.exports = (function () {
       apiKey: 'test-api-ket',
       apiSecret: 'test-api-secret'
     };
+
+   ENV.isInTestMode = true;
   }
 
   return config;

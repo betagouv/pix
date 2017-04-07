@@ -68,7 +68,7 @@ export default Ember.Component.extend({
   },
 
   _tick: function() {
-    if (ENV.environment !== 'test') {
+    if (ENV.isInTestMode) {
 
       const _tickInterval = get(this, '_tickInterval');
       const _currentTime = get(this, '_currentTime');

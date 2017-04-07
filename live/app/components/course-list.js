@@ -56,7 +56,7 @@ const CourseList = Ember.Component.extend({
   },
 
   _isMobile () {
-    if (ENV.environment !== 'test') {
+    if (ENV.isInTestMode) {
       return $(window).width() < 767;
     } else {
       return this.get('isSimulatedMobileScreen');
