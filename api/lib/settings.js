@@ -24,7 +24,6 @@ module.exports = (function () {
       apiSecret: process.env.MJ_SECRET
     },
 
-    isInTestMode: false
   };
 
   if (process.env.NODE_ENV === 'test') {
@@ -40,7 +39,6 @@ module.exports = (function () {
       apiSecret: 'test-api-secret'
     };
 
-    config.isInTestMode = true;
   }
 
   return config;

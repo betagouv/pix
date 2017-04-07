@@ -1,15 +1,11 @@
 import Ember from 'ember';
-import ENV from 'pix-live/config/environment';
-
-const messageDisplayDuration = 1500;
+import config from 'pix-live/config/environment';
 
 function hideMessageDiv(context) {
-  if (ENV.isInTestMode) {
-    Ember.run.later(function () {
-      context.set('status', 'empty');
-      context.set('errorType', 'invalid');
-    }, messageDisplayDuration);
-  }
+  Ember.run.later(function () {
+    context.set('status', 'empty');
+    context.set('errorType', 'invalid');
+  }, config.MESSAGE_DISPLAY_DURATION);
 }
 
 function getErrorType(errors) {
