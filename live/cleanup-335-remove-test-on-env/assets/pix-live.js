@@ -786,7 +786,6 @@ define('pix-live/components/course-list', ['exports', 'ember', 'pix-live/config/
       if (!_pixLiveConfigEnvironment['default'].isInTestMode) {
         return $(window).width() < 767;
       }
-
       return this.get('isSimulatedMobileScreen');
     },
 
@@ -4834,6 +4833,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+551183f2"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+2bb94364"});
 }
 //# sourceMappingURL=pix-live.map
