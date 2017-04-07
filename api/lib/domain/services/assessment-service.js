@@ -72,30 +72,50 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
   });
 }
 
+class HttpError extends Error {
+  constructor (message, status) {
+    super(message);
+    this.status = status;
+  }
+}
+class NotFoundError extends HttpError {
+  constructor (message) {
+    super(message, 404);
+  }
+}
+
 function getScoredAssessment(assessmentId) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+
+    let assessment;
+    let answers;
+
     assessmentRepository
       .get(assessmentId)
-      .then(assessment => {
-        courseRepository
-          .get(assessment.get('courseId'))
-          .then(course => {
-            const challengePromises = course.challenges.map(challengeId => challengeRepository.get(challengeId));
+      .then(retrievedAssessment => {
 
-            Promise.all(challengePromises)
-              .then(challenges => {
-                const knowledgeData = challengeService.getKnowledgeData(challenges);
+        if(retrievedAssessment === null) {
+          return Promise.reject(new NotFoundError(`Unable to find assessment with ID ${assessmentId}`));
+        }
 
-                answerRepository
-                  .findByAssessment(assessment.get('id'))
-                  .then(answers => {
-                    const scoredAssessment = _completeAssessmentWithScore(assessment, answers, knowledgeData);
+        assessment = retrievedAssessment;
+        return answerRepository.findByAssessment(assessment.get('id'));
+      })
+      .then(retrievedAnswers => {
+        answers = retrievedAnswers;
+        return courseRepository.get(assessment.get('courseId'));
+      })
+      .then(course => {
+        const challengePromises = course.challenges.map(challengeId => challengeRepository.get(challengeId));
+        return Promise.all(challengePromises);
+      })
+      .then(challenges => {
+        const knowledgeData = challengeService.getKnowledgeData(challenges);
 
-                    resolve(scoredAssessment);
-                  });
-              });
-          });
-      });
+        const scoredAssessment = _completeAssessmentWithScore(assessment, answers, knowledgeData);
+        resolve(scoredAssessment);
+      })
+      .catch(reject);
   });
 }
 
