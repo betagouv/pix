@@ -5218,6 +5218,15 @@ define('pix-live/tests/integration/components/timeout-jauge-test.lint-test', ['e
     });
   });
 });
+define('pix-live/tests/mixins/checked-proposals.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - mixins/checked-proposals.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/models/answer.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -6781,7 +6790,7 @@ define('pix-live/tests/unit/models/challenge-test.lint-test', ['exports'], funct
 });
 define('pix-live/tests/unit/models/challenge/proposals-as-array-mixin-test', ['exports', 'ember', 'chai', 'mocha', 'pix-live/models/challenge/proposals-as-array-mixin'], function (exports, _ember, _chai, _mocha, _pixLiveModelsChallengeProposalsAsArrayMixin) {
 
-  (0, _mocha.describe)('Unit | Model | Challenge/Propsals As Array Mixin', function () {
+  (0, _mocha.describe)('Unit | Model | Challenge/Proposals As Array Mixin', function () {
 
     var testData = [{ data: '', expected: [] }, { data: 'foo', expected: [] }, { data: '- foo', expected: ['foo'] }, { data: '-foo\n- bar', expected: ['foo', 'bar'] }, { data: '- cerf-volant', expected: ['cerf-volant'] }, { data: '- xi\n- foo mi', expected: ['xi', 'foo mi'] }, { data: '- joli\n- cerf-volant', expected: ['joli', 'cerf-volant'] }, { data: '- xi\n- foo\n- mi', expected: ['xi', 'foo', 'mi'] }, { data: '-- foo', expected: ['- foo'] }, { data: '- foo\n\r\t\n\r\t\n\r\t\n- bar', expected: ['foo', 'bar'] }];
 

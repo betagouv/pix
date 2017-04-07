@@ -3187,6 +3187,33 @@ define('pix-live/mirage/routes/post-refresh-solution', ['exports'], function (ex
     return 'ok';
   };
 });
+define('pix-live/mixins/checked-proposals', ['exports', 'ember', 'pix-live/utils/lodash-custom'], function (exports, _ember, _pixLiveUtilsLodashCustom) {
+
+  function _argumentsAreValids(proposals, definedUserAnswers) {
+    return (0, _pixLiveUtilsLodashCustom['default'])(definedUserAnswers).isArrayOfBoolean() && (0, _pixLiveUtilsLodashCustom['default'])(definedUserAnswers).size() <= (0, _pixLiveUtilsLodashCustom['default'])(proposals).size() && (0, _pixLiveUtilsLodashCustom['default'])(proposals).isArrayOfString() && !(0, _pixLiveUtilsLodashCustom['default'])(proposals).isEmpty();
+  }
+
+  function _normalizeSizeOf(proposals, definedUserAnswers) {
+
+    var sizeDifference = (0, _pixLiveUtilsLodashCustom['default'])(proposals).size() - (0, _pixLiveUtilsLodashCustom['default'])(definedUserAnswers).size();
+    var arrayOfFalse = _pixLiveUtilsLodashCustom['default'].times(sizeDifference, _pixLiveUtilsLodashCustom['default'].constant(false));
+
+    return definedUserAnswers.concat(arrayOfFalse);
+  }
+
+  exports['default'] = _ember['default'].Mixin.create({
+    checkedProposals: function checkedProposals(proposals, answers) {
+      answers = _pixLiveUtilsLodashCustom['default'].isNil(answers) ? [] : answers;
+      var checkedLabels = [];
+
+      if (_argumentsAreValids(proposals, answers)) {
+        var fullSizeUserAnswers = _normalizeSizeOf(proposals, answers);
+        checkedLabels = _pixLiveUtilsLodashCustom['default'].zip(proposals, fullSizeUserAnswers);
+      }
+      return checkedLabels;
+    }
+  });
+});
 define('pix-live/models/answer', ['exports', 'ember-data', 'pix-live/models/answer/value-as-array-of-boolean-mixin', 'pix-live/models/answer/value-as-array-of-string-mixin'], function (exports, _emberData, _pixLiveModelsAnswerValueAsArrayOfBooleanMixin, _pixLiveModelsAnswerValueAsArrayOfStringMixin) {
   var Model = _emberData['default'].Model;
   var attr = _emberData['default'].attr;
@@ -4554,28 +4581,28 @@ define('pix-live/utils/can-use-dom', ['exports', 'ember-metrics/utils/can-use-do
 define('pix-live/utils/checked-proposals', ['exports', 'pix-live/utils/lodash-custom'], function (exports, _pixLiveUtilsLodashCustom) {
   exports['default'] = checkedProposals;
 
-  function checkedProposals(proposals, userAnswers) {
-
-    userAnswers = _pixLiveUtilsLodashCustom['default'].isNil(userAnswers) ? [] : userAnswers;
-    var checkedLabels = [];
-
-    if (argumentsAreValids(proposals, userAnswers)) {
-      var fullSizeUserAnswers = normalizeSizeOf(proposals, userAnswers);
-      checkedLabels = _pixLiveUtilsLodashCustom['default'].zip(proposals, fullSizeUserAnswers);
-    }
-    return checkedLabels;
+  function _argumentsAreValids(proposals, definedUserAnswers) {
+    return (0, _pixLiveUtilsLodashCustom['default'])(definedUserAnswers).isArrayOfBoolean() && (0, _pixLiveUtilsLodashCustom['default'])(definedUserAnswers).size() <= (0, _pixLiveUtilsLodashCustom['default'])(proposals).size() && (0, _pixLiveUtilsLodashCustom['default'])(proposals).isArrayOfString() && !(0, _pixLiveUtilsLodashCustom['default'])(proposals).isEmpty();
   }
 
-  function argumentsAreValids(proposals, definedUserAnswers) {
-    return !((0, _pixLiveUtilsLodashCustom['default'])(definedUserAnswers).isNotArrayOfBoolean() || (0, _pixLiveUtilsLodashCustom['default'])(definedUserAnswers).size() > (0, _pixLiveUtilsLodashCustom['default'])(proposals).size() || (0, _pixLiveUtilsLodashCustom['default'])(proposals).isNotArrayOfString() || (0, _pixLiveUtilsLodashCustom['default'])(proposals).isEmpty());
-  }
-
-  function normalizeSizeOf(proposals, definedUserAnswers) {
+  function _normalizeSizeOf(proposals, definedUserAnswers) {
 
     var sizeDifference = (0, _pixLiveUtilsLodashCustom['default'])(proposals).size() - (0, _pixLiveUtilsLodashCustom['default'])(definedUserAnswers).size();
     var arrayOfFalse = _pixLiveUtilsLodashCustom['default'].times(sizeDifference, _pixLiveUtilsLodashCustom['default'].constant(false));
 
     return definedUserAnswers.concat(arrayOfFalse);
+  }
+
+  function checkedProposals(proposals, answers) {
+
+    answers = _pixLiveUtilsLodashCustom['default'].isNil(answers) ? [] : answers;
+    var checkedLabels = [];
+
+    if (_argumentsAreValids(proposals, answers)) {
+      var fullSizeUserAnswers = _normalizeSizeOf(proposals, answers);
+      checkedLabels = _pixLiveUtilsLodashCustom['default'].zip(proposals, fullSizeUserAnswers);
+    }
+    return checkedLabels;
   }
 });
 define("pix-live/utils/email-validator", ["exports"], function (exports) {
@@ -4788,6 +4815,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+5aee3fbc"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+7bd0decd"});
 }
 //# sourceMappingURL=pix-live.map
