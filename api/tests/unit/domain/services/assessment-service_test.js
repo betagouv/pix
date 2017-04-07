@@ -207,7 +207,6 @@ describe('Unit | Domain | Services | assessment-service', function () {
       return promise.then(() => {
         sinon.assert.fail('Should not succeed');
       }, (error) => {
-        expect(error.status).to.equal(404);
         expect(error.message).to.equal(`Unable to find assessment with ID ${ASSESSMENT_ID}`);
       });
     });

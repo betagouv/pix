@@ -1,4 +1,6 @@
 const Boom = require('boom');
+const _ = require('../../infrastructure/utils/lodash-utils');
+
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
@@ -7,10 +9,11 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const solutionSerializer = require('../../infrastructure/serializers/jsonapi/solution-serializer');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
-const _ = require('../../infrastructure/utils/lodash-utils');
+
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
+const NotFoundError = require('../../domain/errors').NotFoundError;
 
 module.exports = {
 
@@ -32,7 +35,11 @@ module.exports = {
         return reply(serializedAssessment);
       })
       .catch(err => {
-        reply(Boom.badImplementation(err));
+        if (err instanceof NotFoundError) {
+          reply(Boom.notFound(err));
+        } else {
+          reply(Boom.badImplementation(err));
+        }
       });
   },
 

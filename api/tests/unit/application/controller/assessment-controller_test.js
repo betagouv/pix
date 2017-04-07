@@ -1,10 +1,12 @@
 const { describe, it, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
 
-const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
+const Boom = require('boom');
 
+const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const assessmentService = require('../../../../lib/domain/services/assessment-service');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
-const Boom = require('boom');
+
+const NotFoundError = require('../../../../lib/domain/errors').NotFoundError;
 
 
 describe('Unit | Controller | assessment-controller', () => {
@@ -40,6 +42,27 @@ describe('Unit | Controller | assessment-controller', () => {
       // then
       sinon.assert.calledWithExactly(getScoredAssessmentStub, 1234567);
     });
+
+    it('should return a NotFound error when the assessment does not exist', () => {
+      // given
+      const expectedError = { error: 'Expected API Return 404' };
+
+      let boomNotFound = sinon.stub(Boom, 'notFound').returns(expectedError);
+      const getScoredError = new NotFoundError('Expected API Return 404');
+      getScoredAssessmentStub.rejects(getScoredError);
+
+      // when
+      let promise = assessmentController.get(request, reply);
+
+      // then
+      return promise.then(() => {
+        boomNotFound.restore();
+        sinon.assert.calledWithExactly(boomNotFound, getScoredError);
+
+
+      });
+    });
+
 
     it('should return a Bad Implementation error when we cannot retrieve the score', () => {
       // given

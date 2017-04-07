@@ -7,6 +7,8 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const assessmentUtils = require('./assessment-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
+const NotFoundError = require('../../domain/errors').NotFoundError;
+
 const scoringService = require('../../domain/services/scoring-service');
 
 function _selectNextInAdaptiveMode(assessment) {
@@ -72,17 +74,7 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
   });
 }
 
-class HttpError extends Error {
-  constructor (message, status) {
-    super(message);
-    this.status = status;
-  }
-}
-class NotFoundError extends HttpError {
-  constructor (message) {
-    super(message, 404);
-  }
-}
+
 
 function getScoredAssessment(assessmentId) {
   return new Promise((resolve, reject) => {
