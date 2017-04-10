@@ -775,7 +775,7 @@ define('pix-live/components/course-list', ['exports', 'ember', 'pix-live/config/
         });
       });
 
-      if (_pixLiveConfigEnvironment['default'].isInTestMode) {
+      if (_pixLiveConfigEnvironment['default'].isMobileSimulationEnabled) {
         this.$().on('simulateMobileScreen', function () {
           that.set('isSimulatedMobileScreen', 'true');
         });
@@ -783,10 +783,10 @@ define('pix-live/components/course-list', ['exports', 'ember', 'pix-live/config/
     },
 
     _isMobile: function _isMobile() {
-      if (!_pixLiveConfigEnvironment['default'].isInTestMode) {
-        return $(window).width() < 767;
+      if (_pixLiveConfigEnvironment['default'].isMobileSimulationEnabled) {
+        return this.get('isSimulatedMobileScreen');
       }
-      return this.get('isSimulatedMobileScreen');
+      return $(window).width() < 767;
     },
 
     actions: {
@@ -1449,7 +1449,7 @@ define('pix-live/components/timeout-jauge', ['exports', 'ember', 'pix-live/utils
     },
 
     _tick: function _tick() {
-      if (!_pixLiveConfigEnvironment['default'].isInTestMode) {
+      if (_pixLiveConfigEnvironment['default'].isTimerCountdownEnabled) {
 
         var _tickInterval = get(this, '_tickInterval');
         var _currentTime = get(this, '_currentTime');
@@ -4833,6 +4833,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+2bb94364"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+06a925b7"});
 }
 //# sourceMappingURL=pix-live.map
