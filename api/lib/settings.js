@@ -15,14 +15,14 @@ module.exports = (function () {
     },
 
     airtable: {
-      apiKey: 'keyEgu8JYhXaOhjbd',
-      base: 'appHAIFk9u1qqglhX'
+      apiKey: process.env.AIRTABLE_API_KEY,
+      base: process.env.AIRTABLE_BASE
     },
 
     mailjet: {
-      apiKey: process.env.MJ_KEY,
-      apiSecret: process.env.MJ_SECRET
-    },
+      apiKey: process.env.MAILJET_KEY,
+      apiSecret: process.env.MAILJET_SECRET
+    }
   };
 
   if (process.env.NODE_ENV === 'test') {
