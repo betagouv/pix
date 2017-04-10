@@ -6390,7 +6390,7 @@ define('pix-live/tests/unit/components/qroc-solution-panel-test', ['exports', 'c
     (0, _emberMocha.setupTest)('component:qroc-solution-panel', {});
     var rightAnswer = { result: 'ok' };
     var wrongAnswer = { result: 'ko' };
-    var noAnswer = { result: 'aband' };
+    //const noAnswer = { result: 'aband' };
 
     (0, _mocha.describe)('#isResultOk', function () {
 
@@ -6412,138 +6412,6 @@ define('pix-live/tests/unit/components/qroc-solution-panel-test', ['exports', 'c
         var isResultOk = component.get('isResultOk');
         // then
         (0, _chai.expect)(isResultOk).to.be['false'];
-      });
-    });
-    (0, _mocha.describe)('#isResulKo', function () {
-
-      (0, _mocha.it)('should return true when result is ko', function () {
-        // given
-        var component = this.subject();
-        component.set('answer', wrongAnswer);
-        // when
-        var isResultKo = component.get('isResultKo');
-        // then
-        (0, _chai.expect)(isResultKo).to.be['true'];
-      });
-
-      (0, _mocha.it)('should return true when result is not ko', function () {
-        // given
-        var component = this.subject();
-        component.set('answer', rightAnswer);
-        // when
-        var isResultKo = component.get('isResultKo');
-        // then
-        (0, _chai.expect)(isResultKo).to.be['false'];
-      });
-    });
-
-    (0, _mocha.describe)('#isResultWithoutAnswer', function () {
-
-      (0, _mocha.it)('should return true when result is aband', function () {
-        // given
-        var component = this.subject();
-        component.set('answer', noAnswer);
-        // when
-        var isResultWithoutAnswer = component.get('isResultWithoutAnswer');
-        // then
-        (0, _chai.expect)(isResultWithoutAnswer).to.be['true'];
-      });
-
-      (0, _mocha.it)('should return false when result is not aband', function () {
-        // given
-        var component = this.subject();
-        component.set('answer', wrongAnswer);
-        // when
-        var isResultWithoutAnswer = component.get('isResultWithoutAnswer');
-        // then
-        (0, _chai.expect)(isResultWithoutAnswer).to.be['false'];
-      });
-    });
-
-    (0, _mocha.describe)('#isResultOk', function () {
-
-      (0, _mocha.it)('should return true when the answer is right', function () {
-        // given
-        var answer = {
-          result: 'ok'
-        };
-        var component = this.subject();
-        component.set('answer', answer);
-        // when
-        var isResultOk = component.get('isResultOk');
-        // then
-        (0, _chai.expect)(isResultOk).to.be['true'];
-      });
-
-      (0, _mocha.it)('should return false when the answer is wrong', function () {
-        // given
-        var answer = {
-          result: 'ko'
-        };
-        var component = this.subject();
-        component.set('answer', answer);
-        // when
-        var isResultOk = component.get('isResultOk');
-        // then
-        (0, _chai.expect)(isResultOk).to.be['false'];
-      });
-    });
-
-    (0, _mocha.describe)('#isResultKo', function () {
-
-      (0, _mocha.it)('should return true when the answer is wrong', function () {
-        // given
-        var answer = {
-          result: 'ko'
-        };
-        var component = this.subject();
-        component.set('answer', answer);
-        // when
-        var isResultKo = component.get('isResultKo');
-        // then
-        (0, _chai.expect)(isResultKo).to.be['true'];
-      });
-
-      (0, _mocha.it)('should return false when the answer is right', function () {
-        // given
-        var answer = {
-          result: 'ok'
-        };
-        var component = this.subject();
-        component.set('answer', answer);
-        // when
-        var isResultKo = component.get('isResultKo');
-        // then
-        (0, _chai.expect)(isResultKo).to.be['false'];
-      });
-    });
-
-    (0, _mocha.describe)('#isResultWithoutAnswer', function () {
-
-      (0, _mocha.it)('should return true when the answer is aband', function () {
-        // given
-        var answer = {
-          result: 'aband'
-        };
-        var component = this.subject();
-        component.set('answer', answer);
-        // when
-        var isResultWithoutAnswer = component.get('isResultWithoutAnswer');
-        // then
-        (0, _chai.expect)(isResultWithoutAnswer).to.be['true'];
-      });
-
-      (0, _mocha.it)('it should return false when the answer is not aband', function () {
-        // given
-        var answer = {
-          result: 'ok'
-        };
-        var component = this.subject();
-        component.set('answer', answer);
-        // when
-        var isResultWithoutAnswer = component.get('isResultWithoutAnswer');
-        // then
-        (0, _chai.expect)(isResultWithoutAnswer).to.be['false'];
       });
     });
 
