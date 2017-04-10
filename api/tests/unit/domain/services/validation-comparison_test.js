@@ -60,29 +60,28 @@ describe('Unit | Service | Validation Comparison', function () {
     });
 
     [
-      { scenario: 'the answer is a solution', userAnswer: 'a', solutions: ['a', 'b'], expected: 0},
-      { scenario: 'there is 3/4 good character', userAnswer: 'faco', solutions: ['face', 'faac'], expected: 1/4},
-      { scenario: 'the best ratio is 3/4 good character on one the solutions', userAnswer: 'faco', solutions: ['face', 'allo'], expected: 1/4},
-      { scenario: 'the answer has nothing to see compare to solution', userAnswer: 'Linkedin', solutions: ['Viadeo', 'Instagram'], expected: 3/4},
-    ].forEach((data) => {
-      it(data.scenario, () => {
+      { scenario: 'the answer is a solution', answer: 'a', solution: ['a', 'b'], expected: 0},
+      { scenario: 'there is 3/4 good character', answer: 'faco', solution: ['face', 'faac'], expected: 1/4},
+      { scenario: 'the best ratio is 3/4 good character on one the solution', answer: 'faco', solution: ['face', 'allo'], expected: 1/4},
+      { scenario: 'the answer has nothing to see compare to solution', answer: 'Linkedin', solution: ['Viadeo', 'Instagram'], expected: 3/4},
+    ].forEach((testCase) => {
+      it(testCase.scenario, () => {
         // then
-        expect(t3(data.userAnswer, data.solutions)).to.equal(data.expected);
+        expect(t3(testCase.answer, testCase.solution)).to.equal(testCase.expected);
       });
 
-      // The following test cases are the old ones from deprecated class "solution-service-utiles_test.js"
       const successfulCases = [
-        { should: 'If only one adminAnswer', userAnswer: 'a1', adminAnswer: ['a1'], output: 0 },
-        { should: 'If many adminAnswers', userAnswer: 'a1', adminAnswer: ['a1', 'a2', 'a3'], output: 0 },
-        { should: 'If ratio is 0.1, single adminAnswer', userAnswer: 'abbbbbbbbb', adminAnswer: ['bbbbbbbbbb'], output: 0.1 },
-        { should: 'If ratio is 0.2, multiple adminAnswer', userAnswer: 'quack', adminAnswer: ['quacks', 'azertyqwerk'], output: 0.2 },
-        { should: 'If ratio is 0.5, multiple adminAnswer', userAnswer: 'book', adminAnswer: ['back', 'buck'], output: 0.5 },
-        { should: 'If ratio is 10, single adminAnswer', userAnswer: 'a', adminAnswer: ['bbbbbbbbbb'], output: 10 },
+        { should: 'If only one adminAnswer', answer: 'a1', solution: ['a1'], output: 0 },
+        { should: 'If many solutions', answer: 'a1', solution: ['a1', 'a2', 'a3'], output: 0 },
+        { should: 'If ratio is 0.1, single solution', answer: 'abbbbbbbbb', solution: ['bbbbbbbbbb'], output: 0.1 },
+        { should: 'If ratio is 0.2, multiple solution', answer: 'quack', solution: ['quacks', 'azertyqwerk'], output: 0.2 },
+        { should: 'If ratio is 0.5, multiple solution', answer: 'book', solution: ['back', 'buck'], output: 0.5 },
+        { should: 'If ratio is 10, single solution', answer: 'a', solution: ['bbbbbbbbbb'], output: 10 },
       ];
 
       successfulCases.forEach((testCase) => {
-        it(testCase.should + ', for example userAnswer ' + JSON.stringify(testCase.userAnswer) + ', and adminAnswer ' + JSON.stringify(testCase.adminAnswer) + ' => ' + testCase.output + '', function () {
-          expect(t3(testCase.userAnswer, testCase.adminAnswer)).to.equal(testCase.output);
+        it(testCase.should + ', for example answer ' + JSON.stringify(testCase.answer) + ', and solution ' + JSON.stringify(testCase.solution) + ' => ' + testCase.output + '', function () {
+          expect(t3(testCase.answer, testCase.solution)).to.equal(testCase.output);
         });
       });
     });
