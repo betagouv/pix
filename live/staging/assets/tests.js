@@ -2311,6 +2311,7 @@ define('pix-live/tests/helpers/destroy-app', ['exports', 'ember'], function (exp
 
   function destroyApp(application) {
     _ember['default'].run(application, 'destroy');
+    server.shutdown();
   }
 });
 define('pix-live/tests/helpers/destroy-app.lint-test', ['exports'], function (exports) {
