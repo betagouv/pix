@@ -5,14 +5,11 @@ import solutionsAsObject from 'pix-live/utils/solution-as-object';
 import labelsAsObject from 'pix-live/utils/labels-as-object';
 import resultDetailsAsObject from 'pix-live/utils/result-details-as-object';
 
-function _computeAnswerOutcome(answers, resultDetails, labelKey) {
-  if (answers[labelKey] === '') {
+function _computeAnswerOutcome(inputFieldValue, resultDetail) {
+  if (inputFieldValue === '') {
     return 'empty';
   }
-  if (resultDetails[labelKey]) {
-    return 'ok';
-  }
-  return 'ko';
+  return resultDetail === true ? 'ok': 'ko';
 }
 
 function _computeInputClass(answerOutcome) {
@@ -37,7 +34,7 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
     const inputFields = [];
 
     _.forEach(labels, (label, labelKey) => {
-      const answerOutcome = _computeAnswerOutcome(answers, resultDetails, labelKey);
+      const answerOutcome = _computeAnswerOutcome(answers[labelKey], resultDetails[labelKey]);
       const inputClass = _computeInputClass(answerOutcome);
 
       if (answers[labelKey] === '') {
