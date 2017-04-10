@@ -775,7 +775,7 @@ define('pix-live/components/course-list', ['exports', 'ember', 'pix-live/config/
         });
       });
 
-      if (_pixLiveConfigEnvironment['default'].isMobileSimulationEnabled) {
+      if (_pixLiveConfigEnvironment['default'].APP.isMobileSimulationEnabled) {
         this.$().on('simulateMobileScreen', function () {
           that.set('isSimulatedMobileScreen', 'true');
         });
@@ -783,7 +783,7 @@ define('pix-live/components/course-list', ['exports', 'ember', 'pix-live/config/
     },
 
     _isMobile: function _isMobile() {
-      if (_pixLiveConfigEnvironment['default'].isMobileSimulationEnabled) {
+      if (_pixLiveConfigEnvironment['default'].APP.isMobileSimulationEnabled) {
         return this.get('isSimulatedMobileScreen');
       }
       return $(window).width() < 767;
@@ -954,7 +954,7 @@ define('pix-live/components/follower-form', ['exports', 'ember', 'pix-live/confi
     _ember['default'].run.later(function () {
       context.set('status', 'empty');
       context.set('errorType', 'invalid');
-    }, _pixLiveConfigEnvironment['default'].MESSAGE_DISPLAY_DURATION);
+    }, _pixLiveConfigEnvironment['default'].APP.MESSAGE_DISPLAY_DURATION);
   }
 
   function getErrorType(errors) {
@@ -1449,7 +1449,7 @@ define('pix-live/components/timeout-jauge', ['exports', 'ember', 'pix-live/utils
     },
 
     _tick: function _tick() {
-      if (_pixLiveConfigEnvironment['default'].isTimerCountdownEnabled) {
+      if (_pixLiveConfigEnvironment['default'].APP.isTimerCountdownEnabled) {
 
         var _tickInterval = get(this, '_tickInterval');
         var _currentTime = get(this, '_currentTime');
@@ -4833,6 +4833,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+52920d2e"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.6.0+a65d6ebf"});
 }
 //# sourceMappingURL=pix-live.map
