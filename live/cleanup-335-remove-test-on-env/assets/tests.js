@@ -5489,15 +5489,6 @@ define('pix-live/tests/services/delay.lint-test', ['exports'], function (exports
     });
   });
 });
-define('pix-live/tests/services/email-validator.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - services/email-validator.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/test-helper', ['exports', 'pix-live/tests/helpers/resolver', 'ember-mocha'], function (exports, _pixLiveTestsHelpersResolver, _emberMocha) {
 
   (0, _emberMocha.setResolver)(_pixLiveTestsHelpersResolver['default']);
@@ -7336,44 +7327,6 @@ define('pix-live/tests/unit/services/delay-test.lint-test', ['exports'], functio
     });
   });
 });
-define('pix-live/tests/unit/services/email-validator-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
-
-  (0, _mocha.describe)('Unit | Service | EmailValidatorService', function () {
-
-    (0, _emberMocha.setupTest)('service:email-validator', {});
-    var validator = undefined;
-    beforeEach(function () {
-      validator = this.subject();
-    });
-
-    (0, _mocha.it)('exists', function () {
-      (0, _chai.expect)(validator).to.be.ok;
-    });
-
-    (0, _mocha.describe)('Test all case Invalid and then valid email', function () {
-      ['', ' ', null, 'INVALID_EMAIL', 'INVALID_EMAIL@', 'INVALID_EMAIL@pix', 'INVALID_EMAIL@pix.', '@pix.fr', '@pix'].forEach(function (badEmail) {
-        (0, _mocha.it)('should return false when email is invalid: ' + badEmail, function () {
-          (0, _chai.expect)(validator.emailIsValid(badEmail)).to.be['false'];
-        });
-      });
-
-      ['follower@pix.fr', 'follower@pix.fr ', ' follower@pix.fr', ' follower@pix.fr ', ' follower-beta@pix.fr ', ' follower_beta@pix.fr ', 'follower+beta@pix.fr', 'follower+beta@pix.gouv.fr', 'follower+beta@pix.beta.gouv.fr'].forEach(function (validEmail) {
-        (0, _mocha.it)('should return true if provided email is valid: ' + validEmail, function () {
-          (0, _chai.expect)(validator.emailIsValid(validEmail)).to.be['true'];
-        });
-      });
-    });
-  });
-});
-define('pix-live/tests/unit/services/email-validator-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - unit/services/email-validator-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/transforms/array-test', ['exports', 'chai', 'mocha', 'pix-live/transforms/array'], function (exports, _chai, _mocha, _pixLiveTransformsArray) {
 
   (0, _mocha.describe)('Unit | Transformer | Array', function () {
@@ -7398,6 +7351,35 @@ define('pix-live/tests/unit/transforms/array-test.lint-test', ['exports'], funct
   'use strict';
 
   describe('ESLint - unit/transforms/array-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/utils/email-validator-test', ['exports', 'chai', 'mocha', 'pix-live/utils/email-validator'], function (exports, _chai, _mocha, _pixLiveUtilsEmailValidator) {
+
+  (0, _mocha.describe)('Unit | Utility | email validator', function () {
+    (0, _mocha.describe)('Invalid emails', function () {
+      ['', ' ', null, 'INVALID_EMAIL', 'INVALID_EMAIL@', 'INVALID_EMAIL@pix', 'INVALID_EMAIL@pix.', '@pix.fr', '@pix'].forEach(function (badEmail) {
+        (0, _mocha.it)('should return false when email is invalid: ' + badEmail, function () {
+          (0, _chai.expect)((0, _pixLiveUtilsEmailValidator['default'])(badEmail)).to.be['false'];
+        });
+      });
+    });
+
+    (0, _mocha.describe)('Valid emails', function () {
+      ['follower@pix.fr', 'follower@pix.fr ', ' follower@pix.fr', ' follower@pix.fr ', ' follower-beta@pix.fr ', ' follower_beta@pix.fr ', 'follower+beta@pix.fr', 'follower+beta@pix.gouv.fr', 'follower+beta@pix.beta.gouv.fr'].forEach(function (validEmail) {
+        (0, _mocha.it)('should return true if provided email is valid: ' + validEmail, function () {
+          (0, _chai.expect)((0, _pixLiveUtilsEmailValidator['default'])(validEmail)).to.be['true'];
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/utils/email-validator-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/utils/email-validator-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
