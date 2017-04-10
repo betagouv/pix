@@ -1,5 +1,4 @@
 const { describe, it, expect, sinon } = require('../../../test-helper');
-
 const service = require('../../../../lib/domain/services/solution-service');
 const serviceQru = require('../../../../lib/domain/services/solution-service-qru');
 const serviceQcu = require('../../../../lib/domain/services/solution-service-qcu');
@@ -189,10 +188,10 @@ describe('Unit | Service | SolutionService', function () {
         const answer = buildAnswer('qrocAnswer');
         const solution = buildSolution('QROC', 'qrocSolution', null, { t1: true });
 
-        const serviceQroc$match = sinon.stub(serviceQroc, 'match');
-        const service$_timedOut = sinon.stub(service, '_timedOut');
+        const serviceQrocMatch = sinon.stub(serviceQroc, 'match');
+        const serviceTimedOut = sinon.stub(service, '_timedOut');
 
-        serviceQroc$match.returns('qrocMatching');
+        serviceQrocMatch.returns('qrocMatching');
 
         // When
         const underTest = service.validate(answer, solution);
@@ -201,9 +200,9 @@ describe('Unit | Service | SolutionService', function () {
         serviceQroc.match.restore();
         service._timedOut.restore();
 
-        sinon.assert.calledOnce(serviceQroc$match);
-        sinon.assert.calledWithExactly(serviceQroc$match, 'qrocAnswer', 'qrocSolution', { t1: true });
-        sinon.assert.notCalled(service$_timedOut);
+        sinon.assert.calledOnce(serviceQrocMatch);
+        sinon.assert.calledWithExactly(serviceQrocMatch, 'qrocAnswer', 'qrocSolution', { t1: true });
+        sinon.assert.notCalled(serviceTimedOut);
         expect(underTest).to.deep.equal({result: 'qrocMatching', resultDetails: null});
       });
 
@@ -212,11 +211,11 @@ describe('Unit | Service | SolutionService', function () {
         // Given
         const answer = buildAnswer('qrocAnswer', -15);
         const solution = buildSolution('QROC', 'qrocSolution', null, { t1: true });
-        const serviceQroc$match = sinon.stub(serviceQroc, 'match');
-        const service$_timedOut = sinon.stub(service, '_timedOut');
+        const serviceQrocMatch = sinon.stub(serviceQroc, 'match');
+        const serviceTimedOut = sinon.stub(service, '_timedOut');
 
-        serviceQroc$match.returns('qrocMatching');
-        service$_timedOut.returns('resultOfTimeout');
+        serviceQrocMatch.returns('qrocMatching');
+        serviceTimedOut.returns('resultOfTimeout');
 
         // When
         const underTest = service.validate(answer, solution);
@@ -225,10 +224,10 @@ describe('Unit | Service | SolutionService', function () {
         serviceQroc.match.restore();
         service._timedOut.restore();
 
-        sinon.assert.calledOnce(serviceQroc$match);
-        sinon.assert.calledWithExactly(serviceQroc$match, 'qrocAnswer', 'qrocSolution', { t1: true });
-        sinon.assert.calledOnce(service$_timedOut);
-        sinon.assert.calledWithExactly(service$_timedOut, 'qrocMatching', -15);
+        sinon.assert.calledOnce(serviceQrocMatch);
+        sinon.assert.calledWithExactly(serviceQrocMatch, 'qrocAnswer', 'qrocSolution', { t1: true });
+        sinon.assert.calledOnce(serviceTimedOut);
+        sinon.assert.calledWithExactly(serviceTimedOut, 'qrocMatching', -15);
 
         expect(underTest).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
       });
@@ -260,7 +259,7 @@ describe('Unit | Service | SolutionService', function () {
         const answer = buildAnswer('qrocmIndAnswer');
         const solution = buildSolutionQROCMind('QROCM-ind', 'qrocmIndSolution', null, ['t2', 't3']);
         const serviceQrocmInd$match = sinon.stub(serviceQrocmInd, 'match');
-        const service$_timedOut = sinon.stub(service, '_timedOut');
+        const serviceTimedOut = sinon.stub(service, '_timedOut');
 
         serviceQrocmInd$match.returns({result: 'qrocmIndMatching', resultDetails: {shi: true, fu: false, mi: true}});
 
@@ -273,7 +272,7 @@ describe('Unit | Service | SolutionService', function () {
 
         sinon.assert.calledOnce(serviceQrocmInd$match);
         sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution', ['t2', 't3']);
-        sinon.assert.notCalled(service$_timedOut);
+        sinon.assert.notCalled(serviceTimedOut);
         expect(underTest).to.deep.equal({result: 'qrocmIndMatching', resultDetails: {shi: true, fu: false, mi: true}});
 
       });
@@ -284,10 +283,10 @@ describe('Unit | Service | SolutionService', function () {
         const answer = buildAnswer('qrocmIndAnswer', -15);
         const solution = buildSolutionQROCMind('QROCM-ind', 'qrocmIndSolution', null, ['t2', 't3']);
         const serviceQrocmInd$match = sinon.stub(serviceQrocmInd, 'match');
-        const service$_timedOut = sinon.stub(service, '_timedOut');
+        const serviceTimedOut = sinon.stub(service, '_timedOut');
 
         serviceQrocmInd$match.returns({result: 'qrocmIndMatching', resultDetails: {shi: true, fu: false, mi: true}});
-        service$_timedOut.returns('resultOfTimeout');
+        serviceTimedOut.returns('resultOfTimeout');
 
         // When
         const underTest = service.validate(answer, solution);
@@ -298,8 +297,8 @@ describe('Unit | Service | SolutionService', function () {
 
         sinon.assert.calledOnce(serviceQrocmInd$match);
         sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution', ['t2', 't3']);
-        sinon.assert.calledOnce(service$_timedOut);
-        sinon.assert.calledWithExactly(service$_timedOut, 'qrocmIndMatching', -15);
+        sinon.assert.calledOnce(serviceTimedOut);
+        sinon.assert.calledWithExactly(serviceTimedOut, 'qrocmIndMatching', -15);
 
         expect(underTest).to.deep.equal({result: 'resultOfTimeout', resultDetails: {shi: true, fu: false, mi: true}});
       });
@@ -320,7 +319,7 @@ describe('Unit | Service | SolutionService', function () {
         const answer = buildAnswer('qrocmDepAnswer');
         const solution = buildSolution('QROCM-dep', 'qrocmDepSolution', 'anyScoring', { t1: true });
         const serviceQrocmDep$match = sinon.stub(serviceQrocmDep, 'match');
-        const service$_timedOut = sinon.stub(service, '_timedOut');
+        const serviceTimedOut = sinon.stub(service, '_timedOut');
 
         serviceQrocmDep$match.returns('qrocmDepMatching');
 
@@ -333,7 +332,7 @@ describe('Unit | Service | SolutionService', function () {
 
         sinon.assert.calledOnce(serviceQrocmDep$match);
         sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', { t1: true });
-        sinon.assert.notCalled(service$_timedOut);
+        sinon.assert.notCalled(serviceTimedOut);
         expect(underTest).to.deep.equal({result: 'qrocmDepMatching', resultDetails: null});
       });
 
@@ -343,10 +342,10 @@ describe('Unit | Service | SolutionService', function () {
         const answer = buildAnswer('qrocmDepAnswer', -15);
         const solution = buildSolution('QROCM-dep', 'qrocmDepSolution', 'anyScoring', { t1: true });
         const serviceQrocmDep$match = sinon.stub(serviceQrocmDep, 'match');
-        const service$_timedOut = sinon.stub(service, '_timedOut');
+        const serviceTimedOut = sinon.stub(service, '_timedOut');
 
         serviceQrocmDep$match.returns('qrocmDepMatching');
-        service$_timedOut.returns('resultOfTimeout');
+        serviceTimedOut.returns('resultOfTimeout');
 
         // When
         const underTest = service.validate(answer, solution);
@@ -357,8 +356,8 @@ describe('Unit | Service | SolutionService', function () {
 
         sinon.assert.calledOnce(serviceQrocmDep$match);
         sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', { t1: true });
-        sinon.assert.calledOnce(service$_timedOut);
-        sinon.assert.calledWithExactly(service$_timedOut, 'qrocmDepMatching', -15);
+        sinon.assert.calledOnce(serviceTimedOut);
+        sinon.assert.calledWithExactly(serviceTimedOut, 'qrocmDepMatching', -15);
 
         expect(underTest).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
       });

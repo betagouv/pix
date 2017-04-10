@@ -57,16 +57,6 @@ describe('Unit | Controller | answer-controller', function () {
     timeout: null
   });
 
-  /*
-  before(function () {
-    Answer.prototype.save = sinon.stub();
-    Answer.prototype.save.resolves(persistedAnswer);
-  });
-
-  after(function () {
-    Answer.prototype.save.restore();
-  });
-*/
   describe('#save', function () {
 
     it('should return a successful response with HTTP code 201 when answer was created', function (done) {
