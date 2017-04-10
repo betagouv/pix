@@ -5,7 +5,7 @@ function hideMessageDiv(context) {
   Ember.run.later(function () {
     context.set('status', 'empty');
     context.set('errorType', 'invalid');
-  }, config.MESSAGE_DISPLAY_DURATION);
+  }, config.APP.MESSAGE_DISPLAY_DURATION);
 }
 
 function getErrorType(errors) {
