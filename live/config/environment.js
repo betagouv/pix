@@ -36,7 +36,6 @@ module.exports = function (environment) {
       'style-src': "'self' fonts.googleapis.com"
     },
     isChallengeTimerEnable : true,
-    isInTestMode : false,
     MESSAGE_DISPLAY_DURATION: 1500,
     isMobileSimulationEnabled: false,
     isTimerCountdownEnabled: true
@@ -68,7 +67,6 @@ module.exports = function (environment) {
     ENV.googleFonts = [];
     ENV.APP.API_HOST = 'http://localhost:3000';
     ENV.isChallengeTimerEnable = false;
-    ENV.isInTestMode = true;
     ENV.MESSAGE_DISPLAY_DURATION = 0;
     ENV.isMobileSimulationEnabled = true;
     ENV.isTimerCountdownEnabled = false;
