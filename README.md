@@ -31,13 +31,13 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 
 ### Instructions
 
-**1/ Récupérer le code source :**
+**1/ Récupérer le code source**
 
 ```bash
 $ git clone git@github.com:sgmap/pix.git && cd pix
 ```
 
-**2/ Lancer le script de configuration de l'environnement :**
+**2/ Lancer le script de configuration de l'environnement**
 
 ```bash
 $ npm run configure
