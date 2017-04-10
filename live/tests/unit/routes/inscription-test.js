@@ -9,7 +9,7 @@ describe('Unit | Route | inscription', function() {
   });
 
   it('exists', function() {
-    const route = this.subject();
+    let route = this.subject();
     expect(route).to.be.ok;
   });
 });
