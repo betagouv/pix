@@ -37,7 +37,9 @@ module.exports = function (environment) {
     },
     isChallengeTimerEnable : true,
     isInTestMode : false,
-    MESSAGE_DISPLAY_DURATION: 1500
+    MESSAGE_DISPLAY_DURATION: 1500,
+    isMobileSimulationEnabled: false,
+    isTimerCountdownEnabled: true
   };
 
   if (environment === 'development') {
@@ -68,6 +70,8 @@ module.exports = function (environment) {
     ENV.isChallengeTimerEnable = false;
     ENV.isInTestMode = true;
     ENV.MESSAGE_DISPLAY_DURATION = 0;
+    ENV.isMobileSimulationEnabled = true;
+    ENV.isTimerCountdownEnabled = false;
   }
 
   if (environment === 'integration') {
