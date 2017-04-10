@@ -949,7 +949,7 @@ define('pix-live/components/feedback-panel', ['exports', 'ember', 'pix-live/util
 
   exports['default'] = FeedbackPanel;
 });
-define('pix-live/components/follower-form', ['exports', 'ember', 'pix-live/config/environment'], function (exports, _ember, _pixLiveConfigEnvironment) {
+define('pix-live/components/follower-form', ['exports', 'ember', 'pix-live/config/environment', 'pix-live/utils/email-validator'], function (exports, _ember, _pixLiveConfigEnvironment, _pixLiveUtilsEmailValidator) {
 
   var messageDisplayDuration = 1500;
 
@@ -971,7 +971,6 @@ define('pix-live/components/follower-form', ['exports', 'ember', 'pix-live/confi
 
     classNames: ['follower-form'],
 
-    emailValidator: _ember['default'].inject.service('email-validator'),
     store: _ember['default'].inject.service(),
     errorType: 'invalid',
     status: 'empty', // empty | pending | success | error
@@ -1013,20 +1012,13 @@ define('pix-live/components/follower-form', ['exports', 'ember', 'pix-live/confi
       return this.get('status') === 'pending' ? 'envoi en cours' : 's\'inscrire';
     }),
 
-    _checkEmail: function _checkEmail(email) {
-      if (!this.get('emailValidator').emailIsValid(email)) {
-        return false;
-      }
-      return true;
-    },
-
     actions: {
       submit: function submit() {
         var _this = this;
 
         this.set('status', 'pending');
         var email = this.get('followerEmail') ? this.get('followerEmail').trim() : '';
-        if (!this._checkEmail(email) || email.length < 1) {
+        if (!(0, _pixLiveUtilsEmailValidator['default'])(email)) {
           this.set('status', 'error');
           hideMessageDiv(this);
           return;
@@ -4057,21 +4049,6 @@ define('pix-live/services/dependency-checker', ['exports', 'ember', 'pix-live/co
 
   });
 });
-define('pix-live/services/email-validator', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Service.extend({
-    emailIsValid: function emailIsValid(email) {
-      if (!email) {
-        return false;
-      }
-
-      //XXX: Cf - http://stackoverflow.com/a/46181/5430854
-      var pattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-
-      return pattern.test(email.trim());
-    }
-
-  });
-});
 define('pix-live/services/metrics', ['exports', 'ember-metrics/services/metrics'], function (exports, _emberMetricsServicesMetrics) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -4589,10 +4566,13 @@ define('pix-live/utils/can-use-dom', ['exports', 'ember-metrics/utils/can-use-do
   });
 });
 define("pix-live/utils/email-validator", ["exports"], function (exports) {
-  exports["default"] = isValidate;
+  exports["default"] = isEmailValid;
 
-  function isValidate(email) {
-    //XXX: Cf - http://stackoverflow.com/a/46181/5430854
+  function isEmailValid(email) {
+    if (!email) {
+      return false;
+    }
+    // From http://stackoverflow.com/a/46181/5430854
     var pattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     return pattern.test(email.trim());
   }
@@ -4838,6 +4818,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+070407eb"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+487ec8aa"});
 }
 //# sourceMappingURL=pix-live.map
