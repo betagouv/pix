@@ -84,7 +84,7 @@ describe('Unit | Service | SolutionService', function () {
       // given
       const MATCHING_RETURNS = {result: '#ANY_RESULT#', resultDetails: null};
 
-      sinon.stub(SolutionRepository, 'get').resolves({}); // avoid HTTP call, but what it replies doesn't matter
+      sinon.stub(SolutionRepository, 'get').resolves({});
       sinon.stub(service, 'validate').returns(MATCHING_RETURNS);
       expect(service.revalidate).to.exist;
 

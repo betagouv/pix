@@ -48,13 +48,13 @@ describe('Unit | Service | SolutionService', function () {
         sinon.stub(service, '_timedOut').returns('resultOfTimeout');
 
         // When
-        const underTest = service.validate(answer, solution);
+        const result = service.validate(answer, solution);
 
         // Then
         serviceQcu.match.restore();
         service._timedOut.restore();
 
-        expect(underTest).to.deep.equal({result: 'qcuMatching', resultDetails: null});
+        expect(result).to.deep.equal({result: 'qcuMatching', resultDetails: null});
       });
 
       it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
@@ -67,13 +67,13 @@ describe('Unit | Service | SolutionService', function () {
         sinon.stub(service, '_timedOut').returns('resultOfTimeout');
 
         // When
-        const underTest = service.validate(answer, solution);
+        const result = service.validate(answer, solution);
 
         // Then
         serviceQcu.match.restore();
         service._timedOut.restore();
 
-        expect(underTest).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
+        expect(result).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
       });
 
     });
@@ -96,13 +96,13 @@ describe('Unit | Service | SolutionService', function () {
         sinon.stub(service, '_timedOut').returns('resultOfTimeout');
 
         // When
-        const underTest = service.validate(answer, solution);
+        const result = service.validate(answer, solution);
 
         // Then
         serviceQru.match.restore();
         service._timedOut.restore();
 
-        expect(underTest).to.deep.equal({result: 'qruMatching', resultDetails: null});
+        expect(result).to.deep.equal({result: 'qruMatching', resultDetails: null});
       });
 
       it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
@@ -115,13 +115,13 @@ describe('Unit | Service | SolutionService', function () {
         sinon.stub(service, '_timedOut').returns('resultOfTimeout');
 
         // When
-        const underTest = service.validate(answer, solution);
+        const result = service.validate(answer, solution);
 
         // Then
         serviceQru.match.restore();
         service._timedOut.restore();
 
-        expect(underTest).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
+        expect(result).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
       });
     });
 
@@ -143,13 +143,13 @@ describe('Unit | Service | SolutionService', function () {
         sinon.stub(service, '_timedOut').returns('resultOfTimeout');
 
         // When
-        const underTest = service.validate(answer, solution);
+        const result = service.validate(answer, solution);
 
         // Then
         serviceQcm.match.restore();
         service._timedOut.restore();
 
-        expect(underTest).to.deep.equal({result: 'qcmMatching', resultDetails: null});
+        expect(result).to.deep.equal({result: 'qcmMatching', resultDetails: null});
       });
 
       it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
@@ -162,13 +162,13 @@ describe('Unit | Service | SolutionService', function () {
         sinon.stub(service, '_timedOut').returns('resultOfTimeout');
 
         // When
-        const underTest = service.validate(answer, solution);
+        const result = service.validate(answer, solution);
 
         // Then
         serviceQcm.match.restore();
         service._timedOut.restore();
 
-        expect(underTest).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
+        expect(result).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
       });
 
     });
@@ -194,7 +194,7 @@ describe('Unit | Service | SolutionService', function () {
         serviceQrocMatch.returns('qrocMatching');
 
         // When
-        const underTest = service.validate(answer, solution);
+        const result = service.validate(answer, solution);
 
         // Then
         serviceQroc.match.restore();
@@ -203,7 +203,7 @@ describe('Unit | Service | SolutionService', function () {
         sinon.assert.calledOnce(serviceQrocMatch);
         sinon.assert.calledWithExactly(serviceQrocMatch, 'qrocAnswer', 'qrocSolution', { t1: true });
         sinon.assert.notCalled(serviceTimedOut);
-        expect(underTest).to.deep.equal({result: 'qrocMatching', resultDetails: null});
+        expect(result).to.deep.equal({result: 'qrocMatching', resultDetails: null});
       });
 
       it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
@@ -218,7 +218,7 @@ describe('Unit | Service | SolutionService', function () {
         serviceTimedOut.returns('resultOfTimeout');
 
         // When
-        const underTest = service.validate(answer, solution);
+        const result = service.validate(answer, solution);
 
         // Then
         serviceQroc.match.restore();
@@ -229,7 +229,7 @@ describe('Unit | Service | SolutionService', function () {
         sinon.assert.calledOnce(serviceTimedOut);
         sinon.assert.calledWithExactly(serviceTimedOut, 'qrocMatching', -15);
 
-        expect(underTest).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
+        expect(result).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
       });
 
     });
@@ -264,7 +264,7 @@ describe('Unit | Service | SolutionService', function () {
         serviceQrocmInd$match.returns({result: 'qrocmIndMatching', resultDetails: {shi: true, fu: false, mi: true}});
 
         // When
-        const underTest = service.validate(answer, solution);
+        const result = service.validate(answer, solution);
 
         // Then
         serviceQrocmInd.match.restore();
@@ -273,7 +273,7 @@ describe('Unit | Service | SolutionService', function () {
         sinon.assert.calledOnce(serviceQrocmInd$match);
         sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution', ['t2', 't3']);
         sinon.assert.notCalled(serviceTimedOut);
-        expect(underTest).to.deep.equal({result: 'qrocmIndMatching', resultDetails: {shi: true, fu: false, mi: true}});
+        expect(result).to.deep.equal({result: 'qrocmIndMatching', resultDetails: {shi: true, fu: false, mi: true}});
 
       });
 
@@ -289,7 +289,7 @@ describe('Unit | Service | SolutionService', function () {
         serviceTimedOut.returns('resultOfTimeout');
 
         // When
-        const underTest = service.validate(answer, solution);
+        const result = service.validate(answer, solution);
 
         // Then
         serviceQrocmInd.match.restore();
@@ -300,7 +300,7 @@ describe('Unit | Service | SolutionService', function () {
         sinon.assert.calledOnce(serviceTimedOut);
         sinon.assert.calledWithExactly(serviceTimedOut, 'qrocmIndMatching', -15);
 
-        expect(underTest).to.deep.equal({result: 'resultOfTimeout', resultDetails: {shi: true, fu: false, mi: true}});
+        expect(result).to.deep.equal({result: 'resultOfTimeout', resultDetails: {shi: true, fu: false, mi: true}});
       });
 
     });
@@ -324,7 +324,7 @@ describe('Unit | Service | SolutionService', function () {
         serviceQrocmDep$match.returns('qrocmDepMatching');
 
         // When
-        const underTest = service.validate(answer, solution);
+        const result = service.validate(answer, solution);
 
         // Then
         serviceQrocmDep.match.restore();
@@ -333,7 +333,7 @@ describe('Unit | Service | SolutionService', function () {
         sinon.assert.calledOnce(serviceQrocmDep$match);
         sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', { t1: true });
         sinon.assert.notCalled(serviceTimedOut);
-        expect(underTest).to.deep.equal({result: 'qrocmDepMatching', resultDetails: null});
+        expect(result).to.deep.equal({result: 'qrocmDepMatching', resultDetails: null});
       });
 
       it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
@@ -348,7 +348,7 @@ describe('Unit | Service | SolutionService', function () {
         serviceTimedOut.returns('resultOfTimeout');
 
         // When
-        const underTest = service.validate(answer, solution);
+        const result = service.validate(answer, solution);
 
         // Then
         serviceQrocmDep.match.restore();
@@ -359,7 +359,7 @@ describe('Unit | Service | SolutionService', function () {
         sinon.assert.calledOnce(serviceTimedOut);
         sinon.assert.calledWithExactly(serviceTimedOut, 'qrocmDepMatching', -15);
 
-        expect(underTest).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
+        expect(result).to.deep.equal({result: 'resultOfTimeout', resultDetails: null});
       });
 
     });

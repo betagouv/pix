@@ -309,9 +309,9 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       },
     ];
 
-    allCases.forEach(function (caze) {
-      it(`${caze.when}, should return ${caze.output} when answer is "${caze.answer}" and solution is "${caze.solution}"`, function () {
-        expect(service.match(caze.answer, caze.solution, caze.scoring, caze.deactivations)).to.equal(caze.output);
+    allCases.forEach(function (testCase) {
+      it(`${testCase.when}, should return ${testCase.output} when answer is "${testCase.answer}" and solution is "${testCase.solution}"`, function () {
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
       });
     });
   });
@@ -425,9 +425,9 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       },
     ];
 
-    allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + caze.solution + '"', function () {
-        expect(service.match(caze.answer, caze.solution, caze.scoring, caze.deactivations)).to.equal(caze.output);
+    allCases.forEach(function (testCase) {
+      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function () {
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
       });
     });
   });
@@ -541,9 +541,9 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       },
     ];
 
-    allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + caze.solution + '"', function () {
-        expect(service.match(caze.answer, caze.solution, caze.scoring, caze.deactivations)).to.equal(caze.output);
+    allCases.forEach(function (testCase) {
+      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function () {
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
       });
     });
   });
@@ -657,9 +657,9 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       },
     ];
 
-    allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + caze.solution + '"', function () {
-        expect(service.match(caze.answer, caze.solution, caze.scoring, caze.deactivations)).to.equal(caze.output);
+    allCases.forEach(function (testCase) {
+      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function () {
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
       });
     });
   });
@@ -773,9 +773,9 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       },
     ];
 
-    allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + caze.solution + '"', function () {
-        expect(service.match(caze.answer, caze.solution, caze.scoring, caze.deactivations)).to.equal(caze.output);
+    allCases.forEach(function (testCase) {
+      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function () {
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
       });
     });
   });
@@ -889,9 +889,9 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       },
     ];
 
-    allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + caze.solution + '"', function () {
-        expect(service.match(caze.answer, caze.solution, caze.scoring, caze.deactivations)).to.equal(caze.output);
+    allCases.forEach(function (testCase) {
+      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function () {
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
       });
     });
   });
@@ -1005,9 +1005,9 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       },
     ];
 
-    allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + caze.solution + '"', function () {
-        expect(service.match(caze.answer, caze.solution, caze.scoring, caze.deactivations)).to.equal(caze.output);
+    allCases.forEach(function (testCase) {
+      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function () {
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
       });
     });
   });
