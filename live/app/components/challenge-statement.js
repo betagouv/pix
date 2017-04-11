@@ -4,6 +4,8 @@ export default  Ember.Component.extend({
 
   classNames: ['rounded-panel', 'challenge-statement'],
 
+  challenge: null,
+
   selectedAttachmentUrl: Ember.computed('challenge.attachments', function () {
     return this.get('challenge.attachments.firstObject');
   }),
