@@ -1,23 +1,23 @@
 import Ember from 'ember';
 
-const QrocSolutionPanel = Ember.Component.extend({
+export default Ember.Component.extend({
 
   answer: null,
   solution: null,
 
-  isResultOk : Ember.computed('answer', function () {
+  isResultOk: Ember.computed('answer', function () {
     return this.get('answer.result') === 'ok';
   }),
-  isResultKo : Ember.computed('answer', function () {
+  isResultKo: Ember.computed('answer', function () {
     return this.get('answer.result') === 'ko';
   }),
-  isResultWithoutAnswer : Ember.computed('answer', function () {
+  isResultWithoutAnswer: Ember.computed('answer', function () {
     return this.get('answer.result') === 'aband';
   }),
 
   answerToDisplay: Ember.computed('answer', function () {
     const answer = this.get('answer.value');
-    if (answer === '#ABAND#'){
+    if (answer === '#ABAND#') {
       return 'Pas de réponse';
     }
     return answer;
@@ -25,7 +25,7 @@ const QrocSolutionPanel = Ember.Component.extend({
 
   solutionToDisplay: Ember.computed('solution.value', function () {
     const solutionVariants = this.get('solution.value');
-    if (!solutionVariants){
+    if (!solutionVariants) {
       return '';
     }
 
@@ -34,9 +34,3 @@ const QrocSolutionPanel = Ember.Component.extend({
     return solution;
   })
 });
-
-QrocSolutionPanel.reopenClass({
-  positionalParams: ['answer', 'solution']
-});
-
-export default QrocSolutionPanel;
