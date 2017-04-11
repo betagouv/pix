@@ -4893,7 +4893,7 @@ define('pix-live/utils/result-details-as-object', ['exports'], function (exports
 
   function resultDetailsAsObject(yamlResultDetails) {
     var resultDetailsAsObject = {};
-    if (yamlResultDetails != 'null\n') {
+    if (yamlResultDetails !== 'null\n') {
       resultDetailsAsObject = jsyaml.safeLoad(yamlResultDetails);
     }
     return resultDetailsAsObject;
@@ -4967,6 +4967,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+30c3f28d"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+1ab8cba9"});
 }
 //# sourceMappingURL=pix-live.map
