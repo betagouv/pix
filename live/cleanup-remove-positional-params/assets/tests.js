@@ -2991,8 +2991,8 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['expor
 
     function renderChallengeStatement(component) {
       component.render(_ember['default'].HTMLBars.template({
-        'id': 'isQK168f',
-        'block': '{"statements":[["append",["helper",["challenge-statement"],[["get",["challenge"]]],null],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'id': 'Y14jYUP9',
+        'block': '{"statements":[["append",["helper",["challenge-statement"],null,[["challenge"],[["get",["challenge"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
         'meta': {}
       }));
     }
