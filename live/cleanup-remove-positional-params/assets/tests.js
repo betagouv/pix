@@ -3241,7 +3241,7 @@ define('pix-live/tests/integration/components/challenge-stay-test.lint-test', ['
 });
 define('pix-live/tests/integration/components/comparison-window-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
 
-  _mocha.describe.only('Integration | Component | comparison-window', function () {
+  (0, _mocha.describe)('Integration | Component | comparison-window', function () {
 
     (0, _emberMocha.setupComponentTest)('comparison-window', {
       integration: true
