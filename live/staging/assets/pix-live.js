@@ -400,7 +400,7 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-l
     },
 
     _tick: function _tick() {
-      if (_pixLiveConfigEnvironment['default'].isChallengeTimerEnable) {
+      if (_pixLiveConfigEnvironment['default'].APP.isChallengeTimerEnable) {
         var timer = _ember['default'].run.later(this, function () {
           var elapsedTime = this.get('_elapsedTime');
           this.set('_elapsedTime', elapsedTime + 1);
@@ -4821,6 +4821,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.6.0+b1db1a9a"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.6.0+c44a5a0e"});
 }
 //# sourceMappingURL=pix-live.map
