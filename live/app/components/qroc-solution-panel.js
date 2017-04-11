@@ -1,18 +1,22 @@
 import Ember from 'ember';
 
+const classByResultValue = {
+  ok: 'correction-qroc-box__input-right-answer',
+  ko: 'correction-qroc-box__input-wrong-answer',
+  aband: 'correction-qroc-box__input-no-answer'
+};
+
 export default Ember.Component.extend({
 
   answer: null,
   solution: null,
 
+  inputClass: Ember.computed('answer.result', function () {
+    return classByResultValue[this.get('answer.result')] || '';
+  }),
+
   isResultOk: Ember.computed('answer', function () {
     return this.get('answer.result') === 'ok';
-  }),
-  isResultKo: Ember.computed('answer', function () {
-    return this.get('answer.result') === 'ko';
-  }),
-  isResultWithoutAnswer: Ember.computed('answer', function () {
-    return this.get('answer.result') === 'aband';
   }),
 
   answerToDisplay: Ember.computed('answer', function () {
@@ -28,9 +32,6 @@ export default Ember.Component.extend({
     if (!solutionVariants) {
       return '';
     }
-
-    const solutionVariantsArray = solutionVariants.split('\n');
-    const solution = solutionVariantsArray[0];
-    return solution;
+    return solutionVariants.split('\n')[0];
   })
 });
