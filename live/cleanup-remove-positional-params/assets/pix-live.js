@@ -1160,8 +1160,7 @@ define('pix-live/components/qroc-proposal', ['exports', 'ember'], function (expo
   });
 });
 define('pix-live/components/qroc-solution-panel', ['exports', 'ember'], function (exports, _ember) {
-
-  var QrocSolutionPanel = _ember['default'].Component.extend({
+  exports['default'] = _ember['default'].Component.extend({
 
     answer: null,
     solution: null,
@@ -1195,12 +1194,6 @@ define('pix-live/components/qroc-solution-panel', ['exports', 'ember'], function
       return solution;
     })
   });
-
-  QrocSolutionPanel.reopenClass({
-    positionalParams: ['answer', 'solution']
-  });
-
-  exports['default'] = QrocSolutionPanel;
 });
 define('pix-live/components/qrocm-proposal', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
@@ -4771,6 +4764,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.6.0+87aaec74"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.6.0+e691c551"});
 }
 //# sourceMappingURL=pix-live.map
