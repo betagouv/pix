@@ -4887,12 +4887,15 @@ define('pix-live/utils/proposals-as-array', ['exports', 'pix-live/utils/lodash-c
     return calculate(proposals);
   }
 });
-define("pix-live/utils/result-details-as-object", ["exports"], function (exports) {
-  exports["default"] = resultDetailsAsObject;
+define('pix-live/utils/result-details-as-object', ['exports'], function (exports) {
+  exports['default'] = resultDetailsAsObject;
   /* global jsyaml */
 
   function resultDetailsAsObject(yamlResultDetails) {
-    var resultDetailsAsObject = jsyaml.safeLoad(yamlResultDetails);
+    var resultDetailsAsObject = {};
+    if (yamlResultDetails != 'null\n') {
+      resultDetailsAsObject = jsyaml.safeLoad(yamlResultDetails);
+    }
     return resultDetailsAsObject;
   }
 });
@@ -4964,6 +4967,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+3c6e74b6"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.6.0+30c3f28d"});
 }
 //# sourceMappingURL=pix-live.map

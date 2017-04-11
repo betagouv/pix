@@ -8262,6 +8262,41 @@ define('pix-live/tests/unit/utils/proposals-as-array-test.lint-test', ['exports'
     });
   });
 });
+define('pix-live/tests/unit/utils/result-details-as-object-test', ['exports', 'chai', 'mocha', 'pix-live/utils/result-details-as-object'], function (exports, _chai, _mocha, _pixLiveUtilsResultDetailsAsObject) {
+
+  (0, _mocha.describe)('#resultDetailsAsObject', function () {
+
+    (0, _mocha.it)('it should return an object from the yaml String', function () {
+      // given
+      var resultDetailYaml = 'S1: false\nS2: true\n';
+      var expectedObject = { S1: false, S2: true };
+      // when
+      var result = (0, _pixLiveUtilsResultDetailsAsObject['default'])(resultDetailYaml);
+      // then
+      (0, _chai.expect)(result).to.deep.equal(expectedObject);
+    });
+
+    (0, _mocha.it)('it should return an empty object from the yaml String null\\n', function () {
+      // given
+      var resultDetailYaml = 'null\n';
+      var expectedObject = {};
+
+      // when
+      var result = (0, _pixLiveUtilsResultDetailsAsObject['default'])(resultDetailYaml);
+      // then
+      (0, _chai.expect)(result).to.deep.equal(expectedObject);
+    });
+  });
+});
+define('pix-live/tests/unit/utils/result-details-as-object-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/utils/result-details-as-object-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/unit/utils/solution-as-object-test', ['exports', 'chai', 'mocha', 'pix-live/utils/solution-as-object'], function (exports, _chai, _mocha, _pixLiveUtilsSolutionAsObject) {
 
   (0, _mocha.describe)('Unit | Utility | solution as object', function () {
