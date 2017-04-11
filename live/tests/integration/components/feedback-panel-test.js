@@ -31,7 +31,7 @@ function expectMercixViewToBeVisible(component) {
   expect(component.$(MERCIX_VIEW)).to.have.length(1);
 }
 
-describe('Integration | Component | feedback-panel', function () {
+describe.only('Integration | Component | feedback-panel', function () {
 
   setupComponentTest('feedback-panel', {
     integration: true
