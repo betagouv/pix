@@ -1453,6 +1453,10 @@ button.routable-modal--close:active {
   position: relative;
   bottom: 3px; }
 
+.challenge-response__proposal-input {
+  margin-bottom: 10px;
+  margin-top: 10px; }
+
 .result-item {
   width: auto;
   height: 80px;
