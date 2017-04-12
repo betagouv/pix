@@ -371,7 +371,9 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-l
 
     init: function init() {
       this._super.apply(this, arguments);
-      this._start();
+      if (!_pixLiveUtilsLodashCustom['default'].isInteger(this.get('challenge.timer'))) {
+        this._start();
+      }
     },
 
     hasUserConfirmWarning: _ember['default'].computed('challenge', function () {
@@ -435,6 +437,7 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-l
       }),
 
       setUserConfirmation: (0, _pixLiveUtilsCallOnlyOnce['default'])(function () {
+        this._start();
         this.toggleProperty('hasUserConfirmWarning');
         this.toggleProperty('hasChallengeTimer');
       })
@@ -4950,6 +4953,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.6.0+d1e09e64"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.6.0+8d7f82a3"});
 }
 //# sourceMappingURL=pix-live.map
