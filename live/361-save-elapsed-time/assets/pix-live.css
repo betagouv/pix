@@ -713,7 +713,9 @@ button.routable-modal--close:active {
       font-size: 16px; } }
 
 .comparison-window {
-  padding: 0 15px; }
+  padding: 0 15px;
+  max-width: 900px;
+  margin: auto; }
   @media (min-width: 992px) {
     .comparison-window {
       padding: 0; } }
@@ -1453,6 +1455,10 @@ button.routable-modal--close:active {
   position: relative;
   bottom: 3px; }
 
+.challenge-response__proposal-input {
+  margin-bottom: 10px;
+  margin-top: 10px; }
+
 .result-item {
   width: auto;
   height: 80px;
@@ -1802,7 +1808,9 @@ button.routable-modal--close:active {
     padding-top: 3px; }
 
 .comparison-window {
-  padding: 0 15px; }
+  padding: 0 15px;
+  max-width: 900px;
+  margin: auto; }
   @media (min-width: 992px) {
     .comparison-window {
       padding: 0; } }
@@ -1949,6 +1957,44 @@ button.routable-modal--close:active {
   margin-left: 7px;
   position: relative;
   bottom: 3px; }
+
+.correction-qrocm {
+  padding: 10px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row; }
+
+.correction-qrocm__label {
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 16px;
+  color: #3e4149; }
+
+.correction-qrocm__answer-solution {
+  margin-left: 10px; }
+
+.correction-qrocm__answer-input {
+  height: 26px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+  border: solid 1px #d8d8d8;
+  padding: 8px 8px 12px 10px; }
+
+.correction-qrocm__solution {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-top: 4px; }
+
+.correction-qrocm__solution-text {
+  font-family: "Lato", Arial, sans-serif;
+  font-weight: bold;
+  color: #13c9a0;
+  font-size: 16px;
+  margin-left: 3px;
+  padding-bottom: 1px; }
 
 .qcm-panel__proposals {
   margin: 0 0 15px;
