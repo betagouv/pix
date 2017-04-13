@@ -33,7 +33,7 @@
     "node-mailjet": "^3.0.6",
     "path": "0.12.7",
     "pg": "6.1.2",
-    "sqlite3": "3.1.8",
+    "sqlite3": "^3.1.8",
     "vision": "4.1.1"
   },
   "devDependencies": {
