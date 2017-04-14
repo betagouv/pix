@@ -9,10 +9,10 @@ export default Ember.Route.extend({
     signup(user){
       user.save()
         .then((success) => {
-          console.log(success)
+          Ember.Logger.info(success);
         })
         .catch((err) => {
-          console.log('error')
+          Ember.Logger.info('error', err);
         });
     }
   }
