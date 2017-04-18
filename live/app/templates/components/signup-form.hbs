@@ -17,9 +17,11 @@
   </div>
 
   <div class="signup-form__cgu-container">
-    J'​accepte les<a href="" class="signup__cgu-link">conditions d'​utilisation de Pix</a>
+    J'​accepte les {{#link-to '/' class="signup__cgu-link"}}conditions d'​utilisation de Pix{{/link-to}}
   </div>
+
   <div class="signup-form__submit-container">
-    <button class="signup__submit-button">Je m'inscris</button>
+    <button class="signup__submit-button" {{action "signup"}}>Je m'inscris</button>
   </div>
+
 </form>
