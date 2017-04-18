@@ -35,6 +35,7 @@ server.register([
   require('inert'),
   require('vision'),
   require('blipp'),
+  require('inject-then'),
   {
     register: HapiSwagger,
     options: {
