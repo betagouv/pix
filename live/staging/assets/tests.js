@@ -1982,24 +1982,6 @@ define('pix-live/tests/components/app-footer.lint-test', ['exports'], function (
     });
   });
 });
-define('pix-live/tests/components/app-header.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - components/app-header.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/components/app-menu.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - components/app-menu.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/components/beta-logo.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -3004,67 +2986,6 @@ define('pix-live/tests/initializers/router.lint-test', ['exports'], function (ex
     });
   });
 });
-define('pix-live/tests/integration/components/app-menu-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
-
-  (0, _mocha.describe)('Integration | Component | app menu', function () {
-    (0, _emberMocha.setupComponentTest)('app-menu', {
-      integration: true
-    });
-
-    function addItemsToMenu(component, items) {
-      component.set('items', items);
-    }
-
-    function renderAppMenu(component) {
-      component.render(Ember.HTMLBars.template({
-        'id': 'tTxNlhg2',
-        'block': '{"statements":[["append",["helper",["app-menu"],[["get",["items"]]],null],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-        'meta': {}
-      }));
-    }
-
-    (0, _mocha.describe)('Test render menu item or not according to item', function () {
-      (0, _mocha.it)('Should not component App-menu with no item', function () {
-        //Given
-        addItemsToMenu(this, []);
-        //When
-        renderAppMenu(this);
-        //then
-        (0, _chai.expect)(this.$('.app-menu__item > a').text()).to.be.empty;
-      });
-
-      (0, _mocha.it)('Should render component App-menu with one or multiple items', function () {
-        //Given
-        addItemsToMenu(this, [{
-          title: 'projet',
-          href: '/projet'
-        }, {
-          title: 'menu2',
-          href: '/about'
-        }]);
-        //When
-        renderAppMenu(this);
-
-        //then
-        var itemsLength = this.$().find('.app-menu__item').get('length');
-        (0, _chai.expect)(itemsLength).to.equal(2);
-
-        var firstItem = this.$().find('.app-menu__item > a').eq(0);
-        (0, _chai.expect)(firstItem.text().trim()).to.equal('projet');
-        (0, _chai.expect)(firstItem.prop('href')).to.contain('/projet');
-      });
-    });
-  });
-});
-define('pix-live/tests/integration/components/app-menu-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - integration/components/app-menu-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/challenge-statement-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | ChallengeStatement', function () {
@@ -3079,8 +3000,8 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['expor
 
     function renderChallengeStatement(component) {
       component.render(_ember['default'].HTMLBars.template({
-        'id': 'isQK168f',
-        'block': '{"statements":[["append",["helper",["challenge-statement"],[["get",["challenge"]]],null],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'id': 'Y14jYUP9',
+        'block': '{"statements":[["append",["helper",["challenge-statement"],null,[["challenge"],[["get",["challenge"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
         'meta': {}
       }));
     }
@@ -3358,8 +3279,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['exports
       (0, _mocha.it)('renders', function () {
         // when
         this.render(_ember['default'].HTMLBars.template({
-          'id': '5+mLThjy',
-          'block': '{"statements":[["append",["helper",["comparison-window"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]],null],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'HzwL0O/u',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["answer","challenge","solution","index"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
         // then
@@ -3369,8 +3290,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['exports
       (0, _mocha.it)('should render challenge result in the header', function () {
         // when
         this.render(_ember['default'].HTMLBars.template({
-          'id': '5+mLThjy',
-          'block': '{"statements":[["append",["helper",["comparison-window"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]],null],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'HzwL0O/u',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["answer","challenge","solution","index"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
         // then
@@ -3380,8 +3301,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['exports
       (0, _mocha.it)('should render challenge instruction', function () {
         // when
         this.render(_ember['default'].HTMLBars.template({
-          'id': '5+mLThjy',
-          'block': '{"statements":[["append",["helper",["comparison-window"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]],null],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'HzwL0O/u',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["answer","challenge","solution","index"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
         // then
@@ -3391,8 +3312,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['exports
       (0, _mocha.it)('should not render corrected answers when challenge has no type', function () {
         // when
         this.render(_ember['default'].HTMLBars.template({
-          'id': '5+mLThjy',
-          'block': '{"statements":[["append",["helper",["comparison-window"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]],null],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'HzwL0O/u',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["answer","challenge","solution","index"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
         // then
@@ -3405,8 +3326,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['exports
         this.set('challenge', challenge);
         // when
         this.render(_ember['default'].HTMLBars.template({
-          'id': '5+mLThjy',
-          'block': '{"statements":[["append",["helper",["comparison-window"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]],null],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'HzwL0O/u',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["answer","challenge","solution","index"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
         // then
@@ -3421,8 +3342,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['exports
         this.set('solution', solution);
         // when
         this.render(_ember['default'].HTMLBars.template({
-          'id': '5+mLThjy',
-          'block': '{"statements":[["append",["helper",["comparison-window"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]],null],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'HzwL0O/u',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["answer","challenge","solution","index"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
         // then
@@ -3435,8 +3356,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['exports
         this.set('challenge', challenge);
         // when
         this.render(_ember['default'].HTMLBars.template({
-          'id': '5+mLThjy',
-          'block': '{"statements":[["append",["helper",["comparison-window"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]],null],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'HzwL0O/u',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["answer","challenge","solution","index"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
         // then
@@ -3446,8 +3367,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['exports
       (0, _mocha.it)('should render a feedback panel', function () {
         //when
         this.render(_ember['default'].HTMLBars.template({
-          'id': '5+mLThjy',
-          'block': '{"statements":[["append",["helper",["comparison-window"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]],null],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'HzwL0O/u',
+          'block': '{"statements":[["append",["helper",["comparison-window"],null,[["answer","challenge","solution","index"],[["get",["answer"]],["get",["challenge"]],["get",["solution"]],["get",["index"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
         //then
