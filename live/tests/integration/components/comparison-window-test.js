@@ -79,7 +79,7 @@ describe('Integration | Component | comparison-window', function () {
       this.set('challenge', challenge);
       this.set('solution', solution);
       // when
-      this.render(hbs`{{comparison-window answer challenge solution index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       // then
       expect(this.$('.comparison-window__corrected-answers--qrocm')).to.have.length(1);
     });
