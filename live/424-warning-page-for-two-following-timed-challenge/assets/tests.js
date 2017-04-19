@@ -1435,108 +1435,49 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['exports', 'moch
         (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(1);
       });
     });
+
+    (0, _mocha.describe)('h2-Affichage de la page warning pour 2 epreuves timées du même types (suite au bug US-424)', function () {
+
+      var ASSESSMENT_WITH_TWO_TIMED_CHALLENGE = '/assessments/ref_timed_challenge_assessment_id/challenges/ref_timed_challenge_id';
+      var PASS_BUTTON = '.challenge-actions__action-skip';
+
+      (0, _mocha.it)('doit afficher la \'warning page\' même si deux epreuves du même type et timées s\'enchaînent', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              context$3$0.next = 2;
+              return regeneratorRuntime.awrap(visit(ASSESSMENT_WITH_TWO_TIMED_CHALLENGE));
+
+            case 2:
+              context$3$0.next = 4;
+              return regeneratorRuntime.awrap(click(CHALLENGE_ITEM_WARNING_BUTTON));
+
+            case 4:
+              context$3$0.next = 6;
+              return regeneratorRuntime.awrap(click(PASS_BUTTON));
+
+            case 6:
+
+              // then
+              (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(1);
+
+            case 7:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+    });
   });
 });
+
+// given
+
+// when
 define('pix-live/tests/acceptance/h2-page-warning-timee-test.lint-test', ['exports'], function (exports) {
   'use strict';
 
   describe('ESLint - acceptance/h2-page-warning-timee-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/acceptance/i1-page-warning-timee-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
-
-  var TIMED_CHALLENGE_URL = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
-  var NOT_TIMED_CHALLENGE_URL = '/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id';
-  var CHALLENGE_ITEM_WARNING_BUTTON = '.challenge-item-warning button';
-
-  (0, _mocha.describe)('Acceptance | I1 - Warning prochaine page timée  | ', function () {
-
-    var application = undefined;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _pixLiveTestsHelpersStartApp['default'])();
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
-    });
-
-    (0, _mocha.describe)('i1- Test affichage ou non de la page avec le warning', function () {
-
-      (0, _mocha.beforeEach)(function () {
-        visit(TIMED_CHALLENGE_URL);
-      });
-
-      //XXX: Deux cas car on test aussi une absence d'affichage
-      (0, _mocha.it)('i1.1- doit cacher le contenu du challenge si l\'épreuve est timée mais l\'afficher dans le cas contraire ', function callee$2$0() {
-        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
-          while (1) switch (context$3$0.prev = context$3$0.next) {
-            case 0:
-              (0, _chai.expect)($('.challenge-statement')).to.have.lengthOf(0);
-              context$3$0.next = 3;
-              return regeneratorRuntime.awrap(visit(NOT_TIMED_CHALLENGE_URL));
-
-            case 3:
-              (0, _chai.expect)($('.challenge-statement')).to.have.lengthOf(1);
-
-            case 4:
-            case 'end':
-              return context$3$0.stop();
-          }
-        }, null, this);
-      });
-
-      (0, _mocha.it)('i1.2- doit afficher le warning si l\'épreuve est timée mais ne pas l\'afficher dans le cas contraire ', function callee$2$0() {
-        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
-          while (1) switch (context$3$0.prev = context$3$0.next) {
-            case 0:
-              (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(1);
-              context$3$0.next = 3;
-              return regeneratorRuntime.awrap(visit(NOT_TIMED_CHALLENGE_URL));
-
-            case 3:
-              (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(0);
-
-            case 4:
-            case 'end':
-              return context$3$0.stop();
-          }
-        }, null, this);
-      });
-
-      (0, _mocha.it)('i1.3- vérifier que le timer n\'est pas démarré automatiquement lorsque l\'épreuve est timée', function () {
-        (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(0);
-      });
-    });
-
-    (0, _mocha.describe)('i2-Test comportement lorsque le bouton de confirmation est cliqué', function () {
-
-      (0, _mocha.beforeEach)(function () {
-        visit(TIMED_CHALLENGE_URL);
-        click(CHALLENGE_ITEM_WARNING_BUTTON);
-      });
-
-      (0, _mocha.it)('i2.1- vérifier que le warning est caché ', function () {
-        (0, _chai.expect)($(CHALLENGE_ITEM_WARNING_BUTTON)).to.have.lengthOf(0);
-      });
-
-      (0, _mocha.it)('i2.2- vérifier que le contenu de l\'épreuve est affiché', function () {
-        (0, _chai.expect)($('.challenge-statement').css('display')).to.contains('block');
-      });
-
-      (0, _mocha.it)('i2.3- vérifier que le timer est démarré ', function () {
-        (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(1);
-      });
-    });
-  });
-});
-define('pix-live/tests/acceptance/i1-page-warning-timee-test.lint-test', ['exports'], function (exports) {
-  'use strict';
-
-  describe('ESLint - acceptance/i1-page-warning-timee-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
