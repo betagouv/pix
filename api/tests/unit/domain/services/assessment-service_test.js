@@ -307,6 +307,7 @@ describe('Unit | Domain | Services | assessment-service', function () {
 
     const assessment = new Assessment({ id: 'assessment_id' });
 
+    const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'ok');
     const correctAnswerWeb2 = _buildAnswer('challenge_web_2', 'ok');
     const partialAnswerWeb1 = _buildAnswer('challenge_web_1', 'partial');
     const incorrectAnswerUrl1 = _buildAnswer('challenge_url_1', 'ko');
@@ -335,6 +336,14 @@ describe('Unit | Domain | Services | assessment-service', function () {
         score: 16,
         level: 2,
         acquired: [ '@web2', '@web1', '@url1' ],
+        notAcquired: []
+      },
+      {
+        answers: [ correctAnswerWeb1, correctAnswerWeb2 ],
+        title: 'web1 correct, web2 correct',
+        score: 12,
+        level: 1,
+        acquired: [ '@web1', '@web2' ],
         notAcquired: []
       }
     ]

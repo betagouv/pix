@@ -47,9 +47,8 @@ function _evaluateAcquiredKnowledgeTagsByLevel(acquiredKnowledgeTags) {
 
 function getPerformanceStats(answers, knowledgeData) {
 
-  const acquiredKnowledgeTags = [];
-  const notAcquiredKnowledgeTags = [];
   const performanceHistory = [];
+  const isAcquired = {};
 
   _.forEach(answers, answer => {
     const challenge = knowledgeData.challengesById[ answer.get('challengeId') ];
@@ -60,16 +59,26 @@ function getPerformanceStats(answers, knowledgeData) {
 
       if (answer.get('result') === 'ok') {
         const listOfAcquiredKnowledgeTags = propagateKnowledge(knowledgeData.knowledgeTagSet, mainKnowledgeTag, -1);
-        acquiredKnowledgeTags.push(...listOfAcquiredKnowledgeTags);
+        listOfAcquiredKnowledgeTags.forEach(knowledgeTag => isAcquired[knowledgeTag] = true);
       } else {
         const listOfUnknownKnowledgeTags = propagateKnowledge(knowledgeData.knowledgeTagSet, mainKnowledgeTag, 1);
-        notAcquiredKnowledgeTags.push(...listOfUnknownKnowledgeTags);
+        listOfUnknownKnowledgeTags.forEach(knowledgeTag => isAcquired[knowledgeTag] = false);
       }
 
       const performanceRecord = _createPerformanceRecord(challenge, answer);
       performanceHistory.push(performanceRecord);
     }
   });
+
+  const acquiredKnowledgeTags = [];
+  const notAcquiredKnowledgeTags = [];
+  for(const knowledgeTag in isAcquired) {
+    if(isAcquired[knowledgeTag]) {
+      acquiredKnowledgeTags.push(knowledgeTag);
+    } else {
+      notAcquiredKnowledgeTags.push(knowledgeTag);
+    }
+  }
 
   const nbAcquiredKnowledgeTagsByLevel = _evaluateAcquiredKnowledgeTagsByLevel(acquiredKnowledgeTags);
 
