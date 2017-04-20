@@ -1,4 +1,4 @@
-const { describe, it, expect, sinon } = require('../../../test-helper');
+const { describe, it, expect } = require('../../../test-helper');
 
 const pathToSource = '../../../..';
 
@@ -291,7 +291,7 @@ describe('Unit | Domain | Service | scoring', function () {
         nbKnowledgeTagsByLevel: { 1: 2, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }
       };
 
-      let testCases = [
+      const testCases = [
         {
           performanceStats: {
             nbAcquiredKnowledgeTagsByLevel: {

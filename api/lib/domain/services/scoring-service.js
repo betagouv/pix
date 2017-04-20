@@ -25,7 +25,7 @@ function propagateKnowledge(knowledgeList, startNode, direction) {
 
 function _createPerformanceRecord(challenge, answer) {
   const knowledgeTags = challenge.knowledgeTags;
-  const mainKnowledgeTag = knowledgeTags[ 0 ];
+  const mainKnowledgeTag = knowledgeTags[0];
   const difficulty = _getDifficultyOfKnowledge(mainKnowledgeTag);
 
   const outcome = (answer.get('result') === 'ok') ? OUTCOME_FROM_A_CORRECT_ANSWER : OUTCOME_FROM_A_WRONG_ANSWER;
@@ -35,11 +35,11 @@ function _createPerformanceRecord(challenge, answer) {
 
 function _evaluateAcquiredKnowledgeTagsByLevel(acquiredKnowledgeTags) {
   const nbAcquiredKnowledgeTagsByLevel = {};
-  [ 1, 2, 3, 4, 5, 6, 7, 8 ].forEach(level => nbAcquiredKnowledgeTagsByLevel[ level ] = 0);
+  [1, 2, 3, 4, 5, 6, 7, 8].forEach(level => nbAcquiredKnowledgeTagsByLevel[level] = 0);
 
   acquiredKnowledgeTags.forEach(knowledgeTag => {
     const difficulty = _getDifficultyOfKnowledge(knowledgeTag);
-    nbAcquiredKnowledgeTagsByLevel[ difficulty ]++;
+    nbAcquiredKnowledgeTagsByLevel[difficulty]++;
   });
 
   return nbAcquiredKnowledgeTagsByLevel;
@@ -51,11 +51,11 @@ function getPerformanceStats(answers, knowledgeData) {
   const isAcquired = {};
 
   _.forEach(answers, answer => {
-    const challenge = knowledgeData.challengesById[ answer.get('challengeId') ];
+    const challenge = knowledgeData.challengesById[answer.get('challengeId')];
     if (challenge) {
 
       const knowledgeTags = challenge.knowledgeTags;
-      const mainKnowledgeTag = knowledgeTags[ 0 ];
+      const mainKnowledgeTag = knowledgeTags[0];
 
       if (answer.get('result') === 'ok') {
         const listOfAcquiredKnowledgeTags = propagateKnowledge(knowledgeData.knowledgeTagSet, mainKnowledgeTag, -1);
@@ -72,13 +72,14 @@ function getPerformanceStats(answers, knowledgeData) {
 
   const acquiredKnowledgeTags = [];
   const notAcquiredKnowledgeTags = [];
-  for(const knowledgeTag in isAcquired) {
-    if(isAcquired[knowledgeTag]) {
+
+  _.forOwn(isAcquired, (value, knowledgeTag) => {
+    if (value) {
       acquiredKnowledgeTags.push(knowledgeTag);
     } else {
       notAcquiredKnowledgeTags.push(knowledgeTag);
     }
-  }
+  });
 
   const nbAcquiredKnowledgeTagsByLevel = _evaluateAcquiredKnowledgeTagsByLevel(acquiredKnowledgeTags);
 
@@ -96,21 +97,21 @@ function _add(a, b) {
 
 function computeDiagnosis(performanceStats, knowledgeData) {
 
-  const firstFiveLevels = [ 1, 2, 3, 4, 5 ];
+  const firstFiveLevels = [1, 2, 3, 4, 5];
   let pixScore = 0;
 
   firstFiveLevels.forEach(level => {
-    if (knowledgeData.nbKnowledgeTagsByLevel[ level ] > 0) {
-      pixScore += performanceStats.nbAcquiredKnowledgeTagsByLevel[ level ] * 8 / knowledgeData.nbKnowledgeTagsByLevel[ level ];
+    if (knowledgeData.nbKnowledgeTagsByLevel[level] > 0) {
+      pixScore += performanceStats.nbAcquiredKnowledgeTagsByLevel[level] * 8 / knowledgeData.nbKnowledgeTagsByLevel[level];
     }
   });
 
   pixScore = Math.floor(pixScore);
 
-  const nbAcquiredKnowledgeTags = firstFiveLevels.map(level => performanceStats.nbAcquiredKnowledgeTagsByLevel[ level ]).reduce(_add);
-  const nbKnowledgeTags = firstFiveLevels.map(level => knowledgeData.nbKnowledgeTagsByLevel[ level ]).reduce(_add);
+  const nbAcquiredKnowledgeTags = firstFiveLevels.map(level => performanceStats.nbAcquiredKnowledgeTagsByLevel[level]).reduce(_add);
+  const nbKnowledgeTags = firstFiveLevels.map(level => knowledgeData.nbKnowledgeTagsByLevel[level]).reduce(_add);
 
-  const highestLevel = Math.max(...firstFiveLevels.filter(level => knowledgeData.nbKnowledgeTagsByLevel[ level ] > 0));
+  const highestLevel = Math.max(...firstFiveLevels.filter(level => knowledgeData.nbKnowledgeTagsByLevel[level] > 0));
   const estimatedLevel = Math.floor(nbAcquiredKnowledgeTags * highestLevel / nbKnowledgeTags);
 
   return {
@@ -120,11 +121,8 @@ function computeDiagnosis(performanceStats, knowledgeData) {
 }
 
 module.exports = {
-
   nextNode,
   propagateKnowledge,
-
   getPerformanceStats,
   computeDiagnosis
-
 };
