@@ -4619,6 +4619,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.1+7e1c3f27"});
+  require("pix-live/app")["default"].create({"API_HOST":"","name":"pix-live","version":"1.5.1+9b54c29f"});
 }
 //# sourceMappingURL=pix-live.map
