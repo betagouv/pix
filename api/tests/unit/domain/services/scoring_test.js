@@ -152,7 +152,7 @@ describe('Unit | Domain | Service | scoring', function () {
       });
 
       // TODO Dans ce cas, le tableau contient un état instable (J'ai appris ET je n'ai pas appris)
-      it('should contains every related knowledge tags', () => {
+      it('should contain every related knowledge tags', () => {
         // Given
         const wrongAnswerWeb1 = _buildAnswer('challenge_web_1', 'ko');
         const correctAnswerWeb2 = _buildAnswer('challenge_web_2', 'ok');
@@ -161,8 +161,8 @@ describe('Unit | Domain | Service | scoring', function () {
         const result = scoring.getPerformanceStats([ wrongAnswerWeb1, correctAnswerWeb2 ], knowledgeData);
 
         // Then
-        expect(result.acquiredKnowledgeTags).to.deep.equal([ '@web2', '@web1' ]);
-        expect(result.notAcquiredKnowledgeTags).to.deep.equal([ '@web1', '@web2' ]);
+        expect(result.acquiredKnowledgeTags).to.deep.equal([ '@web1', '@web2' ]);
+        expect(result.notAcquiredKnowledgeTags).to.deep.equal([]);
       });
 
       it('should have every knowledge tags when level is not acquired', () => {
