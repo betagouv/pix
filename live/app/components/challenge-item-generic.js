@@ -3,13 +3,14 @@ import callOnlyOnce from '../utils/call-only-once';
 import _ from 'pix-live/utils/lodash-custom';
 import ENV from 'pix-live/config/environment';
 
-const get = Ember.get;
 let warningConfirmationSent = false;
 
 const ChallengeItemGeneric = Ember.Component.extend({
+
   tagName: 'article',
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
+
   _elapsedTime: null,
   _timer: null,
 
@@ -20,11 +21,17 @@ const ChallengeItemGeneric = Ember.Component.extend({
     }
   },
 
-  didUpdateAttrs(){
+  didUpdateAttrs() {
     if (!warningConfirmationSent) {
       this.set('hasUserConfirmWarning', false);
       this.set('hasChallengeTimer', this.hasTimerDefined());
     }
+  },
+
+  willDestroyElement() {
+    this._super(...arguments);
+    const timer = this.get('_timer');
+    Ember.run.cancel(timer);
   },
 
   hasUserConfirmWarning: Ember.computed('challenge', function () {
@@ -36,7 +43,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
   }),
 
   hasTimerDefined(){
-    return _.isInteger(get(this, 'challenge.timer'));
+    return _.isInteger(this.get('challenge.timer'));
   },
 
   _getTimeout() {
@@ -65,13 +72,6 @@ const ChallengeItemGeneric = Ember.Component.extend({
     }
   },
 
-  willDestroyElement(){
-    this._super(...arguments);
-    const timer = this.get('_timer');
-    Ember.run.cancel(timer);
-
-  },
-
   actions: {
 
     validate: callOnlyOnce(function () {
@@ -88,7 +88,6 @@ const ChallengeItemGeneric = Ember.Component.extend({
       this.set('errorMessage', null);
       this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout(), this._getElapsedTime());
       warningConfirmationSent = false;
-
     }),
 
     setUserConfirmation() {
@@ -96,7 +95,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
       this.toggleProperty('hasUserConfirmWarning');
       this.toggleProperty('hasChallengeTimer');
       warningConfirmationSent = true;
-    },
+    }
   }
 
 });
