@@ -39,3 +39,7 @@
     {{challenge-actions skip="skip" validate="validate"}}
   {{/if}}
 {{/unless}}
+
+{{#if canDisplayFeedbackPanel}}
+  {{feedback-panel assessment=assessment challenge=challenge}}
+{{/if}}
