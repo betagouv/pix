@@ -790,6 +790,10 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['exports', '
         return (0, _chai.expect)(currentURL()).to.equal('/');
       });
     });
+
+    (0, _mocha.it)('b7.7 Il est possible de signaler l\'épreuve via le formulaire de Feedback', function () {
+      (0, _chai.expect)($('.feedback-panel')).to.have.lengthOf(1);
+    });
   });
 });
 define('pix-live/tests/acceptance/b7-epreuve-points-communs-test.lint-test', ['exports'], function (exports) {
@@ -1414,6 +1418,10 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['exports', 'moch
       (0, _mocha.it)('h2.3- vérifier que le timer n\'est pas démarré automatiquement lorsque l\'épreuve est timée', function () {
         (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(0);
       });
+
+      (0, _mocha.it)('h2.4 le formulaire de signalement n\'est pas affiché pour une épreuve chronométrée tant que l\'usager n\'a pas confirmé être prêt pour l\'épreuve', function () {
+        (0, _chai.expect)($('.feedback-panel')).to.have.lengthOf(0);
+      });
     });
 
     (0, _mocha.describe)('h2-Test comportement lorsque le bouton de confirmation est cliqué', function () {
@@ -1433,6 +1441,10 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['exports', 'moch
 
       (0, _mocha.it)('h2.3- vérifier que le timer est démarré ', function () {
         (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('h2.4 le formulaire de signalement est affiché', function () {
+        (0, _chai.expect)($('.feedback-panel')).to.have.lengthOf(1);
       });
     });
 
