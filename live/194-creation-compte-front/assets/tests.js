@@ -5434,7 +5434,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
   var SUBMIT_BUTTON = '.signup__submit-button';
   var SUBMIT_BUTTON_CONTENT = 'Je m\'inscris';
 
-  _mocha.describe.only('Integration | Component | signup form', function () {
+  (0, _mocha.describe)('Integration | Component | signup form', function () {
     (0, _emberMocha.setupComponentTest)('signup-form', {
       integration: true
     });
@@ -5550,29 +5550,91 @@ define('pix-live/tests/integration/components/signup-form-test.lint-test', ['exp
     });
   });
 });
-define('pix-live/tests/integration/components/signup-textfield-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/signup-textfield-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (exports, _chai, _mocha, _emberMocha, _emberTestHelpersWait) {
 
-  (0, _mocha.describe)('Integration | Component | signup textfield', function () {
+  _mocha.describe.only('Integration | Component | signup textfield', function () {
     (0, _emberMocha.setupComponentTest)('signup-textfield', {
       integration: true
     });
 
-    (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#signup-textfield}}
-      //     template content
-      //   {{/signup-textfield}}
-      // `);
+    var LABEL = '.signup-textfield__label';
+    var LABEL_TEXT = 'NOM';
+    var MESSAGE = '.signup-textfield__message';
+    var MESSAGE_TEXT = '';
+    var INPUT = '.signup-textfield__input';
 
-      this.render(Ember.HTMLBars.template({
-        'id': 'Rr4luCHk',
-        'block': '{"statements":[["append",["unknown",["signup-textfield"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-        'meta': {}
-      }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+    (0, _mocha.describe)('#Component rendering', function () {
+      beforeEach(function () {
+        this.set('label', 'nom');
+        this.set('message', '');
+        this.set('status', '');
+        this.set('textfieldId', 'firstname');
+
+        // When
+        this.render(Ember.HTMLBars.template({
+          'id': 'V7dVJEjN',
+          'block': '{"statements":[["append",["helper",["signup-textfield"],null,[["label","message","status","textfieldId"],[["get",["label"]],["get",["message"]],["get",["status"]],["get",["textfieldId"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+      });
+
+      [{ expectedRendering: 'label', item: LABEL, expectedLength: 1 }, { expectedRendering: 'div', item: MESSAGE, expectedLength: 1 }, { expectedRendering: 'input', item: INPUT, expectedLength: 1 }, { expectedRendering: 'div', item: '', expectedLength: 1 }].forEach(function (_ref) {
+        var expectedRendering = _ref.expectedRendering;
+        var item = _ref.item;
+        var expectedLength = _ref.expectedLength;
+
+        (0, _mocha.it)('Should render a ' + expectedRendering, function () {
+          // Then
+          (0, _chai.expect)(this.$(item)).to.have.length(expectedLength);
+          (0, _chai.expect)(this.$(item).prop('nodeName')).to.equal(expectedRendering.toUpperCase());
+        });
+      });
+
+      [{ item: LABEL, expectedRendering: 'label', expectedText: LABEL_TEXT }, { item: MESSAGE, expectedRendering: 'div.message', expectedText: MESSAGE_TEXT }].forEach(function (_ref2) {
+        var item = _ref2.item;
+        var expectedRendering = _ref2.expectedRendering;
+        var expectedText = _ref2.expectedText;
+
+        (0, _mocha.it)('Should render a ' + expectedRendering, function () {
+          // Then
+          (0, _chai.expect)(this.$(item).text().toUpperCase()).to.equal(expectedText);
+        });
+      });
+    });
+
+    //behavior
+    (0, _mocha.describe)('#Component Interactions', function () {
+
+      (0, _mocha.it)('should handle action <validate> when input lost focus', function () {
+        // given
+        var isActionValidateHandled = false;
+        var inputValueToValidate = undefined;
+        var expectedInputValue = 'pix';
+
+        this.on('validate', function (arg) {
+          isActionValidateHandled = true;
+          inputValueToValidate = arg;
+        });
+
+        this.set('label', 'nom');
+        this.set('message', '');
+        this.set('status', '');
+        this.set('textfieldId', 'firstname');
+
+        this.render(Ember.HTMLBars.template({
+          'id': 'WqBD/NUN',
+          'block': '{"statements":[["append",["helper",["signup-textfield"],null,[["label","message","status","textfieldId","validate"],[["get",["label"]],["get",["message"]],["get",["status"]],["get",["textfieldId"]],"validate"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        // when
+        this.$(INPUT).val('pix');
+        this.$(INPUT).trigger('focusout');
+        // then
+        return (0, _emberTestHelpersWait['default'])().then(function () {
+          (0, _chai.expect)(isActionValidateHandled).to.be['true'];
+          (0, _chai.expect)(inputValueToValidate).to.equal(expectedInputValue);
+        });
+      });
     });
   });
 });
