@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | b7 - Points communs a toutes les épreuves | ', function () {
+describe.only('Acceptance | b7 - Points communs a toutes les épreuves | ', function () {
 
   let application;
 
@@ -57,5 +57,9 @@ describe('Acceptance | b7 - Points communs a toutes les épreuves | ', function 
 
     // then
     andThen(() => expect(currentURL()).to.equal('/'));
+  });
+
+  it('b7.7 Il est possible de signaler l\'épreuve via le formulaire de Feedback', () => {
+    expect($('.feedback-panel')).to.have.lengthOf(1);
   });
 });
