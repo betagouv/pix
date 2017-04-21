@@ -8,6 +8,7 @@ const FORM_SUBMITTED = 'FORM_SUBMITTED';
 export default Ember.Component.extend({
 
   store: Ember.inject.service(),
+  classNames: ['feedback-panel'],
 
   assessment: null,
   challenge: null,
