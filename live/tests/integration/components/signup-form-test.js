@@ -19,7 +19,7 @@ const SUBMIT_BUTTON = '.signup__submit-button';
 const SUBMIT_BUTTON_CONTENT = 'Je m\'inscris';
 
 
-describe.only('Integration | Component | signup form', function () {
+describe('Integration | Component | signup form', function () {
   setupComponentTest('signup-form', {
     integration: true
   });

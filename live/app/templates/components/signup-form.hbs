@@ -1,7 +1,7 @@
 <form class="signup-form-container">
 
   <div class="signup-form__input-container">
-    {{signup-textfield}}
+    {{signup-textfield validate="validate" label="firstname" message="" status="" textfieldId="firstname"}}
   </div>
 
   <div class="signup-form__input-container">
@@ -17,7 +17,7 @@
   </div>
 
   <div class="signup-form__cgu-container">
-    J'​accepte les {{#link-to '/' class="signup__cgu-link"}}conditions d'​utilisation de Pix{{/link-to}}
+    J'​accepte les {{#link-to 'inscription' class="signup__cgu-link"}}conditions d'​utilisation de Pix{{/link-to}}
   </div>
 
   <div class="signup-form__submit-container">

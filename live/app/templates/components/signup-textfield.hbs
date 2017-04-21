@@ -1,1 +1,9 @@
-<input type="text" class="">
+<label for="{{textfieldId}}" class="signup-textfield__label">{{label}}</label>
+
+<div class="signup-textfield__message">{{message}}</div>
+
+{{input type="text"
+        class='signup-textfield__input'
+        id=textfieldId
+        value=textfield
+        focus-out=(action 'validate')}}
