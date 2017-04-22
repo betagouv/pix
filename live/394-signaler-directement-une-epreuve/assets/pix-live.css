@@ -484,6 +484,10 @@ button.routable-modal--close:active {
   left: -11px;
   top: 3px; }
 
+.challenge-item__feedback {
+  border-top: solid 1px #d8d8d8;
+  padding: 20px 0; }
+
 .challenge-response {
   font-size: 17px; }
 
@@ -956,7 +960,9 @@ button.routable-modal--close:active {
 .feedback-panel__open-link {
   cursor: pointer;
   color: inherit;
-  font-weight: 600; }
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 20px; }
 
 .feedback-panel__open-link:hover,
 .feedback-panel__open-link:focus,
@@ -968,7 +974,8 @@ button.routable-modal--close:active {
 .feedback-panel__form-title {
   font-size: 15px;
   font-weight: 900;
-  margin: 0 0 20px; }
+  margin: 0 0 20px;
+  line-height: 20px; }
 
 .feedback-panel__form-description {
   margin-bottom: 20px; }
