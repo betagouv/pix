@@ -40,5 +40,7 @@
 {{/unless}}
 
 {{#if canDisplayFeedbackPanel}}
-  {{feedback-panel assessment=assessment challenge=challenge}}
+  <div class="challenge-item__feedback">
+    {{feedback-panel assessment=assessment challenge=challenge}}
+  </div>
 {{/if}}
