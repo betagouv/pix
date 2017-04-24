@@ -21,6 +21,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
   },
 
   didUpdateAttrs() {
+    this._super(...arguments);
     if (!this.get('_hasUserAknowledgedTimingWarning')) {
       this.set('hasUserConfirmWarning', false);
       this.set('hasChallengeTimer', this.hasTimerDefined());

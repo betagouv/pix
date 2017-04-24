@@ -8,18 +8,31 @@ const FORM_SUBMITTED = 'FORM_SUBMITTED';
 export default Ember.Component.extend({
 
   store: Ember.inject.service(),
+
   classNames: ['feedback-panel'],
 
   assessment: null,
   challenge: null,
 
-  _email: '',
-  _content: '',
-  _error: null,
   _status: FORM_CLOSED,
+  _email: null,
+  _content: null,
+  _error: null,
 
   isFormClosed: Ember.computed.equal('_status', FORM_CLOSED),
   isFormOpened: Ember.computed.equal('_status', FORM_OPENED),
+
+  didUpdateAttrs() {
+    this._super(...arguments);
+    this.reset();
+  },
+
+  reset() {
+    this.set('_status', FORM_CLOSED);
+    this.set('_email', null);
+    this.set('_content', null);
+    this.set('_error', null);
+  },
 
   actions: {
 
@@ -54,8 +67,7 @@ export default Ember.Component.extend({
     },
 
     cancelFeedback() {
-      this.set('_error', null);
-      this.set('_status', FORM_CLOSED);
+      this.reset();
     }
   }
 });
