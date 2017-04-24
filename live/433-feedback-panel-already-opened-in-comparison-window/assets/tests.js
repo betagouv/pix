@@ -3899,8 +3899,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
 
       beforeEach(function () {
         this.render(_ember['default'].HTMLBars.template({
-          'id': '0yRHsCPC',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["_status"],["FORM_CLOSED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'DnUF9xqA',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status"],["FORM_CLOSED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
       });
@@ -3950,8 +3950,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
         this.set('assessment', assessment);
         this.set('challenge', challenge);
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'xYGVDfXL',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge","_status"],[["get",["assessment"]],["get",["challenge"]],"FORM_OPENED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'W9/zJm6v',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge","status"],[["get",["assessment"]],["get",["challenge"]],"FORM_OPENED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
 
@@ -4033,8 +4033,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
 
       beforeEach(function () {
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'GAJ65nX1',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["_status"],["FORM_SUBMITTED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'ZrAQqlp+',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status"],["FORM_SUBMITTED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
       });
@@ -4049,8 +4049,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
       (0, _mocha.it)('should display error if "content" is blank', function () {
         // given
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'x6n1nvTM',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["_status","_content"],["FORM_OPENED","   "]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': '3lG8+8Wd',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status","_content"],["FORM_OPENED","   "]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
 
@@ -4065,8 +4065,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
       (0, _mocha.it)('should display error if "email" is set but invalid', function () {
         // given
         this.render(_ember['default'].HTMLBars.template({
-          'id': '4g5Jdaz1',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["_status","_content","_email"],["FORM_OPENED","Lorem ipsum dolor sit amet","wrong_email"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': '6bsERHun',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status","_content","_email"],["FORM_OPENED","Lorem ipsum dolor sit amet","wrong_email"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
 
@@ -4080,8 +4080,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
       (0, _mocha.it)('should not display error if "form" view (with error) was closed and re-opened', function () {
         // given
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'x6n1nvTM',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["_status","_content"],["FORM_OPENED","   "]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': '3lG8+8Wd',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status","_content"],["FORM_OPENED","   "]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
         this.$(BUTTON_SEND).click();
@@ -6165,7 +6165,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
       (0, _mocha.it)('should return true if status equals "FORM_CLOSED"', function () {
         // given
         var component = this.subject();
-        component.set('_status', 'FORM_CLOSED');
+        component.set('status', 'FORM_CLOSED');
 
         // when
         var isFormClosed = component.get('isFormClosed');
@@ -6177,7 +6177,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
       (0, _mocha.it)('should return false if status is not equal to "FORM_CLOSED"', function () {
         // given
         var component = this.subject();
-        component.set('_status', 'FORM_OPENED');
+        component.set('status', 'FORM_OPENED');
 
         // when
         var isFormClosed = component.get('isFormClosed');
@@ -6192,7 +6192,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
       (0, _mocha.it)('should return true if status equals "FORM_OPENED"', function () {
         // given
         var component = this.subject();
-        component.set('_status', 'FORM_OPENED');
+        component.set('status', 'FORM_OPENED');
 
         // when
         var isFormClosed = component.get('isFormOpened');
@@ -6204,7 +6204,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
       (0, _mocha.it)('should return false if status is not equal to "FORM_OPENED"', function () {
         // given
         var component = this.subject();
-        component.set('_status', 'FORM_CLOSED');
+        component.set('status', 'FORM_CLOSED');
 
         // when
         var isFormClosed = component.get('isFormOpened');
