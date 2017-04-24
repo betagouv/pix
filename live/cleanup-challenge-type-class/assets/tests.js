@@ -2795,6 +2795,15 @@ define('pix-live/tests/helpers/extract-extension.lint-test', ['exports'], functi
     });
   });
 });
+define('pix-live/tests/helpers/get-challenge-component-class.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - helpers/get-challenge-component-class.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/helpers/inc.lint-test', ['exports'], function (exports) {
   'use strict';
 
@@ -6899,6 +6908,35 @@ define('pix-live/tests/unit/helpers/extract-extension-test.lint-test', ['exports
     });
   });
 });
+define('pix-live/tests/unit/helpers/get-challenge-component-class-test', ['exports', 'ember', 'chai', 'mocha', 'pix-live/helpers/get-challenge-component-class'], function (exports, _ember, _chai, _mocha, _pixLiveHelpersGetChallengeComponentClass) {
+
+  (0, _mocha.describe)('Unit | Helper | get challenge component class', function () {
+
+    [{ challengeType: 'QCU', expectedClass: 'challenge-item-qcu' }, { challengeType: 'QCUIMG', expectedClass: 'challenge-item-qcu' }, { challengeType: 'QRU', expectedClass: 'challenge-item-qcu' }, { challengeType: 'QCM', expectedClass: 'challenge-item-qcm' }, { challengeType: 'QCMIMG', expectedClass: 'challenge-item-qcm' }, { challengeType: 'QROC', expectedClass: 'challenge-item-qroc' }, { challengeType: 'QROCm', expectedClass: 'challenge-item-qrocm' }, { challengeType: 'QROCm-ind', expectedClass: 'challenge-item-qrocm' }, { challengeType: 'QROCm-dep', expectedClass: 'challenge-item-qrocm' }].forEach(function (useCase) {
+
+      (0, _mocha.it)('should return component class "' + useCase.expectedClass + '" when challenge type is "' + useCase.challengeType + '"', function () {
+        // given
+        var challenge = _ember['default'].Object.create({ type: useCase.challengeType });
+        var params = [challenge];
+
+        // when
+        var componentClass = (0, _pixLiveHelpersGetChallengeComponentClass.getChallengeComponentClass)(params);
+
+        // then
+        (0, _chai.expect)(componentClass).to.equal(useCase.expectedClass);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/helpers/get-challenge-component-class-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/helpers/get-challenge-component-class-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/unit/helpers/or-test', ['exports', 'chai', 'mocha', 'pix-live/helpers/or'], function (exports, _chai, _mocha, _pixLiveHelpersOr) {
 
   (0, _mocha.describe)('Unit | Helper | or', function () {
@@ -7351,7 +7389,7 @@ define('pix-live/tests/unit/models/follower-test.lint-test', ['exports'], functi
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
+define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Route | Assessments.ChallengeRoute', function () {
 
@@ -7360,24 +7398,6 @@ define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['exports', 
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
-    });
-
-    (0, _mocha.describe)('#_componentClassForChallenge', function () {
-
-      [{ challengeType: 'QCU', expectedClass: 'challenge-item-qcu' }, { challengeType: 'QCUIMG', expectedClass: 'challenge-item-qcu' }, { challengeType: 'QRU', expectedClass: 'challenge-item-qcu' }, { challengeType: 'QCM', expectedClass: 'challenge-item-qcm' }, { challengeType: 'QCMIMG', expectedClass: 'challenge-item-qcm' }, { challengeType: 'QROC', expectedClass: 'challenge-item-qroc' }, { challengeType: 'QROCm', expectedClass: 'challenge-item-qrocm' }, { challengeType: 'QROCm-ind', expectedClass: 'challenge-item-qrocm' }, { challengeType: 'QROCm-dep', expectedClass: 'challenge-item-qrocm' }].forEach(function (useCase) {
-
-        (0, _mocha.it)('should return component class "' + useCase.expectedClass + '" when challenge type is "' + useCase.challengeType + '"', function () {
-          // given
-          var route = this.subject();
-          var challenge = _ember['default'].Object.create({ type: useCase.challengeType });
-
-          // when
-          var componentClass = route._componentClassForChallenge(challenge);
-
-          // then
-          (0, _chai.expect)(componentClass).to.equal(useCase.expectedClass);
-        });
-      });
     });
   });
 });
