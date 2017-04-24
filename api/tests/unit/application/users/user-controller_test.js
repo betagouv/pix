@@ -1,19 +1,24 @@
 const { describe, it, before, after, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const User = require('../../../../lib/domain/models/data/user');
+const Boom = require('boom');
 
-describe('Unit | Controller | user-controller', function () {
+const User = require('../../../../lib/domain/models/data/user');
+const faker = require('faker');
+
+const userController = require('../../../../lib/application/users/user-controller');
+const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+
+describe('Unit | Controller | user-controller', () => {
 
   let server;
 
-  before(function () {
+  before(() => {
     server = this.server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/users') });
   });
 
-  describe('#list', function () {
-
+  describe('#list', () => {
     let stub;
     const users = [
       new User({ "id": "user_1" }),
@@ -21,69 +26,69 @@ describe('Unit | Controller | user-controller', function () {
       new User({ "id": "user_3" })
     ];
 
-    before(function () {
+    before(() => {
       stub = sinon.stub(User, 'fetchAll');
     });
 
-    after(function () {
+    after(() => {
       stub.restore();
     });
 
-    it('should fetch and return all the users, serialized as JSONAPI', function (done) {
-      // given
+    it('should fetch and return all the users, serialized as JSONAPI', () => {
+      // Given
       stub.resolves(users);
 
-      // when
-      server.inject({ method: 'GET', url: '/api/users' }, (res) => {
+      // When
+      const promise = server.inject({ method: 'GET', url: '/api/users' });
 
-        // then
+      // Then
+      return promise.then((res) => {
         expect(res.result).to.deep.equal(users);
-        done();
       });
     });
 
-    it('should return an error 500 when the fetch fails', function(done) {
-      // given
+    it('should return an error 500 when the fetch fails', () => {
+      // Given
       stub.rejects(new Error('Fetch error'));
 
-      // when
-      server.inject({ method: 'GET', url: '/api/users' }, (res) => {
+      // When
+      const promise = server.inject({ method: 'GET', url: '/api/users' });
 
-        // then
+      // Then
+      return promise.then((res) => {
         expect(res.statusCode).to.equal(500);
-        done();
       });
     });
   });
 
-  describe('#get', function () {
+  describe('#get', () => {
 
     let stub;
     const user = new User({ "id": "user_id" });
 
-    before(function () {
+    before(() => {
       stub = sinon.stub(User.prototype, 'fetch');
     });
 
-    after(function () {
+    after(() => {
       stub.restore();
     });
 
-    it('should fetch and return the given user, serialized as JSONAPI', function (done) {
-      // given
+    it('should fetch and return the given user, serialized as JSONAPI', () => {
+      // Given
       stub.resolves(user);
 
-      // when
-      server.inject({ method: 'GET', url: '/api/users/user_id' }, (res) => {
+      // When
+      const promise = server.inject({ method: 'GET', url: '/api/users/user_id' });
 
-        // then
+      // Then
+      return promise.then((res) => {
         expect(res.result).to.deep.equal(user);
-        done();
       });
     });
 
-    it('should reply with error status code 404 if user not found', function (done) {
-      // given
+    it('should reply with error status code 404 if user not found', () => {
+      // Given
       const error = {
         "error": {
           "type": "MODEL_ID_NOT_FOUND",
@@ -92,12 +97,58 @@ describe('Unit | Controller | user-controller', function () {
       };
       stub.rejects(error);
 
-      // when
-      server.inject({ method: 'GET', url: '/api/users/unknown_id' }, (res) => {
+      // When
+      const promise = server.inject({ method: 'GET', url: '/api/users/unknown_id' });
 
-        // then
+      // Then
+      return promise.then((res) => {
         expect(res.statusCode).to.equal(404);
-        done();
+      });
+    });
+  });
+
+  describe('#save', () => {
+
+    let boomBadRequestMock;
+    let validationErrorSerializerStub;
+    let replySpy;
+
+    beforeEach(() => {
+      boomBadRequestMock = sinon.mock(Boom);
+      validationErrorSerializerStub = sinon.stub(validationErrorSerializer, 'serialize');
+      replySpy = sinon.spy();
+    });
+
+    afterEach(() => {
+      validationErrorSerializerStub.restore();
+      boomBadRequestMock.restore();
+    });
+
+    it('should reply with a serialized error', () => {
+      // Given
+      const expectedSerializedError = { errors: [] };
+      validationErrorSerializerStub.returns(expectedSerializedError);
+      boomBadRequestMock.expects('badRequest').exactly(1).withArgs(expectedSerializedError);
+
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              firstName: '',
+              lastName: ''
+            }
+          }
+        }
+      };
+
+      // When
+      let promise = userController.save(request, replySpy);
+
+      // Then
+      return promise.then(() => {
+        sinon.assert.calledOnce(validationErrorSerializerStub);
+
+        boomBadRequestMock.verify();
       });
     });
   });
