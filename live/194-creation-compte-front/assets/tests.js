@@ -5540,7 +5540,7 @@ define('pix-live/tests/integration/components/signup-form-test.lint-test', ['exp
 });
 define('pix-live/tests/integration/components/signup-textfield-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (exports, _chai, _mocha, _emberMocha, _emberTestHelpersWait) {
 
-  _mocha.describe.only('Integration | Component | signup textfield', function () {
+  (0, _mocha.describe)('Integration | Component | signup textfield', function () {
     (0, _emberMocha.setupComponentTest)('signup-textfield', {
       integration: true
     });
@@ -5550,12 +5550,14 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['exports'
 
     var MESSAGE = '.signup-textfield__message';
     var MESSAGE_DEFAULT_STATUS = 'signup-textfield__message--default';
+    var MESSAGE_ERROR_STATUS = 'signup-textfield__message--error';
+    var MESSAGE_SUCCESS_STATUS = 'signup-textfield__message--success';
     var MESSAGE_TEXT = '';
 
     var INPUT = '.signup-textfield__input';
     var INPUT_DEFAULT_CLASS = 'signup-textfield__input--default';
-    /*const INPUT_SUCCESS_CLASS= 'signup-textfield__input--success';
-    const INPUT_ERROR_CLASS= 'signup-textfield__input--error';*/
+    var INPUT_SUCCESS_CLASS = 'signup-textfield__input--success';
+    var INPUT_ERROR_CLASS = 'signup-textfield__input--error';
 
     (0, _mocha.describe)('#Component rendering', function () {
       beforeEach(function () {
@@ -5652,6 +5654,72 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['exports'
           var item = _ref3.item;
           var itemSelector = _ref3.itemSelector;
           var expectedClass = _ref3.expectedClass;
+
+          (0, _mocha.it)('contain an ' + item + ' with an additional class ' + expectedClass, function () {
+            // then
+            (0, _chai.expect)(this.$(itemSelector).attr('class')).to.contain(expectedClass);
+          });
+        });
+      });
+
+      (0, _mocha.describe)('#When validationStatus gets "error", Component should ', function () {
+        beforeEach(function () {
+          this.set('label', 'nom');
+          this.set('validationStatus', 'error');
+          this.set('validationMessage', '');
+          this.set('textfieldName', 'firstname');
+
+          // When
+          this.render(Ember.HTMLBars.template({
+            'id': 'EjA+mv02',
+            'block': '{"statements":[["append",["helper",["signup-textfield"],null,[["label","validationStatus","validationMessage","textfieldName"],[["get",["label"]],["get",["validationStatus"]],["get",["validationMessage"]],["get",["textfieldName"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+        });
+
+        (0, _mocha.it)('return true if any svg does exist', function () {
+          // then
+          (0, _chai.expect)(this.$('svg')).to.have.length(1);
+          (0, _chai.expect)(this.$('svg').attr('class')).to.equal('validation-icon-error');
+        });
+
+        [{ item: 'Input', itemSelector: INPUT, expectedClass: INPUT_ERROR_CLASS }, { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_ERROR_STATUS }].forEach(function (_ref4) {
+          var item = _ref4.item;
+          var itemSelector = _ref4.itemSelector;
+          var expectedClass = _ref4.expectedClass;
+
+          (0, _mocha.it)('contain an ' + item + ' with an additional class ' + expectedClass, function () {
+            // then
+            (0, _chai.expect)(this.$(itemSelector).attr('class')).to.contain(expectedClass);
+          });
+        });
+      });
+
+      (0, _mocha.describe)('#When validationStatus gets "success", Component should ', function () {
+        beforeEach(function () {
+          this.set('label', 'nom');
+          this.set('validationStatus', 'success');
+          this.set('validationMessage', '');
+          this.set('textfieldName', 'firstname');
+
+          // When
+          this.render(Ember.HTMLBars.template({
+            'id': 'EjA+mv02',
+            'block': '{"statements":[["append",["helper",["signup-textfield"],null,[["label","validationStatus","validationMessage","textfieldName"],[["get",["label"]],["get",["validationStatus"]],["get",["validationMessage"]],["get",["textfieldName"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+        });
+
+        (0, _mocha.it)('return true if any svg does exist', function () {
+          // then
+          (0, _chai.expect)(this.$('svg')).to.have.length(1);
+          (0, _chai.expect)(this.$('svg').attr('class')).to.equal('validation-icon-success');
+        });
+
+        [{ item: 'Input', itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS }, { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS }].forEach(function (_ref5) {
+          var item = _ref5.item;
+          var itemSelector = _ref5.itemSelector;
+          var expectedClass = _ref5.expectedClass;
 
           (0, _mocha.it)('contain an ' + item + ' with an additional class ' + expectedClass, function () {
             // then
