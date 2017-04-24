@@ -1,7 +1,12 @@
 <form class="signup-form-container">
 
+  <div class="signup-form__heading-container">
+    <h1 class="signup-form__heading">Inscription gratuite</h1>
+  </div>
+
   <div class="signup-form__input-container">
-    {{signup-textfield validate="validate" label="firstname" message="" status="" textfieldId="firstname"}}
+    {{signup-textfield validate="validateInput" label="firstname" validationStatus=""
+                       textfieldName="firstname"}}
   </div>
 
   <div class="signup-form__input-container">

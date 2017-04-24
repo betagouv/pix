@@ -4,8 +4,8 @@ export default Ember.Component.extend({
   classNames:['signup-form'],
 
   actions: {
-    validate(){
-
+    validateInput(){
+      //this.sendAction('validate')
     },
 
     signup(){

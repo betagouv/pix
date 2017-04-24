@@ -7,7 +7,7 @@ import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
 
-describe.only('Integration | Component | signup textfield', function () {
+describe('Integration | Component | signup textfield', function () {
   setupComponentTest('signup-textfield', {
     integration: true
   });
@@ -21,12 +21,11 @@ describe.only('Integration | Component | signup textfield', function () {
   describe('#Component rendering', function () {
     beforeEach(function () {
       this.set('label', 'nom');
-      this.set('message', '');
-      this.set('status', '');
-      this.set('textfieldId', 'firstname');
+      this.set('validationStatus', '');
+      this.set('textfieldName', 'firstname');
 
       // When
-      this.render(hbs`{{signup-textfield label=label message=message status=status textfieldId=textfieldId}}`);
+      this.render(hbs`{{signup-textfield label=label validationStatus=validationStatus textfieldName=textfieldName}}`);
     });
 
 
@@ -74,11 +73,10 @@ describe.only('Integration | Component | signup textfield', function () {
       });
 
       this.set('label', 'nom');
-      this.set('message', '');
-      this.set('status', '');
-      this.set('textfieldId', 'firstname');
+      this.set('validationStatus', '');
+      this.set('textfieldName', 'firstname');
 
-      this.render(hbs`{{signup-textfield label=label message=message status=status textfieldId=textfieldId validate="validate"}}`);
+      this.render(hbs`{{signup-textfield label=label validationStatus=validationStatus textfieldName=textfieldName validate="validate"}}`);
       // when
       this.$(INPUT).val('pix');
       this.$(INPUT).trigger('focusout');

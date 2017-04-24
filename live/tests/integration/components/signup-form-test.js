@@ -8,8 +8,10 @@ import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import wait from 'ember-test-helpers/wait';
 
-const userEmpty = Ember.Object.create({});
 const FORM_CONTAINER = '.signup-form-container';
+const FORM_HEADING_CONTAINER = '.signup-form__heading-container';
+const FORM_HEADING = '.signup-form__heading';
+const EXPECTED_FORM_HEADING_CONTENT = 'Inscription gratuite';
 const INPUT_TEXT_FIELD = '.signup-form__input-container';
 const CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
 const SUBMIT_BUTTON_CONTAINER = '.signup-form__submit-container';
@@ -17,6 +19,7 @@ const CGU_LINK = '.signup__cgu-link';
 const CGU_LINK_CONTENT = 'conditions d\'​utilisation de Pix';
 const SUBMIT_BUTTON = '.signup__submit-button';
 const SUBMIT_BUTTON_CONTENT = 'Je m\'inscris';
+const userEmpty = Ember.Object.create({});
 
 
 describe('Integration | Component | signup form', function () {
@@ -33,12 +36,17 @@ describe('Integration | Component | signup form', function () {
     });
 
     it('renders', function () {
-      // Then
       expect(this.$()).to.have.length(1);
+    });
+
+    it(`Should return true if heading content gets <${EXPECTED_FORM_HEADING_CONTENT}>`, function () {
+      expect(this.$(FORM_HEADING).text()).to.equal(EXPECTED_FORM_HEADING_CONTENT);
     });
 
     [
       {expectedRendering: 'form', input: FORM_CONTAINER, expected: 1},
+      {expectedRendering: 'div', input: FORM_HEADING_CONTAINER, expected: 1},
+      {expectedRendering: 'h1', input: FORM_HEADING, expected: 1},
       {expectedRendering: 'input', input: INPUT_TEXT_FIELD, expected: 4},
       {expectedRendering: 'checkbox', input: CHECKBOX_CGU_CONTAINER, expected: 1},
       {expectedRendering: 'button', input: SUBMIT_BUTTON_CONTAINER, expected: 1},
@@ -50,6 +58,7 @@ describe('Integration | Component | signup form', function () {
       });
 
     });
+
 
     [
       {
@@ -81,21 +90,6 @@ describe('Integration | Component | signup form', function () {
 
   describe('Component behavior', function () {
 
-    it.skip('should return true if action <Validate> is handled', function () {
-      // given
-      let isValidateInputHandled = false;
-      this.on('validateInput', function (args) {
-        isValidateInputHandled = args;
-      });
-
-      this.set('user', userEmpty);
-      this.render(hbs`{{signup-form user=user}}`);
-      // when
-
-      // then
-      expect(isValidateInputHandled).to.be.true;
-    });
-
     it('should return true if action <Signup> is handled', function () {
       // given
       let isFormSubmitted = false;
@@ -107,6 +101,7 @@ describe('Integration | Component | signup form', function () {
       this.render(hbs`{{signup-form user=user signup="signup"}}`);
 
       // when
+
       $(SUBMIT_BUTTON).click();
 
       // then
@@ -114,6 +109,7 @@ describe('Integration | Component | signup form', function () {
         expect(isFormSubmitted).to.be.true;
       });
     });
+
   });
 
   //action sendAction, render component, provided data
