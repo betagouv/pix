@@ -94,11 +94,13 @@ describe('Integration | Component | comparison-window', function () {
       expect(this.$('.qcm-solution-panel')).to.have.length(1);
     });
 
-    it('should render a feedback panel', function () {
+    it('should render a feedback panel already opened', function () {
       //when
       this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       //then
       expect(this.$('.comparison-window__feedback-panel')).to.have.length(1);
+      expect(this.$('.feedback-panel__view--form')).to.have.lengthOf(1);
+      expect(this.$('.feedback-panel__view--link')).to.have.lengthOf(0);
     });
 
     it('should have a max width of 900px and a margin auto in order to quit by clicking beside', function () {
