@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
-import _ from 'pix-live/utils/lodash-custom';
 
 export default Ember.Route.extend({
 
@@ -31,26 +30,6 @@ export default Ember.Route.extend({
       assessment_id: model.assessment.id,
       challenge_id: model.challenge.id
     };
-  },
-
-  setupController(controller, model) {
-    this._super(controller, model);
-    controller.set('_challengeComponentClass', this._componentClassForChallenge(model.challenge));
-  },
-
-  _componentClassForChallenge(challenge) {
-    let result;
-    const challengeType = challenge.get('type').toUpperCase();
-    if (_(challengeType).isAmongst(['QCUIMG', 'QCU', 'QRU'])) {
-      result = 'qcu';
-    } else if (_(challengeType).isAmongst(['QCMIMG', 'QCM'])) {
-      result = 'qcm';
-    } else if (_(challengeType).isAmongst(['QROC'])) {
-      result = 'qroc';
-    } else if (_(challengeType).isAmongst(['QROCM', 'QROCM-IND', 'QROCM-DEP'])) {
-      result = 'qrocm';
-    }
-    return 'challenge-item-' + result;
   },
 
   _createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime) {
