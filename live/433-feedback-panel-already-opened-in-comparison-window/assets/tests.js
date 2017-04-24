@@ -790,6 +790,10 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['exports', '
         return (0, _chai.expect)(currentURL()).to.equal('/');
       });
     });
+
+    (0, _mocha.it)('b7.7 Il est possible de signaler l\'épreuve via le formulaire de Feedback', function () {
+      (0, _chai.expect)($('.feedback-panel')).to.have.lengthOf(1);
+    });
   });
 });
 define('pix-live/tests/acceptance/b7-epreuve-points-communs-test.lint-test', ['exports'], function (exports) {
@@ -1414,6 +1418,10 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['exports', 'moch
       (0, _mocha.it)('h2.3- vérifier que le timer n\'est pas démarré automatiquement lorsque l\'épreuve est timée', function () {
         (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(0);
       });
+
+      (0, _mocha.it)('h2.4 le formulaire de signalement n\'est pas affiché pour une épreuve chronométrée tant que l\'usager n\'a pas confirmé être prêt pour l\'épreuve', function () {
+        (0, _chai.expect)($('.feedback-panel')).to.have.lengthOf(0);
+      });
     });
 
     (0, _mocha.describe)('h2-Test comportement lorsque le bouton de confirmation est cliqué', function () {
@@ -1433,6 +1441,10 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['exports', 'moch
 
       (0, _mocha.it)('h2.3- vérifier que le timer est démarré ', function () {
         (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('h2.4 le formulaire de signalement est affiché', function () {
+        (0, _chai.expect)($('.feedback-panel')).to.have.lengthOf(1);
       });
     });
 
@@ -1873,6 +1885,141 @@ define('pix-live/tests/acceptance/k1-competences-page-test.lint-test', ['exports
   'use strict';
 
   describe('ESLint - acceptance/k1-competences-page-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  var FEEDBACK_FORM = '.feedback-panel__form';
+
+  (0, _mocha.describe)('Acceptance | Signaler une épreuve', function () {
+    var _this = this;
+
+    var application = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    function assertThatFeedbackPanelExist() {
+      (0, _chai.expect)(find('.feedback-panel')).to.have.lengthOf(1);
+    }
+
+    function assertThatFeedbackFormIsClosed() {
+      (0, _chai.expect)(find('.feedback-panel__open-link')).to.have.lengthOf(1);
+      (0, _chai.expect)(find(FEEDBACK_FORM)).to.have.lengthOf(0);
+    }
+
+    function assertThatFeedbackFormIsOpen() {
+      (0, _chai.expect)(find('.feedback-panel__open-link')).to.have.lengthOf(0);
+      (0, _chai.expect)(find(FEEDBACK_FORM)).to.have.lengthOf(1);
+    }
+
+    (0, _mocha.it)('l1.1 Je peux signaler une épreuve depuis la page de comparaison de mes réponses avec celles attendues pour une épreuve (page de résultat du test)', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            context$2$0.next = 2;
+            return regeneratorRuntime.awrap(visit('/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1'));
+
+          case 2:
+            assertThatFeedbackPanelExist();
+
+          case 3:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, _this);
+    });
+
+    (0, _mocha.it)('l1.2 Je peux signaler une épreuve directement depuis l\'épreuve en question', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            context$2$0.next = 2;
+            return regeneratorRuntime.awrap(visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id'));
+
+          case 2:
+            assertThatFeedbackPanelExist();
+
+          case 3:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, _this);
+    });
+
+    (0, _mocha.it)('l1.3 Le formulaire de signalement d\'une épreuve est remis à zéro dès que je change d\'épreuve', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            context$2$0.next = 2;
+            return regeneratorRuntime.awrap(visit('/assessments/ref_assessment_id/challenges/ref_qru_challenge_id'));
+
+          case 2:
+            assertThatFeedbackFormIsClosed();
+
+            context$2$0.next = 5;
+            return regeneratorRuntime.awrap(click('.feedback-panel__open-link'));
+
+          case 5:
+            assertThatFeedbackFormIsOpen();
+
+            context$2$0.next = 8;
+            return regeneratorRuntime.awrap(click('.challenge-actions__action-skip'));
+
+          case 8:
+            assertThatFeedbackFormIsClosed();
+
+          case 9:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, _this);
+    });
+
+    (0, _mocha.it)('l1.4 Le formulaire de signalement est remis à zéro même quand les 2 épreuves qui s\'enchaînent utilisent le même composant challenge-item-* (ex : q1 est de type "QCU" et q2 "QRU" ; toutes deux utilisent le composant challenge-item-qcu)', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            context$2$0.next = 2;
+            return regeneratorRuntime.awrap(visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id'));
+
+          case 2:
+            assertThatFeedbackFormIsClosed();
+
+            context$2$0.next = 5;
+            return regeneratorRuntime.awrap(click('.feedback-panel__open-link'));
+
+          case 5:
+            assertThatFeedbackFormIsOpen();
+
+            context$2$0.next = 8;
+            return regeneratorRuntime.awrap(click('.challenge-actions__action-skip'));
+
+          case 8:
+            assertThatFeedbackFormIsClosed();
+
+          case 9:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, _this);
+    });
+  });
+});
+
+// In our Mirage data set, in the "ref course", the QCU challenge is followed by a QRU's one
+define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/l1-signaler-une-epreuve-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
@@ -3752,8 +3899,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
 
       beforeEach(function () {
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'DnUF9xqA',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status"],["FORM_CLOSED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': '0yRHsCPC',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["_status"],["FORM_CLOSED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
       });
@@ -3798,13 +3945,13 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
         // configure answer & cie. model object
         var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
         var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
-        var answer = _ember['default'].Object.extend({ id: 'answer_id', assessment: assessment, challenge: challenge }).create();
 
         // render component
-        this.set('answer', answer);
+        this.set('assessment', assessment);
+        this.set('challenge', challenge);
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'yNmlycrx',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["answer","status"],[["get",["answer"]],"FORM_OPENED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'xYGVDfXL',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge","_status"],[["get",["assessment"]],["get",["challenge"]],"FORM_OPENED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
 
@@ -3886,8 +4033,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
 
       beforeEach(function () {
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'ZrAQqlp+',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status"],["FORM_SUBMITTED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'GAJ65nX1',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["_status"],["FORM_SUBMITTED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
       });
@@ -3902,8 +4049,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
       (0, _mocha.it)('should display error if "content" is blank', function () {
         // given
         this.render(_ember['default'].HTMLBars.template({
-          'id': '2cm8XB2f',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status","content"],["FORM_OPENED","   "]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'x6n1nvTM',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["_status","_content"],["FORM_OPENED","   "]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
 
@@ -3918,8 +4065,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
       (0, _mocha.it)('should display error if "email" is set but invalid', function () {
         // given
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'IelwLHOR',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status","content","email"],["FORM_OPENED","Lorem ipsum dolor sit amet","wrong_email"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': '4g5Jdaz1',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["_status","_content","_email"],["FORM_OPENED","Lorem ipsum dolor sit amet","wrong_email"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
 
@@ -3933,8 +4080,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
       (0, _mocha.it)('should not display error if "form" view (with error) was closed and re-opened', function () {
         // given
         this.render(_ember['default'].HTMLBars.template({
-          'id': '2cm8XB2f',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["status","content"],["FORM_OPENED","   "]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'x6n1nvTM',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["_status","_content"],["FORM_OPENED","   "]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
         this.$(BUTTON_SEND).click();
@@ -6018,7 +6165,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
       (0, _mocha.it)('should return true if status equals "FORM_CLOSED"', function () {
         // given
         var component = this.subject();
-        component.set('status', 'FORM_CLOSED');
+        component.set('_status', 'FORM_CLOSED');
 
         // when
         var isFormClosed = component.get('isFormClosed');
@@ -6030,7 +6177,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
       (0, _mocha.it)('should return false if status is not equal to "FORM_CLOSED"', function () {
         // given
         var component = this.subject();
-        component.set('status', 'FORM_OPENED');
+        component.set('_status', 'FORM_OPENED');
 
         // when
         var isFormClosed = component.get('isFormClosed');
@@ -6045,7 +6192,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
       (0, _mocha.it)('should return true if status equals "FORM_OPENED"', function () {
         // given
         var component = this.subject();
-        component.set('status', 'FORM_OPENED');
+        component.set('_status', 'FORM_OPENED');
 
         // when
         var isFormClosed = component.get('isFormOpened');
@@ -6057,7 +6204,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
       (0, _mocha.it)('should return false if status is not equal to "FORM_OPENED"', function () {
         // given
         var component = this.subject();
-        component.set('status', 'FORM_CLOSED');
+        component.set('_status', 'FORM_CLOSED');
 
         // when
         var isFormClosed = component.get('isFormOpened');

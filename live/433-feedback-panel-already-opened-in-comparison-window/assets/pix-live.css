@@ -484,6 +484,10 @@ button.routable-modal--close:active {
   left: -11px;
   top: 3px; }
 
+.challenge-item__feedback {
+  border-top: solid 1px #d8d8d8;
+  padding: 20px 0; }
+
 .challenge-response {
   font-size: 17px; }
 
@@ -767,6 +771,12 @@ button.routable-modal--close:active {
   border: solid 1.5px #d5d5d5;
   margin-left: 22px; }
 
+.comparison-window__feedback-panel {
+  background-color: #dedede;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 20px 40px; }
+
 .course-banner {
   background-color: #446eff;
   color: white;
@@ -942,19 +952,17 @@ button.routable-modal--close:active {
       margin: 0 20px; } }
 
 .feedback-panel {
-  background-color: #dedede;
   color: #3e4149;
-  padding: 20px 40px;
-  font-size: 15px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px; }
+  font-size: 15px; }
 
 /* "Link" view
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .feedback-panel__open-link {
   cursor: pointer;
   color: inherit;
-  font-weight: 600; }
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 20px; }
 
 .feedback-panel__open-link:hover,
 .feedback-panel__open-link:focus,
@@ -966,7 +974,8 @@ button.routable-modal--close:active {
 .feedback-panel__form-title {
   font-size: 15px;
   font-weight: 900;
-  margin: 0 0 20px; }
+  margin: 0 0 20px;
+  line-height: 20px; }
 
 .feedback-panel__form-description {
   margin-bottom: 20px; }
@@ -1814,6 +1823,12 @@ button.routable-modal--close:active {
   height: 61px;
   border: solid 1.5px #d5d5d5;
   margin-left: 22px; }
+
+.comparison-window__feedback-panel {
+  background-color: #dedede;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 20px 40px; }
 
 .correction-qroc-box--answer__input {
   height: 26px;
