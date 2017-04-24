@@ -352,6 +352,7 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-l
     },
 
     didUpdateAttrs: function didUpdateAttrs() {
+      this._super.apply(this, arguments);
       if (!this.get('_hasUserAknowledgedTimingWarning')) {
         this.set('hasUserConfirmWarning', false);
         this.set('hasChallengeTimer', this.hasTimerDefined());
@@ -874,18 +875,31 @@ define('pix-live/components/feedback-panel', ['exports', 'ember', 'pix-live/util
   exports['default'] = _ember['default'].Component.extend({
 
     store: _ember['default'].inject.service(),
+
     classNames: ['feedback-panel'],
 
     assessment: null,
     challenge: null,
 
-    _email: '',
-    _content: '',
-    _error: null,
     _status: FORM_CLOSED,
+    _email: null,
+    _content: null,
+    _error: null,
 
     isFormClosed: _ember['default'].computed.equal('_status', FORM_CLOSED),
     isFormOpened: _ember['default'].computed.equal('_status', FORM_OPENED),
+
+    didUpdateAttrs: function didUpdateAttrs() {
+      this._super.apply(this, arguments);
+      this.reset();
+    },
+
+    reset: function reset() {
+      this.set('_status', FORM_CLOSED);
+      this.set('_email', null);
+      this.set('_content', null);
+      this.set('_error', null);
+    },
 
     actions: {
 
@@ -924,8 +938,7 @@ define('pix-live/components/feedback-panel', ['exports', 'ember', 'pix-live/util
       },
 
       cancelFeedback: function cancelFeedback() {
-        this.set('_error', null);
-        this.set('_status', FORM_CLOSED);
+        this.reset();
       }
     }
   });
@@ -5107,6 +5120,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.7.0+06f95399"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.7.0+00bac966"});
 }
 //# sourceMappingURL=pix-live.map

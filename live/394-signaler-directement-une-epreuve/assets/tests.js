@@ -1890,6 +1890,141 @@ define('pix-live/tests/acceptance/k1-competences-page-test.lint-test', ['exports
     });
   });
 });
+define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
+
+  var FEEDBACK_FORM = '.feedback-panel__form';
+
+  (0, _mocha.describe)('Acceptance | Signaler une épreuve', function () {
+    var _this = this;
+
+    var application = undefined;
+
+    (0, _mocha.before)(function () {
+      application = (0, _pixLiveTestsHelpersStartApp['default'])();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _pixLiveTestsHelpersDestroyApp['default'])(application);
+    });
+
+    function assertThatFeedbackPanelExist() {
+      (0, _chai.expect)(find('.feedback-panel')).to.have.lengthOf(1);
+    }
+
+    function assertThatFeedbackFormIsClosed() {
+      (0, _chai.expect)(find('.feedback-panel__open-link')).to.have.lengthOf(1);
+      (0, _chai.expect)(find(FEEDBACK_FORM)).to.have.lengthOf(0);
+    }
+
+    function assertThatFeedbackFormIsOpen() {
+      (0, _chai.expect)(find('.feedback-panel__open-link')).to.have.lengthOf(0);
+      (0, _chai.expect)(find(FEEDBACK_FORM)).to.have.lengthOf(1);
+    }
+
+    (0, _mocha.it)('l1.1 Je peux signaler une épreuve depuis la page de comparaison de mes réponses avec celles attendues pour une épreuve (page de résultat du test)', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            context$2$0.next = 2;
+            return regeneratorRuntime.awrap(visit('/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1'));
+
+          case 2:
+            assertThatFeedbackPanelExist();
+
+          case 3:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, _this);
+    });
+
+    (0, _mocha.it)('l1.2 Je peux signaler une épreuve directement depuis l\'épreuve en question', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            context$2$0.next = 2;
+            return regeneratorRuntime.awrap(visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id'));
+
+          case 2:
+            assertThatFeedbackPanelExist();
+
+          case 3:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, _this);
+    });
+
+    (0, _mocha.it)('l1.3 Le formulaire de signalement d\'une épreuve est remis à zéro dès que je change d\'épreuve', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            context$2$0.next = 2;
+            return regeneratorRuntime.awrap(visit('/assessments/ref_assessment_id/challenges/ref_qru_challenge_id'));
+
+          case 2:
+            assertThatFeedbackFormIsClosed();
+
+            context$2$0.next = 5;
+            return regeneratorRuntime.awrap(click('.feedback-panel__open-link'));
+
+          case 5:
+            assertThatFeedbackFormIsOpen();
+
+            context$2$0.next = 8;
+            return regeneratorRuntime.awrap(click('.challenge-actions__action-skip'));
+
+          case 8:
+            assertThatFeedbackFormIsClosed();
+
+          case 9:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, _this);
+    });
+
+    (0, _mocha.it)('l1.4 Le formulaire de signalement est remis à zéro même quand les 2 épreuves qui s\'enchaînent utilisent le même composant challenge-item-* (ex : q1 est de type "QCU" et q2 "QRU" ; toutes deux utilisent le composant challenge-item-qcu)', function callee$1$0() {
+      return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
+        while (1) switch (context$2$0.prev = context$2$0.next) {
+          case 0:
+            context$2$0.next = 2;
+            return regeneratorRuntime.awrap(visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id'));
+
+          case 2:
+            assertThatFeedbackFormIsClosed();
+
+            context$2$0.next = 5;
+            return regeneratorRuntime.awrap(click('.feedback-panel__open-link'));
+
+          case 5:
+            assertThatFeedbackFormIsOpen();
+
+            context$2$0.next = 8;
+            return regeneratorRuntime.awrap(click('.challenge-actions__action-skip'));
+
+          case 8:
+            assertThatFeedbackFormIsClosed();
+
+          case 9:
+          case 'end':
+            return context$2$0.stop();
+        }
+      }, null, _this);
+    });
+  });
+});
+
+// In our Mirage data set, in the "ref course", the QCU challenge is followed by a QRU's one
+define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - acceptance/l1-signaler-une-epreuve-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/adapters/application.lint-test', ['exports'], function (exports) {
   'use strict';
 
