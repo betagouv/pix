@@ -7,16 +7,22 @@ import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
 
-describe('Integration | Component | signup textfield', function () {
+describe.only('Integration | Component | signup textfield', function () {
   setupComponentTest('signup-textfield', {
     integration: true
   });
 
   const LABEL = '.signup-textfield__label';
   const LABEL_TEXT = 'NOM';
+
   const MESSAGE = '.signup-textfield__message';
+  const MESSAGE_DEFAULT_STATUS = 'signup-textfield__message--default';
   const MESSAGE_TEXT = '';
+
   const INPUT = '.signup-textfield__input';
+  const INPUT_DEFAULT_CLASS= 'signup-textfield__input--default';
+  /*const INPUT_SUCCESS_CLASS= 'signup-textfield__input--success';
+  const INPUT_ERROR_CLASS= 'signup-textfield__input--error';*/
 
   describe('#Component rendering', function () {
     beforeEach(function () {
@@ -85,6 +91,37 @@ describe('Integration | Component | signup textfield', function () {
         expect(isActionValidateHandled).to.be.true;
         expect(inputValueToValidate).to.equal(expectedInputValue);
       });
+    });
+
+    describe('#When validationStatus gets "default", Component should ', function () {
+      beforeEach(function(){
+        this.set('label', 'nom');
+        this.set('validationStatus', 'default');
+        this.set('validationMessage', '');
+        this.set('textfieldName', 'firstname');
+
+        // When
+        this.render(hbs`{{signup-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
+      });
+
+      it('return true if any svg doesn\'t exist', function () {
+        // then
+        expect(this.$('svg')).to.have.length(0);
+      });
+
+      [
+
+        {item: 'Input' , itemSelector: INPUT, expectedClass: INPUT_DEFAULT_CLASS},
+        {item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_DEFAULT_STATUS},
+
+      ].forEach(({item, itemSelector, expectedClass}) =>{
+        it(`contain an ${item} with an additional class ${expectedClass}` , function () {
+          // then
+          expect(this.$(itemSelector).attr('class')).to.contain(expectedClass);
+        });
+      });
+
+
     });
   });
 
