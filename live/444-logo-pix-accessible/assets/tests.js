@@ -4316,8 +4316,16 @@ define('pix-live/tests/integration/components/pix-logo-test', ['exports', 'chai'
       (0, _chai.expect)(this.$('.pix-logo__image').attr('src')).to.equal('images/pix-logo.svg');
     });
 
-    (0, _mocha.it)('should display "béta"', function () {
+    (0, _mocha.it)('should display "bêta"', function () {
       (0, _chai.expect)(this.$().text().trim()).to.equal('Bêta');
+    });
+
+    (0, _mocha.it)('should have a textual alternative', function () {
+      (0, _chai.expect)(this.$('.pix-logo__image').attr('alt')).to.equal('Le site officiel de PIX, version bêta');
+    });
+
+    (0, _mocha.it)('should have a title in the link', function () {
+      (0, _chai.expect)(this.$('.pix-logo__link').attr('title')).to.equal('Lien vers la page d\'accueil de PIX');
     });
   });
 });
