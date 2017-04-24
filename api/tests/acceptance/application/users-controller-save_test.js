@@ -41,6 +41,33 @@ describe('Acceptance | Controller | users-controller', function () {
     });
   });
 
+  it('should return 400 HTTP status code when no payload', function () {
+    // Given
+    options.payload = {};
+
+    // When
+    return server.injectThen(options).then(response => {
+      expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  it('should return 400 HTTP status code when email already exists', function () {
+    // Given
+    const firstRegistration = server.injectThen(options);
+
+    // When
+    const secondRegistration = firstRegistration
+      .then(_ => {
+        return server.injectThen(options)
+      });
+
+    // Then
+    return secondRegistration.then((response) => {
+      expect(response.statusCode).to.equal(400);
+    });
+  });
+
+
   it('should save the user in the database', function () {
     return server.injectThen(options)
       .then(response => {

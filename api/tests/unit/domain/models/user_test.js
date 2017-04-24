@@ -68,7 +68,6 @@ describe('Unit | Domain | Models | User', () => {
       return promise
         .then(() => {
           sinon.assert.fail('should not succeed');
-          /**/
         })
         .catch((err) => {
           const lastName = err.data[ 'lastName' ];

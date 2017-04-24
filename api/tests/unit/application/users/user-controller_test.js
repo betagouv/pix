@@ -7,6 +7,7 @@ const faker = require('faker');
 
 const userController = require('../../../../lib/application/users/user-controller');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -111,12 +112,12 @@ describe('Unit | Controller | user-controller', () => {
 
     let boomBadRequestMock;
     let validationErrorSerializerStub;
-    let replySpy;
+    let replyStub;
 
     beforeEach(() => {
       boomBadRequestMock = sinon.mock(Boom);
       validationErrorSerializerStub = sinon.stub(validationErrorSerializer, 'serialize');
-      replySpy = sinon.spy();
+      replyStub = sinon.stub();
     });
 
     afterEach(() => {
@@ -126,9 +127,10 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should reply with a serialized error', () => {
       // Given
+      const codeSpy = sinon.spy();
       const expectedSerializedError = { errors: [] };
-      validationErrorSerializerStub.returns(expectedSerializedError);
-      boomBadRequestMock.expects('badRequest').exactly(1).withArgs(expectedSerializedError);
+      validationErrorSerializerStub.withArgs().returns(expectedSerializedError);
+      replyStub.returns({ code: codeSpy });
 
       const request = {
         payload: {
@@ -142,15 +144,63 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // When
-      let promise = userController.save(request, replySpy);
+      let promise = userController.save(request, replyStub);
 
       // Then
       return promise.then(() => {
+        sinon.assert.calledWith(replyStub, expectedSerializedError);
         sinon.assert.calledOnce(validationErrorSerializerStub);
-
-        boomBadRequestMock.verify();
+        sinon.assert.calledWith(codeSpy, 400);
       });
     });
+
+    describe('should return 400 Bad request', () => {
+
+      it('when there is not payload', () => {
+        // Given
+        const request = {};
+        boomBadRequestMock.expects('badRequest').exactly(1);
+
+        // When
+        userController.save(request, replyStub);
+
+        // Then
+        boomBadRequestMock.verify();
+      });
+
+      it('when there is an empty payload', () => {
+        // Given
+        const request = {
+          payload: {}
+        };
+        boomBadRequestMock.expects('badRequest').exactly(1);
+
+        // When
+        userController.save(request, replyStub);
+
+        // Then
+        boomBadRequestMock.verify();
+      });
+
+      it('when there is an payload with empty data', () => {
+        // Given
+        const request = {
+          payload: {
+            data: {}
+          }
+        };
+        boomBadRequestMock.expects('badRequest').exactly(1);
+
+        // When
+        userController.save(request, replyStub);
+
+        // Then
+        boomBadRequestMock.verify();
+      });
+
+
+    });
+
   });
 
 });

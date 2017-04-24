@@ -1,8 +1,17 @@
 const Boom = require('boom');
 const User = require('../../domain/models/data/user');
+const _ = require('../../infrastructure/utils/lodash-utils');
 
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
+
+function _buildErrorWhenUniquEmail() {
+  return {
+    data: {
+      email: ['Cette adresse electronique est déjà enregistrée.']
+    }
+  }
+}
 
 module.exports = {
 
@@ -24,13 +33,22 @@ module.exports = {
 
   save(request, reply) {
 
-    const user = userSerializer.deserialize(request.payload);
+    if (!_.has(request, 'payload') || !_.has(request, 'payload.data.attributes')) {
+      return reply(Boom.badRequest());
+    }
+
+    let user = userSerializer.deserialize(request.payload);
 
     return user
       .save()
       .then(() => reply().code(201))
       .catch((err) => {
-        reply(Boom.badRequest(validationErrorSerializer.serialize(err)));
+
+        if (err.code === 'SQLITE_CONSTRAINT') {
+          err = _buildErrorWhenUniquEmail();
+        }
+
+        reply(validationErrorSerializer.serialize(err)).code(400);
       });
   }
 
