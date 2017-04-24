@@ -5424,8 +5424,10 @@ define('pix-live/tests/integration/components/result-item-test.lint-test', ['exp
 });
 define('pix-live/tests/integration/components/signup-form-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait'], function (exports, _chai, _mocha, _emberMocha, _ember, _emberTestHelpersWait) {
 
-  var userEmpty = _ember['default'].Object.create({});
   var FORM_CONTAINER = '.signup-form-container';
+  var FORM_HEADING_CONTAINER = '.signup-form__heading-container';
+  var FORM_HEADING = '.signup-form__heading';
+  var EXPECTED_FORM_HEADING_CONTENT = 'Inscription gratuite';
   var INPUT_TEXT_FIELD = '.signup-form__input-container';
   var CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
   var SUBMIT_BUTTON_CONTAINER = '.signup-form__submit-container';
@@ -5433,6 +5435,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
   var CGU_LINK_CONTENT = 'conditions d\'​utilisation de Pix';
   var SUBMIT_BUTTON = '.signup__submit-button';
   var SUBMIT_BUTTON_CONTENT = 'Je m\'inscris';
+  var userEmpty = _ember['default'].Object.create({});
 
   (0, _mocha.describe)('Integration | Component | signup form', function () {
     (0, _emberMocha.setupComponentTest)('signup-form', {
@@ -5451,11 +5454,14 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
       });
 
       (0, _mocha.it)('renders', function () {
-        // Then
         (0, _chai.expect)(this.$()).to.have.length(1);
       });
 
-      [{ expectedRendering: 'form', input: FORM_CONTAINER, expected: 1 }, { expectedRendering: 'input', input: INPUT_TEXT_FIELD, expected: 4 }, { expectedRendering: 'checkbox', input: CHECKBOX_CGU_CONTAINER, expected: 1 }, { expectedRendering: 'button', input: SUBMIT_BUTTON_CONTAINER, expected: 1 }].forEach(function (_ref) {
+      (0, _mocha.it)('Should return true if heading content gets <' + EXPECTED_FORM_HEADING_CONTENT + '>', function () {
+        (0, _chai.expect)(this.$(FORM_HEADING).text()).to.equal(EXPECTED_FORM_HEADING_CONTENT);
+      });
+
+      [{ expectedRendering: 'form', input: FORM_CONTAINER, expected: 1 }, { expectedRendering: 'div', input: FORM_HEADING_CONTAINER, expected: 1 }, { expectedRendering: 'h1', input: FORM_HEADING, expected: 1 }, { expectedRendering: 'input', input: INPUT_TEXT_FIELD, expected: 4 }, { expectedRendering: 'checkbox', input: CHECKBOX_CGU_CONTAINER, expected: 1 }, { expectedRendering: 'button', input: SUBMIT_BUTTON_CONTAINER, expected: 1 }].forEach(function (_ref) {
         var expectedRendering = _ref.expectedRendering;
         var input = _ref.input;
         var expected = _ref.expected;
@@ -5494,25 +5500,6 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
 
     (0, _mocha.describe)('Component behavior', function () {
 
-      _mocha.it.skip('should return true if action <Validate> is handled', function () {
-        // given
-        var isValidateInputHandled = false;
-        this.on('validateInput', function (args) {
-          isValidateInputHandled = args;
-        });
-
-        this.set('user', userEmpty);
-        this.render(_ember['default'].HTMLBars.template({
-          'id': 'uK1xYtLF',
-          'block': '{"statements":[["append",["helper",["signup-form"],null,[["user"],[["get",["user"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-          'meta': {}
-        }));
-        // when
-
-        // then
-        (0, _chai.expect)(isValidateInputHandled).to.be['true'];
-      });
-
       (0, _mocha.it)('should return true if action <Signup> is handled', function () {
         // given
         var isFormSubmitted = false;
@@ -5528,6 +5515,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
         }));
 
         // when
+
         $(SUBMIT_BUTTON).click();
 
         // then
@@ -5559,21 +5547,26 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['exports'
 
     var LABEL = '.signup-textfield__label';
     var LABEL_TEXT = 'NOM';
+
     var MESSAGE = '.signup-textfield__message';
+    var MESSAGE_DEFAULT_STATUS = 'signup-textfield__message--default';
     var MESSAGE_TEXT = '';
+
     var INPUT = '.signup-textfield__input';
+    var INPUT_DEFAULT_CLASS = 'signup-textfield__input--default';
+    /*const INPUT_SUCCESS_CLASS= 'signup-textfield__input--success';
+    const INPUT_ERROR_CLASS= 'signup-textfield__input--error';*/
 
     (0, _mocha.describe)('#Component rendering', function () {
       beforeEach(function () {
         this.set('label', 'nom');
-        this.set('message', '');
-        this.set('status', '');
-        this.set('textfieldId', 'firstname');
+        this.set('validationStatus', '');
+        this.set('textfieldName', 'firstname');
 
         // When
         this.render(Ember.HTMLBars.template({
-          'id': 'V7dVJEjN',
-          'block': '{"statements":[["append",["helper",["signup-textfield"],null,[["label","message","status","textfieldId"],[["get",["label"]],["get",["message"]],["get",["status"]],["get",["textfieldId"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': '5UJZz5Nx',
+          'block': '{"statements":[["append",["helper",["signup-textfield"],null,[["label","validationStatus","textfieldName"],[["get",["label"]],["get",["validationStatus"]],["get",["textfieldName"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
       });
@@ -5617,13 +5610,12 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['exports'
         });
 
         this.set('label', 'nom');
-        this.set('message', '');
-        this.set('status', '');
-        this.set('textfieldId', 'firstname');
+        this.set('validationStatus', '');
+        this.set('textfieldName', 'firstname');
 
         this.render(Ember.HTMLBars.template({
-          'id': 'WqBD/NUN',
-          'block': '{"statements":[["append",["helper",["signup-textfield"],null,[["label","message","status","textfieldId","validate"],[["get",["label"]],["get",["message"]],["get",["status"]],["get",["textfieldId"]],"validate"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': '9+fEj/Ti',
+          'block': '{"statements":[["append",["helper",["signup-textfield"],null,[["label","validationStatus","textfieldName","validate"],[["get",["label"]],["get",["validationStatus"]],["get",["textfieldName"]],"validate"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
         // when
@@ -5633,6 +5625,38 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['exports'
         return (0, _emberTestHelpersWait['default'])().then(function () {
           (0, _chai.expect)(isActionValidateHandled).to.be['true'];
           (0, _chai.expect)(inputValueToValidate).to.equal(expectedInputValue);
+        });
+      });
+
+      (0, _mocha.describe)('#When validationStatus gets "default", Component should ', function () {
+        beforeEach(function () {
+          this.set('label', 'nom');
+          this.set('validationStatus', 'default');
+          this.set('validationMessage', '');
+          this.set('textfieldName', 'firstname');
+
+          // When
+          this.render(Ember.HTMLBars.template({
+            'id': 'EjA+mv02',
+            'block': '{"statements":[["append",["helper",["signup-textfield"],null,[["label","validationStatus","validationMessage","textfieldName"],[["get",["label"]],["get",["validationStatus"]],["get",["validationMessage"]],["get",["textfieldName"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+        });
+
+        (0, _mocha.it)('return true if any svg doesn\'t exist', function () {
+          // then
+          (0, _chai.expect)(this.$('svg')).to.have.length(0);
+        });
+
+        [{ item: 'Input', itemSelector: INPUT, expectedClass: INPUT_DEFAULT_CLASS }, { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_DEFAULT_STATUS }].forEach(function (_ref3) {
+          var item = _ref3.item;
+          var itemSelector = _ref3.itemSelector;
+          var expectedClass = _ref3.expectedClass;
+
+          (0, _mocha.it)('contain an ' + item + ' with an additional class ' + expectedClass, function () {
+            // then
+            (0, _chai.expect)(this.$(itemSelector).attr('class')).to.contain(expectedClass);
+          });
         });
       });
     });
@@ -7090,6 +7114,138 @@ define('pix-live/tests/unit/components/result-item-test.lint-test', ['exports'],
   'use strict';
 
   describe('ESLint - unit/components/result-item-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/components/signup-textfield-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  var EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
+  var EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
+  var INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et' + ' 8 caractères.';
+
+  (0, _mocha.describe)('Unit | Component | signupTextfieldComponent', function () {
+
+    (0, _emberMocha.setupTest)('component:signup-textfield', {});
+
+    (0, _mocha.describe)('When validationStatus gets "default", Component computed property: ', function () {
+
+      [{ property: 'hasIcon', expectedValue: false }, { property: 'iconType', expectedValue: '' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--default' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--default' }].forEach(function (_ref) {
+        var property = _ref.property;
+        var expectedValue = _ref.expectedValue;
+
+        (0, _mocha.it)(property + ' should return ' + expectedValue + ' ', function () {
+          // Given
+          var component = this.subject();
+          // When
+          component.set('validationStatus', 'default');
+          component.set('validationMessage', '');
+          var propertyValue = component.get(property);
+          // Then
+          (0, _chai.expect)(propertyValue).to.equal(expectedValue);
+        });
+      });
+
+      (0, _mocha.describe)('#validationMessage: ', function () {
+
+        [{ errorType: 'firstname is empty', message: '' }, { errorType: 'lastname is empty', message: '' }, { errorType: 'password is incorrect', message: '' }].forEach(function (_ref2) {
+          var errorType = _ref2.errorType;
+          var message = _ref2.message;
+
+          (0, _mocha.it)('gets ' + message + ' when ' + errorType, function () {
+            // Given
+            var component = this.subject();
+            // When
+            component.set('validationStatus', 'default');
+            component.set('validationMessage', message);
+            var propertyValue = component.get('validationMessage');
+            // Then
+            (0, _chai.expect)(propertyValue).to.equal(message);
+          });
+        });
+      });
+    });
+
+    (0, _mocha.describe)('When validationStatus gets "error", Component computed property: ', function () {
+
+      [{ property: 'hasIcon', expectedValue: true }, { property: 'iconType', expectedValue: 'error' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--error' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--error' }].forEach(function (_ref3) {
+        var property = _ref3.property;
+        var expectedValue = _ref3.expectedValue;
+
+        (0, _mocha.it)(property + ' should return ' + expectedValue + ' ', function () {
+          // Given
+          var component = this.subject();
+          // When
+          component.set('validationStatus', 'error');
+          var propertyValue = component.get(property);
+          // Then
+          (0, _chai.expect)(propertyValue).to.equal(expectedValue);
+        });
+      });
+
+      (0, _mocha.describe)('#validationMessage: ', function () {
+
+        [{ errorType: 'firstname is empty', message: EMPTY_FIRSTNAME_ERROR_MESSAGE }, { errorType: 'lastname is empty', message: EMPTY_LASTNAME_ERROR_MESSAGE }, { errorType: 'password is incorrect', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE }].forEach(function (_ref4) {
+          var errorType = _ref4.errorType;
+          var message = _ref4.message;
+
+          (0, _mocha.it)('gets ' + message + ' when ' + errorType, function () {
+            // Given
+            var component = this.subject();
+            // When
+            component.set('validationStatus', 'error');
+            component.set('validationMessage', message);
+            var propertyValue = component.get('validationMessage');
+            // Then
+            (0, _chai.expect)(propertyValue).to.equal(message);
+          });
+        });
+      });
+    });
+
+    (0, _mocha.describe)('When validationStatus gets "success", Component computed property: ', function () {
+
+      [{ property: 'hasIcon', expectedValue: true }, { property: 'iconType', expectedValue: 'success' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--success' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--success' }].forEach(function (_ref5) {
+        var property = _ref5.property;
+        var expectedValue = _ref5.expectedValue;
+
+        (0, _mocha.it)(property + ' should return ' + expectedValue + ' ', function () {
+          // Given
+          var component = this.subject();
+          // When
+          component.set('validationStatus', 'success');
+          var propertyValue = component.get(property);
+          // Then
+          (0, _chai.expect)(propertyValue).to.equal(expectedValue);
+        });
+      });
+
+      (0, _mocha.describe)('#validationMessage: ', function () {
+
+        [{ errorType: 'firstname is valid', message: EMPTY_FIRSTNAME_ERROR_MESSAGE }, { errorType: 'lastname is valid', message: EMPTY_LASTNAME_ERROR_MESSAGE }, { errorType: 'password is valid', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE }].forEach(function (_ref6) {
+          var errorType = _ref6.errorType;
+          var message = _ref6.message;
+
+          (0, _mocha.it)('gets ' + message + ' when ' + errorType, function () {
+            // Given
+            var component = this.subject();
+            // When
+            component.set('validationStatus', 'error');
+            component.set('validationMessage', message);
+            var propertyValue = component.get('validationMessage');
+            // Then
+            (0, _chai.expect)(propertyValue).to.equal(message);
+          });
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/signup-textfield-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/components/signup-textfield-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });

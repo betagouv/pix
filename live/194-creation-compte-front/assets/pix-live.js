@@ -1441,7 +1441,9 @@ define('pix-live/components/signup-form', ['exports', 'ember'], function (export
     classNames: ['signup-form'],
 
     actions: {
-      validate: function validate() {},
+      validateInput: function validateInput() {
+        //this.sendAction('validate')
+      },
 
       signup: function signup() {
         this.sendAction('signup');
@@ -1450,22 +1452,56 @@ define('pix-live/components/signup-form', ['exports', 'ember'], function (export
   });
 });
 define('pix-live/components/signup-textfield', ['exports', 'ember'], function (exports, _ember) {
+
+  var INPUT_VALIDATION_STATUS_MAP = {
+    'default': 'signup-textfield__input--default',
+    error: 'signup-textfield__input--error',
+    success: 'signup-textfield__input--success'
+  };
+
+  var ICON_TYPE_STATUS_MAP = {
+    'default': '',
+    error: 'error',
+    success: 'success'
+  };
+
+  var MESSAGE_VALIDATION_STATUS_MAP = {
+    'default': 'signup-textfield__message--default',
+    error: 'signup-textfield__message--error',
+    success: 'signup-textfield__message--success'
+  };
+
   exports['default'] = _ember['default'].Component.extend({
-    label: '',
-    status: '', //is-error, is-success,is-default
-    message: '',
-    textfieldId: '',
-    textfield: '',
-    //icon, class, message
     classNames: ['signup-textfield'],
 
-    classDisplayed: _ember['default'].computed('status', function () {
-      return '';
+    label: '',
+    validationStatus: '',
+    textfieldName: '',
+    validationMessage: '',
+    _textfield: '',
+
+    hasIcon: _ember['default'].computed('validationStatus', function () {
+      return this.get('validationStatus') !== 'default';
+    }),
+
+    iconType: _ember['default'].computed('validationStatus', function () {
+      var inputValidationStatus = this.get('validationStatus');
+      return ICON_TYPE_STATUS_MAP[inputValidationStatus] || '';
+    }),
+
+    inputValidationStatus: _ember['default'].computed('validationStatus', function () {
+      var inputValidationStatus = this.get('validationStatus');
+      return INPUT_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
+    }),
+
+    validationMessageClass: _ember['default'].computed('validationStatus', function () {
+      var inputValidationStatus = this.get('validationStatus');
+      return MESSAGE_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
     }),
 
     actions: {
       validate: function validate() {
-        var inputValue = this.get('textfield');
+        var inputValue = this.get('_textfield');
         this.sendAction('validate', inputValue);
       }
     }
@@ -4395,10 +4431,10 @@ define("pix-live/templates/components/routable-modal-outlet", ["exports"], funct
   exports["default"] = Ember.HTMLBars.template({ "id": "IgLQm0V/", "block": "{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"current\",\"routeName\"]]],null,0]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"    \"],[\"append\",[\"unknown\",[\"routable-modal-hold\"]],false],[\"text\",\"\\n    \"],[\"append\",[\"unknown\",[\"routable-modal-backdrop\"]],false],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/routable-modal-outlet.hbs" } });
 });
 define("pix-live/templates/components/signup-form", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "CxLy1oGO", "block": "{\"statements\":[[\"open-element\",\"form\",[]],[\"static-attr\",\"class\",\"signup-form-container\"],[\"flush-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"signup-textfield\"],null,[[\"validate\",\"label\",\"message\",\"status\",\"textfieldId\"],[\"validate\",\"firstname\",\"\",\"\",\"firstname\"]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"unknown\",[\"signup-textfield\"]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"unknown\",[\"signup-textfield\"]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"unknown\",[\"signup-textfield\"]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__cgu-container\"],[\"flush-element\"],[\"text\",\"\\n    J'​accepte les \"],[\"block\",[\"link-to\"],[\"inscription\"],[[\"class\"],[\"signup__cgu-link\"]],0],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__submit-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"class\",\"signup__submit-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"signup\"]],[\"flush-element\"],[\"text\",\"Je m'inscris\"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"conditions d'​utilisation de Pix\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-form.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "vwpOsry1", "block": "{\"statements\":[[\"open-element\",\"form\",[]],[\"static-attr\",\"class\",\"signup-form-container\"],[\"flush-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__heading-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"h1\",[]],[\"static-attr\",\"class\",\"signup-form__heading\"],[\"flush-element\"],[\"text\",\"Inscription gratuite\"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"signup-textfield\"],null,[[\"validate\",\"label\",\"validationStatus\",\"textfieldName\",\"validationMessage\"],[\"validateInput\",\"firstname\",[\"get\",[\"ValidationStatus\"]],\"firstname\",[\"get\",[\"ValidationMessage\"]]]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"unknown\",[\"signup-textfield\"]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"unknown\",[\"signup-textfield\"]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"unknown\",[\"signup-textfield\"]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__cgu-container\"],[\"flush-element\"],[\"text\",\"\\n    J'​accepte les \"],[\"block\",[\"link-to\"],[\"inscription\"],[[\"class\"],[\"signup__cgu-link\"]],0],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__submit-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"class\",\"signup__submit-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"signup\"]],[\"flush-element\"],[\"text\",\"Je m'inscris\"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"conditions d'​utilisation de Pix\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-form.hbs" } });
 });
 define("pix-live/templates/components/signup-textfield", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "uAMP68UZ", "block": "{\"statements\":[[\"open-element\",\"label\",[]],[\"dynamic-attr\",\"for\",[\"concat\",[[\"unknown\",[\"textfieldId\"]]]]],[\"static-attr\",\"class\",\"signup-textfield__label\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"label\"]],false],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-textfield__message\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"message\"]],false],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"append\",[\"helper\",[\"input\"],null,[[\"type\",\"class\",\"id\",\"value\",\"focus-out\"],[\"text\",\"signup-textfield__input\",[\"get\",[\"textfieldId\"]],[\"get\",[\"textfield\"]],[\"helper\",[\"action\"],[[\"get\",[null]],\"validate\"],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-textfield.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "kiMLl/yE", "block": "{\"statements\":[[\"open-element\",\"label\",[]],[\"dynamic-attr\",\"for\",[\"concat\",[[\"unknown\",[\"textfieldName\"]]]]],[\"static-attr\",\"class\",\"signup-textfield__label\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"label\"]],false],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"open-element\",\"div\",[]],[\"dynamic-attr\",\"class\",[\"concat\",[\"signup-textfield__message \",[\"unknown\",[\"validationMessageClass\"]]]]],[\"flush-element\"],[\"append\",[\"unknown\",[\"validationMessage\"]],false],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"append\",[\"helper\",[\"input\"],null,[[\"type\",\"id\",\"value\",\"focus-out\",\"class\"],[\"text\",[\"get\",[\"textfieldName\"]],[\"get\",[\"_textfield\"]],[\"helper\",[\"action\"],[[\"get\",[null]],\"validate\"],null],[\"helper\",[\"concat\"],[\"signup-textfield__input\",\" \",[\"helper\",[\"if\"],[[\"get\",[\"inputValidationStatus\"]],[\"helper\",[\"-normalize-class\"],[\"inputValidationStatus\",[\"get\",[\"inputValidationStatus\"]]],null]],null],\" \"],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-textfield.hbs" } });
 });
 define("pix-live/templates/components/timeout-jauge", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "CIdrWWlY", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"timeout-jauge\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"timeout-jauge-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"timeout-jauge-clock\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"hasFinished\"]]],null,1,0],[\"text\",\"      \"],[\"open-element\",\"div\",[]],[\"flush-element\"],[\"text\",\" \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"timeout-jauge-remaining\"],[\"dynamic-attr\",\"data-spent\",[\"concat\",[[\"unknown\",[\"remainingSeconds\"]]]]],[\"flush-element\"],[\"text\",\"\\n        \"],[\"append\",[\"unknown\",[\"remainingTime\"]],false],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"timeout-jauge-progress\"],[\"dynamic-attr\",\"style\",[\"unknown\",[\"jaugeWidthStyle\"]],null],[\"flush-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"class\",\"svg-timeout-clock-black\"],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M11,17A1,1 0 0,0 12,18A1,1 0 0,0 13,17A1,1 0 0,0 12,16A1,1 0 0,0 11,17M11,3V7H13V5.08C16.39,5.57 19,8.47 19,12A7,7 0 0,1 12,19A7,7 0 0,1 5,12C5,10.32 5.59,8.78 6.58,7.58L12,13L13.41,11.59L6.61,4.79V4.81C4.42,6.45 3,9.05 3,12A9,9 0 0,0 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3M18,12A1,1 0 0,0 17,11A1,1 0 0,0 16,12A1,1 0 0,0 17,13A1,1 0 0,0 18,12M6,12A1,1 0 0,0 7,13A1,1 0 0,0 8,12A1,1 0 0,0 7,11A1,1 0 0,0 6,12Z\"],[\"static-attr\",\"fill\",\"black\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"class\",\"svg-timeout-clock-red\"],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M11,17A1,1 0 0,0 12,18A1,1 0 0,0 13,17A1,1 0 0,0 12,16A1,1 0 0,0 11,17M11,3V7H13V5.08C16.39,5.57 19,8.47 19,12A7,7 0 0,1 12,19A7,7 0 0,1 5,12C5,10.32 5.59,8.78 6.58,7.58L12,13L13.41,11.59L6.61,4.79V4.81C4.42,6.45 3,9.05 3,12A9,9 0 0,0 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3M18,12A1,1 0 0,0 17,11A1,1 0 0,0 16,12A1,1 0 0,0 17,13A1,1 0 0,0 18,12M6,12A1,1 0 0,0 7,13A1,1 0 0,0 8,12A1,1 0 0,0 7,11A1,1 0 0,0 6,12Z\"],[\"static-attr\",\"fill\",\"red\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/timeout-jauge.hbs" } });
@@ -5013,6 +5049,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.6.0+c3c6b604"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.6.0+a9ffb1fb"});
 }
 //# sourceMappingURL=pix-live.map
