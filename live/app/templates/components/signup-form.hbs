@@ -5,8 +5,10 @@
   </div>
 
   <div class="signup-form__input-container">
-    {{signup-textfield validate="validateInput" label="firstname" validationStatus=""
-                       textfieldName="firstname"}}
+    {{signup-textfield
+      validate="validateInput" label="firstname"
+      validationStatus=ValidationStatus
+      textfieldName="firstname" validationMessage=ValidationMessage}}
   </div>
 
   <div class="signup-form__input-container">

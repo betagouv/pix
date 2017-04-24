@@ -1,11 +1,15 @@
 import Ember from 'ember';
 
 const INPUT_VALIDATION_STATUS_MAP = {
-  default: 'signup-textfield__input--default'
+  default: 'signup-textfield__input--default',
+  error: 'signup-textfield__input--error',
+  success: 'signup-textfield__input--success'
 };
 
 const ICON_TYPE_STATUS_MAP = {
-  default: ''
+  default: '',
+  error: 'error',
+  success: 'success'
 };
 
 export default Ember.Component.extend({
@@ -14,23 +18,18 @@ export default Ember.Component.extend({
   label: '',
   validationStatus:'',
   textfieldName: '',
+  validationMessage: '',
   _textfield: '',
   _validationMessage: '',
 
 
   hasIcon: Ember.computed('validationStatus', function(){
-    return this.get('validationStatus') === 'default';
+    return this.get('validationStatus') !== 'default';
   }),
 
   iconType: Ember.computed('validationStatus', function(){
     const inputValidationStatus = this.get('validationStatus');
     return ICON_TYPE_STATUS_MAP[inputValidationStatus] || '';
-  }),
-
-  validationMessage: Ember.computed('validationStatus', function(){
-    if(this.get('validationStatus') === 'default'){
-      return '';
-    }
   }),
 
   inputValidationStatus: Ember.computed('validationStatus', function(){
