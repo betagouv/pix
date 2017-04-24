@@ -1,8 +1,15 @@
 const Bookshelf = require('../../../infrastructure/bookshelf');
 const Assessment = require('./assessment');
 
+const bcrypt = require('bcrypt');
+const Promise  = require('bluebird');
+
 module.exports = Bookshelf.Model.extend({
   tableName: 'users',
+
+  initialize() {
+    this.on('creating', this.hashPassword, this);
+  },
 
   validations: {
     firstName: [
@@ -18,6 +25,16 @@ module.exports = Bookshelf.Model.extend({
       { method: 'matches', error: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.',
         args: /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&-]{8,}/ }
     ]
+  },
+
+  hashPassword: (model) => {
+    return new Promise(function(resolve, reject) {
+      bcrypt.hash(model.attributes.password, 10, function(err, hash) {
+        if( err ) reject(err);
+        model.set('password', hash);
+        resolve(hash);
+      });
+    });
   },
 
   assessments() {

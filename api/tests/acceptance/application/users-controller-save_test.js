@@ -52,6 +52,18 @@ describe('Acceptance | Controller | users-controller', function () {
       });
   });
 
+  it('should crypt user password', function () {
+    // Given
+    options.payload.data.attributes.password = 'my-123-password';
+
+    return server.injectThen(options)
+      .then(() => {
+        return new User({ email: attributes.email }).fetch()
+      })
+      .then((user) => {
+        expect(user.get('password')).not.to.equal('my-123-password');
+      });
+  });
 
   describe('should return 400 HTTP status code', () => {
     it('when the email is not valid', function () {

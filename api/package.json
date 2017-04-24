@@ -11,6 +11,7 @@
   "homepage": "https://github.com/sgmap/pix-api#readme",
   "dependencies": {
     "airtable": "0.4.4",
+    "bcrypt": "^1.0.2",
     "blipp": "^2.3.0",
     "bookshelf": "0.10.3",
     "bookshelf-validate": "^2.0.3",
