@@ -12,5 +12,9 @@
 
 
 {{#if hasIcon}}
-  <svg></svg>
+  {{#if (eq validationStatus 'error') }}
+    <svg class="validation-icon-error"></svg>
+  {{else}}
+    <svg class="validation-icon-success"></svg>
+  {{/if}}
 {{/if}}

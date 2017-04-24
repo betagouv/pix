@@ -7,7 +7,7 @@ import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
 
-describe.only('Integration | Component | signup textfield', function () {
+describe('Integration | Component | signup textfield', function () {
   setupComponentTest('signup-textfield', {
     integration: true
   });
@@ -18,11 +18,12 @@ describe.only('Integration | Component | signup textfield', function () {
   const MESSAGE = '.signup-textfield__message';
   const MESSAGE_DEFAULT_STATUS = 'signup-textfield__message--default';
   const MESSAGE_ERROR_STATUS = 'signup-textfield__message--error';
+  const MESSAGE_SUCCESS_STATUS = 'signup-textfield__message--success';
   const MESSAGE_TEXT = '';
 
   const INPUT = '.signup-textfield__input';
   const INPUT_DEFAULT_CLASS= 'signup-textfield__input--default';
-  /*const INPUT_SUCCESS_CLASS= 'signup-textfield__input--success';*/
+  const INPUT_SUCCESS_CLASS= 'signup-textfield__input--success';
   const INPUT_ERROR_CLASS= 'signup-textfield__input--error';
 
   describe('#Component rendering', function () {
@@ -122,7 +123,6 @@ describe.only('Integration | Component | signup textfield', function () {
         });
       });
 
-
     });
 
     describe('#When validationStatus gets "error", Component should ', function () {
@@ -139,6 +139,7 @@ describe.only('Integration | Component | signup textfield', function () {
       it('return true if any svg does exist', function () {
         // then
         expect(this.$('svg')).to.have.length(1);
+        expect(this.$('svg').attr('class')).to.equal('validation-icon-error');
       });
 
       [
@@ -153,6 +154,37 @@ describe.only('Integration | Component | signup textfield', function () {
         });
       });
 
+    });
+
+
+    describe('#When validationStatus gets "success", Component should ', function () {
+      beforeEach(function(){
+        this.set('label', 'nom');
+        this.set('validationStatus', 'success');
+        this.set('validationMessage', '');
+        this.set('textfieldName', 'firstname');
+
+        // When
+        this.render(hbs`{{signup-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
+      });
+
+      it('return true if any svg does exist', function () {
+        // then
+        expect(this.$('svg')).to.have.length(1);
+        expect(this.$('svg').attr('class')).to.equal('validation-icon-success');
+      });
+
+      [
+
+        {item: 'Input' , itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS},
+        {item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS},
+
+      ].forEach(({item, itemSelector, expectedClass}) =>{
+        it(`contain an ${item} with an additional class ${expectedClass}` , function () {
+          // then
+          expect(this.$(itemSelector).attr('class')).to.contain(expectedClass);
+        });
+      });
 
     });
 
