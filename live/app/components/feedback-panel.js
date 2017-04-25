@@ -13,31 +13,37 @@ export default Ember.Component.extend({
 
   assessment: null,
   challenge: null,
-  status: FORM_CLOSED,
+  default_status: null,
 
+  _status: null,
   _email: null,
   _content: null,
   _error: null,
 
-  isFormClosed: Ember.computed.equal('status', FORM_CLOSED),
-  isFormOpened: Ember.computed.equal('status', FORM_OPENED),
+  isFormClosed: Ember.computed.equal('_status', FORM_CLOSED),
+  isFormOpened: Ember.computed.equal('_status', FORM_OPENED),
 
-  didUpdateAttrs() {
+  didReceiveAttrs() {
     this._super(...arguments);
     this.reset();
   },
 
   reset() {
-    this.set('status', FORM_CLOSED);
+    const default_status = this.get('default_status');
     this.set('_email', null);
     this.set('_content', null);
     this.set('_error', null);
+    this.set('_status', default_status);
+  },
+
+  closeForm(){
+    this.set('_status', FORM_CLOSED);
   },
 
   actions: {
 
     openFeedbackForm() {
-      this.set('status', FORM_OPENED);
+      this.set('_status', FORM_OPENED);
     },
 
     sendFeedback() {
@@ -63,11 +69,12 @@ export default Ember.Component.extend({
         challenge
       });
 
-      feedback.save().then(() => this.set('status', FORM_SUBMITTED));
+      feedback.save().then(() => this.set('_status', FORM_SUBMITTED));
     },
 
     cancelFeedback() {
-      this.reset();
+      this.closeForm();
+      //this.reset();
     }
   }
 });
