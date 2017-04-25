@@ -5445,13 +5445,29 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
   var FORM_HEADING_CONTAINER = '.signup-form__heading-container';
   var FORM_HEADING = '.signup-form__heading';
   var EXPECTED_FORM_HEADING_CONTENT = 'Inscription gratuite';
+
   var INPUT_TEXT_FIELD = '.signup-form__input-container';
+
   var CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
-  var SUBMIT_BUTTON_CONTAINER = '.signup-form__submit-container';
+  var CHECKBOX_CGU_INPUT = '.signup-form__cgu-checkbox';
+  var CHECKBOX_CGU_LABEL = '.signup-form__cgu-label';
+
   var CGU_LINK = '.signup__cgu-link';
   var CGU_LINK_CONTENT = 'conditions d\'​utilisation de Pix';
+
+  var SUBMIT_BUTTON_CONTAINER = '.signup-form__submit-container';
   var SUBMIT_BUTTON = '.signup__submit-button';
   var SUBMIT_BUTTON_CONTENT = 'Je m\'inscris';
+
+  var MESSAGE_ERROR_STATUS = 'signup-textfield__message--error';
+  var EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
+
+  var EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
+  var EMPTY_EMAIL_ERROR_MESSAGE = 'Votre email n’est pas valide.';
+  var INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et' + ' 8 caractères.';
+  /*const MESSAGE_DEFAULT_STATUS = 'signup-textfield__message--default';*/
+  var MESSAGE_SUCCESS_STATUS = 'signup-textfield__message--success';
+
   var userEmpty = _ember['default'].Object.create({});
 
   (0, _mocha.describe)('Integration | Component | signup form', function () {
@@ -5478,7 +5494,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
         (0, _chai.expect)(this.$(FORM_HEADING).text()).to.equal(EXPECTED_FORM_HEADING_CONTENT);
       });
 
-      [{ expectedRendering: 'form', input: FORM_CONTAINER, expected: 1 }, { expectedRendering: 'div', input: FORM_HEADING_CONTAINER, expected: 1 }, { expectedRendering: 'h1', input: FORM_HEADING, expected: 1 }, { expectedRendering: 'input', input: INPUT_TEXT_FIELD, expected: 4 }, { expectedRendering: 'checkbox', input: CHECKBOX_CGU_CONTAINER, expected: 1 }, { expectedRendering: 'button', input: SUBMIT_BUTTON_CONTAINER, expected: 1 }].forEach(function (_ref) {
+      [{ expectedRendering: 'form', input: FORM_CONTAINER, expected: 1 }, { expectedRendering: 'div', input: FORM_HEADING_CONTAINER, expected: 1 }, { expectedRendering: 'h1', input: FORM_HEADING, expected: 1 }, { expectedRendering: 'input', input: INPUT_TEXT_FIELD, expected: 4 }, { expectedRendering: 'checkbox container', input: CHECKBOX_CGU_CONTAINER, expected: 1 }, { expectedRendering: 'checkbox', input: CHECKBOX_CGU_INPUT, expected: 1 }, { expectedRendering: 'checkbox label', input: CHECKBOX_CGU_LABEL, expected: 1 }, { expectedRendering: 'button', input: SUBMIT_BUTTON_CONTAINER, expected: 1 }].forEach(function (_ref) {
         var expectedRendering = _ref.expectedRendering;
         var input = _ref.input;
         var expected = _ref.expected;
@@ -5540,10 +5556,203 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
           (0, _chai.expect)(isFormSubmitted).to.be['true'];
         });
       });
-    });
 
-    //action sendAction, render component, provided data
-    // Handle any actions with
+      (0, _mocha.describe)('Component on error validation', function () {
+        (0, _mocha.it)('when focus-out on an empty input#firstname, validation message gets error class', function () {
+          var _this = this;
+
+          // given
+          this.set('user', userEmpty);
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'uK1xYtLF',
+            'block': '{"statements":[["append",["helper",["signup-form"],null,[["user"],[["get",["user"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // when
+          this.$('#firstname').val('');
+          this.$('#firstname').trigger('focusout');
+
+          // then
+          return (0, _emberTestHelpersWait['default'])().then(function () {
+            var divSiblingClass = _this.$('#firstname').prev().attr('class');
+            var divSiblingContent = _this.$('#firstname').prev().text();
+            (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
+            (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
+          });
+        });
+
+        (0, _mocha.it)('when focus-out on an empty input#lastname, validation message gets error class', function () {
+          var _this2 = this;
+
+          // given
+          this.set('user', userEmpty);
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'uK1xYtLF',
+            'block': '{"statements":[["append",["helper",["signup-form"],null,[["user"],[["get",["user"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // when
+          this.$('#lastname').val('');
+          this.$('#lastname').trigger('focusout');
+
+          // then
+          return (0, _emberTestHelpersWait['default'])().then(function () {
+            var divSiblingClass = _this2.$('#lastname').prev().attr('class');
+            var divSiblingContent = _this2.$('#lastname').prev().text();
+            (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
+            (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
+          });
+        });
+
+        (0, _mocha.it)('when focus-out on an empty input#email, validation message gets error class', function () {
+          var _this3 = this;
+
+          // given
+          this.set('user', userEmpty);
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'uK1xYtLF',
+            'block': '{"statements":[["append",["helper",["signup-form"],null,[["user"],[["get",["user"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // when
+          this.$('#email').val('');
+          this.$('#email').trigger('focusout');
+
+          // then
+          return (0, _emberTestHelpersWait['default'])().then(function () {
+            var divSiblingClass = _this3.$('#email').prev().attr('class');
+            var divSiblingContent = _this3.$('#email').prev().text();
+            (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
+            (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
+          });
+        });
+
+        (0, _mocha.it)('when focus-out on an empty input#password, validation message gets error class', function () {
+          var _this4 = this;
+
+          // given
+          this.set('user', userEmpty);
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'uK1xYtLF',
+            'block': '{"statements":[["append",["helper",["signup-form"],null,[["user"],[["get",["user"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // when
+          this.$('#password').val('');
+          this.$('#password').trigger('focusout');
+
+          // then
+          return (0, _emberTestHelpersWait['default'])().then(function () {
+            var divSiblingClass = _this4.$('#password').prev().attr('class');
+            var divSiblingContent = _this4.$('#password').prev().text();
+            (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
+            (0, _chai.expect)(divSiblingContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
+          });
+        });
+      });
+
+      (0, _mocha.describe)('Component on success validation', function () {
+        (0, _mocha.it)('when focus-out on an empty input#firstname, validation message gets success class', function () {
+          var _this5 = this;
+
+          // given
+          this.set('user', userEmpty);
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'uK1xYtLF',
+            'block': '{"statements":[["append",["helper",["signup-form"],null,[["user"],[["get",["user"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // when
+          this.$('#firstname').val('pix');
+          this.$('#firstname').trigger('focusout');
+
+          // then
+          return (0, _emberTestHelpersWait['default'])().then(function () {
+            var divSiblingClass = _this5.$('#firstname').prev().attr('class');
+            var divSiblingContent = _this5.$('#firstname').prev().text();
+            (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
+            (0, _chai.expect)(divSiblingContent).to.equal('');
+          });
+        });
+
+        (0, _mocha.it)('when focus-out on an empty input#lastname, validation message gets success class', function () {
+          var _this6 = this;
+
+          // given
+          this.set('user', userEmpty);
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'uK1xYtLF',
+            'block': '{"statements":[["append",["helper",["signup-form"],null,[["user"],[["get",["user"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // when
+          this.$('#lastname').val('pix');
+          this.$('#lastname').trigger('focusout');
+
+          // then
+          return (0, _emberTestHelpersWait['default'])().then(function () {
+            var divSiblingClass = _this6.$('#lastname').prev().attr('class');
+            var divSiblingContent = _this6.$('#lastname').prev().text();
+            (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
+            (0, _chai.expect)(divSiblingContent).to.equal('');
+          });
+        });
+
+        (0, _mocha.it)('when focus-out on an empty input#email, validation message gets success class', function () {
+          var _this7 = this;
+
+          // given
+          this.set('user', userEmpty);
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'uK1xYtLF',
+            'block': '{"statements":[["append",["helper",["signup-form"],null,[["user"],[["get",["user"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // when
+          this.$('#email').val('shi@fu.pix');
+          this.$('#email').trigger('focusout');
+
+          // then
+          return (0, _emberTestHelpersWait['default'])().then(function () {
+            var divSiblingClass = _this7.$('#email').prev().attr('class');
+            var divSiblingContent = _this7.$('#email').prev().text();
+            (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
+            (0, _chai.expect)(divSiblingContent).to.equal('');
+          });
+        });
+
+        (0, _mocha.it)('when focus-out on an empty input#password, validation message gets success class', function () {
+          var _this8 = this;
+
+          // given
+          this.set('user', userEmpty);
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'uK1xYtLF',
+            'block': '{"statements":[["append",["helper",["signup-form"],null,[["user"],[["get",["user"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // when
+          this.$('#password').val('mypassword');
+          this.$('#password').trigger('focusout');
+
+          // then
+          return (0, _emberTestHelpersWait['default'])().then(function () {
+            var divSiblingClass = _this8.$('#password').prev().attr('class');
+            var divSiblingContent = _this8.$('#password').prev().text();
+            (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
+            (0, _chai.expect)(divSiblingContent).to.equal('');
+          });
+        });
+      });
+    });
   });
 });
 define('pix-live/tests/integration/components/signup-form-test.lint-test', ['exports'], function (exports) {
@@ -5621,7 +5830,7 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['exports'
         // given
         var isActionValidateHandled = false;
         var inputValueToValidate = undefined;
-        var expectedInputValue = 'pix';
+        var expectedInputValue = { value: 'pix', key: 'firstname' };
 
         this.on('validate', function (arg) {
           isActionValidateHandled = true;
@@ -5643,7 +5852,7 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['exports'
         // then
         return (0, _emberTestHelpersWait['default'])().then(function () {
           (0, _chai.expect)(isActionValidateHandled).to.be['true'];
-          (0, _chai.expect)(inputValueToValidate).to.equal(expectedInputValue);
+          (0, _chai.expect)(inputValueToValidate).to.deep.equal(expectedInputValue);
         });
       });
 
