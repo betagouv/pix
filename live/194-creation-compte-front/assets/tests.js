@@ -5465,8 +5465,10 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
   var EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
   var EMPTY_EMAIL_ERROR_MESSAGE = 'Votre email n’est pas valide.';
   var INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et' + ' 8 caractères.';
-  /*const MESSAGE_DEFAULT_STATUS = 'signup-textfield__message--default';*/
   var MESSAGE_SUCCESS_STATUS = 'signup-textfield__message--success';
+
+  var ICON_ERROR_CLASS = 'validation-icon-error';
+  var ICON_SUCCESS_CLASS = 'validation-icon-success';
 
   var userEmpty = _ember['default'].Object.create({});
 
@@ -5575,10 +5577,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
 
           // then
           return (0, _emberTestHelpersWait['default'])().then(function () {
-            var divSiblingClass = _this.$('#firstname').prev().attr('class');
-            var divSiblingContent = _this.$('#firstname').prev().text();
+            var divSiblingClass = _this.$('#firstname').parent().prev().attr('class');
+            var divSiblingContent = _this.$('#firstname').parent().prev('div').text();
+            var iconSiblingClass = _this.$('#firstname').next('svg').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
+            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
           });
         });
 
@@ -5599,10 +5603,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
 
           // then
           return (0, _emberTestHelpersWait['default'])().then(function () {
-            var divSiblingClass = _this2.$('#lastname').prev().attr('class');
-            var divSiblingContent = _this2.$('#lastname').prev().text();
+            var divSiblingClass = _this2.$('#lastname').parent().prev().attr('class');
+            var divSiblingContent = _this2.$('#lastname').parent().prev('div').text();
+            var iconSiblingClass = _this2.$('#lastname').next('svg').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
+            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
           });
         });
 
@@ -5623,10 +5629,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
 
           // then
           return (0, _emberTestHelpersWait['default'])().then(function () {
-            var divSiblingClass = _this3.$('#email').prev().attr('class');
-            var divSiblingContent = _this3.$('#email').prev().text();
+            var divSiblingClass = _this3.$('#email').parent().prev().attr('class');
+            var divSiblingContent = _this3.$('#email').parent().prev('div').text();
+            var iconSiblingClass = _this3.$('#email').next('svg').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
+            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
           });
         });
 
@@ -5647,10 +5655,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
 
           // then
           return (0, _emberTestHelpersWait['default'])().then(function () {
-            var divSiblingClass = _this4.$('#password').prev().attr('class');
-            var divSiblingContent = _this4.$('#password').prev().text();
+            var divSiblingClass = _this4.$('#password').parent().prev().attr('class');
+            var divSiblingContent = _this4.$('#password').parent().prev('div').text();
+            var iconSiblingClass = _this4.$('#password').next('svg').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
+            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
           });
         });
       });
@@ -5673,10 +5683,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
 
           // then
           return (0, _emberTestHelpersWait['default'])().then(function () {
-            var divSiblingClass = _this5.$('#firstname').prev().attr('class');
-            var divSiblingContent = _this5.$('#firstname').prev().text();
+            var divSiblingClass = _this5.$('#firstname').parent().prev().attr('class');
+            var divSiblingContent = _this5.$('#firstname').parent().prev('div').text();
+            var iconSiblingClass = _this5.$('#firstname').next('svg').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
+            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
           });
         });
 
@@ -5697,10 +5709,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
 
           // then
           return (0, _emberTestHelpersWait['default'])().then(function () {
-            var divSiblingClass = _this6.$('#lastname').prev().attr('class');
-            var divSiblingContent = _this6.$('#lastname').prev().text();
+            var divSiblingClass = _this6.$('#lastname').parent().prev().attr('class');
+            var divSiblingContent = _this6.$('#lastname').parent().prev('div').text();
+            var iconSiblingClass = _this6.$('#lastname').next('svg').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
+            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
           });
         });
 
@@ -5721,10 +5735,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
 
           // then
           return (0, _emberTestHelpersWait['default'])().then(function () {
-            var divSiblingClass = _this7.$('#email').prev().attr('class');
-            var divSiblingContent = _this7.$('#email').prev().text();
+            var divSiblingClass = _this7.$('#email').parent().prev().attr('class');
+            var divSiblingContent = _this7.$('#email').parent().prev('div').text();
+            var iconSiblingClass = _this7.$('#email').next('svg').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
+            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
           });
         });
 
@@ -5745,10 +5761,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
 
           // then
           return (0, _emberTestHelpersWait['default'])().then(function () {
-            var divSiblingClass = _this8.$('#password').prev().attr('class');
-            var divSiblingContent = _this8.$('#password').prev().text();
+            var divSiblingClass = _this8.$('#password').parent().prev().attr('class');
+            var divSiblingContent = _this8.$('#password').parent().prev('div').text();
+            var iconSiblingClass = _this8.$('#password').next('svg').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
+            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
           });
         });
       });
@@ -7439,11 +7457,29 @@ define('pix-live/tests/unit/components/signup-textfield-test', ['exports', 'chai
 
     (0, _emberMocha.setupTest)('component:signup-textfield', {});
 
+    (0, _mocha.describe)('Component should renders :', function () {
+
+      [{ renderingIntent: 'text', inputId: 'shi' }, { renderingIntent: 'text', inputId: '' }, { renderingIntent: 'password', inputId: 'password' }].forEach(function (_ref) {
+        var renderingIntent = _ref.renderingIntent;
+        var inputId = _ref.inputId;
+
+        (0, _mocha.it)('an ' + renderingIntent + ' when input id is ' + inputId, function () {
+          // given
+          var component = this.subject();
+          // when
+          component.set('textfieldName', inputId);
+          var inputType = component.get('textfieldType');
+          // then
+          (0, _chai.expect)(inputType).to.equal(renderingIntent);
+        });
+      });
+    });
+
     (0, _mocha.describe)('When validationStatus gets "default", Component computed property: ', function () {
 
-      [{ property: 'hasIcon', expectedValue: false }, { property: 'iconType', expectedValue: '' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--default' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--default' }].forEach(function (_ref) {
-        var property = _ref.property;
-        var expectedValue = _ref.expectedValue;
+      [{ property: 'hasIcon', expectedValue: false }, { property: 'iconType', expectedValue: '' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--default' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--default' }].forEach(function (_ref2) {
+        var property = _ref2.property;
+        var expectedValue = _ref2.expectedValue;
 
         (0, _mocha.it)(property + ' should return ' + expectedValue + ' ', function () {
           // Given
@@ -7459,9 +7495,9 @@ define('pix-live/tests/unit/components/signup-textfield-test', ['exports', 'chai
 
       (0, _mocha.describe)('#validationMessage: ', function () {
 
-        [{ errorType: 'firstname is empty', message: '' }, { errorType: 'lastname is empty', message: '' }, { errorType: 'password is incorrect', message: '' }].forEach(function (_ref2) {
-          var errorType = _ref2.errorType;
-          var message = _ref2.message;
+        [{ errorType: 'firstname is empty', message: '' }, { errorType: 'lastname is empty', message: '' }, { errorType: 'password is incorrect', message: '' }].forEach(function (_ref3) {
+          var errorType = _ref3.errorType;
+          var message = _ref3.message;
 
           (0, _mocha.it)('gets ' + message + ' when ' + errorType, function () {
             // Given
@@ -7479,9 +7515,9 @@ define('pix-live/tests/unit/components/signup-textfield-test', ['exports', 'chai
 
     (0, _mocha.describe)('When validationStatus gets "error", Component computed property: ', function () {
 
-      [{ property: 'hasIcon', expectedValue: true }, { property: 'iconType', expectedValue: 'error' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--error' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--error' }].forEach(function (_ref3) {
-        var property = _ref3.property;
-        var expectedValue = _ref3.expectedValue;
+      [{ property: 'hasIcon', expectedValue: true }, { property: 'iconType', expectedValue: 'error' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--error' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--error' }].forEach(function (_ref4) {
+        var property = _ref4.property;
+        var expectedValue = _ref4.expectedValue;
 
         (0, _mocha.it)(property + ' should return ' + expectedValue + ' ', function () {
           // Given
@@ -7496,9 +7532,9 @@ define('pix-live/tests/unit/components/signup-textfield-test', ['exports', 'chai
 
       (0, _mocha.describe)('#validationMessage: ', function () {
 
-        [{ errorType: 'firstname is empty', message: EMPTY_FIRSTNAME_ERROR_MESSAGE }, { errorType: 'lastname is empty', message: EMPTY_LASTNAME_ERROR_MESSAGE }, { errorType: 'password is incorrect', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE }].forEach(function (_ref4) {
-          var errorType = _ref4.errorType;
-          var message = _ref4.message;
+        [{ errorType: 'firstname is empty', message: EMPTY_FIRSTNAME_ERROR_MESSAGE }, { errorType: 'lastname is empty', message: EMPTY_LASTNAME_ERROR_MESSAGE }, { errorType: 'password is incorrect', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE }].forEach(function (_ref5) {
+          var errorType = _ref5.errorType;
+          var message = _ref5.message;
 
           (0, _mocha.it)('gets ' + message + ' when ' + errorType, function () {
             // Given
@@ -7516,9 +7552,9 @@ define('pix-live/tests/unit/components/signup-textfield-test', ['exports', 'chai
 
     (0, _mocha.describe)('When validationStatus gets "success", Component computed property: ', function () {
 
-      [{ property: 'hasIcon', expectedValue: true }, { property: 'iconType', expectedValue: 'success' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--success' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--success' }].forEach(function (_ref5) {
-        var property = _ref5.property;
-        var expectedValue = _ref5.expectedValue;
+      [{ property: 'hasIcon', expectedValue: true }, { property: 'iconType', expectedValue: 'success' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--success' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--success' }].forEach(function (_ref6) {
+        var property = _ref6.property;
+        var expectedValue = _ref6.expectedValue;
 
         (0, _mocha.it)(property + ' should return ' + expectedValue + ' ', function () {
           // Given
@@ -7533,9 +7569,9 @@ define('pix-live/tests/unit/components/signup-textfield-test', ['exports', 'chai
 
       (0, _mocha.describe)('#validationMessage: ', function () {
 
-        [{ errorType: 'firstname is valid', message: EMPTY_FIRSTNAME_ERROR_MESSAGE }, { errorType: 'lastname is valid', message: EMPTY_LASTNAME_ERROR_MESSAGE }, { errorType: 'password is valid', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE }].forEach(function (_ref6) {
-          var errorType = _ref6.errorType;
-          var message = _ref6.message;
+        [{ errorType: 'firstname is valid', message: EMPTY_FIRSTNAME_ERROR_MESSAGE }, { errorType: 'lastname is valid', message: EMPTY_LASTNAME_ERROR_MESSAGE }, { errorType: 'password is valid', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE }].forEach(function (_ref7) {
+          var errorType = _ref7.errorType;
+          var message = _ref7.message;
 
           (0, _mocha.it)('gets ' + message + ' when ' + errorType, function () {
             // Given
