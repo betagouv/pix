@@ -140,8 +140,8 @@ describe('Integration | Component | signup form', function () {
 
         // then
         return wait().then(() => {
-          const divSiblingClass = this.$('#firstname').prev().attr('class');
-          const divSiblingContent = this.$('#firstname').prev().text();
+          const divSiblingClass = this.$('#firstname').parent().prev().attr('class');
+          const divSiblingContent = this.$('#firstname').parent().prev('div').text();
           expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
           expect(divSiblingContent).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
         });
@@ -158,8 +158,8 @@ describe('Integration | Component | signup form', function () {
 
         // then
         return wait().then(() => {
-          const divSiblingClass = this.$('#lastname').prev().attr('class');
-          const divSiblingContent = this.$('#lastname').prev().text();
+          const divSiblingClass = this.$('#lastname').parent().prev().attr('class');
+          const divSiblingContent = this.$('#lastname').parent().prev('div').text();
           expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
           expect(divSiblingContent).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
         });
@@ -176,8 +176,8 @@ describe('Integration | Component | signup form', function () {
 
         // then
         return wait().then(() => {
-          const divSiblingClass = this.$('#email').prev().attr('class');
-          const divSiblingContent = this.$('#email').prev().text();
+          const divSiblingClass = this.$('#email').parent().prev().attr('class');
+          const divSiblingContent = this.$('#email').parent().prev('div').text();
           expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
           expect(divSiblingContent).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
         });
@@ -194,8 +194,8 @@ describe('Integration | Component | signup form', function () {
 
         // then
         return wait().then(() => {
-          const divSiblingClass = this.$('#password').prev().attr('class');
-          const divSiblingContent = this.$('#password').prev().text();
+          const divSiblingClass = this.$('#password').parent().prev().attr('class');
+          const divSiblingContent = this.$('#password').parent().prev('div').text();
           expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
           expect(divSiblingContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
         });
@@ -214,8 +214,8 @@ describe('Integration | Component | signup form', function () {
 
         // then
         return wait().then(() => {
-          const divSiblingClass = this.$('#firstname').prev().attr('class');
-          const divSiblingContent = this.$('#firstname').prev().text();
+          const divSiblingClass = this.$('#firstname').parent().prev().attr('class');
+          const divSiblingContent = this.$('#firstname').parent().prev('div').text();
           expect(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
           expect(divSiblingContent).to.equal('');
         });
@@ -232,8 +232,8 @@ describe('Integration | Component | signup form', function () {
 
         // then
         return wait().then(() => {
-          const divSiblingClass = this.$('#lastname').prev().attr('class');
-          const divSiblingContent = this.$('#lastname').prev().text();
+          const divSiblingClass = this.$('#lastname').parent().prev().attr('class');
+          const divSiblingContent = this.$('#lastname').parent().prev('div').text();
           expect(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
           expect(divSiblingContent).to.equal('');
         });
@@ -250,8 +250,8 @@ describe('Integration | Component | signup form', function () {
 
         // then
         return wait().then(() => {
-          const divSiblingClass = this.$('#email').prev().attr('class');
-          const divSiblingContent = this.$('#email').prev().text();
+          const divSiblingClass = this.$('#email').parent().prev().attr('class');
+          const divSiblingContent = this.$('#email').parent().prev('div').text();
           expect(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
           expect(divSiblingContent).to.equal('');
         });
@@ -268,8 +268,8 @@ describe('Integration | Component | signup form', function () {
 
         // then
         return wait().then(() => {
-          const divSiblingClass = this.$('#password').prev().attr('class');
-          const divSiblingContent = this.$('#password').prev().text();
+          const divSiblingClass = this.$('#password').parent().prev().attr('class');
+          const divSiblingContent = this.$('#password').parent().prev('div').text();
           expect(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
           expect(divSiblingContent).to.equal('');
         });
