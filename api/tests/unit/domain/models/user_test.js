@@ -12,10 +12,11 @@ describe('Unit | Domain | Models | User', () => {
 
     beforeEach(() => {
       rawData = {
-        firstName: 'Tony',
-        lastName: 'Stark',
-        email: 'email@example.net',
-        password: 'F26251JHS'
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        email: faker.internet.email(),
+        password: 'F26251JHS',
+        cgu: 'true'
       };
     });
 
@@ -137,6 +138,49 @@ describe('Unit | Domain | Models | User', () => {
             expect(passwordErrors).to.deep.equal([ 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.' ]);
           });
       });
+
+      it('should be invalid when cgu are not true', () => {
+        // Given
+        rawData.cgu = 'false';
+        const user = new User(rawData);
+
+        // When
+        const promise = user.save();
+
+        // Then
+        return promise
+          .then(() => {
+            sinon.assert.fail('should not succeed');
+          })
+          .catch((err) => {
+            const cguErrors = err.data[ 'cgu' ];
+            expect(cguErrors).to.exist;
+            expect(cguErrors).to
+              .deep.equal([ 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.' ]);
+          });
+      });
+
+      it('should be invalid when cgu are empty', () => {
+        // Given
+        rawData.cgu = undefined;
+        const user = new User(rawData);
+
+        // When
+        const promise = user.save();
+
+        // Then
+        return promise
+          .then(() => {
+            sinon.assert.fail('should not succeed');
+          })
+          .catch((err) => {
+            const cguErrors = err.data[ 'cgu' ];
+            expect(cguErrors).to.exist;
+            expect(cguErrors).to
+              .deep.equal([ 'Le champ CGU doit être renseigné.' ]);
+          });
+      });
+
 
       it('is valid when everything works', () => {
         // Given

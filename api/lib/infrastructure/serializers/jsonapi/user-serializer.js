@@ -14,6 +14,7 @@ class AnswerSerializer extends JSONAPISerializer {
       lastName: json.data.attributes.lastName,
       email: json.data.attributes.email,
       password: json.data.attributes.password,
+      cgu: json.data.attributes.cgu,
     });
   }
 

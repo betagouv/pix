@@ -27,6 +27,10 @@ module.exports = Bookshelf.Model.extend({
         method: 'matches', error: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.',
         args: /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&-]{8,}/
       }
+    ],
+    cgu: [
+      { method: 'isRequired', error: 'Le champ CGU doit être renseigné.' },
+      { method: 'equals', error: 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.', args: 'true' }
     ]
   },
 
