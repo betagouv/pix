@@ -1,5 +1,5 @@
 const JSONAPISerializer = require('./jsonapi-serializer');
-const User = require('../../../domain/models/data/User');
+const User = require('../../../domain/models/data/user');
 
 class AnswerSerializer extends JSONAPISerializer {
 

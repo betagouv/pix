@@ -5,14 +5,6 @@ const _ = require('../../infrastructure/utils/lodash-utils');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
-function _buildErrorWhenUniquEmail() {
-  return {
-    data: {
-      email: ['Cette adresse electronique est déjà enregistrée.']
-    }
-  }
-}
-
 module.exports = {
 
   list(request, reply) {
@@ -37,7 +29,7 @@ module.exports = {
       return reply(Boom.badRequest());
     }
 
-    let user = userSerializer.deserialize(request.payload);
+    const user = userSerializer.deserialize(request.payload);
 
     return user
       .save()
@@ -53,4 +45,12 @@ module.exports = {
   }
 
 };
+
+function _buildErrorWhenUniquEmail() {
+  return {
+    data: {
+      email: ['Cette adresse electronique est déjà enregistrée.']
+    }
+  };
+}
 
