@@ -38,6 +38,7 @@ export default Ember.Component.extend({
 
   closeForm(){
     this.set('_status', FORM_CLOSED);
+    this.set('_error', null);
   },
 
   actions: {
@@ -74,7 +75,6 @@ export default Ember.Component.extend({
 
     cancelFeedback() {
       this.closeForm();
-      //this.reset();
     }
   }
 });
