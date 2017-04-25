@@ -35,6 +35,9 @@ const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comport
   ' 8 caractères.';
 const MESSAGE_SUCCESS_STATUS = 'signup-textfield__message--success';
 
+const ICON_ERROR_CLASS = 'validation-icon-error';
+const ICON_SUCCESS_CLASS = 'validation-icon-success';
+
 const userEmpty = Ember.Object.create({});
 
 
@@ -142,8 +145,10 @@ describe('Integration | Component | signup form', function () {
         return wait().then(() => {
           const divSiblingClass = this.$('#firstname').parent().prev().attr('class');
           const divSiblingContent = this.$('#firstname').parent().prev('div').text();
+          const iconSiblingClass = this.$('#firstname').next('svg').attr('class');
           expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
           expect(divSiblingContent).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
+          expect(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
         });
       });
 
@@ -160,8 +165,10 @@ describe('Integration | Component | signup form', function () {
         return wait().then(() => {
           const divSiblingClass = this.$('#lastname').parent().prev().attr('class');
           const divSiblingContent = this.$('#lastname').parent().prev('div').text();
+          const iconSiblingClass = this.$('#lastname').next('svg').attr('class');
           expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
           expect(divSiblingContent).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
+          expect(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
         });
       });
 
@@ -178,8 +185,10 @@ describe('Integration | Component | signup form', function () {
         return wait().then(() => {
           const divSiblingClass = this.$('#email').parent().prev().attr('class');
           const divSiblingContent = this.$('#email').parent().prev('div').text();
+          const iconSiblingClass = this.$('#email').next('svg').attr('class');
           expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
           expect(divSiblingContent).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
+          expect(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
         });
       });
 
@@ -196,8 +205,10 @@ describe('Integration | Component | signup form', function () {
         return wait().then(() => {
           const divSiblingClass = this.$('#password').parent().prev().attr('class');
           const divSiblingContent = this.$('#password').parent().prev('div').text();
+          const iconSiblingClass = this.$('#password').next('svg').attr('class');
           expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
           expect(divSiblingContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
+          expect(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
         });
       });
     });
@@ -216,8 +227,10 @@ describe('Integration | Component | signup form', function () {
         return wait().then(() => {
           const divSiblingClass = this.$('#firstname').parent().prev().attr('class');
           const divSiblingContent = this.$('#firstname').parent().prev('div').text();
+          const iconSiblingClass = this.$('#firstname').next('svg').attr('class');
           expect(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
           expect(divSiblingContent).to.equal('');
+          expect(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
         });
       });
 
@@ -234,8 +247,10 @@ describe('Integration | Component | signup form', function () {
         return wait().then(() => {
           const divSiblingClass = this.$('#lastname').parent().prev().attr('class');
           const divSiblingContent = this.$('#lastname').parent().prev('div').text();
+          const iconSiblingClass = this.$('#lastname').next('svg').attr('class');
           expect(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
           expect(divSiblingContent).to.equal('');
+          expect(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
         });
       });
 
@@ -252,8 +267,10 @@ describe('Integration | Component | signup form', function () {
         return wait().then(() => {
           const divSiblingClass = this.$('#email').parent().prev().attr('class');
           const divSiblingContent = this.$('#email').parent().prev('div').text();
+          const iconSiblingClass = this.$('#email').next('svg').attr('class');
           expect(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
           expect(divSiblingContent).to.equal('');
+          expect(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
         });
       });
 
@@ -270,8 +287,10 @@ describe('Integration | Component | signup form', function () {
         return wait().then(() => {
           const divSiblingClass = this.$('#password').parent().prev().attr('class');
           const divSiblingContent = this.$('#password').parent().prev('div').text();
+          const iconSiblingClass = this.$('#password').next('svg').attr('class');
           expect(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
           expect(divSiblingContent).to.equal('');
+          expect(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
         });
       });
     });
