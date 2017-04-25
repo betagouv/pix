@@ -26,6 +26,13 @@ export default Ember.Component.extend({
   validationMessage: '',
   _textfield: '',
 
+  textfieldType: Ember.computed('textfieldName', function(){
+    if (this.get('textfieldName') === 'password') {
+      return 'password';
+    }
+    return 'text';
+  }),
+
   hasIcon: Ember.computed('validationStatus', function(){
     return this.get('validationStatus') !== 'default';
   }),

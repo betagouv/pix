@@ -14,6 +14,26 @@ describe('Unit | Component | signupTextfieldComponent', function () {
 
   setupTest('component:signup-textfield', {});
 
+  describe('Component should renders :', function () {
+
+    [
+      { renderingIntent: 'text', inputId: 'shi'},
+      { renderingIntent: 'text', inputId: ''},
+      { renderingIntent: 'password', inputId: 'password'}
+    ].forEach(({renderingIntent,inputId}) =>{
+      it(`an ${renderingIntent} when input id is ${inputId}`, function () {
+        // given
+        const component = this.subject();
+        // when
+        component.set('textfieldName', inputId);
+        const inputType = component.get('textfieldType');
+        // then
+        expect(inputType).to.equal(renderingIntent);
+      });
+    });
+
+  });
+
   describe('When validationStatus gets "default", Component computed property: ', function () {
 
     [
