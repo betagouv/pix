@@ -6,25 +6,39 @@
 
   <div class="signup-form__input-container">
     {{signup-textfield
-      validate="validateInput" label="firstname"
-      validationStatus=ValidationStatus
-      textfieldName="firstname" validationMessage=ValidationMessage}}
+      validate="validateInput" label="Nom"
+      validationStatus=lastname.status
+      textfieldName="lastname" validationMessage=lastname.message}}
   </div>
 
   <div class="signup-form__input-container">
-    {{signup-textfield}}
+    {{signup-textfield
+      validate="validateInput" label="Prénom"
+      validationStatus=firstname.status
+      textfieldName="firstname" validationMessage=firstname.message}}
   </div>
 
   <div class="signup-form__input-container">
-    {{signup-textfield}}
+    {{signup-textfield
+      validate="validateInputEmail" label="Adresse Email"
+      validationStatus=email.status
+      textfieldName="email" validationMessage=email.message}}
   </div>
 
   <div class="signup-form__input-container">
-    {{signup-textfield}}
+    {{signup-textfield
+      validate="validateInput" label="Mot de passe"
+      validationStatus=password.status
+      textfieldName="password" validationMessage=password.message}}
   </div>
 
   <div class="signup-form__cgu-container">
-    J'​accepte les {{#link-to 'inscription' class="signup__cgu-link"}}conditions d'​utilisation de Pix{{/link-to}}
+
+    {{input type="checkbox" id='cgu' name=cgu_checkbox class="signup-form__cgu-checkbox"}}
+    <label for="cgu" class="signup-form__cgu-label">
+      J'​accepte les {{#link-to 'inscription' class="signup__cgu-link"}}conditions d'​utilisation de Pix{{/link-to}}
+    </label>
+
   </div>
 
   <div class="signup-form__submit-container">

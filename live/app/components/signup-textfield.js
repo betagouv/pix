@@ -22,7 +22,6 @@ export default Ember.Component.extend({
   classNames: ['signup-textfield'],
 
   label: '',
-  validationStatus:'',
   textfieldName: '',
   validationMessage: '',
   _textfield: '',
@@ -49,7 +48,8 @@ export default Ember.Component.extend({
   actions: {
     validate(){
       const inputValue = this.get('_textfield');
-      this.sendAction('validate', inputValue);
+      const validationArgs = {value: inputValue, key: this.get('textfieldName')};
+      this.sendAction('validate', validationArgs);
     }
   }
 });
