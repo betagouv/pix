@@ -21,7 +21,7 @@ describe('Acceptance | Controller | users-controller', function () {
 
     options = {
       method: 'POST',
-      url: '/api/users',
+      url: '/api/accounts',
       payload: {
         data: {
           type: 'user',
