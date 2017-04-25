@@ -73,7 +73,7 @@ describe('Integration | Component | signup textfield', function () {
       // given
       let isActionValidateHandled = false;
       let inputValueToValidate;
-      const expectedInputValue = 'pix';
+      const expectedInputValue = { value: 'pix', key: 'firstname' };
 
       this.on('validate', function (arg) {
         isActionValidateHandled = true;
@@ -91,7 +91,7 @@ describe('Integration | Component | signup textfield', function () {
       // then
       return wait().then(() => {
         expect(isActionValidateHandled).to.be.true;
-        expect(inputValueToValidate).to.equal(expectedInputValue);
+        expect(inputValueToValidate).to.deep.equal(expectedInputValue);
       });
     });
 

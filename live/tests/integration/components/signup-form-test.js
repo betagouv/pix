@@ -30,15 +30,16 @@ const MESSAGE_ERROR_STATUS = 'signup-textfield__message--error';
 const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
 
 const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
+const EMPTY_EMAIL_ERROR_MESSAGE = 'Votre email n’est pas valide.';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et' +
   ' 8 caractères.';
-/*const MESSAGE_DEFAULT_STATUS = 'signup-textfield__message--default';
-const MESSAGE_SUCCESS_STATUS = 'signup-textfield__message--success';*/
+/*const MESSAGE_DEFAULT_STATUS = 'signup-textfield__message--default';*/
+const MESSAGE_SUCCESS_STATUS = 'signup-textfield__message--success';
 
 const userEmpty = Ember.Object.create({});
 
 
-describe.only('Integration | Component | signup form', function () {
+describe('Integration | Component | signup form', function () {
   setupComponentTest('signup-form', {
     integration: true
   });
@@ -128,57 +129,151 @@ describe.only('Integration | Component | signup form', function () {
       });
     });
 
-    it('when focus-out on an empty input#firstname, validation message gets error class', function () {
-      // given
-      this.set('user', userEmpty);
-      this.render(hbs`{{signup-form user=user}}`);
+    describe('Component on error validation', function () {
+      it('when focus-out on an empty input#firstname, validation message gets error class', function () {
+        // given
+        this.set('user', userEmpty);
+        this.render(hbs`{{signup-form user=user}}`);
 
-      // when
-      this.$('#firstname').val('');
-      this.$('#firstname').trigger('focusout');
+        // when
+        this.$('#firstname').val('');
+        this.$('#firstname').trigger('focusout');
 
-      // then
-      return wait().then(() => {
-        const divSiblingClass = this.$('#firstname').prev().attr('class');
-        const divSiblingContent = this.$('#firstname').prev().text();
-        expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
-        expect(divSiblingContent).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
+        // then
+        return wait().then(() => {
+          const divSiblingClass = this.$('#firstname').prev().attr('class');
+          const divSiblingContent = this.$('#firstname').prev().text();
+          expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
+          expect(divSiblingContent).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
+        });
+      });
+
+      it('when focus-out on an empty input#lastname, validation message gets error class', function () {
+        // given
+        this.set('user', userEmpty);
+        this.render(hbs`{{signup-form user=user}}`);
+
+        // when
+        this.$('#lastname').val('');
+        this.$('#lastname').trigger('focusout');
+
+        // then
+        return wait().then(() => {
+          const divSiblingClass = this.$('#lastname').prev().attr('class');
+          const divSiblingContent = this.$('#lastname').prev().text();
+          expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
+          expect(divSiblingContent).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
+        });
+      });
+
+      it('when focus-out on an empty input#email, validation message gets error class', function () {
+        // given
+        this.set('user', userEmpty);
+        this.render(hbs`{{signup-form user=user}}`);
+
+        // when
+        this.$('#email').val('');
+        this.$('#email').trigger('focusout');
+
+        // then
+        return wait().then(() => {
+          const divSiblingClass = this.$('#email').prev().attr('class');
+          const divSiblingContent = this.$('#email').prev().text();
+          expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
+          expect(divSiblingContent).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
+        });
+      });
+
+      it('when focus-out on an empty input#password, validation message gets error class', function () {
+        // given
+        this.set('user', userEmpty);
+        this.render(hbs`{{signup-form user=user}}`);
+
+        // when
+        this.$('#password').val('');
+        this.$('#password').trigger('focusout');
+
+        // then
+        return wait().then(() => {
+          const divSiblingClass = this.$('#password').prev().attr('class');
+          const divSiblingContent = this.$('#password').prev().text();
+          expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
+          expect(divSiblingContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
+        });
       });
     });
 
-    it('when focus-out on an empty input#lastname, validation message gets error class', function () {
-      // given
-      this.set('user', userEmpty);
-      this.render(hbs`{{signup-form user=user}}`);
+    describe('Component on success validation', function () {
+      it('when focus-out on an empty input#firstname, validation message gets success class', function () {
+        // given
+        this.set('user', userEmpty);
+        this.render(hbs`{{signup-form user=user}}`);
 
-      // when
-      this.$('#lastname').val('');
-      this.$('#lastname').trigger('focusout');
+        // when
+        this.$('#firstname').val('pix');
+        this.$('#firstname').trigger('focusout');
 
-      // then
-      return wait().then(() => {
-        const divSiblingClass = this.$('#lastname').prev().attr('class');
-        const divSiblingContent = this.$('#lastname').prev().text();
-        expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
-        expect(divSiblingContent).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
+        // then
+        return wait().then(() => {
+          const divSiblingClass = this.$('#firstname').prev().attr('class');
+          const divSiblingContent = this.$('#firstname').prev().text();
+          expect(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
+          expect(divSiblingContent).to.equal('');
+        });
       });
-    });
 
-    it('when focus-out on an empty input#email, validation message gets error class', function () {
-      // given
-      this.set('user', userEmpty);
-      this.render(hbs`{{signup-form user=user}}`);
+      it('when focus-out on an empty input#lastname, validation message gets success class', function () {
+        // given
+        this.set('user', userEmpty);
+        this.render(hbs`{{signup-form user=user}}`);
 
-      // when
-      this.$('#email').val('');
-      this.$('#email').trigger('focusout');
+        // when
+        this.$('#lastname').val('pix');
+        this.$('#lastname').trigger('focusout');
 
-      // then
-      return wait().then(() => {
-        const divSiblingClass = this.$('#email').prev().attr('class');
-        const divSiblingContent = this.$('#email').prev().text();
-        expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
-        expect(divSiblingContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
+        // then
+        return wait().then(() => {
+          const divSiblingClass = this.$('#lastname').prev().attr('class');
+          const divSiblingContent = this.$('#lastname').prev().text();
+          expect(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
+          expect(divSiblingContent).to.equal('');
+        });
+      });
+
+      it('when focus-out on an empty input#email, validation message gets success class', function () {
+        // given
+        this.set('user', userEmpty);
+        this.render(hbs`{{signup-form user=user}}`);
+
+        // when
+        this.$('#email').val('shi@fu.pix');
+        this.$('#email').trigger('focusout');
+
+        // then
+        return wait().then(() => {
+          const divSiblingClass = this.$('#email').prev().attr('class');
+          const divSiblingContent = this.$('#email').prev().text();
+          expect(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
+          expect(divSiblingContent).to.equal('');
+        });
+      });
+
+      it('when focus-out on an empty input#password, validation message gets success class', function () {
+        // given
+        this.set('user', userEmpty);
+        this.render(hbs`{{signup-form user=user}}`);
+
+        // when
+        this.$('#password').val('mypassword');
+        this.$('#password').trigger('focusout');
+
+        // then
+        return wait().then(() => {
+          const divSiblingClass = this.$('#password').prev().attr('class');
+          const divSiblingContent = this.$('#password').prev().text();
+          expect(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
+          expect(divSiblingContent).to.equal('');
+        });
       });
     });
 
