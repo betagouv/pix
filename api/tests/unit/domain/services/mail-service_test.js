@@ -27,68 +27,74 @@ describe('Unit | Service | MailService', function () {
 
       // Then
       return promise.then(() => {
-        sinon.assert.calledWith(sendEmailStub, { to: email, template: '143620' });
+        sinon.assert.calledWith(sendEmailStub, {
+          to: email,
+          template: '143620',
+          from: 'ne-pas-repondre@pix.beta.gouv.fr',
+          fromName: 'PIX - Ne pas répondre',
+          subject: 'Création de votre compte PIX'
+        });
       });
     });
   });
 
   /*const mjSuccessfullData = {
-    response: {
-      statusCode: 200
-    }
-  };
+   response: {
+   statusCode: 200
+   }
+   };
 
-  const mjUnsuccessfullData = {
-    response: {
-      statusCode: 400
-    }
-  };
+   const mjUnsuccessfullData = {
+   response: {
+   statusCode: 400
+   }
+   };
 
-  describe('#sendWelcomeEmail', function () {
-    it('should return an object data and be ok when receiver email is provided', function (done) {
-      //Given
-      sinon.stub(Mailjet, 'sendWelcomeEmail', _ => mjSuccessfullData);
+   describe('#sendWelcomeEmail', function () {
+   it('should return an object data and be ok when receiver email is provided', function (done) {
+   //Given
+   sinon.stub(Mailjet, 'sendWelcomeEmail', _ => mjSuccessfullData);
 
-      // When
-      const result = Mailjet.sendWelcomeEmail('flo@pix.com');
+   // When
+   const result = Mailjet.sendWelcomeEmail('flo@pix.com');
 
-      //Then
-      expect(result).to.be.an('object');
-      expect(result.response.statusCode).to.be.ok;
-      Mailjet.sendWelcomeEmail.restore();
-      done();
-    });
+   //Then
+   expect(result).to.be.an('object');
+   expect(result.response.statusCode).to.be.ok;
+   Mailjet.sendWelcomeEmail.restore();
+   done();
+   });
 
-    it('should be nok when bad request', function (done) {
-      // Given
-      sinon.stub(Mailjet, 'sendWelcomeEmail', _ => mjUnsuccessfullData);
+   it('should be nok when bad request', function (done) {
+   // Given
+   sinon.stub(Mailjet, 'sendWelcomeEmail', _ => mjUnsuccessfullData);
 
-      // When
-      const result = Mailjet.sendWelcomeEmail('');
+   // When
+   const result = Mailjet.sendWelcomeEmail('');
 
-      // Then
-      expect(result).to.be.an('object');
-      expect(result.response.statusCode).to.be.falsy;
-      Mailjet.sendWelcomeEmail.restore();
-      done();
-    });
-  });
+   // Then
+   expect(result).to.be.an('object');
+   expect(result.response.statusCode).to.be.falsy;
+   Mailjet.sendWelcomeEmail.restore();
+   done();
+   });
+   });
 
-  describe('#sendAccountCreationEmail', () => {
-    it('should', () => {
+   describe('#sendAccountCreationEmail', () => {
+   it('should', () => {
 
-      const mailJetMock = sinon.mock(nodeMailjet);
+   const mailJetMock = sinon.mock(nodeMailjet);
 
-      // Given
-      //sinon.stub(Mailjet, 'sendWelcomeEmail', _ => mjSuccessfullData);
+   // Given
+   //sinon.stub(Mailjet, 'sendWelcomeEmail', _ => mjSuccessfullData);
 
-      // When
-      const result = Mailjet.sendWelcomeEmail('people@pix.com');
+   // When
+   const result = Mailjet.sendWelcomeEmail('people@pix.com');
 
-      // Then
-      return result.then(() => {
+   // Then
+   return result.then(() => {
 
-      });
-    });
-  });*/
+   });
+   });
+   });*/
 });

@@ -135,8 +135,8 @@ describe('Unit | Class | Mailjet', function () {
       return result.then(() => {
         sinon.assert.calledWith(requestStub, {
           'FromEmail': 'communaute@pix.beta.gouv.fr',
-          'FromName': 'Communauté Pix',
-          'Subject': 'Bienvenue dans la communauté Pix',
+          'FromName': 'Communauté PIX',
+          'Subject': 'Bienvenue dans la communauté PIX',
           'MJ-TemplateID': '129291',
           'MJ-TemplateLanguage': 'true',
           'Recipients': [ { 'Email': email } ]

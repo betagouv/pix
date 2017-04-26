@@ -8,9 +8,9 @@ function _formatPayload(options) {
 
   const configuration = _.defaults(options, {
     from: 'communaute@pix.beta.gouv.fr',
-    fromName: 'Communauté Pix',
+    fromName: 'Communauté PIX',
     to: null,
-    subject: 'Bienvenue dans la communauté Pix',
+    subject: 'Bienvenue dans la communauté PIX',
     template: null
   });
 
