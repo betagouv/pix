@@ -31,7 +31,7 @@ function expectMercixViewToBeVisible(component) {
   expect(component.$(MERCIX_VIEW)).to.have.length(1);
 }
 
-describe.only('Integration | Component | feedback-panel', function () {
+describe('Integration | Component | feedback-panel', function () {
 
   setupComponentTest('feedback-panel', {
     integration: true
@@ -190,7 +190,9 @@ describe.only('Integration | Component | feedback-panel', function () {
 
     it('should display error if "content" is blank', function () {
       // given
-      this.render(hbs`{{feedback-panel _status='FORM_OPENED' _content='   '}}`);
+      this.render(hbs`{{feedback-panel default_status='FORM_OPENED'}}`);
+      this.$('.feedback-panel__field--content').val('   ');
+      this.$('.feedback-panel__field--content').change();
 
       // when
       this.$(BUTTON_SEND).click();
@@ -202,7 +204,9 @@ describe.only('Integration | Component | feedback-panel', function () {
 
     it('should display error if "email" is set but invalid', function () {
       // given
-      this.render(hbs`{{feedback-panel _status='FORM_OPENED' _content='Lorem ipsum dolor sit amet' _email='wrong_email'}}`);
+      this.render(hbs`{{feedback-panel default_status='FORM_OPENED' _content='Lorem ipsum dolor sit amet'}}`);
+      this.$('.feedback-panel__field--email').val('wrong_email');
+      this.$('.feedback-panel__field--email').change();
 
       // when
       this.$(BUTTON_SEND).click();
@@ -213,7 +217,9 @@ describe.only('Integration | Component | feedback-panel', function () {
 
     it('should not display error if "form" view (with error) was closed and re-opened', function () {
       // given
-      this.render(hbs`{{feedback-panel _status='FORM_OPENED' _content='   '}}`);
+      this.render(hbs`{{feedback-panel default_status='FORM_OPENED'}}`);
+      this.$('.feedback-panel__field--content').val('   ');
+      this.$('.feedback-panel__field--content').change();
       this.$(BUTTON_SEND).click();
       expect(this.$('.alert')).to.have.length(1);
 
