@@ -29,7 +29,7 @@ export default Ember.Component.extend({
   },
 
   reset() {
-    const default_status = this.get('default_status');
+    const default_status = this.get('default_status') || FORM_CLOSED;
     this.set('_email', null);
     this.set('_content', null);
     this.set('_error', null);

@@ -31,7 +31,7 @@ function expectMercixViewToBeVisible(component) {
   expect(component.$(MERCIX_VIEW)).to.have.length(1);
 }
 
-describe('Integration | Component | feedback-panel', function () {
+describe.only('Integration | Component | feedback-panel', function () {
 
   setupComponentTest('feedback-panel', {
     integration: true
@@ -45,7 +45,7 @@ describe('Integration | Component | feedback-panel', function () {
       this.render(hbs`{{feedback-panel}}`);
       // then
       expect(this.$()).to.have.length(1);
-      //expectLinkViewToBeVisible(this);
+      expectLinkViewToBeVisible(this);
     });
 
   });
@@ -178,7 +178,7 @@ describe('Integration | Component | feedback-panel', function () {
   describe('Mercix view', function () {
 
     beforeEach(function () {
-      this.render(hbs`{{feedback-panel _status='FORM_SUBMITTED'}}`);
+      this.render(hbs`{{feedback-panel default_status='FORM_SUBMITTED'}}`);
     });
 
     it('should display only the "mercix" view', function () {
