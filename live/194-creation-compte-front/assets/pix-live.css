@@ -1990,22 +1990,41 @@ button.routable-modal--close:active {
   -ms-flex-direction: column;
   flex-direction: column;
   border-radius: 10px;
-  margin: 64px 15px 15px;
+  margin: 10px 5px 10px;
   background-color: #ffffff; }
+  @media screen and (min-width: 321px) {
+    .signup-form-container {
+      margin: 25px 15px 15px; } }
+  @media screen and (min-width: 767px) {
+    .signup-form-container {
+      margin: 80px 0; } }
 
 .signup-form__logo {
   position: relative;
   width: 106px;
   height: 79px;
-  margin: 56px auto 53px; }
+  margin: 26px auto 23px; }
+  @media screen and (min-width: 767px) {
+    .signup-form__logo {
+      margin: 56px auto 53px; } }
 
 .signup-form__heading-container {
-  margin-bottom: 44px; }
+  margin-bottom: 20px; }
+  @media screen and (min-width: 767px) {
+    .signup-form__heading-container {
+      margin-bottom: 44px; } }
 
 .signup-form__heading {
   font-family: "Raleway", Arial, sans-serif;
-  font-size: 25px;
-  color: #3e4149; }
+  color: #3e4149;
+  margin: 0;
+  font-size: 22px; }
+  @media screen and (min-width: 321px) {
+    .signup-form__heading {
+      font-size: 25px; } }
+  @media screen and (min-width: 767px) {
+    .signup-form__heading {
+      font-size: 36px; } }
 
 .signup-form__input-container {
   max-width: 449px;
@@ -2014,6 +2033,14 @@ button.routable-modal--close:active {
   @media screen and (min-width: 767px) {
     .signup-form__input-container {
       padding: 0; } }
+
+.signup-form__cgu-container {
+  margin-top: 0px;
+  margin-bottom: 6px; }
+  @media screen and (min-width: 321px) {
+    .signup-form__cgu-container {
+      margin-top: 6px;
+      margin-bottom: 0; } }
 
 .signup-form__cgu-container input[type="checkbox"] {
   -webkit-appearance: none; }
@@ -2059,17 +2086,24 @@ button.routable-modal--close:active {
 .signup-form__cgu-label {
   position: relative;
   display: -ms-flexbox;
-  display: flex; }
+  display: flex;
+  margin-bottom: 0; }
 
 .signup-form__cgu-label span {
   color: #6a6d76;
-  font-size: 14px; }
+  font-size: 13px; }
+  @media screen and (min-width: 321px) {
+    .signup-form__cgu-label span {
+      font-size: 14px; } }
 
 .signup__cgu-link {
   color: #2f4bff; }
 
 .signup-form__submit-container {
-  margin: 31px auto 34px; }
+  margin: 5px auto 20px; }
+  @media screen and (min-width: 321px) {
+    .signup-form__submit-container {
+      margin: 31px auto 34px; } }
 
 .signup__submit-button {
   width: 150px;
@@ -2760,8 +2794,13 @@ hr.project-page__presentation-header-line {
   display: flex;
   -ms-flex-pack: center;
   justify-content: center;
-  background: url("/images/signup-bg.jpg");
-  background-size: contain; }
+  background: url("/images/signup-bg.jpg") no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%; }
+  @media screen and (min-width: 767px) {
+    .signup-container {
+      height: 100%; } }
 
 body {
   font-family: "Lato", Arial, sans-serif;
