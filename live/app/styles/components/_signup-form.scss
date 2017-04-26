@@ -11,25 +11,38 @@
   align-items: center;
   flex-direction: column;
   border-radius: 10px;
-  margin: 64px 15px 15px; //128
+  margin: 25px 15px 15px;
   background-color: #ffffff;
+  @media screen and (min-width: 767px) {
+    margin: 80px 0;
+  }
 }
 
 .signup-form__logo {
   position: relative;
   width: 106px;
   height: 79px;
-  margin: 56px auto 53px;
+  margin: 26px auto 23px;
+  @media screen and (min-width: 767px) {
+    margin: 56px auto 53px;
+  }
 }
 
 .signup-form__heading-container {
-  margin-bottom: 44px;
+  margin-bottom: 20px;
+  @media screen and (min-width: 767px) {
+    margin-bottom: 44px;
+  }
 }
 
 .signup-form__heading {
   font-family: $font-raleway;
   font-size: 25px;
   color: $charcoal-grey;
+  margin: 0;
+  @media screen and (min-width: 767px) {
+    font-size: 36px;
+  }
 }
 
 .signup-form__input-container {
@@ -42,6 +55,9 @@
 }
 
 
+.signup-form__cgu-container{
+  margin-top: 6px;
+}
 .signup-form__cgu-container input[type="checkbox"]{
   -webkit-appearance: none;
 }
@@ -95,6 +111,7 @@
 .signup-form__cgu-label{
   position: relative;
   display: flex;
+  margin-bottom:0;
 }
 
 .signup-form__cgu-label span{
