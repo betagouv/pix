@@ -7477,7 +7477,7 @@ define('pix-live/tests/unit/components/signup-textfield-test', ['exports', 'chai
 
     (0, _mocha.describe)('When validationStatus gets "default", Component computed property: ', function () {
 
-      [{ property: 'hasIcon', expectedValue: false }, { property: 'iconType', expectedValue: '' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--default' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--default' }].forEach(function (_ref2) {
+      [{ property: 'hasIcon', expectedValue: false }, { property: 'iconType', expectedValue: '' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--default' }, { property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--default' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--default' }].forEach(function (_ref2) {
         var property = _ref2.property;
         var expectedValue = _ref2.expectedValue;
 
@@ -7515,7 +7515,7 @@ define('pix-live/tests/unit/components/signup-textfield-test', ['exports', 'chai
 
     (0, _mocha.describe)('When validationStatus gets "error", Component computed property: ', function () {
 
-      [{ property: 'hasIcon', expectedValue: true }, { property: 'iconType', expectedValue: 'error' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--error' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--error' }].forEach(function (_ref4) {
+      [{ property: 'hasIcon', expectedValue: true }, { property: 'iconType', expectedValue: 'error' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--error' }, { property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--error' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--error' }].forEach(function (_ref4) {
         var property = _ref4.property;
         var expectedValue = _ref4.expectedValue;
 
@@ -7552,7 +7552,7 @@ define('pix-live/tests/unit/components/signup-textfield-test', ['exports', 'chai
 
     (0, _mocha.describe)('When validationStatus gets "success", Component computed property: ', function () {
 
-      [{ property: 'hasIcon', expectedValue: true }, { property: 'iconType', expectedValue: 'success' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--success' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--success' }].forEach(function (_ref6) {
+      [{ property: 'hasIcon', expectedValue: true }, { property: 'iconType', expectedValue: 'success' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--success' }, { property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--success' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--success' }].forEach(function (_ref6) {
         var property = _ref6.property;
         var expectedValue = _ref6.expectedValue;
 
