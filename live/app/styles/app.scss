@@ -43,6 +43,8 @@
 @import 'components/qrocm-solution-panel';
 @import 'components/qcm-solution-panel';
 @import 'components/qcu-solution-panel';
+@import 'components/signup-form';
+@import 'components/signup-textfield';
 
 /* pages */
 @import 'pages/index';
@@ -51,6 +53,7 @@
 @import 'pages/assessment-challenge';
 @import 'pages/assessment-results';
 @import 'pages/competences';
+@import 'pages/inscription';
 
 body {
   font-family: $font-lato;

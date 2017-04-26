@@ -18,6 +18,12 @@ const MESSAGE_VALIDATION_STATUS_MAP =  {
   success: 'signup-textfield__message--success'
 };
 
+const INPUT_CONTAINER_VALIDATION_STATUS_MAP =  {
+  default: 'signup-textfield__input-container--default',
+  error: 'signup-textfield__input-container--error',
+  success: 'signup-textfield__input-container--success'
+};
+
 export default Ember.Component.extend({
   classNames: ['signup-textfield'],
 
@@ -35,6 +41,11 @@ export default Ember.Component.extend({
 
   hasIcon: Ember.computed('validationStatus', function(){
     return this.get('validationStatus') !== 'default';
+  }),
+
+  inputContainerStatusClass: Ember.computed('validationStatus', function(){
+    const inputValidationStatus = this.get('validationStatus');
+    return INPUT_CONTAINER_VALIDATION_STATUS_MAP[inputValidationStatus] || null;
   }),
 
   iconType: Ember.computed('validationStatus', function(){

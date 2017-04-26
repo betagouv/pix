@@ -1,4 +1,7 @@
 <form class="signup-form-container">
+  <div class="signup-form__logo">
+    {{pix-logo}}
+  </div>
 
   <div class="signup-form__heading-container">
     <h1 class="signup-form__heading">Inscription gratuite</h1>
@@ -34,9 +37,9 @@
 
   <div class="signup-form__cgu-container">
 
-    {{input type="checkbox" id='cgu' name=cgu_checkbox class="signup-form__cgu-checkbox"}}
     <label for="cgu" class="signup-form__cgu-label">
-      J'​accepte les {{#link-to 'inscription' class="signup__cgu-link"}}conditions d'​utilisation de Pix{{/link-to}}
+      {{input type="checkbox" id='cgu' name=cgu_checkbox class="signup-form__cgu-checkbox"}}
+      <span>J'​accepte les {{#link-to 'inscription' class="signup__cgu-link"}}conditions d'​utilisation de Pix{{/link-to}}</span>
     </label>
 
   </div>
