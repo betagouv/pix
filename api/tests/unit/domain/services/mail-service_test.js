@@ -27,7 +27,7 @@ describe('Unit | Service | MailService', function () {
 
       // Then
       return promise.then(() => {
-        sinon.assert.calledWith(sendEmailStub, email);
+        sinon.assert.calledWith(sendEmailStub, { to: email, template: '143620' });
       });
     });
   });

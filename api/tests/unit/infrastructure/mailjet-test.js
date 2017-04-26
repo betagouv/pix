@@ -47,7 +47,7 @@ describe('Unit | Class | Mailjet', function () {
     });
   });
 
-  describe('#sendAccountCreationEmail', () => {
+  describe('#sendEmail', () => {
 
     let mailJetConnectStub;
 
@@ -71,7 +71,7 @@ describe('Unit | Class | Mailjet', function () {
       });
 
       // When
-      const result = Mailjet.sendEmail();
+      Mailjet.sendEmail();
 
       // Then
       sinon.assert.calledWith(mailJetConnectStub, 'test-api-ket', 'test-api-secret')
@@ -93,13 +93,43 @@ describe('Unit | Class | Mailjet', function () {
 
     it('should request with a payload', () => {
       // Given
+      const from = 'no-reply@example.net';
       const email = 'test@example.net';
       const requestStub = sinon.stub().returns(Promise.resolve());
       const postStub = sinon.stub().returns({ request: requestStub });
       mailJetConnectStub.returns({ post: postStub });
 
       // When
-      const result = Mailjet.sendEmail(email, '129291');
+      const result = Mailjet.sendEmail({
+        from,
+        to: email,
+        fromName: 'Ne Pas Repondre',
+        subject: 'Creation de compte',
+        template: '129291'
+      });
+
+      // Then
+      return result.then(() => {
+        sinon.assert.calledWith(requestStub, {
+          'FromEmail': 'no-reply@example.net',
+          'FromName': 'Ne Pas Repondre',
+          'Subject': 'Creation de compte',
+          'MJ-TemplateID': '129291',
+          'MJ-TemplateLanguage': 'true',
+          'Recipients': [ { 'Email': email } ]
+        });
+      });
+    });
+
+    it('should have default values', () => {
+      // Given
+      const email = 'test@example.net';
+      const requestStub = sinon.stub().returns(Promise.resolve());
+      const postStub = sinon.stub().returns({ request: requestStub });
+      mailJetConnectStub.returns({ post: postStub });
+
+      // When
+      const result = Mailjet.sendEmail({ template: '129291', to: email });
 
       // Then
       return result.then(() => {
