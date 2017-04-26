@@ -1,6 +1,6 @@
-const {describe, it, after, beforeEach, afterEach, expect, knex, sinon} = require('../../test-helper');
+const { describe, it, beforeEach, afterEach, expect, knex, sinon } = require('../../test-helper');
 const server = require('../../../server');
-const Mailjet = require('../../../lib/infrastructure/mailjet')
+const Mailjet = require('../../../lib/infrastructure/mailjet');
 
 describe('Acceptance | Controller | follower-controller', function () {
 
@@ -12,13 +12,20 @@ describe('Acceptance | Controller | follower-controller', function () {
     knex('followers').delete().then(() => done());
   });
 
-  after(function (done) {
-    server.stop(done);
-  });
 
   describe('POST /api/followers', function () {
 
-    it('should persist the follower if follower does not exist', function (done) {
+    let mailjetStub;
+
+    beforeEach(() => {
+      mailjetStub = sinon.stub(Mailjet, 'sendWelcomeEmail');
+    });
+
+    afterEach(() => {
+      mailjetStub.restore();
+    });
+
+    it('should persist the follower if follower does not exist', () => {
       const payload = {
         data: {
           type: 'followers',
@@ -27,22 +34,26 @@ describe('Acceptance | Controller | follower-controller', function () {
           }
         }
       };
-      const spyMailjet = sinon.spy(Mailjet, 'sendWelcomeEmail');
 
-      server.inject({method: 'POST', url: '/api/followers', payload}).then((response) => {
+      // When
+      let promise = server.injectThen({ method: 'POST', url: '/api/followers', payload });
+
+      // Then
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(201);
-        expect(response.headers['content-type']).to.contain('application/json');
+        expect(response.headers[ 'content-type' ]).to.contain('application/json');
+
         const follower = response.result;
         expect(follower.data.id).to.exist;
         expect(follower.data.type).to.equal('followers');
         expect(follower.data.attributes.email).to.equal('shi+1@fu.me');
-        expect(spyMailjet.withArgs('shi+1@fu.me').calledOnce).to.be.true;
-        spyMailjet.restore();
-        done();
+
+        sinon.assert.calledOnce(mailjetStub);
+        sinon.assert.calledWith(mailjetStub, 'shi+1@fu.me');
       });
     });
 
-    it('should return an error with status code 409 if follower already exist', function (done) {
+    it('should return an error with status code 409 if follower already exist', function () {
       const payload = {
         data: {
           type: 'followers',
@@ -52,14 +63,17 @@ describe('Acceptance | Controller | follower-controller', function () {
         }
       };
 
-      server.inject({method: 'POST', url: '/api/followers', payload}).then(_ => {
-        const spyMailjet = sinon.spy(Mailjet, 'sendWelcomeEmail');
-        server.inject({method: 'POST', url: '/api/followers', payload}).then((res) => {
-          expect(spyMailjet.notCalled).to.be.true;
-          expect(res.statusCode).to.equal(409);
-          spyMailjet.restore();
-          done();
-        });
+      const firstRegistration = server.injectThen({ method: 'POST', url: '/api/followers', payload });
+
+      // When
+      const secondRegistration = firstRegistration.then(_ => {
+        mailjetStub.reset();
+        return server.inject({ method: 'POST', url: '/api/followers', payload });
+      });
+
+      return secondRegistration.then((res) => {
+        expect(res.statusCode).to.equal(409);
+        expect(mailjetStub.notCalled).to.be.true;
       });
 
     });

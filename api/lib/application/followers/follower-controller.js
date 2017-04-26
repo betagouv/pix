@@ -15,7 +15,7 @@ function _assertFollowerNotExist(follower) {
 
 function _saveFollower(email) {
   return new Promise((resolve, reject) => {
-    new Follower({email: email})
+    new Follower({ email: email })
       .save()
       .then((emailSaved) => {
         return resolve(emailSaved);
@@ -34,14 +34,17 @@ module.exports = {
     if (!EmailValidator.emailIsValid(email)) {
       return reply(Boom.badRequest('Bad format of email provided'));
     }
+
     Follower
-      .where({email})
+      .where({ email })
       .fetch()
       .then(_assertFollowerNotExist)
       .then(() => _saveFollower(email))
       .then((follower) => {
+
         mailjet.sendWelcomeEmail(email);
         reply(followerSerializer.serialize(follower)).code(201);
+
       })
       .catch((err) => reply(err));
   }
