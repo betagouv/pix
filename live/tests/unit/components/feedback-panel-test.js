@@ -16,7 +16,7 @@ describe('Unit | Component | feedback-panel', function () {
       const isFormClosed = component.get('isFormClosed');
 
       // then
-      expect(isFormClosed).to.be.false;
+      expect(isFormClosed).to.be.true;
     });
 
     it('should return true if status equals "FORM_CLOSED"', function () {

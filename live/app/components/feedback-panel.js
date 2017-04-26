@@ -20,6 +20,8 @@ export default Ember.Component.extend({
   _content: null,
   _error: null,
 
+  isFormClosedByDefault: Ember.computed.equal('default_status', FORM_CLOSED),
+
   isFormClosed: Ember.computed.equal('_status', FORM_CLOSED),
   isFormOpened: Ember.computed.equal('_status', FORM_OPENED),
 
