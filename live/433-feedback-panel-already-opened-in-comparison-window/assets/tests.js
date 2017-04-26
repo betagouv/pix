@@ -3890,7 +3890,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
     (0, _chai.expect)(component.$(MERCIX_VIEW)).to.have.length(1);
   }
 
-  _mocha.describe.only('Integration | Component | feedback-panel', function () {
+  (0, _mocha.describe)('Integration | Component | feedback-panel', function () {
 
     (0, _emberMocha.setupComponentTest)('feedback-panel', {
       integration: true
@@ -3898,7 +3898,6 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
 
     (0, _mocha.describe)('Default rendering', function () {
 
-      //Précsiser un comportement par defaut
       (0, _mocha.it)('should display the feedback Panel', function () {
         // when
         this.render(_ember['default'].HTMLBars.template({
@@ -3912,7 +3911,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
       });
     });
 
-    (0, _mocha.describe)('Link view', function () {
+    (0, _mocha.describe)('Link view (available only when form is closed by default)', function () {
 
       beforeEach(function () {
         this.render(_ember['default'].HTMLBars.template({
@@ -4003,19 +4002,6 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
         (0, _chai.expect)($buttonSend.text()).to.equal('Envoyer');
       });
 
-      (0, _mocha.it)('should contain "cancel" button with label "Annuler" and placeholder "Votre message"', function () {
-        var $buttonCancel = this.$(BUTTON_CANCEL);
-        (0, _chai.expect)($buttonCancel).to.have.length(1);
-        (0, _chai.expect)($buttonCancel.text()).to.equal('Annuler');
-      });
-
-      (0, _mocha.it)('clicking on "cancel" button should close the "form" view and and display the "link" view', function () {
-        // when
-        this.$(BUTTON_CANCEL).click();
-        // then
-        expectLinkViewToBeVisible(this);
-      });
-
       (0, _mocha.it)('clicking on "send" button should save the feedback into the store / API and display the "mercix" view', function () {
         var _this = this;
 
@@ -4043,6 +4029,47 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
           (0, _chai.expect)(saveMethodBody.email).to.equal(EMAIL_VALUE);
           expectMercixViewToBeVisible(_this);
         });
+      });
+
+      (0, _mocha.it)('should not contain "cancel" button if the feedback form is opened by default', function () {
+        // then
+        var $buttonCancel = this.$(BUTTON_CANCEL);
+        (0, _chai.expect)($buttonCancel).to.have.length(0);
+      });
+    });
+
+    (0, _mocha.describe)('#Cancel Button available only if the feedback panel is closed by default', function () {
+
+      beforeEach(function () {
+        // configure answer & cie. model object
+        var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
+        var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
+
+        // render component
+        this.set('assessment', assessment);
+        this.set('challenge', challenge);
+        this.render(_ember['default'].HTMLBars.template({
+          'id': '+CM01PWm',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge","default_status"],[["get",["assessment"]],["get",["challenge"]],"FORM_CLOSED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+      });
+
+      (0, _mocha.it)('should contain "cancel" button with label "Annuler" and placeholder "Votre message"', function () {
+        //when
+        this.$(OPEN_LINK).click();
+
+        //then
+        var $buttonCancel = this.$(BUTTON_CANCEL);
+        (0, _chai.expect)($buttonCancel).to.have.length(1);
+        (0, _chai.expect)($buttonCancel.text()).to.equal('Annuler');
+      });
+
+      (0, _mocha.it)('clicking on "cancel" button should close the "form" view and and display the "link" view', function () {
+        // when
+        this.$(BUTTON_CANCEL).click();
+        // then
+        expectLinkViewToBeVisible(this);
       });
     });
 
@@ -4101,10 +4128,11 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
       (0, _mocha.it)('should not display error if "form" view (with error) was closed and re-opened', function () {
         // given
         this.render(_ember['default'].HTMLBars.template({
-          'id': '0MyPCR7c',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["default_status"],["FORM_OPENED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'PmMHq5YJ',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["default_status"],["FORM_CLOSED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
+        this.$(OPEN_LINK).click();
         this.$('.feedback-panel__field--content').val('   ');
         this.$('.feedback-panel__field--content').change();
         this.$(BUTTON_SEND).click();
@@ -6182,7 +6210,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
         var isFormClosed = component.get('isFormClosed');
 
         // then
-        (0, _chai.expect)(isFormClosed).to.be['false'];
+        (0, _chai.expect)(isFormClosed).to.be['true'];
       });
 
       (0, _mocha.it)('should return true if status equals "FORM_CLOSED"', function () {
