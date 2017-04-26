@@ -19,10 +19,9 @@ module.exports = {
     return user
       .save()
       .then((user) => {
-          mailService.sendAccountCreationEmail(user.get('email'));
-          reply().code(201)
-        }
-      )
+        mailService.sendAccountCreationEmail(user.get('email'));
+        reply().code(201);
+      })
       .catch((err) => {
 
         if (err.code === 'SQLITE_CONSTRAINT') {

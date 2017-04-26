@@ -14,7 +14,15 @@ function _formatPayload(email, template) {
   };
 }
 
+function sendEmail (receiverEmail, template){
+  const mailjet = nodeMailjet.connect(mailjetConfig.apiKey, mailjetConfig.apiSecret);
+
+  return mailjet.post('send').request(_formatPayload(receiverEmail, template));
+}
+
 module.exports = {
+  sendEmail,
+
   sendWelcomeEmail(receiverEmail){
     return sendEmail(receiverEmail, WELCOME_EMAIL_TEMPLATE_ID)
       .then((result) => {
@@ -23,12 +31,6 @@ module.exports = {
       .catch((error) => {
         return error;
       });
-  },
-
-  sendEmail(receiverEmail, template){
-    const mailjet = nodeMailjet.connect(mailjetConfig.apiKey, mailjetConfig.apiSecret);
-
-    return mailjet.post('send').request(_formatPayload(receiverEmail, template));
   }
 };
 
