@@ -4,7 +4,6 @@ const faker = require('faker');
 const server = require('../../../server');
 const User = require('../../../lib/domain/models/data/user');
 
-
 describe('Acceptance | Controller | users-controller', function () {
 
   let options;
@@ -15,7 +14,7 @@ describe('Acceptance | Controller | users-controller', function () {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       email: faker.internet.email(),
-      password: faker.internet.password(),
+      password: 'A124B2C3#!',
       cgu: 'true'
     };
 
