@@ -3890,7 +3890,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
     (0, _chai.expect)(component.$(MERCIX_VIEW)).to.have.length(1);
   }
 
-  (0, _mocha.describe)('Integration | Component | feedback-panel', function () {
+  _mocha.describe.only('Integration | Component | feedback-panel', function () {
 
     (0, _emberMocha.setupComponentTest)('feedback-panel', {
       integration: true
@@ -3908,7 +3908,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
         }));
         // then
         (0, _chai.expect)(this.$()).to.have.length(1);
-        //expectLinkViewToBeVisible(this);
+        expectLinkViewToBeVisible(this);
       });
     });
 
@@ -4050,8 +4050,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
 
       beforeEach(function () {
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'GAJ65nX1',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["_status"],["FORM_SUBMITTED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'tYKbatwi',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["default_status"],["FORM_SUBMITTED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
       });

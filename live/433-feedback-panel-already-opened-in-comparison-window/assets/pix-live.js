@@ -896,7 +896,7 @@ define('pix-live/components/feedback-panel', ['exports', 'ember', 'pix-live/util
     },
 
     reset: function reset() {
-      var default_status = this.get('default_status');
+      var default_status = this.get('default_status') || FORM_CLOSED;
       this.set('_email', null);
       this.set('_content', null);
       this.set('_error', null);
@@ -5127,6 +5127,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.7.0+5baa5c53"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.7.0+c2a0e0db"});
 }
 //# sourceMappingURL=pix-live.map
