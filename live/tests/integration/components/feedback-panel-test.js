@@ -52,7 +52,7 @@ describe('Integration | Component | feedback-panel', function () {
   describe('Link view (available only when form is closed by default)', function () {
 
     beforeEach(function () {
-      this.render(hbs`{{feedback-panel default_status='FORM_CLOSED'}}`);
+      this.render(hbs`{{feedback-panel}}`);
     });
 
     it('should display only the "link" view', function () {
@@ -177,7 +177,7 @@ describe('Integration | Component | feedback-panel', function () {
       // render component
       this.set('assessment', assessment);
       this.set('challenge', challenge);
-      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge default_status='FORM_CLOSED'}}`);
+      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge}}`);
     });
 
     it('should contain "cancel" button with label "Annuler" and placeholder "Votre message"', function () {
@@ -241,7 +241,7 @@ describe('Integration | Component | feedback-panel', function () {
 
     it('should not display error if "form" view (with error) was closed and re-opened', function () {
       // given
-      this.render(hbs`{{feedback-panel default_status='FORM_CLOSED'}}`);
+      this.render(hbs`{{feedback-panel}}`);
       this.$(OPEN_LINK).click();
       this.$('.feedback-panel__field--content').val('   ');
       this.$('.feedback-panel__field--content').change();

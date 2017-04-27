@@ -13,7 +13,7 @@ export default Ember.Component.extend({
 
   assessment: null,
   challenge: null,
-  default_status: null,
+  default_status: FORM_CLOSED,
 
   _status: null,
   _email: null,
@@ -31,7 +31,7 @@ export default Ember.Component.extend({
   },
 
   reset() {
-    const default_status = this.get('default_status') || FORM_CLOSED;
+    const default_status = this.get('default_status');
     this.set('_email', null);
     this.set('_content', null);
     this.set('_error', null);
