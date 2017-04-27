@@ -3353,6 +3353,9 @@ define('pix-live/tests/integration/components/challenge-stay-test.lint-test', ['
 });
 define('pix-live/tests/integration/components/comparison-window-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember'], function (exports, _chai, _mocha, _emberMocha, _ember) {
 
+  var FEEDBACK_FORM = '.feedback-panel__view--form';
+  var LINK_OPEN_FORM = '.feedback-panel__view--link';
+
   (0, _mocha.describe)('Integration | Component | comparison-window', function () {
 
     (0, _emberMocha.setupComponentTest)('comparison-window', {
@@ -3476,8 +3479,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['exports
         }));
         //then
         (0, _chai.expect)(this.$('.comparison-window__feedback-panel')).to.have.length(1);
-        (0, _chai.expect)(this.$('.feedback-panel__view--form')).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.feedback-panel__view--link')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$(FEEDBACK_FORM)).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$(LINK_OPEN_FORM)).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('should have a max width of 900px and a margin auto in order to quit by clicking beside', function () {
@@ -3915,8 +3918,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
 
       beforeEach(function () {
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'PmMHq5YJ',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["default_status"],["FORM_CLOSED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'W1nXUGqH',
+          'block': '{"statements":[["append",["unknown",["feedback-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
       });
@@ -4049,8 +4052,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
         this.set('assessment', assessment);
         this.set('challenge', challenge);
         this.render(_ember['default'].HTMLBars.template({
-          'id': '+CM01PWm',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge","default_status"],[["get",["assessment"]],["get",["challenge"]],"FORM_CLOSED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'FGT5CvuQ',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge"],[["get",["assessment"]],["get",["challenge"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
       });
@@ -4128,8 +4131,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
       (0, _mocha.it)('should not display error if "form" view (with error) was closed and re-opened', function () {
         // given
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'PmMHq5YJ',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["default_status"],["FORM_CLOSED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'W1nXUGqH',
+          'block': '{"statements":[["append",["unknown",["feedback-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
         this.$(OPEN_LINK).click();
@@ -6262,6 +6265,71 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
 
         // then
         (0, _chai.expect)(isFormClosed).to.be['false'];
+      });
+    });
+
+    (0, _mocha.describe)('#isFormClosedByDefault', function () {
+
+      (0, _mocha.it)('should return true if no specification', function () {
+        // given
+        var component = this.subject();
+
+        // when
+        var isFormClosedByDefault = component.get('isFormClosedByDefault');
+
+        // then
+        (0, _chai.expect)(isFormClosedByDefault).to.be['true'];
+      });
+
+      (0, _mocha.it)('should return false if we specified FORM_OPENED', function () {
+        // given
+        var component = this.subject();
+        component.set('default_status', 'FORM_OPENED');
+
+        // when
+        var isFormClosedByDefault = component.get('isFormClosedByDefault');
+
+        // then
+        (0, _chai.expect)(isFormClosedByDefault).to.be['false'];
+      });
+    });
+
+    (0, _mocha.describe)('#reset', function () {
+
+      (0, _mocha.it)('should return empty mail, text, error and back to the default status', function () {
+        // given
+        var component = this.subject();
+        component.set('default_status', 'FORM_OPENED');
+        component.set('_email', 'un@email.com');
+        component.set('_content', 'un contenu');
+        component.set('_error', 'une erreur');
+        component.set('_status', 'FORM_CLOSED');
+
+        // when
+        component.reset();
+
+        // then
+        (0, _chai.expect)(component.get('_email')).to.be['null'];
+        (0, _chai.expect)(component.get('_content')).to.be['null'];
+        (0, _chai.expect)(component.get('_error')).to.be['null'];
+        (0, _chai.expect)(component.get('_status')).to.be.equal(component.get('default_status'));
+      });
+    });
+
+    (0, _mocha.describe)('#closeForm', function () {
+
+      (0, _mocha.it)('should set status to CLOSED and set errors to null', function () {
+        // given
+        var component = this.subject();
+        component.set('_error', 'une erreur');
+        component.set('_status', 'FORM_OPENED');
+
+        // when
+        component.closeForm();
+
+        // then
+        (0, _chai.expect)(component.get('_error')).to.be['null'];
+        (0, _chai.expect)(component.get('_status')).to.be.equal('FORM_CLOSED');
       });
     });
   });
