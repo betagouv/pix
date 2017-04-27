@@ -840,10 +840,7 @@ button.routable-modal--close:active {
   font-weight: 600;
   line-height: 1.09;
   text-align: center;
-  color: #3e4149;
-  margin-top: 15px;
-  height: 48px;
-  padding: 0 26px; }
+  color: #3e4149; }
 
 .course-item__description {
   margin-bottom: auto;
