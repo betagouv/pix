@@ -5,48 +5,6 @@ const nodeMailjet = require('node-mailjet');
 
 describe('Unit | Class | Mailjet', function () {
 
-  const mjSuccessfullData = {
-    response: {
-      statusCode: 200
-    }
-  };
-
-  const mjUnsuccessfullData = {
-    response: {
-      statusCode: 400
-    }
-  };
-
-  describe('#sendWelcomeEmail', function () {
-    it('should return an object data and be ok when receiver email is provided', function (done) {
-      //Given
-      sinon.stub(Mailjet, 'sendWelcomeEmail', _ => mjSuccessfullData);
-
-      // When
-      const result = Mailjet.sendWelcomeEmail('flo@pix.com');
-
-      //Then
-      expect(result).to.be.an('object');
-      expect(result.response.statusCode).to.be.ok;
-      Mailjet.sendWelcomeEmail.restore();
-      done();
-    });
-
-    it('should be nok when bad request', function (done) {
-      // Given
-      sinon.stub(Mailjet, 'sendWelcomeEmail', _ => mjUnsuccessfullData);
-
-      // When
-      const result = Mailjet.sendWelcomeEmail('');
-
-      // Then
-      expect(result).to.be.an('object');
-      expect(result.response.statusCode).to.be.falsy;
-      Mailjet.sendWelcomeEmail.restore();
-      done();
-    });
-  });
-
   describe('#sendEmail', () => {
 
     let mailJetConnectStub;

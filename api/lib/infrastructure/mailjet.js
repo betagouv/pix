@@ -2,8 +2,6 @@ const _ = require('lodash');
 const mailjetConfig = require('../settings').mailjet;
 const nodeMailjet = require('node-mailjet');
 
-const WELCOME_EMAIL_TEMPLATE_ID = '129291';
-
 function _formatPayload(options) {
 
   const configuration = _.defaults(options, {
@@ -31,16 +29,6 @@ function sendEmail(options) {
 }
 
 module.exports = {
-  sendEmail,
-
-  sendWelcomeEmail(receiverEmail){
-    return sendEmail({}, receiverEmail, WELCOME_EMAIL_TEMPLATE_ID)
-      .then((result) => {
-        return result;
-      })
-      .catch((error) => {
-        return error;
-      });
-  }
+  sendEmail
 };
 

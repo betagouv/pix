@@ -1,8 +1,8 @@
 const { describe, it, beforeEach, afterEach, expect, knex, sinon } = require('../../test-helper');
 const server = require('../../../server');
-const Mailjet = require('../../../lib/infrastructure/mailjet');
+const mailService = require('../../../lib/domain/services/mail-service');
 
-describe('Acceptance | Controller | follower-controller', function () {
+describe('Acceptance | Controller | follower-controller', () => {
 
   beforeEach(function (done) {
     knex('followers').delete().then(() => done());
@@ -12,17 +12,16 @@ describe('Acceptance | Controller | follower-controller', function () {
     knex('followers').delete().then(() => done());
   });
 
-
   describe('POST /api/followers', function () {
 
-    let mailjetStub;
+    let mailServiceStub;
 
     beforeEach(() => {
-      mailjetStub = sinon.stub(Mailjet, 'sendWelcomeEmail');
+      mailServiceStub = sinon.stub(mailService, 'sendWelcomeEmail');
     });
 
     afterEach(() => {
-      mailjetStub.restore();
+      mailServiceStub.restore();
     });
 
     it('should persist the follower if follower does not exist', () => {
@@ -47,9 +46,6 @@ describe('Acceptance | Controller | follower-controller', function () {
         expect(follower.data.id).to.exist;
         expect(follower.data.type).to.equal('followers');
         expect(follower.data.attributes.email).to.equal('shi+1@fu.me');
-
-        sinon.assert.calledOnce(mailjetStub);
-        sinon.assert.calledWith(mailjetStub, 'shi+1@fu.me');
       });
     });
 
@@ -67,13 +63,14 @@ describe('Acceptance | Controller | follower-controller', function () {
 
       // When
       const secondRegistration = firstRegistration.then(_ => {
-        mailjetStub.reset();
+        mailServiceStub.reset();
         return server.inject({ method: 'POST', url: '/api/followers', payload });
       });
 
+      // Then
       return secondRegistration.then((res) => {
         expect(res.statusCode).to.equal(409);
-        expect(mailjetStub.notCalled).to.be.true;
+        expect(mailServiceStub.notCalled).to.be.true;
       });
 
     });

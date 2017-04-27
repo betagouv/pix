@@ -2,7 +2,8 @@ const Boom = require('boom');
 const Follower = require('../../domain/models/data/follower');
 const EmailValidator = require('../../domain/services/email-validator');
 const followerSerializer = require('../../infrastructure/serializers/jsonapi/follower-serializer');
-const mailjet = require('../../infrastructure/mailjet');
+
+const mailService = require('../../domain/services/mail-service');
 
 function _assertFollowerNotExist(follower) {
   return new Promise((resolve, reject) => {
@@ -35,14 +36,14 @@ module.exports = {
       return reply(Boom.badRequest('Bad format of email provided'));
     }
 
-    Follower
+    return Follower
       .where({ email })
       .fetch()
       .then(_assertFollowerNotExist)
       .then(() => _saveFollower(email))
       .then((follower) => {
 
-        mailjet.sendWelcomeEmail(email);
+        mailService.sendWelcomeEmail(email);
         reply(followerSerializer.serialize(follower)).code(201);
 
       })
