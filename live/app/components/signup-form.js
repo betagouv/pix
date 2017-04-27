@@ -1,5 +1,7 @@
 import Ember from 'ember';
 import isEmailValid from 'pix-live/utils/email-validator';
+import isPasswordValid from '../utils/password-validator';
+
 const ERROR_INPUT_MESSAGE_MAP = {
   firstname: 'Votre prénom n’est pas renseigné.',
   lastname: 'Votre nom n’est pas renseigné.',
@@ -41,6 +43,12 @@ export default Ember.Component.extend({
 
     validateInputEmail({value, key}){
       const status = isEmailValid(value) ? 'success' : 'error';
+      const message = (status === 'error') ? ERROR_INPUT_MESSAGE_MAP[key] : null;
+      this.updateTextfieldModelObject(key, status, message);
+    },
+
+    validateInputPassword({value, key}){
+      const status = isPasswordValid(value) ? 'success' : 'error';
       const message = (status === 'error') ? ERROR_INPUT_MESSAGE_MAP[key] : null;
       this.updateTextfieldModelObject(key, status, message);
     },

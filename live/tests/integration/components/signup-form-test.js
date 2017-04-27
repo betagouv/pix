@@ -280,7 +280,7 @@ describe('Integration | Component | signup form', function () {
         this.render(hbs`{{signup-form user=user}}`);
 
         // when
-        this.$('#password').val('mypassword');
+        this.$('#password').val('mypassword1');
         this.$('#password').trigger('focusout');
 
         // then
