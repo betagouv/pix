@@ -9020,6 +9020,35 @@ define('pix-live/tests/unit/utils/lodash-custom-test.lint-test', ['exports'], fu
     });
   });
 });
+define('pix-live/tests/unit/utils/password-validator-test', ['exports', 'chai', 'mocha', 'pix-live/utils/password-validator'], function (exports, _chai, _mocha, _pixLiveUtilsPasswordValidator) {
+
+  (0, _mocha.describe)('Unit | Utility | password validator', function () {
+    (0, _mocha.describe)('Invalid password', function () {
+      ['', ' ', null, '@pix', '@pix.fr', '1      1', 'password', '12345678&', '+!@)-=`"#&', '1a      a1', '+!@)-=`"#&1', 'null 1' + null].forEach(function (badPassword) {
+        (0, _mocha.it)('should return false when password is invalid: ' + badPassword, function () {
+          (0, _chai.expect)((0, _pixLiveUtilsPasswordValidator['default'])(badPassword)).to.be['false'];
+        });
+      });
+    });
+
+    (0, _mocha.describe)('Valid password', function () {
+      ['PIXBETA1', 'PIXBETA12', 'NULLNULL1', '12345678a', '12345678ab', '12345678ab+', '12345678ab+!', '12345678ab+!@', '12345678ab+!@)-=`', '12345678ab+!@)-=`"', '12345678ab+!@)-=`"#&'].forEach(function (validPassword) {
+        (0, _mocha.it)('should return true if provided password is valid: ' + validPassword, function () {
+          (0, _chai.expect)((0, _pixLiveUtilsPasswordValidator['default'])(validPassword)).to.be['true'];
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/utils/password-validator-test.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - unit/utils/password-validator-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/unit/utils/proposals-as-array-test', ['exports', 'chai', 'mocha', 'pix-live/utils/proposals-as-array'], function (exports, _chai, _mocha, _pixLiveUtilsProposalsAsArray) {
 
   (0, _mocha.describe)('Unit | Utility | proposals as array', function () {
@@ -9216,6 +9245,15 @@ define('pix-live/tests/utils/lodash-custom.lint-test', ['exports'], function (ex
   'use strict';
 
   describe('ESLint - utils/lodash-custom.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/utils/password-validator.lint-test', ['exports'], function (exports) {
+  'use strict';
+
+  describe('ESLint - utils/password-validator.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });

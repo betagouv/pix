@@ -2163,6 +2163,13 @@ button.routable-modal--close:active {
 .signup-textfield__message--error {
   color: #f45c00; }
 
+.signup-textfield__message--error.signup-textfield__message-password {
+  position: relative;
+  position: relative;
+  text-align: right;
+  margin-top: -5px;
+  margin-bottom: 5px; }
+
 /* pages */
 /* Sections:
 
