@@ -1,9 +1,9 @@
 <div class="qcm-panel__proposals rounded-panel">
   <div class="rounded-panel__row qcm-panel__proposal-list">
-    {{#each labeledCheckboxes as |labeledCheckbox index|}}
+    {{#each checkedProposals as |checkedProposals index|}}
       <p class="qcm-panel__proposal-item">
         <label class="qcm-panel__proposal-label qcm-proposal-label">
-          {{#if labeledCheckbox.[1]}}
+          {{#if checkedProposals.[1]}}
             <svg class="checkbox-disabled-on qcm-proposal-label__checkbox-picture" width="18px" height="18px"
                  viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg"
                  xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -34,8 +34,8 @@
           {{/if}}
           <span class="qcm-proposal-label__oracle"
                 data-goodness="{{if (get solutionArray (concat index)) 'good' 'bad'}}" data-checked={{if
-            labeledCheckbox.[1] 'yes' 'no'}}>
-            {{labeledCheckbox.[0]}}
+            checkedProposals.[1] 'yes' 'no'}}>
+            {{checkedProposals.[0]}}
           </span>
         </label>
       </p>

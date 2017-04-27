@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
+import checkedProposals from 'pix-live/utils/checked-proposals';
 import valueAsArrayOfBoolean from 'pix-live/utils/value-as-array-of-boolean';
 import proposalsAsArray from 'pix-live/utils/proposals-as-array';
 import _ from 'pix-live/utils/lodash-custom';
@@ -23,7 +23,7 @@ export default Ember.Component.extend({
       const proposals = this.get('challenge.proposals');
       const proposalsArray = proposalsAsArray(proposals);
       const answerArray = valueAsArrayOfBoolean(answer);
-      radiosArray = labeledCheckboxes(proposalsArray, answerArray);
+      radiosArray = checkedProposals(proposalsArray, answerArray);
     }
 
     return radiosArray;

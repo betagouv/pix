@@ -1,8 +1,8 @@
-import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
+import { expect } from 'chai';
+import checkedProposals from 'pix-live/utils/checked-proposals';
 
-describe('Unit | Utility | labeled checkboxes', function () {
+describe('Unit | Utility | checked proposals', function () {
 
   describe('Success cases', function () {
 
@@ -32,11 +32,6 @@ describe('Unit | Utility | labeled checkboxes', function () {
       answers: [true],
       output: [['prop 1', true], ['prop 2', false], ['prop 3', false], ['prop 4', false]]
     }, {
-      when: 'wrong type for answers',
-      proposals: ['prop 1', 'prop 2', 'prop 3', 'prop 4'],
-      answers: new Date(),
-      output: []
-    }, {
       when: 'wrong format for answers\'s elements',
       proposals: ['prop 1', 'prop 2', 'prop 3', 'prop 4'],
       answers: [true, 'false'],
@@ -44,11 +39,6 @@ describe('Unit | Utility | labeled checkboxes', function () {
     }, {
       when: 'no proposals',
       proposals: [],
-      answers: [false, true],
-      output: []
-    }, {
-      when: 'wrong format for proposals',
-      proposals: {}, // object !
       answers: [false, true],
       output: []
     }, {
@@ -66,7 +56,7 @@ describe('Unit | Utility | labeled checkboxes', function () {
           + JSON.stringify(testCase.output)
           + ' when ' + testCase.when,
           () => {
-            expect(JSON.stringify(labeledCheckboxes(testCase.proposals, testCase.answers))).to.equal(JSON.stringify(testCase.output));
+            expect(JSON.stringify(checkedProposals(testCase.proposals, testCase.answers))).to.equal(JSON.stringify(testCase.output));
           });
       });
 
