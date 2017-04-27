@@ -4,7 +4,7 @@ const server = require('../../../server');
 describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
   before(() => {
-    let promise = knex.migrate.latest()
+    return knex.migrate.latest()
       .then(() => {
         return knex.seed.run();
       })
@@ -74,8 +74,6 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
             }
           );
       });
-
-    return promise;
   });
 
   after((done) => {
@@ -103,7 +101,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     };
 
     beforeEach(() => {
-      const promise = knex('assessments').insert([ insertedAssessment ])
+      return knex('assessments').insert([ insertedAssessment ])
         .then((rows) => {
           insertedAssessmentId = rows[ 0 ];
 
@@ -126,8 +124,6 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
         .then((rows) => {
           insertedAnswerId = rows[ 0 ];
         });
-
-      return promise;
     });
 
     it('should return the solution if the user answered every challenge', () => {
@@ -165,9 +161,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     };
 
     beforeEach(() => {
-      const promise = knex('assessments').insert([ insertedAssessment ]);
-
-      return promise.then((rows) => {
+      return knex('assessments').insert([ insertedAssessment ]).then((rows) => {
         insertedAssessmentId = rows[ 0 ];
 
         const inserted_answer = {
@@ -182,7 +176,6 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
         .then((rows) => {
           insertedAnswerId = rows[ 0 ];
         });
-
     });
 
     it('should return null if user did not answer every challenge', () => {

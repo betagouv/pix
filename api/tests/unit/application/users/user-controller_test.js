@@ -2,19 +2,17 @@ const { describe, it, before, after, expect, sinon } = require('../../../test-he
 const Hapi = require('hapi');
 const Boom = require('boom');
 
-const User = require('../../../../lib/domain/models/data/user');
 const faker = require('faker');
 
 const userController = require('../../../../lib/application/users/user-controller');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 
 describe('Unit | Controller | user-controller', () => {
 
   let server;
 
   before(() => {
-    server = this.server = new Hapi.Server();
+    server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/users') });
   });
