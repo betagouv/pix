@@ -3950,46 +3950,29 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
     });
 
     (0, _mocha.describe)('Form view', function () {
-
-      var isSaveMethodCalled = false;
-      var saveMethodBody = null;
-      var saveMethodUrl = null;
-
-      var storeStub = _ember['default'].Service.extend({
-        createRecord: function createRecord() {
-          var createRecordArgs = arguments;
-          return Object.create({
-            save: function save() {
-              isSaveMethodCalled = true;
-              saveMethodUrl = createRecordArgs[0];
-              saveMethodBody = createRecordArgs[1];
-              return _ember['default'].RSVP.resolve();
-            }
-          });
-        }
-      });
+      var didReceiveSaveAction = false;
+      var feedbackToSave = null;
 
       beforeEach(function () {
         // configure answer & cie. model object
         var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
         var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
 
+        // define actions
+        this.set('stubSaveFeedback', function (feedback) {
+          didReceiveSaveAction = true;
+          feedbackToSave = feedback;
+          return _ember['default'].RSVP.resolve();
+        });
+
         // render component
         this.set('assessment', assessment);
         this.set('challenge', challenge);
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'gWHs1AfV',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge","default_status"],[["get",["assessment"]],["get",["challenge"]],"FORM_OPENED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'oMzSJY81',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge","default_status","save"],[["get",["assessment"]],["get",["challenge"]],"FORM_OPENED",["helper",["action"],[["get",[null]],["get",["stubSaveFeedback"]]],null]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
-
-        // stub store service
-        this.register('service:store', storeStub);
-        this.inject.service('store', { as: 'store' });
-
-        isSaveMethodCalled = false;
-        saveMethodBody = null;
-        saveMethodUrl = null;
       });
 
       (0, _mocha.it)('should display only the "form" view', function () {
@@ -4032,13 +4015,12 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
 
         // then
         return (0, _emberTestHelpersWait['default'])().then(function () {
-          (0, _chai.expect)(isSaveMethodCalled).to.be['true'];
-          (0, _chai.expect)(saveMethodUrl).to.equal('feedback');
-          (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isObject(saveMethodBody)).to.equal(true);
-          (0, _chai.expect)(saveMethodBody.assessement).to.exists;
-          (0, _chai.expect)(saveMethodBody.challenge).to.exists;
-          (0, _chai.expect)(saveMethodBody.content).to.equal(CONTENT_VALUE);
-          (0, _chai.expect)(saveMethodBody.email).to.equal(EMAIL_VALUE);
+          (0, _chai.expect)(didReceiveSaveAction).to.be['true'];
+          (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isObject(feedbackToSave)).to.equal(true);
+          (0, _chai.expect)(feedbackToSave.get('assessement')).to.exists;
+          (0, _chai.expect)(feedbackToSave.get('challenge')).to.exists;
+          (0, _chai.expect)(feedbackToSave.get('content')).to.equal(CONTENT_VALUE);
+          (0, _chai.expect)(feedbackToSave.get('email')).to.equal(EMAIL_VALUE);
           expectMercixViewToBeVisible(_this);
         });
       });
@@ -4213,77 +4195,38 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
     });
 
     (0, _mocha.describe)('Form view', function () {
-      var isSaveMethodCalled = false;
-      var saveMethodBody = null;
-      var saveMethodUrl = null;
-
-      var storeStub = _ember['default'].Service.extend({
-        createRecord: function createRecord() {
-          var createRecordArgs = arguments;
-          return Object.create({
-            save: function save() {
-              isSaveMethodCalled = true;
-              saveMethodUrl = createRecordArgs[0];
-              saveMethodBody = createRecordArgs[1];
-              return _ember['default'].RSVP.resolve();
-            }
-          });
-        }
-      });
-
-      var errorObject = _ember['default'].Object.create({
-        errors: [{
-          status: 409
-        }]
-      });
-
-      var storeStubRejection = _ember['default'].Service.extend({
-        createRecord: function createRecord() {
-          var createRecordArgs = arguments;
-          return Object.create({
-            save: function save() {
-              isSaveMethodCalled = true;
-              saveMethodUrl = createRecordArgs[0];
-              saveMethodBody = createRecordArgs[1];
-              return _ember['default'].RSVP.reject(errorObject);
-            }
-          });
-        }
-      });
-
-      beforeEach(function () {
-        this.render(_ember['default'].HTMLBars.template({
-          'id': 'O9xGjXjO',
-          'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-          'meta': {}
-        }));
-
-        isSaveMethodCalled = false;
-        saveMethodBody = null;
-        saveMethodUrl = null;
-      });
-
       (0, _mocha.it)('clicking on "send" button should save the email of the follower', function () {
         // given
-        // stub store service
-        this.register('service:store', storeStub);
-        this.inject.service('store', { as: 'store' });
+        var didReceiveSaveAction = false;
+        var followerToSave = null;
+
+        this.set('stubSaveFollower', function (follower) {
+          didReceiveSaveAction = true;
+          followerToSave = follower;
+          return _ember['default'].RSVP.resolve();
+        });
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': '6I1As1S8',
+          'block': '{"statements":[["append",["helper",["follower-form"],null,[["save"],[["helper",["action"],[["get",[null]],["get",["stubSaveFollower"]]],null]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
 
         var EMAIL_VALUE = 'myemail@gemail.com';
         var $email = this.$(INPUT_EMAIL);
         $email.val(EMAIL_VALUE);
         $email.change();
 
-        // when
         (0, _chai.expect)(this.$(BUTTON_SEND).length).to.equal(1);
         (0, _chai.expect)(this.$(INPUT_EMAIL).length).to.equal(1);
         this.$(BUTTON_SEND).click();
 
         // then
         return (0, _emberTestHelpersWait['default'])().then(function () {
-          (0, _chai.expect)(isSaveMethodCalled).to.be['true'];
-          (0, _chai.expect)(saveMethodUrl).to.equal('follower');
-          (0, _chai.expect)(saveMethodBody).to.deep.equal({ email: 'myemail@gemail.com' });
+          (0, _chai.expect)(didReceiveSaveAction).to.be['true'];
+          (0, _chai.expect)(followerToSave).to.not.be['null'];
+          (0, _chai.expect)(followerToSave.get('email')).to.equal('myemail@gemail.com');
         });
       });
 
@@ -4291,23 +4234,35 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
         var _this = this;
 
         // given
-        this.register('service:store', storeStubRejection);
+        var didReceiveSaveAction = false;
+        var errorAlreadySaved = _ember['default'].Object.create({
+          errors: [{
+            status: 409
+          }]
+        });
+
+        this.set('stubSaveFollowerAlreadySaved', function () /* follower */{
+          didReceiveSaveAction = true;
+          return _ember['default'].RSVP.reject(errorAlreadySaved);
+        });
+
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'dJAPvdjX',
+          'block': '{"statements":[["append",["helper",["follower-form"],null,[["save"],[["helper",["action"],[["get",[null]],["get",["stubSaveFollowerAlreadySaved"]]],null]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
 
         var EMAIL_VALUE = 'myemail@gemail.com';
         var $email = this.$(INPUT_EMAIL);
         $email.val(EMAIL_VALUE);
         $email.change();
 
-        // when
-        (0, _chai.expect)(this.$(BUTTON_SEND).length).to.equal(1);
-        (0, _chai.expect)(this.$(INPUT_EMAIL).length).to.equal(1);
         this.$(BUTTON_SEND).click();
 
         // then
         return (0, _emberTestHelpersWait['default'])().then(function () {
-          (0, _chai.expect)(isSaveMethodCalled).to.be['true'];
-          (0, _chai.expect)(saveMethodUrl).to.equal('follower');
-          (0, _chai.expect)(saveMethodBody).to.deep.equal({ email: 'myemail@gemail.com' });
+          (0, _chai.expect)(didReceiveSaveAction).to.be['true'];
           (0, _chai.expect)(_this.$(INPUT_EMAIL).val()).to.equal('myemail@gemail.com');
         });
       });
@@ -5816,7 +5771,12 @@ define('pix-live/tests/services/delay.lint-test', ['exports'], function (exports
     });
   });
 });
-define('pix-live/tests/test-helper', ['exports', 'pix-live/tests/helpers/resolver', 'ember-mocha'], function (exports, _pixLiveTestsHelpersResolver, _emberMocha) {
+define('pix-live/tests/test-helper', ['exports', 'pix-live/tests/helpers/resolver', 'ember-mocha', 'mocha'], function (exports, _pixLiveTestsHelpersResolver, _emberMocha, _mocha) {
+
+  _mocha.mocha.setup({
+    timeout: 2000,
+    slow: 500
+  });
 
   (0, _emberMocha.setResolver)(_pixLiveTestsHelpersResolver['default']);
 });
@@ -7669,7 +7629,9 @@ define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['exports', 
 
   (0, _mocha.describe)('Unit | Route | Assessments.ChallengeRoute', function () {
 
-    (0, _emberMocha.setupTest)('route:assessments.get-challenge', {});
+    (0, _emberMocha.setupTest)('route:assessments.get-challenge', {
+      needs: ['service:assessment']
+    });
 
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
@@ -7733,8 +7695,7 @@ define('pix-live/tests/unit/routes/competences-test', ['exports', 'chai', 'mocha
   (0, _mocha.describe)('Unit | Route | competences', function () {
 
     (0, _emberMocha.setupTest)('route:competences', {
-      // Specify the other units that are required for this test.
-      // needs: ['controller:foo']
+      needs: ['service:panelActions']
     });
 
     (0, _mocha.it)('exists', function () {
@@ -7840,7 +7801,9 @@ define('pix-live/tests/unit/routes/placement-tests-test', ['exports', 'chai', 'm
 
   (0, _mocha.describe)('Unit | Route | placement-tests', function () {
 
-    (0, _emberMocha.setupTest)('route:placement-tests', {});
+    (0, _emberMocha.setupTest)('route:placement-tests', {
+      needs: ['service:delay']
+    });
 
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
