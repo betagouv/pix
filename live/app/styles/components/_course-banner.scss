@@ -20,6 +20,10 @@
 
 .course-banner__name {
   font-size: 28px;
+
+  @media (max-width: 340px) {
+    font-size: 23px;
+  }
 }
 
 .course-banner__home-link {
