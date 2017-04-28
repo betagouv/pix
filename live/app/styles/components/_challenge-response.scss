@@ -1,5 +1,8 @@
 .challenge-response {
   font-size: 17px;
+  @media (max-width: 700px) {
+    font-size: 14.5px;
+  }
 }
 
 .challenge-response__proposal-label {
