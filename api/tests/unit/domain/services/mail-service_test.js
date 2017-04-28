@@ -17,7 +17,7 @@ describe('Unit | Service | MailService', () => {
       sendEmailStub.restore();
     });
 
-    it('should user mailJet to send an email', () => {
+    it('should use mailJet to send an email', () => {
       // Given
       const email = 'text@example.net';
 
@@ -50,7 +50,7 @@ describe('Unit | Service | MailService', () => {
       sendEmailStub.restore();
     });
 
-    it('should user mailJet to send an email', () => {
+    it('should use mailJet to send an email', () => {
       // Given
       const email = 'text@example.net';
 
