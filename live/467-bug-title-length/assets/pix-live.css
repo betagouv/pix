@@ -843,6 +843,7 @@ button.routable-modal--close:active {
   color: #3e4149; }
 
 .course-item__description {
+  width: 100%;
   margin-bottom: auto;
   -ms-flex-item-align: start;
   align-self: flex-start;
