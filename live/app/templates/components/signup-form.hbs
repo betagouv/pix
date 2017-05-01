@@ -11,6 +11,7 @@
     {{signup-textfield
       validate="validateInput" label="Nom"
       validationStatus=lastname.status
+      inputBindingValue=user.lastname
       textfieldName="lastname" validationMessage=lastname.message}}
   </div>
 
@@ -18,6 +19,7 @@
     {{signup-textfield
       validate="validateInput" label="Prénom"
       validationStatus=firstname.status
+      inputBindingValue=user.firstname
       textfieldName="firstname" validationMessage=firstname.message}}
   </div>
 
@@ -25,6 +27,7 @@
     {{signup-textfield
       validate="validateInputEmail" label="Adresse Email"
       validationStatus=email.status
+      inputBindingValue=user.email
       textfieldName="email" validationMessage=email.message}}
   </div>
 
@@ -32,6 +35,7 @@
     {{signup-textfield
       validate="validateInputPassword" label="Mot de passe"
       validationStatus=password.status
+      inputBindingValue=user.password
       textfieldName="password" validationMessage=password.message}}
   </div>
 
@@ -47,5 +51,4 @@
   <div class="signup-form__submit-container">
     <button class="signup__submit-button" {{action "signup"}}>Je m'inscris</button>
   </div>
-
 </form>

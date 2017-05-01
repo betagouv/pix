@@ -5,6 +5,11 @@ export default Ember.Route.extend({
     return this.store.createRecord('user');
   },
 
+  setupController(controller, model) {
+    controller.set('user', model);
+    this._super(controller, model);
+  },
+
   actions: {
     signup(user){
       user.save()

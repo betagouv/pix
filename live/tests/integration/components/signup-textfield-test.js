@@ -73,7 +73,7 @@ describe('Integration | Component | signup textfield', function () {
       // given
       let isActionValidateHandled = false;
       let inputValueToValidate;
-      const expectedInputValue = { value: 'pix', key: 'firstname' };
+      const expectedInputValue = 'firstname';
 
       this.on('validate', function (arg) {
         isActionValidateHandled = true;

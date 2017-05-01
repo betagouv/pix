@@ -30,7 +30,6 @@ export default Ember.Component.extend({
   label: '',
   textfieldName: '',
   validationMessage: '',
-  _textfield: '',
 
   textfieldType: Ember.computed('textfieldName', function(){
     if (this.get('textfieldName') === 'password') {
@@ -65,9 +64,7 @@ export default Ember.Component.extend({
 
   actions: {
     validate(){
-      const inputValue = this.get('_textfield');
-      const validationArgs = {value: inputValue, key: this.get('textfieldName')};
-      this.sendAction('validate', validationArgs);
+      this.sendAction('validate', this.get('textfieldName'));
     }
   }
 });

@@ -9,6 +9,18 @@ const ERROR_INPUT_MESSAGE_MAP = {
   password: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.'
 };
 
+function getErrorMessage(status, key) {
+  return (status === 'error') ? ERROR_INPUT_MESSAGE_MAP[key] : null;
+}
+
+function getValidationStatus(isValidField) {
+  return (isValidField) ? 'error' : 'success';
+}
+
+function isGivenEmptyValue(value) {
+  return !value.trim() ? true : false;
+}
+
 export default Ember.Component.extend({
   classNames: ['signup-form'],
   cgu_checkbox: '',
@@ -34,22 +46,34 @@ export default Ember.Component.extend({
     this.set(key, inputModelObject);
   },
 
+  getModelAttributeValueFromKey(key) {
+    const userModel = this.get('user');
+    const inputValue = userModel.get(key);
+    return inputValue;
+  },
+
   actions: {
-    validateInput({value, key}){
-      const status = (!value.trim()) ? 'error' : 'success';
-      const message = (status === 'error') ? ERROR_INPUT_MESSAGE_MAP[key] : null;
+    validateInput(key){
+      const modelAttrValue = this.getModelAttributeValueFromKey(key);
+      const isEmptyValue = isGivenEmptyValue(modelAttrValue);
+      const status = getValidationStatus(isEmptyValue);
+      const message = getErrorMessage(status, key);
       this.updateTextfieldModelObject(key, status, message);
     },
 
-    validateInputEmail({value, key}){
-      const status = isEmailValid(value) ? 'success' : 'error';
-      const message = (status === 'error') ? ERROR_INPUT_MESSAGE_MAP[key] : null;
+    validateInputEmail(key){
+      const inputValue = this.getModelAttributeValueFromKey(key);
+      const isNotValidEmail = !isEmailValid(inputValue);
+      const status = getValidationStatus(isNotValidEmail);
+      const message = getErrorMessage(status, key);
       this.updateTextfieldModelObject(key, status, message);
     },
 
-    validateInputPassword({value, key}){
-      const status = isPasswordValid(value) ? 'success' : 'error';
-      const message = (status === 'error') ? ERROR_INPUT_MESSAGE_MAP[key] : null;
+    validateInputPassword(key){
+      const inputValue = this.getModelAttributeValueFromKey(key);
+      const isNotValidPasswordFormat = !isPasswordValid(inputValue);
+      const status =  getValidationStatus(isNotValidPasswordFormat);
+      const message = getErrorMessage(status, key);
       this.updateTextfieldModelObject(key, status, message);
     },
 
