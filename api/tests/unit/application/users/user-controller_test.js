@@ -38,6 +38,7 @@ describe('Unit | Controller | user-controller', () => {
     describe('when the account is created', () => {
 
       let userSerializerStub;
+      let userSerializerDeserializeStub;
       let mailServiceMock;
       let user;
       let email;
@@ -50,16 +51,21 @@ describe('Unit | Controller | user-controller', () => {
         });
 
         mailServiceMock = sinon.mock(mailService);
-        userSerializerStub = sinon.stub(userSerializer, "deserialize").returns({
-          save: _ => { return Promise.resolve(user); }
+        userSerializerStub = sinon.stub(userSerializer, "serialize");
+        userSerializerDeserializeStub = sinon.stub(userSerializer, "deserialize").returns({
+          save: _ => {
+            return Promise.resolve(user);
+          }
         });
 
         replyStub.returns({
-          code: _ => {}
+          code: _ => {
+          }
         })
       });
 
       afterEach(() => {
+        userSerializerDeserializeStub.restore();
         userSerializerStub.restore();
       });
 
@@ -86,6 +92,36 @@ describe('Unit | Controller | user-controller', () => {
           mailServiceMock.verify();
         });
       });
+
+      it('should send an email', () => {
+        // Given
+        const expectedSerializedUser = { message: "serialized user" };
+        userSerializerStub.returns(expectedSerializedUser);
+        const sendAccountCreationEmail = sinon.stub(mailService, 'sendAccountCreationEmail');
+        const request = {
+          payload: {
+            data: {
+              attributes: {
+                firstName: '',
+                lastName: '',
+                email
+              }
+            }
+          }
+        };
+
+        // When
+        let promise = userController.save(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledWith(userSerializerStub, user);
+          sinon.assert.calledWith(replyStub, expectedSerializedUser);
+
+          sendAccountCreationEmail.restore();
+        });
+      });
+
 
     });
 

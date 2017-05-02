@@ -26,7 +26,8 @@ module.exports = {
       .save()
       .then((user) => {
         mailService.sendAccountCreationEmail(user.get('email'));
-        reply().code(201);
+
+        reply(userSerializer.serialize(user)).code(201);
       })
       .catch((err) => {
 

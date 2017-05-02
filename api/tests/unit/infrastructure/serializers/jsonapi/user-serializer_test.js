@@ -2,7 +2,7 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const User = require('../../../../../lib/domain/models/data/user');
 
-describe('Unit | Serializer | JSONAPI | user-serializer', function () {
+describe('Unit | Serializer | JSONAPI | user-serializer', () => {
 
   let jsonUser;
 
@@ -21,9 +21,37 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
     };
   });
 
-  describe('#deserialize()', function () {
+  describe('#serialize', () => {
+    it('should serialize excluding email and password', () => {
+      // Given
+      const modelObject = new User({
+        id: '234567',
+        firstName: "Luke",
+        lastName: "Skywalker",
+        email: "lskywalker@deathstar.empire",
+        password: ""
+      });
 
-    it('should convert JSON API data into an User model object', function () {
+      // When
+      const json = serializer.serialize(modelObject);
+
+      // Then
+      expect(json).to.be.deep.equal({
+        data: {
+          attributes: {
+            firstName: "Luke",
+            lastName: "Skywalker",
+          },
+          id: "234567",
+          type: "user"
+        }
+      });
+    });
+  });
+
+  describe('#deserialize()', () => {
+
+    it('should convert JSON API data into an User model object', () => {
       // When
       const user = serializer.deserialize(jsonUser);
 
@@ -34,7 +62,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
       expect(user.get('password')).to.equal("");
     });
 
-    it('should contain an ID attribute', function () {
+    it('should contain an ID attribute', () => {
       // Given
       jsonUser.data.id = '42';
 
@@ -45,7 +73,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
       expect(user.get('id')).to.equal('42');
     });
 
-    it('should not contain an ID attribute when not given', function () {
+    it('should not contain an ID attribute when not given', () => {
       // When
       const user = serializer.deserialize(jsonUser);
 
