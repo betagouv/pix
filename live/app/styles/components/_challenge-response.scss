@@ -1,7 +1,8 @@
 .challenge-response {
-  font-size: 20px;
-  @media (max-width: 700px) {
-    font-size: 15px;
+  font-size: 15px;
+
+  @media (min-width: 992px) {
+    font-size: 20px;
   }
 }
 

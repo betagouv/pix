@@ -47,7 +47,7 @@ $background-height: 600px;
 }
 
 .index-page-hero__title {
-  margin-top: 160px;
+  margin-top: 60px;
   line-height: 1.2;
   font-family: $font-raleway;
   font-weight: 700;
@@ -59,9 +59,6 @@ $background-height: 600px;
     margin-top: 250px;
   }
 
-  @media (max-width: 480px) {
-    margin-top: 60px;
-  }
 }
 .index-page-hero__description {
   font-family: $font-raleway;
