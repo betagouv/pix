@@ -113,12 +113,23 @@ describe('Integration | Component | signup form', function () {
 
     it('should return true if action <Signup> is handled', function () {
       // given
+      const expectedUser = {
+        email: 'toto@pix.fr',
+        firstname: 'cron',
+        lastname: 'ma',
+        password: 'gipix2017',
+        cgu: true
+      };
+
       let isFormSubmitted = false;
-      this.on('signup', function () {
+      let submitedUser;
+
+      this.on('signup', function (args) {
         isFormSubmitted = true;
+        submitedUser = args;
       });
 
-      this.set('user', userEmpty);
+      this.set('user', expectedUser);
       this.render(hbs`{{signup-form user=user signup="signup"}}`);
 
       // when
@@ -128,6 +139,7 @@ describe('Integration | Component | signup form', function () {
       // then
       return wait().then(() => {
         expect(isFormSubmitted).to.be.true;
+        expect(submitedUser).to.deep.equal(expectedUser);
       });
     });
 

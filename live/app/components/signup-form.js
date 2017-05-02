@@ -23,7 +23,6 @@ function isGivenEmptyValue(value) {
 
 export default Ember.Component.extend({
   classNames: ['signup-form'],
-  cgu_checkbox: '',
   firstname: {
     status: 'default',
     message: null
@@ -78,7 +77,8 @@ export default Ember.Component.extend({
     },
 
     signup(){
-      this.sendAction('signup');
+      const user = this.get('user');
+      this.sendAction('signup', user);
     }
   }
 });

@@ -14,6 +14,7 @@ export default Ember.Route.extend({
     signup(user){
       user.save()
         .then((success) => {
+          this.transitionTo('inscription');
           Ember.Logger.info(success);
         })
         .catch((err) => {
