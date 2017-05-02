@@ -489,7 +489,7 @@ button.routable-modal--close:active {
   padding: 20px 0; }
 
 .challenge-response {
-  font-size: 17px; }
+  font-size: 20px; }
   @media (max-width: 700px) {
     .challenge-response {
       font-size: 14.5px; } }
@@ -509,13 +509,14 @@ button.routable-modal--close:active {
 .challenge-statement__instruction strong {
   font-weight: 900; }
 
-@media (min-width: 700px) {
-  .challenge-statement__instruction-section {
-    font-size: 20px; } }
+.challenge-statement__instruction-section {
+  font-size: 20px; }
+  @media (max-width: 700px) {
+    .challenge-statement__instruction-section {
+      font-size: 14.5px; } }
 
-@media (max-width: 700px) {
-  .challenge-statement__instruction-section blockquote {
-    font-size: inherit; } }
+.challenge-statement__instruction-section blockquote {
+  font-size: inherit; }
 
 .challenge-statement__illustration-section {
   display: block;

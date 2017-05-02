@@ -100,7 +100,7 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['exports', 'mocha', 'c
     });
   });
 });
-define('pix-live/tests/acceptance/a1-page-accueil-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/a1-page-accueil-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/a1-page-accueil-test.js', function () {
@@ -223,7 +223,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember'
     });
   });
 });
-define('pix-live/tests/acceptance/a4-demarrer-un-test-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/a4-demarrer-un-test-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/a4-demarrer-un-test-test.js', function () {
@@ -259,7 +259,7 @@ define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['export
     });
   });
 });
-define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/a5-voir-liste-tests-adaptatifs-test.js', function () {
@@ -393,7 +393,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
 });
 
 // then
-define('pix-live/tests/acceptance/b1-epreuve-qcu-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/b1-epreuve-qcu-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/b1-epreuve-qcu-test.js', function () {
@@ -508,7 +508,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
     });
   });
 });
-define('pix-live/tests/acceptance/b2-epreuve-qcm-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/b2-epreuve-qcm-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/b2-epreuve-qcm-test.js', function () {
@@ -574,7 +574,7 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
     });
   });
 });
-define('pix-live/tests/acceptance/b3-epreuve-qroc-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/b3-epreuve-qroc-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/b3-epreuve-qroc-test.js', function () {
@@ -653,7 +653,7 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['exports', 'mocha', '
     });
   });
 });
-define('pix-live/tests/acceptance/b4-epreuve-qrocm-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/b4-epreuve-qrocm-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/b4-epreuve-qrocm-test.js', function () {
@@ -722,7 +722,7 @@ define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['exports', 'mocha', 'cha
     });
   });
 });
-define('pix-live/tests/acceptance/b6-epreuve-pj-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/b6-epreuve-pj-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/b6-epreuve-pj-test.js', function () {
@@ -796,7 +796,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['exports', '
     });
   });
 });
-define('pix-live/tests/acceptance/b7-epreuve-points-communs-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/b7-epreuve-points-communs-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/b7-epreuve-points-communs-test.js', function () {
@@ -858,7 +858,7 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['exports', 'mocha', '
     });
   });
 });
-define('pix-live/tests/acceptance/c1-recapitulatif-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/c1-recapitulatif-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/c1-recapitulatif-test.js', function () {
@@ -975,7 +975,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'moch
     });
   });
 });
-define('pix-live/tests/acceptance/d1-epreuve-validation-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/d1-epreuve-validation-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/d1-epreuve-validation-test.js', function () {
@@ -1093,7 +1093,7 @@ define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test', ['exports',
 // Given
 
 // Given
-define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/e1-previsualisation-epreuve-test.js', function () {
@@ -1198,7 +1198,7 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['exports', 'm
     });
   });
 });
-define('pix-live/tests/acceptance/f1-previsualisation-test-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/f1-previsualisation-test-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/f1-previsualisation-test-test.js', function () {
@@ -1247,7 +1247,7 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['expo
     });
   });
 });
-define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/g1-bandeau-no-internet-no-outils-test.js', function () {
@@ -1345,7 +1345,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
     });
   });
 });
-define('pix-live/tests/acceptance/h1-timeout-jauge-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/h1-timeout-jauge-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/h1-timeout-jauge-test.js', function () {
@@ -1486,7 +1486,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['exports', 'moch
 // given
 
 // when
-define('pix-live/tests/acceptance/h2-page-warning-timee-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/h2-page-warning-timee-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/h2-page-warning-timee-test.js', function () {
@@ -1669,7 +1669,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['exports', 
     });
   });
 });
-define('pix-live/tests/acceptance/j1-compare-answer-solution-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/j1-compare-answer-solution-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/j1-compare-answer-solution-test.js', function () {
@@ -1829,7 +1829,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['expor
     });
   });
 });
-define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/j2-compare-answer-solution-qroc-test.js', function () {
@@ -1881,7 +1881,7 @@ define('pix-live/tests/acceptance/k1-competences-page-test', ['exports', 'mocha'
     });
   });
 });
-define('pix-live/tests/acceptance/k1-competences-page-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/k1-competences-page-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/k1-competences-page-test.js', function () {
@@ -2031,7 +2031,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['exports', 'mo
 });
 
 // In our Mirage data set, in the "ref course", the QCU challenge is followed by a QRU's one
-define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - acceptance/l1-signaler-une-epreuve-test.js', function () {
@@ -2040,7 +2040,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test.lint-test', ['exp
     });
   });
 });
-define('pix-live/tests/adapters/application.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/adapters/application.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - adapters/application.js', function () {
@@ -2049,7 +2049,7 @@ define('pix-live/tests/adapters/application.lint-test', ['exports'], function (e
     });
   });
 });
-define('pix-live/tests/adapters/challenge.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/adapters/challenge.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - adapters/challenge.js', function () {
@@ -2058,7 +2058,7 @@ define('pix-live/tests/adapters/challenge.lint-test', ['exports'], function (exp
     });
   });
 });
-define('pix-live/tests/adapters/solution.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/adapters/solution.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - adapters/solution.js', function () {
@@ -2067,7 +2067,7 @@ define('pix-live/tests/adapters/solution.lint-test', ['exports'], function (expo
     });
   });
 });
-define('pix-live/tests/app.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/app.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - app.js', function () {
@@ -2076,7 +2076,7 @@ define('pix-live/tests/app.lint-test', ['exports'], function (exports) {
     });
   });
 });
-define('pix-live/tests/components/app-footer.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/app-footer.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/app-footer.js', function () {
@@ -2085,7 +2085,7 @@ define('pix-live/tests/components/app-footer.lint-test', ['exports'], function (
     });
   });
 });
-define('pix-live/tests/components/beta-logo.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/beta-logo.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/beta-logo.js', function () {
@@ -2094,7 +2094,7 @@ define('pix-live/tests/components/beta-logo.lint-test', ['exports'], function (e
     });
   });
 });
-define('pix-live/tests/components/challenge-actions.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/challenge-actions.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/challenge-actions.js', function () {
@@ -2103,7 +2103,7 @@ define('pix-live/tests/components/challenge-actions.lint-test', ['exports'], fun
     });
   });
 });
-define('pix-live/tests/components/challenge-item-generic.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/challenge-item-generic.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/challenge-item-generic.js', function () {
@@ -2112,7 +2112,7 @@ define('pix-live/tests/components/challenge-item-generic.lint-test', ['exports']
     });
   });
 });
-define('pix-live/tests/components/challenge-item-qcm.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/challenge-item-qcm.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/challenge-item-qcm.js', function () {
@@ -2121,7 +2121,7 @@ define('pix-live/tests/components/challenge-item-qcm.lint-test', ['exports'], fu
     });
   });
 });
-define('pix-live/tests/components/challenge-item-qcu.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/challenge-item-qcu.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/challenge-item-qcu.js', function () {
@@ -2130,7 +2130,7 @@ define('pix-live/tests/components/challenge-item-qcu.lint-test', ['exports'], fu
     });
   });
 });
-define('pix-live/tests/components/challenge-item-qroc.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/challenge-item-qroc.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/challenge-item-qroc.js', function () {
@@ -2139,7 +2139,7 @@ define('pix-live/tests/components/challenge-item-qroc.lint-test', ['exports'], f
     });
   });
 });
-define('pix-live/tests/components/challenge-item-qrocm.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/challenge-item-qrocm.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/challenge-item-qrocm.js', function () {
@@ -2148,7 +2148,7 @@ define('pix-live/tests/components/challenge-item-qrocm.lint-test', ['exports'], 
     });
   });
 });
-define('pix-live/tests/components/challenge-statement.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/challenge-statement.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/challenge-statement.js', function () {
@@ -2157,7 +2157,7 @@ define('pix-live/tests/components/challenge-statement.lint-test', ['exports'], f
     });
   });
 });
-define('pix-live/tests/components/challenge-stay.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/challenge-stay.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/challenge-stay.js', function () {
@@ -2166,7 +2166,7 @@ define('pix-live/tests/components/challenge-stay.lint-test', ['exports'], functi
     });
   });
 });
-define('pix-live/tests/components/comparison-window.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/comparison-window.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/comparison-window.js', function () {
@@ -2175,7 +2175,7 @@ define('pix-live/tests/components/comparison-window.lint-test', ['exports'], fun
     });
   });
 });
-define('pix-live/tests/components/corner-ribbon.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/corner-ribbon.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/corner-ribbon.js', function () {
@@ -2184,7 +2184,7 @@ define('pix-live/tests/components/corner-ribbon.lint-test', ['exports'], functio
     });
   });
 });
-define('pix-live/tests/components/course-banner.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/course-banner.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/course-banner.js', function () {
@@ -2193,7 +2193,7 @@ define('pix-live/tests/components/course-banner.lint-test', ['exports'], functio
     });
   });
 });
-define('pix-live/tests/components/course-item.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/course-item.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/course-item.js', function () {
@@ -2202,7 +2202,7 @@ define('pix-live/tests/components/course-item.lint-test', ['exports'], function 
     });
   });
 });
-define('pix-live/tests/components/course-list.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/course-list.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/course-list.js', function () {
@@ -2211,7 +2211,7 @@ define('pix-live/tests/components/course-list.lint-test', ['exports'], function 
     });
   });
 });
-define('pix-live/tests/components/feature-item.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/feature-item.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/feature-item.js', function () {
@@ -2220,7 +2220,7 @@ define('pix-live/tests/components/feature-item.lint-test', ['exports'], function
     });
   });
 });
-define('pix-live/tests/components/feature-list.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/feature-list.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/feature-list.js', function () {
@@ -2229,7 +2229,7 @@ define('pix-live/tests/components/feature-list.lint-test', ['exports'], function
     });
   });
 });
-define('pix-live/tests/components/feedback-panel.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/feedback-panel.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/feedback-panel.js', function () {
@@ -2238,7 +2238,7 @@ define('pix-live/tests/components/feedback-panel.lint-test', ['exports'], functi
     });
   });
 });
-define('pix-live/tests/components/follower-form.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/follower-form.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/follower-form.js', function () {
@@ -2247,7 +2247,7 @@ define('pix-live/tests/components/follower-form.lint-test', ['exports'], functio
     });
   });
 });
-define('pix-live/tests/components/modal-mobile.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/modal-mobile.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/modal-mobile.js', function () {
@@ -2256,7 +2256,7 @@ define('pix-live/tests/components/modal-mobile.lint-test', ['exports'], function
     });
   });
 });
-define('pix-live/tests/components/navbar-header.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/navbar-header.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/navbar-header.js', function () {
@@ -2265,7 +2265,7 @@ define('pix-live/tests/components/navbar-header.lint-test', ['exports'], functio
     });
   });
 });
-define('pix-live/tests/components/pix-logo.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/pix-logo.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/pix-logo.js', function () {
@@ -2274,7 +2274,7 @@ define('pix-live/tests/components/pix-logo.lint-test', ['exports'], function (ex
     });
   });
 });
-define('pix-live/tests/components/progress-bar.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/progress-bar.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/progress-bar.js', function () {
@@ -2283,7 +2283,7 @@ define('pix-live/tests/components/progress-bar.lint-test', ['exports'], function
     });
   });
 });
-define('pix-live/tests/components/qcm-proposals.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/qcm-proposals.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/qcm-proposals.js', function () {
@@ -2292,7 +2292,7 @@ define('pix-live/tests/components/qcm-proposals.lint-test', ['exports'], functio
     });
   });
 });
-define('pix-live/tests/components/qcm-solution-panel.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/qcm-solution-panel.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/qcm-solution-panel.js', function () {
@@ -2301,7 +2301,7 @@ define('pix-live/tests/components/qcm-solution-panel.lint-test', ['exports'], fu
     });
   });
 });
-define('pix-live/tests/components/qcu-proposals.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/qcu-proposals.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/qcu-proposals.js', function () {
@@ -2310,7 +2310,7 @@ define('pix-live/tests/components/qcu-proposals.lint-test', ['exports'], functio
     });
   });
 });
-define('pix-live/tests/components/qcu-solution-panel.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/qcu-solution-panel.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/qcu-solution-panel.js', function () {
@@ -2319,7 +2319,7 @@ define('pix-live/tests/components/qcu-solution-panel.lint-test', ['exports'], fu
     });
   });
 });
-define('pix-live/tests/components/qroc-proposal.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/qroc-proposal.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/qroc-proposal.js', function () {
@@ -2328,7 +2328,7 @@ define('pix-live/tests/components/qroc-proposal.lint-test', ['exports'], functio
     });
   });
 });
-define('pix-live/tests/components/qroc-solution-panel.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/qroc-solution-panel.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/qroc-solution-panel.js', function () {
@@ -2337,7 +2337,7 @@ define('pix-live/tests/components/qroc-solution-panel.lint-test', ['exports'], f
     });
   });
 });
-define('pix-live/tests/components/qrocm-ind-solution-panel.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/qrocm-ind-solution-panel.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/qrocm-ind-solution-panel.js', function () {
@@ -2346,7 +2346,7 @@ define('pix-live/tests/components/qrocm-ind-solution-panel.lint-test', ['exports
     });
   });
 });
-define('pix-live/tests/components/qrocm-proposal.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/qrocm-proposal.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/qrocm-proposal.js', function () {
@@ -2355,7 +2355,7 @@ define('pix-live/tests/components/qrocm-proposal.lint-test', ['exports'], functi
     });
   });
 });
-define('pix-live/tests/components/result-item.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/result-item.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/result-item.js', function () {
@@ -2364,7 +2364,7 @@ define('pix-live/tests/components/result-item.lint-test', ['exports'], function 
     });
   });
 });
-define('pix-live/tests/components/timeout-jauge.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/timeout-jauge.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/timeout-jauge.js', function () {
@@ -2373,7 +2373,7 @@ define('pix-live/tests/components/timeout-jauge.lint-test', ['exports'], functio
     });
   });
 });
-define('pix-live/tests/components/warning-page.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/components/warning-page.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - components/warning-page.js', function () {
@@ -2382,7 +2382,7 @@ define('pix-live/tests/components/warning-page.lint-test', ['exports'], function
     });
   });
 });
-define('pix-live/tests/controllers/courses/get-challenge-preview.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/controllers/courses/get-challenge-preview.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - controllers/courses/get-challenge-preview.js', function () {
@@ -2391,7 +2391,7 @@ define('pix-live/tests/controllers/courses/get-challenge-preview.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/helpers/convert-to-html.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/helpers/convert-to-html.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - helpers/convert-to-html.js', function () {
@@ -2408,7 +2408,7 @@ define('pix-live/tests/helpers/destroy-app', ['exports', 'ember'], function (exp
     server.shutdown();
   }
 });
-define('pix-live/tests/helpers/destroy-app.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/helpers/destroy-app.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - helpers/destroy-app.js', function () {
@@ -2939,7 +2939,7 @@ define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'npm:urljs
  */
 
 /* global $, Date */
-define('pix-live/tests/helpers/eq.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/helpers/eq.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - helpers/eq.js', function () {
@@ -2948,7 +2948,7 @@ define('pix-live/tests/helpers/eq.lint-test', ['exports'], function (exports) {
     });
   });
 });
-define('pix-live/tests/helpers/extract-extension.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/helpers/extract-extension.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - helpers/extract-extension.js', function () {
@@ -2957,7 +2957,7 @@ define('pix-live/tests/helpers/extract-extension.lint-test', ['exports'], functi
     });
   });
 });
-define('pix-live/tests/helpers/get-challenge-component-class.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/helpers/get-challenge-component-class.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - helpers/get-challenge-component-class.js', function () {
@@ -2966,7 +2966,7 @@ define('pix-live/tests/helpers/get-challenge-component-class.lint-test', ['expor
     });
   });
 });
-define('pix-live/tests/helpers/inc.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/helpers/inc.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - helpers/inc.js', function () {
@@ -2975,7 +2975,7 @@ define('pix-live/tests/helpers/inc.lint-test', ['exports'], function (exports) {
     });
   });
 });
-define('pix-live/tests/helpers/or.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/helpers/or.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - helpers/or.js', function () {
@@ -2984,7 +2984,7 @@ define('pix-live/tests/helpers/or.lint-test', ['exports'], function (exports) {
     });
   });
 });
-define('pix-live/tests/helpers/property-of.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/helpers/property-of.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - helpers/property-of.js', function () {
@@ -3004,7 +3004,7 @@ define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-
 
   exports['default'] = resolver;
 });
-define('pix-live/tests/helpers/resolver.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/helpers/resolver.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - helpers/resolver.js', function () {
@@ -3035,7 +3035,7 @@ define('pix-live/tests/helpers/shared-state', ['exports'], function (exports) {
     return JSON.parse(JSON.parse(localStorage.getItem('miragePostUrl')).body);
   }
 });
-define('pix-live/tests/helpers/shared-state.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/helpers/shared-state.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - helpers/shared-state.js', function () {
@@ -3062,7 +3062,7 @@ define('pix-live/tests/helpers/start-app', ['exports', 'ember', 'pix-live/app', 
     return application;
   }
 });
-define('pix-live/tests/helpers/start-app.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/helpers/start-app.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - helpers/start-app.js', function () {
@@ -3071,7 +3071,7 @@ define('pix-live/tests/helpers/start-app.lint-test', ['exports'], function (expo
     });
   });
 });
-define('pix-live/tests/helpers/strip-instruction.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/helpers/strip-instruction.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - helpers/strip-instruction.js', function () {
@@ -3080,7 +3080,7 @@ define('pix-live/tests/helpers/strip-instruction.lint-test', ['exports'], functi
     });
   });
 });
-define('pix-live/tests/initializers/ajax-interceptor.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/initializers/ajax-interceptor.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - initializers/ajax-interceptor.js', function () {
@@ -3089,7 +3089,7 @@ define('pix-live/tests/initializers/ajax-interceptor.lint-test', ['exports'], fu
     });
   });
 });
-define('pix-live/tests/initializers/router.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/initializers/router.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - initializers/router.js', function () {
@@ -3324,7 +3324,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['expor
     });
   });
 });
-define('pix-live/tests/integration/components/challenge-statement-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/challenge-statement-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/challenge-statement-test.js', function () {
@@ -3351,7 +3351,7 @@ define('pix-live/tests/integration/components/challenge-stay-test', ['exports', 
     });
   });
 });
-define('pix-live/tests/integration/components/challenge-stay-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/challenge-stay-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/challenge-stay-test.js', function () {
@@ -3506,7 +3506,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['exports
     });
   });
 });
-define('pix-live/tests/integration/components/comparison-window-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/comparison-window-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/comparison-window-test.js', function () {
@@ -3533,7 +3533,7 @@ define('pix-live/tests/integration/components/corner-ribbon-test', ['exports', '
     });
   });
 });
-define('pix-live/tests/integration/components/corner-ribbon-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/corner-ribbon-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/corner-ribbon-test.js', function () {
@@ -3707,7 +3707,7 @@ define('pix-live/tests/integration/components/course-item-test', ['exports', 'em
     });
   });
 });
-define('pix-live/tests/integration/components/course-item-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/course-item-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/course-item-test.js', function () {
@@ -3753,7 +3753,7 @@ define('pix-live/tests/integration/components/course-list-test', ['exports', 'em
     });
   });
 });
-define('pix-live/tests/integration/components/course-list-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/course-list-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/course-list-test.js', function () {
@@ -3826,7 +3826,7 @@ define('pix-live/tests/integration/components/feature-item-test', ['exports', 'c
     });
   });
 });
-define('pix-live/tests/integration/components/feature-item-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/feature-item-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/feature-item-test.js', function () {
@@ -3866,7 +3866,7 @@ define('pix-live/tests/integration/components/feature-list-test', ['exports', 'c
     });
   });
 });
-define('pix-live/tests/integration/components/feature-list-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/feature-list-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/feature-list-test.js', function () {
@@ -4160,7 +4160,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
     });
   });
 });
-define('pix-live/tests/integration/components/feedback-panel-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/feedback-panel-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/feedback-panel-test.js', function () {
@@ -4314,7 +4314,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
     });
   });
 });
-define('pix-live/tests/integration/components/follower-form-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/follower-form-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/follower-form-test.js', function () {
@@ -4357,7 +4357,7 @@ define('pix-live/tests/integration/components/navbar-header-test', ['exports', '
     });
   });
 });
-define('pix-live/tests/integration/components/navbar-header-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/navbar-header-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/navbar-header-test.js', function () {
@@ -4403,7 +4403,7 @@ define('pix-live/tests/integration/components/pix-logo-test', ['exports', 'chai'
     });
   });
 });
-define('pix-live/tests/integration/components/pix-logo-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/pix-logo-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/pix-logo-test.js', function () {
@@ -4430,7 +4430,7 @@ define('pix-live/tests/integration/components/qcm-proposals-test', ['exports', '
     });
   });
 });
-define('pix-live/tests/integration/components/qcm-proposals-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/qcm-proposals-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/qcm-proposals-test.js', function () {
@@ -4628,7 +4628,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
     });
   });
 });
-define('pix-live/tests/integration/components/qcm-solution-panel-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/qcm-solution-panel-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/qcm-solution-panel-test.js', function () {
@@ -4685,7 +4685,7 @@ define('pix-live/tests/integration/components/qcu-proposals-test', ['exports', '
     });
   });
 });
-define('pix-live/tests/integration/components/qcu-proposals-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/qcu-proposals-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/qcu-proposals-test.js', function () {
@@ -4880,7 +4880,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
     });
   });
 });
-define('pix-live/tests/integration/components/qcu-solution-panel-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/qcu-solution-panel-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/qcu-solution-panel-test.js', function () {
@@ -4950,7 +4950,7 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', '
     });
   });
 });
-define('pix-live/tests/integration/components/qroc-proposal-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/qroc-proposal-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/qroc-proposal-test.js', function () {
@@ -5090,7 +5090,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['expor
     });
   });
 });
-define('pix-live/tests/integration/components/qroc-solution-panel-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/qroc-solution-panel-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/qroc-solution-panel-test.js', function () {
@@ -5297,7 +5297,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
     });
   });
 });
-define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/qrocm-ind-solution-panel-test.js', function () {
@@ -5324,7 +5324,7 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['exports', 
     });
   });
 });
-define('pix-live/tests/integration/components/qrocm-proposal-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/qrocm-proposal-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/qrocm-proposal-test.js', function () {
@@ -5477,7 +5477,7 @@ define('pix-live/tests/integration/components/result-item-test', ['exports', 'ch
     });
   });
 });
-define('pix-live/tests/integration/components/result-item-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/result-item-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/result-item-test.js', function () {
@@ -5537,7 +5537,7 @@ define('pix-live/tests/integration/components/timeout-jauge-test', ['exports', '
     });
   });
 });
-define('pix-live/tests/integration/components/timeout-jauge-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/integration/components/timeout-jauge-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - integration/components/timeout-jauge-test.js', function () {
@@ -5546,7 +5546,7 @@ define('pix-live/tests/integration/components/timeout-jauge-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/models/answer.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/models/answer.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - models/answer.js', function () {
@@ -5555,7 +5555,7 @@ define('pix-live/tests/models/answer.lint-test', ['exports'], function (exports)
     });
   });
 });
-define('pix-live/tests/models/answer/value-as-array-of-boolean-mixin.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/models/answer/value-as-array-of-boolean-mixin.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - models/answer/value-as-array-of-boolean-mixin.js', function () {
@@ -5564,7 +5564,7 @@ define('pix-live/tests/models/answer/value-as-array-of-boolean-mixin.lint-test',
     });
   });
 });
-define('pix-live/tests/models/answer/value-as-array-of-string-mixin.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/models/answer/value-as-array-of-string-mixin.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - models/answer/value-as-array-of-string-mixin.js', function () {
@@ -5573,7 +5573,7 @@ define('pix-live/tests/models/answer/value-as-array-of-string-mixin.lint-test', 
     });
   });
 });
-define('pix-live/tests/models/assessment.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/models/assessment.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - models/assessment.js', function () {
@@ -5582,7 +5582,7 @@ define('pix-live/tests/models/assessment.lint-test', ['exports'], function (expo
     });
   });
 });
-define('pix-live/tests/models/challenge.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/models/challenge.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - models/challenge.js', function () {
@@ -5591,7 +5591,7 @@ define('pix-live/tests/models/challenge.lint-test', ['exports'], function (expor
     });
   });
 });
-define('pix-live/tests/models/challenge/proposals-as-array-mixin.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/models/challenge/proposals-as-array-mixin.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - models/challenge/proposals-as-array-mixin.js', function () {
@@ -5600,7 +5600,7 @@ define('pix-live/tests/models/challenge/proposals-as-array-mixin.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/models/challenge/proposals-as-blocks-mixin.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/models/challenge/proposals-as-blocks-mixin.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - models/challenge/proposals-as-blocks-mixin.js', function () {
@@ -5609,7 +5609,7 @@ define('pix-live/tests/models/challenge/proposals-as-blocks-mixin.lint-test', ['
     });
   });
 });
-define('pix-live/tests/models/course.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/models/course.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - models/course.js', function () {
@@ -5618,7 +5618,7 @@ define('pix-live/tests/models/course.lint-test', ['exports'], function (exports)
     });
   });
 });
-define('pix-live/tests/models/feedback.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/models/feedback.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - models/feedback.js', function () {
@@ -5627,7 +5627,7 @@ define('pix-live/tests/models/feedback.lint-test', ['exports'], function (export
     });
   });
 });
-define('pix-live/tests/models/follower.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/models/follower.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - models/follower.js', function () {
@@ -5636,7 +5636,7 @@ define('pix-live/tests/models/follower.lint-test', ['exports'], function (export
     });
   });
 });
-define('pix-live/tests/models/solution.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/models/solution.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - models/solution.js', function () {
@@ -5645,7 +5645,7 @@ define('pix-live/tests/models/solution.lint-test', ['exports'], function (export
     });
   });
 });
-define('pix-live/tests/models/user.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/models/user.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - models/user.js', function () {
@@ -5654,7 +5654,7 @@ define('pix-live/tests/models/user.lint-test', ['exports'], function (exports) {
     });
   });
 });
-define('pix-live/tests/resolver.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/resolver.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - resolver.js', function () {
@@ -5663,7 +5663,7 @@ define('pix-live/tests/resolver.lint-test', ['exports'], function (exports) {
     });
   });
 });
-define('pix-live/tests/router.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/router.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - router.js', function () {
@@ -5672,7 +5672,7 @@ define('pix-live/tests/router.lint-test', ['exports'], function (exports) {
     });
   });
 });
-define('pix-live/tests/routes/assessments/get-challenge.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/assessments/get-challenge.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - routes/assessments/get-challenge.js', function () {
@@ -5681,7 +5681,7 @@ define('pix-live/tests/routes/assessments/get-challenge.lint-test', ['exports'],
     });
   });
 });
-define('pix-live/tests/routes/assessments/get-comparison.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/assessments/get-comparison.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - routes/assessments/get-comparison.js', function () {
@@ -5690,7 +5690,7 @@ define('pix-live/tests/routes/assessments/get-comparison.lint-test', ['exports']
     });
   });
 });
-define('pix-live/tests/routes/assessments/get-results.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/assessments/get-results.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - routes/assessments/get-results.js', function () {
@@ -5699,7 +5699,7 @@ define('pix-live/tests/routes/assessments/get-results.lint-test', ['exports'], f
     });
   });
 });
-define('pix-live/tests/routes/challenges/get-preview.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/challenges/get-preview.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - routes/challenges/get-preview.js', function () {
@@ -5708,7 +5708,7 @@ define('pix-live/tests/routes/challenges/get-preview.lint-test', ['exports'], fu
     });
   });
 });
-define('pix-live/tests/routes/competences.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/competences.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - routes/competences.js', function () {
@@ -5717,7 +5717,7 @@ define('pix-live/tests/routes/competences.lint-test', ['exports'], function (exp
     });
   });
 });
-define('pix-live/tests/routes/courses.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/courses.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - routes/courses.js', function () {
@@ -5726,7 +5726,7 @@ define('pix-live/tests/routes/courses.lint-test', ['exports'], function (exports
     });
   });
 });
-define('pix-live/tests/routes/courses/create-assessment-old.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/courses/create-assessment-old.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - routes/courses/create-assessment-old.js', function () {
@@ -5735,7 +5735,7 @@ define('pix-live/tests/routes/courses/create-assessment-old.lint-test', ['export
     });
   });
 });
-define('pix-live/tests/routes/courses/create-assessment.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/courses/create-assessment.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - routes/courses/create-assessment.js', function () {
@@ -5744,7 +5744,7 @@ define('pix-live/tests/routes/courses/create-assessment.lint-test', ['exports'],
     });
   });
 });
-define('pix-live/tests/routes/courses/get-challenge-preview.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/courses/get-challenge-preview.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - routes/courses/get-challenge-preview.js', function () {
@@ -5753,7 +5753,7 @@ define('pix-live/tests/routes/courses/get-challenge-preview.lint-test', ['export
     });
   });
 });
-define('pix-live/tests/routes/courses/get-course-preview.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/courses/get-course-preview.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - routes/courses/get-course-preview.js', function () {
@@ -5762,7 +5762,7 @@ define('pix-live/tests/routes/courses/get-course-preview.lint-test', ['exports']
     });
   });
 });
-define('pix-live/tests/routes/index.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/index.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - routes/index.js', function () {
@@ -5771,7 +5771,7 @@ define('pix-live/tests/routes/index.lint-test', ['exports'], function (exports) 
     });
   });
 });
-define('pix-live/tests/routes/placement-tests.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/placement-tests.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - routes/placement-tests.js', function () {
@@ -5780,7 +5780,7 @@ define('pix-live/tests/routes/placement-tests.lint-test', ['exports'], function 
     });
   });
 });
-define('pix-live/tests/routes/project.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/routes/project.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - routes/project.js', function () {
@@ -5789,7 +5789,7 @@ define('pix-live/tests/routes/project.lint-test', ['exports'], function (exports
     });
   });
 });
-define('pix-live/tests/serializers/challenge.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/serializers/challenge.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - serializers/challenge.js', function () {
@@ -5798,7 +5798,7 @@ define('pix-live/tests/serializers/challenge.lint-test', ['exports'], function (
     });
   });
 });
-define('pix-live/tests/services/assessment.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/services/assessment.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - services/assessment.js', function () {
@@ -5807,7 +5807,7 @@ define('pix-live/tests/services/assessment.lint-test', ['exports'], function (ex
     });
   });
 });
-define('pix-live/tests/services/delay.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/services/delay.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - services/delay.js', function () {
@@ -5820,7 +5820,7 @@ define('pix-live/tests/test-helper', ['exports', 'pix-live/tests/helpers/resolve
 
   (0, _emberMocha.setResolver)(_pixLiveTestsHelpersResolver['default']);
 });
-define('pix-live/tests/test-helper.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/test-helper.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - test-helper.js', function () {
@@ -5829,7 +5829,7 @@ define('pix-live/tests/test-helper.lint-test', ['exports'], function (exports) {
     });
   });
 });
-define('pix-live/tests/transforms/array.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/transforms/array.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - transforms/array.js', function () {
@@ -5850,7 +5850,7 @@ define('pix-live/tests/unit/adapters/solution-test', ['exports', 'chai', 'mocha'
     });
   });
 });
-define('pix-live/tests/unit/adapters/solution-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/adapters/solution-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/adapters/solution-test.js', function () {
@@ -6074,7 +6074,7 @@ define('pix-live/tests/unit/components/comparison-window-test', ['exports', 'emb
     });
   });
 });
-define('pix-live/tests/unit/components/comparison-window-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/components/comparison-window-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/components/comparison-window-test.js', function () {
@@ -6131,7 +6131,7 @@ define('pix-live/tests/unit/components/course-item-test', ['exports', 'chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/components/course-item-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/components/course-item-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/components/course-item-test.js', function () {
@@ -6205,7 +6205,7 @@ define('pix-live/tests/unit/components/course-list-test', ['exports', 'chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/components/course-list-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/components/course-list-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/components/course-list-test.js', function () {
@@ -6351,7 +6351,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
     });
   });
 });
-define('pix-live/tests/unit/components/feedback-panel-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/components/feedback-panel-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/components/feedback-panel-test.js', function () {
@@ -6408,7 +6408,7 @@ define('pix-live/tests/unit/components/follower-form-test', ['exports', 'chai', 
     });
   });
 });
-define('pix-live/tests/unit/components/follower-form-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/components/follower-form-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/components/follower-form-test.js', function () {
@@ -6513,7 +6513,7 @@ define('pix-live/tests/unit/components/qcu-proposals-test', ['exports', 'pix-liv
     });
   });
 });
-define('pix-live/tests/unit/components/qcu-proposals-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/components/qcu-proposals-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/components/qcu-proposals-test.js', function () {
@@ -6639,7 +6639,7 @@ define('pix-live/tests/unit/components/qroc-solution-panel-test', ['exports', 'c
     });
   });
 });
-define('pix-live/tests/unit/components/qroc-solution-panel-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/components/qroc-solution-panel-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/components/qroc-solution-panel-test.js', function () {
@@ -6889,7 +6889,7 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports
     });
   });
 });
-define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/components/qrocm-ind-solution-panel-test.js', function () {
@@ -6981,7 +6981,7 @@ define('pix-live/tests/unit/components/result-item-test', ['exports', 'ember', '
     });
   });
 });
-define('pix-live/tests/unit/components/result-item-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/components/result-item-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/components/result-item-test.js', function () {
@@ -7051,7 +7051,7 @@ define('pix-live/tests/unit/components/timeout-jauge-test', ['exports', 'chai', 
     });
   });
 });
-define('pix-live/tests/unit/components/timeout-jauge-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/components/timeout-jauge-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/components/timeout-jauge-test.js', function () {
@@ -7106,7 +7106,7 @@ define('pix-live/tests/unit/components/warning-time-page-test', ['exports', 'cha
     });
   });
 });
-define('pix-live/tests/unit/components/warning-time-page-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/components/warning-time-page-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/components/warning-time-page-test.js', function () {
@@ -7130,7 +7130,7 @@ define('pix-live/tests/unit/helpers/convert-to-html-test', ['exports', 'chai', '
     });
   });
 });
-define('pix-live/tests/unit/helpers/convert-to-html-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/helpers/convert-to-html-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/helpers/convert-to-html-test.js', function () {
@@ -7156,7 +7156,7 @@ define('pix-live/tests/unit/helpers/eq-test', ['exports', 'chai', 'mocha', 'pix-
     });
   });
 });
-define('pix-live/tests/unit/helpers/eq-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/helpers/eq-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/helpers/eq-test.js', function () {
@@ -7175,7 +7175,7 @@ define('pix-live/tests/unit/helpers/extract-extension-test', ['exports', 'chai',
     });
   });
 });
-define('pix-live/tests/unit/helpers/extract-extension-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/helpers/extract-extension-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/helpers/extract-extension-test.js', function () {
@@ -7204,7 +7204,7 @@ define('pix-live/tests/unit/helpers/get-challenge-component-class-test', ['expor
     });
   });
 });
-define('pix-live/tests/unit/helpers/get-challenge-component-class-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/helpers/get-challenge-component-class-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/helpers/get-challenge-component-class-test.js', function () {
@@ -7230,7 +7230,7 @@ define('pix-live/tests/unit/helpers/or-test', ['exports', 'chai', 'mocha', 'pix-
     });
   });
 });
-define('pix-live/tests/unit/helpers/or-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/helpers/or-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/helpers/or-test.js', function () {
@@ -7249,7 +7249,7 @@ define('pix-live/tests/unit/helpers/strip-instruction-test', ['exports', 'chai',
     });
   });
 });
-define('pix-live/tests/unit/helpers/strip-instruction-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/helpers/strip-instruction-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/helpers/strip-instruction-test.js', function () {
@@ -7288,7 +7288,7 @@ define('pix-live/tests/unit/models/answer-test', ['exports', 'ember', 'chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/models/answer-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/models/answer-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/models/answer-test.js', function () {
@@ -7317,7 +7317,7 @@ define('pix-live/tests/unit/models/answer/value-as-array-of-boolean-mixin-test',
     });
   });
 });
-define('pix-live/tests/unit/models/answer/value-as-array-of-boolean-mixin-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/models/answer/value-as-array-of-boolean-mixin-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/models/answer/value-as-array-of-boolean-mixin-test.js', function () {
@@ -7461,7 +7461,7 @@ define('pix-live/tests/unit/models/challenge-test', ['exports', 'ember', 'chai',
     });
   });
 });
-define('pix-live/tests/unit/models/challenge-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/models/challenge-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/models/challenge-test.js', function () {
@@ -7489,7 +7489,7 @@ define('pix-live/tests/unit/models/challenge/proposals-as-array-mixin-test', ['e
     });
   });
 });
-define('pix-live/tests/unit/models/challenge/proposals-as-array-mixin-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/models/challenge/proposals-as-array-mixin-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/models/challenge/proposals-as-array-mixin-test.js', function () {
@@ -7524,7 +7524,7 @@ define('pix-live/tests/unit/models/challenge/proposals-as-blocks-mixin-test', ['
     });
   });
 });
-define('pix-live/tests/unit/models/challenge/proposals-as-blocks-mixin-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/models/challenge/proposals-as-blocks-mixin-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/models/challenge/proposals-as-blocks-mixin-test.js', function () {
@@ -7608,7 +7608,7 @@ define('pix-live/tests/unit/models/course-test', ['exports', 'ember', 'chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/models/course-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/models/course-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/models/course-test.js', function () {
@@ -7631,7 +7631,7 @@ define('pix-live/tests/unit/models/feedback-test', ['exports', 'chai', 'mocha', 
     });
   });
 });
-define('pix-live/tests/unit/models/feedback-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/models/feedback-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/models/feedback-test.js', function () {
@@ -7656,7 +7656,7 @@ define('pix-live/tests/unit/models/follower-test', ['exports', 'chai', 'mocha', 
     });
   });
 });
-define('pix-live/tests/unit/models/follower-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/models/follower-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/models/follower-test.js', function () {
@@ -7677,7 +7677,7 @@ define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['exports', 
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/get-challenge-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/assessments/get-challenge-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/routes/assessments/get-challenge-test.js', function () {
@@ -7698,7 +7698,7 @@ define('pix-live/tests/unit/routes/assessments/get-results-test', ['exports', 'c
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/get-results-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/assessments/get-results-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/routes/assessments/get-results-test.js', function () {
@@ -7719,7 +7719,7 @@ define('pix-live/tests/unit/routes/challenges/get-preview-test', ['exports', 'ch
     });
   });
 });
-define('pix-live/tests/unit/routes/challenges/get-preview-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/challenges/get-preview-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/routes/challenges/get-preview-test.js', function () {
@@ -7743,7 +7743,7 @@ define('pix-live/tests/unit/routes/competences-test', ['exports', 'chai', 'mocha
     });
   });
 });
-define('pix-live/tests/unit/routes/competences-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/competences-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/routes/competences-test.js', function () {
@@ -7764,7 +7764,7 @@ define('pix-live/tests/unit/routes/courses-test', ['exports', 'chai', 'mocha', '
     });
   });
 });
-define('pix-live/tests/unit/routes/courses-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/courses-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/routes/courses-test.js', function () {
@@ -7785,7 +7785,7 @@ define('pix-live/tests/unit/routes/courses/get-challenge-preview-test', ['export
     });
   });
 });
-define('pix-live/tests/unit/routes/courses/get-challenge-preview-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/courses/get-challenge-preview-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/routes/courses/get-challenge-preview-test.js', function () {
@@ -7806,7 +7806,7 @@ define('pix-live/tests/unit/routes/courses/get-course-preview-test', ['exports',
     });
   });
 });
-define('pix-live/tests/unit/routes/courses/get-course-preview-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/courses/get-course-preview-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/routes/courses/get-course-preview-test.js', function () {
@@ -7827,7 +7827,7 @@ define('pix-live/tests/unit/routes/index-test', ['exports', 'chai', 'mocha', 'em
     });
   });
 });
-define('pix-live/tests/unit/routes/index-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/index-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/routes/index-test.js', function () {
@@ -7848,7 +7848,7 @@ define('pix-live/tests/unit/routes/placement-tests-test', ['exports', 'chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/routes/placement-tests-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/placement-tests-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/routes/placement-tests-test.js', function () {
@@ -7872,7 +7872,7 @@ define('pix-live/tests/unit/routes/project-test', ['exports', 'chai', 'mocha', '
     });
   });
 });
-define('pix-live/tests/unit/routes/project-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/routes/project-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/routes/project-test.js', function () {
@@ -7989,7 +7989,7 @@ define('pix-live/tests/unit/services/assessment-test', ['exports', 'ember', 'cha
     });
   });
 });
-define('pix-live/tests/unit/services/assessment-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/services/assessment-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/services/assessment-test.js', function () {
@@ -8017,7 +8017,7 @@ define('pix-live/tests/unit/services/delay-test', ['exports', 'chai', 'mocha', '
     });
   });
 });
-define('pix-live/tests/unit/services/delay-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/services/delay-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/services/delay-test.js', function () {
@@ -8046,7 +8046,7 @@ define('pix-live/tests/unit/transforms/array-test', ['exports', 'chai', 'mocha',
     });
   });
 });
-define('pix-live/tests/unit/transforms/array-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/transforms/array-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/transforms/array-test.js', function () {
@@ -8094,7 +8094,7 @@ define('pix-live/tests/unit/utils/answers-as-object-test', ['exports', 'pix-live
     });
   });
 });
-define('pix-live/tests/unit/utils/answers-as-object-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/utils/answers-as-object-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/utils/answers-as-object-test.js', function () {
@@ -8123,7 +8123,7 @@ define('pix-live/tests/unit/utils/email-validator-test', ['exports', 'chai', 'mo
     });
   });
 });
-define('pix-live/tests/unit/utils/email-validator-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/utils/email-validator-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/utils/email-validator-test.js', function () {
@@ -8196,7 +8196,7 @@ define('pix-live/tests/unit/utils/labeled-checkboxes-test', ['exports', 'chai', 
     });
   });
 });
-define('pix-live/tests/unit/utils/labeled-checkboxes-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/utils/labeled-checkboxes-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/utils/labeled-checkboxes-test.js', function () {
@@ -8287,7 +8287,7 @@ define('pix-live/tests/unit/utils/labels-as-object-test', ['exports', 'chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/utils/labels-as-object-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/utils/labels-as-object-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/utils/labels-as-object-test.js', function () {
@@ -8387,7 +8387,7 @@ define('pix-live/tests/unit/utils/lodash-custom-test', ['exports', 'chai', 'moch
     });
   });
 });
-define('pix-live/tests/unit/utils/lodash-custom-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/utils/lodash-custom-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/utils/lodash-custom-test.js', function () {
@@ -8412,7 +8412,7 @@ define('pix-live/tests/unit/utils/proposals-as-array-test', ['exports', 'chai', 
     });
   });
 });
-define('pix-live/tests/unit/utils/proposals-as-array-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/utils/proposals-as-array-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/utils/proposals-as-array-test.js', function () {
@@ -8447,7 +8447,7 @@ define('pix-live/tests/unit/utils/result-details-as-object-test', ['exports', 'c
     });
   });
 });
-define('pix-live/tests/unit/utils/result-details-as-object-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/utils/result-details-as-object-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/utils/result-details-as-object-test.js', function () {
@@ -8499,7 +8499,7 @@ define('pix-live/tests/unit/utils/solution-as-object-test', ['exports', 'chai', 
     });
   });
 });
-define('pix-live/tests/unit/utils/solution-as-object-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/utils/solution-as-object-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/utils/solution-as-object-test.js', function () {
@@ -8525,7 +8525,7 @@ define('pix-live/tests/unit/utils/value-as-array-of-boolean-test', ['exports', '
     });
   });
 });
-define('pix-live/tests/unit/utils/value-as-array-of-boolean-test.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/unit/utils/value-as-array-of-boolean-test.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - unit/utils/value-as-array-of-boolean-test.js', function () {
@@ -8534,7 +8534,7 @@ define('pix-live/tests/unit/utils/value-as-array-of-boolean-test.lint-test', ['e
     });
   });
 });
-define('pix-live/tests/utils/answers-as-object.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/utils/answers-as-object.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - utils/answers-as-object.js', function () {
@@ -8543,7 +8543,7 @@ define('pix-live/tests/utils/answers-as-object.lint-test', ['exports'], function
     });
   });
 });
-define('pix-live/tests/utils/call-only-once.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/utils/call-only-once.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - utils/call-only-once.js', function () {
@@ -8552,7 +8552,7 @@ define('pix-live/tests/utils/call-only-once.lint-test', ['exports'], function (e
     });
   });
 });
-define('pix-live/tests/utils/email-validator.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/utils/email-validator.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - utils/email-validator.js', function () {
@@ -8561,7 +8561,7 @@ define('pix-live/tests/utils/email-validator.lint-test', ['exports'], function (
     });
   });
 });
-define('pix-live/tests/utils/get-challenge-type.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/utils/get-challenge-type.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - utils/get-challenge-type.js', function () {
@@ -8570,7 +8570,7 @@ define('pix-live/tests/utils/get-challenge-type.lint-test', ['exports'], functio
     });
   });
 });
-define('pix-live/tests/utils/labeled-checkboxes.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/utils/labeled-checkboxes.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - utils/labeled-checkboxes.js', function () {
@@ -8579,7 +8579,7 @@ define('pix-live/tests/utils/labeled-checkboxes.lint-test', ['exports'], functio
     });
   });
 });
-define('pix-live/tests/utils/labels-as-object.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/utils/labels-as-object.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - utils/labels-as-object.js', function () {
@@ -8588,7 +8588,7 @@ define('pix-live/tests/utils/labels-as-object.lint-test', ['exports'], function 
     });
   });
 });
-define('pix-live/tests/utils/lodash-custom.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/utils/lodash-custom.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - utils/lodash-custom.js', function () {
@@ -8597,7 +8597,7 @@ define('pix-live/tests/utils/lodash-custom.lint-test', ['exports'], function (ex
     });
   });
 });
-define('pix-live/tests/utils/proposals-as-array.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/utils/proposals-as-array.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - utils/proposals-as-array.js', function () {
@@ -8606,7 +8606,7 @@ define('pix-live/tests/utils/proposals-as-array.lint-test', ['exports'], functio
     });
   });
 });
-define('pix-live/tests/utils/result-details-as-object.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/utils/result-details-as-object.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - utils/result-details-as-object.js', function () {
@@ -8615,7 +8615,7 @@ define('pix-live/tests/utils/result-details-as-object.lint-test', ['exports'], f
     });
   });
 });
-define('pix-live/tests/utils/solution-as-object.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/utils/solution-as-object.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - utils/solution-as-object.js', function () {
@@ -8624,7 +8624,7 @@ define('pix-live/tests/utils/solution-as-object.lint-test', ['exports'], functio
     });
   });
 });
-define('pix-live/tests/utils/value-as-array-of-boolean.lint-test', ['exports'], function (exports) {
+define('pix-live/tests/utils/value-as-array-of-boolean.lint-test', [], function () {
   'use strict';
 
   describe('ESLint - utils/value-as-array-of-boolean.js', function () {
