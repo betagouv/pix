@@ -4,6 +4,12 @@
     {{course-banner course=model.course}}
   </div>
 
+  {{#if model.course.isAdaptive}}
+    <div class="assessment-results__scoring">
+      {{scoring-panel}}
+    </div>
+  {{/if}}
+
   <div class="assessment-results__content">
     <div class="assessment-results__title">
       Vos résultats
