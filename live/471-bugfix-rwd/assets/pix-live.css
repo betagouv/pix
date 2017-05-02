@@ -489,10 +489,10 @@ button.routable-modal--close:active {
   padding: 20px 0; }
 
 .challenge-response {
-  font-size: 20px; }
-  @media (max-width: 700px) {
+  font-size: 15px; }
+  @media (min-width: 992px) {
     .challenge-response {
-      font-size: 15px; } }
+      font-size: 20px; } }
 
 .challenge-response__proposal-label {
   font-weight: 400;
@@ -510,10 +510,10 @@ button.routable-modal--close:active {
   font-weight: 900; }
 
 .challenge-statement__instruction-section {
-  font-size: 20px; }
-  @media (max-width: 700px) {
+  font-size: 15px; }
+  @media (min-width: 992px) {
     .challenge-statement__instruction-section {
-      font-size: 15px; } }
+      font-size: 20px; } }
 
 .challenge-statement__instruction-section blockquote {
   font-size: inherit; }
@@ -807,10 +807,10 @@ button.routable-modal--close:active {
       padding: 0; } }
 
 .course-banner__name {
-  font-size: 28px; }
-  @media (max-width: 340px) {
+  font-size: 23px; }
+  @media (min-width: 992px) {
     .course-banner__name {
-      font-size: 23px; } }
+      font-size: 28px; } }
 
 .course-banner__home-link {
   font-size: 16px;
@@ -2022,7 +2022,7 @@ button.routable-modal--close:active {
   max-width: 1200px; }
 
 .index-page-hero__title {
-  margin-top: 160px;
+  margin-top: 60px;
   line-height: 1.2;
   font-family: "Raleway", Arial, sans-serif;
   font-weight: 700;
@@ -2032,9 +2032,6 @@ button.routable-modal--close:active {
     .index-page-hero__title {
       font-size: 50px;
       margin-top: 250px; } }
-  @media (max-width: 480px) {
-    .index-page-hero__title {
-      margin-top: 60px; } }
 
 .index-page-hero__description {
   font-family: "Raleway", Arial, sans-serif;
