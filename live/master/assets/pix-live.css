@@ -424,7 +424,7 @@ button.routable-modal--close:active {
 .ribbon a {
   color: #fff;
   display: block;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 20px;
   margin: 1px 0;
   padding: 3px 0;
@@ -489,7 +489,10 @@ button.routable-modal--close:active {
   padding: 20px 0; }
 
 .challenge-response {
-  font-size: 17px; }
+  font-size: 15px; }
+  @media (min-width: 992px) {
+    .challenge-response {
+      font-size: 20px; } }
 
 .challenge-response__proposal-label {
   font-weight: 400;
@@ -506,9 +509,14 @@ button.routable-modal--close:active {
 .challenge-statement__instruction strong {
   font-weight: 900; }
 
-@media (min-width: 700px) {
-  .challenge-statement__instruction-section {
-    font-size: 20px; } }
+.challenge-statement__instruction-section {
+  font-size: 15px; }
+  @media (min-width: 992px) {
+    .challenge-statement__instruction-section {
+      font-size: 20px; } }
+
+.challenge-statement__instruction-section blockquote {
+  font-size: inherit; }
 
 .challenge-statement__illustration-section {
   display: block;
@@ -610,7 +618,7 @@ button.routable-modal--close:active {
 .challenge-statement__file-option-label {
   font-size: 16px;
   line-height: 10px;
-  font-weight: normal; }
+  font-weight: 400; }
 
 .challenge-statement__action {
   display: -ms-flexbox;
@@ -659,7 +667,7 @@ button.routable-modal--close:active {
 .challenge-stay__text {
   padding-left: 15px;
   font-size: 12px;
-  font-weight: bold; }
+  font-weight: 700; }
   @media (min-width: 700px) {
     .challenge-stay__text {
       font-size: 16px; } }
@@ -760,7 +768,7 @@ button.routable-modal--close:active {
   height: 24px;
   font-family: "Open Sans", Arial, sans-serif;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 700;
   text-align: center;
   color: #3e4149;
   margin-left: 22px; }
@@ -799,7 +807,10 @@ button.routable-modal--close:active {
       padding: 0; } }
 
 .course-banner__name {
-  font-size: 28px; }
+  font-size: 23px; }
+  @media (min-width: 992px) {
+    .course-banner__name {
+      font-size: 28px; } }
 
 .course-banner__home-link {
   font-size: 16px;
@@ -821,29 +832,37 @@ button.routable-modal--close:active {
   margin: 0 auto;
   display: block; }
 
-.course-item__content {
+.course-item__container {
   padding: 10px;
-  text-align: center; }
+  text-align: center;
+  height: 240px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: end;
+  justify-content: flex-end; }
 
 .course-item__name {
+  width: 100%;
+  margin-bottom: auto;
   font-family: "Raleway", Arial, sans-serif;
   font-size: 22px;
   font-weight: 600;
   line-height: 1.09;
   text-align: center;
-  color: #3e4149;
-  margin-top: 15px;
-  height: 48px;
-  padding: 0 26px; }
+  color: #3e4149; }
 
 .course-item__description {
+  width: 100%;
+  margin-bottom: auto;
+  -ms-flex-item-align: start;
+  align-self: flex-start;
   margin-top: 10px;
   font-family: "Lato", Arial, sans-serif;
   font-size: 15px;
   line-height: 1.2;
   color: #6a6d76;
-  height: 56px;
-  overflow: hidden;
   text-overflow: ellipsis; }
 
 .course-item__challenges-number {
@@ -863,8 +882,8 @@ button.routable-modal--close:active {
   font-size: 14px;
   letter-spacing: 0.5px;
   text-align: center;
-  width: 160px;
   padding: 12px;
+  height: 44px;
   display: inline-block; }
   .course-item__begin-button:hover, .course-item__begin-button:focus, .course-item__begin-button:active {
     text-decoration: none;
@@ -1079,7 +1098,7 @@ button.routable-modal--close:active {
   min-width: 111px;
   padding: 10px 19px;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 700;
   text-align: center;
   color: #ffffff;
   outline: none; }
@@ -1154,7 +1173,7 @@ button.routable-modal--close:active {
   margin: 0 auto;
   font-family: "Lato", Arial, sans-serif;
   font-size: 15px;
-  font-weight: normal;
+  font-weight: 400;
   font-style: normal;
   font-stretch: normal;
   text-align: center;
@@ -1241,7 +1260,7 @@ button.routable-modal--close:active {
   cursor: pointer;
   font-family: "Lato", Arial, sans-serif;
   color: #3e4149;
-  font-weight: bold;
+  font-weight: 700;
   margin-top: 38px;
   margin-bottom: 38px;
   font-size: 14px;
@@ -1379,7 +1398,7 @@ button.routable-modal--close:active {
 .correction-qroc-box__input-right-answer {
   font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 700;
   color: #13c9a0; }
 
 .correction-qroc-box__input-wrong-answer {
@@ -1404,7 +1423,7 @@ button.routable-modal--close:active {
 .correction-qroc-box__solution-text {
   font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 700;
   color: #13c9a0;
   display: -ms-flexbox;
   display: flex;
@@ -1442,7 +1461,7 @@ button.routable-modal--close:active {
   height: 24px;
   font-family: "Open Sans", Arial, sans-serif;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 700;
   text-align: center;
   color: #3e4149;
   margin-left: 22px; }
@@ -1463,7 +1482,7 @@ button.routable-modal--close:active {
   width: 73px;
   font-family: "Lato", Arial, sans-serif;
   font-size: 12px;
-  font-weight: bold;
+  font-weight: 700;
   color: #446eff;
   margin-right: 23px;
   margin-left: auto;
@@ -1517,7 +1536,7 @@ button.routable-modal--close:active {
   -ms-flex-direction: row;
   flex-direction: row;
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 700;
   font-style: normal; }
 
 .timeout-jauge-container {
@@ -1572,7 +1591,7 @@ button.routable-modal--close:active {
 .challenge-item-warning__instruction-primary {
   font-family: "Lato", Arial, sans-serif;
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 700;
   font-style: normal;
   font-stretch: normal;
   text-align: center;
@@ -1655,7 +1674,7 @@ button.routable-modal--close:active {
   height: 24px;
   font-family: "Open Sans", Arial, sans-serif;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 700;
   text-align: center;
   color: #3e4149;
   margin-left: 22px; }
@@ -1676,7 +1695,7 @@ button.routable-modal--close:active {
   width: 73px;
   font-family: "Lato", Arial, sans-serif;
   font-size: 12px;
-  font-weight: bold;
+  font-weight: 700;
   color: #446eff;
   margin-right: 23px;
   margin-left: auto;
@@ -1813,7 +1832,7 @@ button.routable-modal--close:active {
   height: 24px;
   font-family: "Open Sans", Arial, sans-serif;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 700;
   text-align: center;
   color: #3e4149;
   margin-left: 22px; }
@@ -1841,7 +1860,7 @@ button.routable-modal--close:active {
 .correction-qroc-box__input-right-answer {
   font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 700;
   color: #13c9a0; }
 
 .correction-qroc-box__input-wrong-answer {
@@ -1866,7 +1885,7 @@ button.routable-modal--close:active {
 .correction-qroc-box__solution-text {
   font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 700;
   color: #13c9a0;
   display: -ms-flexbox;
   display: flex;
@@ -1906,7 +1925,7 @@ button.routable-modal--close:active {
 
 .correction-qrocm__solution-text {
   font-family: "Lato", Arial, sans-serif;
-  font-weight: bold;
+  font-weight: 700;
   color: #13c9a0;
   font-size: 16px;
   margin-left: 3px;
@@ -2011,7 +2030,7 @@ button.routable-modal--close:active {
   max-width: 1200px; }
 
 .index-page-hero__title {
-  margin-top: 160px;
+  margin-top: 60px;
   line-height: 1.2;
   font-family: "Raleway", Arial, sans-serif;
   font-weight: 700;
@@ -2139,7 +2158,7 @@ button.routable-modal--close:active {
 .index-page-community__title {
   font-size: 24px;
   font-family: "Raleway", Arial, sans-serif;
-  font-weight: bold;
+  font-weight: 700;
   text-align: center;
   color: white;
   text-transform: uppercase;
@@ -2274,7 +2293,7 @@ button.routable-modal--close:active {
   color: #ffffff;
   font-family: "Lato", Arial, sans-serif;
   font-size: 32px;
-  font-weight: bold;
+  font-weight: 700;
   font-style: italic;
   line-height: 1.2;
   max-width: 800px; }
@@ -2501,7 +2520,7 @@ hr.project-page__presentation-header-line {
   color: #ffffff;
   font-family: "Lato", Arial, sans-serif;
   font-size: 32px;
-  font-weight: bold;
+  font-weight: 700;
   font-style: italic;
   line-height: 1.2;
   max-width: 940px; }
@@ -2588,7 +2607,7 @@ hr.project-page__presentation-header-line {
 .domain-topic__themes-title {
   font-family: "Lato", Arial, sans-serif;
   font-size: 12px;
-  font-weight: bold;
+  font-weight: 700;
   text-transform: uppercase;
   margin: 0 0 5px 0; }
 
