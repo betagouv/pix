@@ -821,29 +821,37 @@ button.routable-modal--close:active {
   margin: 0 auto;
   display: block; }
 
-.course-item__content {
+.course-item__container {
   padding: 10px;
-  text-align: center; }
+  text-align: center;
+  height: 240px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: end;
+  justify-content: flex-end; }
 
 .course-item__name {
+  width: 100%;
+  margin-bottom: auto;
   font-family: "Raleway", Arial, sans-serif;
   font-size: 22px;
   font-weight: 600;
   line-height: 1.09;
   text-align: center;
-  color: #3e4149;
-  margin-top: 15px;
-  height: 48px;
-  padding: 0 26px; }
+  color: #3e4149; }
 
 .course-item__description {
+  width: 100%;
+  margin-bottom: auto;
+  -ms-flex-item-align: start;
+  align-self: flex-start;
   margin-top: 10px;
   font-family: "Lato", Arial, sans-serif;
   font-size: 15px;
   line-height: 1.2;
   color: #6a6d76;
-  height: 56px;
-  overflow: hidden;
   text-overflow: ellipsis; }
 
 .course-item__challenges-number {
@@ -863,8 +871,8 @@ button.routable-modal--close:active {
   font-size: 14px;
   letter-spacing: 0.5px;
   text-align: center;
-  width: 160px;
   padding: 12px;
+  height: 44px;
   display: inline-block; }
   .course-item__begin-button:hover, .course-item__begin-button:focus, .course-item__begin-button:active {
     text-decoration: none;
