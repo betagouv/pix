@@ -492,7 +492,7 @@ button.routable-modal--close:active {
   font-size: 20px; }
   @media (max-width: 700px) {
     .challenge-response {
-      font-size: 14.5px; } }
+      font-size: 15px; } }
 
 .challenge-response__proposal-label {
   font-weight: 400;
@@ -513,7 +513,7 @@ button.routable-modal--close:active {
   font-size: 20px; }
   @media (max-width: 700px) {
     .challenge-statement__instruction-section {
-      font-size: 14.5px; } }
+      font-size: 15px; } }
 
 .challenge-statement__instruction-section blockquote {
   font-size: inherit; }
