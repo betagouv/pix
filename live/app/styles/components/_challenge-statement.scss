@@ -7,16 +7,15 @@
   font-weight: 900;
 }
 
-.challenge-statement__instruction-section  {
-  @media (min-width: 700px) {
-    font-size: 20px;
+.challenge-statement__instruction-section {
+  font-size: 20px;
+  @media (max-width: 700px) {
+    font-size: 14.5px;
   }
 }
 
 .challenge-statement__instruction-section blockquote {
-  @media (max-width: 700px) {
-    font-size: inherit;
-  }
+  font-size: inherit;
 }
 
 .challenge-statement__illustration-section {
