@@ -2113,7 +2113,8 @@ button.routable-modal--close:active {
   text-transform: uppercase;
   font-size: 13px;
   background: #3d68ff;
-  color: #ffffff; }
+  color: #ffffff;
+  outline: none; }
 
 .signup-textfield {
   position: relative; }
