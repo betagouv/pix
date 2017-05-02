@@ -4157,6 +4157,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
   var INPUT_EMAIL = '.follower-email';
 
   (0, _mocha.describe)('Integration | Component | follower form', function () {
+
     (0, _emberMocha.setupComponentTest)('follower-form', {
       integration: true
     });
@@ -4194,39 +4195,82 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
       });
     });
 
+    /*
+     FIXME: the tests below do not respect the Ember Way and will not be ok for Ember 2.12 (cf. commit #8d28dd) but we can not fix them now :-(
+    */
+
     (0, _mocha.describe)('Form view', function () {
-      (0, _mocha.it)('clicking on "send" button should save the email of the follower', function () {
-        // given
-        var didReceiveSaveAction = false;
-        var followerToSave = null;
+      var isSaveMethodCalled = false;
+      var saveMethodBody = null;
+      var saveMethodUrl = null;
 
-        this.set('stubSaveFollower', function (follower) {
-          didReceiveSaveAction = true;
-          followerToSave = follower;
-          return _ember['default'].RSVP.resolve();
-        });
+      var storeStub = _ember['default'].Service.extend({
+        createRecord: function createRecord() {
+          var createRecordArgs = arguments;
+          return Object.create({
+            save: function save() {
+              isSaveMethodCalled = true;
+              saveMethodUrl = createRecordArgs[0];
+              saveMethodBody = createRecordArgs[1];
+              return _ember['default'].RSVP.resolve();
+            }
+          });
+        }
+      });
 
-        // when
+      var errorObject = _ember['default'].Object.create({
+        errors: [{
+          status: 409
+        }]
+      });
+
+      var storeStubRejection = _ember['default'].Service.extend({
+        createRecord: function createRecord() {
+          var createRecordArgs = arguments;
+          return Object.create({
+            save: function save() {
+              isSaveMethodCalled = true;
+              saveMethodUrl = createRecordArgs[0];
+              saveMethodBody = createRecordArgs[1];
+              return _ember['default'].RSVP.reject(errorObject);
+            }
+          });
+        }
+      });
+
+      beforeEach(function () {
         this.render(_ember['default'].HTMLBars.template({
-          'id': '6I1As1S8',
-          'block': '{"statements":[["append",["helper",["follower-form"],null,[["save"],[["helper",["action"],[["get",[null]],["get",["stubSaveFollower"]]],null]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'O9xGjXjO',
+          'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
+
+        isSaveMethodCalled = false;
+        saveMethodBody = null;
+        saveMethodUrl = null;
+      });
+
+      (0, _mocha.it)('clicking on "send" button should save the email of the follower', function () {
+        // given
+        // stub store service
+        this.register('service:store', storeStub);
+        this.inject.service('store', { as: 'store' });
 
         var EMAIL_VALUE = 'myemail@gemail.com';
         var $email = this.$(INPUT_EMAIL);
         $email.val(EMAIL_VALUE);
         $email.change();
 
+        // when
         (0, _chai.expect)(this.$(BUTTON_SEND).length).to.equal(1);
         (0, _chai.expect)(this.$(INPUT_EMAIL).length).to.equal(1);
         this.$(BUTTON_SEND).click();
 
         // then
         return (0, _emberTestHelpersWait['default'])().then(function () {
-          (0, _chai.expect)(didReceiveSaveAction).to.be['true'];
-          (0, _chai.expect)(followerToSave).to.not.be['null'];
-          (0, _chai.expect)(followerToSave.get('email')).to.equal('myemail@gemail.com');
+          (0, _chai.expect)(isSaveMethodCalled).to.be['true'];
+          (0, _chai.expect)(saveMethodUrl).to.equal('follower');
+          (0, _chai.expect)(saveMethodBody).to.deep.equal({ email: 'myemail@gemail.com' });
         });
       });
 
@@ -4234,35 +4278,23 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
         var _this = this;
 
         // given
-        var didReceiveSaveAction = false;
-        var errorAlreadySaved = _ember['default'].Object.create({
-          errors: [{
-            status: 409
-          }]
-        });
-
-        this.set('stubSaveFollowerAlreadySaved', function () /* follower */{
-          didReceiveSaveAction = true;
-          return _ember['default'].RSVP.reject(errorAlreadySaved);
-        });
-
-        // when
-        this.render(_ember['default'].HTMLBars.template({
-          'id': 'dJAPvdjX',
-          'block': '{"statements":[["append",["helper",["follower-form"],null,[["save"],[["helper",["action"],[["get",[null]],["get",["stubSaveFollowerAlreadySaved"]]],null]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-          'meta': {}
-        }));
+        this.register('service:store', storeStubRejection);
 
         var EMAIL_VALUE = 'myemail@gemail.com';
         var $email = this.$(INPUT_EMAIL);
         $email.val(EMAIL_VALUE);
         $email.change();
 
+        // when
+        (0, _chai.expect)(this.$(BUTTON_SEND).length).to.equal(1);
+        (0, _chai.expect)(this.$(INPUT_EMAIL).length).to.equal(1);
         this.$(BUTTON_SEND).click();
 
         // then
         return (0, _emberTestHelpersWait['default'])().then(function () {
-          (0, _chai.expect)(didReceiveSaveAction).to.be['true'];
+          (0, _chai.expect)(isSaveMethodCalled).to.be['true'];
+          (0, _chai.expect)(saveMethodUrl).to.equal('follower');
+          (0, _chai.expect)(saveMethodBody).to.deep.equal({ email: 'myemail@gemail.com' });
           (0, _chai.expect)(_this.$(INPUT_EMAIL).val()).to.equal('myemail@gemail.com');
         });
       });
@@ -6320,7 +6352,7 @@ define('pix-live/tests/unit/components/feedback-panel-test.lint-test', [], funct
     });
   });
 });
-define('pix-live/tests/unit/components/follower-form-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/components/follower-form-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
   var errorMessages = {
     error: {
@@ -6331,6 +6363,7 @@ define('pix-live/tests/unit/components/follower-form-test', ['exports', 'chai', 
   };
 
   (0, _mocha.describe)('Unit | Component | followerComponent', function () {
+
     (0, _emberMocha.setupTest)('component:follower-form', {});
 
     (0, _mocha.describe)('#Computed Properties behaviors: ', function () {
@@ -6344,6 +6377,7 @@ define('pix-live/tests/unit/components/follower-form-test', ['exports', 'chai', 
             var component = this.subject();
             // when
             component.set('status', 'error');
+            component.set('follower', _ember['default'].Object.create());
             // then
             (0, _chai.expect)(component.get(attribute)).to.equal(expected);
           });
@@ -6360,6 +6394,7 @@ define('pix-live/tests/unit/components/follower-form-test', ['exports', 'chai', 
             var component = this.subject();
             // when
             component.set('status', 'success');
+            component.set('follower', _ember['default'].Object.create());
             // then
             (0, _chai.expect)(component.get(attribute)).to.equal(expected);
           });
