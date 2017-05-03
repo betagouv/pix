@@ -7,36 +7,40 @@
     <h1 class="signup-form__heading">Inscription gratuite</h1>
   </div>
 
+  <div class="signup-form__temporary-msg">
+    <h4>{{registrationMessage}}</h4>
+  </div>
+
   <div class="signup-form__input-container">
     {{signup-textfield
       validate="validateInput" label="Nom"
-      validationStatus=lastname.status
+      validationStatus=validation.lastname.status
       inputBindingValue=user.lastname
-      textfieldName="lastname" validationMessage=lastname.message}}
+      textfieldName="lastname" validationMessage=validation.lastname.message}}
   </div>
 
   <div class="signup-form__input-container">
     {{signup-textfield
       validate="validateInput" label="Prénom"
-      validationStatus=firstname.status
+      validationStatus=validation.firstname.status
       inputBindingValue=user.firstname
-      textfieldName="firstname" validationMessage=firstname.message}}
+      textfieldName="firstname" validationMessage=validation.firstname.message}}
   </div>
 
   <div class="signup-form__input-container">
     {{signup-textfield
       validate="validateInputEmail" label="Adresse Email"
-      validationStatus=email.status
+      validationStatus=validation.email.status
       inputBindingValue=user.email
-      textfieldName="email" validationMessage=email.message}}
+      textfieldName="email" validationMessage=validation.email.message}}
   </div>
 
   <div class="signup-form__input-container">
     {{signup-textfield
       validate="validateInputPassword" label="Mot de passe"
-      validationStatus=password.status
+      validationStatus=validation.password.status
       inputBindingValue=user.password
-      textfieldName="password" validationMessage=password.message}}
+      textfieldName="password" validationMessage=validation.password.message}}
   </div>
 
   <div class="signup-form__cgu-container">
@@ -49,6 +53,6 @@
   </div>
 
   <div class="signup-form__submit-container">
-    <button class="signup__submit-button" {{action "signup"}}>Je m'inscris</button>
+    <button class="signup__submit-button" {{action (action "signup")}}>Je m'inscris</button>
   </div>
 </form>

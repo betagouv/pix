@@ -115,8 +115,8 @@ describe('Integration | Component | signup form', function () {
       // given
       const expectedUser = {
         email: 'toto@pix.fr',
-        firstname: 'cron',
-        lastname: 'ma',
+        firstname: 'Marion',
+        lastname: 'Yade',
         password: 'gipix2017',
         cgu: true
       };

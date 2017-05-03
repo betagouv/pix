@@ -10,16 +10,9 @@ export default Ember.Route.extend({
     this._super(controller, model);
   },
 
-  actions: {
-    signup(user){
-      user.save()
-        .then((success) => {
-          this.transitionTo('inscription');
-          Ember.Logger.info(success);
-        })
-        .catch((err) => {
-          Ember.Logger.info('error', err);
-        });
+  actions:{
+    refresh(){
+      this.refresh();
     }
   }
 });
