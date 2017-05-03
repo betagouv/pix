@@ -5452,7 +5452,7 @@ define('pix-live/tests/integration/components/result-item-test.lint-test', [], f
 });
 define('pix-live/tests/integration/components/scoring-panel-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
-  _mocha.describe.only('Integration | Component | scoring panel', function () {
+  _mocha.describe.skip('Integration | Component | scoring panel', function () {
 
     (0, _emberMocha.setupComponentTest)('scoring-panel', {
       integration: true

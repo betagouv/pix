@@ -1512,6 +1512,89 @@ button.routable-modal--close:active {
   .result-item__icon [data-lines="2"] + div .tooltip-inner {
     padding-top: 3px; }
 
+.scoring-panel {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: "Raleway", Arial, sans-serif;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap; }
+
+/*-----------------------------------*/
+.scoring-panel_trophy {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin-right: 66px;
+  position: relative; }
+
+.scoring-panel_congrats {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  max-width: 386px; }
+
+/*-----------------------------------*/
+.scoring-panel_trophy-level {
+  height: 33px;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-align: center;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  position: absolute;
+  top: 217px;
+  left: 55px;
+  font-family: "Overpass", Arial, sans-serif;
+  font-weight: 900;
+  color: #3d68ff;
+  color: #3d68ff; }
+
+.scoring-panel_trophy-bêta {
+  position: absolute;
+  top: 270px;
+  left: 90px;
+  color: #ffbe00;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 6px; }
+
+/*-----------------------------------*/
+.scoring-panel_congrats-course-name {
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 0.95; }
+
+.scoring-panel_congrats-line {
+  margin-bottom: 10px;
+  height: 1px;
+  opacity: 0.5;
+  background-color: #ffffff; }
+
+.scoring-panel_congrats-felicitations {
+  font-size: 65px;
+  font-weight: 300; }
+
+.scoring-panel_congrats-scoring {
+  margin-bottom: 10px;
+  font-size: 28px;
+  line-height: 1.07; }
+
+.scoring-panel_congrats-beta {
+  font-size: 14px;
+  font-weight: 500; }
+
 .timeout-jauge-wrapper {
   padding-top: 0;
   margin-top: -23px; }
@@ -2390,6 +2473,9 @@ hr.project-page__presentation-header-line {
   align-items: center; }
 
 .assessment-results__course-banner {
+  width: 100%; }
+
+.assessment-results__scoring {
   width: 100%;
   margin-bottom: 30px; }
 
