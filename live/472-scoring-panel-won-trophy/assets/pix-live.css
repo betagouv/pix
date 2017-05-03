@@ -1518,15 +1518,15 @@ button.routable-modal--close:active {
   -ms-flex-direction: row;
   flex-direction: row;
   width: 100%;
-  padding-top: 50px;
-  padding-bottom: 50px;
   background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
   -ms-flex-pack: center;
   justify-content: center;
   color: #ffffff;
   font-family: "Raleway", Arial, sans-serif;
   -ms-flex-wrap: wrap;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  padding-top: 50px;
+  padding-bottom: 50px; }
 
 /*-----------------------------------*/
 .scoring-panel_trophy {
@@ -1534,8 +1534,11 @@ button.routable-modal--close:active {
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column;
-  margin-right: 66px;
-  position: relative; }
+  position: relative;
+  padding-bottom: 20px; }
+  @media (min-width: 700px) {
+    .scoring-panel_trophy {
+      margin-right: 66px; } }
 
 .scoring-panel_congrats {
   display: -ms-flexbox;
@@ -1557,7 +1560,6 @@ button.routable-modal--close:active {
   left: 55px;
   font-family: "Overpass", Arial, sans-serif;
   font-weight: 900;
-  color: #3d68ff;
   color: #3d68ff; }
 
 .scoring-panel_trophy-bêta {
