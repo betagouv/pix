@@ -5457,6 +5457,8 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['exports', '
       integration: true
     });
 
+    var assessmentWithTrophy = { course: { isAdaptive: true } };
+
     (0, _mocha.it)('renders', function () {
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
@@ -5473,6 +5475,34 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['exports', '
         'meta': {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.describe)('view with a trophy', function () {
+      var _this = this;
+
+      (0, _mocha.beforeEach)(function () {
+        _this.set('assessment', assessmentWithTrophy);
+        _this.render(Ember.HTMLBars.template({
+          'id': 'FwD67xpw',
+          'block': '{"statements":[["append",["helper",["scoring-panel"],null,[["assessment"],[["get",["assessment"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+      });
+
+      (0, _mocha.it)('should display the won trophy', function () {
+        // then
+        (0, _chai.expect)(this.$('.scoring-panel_trophy-svg'));
+        (0, _chai.expect)(this.$('.scoring-panel_trophy-level'));
+        (0, _chai.expect)(this.$('.scoring-panel_trophy-bêta'));
+      });
+
+      (0, _mocha.it)('should display the congratulations', function () {
+        // then
+        (0, _chai.expect)(this.$('.scoring-panel_congrats-course-name'));
+        (0, _chai.expect)(this.$('.scoring-panel_congrats-felicitations'));
+        (0, _chai.expect)(this.$('.scoring-panel_congrats-scoring'));
+        (0, _chai.expect)(this.$('.scoring-panel_congrats-beta'));
+      });
     });
   });
 });
@@ -6989,6 +7019,51 @@ define('pix-live/tests/unit/components/result-item-test.lint-test', [], function
   'use strict';
 
   describe('ESLint - unit/components/result-item-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
+define('pix-live/tests/unit/components/scoring-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  _mocha.describe.only('Unit | Component | scoring-panel', function () {
+
+    (0, _emberMocha.setupTest)('component:scoring-panel', {});
+
+    (0, _mocha.describe)('#hasATrophy', function () {
+
+      (0, _mocha.it)('should be true when level is more than 0', function () {
+        // given
+        var assessmentWithTrophy = { estimatedLevel: 1 };
+        var component = this.subject();
+
+        // when
+        component.set('assessment', assessmentWithTrophy);
+        var hasATrophy = component.get('hasATrophy');
+
+        // then
+        (0, _chai.expect)(hasATrophy).to.be.equal(true);
+      });
+
+      (0, _mocha.it)('should be false when level is equal to 0', function () {
+        // given
+        var assessmentWithNoTrophy = { estimatedLevel: 0 };
+        var component = this.subject();
+
+        // when
+        component.set('assessment', assessmentWithNoTrophy);
+        var hasATrophy = component.get('hasATrophy');
+
+        // then
+        (0, _chai.expect)(hasATrophy).to.be.equal(false);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/scoring-panel-test.lint-test', [], function () {
+  'use strict';
+
+  describe('ESLint - unit/components/scoring-panel-test.js', function () {
     it('should pass ESLint', function () {
       // precompiled test passed
     });
