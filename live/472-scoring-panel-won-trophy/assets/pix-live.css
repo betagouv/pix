@@ -2478,13 +2478,13 @@ hr.project-page__presentation-header-line {
   width: 100%; }
 
 .assessment-results__scoring {
-  width: 100%;
-  margin-bottom: 30px; }
+  width: 100%; }
 
 .assessment-results__content {
   padding: 0 20px;
   max-width: 990px;
-  width: 100%; }
+  width: 100%;
+  margin-top: 30px; }
   @media (min-width: 992px) {
     .assessment-results__content {
       padding: 0; } }
