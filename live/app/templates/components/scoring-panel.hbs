@@ -1,15 +1,16 @@
 <div class="scoring-panel">
 
-  {{#if hasATrophy}}
+  {{!--{{#if hasATrophy}}--}}
 
     <div class="scoring-panel_trophy">
-      <div class="scoring-panel_trophy-svg">Le Trophée</div>
-      <div class="scoring-panel_trophy-level">Niveau {{assessment.estimatedLevel}}</div>
+      <div class="scoring-panel_trophy-svg"><img src="{{rootURL}}/images/coupe.svg" alt="Coupe obtenue" class=""></div>
+      <div class="scoring-panel_trophy-level">NIVEAU {{assessment.estimatedLevel}}</div>
       <div class="scoring-panel_trophy-bêta">Beta</div>
     </div>
 
-    <div class="scoring-panel_text">
+    <div class="scoring-panel_congrats">
       <div class="scoring-panel_congrats-course-name">{{assessment.course.name}}</div>
+      <div class="scoring-panel_congrats-line"></div>
       <div class="scoring-panel_congrats-felicitations">Félicitations</div>
       <div class="scoring-panel_congrats-scoring">Vous avez obtenu le niveau {{assessment.estimatedLevel}} pour cette
         compétence et avez gagné {{assessment.pixScore}} pix
@@ -17,6 +18,6 @@
       <div class="scoring-panel_congrats-beta">*En version bêta, les pix et niveaux délivrés sont provisoires</div>
     </div>
 
-  {{/if}}
+  {{!--{{/if}}--}}
 
 </div>

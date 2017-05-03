@@ -4,7 +4,7 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe.only('Integration | Component | scoring panel', function() {
+describe.skip('Integration | Component | scoring panel', function() {
 
   setupComponentTest('scoring-panel', {
     integration: true
