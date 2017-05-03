@@ -2,17 +2,17 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | qrocm-solution-panel', function () {
+describe.only('Unit | Component | scoring-panel', function () {
 
   setupTest('component:scoring-panel', {});
 
   describe('#hasATrophy', function () {
 
-    const component = context.subject();
 
     it('should be true when level is more than 0', function () {
       // given
-      const assessmentWithTrophy = {'estimated-level' : 1}
+      const assessmentWithTrophy = { estimatedLevel: 1 };
+      const component = this.subject();
 
       // when
       component.set('assessment', assessmentWithTrophy);
@@ -24,10 +24,11 @@ describe('Unit | Component | qrocm-solution-panel', function () {
 
     it('should be false when level is equal to 0', function () {
       // given
-      const assessmentWithTrophy = {'estimated-level' : 0}
+      const assessmentWithNoTrophy = { estimatedLevel: 0 };
+      const component = this.subject();
 
       // when
-      component.set('assessment', assessmentWithTrophy);
+      component.set('assessment', assessmentWithNoTrophy);
       const hasATrophy = component.get('hasATrophy');
 
       // then

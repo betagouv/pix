@@ -29,7 +29,7 @@ describe('Integration | Component | scoring panel', function() {
     beforeEach(() => {
       this.set('assessment', assessmentWithTrophy);
       this.render(hbs`{{scoring-panel assessment=assessment}}`);
-    })
+    });
 
     it('should display the won trophy', function () {
       // then
