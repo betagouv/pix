@@ -1,4 +1,4 @@
-const { describe, it, expect, sinon } = require('../../../test-helper');
+const { describe, it, expect, sinon, beforeEach } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/data/user');
 const faker = require('faker');
@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | User', () => {
         lastName: faker.name.lastName(),
         email: faker.internet.email(),
         password: 'F26251JHS',
-        cgu: 'true'
+        cgu: true
       };
     });
 
@@ -139,9 +139,9 @@ describe('Unit | Domain | Models | User', () => {
           });
       });
 
-      it('should be invalid when cgu are not true', () => {
+      it('should be invalid when cgu are false', () => {
         // Given
-        rawData.cgu = 'false';
+        rawData.cgu = false;
         const user = new User(rawData);
 
         // When
@@ -157,6 +157,21 @@ describe('Unit | Domain | Models | User', () => {
             expect(cguErrors).to.exist;
             expect(cguErrors).to
               .deep.equal([ 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.' ]);
+          });
+      });
+
+      it('should be invalid when cgu are true', () => {
+        // Given
+        rawData.cgu = true;
+        const user = new User(rawData);
+
+        // When
+        const promise = user.save();
+
+        // Then
+        return promise
+          .then((user) => {
+            expect(user.get('cgu')).to.be.true;
           });
       });
 

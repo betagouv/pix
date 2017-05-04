@@ -22,7 +22,7 @@ describe('Acceptance | Controller | users-controller', function () {
       'last-name': faker.name.lastName(),
       email: faker.internet.email(),
       password: 'A124B2C3#!',
-      cgu: 'true'
+      cgu: true
     };
 
     options = {

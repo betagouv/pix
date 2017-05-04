@@ -20,7 +20,7 @@ class AnswerSerializer extends JSONAPISerializer {
       lastName: json.data.attributes['last-name'],
       email: json.data.attributes.email,
       password: json.data.attributes.password,
-      cgu: json.data.attributes.cgu,
+      cgu: json.data.attributes.cgu
     });
   }
 
