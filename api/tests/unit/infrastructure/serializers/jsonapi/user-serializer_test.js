@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('../../../../test-helper');
+const { describe, it, expect, beforeEach } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const User = require('../../../../../lib/domain/models/data/user');
 
@@ -11,8 +11,8 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
       data: {
         type: 'user',
         attributes: {
-          firstName: "Luke",
-          lastName: "Skywalker",
+          'first-name': "Luke",
+          'last-name': "Skywalker",
           email: "lskywalker@deathstar.empire",
           password: ""
         },
@@ -39,8 +39,8 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
       expect(json).to.be.deep.equal({
         data: {
           attributes: {
-            firstName: "Luke",
-            lastName: "Skywalker",
+            'first-name': "Luke",
+            'last-name': "Skywalker",
           },
           id: "234567",
           type: "user"

@@ -18,8 +18,8 @@ describe('Acceptance | Controller | users-controller', function () {
 
   beforeEach(function () {
     attributes = {
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
+      'first-name': faker.name.firstName(),
+      'last-name': faker.name.lastName(),
       email: faker.internet.email(),
       password: 'A124B2C3#!',
       cgu: 'true'
@@ -81,8 +81,8 @@ describe('Acceptance | Controller | users-controller', function () {
         return new User({ email: attributes.email }).fetch()
       })
       .then((user) => {
-        expect(attributes.firstName).to.equal(user.get('firstName'));
-        expect(attributes.lastName).to.equal(user.get('lastName'));
+        expect(attributes['first-name']).to.equal(user.get('firstName'));
+        expect(attributes['last-name']).to.equal(user.get('lastName'));
       });
   });
 
@@ -92,8 +92,8 @@ describe('Acceptance | Controller | users-controller', function () {
         return new User({ email: attributes.email }).fetch()
       })
       .then((user) => {
-        expect(attributes.firstName).to.equal(user.get('firstName'));
-        expect(attributes.lastName).to.equal(user.get('lastName'));
+        expect(attributes['first-name']).to.equal(user.get('firstName'));
+        expect(attributes['last-name']).to.equal(user.get('lastName'));
       });
   });
 

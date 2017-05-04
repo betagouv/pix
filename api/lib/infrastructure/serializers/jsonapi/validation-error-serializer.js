@@ -3,9 +3,13 @@ function _buildError(field, message) {
     'status': '400',
     'title':  'Invalid Attribute',
     'details': message,
-    'source': { 'pointer': '/data/attributes/' + field },
+    'source': { 'pointer': '/data/attributes/'+_toKebabCase(field) },
     'meta': { field },
   };
+}
+
+function _toKebabCase(fieldName){
+  return fieldName.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
 }
 
 function serialize(validationErrors) {

@@ -2,7 +2,7 @@ const Bookshelf = require('../../../infrastructure/bookshelf');
 const Assessment = require('./assessment');
 
 const bcrypt = require('bcrypt');
-const Promise = require('bluebird');
+const Promise = require('bluebird'); // TODO remove for standards NOde Promises
 
 module.exports = Bookshelf.Model.extend({
   tableName: 'users',
