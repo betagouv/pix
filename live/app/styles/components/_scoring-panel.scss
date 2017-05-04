@@ -1,15 +1,21 @@
 .scoring-panel {
-  display: flex;
-  flex-direction: row;
+  height: 100%;
   width: 100%;
-  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+
+  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
   color: $white;
   font-family: $font-raleway;
-  flex-wrap: wrap;
 
-  padding-top: 50px;
-  padding-bottom: 50px;
+  @media (min-width: 480px) {
+    flex-direction: row;
+    padding-bottom: 50px;
+    padding-top: 50px;
+  }
+
 }
 
 /*-----------------------------------*/
@@ -18,10 +24,19 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  padding-bottom: 20px;
+  margin-top: -30px;
+  text-align: center;
 
-  @media (min-width: 700px) {
-    margin-right: 66px;
+  @media (min-width: 480px) {
+    margin-top: 0px;
+  }
+
+  @media (min-width: 768px) {
+    margin-right: 50px;
+  }
+
+  @media (min-width: 1024px) {
+    margin-right: 80px;
   }
 }
 
@@ -29,33 +44,78 @@
   display: flex;
   flex-direction: column;
   max-width: 386px;
+  text-align: center;
+  padding: 20px;
+
+  @media (min-width: 768px) {
+    text-align: left;
+    padding: 0px;
+  }
+
 }
 
 /*-----------------------------------*/
-.scoring-panel_trophy-level {
-  height: 33px;
-  font-size: 26px;
-  font-weight: $font-extra-bold;
-  letter-spacing: 3px;
-  text-align: center;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  position: absolute;
-  top: 217px;
-  left: 55px;
 
+.scoring-panel_trophy-div-svg {
+  display: flex;
+  justify-content: center;
+}
+
+.scoring-panel_trophy-img {
+  height: 169px;
+  width: 150px;
+
+  @media (min-width: 480px) {
+    height: 190px;
+    width: 200px;
+  }
+
+  @media (min-width: 768px) {
+    height: 237px;
+    width: 267px;
+  }
+}
+
+.scoring-panel_trophy-level {
+  font-weight: $font-extra-bold;
+  text-align: center;
+
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
   font-family: $font-overpass;
   font-weight: $font-heavy;
   color: $blue;
+  letter-spacing: 3px;
+
+  margin-top: -38px;
+  font-size: 17px;
+
+  @media (min-width: 480px) {
+    margin-top: -42px;
+    font-size: 20px;
+  }
+
+  @media (min-width: 768px) {
+    margin-top: -55px;
+    font-size: 26px;
+  }
+
 }
 
 .scoring-panel_trophy-bêta {
-  position: absolute;
-  top: 270px;
-  left: 90px;
   color: $marigold;
-  font-size: 18px;
   font-weight: 900;
   letter-spacing: 6px;
+  margin-top: 7px;
+
+  font-size: 12px;
+
+  @media (min-width: 480px) {
+    font-size: 14px;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 18px;
+  }
 
 }
 
@@ -63,9 +123,13 @@
 
 .scoring-panel_congrats-course-name {
   margin-bottom: 15px;
-  font-size: 20px;
   font-weight: $font-semi-bold;
   line-height: 0.95;
+  font-size: 20px;
+
+  @media (min-width: 768px) {
+    font-size: 20px;
+  }
 }
 
 .scoring-panel_congrats-line {
@@ -76,17 +140,30 @@
 }
 
 .scoring-panel_congrats-felicitations {
-  font-size: 65px;
   font-weight: $font-light;
+
+  font-size: 45px;
+
+  @media (min-width: 768px) {
+    font-size: 60px;
+  }
 }
 
 .scoring-panel_congrats-scoring {
   margin-bottom: 10px;
-  font-size: 28px;
+  font-size: 20px;
   line-height: 1.07;
+
+  @media (min-width: 768px) {
+    font-size: 28px;
+  }
 }
 
 .scoring-panel_congrats-beta {
-  font-size: 14px;
   font-weight: $font-medium;
+  font-size: 10px;
+
+  @media (min-width: 768px) {
+    font-size: 14px;
+  }
 }
