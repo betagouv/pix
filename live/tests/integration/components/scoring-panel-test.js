@@ -4,7 +4,7 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe.skip('Integration | Component | scoring panel', function() {
+describe('Integration | Component | scoring panel', function() {
 
   setupComponentTest('scoring-panel', {
     integration: true
@@ -36,8 +36,8 @@ describe.skip('Integration | Component | scoring panel', function() {
 
     it('it should display nothing', function () {
       // then
-      expect(this.$('.scoring-panel_trophy')).to.have.length(0);
-      expect(this.$('.scoring-panel_text')).to.have.length(0);
+      expect(this.$('.scoring-panel__trophy')).to.have.length(0);
+      expect(this.$('.scoring-panel__text')).to.have.length(0);
 
     });
   });
@@ -51,17 +51,17 @@ describe.skip('Integration | Component | scoring panel', function() {
 
     it('should display the won trophy', function () {
       // then
-      expect(this.$('.scoring-panel_trophy-svg')).to.have.length(1);
-      expect(this.$('.scoring-panel_trophy-level')).to.have.length(1);
-      expect(this.$('.scoring-panel_trophy-bêta')).to.have.length(1);
+      expect(this.$('.scoring-panel__trophy-div')).to.have.length(1);
+      expect(this.$('.scoring-panel__trophy-level')).to.have.length(1);
+      expect(this.$('.scoring-panel__trophy-bêta')).to.have.length(1);
     });
 
     it('should display the congratulations', function () {
       // then
-      expect(this.$('.scoring-panel_congrats-course-name')).to.have.length(1);
-      expect(this.$('.scoring-panel_congrats-felicitations')).to.have.length(1);
-      expect(this.$('.scoring-panel_congrats-scoring')).to.have.length(1);
-      expect(this.$('.scoring-panel_congrats-beta')).to.have.length(1);
+      expect(this.$('.scoring-panel__congrats-course-name')).to.have.length(1);
+      expect(this.$('.scoring-panel__congrats-felicitations')).to.have.length(1);
+      expect(this.$('.scoring-panel__congrats-scoring')).to.have.length(1);
+      expect(this.$('.scoring-panel__congrats-beta')).to.have.length(1);
     });
   });
 });

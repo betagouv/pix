@@ -1,23 +1,24 @@
-<div class="scoring-panel">
+{{#if hasATrophy}}
+  <div class="scoring-panel">
 
-  {{!--{{#if hasATrophy}}--}}
-
-    <div class="scoring-panel_trophy">
-      <div class="scoring-panel_trophy-div-svg"><img src="{{rootURL}}/images/coupe.svg" alt="Coupe obtenue" class="scoring-panel_trophy-img"></div>
-      <div class="scoring-panel_trophy-level">NIVEAU {{assessment.estimatedLevel}}</div>
-      <div class="scoring-panel_trophy-bêta">BÊTA</div>
+    <div class="scoring-panel__trophy">
+      <div class="scoring-panel__trophy-div"><img src="{{rootURL}}/images/coupe.svg" alt="Coupe obtenue"
+                                                  class="scoring-panel_trophy-img"></div>
+      <div class="scoring-panel__trophy-level">NIVEAU {{assessment.estimatedLevel}}</div>
+      <div class="scoring-panel__trophy-bêta">BÊTA</div>
     </div>
 
-    <div class="scoring-panel_congrats">
-      <div class="scoring-panel_congrats-course-name">{{assessment.course.name}}</div>
-      <div class="scoring-panel_congrats-line"></div>
-      <div class="scoring-panel_congrats-felicitations">Félicitations&nbsp;!</div>
-      <div class="scoring-panel_congrats-scoring">Vous avez obtenu le niveau&nbsp;{{assessment.estimatedLevel}} pour cette
+    <div class="scoring-panel__congrats">
+      <div class="scoring-panel__congrats-course-name">{{assessment.course.name}}</div>
+      <div class="scoring-panel__congrats-line"></div>
+      <div class="scoring-panel__congrats-felicitations">Félicitations&nbsp;!</div>
+      <div class="scoring-panel__congrats-scoring">Vous avez obtenu le niveau&nbsp;{{assessment.estimatedLevel}} pour
+        cette
         compétence et avez gagné {{assessment.pixScore}}&nbsp;pix.
       </div>
-      <div class="scoring-panel_congrats-beta">*En version bêta, les pix et niveaux délivrés sont provisoires</div>
+      <div class="scoring-panel__congrats-beta">*En version bêta, les pix et niveaux délivrés sont provisoires</div>
     </div>
 
-  {{!--{{/if}}--}}
+  </div>
+{{/if}}
 
-</div>
