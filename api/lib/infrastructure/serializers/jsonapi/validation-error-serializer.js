@@ -2,7 +2,7 @@ function _buildError(field, message) {
   return {
     'status': '400',
     'title':  'Invalid Attribute',
-    'details': message,
+    'detail': message,
     'source': { 'pointer': '/data/attributes/'+_toKebabCase(field) },
     'meta': { field },
   };
