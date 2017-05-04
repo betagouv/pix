@@ -1513,20 +1513,25 @@ button.routable-modal--close:active {
     padding-top: 3px; }
 
 .scoring-panel {
+  height: 100%;
+  width: 100%;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  width: 100%;
-  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-align: center;
+  align-items: center;
   -ms-flex-pack: center;
   justify-content: center;
+  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
   color: #ffffff;
-  font-family: "Raleway", Arial, sans-serif;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  padding-top: 50px;
-  padding-bottom: 50px; }
+  font-family: "Raleway", Arial, sans-serif; }
+  @media (min-width: 480px) {
+    .scoring-panel {
+      -ms-flex-direction: row;
+      flex-direction: row;
+      padding-bottom: 50px;
+      padding-top: 50px; } }
 
 /*-----------------------------------*/
 .scoring-panel_trophy {
@@ -1535,48 +1540,91 @@ button.routable-modal--close:active {
   -ms-flex-direction: column;
   flex-direction: column;
   position: relative;
-  padding-bottom: 20px; }
-  @media (min-width: 700px) {
+  margin-top: -30px;
+  text-align: center; }
+  @media (min-width: 480px) {
     .scoring-panel_trophy {
-      margin-right: 66px; } }
+      margin-top: 0px; } }
+  @media (min-width: 768px) {
+    .scoring-panel_trophy {
+      margin-right: 50px; } }
+  @media (min-width: 1024px) {
+    .scoring-panel_trophy {
+      margin-right: 80px; } }
 
 .scoring-panel_congrats {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column;
-  max-width: 386px; }
+  max-width: 386px;
+  text-align: center;
+  padding: 20px; }
+  @media (min-width: 768px) {
+    .scoring-panel_congrats {
+      text-align: left;
+      padding: 0px; } }
 
 /*-----------------------------------*/
+.scoring-panel_trophy-div-svg {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center; }
+
+.scoring-panel_trophy-img {
+  height: 169px;
+  width: 150px; }
+  @media (min-width: 480px) {
+    .scoring-panel_trophy-img {
+      height: 190px;
+      width: 200px; } }
+  @media (min-width: 768px) {
+    .scoring-panel_trophy-img {
+      height: 237px;
+      width: 267px; } }
+
 .scoring-panel_trophy-level {
-  height: 33px;
-  font-size: 26px;
   font-weight: 800;
-  letter-spacing: 3px;
   text-align: center;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  position: absolute;
-  top: 217px;
-  left: 55px;
   font-family: "Overpass", Arial, sans-serif;
   font-weight: 900;
-  color: #3d68ff; }
+  color: #3d68ff;
+  letter-spacing: 3px;
+  margin-top: -38px;
+  font-size: 17px; }
+  @media (min-width: 480px) {
+    .scoring-panel_trophy-level {
+      margin-top: -42px;
+      font-size: 20px; } }
+  @media (min-width: 768px) {
+    .scoring-panel_trophy-level {
+      margin-top: -55px;
+      font-size: 26px; } }
 
 .scoring-panel_trophy-bêta {
-  position: absolute;
-  top: 270px;
-  left: 90px;
   color: #ffbe00;
-  font-size: 18px;
   font-weight: 900;
-  letter-spacing: 6px; }
+  letter-spacing: 6px;
+  margin-top: 7px;
+  font-size: 12px; }
+  @media (min-width: 480px) {
+    .scoring-panel_trophy-bêta {
+      font-size: 14px; } }
+  @media (min-width: 768px) {
+    .scoring-panel_trophy-bêta {
+      font-size: 18px; } }
 
 /*-----------------------------------*/
 .scoring-panel_congrats-course-name {
   margin-bottom: 15px;
-  font-size: 20px;
   font-weight: 600;
-  line-height: 0.95; }
+  line-height: 0.95;
+  font-size: 20px; }
+  @media (min-width: 768px) {
+    .scoring-panel_congrats-course-name {
+      font-size: 20px; } }
 
 .scoring-panel_congrats-line {
   margin-bottom: 10px;
@@ -1585,17 +1633,26 @@ button.routable-modal--close:active {
   background-color: #ffffff; }
 
 .scoring-panel_congrats-felicitations {
-  font-size: 65px;
-  font-weight: 300; }
+  font-weight: 300;
+  font-size: 45px; }
+  @media (min-width: 768px) {
+    .scoring-panel_congrats-felicitations {
+      font-size: 60px; } }
 
 .scoring-panel_congrats-scoring {
   margin-bottom: 10px;
-  font-size: 28px;
+  font-size: 20px;
   line-height: 1.07; }
+  @media (min-width: 768px) {
+    .scoring-panel_congrats-scoring {
+      font-size: 28px; } }
 
 .scoring-panel_congrats-beta {
-  font-size: 14px;
-  font-weight: 500; }
+  font-weight: 500;
+  font-size: 10px; }
+  @media (min-width: 768px) {
+    .scoring-panel_congrats-beta {
+      font-size: 14px; } }
 
 .timeout-jauge-wrapper {
   padding-top: 0;
@@ -2476,6 +2533,10 @@ hr.project-page__presentation-header-line {
 
 .assessment-results__course-banner {
   width: 100%; }
+
+.assessment-results__logo-banner {
+  width: 100%;
+  padding: 20px; }
 
 .assessment-results__scoring {
   width: 100%; }
