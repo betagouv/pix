@@ -20,7 +20,7 @@
 
 /*-----------------------------------*/
 
-.scoring-panel_trophy {
+.scoring-panel__trophy {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -40,7 +40,7 @@
   }
 }
 
-.scoring-panel_congrats {
+.scoring-panel__congrats {
   display: flex;
   flex-direction: column;
   max-width: 386px;
@@ -56,12 +56,12 @@
 
 /*-----------------------------------*/
 
-.scoring-panel_trophy-div-svg {
+.scoring-panel__trophy-div-svg {
   display: flex;
   justify-content: center;
 }
 
-.scoring-panel_trophy-img {
+.scoring-panel__trophy-img {
   height: 169px;
   width: 150px;
 
@@ -76,7 +76,7 @@
   }
 }
 
-.scoring-panel_trophy-level {
+.scoring-panel__trophy-level {
   font-weight: $font-extra-bold;
   text-align: center;
 
@@ -101,7 +101,7 @@
 
 }
 
-.scoring-panel_trophy-bêta {
+.scoring-panel__trophy-bêta {
   color: $marigold;
   font-weight: 900;
   letter-spacing: 6px;
@@ -121,7 +121,7 @@
 
 /*-----------------------------------*/
 
-.scoring-panel_congrats-course-name {
+.scoring-panel__congrats-course-name {
   margin-bottom: 15px;
   font-weight: $font-semi-bold;
   line-height: 0.95;
@@ -132,14 +132,14 @@
   }
 }
 
-.scoring-panel_congrats-line {
+.scoring-panel__congrats-line {
   margin-bottom: 10px;
   height: 1px;
   opacity: 0.5;
   background-color: $white;
 }
 
-.scoring-panel_congrats-felicitations {
+.scoring-panel__congrats-felicitations {
   font-weight: $font-light;
 
   font-size: 45px;
@@ -149,7 +149,7 @@
   }
 }
 
-.scoring-panel_congrats-scoring {
+.scoring-panel__congrats-scoring {
   margin-bottom: 10px;
   font-size: 20px;
   line-height: 1.07;
@@ -159,7 +159,7 @@
   }
 }
 
-.scoring-panel_congrats-beta {
+.scoring-panel__congrats-beta {
   font-weight: $font-medium;
   font-size: 10px;
 
