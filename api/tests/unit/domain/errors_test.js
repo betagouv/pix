@@ -8,4 +8,8 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.NotFoundError).to.exist;
   });
 
+  it('should export a MailjetError', () => {
+    expect(errors.MailjetError).to.exist;
+  });
+
 });
