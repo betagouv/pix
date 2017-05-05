@@ -30,12 +30,11 @@ module.exports = {
         reply(userSerializer.serialize(user)).code(201);
       })
       .catch((err) => {
-
         if (_isUniqConstraintViolated(err)) {
           err = _buildErrorWhenUniquEmail();
         }
 
-        reply(validationErrorSerializer.serialize(err)).code(400);
+        reply(validationErrorSerializer.serialize(err)).code(422);
       });
   }
 

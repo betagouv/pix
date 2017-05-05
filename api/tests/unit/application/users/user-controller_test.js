@@ -150,11 +150,11 @@ describe('Unit | Controller | user-controller', () => {
       return promise.then(() => {
         sinon.assert.calledWith(replyStub, expectedSerializedError);
         sinon.assert.calledOnce(validationErrorSerializerStub);
-        sinon.assert.calledWith(codeSpy, 400);
+        sinon.assert.calledWith(codeSpy, 422);
       });
     });
 
-    describe('should return 400 Bad request', () => {
+    describe('should return 422 Bad request', () => {
 
       let userSerializerStub;
       const request = {
@@ -190,7 +190,7 @@ describe('Unit | Controller | user-controller', () => {
           });
 
           // When
-          let promise = userController.save(request, replyStub);
+          const promise = userController.save(request, replyStub);
 
           // Then
           return promise.then(() => {

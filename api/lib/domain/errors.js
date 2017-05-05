@@ -10,10 +10,4 @@ class NotElligibleToScoringError extends Error {
   }
 }
 
-class MailjetError extends Error {
-  constructor(message) {
-    super(message);
-  }
-}
-
-module.exports = { NotFoundError, NotElligibleToScoringError, MailjetError };
+module.exports = { NotFoundError, NotElligibleToScoringError };
