@@ -4,8 +4,8 @@ import isPasswordValid from '../utils/password-validator';
 import config from 'pix-live/config/environment';
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  firstname: 'Votre prénom n’est pas renseigné.',
-  lastname: 'Votre nom n’est pas renseigné.',
+  firstName: 'Votre prénom n’est pas renseigné.',
+  lastName: 'Votre nom n’est pas renseigné.',
   email: 'Votre email n’est pas valide.',
   password: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.'
 };
@@ -26,11 +26,11 @@ export default Ember.Component.extend({
   classNames: ['signup-form'],
   registrationMessage: '',
   validation: {
-    lastname: {
+    lastName: {
       message: null,
       status: 'default'
     },
-    firstname: {
+    firstName: {
       status: 'default',
       message: null
     },
@@ -67,11 +67,11 @@ export default Ember.Component.extend({
 
   _reset(){
     const defaultValidationObject = {
-      lastname: {
+      lastName: {
         message: null,
         status: 'default'
       },
-      firstname: {
+      firstName: {
         status: 'default',
         message: null
       },
@@ -114,8 +114,8 @@ export default Ember.Component.extend({
     },
 
     signup(){
-      const user = this.get('user');
-      user.save()
+      const userObject = this.get('user');
+      userObject.save()
         .then((res) => {
           Ember.Logger.info(res);
           this._toggleConfirmation('Le compte a été bien créé!');
@@ -123,7 +123,8 @@ export default Ember.Component.extend({
           this._reset();
         })
         .catch((err) => {
-          this._toggleConfirmation(err);
+          Ember.Logger.info(userObject.get('errors'));//details
+          this._toggleConfirmation(err.errors);
         });
     }
   }
