@@ -71,7 +71,7 @@ export default Ember.Component.extend({
         assessment,
         challenge
       });
-      this.get('save')(feedback)
+      feedback.save()
         .then(() => this.set('_status', FORM_SUBMITTED));
     },
 

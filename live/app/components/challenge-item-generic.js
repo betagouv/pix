@@ -99,7 +99,8 @@ const ChallengeItemGeneric = Ember.Component.extend({
       this.toggleProperty('hasUserConfirmWarning');
       this.toggleProperty('hasChallengeTimer');
       this.set('_hasUserAknowledgedTimingWarning', true);
-    }
+    },
+
   }
 
 });
