@@ -7,8 +7,9 @@
     <h1 class="signup-form__heading">Inscription gratuite</h1>
   </div>
 
-  <div class="signup-form__temporary-msg">
-    <h4>{{registrationMessage}}</h4>
+
+  <div class="signup-form__temporary-msg {{temporaryAlert.status}}">
+    <h4>{{temporaryAlert.message}}</h4>
   </div>
 
   <div class="signup-form__input-container">
@@ -46,7 +47,7 @@
   <div class="signup-form__cgu-container">
 
     <label for="cgu" class="signup-form__cgu-label">
-      {{input type="checkbox" id='cgu' checked=user.cgu class="signup-form__cgu-checkbox"}}
+      {{input type="checkbox" id='cgu' checked=user.cgu class="signup-form__cgu-checkbox" }}
       <span>J'​accepte les {{#link-to 'inscription' class="signup__cgu-link"}}conditions d'​utilisation de Pix{{/link-to}}</span>
     </label>
 

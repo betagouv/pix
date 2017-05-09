@@ -38,8 +38,12 @@ export default Ember.Component.extend({
     return 'text';
   }),
 
-  hasIcon: Ember.computed('validationStatus', function(){
+  _isValidationStatusNotDefault() {
     return this.get('validationStatus') !== 'default';
+  },
+
+  hasIcon: Ember.computed('validationStatus', 'user.errors.content', function(){
+    return this._isValidationStatusNotDefault();
   }),
 
   inputContainerStatusClass: Ember.computed('validationStatus', function(){

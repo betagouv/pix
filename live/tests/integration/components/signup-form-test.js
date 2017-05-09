@@ -1,9 +1,6 @@
-import {expect} from 'chai';
-import {
-  describe,
-  it
-} from 'mocha';
-import {setupComponentTest} from 'ember-mocha';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
+import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import wait from 'ember-test-helpers/wait';
@@ -113,71 +110,67 @@ describe('Integration | Component | signup form', function () {
 
     it('should return true if action <Signup> is handled', function () {
       // given
-      const expectedUser = {
-        email: 'toto@pix.fr',
-        firstname: 'Marion',
-        lastname: 'Yade',
-        password: 'gipix2017',
-        cgu: true
-      };
-
       let isFormSubmitted = false;
-      let submitedUser;
+      const user = Ember.Object.create({
+        email: 'toto@pix.fr',
+        firstName: 'Marion',
+        lastName: 'Yade',
+        password: 'gipix2017',
+        cgu: true,
 
-      this.on('signup', function (args) {
-        isFormSubmitted = true;
-        submitedUser = args;
+        save(){
+          isFormSubmitted = true;
+          return Ember.RSVP.resolve();
+        }
       });
 
-      this.set('user', expectedUser);
+      this.set('user', user);
       this.render(hbs`{{signup-form user=user signup="signup"}}`);
 
       // when
-
       $(SUBMIT_BUTTON).click();
 
       // then
       return wait().then(() => {
         expect(isFormSubmitted).to.be.true;
-        expect(submitedUser).to.deep.equal(expectedUser);
       });
     });
 
     describe('Component on error validation', function () {
-      it('when focus-out on an empty input#firstname, validation message gets error class', function () {
+      it('when focus-out on an empty input#firstName, validation message gets error class', function () {
         // given
         this.set('user', userEmpty);
         this.render(hbs`{{signup-form user=user}}`);
 
         // when
-        this.$('#firstname').val('');
-        this.$('#firstname').trigger('focusout');
+        this.$('#firstName').val('');
+        this.$('#firstName').trigger('focusout');
 
         // then
         return wait().then(() => {
-          const divSiblingClass = this.$('#firstname').parent().prev().attr('class');
-          const divSiblingContent = this.$('#firstname').parent().prev('div').text();
-          const iconSiblingClass = this.$('#firstname').next('svg').attr('class');
+          const divSiblingClass = this.$('#firstName').parent().prev().attr('class');
+          const divSiblingContent = this.$('#firstName').parent().prev('div').text();
+          const iconSiblingClass = this.$('#firstName').next('svg').attr('class');
           expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
           expect(divSiblingContent).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
           expect(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
         });
       });
 
-      it('when focus-out on an empty input#lastname, validation message gets error class', function () {
+      it('when focus-out on an empty input#lastName, validation message gets error class', function () {
         // given
         this.set('user', userEmpty);
         this.render(hbs`{{signup-form user=user}}`);
 
         // when
-        this.$('#lastname').val('');
-        this.$('#lastname').trigger('focusout');
+        this.$('#lastName').val('');
+        this.$('#lastName').trigger('focusout');
 
         // then
         return wait().then(() => {
-          const divSiblingClass = this.$('#lastname').parent().prev().attr('class');
-          const divSiblingContent = this.$('#lastname').parent().prev('div').text();
-          const iconSiblingClass = this.$('#lastname').next('svg').attr('class');
+          const divSiblingClass = this.$('#lastName').parent().prev().attr('class');
+          const divSiblingContent = this.$('#lastName').parent().prev('div').text();
+          const iconSiblingClass = this.$('#lastName').next('svg').attr('class');
           expect(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
           expect(divSiblingContent).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
           expect(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
@@ -226,40 +219,40 @@ describe('Integration | Component | signup form', function () {
     });
 
     describe('Component on success validation', function () {
-      it('when focus-out on an empty input#firstname, validation message gets success class', function () {
+      it('when focus-out on an empty input#firstName, validation message gets success class', function () {
         // given
         this.set('user', userEmpty);
         this.render(hbs`{{signup-form user=user}}`);
 
         // when
-        this.$('#firstname').val('pix');
-        this.$('#firstname').trigger('focusout');
+        this.$('#firstName').val('pix');
+        this.$('#firstName').trigger('focusout');
 
         // then
         return wait().then(() => {
-          const divSiblingClass = this.$('#firstname').parent().prev().attr('class');
-          const divSiblingContent = this.$('#firstname').parent().prev('div').text();
-          const iconSiblingClass = this.$('#firstname').next('svg').attr('class');
+          const divSiblingClass = this.$('#firstName').parent().prev().attr('class');
+          const divSiblingContent = this.$('#firstName').parent().prev('div').text();
+          const iconSiblingClass = this.$('#firstName').next('svg').attr('class');
           expect(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
           expect(divSiblingContent).to.equal('');
           expect(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
         });
       });
 
-      it('when focus-out on an empty input#lastname, validation message gets success class', function () {
+      it('when focus-out on an empty input#lastName, validation message gets success class', function () {
         // given
         this.set('user', userEmpty);
         this.render(hbs`{{signup-form user=user}}`);
 
         // when
-        this.$('#lastname').val('pix');
-        this.$('#lastname').trigger('focusout');
+        this.$('#lastName').val('pix');
+        this.$('#lastName').trigger('focusout');
 
         // then
         return wait().then(() => {
-          const divSiblingClass = this.$('#lastname').parent().prev().attr('class');
-          const divSiblingContent = this.$('#lastname').parent().prev('div').text();
-          const iconSiblingClass = this.$('#lastname').next('svg').attr('class');
+          const divSiblingClass = this.$('#lastName').parent().prev().attr('class');
+          const divSiblingContent = this.$('#lastName').parent().prev('div').text();
+          const iconSiblingClass = this.$('#lastName').next('svg').attr('class');
           expect(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
           expect(divSiblingContent).to.equal('');
           expect(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);

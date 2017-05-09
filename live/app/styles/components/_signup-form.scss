@@ -51,6 +51,30 @@
   }
 }
 
+.signup-form__temporary-msg{
+  max-width: 449px;
+  width: 100%;
+  text-align: center;
+}
+
+.signup-form__temporary-msg h4{
+  border-radius: 3px;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 9px;
+}
+
+.signup-form__temporary-msg.signup-form__temporary-msg--error, .signup-form__temporary-msg.signup-form__temporary-msg--success{
+  margin-bottom: 10px;
+}
+
+.signup-form__temporary-msg.signup-form__temporary-msg--error h4{
+  background: $persimmon;
+}
+.signup-form__temporary-msg.signup-form__temporary-msg--success h4{
+  background: $caribbean-green;
+}
+
 .signup-form__input-container {
   max-width: 449px;
   width: 100%;

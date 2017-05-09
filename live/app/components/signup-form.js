@@ -9,6 +9,10 @@ const ERROR_INPUT_MESSAGE_MAP = {
   email: 'Votre email n’est pas valide.',
   password: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.'
 };
+const TEMPORARY_DIV_CLASS_MAP = {
+  error: 'signup-form__temporary-msg--error',
+  success: 'signup-form__temporary-msg--success'
+};
 
 function getErrorMessage(status, key) {
   return (status === 'error') ? ERROR_INPUT_MESSAGE_MAP[key] : null;
@@ -41,16 +45,22 @@ export default Ember.Component.extend({
     password: {
       status: 'default',
       message: null
+    },
+    cgu: {
+      status: 'default',
+      message: null
     }
+  },
+  temporaryAlert: {
+    status:'default',
+    message: ''
   },
 
   _updateTextfieldModelObject (key, status, message) {
-    const inputModelObject = {status, message};
     const statusObject = 'validation.'+key+'.status';
     const messageObject = 'validation.'+key+'.message';
     this.set(statusObject, status);
     this.set(messageObject, message);
-    this.set(key, inputModelObject);
   },
 
   _getModelAttributeValueFromKey(key) {
@@ -58,10 +68,10 @@ export default Ember.Component.extend({
     return userModel.get(key);
   },
 
-  _toggleConfirmation(message) {
-    this.set('registrationMessage', message);
+  _toggleConfirmation(status, message) {
+    this.set('temporaryAlert', {status: TEMPORARY_DIV_CLASS_MAP[status], message});
     Ember.run.later(()=>{
-      this.set('registrationMessage', '');
+      this.set('temporaryAlert', {status: 'default', message: ''});
     }, config.APP.MESSAGE_DISPLAY_DURATION);
   },
 
@@ -82,10 +92,21 @@ export default Ember.Component.extend({
       password: {
         status: 'default',
         message: null
+      },
+      cgu:{
+        status: 'default',
+        message: null
       }
     };
-
     this.set('validation', defaultValidationObject);
+    this.set('temporaryAlert', {status: 'default', message: ''});
+  },
+
+  _updateInputsStatus(){
+    const errors =  this.get('user.errors.content');
+    errors.forEach(({ attribute, message }) =>{
+      this._updateTextfieldModelObject(attribute, 'error', message);
+    });
   },
 
   actions: {
@@ -116,15 +137,15 @@ export default Ember.Component.extend({
     signup(){
       const userObject = this.get('user');
       userObject.save()
-        .then((res) => {
-          Ember.Logger.info(res);
-          this._toggleConfirmation('Le compte a été bien créé!');
-          this.sendAction('refresh');
+        .then(() => {
+          this._toggleConfirmation('success', 'Le compte a été bien créé!');
           this._reset();
+          this.sendAction('refresh');
         })
-        .catch((err) => {
-          Ember.Logger.info(userObject.get('errors'));//details
-          this._toggleConfirmation(err.errors);
+        .catch(() => {
+          this._updateInputsStatus();
+          const message = (!this.get('user.errors.cgu'))? 'Oups! Une erreur s\'est produite...' : this.get('user.errors.cgu.firstObject.message');
+          this._toggleConfirmation('error', message);
         });
     }
   }
