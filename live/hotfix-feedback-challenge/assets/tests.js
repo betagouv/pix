@@ -6386,7 +6386,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
       });
     });
 
-    (0, _mocha.describe)('#reset', function () {
+    (0, _mocha.describe)('#_reset', function () {
 
       (0, _mocha.it)('should return empty mail, text, error and back to the default status', function () {
         // given
@@ -6398,7 +6398,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
         component.set('_status', 'FORM_CLOSED');
 
         // when
-        component.reset();
+        component._reset();
 
         // then
         (0, _chai.expect)(component.get('_email')).to.be['null'];
@@ -6408,7 +6408,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
       });
     });
 
-    (0, _mocha.describe)('#closeForm', function () {
+    (0, _mocha.describe)('#_closeForm', function () {
 
       (0, _mocha.it)('should set status to CLOSED and set errors to null', function () {
         // given
@@ -6417,7 +6417,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
         component.set('_status', 'FORM_OPENED');
 
         // when
-        component.closeForm();
+        component._closeForm();
 
         // then
         (0, _chai.expect)(component.get('_error')).to.be['null'];

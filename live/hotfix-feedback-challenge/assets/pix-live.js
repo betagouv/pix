@@ -895,17 +895,17 @@ define('pix-live/components/feedback-panel', ['exports', 'ember', 'pix-live/util
 
     didReceiveAttrs: function didReceiveAttrs() {
       this._super.apply(this, arguments);
-      this.reset();
+      this._reset();
     },
 
-    reset: function reset() {
+    _reset: function _reset() {
       this.set('_email', null);
       this.set('_content', null);
       this.set('_error', null);
       this.set('_status', this._getDefaultStatus());
     },
 
-    closeForm: function closeForm() {
+    _closeForm: function _closeForm() {
       this.set('_status', FORM_CLOSED);
       this.set('_error', null);
     },
@@ -921,7 +921,7 @@ define('pix-live/components/feedback-panel', ['exports', 'ember', 'pix-live/util
       },
 
       cancelFeedback: function cancelFeedback() {
-        this.closeForm();
+        this._closeForm();
       },
 
       sendFeedback: function sendFeedback() {
@@ -5125,6 +5125,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.9.0+c4ff2dda"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.9.0+6cf341df"});
 }
 //# sourceMappingURL=pix-live.map
