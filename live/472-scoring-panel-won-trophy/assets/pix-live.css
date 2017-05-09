@@ -1600,7 +1600,7 @@ button.routable-modal--close:active {
       font-size: 20px; } }
   @media (min-width: 768px) {
     .scoring-panel__trophy-level {
-      margin-top: -62px;
+      margin-top: -55px;
       font-size: 26px; } }
 
 .scoring-panel__trophy-bêta {
