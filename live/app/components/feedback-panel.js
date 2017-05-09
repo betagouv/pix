@@ -26,17 +26,17 @@ export default Ember.Component.extend({
 
   didReceiveAttrs() {
     this._super(...arguments);
-    this.reset();
+    this._reset();
   },
 
-  reset() {
+  _reset() {
     this.set('_email', null);
     this.set('_content', null);
     this.set('_error', null);
     this.set('_status', this._getDefaultStatus());
   },
 
-  closeForm(){
+  _closeForm(){
     this.set('_status', FORM_CLOSED);
     this.set('_error', null);
   },
@@ -52,7 +52,7 @@ export default Ember.Component.extend({
     },
 
     cancelFeedback() {
-      this.closeForm();
+      this._closeForm();
     },
 
     sendFeedback() {

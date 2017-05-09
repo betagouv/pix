@@ -72,7 +72,7 @@ describe('Unit | Component | feedback-panel', function () {
 
   });
 
-  describe('#reset', function () {
+  describe('#_reset', function () {
 
     it('should return empty mail, text, error and back to the default status', function () {
       // given
@@ -84,7 +84,7 @@ describe('Unit | Component | feedback-panel', function () {
       component.set('_status', 'FORM_CLOSED');
 
       // when
-      component.reset();
+      component._reset();
 
       // then
       expect(component.get('_email')).to.be.null;
@@ -94,7 +94,7 @@ describe('Unit | Component | feedback-panel', function () {
     });
   });
 
-  describe('#closeForm', function () {
+  describe('#_closeForm', function () {
 
     it('should set status to CLOSED and set errors to null', function () {
       // given
@@ -103,7 +103,7 @@ describe('Unit | Component | feedback-panel', function () {
       component.set('_status', 'FORM_OPENED');
 
       // when
-      component.closeForm();
+      component._closeForm();
 
       // then
       expect(component.get('_error')).to.be.null;
