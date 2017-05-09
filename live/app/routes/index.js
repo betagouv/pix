@@ -1,9 +1,7 @@
-import Ember from 'ember';
 import RSVP from 'rsvp';
-import ResetScrollPositionMixin from 'pix/mixins/reset-scroll-position';
+import BaseRoute from 'pix-live/routes/base-route';
 
-
-export default Ember.Route.extend(ResetScrollPositionMixin, {
+export default BaseRoute.extend({
 
   model() {
     return RSVP.hash({
