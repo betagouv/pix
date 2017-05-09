@@ -431,7 +431,6 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-l
         this.toggleProperty('hasChallengeTimer');
         this.set('_hasUserAknowledgedTimingWarning', true);
       }
-
     }
 
   });
@@ -5123,6 +5122,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.9.0+cfcd5d4d"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.9.0+06eebe6d"});
 }
 //# sourceMappingURL=pix-live.map
