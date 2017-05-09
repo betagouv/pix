@@ -5557,23 +5557,21 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
 
       (0, _mocha.it)('should return true if action <Signup> is handled', function () {
         // given
-        var expectedUser = {
-          email: 'toto@pix.fr',
-          firstname: 'cron',
-          lastname: 'ma',
-          password: 'gipix2017',
-          cgu: true
-        };
-
         var isFormSubmitted = false;
-        var submitedUser = undefined;
+        var user = _ember['default'].Object.create({
+          email: 'toto@pix.fr',
+          firstName: 'Marion',
+          lastName: 'Yade',
+          password: 'gipix2017',
+          cgu: true,
 
-        this.on('signup', function (args) {
-          isFormSubmitted = true;
-          submitedUser = args;
+          save: function save() {
+            isFormSubmitted = true;
+            return _ember['default'].RSVP.resolve();
+          }
         });
 
-        this.set('user', expectedUser);
+        this.set('user', user);
         this.render(_ember['default'].HTMLBars.template({
           'id': 'KqPEcC+o',
           'block': '{"statements":[["append",["helper",["signup-form"],null,[["user","signup"],[["get",["user"]],"signup"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -5581,18 +5579,16 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
         }));
 
         // when
-
         $(SUBMIT_BUTTON).click();
 
         // then
         return (0, _emberTestHelpersWait['default'])().then(function () {
           (0, _chai.expect)(isFormSubmitted).to.be['true'];
-          (0, _chai.expect)(submitedUser).to.deep.equal(expectedUser);
         });
       });
 
       (0, _mocha.describe)('Component on error validation', function () {
-        (0, _mocha.it)('when focus-out on an empty input#firstname, validation message gets error class', function () {
+        (0, _mocha.it)('when focus-out on an empty input#firstName, validation message gets error class', function () {
           var _this = this;
 
           // given
@@ -5604,21 +5600,21 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
           }));
 
           // when
-          this.$('#firstname').val('');
-          this.$('#firstname').trigger('focusout');
+          this.$('#firstName').val('');
+          this.$('#firstName').trigger('focusout');
 
           // then
           return (0, _emberTestHelpersWait['default'])().then(function () {
-            var divSiblingClass = _this.$('#firstname').parent().prev().attr('class');
-            var divSiblingContent = _this.$('#firstname').parent().prev('div').text();
-            var iconSiblingClass = _this.$('#firstname').next('svg').attr('class');
+            var divSiblingClass = _this.$('#firstName').parent().prev().attr('class');
+            var divSiblingContent = _this.$('#firstName').parent().prev('div').text();
+            var iconSiblingClass = _this.$('#firstName').next('svg').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
             (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
           });
         });
 
-        (0, _mocha.it)('when focus-out on an empty input#lastname, validation message gets error class', function () {
+        (0, _mocha.it)('when focus-out on an empty input#lastName, validation message gets error class', function () {
           var _this2 = this;
 
           // given
@@ -5630,14 +5626,14 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
           }));
 
           // when
-          this.$('#lastname').val('');
-          this.$('#lastname').trigger('focusout');
+          this.$('#lastName').val('');
+          this.$('#lastName').trigger('focusout');
 
           // then
           return (0, _emberTestHelpersWait['default'])().then(function () {
-            var divSiblingClass = _this2.$('#lastname').parent().prev().attr('class');
-            var divSiblingContent = _this2.$('#lastname').parent().prev('div').text();
-            var iconSiblingClass = _this2.$('#lastname').next('svg').attr('class');
+            var divSiblingClass = _this2.$('#lastName').parent().prev().attr('class');
+            var divSiblingContent = _this2.$('#lastName').parent().prev('div').text();
+            var iconSiblingClass = _this2.$('#lastName').next('svg').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
             (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
@@ -5698,7 +5694,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
       });
 
       (0, _mocha.describe)('Component on success validation', function () {
-        (0, _mocha.it)('when focus-out on an empty input#firstname, validation message gets success class', function () {
+        (0, _mocha.it)('when focus-out on an empty input#firstName, validation message gets success class', function () {
           var _this5 = this;
 
           // given
@@ -5710,21 +5706,21 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
           }));
 
           // when
-          this.$('#firstname').val('pix');
-          this.$('#firstname').trigger('focusout');
+          this.$('#firstName').val('pix');
+          this.$('#firstName').trigger('focusout');
 
           // then
           return (0, _emberTestHelpersWait['default'])().then(function () {
-            var divSiblingClass = _this5.$('#firstname').parent().prev().attr('class');
-            var divSiblingContent = _this5.$('#firstname').parent().prev('div').text();
-            var iconSiblingClass = _this5.$('#firstname').next('svg').attr('class');
+            var divSiblingClass = _this5.$('#firstName').parent().prev().attr('class');
+            var divSiblingContent = _this5.$('#firstName').parent().prev('div').text();
+            var iconSiblingClass = _this5.$('#firstName').next('svg').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
             (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
           });
         });
 
-        (0, _mocha.it)('when focus-out on an empty input#lastname, validation message gets success class', function () {
+        (0, _mocha.it)('when focus-out on an empty input#lastName, validation message gets success class', function () {
           var _this6 = this;
 
           // given
@@ -5736,14 +5732,14 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
           }));
 
           // when
-          this.$('#lastname').val('pix');
-          this.$('#lastname').trigger('focusout');
+          this.$('#lastName').val('pix');
+          this.$('#lastName').trigger('focusout');
 
           // then
           return (0, _emberTestHelpersWait['default'])().then(function () {
-            var divSiblingClass = _this6.$('#lastname').parent().prev().attr('class');
-            var divSiblingContent = _this6.$('#lastname').parent().prev('div').text();
-            var iconSiblingClass = _this6.$('#lastname').next('svg').attr('class');
+            var divSiblingClass = _this6.$('#lastName').parent().prev().attr('class');
+            var divSiblingContent = _this6.$('#lastName').parent().prev('div').text();
+            var iconSiblingClass = _this6.$('#lastName').next('svg').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
             (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);

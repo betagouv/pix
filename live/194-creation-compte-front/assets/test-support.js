@@ -19899,6 +19899,10 @@ define('ember-mocha/mocha-module', ['exports', 'ember', 'mocha', 'ember-test-hel
         return module.teardown();
       });
 
+      (0, _mocha.after)(function () {
+        module = null;
+      });
+
       tests = tests || function () {};
       tests.call(this);
     }
@@ -19943,6 +19947,10 @@ define('ember-mocha/setup-test-factory', ['exports', 'mocha', 'ember-test-helper
 
       (0, _mocha.afterEach)(function () {
         return module.teardown();
+      });
+
+      (0, _mocha.after)(function () {
+        module = null;
       });
     };
   };

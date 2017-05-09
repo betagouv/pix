@@ -1438,13 +1438,17 @@ define('pix-live/components/routable-modal-outlet', ['exports', 'ember-routable-
     }
   });
 });
-define('pix-live/components/signup-form', ['exports', 'ember', 'pix-live/utils/email-validator', 'pix-live/utils/password-validator'], function (exports, _ember, _pixLiveUtilsEmailValidator, _pixLiveUtilsPasswordValidator) {
+define('pix-live/components/signup-form', ['exports', 'ember', 'pix-live/utils/email-validator', 'pix-live/utils/password-validator', 'pix-live/config/environment'], function (exports, _ember, _pixLiveUtilsEmailValidator, _pixLiveUtilsPasswordValidator, _pixLiveConfigEnvironment) {
 
   var ERROR_INPUT_MESSAGE_MAP = {
-    firstname: 'Votre prénom n’est pas renseigné.',
-    lastname: 'Votre nom n’est pas renseigné.',
+    firstName: 'Votre prénom n’est pas renseigné.',
+    lastName: 'Votre nom n’est pas renseigné.',
     email: 'Votre email n’est pas valide.',
     password: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.'
+  };
+  var TEMPORARY_DIV_CLASS_MAP = {
+    error: 'signup-form__temporary-msg--error',
+    success: 'signup-form__temporary-msg--success'
   };
 
   function getErrorMessage(status, key) {
@@ -1461,62 +1465,132 @@ define('pix-live/components/signup-form', ['exports', 'ember', 'pix-live/utils/e
 
   exports['default'] = _ember['default'].Component.extend({
     classNames: ['signup-form'],
-    firstname: {
-      status: 'default',
-      message: null
+    registrationMessage: '',
+    validation: {
+      lastName: {
+        message: null,
+        status: 'default'
+      },
+      firstName: {
+        status: 'default',
+        message: null
+      },
+      email: {
+        status: 'default',
+        message: null
+      },
+      password: {
+        status: 'default',
+        message: null
+      },
+      cgu: {
+        status: 'default',
+        message: null
+      }
     },
-    lastname: {
+    temporaryAlert: {
       status: 'default',
-      message: null
-    },
-    email: {
-      status: 'default',
-      message: null
-    },
-    password: {
-      status: 'default',
-      message: null
+      message: ''
     },
 
-    updateTextfieldModelObject: function updateTextfieldModelObject(key, status, message) {
-      var inputModelObject = { status: status, message: message };
-      this.set(key, inputModelObject);
+    _updateTextfieldModelObject: function _updateTextfieldModelObject(key, status, message) {
+      var statusObject = 'validation.' + key + '.status';
+      var messageObject = 'validation.' + key + '.message';
+      this.set(statusObject, status);
+      this.set(messageObject, message);
     },
 
-    getModelAttributeValueFromKey: function getModelAttributeValueFromKey(key) {
+    _getModelAttributeValueFromKey: function _getModelAttributeValueFromKey(key) {
       var userModel = this.get('user');
-      var inputValue = userModel.get(key);
-      return inputValue;
+      return userModel.get(key);
+    },
+
+    _toggleConfirmation: function _toggleConfirmation(status, message) {
+      var _this = this;
+
+      this.set('temporaryAlert', { status: TEMPORARY_DIV_CLASS_MAP[status], message: message });
+      _ember['default'].run.later(function () {
+        _this.set('temporaryAlert', { status: 'default', message: '' });
+      }, _pixLiveConfigEnvironment['default'].APP.MESSAGE_DISPLAY_DURATION);
+    },
+
+    _reset: function _reset() {
+      var defaultValidationObject = {
+        lastName: {
+          message: null,
+          status: 'default'
+        },
+        firstName: {
+          status: 'default',
+          message: null
+        },
+        email: {
+          status: 'default',
+          message: null
+        },
+        password: {
+          status: 'default',
+          message: null
+        },
+        cgu: {
+          status: 'default',
+          message: null
+        }
+      };
+      this.set('validation', defaultValidationObject);
+      this.set('temporaryAlert', { status: 'default', message: '' });
+    },
+
+    _updateInputsStatus: function _updateInputsStatus() {
+      var _this2 = this;
+
+      var errors = this.get('user.errors.content');
+      errors.forEach(function (_ref) {
+        var attribute = _ref.attribute;
+        var message = _ref.message;
+
+        _this2._updateTextfieldModelObject(attribute, 'error', message);
+      });
     },
 
     actions: {
       validateInput: function validateInput(key) {
-        var modelAttrValue = this.getModelAttributeValueFromKey(key);
+        var modelAttrValue = this._getModelAttributeValueFromKey(key);
         var isEmptyValue = isGivenEmptyValue(modelAttrValue);
         var status = getValidationStatus(isEmptyValue);
         var message = getErrorMessage(status, key);
-        this.updateTextfieldModelObject(key, status, message);
+        this._updateTextfieldModelObject(key, status, message);
       },
 
       validateInputEmail: function validateInputEmail(key) {
-        var inputValue = this.getModelAttributeValueFromKey(key);
+        var inputValue = this._getModelAttributeValueFromKey(key);
         var isNotValidEmail = !(0, _pixLiveUtilsEmailValidator['default'])(inputValue);
         var status = getValidationStatus(isNotValidEmail);
         var message = getErrorMessage(status, key);
-        this.updateTextfieldModelObject(key, status, message);
+        this._updateTextfieldModelObject(key, status, message);
       },
 
       validateInputPassword: function validateInputPassword(key) {
-        var inputValue = this.getModelAttributeValueFromKey(key);
+        var inputValue = this._getModelAttributeValueFromKey(key);
         var isNotValidPasswordFormat = !(0, _pixLiveUtilsPasswordValidator['default'])(inputValue);
         var status = getValidationStatus(isNotValidPasswordFormat);
         var message = getErrorMessage(status, key);
-        this.updateTextfieldModelObject(key, status, message);
+        this._updateTextfieldModelObject(key, status, message);
       },
 
       signup: function signup() {
-        var user = this.get('user');
-        this.sendAction('signup', user);
+        var _this3 = this;
+
+        var userObject = this.get('user');
+        userObject.save().then(function () {
+          _this3._toggleConfirmation('success', 'Le compte a été bien créé!');
+          _this3._reset();
+          _this3.sendAction('refresh');
+        })['catch'](function () {
+          _this3._updateInputsStatus();
+          var message = !_this3.get('user.errors.cgu') ? 'Oups! Une erreur s\'est produite...' : _this3.get('user.errors.cgu.firstObject.message');
+          _this3._toggleConfirmation('error', message);
+        });
       }
     }
   });
@@ -1561,8 +1635,12 @@ define('pix-live/components/signup-textfield', ['exports', 'ember'], function (e
       return 'text';
     }),
 
-    hasIcon: _ember['default'].computed('validationStatus', function () {
+    _isValidationStatusNotDefault: function _isValidationStatusNotDefault() {
       return this.get('validationStatus') !== 'default';
+    },
+
+    hasIcon: _ember['default'].computed('validationStatus', 'user.errors.content', function () {
+      return this._isValidationStatusNotDefault();
     }),
 
     inputContainerStatusClass: _ember['default'].computed('validationStatus', function () {
@@ -3867,8 +3945,8 @@ define('pix-live/models/user', ['exports', 'ember-data'], function (exports, _em
   var Model = _emberData['default'].Model;
   var attr = _emberData['default'].attr;
   exports['default'] = Model.extend({
-    firstname: attr('string'),
-    lastname: attr('string'),
+    firstName: attr('string'),
+    lastName: attr('string'),
     email: attr('string'),
     password: attr('string'),
     cgu: attr('boolean')
@@ -4313,7 +4391,13 @@ define('pix-live/routes/index', ['exports', 'ember', 'rsvp'], function (exports,
 define('pix-live/routes/inscription', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
     model: function model() {
-      return this.store.createRecord('user');
+      return this.store.createRecord('user', {
+        lastName: '',
+        firstName: '',
+        email: '',
+        password: '',
+        cgu: false
+      });
     },
 
     setupController: function setupController(controller, model) {
@@ -4322,15 +4406,8 @@ define('pix-live/routes/inscription', ['exports', 'ember'], function (exports, _
     },
 
     actions: {
-      signup: function signup(user) {
-        var _this = this;
-
-        user.save().then(function (success) {
-          _this.transitionTo('inscription');
-          _ember['default'].Logger.info(success);
-        })['catch'](function (err) {
-          _ember['default'].Logger.info('error', err);
-        });
+      refresh: function refresh() {
+        this.refresh();
       }
     }
   });
@@ -4688,10 +4765,10 @@ define("pix-live/templates/components/routable-modal-outlet", ["exports"], funct
   exports["default"] = Ember.HTMLBars.template({ "id": "IgLQm0V/", "block": "{\"statements\":[[\"block\",[\"if\"],[[\"get\",[\"current\",\"routeName\"]]],null,0]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"    \"],[\"append\",[\"unknown\",[\"routable-modal-hold\"]],false],[\"text\",\"\\n    \"],[\"append\",[\"unknown\",[\"routable-modal-backdrop\"]],false],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/routable-modal-outlet.hbs" } });
 });
 define("pix-live/templates/components/signup-form", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "dYyM5BJC", "block": "{\"statements\":[[\"open-element\",\"form\",[]],[\"static-attr\",\"class\",\"signup-form-container\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__logo\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"unknown\",[\"pix-logo\"]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__heading-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"h1\",[]],[\"static-attr\",\"class\",\"signup-form__heading\"],[\"flush-element\"],[\"text\",\"Inscription gratuite\"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"signup-textfield\"],null,[[\"validate\",\"label\",\"validationStatus\",\"inputBindingValue\",\"textfieldName\",\"validationMessage\"],[\"validateInput\",\"Nom\",[\"get\",[\"lastname\",\"status\"]],[\"get\",[\"user\",\"lastname\"]],\"lastname\",[\"get\",[\"lastname\",\"message\"]]]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"signup-textfield\"],null,[[\"validate\",\"label\",\"validationStatus\",\"inputBindingValue\",\"textfieldName\",\"validationMessage\"],[\"validateInput\",\"Prénom\",[\"get\",[\"firstname\",\"status\"]],[\"get\",[\"user\",\"firstname\"]],\"firstname\",[\"get\",[\"firstname\",\"message\"]]]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"signup-textfield\"],null,[[\"validate\",\"label\",\"validationStatus\",\"inputBindingValue\",\"textfieldName\",\"validationMessage\"],[\"validateInputEmail\",\"Adresse Email\",[\"get\",[\"email\",\"status\"]],[\"get\",[\"user\",\"email\"]],\"email\",[\"get\",[\"email\",\"message\"]]]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"signup-textfield\"],null,[[\"validate\",\"label\",\"validationStatus\",\"inputBindingValue\",\"textfieldName\",\"validationMessage\"],[\"validateInputPassword\",\"Mot de passe\",[\"get\",[\"password\",\"status\"]],[\"get\",[\"user\",\"password\"]],\"password\",[\"get\",[\"password\",\"message\"]]]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__cgu-container\"],[\"flush-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"label\",[]],[\"static-attr\",\"for\",\"cgu\"],[\"static-attr\",\"class\",\"signup-form__cgu-label\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"append\",[\"helper\",[\"input\"],null,[[\"type\",\"id\",\"checked\",\"class\"],[\"checkbox\",\"cgu\",[\"get\",[\"user\",\"cgu\"]],\"signup-form__cgu-checkbox\"]]],false],[\"text\",\"\\n      \"],[\"open-element\",\"span\",[]],[\"flush-element\"],[\"text\",\"J'​accepte les \"],[\"block\",[\"link-to\"],[\"inscription\"],[[\"class\"],[\"signup__cgu-link\"]],0],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__submit-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"class\",\"signup__submit-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],\"signup\"]],[\"flush-element\"],[\"text\",\"Je m'inscris\"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"conditions d'​utilisation de Pix\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-form.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "cDvE6GOG", "block": "{\"statements\":[[\"open-element\",\"form\",[]],[\"static-attr\",\"class\",\"signup-form-container\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__logo\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"unknown\",[\"pix-logo\"]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__heading-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"h1\",[]],[\"static-attr\",\"class\",\"signup-form__heading\"],[\"flush-element\"],[\"text\",\"Inscription gratuite\"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n\\n  \"],[\"open-element\",\"div\",[]],[\"dynamic-attr\",\"class\",[\"concat\",[\"signup-form__temporary-msg \",[\"unknown\",[\"temporaryAlert\",\"status\"]]]]],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"h4\",[]],[\"flush-element\"],[\"append\",[\"unknown\",[\"temporaryAlert\",\"message\"]],false],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"signup-textfield\"],null,[[\"validate\",\"label\",\"validationStatus\",\"inputBindingValue\",\"textfieldName\",\"validationMessage\"],[\"validateInput\",\"Nom\",[\"get\",[\"validation\",\"lastName\",\"status\"]],[\"get\",[\"user\",\"lastName\"]],\"lastName\",[\"get\",[\"validation\",\"lastName\",\"message\"]]]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"signup-textfield\"],null,[[\"validate\",\"label\",\"validationStatus\",\"inputBindingValue\",\"textfieldName\",\"validationMessage\"],[\"validateInput\",\"Prénom\",[\"get\",[\"validation\",\"firstName\",\"status\"]],[\"get\",[\"user\",\"firstName\"]],\"firstName\",[\"get\",[\"validation\",\"firstName\",\"message\"]]]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"signup-textfield\"],null,[[\"validate\",\"label\",\"validationStatus\",\"inputBindingValue\",\"textfieldName\",\"validationMessage\"],[\"validateInputEmail\",\"Adresse Email\",[\"get\",[\"validation\",\"email\",\"status\"]],[\"get\",[\"user\",\"email\"]],\"email\",[\"get\",[\"validation\",\"email\",\"message\"]]]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__input-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"signup-textfield\"],null,[[\"validate\",\"label\",\"validationStatus\",\"inputBindingValue\",\"textfieldName\",\"validationMessage\"],[\"validateInputPassword\",\"Mot de passe\",[\"get\",[\"validation\",\"password\",\"status\"]],[\"get\",[\"user\",\"password\"]],\"password\",[\"get\",[\"validation\",\"password\",\"message\"]]]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__cgu-container\"],[\"flush-element\"],[\"text\",\"\\n\\n    \"],[\"open-element\",\"label\",[]],[\"static-attr\",\"for\",\"cgu\"],[\"static-attr\",\"class\",\"signup-form__cgu-label\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"append\",[\"helper\",[\"input\"],null,[[\"type\",\"id\",\"checked\",\"class\"],[\"checkbox\",\"cgu\",[\"get\",[\"user\",\"cgu\"]],\"signup-form__cgu-checkbox\"]]],false],[\"text\",\"\\n      \"],[\"open-element\",\"span\",[]],[\"flush-element\"],[\"text\",\"J'​accepte les \"],[\"block\",[\"link-to\"],[\"inscription\"],[[\"class\"],[\"signup__cgu-link\"]],0],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-form__submit-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"button\",[]],[\"static-attr\",\"class\",\"signup__submit-button\"],[\"modifier\",[\"action\"],[[\"get\",[null]],[\"helper\",[\"action\"],[[\"get\",[null]],\"signup\"],null]]],[\"flush-element\"],[\"text\",\"Je m'inscris\"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"conditions d'​utilisation de Pix\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-form.hbs" } });
 });
 define("pix-live/templates/components/signup-textfield", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "JJVu+H0r", "block": "{\"statements\":[[\"open-element\",\"label\",[]],[\"dynamic-attr\",\"for\",[\"concat\",[[\"unknown\",[\"textfieldName\"]]]]],[\"static-attr\",\"class\",\"signup-textfield__label\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"label\"]],false],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"open-element\",\"div\",[]],[\"dynamic-attr\",\"class\",[\"concat\",[\"signup-textfield__message \",[\"unknown\",[\"validationMessageClass\"]],\" signup-textfield__message-\",[\"unknown\",[\"textfieldType\"]],\"\\n\"]]],[\"flush-element\"],[\"append\",[\"unknown\",[\"validationMessage\"]],false],[\"close-element\"],[\"text\",\"\\n\"],[\"open-element\",\"div\",[]],[\"dynamic-attr\",\"class\",[\"concat\",[\"signup-textfield__input-field-container \",[\"unknown\",[\"inputContainerStatusClass\"]]]]],[\"flush-element\"],[\"text\",\"\\n  \"],[\"append\",[\"helper\",[\"input\"],[[\"helper\",[\"-input-type\"],[[\"get\",[\"textfieldType\"]]],null]],[[\"type\",\"id\",\"value\",\"focus-out\",\"class\"],[[\"get\",[\"textfieldType\"]],[\"get\",[\"textfieldName\"]],[\"get\",[\"inputBindingValue\"]],[\"helper\",[\"action\"],[[\"get\",[null]],\"validate\"],null],[\"helper\",[\"concat\"],[\"signup-textfield__input\",\" \",[\"helper\",[\"if\"],[[\"get\",[\"inputValidationStatus\"]],[\"helper\",[\"-normalize-class\"],[\"inputValidationStatus\",[\"get\",[\"inputValidationStatus\"]]],null]],null],\" \"],null]]]],false],[\"text\",\"\\n\\n\\n\"],[\"block\",[\"if\"],[[\"get\",[\"hasIcon\"]]],null,2],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"      \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"class\",\"validation-icon-success\"],[\"static-attr\",\"style\",\"width:20px;height:20px\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"path\",[]],[\"static-attr\",\"fill\",\"#30d5b0\"],[\"static-attr\",\"d\",\"M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"      \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"class\",\"validation-icon-error\"],[\"static-attr\",\"style\",\"width:20px;height:20px\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"path\",[]],[\"static-attr\",\"fill\",\"#f45c00\"],[\"static-attr\",\"d\",\"M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"helper\",[\"eq\"],[[\"get\",[\"validationStatus\"]],\"error\"],null]],null,1,0]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-textfield.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "6Tq5AxaO", "block": "{\"statements\":[[\"open-element\",\"label\",[]],[\"dynamic-attr\",\"for\",[\"concat\",[[\"unknown\",[\"textfieldName\"]]]]],[\"static-attr\",\"class\",\"signup-textfield__label\"],[\"flush-element\"],[\"append\",[\"unknown\",[\"label\"]],false],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"open-element\",\"div\",[]],[\"dynamic-attr\",\"class\",[\"concat\",[\"signup-textfield__message \",[\"unknown\",[\"validationMessageClass\"]],\" signup-textfield__message-\",[\"unknown\",[\"textfieldType\"]],\"\\n\"]]],[\"flush-element\"],[\"append\",[\"unknown\",[\"validationMessage\"]],false],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"open-element\",\"div\",[]],[\"dynamic-attr\",\"class\",[\"concat\",[\"signup-textfield__input-field-container \",[\"unknown\",[\"inputContainerStatusClass\"]]]]],[\"flush-element\"],[\"text\",\"\\n  \"],[\"append\",[\"helper\",[\"input\"],[[\"helper\",[\"-input-type\"],[[\"get\",[\"textfieldType\"]]],null]],[[\"type\",\"id\",\"value\",\"focus-out\",\"class\"],[[\"get\",[\"textfieldType\"]],[\"get\",[\"textfieldName\"]],[\"get\",[\"inputBindingValue\"]],[\"helper\",[\"action\"],[[\"get\",[null]],\"validate\"],null],[\"helper\",[\"concat\"],[\"signup-textfield__input\",\" \",[\"helper\",[\"if\"],[[\"get\",[\"inputValidationStatus\"]],[\"helper\",[\"-normalize-class\"],[\"inputValidationStatus\",[\"get\",[\"inputValidationStatus\"]]],null]],null],\" \"],null]]]],false],[\"text\",\"\\n\\n\\n\"],[\"block\",[\"if\"],[[\"get\",[\"hasIcon\"]]],null,2],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"      \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"class\",\"validation-icon-success\"],[\"static-attr\",\"style\",\"width:20px;height:20px\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"path\",[]],[\"static-attr\",\"fill\",\"#30d5b0\"],[\"static-attr\",\"d\",\"M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"      \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"class\",\"validation-icon-error\"],[\"static-attr\",\"style\",\"width:20px;height:20px\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"path\",[]],[\"static-attr\",\"fill\",\"#f45c00\"],[\"static-attr\",\"d\",\"M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"block\",[\"if\"],[[\"helper\",[\"eq\"],[[\"get\",[\"validationStatus\"]],\"error\"],null]],null,1,0]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-textfield.hbs" } });
 });
 define("pix-live/templates/components/timeout-jauge", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "CIdrWWlY", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"timeout-jauge\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"timeout-jauge-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"timeout-jauge-clock\"],[\"flush-element\"],[\"text\",\"\\n\"],[\"block\",[\"if\"],[[\"get\",[\"hasFinished\"]]],null,1,0],[\"text\",\"      \"],[\"open-element\",\"div\",[]],[\"flush-element\"],[\"text\",\" \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"timeout-jauge-remaining\"],[\"dynamic-attr\",\"data-spent\",[\"concat\",[[\"unknown\",[\"remainingSeconds\"]]]]],[\"flush-element\"],[\"text\",\"\\n        \"],[\"append\",[\"unknown\",[\"remainingTime\"]],false],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"timeout-jauge-progress\"],[\"dynamic-attr\",\"style\",[\"unknown\",[\"jaugeWidthStyle\"]],null],[\"flush-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"class\",\"svg-timeout-clock-black\"],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M11,17A1,1 0 0,0 12,18A1,1 0 0,0 13,17A1,1 0 0,0 12,16A1,1 0 0,0 11,17M11,3V7H13V5.08C16.39,5.57 19,8.47 19,12A7,7 0 0,1 12,19A7,7 0 0,1 5,12C5,10.32 5.59,8.78 6.58,7.58L12,13L13.41,11.59L6.61,4.79V4.81C4.42,6.45 3,9.05 3,12A9,9 0 0,0 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3M18,12A1,1 0 0,0 17,11A1,1 0 0,0 16,12A1,1 0 0,0 17,13A1,1 0 0,0 18,12M6,12A1,1 0 0,0 7,13A1,1 0 0,0 8,12A1,1 0 0,0 7,11A1,1 0 0,0 6,12Z\"],[\"static-attr\",\"fill\",\"black\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]},{\"statements\":[[\"text\",\"        \"],[\"open-element\",\"svg\",[]],[\"static-attr\",\"class\",\"svg-timeout-clock-red\"],[\"static-attr\",\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[\"static-attr\",\"version\",\"1.1\"],[\"static-attr\",\"width\",\"24\"],[\"static-attr\",\"height\",\"24\"],[\"static-attr\",\"viewBox\",\"0 0 24 24\"],[\"flush-element\"],[\"open-element\",\"path\",[]],[\"static-attr\",\"d\",\"M11,17A1,1 0 0,0 12,18A1,1 0 0,0 13,17A1,1 0 0,0 12,16A1,1 0 0,0 11,17M11,3V7H13V5.08C16.39,5.57 19,8.47 19,12A7,7 0 0,1 12,19A7,7 0 0,1 5,12C5,10.32 5.59,8.78 6.58,7.58L12,13L13.41,11.59L6.61,4.79V4.81C4.42,6.45 3,9.05 3,12A9,9 0 0,0 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3M18,12A1,1 0 0,0 17,11A1,1 0 0,0 16,12A1,1 0 0,0 17,13A1,1 0 0,0 18,12M6,12A1,1 0 0,0 7,13A1,1 0 0,0 8,12A1,1 0 0,0 7,11A1,1 0 0,0 6,12Z\"],[\"static-attr\",\"fill\",\"red\"],[\"flush-element\"],[\"close-element\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/timeout-jauge.hbs" } });
@@ -4715,7 +4792,7 @@ define("pix-live/templates/index", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "/Sn5OauL", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"index-page\"],[\"flush-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"index-page__background\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"section\",[]],[\"static-attr\",\"class\",\"index-page__section index-page__section--hero index-page-hero\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"index-page-hero__navbar-header\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"append\",[\"unknown\",[\"navbar-header\"]],false],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"index-page-hero__content\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"h1\",[]],[\"static-attr\",\"class\",\"index-page-hero__title\"],[\"flush-element\"],[\"text\",\"Développez vos compétences numériques\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"p\",[]],[\"static-attr\",\"class\",\"index-page-hero__description\"],[\"flush-element\"],[\"text\",\"PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"block\",[\"if\"],[[\"get\",[\"model\",\"coursesOfTheWeek\"]]],null,1],[\"text\",\"\\n  \"],[\"open-element\",\"section\",[]],[\"static-attr\",\"class\",\"index-page__section index-page__section--courses index-page-courses\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"h2\",[]],[\"static-attr\",\"class\",\"index-page-courses__title\"],[\"flush-element\"],[\"text\",\"Découvrez nos épreuves et aidez‑nous à les améliorer !\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"index-page-courses__course-list\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"append\",[\"helper\",[\"course-list\"],null,[[\"courses\",\"startCourse\"],[[\"get\",[\"model\",\"progressionCourses\"]],\"startCourse\"]]],false],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"section\",[]],[\"static-attr\",\"class\",\"index-page__section index-page__section--community index-page-community\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"h2\",[]],[\"static-attr\",\"class\",\"index-page-community__title\"],[\"flush-element\"],[\"text\",\"Rejoindre la communauté\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"p\",[]],[\"static-attr\",\"class\",\"index-page-community__description\"],[\"flush-element\"],[\"text\",\"Vous souhaitez devenir béta‑testeur\"],[\"open-element\",\"br\",[]],[\"flush-element\"],[\"close-element\"],[\"text\",\"ou être informé(e) du développement de Pix ?\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"index-page-community__form\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"append\",[\"helper\",[\"follower-form\"],null,[[\"save\"],[\"saveFollower\"]]],false],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"section\",[]],[\"static-attr\",\"class\",\"index-page__section index-page__section--features index-page-features\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"index-page-features__list\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"append\",[\"unknown\",[\"feature-list\"]],false],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"block\",[\"link-to\"],[\"project\"],[[\"class\"],[\"index-page-features__project-button\"]],0],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"append\",[\"unknown\",[\"app-footer\"]],false],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[{\"statements\":[[\"text\",\"En savoir plus sur le projet\"]],\"locals\":[]},{\"statements\":[[\"text\",\"    \"],[\"open-element\",\"section\",[]],[\"static-attr\",\"class\",\"index-page__section index-page__section--challenges index-page-challenges\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"index-page-challenges__container\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"index-page-challenges__presentation\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"h2\",[]],[\"static-attr\",\"class\",\"index-page-challenges__presentation-title\"],[\"flush-element\"],[\"text\",\"Le défi \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"text--marigold\"],[\"flush-element\"],[\"text\",\"Pix\"],[\"close-element\"],[\"text\",\" de la semaine\"],[\"close-element\"],[\"text\",\"\\n          \"],[\"open-element\",\"p\",[]],[\"static-attr\",\"class\",\"index-page-challenges__presentation-text\"],[\"flush-element\"],[\"text\",\"Chaque semaine, testez vos compétences numériques sur un nouveau sujet.\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"index-page-challenges__course-list\"],[\"flush-element\"],[\"text\",\"\\n          \"],[\"append\",[\"helper\",[\"course-list\"],null,[[\"courses\",\"startCourse\",\"limit\"],[[\"get\",[\"model\",\"coursesOfTheWeek\"]],\"startCourse\",2]]],false],[\"text\",\"\\n        \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[]}],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/index.hbs" } });
 });
 define("pix-live/templates/inscription", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template({ "id": "DsFRNyLH", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"inscription-page\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\",\"signup\"],[[\"get\",[\"user\"]],\"signup\"]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/inscription.hbs" } });
+  exports["default"] = Ember.HTMLBars.template({ "id": "jx69n+BJ", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"inscription-page\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"signup-container\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\",\"signup\",\"refresh\"],[[\"get\",[\"user\"]],\"signup\",\"refresh\"]]],false],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\"],[\"close-element\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/inscription.hbs" } });
 });
 define("pix-live/templates/placement-tests", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "/pb3PwKm", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"placement-tests-page-courses__course-list\"],[\"flush-element\"],[\"text\",\"\\n  \"],[\"append\",[\"helper\",[\"course-list\"],null,[[\"courses\",\"startCourse\"],[[\"get\",[\"model\"]],\"startCourse\"]]],false],[\"text\",\"\\n\"],[\"close-element\"],[\"text\",\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/placement-tests.hbs" } });
@@ -5373,6 +5450,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.8.1+ccbc8ac4"});
+  require("pix-live/app")["default"].create({"API_HOST":"http://localhost:3000","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.8.1+bd81447d"});
 }
 //# sourceMappingURL=pix-live.map
