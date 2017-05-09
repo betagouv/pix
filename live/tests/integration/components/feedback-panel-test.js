@@ -74,9 +74,9 @@ describe('Integration | Component | feedback-panel', function () {
 
   describe('Form view', function () {
 
-    let isSaveMethodCalled = false;
-    let saveMethodBody = null;
-    let saveMethodUrl = null;
+    let isSaveMethodCalled;
+    let saveMethodBody;
+    let saveMethodUrl;
 
     const storeStub = Ember.Service.extend({
       createRecord() {
@@ -100,15 +100,16 @@ describe('Integration | Component | feedback-panel', function () {
       // render component
       this.set('assessment', assessment);
       this.set('challenge', challenge);
-      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge default_status='FORM_OPENED'}}`);
+
+      isSaveMethodCalled = false;
+      saveMethodBody = null;
+      saveMethodUrl = null;
 
       // stub store service
       this.register('service:store', storeStub);
       this.inject.service('store', { as: 'store' });
 
-      isSaveMethodCalled = false;
-      saveMethodBody = null;
-      saveMethodUrl = null;
+      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge default_status='FORM_OPENED'}}`);
     });
 
     it('should display only the "form" view', function () {
@@ -177,6 +178,7 @@ describe('Integration | Component | feedback-panel', function () {
       // render component
       this.set('assessment', assessment);
       this.set('challenge', challenge);
+
       this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge}}`);
     });
 
