@@ -3950,29 +3950,46 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
     });
 
     (0, _mocha.describe)('Form view', function () {
-      var didReceiveSaveAction = false;
-      var feedbackToSave = null;
+
+      var isSaveMethodCalled = false;
+      var saveMethodBody = null;
+      var saveMethodUrl = null;
+
+      var storeStub = _ember['default'].Service.extend({
+        createRecord: function createRecord() {
+          var createRecordArgs = arguments;
+          return Object.create({
+            save: function save() {
+              isSaveMethodCalled = true;
+              saveMethodUrl = createRecordArgs[0];
+              saveMethodBody = createRecordArgs[1];
+              return _ember['default'].RSVP.resolve();
+            }
+          });
+        }
+      });
 
       beforeEach(function () {
         // configure answer & cie. model object
         var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
         var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
 
-        // define actions
-        this.set('stubSaveFeedback', function (feedback) {
-          didReceiveSaveAction = true;
-          feedbackToSave = feedback;
-          return _ember['default'].RSVP.resolve();
-        });
-
         // render component
         this.set('assessment', assessment);
         this.set('challenge', challenge);
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'oMzSJY81',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge","default_status","save"],[["get",["assessment"]],["get",["challenge"]],"FORM_OPENED",["helper",["action"],[["get",[null]],["get",["stubSaveFeedback"]]],null]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'gWHs1AfV',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge","default_status"],[["get",["assessment"]],["get",["challenge"]],"FORM_OPENED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
+
+        // stub store service
+        this.register('service:store', storeStub);
+        this.inject.service('store', { as: 'store' });
+
+        isSaveMethodCalled = false;
+        saveMethodBody = null;
+        saveMethodUrl = null;
       });
 
       (0, _mocha.it)('should display only the "form" view', function () {
@@ -4015,12 +4032,13 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
 
         // then
         return (0, _emberTestHelpersWait['default'])().then(function () {
-          (0, _chai.expect)(didReceiveSaveAction).to.be['true'];
-          (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isObject(feedbackToSave)).to.equal(true);
-          (0, _chai.expect)(feedbackToSave.get('assessement')).to.exists;
-          (0, _chai.expect)(feedbackToSave.get('challenge')).to.exists;
-          (0, _chai.expect)(feedbackToSave.get('content')).to.equal(CONTENT_VALUE);
-          (0, _chai.expect)(feedbackToSave.get('email')).to.equal(EMAIL_VALUE);
+          (0, _chai.expect)(isSaveMethodCalled).to.be['true'];
+          (0, _chai.expect)(saveMethodUrl).to.equal('feedback');
+          (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isObject(saveMethodBody)).to.equal(true);
+          (0, _chai.expect)(saveMethodBody.assessement).to.exists;
+          (0, _chai.expect)(saveMethodBody.challenge).to.exists;
+          (0, _chai.expect)(saveMethodBody.content).to.equal(CONTENT_VALUE);
+          (0, _chai.expect)(saveMethodBody.email).to.equal(EMAIL_VALUE);
           expectMercixViewToBeVisible(_this);
         });
       });
