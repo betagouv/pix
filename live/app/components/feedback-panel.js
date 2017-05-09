@@ -13,17 +13,16 @@ export default Ember.Component.extend({
 
   assessment: null,
   challenge: null,
-  default_status: FORM_CLOSED,
+  collapsible: true,
 
   _status: null,
   _email: null,
   _content: null,
   _error: null,
 
-  isFormClosedByDefault: Ember.computed.equal('default_status', FORM_CLOSED),
-
   isFormClosed: Ember.computed.equal('_status', FORM_CLOSED),
   isFormOpened: Ember.computed.equal('_status', FORM_OPENED),
+  isFormSubmitted: Ember.computed.equal('_status', FORM_SUBMITTED),
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -31,11 +30,10 @@ export default Ember.Component.extend({
   },
 
   reset() {
-    const default_status = this.get('default_status');
     this.set('_email', null);
     this.set('_content', null);
     this.set('_error', null);
-    this.set('_status', default_status);
+    this.set('_status', this._getDefaultStatus());
   },
 
   closeForm(){
@@ -43,10 +41,18 @@ export default Ember.Component.extend({
     this.set('_error', null);
   },
 
+  _getDefaultStatus() {
+    return this.get('collapsible') ? FORM_CLOSED : FORM_OPENED;
+  },
+
   actions: {
 
     openFeedbackForm() {
       this.set('_status', FORM_OPENED);
+    },
+
+    cancelFeedback() {
+      this.closeForm();
     },
 
     sendFeedback() {
@@ -56,7 +62,8 @@ export default Ember.Component.extend({
         return;
       }
 
-      if (Ember.isEmpty(this.get('_content').trim())) {
+      const content = this.get('_content');
+      if (Ember.isEmpty(content) || Ember.isEmpty(content.trim())) {
         this.set('_error', 'Vous devez saisir un message.');
         return;
       }
@@ -73,10 +80,6 @@ export default Ember.Component.extend({
       });
       feedback.save()
         .then(() => this.set('_status', FORM_SUBMITTED));
-    },
-
-    cancelFeedback() {
-      this.closeForm();
     }
   }
 });

@@ -14,21 +14,33 @@ const BUTTON_SEND = '.feedback-panel__button--send';
 const BUTTON_CANCEL = '.feedback-panel__button--cancel';
 
 function expectLinkViewToBeVisible(component) {
-  expect(component.$(LINK_VIEW)).to.have.length(1);
-  expect(component.$(FORM_VIEW)).to.have.length(0);
-  expect(component.$(MERCIX_VIEW)).to.have.length(0);
+  expect(component.$(LINK_VIEW)).to.have.lengthOf(1);
+  expect(component.$(FORM_VIEW)).to.have.lengthOf(0);
+  expect(component.$(MERCIX_VIEW)).to.have.lengthOf(0);
 }
 
 function expectFormViewToBeVisible(component) {
-  expect(component.$(LINK_VIEW)).to.have.length(0);
-  expect(component.$(FORM_VIEW)).to.have.length(1);
-  expect(component.$(MERCIX_VIEW)).to.have.length(0);
+  expect(component.$(LINK_VIEW)).to.have.lengthOf(0);
+  expect(component.$(FORM_VIEW)).to.have.lengthOf(1);
+  expect(component.$(MERCIX_VIEW)).to.have.lengthOf(0);
 }
 
 function expectMercixViewToBeVisible(component) {
-  expect(component.$(LINK_VIEW)).to.have.length(0);
-  expect(component.$(FORM_VIEW)).to.have.length(0);
-  expect(component.$(MERCIX_VIEW)).to.have.length(1);
+  expect(component.$(LINK_VIEW)).to.have.lengthOf(0);
+  expect(component.$(FORM_VIEW)).to.have.lengthOf(0);
+  expect(component.$(MERCIX_VIEW)).to.have.lengthOf(1);
+}
+
+function setEmail(component, email) {
+  const $email = component.$('.feedback-panel__field--email');
+  $email.val(email);
+  $email.change();
+}
+
+function setContent(component, content) {
+  const $content = component.$('.feedback-panel__field--content');
+  $content.val(content);
+  $content.change();
 }
 
 describe('Integration | Component | feedback-panel', function () {
@@ -43,7 +55,7 @@ describe('Integration | Component | feedback-panel', function () {
       // when
       this.render(hbs`{{feedback-panel}}`);
       // then
-      expect(this.$()).to.have.length(1);
+      expect(this.$()).to.have.lengthOf(1);
       expectLinkViewToBeVisible(this);
     });
 
@@ -74,10 +86,6 @@ describe('Integration | Component | feedback-panel', function () {
 
   describe('Form view', function () {
 
-    let isSaveMethodCalled;
-    let saveMethodBody;
-    let saveMethodUrl;
-
     const storeStub = Ember.Service.extend({
       createRecord() {
         const createRecordArgs = arguments;
@@ -91,6 +99,10 @@ describe('Integration | Component | feedback-panel', function () {
         });
       }
     });
+
+    let isSaveMethodCalled;
+    let saveMethodBody;
+    let saveMethodUrl;
 
     beforeEach(function () {
       // configure answer & cie. model object
@@ -109,7 +121,7 @@ describe('Integration | Component | feedback-panel', function () {
       this.register('service:store', storeStub);
       this.inject.service('store', { as: 'store' });
 
-      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge default_status='FORM_OPENED'}}`);
+      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge collapsible=false}}`);
     });
 
     it('should display only the "form" view', function () {
@@ -118,32 +130,29 @@ describe('Integration | Component | feedback-panel', function () {
 
     it('should contain email input field', function () {
       const $email = this.$('input.feedback-panel__field--email');
-      expect($email).to.have.length(1);
+      expect($email).to.have.lengthOf(1);
       expect($email.attr('placeholder')).to.equal('Votre email (optionnel)');
     });
 
     it('should contain content textarea field', function () {
       const $password = this.$('textarea.feedback-panel__field--content');
-      expect($password).to.have.length(1);
+      expect($password).to.have.lengthOf(1);
       expect($password.attr('placeholder')).to.equal('Votre message');
     });
 
     it('should contain "send" button with label "Envoyer" and placeholder "Votre email (optionnel)"', function () {
       const $buttonSend = this.$(BUTTON_SEND);
-      expect($buttonSend).to.have.length(1);
+      expect($buttonSend).to.have.lengthOf(1);
       expect($buttonSend.text()).to.equal('Envoyer');
     });
 
     it('clicking on "send" button should save the feedback into the store / API and display the "mercix" view', function () {
       // given
+      const EMAIL_VALUE = 'frere-jacques@gai-mail.com';
+      setEmail(this, EMAIL_VALUE);
+
       const CONTENT_VALUE = 'Prêtes-moi ta plume, pour écrire un mot';
-      const EMAIL_VALUE = 'myemail@gemail.com';
-      const $content = this.$('.feedback-panel__field--content');
-      const $email = this.$('.feedback-panel__field--email');
-      $content.val(CONTENT_VALUE);
-      $email.val(EMAIL_VALUE);
-      $content.change();
-      $email.change();
+      setContent(this, CONTENT_VALUE);
 
       // when
       this.$(BUTTON_SEND).click();
@@ -164,11 +173,11 @@ describe('Integration | Component | feedback-panel', function () {
     it('should not contain "cancel" button if the feedback form is opened by default', function () {
       // then
       const $buttonCancel = this.$(BUTTON_CANCEL);
-      expect($buttonCancel).to.have.length(0);
+      expect($buttonCancel).to.have.lengthOf(0);
     });
   });
 
-  describe('#Cancel Button available only if the feedback panel is closed by default', function () {
+  describe('#Cancel Button management', function () {
 
     beforeEach(function () {
       // configure answer & cie. model object
@@ -178,85 +187,128 @@ describe('Integration | Component | feedback-panel', function () {
       // render component
       this.set('assessment', assessment);
       this.set('challenge', challenge);
+    });
 
+    it('should not be visible if feedback-panel is not collapsible', function() {
+      // when
+      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge collapsible=false}}`);
+
+      // then
+      expect(this.$(BUTTON_CANCEL)).to.have.lengthOf(0);
+    });
+
+    it('should not be visible if status is not FORM_OPENED', function() {
+      // when
+      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge collapsible=true _status="FORM_CLOSED"}}`);
+
+      // then
+      expect(this.$(BUTTON_CANCEL)).to.have.lengthOf(0);
+    });
+
+    it('should be visible only if component is collapsible and form is opened', async function() {
+      // given
       this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge}}`);
+
+      // when
+      this.$(OPEN_LINK).click();
+
+      // then
+      expect(this.$(BUTTON_CANCEL)).to.have.lengthOf(1);
     });
 
     it('should contain "cancel" button with label "Annuler" and placeholder "Votre message"', function () {
+      // given
+      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge}}`);
+
       //when
       this.$(OPEN_LINK).click();
 
       //then
       const $buttonCancel = this.$(BUTTON_CANCEL);
-      expect($buttonCancel).to.have.length(1);
-      expect($buttonCancel.text()).to.equal('Annuler');
+      expect($buttonCancel).to.have.lengthOf(1);
+      expect($buttonCancel.text().trim()).to.equal('Annuler');
     });
 
     it('clicking on "cancel" button should close the "form" view and and display the "link" view', function () {
+      // given
+      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge}}`);
+
       // when
       this.$(BUTTON_CANCEL).click();
+
       // then
       expectLinkViewToBeVisible(this);
     });
 
   });
 
-  describe('Mercix view', function () {
-
-    beforeEach(function () {
-      this.render(hbs`{{feedback-panel default_status='FORM_SUBMITTED'}}`);
-    });
-
-    it('should display only the "mercix" view', function () {
-      expectMercixViewToBeVisible(this);
-    });
-  });
-
   describe('Error management', function () {
 
-    it('should display error if "content" is blank', function () {
+    it('should display error if "content" is empty', function () {
       // given
-      this.render(hbs`{{feedback-panel default_status='FORM_OPENED'}}`);
-      this.$('.feedback-panel__field--content').val('   ');
-      this.$('.feedback-panel__field--content').change();
+      this.render(hbs`{{feedback-panel collapsible=false}}`);
 
       // when
       this.$(BUTTON_SEND).click();
 
       // then
-      expect(this.$('.alert')).to.have.length(1);
+      expect(this.$('.alert')).to.have.lengthOf(1);
+      expectFormViewToBeVisible(this);
+    });
+
+    it('should display error if "content" is blank', function () {
+      // given
+      this.render(hbs`{{feedback-panel collapsible=false}}`);
+      setContent(this, '');
+
+      // when
+      this.$(BUTTON_SEND).click();
+
+      // then
+      expect(this.$('.alert')).to.have.lengthOf(1);
       expectFormViewToBeVisible(this);
     });
 
     it('should display error if "email" is set but invalid', function () {
       // given
-      this.render(hbs`{{feedback-panel default_status='FORM_OPENED' _content='Lorem ipsum dolor sit amet'}}`);
-      this.$('.feedback-panel__field--email').val('wrong_email');
-      this.$('.feedback-panel__field--email').change();
+      this.render(hbs`{{feedback-panel collapsible=false}}`);
+      setEmail(this, 'wrong_email');
+      setContent(this, 'Valid content');
 
       // when
       this.$(BUTTON_SEND).click();
 
-      expect(this.$('.alert')).to.have.length(1);
+      expect(this.$('.alert')).to.have.lengthOf(1);
       expectFormViewToBeVisible(this);
     });
 
     it('should not display error if "form" view (with error) was closed and re-opened', function () {
       // given
       this.render(hbs`{{feedback-panel}}`);
+
       this.$(OPEN_LINK).click();
-      this.$('.feedback-panel__field--content').val('   ');
-      this.$('.feedback-panel__field--content').change();
+      setContent(this, '   ');
+
       this.$(BUTTON_SEND).click();
-      expect(this.$('.alert')).to.have.length(1);
+      expect(this.$('.alert')).to.have.lengthOf(1);
 
       // when
       this.$(BUTTON_CANCEL).click();
       this.$(OPEN_LINK).click();
 
       // then
-      expect(this.$('.alert')).to.have.length(0);
+      expect(this.$('.alert')).to.have.lengthOf(0);
     });
 
+    it('should display an error even if the user did not focus on email or content', function() {
+      // given
+      this.render(hbs`{{feedback-panel collapsible=false}}`);
+
+      // when
+      this.$(BUTTON_SEND).click();
+
+      // then
+      expect(this.$('.alert')).to.have.lengthOf(1);
+    });
   });
 });
