@@ -3951,9 +3951,9 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
 
     (0, _mocha.describe)('Form view', function () {
 
-      var isSaveMethodCalled = false;
-      var saveMethodBody = null;
-      var saveMethodUrl = null;
+      var isSaveMethodCalled = undefined;
+      var saveMethodBody = undefined;
+      var saveMethodUrl = undefined;
 
       var storeStub = _ember['default'].Service.extend({
         createRecord: function createRecord() {
@@ -3977,19 +3977,20 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
         // render component
         this.set('assessment', assessment);
         this.set('challenge', challenge);
-        this.render(_ember['default'].HTMLBars.template({
-          'id': 'gWHs1AfV',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge","default_status"],[["get",["assessment"]],["get",["challenge"]],"FORM_OPENED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-          'meta': {}
-        }));
+
+        isSaveMethodCalled = false;
+        saveMethodBody = null;
+        saveMethodUrl = null;
 
         // stub store service
         this.register('service:store', storeStub);
         this.inject.service('store', { as: 'store' });
 
-        isSaveMethodCalled = false;
-        saveMethodBody = null;
-        saveMethodUrl = null;
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'gWHs1AfV',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge","default_status"],[["get",["assessment"]],["get",["challenge"]],"FORM_OPENED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
       });
 
       (0, _mocha.it)('should display only the "form" view', function () {
@@ -4060,6 +4061,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
         // render component
         this.set('assessment', assessment);
         this.set('challenge', challenge);
+
         this.render(_ember['default'].HTMLBars.template({
           'id': 'FGT5CvuQ',
           'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge"],[["get",["assessment"]],["get",["challenge"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -4218,9 +4220,10 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
     */
 
     (0, _mocha.describe)('Form view', function () {
-      var isSaveMethodCalled = false;
-      var saveMethodBody = null;
-      var saveMethodUrl = null;
+
+      var isSaveMethodCalled = undefined;
+      var saveMethodBody = undefined;
+      var saveMethodUrl = undefined;
 
       var storeStub = _ember['default'].Service.extend({
         createRecord: function createRecord() {
@@ -4257,12 +4260,6 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
       });
 
       beforeEach(function () {
-        this.render(_ember['default'].HTMLBars.template({
-          'id': 'O9xGjXjO',
-          'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-          'meta': {}
-        }));
-
         isSaveMethodCalled = false;
         saveMethodBody = null;
         saveMethodUrl = null;
@@ -4273,6 +4270,12 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
         // stub store service
         this.register('service:store', storeStub);
         this.inject.service('store', { as: 'store' });
+
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'O9xGjXjO',
+          'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
 
         var EMAIL_VALUE = 'myemail@gemail.com';
         var $email = this.$(INPUT_EMAIL);
@@ -4297,6 +4300,12 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
 
         // given
         this.register('service:store', storeStubRejection);
+
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'O9xGjXjO',
+          'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
 
         var EMAIL_VALUE = 'myemail@gemail.com';
         var $email = this.$(INPUT_EMAIL);
