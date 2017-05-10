@@ -10,18 +10,20 @@ import postAnswers from './routes/post-answers';
 import getAssessment from './routes/get-assessment';
 import postAssessments from './routes/post-assessments';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
-import postFollowers                     from './routes/post-followers';
+import postFollowers from './routes/post-followers';
 import postFeedbacks from './routes/post-feedbacks';
 import postRefreshSolution from './routes/post-refresh-solution';
 
 export default function () {
   this.logging = false;
+
+  this.urlPrefix = 'http://localhost:3000/';
+  this.namespace = 'api';
+
   this.passthrough('/write-coverage');
   this.post('https://fonts.googleapis.com/**', () => {});
   this.post('https://formspree.io/**', () => {});
   this.post('https://sentry.io/**', () => {});
-
-  this.namespace = 'http://localhost:3000/api';
 
   this.get('/courses', getCourses);
   this.get('/courses?isCourseOfTheWeek=true', getCoursesOfTheWeek);

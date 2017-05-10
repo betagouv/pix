@@ -1,4 +1,4 @@
-/* jshint node: true */
+/* eslint-env node */
 
 module.exports = function (environment) {
   const ENV = {
@@ -7,8 +7,8 @@ module.exports = function (environment) {
     rootURL: '/',
     locationType: 'auto',
     EmberENV: {
-      // XXX because of a deprecation notice in the console
       EXTEND_PROTOTYPES: {
+        // Prevent Ember Data from overriding Date.parse.
         Date: false
       },
       FEATURES: {
@@ -50,7 +50,6 @@ module.exports = function (environment) {
     ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
-    // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
     ENV.APP.API_HOST = 'http://localhost:3000';
   }
 
