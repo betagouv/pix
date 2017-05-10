@@ -14,15 +14,6 @@ describe('Integration | Component | scoring panel', function() {
   const assessmentWithNoTrophy = Ember.Object.create({estimatedLevel : 0, course : {isAdaptive : true}});
 
   it('renders', function() {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
-    // Template block usage:
-    // this.render(hbs`
-    //   {{#scoring-panel}}
-    //     template content
-    //   {{/scoring-panel}}
-    // `);
-
     this.render(hbs`{{scoring-panel}}`);
     expect(this.$()).to.have.length(1);
   });
@@ -36,8 +27,8 @@ describe('Integration | Component | scoring panel', function() {
 
     it('it should display nothing', function () {
       // then
-      expect(this.$('.scoring-panel__trophy')).to.have.length(0);
-      expect(this.$('.scoring-panel__text')).to.have.length(0);
+      expect(this.$('.scoring-panel__trophy')).to.have.lengthOf(0);
+      expect(this.$('.scoring-panel__text')).to.have.lengthOf(0);
 
     });
   });
@@ -51,17 +42,23 @@ describe('Integration | Component | scoring panel', function() {
 
     it('should display the won trophy', function () {
       // then
-      expect(this.$('.scoring-panel__trophy-div')).to.have.length(1);
-      expect(this.$('.scoring-panel__trophy-level')).to.have.length(1);
-      expect(this.$('.scoring-panel__trophy-bêta')).to.have.length(1);
+      expect(this.$('.scoring-panel__trophy-div')).to.have.lengthOf(1);
+      expect(this.$('.scoring-panel__trophy-level')).to.have.lengthOf(1);
+      expect(this.$('.scoring-panel__trophy-bêta')).to.have.lengthOf(1);
     });
 
     it('should display the congratulations', function () {
       // then
-      expect(this.$('.scoring-panel__congrats-course-name')).to.have.length(1);
-      expect(this.$('.scoring-panel__congrats-felicitations')).to.have.length(1);
-      expect(this.$('.scoring-panel__congrats-scoring')).to.have.length(1);
-      expect(this.$('.scoring-panel__congrats-beta')).to.have.length(1);
+      expect(this.$('.scoring-panel__congrats-course-name')).to.have.lengthOf(1);
+      expect(this.$('.scoring-panel__congrats-felicitations')).to.have.lengthOf(1);
+      expect(this.$('.scoring-panel__congrats-scoring')).to.have.lengthOf(1);
+      expect(this.$('.scoring-panel__congrats-beta')).to.have.lengthOf(1);
+    });
+
+    it('should display the "back to home" button', function () {
+      // then
+      expect(this.$('.scoring-panel__index-link')).to.have.lengthOf(1);
+      expect(this.$('.scoring-panel__index-link-back').text()).to.be.equal('REVENIR À L\'ACCUEIL');
     });
   });
 });

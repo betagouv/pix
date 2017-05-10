@@ -8,7 +8,6 @@ describe('Unit | Component | scoring-panel', function () {
 
   describe('#hasATrophy', function () {
 
-
     it('should be true when level is more than 0', function () {
       // given
       const assessmentWithTrophy = { estimatedLevel: 1 };

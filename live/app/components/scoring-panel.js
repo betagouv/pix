@@ -4,8 +4,6 @@ export default Ember.Component.extend({
 
   assessment: null,
 
-  hasATrophy : Ember.computed('assessment', function () {
-    return this.get('assessment.estimatedLevel') > 0;
-  })
+  hasATrophy: Ember.computed.gt('assessment.estimatedLevel', 0)
 
 });
