@@ -1538,7 +1538,6 @@ define('pix-live/components/signup-form', ['exports', 'ember', 'pix-live/utils/e
         }
       };
       this.set('validation', defaultValidationObject);
-      this.set('temporaryAlert', { status: 'default', message: '' });
     },
 
     _updateInputsStatus: function _updateInputsStatus() {
@@ -5450,6 +5449,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"http://localhost:3000","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.8.1+bd81447d"});
+  require("pix-live/app")["default"].create({"API_HOST":"http://localhost:3000","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.8.1+83638afc"});
 }
 //# sourceMappingURL=pix-live.map
