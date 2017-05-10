@@ -3885,21 +3885,33 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
   var BUTTON_CANCEL = '.feedback-panel__button--cancel';
 
   function expectLinkViewToBeVisible(component) {
-    (0, _chai.expect)(component.$(LINK_VIEW)).to.have.length(1);
-    (0, _chai.expect)(component.$(FORM_VIEW)).to.have.length(0);
-    (0, _chai.expect)(component.$(MERCIX_VIEW)).to.have.length(0);
+    (0, _chai.expect)(component.$(LINK_VIEW)).to.have.lengthOf(1);
+    (0, _chai.expect)(component.$(FORM_VIEW)).to.have.lengthOf(0);
+    (0, _chai.expect)(component.$(MERCIX_VIEW)).to.have.lengthOf(0);
   }
 
   function expectFormViewToBeVisible(component) {
-    (0, _chai.expect)(component.$(LINK_VIEW)).to.have.length(0);
-    (0, _chai.expect)(component.$(FORM_VIEW)).to.have.length(1);
-    (0, _chai.expect)(component.$(MERCIX_VIEW)).to.have.length(0);
+    (0, _chai.expect)(component.$(LINK_VIEW)).to.have.lengthOf(0);
+    (0, _chai.expect)(component.$(FORM_VIEW)).to.have.lengthOf(1);
+    (0, _chai.expect)(component.$(MERCIX_VIEW)).to.have.lengthOf(0);
   }
 
   function expectMercixViewToBeVisible(component) {
-    (0, _chai.expect)(component.$(LINK_VIEW)).to.have.length(0);
-    (0, _chai.expect)(component.$(FORM_VIEW)).to.have.length(0);
-    (0, _chai.expect)(component.$(MERCIX_VIEW)).to.have.length(1);
+    (0, _chai.expect)(component.$(LINK_VIEW)).to.have.lengthOf(0);
+    (0, _chai.expect)(component.$(FORM_VIEW)).to.have.lengthOf(0);
+    (0, _chai.expect)(component.$(MERCIX_VIEW)).to.have.lengthOf(1);
+  }
+
+  function setEmail(component, email) {
+    var $email = component.$('.feedback-panel__field--email');
+    $email.val(email);
+    $email.change();
+  }
+
+  function setContent(component, content) {
+    var $content = component.$('.feedback-panel__field--content');
+    $content.val(content);
+    $content.change();
   }
 
   (0, _mocha.describe)('Integration | Component | feedback-panel', function () {
@@ -3918,7 +3930,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
           'meta': {}
         }));
         // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
         expectLinkViewToBeVisible(this);
       });
     });
@@ -3950,27 +3962,45 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
     });
 
     (0, _mocha.describe)('Form view', function () {
-      var didReceiveSaveAction = false;
-      var feedbackToSave = null;
+
+      var storeStub = _ember['default'].Service.extend({
+        createRecord: function createRecord() {
+          var createRecordArgs = arguments;
+          return Object.create({
+            save: function save() {
+              isSaveMethodCalled = true;
+              saveMethodUrl = createRecordArgs[0];
+              saveMethodBody = createRecordArgs[1];
+              return _ember['default'].RSVP.resolve();
+            }
+          });
+        }
+      });
+
+      var isSaveMethodCalled = undefined;
+      var saveMethodBody = undefined;
+      var saveMethodUrl = undefined;
 
       beforeEach(function () {
         // configure answer & cie. model object
         var assessment = _ember['default'].Object.extend({ id: 'assessment_id' }).create();
         var challenge = _ember['default'].Object.extend({ id: 'challenge_id' }).create();
 
-        // define actions
-        this.set('stubSaveFeedback', function (feedback) {
-          didReceiveSaveAction = true;
-          feedbackToSave = feedback;
-          return _ember['default'].RSVP.resolve();
-        });
-
         // render component
         this.set('assessment', assessment);
         this.set('challenge', challenge);
+
+        isSaveMethodCalled = false;
+        saveMethodBody = null;
+        saveMethodUrl = null;
+
+        // stub store service
+        this.register('service:store', storeStub);
+        this.inject.service('store', { as: 'store' });
+
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'oMzSJY81',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge","default_status","save"],[["get",["assessment"]],["get",["challenge"]],"FORM_OPENED",["helper",["action"],[["get",[null]],["get",["stubSaveFeedback"]]],null]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'tTYbfQ+0',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge","collapsible"],[["get",["assessment"]],["get",["challenge"]],false]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
       });
@@ -3981,19 +4011,19 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
 
       (0, _mocha.it)('should contain email input field', function () {
         var $email = this.$('input.feedback-panel__field--email');
-        (0, _chai.expect)($email).to.have.length(1);
+        (0, _chai.expect)($email).to.have.lengthOf(1);
         (0, _chai.expect)($email.attr('placeholder')).to.equal('Votre email (optionnel)');
       });
 
       (0, _mocha.it)('should contain content textarea field', function () {
         var $password = this.$('textarea.feedback-panel__field--content');
-        (0, _chai.expect)($password).to.have.length(1);
+        (0, _chai.expect)($password).to.have.lengthOf(1);
         (0, _chai.expect)($password.attr('placeholder')).to.equal('Votre message');
       });
 
       (0, _mocha.it)('should contain "send" button with label "Envoyer" and placeholder "Votre email (optionnel)"', function () {
         var $buttonSend = this.$(BUTTON_SEND);
-        (0, _chai.expect)($buttonSend).to.have.length(1);
+        (0, _chai.expect)($buttonSend).to.have.lengthOf(1);
         (0, _chai.expect)($buttonSend.text()).to.equal('Envoyer');
       });
 
@@ -4001,26 +4031,24 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
         var _this = this;
 
         // given
+        var EMAIL_VALUE = 'frere-jacques@gai-mail.com';
+        setEmail(this, EMAIL_VALUE);
+
         var CONTENT_VALUE = 'Prêtes-moi ta plume, pour écrire un mot';
-        var EMAIL_VALUE = 'myemail@gemail.com';
-        var $content = this.$('.feedback-panel__field--content');
-        var $email = this.$('.feedback-panel__field--email');
-        $content.val(CONTENT_VALUE);
-        $email.val(EMAIL_VALUE);
-        $content.change();
-        $email.change();
+        setContent(this, CONTENT_VALUE);
 
         // when
         this.$(BUTTON_SEND).click();
 
         // then
         return (0, _emberTestHelpersWait['default'])().then(function () {
-          (0, _chai.expect)(didReceiveSaveAction).to.be['true'];
-          (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isObject(feedbackToSave)).to.equal(true);
-          (0, _chai.expect)(feedbackToSave.get('assessement')).to.exists;
-          (0, _chai.expect)(feedbackToSave.get('challenge')).to.exists;
-          (0, _chai.expect)(feedbackToSave.get('content')).to.equal(CONTENT_VALUE);
-          (0, _chai.expect)(feedbackToSave.get('email')).to.equal(EMAIL_VALUE);
+          (0, _chai.expect)(isSaveMethodCalled).to.be['true'];
+          (0, _chai.expect)(saveMethodUrl).to.equal('feedback');
+          (0, _chai.expect)(_pixLiveUtilsLodashCustom['default'].isObject(saveMethodBody)).to.equal(true);
+          (0, _chai.expect)(saveMethodBody.assessement).to.exists;
+          (0, _chai.expect)(saveMethodBody.challenge).to.exists;
+          (0, _chai.expect)(saveMethodBody.content).to.equal(CONTENT_VALUE);
+          (0, _chai.expect)(saveMethodBody.email).to.equal(EMAIL_VALUE);
           expectMercixViewToBeVisible(_this);
         });
       });
@@ -4028,11 +4056,11 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
       (0, _mocha.it)('should not contain "cancel" button if the feedback form is opened by default', function () {
         // then
         var $buttonCancel = this.$(BUTTON_CANCEL);
-        (0, _chai.expect)($buttonCancel).to.have.length(0);
+        (0, _chai.expect)($buttonCancel).to.have.lengthOf(0);
       });
     });
 
-    (0, _mocha.describe)('#Cancel Button available only if the feedback panel is closed by default', function () {
+    (0, _mocha.describe)('#Cancel Button management', function () {
 
       beforeEach(function () {
         // configure answer & cie. model object
@@ -4042,80 +4070,138 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
         // render component
         this.set('assessment', assessment);
         this.set('challenge', challenge);
+      });
+
+      (0, _mocha.it)('should not be visible if feedback-panel is not collapsible', function () {
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'tTYbfQ+0',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge","collapsible"],[["get",["assessment"]],["get",["challenge"]],false]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$(BUTTON_CANCEL)).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('should not be visible if status is not FORM_OPENED', function () {
+        // when
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'NS0W13f6',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge","collapsible","_status"],[["get",["assessment"]],["get",["challenge"]],true,"FORM_CLOSED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$(BUTTON_CANCEL)).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('should be visible only if component is collapsible and form is opened', function callee$2$0() {
+        return regeneratorRuntime.async(function callee$2$0$(context$3$0) {
+          while (1) switch (context$3$0.prev = context$3$0.next) {
+            case 0:
+              // given
+              this.render(_ember['default'].HTMLBars.template({
+                'id': 'FGT5CvuQ',
+                'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge"],[["get",["assessment"]],["get",["challenge"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+                'meta': {}
+              }));
+
+              // when
+              this.$(OPEN_LINK).click();
+
+              // then
+              (0, _chai.expect)(this.$(BUTTON_CANCEL)).to.have.lengthOf(1);
+
+            case 3:
+            case 'end':
+              return context$3$0.stop();
+          }
+        }, null, this);
+      });
+
+      (0, _mocha.it)('should contain "cancel" button with label "Annuler" and placeholder "Votre message"', function () {
+        // given
         this.render(_ember['default'].HTMLBars.template({
           'id': 'FGT5CvuQ',
           'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge"],[["get",["assessment"]],["get",["challenge"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
-      });
 
-      (0, _mocha.it)('should contain "cancel" button with label "Annuler" and placeholder "Votre message"', function () {
         //when
         this.$(OPEN_LINK).click();
 
         //then
         var $buttonCancel = this.$(BUTTON_CANCEL);
-        (0, _chai.expect)($buttonCancel).to.have.length(1);
-        (0, _chai.expect)($buttonCancel.text()).to.equal('Annuler');
+        (0, _chai.expect)($buttonCancel).to.have.lengthOf(1);
+        (0, _chai.expect)($buttonCancel.text().trim()).to.equal('Annuler');
       });
 
       (0, _mocha.it)('clicking on "cancel" button should close the "form" view and and display the "link" view', function () {
+        // given
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'FGT5CvuQ',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["assessment","challenge"],[["get",["assessment"]],["get",["challenge"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
         // when
         this.$(BUTTON_CANCEL).click();
+
         // then
         expectLinkViewToBeVisible(this);
       });
     });
 
-    (0, _mocha.describe)('Mercix view', function () {
-
-      beforeEach(function () {
-        this.render(_ember['default'].HTMLBars.template({
-          'id': 'tYKbatwi',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["default_status"],["FORM_SUBMITTED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-          'meta': {}
-        }));
-      });
-
-      (0, _mocha.it)('should display only the "mercix" view', function () {
-        expectMercixViewToBeVisible(this);
-      });
-    });
-
     (0, _mocha.describe)('Error management', function () {
 
-      (0, _mocha.it)('should display error if "content" is blank', function () {
+      (0, _mocha.it)('should display error if "content" is empty', function () {
         // given
         this.render(_ember['default'].HTMLBars.template({
-          'id': '0MyPCR7c',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["default_status"],["FORM_OPENED"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'dA6YD+oV',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["collapsible"],[false]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
-        this.$('.feedback-panel__field--content').val('   ');
-        this.$('.feedback-panel__field--content').change();
 
         // when
         this.$(BUTTON_SEND).click();
 
         // then
-        (0, _chai.expect)(this.$('.alert')).to.have.length(1);
+        (0, _chai.expect)(this.$('.alert')).to.have.lengthOf(1);
+        expectFormViewToBeVisible(this);
+      });
+
+      (0, _mocha.it)('should display error if "content" is blank', function () {
+        // given
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'dA6YD+oV',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["collapsible"],[false]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+        setContent(this, '');
+
+        // when
+        this.$(BUTTON_SEND).click();
+
+        // then
+        (0, _chai.expect)(this.$('.alert')).to.have.lengthOf(1);
         expectFormViewToBeVisible(this);
       });
 
       (0, _mocha.it)('should display error if "email" is set but invalid', function () {
         // given
         this.render(_ember['default'].HTMLBars.template({
-          'id': 'TdoHf1hQ',
-          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["default_status","_content"],["FORM_OPENED","Lorem ipsum dolor sit amet"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'dA6YD+oV',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["collapsible"],[false]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
-        this.$('.feedback-panel__field--email').val('wrong_email');
-        this.$('.feedback-panel__field--email').change();
+        setEmail(this, 'wrong_email');
+        setContent(this, 'Valid content');
 
         // when
         this.$(BUTTON_SEND).click();
 
-        (0, _chai.expect)(this.$('.alert')).to.have.length(1);
+        (0, _chai.expect)(this.$('.alert')).to.have.lengthOf(1);
         expectFormViewToBeVisible(this);
       });
 
@@ -4126,18 +4212,34 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
           'block': '{"statements":[["append",["unknown",["feedback-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
+
         this.$(OPEN_LINK).click();
-        this.$('.feedback-panel__field--content').val('   ');
-        this.$('.feedback-panel__field--content').change();
+        setContent(this, '   ');
+
         this.$(BUTTON_SEND).click();
-        (0, _chai.expect)(this.$('.alert')).to.have.length(1);
+        (0, _chai.expect)(this.$('.alert')).to.have.lengthOf(1);
 
         // when
         this.$(BUTTON_CANCEL).click();
         this.$(OPEN_LINK).click();
 
         // then
-        (0, _chai.expect)(this.$('.alert')).to.have.length(0);
+        (0, _chai.expect)(this.$('.alert')).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('should display an error even if the user did not focus on email or content', function () {
+        // given
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'dA6YD+oV',
+          'block': '{"statements":[["append",["helper",["feedback-panel"],null,[["collapsible"],[false]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+
+        // when
+        this.$(BUTTON_SEND).click();
+
+        // then
+        (0, _chai.expect)(this.$('.alert')).to.have.lengthOf(1);
       });
     });
   });
@@ -4200,9 +4302,10 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
     */
 
     (0, _mocha.describe)('Form view', function () {
-      var isSaveMethodCalled = false;
-      var saveMethodBody = null;
-      var saveMethodUrl = null;
+
+      var isSaveMethodCalled = undefined;
+      var saveMethodBody = undefined;
+      var saveMethodUrl = undefined;
 
       var storeStub = _ember['default'].Service.extend({
         createRecord: function createRecord() {
@@ -4239,12 +4342,6 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
       });
 
       beforeEach(function () {
-        this.render(_ember['default'].HTMLBars.template({
-          'id': 'O9xGjXjO',
-          'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-          'meta': {}
-        }));
-
         isSaveMethodCalled = false;
         saveMethodBody = null;
         saveMethodUrl = null;
@@ -4255,6 +4352,12 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
         // stub store service
         this.register('service:store', storeStub);
         this.inject.service('store', { as: 'store' });
+
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'O9xGjXjO',
+          'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
 
         var EMAIL_VALUE = 'myemail@gemail.com';
         var $email = this.$(INPUT_EMAIL);
@@ -4279,6 +4382,12 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
 
         // given
         this.register('service:store', storeStubRejection);
+
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'O9xGjXjO',
+          'block': '{"statements":[["append",["unknown",["follower-form"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
 
         var EMAIL_VALUE = 'myemail@gemail.com';
         var $email = this.$(INPUT_EMAIL);
@@ -6277,55 +6386,29 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
       });
     });
 
-    (0, _mocha.describe)('#isFormClosedByDefault', function () {
-
-      (0, _mocha.it)('should return true if no specification', function () {
-        // given
-        var component = this.subject();
-
-        // when
-        var isFormClosedByDefault = component.get('isFormClosedByDefault');
-
-        // then
-        (0, _chai.expect)(isFormClosedByDefault).to.be['true'];
-      });
-
-      (0, _mocha.it)('should return false if we specified FORM_OPENED', function () {
-        // given
-        var component = this.subject();
-        component.set('default_status', 'FORM_OPENED');
-
-        // when
-        var isFormClosedByDefault = component.get('isFormClosedByDefault');
-
-        // then
-        (0, _chai.expect)(isFormClosedByDefault).to.be['false'];
-      });
-    });
-
-    (0, _mocha.describe)('#reset', function () {
+    (0, _mocha.describe)('#_reset', function () {
 
       (0, _mocha.it)('should return empty mail, text, error and back to the default status', function () {
         // given
         var component = this.subject();
-        component.set('default_status', 'FORM_OPENED');
+        component.set('collapsible', false);
         component.set('_email', 'un@email.com');
         component.set('_content', 'un contenu');
         component.set('_error', 'une erreur');
         component.set('_status', 'FORM_CLOSED');
 
         // when
-        component.reset();
+        component._reset();
 
         // then
         (0, _chai.expect)(component.get('_email')).to.be['null'];
         (0, _chai.expect)(component.get('_content')).to.be['null'];
         (0, _chai.expect)(component.get('_error')).to.be['null'];
-        (0, _chai.expect)(component.get('_status')).to.be.equal(component.get('default_status'));
+        (0, _chai.expect)(component.get('_status')).to.be.equal('FORM_OPENED');
       });
     });
 
-    (0, _mocha.describe)('#closeForm', function () {
+    (0, _mocha.describe)('#_closeForm', function () {
 
       (0, _mocha.it)('should set status to CLOSED and set errors to null', function () {
         // given
@@ -6334,11 +6417,38 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
         component.set('_status', 'FORM_OPENED');
 
         // when
-        component.closeForm();
+        component._closeForm();
 
         // then
         (0, _chai.expect)(component.get('_error')).to.be['null'];
         (0, _chai.expect)(component.get('_status')).to.be.equal('FORM_CLOSED');
+      });
+    });
+
+    (0, _mocha.describe)('#_getDefaultStatus', function () {
+
+      (0, _mocha.it)('should return FORM_CLOSED if has property collapsible at "true"', function () {
+        // given
+        var component = this.subject();
+        component.set('collapsible', true);
+
+        // when
+        var defaultStatus = component._getDefaultStatus();
+
+        // then
+        (0, _chai.expect)(defaultStatus).to.equal('FORM_CLOSED');
+      });
+
+      (0, _mocha.it)('should return FORM_OPENED if has property collapsible at "false"', function () {
+        // given
+        var component = this.subject();
+        component.set('collapsible', false);
+
+        // when
+        var defaultStatus = component._getDefaultStatus();
+
+        // then
+        (0, _chai.expect)(defaultStatus).to.equal('FORM_OPENED');
       });
     });
   });
