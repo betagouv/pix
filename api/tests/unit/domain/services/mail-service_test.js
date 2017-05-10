@@ -4,6 +4,7 @@ const _ = require('lodash');
 
 const mailJet = require('../../../../lib/infrastructure/mailjet');
 const mailService = require('../../../../lib/domain/services/mail-service');
+const logger = require('./../../../../lib/infrastructure/logger');
 
 describe('Unit | Service | MailService', () => {
 
@@ -76,6 +77,7 @@ describe('Unit | Service | MailService', () => {
     let lodashSampleSpy;
     let getContactListByNameStub;
     let addEmailToContactListStub;
+    let errorStub;
     const email = 'test@example.net';
 
     const contactListDetails = {
@@ -88,6 +90,7 @@ describe('Unit | Service | MailService', () => {
     };
 
     beforeEach(() => {
+      errorStub = sinon.stub(logger, 'error');
       lodashSampleSpy = sinon.spy(_, 'sample');
       getContactListByNameStub = sinon.stub(mailJet, "getContactListByName").resolves(contactListDetails);
       addEmailToContactListStub = sinon.stub(mailJet, "addEmailToContactList").resolves();
@@ -97,6 +100,7 @@ describe('Unit | Service | MailService', () => {
       lodashSampleSpy.restore();
       getContactListByNameStub.restore();
       addEmailToContactListStub.restore();
+      errorStub.restore();
     });
 
     it('should randomly pick a contact list', () => {
@@ -129,6 +133,34 @@ describe('Unit | Service | MailService', () => {
         sinon.assert.calledWith(addEmailToContactListStub, email, contactListDetails.ID);
       });
     });
+
+    it('should log error when unable to get contact list by name', () => {
+      // Given
+      const error = new Error('getContactListByName ERROR');
+      getContactListByNameStub.rejects(error);
+
+      // When
+      const promise = mailService.addEmailToRandomContactList(email);
+
+      // Then
+      return promise.catch(() => {
+        sinon.assert.calledWith(errorStub, error);
+      });
+    });
+
+    it('should log error when unable to add email to contact list', () => {
+      // Given
+      addEmailToContactListStub.rejects(new Error('addEmailToContactList ERROR'));
+
+      // When
+      const promise = mailService.addEmailToRandomContactList(email);
+
+      // Then
+      return promise.catch(() => {
+        sinon.assert.calledWith(errorStub, error);
+      });
+    });
+
   });
 
 });
