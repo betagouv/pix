@@ -2074,12 +2074,23 @@ button.routable-modal--close:active {
       padding: 0; } }
 
 .signup-form__cgu-container {
+  max-width: 449px;
+  width: 100%;
+  padding: 0 15px;
   margin-top: 0px;
-  margin-bottom: 6px; }
+  margin-bottom: 6px;
+  position: relative;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column; }
   @media screen and (min-width: 321px) {
     .signup-form__cgu-container {
       margin-top: 6px;
-      margin-bottom: 0; } }
+      margin-bottom: 0;
+      padding: 0; } }
 
 .signup-form__cgu-container input[type="checkbox"] {
   -webkit-appearance: none; }
@@ -2144,6 +2155,12 @@ button.routable-modal--close:active {
     .signup-form__submit-container {
       margin: 31px auto 34px; } }
 
+.signup-textfield__cgu-message--error {
+  color: #f45c00;
+  font-size: 12px;
+  margin-bottom: 7px;
+  text-align: center; }
+
 .signup__submit-button {
   width: 150px;
   height: 40px;
@@ -2203,7 +2220,7 @@ button.routable-modal--close:active {
 .signup-textfield__message--error {
   color: #f45c00; }
 
-.signup-textfield__message--error.signup-textfield__message-password {
+.signup-textfield__message--error.signup-textfield__message-password, .signup-textfield__message--error.signup-textfield__message-email {
   position: relative;
   position: relative;
   text-align: right;
