@@ -5462,15 +5462,6 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['exports', '
     var assessmentWithNoTrophy = _ember['default'].Object.create({ estimatedLevel: 0, course: { isAdaptive: true } });
 
     (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#scoring-panel}}
-      //     template content
-      //   {{/scoring-panel}}
-      // `);
-
       this.render(_ember['default'].HTMLBars.template({
         'id': '3D6Cvg1E',
         'block': '{"statements":[["append",["unknown",["scoring-panel"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
@@ -5492,8 +5483,8 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['exports', '
 
       (0, _mocha.it)('it should display nothing', function () {
         // then
-        (0, _chai.expect)(this.$('.scoring-panel__trophy')).to.have.length(0);
-        (0, _chai.expect)(this.$('.scoring-panel__text')).to.have.length(0);
+        (0, _chai.expect)(this.$('.scoring-panel__trophy')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.scoring-panel__text')).to.have.lengthOf(0);
       });
     });
 
@@ -5510,17 +5501,23 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['exports', '
 
       (0, _mocha.it)('should display the won trophy', function () {
         // then
-        (0, _chai.expect)(this.$('.scoring-panel__trophy-div')).to.have.length(1);
-        (0, _chai.expect)(this.$('.scoring-panel__trophy-level')).to.have.length(1);
-        (0, _chai.expect)(this.$('.scoring-panel__trophy-bêta')).to.have.length(1);
+        (0, _chai.expect)(this.$('.scoring-panel__trophy-div')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.scoring-panel__trophy-level')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.scoring-panel__trophy-bêta')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should display the congratulations', function () {
         // then
-        (0, _chai.expect)(this.$('.scoring-panel__congrats-course-name')).to.have.length(1);
-        (0, _chai.expect)(this.$('.scoring-panel__congrats-felicitations')).to.have.length(1);
-        (0, _chai.expect)(this.$('.scoring-panel__congrats-scoring')).to.have.length(1);
-        (0, _chai.expect)(this.$('.scoring-panel__congrats-beta')).to.have.length(1);
+        (0, _chai.expect)(this.$('.scoring-panel__congrats-course-name')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.scoring-panel__congrats-felicitations')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.scoring-panel__congrats-scoring')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.scoring-panel__congrats-beta')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should display the "back to home" button', function () {
+        // then
+        (0, _chai.expect)(this.$('.scoring-panel__index-link')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.scoring-panel__index-link-back').text()).to.be.equal('REVENIR À L\'ACCUEIL');
       });
     });
   });

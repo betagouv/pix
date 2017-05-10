@@ -1531,7 +1531,9 @@ button.routable-modal--close:active {
       -ms-flex-direction: row;
       flex-direction: row;
       padding-bottom: 50px;
-      padding-top: 50px; } }
+      padding-top: 50px;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap; } }
 
 /*-----------------------------------*/
 .scoring-panel__trophy {
@@ -1564,6 +1566,25 @@ button.routable-modal--close:active {
     .scoring-panel__congrats {
       text-align: left;
       padding: 0px; } }
+
+.scoring-panel__index-link {
+  border-radius: 23px;
+  border: solid 1px #ffffff;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  text-align: center; }
+  @media (min-width: 480px) {
+    .scoring-panel__index-link {
+      -ms-flex-item-align: end;
+      align-self: flex-end; } }
+  @media (min-width: 768px) {
+    .scoring-panel__index-link {
+      margin-left: 30px; } }
+  @media (min-width: 1024px) {
+    .scoring-panel__index-link {
+      margin-left: 60px;
+      margin-bottom: -30px; } }
 
 /*-----------------------------------*/
 .scoring-panel__trophy-div-svg {
@@ -1653,6 +1674,17 @@ button.routable-modal--close:active {
   @media (min-width: 768px) {
     .scoring-panel__congrats-beta {
       font-size: 14px; } }
+
+/*-----------------------------------*/
+.scoring-panel__index-link__element {
+  font-family: "Lato", Arial, sans-serif;
+  letter-spacing: 0.5px;
+  text-align: center;
+  background-color: transparent;
+  border: transparent; }
+  @media (min-width: 480px) {
+    .scoring-panel__index-link__element {
+      font-size: 10px; } }
 
 .timeout-jauge-wrapper {
   padding-top: 0;
