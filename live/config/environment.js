@@ -40,6 +40,11 @@ module.exports = function (environment) {
       'font-src': "'self' fonts.gstatic.com",
       'style-src': "'self' fonts.googleapis.com"
     },
+
+    showdown: {
+      openLinksInNewWindow: true
+    }
+
   };
 
   if (environment === 'development') {

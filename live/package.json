@@ -57,7 +57,7 @@
     "eslint": "^3.19.0",
     "loader.js": "^4.4.0",
     "phantomjs-prebuilt": "^2.1.14",
-    "showdown-target-blank": "^1.0.2",
+    "showdown": "showdownjs/showdown#1bca88f",
     "tap-xunit": "^1.7.0"
   },
   "scripts": {

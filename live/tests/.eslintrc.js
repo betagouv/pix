@@ -4,7 +4,6 @@ module.exports = {
     'mocha': true
   },
   globals: {
-    'Showdown': false,
     'server': false
   },
   parserOptions: {
