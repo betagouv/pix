@@ -99,7 +99,6 @@ export default Ember.Component.extend({
       }
     };
     this.set('validation', defaultValidationObject);
-    this.set('temporaryAlert', {status: 'default', message: ''});
   },
 
   _updateInputsStatus(){
