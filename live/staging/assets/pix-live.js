@@ -3743,8 +3743,8 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('assessments.get-comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
   });
 });
-define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
-  exports['default'] = _ember['default'].Route.extend({
+define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp', 'pix-live/routes/base-route'], function (exports, _ember, _rsvp, _pixLiveRoutesBaseRoute) {
+  exports['default'] = _pixLiveRoutesBaseRoute['default'].extend({
 
     assessmentService: _ember['default'].inject.service('assessment'),
 
@@ -3816,8 +3816,8 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp']
 
   });
 });
-define('pix-live/routes/assessments/get-comparison', ['exports', 'ember', 'ember-routable-modal/mixins/route', 'rsvp'], function (exports, _ember, _emberRoutableModalMixinsRoute, _rsvp) {
-  exports['default'] = _ember['default'].Route.extend(_emberRoutableModalMixinsRoute['default'], {
+define('pix-live/routes/assessments/get-comparison', ['exports', 'ember-routable-modal/mixins/route', 'rsvp', 'pix-live/routes/base-route'], function (exports, _emberRoutableModalMixinsRoute, _rsvp, _pixLiveRoutesBaseRoute) {
+  exports['default'] = _pixLiveRoutesBaseRoute['default'].extend(_emberRoutableModalMixinsRoute['default'], {
 
     model: function model(params) {
       var store = this.get('store');
@@ -3842,8 +3842,8 @@ define('pix-live/routes/assessments/get-comparison', ['exports', 'ember', 'ember
 
   });
 });
-define('pix-live/routes/assessments/get-results', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Route.extend({
+define('pix-live/routes/assessments/get-results', ['exports', 'pix-live/routes/base-route'], function (exports, _pixLiveRoutesBaseRoute) {
+  exports['default'] = _pixLiveRoutesBaseRoute['default'].extend({
     model: function model(params) {
       return this.store.findRecord('assessment', params.assessment_id, { reload: true });
     },
@@ -3862,8 +3862,20 @@ define('pix-live/routes/assessments/get-results', ['exports', 'ember'], function
 
   });
 });
-define('pix-live/routes/challenges/get-preview', ['exports', 'ember', 'pix-live/utils/lodash-custom'], function (exports, _ember, _pixLiveUtilsLodashCustom) {
+define('pix-live/routes/base-route', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
+    //Toutes les pages reset le scroll par défaut (surcharger scrollToTop dans une route si on ne veut pas de scrollReset)
+    scrollsToTop: true,
+    activate: function activate() {
+      this._super();
+      if (this.get('scrollsToTop')) {
+        window.scrollTo(0, 0);
+      }
+    }
+  });
+});
+define('pix-live/routes/challenges/get-preview', ['exports', 'pix-live/utils/lodash-custom', 'pix-live/routes/base-route'], function (exports, _pixLiveUtilsLodashCustom, _pixLiveRoutesBaseRoute) {
+  exports['default'] = _pixLiveRoutesBaseRoute['default'].extend({
 
     model: function model(params) {
       var store = this.get('store');
@@ -3886,7 +3898,7 @@ define('pix-live/routes/challenges/get-preview', ['exports', 'ember', 'pix-live/
 
   });
 });
-define('pix-live/routes/competences', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/routes/competences', ['exports', 'ember', 'pix-live/routes/base-route'], function (exports, _ember, _pixLiveRoutesBaseRoute) {
 
   var domains = [{
     id: 'information-et-donnees',
@@ -3974,7 +3986,7 @@ define('pix-live/routes/competences', ['exports', 'ember'], function (exports, _
     }]
   }];
 
-  exports['default'] = _ember['default'].Route.extend({
+  exports['default'] = _pixLiveRoutesBaseRoute['default'].extend({
 
     panelActions: _ember['default'].inject.service(),
 
@@ -3984,8 +3996,8 @@ define('pix-live/routes/competences', ['exports', 'ember'], function (exports, _
 
   });
 });
-define('pix-live/routes/courses', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Route.extend({
+define('pix-live/routes/courses', ['exports', 'pix-live/routes/base-route'], function (exports, _pixLiveRoutesBaseRoute) {
+  exports['default'] = _pixLiveRoutesBaseRoute['default'].extend({
 
     model: function model() {
       return this.get('store').findAll('course');
@@ -3999,12 +4011,12 @@ define('pix-live/routes/courses', ['exports', 'ember'], function (exports, _embe
 
   });
 });
-define('pix-live/routes/courses/create-assessment-old', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/routes/courses/create-assessment-old', ['exports', 'pix-live/routes/base-route'], function (exports, _pixLiveRoutesBaseRoute) {
 
   /*
   * keep old URL /courses/:course_id/assessment, with redirection
   */
-  exports['default'] = _ember['default'].Route.extend({
+  exports['default'] = _pixLiveRoutesBaseRoute['default'].extend({
 
     model: function model(params) {
       return params.course_id;
@@ -4016,8 +4028,8 @@ define('pix-live/routes/courses/create-assessment-old', ['exports', 'ember'], fu
 
   });
 });
-define('pix-live/routes/courses/create-assessment', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Route.extend({
+define('pix-live/routes/courses/create-assessment', ['exports', 'pix-live/routes/base-route'], function (exports, _pixLiveRoutesBaseRoute) {
+  exports['default'] = _pixLiveRoutesBaseRoute['default'].extend({
 
     model: function model(params) {
       var store = this.get('store');
@@ -4043,8 +4055,8 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'ember'], functi
 
   });
 });
-define('pix-live/routes/courses/get-challenge-preview', ['exports', 'ember', 'rsvp', 'pix-live/utils/get-challenge-type'], function (exports, _ember, _rsvp, _pixLiveUtilsGetChallengeType) {
-  exports['default'] = _ember['default'].Route.extend({
+define('pix-live/routes/courses/get-challenge-preview', ['exports', 'ember', 'rsvp', 'pix-live/utils/get-challenge-type', 'pix-live/routes/base-route'], function (exports, _ember, _rsvp, _pixLiveUtilsGetChallengeType, _pixLiveRoutesBaseRoute) {
+  exports['default'] = _pixLiveRoutesBaseRoute['default'].extend({
 
     model: function model(params) {
 
@@ -4090,8 +4102,8 @@ define('pix-live/routes/courses/get-challenge-preview', ['exports', 'ember', 'rs
 
   });
 });
-define('pix-live/routes/courses/get-course-preview', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
-  exports['default'] = _ember['default'].Route.extend({
+define('pix-live/routes/courses/get-course-preview', ['exports', 'rsvp', 'pix-live/routes/base-route'], function (exports, _rsvp, _pixLiveRoutesBaseRoute) {
+  exports['default'] = _pixLiveRoutesBaseRoute['default'].extend({
 
     model: function model(params) {
       return this.get('store').findRecord('course', params.course_id).then(function (course) {
@@ -4103,8 +4115,8 @@ define('pix-live/routes/courses/get-course-preview', ['exports', 'ember', 'rsvp'
     }
   });
 });
-define('pix-live/routes/index', ['exports', 'ember', 'rsvp'], function (exports, _ember, _rsvp) {
-  exports['default'] = _ember['default'].Route.extend({
+define('pix-live/routes/index', ['exports', 'rsvp', 'pix-live/routes/base-route'], function (exports, _rsvp, _pixLiveRoutesBaseRoute) {
+  exports['default'] = _pixLiveRoutesBaseRoute['default'].extend({
 
     model: function model() {
       return _rsvp['default'].hash({
@@ -4121,8 +4133,8 @@ define('pix-live/routes/index', ['exports', 'ember', 'rsvp'], function (exports,
 
   });
 });
-define('pix-live/routes/placement-tests', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Route.extend({
+define('pix-live/routes/placement-tests', ['exports', 'ember', 'pix-live/routes/base-route'], function (exports, _ember, _pixLiveRoutesBaseRoute) {
+  exports['default'] = _pixLiveRoutesBaseRoute['default'].extend({
 
     delay: _ember['default'].inject.service(),
 
@@ -4138,8 +4150,8 @@ define('pix-live/routes/placement-tests', ['exports', 'ember'], function (export
 
   });
 });
-define('pix-live/routes/project', ['exports', 'ember'], function (exports, _ember) {
-  exports['default'] = _ember['default'].Route.extend({});
+define('pix-live/routes/project', ['exports', 'pix-live/routes/base-route'], function (exports, _pixLiveRoutesBaseRoute) {
+  exports['default'] = _pixLiveRoutesBaseRoute['default'].extend({});
 });
 define('pix-live/serializers/challenge', ['exports', 'ember-data'], function (exports, _emberData) {
   exports['default'] = _emberData['default'].JSONAPISerializer.extend({
@@ -5125,6 +5137,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.9.0+3f4419e3"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"name":"pix-live","version":"1.9.0+1aeef30f"});
 }
 //# sourceMappingURL=pix-live.map

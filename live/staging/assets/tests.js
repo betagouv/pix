@@ -5795,6 +5795,15 @@ define('pix-live/tests/routes/assessments/get-results.lint-test', [], function (
     });
   });
 });
+define('pix-live/tests/routes/base-route.lint-test', [], function () {
+  'use strict';
+
+  describe('ESLint - routes/base-route.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/routes/challenges/get-preview.lint-test', [], function () {
   'use strict';
 
