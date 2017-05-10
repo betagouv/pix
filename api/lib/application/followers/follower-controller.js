@@ -4,6 +4,7 @@ const EmailValidator = require('../../domain/services/email-validator');
 const followerSerializer = require('../../infrastructure/serializers/jsonapi/follower-serializer');
 
 const mailService = require('../../domain/services/mail-service');
+const mailJet = require('../../infrastructure/mailjet');
 
 function _assertFollowerNotExist(follower) {
   return new Promise((resolve, reject) => {
@@ -44,8 +45,9 @@ module.exports = {
       .then((follower) => {
 
         mailService.sendWelcomeEmail(email);
-        reply(followerSerializer.serialize(follower)).code(201);
+        mailService.addEmailToRandomContactList(email);
 
+        reply(followerSerializer.serialize(follower)).code(201);
       })
       .catch((err) => reply(err));
   }

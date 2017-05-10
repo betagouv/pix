@@ -1,5 +1,7 @@
 const mailJet = require('../../infrastructure/mailjet');
 
+const _ = require('lodash');
+
 const ACCOUNT_CREATION_EMAIL_TEMPLATE_ID = '143620';
 const WELCOME_EMAIL_TEMPLATE_ID = '129291';
 
@@ -20,8 +22,25 @@ function sendWelcomeEmail(email) {
   });
 }
 
+function addEmailToRandomContactList(email) {
+  return new Promise((resolve, reject) => {
+    const contactListToPopulate = _.sample(['WEBPIX', 'TESTPIX', 'BETAPIX']);
+
+    mailJet
+      .getContactListByName(contactListToPopulate)
+      .then((contactList) => {
+
+        mailJet.addEmailToContactList(email, contactList.ID)
+          .then(() => {
+            resolve();
+          })
+      });
+  });
+}
+
 
 module.exports = {
+  addEmailToRandomContactList,
   sendAccountCreationEmail,
   sendWelcomeEmail
 };
