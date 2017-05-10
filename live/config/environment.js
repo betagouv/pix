@@ -21,7 +21,7 @@ module.exports = function (environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      API_HOST: 'http://localhost:3000',
+      API_HOST: '',
       isChallengeTimerEnable : true,
       MESSAGE_DISPLAY_DURATION: 1500,
       isMobileSimulationEnabled: false,
@@ -49,6 +49,7 @@ module.exports = function (environment) {
     ENV.APP.LOG_TRANSITIONS = false;
     ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
+    ENV.APP.API_HOST = 'http://localhost:3000';
 
 
   }
