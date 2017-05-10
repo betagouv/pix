@@ -70,9 +70,11 @@ export default Ember.Component.extend({
 
   _toggleConfirmation(status, message) {
     this.set('temporaryAlert', {status: TEMPORARY_DIV_CLASS_MAP[status], message});
-    Ember.run.later(()=>{
-      this.set('temporaryAlert', {status: 'default', message: ''});
-    }, config.APP.MESSAGE_DISPLAY_DURATION);
+    if(config.APP.isMessageStatusTogglingEnabled) {
+      Ember.run.later(() => {
+        this.set('temporaryAlert', {status: 'default', message: ''});
+      }, config.APP.MESSAGE_DISPLAY_DURATION);
+    }
   },
 
   _reset(){
@@ -143,8 +145,7 @@ export default Ember.Component.extend({
         })
         .catch(() => {
           this._updateInputsStatus();
-          const message = (!this.get('user.errors.cgu'))? 'Oups! Une erreur s\'est produite...' : this.get('user.errors.cgu.firstObject.message');
-          this._toggleConfirmation('error', message);
+          this._toggleConfirmation('error', 'Oups! Une erreur s\'est produite...');
         });
     }
   }

@@ -35,6 +35,9 @@ export default Ember.Component.extend({
     if (this.get('textfieldName') === 'password') {
       return 'password';
     }
+    if (this.get('textfieldName') === 'email') {
+      return 'email';
+    }
     return 'text';
   }),
 

@@ -86,11 +86,19 @@
 
 
 .signup-form__cgu-container{
+  max-width: 449px;
+  width: 100%;
+  padding: 0 15px;
   margin-top: 0px;
   margin-bottom: 6px;
+  position: relative;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
   @media screen and (min-width: 321px) {
     margin-top: 6px;
     margin-bottom:0;
+    padding: 0;
   }
 }
 .signup-form__cgu-container input[type="checkbox"]{
@@ -166,6 +174,14 @@
   @media screen and (min-width: 321px) {
     margin: 31px auto 34px;
   }
+}
+
+
+.signup-textfield__cgu-message--error{
+  color: $persimmon;
+  font-size:12px;
+  margin-bottom:7px;
+  text-align: center;
 }
 
 .signup__submit-button {
