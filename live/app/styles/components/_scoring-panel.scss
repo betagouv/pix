@@ -19,8 +19,9 @@
 
 }
 
-/*-----------------------------------*/
+/*---------------Trophy DIV (Renommer en reward)--------------------*/
 
+/*renommer en reward*/
 .scoring-panel__trophy {
   display: flex;
   flex-direction: column;
@@ -39,50 +40,6 @@
   @media (min-width: 1024px) {
     margin-right: 80px;
   }
-}
-
-.scoring-panel__congrats {
-  display: flex;
-  flex-direction: column;
-  max-width: 386px;
-  text-align: center;
-  padding: 20px;
-
-  @media (min-width: 768px) {
-    text-align: left;
-    padding: 0px;
-  }
-
-}
-
-.scoring-panel__index-link {
-  border-radius: 23px;
-  border: solid 1px #ffffff;
-  margin-top: 10px;
-  margin-bottom: 15px;
-  padding: 5px 10px;
-  text-align: center;
-
-  @media (min-width: 480px) {
-    align-self: flex-end;
-  }
-
-  @media (min-width: 768px) {
-    margin-left: 30px;
-  }
-
-  @media (min-width: 1024px) {
-    margin-left: 60px;
-    margin-bottom: -30px;
-  }
-
-}
-
-/*-----------------------------------*/
-
-.scoring-panel__trophy-div-svg {
-  display: flex;
-  justify-content: center;
 }
 
 .scoring-panel__trophy-img {
@@ -143,7 +100,76 @@
 
 }
 
-/*-----------------------------------*/
+.scoring-panel__medal-img {
+  height: 169px;
+  width: 150px;
+
+  @media (min-width: 480px) {
+    height: 190px;
+    width: 200px;
+  }
+
+  @media (min-width: 768px) {
+    height: 237px;
+    width: 267px;
+  }
+}
+
+
+.scoring-panel__medal-pix-score {
+  font-family: $font-overpass;
+  font-size: 80px;
+  font-weight: 800;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+
+  letter-spacing: -6.4px;
+  color: $blue;
+
+}
+
+.scoring-panel__medal-pix-text {
+  font-family: $font-raleway;
+  font-size: 35px;
+  font-weight: $font-bold;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  color: $blue;
+}
+
+.scoring-panel__medal-bêta {
+  color: $marigold;
+  font-weight: $font-heavy;
+  letter-spacing: 6px;
+  margin-top: 10px;
+
+  font-size: 12px;
+
+  @media (min-width: 480px) {
+    font-size: 14px;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 18px;
+  }
+}
+
+
+/*-----------------------Congrats DIV--------------------------------------------------*/
+
+.scoring-panel__congrats {
+  display: flex;
+  flex-direction: column;
+  max-width: 386px;
+  text-align: center;
+  padding: 20px;
+
+  @media (min-width: 768px) {
+    text-align: left;
+    padding: 0px;
+  }
+
+}
 
 .scoring-panel__congrats-course-name {
   margin-bottom: 15px;
@@ -191,8 +217,30 @@
     font-size: 14px;
   }
 }
+/*------------BUTTON RETOUR ACCUEIL DIV-----------------------*/
 
-/*-----------------------------------*/
+.scoring-panel__index-link {
+  border-radius: 23px;
+  border: solid 1px #ffffff;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  text-align: center;
+
+  @media (min-width: 480px) {
+    align-self: flex-end;
+  }
+
+  @media (min-width: 768px) {
+    margin-left: 30px;
+  }
+
+  @media (min-width: 1024px) {
+    margin-left: 60px;
+    margin-bottom: -30px;
+  }
+
+}
 
 .scoring-panel__index-link__element {
   font-family: $font-lato;

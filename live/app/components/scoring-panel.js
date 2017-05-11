@@ -7,6 +7,6 @@ export default Ember.Component.extend({
   assessment: null,
 
   hasATrophy: Ember.computed.gt('assessment.estimatedLevel', 0),
-  hasSomePix: Ember.computed.gt('assessment.pixScore', 0)
+  hasSomePix: Ember.computed.equal('assessment.pixScore', 0)
 
 });

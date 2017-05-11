@@ -26,5 +26,28 @@
 
 {{else if hasSomePix}}
 
+  <div class="scoring-panel__medal">
+    <div class="scoring-panel__medal-div"><img src="{{rootURL}}/images/medaille.svg" alt="Medaille obtenue"
+                                                class="scoring-panel__medal-img"></div>
+    <div class="scoring-panel__medal-pix-score">+{{assessment.pixScore}}</div>
+    <div class="scoring-panel__medal-pix-text">Pix</div>
+    <div class="scoring-panel__medal-bêta">BÊTA</div>
+  </div>
 
+  <div class="scoring-panel__congrats">
+    <div class="scoring-panel__congrats-course-name">{{assessment.course.name}}</div>
+    <div class="scoring-panel__congrats-line"></div>
+    <div class="scoring-panel__congrats-pas-mal">Pas mal mais pas max&nbsp;!</div>
+    <div class="scoring-panel__congrats-scoring">Vous avez gagné&nbsp;{{assessment.pixScore}}&nbsp;pix ! *
+      Allez, encore quelques petits efforts et vous décrocherez le premier niveau
+    </div>
+    <div class="scoring-panel__congrats-beta">*En version bêta, les pix et niveaux délivrés sont provisoires</div>
+  </div>
+  <div class="scoring-panel__index-link"></div>
+
+  {{#link-to 'index' class='scoring-panel__index-link__element' tagName='button'}}
+    <div class="scoring-panel__index-link">
+      <span class="scoring-panel__index-link-back">REVENIR À L'ACCUEIL</span>
+    </div>
+  {{/link-to}}
 {{/if}}
