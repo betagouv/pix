@@ -16,7 +16,7 @@
     <div class="rounded-panel__row challenge-proposals">
       {{qrocm-proposal
         blocks=challenge._proposalsAsBlocks
-        answersValue=answers._valuesAsMap
+        answersValue=answer._valuesAsMap
         onInputChanged='inputChanged' }}
     </div>
     {{#if challenge.timer}}
@@ -28,9 +28,9 @@
     {{/if}}
   </div>
 
-  {{#if errorMessage}}
+  {{#if _errorMessage}}
     <div class="alert alert-danger" role="alert">
-      {{errorMessage}}
+      {{_errorMessage}}
     </div>
   {{/if}}
 

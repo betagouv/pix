@@ -9,9 +9,15 @@ const ChallengeItemGeneric = Ember.Component.extend({
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
+  challenge: null,
+  assessment: null,
+  answer: null,
+  onValidated: null,
+
   _elapsedTime: null,
   _timer: null,
   _hasUserAknowledgedTimingWarning: false,
+  _errorMessage: null,
 
   init() {
     this._super(...arguments);
@@ -80,8 +86,8 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
     validate: callOnlyOnce(function () {
       if (this._hasError()) {
-        this.set('errorMessage', this._getErrorMessage());
-        return this.sendAction('onError', this.get('errorMessage'));
+        this.set('_errorMessage', this._getErrorMessage());
+        return this.sendAction('onError', this.get('_errorMessage'));
       }
       const answerValue = this._getAnswerValue();
       this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), answerValue, this._getTimeout(), this._getElapsedTime());
@@ -89,7 +95,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
     }),
 
     skip: callOnlyOnce(function () {
-      this.set('errorMessage', null);
+      this.set('_errorMessage', null);
       this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout(), this._getElapsedTime());
       this.set('_hasUserAknowledgedTimingWarning', false);
     }),

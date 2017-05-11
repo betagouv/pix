@@ -15,7 +15,7 @@
   <div class="rounded-panel challenge-response">
     <div class="rounded-panel__row challenge-proposals">
       {{qcm-proposals
-        answers=answers._valueAsArrayOfBoolean
+        answers=answer._valueAsArrayOfBoolean
         proposals=challenge._proposalsAsArray
         onAnswerUpdated='answerChanged'}}
     </div>
@@ -28,9 +28,9 @@
     {{/if}}
   </div>
 
-  {{#if errorMessage}}
+  {{#if _errorMessage}}
     <div class="alert alert-danger" role="alert">
-      {{errorMessage}}
+      {{_errorMessage}}
     </div>
   {{/if}}
 

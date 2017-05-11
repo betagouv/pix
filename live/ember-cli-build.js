@@ -1,8 +1,5 @@
-/*jshint node:true*/
-/* global require, module */
+/* eslint-env node */
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
-
-/* postcss plugins */
 
 module.exports = function (defaults) {
   var app = new EmberApp(defaults, {
@@ -12,13 +9,11 @@ module.exports = function (defaults) {
       includePolyfill: true
     },
 
-    autoprefixer: {
-      browsers: ['last 2 versions'],
-      cascade: false
-    },
-
-    sassOptions: {}
-
+    'ember-bootstrap': {
+      'bootstrapVersion': 3,
+      'importBootstrapFont': true,
+      'importBootstrapCSS': false
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated
@@ -34,7 +29,6 @@ module.exports = function (defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
 
-  app.import('bower_components/bootstrap/dist/js/bootstrap.js');
   app.import('bower_components/js-yaml/dist/js-yaml.js');
 
   if (app.env !== 'test') {
@@ -43,14 +37,6 @@ module.exports = function (defaults) {
       development: 'bower_components/animate.css/animate.css',
       production: 'bower_components/animate.css/animate.min.css'
     });
-
-    app.import({
-      development: 'bower_components/loaders.css/loaders.css',
-      production: 'bower_components/loaders.css/loaders.min.css'
-    });
-
-    app.import('bower_components/raven-js/dist/raven.js');
-    app.import('bower_components/raven-js/dist/plugins/ember.js');
   }
 
   return app.toTree();

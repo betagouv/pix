@@ -15,7 +15,7 @@ export default BaseRoute.extend({
     return RSVP.hash({
       assessment: store.findRecord('assessment', assessmentId),
       challenge: store.findRecord('challenge', challengeId),
-      answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
+      answer: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
     });
   },
 
@@ -26,6 +26,14 @@ export default BaseRoute.extend({
     });
   },
 
+  didUpdateAttrs() {
+    this._super(...arguments);
+  },
+
+  didReceiveAttrs() {
+    this._super(...arguments);
+  },
+
   serialize(model) {
     return {
       assessment_id: model.assessment.id,
@@ -33,14 +41,24 @@ export default BaseRoute.extend({
     };
   },
 
-  _createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime) {
-    return this.get('store').createRecord('answer', {
-      value: answerValue,
-      timeout: answerTimeout,
-      challenge: currentChallenge,
-      elapsedTime: answerElapsedTime,
-      assessment
-    });
+  _createOrUpdateAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime) {
+    let answer = this.get('answer');
+
+    if (!answer) {
+      answer = this.get('store').createRecord('answer', {
+        value: answerValue,
+        timeout: answerTimeout,
+        challenge: currentChallenge,
+        elapsedTime: answerElapsedTime,
+        assessment
+      });
+    } else {
+      answer.set('value', answerValue);
+      answer.set('timeout', answerTimeout);
+      answer.set('elapsedTime', answerElapsedTime);
+    }
+
+    return answer;
   },
 
   _urlForNextChallenge(adapter, assessmentId, currentChallengeId) {
@@ -62,10 +80,14 @@ export default BaseRoute.extend({
   actions: {
 
     saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
-      const answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime);
-      answer.save().then(() => {
-        this._navigateToNextView(currentChallenge, assessment);
-      });
+      const answer = this._createOrUpdateAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime);
+      answer.save()
+        .then(() => {
+          this._navigateToNextView(currentChallenge, assessment);
+        })
+        .catch(err => {
+          Ember.Logger.error(err);
+        });
     }
   },
 

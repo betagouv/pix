@@ -2,10 +2,9 @@ import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import { resetTestingState } from '../helpers/shared-state';
 import _ from 'pix-live/utils/lodash-custom';
 
-describe('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
+describe.only('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
 
   let application;
 
@@ -20,12 +19,10 @@ describe('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
   describe('e1 - Prévisualiser une épreuve | ', function () {
 
     beforeEach(function () {
-      // localStorage.clear();
-      resetTestingState();
       visit('/');
     });
 
-    it('e1.1 Il y a une demande de création d\'un assessment avec un course vide', async function () {
+    it.skip('e1.1 Il y a une demande de création d\'un assessment avec un course vide', async function () {
       // Given
       let postOnAssessment = localStorage.getItem('POST_ON_URL_/assessments');
       expect(postOnAssessment).not.to.exist;
@@ -53,7 +50,7 @@ describe('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
       expect(findWithAssert('.assessment-challenge'));
     });
 
-    it('e1.3 Il y a une demande de rafraichissement du cache des solutions', async function () {
+    it.skip('e1.3 Il y a une demande de rafraichissement du cache des solutions', async function () {
       // Given
       let postOnAssessment = localStorage.getItem('POST_ON_URL_/challenges/ref_qcu_challenge_id/solution');
       expect(postOnAssessment).not.to.exist;

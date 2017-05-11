@@ -9,8 +9,9 @@
 @import 'globals/redesign-inputs';
 
 /* 3rd-party */
-@import 'vendor/ember-routable-modal/core';
-@import 'vendor/ember-routable-modal/dialog';
+@import "ember-bootstrap/bootstrap";
+@import "ember-routable-modal/core";
+@import "ember-routable-modal/dialog";
 
 /* components */
 @import 'components/rounded-panel';

@@ -3,15 +3,16 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-function visitTimedChallenge() {
-  visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-  click('.challenge-item-warning button');
-}
-
 describe('Acceptance | d1 - Valider une épreuve |', function () {
 
   let application;
   const PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
+
+  function visitTimedChallenge() {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+    click('.challenge-item-warning button');
+  }
+
   before(function () {
     application = startApp();
     visitTimedChallenge();
