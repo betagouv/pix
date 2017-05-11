@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
-import valueAsArrayOfBoolean from 'pix-live/utils/value-as-array-of-boolean';
-import proposalsAsArray from 'pix-live/utils/proposals-as-array';
+import answerAsBooleans from 'pix-live/utils/answer-as-booleans';
+import proposalsAsStrings from 'pix-live/utils/proposals-as-strings';
 import _ from 'pix-live/utils/lodash-custom';
 
 
@@ -13,7 +13,7 @@ export default Ember.Component.extend({
 
   solutionArray: Ember.computed('solution', function () {
     const solution = this.get('solution.value');
-    return _.isNonEmptyString(solution) ? valueAsArrayOfBoolean(solution) : [];
+    return _.isNonEmptyString(solution) ? answerAsBooleans(solution) : [];
   }),
 
   labeledRadios: Ember.computed('answer', function () {
@@ -21,8 +21,8 @@ export default Ember.Component.extend({
     let radiosArray = [];
     if (_.isNonEmptyString(answer)) {
       const proposals = this.get('challenge.proposals');
-      const proposalsArray = proposalsAsArray(proposals);
-      const answerArray = valueAsArrayOfBoolean(answer);
+      const proposalsArray = proposalsAsStrings(proposals);
+      const answerArray = answerAsBooleans(answer);
       radiosArray = labeledCheckboxes(proposalsArray, answerArray);
     }
 

@@ -41,6 +41,7 @@ export default function () {
   this.get('/assessments/:assessmentId/solutions/:answerId', getAssessmentSolutions);
 
   this.post('/answers', postAnswers);
+  this.patch('/answers/:id', postAnswers);
   this.get('/answers/:id', getAnswer);
   this.get('/answers', getAnswerByChallengeAndAssessment);
 

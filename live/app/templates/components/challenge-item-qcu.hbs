@@ -15,9 +15,9 @@
   <div class="rounded-panel challenge-response">
     <div class="rounded-panel__row challenge-proposals">
       {{qcu-proposals
-        answers=answer._valueAsArrayOfBoolean
-        proposals=challenge._proposalsAsArray
-        onAnswerUpdated='answerChanged'}}
+        answerValue=answer.value
+        proposals=challenge.proposals
+        answerChanged=(action "resetErrorMessage")}}
     </div>
     {{#if challenge.timer}}
       {{#if hasUserConfirmWarning}}
@@ -28,7 +28,7 @@
     {{/if}}
   </div>
 
-  {{#if _errorMessage}}
+  {{#if hasError}}
     <div class="alert alert-danger" role="alert">
       {{_errorMessage}}
     </div>

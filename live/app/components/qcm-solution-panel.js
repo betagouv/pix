@@ -1,12 +1,13 @@
 import Ember from 'ember';
 import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
 import valueAsArrayOfBoolean from 'pix-live/utils/value-as-array-of-boolean';
-import proposalsAsArray from 'pix-live/utils/proposals-as-array';
+import proposalsAsStrings from 'pix-live/utils/proposals-as-strings';
 import _ from 'pix-live/utils/lodash-custom';
 
-
 export default Ember.Component.extend({
+
   classNames: ['qcm-solution-panel'],
+
   answer: null,
   solution: null,
   challenge: null,
@@ -21,7 +22,7 @@ export default Ember.Component.extend({
     let checkboxes  = [];
     if (_.isNonEmptyString(answer)) {
       const proposals = this.get('challenge.proposals');
-      const proposalsArray = proposalsAsArray(proposals);
+      const proposalsArray = proposalsAsStrings(proposals);
       const answerArray = valueAsArrayOfBoolean(answer);
       checkboxes = labeledCheckboxes(proposalsArray, answerArray);
     }

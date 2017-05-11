@@ -14,24 +14,26 @@ export default BaseRoute.extend({
 
     return RSVP.hash({
       assessment: store.findRecord('assessment', assessmentId),
-      challenge: store.findRecord('challenge', challengeId),
-      answer: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
+      challenge: store.findRecord('challenge', challengeId)
     });
   },
 
   afterModel(model) {
-    return model.assessment.get('course').then((course) => {
-      model.progress = course.getProgress(model.challenge);
-      return model;
+    const store = this.get('store');
+    return store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id}).then(answer => {
+      if (answer) {
+        model.answer = answer;
+      } else {
+        model.answer = store.createRecord('answer', {
+          assessment: model.assessment,
+          challenge: model.challenge
+        });
+      }
+      return model.assessment.get('course').then((course) => {
+        model.progress = course.getProgress(model.challenge);
+        return model;
+      });
     });
-  },
-
-  didUpdateAttrs() {
-    this._super(...arguments);
-  },
-
-  didReceiveAttrs() {
-    this._super(...arguments);
   },
 
   serialize(model) {
@@ -39,26 +41,6 @@ export default BaseRoute.extend({
       assessment_id: model.assessment.id,
       challenge_id: model.challenge.id
     };
-  },
-
-  _createOrUpdateAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime) {
-    let answer = this.get('answer');
-
-    if (!answer) {
-      answer = this.get('store').createRecord('answer', {
-        value: answerValue,
-        timeout: answerTimeout,
-        challenge: currentChallenge,
-        elapsedTime: answerElapsedTime,
-        assessment
-      });
-    } else {
-      answer.set('value', answerValue);
-      answer.set('timeout', answerTimeout);
-      answer.set('elapsedTime', answerElapsedTime);
-    }
-
-    return answer;
   },
 
   _urlForNextChallenge(adapter, assessmentId, currentChallengeId) {
@@ -79,14 +61,10 @@ export default BaseRoute.extend({
 
   actions: {
 
-    saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
-      const answer = this._createOrUpdateAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime);
+    saveAnswerAndNavigate(answer) {
       answer.save()
         .then(() => {
-          this._navigateToNextView(currentChallenge, assessment);
-        })
-        .catch(err => {
-          Ember.Logger.error(err);
+          this._navigateToNextView(answer.get('challenge'), answer.get('assessment'));
         });
     }
   },

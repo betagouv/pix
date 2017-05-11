@@ -8,7 +8,7 @@ function calculate(proposals) {
     .value();
 }
 
-export default function proposalsAsArray(proposals) {
+export default function proposalsAsStrings(proposals) {
   // check pre-conditions
   const DEFAULT_RETURN_VALUE = [];
 

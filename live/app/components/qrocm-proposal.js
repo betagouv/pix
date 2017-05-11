@@ -1,15 +1,23 @@
 import Ember from 'ember';
+import _proposalsAsBlocks from 'pix-live/utils/proposals-as-blocks';
 
 export default Ember.Component.extend({
+
   classNames: ['qrocm-proposal'],
 
-  didInsertElement: function () {
-    // XXX : jQuery handler here is far more powerful than declaring event in template helper.
-    // It avoids to loose time with 'oh that handy jQuery event is missing',
-    // or "How the hell did they construct input helper ?"
-    this.$('input').keydown(() => {
-      this.sendAction('onInputChanged');
-    });
-  }
+  answerValue: null,
+  proposals: null,
+  answerChanged: null, // action
 
+  proposalsAsBlocks: Ember.computed('proposals', function () {
+    return _proposalsAsBlocks(this.get('proposals'));
+  }),
+
+  actions: {
+    changeAnswer() {
+      Ember.run.throttle(this, function () {
+        this.get('answerChanged')();
+      }, 300);
+    }
+  }
 });
