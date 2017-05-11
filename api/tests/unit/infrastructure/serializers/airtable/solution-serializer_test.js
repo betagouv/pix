@@ -49,7 +49,6 @@ describe('Unit | Serializer | solution-serializer', () => {
         // then
         expect(solution).to.include.keys('deactivations');
         expect(solution.deactivations).to.be.an('object');
-
       });
 
       it('should contain t1, t2 and t3', function () {
