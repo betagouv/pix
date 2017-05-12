@@ -1,6 +1,6 @@
 import _ from 'pix-live/utils/lodash-custom';
 
-export default function valueAsArrayOfBoolean(value) {
+export default function answerAsBooleans(value) {
   return _.chain(value)                                                  // in the worst case : ',4, 2 , 2,1,  ,'
     .checkPoint((e) => _.isString(e) ? e : '')                           // check if string
     .split(',')                                                          // now ['', '4', ' 2 ', ' 2', '1', '  ', '']

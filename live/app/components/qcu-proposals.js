@@ -1,28 +1,22 @@
 import Ember from 'ember';
-import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
-
-function _uncheckAllRadioButtons() {
-  this.$(':radio').prop('checked', false);
-}
-
-function _checkAgainTheSelectedOption(index) {
-  this.$(`:radio:nth(${index})`).prop('checked', true);
-}
+import _proposalsAsStrings from 'pix-live/utils/proposals-as-strings';
 
 export default Ember.Component.extend({
 
-  tagName: 'div',
+  answerValue: null,
+  proposals: null,
+  answerChanged: null, // action
 
-  labeledRadios: Ember.computed('proposals', 'answers', function() {
-    return labeledCheckboxes(this.get('proposals'), this.get('answers'));
+  proposalsAsStrings: Ember.computed('proposals', function () {
+    return _proposalsAsStrings(this.get('proposals'));
   }),
 
   actions: {
-    radioClicked: function(index) {
-      _uncheckAllRadioButtons.call(this);
-      _checkAgainTheSelectedOption.call(this, index);
-      this.sendAction('answerChanged');
+    changeAnswer(index) {
+      Ember.run.throttle(this, function () {
+        this.set('answerValue', index);
+        this.get('answerChanged')();
+      }, 300);
     }
   }
-
 });

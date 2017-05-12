@@ -1,19 +1,19 @@
-{{#each blocks as |block|}}
+{{#each proposalsAsBlocks as |proposal|}}
 
-  {{#if block.text}}
-    <span>{{block.text}}</span>
+  {{#if proposal.text}}
+    <span>{{proposal.text}}</span>
   {{/if}}
 
-  {{#if block.input}}
-    <input class="challenge-response__proposal-input"
-           type="text"
-           name={{block.input}}
-             placeholder={{block.placeholder}}
-           value={{property-of answersValue block.input}}>
+  {{#if proposal.input}}
+    {{input class="challenge-response__proposal-input"
+            type="text"
+            placeholder=proposal.placeholder
+            value=(property-of answerValue proposal.input)
+            key-press="changeAnswer"}}
   {{/if}}
 
-  {{#if block.breakline}}
-    <br> 
+  {{#if proposal.breakline}}
+    <br>
   {{/if}}
 
 {{/each}}

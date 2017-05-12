@@ -2,7 +2,6 @@ import ModalRouteMixin from 'ember-routable-modal/mixins/route';
 import RSVP from 'rsvp';
 import BaseRoute from 'pix-live/routes/base-route';
 
-
 export default BaseRoute.extend(ModalRouteMixin, {
 
   model(params) {
@@ -14,7 +13,7 @@ export default BaseRoute.extend(ModalRouteMixin, {
 
     return store.findRecord('answer', answerId).then((answer) => {
       return store.findRecord('challenge', answer.get('challenge.id')).then((challenge) => {
-        return store.queryRecord('solution', {assessmentId, answerId}).then(function(solution) {
+        return store.queryRecord('solution', {assessmentId, answerId}).then((solution) => {
           return RSVP.hash({
             answer,
             challenge,
@@ -24,8 +23,5 @@ export default BaseRoute.extend(ModalRouteMixin, {
         });
       });
     });
-
-  },
-
-
+  }
 });

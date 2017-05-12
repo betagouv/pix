@@ -1,5 +1,10 @@
 @charset "utf-8";
 
+/* 3rd-party */
+@import "ember-bootstrap/bootstrap";
+@import "ember-routable-modal/core";
+@import "ember-routable-modal/dialog";
+
 /* globals */
 @import 'globals/palette';
 @import 'globals/fonts';
@@ -7,10 +12,6 @@
 @import 'globals/buttons';
 @import 'globals/dimension';
 @import 'globals/redesign-inputs';
-
-/* 3rd-party */
-@import 'vendor/ember-routable-modal/core';
-@import 'vendor/ember-routable-modal/dialog';
 
 /* components */
 @import 'components/rounded-panel';

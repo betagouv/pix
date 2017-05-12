@@ -14,7 +14,7 @@
     {{component (get-challenge-component-class model.challenge)
         challenge=model.challenge
         assessment=model.assessment
-        answers=model.answers
-        onValidated="saveAnswerAndNavigate"}}
+        answer=model.answer
+        onValidated=(route-action "saveAnswerAndNavigate")}}
   </div>
 </div>

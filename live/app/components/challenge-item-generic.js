@@ -5,13 +5,43 @@ import ENV from 'pix-live/config/environment';
 
 const ChallengeItemGeneric = Ember.Component.extend({
 
+  // attributes
+
   tagName: 'article',
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
+  // public properties
+
+  challenge: null,
+  assessment: null,
+  answer: null,
+  onValidated: null, // action
+
+  // intern properties
+
   _elapsedTime: null,
   _timer: null,
   _hasUserAknowledgedTimingWarning: false,
+  _errorMessage: null,
+
+  // computed properties
+
+  hasError: Ember.computed.notEmpty('_errorMessage'),
+
+  hasUserConfirmWarning: Ember.computed('challenge', function () {
+    return false;
+  }),
+
+  hasChallengeTimer: Ember.computed('challenge', function () {
+    return this.hasTimerDefined();
+  }),
+
+  canDisplayFeedbackPanel: Ember.computed('_hasUserAknowledgedTimingWarning', function () {
+    return !this.hasTimerDefined() || (this.hasTimerDefined() && this.get('_hasUserAknowledgedTimingWarning'));
+  }),
+
+  // component hooks
 
   init() {
     this._super(...arguments);
@@ -34,21 +64,11 @@ const ChallengeItemGeneric = Ember.Component.extend({
     Ember.run.cancel(timer);
   },
 
-  hasUserConfirmWarning: Ember.computed('challenge', function () {
-    return false;
-  }),
-
-  hasChallengeTimer: Ember.computed('challenge', function () {
-    return this.hasTimerDefined();
-  }),
-
-  canDisplayFeedbackPanel: Ember.computed('_hasUserAknowledgedTimingWarning', function () {
-    return !this.hasTimerDefined() || (this.hasTimerDefined() && this.get('_hasUserAknowledgedTimingWarning'));
-  }),
-
   hasTimerDefined(){
     return _.isInteger(this.get('challenge.timer'));
   },
+
+  // private methods
 
   _getTimeout() {
     return $('.timeout-jauge-remaining').attr('data-spent');
@@ -61,6 +81,18 @@ const ChallengeItemGeneric = Ember.Component.extend({
   _start(){
     this.set('_elapsedTime', 0);
     this._tick();
+  },
+
+  _resetErrorMessage() {
+    this.set('_errorMessage', null);
+  },
+
+  isValid() {
+    // to be override
+  },
+
+  getErrorMessage() {
+    // to be override
   },
 
   _tick(){
@@ -79,19 +111,28 @@ const ChallengeItemGeneric = Ember.Component.extend({
   actions: {
 
     validate: callOnlyOnce(function () {
-      if (this._hasError()) {
-        this.set('errorMessage', this._getErrorMessage());
-        return this.sendAction('onError', this.get('errorMessage'));
+      if (!this.isValid()) {
+        this.set('_errorMessage', this.getErrorMessage());
+        return this.sendAction('onError', this.get('_errorMessage'));
       }
-      const answerValue = this._getAnswerValue();
-      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), answerValue, this._getTimeout(), this._getElapsedTime());
       this.set('_hasUserAknowledgedTimingWarning', false);
+
+      const answer = this.get('answer');
+      answer.set('timeout', this._getTimeout());
+      answer.set('elapsedTime', this._getElapsedTime());
+
+      this.get('onValidated')(answer);
     }),
 
     skip: callOnlyOnce(function () {
-      this.set('errorMessage', null);
-      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout(), this._getElapsedTime());
       this.set('_hasUserAknowledgedTimingWarning', false);
+
+      const answer = this.get('answer');
+      answer.set('value', '#ABAND#');
+      answer.set('timeout', this._getTimeout());
+      answer.set('elapsedTime', this._getElapsedTime());
+
+      this.get('onValidated')(answer);
     }),
 
     setUserConfirmation() {
@@ -99,6 +140,10 @@ const ChallengeItemGeneric = Ember.Component.extend({
       this.toggleProperty('hasUserConfirmWarning');
       this.toggleProperty('hasChallengeTimer');
       this.set('_hasUserAknowledgedTimingWarning', true);
+    },
+
+    resetErrorMessage() {
+      this._resetErrorMessage();
     }
   }
 

@@ -4,16 +4,16 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | scoring panel', function() {
+describe('Integration | Component | scoring panel', function () {
 
   setupComponentTest('scoring-panel', {
     integration: true
   });
 
-  const assessmentWithTrophy = Ember.Object.create({estimatedLevel : 1, course : {isAdaptive : true}});
-  const assessmentWithNoTrophy = Ember.Object.create({estimatedLevel : 0, course : {isAdaptive : true}});
+  const assessmentWithTrophy = Ember.Object.create({ estimatedLevel: 1, course: { isAdaptive: true } });
+  const assessmentWithNoTrophy = Ember.Object.create({ estimatedLevel: 0, course: { isAdaptive: true } });
 
-  it('renders', function() {
+  it('renders', function () {
     this.render(hbs`{{scoring-panel}}`);
     expect(this.$()).to.have.length(1);
   });

@@ -14,15 +14,25 @@ export default BaseRoute.extend({
 
     return RSVP.hash({
       assessment: store.findRecord('assessment', assessmentId),
-      challenge: store.findRecord('challenge', challengeId),
-      answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
+      challenge: store.findRecord('challenge', challengeId)
     });
   },
 
   afterModel(model) {
-    return model.assessment.get('course').then((course) => {
-      model.progress = course.getProgress(model.challenge);
-      return model;
+    const store = this.get('store');
+    return store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id}).then(answer => {
+      if (answer) {
+        model.answer = answer;
+      } else {
+        model.answer = store.createRecord('answer', {
+          assessment: model.assessment,
+          challenge: model.challenge
+        });
+      }
+      return model.assessment.get('course').then((course) => {
+        model.progress = course.getProgress(model.challenge);
+        return model;
+      });
     });
   },
 
@@ -31,16 +41,6 @@ export default BaseRoute.extend({
       assessment_id: model.assessment.id,
       challenge_id: model.challenge.id
     };
-  },
-
-  _createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime) {
-    return this.get('store').createRecord('answer', {
-      value: answerValue,
-      timeout: answerTimeout,
-      challenge: currentChallenge,
-      elapsedTime: answerElapsedTime,
-      assessment
-    });
   },
 
   _urlForNextChallenge(adapter, assessmentId, currentChallengeId) {
@@ -61,11 +61,11 @@ export default BaseRoute.extend({
 
   actions: {
 
-    saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
-      const answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime);
-      answer.save().then(() => {
-        this._navigateToNextView(currentChallenge, assessment);
-      });
+    saveAnswerAndNavigate(answer) {
+      answer.save()
+        .then(() => {
+          this._navigateToNextView(answer.get('challenge'), answer.get('assessment'));
+        });
     }
   },
 

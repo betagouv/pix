@@ -1,19 +1,18 @@
-{{#each blocks as |block|}}
+{{#each proposalsAsBlocks as |proposal|}}
 
-  {{#if block.text}}
-    <span>{{block.text}}</span>
+  {{#if proposal.text}}
+    <span>{{proposal.text}}</span>
   {{/if}}
 
-  {{#if block.input}}
-    <input class="challenge-response__proposal-input"
-           type="text"
-           name={{block.input}}
-           placeholder={{block.placeholder}}
-           value="{{userAnswer}}"
-           data-uid="qroc-proposal-uid">
+  {{#if proposal.input}}
+    {{input class="challenge-response__proposal-input"
+            type="text"
+            placeholder=proposal.placeholder
+            value=(mut answerValue)
+            key-press="changeAnswer"}}
   {{/if}}
 
-  {{#if block.breakline}}
+  {{#if proposal.breakline}}
     <br>
   {{/if}}
 
