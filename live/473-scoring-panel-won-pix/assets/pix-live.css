@@ -1266,6 +1266,9 @@ button.routable-modal--close:active {
   font-size: 14px;
   text-decoration: underline; }
 
+.medal-item {
+  position: relative; }
+
 .medal-item__medal-img {
   width: 100%; }
 
@@ -1275,16 +1278,16 @@ button.routable-modal--close:active {
   text-align: center;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   color: #3d68ff;
-  margin-top: -125px;
-  font-size: 45px; }
+  font-size: 45px;
+  position: absolute;
+  top: 15%;
+  left: 31%; }
   @media (min-width: 480px) {
     .medal-item__pix-score {
-      margin-top: -160px;
       font-size: 60px; } }
   @media (min-width: 768px) {
     .medal-item__pix-score {
-      margin-top: -185px;
-      font-size: 80px; } }
+      font-size: 65px; } }
 
 .medal-item__pix-text {
   font-family: "Raleway", Arial, sans-serif;
@@ -1293,7 +1296,10 @@ button.routable-modal--close:active {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   color: #3d68ff;
   margin-top: -20px;
-  font-size: 30px; }
+  font-size: 30px;
+  position: absolute;
+  top: 61%;
+  left: 37%; }
   @media (min-width: 480px) {
     .medal-item__pix-text {
       margin-top: -25px;
@@ -1304,18 +1310,17 @@ button.routable-modal--close:active {
       font-size: 40px; } }
 
 .medal-item__bêta {
+  position: absolute;
+  left: 35%;
   color: #ffbe00;
   font-weight: 900;
   letter-spacing: 6px;
-  margin-top: 25px;
   font-size: 12px; }
   @media (min-width: 480px) {
     .medal-item__bêta {
-      margin-top: 30px;
       font-size: 14px; } }
   @media (min-width: 768px) {
     .medal-item__bêta {
-      margin-top: 35px;
       font-size: 18px; } }
 
 .navbar-header {
@@ -1757,6 +1762,9 @@ button.routable-modal--close:active {
   -ms-flex-pack: center;
   justify-content: center; }
 
+.trophy-item {
+  position: relative; }
+
 .trophy-item__img {
   width: 100%; }
 
@@ -1768,22 +1776,23 @@ button.routable-modal--close:active {
   font-weight: 900;
   color: #3d68ff;
   letter-spacing: 3px;
-  margin-top: -38px;
+  position: absolute;
+  top: 77%;
+  left: 19%;
   font-size: 17px; }
   @media (min-width: 480px) {
     .trophy-item__level {
-      margin-top: -48px;
-      font-size: 20px; } }
+      font-size: 25px; } }
   @media (min-width: 768px) {
     .trophy-item__level {
-      margin-top: -55px;
       font-size: 26px; } }
 
 .trophy-item__bêta {
+  position: absolute;
+  left: 35%;
   color: #ffbe00;
   font-weight: 900;
   letter-spacing: 6px;
-  margin-top: 10px;
   font-size: 12px; }
   @media (min-width: 480px) {
     .trophy-item__bêta {
