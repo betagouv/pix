@@ -160,7 +160,7 @@ describe('Unit | Domain | Models | User', () => {
           });
       });
 
-      it('should be invalid when cgu are true', () => {
+      it('should be valid when cgu are true', () => {
         // Given
         rawData.cgu = true;
         const user = new User(rawData);

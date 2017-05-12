@@ -16,7 +16,6 @@ describe('Integration | Component | signup textfield', function () {
   const LABEL_TEXT = 'NOM';
 
   const MESSAGE = '.signup-textfield__message';
-  const MESSAGE_DEFAULT_STATUS = 'signup-textfield__message--default';
   const MESSAGE_ERROR_STATUS = 'signup-textfield__message--error';
   const MESSAGE_SUCCESS_STATUS = 'signup-textfield__message--success';
   const MESSAGE_TEXT = '';
@@ -111,28 +110,19 @@ describe('Integration | Component | signup textfield', function () {
         expect(this.$('svg')).to.have.length(0);
       });
 
-      [
 
-        {
-          item: 'Input',
-          itemSelector: INPUT,
-          expectedClass: INPUT_DEFAULT_CLASS,
-          expectedValue: ''
-        },
-        {
-          item: 'Div for message validation status',
-          itemSelector: MESSAGE,
-          expectedClass: MESSAGE_DEFAULT_STATUS,
-          expectedValue: ''
-        },
-
-      ].forEach(({item, itemSelector, expectedClass, expectedValue}) => {
-        it(`contain an ${item} with an additional class ${expectedClass}`, function () {
-          // then
-          expect(this.$(itemSelector).attr('class')).to.contain(expectedClass);
-          expect(this.$(itemSelector).val()).to.contain(expectedValue);
-        });
+      it(`contain an input with an additional class ${INPUT_DEFAULT_CLASS}`, function () {
+        const input = this.$(INPUT);
+        // then
+        expect(input.attr('class')).to.contain(INPUT_DEFAULT_CLASS);
+        expect(input.val()).to.contain('');
       });
+
+      it('should not show a div for message validation status  when validationStatus is default', function () {
+        // then
+        expect(this.$(MESSAGE)).to.lengthOf(0);
+      });
+
     });
 
   });

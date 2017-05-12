@@ -22,8 +22,8 @@ function getValidationStatus(isValidField) {
   return (isValidField) ? 'error' : 'success';
 }
 
-function isGivenEmptyValue(value) {
-  return !value.trim() ? true : false;
+function isGivenNotEmptyValue(value) {
+  return value.trim() ? true : false;
 }
 
 export default Ember.Component.extend({
@@ -77,7 +77,7 @@ export default Ember.Component.extend({
     }
   },
 
-  _reset(){
+  _resetValidationFields(){
     const defaultValidationObject = {
       lastName: {
         message: null,
@@ -110,29 +110,25 @@ export default Ember.Component.extend({
     });
   },
 
+  _executeFieldValidation: function (key, isValid) {
+    const modelAttrValue = this._getModelAttributeValueFromKey(key);
+    const isValidInput = !isValid(modelAttrValue);
+    const status = getValidationStatus(isValidInput);
+    const message = getErrorMessage(status, key);
+    this._updateTextfieldModelObject(key, status, message);
+  },
+
   actions: {
     validateInput(key){
-      const modelAttrValue = this._getModelAttributeValueFromKey(key);
-      const isEmptyValue = isGivenEmptyValue(modelAttrValue);
-      const status = getValidationStatus(isEmptyValue);
-      const message = getErrorMessage(status, key);
-      this._updateTextfieldModelObject(key, status, message);
+      this._executeFieldValidation(key, isGivenNotEmptyValue);
     },
 
     validateInputEmail(key){
-      const inputValue = this._getModelAttributeValueFromKey(key);
-      const isNotValidEmail = !isEmailValid(inputValue);
-      const status = getValidationStatus(isNotValidEmail);
-      const message = getErrorMessage(status, key);
-      this._updateTextfieldModelObject(key, status, message);
+      this._executeFieldValidation(key, isEmailValid);
     },
 
     validateInputPassword(key){
-      const inputValue = this._getModelAttributeValueFromKey(key);
-      const isNotValidPasswordFormat = !isPasswordValid(inputValue);
-      const status = getValidationStatus(isNotValidPasswordFormat);
-      const message = getErrorMessage(status, key);
-      this._updateTextfieldModelObject(key, status, message);
+      this._executeFieldValidation(key, isPasswordValid);
     },
 
     signup(){
@@ -140,7 +136,7 @@ export default Ember.Component.extend({
       userObject.save()
         .then(() => {
           this._toggleConfirmation('success', 'Le compte a été bien créé!');
-          this._reset();
+          this._resetValidationFields();
           this.sendAction('refresh');
         })
         .catch(() => {

@@ -86,18 +86,6 @@ describe('Acceptance | Controller | users-controller', function () {
       });
   });
 
-  it('should save the user in the database', function () {
-    return server.injectThen(options)
-      .then(_ => {
-        return new User({ email: attributes.email }).fetch();
-      })
-      .then((user) => {
-        expect(attributes['first-name']).to.equal(user.get('firstName'));
-        expect(attributes['last-name']).to.equal(user.get('lastName'));
-      });
-  });
-
-
   it('should crypt user password', function () {
     // Given
     options.payload.data.attributes.password = 'my-123-password';
