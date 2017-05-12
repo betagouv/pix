@@ -1,16 +1,5 @@
 .trophy-item__img {
-  height: 169px;
-  width: 150px;
-
-  @media (min-width: 480px) {
-    height: 190px;
-    width: 200px;
-  }
-
-  @media (min-width: 768px) {
-    height: 237px;
-    width: 267px;
-  }
+  width:100%;
 }
 
 .trophy-item__level {
@@ -27,7 +16,7 @@
   font-size: 17px;
 
   @media (min-width: 480px) {
-    margin-top: -42px;
+    margin-top: -48px;
     font-size: 20px;
   }
 

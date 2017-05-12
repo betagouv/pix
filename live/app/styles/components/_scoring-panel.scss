@@ -24,16 +24,23 @@
 .scoring-panel__reward {
   display: flex;
   flex-direction: column;
-  position: relative;
   margin-top: -30px;
   text-align: center;
 
+  height: 169px;
+  width: 150px;
+
   @media (min-width: 480px) {
     margin-top: 0px;
+    margin-bottom: 10px;
+    height: 226px;
+    width: 200px;
   }
 
   @media (min-width: 768px) {
     margin-right: 50px;
+    height: 245px;
+    width: 217px;
   }
 
   @media (min-width: 1024px) {
