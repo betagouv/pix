@@ -2133,6 +2133,9 @@ button.routable-modal--close:active {
   background-color: rgba(0, 0, 0, 0.26);
   border-color: transparent; }
 
+.signup-form__cgu-container input[type="checkbox"]:focus:after {
+  border-color: #3d68ff; }
+
 .signup-form__cgu-label {
   position: relative;
   display: -ms-flexbox;
