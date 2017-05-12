@@ -1664,6 +1664,10 @@ button.routable-modal--close:active {
     .scoring-panel__congrats-felicitations {
       font-size: 60px; } }
 
+.scoring-panel__congrats-pas-mal {
+  font-weight: 300;
+  font-size: 35px; }
+
 .scoring-panel__congrats-scoring {
   margin-bottom: 10px;
   font-size: 20px;
