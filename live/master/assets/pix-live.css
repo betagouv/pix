@@ -1523,6 +1523,182 @@ button.routable-modal--close:active {
   .result-item__icon [data-lines="2"] + div .tooltip-inner {
     padding-top: 3px; }
 
+.scoring-panel {
+  height: 100%;
+  width: 100%;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+  color: #ffffff;
+  font-family: "Raleway", Arial, sans-serif; }
+  @media (min-width: 480px) {
+    .scoring-panel {
+      -ms-flex-direction: row;
+      flex-direction: row;
+      padding-bottom: 50px;
+      padding-top: 50px;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap; } }
+
+/*-----------------------------------*/
+.scoring-panel__trophy {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  margin-top: -30px;
+  text-align: center; }
+  @media (min-width: 480px) {
+    .scoring-panel__trophy {
+      margin-top: 0px; } }
+  @media (min-width: 768px) {
+    .scoring-panel__trophy {
+      margin-right: 50px; } }
+  @media (min-width: 1024px) {
+    .scoring-panel__trophy {
+      margin-right: 80px; } }
+
+.scoring-panel__congrats {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  max-width: 386px;
+  text-align: center;
+  padding: 20px; }
+  @media (min-width: 768px) {
+    .scoring-panel__congrats {
+      text-align: left;
+      padding: 0px; } }
+
+.scoring-panel__index-link {
+  border-radius: 23px;
+  border: solid 1px #ffffff;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  text-align: center; }
+  @media (min-width: 480px) {
+    .scoring-panel__index-link {
+      -ms-flex-item-align: end;
+      align-self: flex-end; } }
+  @media (min-width: 768px) {
+    .scoring-panel__index-link {
+      margin-left: 30px; } }
+  @media (min-width: 1024px) {
+    .scoring-panel__index-link {
+      margin-left: 60px;
+      margin-bottom: -30px; } }
+
+/*-----------------------------------*/
+.scoring-panel__trophy-div-svg {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center; }
+
+.scoring-panel__trophy-img {
+  height: 169px;
+  width: 150px; }
+  @media (min-width: 480px) {
+    .scoring-panel__trophy-img {
+      height: 190px;
+      width: 200px; } }
+  @media (min-width: 768px) {
+    .scoring-panel__trophy-img {
+      height: 237px;
+      width: 267px; } }
+
+.scoring-panel__trophy-level {
+  font-weight: 800;
+  text-align: center;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  font-family: "Overpass", Arial, sans-serif;
+  font-weight: 900;
+  color: #3d68ff;
+  letter-spacing: 3px;
+  margin-top: -38px;
+  font-size: 17px; }
+  @media (min-width: 480px) {
+    .scoring-panel__trophy-level {
+      margin-top: -42px;
+      font-size: 20px; } }
+  @media (min-width: 768px) {
+    .scoring-panel__trophy-level {
+      margin-top: -55px;
+      font-size: 26px; } }
+
+.scoring-panel__trophy-bêta {
+  color: #ffbe00;
+  font-weight: 900;
+  letter-spacing: 6px;
+  margin-top: 10px;
+  font-size: 12px; }
+  @media (min-width: 480px) {
+    .scoring-panel__trophy-bêta {
+      font-size: 14px; } }
+  @media (min-width: 768px) {
+    .scoring-panel__trophy-bêta {
+      font-size: 18px; } }
+
+/*-----------------------------------*/
+.scoring-panel__congrats-course-name {
+  margin-bottom: 15px;
+  font-weight: 600;
+  line-height: 0.95;
+  font-size: 20px; }
+  @media (min-width: 768px) {
+    .scoring-panel__congrats-course-name {
+      font-size: 20px; } }
+
+.scoring-panel__congrats-line {
+  margin-bottom: 10px;
+  height: 1px;
+  opacity: 0.5;
+  background-color: #ffffff; }
+
+.scoring-panel__congrats-felicitations {
+  font-weight: 300;
+  font-size: 45px; }
+  @media (min-width: 768px) {
+    .scoring-panel__congrats-felicitations {
+      font-size: 60px; } }
+
+.scoring-panel__congrats-scoring {
+  margin-bottom: 10px;
+  font-size: 20px;
+  line-height: 1.07; }
+  @media (min-width: 768px) {
+    .scoring-panel__congrats-scoring {
+      font-size: 28px; } }
+
+.scoring-panel__congrats-beta {
+  font-weight: 500;
+  font-size: 10px; }
+  @media (min-width: 768px) {
+    .scoring-panel__congrats-beta {
+      font-size: 14px; } }
+
+/*-----------------------------------*/
+.scoring-panel__index-link__element {
+  font-family: "Lato", Arial, sans-serif;
+  letter-spacing: 0.5px;
+  text-align: center;
+  background-color: transparent;
+  border: transparent; }
+  @media (min-width: 480px) {
+    .scoring-panel__index-link__element {
+      font-size: 10px;
+      -ms-flex-item-align: end;
+      align-self: flex-end; } }
+
 .timeout-jauge-wrapper {
   padding-top: 0;
   margin-top: -23px; }
@@ -2401,13 +2577,20 @@ hr.project-page__presentation-header-line {
   align-items: center; }
 
 .assessment-results__course-banner {
+  width: 100%; }
+
+.assessment-results__logo-banner {
   width: 100%;
-  margin-bottom: 30px; }
+  padding: 20px; }
+
+.assessment-results__scoring {
+  width: 100%; }
 
 .assessment-results__content {
   padding: 0 20px;
   max-width: 990px;
-  width: 100%; }
+  width: 100%;
+  margin-top: 30px; }
   @media (min-width: 992px) {
     .assessment-results__content {
       padding: 0; } }
