@@ -151,6 +151,10 @@
   border-color: transparent;
 }
 
+.signup-form__cgu-container input[type="checkbox"]:focus:after{
+  border-color: $project-blue;
+}
+
 .signup-form__cgu-label{
   position: relative;
   display: flex;
