@@ -1,6 +1,9 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import {expect} from 'chai';
+import {
+  describe,
+  it
+} from 'mocha';
+import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import wait from 'ember-test-helpers/wait';
@@ -13,6 +16,7 @@ const EXPECTED_FORM_HEADING_CONTENT_ERROR = 'Oups! Une erreur s\'est produite...
 const EXPECTED_FORM_HEADING_CONTENT_SUCCESS = 'Le compte a été bien créé!';
 
 const INPUT_TEXT_FIELD = '.signup-form__input-container';
+const INPUT_TEXT_FIELD_CLASS_DEFAULT = 'signup-textfield__input-container--default';
 
 const CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
 const CHECKBOX_CGU_INPUT = '.signup-form__cgu-checkbox';
@@ -229,7 +233,7 @@ describe('Integration | Component | signup form', function () {
               attribute: 'cgu',
               message: UNCHECKED_CHECKBOX_CGU_ERROR,
             }],
-            cgu:[{
+            cgu: [{
               message: UNCHECKED_CHECKBOX_CGU_ERROR
             }]
           },
@@ -406,6 +410,34 @@ describe('Integration | Component | signup form', function () {
           expect(headingErrorMessageContent.trim()).to.equal(EXPECTED_FORM_HEADING_CONTENT_SUCCESS);
         });
       });
+
+      it('should reset validation property, when all things are ok and form is submited', function () {
+        // given
+        const validUser = Ember.Object.create({
+          email: 'toto@pix.fr',
+          firstName: 'Marion',
+          lastName: 'Yade',
+          password: 'gipix2017',
+          cgu: true,
+
+          save(){
+            return new Ember.RSVP.resolve();
+          }
+        });
+
+        this.set('user', validUser);
+        this.render(hbs`{{signup-form user=user}}`);
+
+        // when
+        this.$('.signup__submit-button').click();
+
+        // then
+        return wait().then(() => {
+          const inputFirst = this.$('.signup-textfield__input-field-container').first();
+          expect(inputFirst.prop('class')).to.includes(INPUT_TEXT_FIELD_CLASS_DEFAULT);
+        });
+      });
+
     });
 
   });
