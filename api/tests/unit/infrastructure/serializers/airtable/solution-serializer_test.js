@@ -62,7 +62,7 @@ describe('Unit | Serializer | solution-serializer', () => {
         expect(solution.deactivations).to.include.keys('t1', 't2', 't3');
       });
 
-      it('should set false as default value for t1, t2 and t3 ', function () {
+      it('should enable treatments by default (no value for fields t1, t2, t3 in airtable )', function () {
         // given
         const airtableRecord = { fields: {} };
 
