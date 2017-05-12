@@ -1,3 +1,7 @@
+.medal-item{
+  position: relative;
+}
+
 .medal-item__medal-img {
   width:100%;
 }
@@ -10,18 +14,22 @@
 
   color: $blue;
 
-  margin-top: -125px;
+  //margin-top: -125px;
   font-size: 45px;
 
   @media (min-width: 480px) {
-    margin-top: -160px;
+    //margin-top: -160px;
     font-size: 60px;
   }
 
   @media (min-width: 768px) {
-    margin-top: -185px;
-    font-size: 80px;
+    //margin-top: -185px;
+    font-size: 65px;
   }
+
+  position: absolute;
+  top:15%;
+  left:31%;
 
 }
 
@@ -45,23 +53,26 @@
     font-size: 40px;
   }
 
+  position: absolute;
+  top:61%;
+  left:37%;
+
 }
 
 .medal-item__bêta {
+  position: absolute;
+  left:35%;
   color: $marigold;
   font-weight: $font-heavy;
   letter-spacing: 6px;
-  margin-top: 25px;
 
   font-size: 12px;
 
   @media (min-width: 480px) {
-    margin-top: 30px;
     font-size: 14px;
   }
 
   @media (min-width: 768px) {
-    margin-top: 35px;
     font-size: 18px;
   }
 }

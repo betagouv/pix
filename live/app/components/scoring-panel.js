@@ -6,9 +6,9 @@ export default Ember.Component.extend({
 
   assessment: null,
 
-  //hasATrophy: Ember.computed.gt('assessment.estimatedLevel', 0),
-  hasATrophy: true,
-  //hasSomePix: Ember.computed.gt('assessment.pixScore', 0)
-  hasSomePix: true
+  hasATrophy: Ember.computed.gt('assessment.estimatedLevel', 0),
+  //hasATrophy: false,
+  hasSomePix: Ember.computed.gt('assessment.pixScore', 0)
+  //hasSomePix: true
 
 });
