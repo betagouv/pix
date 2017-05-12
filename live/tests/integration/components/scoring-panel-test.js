@@ -10,7 +10,7 @@ describe('Integration | Component | scoring panel', function() {
     integration: true
   });
 
-  const assessmentWithTrophy = Ember.Object.create({estimatedLevel : 1, course : {isAdaptive : true}});
+  const assessmentWithTrophy = Ember.Object.create({estimatedLevel : 1, pixScore : 67, course : {isAdaptive : true}});
   const assessmentWithNoTrophyAndSomePix = Ember.Object.create({estimatedLevel : 0, pixScore : 20, course : {isAdaptive : true}});
   const assessmentWithNoTrophyAndNoPix = Ember.Object.create({estimatedLevel : 0, pixScore : 0, course : {isAdaptive : true}});
 
@@ -43,9 +43,8 @@ describe('Integration | Component | scoring panel', function() {
 
     it('should display the won trophy', function () {
       // then
-      expect(this.$('.scoring-panel__trophy-div')).to.have.lengthOf(1);
-      expect(this.$('.scoring-panel__trophy-level')).to.have.lengthOf(1);
-      expect(this.$('.scoring-panel__trophy-bêta')).to.have.lengthOf(1);
+      expect(this.$('.scoring-panel__reward')).to.have.lengthOf(1);
+      expect(this.$('.trophy-item')).to.have.lengthOf(1);
     });
 
     it('should display the congratulations', function () {
@@ -63,7 +62,7 @@ describe('Integration | Component | scoring panel', function() {
     });
   });
 
-  describe('view with no trophy but some pix', function () {
+  describe('view with a medal (no trophy but some pix)', function () {
 
     beforeEach(function () {
       this.set('assessment', assessmentWithNoTrophyAndSomePix);
@@ -72,16 +71,15 @@ describe('Integration | Component | scoring panel', function() {
 
     it('should display the won medal', function () {
       // then
-      expect(this.$('.scoring-panel__medal-div')).to.have.lengthOf(1);
-      expect(this.$('.scoring-panel__medal-pix-score')).to.have.lengthOf(1);
-      expect(this.$('.scoring-panel__medal-pix-text')).to.have.lengthOf(1);
-      expect(this.$('.scoring-panel__medal-bêta')).to.have.lengthOf(1);
+      // then
+      expect(this.$('.scoring-panel__reward')).to.have.lengthOf(1);
+      expect(this.$('.medal-item')).to.have.lengthOf(1);
     });
 
     it('should display the congratulations', function () {
       // then
       expect(this.$('.scoring-panel__congrats-course-name')).to.have.lengthOf(1);
-      expect(this.$('.scoring-panel__congrats-felicitations')).to.have.lengthOf(1);
+      expect(this.$('.scoring-panel__congrats-pas-mal')).to.have.lengthOf(1);
       expect(this.$('.scoring-panel__congrats-scoring')).to.have.lengthOf(1);
       expect(this.$('.scoring-panel__congrats-beta')).to.have.lengthOf(1);
     });
