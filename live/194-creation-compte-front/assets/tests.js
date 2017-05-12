@@ -4509,7 +4509,7 @@ define('pix-live/tests/integration/components/pix-logo-test', ['exports', 'chai'
     });
 
     (0, _mocha.it)('should have a textual alternative', function () {
-      (0, _chai.expect)(this.$('.pix-logo__image').attr('alt')).to.equal('Le site officiel de PIX, version bêta');
+      (0, _chai.expect)(this.$('.pix-logo__image').attr('alt')).to.equal('Logo officiel de PIX (version bêta)');
     });
 
     (0, _mocha.it)('should have a title in the link', function () {
@@ -5610,6 +5610,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
   var EXPECTED_FORM_HEADING_CONTENT_SUCCESS = 'Le compte a été bien créé!';
 
   var INPUT_TEXT_FIELD = '.signup-form__input-container';
+  var INPUT_TEXT_FIELD_CLASS_DEFAULT = 'signup-textfield__input-container--default';
 
   var CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
   var CHECKBOX_CGU_INPUT = '.signup-form__cgu-checkbox';
@@ -6070,6 +6071,39 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
             (0, _chai.expect)(headingErrorMessageContent.trim()).to.equal(EXPECTED_FORM_HEADING_CONTENT_SUCCESS);
           });
         });
+
+        (0, _mocha.it)('should reset validation property, when all things are ok and form is submited', function () {
+          var _this13 = this;
+
+          // given
+          var validUser = _ember['default'].Object.create({
+            email: 'toto@pix.fr',
+            firstName: 'Marion',
+            lastName: 'Yade',
+            password: 'gipix2017',
+            cgu: true,
+
+            save: function save() {
+              return new _ember['default'].RSVP.resolve();
+            }
+          });
+
+          this.set('user', validUser);
+          this.render(_ember['default'].HTMLBars.template({
+            'id': 'uK1xYtLF',
+            'block': '{"statements":[["append",["helper",["signup-form"],null,[["user"],[["get",["user"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+            'meta': {}
+          }));
+
+          // when
+          this.$('.signup__submit-button').click();
+
+          // then
+          return (0, _emberTestHelpersWait['default'])().then(function () {
+            var inputFirst = _this13.$('.signup-textfield__input-field-container').first();
+            (0, _chai.expect)(inputFirst.prop('class')).to.includes(INPUT_TEXT_FIELD_CLASS_DEFAULT);
+          });
+        });
       });
     });
   });
@@ -6094,7 +6128,6 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['exports'
     var LABEL_TEXT = 'NOM';
 
     var MESSAGE = '.signup-textfield__message';
-    var MESSAGE_DEFAULT_STATUS = 'signup-textfield__message--default';
     var MESSAGE_ERROR_STATUS = 'signup-textfield__message--error';
     var MESSAGE_SUCCESS_STATUS = 'signup-textfield__message--success';
     var MESSAGE_TEXT = '';
@@ -6195,27 +6228,16 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['exports'
           (0, _chai.expect)(this.$('svg')).to.have.length(0);
         });
 
-        [{
-          item: 'Input',
-          itemSelector: INPUT,
-          expectedClass: INPUT_DEFAULT_CLASS,
-          expectedValue: ''
-        }, {
-          item: 'Div for message validation status',
-          itemSelector: MESSAGE,
-          expectedClass: MESSAGE_DEFAULT_STATUS,
-          expectedValue: ''
-        }].forEach(function (_ref3) {
-          var item = _ref3.item;
-          var itemSelector = _ref3.itemSelector;
-          var expectedClass = _ref3.expectedClass;
-          var expectedValue = _ref3.expectedValue;
+        (0, _mocha.it)('contain an input with an additional class ' + INPUT_DEFAULT_CLASS, function () {
+          var input = this.$(INPUT);
+          // then
+          (0, _chai.expect)(input.attr('class')).to.contain(INPUT_DEFAULT_CLASS);
+          (0, _chai.expect)(input.val()).to.contain('');
+        });
 
-          (0, _mocha.it)('contain an ' + item + ' with an additional class ' + expectedClass, function () {
-            // then
-            (0, _chai.expect)(this.$(itemSelector).attr('class')).to.contain(expectedClass);
-            (0, _chai.expect)(this.$(itemSelector).val()).to.contain(expectedValue);
-          });
+        (0, _mocha.it)('should not show a div for message validation status  when validationStatus is default', function () {
+          // then
+          (0, _chai.expect)(this.$(MESSAGE)).to.lengthOf(0);
         });
       });
     });
@@ -6245,10 +6267,10 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['exports'
         });
       });
 
-      [{ item: 'Input', itemSelector: INPUT, expectedClass: INPUT_ERROR_CLASS }, { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_ERROR_STATUS }].forEach(function (_ref4) {
-        var item = _ref4.item;
-        var itemSelector = _ref4.itemSelector;
-        var expectedClass = _ref4.expectedClass;
+      [{ item: 'Input', itemSelector: INPUT, expectedClass: INPUT_ERROR_CLASS }, { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_ERROR_STATUS }].forEach(function (_ref3) {
+        var item = _ref3.item;
+        var itemSelector = _ref3.itemSelector;
+        var expectedClass = _ref3.expectedClass;
 
         (0, _mocha.it)('contain an ' + item + ' with an additional class ' + expectedClass, function () {
           // then
@@ -6278,10 +6300,10 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['exports'
         (0, _chai.expect)(this.$('svg').attr('class')).to.equal('validation-icon-success');
       });
 
-      [{ item: 'Input', itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS }, { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS }].forEach(function (_ref5) {
-        var item = _ref5.item;
-        var itemSelector = _ref5.itemSelector;
-        var expectedClass = _ref5.expectedClass;
+      [{ item: 'Input', itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS }, { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS }].forEach(function (_ref4) {
+        var item = _ref4.item;
+        var itemSelector = _ref4.itemSelector;
+        var expectedClass = _ref4.expectedClass;
 
         (0, _mocha.it)('contain an ' + item + ' with an additional class ' + expectedClass, function () {
           // then
@@ -8647,14 +8669,15 @@ define('pix-live/tests/unit/models/follower-test.lint-test', [], function () {
     });
   });
 });
-define('pix-live/tests/unit/models/user-test', ['exports', 'chai', 'ember-mocha'], function (exports, _chai, _emberMocha) {
+define('pix-live/tests/unit/models/user-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _emberMocha.describeModel)('user', 'Unit | Model | user', {
-    // Specify the other units that are required for this test.
-    needs: []
-  }, function () {
+  (0, _mocha.describe)('user', function () {
+    (0, _emberMocha.setupModelTest)('user', {
+      // Specify the other units that are required for this test.
+      needs: []
+    });
     // Replace this with your real tests.
-    (0, _emberMocha.it)('exists', function () {
+    (0, _mocha.it)('exists', function () {
       var model = this.subject();
       // var store = this.store();
       (0, _chai.expect)(model).to.be.ok;
