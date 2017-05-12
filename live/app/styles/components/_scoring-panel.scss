@@ -22,7 +22,7 @@
 /*---------------Trophy DIV (Renommer en reward)--------------------*/
 
 /*renommer en reward*/
-.scoring-panel__trophy {
+.scoring-panel__reward {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -41,119 +41,6 @@
     margin-right: 80px;
   }
 }
-
-.scoring-panel__trophy-img {
-  height: 169px;
-  width: 150px;
-
-  @media (min-width: 480px) {
-    height: 190px;
-    width: 200px;
-  }
-
-  @media (min-width: 768px) {
-    height: 237px;
-    width: 267px;
-  }
-}
-
-.scoring-panel__trophy-level {
-  font-weight: $font-extra-bold;
-  text-align: center;
-
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  font-family: $font-overpass;
-  font-weight: $font-heavy;
-  color: $blue;
-  letter-spacing: 3px;
-
-  margin-top: -38px;
-  font-size: 17px;
-
-  @media (min-width: 480px) {
-    margin-top: -42px;
-    font-size: 20px;
-  }
-
-  @media (min-width: 768px) {
-    margin-top: -55px;
-    font-size: 26px;
-  }
-
-}
-
-.scoring-panel__trophy-bêta {
-  color: $marigold;
-  font-weight: $font-heavy;
-  letter-spacing: 6px;
-  margin-top: 10px;
-
-  font-size: 12px;
-
-  @media (min-width: 480px) {
-    font-size: 14px;
-  }
-
-  @media (min-width: 768px) {
-    font-size: 18px;
-  }
-
-}
-
-.scoring-panel__medal-img {
-  height: 169px;
-  width: 150px;
-
-  @media (min-width: 480px) {
-    height: 190px;
-    width: 200px;
-  }
-
-  @media (min-width: 768px) {
-    height: 237px;
-    width: 267px;
-  }
-}
-
-
-.scoring-panel__medal-pix-score {
-  font-family: $font-overpass;
-  font-size: 80px;
-  font-weight: 800;
-  text-align: center;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-
-  letter-spacing: -6.4px;
-  color: $blue;
-
-}
-
-.scoring-panel__medal-pix-text {
-  font-family: $font-raleway;
-  font-size: 35px;
-  font-weight: $font-bold;
-  text-align: center;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-  color: $blue;
-}
-
-.scoring-panel__medal-bêta {
-  color: $marigold;
-  font-weight: $font-heavy;
-  letter-spacing: 6px;
-  margin-top: 10px;
-
-  font-size: 12px;
-
-  @media (min-width: 480px) {
-    font-size: 14px;
-  }
-
-  @media (min-width: 768px) {
-    font-size: 18px;
-  }
-}
-
 
 /*-----------------------Congrats DIV--------------------------------------------------*/
 
