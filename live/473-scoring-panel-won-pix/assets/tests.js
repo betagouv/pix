@@ -4487,8 +4487,8 @@ define('pix-live/tests/integration/components/medal-item-test', ['exports', 'cha
       }));
 
       // then
-      (0, _chai.expect)(this.$('.medal-item__medal-img').length).to.equal(1); //svg du trophée
-      (0, _chai.expect)(this.$('.medal-item__pix-text').text()).to.contain('pix'); //text pix
+      (0, _chai.expect)(this.$('.medal-item__medal-img').length).to.equal(1);
+      (0, _chai.expect)(this.$('.medal-item__pix-text').text()).to.contain('pix');
     });
   });
 });
