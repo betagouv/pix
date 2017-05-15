@@ -1,9 +1,7 @@
-const { describe, it, expect, beforeEach } = require('../../../../test-helper');
+const {describe, it, expect, beforeEach} = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
-const User = require('../../../../../lib/domain/models/data/user');
 
 describe('Unit | Serializer | JSONAPI | user-serializer', () => {
-
   let jsonUser;
 
   beforeEach(() => {
@@ -11,10 +9,10 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
       data: {
         type: 'user',
         attributes: {
-          'first-name': "Luke",
-          'last-name': "Skywalker",
-          email: "lskywalker@deathstar.empire",
-          password: ""
+          'first-name': 'Luke',
+          'last-name': 'Skywalker',
+          email: 'lskywalker@deathstar.empire',
+          password: ''
         },
         relationships: {}
       }
@@ -26,10 +24,10 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
       // Given
       const modelObject = new User({
         id: '234567',
-        firstName: "Luke",
-        lastName: "Skywalker",
-        email: "lskywalker@deathstar.empire",
-        password: ""
+        firstName: 'Luke',
+        lastName: 'Skywalker',
+        email: 'lskywalker@deathstar.empire',
+        password: ''
       });
 
       // When
@@ -39,11 +37,11 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
       expect(json).to.be.deep.equal({
         data: {
           attributes: {
-            'first-name': "Luke",
-            'last-name': "Skywalker",
+            'first-name': 'Luke',
+            'last-name': 'Skywalker',
           },
-          id: "234567",
-          type: "user"
+          id: '234567',
+          type: 'user'
         }
       });
     });
@@ -57,13 +55,12 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
 
       // Then
       expect(user.get('firstName')).to.equal('Luke');
-      expect(user.get('lastName')).to.equal("Skywalker");
-      expect(user.get('email')).to.equal("lskywalker@deathstar.empire");
-      expect(user.get('password')).to.equal("");
+      expect(user.get('lastName')).to.equal('Skywalker');
+      expect(user.get('email')).to.equal('lskywalker@deathstar.empire');
+      expect(user.get('password')).to.equal('');
     });
 
     it('should contain an ID attribute', () => {
-      // Given
       jsonUser.data.id = '42';
 
       // When

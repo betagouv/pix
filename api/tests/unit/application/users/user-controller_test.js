@@ -1,4 +1,4 @@
-const { describe, it, after, afterEach, beforeEach, sinon } = require('../../../test-helper');
+const {describe, it, after, afterEach, beforeEach, sinon} = require('../../../test-helper');
 
 const faker = require('faker');
 const User = require('../../../../lib/domain/models/data/user');
@@ -51,8 +51,8 @@ describe('Unit | Controller | user-controller', () => {
         });
 
         mailServiceMock = sinon.mock(mailService);
-        userSerializerStub = sinon.stub(userSerializer, "serialize");
-        userSerializerDeserializeStub = sinon.stub(userSerializer, "deserialize").returns({
+        userSerializerStub = sinon.stub(userSerializer, 'serialize');
+        userSerializerDeserializeStub = sinon.stub(userSerializer, 'deserialize').returns({
           save: _ => {
             return Promise.resolve(user);
           }
@@ -82,10 +82,10 @@ describe('Unit | Controller | user-controller', () => {
             }
           }
         };
-        mailServiceMock.expects("sendAccountCreationEmail").once().withArgs(email);
+        mailServiceMock.expects('sendAccountCreationEmail').once().withArgs(email);
 
         // When
-        let promise = userController.save(request, replyStub);
+        const promise = userController.save(request, replyStub);
 
         // Then
         return promise.then(() => {
@@ -95,7 +95,7 @@ describe('Unit | Controller | user-controller', () => {
 
       it('should send an email', () => {
         // Given
-        const expectedSerializedUser = { message: "serialized user" };
+        const expectedSerializedUser = {message: 'serialized user'};
         userSerializerStub.returns(expectedSerializedUser);
         const sendAccountCreationEmail = sinon.stub(mailService, 'sendAccountCreationEmail');
         const request = {
@@ -122,15 +122,14 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
 
-
     });
 
     it('should reply with a serialized error', () => {
       // Given
       const codeSpy = sinon.spy();
-      const expectedSerializedError = { errors: [] };
+      const expectedSerializedError = {errors: []};
       validationErrorSerializerStub.withArgs().returns(expectedSerializedError);
-      replyStub.returns({ code: codeSpy });
+      replyStub.returns({code: codeSpy});
 
       const request = {
         payload: {
@@ -144,7 +143,7 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // When
-      let promise = userController.save(request, replyStub);
+      const promise = userController.save(request, replyStub);
 
       // Then
       return promise.then(() => {
@@ -170,7 +169,7 @@ describe('Unit | Controller | user-controller', () => {
 
       beforeEach(() => {
         userSerializerStub = sinon.stub(userSerializer, 'deserialize');
-        replyStub.returns({ code: sinon.spy() });
+        replyStub.returns({code: sinon.spy()});
       });
 
       afterEach(() => {
@@ -181,8 +180,8 @@ describe('Unit | Controller | user-controller', () => {
 
         it('should return an already registered email error message', () => {
           // Given
-          validationErrorSerializerStub.withArgs().returns({ errors: [] });
-          const sqliteConstraint = { code: 'SQLITE_CONSTRAINT' };
+          validationErrorSerializerStub.withArgs().returns({errors: []});
+          const sqliteConstraint = {code: 'SQLITE_CONSTRAINT'};
           userSerializerStub.returns({
             save: () => {
               return Promise.reject(sqliteConstraint);
@@ -196,7 +195,7 @@ describe('Unit | Controller | user-controller', () => {
           return promise.then(() => {
             sinon.assert.calledWith(validationErrorSerializerStub, {
               data: {
-                email: [ 'Cette adresse electronique est déjà enregistrée.' ]
+                email: ['Cette adresse electronique est déjà enregistrée.']
               }
             });
           });
@@ -208,8 +207,8 @@ describe('Unit | Controller | user-controller', () => {
 
         it('should return an already registered email error message', () => {
           // Given
-          validationErrorSerializerStub.withArgs().returns({ errors: [] });
-          const sqliteConstraint = { code: '23505' };
+          validationErrorSerializerStub.withArgs().returns({errors: []});
+          const sqliteConstraint = {code: '23505'};
           userSerializerStub.returns({
             save: () => {
               return Promise.reject(sqliteConstraint);
@@ -217,21 +216,19 @@ describe('Unit | Controller | user-controller', () => {
           });
 
           // When
-          let promise = userController.save(request, replyStub);
+          const promise = userController.save(request, replyStub);
 
           // Then
           return promise.then(() => {
             sinon.assert.calledWith(validationErrorSerializerStub, {
               data: {
-                email: [ 'Cette adresse electronique est déjà enregistrée.' ]
+                email: ['Cette adresse electronique est déjà enregistrée.']
               }
             });
           });
         });
 
       });
-
-
 
       it('when there is not payload', () => {
         // Given
@@ -274,7 +271,6 @@ describe('Unit | Controller | user-controller', () => {
         // Then
         boomBadRequestMock.verify();
       });
-
 
     });
 

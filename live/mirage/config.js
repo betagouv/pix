@@ -15,7 +15,7 @@ import postFeedbacks from './routes/post-feedbacks';
 import postRefreshSolution from './routes/post-refresh-solution';
 import postUsers                     from './routes/post-users';
 
-export default function () {
+export default function() {
   this.logging = false;
   this.passthrough('/write-coverage');
   this.post('https://fonts.googleapis.com/**', () => {});

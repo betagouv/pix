@@ -7,11 +7,9 @@
 @import 'globals/buttons';
 @import 'globals/dimension';
 @import 'globals/redesign-inputs';
-
 /* 3rd-party */
 @import 'vendor/ember-routable-modal/core';
 @import 'vendor/ember-routable-modal/dialog';
-
 /* components */
 @import 'components/rounded-panel';
 @import 'components/app-footer';
@@ -46,7 +44,7 @@
 @import 'components/qcu-solution-panel';
 @import 'components/signup-form';
 @import 'components/signup-textfield';
-
+@import 'components/scoring-panel-tantpix';
 /* pages */
 @import 'pages/index';
 @import 'pages/project';

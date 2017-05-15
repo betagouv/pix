@@ -29,14 +29,14 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
         email: 'testThatIsNotAnEmail'
       });
       const expectedFormattedJSON = {
-        "errors": [
+        'errors': [
           {
-            "status": "400",
-            "title": "Invalid Attribute",
-            "detail": "Not a valid email address",
-            "source": {"pointer": "/data/attributes/email"},
-            "meta": {
-              "field": "email"
+            'status': '400',
+            'title': 'Invalid Attribute',
+            'detail': 'Not a valid email address',
+            'source': {'pointer': '/data/attributes/email'},
+            'meta': {
+              'field': 'email'
             }
           }
         ]
@@ -53,7 +53,6 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       });
     });
 
-
     it('should format a validation error into a JSON:API spec with kebab-case on source pointer', () => {
       // Given
       const validationErrors = {
@@ -62,14 +61,14 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
         }
       };
       const expectedFormattedJSON = {
-        "errors": [
+        'errors': [
           {
-            "status": "400",
-            "title": "Invalid Attribute",
-            "detail": "Error message",
-            "source": {"pointer": "/data/attributes/first-name"},
-            "meta": {
-              "field": "firstName"
+            'status': '400',
+            'title': 'Invalid Attribute',
+            'detail': 'Error message',
+            'source': {'pointer': '/data/attributes/first-name'},
+            'meta': {
+              'field': 'firstName'
             }
           }
         ]
@@ -90,30 +89,30 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
         }
       };
       const expectedFormattedJSON = {
-        "errors": [
+        'errors': [
           {
-            "status": "400",
-            "title": "Invalid Attribute",
-            "detail": "Error message #1",
-            "source": {"pointer": "/data/attributes/field"},
-            "meta": {
-              "field": "field"
+            'status': '400',
+            'title': 'Invalid Attribute',
+            'detail': 'Error message #1',
+            'source': {'pointer': '/data/attributes/field'},
+            'meta': {
+              'field': 'field'
             }
           }, {
-            "status": "400",
-            "title": "Invalid Attribute",
-            "detail": "Error message #2",
-            "source": {"pointer": "/data/attributes/field"},
-            "meta": {
-              "field": "field"
+            'status': '400',
+            'title': 'Invalid Attribute',
+            'detail': 'Error message #2',
+            'source': {'pointer': '/data/attributes/field'},
+            'meta': {
+              'field': 'field'
             }
           }, {
-            "status": "400",
-            "title": "Invalid Attribute",
-            "detail": "Error message #3",
-            "source": {"pointer": "/data/attributes/field"},
-            "meta": {
-              "field": "field"
+            'status': '400',
+            'title': 'Invalid Attribute',
+            'detail': 'Error message #3',
+            'source': {'pointer': '/data/attributes/field'},
+            'meta': {
+              'field': 'field'
             }
           }
         ]
@@ -126,32 +125,31 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       expect(formattedJSON).to.deep.equal(expectedFormattedJSON);
     });
 
-
     it('should format a validation error into a JSON spec when multiple errors', () => {
       // Given
       const invalidObject = new DummyObject({
         email: 'test@example.net',
-        age: "200"
+        age: '200'
       });
 
       const expectedFormattedJSON = {
-        "errors": [
+        'errors': [
           {
-            "status": "400",
-            "title": "Invalid Attribute",
-            "detail": "You cant be so old",
-            "source": {"pointer": "/data/attributes/age"},
-            "meta": {
-              "field": "age"
+            'status': '400',
+            'title': 'Invalid Attribute',
+            'detail': 'You cant be so old',
+            'source': {'pointer': '/data/attributes/age'},
+            'meta': {
+              'field': 'age'
             }
           },
           {
-            "status": "400",
-            "title": "Invalid Attribute",
-            "detail": "Age can only be two digits",
-            "source": {"pointer": "/data/attributes/age"},
-            "meta": {
-              "field": "age"
+            'status': '400',
+            'title': 'Invalid Attribute',
+            'detail': 'Age can only be two digits',
+            'source': {'pointer': '/data/attributes/age'},
+            'meta': {
+              'field': 'age'
             }
           }
         ]
