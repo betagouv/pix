@@ -29,36 +29,20 @@ function isGivenNotEmptyValue(value) {
 export default Ember.Component.extend({
   classNames: ['signup-form'],
   registrationMessage: '',
-  validation: {
-    lastName: {
-      message: null,
-      status: 'default'
-    },
-    firstName: {
-      status: 'default',
-      message: null
-    },
-    email: {
-      status: 'default',
-      message: null
-    },
-    password: {
-      status: 'default',
-      message: null
-    },
-    cgu: {
-      status: 'default',
-      message: null
-    }
-  },
+  validation: null,
   temporaryAlert: {
-    status:'default',
+    status: 'default',
     message: ''
   },
 
-  _updateTextfieldModelObject (key, status, message) {
-    const statusObject = 'validation.'+key+'.status';
-    const messageObject = 'validation.'+key+'.message';
+  init() {
+    this._super(...arguments);
+    this._resetValidationFields();
+  },
+
+  _updateValidationStatus (key, status, message) {
+    const statusObject = 'validation.' + key + '.status';
+    const messageObject = 'validation.' + key + '.message';
     this.set(statusObject, status);
     this.set(messageObject, message);
   },
@@ -70,7 +54,7 @@ export default Ember.Component.extend({
 
   _toggleConfirmation(status, message) {
     this.set('temporaryAlert', {status: TEMPORARY_DIV_CLASS_MAP[status], message});
-    if(config.APP.isMessageStatusTogglingEnabled) {
+    if (config.APP.isMessageStatusTogglingEnabled) {
       Ember.run.later(() => {
         this.set('temporaryAlert', {status: 'default', message: ''});
       }, config.APP.MESSAGE_DISPLAY_DURATION);
@@ -80,8 +64,8 @@ export default Ember.Component.extend({
   _resetValidationFields(){
     const defaultValidationObject = {
       lastName: {
-        message: null,
-        status: 'default'
+        status: 'default',
+        message: null
       },
       firstName: {
         status: 'default',
@@ -95,7 +79,7 @@ export default Ember.Component.extend({
         status: 'default',
         message: null
       },
-      cgu:{
+      cgu: {
         status: 'default',
         message: null
       }
@@ -104,9 +88,9 @@ export default Ember.Component.extend({
   },
 
   _updateInputsStatus(){
-    const errors =  this.get('user.errors.content');
-    errors.forEach(({ attribute, message }) =>{
-      this._updateTextfieldModelObject(attribute, 'error', message);
+    const errors = this.get('user.errors.content');
+    errors.forEach(({attribute, message}) => {
+      this._updateValidationStatus(attribute, 'error', message);
     });
   },
 
@@ -115,7 +99,7 @@ export default Ember.Component.extend({
     const isValidInput = !isValid(modelAttrValue);
     const status = getValidationStatus(isValidInput);
     const message = getErrorMessage(status, key);
-    this._updateTextfieldModelObject(key, status, message);
+    this._updateValidationStatus(key, status, message);
   },
 
   actions: {
