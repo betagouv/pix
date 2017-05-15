@@ -20,9 +20,9 @@ describe('Integration | Component | scoring panel', function () {
     expect(this.$()).to.have.length(1);
   });
 
-  describe('view without trophy', function () {
+  describe('view without trophy', function() {
 
-    beforeEach(function () {
+    beforeEach(function() {
       this.set('assessment', assessmentWithNoTrophy);
       this.render(hbs`{{scoring-panel assessment=assessment}}`);
     });
@@ -39,21 +39,21 @@ describe('Integration | Component | scoring panel', function () {
     });
   });
 
-  describe('view with a trophy', function () {
+  describe('view with a trophy', function() {
 
-    beforeEach(function () {
+    beforeEach(function() {
       this.set('assessment', assessmentWithTrophy);
       this.render(hbs`{{scoring-panel assessment=assessment}}`);
     });
 
-    it('should display the won trophy', function () {
+    it('should display the won trophy', function() {
       // then
       expect(this.$('.scoring-panel__trophy-div')).to.have.lengthOf(1);
       expect(this.$('.scoring-panel__trophy-level')).to.have.lengthOf(1);
       expect(this.$('.scoring-panel__trophy-bêta')).to.have.lengthOf(1);
     });
 
-    it('should display the congratulations', function () {
+    it('should display the congratulations', function() {
       // then
       expect(this.$('.scoring-panel__congrats-course-name')).to.have.lengthOf(1);
       expect(this.$('.scoring-panel__congrats-felicitations')).to.have.lengthOf(1);
@@ -61,7 +61,7 @@ describe('Integration | Component | scoring panel', function () {
       expect(this.$('.scoring-panel__congrats-beta')).to.have.lengthOf(1);
     });
 
-    it('should display the "back to home" button', function () {
+    it('should display the "back to home" button', function() {
       // then
       expect(this.$('.scoring-panel__index-link')).to.have.lengthOf(1);
       expect(this.$('.scoring-panel__index-link-back').text()).to.be.equal('REVENIR À L\'ACCUEIL');
