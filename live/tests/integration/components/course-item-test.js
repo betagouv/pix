@@ -131,5 +131,4 @@ describe('Integration | Component | course item', function() {
 
   });
 
-
 });

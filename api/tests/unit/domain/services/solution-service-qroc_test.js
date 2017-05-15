@@ -32,7 +32,6 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       });
     });
 
-
     const failingCases = [
       {case:'solution do not exists', answer: 'any answer'},
       {case:'solution is not a String', answer: 'a', solution : new Date()},
@@ -52,7 +51,6 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
     });
 
   });
-
 
   describe('match, strong focus on treatments', function() {
 

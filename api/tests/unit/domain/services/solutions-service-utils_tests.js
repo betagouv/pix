@@ -34,5 +34,4 @@ describe('Unit | Domain | Services | solution-service-utils', function() {
     });
   });
 
-
 });

@@ -45,5 +45,4 @@ export default function(schema, request) {
     throw new Error('404 The answer you required in the fake server does not exist... ' + queryParams);
   }
 
-
 }

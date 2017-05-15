@@ -43,7 +43,6 @@ describe('Unit | Component | timeout-jauge-component ', function() {
       });
     });
 
-
     describe('#remainingTime', function() {
       [
         { allotedTime: new Date(), _elapsedTime:0, expected: '0:00' },

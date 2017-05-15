@@ -10,7 +10,6 @@ import refTimedChallengeBisFull from '../data/challenges/ref-timed-challenge-bis
 
 export default function(schema, request) {
 
-
   const allChallenges = [
     refQcmChallengeFull,
     refQcuChallengeFull,

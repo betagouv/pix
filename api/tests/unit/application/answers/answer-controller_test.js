@@ -15,7 +15,6 @@ describe('Unit | Controller | answer-controller', function() {
     server.register({ register: require('../../../../lib/application/answers') });
   });
 
-
   function executeRequest(payload, callback) {
     server.inject({ method: 'POST', url: '/api/answers', payload }, (res) => {
       callback(res);

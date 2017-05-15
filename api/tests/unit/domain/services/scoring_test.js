@@ -6,7 +6,6 @@ const scoring = require(pathToSource + '/lib/domain/services/scoring-service');
 const Answer = require(pathToSource + '/lib/domain/models/data/answer');
 const Challenge = require(pathToSource + '/lib/domain/models/referential/challenge');
 
-
 function _buildChallenge(knowledgeTags) {
   const challenge = new Challenge({ id: 'challenge_id' });
   challenge.knowledgeTags = knowledgeTags;
@@ -220,7 +219,6 @@ describe('Unit | Domain | Service | scoring', function() {
         // Then
         expect(result.performanceHistory).to.deep.equal([ { difficulty: 2, outcome: 1 } ]);
       });
-
 
       it('should not record an outcome from an answer which is partially correct', () => {
         // Given

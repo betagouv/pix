@@ -66,7 +66,6 @@ describe('Unit | Service | ChallengeService', function() {
       // when
       const result = service.getKnowledgeData(challenges);
 
-
       // then
       const expected = {
         challengesById: {
@@ -95,6 +94,5 @@ describe('Unit | Service | ChallengeService', function() {
     });
 
   });
-
 
 });

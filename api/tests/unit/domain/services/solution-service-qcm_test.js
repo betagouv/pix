@@ -7,7 +7,6 @@ const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 
 describe('Unit | Service | SolutionServiceQCM ', function() {
 
-
   function buildSolution(type, value, scoring) {
     const solution = new Solution({id: 'solution_id'});
     solution.type = type;
@@ -21,7 +20,6 @@ describe('Unit | Service | SolutionServiceQCM ', function() {
     answer.attributes = {value, timeout};
     return answer.get('value');
   }
-
 
   describe('if solution type is QCM', function() {
 

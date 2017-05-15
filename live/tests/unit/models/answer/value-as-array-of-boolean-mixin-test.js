@@ -26,4 +26,3 @@ describe('Unit | Model | Value As Array of Boolean Mixin', function() {
   });
 });
 
-

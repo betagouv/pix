@@ -5,14 +5,12 @@ import destroyApp from '../helpers/destroy-app';
 import {resetTestingState, bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
 import _ from 'pix-live/utils/lodash-custom';
 
-
 function getValidateActionLink() {
   return $('.challenge-actions__action-validate');
 }
 function getSkipActionLink() {
   return $('.challenge-actions__action-skip');
 }
-
 
 function visitTimedChallenge() {
   visit(TIMED_CHALLENGE_URI);

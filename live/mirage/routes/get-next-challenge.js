@@ -6,7 +6,6 @@ import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 
 import refTimedChallengeBis from '../data/challenges/ref-timed-challenge-bis';
 
-
 export default function(schema, request) {
 
   // case 1 : we're trying to reach the first challenge for a given assessment
@@ -31,7 +30,6 @@ export default function(schema, request) {
 
     'ref_timed_challenge_id': refTimedChallengeBis,
     'ref_timed_challenge_bis_id': 'null',
-
 
   };
 

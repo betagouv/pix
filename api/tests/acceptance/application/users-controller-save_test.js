@@ -74,7 +74,6 @@ describe('Acceptance | Controller | users-controller', function() {
     });
   });
 
-
   it('should save the user in the database', function() {
     return server.injectThen(options)
       .then(() => {

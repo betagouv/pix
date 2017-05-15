@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import ENV from 'pix-live/config/environment';
 
-
 function _userNotAlreadyWarnedAboutMobileIncompleteSupport(that) {
   return that._isMobile() && !localStorage.getItem('pix-mobile-warning');
 }

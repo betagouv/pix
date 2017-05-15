@@ -109,7 +109,6 @@ describe('Unit | Repository | challenge-repository', function() {
       });
     });
 
-
   });
 
   /*

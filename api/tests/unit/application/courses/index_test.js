@@ -79,5 +79,4 @@ describe('Unit | Router | course-router', function() {
     });
   });
 
-
 });

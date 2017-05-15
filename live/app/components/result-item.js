@@ -79,5 +79,4 @@ const resultItem = Ember.Component.extend({
   }
 });
 
-
 export default resultItem;

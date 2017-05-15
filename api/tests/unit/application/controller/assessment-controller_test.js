@@ -10,7 +10,6 @@ const assessmentSerializer = require('../../../../lib/infrastructure/serializers
 const { NotFoundError, NotElligibleToScoringError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/data/assessment');
 
-
 describe('Unit | Controller | assessment-controller', () => {
 
   describe('#get', () => {
@@ -66,7 +65,6 @@ describe('Unit | Controller | assessment-controller', () => {
         boomNotFound.restore();
         sinon.assert.calledWithExactly(boomNotFound, getScoredError);
 
-
       });
     });
 
@@ -90,7 +88,6 @@ describe('Unit | Controller | assessment-controller', () => {
       });
 
     });
-
 
     it('should return a Bad Implementation error when we cannot retrieve the score', () => {
       // given

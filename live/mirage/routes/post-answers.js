@@ -8,7 +8,6 @@ import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 import refTimedChallenge from '../data/challenges/ref-timed-challenge';
 import refTimedChallengeBis from '../data/challenges/ref-timed-challenge-bis';
 
-
 // answers
 import refQcuAnswer from '../data/answers/ref-qcu-answer';
 import refQruAnswer from '../data/answers/ref-qru-answer';

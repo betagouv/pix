@@ -173,7 +173,6 @@ describe('Unit | Service | SolutionService', function() {
 
     });
 
-
     describe('if solution type is QROC', function() {
 
       it('Should return "aband" if answer is #ABAND#', function() {
@@ -233,7 +232,6 @@ describe('Unit | Service | SolutionService', function() {
       });
 
     });
-
 
     describe('if solution type is QROCM-ind', function() {
 
@@ -366,7 +364,6 @@ describe('Unit | Service | SolutionService', function() {
 
     describe('if solution type is unknown', function() {
 
-
       it('should return "aband" if answer is #ABAND#', function() {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('SOME_TYPE');
@@ -382,6 +379,5 @@ describe('Unit | Service | SolutionService', function() {
     });
 
   });
-
 
 });

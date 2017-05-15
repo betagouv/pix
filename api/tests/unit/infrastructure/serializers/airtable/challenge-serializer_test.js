@@ -121,7 +121,6 @@ describe('Unit | Serializer | challenge-serializer', function() {
       expect(challenge.attachments[1]).to.equal(attachment_2.url);
     });
 
-
     // XXX : Pay attention to boolean negation : hasntInternetAllowed, instead of hasInternetAllowed,
     // it is because the nominal case is : user is allowed to use internet.
     // we need a boolean to detect the corner case where internet is NOT allowed. Currently Internet and tools are allowed

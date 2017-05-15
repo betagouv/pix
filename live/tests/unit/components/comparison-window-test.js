@@ -217,6 +217,5 @@ describe('Unit | Component | comparison-window', function() {
     });
   });
 
-
 });
 

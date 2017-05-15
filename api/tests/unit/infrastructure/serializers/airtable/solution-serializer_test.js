@@ -88,7 +88,6 @@ describe('Unit | Serializer | solution-serializer', () => {
         expect(solution.deactivations.t3).to.be.false;
       });
 
-
       it('Should set false to deactivations, when "désactiver T1" is false and "T1 - Espaces, casse & accents" is Désactivé and transmitted from Airtable', function() {
         // given
         const airtableRecord = { fields: {'désactiver T1' : false, 'T1 - Espaces, casse & accents': 'Désactivé'} };
@@ -154,9 +153,7 @@ describe('Unit | Serializer | solution-serializer', () => {
         expect(solution.deactivations.t3).to.be.true;
       });
 
-
     });
-
 
     describe('Treatments options management', () => {
 

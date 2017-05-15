@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import resultDetailsAsObject from 'pix-live/utils/result-details-as-object';
 
-
 describe('#resultDetailsAsObject', function() {
 
   it('it should return an object from the yaml String', function() {

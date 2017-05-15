@@ -12,7 +12,6 @@ const LABEL = '.correction-qrocm__label';
 const INPUT = '.correction-qrocm__answer-input';
 const SOLUTION_TEXT = '.correction-qrocm__solution-text';
 
-
 const RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
 const NO_ANSWER_GREY = 'rgb(62, 65, 73)';
 

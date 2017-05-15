@@ -21,7 +21,6 @@ describe('Unit | Service | MailService', () => {
       // Given
       const email = 'text@example.net';
 
-
       // When
       const promise = mailService.sendAccountCreationEmail(email);
 
@@ -53,7 +52,6 @@ describe('Unit | Service | MailService', () => {
     it('should use mailJet to send an email', () => {
       // Given
       const email = 'text@example.net';
-
 
       // When
       const promise = mailService.sendWelcomeEmail(email);

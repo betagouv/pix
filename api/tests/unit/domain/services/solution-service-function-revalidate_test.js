@@ -6,7 +6,6 @@ const SolutionRepository = require('../../../../lib/infrastructure/repositories/
 
 describe('Unit | Service | SolutionService', function() {
 
-
   describe('#revalidate', function() {
 
     const ko_answer = {
@@ -55,7 +54,6 @@ describe('Unit | Service | SolutionService', function() {
     after(function(done) {
       knex('answers').delete().then(() => {done();});
     });
-
 
     it('If the answer is timedout, resolve to the answer itself, unchanged', function(done) {
       expect(service.revalidate).to.exist;
@@ -130,7 +128,6 @@ describe('Unit | Service | SolutionService', function() {
       });
 
     });
-
 
     it('If the answer is unimplemented, resolve to the answer itself, with result corresponding to the matching', function(done) {
 

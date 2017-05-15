@@ -40,5 +40,4 @@ describe('Integration | Component | TimeoutJauge', function() {
 
   });
 
-
 });

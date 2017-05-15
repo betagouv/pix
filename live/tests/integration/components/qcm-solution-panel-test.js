@@ -18,7 +18,6 @@ const LABEL_INCORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(0)';
 const CHECKBOX_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__checkbox-picture:eq(0)';
 const LABEL_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(0)';
 
-
 const CSS_BOLD_FONT_WEIGHT = '900';
 const CSS_NORMAL_FONT_WEIGHT = '400';
 

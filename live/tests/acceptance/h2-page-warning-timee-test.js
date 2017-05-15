@@ -91,5 +91,4 @@ describe('Acceptance | h2 - Warning prochaine page timée  | ', function() {
     });
   });
 
-
 });

@@ -55,6 +55,5 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
 
 });
 
-
 export default QrocmIndSolutionPanel;
 

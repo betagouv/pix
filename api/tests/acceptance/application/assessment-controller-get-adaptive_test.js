@@ -3,7 +3,6 @@ const server = require('../../../server');
 
 describe('Acceptance | API | Assessments', function() {
 
-
   before(function(done) {
 
     nock.cleanAll();
@@ -59,7 +58,6 @@ describe('Acceptance | API | Assessments', function() {
     server.stop(done);
   });
 
-
   describe('(adaptive) GET /api/assessments/:assessment_id/next', function() {
 
     let insertedAssessmentId = null;
@@ -109,6 +107,5 @@ describe('Acceptance | API | Assessments', function() {
     });
 
   });
-
 
 });

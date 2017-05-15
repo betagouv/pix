@@ -2,7 +2,6 @@ const {describe, it, expect} = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/follower-serializer');
 const Follower = require('../../../../../lib/domain/models/data/follower');
 
-
 describe('Unit | Serializer | follower-serializer', function() {
   describe('#deserialize', function() {
     it('should convert JSON API data into a Follower model object', function() {
@@ -46,6 +45,5 @@ describe('Unit | Serializer | follower-serializer', function() {
     });
 
   });
-
 
 });

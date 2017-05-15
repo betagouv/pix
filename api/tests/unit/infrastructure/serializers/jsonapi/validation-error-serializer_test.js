@@ -53,7 +53,6 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       });
     });
 
-
     it('should format a validation error into a JSON spec when multiple errors', () => {
       // Given
       const invalidObject = new DummyObject({
@@ -96,7 +95,5 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
     });
 
   });
-
-
 
 });

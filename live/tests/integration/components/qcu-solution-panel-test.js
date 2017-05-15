@@ -16,7 +16,6 @@ const LABEL_INCORRECT_AND_CHECKED = '.qcu-proposal-label__oracle:eq(2)';
 const RADIO_INCORRECT_AND_UNCHECKED = '.picture-radio-proposal--qcu:eq(0)';
 const LABEL_INCORRECT_AND_UNCHECKED = '.qcu-proposal-label__oracle:eq(0)';
 
-
 const CSS_BOLD_FONT_WEIGHT = '900';
 const CSS_NORMAL_FONT_WEIGHT = '400';
 
@@ -164,9 +163,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         });
       });
 
-
     });
-
 
   });
 

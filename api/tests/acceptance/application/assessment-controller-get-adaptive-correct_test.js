@@ -58,7 +58,6 @@ describe('Acceptance | API | Assessments', function() {
     server.stop(done);
   });
 
-
   describe('(adaptive correct answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', function() {
 
     let insertedAssessmentId = null;

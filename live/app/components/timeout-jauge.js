@@ -10,11 +10,9 @@ const run = Ember.run;
 // see http://stackoverflow.com/a/37770048/2595513
 function fmtMSS(s) {return (s-(s%=60))/60+(9<s?':':':0')+s;}
 
-
 export default Ember.Component.extend({
 
   allotedTime: null,
-
 
   _totalTime: Ember.computed('allotedTime', function() {
     const actualAllotedTime = get(this, 'allotedTime');
@@ -27,7 +25,6 @@ export default Ember.Component.extend({
   _timer: null,
   _elapsedTime: null,
   _currentTime: Date.now(),
-
 
   remainingSeconds: computed('_elapsedTime', function() {
     return _.round((get(this, '_totalTime') - get(this, '_elapsedTime')) / 1000);
@@ -84,7 +81,6 @@ export default Ember.Component.extend({
       set(this, '_timer', run.later(this, this._tick, _tickInterval));
     }
   },
-
 
   init() {
     this._super(...arguments);

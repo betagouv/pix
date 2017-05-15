@@ -41,8 +41,6 @@ describe('Integration | Component | QcuProposals', function() {
       expect(this.$('.proposal-text')).to.have.lengthOf(proposals.length);
     });
 
-
-
   });
 
 });

@@ -4,7 +4,6 @@ import valueAsArrayOfBoolean from 'pix-live/utils/value-as-array-of-boolean';
 import proposalsAsArray from 'pix-live/utils/proposals-as-array';
 import _ from 'pix-live/utils/lodash-custom';
 
-
 export default Ember.Component.extend({
   classNames: ['qcu-solution-panel'],
   answer: null,

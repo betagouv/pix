@@ -4,7 +4,6 @@ const AnswerRepository = require('../../../../lib/infrastructure/repositories/an
 
 describe('Unit | Repository | AnswerRepository', function() {
 
-
   describe('findByChallengeAndAssessment', function() {
 
     // nominal case

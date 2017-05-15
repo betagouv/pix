@@ -48,5 +48,4 @@ describe('Acceptance | b4 - Afficher un QROCM | ', function() {
     expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('logiciel1: stuff1\nlogiciel2: stuff2\nlogiciel3: stuff3\n');
   });
 
-
 });

@@ -34,7 +34,6 @@ export default BaseRoute.extend({
   setupController: function(controller, model) {
     this._super(controller, model);
 
-
     const challengeType =  getChallengeType(model.challenge.get('type'));
     controller.set('challengeItemType', 'challenge-item-' + challengeType);
 

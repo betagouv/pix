@@ -5,7 +5,6 @@ const faker = require('faker');
 
 describe('Unit | Domain | Models | User', () => {
 
-
   describe('validation', () => {
 
     let rawData;
@@ -76,7 +75,6 @@ describe('Unit | Domain | Models | User', () => {
           expect(lastName).to.deep.equal([ 'Votre nom n\'est pas renseigné.' ]);
         });
     });
-
 
     describe('the password field', () => {
       it('should have a minimum length', () => {
@@ -181,7 +179,6 @@ describe('Unit | Domain | Models | User', () => {
           });
       });
 
-
       it('is valid when everything works', () => {
         // Given
         const user = new User(rawData);
@@ -199,6 +196,5 @@ describe('Unit | Domain | Models | User', () => {
     });
 
   });
-
 
 });

@@ -195,8 +195,6 @@ describe('Unit | Controller | user-controller', () => {
 
       });
 
-
-
       it('when there is not payload', () => {
         // Given
         const request = {};
@@ -238,7 +236,6 @@ describe('Unit | Controller | user-controller', () => {
         // Then
         boomBadRequestMock.verify();
       });
-
 
     });
 

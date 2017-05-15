@@ -56,7 +56,6 @@ describe('Unit | Service | DeactivationsService ', function() {
     });
   });
 
-
   describe('hasOnlyT2 | only T2 is declared as deactivated  ', function() {
     const allCases = [
       {when:'No deactivations at all', output: false, deactivations: undefined},
@@ -212,7 +211,6 @@ describe('Unit | Service | DeactivationsService ', function() {
       });
     });
   });
-
 
 });
 

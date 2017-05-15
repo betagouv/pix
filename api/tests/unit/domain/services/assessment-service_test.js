@@ -37,7 +37,6 @@ function _buildAnswer(challengeId, result, assessmentId = 1) {
   return answer;
 }
 
-
 function _buildAssessment(estimatedLevel, pixScore, notAcquiredKnowledgeTags, acquiredKnowledgeTags, cid) {
   const assessment = new Assessment({ id: 'assessment_id' });
   assessment.set('estimatedLevel', estimatedLevel);
@@ -47,7 +46,6 @@ function _buildAssessment(estimatedLevel, pixScore, notAcquiredKnowledgeTags, ac
   assessment.cid = cid;
   return assessment;
 }
-
 
 describe('Unit | Domain | Services | assessment-service', function() {
 
@@ -73,7 +71,6 @@ describe('Unit | Domain | Services | assessment-service', function() {
 
     });
 
-
     it('Should return the next challenge if currentChallengeId is given', function(done) {
 
       sinon.stub(courseRepository, 'get').resolves({ challenges: [ '1st_challenge', '2nd_challenge' ] });
@@ -86,7 +83,6 @@ describe('Unit | Domain | Services | assessment-service', function() {
 
     });
 
-
     it('Should resolves to "null" if no assessment is given', function(done) {
 
       service.getAssessmentNextChallengeId().then(function(result) {
@@ -95,7 +91,6 @@ describe('Unit | Domain | Services | assessment-service', function() {
       });
 
     });
-
 
     it('Should resolves to "null" if no courseId is given', function(done) {
 

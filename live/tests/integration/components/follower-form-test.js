@@ -8,7 +8,6 @@ import wait from 'ember-test-helpers/wait';
 const BUTTON_SEND = '.follower-form__button';
 const INPUT_EMAIL = '.follower-email';
 
-
 describe('Integration | Component | follower form', function() {
 
   setupComponentTest('follower-form', {
@@ -80,7 +79,6 @@ describe('Integration | Component | follower form', function() {
         });
       }
     });
-
 
     beforeEach(function() {
       isSaveMethodCalled = false;

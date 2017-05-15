@@ -1,6 +1,5 @@
 import _ from 'pix-live/utils/lodash-custom';
 
-
 /*
  * Example :
  * => Input :

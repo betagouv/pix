@@ -12,7 +12,6 @@ const SOLUTION_DISPLAY = '.correction-qroc-box__solution-text';
 const RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
 const NO_ANSWER_GREY = 'rgb(62, 65, 73)';
 
-
 describe('Integration | Component | qroc solution panel', function() {
 
   setupComponentTest('qroc-solution-panel', {
@@ -62,7 +61,6 @@ describe('Integration | Component | qroc solution panel', function() {
       const assessment = Ember.Object.create({ id: 'assessment_id' });
       const challenge = Ember.Object.create({ id: 'challenge_id' });
       const answer = Ember.Object.create({ id: 'answer_id', result:'ko', assessment, challenge });
-
 
       this.set('answer', answer);
       this.render(hbs`{{qroc-solution-panel answer=answer}}`);
