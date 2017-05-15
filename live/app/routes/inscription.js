@@ -11,12 +11,7 @@ export default Ember.Route.extend({
     });
   },
 
-  setupController(controller, model) {
-    controller.set('user', model);
-    this._super(controller, model);
-  },
-
-  actions:{
+  actions: {
     refresh(){
       this.refresh();
     }

@@ -22,7 +22,7 @@ function getValidationStatus(isValidField) {
   return (isValidField) ? 'error' : 'success';
 }
 
-function isGivenNotEmptyValue(value) {
+function isValuePresent(value) {
   return value.trim() ? true : false;
 }
 
@@ -54,7 +54,7 @@ export default Ember.Component.extend({
 
   _toggleConfirmation(status, message) {
     this.set('temporaryAlert', {status: TEMPORARY_DIV_CLASS_MAP[status], message});
-    if (config.APP.isMessageStatusTogglingEnabled) {
+    if(config.APP.isMessageStatusTogglingEnabled) {
       Ember.run.later(() => {
         this.set('temporaryAlert', {status: 'default', message: ''});
       }, config.APP.MESSAGE_DISPLAY_DURATION);
@@ -94,7 +94,7 @@ export default Ember.Component.extend({
     });
   },
 
-  _executeFieldValidation: function (key, isValid) {
+  _executeFieldValidation: function(key, isValid) {
     const modelAttrValue = this._getModelAttributeValueFromKey(key);
     const isValidInput = !isValid(modelAttrValue);
     const status = getValidationStatus(isValidInput);
@@ -104,7 +104,7 @@ export default Ember.Component.extend({
 
   actions: {
     validateInput(key){
-      this._executeFieldValidation(key, isGivenNotEmptyValue);
+      this._executeFieldValidation(key, isValuePresent);
     },
 
     validateInputEmail(key){
@@ -116,17 +116,14 @@ export default Ember.Component.extend({
     },
 
     signup(){
-      const userObject = this.get('user');
-      userObject.save()
-        .then(() => {
-          this._toggleConfirmation('success', 'Le compte a été bien créé!');
-          this._resetValidationFields();
-          this.sendAction('refresh');
-        })
-        .catch(() => {
-          this._updateInputsStatus();
-          this._toggleConfirmation('error', 'Oups! Une erreur s\'est produite...');
-        });
+      this.get('user').save().then(() => {
+        this._toggleConfirmation('success', 'Le compte a été bien créé!');
+        this._resetValidationFields();
+        this.sendAction('refresh');
+      }).catch(() => {
+        this._updateInputsStatus();
+        this._toggleConfirmation('error', 'Oups! Une erreur s\'est produite...');
+      });
     }
   }
 });

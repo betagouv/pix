@@ -1,8 +1,5 @@
 import {expect} from 'chai';
-import {
-  describe,
-  it
-} from 'mocha';
+import {describe, it} from 'mocha';
 import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
@@ -44,25 +41,23 @@ const ICON_SUCCESS_CLASS = 'validation-icon-success';
 
 const userEmpty = Ember.Object.create({});
 
-
-describe('Integration | Component | signup form', function () {
+describe('Integration | Component | signup form', function() {
   setupComponentTest('signup-form', {
     integration: true
   });
 
+  describe('Component Rendering', function() {
 
-  describe('Component Rendering', function () {
-
-    beforeEach(function () {
+    beforeEach(function() {
       this.set('user', userEmpty);
       this.render(hbs`{{signup-form user=user}}`);
     });
 
-    it('renders', function () {
+    it('renders', function() {
       expect(this.$()).to.have.length(1);
     });
 
-    it(`Should return true if heading content gets <${EXPECTED_FORM_HEADING_CONTENT}>`, function () {
+    it(`Should return true if heading content gets <${EXPECTED_FORM_HEADING_CONTENT}>`, function() {
       expect(this.$(FORM_HEADING).text()).to.equal(EXPECTED_FORM_HEADING_CONTENT);
     });
 
@@ -76,14 +71,13 @@ describe('Integration | Component | signup form', function () {
       {expectedRendering: 'cgu label', input: CHECKBOX_CGU_LABEL, expected: 1},
       {expectedRendering: 'submit button', input: SUBMIT_BUTTON_CONTAINER, expected: 1},
 
-    ].forEach(function ({expectedRendering, input, expected}) {
+    ].forEach(function({expectedRendering, input, expected}) {
 
-      it(`should render ${expectedRendering}`, function () {
+      it(`should render ${expectedRendering}`, function() {
         expect(this.$(input)).to.have.length(expected);
       });
 
     });
-
 
     [
       {
@@ -101,21 +95,20 @@ describe('Integration | Component | signup form', function () {
         expectedType: 'button'
       },
 
-    ].forEach(function ({expectedRendering, input, expectedLength, expectedValue, expectedType}) {
+    ].forEach(function({expectedRendering, input, expectedLength, expectedValue, expectedType}) {
 
-      it(`should render a ${expectedRendering}`, function () {
+      it(`should render a ${expectedRendering}`, function() {
         expect(this.$(input)).to.have.length(expectedLength);
-        expect(this.$(input).text()).to.equal(expectedValue);
+        expect(this.$(input).text().trim()).to.equal(expectedValue);
         expect(this.$(input).prop('nodeName')).to.equal(expectedType.toUpperCase());
       });
 
     });
   });
 
+  describe('Component Behavior', function() {
 
-  describe('Component Behavior', function () {
-
-    it('should return true if action <Signup> is handled', function () {
+    it('should return true if action <Signup> is handled', function() {
       // given
       let isFormSubmitted = false;
       const user = Ember.Object.create({
@@ -143,8 +136,8 @@ describe('Integration | Component | signup form', function () {
       });
     });
 
-    describe('Errors management', function () {
-      it('should display an error message on first name field, when field is empty and focus-out', function () {
+    describe('Errors management', function() {
+      it('should display an error message on first name field, when field is empty and focus-out', function() {
         // given
         this.set('user', userEmpty);
         this.render(hbs`{{signup-form user=user}}`);
@@ -164,7 +157,7 @@ describe('Integration | Component | signup form', function () {
         });
       });
 
-      it('should display an error message on last name field, when field is empty and focus-out', function () {
+      it('should display an error message on last name field, when field is empty and focus-out', function() {
         // given
         this.set('user', userEmpty);
         this.render(hbs`{{signup-form user=user}}`);
@@ -184,7 +177,7 @@ describe('Integration | Component | signup form', function () {
         });
       });
 
-      it('should display an error message on email field, when field is empty and focus-out', function () {
+      it('should display an error message on email field, when field is empty and focus-out', function() {
         // given
         this.set('user', userEmpty);
         this.render(hbs`{{signup-form user=user}}`);
@@ -204,7 +197,7 @@ describe('Integration | Component | signup form', function () {
         });
       });
 
-      it('should display an error message on password field, when field is empty and focus-out', function () {
+      it('should display an error message on password field, when field is empty and focus-out', function() {
         // given
         this.set('user', userEmpty);
         this.render(hbs`{{signup-form user=user}}`);
@@ -224,7 +217,7 @@ describe('Integration | Component | signup form', function () {
         });
       });
 
-      it('should display an error message on cgu field, when cgu isn\'t accepted and form is submited', function () {
+      it('should display an error message on cgu field, when cgu isn\'t accepted and form is submited', function() {
         // given
         const userWithCguNotAccepted = Ember.Object.create({
           cgu: false,
@@ -254,7 +247,7 @@ describe('Integration | Component | signup form', function () {
         });
       });
 
-      it('should display an error message on form title, when an error occured and form is submited', function () {
+      it('should display an error message on form title, when an error occured and form is submited', function() {
         // given
         const userWithCguNotAccepted = Ember.Object.create({
           cgu: false,
@@ -282,8 +275,8 @@ describe('Integration | Component | signup form', function () {
       });
     });
 
-    describe('Successfull cases', function () {
-      it('should display first name field as validated without error message, when field is filled and focus-out', function () {
+    describe('Successfull cases', function() {
+      it('should display first name field as validated without error message, when field is filled and focus-out', function() {
         // given
         this.set('user', userEmpty);
         this.render(hbs`{{signup-form user=user}}`);
@@ -303,7 +296,7 @@ describe('Integration | Component | signup form', function () {
         });
       });
 
-      it('should display last name field as validated without error message, when field is filled and focus-out', function () {
+      it('should display last name field as validated without error message, when field is filled and focus-out', function() {
         // given
         this.set('user', userEmpty);
         this.render(hbs`{{signup-form user=user}}`);
@@ -323,7 +316,7 @@ describe('Integration | Component | signup form', function () {
         });
       });
 
-      it('should display email field as validated without error message, when field is filled and focus-out', function () {
+      it('should display email field as validated without error message, when field is filled and focus-out', function() {
         // given
         this.set('user', userEmpty);
         this.render(hbs`{{signup-form user=user}}`);
@@ -343,7 +336,7 @@ describe('Integration | Component | signup form', function () {
         });
       });
 
-      it('should display password field as validated without error message, when field is filled and focus-out', function () {
+      it('should display password field as validated without error message, when field is filled and focus-out', function() {
         // given
         this.set('user', userEmpty);
         this.render(hbs`{{signup-form user=user}}`);
@@ -363,7 +356,7 @@ describe('Integration | Component | signup form', function () {
         });
       });
 
-      it('should not display an error message on cgu field, when cgu is accepted and form is submited', function () {
+      it('should not display an error message on cgu field, when cgu is accepted and form is submited', function() {
         // given
         const userWithCguAccepted = Ember.Object.create({
           cgu: true,
@@ -385,7 +378,7 @@ describe('Integration | Component | signup form', function () {
         });
       });
 
-      it('should display an success message on form title, when all things are ok and form is submited', function () {
+      it('should display an success message on form title, when all things are ok and form is submited', function() {
         // given
         const validUser = Ember.Object.create({
           email: 'toto@pix.fr',
@@ -411,7 +404,7 @@ describe('Integration | Component | signup form', function () {
         });
       });
 
-      it('should reset validation property, when all things are ok and form is submited', function () {
+      it('should reset validation property, when all things are ok and form is submited', function() {
         // given
         const validUser = Ember.Object.create({
           email: 'toto@pix.fr',

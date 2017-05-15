@@ -14,34 +14,42 @@
 
   <div class="signup-form__input-container">
     {{signup-textfield
-      validate="validateInput" label="Nom"
-      validationStatus=validation.lastName.status
+      label="Nom"
+      textfieldName="lastName"
       inputBindingValue=user.lastName
-      textfieldName="lastName" validationMessage=validation.lastName.message}}
+      validate="validateInput"
+      validationStatus=validation.lastName.status
+      validationMessage=validation.lastName.message}}
   </div>
 
   <div class="signup-form__input-container">
     {{signup-textfield
-      validate="validateInput" label="Prénom"
-      validationStatus=validation.firstName.status
+      label="Prénom"
+      textfieldName="firstName"
       inputBindingValue=user.firstName
-      textfieldName="firstName" validationMessage=validation.firstName.message}}
+      validate="validateInput"
+      validationStatus=validation.firstName.status
+      validationMessage=validation.firstName.message}}
   </div>
 
   <div class="signup-form__input-container">
     {{signup-textfield
-      validate="validateInputEmail" label="Adresse Email"
+      label="Adresse Email"
+      textfieldName="email"
       validationStatus=validation.email.status
+      validate="validateInputEmail"
       inputBindingValue=user.email
-      textfieldName="email" validationMessage=validation.email.message}}
+      validationMessage=validation.email.message}}
   </div>
 
   <div class="signup-form__input-container">
     {{signup-textfield
-      validate="validateInputPassword" label="Mot de passe"
+      label="Mot de passe"
+      textfieldName="password"
       validationStatus=validation.password.status
+      validate="validateInputPassword"
       inputBindingValue=user.password
-      textfieldName="password" validationMessage=validation.password.message}}
+      validationMessage=validation.password.message}}
   </div>
 
   <div class="signup-form__cgu-container">
@@ -54,11 +62,12 @@
 
     <label for="cgu" class="signup-form__cgu-label">
       {{input type="checkbox" id='cgu' checked=user.cgu class="signup-form__cgu-checkbox" }}
-      <span>J'​accepte les {{#link-to 'inscription' class="signup__cgu-link"}}conditions d'​utilisation de Pix{{/link-to}}</span>
+      <span>J'​accepte les {{#link-to 'inscription' class="signup__cgu-link"}}
+        conditions d'​utilisation de Pix{{/link-to}}</span>
     </label>
   </div>
 
   <div class="signup-form__submit-container">
-    <button class="signup__submit-button" {{action (action "signup")}}>Je m'inscris</button>
+    <button class="signup__submit-button" {{action "signup"}}>Je m'inscris</button>
   </div>
 </form>
