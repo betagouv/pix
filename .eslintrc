@@ -29,6 +29,8 @@ rules:
   space-before-function-paren:
     - 2
     - { anonymous: never, named: never, asyncArrow: ignore }
+  space-in-parens:
+    - 2
 parserOptions:
   ecmaVersion: 8
   sourceType: script
