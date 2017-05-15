@@ -118,7 +118,7 @@ describe('Integration | Component | signup form', function() {
         password: 'gipix2017',
         cgu: true,
 
-        save(){
+        save() {
           isFormSubmitted = true;
           return Ember.RSVP.resolve();
         }
@@ -230,7 +230,7 @@ describe('Integration | Component | signup form', function() {
               message: UNCHECKED_CHECKBOX_CGU_ERROR
             }]
           },
-          save(){
+          save()  {
             return new Ember.RSVP.reject();
           }
         });
@@ -257,7 +257,7 @@ describe('Integration | Component | signup form', function() {
               message: UNCHECKED_CHECKBOX_CGU_ERROR,
             }]
           },
-          save(){
+          save() {
             return new Ember.RSVP.reject();
           }
         });
@@ -361,7 +361,7 @@ describe('Integration | Component | signup form', function() {
         const userWithCguAccepted = Ember.Object.create({
           cgu: true,
 
-          save(){
+          save() {
             return new Ember.RSVP.resolve();
           }
         });
@@ -387,7 +387,7 @@ describe('Integration | Component | signup form', function() {
           password: 'gipix2017',
           cgu: true,
 
-          save(){
+          save() {
             return new Ember.RSVP.resolve();
           }
         });
@@ -413,7 +413,7 @@ describe('Integration | Component | signup form', function() {
           password: 'gipix2017',
           cgu: true,
 
-          save(){
+          save() {
             return new Ember.RSVP.resolve();
           }
         });
@@ -435,4 +435,5 @@ describe('Integration | Component | signup form', function() {
 
   });
 
-});
+})
+;

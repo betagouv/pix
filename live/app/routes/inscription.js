@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  model(){
+  model() {
     return this.store.createRecord('user', {
       lastName: '',
       firstName: '',
@@ -12,7 +12,7 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    refresh(){
+    refresh() {
       this.refresh();
     }
   }

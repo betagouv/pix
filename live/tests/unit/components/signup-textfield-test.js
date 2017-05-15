@@ -1,8 +1,5 @@
 import {expect} from 'chai';
-import {
-  describe,
-  it
-} from 'mocha';
+import {describe, it} from 'mocha';
 import {setupTest} from 'ember-mocha';
 
 const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
@@ -10,19 +7,19 @@ const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et' +
   ' 8 caractères.';
 
-describe('Unit | Component | signupTextfieldComponent', function () {
+describe('Unit | Component | signupTextfieldComponent', function() {
 
   setupTest('component:signup-textfield', {});
 
-  describe('Component should renders :', function () {
+  describe('Component should renders :', function() {
 
     [
-      { renderingIntent: 'text', inputId: 'shi'},
-      { renderingIntent: 'text', inputId: ''},
-      { renderingIntent: 'email', inputId: 'email'},
-      { renderingIntent: 'password', inputId: 'password'}
-    ].forEach(({renderingIntent,inputId}) =>{
-      it(`an ${renderingIntent} when input id is ${inputId}`, function () {
+      {renderingIntent: 'text', inputId: 'shi'},
+      {renderingIntent: 'text', inputId: ''},
+      {renderingIntent: 'email', inputId: 'email'},
+      {renderingIntent: 'password', inputId: 'password'}
+    ].forEach(({renderingIntent, inputId}) => {
+      it(`an ${renderingIntent} when input id is ${inputId}`, function() {
         // given
         const component = this.subject();
         // when
@@ -35,7 +32,7 @@ describe('Unit | Component | signupTextfieldComponent', function () {
 
   });
 
-  describe('When validationStatus gets "default", Component computed property: ', function () {
+  describe('When validationStatus gets "default", Component computed property: ', function() {
 
     [
       {property: 'hasIcon', expectedValue: false},
@@ -44,7 +41,7 @@ describe('Unit | Component | signupTextfieldComponent', function () {
       {property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--default'},
       {property: 'validationMessageClass', expectedValue: 'signup-textfield__message--default'},
     ].forEach(({property, expectedValue}) => {
-      it(`${property} should return ${expectedValue} `, function () {
+      it(`${property} should return ${expectedValue} `, function() {
         // Given
         const component = this.subject();
         // When
@@ -56,7 +53,7 @@ describe('Unit | Component | signupTextfieldComponent', function () {
       });
     });
 
-    describe('#validationMessage: ', function () {
+    describe('#validationMessage: ', function() {
 
       [
 
@@ -66,7 +63,7 @@ describe('Unit | Component | signupTextfieldComponent', function () {
 
       ].forEach(({errorType, message}) => {
 
-        it(`gets ${message} when ${errorType}`, function () {
+        it(`gets ${message} when ${errorType}`, function() {
           // Given
           const component = this.subject();
           // When
@@ -83,7 +80,7 @@ describe('Unit | Component | signupTextfieldComponent', function () {
 
   });
 
-  describe('When validationStatus gets "error", Component computed property: ', function () {
+  describe('When validationStatus gets "error", Component computed property: ', function() {
 
     [
       {property: 'hasIcon', expectedValue: true},
@@ -92,7 +89,7 @@ describe('Unit | Component | signupTextfieldComponent', function () {
       {property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--error'},
       {property: 'validationMessageClass', expectedValue: 'signup-textfield__message--error'},
     ].forEach(({property, expectedValue}) => {
-      it(`${property} should return ${expectedValue} `, function () {
+      it(`${property} should return ${expectedValue} `, function() {
         // Given
         const component = this.subject();
         // When
@@ -103,7 +100,7 @@ describe('Unit | Component | signupTextfieldComponent', function () {
       });
     });
 
-    describe('#validationMessage: ', function () {
+    describe('#validationMessage: ', function() {
 
       [
 
@@ -113,7 +110,7 @@ describe('Unit | Component | signupTextfieldComponent', function () {
 
       ].forEach(({errorType, message}) => {
 
-        it(`gets ${message} when ${errorType}`, function () {
+        it(`gets ${message} when ${errorType}`, function() {
           // Given
           const component = this.subject();
           // When
@@ -130,7 +127,7 @@ describe('Unit | Component | signupTextfieldComponent', function () {
 
   });
 
-  describe('When validationStatus gets "success", Component computed property: ', function () {
+  describe('When validationStatus gets "success", Component computed property: ', function() {
 
     [
       {property: 'hasIcon', expectedValue: true},
@@ -139,7 +136,7 @@ describe('Unit | Component | signupTextfieldComponent', function () {
       {property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--success'},
       {property: 'validationMessageClass', expectedValue: 'signup-textfield__message--success'},
     ].forEach(({property, expectedValue}) => {
-      it(`${property} should return ${expectedValue} `, function () {
+      it(`${property} should return ${expectedValue} `, function() {
         // Given
         const component = this.subject();
         // When
@@ -150,7 +147,7 @@ describe('Unit | Component | signupTextfieldComponent', function () {
       });
     });
 
-    describe('#validationMessage: ', function () {
+    describe('#validationMessage: ', function() {
 
       [
 
@@ -160,7 +157,7 @@ describe('Unit | Component | signupTextfieldComponent', function () {
 
       ].forEach(({errorType, message}) => {
 
-        it(`gets ${message} when ${errorType}`, function () {
+        it(`gets ${message} when ${errorType}`, function() {
           // Given
           const component = this.subject();
           // When

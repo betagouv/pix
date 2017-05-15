@@ -40,7 +40,7 @@ export default Ember.Component.extend({
     this._resetValidationFields();
   },
 
-  _updateValidationStatus (key, status, message) {
+  _updateValidationStatus(key, status, message) {
     const statusObject = 'validation.' + key + '.status';
     const messageObject = 'validation.' + key + '.message';
     this.set(statusObject, status);
@@ -61,7 +61,7 @@ export default Ember.Component.extend({
     }
   },
 
-  _resetValidationFields(){
+  _resetValidationFields() {
     const defaultValidationObject = {
       lastName: {
         status: 'default',
@@ -87,7 +87,7 @@ export default Ember.Component.extend({
     this.set('validation', defaultValidationObject);
   },
 
-  _updateInputsStatus(){
+  _updateInputsStatus() {
     const errors = this.get('user.errors.content');
     errors.forEach(({attribute, message}) => {
       this._updateValidationStatus(attribute, 'error', message);
@@ -103,19 +103,19 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    validateInput(key){
+    validateInput(key) {
       this._executeFieldValidation(key, isValuePresent);
     },
 
-    validateInputEmail(key){
+    validateInputEmail(key) {
       this._executeFieldValidation(key, isEmailValid);
     },
 
-    validateInputPassword(key){
+    validateInputPassword(key) {
       this._executeFieldValidation(key, isPasswordValid);
     },
 
-    signup(){
+    signup() {
       this.get('user').save().then(() => {
         this._toggleConfirmation('success', 'Le compte a été bien créé!');
         this._resetValidationFields();

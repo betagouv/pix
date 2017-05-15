@@ -70,7 +70,7 @@ export default Ember.Component.extend({
   }),
 
   actions: {
-    validate(){
+    validate() {
       this.sendAction('validate', this.get('textfieldName'));
     }
   }
