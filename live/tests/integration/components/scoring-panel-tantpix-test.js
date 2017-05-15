@@ -1,10 +1,7 @@
-import {expect} from "chai";
-import {
-  describe,
-  it
-} from "mocha";
-import {setupComponentTest} from "ember-mocha";
-import hbs from "htmlbars-inline-precompile";
+import {expect} from 'chai';
+import {describe, it} from 'mocha';
+import {setupComponentTest} from 'ember-mocha';
+import hbs from 'htmlbars-inline-precompile';
 
 const COMPONENT_WRAPPER = '.scoring-panel-tantpix';
 
@@ -14,7 +11,7 @@ const HEADING_ILLUSTRATION_CONTENT = '';
 
 const HEADING_TITLE_CLASS_WRAPPER = '.tantpix-panel__title-container';
 const HEADING_TITLE_CLASS = '.tantpix-panel__title';
-const HEADING_TITLE_CONTENT = 'tant pix !';
+const HEADING_TITLE_CONTENT = 'Tant pix !';
 
 const DESCRIPTION_CLASS_WRAPPER = '.tantpix-panel__description-container';
 const DESCRIPTION_CLASS = '.tantpix-panel__description';
