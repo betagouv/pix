@@ -30,7 +30,7 @@ describe('Integration | Component | medal item', function() {
     this.render(hbs`{{medal-item pixScore=pixScore}}`);
 
     // then
-    expect(this.$('.medal-item__medal-img').length).to.equal(1);//svg du trophée
-    expect(this.$('.medal-item__pix-text').text()).to.contain('pix');//text pix
+    expect(this.$('.medal-item__medal-img').length).to.equal(1);
+    expect(this.$('.medal-item__pix-text').text()).to.contain('pix');
   });
 });
