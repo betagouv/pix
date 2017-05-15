@@ -2364,6 +2364,15 @@ define('pix-live/tests/components/result-item.lint-test', [], function () {
     });
   });
 });
+define('pix-live/tests/components/scoring-panel-tantpix.lint-test', [], function () {
+  'use strict';
+
+  describe('ESLint - components/scoring-panel-tantpix.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/components/scoring-panel.lint-test', [], function () {
   'use strict';
 
@@ -5591,7 +5600,137 @@ define('pix-live/tests/integration/components/result-item-test.lint-test', [], f
     });
   });
 });
+define('pix-live/tests/integration/components/scoring-panel-tantpix-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
+
+  var COMPONENT_WRAPPER = '.scoring-panel-tantpix';
+
+  var HEADING_ILLUSTRATION_CLASS_WRAPPER = '.tantpix-panel__illustration-container';
+  var HEADING_ILLUSTRATION_CLASS = '.tantpix-panel__illustration';
+  var HEADING_ILLUSTRATION_CONTENT = '';
+
+  var HEADING_TITLE_CLASS_WRAPPER = '.tantpix-panel__title-container';
+  var HEADING_TITLE_CLASS = '.tantpix-panel__title';
+  var HEADING_TITLE_CONTENT = 'Tant pix !';
+
+  var DESCRIPTION_CLASS_WRAPPER = '.tantpix-panel__description-container';
+  var DESCRIPTION_CLASS = '.tantpix-panel__description';
+  var DESCRIPTION_CONTENT = 'Manifestement, ce n\'est pas votre jour mais vous ferez mieux la prochaine fois.';
+
+  var BUTTON_NEXT_CLASS_WRAPPER = '.tantpix-panel__button-container';
+  var BUTTON_NEXT_CLASS = '.tantpix-panel__button';
+  var BUTTON_NEXT_CONTENT = 'revenir à l\'accueil';
+
+  (0, _mocha.describe)('Integration | Component | scoring panel tantpix', function () {
+    (0, _emberMocha.setupComponentTest)('scoring-panel-tantpix', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('On Component rendering:', function () {
+      beforeEach(function () {
+        this.render(Ember.HTMLBars.template({
+          'id': 'mBYclNqy',
+          'block': '{"statements":[["append",["unknown",["scoring-panel-tantpix"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+      });
+
+      (0, _mocha.it)('should render successfully component wrapper', function () {
+        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$(COMPONENT_WRAPPER)).to.lengthOf(1);
+      });
+
+      (0, _mocha.describe)('wrappers rendering', function () {
+        [{
+          wrapperDescription: 'an illustration wrapper',
+          wrapperClass: HEADING_ILLUSTRATION_CLASS_WRAPPER,
+          wrapperTagName: 'div',
+          wrapperLength: 1
+        }, {
+          wrapperDescription: 'a title wrapper',
+          wrapperClass: HEADING_TITLE_CLASS_WRAPPER,
+          wrapperTagName: 'div',
+          wrapperLength: 1
+        }, {
+          wrapperDescription: 'a description wrapper',
+          wrapperClass: DESCRIPTION_CLASS_WRAPPER,
+          wrapperTagName: 'div',
+          wrapperLength: 1
+        }, {
+          wrapperDescription: 'a next button wrapper',
+          wrapperClass: BUTTON_NEXT_CLASS_WRAPPER,
+          wrapperTagName: 'div',
+          wrapperLength: 1
+        }].forEach(function (_ref) {
+          var wrapperDescription = _ref.wrapperDescription;
+          var wrapperClass = _ref.wrapperClass;
+          var wrapperTagName = _ref.wrapperTagName;
+          var wrapperLength = _ref.wrapperLength;
+
+          (0, _mocha.it)('should contain: ' + wrapperDescription + ' in scoring panel', function () {
+            var wrapperRendered = this.$(wrapperClass);
+            (0, _chai.expect)(wrapperRendered.prop('tagName').toLowerCase()).to.equal(wrapperTagName);
+            (0, _chai.expect)(wrapperRendered).to.lengthOf(wrapperLength);
+          });
+        });
+      });
+
+      (0, _mocha.describe)('wrapped items:', function () {
+        [{
+          itemDescription: 'an smiley illustration img',
+          itemClass: HEADING_ILLUSTRATION_CLASS,
+          itemTagName: 'img',
+          itemContent: HEADING_ILLUSTRATION_CONTENT
+        }, {
+          itemDescription: 'a title',
+          itemClass: HEADING_TITLE_CLASS,
+          itemTagName: 'h1',
+          itemContent: HEADING_TITLE_CONTENT
+        }, {
+          itemDescription: 'an description',
+          itemClass: DESCRIPTION_CLASS,
+          itemTagName: 'p',
+          itemContent: DESCRIPTION_CONTENT
+        }, {
+          itemDescription: 'a button go to next text',
+          itemClass: BUTTON_NEXT_CLASS,
+          itemTagName: 'button',
+          itemContent: BUTTON_NEXT_CONTENT
+        }].forEach(function (_ref2) {
+          var itemDescription = _ref2.itemDescription;
+          var itemClass = _ref2.itemClass;
+          var itemTagName = _ref2.itemTagName;
+          var itemContent = _ref2.itemContent;
+
+          (0, _mocha.it)('should be ' + itemDescription + ' in scoring panel', function () {
+            var itemRendered = this.$(itemClass);
+            (0, _chai.expect)(itemRendered.prop('tagName').toLowerCase()).to.equal(itemTagName);
+            (0, _chai.expect)(itemRendered.text().trim()).to.be.equal(itemContent);
+          });
+        });
+
+        (0, _mocha.it)('should return a smiley illustration which satisfy minimals accessibilities conditions', function () {
+          var smiley = this.$(HEADING_ILLUSTRATION_CLASS);
+          (0, _chai.expect)(smiley.attr('src')).to.includes('/images/smiley.png');
+          (0, _chai.expect)(smiley.attr('srcset')).to.includes('/images/smiley@2x.png');
+          (0, _chai.expect)(smiley.attr('srcset')).to.includes('/images/smiley@3x.png');
+          (0, _chai.expect)(smiley.attr('alt')).to.includes('smiley tant pix');
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/scoring-panel-tantpix-test.lint-test', [], function () {
+  'use strict';
+
+  describe('ESLint - integration/components/scoring-panel-tantpix-test.js', function () {
+    it('should pass ESLint', function () {
+      // precompiled test passed
+    });
+  });
+});
 define('pix-live/tests/integration/components/scoring-panel-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
+
+  var TANTPIX_CONTAINER_CLASS = '.scoring-panel-tantpix';
 
   (0, _mocha.describe)('Integration | Component | scoring panel', function () {
 
@@ -5622,10 +5761,15 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['exports', '
         }));
       });
 
-      (0, _mocha.it)('it should display nothing', function () {
+      (0, _mocha.it)('it should not display trophy panel', function () {
         // then
         (0, _chai.expect)(this.$('.scoring-panel__trophy')).to.have.lengthOf(0);
         (0, _chai.expect)(this.$('.scoring-panel__text')).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('should display tantpix result, when user has no reward', function () {
+        // then
+        (0, _chai.expect)(this.$(TANTPIX_CONTAINER_CLASS)).to.lengthOf(1);
       });
     });
 

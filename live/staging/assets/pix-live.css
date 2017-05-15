@@ -1541,8 +1541,6 @@ button.routable-modal--close:active {
     .scoring-panel {
       -ms-flex-direction: row;
       flex-direction: row;
-      padding-bottom: 50px;
-      padding-top: 50px;
       -ms-flex-wrap: wrap;
       flex-wrap: wrap; } }
 
@@ -2166,6 +2164,58 @@ button.routable-modal--close:active {
   line-height: 21px;
   position: relative;
   cursor: pointer; }
+
+.scoring-panel-tantpix {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-direction: column;
+  flex-direction: column; }
+
+.tantpix-panel__illustration-container {
+  margin-top: 16px;
+  max-width: 155px;
+  width: 100%; }
+
+@media (min-width: 767px) {
+  .tantpix-panel__illustration {
+    max-width: 100%; } }
+
+.tantpix-panel__title {
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 40px;
+  font-weight: 300; }
+  @media (min-width: 767px) {
+    .tantpix-panel__title {
+      font-size: 60px; } }
+
+.tantpix-panel__description-container {
+  max-width: 550px;
+  width: 100%; }
+
+.tantpix-panel__description {
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 17px;
+  text-align: center;
+  font-weight: 300; }
+  @media (min-width: 767px) {
+    .tantpix-panel__description {
+      font-size: 28px; } }
+
+.tantpix-panel__button-container {
+  margin-top: 18px;
+  margin-bottom: 32px; }
+
+.tantpix-panel__button {
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+  text-transform: uppercase;
+  width: 160px;
+  height: 40px;
+  border-radius: 23px;
+  border: solid 1px #ffffff;
+  background: none; }
 
 /* pages */
 /* Sections:
