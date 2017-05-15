@@ -12,7 +12,6 @@ class AnswerSerializer extends JSONAPISerializer {
     data.attributes['last-name'] = model.lastName;
   }
 
-
   deserialize(json) {
     return new User({
       id: json.data.id,

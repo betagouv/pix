@@ -9,7 +9,7 @@ validator.isRequired = function(value) {
   return !_.isNil(value);
 };
 
-validator.isTrue = function (value) {
+validator.isTrue = function(value) {
   return _.isBoolean(value) && value === true;
 };
 

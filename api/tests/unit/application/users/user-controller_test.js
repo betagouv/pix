@@ -61,7 +61,7 @@ describe('Unit | Controller | user-controller', () => {
         replyStub.returns({
           code: _ => {
           }
-        })
+        });
       });
 
       afterEach(() => {
@@ -111,7 +111,7 @@ describe('Unit | Controller | user-controller', () => {
         };
 
         // When
-        let promise = userController.save(request, replyStub);
+        const promise = userController.save(request, replyStub);
 
         // Then
         return promise.then(() => {
