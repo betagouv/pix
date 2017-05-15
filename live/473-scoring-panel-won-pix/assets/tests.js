@@ -4454,21 +4454,41 @@ define('pix-live/tests/integration/components/medal-item-test', ['exports', 'cha
     });
 
     (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#medal-item}}
-      //     template content
-      //   {{/medal-item}}
-      // `);
-
       this.render(Ember.HTMLBars.template({
         'id': '38joxm0R',
         'block': '{"statements":[["append",["unknown",["medal-item"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
         'meta': {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should contain the number of pix passed in the component', function () {
+      // given
+      var pixScore = 20;
+      this.set('pixScore', pixScore);
+
+      // when
+      this.render(Ember.HTMLBars.template({
+        'id': '7lTe1OfM',
+        'block': '{"statements":[["append",["helper",["medal-item"],null,[["pixScore"],[["get",["pixScore"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.medal-item__pix-score').text()).to.contain(pixScore.toString());
+    });
+
+    (0, _mocha.it)('should contain an image of a medal with the text pix', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        'id': '7lTe1OfM',
+        'block': '{"statements":[["append",["helper",["medal-item"],null,[["pixScore"],[["get",["pixScore"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.medal-item__medal-img').length).to.equal(1); //svg du trophée
+      (0, _chai.expect)(this.$('.medal-item__pix-text').text()).to.contain('pix'); //text pix
     });
   });
 });
@@ -5820,21 +5840,41 @@ define('pix-live/tests/integration/components/trophy-item-test', ['exports', 'ch
     });
 
     (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#trophy-item}}
-      //     template content
-      //   {{/trophy-item}}
-      // `);
-
       this.render(Ember.HTMLBars.template({
         'id': 'CLTo4UY4',
         'block': '{"statements":[["append",["unknown",["trophy-item"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
         'meta': {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should contain the level passed in the component', function () {
+      // given
+      var level = 3;
+      this.set('level', level);
+
+      // when
+      this.render(Ember.HTMLBars.template({
+        'id': 'Uie6XUx9',
+        'block': '{"statements":[["append",["helper",["trophy-item"],null,[["level"],[["get",["level"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.trophy-item__level').text()).to.contain(level.toString());
+    });
+
+    (0, _mocha.it)('should contain an image of a trophy with the text "NIVEAU"', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        'id': 'CLTo4UY4',
+        'block': '{"statements":[["append",["unknown",["trophy-item"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.trophy-item__img').length).to.equal(1);
+      (0, _chai.expect)(this.$('.trophy-item__level').text()).to.contain('NIVEAU');
     });
   });
 });
