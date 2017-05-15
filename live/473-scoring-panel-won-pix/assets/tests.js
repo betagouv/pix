@@ -5685,7 +5685,7 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['exports', '
       (0, _chai.expect)(this.$()).to.have.length(1);
     });
 
-    (0, _mocha.describe)('view without trophy', function () {
+    (0, _mocha.describe)('Default display', function () {
 
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithNoTrophyAndNoPix);
@@ -5703,7 +5703,7 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['exports', '
       });
     });
 
-    (0, _mocha.describe)('view with a trophy', function () {
+    (0, _mocha.describe)('Display a trophy when the user won a trophy', function () {
 
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithTrophy);
@@ -5735,7 +5735,7 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['exports', '
       });
     });
 
-    (0, _mocha.describe)('view with a medal (no trophy but some pix)', function () {
+    (0, _mocha.describe)('Display a medal when the user won some pix but not a trophy', function () {
 
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithNoTrophyAndSomePix);
@@ -5762,7 +5762,7 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['exports', '
       });
     });
 
-    (0, _mocha.describe)('#backToHome Button', function () {
+    (0, _mocha.describe)('Display the BackToHome button', function () {
 
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithTrophy);
