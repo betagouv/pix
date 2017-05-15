@@ -64,7 +64,7 @@ describe('Unit | Service | ChallengeService', function () {
       ];
 
       // when
-      let result = service.getKnowledgeData(challenges);
+      const result = service.getKnowledgeData(challenges);
 
 
       // then

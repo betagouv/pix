@@ -19,9 +19,9 @@ describe('Unit | Controller | challenge-controller', function () {
   describe('#list', function () {
 
     const challenges = [
-      new Challenge({ "id": "challenge_1" }),
-      new Challenge({ "id": "challenge_2" }),
-      new Challenge({ "id": "challenge_3" })
+      new Challenge({ 'id': 'challenge_1' }),
+      new Challenge({ 'id': 'challenge_2' }),
+      new Challenge({ 'id': 'challenge_3' })
     ];
 
     it('should fetch and return all the challenges, serialized as JSONAPI', function (done) {
@@ -45,7 +45,7 @@ describe('Unit | Controller | challenge-controller', function () {
 
   describe('#get', function () {
 
-    const challenge = new Challenge({ "id": "challenge_id" });
+    const challenge = new Challenge({ 'id': 'challenge_id' });
 
     it('should fetch and return the given challenge, serialized as JSONAPI', function (done) {
       // given
@@ -68,9 +68,9 @@ describe('Unit | Controller | challenge-controller', function () {
     it('should reply with error status code 404 if challenge not found', function (done) {
       // given
       const error = {
-        "error": {
-          "type": "MODEL_ID_NOT_FOUND",
-          "message": "Could not find row by id unknown_id"
+        'error': {
+          'type': 'MODEL_ID_NOT_FOUND',
+          'message': 'Could not find row by id unknown_id'
         }
       };
       sinon.stub(ChallengeRepository, 'get').rejects(error);

@@ -35,7 +35,7 @@ describe('Acceptance | Controller | follower-controller', () => {
       };
 
       // When
-      let promise = server.injectThen({ method: 'POST', url: '/api/followers', payload });
+      const promise = server.injectThen({ method: 'POST', url: '/api/followers', payload });
 
       // Then
       return promise.then((response) => {

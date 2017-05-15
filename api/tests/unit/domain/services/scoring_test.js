@@ -295,7 +295,7 @@ describe('Unit | Domain | Service | scoring', function () {
         {
           performanceStats: {
             nbAcquiredKnowledgeTagsByLevel: {
-              "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0
+              '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0
             }
           },
           expectedEstimatedLevel: 0,
@@ -304,7 +304,7 @@ describe('Unit | Domain | Service | scoring', function () {
         {
           performanceStats: {
             nbAcquiredKnowledgeTagsByLevel: {
-              "1": 1, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0
+              '1': 1, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0
             }
           },
           expectedEstimatedLevel: 0,
@@ -313,7 +313,7 @@ describe('Unit | Domain | Service | scoring', function () {
         {
           performanceStats: {
             nbAcquiredKnowledgeTagsByLevel: {
-              "1": 2, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0
+              '1': 2, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0
             }
           },
           expectedEstimatedLevel: 1,
@@ -322,7 +322,7 @@ describe('Unit | Domain | Service | scoring', function () {
         {
           performanceStats: {
             nbAcquiredKnowledgeTagsByLevel: {
-              "1": 0, "2": 1, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0
+              '1': 0, '2': 1, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0
             }
           },
           expectedEstimatedLevel: 0,
@@ -331,7 +331,7 @@ describe('Unit | Domain | Service | scoring', function () {
         {
           performanceStats: {
             nbAcquiredKnowledgeTagsByLevel: {
-              "1": 2, "2": 1, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0
+              '1': 2, '2': 1, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0
             }
           },
           expectedEstimatedLevel: 2,
@@ -363,6 +363,6 @@ describe('Unit | Domain | Service | scoring', function () {
         });
 
       });
-    })
+    });
   });
 });
