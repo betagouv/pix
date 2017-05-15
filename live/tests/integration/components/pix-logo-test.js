@@ -1,9 +1,9 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import {expect} from 'chai';
+import {beforeEach, describe, it} from 'mocha';
+import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | pix logo', function() {
+describe('Integration | Component | pix logo', function () {
 
   setupComponentTest('pix-logo', {
     integration: true
@@ -13,7 +13,7 @@ describe('Integration | Component | pix logo', function() {
     this.render(hbs`{{pix-logo}}`);
   });
 
-  it('renders', function() {
+  it('renders', function () {
     expect(this.$()).to.have.lengthOf(1);
   });
 
