@@ -1,7 +1,7 @@
 #! /bin/bash
 
-set -eu
-set -o pipefail
+# Exit on errors, pipe errors and undefined variables
+set -euo pipefail
 
 export COVERAGE=true
 

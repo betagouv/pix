@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# Exit on errors, pipe errors and undefined variables
+set -euo pipefail
+
 BUILD_ENV=$1
 BUILD_OUTPUT="undefined"
 GIT_CURRENT_HASH=`git rev-parse HEAD | tr -d "\n"`
