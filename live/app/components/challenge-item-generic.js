@@ -46,7 +46,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
     return !this.hasTimerDefined() || (this.hasTimerDefined() && this.get('_hasUserAknowledgedTimingWarning'));
   }),
 
-  hasTimerDefined(){
+  hasTimerDefined() {
     return _.isInteger(this.get('challenge.timer'));
   },
 
@@ -54,16 +54,16 @@ const ChallengeItemGeneric = Ember.Component.extend({
     return $('.timeout-jauge-remaining').attr('data-spent');
   },
 
-  _getElapsedTime(){
+  _getElapsedTime() {
     return this.get('_elapsedTime');
   },
 
-  _start(){
+  _start() {
     this.set('_elapsedTime', 0);
     this._tick();
   },
 
-  _tick(){
+  _tick() {
     if (ENV.APP.isChallengeTimerEnable) {
       const timer = Ember.run.later(this, function () {
         const elapsedTime = this.get('_elapsedTime');

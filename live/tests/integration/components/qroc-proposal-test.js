@@ -16,7 +16,7 @@ describe('Integration | Component | QrocProposal', function () {
     this.set('blocks', block);
   });
 
-  describe('Component behavior when user fill input of challenge:', function(){
+  describe('Component behavior when user fill input of challenge:', function() {
 
     it('renders', function () {
       this.render(hbs`{{qroc-proposal}}`);
@@ -33,7 +33,7 @@ describe('Integration | Component | QrocProposal', function () {
     });
   });
 
-  describe('Component behavior when user skip challenge:', function(){
+  describe('Component behavior when user skip challenge:', function() {
 
     [
       {input: 'aband', output: 'aband'},

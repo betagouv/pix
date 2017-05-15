@@ -4,7 +4,7 @@ export default Ember.Component.extend({
 
   classNames: ['qroc-proposal'],
 
-  userAnswer : Ember.computed('answerValue', function(){
+  userAnswer : Ember.computed('answerValue', function() {
     const answer = this.get('answerValue') || '';
     return answer.indexOf('#ABAND#') > -1? '' : answer;
   }),

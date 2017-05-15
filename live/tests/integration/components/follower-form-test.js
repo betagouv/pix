@@ -20,7 +20,7 @@ describe('Integration | Component | follower form', function() {
     expect(this.$()).to.have.length(1);
   });
 
-  describe('Test Component form', function(){
+  describe('Test Component form', function() {
     it('should render submit button', function () {
       //When
       this.render(hbs`{{follower-form}}`);

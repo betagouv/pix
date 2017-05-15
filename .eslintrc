@@ -24,6 +24,8 @@ rules:
   no-unused-vars:
     - 2
     - { argsIgnorePattern: "_" }
+  space-before-blocks:
+    - 2
 parserOptions:
   ecmaVersion: 8
   sourceType: script

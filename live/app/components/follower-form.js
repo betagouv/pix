@@ -51,7 +51,7 @@ export default Ember.Component.extend({
   }),
 
   actions: {
-    submit(){
+    submit() {
       this.set('status', 'pending');
       const email = (this.get('_followerEmail')) ? this.get('_followerEmail').trim() : '';
       if (!isEmailValid(email)) {
