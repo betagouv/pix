@@ -19,26 +19,24 @@ const DESCRIPTION_CONTENT = 'Manifestement, ce n\'est pas votre jour mais vous f
 
 const BUTTON_NEXT_CLASS_WRAPPER = '.tantpix-panel__button-container';
 const BUTTON_NEXT_CLASS = '.tantpix-panel__button';
-const BUTTON_NEXT_CONTENT = 'test suivant';
+const BUTTON_NEXT_CONTENT = 'revenir à l\'accueil';
 
-
-describe('Integration | Component | scoring panel tantpix', function () {
+describe('Integration | Component | scoring panel tantpix', function() {
   setupComponentTest('scoring-panel-tantpix', {
     integration: true
   });
 
-  describe('On Component rendering:', function () {
-    beforeEach(function () {
+  describe('On Component rendering:', function() {
+    beforeEach(function() {
       this.render(hbs`{{scoring-panel-tantpix}}`);
     });
 
-    it('should render successfully component wrapper', function () {
+    it('should render successfully component wrapper', function() {
       expect(this.$()).to.have.length(1);
       expect(this.$(COMPONENT_WRAPPER)).to.lengthOf(1);
     });
 
-
-    describe('wrappers rendering', function () {
+    describe('wrappers rendering', function() {
       [
         {
           wrapperDescription: 'an illustration wrapper',
@@ -69,7 +67,7 @@ describe('Integration | Component | scoring panel tantpix', function () {
         },
 
       ].forEach(({wrapperDescription, wrapperClass, wrapperTagName, wrapperLength}) => {
-        it(`should contain: ${wrapperDescription} in scoring panel`, function () {
+        it(`should contain: ${wrapperDescription} in scoring panel`, function() {
           const wrapperRendered = this.$(wrapperClass);
           expect(wrapperRendered.prop('tagName').toLowerCase()).to.equal(wrapperTagName);
           expect(wrapperRendered).to.lengthOf(wrapperLength);
@@ -78,7 +76,7 @@ describe('Integration | Component | scoring panel tantpix', function () {
 
     });
 
-    describe('wrapped items:', function () {
+    describe('wrapped items:', function() {
       [
         {
           itemDescription: 'an smiley illustration img',
@@ -105,14 +103,14 @@ describe('Integration | Component | scoring panel tantpix', function () {
           itemContent: BUTTON_NEXT_CONTENT
         },
       ].forEach(({itemDescription, itemClass, itemTagName, itemContent}) => {
-        it(`should be ${itemDescription} in scoring panel`, function () {
+        it(`should be ${itemDescription} in scoring panel`, function() {
           const itemRendered = this.$(itemClass);
           expect(itemRendered.prop('tagName').toLowerCase()).to.equal(itemTagName);
           expect(itemRendered.text().trim()).to.be.equal(itemContent);
         });
       });
 
-      it('should return a smiley illustration which satisfy minimals accessibilities conditions', function () {
+      it('should return a smiley illustration which satisfy minimals accessibilities conditions', function() {
         const smiley = this.$(HEADING_ILLUSTRATION_CLASS);
         expect(smiley.attr('src')).to.includes('/images/smiley.png');
         expect(smiley.attr('srcset')).to.includes('/images/smiley@2x.png');
@@ -120,7 +118,6 @@ describe('Integration | Component | scoring panel tantpix', function () {
         expect(smiley.attr('alt')).to.includes('smiley tant pix');
       });
     });
-
 
   });
 
