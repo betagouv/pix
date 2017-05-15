@@ -1,19 +1,25 @@
-import Ember from 'ember';
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
-import hbs from 'htmlbars-inline-precompile';
+import Ember from "ember";
+import {expect} from "chai";
+import {
+  beforeEach,
+  describe,
+  it
+} from "mocha";
+import {setupComponentTest} from "ember-mocha";
+import hbs from "htmlbars-inline-precompile";
 
-describe('Integration | Component | scoring panel', function() {
+const TANTPIX_CONTAINER_CLASS = '.scoring-panel-tantpix';
+
+describe.only('Integration | Component | scoring panel', function () {
 
   setupComponentTest('scoring-panel', {
     integration: true
   });
 
-  const assessmentWithTrophy = Ember.Object.create({estimatedLevel : 1, course : {isAdaptive : true}});
-  const assessmentWithNoTrophy = Ember.Object.create({estimatedLevel : 0, course : {isAdaptive : true}});
+  const assessmentWithTrophy = Ember.Object.create({estimatedLevel: 1, course: {isAdaptive: true}});
+  const assessmentWithNoTrophy = Ember.Object.create({estimatedLevel: 0, course: {isAdaptive: true}});
 
-  it('renders', function() {
+  it('renders', function () {
     this.render(hbs`{{scoring-panel}}`);
     expect(this.$()).to.have.length(1);
   });
@@ -30,6 +36,11 @@ describe('Integration | Component | scoring panel', function() {
       expect(this.$('.scoring-panel__trophy')).to.have.lengthOf(0);
       expect(this.$('.scoring-panel__text')).to.have.lengthOf(0);
 
+    });
+
+    it('should display tantpix result, when user has no reward', function () {
+      // then
+      expect(this.$(TANTPIX_CONTAINER_CLASS)).to.lengthOf(1);
     });
   });
 
