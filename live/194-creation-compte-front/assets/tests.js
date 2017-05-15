@@ -5782,7 +5782,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
 
         (0, _mocha.it)('should render a ' + expectedRendering, function () {
           (0, _chai.expect)(this.$(input)).to.have.length(expectedLength);
-          (0, _chai.expect)(this.$(input).text()).to.equal(expectedValue);
+          (0, _chai.expect)(this.$(input).text().trim()).to.equal(expectedValue);
           (0, _chai.expect)(this.$(input).prop('nodeName')).to.equal(expectedType.toUpperCase());
         });
       });
