@@ -13,7 +13,7 @@ describe('Acceptance | Controller | users-controller', function () {
   let sendAccountCreationEmailStub;
 
   before(() => {
-    sendAccountCreationEmailStub = sinon.stub(mailService, "sendAccountCreationEmail")
+    sendAccountCreationEmailStub = sinon.stub(mailService, 'sendAccountCreationEmail');
   });
 
   beforeEach(function () {
@@ -65,7 +65,7 @@ describe('Acceptance | Controller | users-controller', function () {
     // When
     const secondRegistration = firstRegistration
       .then(_ => {
-        return server.injectThen(options)
+        return server.injectThen(options);
       });
 
     // Then
@@ -77,8 +77,8 @@ describe('Acceptance | Controller | users-controller', function () {
 
   it('should save the user in the database', function () {
     return server.injectThen(options)
-      .then(response => {
-        return new User({ email: attributes.email }).fetch()
+      .then(() => {
+        return new User({ email: attributes.email }).fetch();
       })
       .then((user) => {
         expect(attributes.firstName).to.equal(user.get('firstName'));
@@ -92,7 +92,7 @@ describe('Acceptance | Controller | users-controller', function () {
 
     return server.injectThen(options)
       .then(() => {
-        return new User({ email: attributes.email }).fetch()
+        return new User({ email: attributes.email }).fetch();
       })
       .then((user) => {
         expect(user.get('password')).not.to.equal('my-123-password');
@@ -102,10 +102,10 @@ describe('Acceptance | Controller | users-controller', function () {
   describe('should return 400 HTTP status code', () => {
     it('when the email is not valid', function () {
       // Given
-      options.payload.data.attributes.email = "invalid.email@";
+      options.payload.data.attributes.email = 'invalid.email@';
 
       // When
-      let promise = server.injectThen(options);
+      const promise = server.injectThen(options);
 
       // Then
       return promise.then(response => {

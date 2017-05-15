@@ -1,4 +1,4 @@
-const { describe, it, expect, sinon } = require('../../../test-helper');
+const { describe, it, expect, beforeEach, afterEach, sinon } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/assessment-service');
 
@@ -173,7 +173,7 @@ describe('Unit | Domain | Services | assessment-service', function () {
 
     it('should retrieve assessment from repository', () => {
       // When
-      let promise = service.getScoredAssessment(ASSESSMENT_ID);
+      const promise = service.getScoredAssessment(ASSESSMENT_ID);
 
       // Then
       return promise.then(() => {
@@ -187,7 +187,7 @@ describe('Unit | Domain | Services | assessment-service', function () {
       getAssessmentStub.returns(Promise.reject(errorOnRepository));
 
       // When
-      let promise = service.getScoredAssessment(ASSESSMENT_ID);
+      const promise = service.getScoredAssessment(ASSESSMENT_ID);
 
       // Then
       return promise.then(() => {
@@ -203,7 +203,7 @@ describe('Unit | Domain | Services | assessment-service', function () {
       getAssessmentStub.returns(Promise.resolve(null));
 
       // When
-      let promise = service.getScoredAssessment(ASSESSMENT_ID);
+      const promise = service.getScoredAssessment(ASSESSMENT_ID);
 
       // Then
       return promise.then(() => {
@@ -215,7 +215,7 @@ describe('Unit | Domain | Services | assessment-service', function () {
 
     it('should detect Assessement created for preview Challenge and do not evaluate score', () => {
       // Given
-      let assessmentFromPreview = new Assessment({
+      const assessmentFromPreview = new Assessment({
         id: '1',
         courseId: 'nullfec89bd5-a706-419b-a6d2-f8805e708ace'
       });
@@ -223,7 +223,7 @@ describe('Unit | Domain | Services | assessment-service', function () {
       findByAssessmentStub.returns(Promise.reject());
 
       // When
-      let promise = service.getScoredAssessment(ASSESSMENT_ID);
+      const promise = service.getScoredAssessment(ASSESSMENT_ID);
 
       // Then
       return promise
@@ -248,13 +248,13 @@ describe('Unit | Domain | Services | assessment-service', function () {
         getCourseStub.returns(Promise.reject(new Error('Error from courseRepository')));
 
         // When
-        let promise = service.getScoredAssessment(ASSESSMENT_ID);
+        const promise = service.getScoredAssessment(ASSESSMENT_ID);
 
         // Then
         return promise
           .then(() => {
-              sinon.assert.fail('Should not succeed');
-            },
+            sinon.assert.fail('Should not succeed');
+          },
             (error) => {
               sinon.assert.calledWithExactly(getCourseStub, COURSE_ID);
               expect(error.message).to.equal('Error from courseRepository');
@@ -263,7 +263,7 @@ describe('Unit | Domain | Services | assessment-service', function () {
 
       it('should load answers for the assessment', () => {
         // When
-        let promise = service.getScoredAssessment(ASSESSMENT_ID);
+        const promise = service.getScoredAssessment(ASSESSMENT_ID);
 
         // Then
         return promise
@@ -279,7 +279,7 @@ describe('Unit | Domain | Services | assessment-service', function () {
         let secondFakeChallenge;
 
         beforeEach(() => {
-          let course = { challenges: [ 'challenge_web_1', 'challenge_web_2' ] };
+          const course = { challenges: [ 'challenge_web_1', 'challenge_web_2' ] };
           getCourseStub.returns(Promise.resolve(course));
 
           firstFakeChallenge = _buildChallenge([ '@web1' ]);
@@ -291,7 +291,7 @@ describe('Unit | Domain | Services | assessment-service', function () {
 
         it('should get knowledgeData each one', () => {
           // When
-          let promise = service.getScoredAssessment(ASSESSMENT_ID);
+          const promise = service.getScoredAssessment(ASSESSMENT_ID);
 
           // Then
           return promise
@@ -303,7 +303,7 @@ describe('Unit | Domain | Services | assessment-service', function () {
 
         it('should resolve the promise with a scored assessment', () => {
           // When
-          let promise = service.getScoredAssessment(ASSESSMENT_ID);
+          const promise = service.getScoredAssessment(ASSESSMENT_ID);
 
           // Then
           return promise

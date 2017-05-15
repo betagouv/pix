@@ -10,7 +10,7 @@ describe('Unit | Service | MailService', () => {
     let sendEmailStub;
 
     beforeEach(() => {
-      sendEmailStub = sinon.stub(mailJet, "sendEmail").resolves()
+      sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
     });
 
     afterEach(() => {
@@ -43,7 +43,7 @@ describe('Unit | Service | MailService', () => {
     let sendEmailStub;
 
     beforeEach(() => {
-      sendEmailStub = sinon.stub(mailJet, "sendEmail").resolves()
+      sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
     });
 
     afterEach(() => {
@@ -67,6 +67,6 @@ describe('Unit | Service | MailService', () => {
         });
       });
     });
-  })
+  });
 
 });

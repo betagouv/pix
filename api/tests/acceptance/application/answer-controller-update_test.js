@@ -80,7 +80,7 @@ describe('Acceptance | Controller | answer-controller', function () {
     });
 
     it('should not add a new answer into the database', function (done) {
-      server.inject(options, (response) => {
+      server.inject(options, () => {
         Answer.count().then((afterAnswersNumber) => {
           expect(afterAnswersNumber).to.equal(1);
           done();

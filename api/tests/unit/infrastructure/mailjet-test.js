@@ -1,4 +1,4 @@
-const { describe, it, beforeEach, afterEach, sinon, expect } = require('../../test-helper');
+const { describe, it, beforeEach, afterEach, sinon } = require('../../test-helper');
 const Mailjet = require('../../../lib/infrastructure/mailjet');
 
 const nodeMailjet = require('node-mailjet');
@@ -10,7 +10,7 @@ describe('Unit | Class | Mailjet', function () {
     let mailJetConnectStub;
 
     beforeEach(() => {
-      mailJetConnectStub = sinon.stub(nodeMailjet, "connect");
+      mailJetConnectStub = sinon.stub(nodeMailjet, 'connect');
     });
 
     afterEach(() => {
@@ -24,7 +24,7 @@ describe('Unit | Class | Mailjet', function () {
           return {
             request: () => {
             }
-          }
+          };
         }
       });
 
@@ -32,7 +32,7 @@ describe('Unit | Class | Mailjet', function () {
       Mailjet.sendEmail();
 
       // Then
-      sinon.assert.calledWith(mailJetConnectStub, 'test-api-ket', 'test-api-secret')
+      sinon.assert.calledWith(mailJetConnectStub, 'test-api-ket', 'test-api-secret');
     });
 
     it('should post a send instruction', () => {

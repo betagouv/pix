@@ -25,12 +25,12 @@ describe('Unit | Controller | FollowerController', function () {
 
     it('should return 400 status code when email provided is not valid', function () {
       // Given
-      const follower = { "email": "testeur@follower.pix" };
+      const follower = { 'email': 'testeur@follower.pix' };
       const emailValidatorStub = sinon.stub(EmailValidator, 'emailIsValid').returns(false);
       sinon.stub(followerSerializer, 'deserialize', _ => new Follower(follower));
 
       // When
-      let promise = server.injectThen({ method: 'POST', url: '/api/followers', payload: { "email": 'INVALID_EMAIL' } });
+      const promise = server.injectThen({ method: 'POST', url: '/api/followers', payload: { 'email': 'INVALID_EMAIL' } });
 
       // Then
       return promise.then((res) => {

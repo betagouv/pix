@@ -1,6 +1,5 @@
-const { describe, it, expect } = require('../../../../test-helper');
+const { describe, it, expect, beforeEach } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
-const User = require('../../../../../lib/domain/models/data/user');
 
 describe('Unit | Serializer | JSONAPI | user-serializer', function () {
 
@@ -11,10 +10,10 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
       data: {
         type: 'user',
         attributes: {
-          firstName: "Luke",
-          lastName: "Skywalker",
-          email: "lskywalker@deathstar.empire",
-          password: ""
+          firstName: 'Luke',
+          lastName: 'Skywalker',
+          email: 'lskywalker@deathstar.empire',
+          password: ''
         },
         relationships: {}
       }
@@ -29,9 +28,9 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
 
       // Then
       expect(user.get('firstName')).to.equal('Luke');
-      expect(user.get('lastName')).to.equal("Skywalker");
-      expect(user.get('email')).to.equal("lskywalker@deathstar.empire");
-      expect(user.get('password')).to.equal("");
+      expect(user.get('lastName')).to.equal('Skywalker');
+      expect(user.get('email')).to.equal('lskywalker@deathstar.empire');
+      expect(user.get('password')).to.equal('');
     });
 
     it('should contain an ID attribute', function () {
