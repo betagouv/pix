@@ -19,7 +19,7 @@ describe('Integration | Component | scoring panel', function() {
     expect(this.$()).to.have.length(1);
   });
 
-  describe('view without trophy', function () {
+  describe('Default display', function () {
 
     beforeEach(function () {
       this.set('assessment', assessmentWithNoTrophyAndNoPix);
@@ -34,7 +34,7 @@ describe('Integration | Component | scoring panel', function() {
     });
   });
 
-  describe('view with a trophy', function () {
+  describe('Display a trophy when the user won a trophy', function () {
 
     beforeEach(function () {
       this.set('assessment', assessmentWithTrophy);
@@ -62,7 +62,7 @@ describe('Integration | Component | scoring panel', function() {
     });
   });
 
-  describe('view with a medal (no trophy but some pix)', function () {
+  describe('Display a medal when the user won some pix but not a trophy', function () {
 
     beforeEach(function () {
       this.set('assessment', assessmentWithNoTrophyAndSomePix);
@@ -85,7 +85,7 @@ describe('Integration | Component | scoring panel', function() {
     });
   });
 
-  describe('#backToHome Button', function () {
+  describe('Display the BackToHome button', function () {
 
     beforeEach(function () {
       this.set('assessment', assessmentWithTrophy);
