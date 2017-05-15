@@ -1708,7 +1708,8 @@ button.routable-modal--close:active {
   letter-spacing: 0.5px;
   text-align: center;
   background-color: transparent;
-  border: transparent; }
+  border: transparent;
+  outline: 0; }
   @media (min-width: 480px) {
     .scoring-panel__index-link__element {
       font-size: 10px;

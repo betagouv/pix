@@ -5761,6 +5761,23 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['exports', '
         (0, _chai.expect)(this.$('.scoring-panel__congrats-beta')).to.have.lengthOf(1);
       });
     });
+
+    (0, _mocha.describe)('#backToHome Button', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        this.set('assessment', assessmentWithTrophy);
+        this.render(_ember['default'].HTMLBars.template({
+          'id': 'FwD67xpw',
+          'block': '{"statements":[["append",["helper",["scoring-panel"],null,[["assessment"],[["get",["assessment"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'meta': {}
+        }));
+      });
+
+      (0, _mocha.it)('should not have a blue border when the user clicks on its', function () {
+        // then
+        (0, _chai.expect)(this.$('.scoring-panel__index-link__element').css('outline')).to.equal('rgb(255, 255, 255) none 0px');
+      });
+    });
   });
 });
 define('pix-live/tests/integration/components/scoring-panel-test.lint-test', [], function () {
