@@ -9,16 +9,28 @@ describe('Integration | Component | medal item', function() {
   });
 
   it('renders', function() {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
-    // Template block usage:
-    // this.render(hbs`
-    //   {{#medal-item}}
-    //     template content
-    //   {{/medal-item}}
-    // `);
-
     this.render(hbs`{{medal-item}}`);
     expect(this.$()).to.have.length(1);
+  });
+
+  it('should contain the number of pix passed in the component', function () {
+    // given
+    const pixScore = 20;
+    this.set('pixScore', pixScore);
+
+    // when
+    this.render(hbs`{{medal-item pixScore=pixScore}}`);
+
+    // then
+    expect(this.$('.medal-item__pix-score').text()).to.contain(pixScore.toString());
+  });
+
+  it('should contain an image of a medal with the text pix', function () {
+    // when
+    this.render(hbs`{{medal-item pixScore=pixScore}}`);
+
+    // then
+    expect(this.$('.medal-item__medal-img').length).to.equal(1);//svg du trophée
+    expect(this.$('.medal-item__pix-text').text()).to.contain('pix');//text pix
   });
 });
