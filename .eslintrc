@@ -26,6 +26,9 @@ rules:
     - { argsIgnorePattern: "_" }
   space-before-blocks:
     - 2
+  space-before-function-paren:
+    - 2
+    - { anonymous: never, named: never, asyncArrow: ignore }
 parserOptions:
   ecmaVersion: 8
   sourceType: script

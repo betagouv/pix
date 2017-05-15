@@ -20,16 +20,16 @@ function _buildAnswer(challengeId, result) {
   return answer;
 }
 
-describe('Unit | Domain | Service | scoring', function () {
+describe('Unit | Domain | Service | scoring', function() {
 
-  describe('#nextNode', function () {
+  describe('#nextNode', function() {
 
     [
       { title: 'direction is increasing', node: 'web4', dir: 1, answer: 'web5' },
       { title: 'direction is decreasing', node: 'rechInfo3', dir: -1, answer: 'rechInfo2' },
     ].forEach(testCase => {
 
-      it(`should return ${testCase.answer} when ${testCase.title} and node is ${testCase.node}`, function () {
+      it(`should return ${testCase.answer} when ${testCase.title} and node is ${testCase.node}`, function() {
         const result = scoring.nextNode(testCase.node, testCase.dir);
         expect(result).to.equal(testCase.answer);
       });
@@ -37,7 +37,7 @@ describe('Unit | Domain | Service | scoring', function () {
 
   });
 
-  describe('#propagateKnowledge', function () {
+  describe('#propagateKnowledge', function() {
 
     const allKnowledge = { 'web3': 1, 'web4': 1, 'web5': 1, 'web6': 1 };
 
@@ -46,7 +46,7 @@ describe('Unit | Domain | Service | scoring', function () {
       { title: 'direction is decreasing', startNode: 'web4', dir: -1, answer: [ 'web3', 'web4' ] }
     ].forEach(testCase => {
 
-      it(`should return ${testCase.answer} when ${testCase.title} and node is ${testCase.node}`, function () {
+      it(`should return ${testCase.answer} when ${testCase.title} and node is ${testCase.node}`, function() {
         // When
         const result = scoring.propagateKnowledge(allKnowledge, testCase.startNode, testCase.dir);
 

@@ -20,7 +20,7 @@ describe('Unit | Utility | proposals as array', function() {
 
   testData.forEach(({ data, expected }) => {
 
-    it(`"${data.toString()}" retourne [${expected}]`, function () {
+    it(`"${data.toString()}" retourne [${expected}]`, function() {
       expect(proposalsAsArray(data)).to.deep.equal(expected);
     });
   });

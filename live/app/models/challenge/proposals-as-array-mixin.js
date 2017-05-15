@@ -10,7 +10,7 @@ function calculate(proposals) {
 }
 
 export default Ember.Mixin.create({
-  _proposalsAsArray: Ember.computed('proposals', function () {
+  _proposalsAsArray: Ember.computed('proposals', function() {
 
 
     const proposals = this.get('proposals');

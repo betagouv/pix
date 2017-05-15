@@ -1,10 +1,10 @@
 const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | API | Assessments', function () {
+describe('Acceptance | API | Assessments', function() {
 
 
-  before(function (done) {
+  before(function(done) {
 
     nock.cleanAll();
     nock('https://api.airtable.com')
@@ -54,13 +54,13 @@ describe('Acceptance | API | Assessments', function () {
     done();
   });
 
-  after(function (done) {
+  after(function(done) {
     nock.cleanAll();
     server.stop(done);
   });
 
 
-  describe('(adaptive) GET /api/assessments/:assessment_id/next', function () {
+  describe('(adaptive) GET /api/assessments/:assessment_id/next', function() {
 
     let insertedAssessmentId = null;
 
@@ -70,7 +70,7 @@ describe('Acceptance | API | Assessments', function () {
       courseId: 'the_adaptive_course_id'
     };
 
-    beforeEach(function (done) {
+    beforeEach(function(done) {
       knex('assessments').delete().then(() => {
         knex('assessments').insert([inserted_assessment]).then((rows) => {
           insertedAssessmentId = rows[0];
@@ -79,11 +79,11 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
 
-    afterEach(function (done) {
+    afterEach(function(done) {
       knex('assessments').delete().then(() => {done();});
     });
 
-    it('should return 200 HTTP status code', function (done) {
+    it('should return 200 HTTP status code', function(done) {
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
       server.inject(options, (response) => {
         expect(response.statusCode).to.equal(200);
@@ -91,7 +91,7 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
 
-    it('should return application/json', function (done) {
+    it('should return application/json', function(done) {
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
       server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
@@ -100,7 +100,7 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
 
-    it('should return the first challenge if no challenge specified', function (done) {
+    it('should return the first challenge if no challenge specified', function(done) {
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
       server.inject(options, (response) => {
         expect(response.result.data.id).to.equal('z_first_challenge');

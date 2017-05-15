@@ -4,13 +4,13 @@ import {describe, it} from 'mocha';
 import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | QrocProposal', function () {
+describe('Integration | Component | QrocProposal', function() {
 
   setupComponentTest('qroc-proposal', {
     integration: true
   });
 
-  beforeEach(function () {
+  beforeEach(function() {
     const block = [];
     block.push(Ember.Object.create({name: 'myInput', input: 'mylabel'}));
     this.set('blocks', block);
@@ -18,12 +18,12 @@ describe('Integration | Component | QrocProposal', function () {
 
   describe('Component behavior when user fill input of challenge:', function() {
 
-    it('renders', function () {
+    it('renders', function() {
       this.render(hbs`{{qroc-proposal}}`);
       expect(this.$()).to.have.length(1);
     });
 
-    it('should display a value when a non-empty value is providing by user', function () {
+    it('should display a value when a non-empty value is providing by user', function() {
       // given
       this.set('answerValue', 'myValue');
       // when
@@ -46,7 +46,7 @@ describe('Integration | Component | QrocProposal', function () {
       {input: '', output: ''}
     ].forEach(({input, output}) => {
 
-      it(`should display '' value ${input} is providing to component`, function () {
+      it(`should display '' value ${input} is providing to component`, function() {
         // given
         this.set('answerValue', input);
         // when

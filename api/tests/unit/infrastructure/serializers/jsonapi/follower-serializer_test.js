@@ -3,9 +3,9 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const Follower = require('../../../../../lib/domain/models/data/follower');
 
 
-describe('Unit | Serializer | follower-serializer', function () {
-  describe('#deserialize', function () {
-    it('should convert JSON API data into a Follower model object', function () {
+describe('Unit | Serializer | follower-serializer', function() {
+  describe('#deserialize', function() {
+    it('should convert JSON API data into a Follower model object', function() {
       const followerModelObject = new Follower({email: 'brm+1@pix.fr'});
       const jsonFollower = {
         data: {
@@ -25,8 +25,8 @@ describe('Unit | Serializer | follower-serializer', function () {
 
   });
 
-  describe('#serialize', function () {
-    it('should convert Follower Model Object into a JSON API', function () {
+  describe('#serialize', function() {
+    it('should convert Follower Model Object into a JSON API', function() {
       const followerObject = new Follower({email: 'shi@fu.me', id: '1'});
       const jsonApiFollower = {
         data: {

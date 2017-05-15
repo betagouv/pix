@@ -4,10 +4,10 @@ const service = require('../../../../lib/domain/services/solution-service');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const SolutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 
-describe('Unit | Service | SolutionService', function () {
+describe('Unit | Service | SolutionService', function() {
 
 
-  describe('#revalidate', function () {
+  describe('#revalidate', function() {
 
     const ko_answer = {
       id: 1,
@@ -44,7 +44,7 @@ describe('Unit | Service | SolutionService', function () {
       challengeId: 'any_challenge_id'
     };
 
-    before(function (done) {
+    before(function(done) {
       knex('answers').delete().then(() => {
         knex('answers').insert([ko_answer, ok_answer, unimplemented_answer, aband_answer, timedout_answer]).then(() => {
           done();
@@ -52,14 +52,14 @@ describe('Unit | Service | SolutionService', function () {
       });
     });
 
-    after(function (done) {
+    after(function(done) {
       knex('answers').delete().then(() => {done();});
     });
 
 
-    it('If the answer is timedout, resolve to the answer itself, unchanged', function (done) {
+    it('If the answer is timedout, resolve to the answer itself, unchanged', function(done) {
       expect(service.revalidate).to.exist;
-      service.revalidate(new Answer(timedout_answer)).then(function (foundAnswer) {
+      service.revalidate(new Answer(timedout_answer)).then(function(foundAnswer) {
         expect(foundAnswer.id).equals(timedout_answer.id);
         expect(foundAnswer.attributes.value).equals(timedout_answer.value);
         expect(foundAnswer.attributes.result).equals(timedout_answer.result);
@@ -68,9 +68,9 @@ describe('Unit | Service | SolutionService', function () {
       });
     });
 
-    it('If the answer is aband, resolve to the answer itself, unchanged', function (done) {
+    it('If the answer is aband, resolve to the answer itself, unchanged', function(done) {
       expect(service.revalidate).to.exist;
-      service.revalidate(new Answer(aband_answer)).then(function (foundAnswer) {
+      service.revalidate(new Answer(aband_answer)).then(function(foundAnswer) {
         expect(foundAnswer.id).equals(aband_answer.id);
         expect(foundAnswer.attributes.value).equals(aband_answer.value);
         expect(foundAnswer.attributes.result).equals(aband_answer.result);
@@ -79,7 +79,7 @@ describe('Unit | Service | SolutionService', function () {
       });
     });
 
-    it('If the answer is ko, resolve to the answer itself, with result corresponding to the matching', function (done) {
+    it('If the answer is ko, resolve to the answer itself, with result corresponding to the matching', function(done) {
 
       // given
       const MATCHING_RETURNS = {result: '#ANY_RESULT#', resultDetails: null};
@@ -89,7 +89,7 @@ describe('Unit | Service | SolutionService', function () {
       expect(service.revalidate).to.exist;
 
       // when
-      service.revalidate(new Answer(ko_answer)).then(function (foundAnswer) {
+      service.revalidate(new Answer(ko_answer)).then(function(foundAnswer) {
 
         // then
         SolutionRepository.get.restore();
@@ -105,7 +105,7 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
-    it('If the answer is ok, resolve to the answer itself, with result corresponding to the matching', function (done) {
+    it('If the answer is ok, resolve to the answer itself, with result corresponding to the matching', function(done) {
 
       // given
       const MATCHING_RETURNS = {result: '#ANY_RESULT#', resultDetails: null};
@@ -115,7 +115,7 @@ describe('Unit | Service | SolutionService', function () {
       expect(service.revalidate).to.exist;
 
       // when
-      service.revalidate(new Answer(ok_answer)).then(function (foundAnswer) {
+      service.revalidate(new Answer(ok_answer)).then(function(foundAnswer) {
 
         // then
         SolutionRepository.get.restore();
@@ -132,7 +132,7 @@ describe('Unit | Service | SolutionService', function () {
     });
 
 
-    it('If the answer is unimplemented, resolve to the answer itself, with result corresponding to the matching', function (done) {
+    it('If the answer is unimplemented, resolve to the answer itself, with result corresponding to the matching', function(done) {
 
       // given
       const MATCHING_RETURNS = {result: '#ANY_RESULT#', resultDetails: null};
@@ -142,7 +142,7 @@ describe('Unit | Service | SolutionService', function () {
       expect(service.revalidate).to.exist;
 
       // when
-      service.revalidate(new Answer(unimplemented_answer)).then(function (foundAnswer) {
+      service.revalidate(new Answer(unimplemented_answer)).then(function(foundAnswer) {
 
         // then
         SolutionRepository.get.restore();

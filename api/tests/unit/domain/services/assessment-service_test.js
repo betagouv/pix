@@ -49,23 +49,23 @@ function _buildAssessment(estimatedLevel, pixScore, notAcquiredKnowledgeTags, ac
 }
 
 
-describe('Unit | Domain | Services | assessment-service', function () {
+describe('Unit | Domain | Services | assessment-service', function() {
 
-  it('should exist', function () {
+  it('should exist', function() {
     expect(service).to.exist;
   });
 
-  it('#getAssessmentNextChallengeId should exist', function () {
+  it('#getAssessmentNextChallengeId should exist', function() {
     expect(service.getAssessmentNextChallengeId).to.exist;
   });
 
-  describe('#getAssessmentNextChallengeId', function () {
+  describe('#getAssessmentNextChallengeId', function() {
 
-    it('Should return the first challenge if no currentChallengeId is given', function (done) {
+    it('Should return the first challenge if no currentChallengeId is given', function(done) {
 
       sinon.stub(courseRepository, 'get').resolves({ challenges: [ 'the_first_challenge' ] });
 
-      service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), null).then(function (result) {
+      service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), null).then(function(result) {
         expect(result).to.equal('the_first_challenge');
         courseRepository.get.restore();
         done();
@@ -74,11 +74,11 @@ describe('Unit | Domain | Services | assessment-service', function () {
     });
 
 
-    it('Should return the next challenge if currentChallengeId is given', function (done) {
+    it('Should return the next challenge if currentChallengeId is given', function(done) {
 
       sinon.stub(courseRepository, 'get').resolves({ challenges: [ '1st_challenge', '2nd_challenge' ] });
 
-      service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), '1st_challenge').then(function (result) {
+      service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), '1st_challenge').then(function(result) {
         expect(result).to.equal('2nd_challenge');
         courseRepository.get.restore();
         done();
@@ -87,9 +87,9 @@ describe('Unit | Domain | Services | assessment-service', function () {
     });
 
 
-    it('Should resolves to "null" if no assessment is given', function (done) {
+    it('Should resolves to "null" if no assessment is given', function(done) {
 
-      service.getAssessmentNextChallengeId().then(function (result) {
+      service.getAssessmentNextChallengeId().then(function(result) {
         expect(result).to.equal(null);
         done();
       });
@@ -97,11 +97,11 @@ describe('Unit | Domain | Services | assessment-service', function () {
     });
 
 
-    it('Should resolves to "null" if no courseId is given', function (done) {
+    it('Should resolves to "null" if no courseId is given', function(done) {
 
       sinon.stub(courseRepository, 'get').resolves({ challenges: [ '1st_challenge', '2nd_challenge' ] });
 
-      service.getAssessmentNextChallengeId(_buildAssessmentForCourse(), '1st_challenge').then(function (result) {
+      service.getAssessmentNextChallengeId(_buildAssessmentForCourse(), '1st_challenge').then(function(result) {
         expect(result).to.equal(null);
         courseRepository.get.restore();
         done();
@@ -109,11 +109,11 @@ describe('Unit | Domain | Services | assessment-service', function () {
 
     });
 
-    it('Should resolves to "null" if courseId starts with "null"', function (done) {
+    it('Should resolves to "null" if courseId starts with "null"', function(done) {
 
       sinon.stub(courseRepository, 'get').resolves({ challenges: [ '1st_challenge', '2nd_challenge' ] });
 
-      service.getAssessmentNextChallengeId(_buildAssessmentForCourse('null22'), '1st_challenge').then(function (result) {
+      service.getAssessmentNextChallengeId(_buildAssessmentForCourse('null22'), '1st_challenge').then(function(result) {
         expect(result).to.equal(null);
         courseRepository.get.restore();
         done();
@@ -318,7 +318,7 @@ describe('Unit | Domain | Services | assessment-service', function () {
     });
   });
 
-  describe('#_completeAssessmentWithScore', function () {
+  describe('#_completeAssessmentWithScore', function() {
 
     const knowledgeData = {
       challengesById: {
@@ -374,7 +374,7 @@ describe('Unit | Domain | Services | assessment-service', function () {
       }
     ]
       .forEach(pattern => {
-        it(`should compute ${pattern.score} and level ${pattern.level} when user pattern is ${pattern.title}`, function () {
+        it(`should compute ${pattern.score} and level ${pattern.level} when user pattern is ${pattern.title}`, function() {
           // When
           const scoredAssessment = service._completeAssessmentWithScore(assessment, pattern.answers, knowledgeData);
 

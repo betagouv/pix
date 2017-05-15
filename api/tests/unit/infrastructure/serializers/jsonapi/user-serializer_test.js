@@ -1,7 +1,7 @@
 const { describe, it, expect, beforeEach } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 
-describe('Unit | Serializer | JSONAPI | user-serializer', function () {
+describe('Unit | Serializer | JSONAPI | user-serializer', function() {
 
   let jsonUser;
 
@@ -20,9 +20,9 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
     };
   });
 
-  describe('#deserialize()', function () {
+  describe('#deserialize()', function() {
 
-    it('should convert JSON API data into an User model object', function () {
+    it('should convert JSON API data into an User model object', function() {
       // When
       const user = serializer.deserialize(jsonUser);
 
@@ -33,7 +33,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
       expect(user.get('password')).to.equal('');
     });
 
-    it('should contain an ID attribute', function () {
+    it('should contain an ID attribute', function() {
       // Given
       jsonUser.data.id = '42';
 
@@ -44,7 +44,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function () {
       expect(user.get('id')).to.equal('42');
     });
 
-    it('should not contain an ID attribute when not given', function () {
+    it('should not contain an ID attribute when not given', function() {
       // When
       const user = serializer.deserialize(jsonUser);
 

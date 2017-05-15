@@ -3,7 +3,7 @@ const Mailjet = require('../../../lib/infrastructure/mailjet');
 
 const nodeMailjet = require('node-mailjet');
 
-describe('Unit | Class | Mailjet', function () {
+describe('Unit | Class | Mailjet', function() {
 
   describe('#sendEmail', () => {
 

@@ -7,7 +7,7 @@ import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 import refTimedChallengeBis from '../data/challenges/ref-timed-challenge-bis';
 
 
-export default function (schema, request) {
+export default function(schema, request) {
 
   // case 1 : we're trying to reach the first challenge for a given assessment
   if (!request.params.challengeId) {
