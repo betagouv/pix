@@ -5618,7 +5618,7 @@ define('pix-live/tests/integration/components/scoring-panel-tantpix-test', ['exp
 
   var BUTTON_NEXT_CLASS_WRAPPER = '.tantpix-panel__button-container';
   var BUTTON_NEXT_CLASS = '.tantpix-panel__button';
-  var BUTTON_NEXT_CONTENT = 'test suivant';
+  var BUTTON_NEXT_CONTENT = 'revenir à l\'accueil';
 
   (0, _mocha.describe)('Integration | Component | scoring panel tantpix', function () {
     (0, _emberMocha.setupComponentTest)('scoring-panel-tantpix', {

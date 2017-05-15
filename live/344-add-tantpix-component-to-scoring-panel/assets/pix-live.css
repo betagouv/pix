@@ -1541,8 +1541,6 @@ button.routable-modal--close:active {
     .scoring-panel {
       -ms-flex-direction: row;
       flex-direction: row;
-      padding-bottom: 50px;
-      padding-top: 50px;
       -ms-flex-wrap: wrap;
       flex-wrap: wrap; } }
 
