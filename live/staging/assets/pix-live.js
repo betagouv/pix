@@ -2900,7 +2900,8 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
     this.post('https://formspree.io/**', function () {});
     this.post('https://sentry.io/**', function () {});
 
-    this.namespace = 'http://localhost:3000/api';
+    this.urlPrefix = 'http://localhost:3000';
+    this.namespace = '/api';
 
     this.get('/courses', _pixLiveMirageRoutesGetCourses['default']);
     this.get('/courses?isCourseOfTheWeek=true', _pixLiveMirageRoutesGetCoursesOfTheWeek['default']);
@@ -5447,6 +5448,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+68ac9d38"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+5df25f64"});
 }
 //# sourceMappingURL=pix-live.map
