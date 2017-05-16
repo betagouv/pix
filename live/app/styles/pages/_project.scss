@@ -24,13 +24,13 @@
 }
 
 .project-page li {
-  color: $project-blue;
+  color: $pix-blue;
 }
 
 .project-page hr {
   width: 50px;
   height: 4px;
-  background-color: $project-blue;
+  background-color: $pix-blue;
   margin: 0 auto 20px;
   border-radius: 2px;
   border: none;
@@ -140,11 +140,11 @@ p.project-page__populations-headline {
 }
 
 .project-page__value-header-name {
-  color: $project-blue;
+  color: $pix-blue;
 }
 
 .project-page__presentation {
-  background-color: $project-blue;
+  background-color: $pix-blue;
   color: #ffffff;
   font-size: 20px;
   line-height: 28px;

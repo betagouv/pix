@@ -2,7 +2,7 @@
 .comparison-window {
   padding: 0 15px;
   max-width: 900px;
-  margin:auto;
+  margin: auto;
 
   @media (min-width: 992px) {
     padding: 0;
@@ -24,7 +24,7 @@
 }
 
 .comparison-window--body {
-  background-color: $light-grey1;
+  background-color: $porcelain-grey;
   display: flex;
   flex-direction: column;
   padding: 15px 15px 0;
@@ -113,7 +113,7 @@
 }
 
 .comparison-window__feedback-panel {
-  background-color: $feedback-panel-background-color;
+  background-color: $alto-grey;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 20px 40px;

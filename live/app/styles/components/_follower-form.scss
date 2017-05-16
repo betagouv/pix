@@ -32,7 +32,7 @@
   border-radius: 5px;
   outline: none;
   font-size: 16px;
-  color: $follower-input;
+  color: $raven-grey;
   font-family: $font-lato;
 
   @media (min-width: 992px) {
@@ -56,11 +56,11 @@
 }
 
 .follower-form__button--default {
-  background: $follower-button-default;
+  background: $pix-blue;
 }
 
 .follower-form__button--pending {
-  background: $follower-button-sending;
+  background: $strong-cyan;
 }
 
 .follower-button:before {
@@ -155,15 +155,15 @@
 .follower-info-message.has-error {
   border-radius: 4px;
   background-color: #ffffff;
-  border: solid 2px $follower-label-error;
+  border: solid 2px $pure-orange;
   padding: 14px 91px;
-  color: $follower-label-error;
+  color: $pure-orange;
 }
 
 .follower-info-message.has-success {
   border-radius: 4px;
   background-color: #ffffff;
-  border: solid 2px $follower-button-sending;
+  border: solid 2px $strong-cyan;
   padding: 14px 91px;
-  color: $follower-button-sending;
+  color: $strong-cyan;
 }
