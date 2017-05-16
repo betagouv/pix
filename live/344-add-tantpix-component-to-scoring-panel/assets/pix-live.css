@@ -2165,6 +2165,245 @@ button.routable-modal--close:active {
   position: relative;
   cursor: pointer; }
 
+.signup-form {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  max-width: 609px;
+  width: 100%; }
+
+.signup-form-container {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  border-radius: 10px;
+  margin: 10px 5px 10px;
+  background-color: #ffffff; }
+  @media screen and (min-width: 321px) {
+    .signup-form-container {
+      margin: 25px 15px 15px; } }
+  @media screen and (min-width: 767px) {
+    .signup-form-container {
+      margin: 80px 0; } }
+
+.signup-form__logo {
+  position: relative;
+  width: 106px;
+  height: 79px;
+  margin: 26px auto 23px; }
+  @media screen and (min-width: 767px) {
+    .signup-form__logo {
+      margin: 56px auto 53px; } }
+
+.signup-form__heading-container {
+  margin-bottom: 20px; }
+  @media screen and (min-width: 767px) {
+    .signup-form__heading-container {
+      margin-bottom: 44px; } }
+
+.signup-form__heading {
+  font-family: "Raleway", Arial, sans-serif;
+  color: #3e4149;
+  margin: 0;
+  font-size: 22px; }
+  @media screen and (min-width: 321px) {
+    .signup-form__heading {
+      font-size: 25px; } }
+  @media screen and (min-width: 767px) {
+    .signup-form__heading {
+      font-size: 36px; } }
+
+.signup-form__temporary-msg {
+  max-width: 449px;
+  width: 100%;
+  text-align: center; }
+
+.signup-form__temporary-msg h4 {
+  border-radius: 3px;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 9px; }
+
+.signup-form__temporary-msg.signup-form__temporary-msg--error, .signup-form__temporary-msg.signup-form__temporary-msg--success {
+  margin-bottom: 10px; }
+
+.signup-form__temporary-msg.signup-form__temporary-msg--error h4 {
+  background: #f45c00; }
+
+.signup-form__temporary-msg.signup-form__temporary-msg--success h4 {
+  background: #13c9a0; }
+
+.signup-form__input-container {
+  max-width: 449px;
+  width: 100%;
+  padding: 0 20px; }
+  @media screen and (min-width: 767px) {
+    .signup-form__input-container {
+      padding: 0; } }
+
+.signup-form__cgu-container {
+  max-width: 449px;
+  width: 100%;
+  padding: 0 15px;
+  margin-top: 0px;
+  margin-bottom: 6px;
+  position: relative;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column; }
+  @media screen and (min-width: 321px) {
+    .signup-form__cgu-container {
+      margin-top: 6px;
+      margin-bottom: 0;
+      padding: 0; } }
+
+.signup-form__cgu-container input[type="checkbox"] {
+  -webkit-appearance: none; }
+
+.signup-form__cgu-container input[type="checkbox"]:after {
+  border-color: #D8D8D8; }
+
+.signup-form__cgu-container input[type="checkbox"]:disabled:after {
+  border-color: #D8D8D8; }
+
+.signup-form__cgu-container input[type="checkbox"]:focus {
+  outline: none; }
+
+.signup-form__cgu-container input[type="checkbox"]:after {
+  border: 2px solid #D8D8D8;
+  border-radius: 2px;
+  content: '';
+  display: block;
+  height: 18px;
+  transition: 240ms;
+  width: 18px; }
+
+.signup-form__cgu-container input[type="checkbox"]:checked:before {
+  transform: rotate(45deg);
+  position: absolute;
+  left: 6px;
+  display: table;
+  width: 7px;
+  height: 14px;
+  border: 2px solid #fff;
+  border-top: 0;
+  border-left: 0;
+  content: ''; }
+
+.signup-form__cgu-container input[type="checkbox"]:checked:after {
+  background-color: #3d68ff;
+  border-color: #3d68ff; }
+
+.signup-form__cgu-container input[type="checkbox"]:disabled:checked:after {
+  background-color: rgba(0, 0, 0, 0.26);
+  border-color: transparent; }
+
+.signup-form__cgu-container input[type="checkbox"]:focus:after {
+  border-color: #3d68ff; }
+
+.signup-form__cgu-label {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 0; }
+
+.signup-form__cgu-label span {
+  color: #6a6d76;
+  font-size: 13px; }
+  @media screen and (min-width: 321px) {
+    .signup-form__cgu-label span {
+      font-size: 14px; } }
+
+.signup__cgu-link {
+  color: #2f4bff; }
+
+.signup-form__submit-container {
+  margin: 5px auto 20px; }
+  @media screen and (min-width: 321px) {
+    .signup-form__submit-container {
+      margin: 31px auto 34px; } }
+
+.signup-textfield__cgu-message--error {
+  color: #f45c00;
+  font-size: 12px;
+  margin-bottom: 7px;
+  text-align: center; }
+
+.signup__submit-button {
+  width: 150px;
+  height: 40px;
+  border-radius: 25px;
+  border: none;
+  text-transform: uppercase;
+  font-size: 13px;
+  background: #3d68ff;
+  color: #ffffff;
+  outline: none; }
+
+.signup-textfield {
+  position: relative; }
+
+.signup-textfield__label {
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  color: #3e4149;
+  text-transform: uppercase; }
+
+.signup-textfield__input-field-container {
+  display: -ms-flexbox;
+  display: flex;
+  height: 35px;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  -ms-flex-align: center;
+  align-items: center; }
+
+.signup-textfield__input-container--default {
+  border: 1px solid #D8D8D8; }
+
+.signup-textfield__input-container--error {
+  border: 1px solid #f45c00; }
+
+.signup-textfield__input-container--success {
+  border: 1px solid #13c9a0; }
+
+.signup-textfield__input-field-container input {
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  border: none;
+  margin-left: 10px;
+  outline: none;
+  color: #6a6d76; }
+
+.signup-textfield__input-field-container svg {
+  margin: 6px 8px; }
+
+.signup-textfield__message {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 12px; }
+
+.signup-textfield__message--error {
+  color: #f45c00; }
+
+.signup-textfield__message--error.signup-textfield__message-password, .signup-textfield__message--error.signup-textfield__message-email {
+  position: relative;
+  position: relative;
+  text-align: right;
+  margin-top: -5px;
+  margin-bottom: 5px; }
+
 .scoring-panel-tantpix {
   display: -ms-flexbox;
   display: flex;
@@ -2853,6 +3092,19 @@ hr.project-page__presentation-header-line {
   font-size: 16px;
   font-weight: 300;
   color: #3e4149; }
+
+.signup-container {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background: url("/images/signup-bg.jpg") no-repeat;
+  background-size: cover;
+  width: 100%;
+  min-height: 100vh; }
+  @media screen and (min-width: 767px) {
+    .signup-container {
+      height: 100%; } }
 
 body {
   font-family: "Lato", Arial, sans-serif;
