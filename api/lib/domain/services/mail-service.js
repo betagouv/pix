@@ -1,5 +1,4 @@
 const mailJet = require('../../infrastructure/mailjet');
-
 const ACCOUNT_CREATION_EMAIL_TEMPLATE_ID = '143620';
 const WELCOME_EMAIL_TEMPLATE_ID = '129291';
 
@@ -19,7 +18,6 @@ function sendWelcomeEmail(email) {
     template: WELCOME_EMAIL_TEMPLATE_ID
   });
 }
-
 
 module.exports = {
   sendAccountCreationEmail,
