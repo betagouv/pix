@@ -16,10 +16,6 @@
 
   font-size: 45px;
 
-  @media (min-width: 480px) {
-    font-size: 60px;
-  }
-
   @media (min-width: 768px) {
     font-size: 65px;
   }
@@ -40,11 +36,6 @@
   margin-top: -20px;
   font-size: 30px;
 
-  @media (min-width: 480px) {
-    margin-top: -25px;
-    font-size: 35px;
-  }
-
   @media (min-width: 768px) {
     margin-top: -35px;
     font-size: 40px;
@@ -64,10 +55,6 @@
   letter-spacing: 6px;
 
   font-size: 12px;
-
-  @media (min-width: 480px) {
-    font-size: 14px;
-  }
 
   @media (min-width: 768px) {
     font-size: 18px;
