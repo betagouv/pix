@@ -4592,7 +4592,7 @@ define('pix-live/tests/integration/components/pix-logo-test', ['exports', 'chai'
     });
 
     (0, _mocha.it)('should display the logo', function () {
-      (0, _chai.expect)(this.$('.pix-logo__image').attr('src')).to.equal('images/pix-logo.svg');
+      (0, _chai.expect)(this.$('.pix-logo__image').attr('src')).to.equal('/images/pix-logo.svg');
     });
 
     (0, _mocha.it)('should display "bêta"', function () {
