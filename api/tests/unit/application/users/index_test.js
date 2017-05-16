@@ -1,4 +1,5 @@
 const {describe, it, before, after, beforeEach, expect, sinon} = require('../../../test-helper');
+const Hapi = require('hapi');
 const UserController = require('../../../../lib/application/users/user-controller');
 
 describe('Unit | Router | user-router', () => {
@@ -6,6 +7,7 @@ describe('Unit | Router | user-router', () => {
   let server;
 
   beforeEach(() => {
+    server = new Hapi.Server();
     server.connection({port: null});
     server.register({register: require('../../../../lib/application/users')});
   });
