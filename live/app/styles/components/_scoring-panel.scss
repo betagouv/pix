@@ -12,8 +12,6 @@
 
   @media (min-width: 480px) {
     flex-direction: row;
-    padding-bottom: 50px;
-    padding-top: 50px;
     flex-wrap: wrap;
   }
 
@@ -31,8 +29,6 @@
   width: 150px;
 
   @media (min-width: 480px) {
-    margin-top: 0px;
-    margin-bottom: 10px;
     height: 226px;
     width: 200px;
   }
@@ -41,6 +37,8 @@
     margin-right: 50px;
     height: 245px;
     width: 217px;
+    margin-top: 71px;
+    margin-bottom: 71px;
   }
 
   @media (min-width: 1024px) {
@@ -48,7 +46,7 @@
   }
 }
 
-/*-----------------------Congrats DIV--------------------------------------------------*/
+/*-----------------Congrats DIV-------------------*/
 
 .scoring-panel__congrats {
   display: flex;
@@ -57,9 +55,15 @@
   text-align: center;
   padding: 20px;
 
+  @media (min-width: 480px) {
+    margin-top: 30px;
+  }
+
   @media (min-width: 768px) {
     text-align: left;
     padding: 0px;
+    margin-top: 71px;
+    margin-bottom: 71px;
   }
 
 }
@@ -115,7 +119,7 @@
     font-size: 14px;
   }
 }
-/*------------BUTTON RETOUR ACCUEIL DIV-----------------------*/
+/*------------BUTTON RETOUR ACCUEIL DIV-----------------*/
 
 .scoring-panel__index-link {
   border-radius: 23px;
@@ -135,7 +139,6 @@
 
   @media (min-width: 1024px) {
     margin-left: 60px;
-    margin-bottom: -30px;
   }
 
 }
