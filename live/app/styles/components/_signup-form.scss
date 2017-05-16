@@ -12,7 +12,7 @@
   flex-direction: column;
   border-radius: 10px;
   margin: 10px 5px 10px;
-  background-color: #ffffff;
+  background-color: $white;
   @media screen and (min-width: 321px) {
     margin: 25px 15px 15px;
   }
@@ -59,7 +59,7 @@
 
 .signup-form__temporary-msg h4 {
   border-radius: 3px;
-  color: #ffffff;
+  color: $white;
   font-size: 14px;
   padding: 9px;
 }
@@ -136,7 +136,7 @@
   display: table;
   width: 7px;
   height: 14px;
-  border: 2px solid #fff;
+  border: 2px solid $white;
   border-top: 0;
   border-left: 0;
   content: '';
@@ -196,6 +196,6 @@
   text-transform: uppercase;
   font-size: 13px;
   background: $pix-blue;
-  color: #ffffff;
+  color: $white;
   outline: none;
 }

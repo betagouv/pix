@@ -1,7 +1,3 @@
-$challenges-background-color: #fafafa;
-$challenges-title-color: #3d68ff;
-$background-height: 600px;
-
 /* Sections:
 
  - General
@@ -16,7 +12,7 @@ $background-height: 600px;
   position: absolute;
   background: url("/images/index-hero-bg.jpg");
   background-size: cover;
-  height: $background-height;
+  height: 600px;
   width: 100%;
   z-index: -1;
 }
@@ -37,7 +33,7 @@ $background-height: 600px;
 
 .index-page-hero {
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.50) 5%, rgba(30, 30, 30, 0.25) 100%);
-  height: $background-height;
+  height: 600px;
   width: 100%;
 }
 
@@ -155,7 +151,7 @@ $background-height: 600px;
 }
 
 .index-page-courses {
-  background-color: $challenges-background-color;
+  background-color: $alabaster-grey;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -166,7 +162,7 @@ $background-height: 600px;
   font-size: 32px;
   font-family: $font-raleway;
   font-weight: $font-extra-bold;
-  color: $challenges-title-color;
+  color: $pix-blue;
   margin: 0 auto;
   text-transform: uppercase;
   text-align: center;
@@ -260,5 +256,5 @@ $background-height: 600px;
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .index-page-partners {
-  background: #fafafa;
+  background: $alabaster-grey;
 }

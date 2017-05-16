@@ -51,7 +51,7 @@
   font-size: 14px;
   border: none;
   background-color: transparent;
-  color: #ffffff;
+  color: $white;
 }
 
 /*Modal Header*/
@@ -86,7 +86,7 @@
 .assessment-results-result-light-line {
   width: 1px;
   height: 50px;
-  border: solid 1.5px #d5d5d5;
+  border: solid 1.5px $alto-grey-light;
   margin-left: 15px;
 }
 
@@ -101,14 +101,14 @@
   font-size: 18px;
   font-weight: $font-bold;
   text-align: center;
-  color: #3e4149;
+  color: $charcoal-grey;
   margin-left: 22px;
 }
 
 .comparison-window__result-item-line {
   width: 2px;
   height: 61px;
-  border: solid 1.5px #d5d5d5;
+  border: solid 1.5px $alto-grey-light;
   margin-left: 22px;
 }
 

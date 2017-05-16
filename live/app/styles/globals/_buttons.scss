@@ -1,5 +1,5 @@
 .button {
-  color: #fff;
+  color: $white;
   font-size: 0.9em;
   font-weight: $font-normal;
   letter-spacing: 0.025em;
@@ -17,7 +17,7 @@
 }
 
 .button-primary {
-  color: #fff;
+  color: $white;
   font-size: 0.9em;
   font-weight: $font-normal;
   letter-spacing: 0.025em;
@@ -36,7 +36,7 @@
 
 .button-primary:hover,
 .button-primary:focus {
-  color: #fff;
+  color: $white;
   background-color: $fern-green;
   border-color: $fern-green;
   border-bottom-color: $salad-green;
@@ -44,7 +44,7 @@
 }
 
 .button-secondary {
-  color: #fff;
+  color: $white;
   font-size: 0.9em;
   font-weight: $font-normal;
   letter-spacing: 0.025em;
@@ -63,7 +63,7 @@
 
 .button-secondary:hover,
 .button-secondary:focus {
-  color: #fff;
+  color: $white;
   background-color: $manatee-grey;
   border-color: $manatee-grey;
   border-bottom-color: $jumbo-grey;

@@ -41,11 +41,11 @@
   font-family: $font-lato;
   font-size: 14px;
   box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
-  border: solid 1px #ffffff;
+  border: solid 1px $white;
 }
 
 .assessment-results .tooltip.top .tooltip-arrow {
-  border-top-color: #e6e6e6;
+  border-top-color: $mercury-grey;
 }
 
 .assessment-results .tooltip.in {
@@ -114,5 +114,5 @@
   font-weight: $font-semi-bold;
   text-align: center;
   font-family: $font-open-sans;
-  color: #ffffff;
+  color: $white;
 }

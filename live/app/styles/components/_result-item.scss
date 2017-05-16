@@ -3,13 +3,13 @@
   height: 80px;
   border-radius: 5px;
   border-color: $porcelain-grey;
-  background-color: #ffffff;
+  background-color: $white;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   margin-bottom: 10px;
 
   &:hover {
     box-shadow: none;
-    border: solid 2px #446eff;
+    border: solid 2px $dogder-blue;
     transition: border-color 1s ease;
   }
 
@@ -30,14 +30,14 @@
   font-size: 18px;
   font-weight: $font-bold;
   text-align: center;
-  color: #3e4149;
+  color: $charcoal-grey;
   margin-left: 22px;
 }
 
 .result-item__item-line {
   width: 2px;
   height: 61px;
-  border: solid 1.5px #d5d5d5;
+  border: solid 1.5px $alto-grey-light;
   margin-left: 22px;
 }
 
@@ -80,11 +80,11 @@
     font-family: $font-lato;
     font-size: 14px;
     box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
-    border: solid 1px #ffffff;
+    border: solid 1px $white;
   }
 
   .tooltip.top .tooltip-arrow {
-    border-top-color: #e6e6e6;
+    border-top-color: $mercury-grey;
   }
 
   .tooltip.in {
