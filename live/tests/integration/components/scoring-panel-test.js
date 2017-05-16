@@ -68,7 +68,7 @@ describe('Integration | Component | scoring panel', function() {
     });
   });
 
-  describe('Display a medal when the user won some pix but not a trophy', function () {
+  describe('Display a medal when the user won some pix but not a trophy', function() {
 
     beforeEach(function() {
       this.set('assessment', assessmentWithNoTrophyAndSomePix);

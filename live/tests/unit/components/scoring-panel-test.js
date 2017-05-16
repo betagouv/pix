@@ -35,9 +35,9 @@ describe('Unit | Component | scoring-panel', function() {
     });
   });
 
-  describe('#hasSomePix', function () {
+  describe('#hasSomePix', function() {
 
-    it('should be true when pix score is more than 0', function () {
+    it('should be true when pix score is more than 0', function() {
       // given
       const assessmentWithPix = { pixScore: 1 };
       const component = this.subject();
@@ -50,7 +50,7 @@ describe('Unit | Component | scoring-panel', function() {
       expect(hasSomePix).to.be.equal(true);
     });
 
-    it('should be false when pix score is equal to 0', function () {
+    it('should be false when pix score is equal to 0', function() {
       // given
       const assessmentWithNoPix = { pixScore: 0 };
       const component = this.subject();

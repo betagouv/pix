@@ -13,7 +13,7 @@ describe('Integration | Component | trophy item', function() {
     expect(this.$()).to.have.length(1);
   });
 
-  it('should contain the level passed in the component', function () {
+  it('should contain the level passed in the component', function() {
     // given
     const level = 3;
     this.set('level', level);
@@ -25,7 +25,7 @@ describe('Integration | Component | trophy item', function() {
     expect(this.$('.trophy-item__level').text()).to.contain(level.toString());
   });
 
-  it('should contain an image of a trophy with the text "NIVEAU"', function () {
+  it('should contain an image of a trophy with the text "NIVEAU"', function() {
     // when
     this.render(hbs`{{trophy-item}}`);
 
