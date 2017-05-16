@@ -541,7 +541,7 @@ button.routable-modal--close:active {
   line-height: 18px;
   color: #fff;
   display: inline-block;
-  background: #446eff;
+  background: #3d68ff;
   border-radius: 50%;
   margin: 0 5px;
   cursor: pointer;
@@ -632,7 +632,7 @@ button.routable-modal--close:active {
   width: 156px;
   height: 46px;
   border-radius: 23px;
-  background-color: #446eff;
+  background-color: #3d68ff;
   color: #ffffff;
   cursor: pointer;
   text-align: center; }
@@ -786,7 +786,7 @@ button.routable-modal--close:active {
   padding: 20px 40px; }
 
 .course-banner {
-  background-color: #446eff;
+  background-color: #3d68ff;
   color: white;
   display: -ms-flexbox;
   display: flex;
@@ -1241,8 +1241,8 @@ button.routable-modal--close:active {
   justify-content: center; }
 
 .modal-mobile__confirm-button {
-  background-color: #446eff;
-  border-color: #446eff;
+  background-color: #3d68ff;
+  border-color: #3d68ff;
   border-bottom: 1px solid #2861CF;
   height: 46px;
   border-radius: 23px;
@@ -1483,7 +1483,7 @@ button.routable-modal--close:active {
   font-family: "Lato", Arial, sans-serif;
   font-size: 12px;
   font-weight: 700;
-  color: #446eff;
+  color: #3d68ff;
   margin-right: 23px;
   margin-left: auto;
   height: 21px;
@@ -1870,7 +1870,7 @@ button.routable-modal--close:active {
   font-family: "Lato", Arial, sans-serif;
   font-size: 12px;
   font-weight: 700;
-  color: #446eff;
+  color: #3d68ff;
   margin-right: 23px;
   margin-left: auto;
   height: 21px;
@@ -2591,7 +2591,7 @@ hr.project-page__presentation-header-line {
   background-color: #ffffff; }
 
 #course-preview strong {
-  color: #446eff;
+  color: #3d68ff;
   font-weight: 600; }
 
 .assessment-challenge {
@@ -2683,7 +2683,7 @@ hr.project-page__presentation-header-line {
   height: 48px;
   font-size: 40px;
   font-weight: 900;
-  color: #446eff;
+  color: #3d68ff;
   margin-bottom: 26px; }
 
 /* List of results
@@ -2709,8 +2709,11 @@ hr.project-page__presentation-header-line {
   width: 275px;
   height: 46px;
   border-radius: 23px;
-  background-color: #446eff;
+  background-color: #3d68ff;
   border: none; }
+
+.assessment-results__index-link__element:hover {
+  background: #2549FF; }
 
 .assessment-results__link-back {
   width: 277px;
