@@ -1,5 +1,5 @@
-<div class="scoring-panel">
-  {{#if hasATrophy}}
+{{#if hasATrophy}}
+  <div class="scoring-panel">
 
     <div class="scoring-panel__trophy">
       <div class="scoring-panel__trophy-div"><img src="{{rootURL}}/images/coupe.svg" alt="Coupe obtenue"
@@ -25,7 +25,5 @@
       </div>
     {{/link-to}}
 
-  {{else}}
-    {{scoring-panel-tantpix}}
-  {{/if}}
-</div>
+  </div>
+{{/if}}
