@@ -19549,9 +19549,36 @@ define('ember-cli-test-loader/test-support/index', ['exports'], function (export
   /* globals requirejs, require */
   "use strict";
 
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
   exports.addModuleIncludeMatcher = addModuleIncludeMatcher;
   exports.addModuleExcludeMatcher = addModuleExcludeMatcher;
-  exports['default'] = TestLoader;
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
   var moduleIncludeMatchers = [];
   var moduleExcludeMatchers = [];
 
@@ -19559,101 +19586,116 @@ define('ember-cli-test-loader/test-support/index', ['exports'], function (export
     moduleIncludeMatchers.push(fn);
   }
 
-  ;
-
   function addModuleExcludeMatcher(fn) {
     moduleExcludeMatchers.push(fn);
   }
 
-  ;
-
   function checkMatchers(matchers, moduleName) {
-    var matcher;
+    return matchers.some(function (matcher) {
+      return matcher(moduleName);
+    });
+  }
 
-    for (var i = 0, l = matchers.length; i < l; i++) {
-      matcher = matchers[i];
-
-      if (matcher(moduleName)) {
-        return true;
+  var TestLoader = function () {
+    _createClass(TestLoader, null, [{
+      key: 'load',
+      value: function load() {
+        new TestLoader().loadModules();
       }
+    }]);
+
+    function TestLoader() {
+      _classCallCheck(this, TestLoader);
+
+      this._didLogMissingUnsee = false;
     }
 
-    return false;
-  }
+    _createClass(TestLoader, [{
+      key: 'shouldLoadModule',
+      value: function shouldLoadModule(moduleName) {
+        return moduleName.match(/[-_]test$/);
+      }
+    }, {
+      key: 'listModules',
+      value: function listModules() {
+        return Object.keys(requirejs.entries);
+      }
+    }, {
+      key: 'listTestModules',
+      value: function listTestModules() {
+        var moduleNames = this.listModules();
+        var testModules = [];
+        var moduleName = void 0;
 
-  function TestLoader() {
-    this._didLogMissingUnsee = false;
-  }
+        for (var i = 0; i < moduleNames.length; i++) {
+          moduleName = moduleNames[i];
 
+          if (checkMatchers(moduleExcludeMatchers, moduleName)) {
+            continue;
+          }
+
+          if (checkMatchers(moduleIncludeMatchers, moduleName) || this.shouldLoadModule(moduleName)) {
+            testModules.push(moduleName);
+          }
+        }
+
+        return testModules;
+      }
+    }, {
+      key: 'loadModules',
+      value: function loadModules() {
+        var testModules = this.listTestModules();
+        var testModule = void 0;
+
+        for (var i = 0; i < testModules.length; i++) {
+          testModule = testModules[i];
+          this.require(testModule);
+          this.unsee(testModule);
+        }
+      }
+    }, {
+      key: 'require',
+      value: function (_require) {
+        function require(_x) {
+          return _require.apply(this, arguments);
+        }
+
+        require.toString = function () {
+          return _require.toString();
+        };
+
+        return require;
+      }(function (moduleName) {
+        try {
+          require(moduleName);
+        } catch (e) {
+          this.moduleLoadFailure(moduleName, e);
+        }
+      })
+    }, {
+      key: 'unsee',
+      value: function unsee(moduleName) {
+        if (typeof require.unsee === 'function') {
+          require.unsee(moduleName);
+        } else if (!this._didLogMissingUnsee) {
+          this._didLogMissingUnsee = true;
+          if (typeof console !== 'undefined') {
+            console.warn('unable to require.unsee, please upgrade loader.js to >= v3.3.0');
+          }
+        }
+      }
+    }, {
+      key: 'moduleLoadFailure',
+      value: function moduleLoadFailure(moduleName, error) {
+        console.error('Error loading: ' + moduleName, error.stack);
+      }
+    }]);
+
+    return TestLoader;
+  }();
+
+  exports.default = TestLoader;
   ;
-
-  TestLoader.prototype = {
-    shouldLoadModule: function shouldLoadModule(moduleName) {
-      return moduleName.match(/[-_]test$/);
-    },
-
-    listModules: function listModules() {
-      return Object.keys(requirejs.entries);
-    },
-
-    listTestModules: function listTestModules() {
-      var moduleNames = this.listModules();
-      var testModules = [];
-      var moduleName;
-
-      for (var i = 0; i < moduleNames.length; i++) {
-        moduleName = moduleNames[i];
-
-        if (checkMatchers(moduleExcludeMatchers, moduleName)) {
-          continue;
-        }
-
-        if (checkMatchers(moduleIncludeMatchers, moduleName) || this.shouldLoadModule(moduleName)) {
-          testModules.push(moduleName);
-        }
-      }
-
-      return testModules;
-    },
-
-    loadModules: function loadModules() {
-      var testModules = this.listTestModules();
-      var testModule;
-
-      for (var i = 0; i < testModules.length; i++) {
-        testModule = testModules[i];
-        this.require(testModule);
-        this.unsee(testModule);
-      }
-    }
-  };
-
-  TestLoader.prototype.require = function (moduleName) {
-    try {
-      require(moduleName);
-    } catch (e) {
-      this.moduleLoadFailure(moduleName, e);
-    }
-  };
-
-  TestLoader.prototype.unsee = function (moduleName) {
-    if (typeof require.unsee === 'function') {
-      require.unsee(moduleName);
-    } else if (!this._didLogMissingUnsee) {
-      this._didLogMissingUnsee = true;
-      if (typeof console !== 'undefined') {
-        console.warn('unable to require.unsee, please upgrade loader.js to >= v3.3.0');
-      }
-    }
-  };
-
-  TestLoader.prototype.moduleLoadFailure = function (moduleName, error) {
-    console.error('Error loading: ' + moduleName, error.stack);
-  };
-
-  TestLoader.load = function () {
-    new TestLoader().loadModules();
-  };
 });
 define('ember-mocha', ['exports', 'ember-mocha/describe-module', 'ember-mocha/describe-component', 'ember-mocha/describe-model', 'ember-mocha/setup-test-factory', 'mocha', 'ember-test-helpers'], function (exports, _describeModule, _describeComponent, _describeModel, _setupTestFactory, _mocha, _emberTestHelpers) {
   'use strict';
