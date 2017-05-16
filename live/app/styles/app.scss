@@ -42,7 +42,10 @@
 @import 'components/qrocm-solution-panel';
 @import 'components/qcm-solution-panel';
 @import 'components/qcu-solution-panel';
+@import 'components/signup-form';
+@import 'components/signup-textfield';
 @import 'components/scoring-panel-tantpix';
+
 /* pages */
 @import 'pages/index';
 @import 'pages/project';
@@ -50,6 +53,7 @@
 @import 'pages/assessment-challenge';
 @import 'pages/assessment-results';
 @import 'pages/competences';
+@import 'pages/inscription';
 
 body {
   font-family: $font-lato;
