@@ -268,6 +268,11 @@
 .qcm-panel__proposal-checkbox:not(:checked) ~ label svg.checkbox-disabled-on {
   opacity: 0; }
 
+/* Breakpoints definition */
+/*
+  - Breakpoint mixin
+  - From: https://css-tricks.com/snippets/sass/mixin-manage-breakpoints/
+*/
 /* 3rd-party */
 .routable-modal--open {
   overflow: hidden; }
@@ -667,7 +672,7 @@ button.routable-modal--close:active {
   padding-left: 15px;
   font-size: 12px;
   font-weight: 700; }
-  @media (min-width: 700px) {
+  @media (min-width: 768px) {
     .challenge-stay__text {
       font-size: 16px; } }
 
@@ -1536,12 +1541,6 @@ button.routable-modal--close:active {
   background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
   color: #ffffff;
   font-family: "Raleway", Arial, sans-serif; }
-  @media (min-width: 480px) {
-    .scoring-panel {
-      -ms-flex-direction: row;
-      flex-direction: row;
-      -ms-flex-wrap: wrap;
-      flex-wrap: wrap; } }
 
 /*-----------------------------------*/
 .scoring-panel__trophy {
@@ -1552,13 +1551,10 @@ button.routable-modal--close:active {
   position: relative;
   margin-top: -30px;
   text-align: center; }
-  @media (min-width: 480px) {
-    .scoring-panel__trophy {
-      margin-top: 0px; } }
   @media (min-width: 768px) {
     .scoring-panel__trophy {
       margin-right: 50px; } }
-  @media (min-width: 1024px) {
+  @media (min-width: 992px) {
     .scoring-panel__trophy {
       margin-right: 80px; } }
 
@@ -1582,14 +1578,10 @@ button.routable-modal--close:active {
   margin-bottom: 15px;
   padding: 5px 10px;
   text-align: center; }
-  @media (min-width: 480px) {
-    .scoring-panel__index-link {
-      -ms-flex-item-align: end;
-      align-self: flex-end; } }
   @media (min-width: 768px) {
     .scoring-panel__index-link {
       margin-left: 30px; } }
-  @media (min-width: 1024px) {
+  @media (min-width: 992px) {
     .scoring-panel__index-link {
       margin-left: 60px;
       margin-bottom: -30px; } }
@@ -1604,10 +1596,6 @@ button.routable-modal--close:active {
 .scoring-panel__trophy-img {
   height: 169px;
   width: 150px; }
-  @media (min-width: 480px) {
-    .scoring-panel__trophy-img {
-      height: 190px;
-      width: 200px; } }
   @media (min-width: 768px) {
     .scoring-panel__trophy-img {
       height: 237px;
@@ -1623,10 +1611,6 @@ button.routable-modal--close:active {
   letter-spacing: 3px;
   margin-top: -38px;
   font-size: 17px; }
-  @media (min-width: 480px) {
-    .scoring-panel__trophy-level {
-      margin-top: -42px;
-      font-size: 20px; } }
   @media (min-width: 768px) {
     .scoring-panel__trophy-level {
       margin-top: -55px;
@@ -1638,9 +1622,6 @@ button.routable-modal--close:active {
   letter-spacing: 6px;
   margin-top: 10px;
   font-size: 12px; }
-  @media (min-width: 480px) {
-    .scoring-panel__trophy-bêta {
-      font-size: 14px; } }
   @media (min-width: 768px) {
     .scoring-panel__trophy-bêta {
       font-size: 18px; } }
@@ -1690,11 +1671,6 @@ button.routable-modal--close:active {
   text-align: center;
   background-color: transparent;
   border: transparent; }
-  @media (min-width: 480px) {
-    .scoring-panel__index-link__element {
-      font-size: 10px;
-      -ms-flex-item-align: end;
-      align-self: flex-end; } }
 
 .timeout-jauge-wrapper {
   padding-top: 0;
@@ -2184,10 +2160,10 @@ button.routable-modal--close:active {
   border-radius: 10px;
   margin: 10px 5px 10px;
   background-color: #ffffff; }
-  @media screen and (min-width: 321px) {
+  @media (maw-width: 767px) {
     .signup-form-container {
       margin: 25px 15px 15px; } }
-  @media screen and (min-width: 767px) {
+  @media (min-width: 768px) {
     .signup-form-container {
       margin: 80px 0; } }
 
@@ -2196,13 +2172,13 @@ button.routable-modal--close:active {
   width: 106px;
   height: 79px;
   margin: 26px auto 23px; }
-  @media screen and (min-width: 767px) {
+  @media (min-width: 768px) {
     .signup-form__logo {
       margin: 56px auto 53px; } }
 
 .signup-form__heading-container {
   margin-bottom: 20px; }
-  @media screen and (min-width: 767px) {
+  @media (min-width: 768px) {
     .signup-form__heading-container {
       margin-bottom: 44px; } }
 
@@ -2211,10 +2187,10 @@ button.routable-modal--close:active {
   color: #3e4149;
   margin: 0;
   font-size: 22px; }
-  @media screen and (min-width: 321px) {
+  @media (maw-width: 767px) {
     .signup-form__heading {
       font-size: 25px; } }
-  @media screen and (min-width: 767px) {
+  @media (min-width: 768px) {
     .signup-form__heading {
       font-size: 36px; } }
 
@@ -2242,7 +2218,7 @@ button.routable-modal--close:active {
   max-width: 449px;
   width: 100%;
   padding: 0 20px; }
-  @media screen and (min-width: 767px) {
+  @media (min-width: 768px) {
     .signup-form__input-container {
       padding: 0; } }
 
@@ -2259,7 +2235,7 @@ button.routable-modal--close:active {
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column; }
-  @media screen and (min-width: 321px) {
+  @media (maw-width: 767px) {
     .signup-form__cgu-container {
       margin-top: 6px;
       margin-bottom: 0;
@@ -2318,7 +2294,7 @@ button.routable-modal--close:active {
 .signup-form__cgu-label span {
   color: #6a6d76;
   font-size: 13px; }
-  @media screen and (min-width: 321px) {
+  @media (maw-width: 767px) {
     .signup-form__cgu-label span {
       font-size: 14px; } }
 
@@ -2327,7 +2303,7 @@ button.routable-modal--close:active {
 
 .signup-form__submit-container {
   margin: 5px auto 20px; }
-  @media screen and (min-width: 321px) {
+  @media (maw-width: 767px) {
     .signup-form__submit-container {
       margin: 31px auto 34px; } }
 
@@ -2415,7 +2391,7 @@ button.routable-modal--close:active {
   max-width: 155px;
   width: 100%; }
 
-@media (min-width: 767px) {
+@media (min-width: 768px) {
   .tantpix-panel__illustration {
     max-width: 100%; } }
 
@@ -2423,7 +2399,7 @@ button.routable-modal--close:active {
   font-family: "Raleway", Arial, sans-serif;
   font-size: 40px;
   font-weight: 300; }
-  @media (min-width: 767px) {
+  @media (min-width: 768px) {
     .tantpix-panel__title {
       font-size: 60px; } }
 
@@ -2436,7 +2412,7 @@ button.routable-modal--close:active {
   font-size: 17px;
   text-align: center;
   font-weight: 300; }
-  @media (min-width: 767px) {
+  @media (min-width: 768px) {
     .tantpix-panel__description {
       font-size: 28px; } }
 
