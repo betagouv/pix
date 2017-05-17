@@ -1208,10 +1208,6 @@ define('pix-live/components/qroc-proposal', ['exports', 'ember', 'pix-live/utils
     didInsertElement: function didInsertElement() {
       var _this = this;
 
-      // XXX : jQuery handler here is far more powerful than declaring event in template helper.
-      // Non, c'est de la merde ce commentaire
-      // It avoids to loose time with 'oh that handy jQuery event is missing',
-      // or "How the hell did they construct input helper ?"
       this.$('input').keydown(function () {
         _this.get('answerChanged')();
       });
@@ -1326,10 +1322,6 @@ define('pix-live/components/qrocm-proposal', ['exports', 'ember', 'pix-live/util
     didInsertElement: function didInsertElement() {
       var _this = this;
 
-      // XXX : jQuery handler here is far more powerful than declaring event in template helper.
-      // Là aussi, c'est de la merde ce commentaire ; en plus il est copié-collé
-      // It avoids to loose time with 'oh that handy jQuery event is missing',
-      // or "How the hell did they construct input helper ?"
       this.$('input').keydown(function () {
         _this.get('answerChanged')();
       });
@@ -5446,6 +5438,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+59dcd350"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+213bc1f2"});
 }
 //# sourceMappingURL=pix-live.map
