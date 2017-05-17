@@ -1,8 +1,13 @@
 import Ember from 'ember';
+import  proposalsAsBlocks from 'pix-live/utils/proposals-as-blocks';
 
 export default Ember.Component.extend({
 
   classNames: ['qroc-proposal'],
+
+  _blocks: Ember.computed('proposals', function() {
+    return proposalsAsBlocks(this.get('proposals'));
+  }),
 
   userAnswer : Ember.computed('answerValue', function() {
     const answer = this.get('answerValue') || '';

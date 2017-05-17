@@ -1,7 +1,13 @@
 import Ember from 'ember';
+import proposalsAsBlocks from 'pix-live/utils/proposals-as-blocks';
 
 export default Ember.Component.extend({
+
   classNames: ['qrocm-proposal'],
+
+  _blocks: Ember.computed('proposals', function() {
+    return proposalsAsBlocks(this.get('proposals'));
+  }),
 
   didInsertElement: function() {
     // XXX : jQuery handler here is far more powerful than declaring event in template helper.

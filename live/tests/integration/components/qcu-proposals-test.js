@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | QcuProposals', function() {
+describe('Integration | Component | QCU proposals', function() {
 
   setupComponentTest('qcu-proposals', {
     integration: true
@@ -19,7 +19,7 @@ describe('Integration | Component | QcuProposals', function() {
     let answerChangedHandler;
 
     beforeEach(function() {
-      proposals = ['prop 1', 'prop 2', 'prop 3'];
+      proposals = '- prop 1\n- prop 2\n- prop 3';
       answers = [false, true, false];
       answerChangedHandler = () => true;
     });
@@ -38,7 +38,7 @@ describe('Integration | Component | QcuProposals', function() {
       this.render(hbs`{{qcu-proposals answers=answers proposals=proposals onAnswerUpdated='answerChanged'}}`);
 
       // then
-      expect(this.$('.proposal-text')).to.have.lengthOf(proposals.length);
+      expect(this.$('.proposal-text')).to.have.lengthOf(3);
     });
 
   });

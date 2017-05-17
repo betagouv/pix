@@ -1,10 +1,12 @@
 import Ember from 'ember';
 import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
+import proposalsAsArray from 'pix-live/utils/proposals-as-array';
 
 export default Ember.Component.extend({
 
   labeledCheckboxes: Ember.computed('proposals', 'answers', function() {
-    return labeledCheckboxes(this.get('proposals'), this.get('answers'));
+    const arrayOfProposals = proposalsAsArray(this.get('proposals'));
+    return labeledCheckboxes(arrayOfProposals, this.get('answers'));
   }),
 
   actions: {
