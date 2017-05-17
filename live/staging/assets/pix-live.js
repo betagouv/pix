@@ -567,7 +567,6 @@ define('pix-live/components/challenge-item-qrocm', ['exports', 'pix-live/utils/l
 
   exports['default'] = ChallengeItemQrocm;
 });
-/* global jsyaml */
 define('pix-live/components/challenge-statement', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
 
@@ -3737,7 +3736,6 @@ define('pix-live/models/answer/value-as-array-of-string-mixin', ['exports', 'emb
 
   });
 });
-/* global jsyaml */
 define('pix-live/models/assessment', ['exports', 'ember', 'ember-data'], function (exports, _ember, _emberData) {
   var attr = _emberData['default'].attr;
   var Model = _emberData['default'].Model;
@@ -5100,7 +5098,6 @@ define('pix-live/transforms/array', ['exports', 'ember-data'], function (exports
 });
 define('pix-live/utils/answers-as-object', ['exports'], function (exports) {
   exports['default'] = answersAsObject;
-  /* global jsyaml */
 
   function answersAsObject(answer, inputKeys) {
     if (answer === '#ABAND#') {
@@ -5370,7 +5367,6 @@ define('pix-live/utils/proposals-as-array', ['exports', 'pix-live/utils/lodash-c
 });
 define('pix-live/utils/result-details-as-object', ['exports'], function (exports) {
   exports['default'] = resultDetailsAsObject;
-  /* global jsyaml */
 
   function resultDetailsAsObject(yamlResultDetails) {
     var resultDetailsAsObject = {};
@@ -5398,7 +5394,6 @@ define('pix-live/utils/solution-as-object', ['exports', 'lodash'], function (exp
     return solutionsAsObject;
   }
 });
-/* global jsyaml */
 define('pix-live/utils/value-as-array-of-boolean', ['exports', 'pix-live/utils/lodash-custom'], function (exports, _pixLiveUtilsLodashCustom) {
   exports['default'] = valueAsArrayOfBoolean;
 
@@ -5448,6 +5443,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+5df25f64"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+4af68795"});
 }
 //# sourceMappingURL=pix-live.map
