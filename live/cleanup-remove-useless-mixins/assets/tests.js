@@ -4806,8 +4806,8 @@ define('pix-live/tests/integration/components/qcu-proposals-test', ['exports', '
 
         // when
         this.render(Ember.HTMLBars.template({
-          'id': '1V4kv/sg',
-          'block': '{"statements":[["append",["helper",["qcu-proposals"],null,[["answers","proposals","onAnswerUpdated"],[["get",["answers"]],["get",["proposals"]],"answerChanged"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'BlUb/wun',
+          'block': '{"statements":[["append",["helper",["qcu-proposals"],null,[["answers","proposals","answerChanged"],[["get",["answers"]],["get",["proposals"]],"answerChanged"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
 
