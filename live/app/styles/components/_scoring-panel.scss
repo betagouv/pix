@@ -10,7 +10,7 @@
   color: $white;
   font-family: $font-raleway;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     flex-direction: row;
     flex-wrap: wrap;
   }
@@ -26,7 +26,7 @@
   margin-top: -30px;
   text-align: center;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     margin-right: 50px;
     height: 245px;
     width: 217px;
@@ -34,7 +34,7 @@
     margin-bottom: 71px;
   }
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     margin-right: 80px;
   }
 }
@@ -48,7 +48,7 @@
   text-align: center;
   padding: 20px;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     text-align: left;
     padding: 0px;
     margin-top: 71px;
@@ -62,7 +62,7 @@
   line-height: 0.95;
   font-size: 20px;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     font-size: 20px;
   }
 }
@@ -78,7 +78,7 @@
   font-weight: $font-light;
   font-size: 45px;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     font-size: 60px;
   }
 }
@@ -93,7 +93,7 @@
   font-size: 20px;
   line-height: 1.07;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     font-size: 28px;
   }
 }
@@ -102,7 +102,7 @@
   font-weight: $font-medium;
   font-size: 10px;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     font-size: 14px;
   }
 }
@@ -116,15 +116,14 @@
   padding: 5px 10px;
   text-align: center;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     margin-left: 30px;
     align-self: flex-end;
   }
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     margin-left: 60px;
   }
-
 }
 
 .scoring-panel__index-link__element {
@@ -135,7 +134,7 @@
   border: transparent;
   outline: 0;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     font-size: 10px;
     align-self: flex-end;
   }
