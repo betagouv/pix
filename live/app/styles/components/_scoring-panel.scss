@@ -14,19 +14,17 @@
     flex-direction: row;
     flex-wrap: wrap;
   }
-
 }
 
 /*---------------Reward DIV--------------------*/
 
 .scoring-panel__reward {
+  height: 169px;
+  width: 150px;
   display: flex;
   flex-direction: column;
   margin-top: -30px;
   text-align: center;
-
-  height: 169px;
-  width: 150px;
 
   @media (min-width: 768px) {
     margin-right: 50px;
@@ -56,7 +54,6 @@
     margin-top: 71px;
     margin-bottom: 71px;
   }
-
 }
 
 .scoring-panel__congrats-course-name {
@@ -79,7 +76,6 @@
 
 .scoring-panel__congrats-felicitations {
   font-weight: $font-light;
-
   font-size: 45px;
 
   @media (min-width: 768px) {
@@ -137,12 +133,10 @@
   text-align: center;
   background-color: transparent;
   border: transparent;
-
   outline: 0;
 
   @media (min-width: 768px) {
     font-size: 10px;
     align-self: flex-end;
   }
-
 }
