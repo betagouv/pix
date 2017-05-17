@@ -425,7 +425,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
     (0, _mocha.it)('b2.1 It should render challenge instruction', function () {
       var $challengeInstruction = $('.challenge-statement__instruction');
       var instructionText = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
-      (0, _chai.expect)($challengeInstruction.text()).to.equal(instructionText);
+      (0, _chai.expect)($challengeInstruction.text().trim()).to.equal(instructionText);
     });
 
     (0, _mocha.it)('b2.2 Le contenu de type [foo](bar) doit être converti sous forme de lien', function () {
@@ -535,7 +535,7 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
     (0, _mocha.it)('b3.1 It should render challenge instruction', function () {
       var $challengeInstruction = $('.challenge-statement__instruction');
       var instructiontext = 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre';
-      (0, _chai.expect)($challengeInstruction.text()).to.equal(instructiontext);
+      (0, _chai.expect)($challengeInstruction.text().trim()).to.equal(instructiontext);
     });
 
     (0, _mocha.it)('b3.2 It should display only one input text as proposal to user', function () {
@@ -601,7 +601,7 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['exports', 'mocha', '
     (0, _mocha.it)('b4.1 It should render challenge instruction', function () {
       var $challengeInstruction = $('.challenge-statement__instruction');
       var instructiontext = 'Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre';
-      (0, _chai.expect)($challengeInstruction.text()).to.equal(instructiontext);
+      (0, _chai.expect)($challengeInstruction.text().trim()).to.equal(instructiontext);
     });
 
     (0, _mocha.it)('b4.2 It should display only one input text as proposal to user', function () {
@@ -753,7 +753,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['exports', '
     (0, _mocha.it)('b7.1 L\'instruction de l\'epreuve est affichée', function () {
       var $challengeInstruction = $('.challenge-statement__instruction');
       var instructiontext = 'Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre';
-      (0, _chai.expect)($challengeInstruction.text()).to.equal(instructiontext);
+      (0, _chai.expect)($challengeInstruction.text().trim()).to.equal(instructiontext);
     });
 
     (0, _mocha.it)('b7.2a Le contenu de type [foo](bar) doit être converti sous forme de lien', function () {
