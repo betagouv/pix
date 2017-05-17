@@ -2160,10 +2160,10 @@ button.routable-modal--close:active {
   border-radius: 10px;
   margin: 10px 5px 10px;
   background-color: #ffffff; }
-  @media screen and (min-width: 321px) {
+  @media (maw-width: 767px) {
     .signup-form-container {
       margin: 25px 15px 15px; } }
-  @media screen and (min-width: 767px) {
+  @media (min-width: 768px) {
     .signup-form-container {
       margin: 80px 0; } }
 
@@ -2172,13 +2172,13 @@ button.routable-modal--close:active {
   width: 106px;
   height: 79px;
   margin: 26px auto 23px; }
-  @media screen and (min-width: 767px) {
+  @media (min-width: 768px) {
     .signup-form__logo {
       margin: 56px auto 53px; } }
 
 .signup-form__heading-container {
   margin-bottom: 20px; }
-  @media screen and (min-width: 767px) {
+  @media (min-width: 768px) {
     .signup-form__heading-container {
       margin-bottom: 44px; } }
 
@@ -2187,10 +2187,10 @@ button.routable-modal--close:active {
   color: #3e4149;
   margin: 0;
   font-size: 22px; }
-  @media screen and (min-width: 321px) {
+  @media (maw-width: 767px) {
     .signup-form__heading {
       font-size: 25px; } }
-  @media screen and (min-width: 767px) {
+  @media (min-width: 768px) {
     .signup-form__heading {
       font-size: 36px; } }
 
@@ -2218,7 +2218,7 @@ button.routable-modal--close:active {
   max-width: 449px;
   width: 100%;
   padding: 0 20px; }
-  @media screen and (min-width: 767px) {
+  @media (min-width: 768px) {
     .signup-form__input-container {
       padding: 0; } }
 
@@ -2235,7 +2235,7 @@ button.routable-modal--close:active {
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column; }
-  @media screen and (min-width: 321px) {
+  @media (maw-width: 767px) {
     .signup-form__cgu-container {
       margin-top: 6px;
       margin-bottom: 0;
@@ -2294,7 +2294,7 @@ button.routable-modal--close:active {
 .signup-form__cgu-label span {
   color: #6a6d76;
   font-size: 13px; }
-  @media screen and (min-width: 321px) {
+  @media (maw-width: 767px) {
     .signup-form__cgu-label span {
       font-size: 14px; } }
 
@@ -2303,7 +2303,7 @@ button.routable-modal--close:active {
 
 .signup-form__submit-container {
   margin: 5px auto 20px; }
-  @media screen and (min-width: 321px) {
+  @media (maw-width: 767px) {
     .signup-form__submit-container {
       margin: 31px auto 34px; } }
 
