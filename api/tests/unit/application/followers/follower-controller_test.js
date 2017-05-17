@@ -9,9 +9,9 @@ const mailService = require('../../../../lib/domain/services/mail-service');
 const faker = require('faker');
 const server = require('../../../../server');
 
-describe('Unit | Controller | FollowerController', function () {
+describe('Unit | Controller | FollowerController', function() {
 
-  describe('#save', function () {
+  describe('#save', function() {
 
     let sendWelcomeEmail;
     let addEmailToRandomContactListStub;
@@ -26,14 +26,14 @@ describe('Unit | Controller | FollowerController', function () {
       addEmailToRandomContactListStub.restore();
     });
 
-    it('should return 400 status code when email provided is not valid', function () {
+    it('should return 400 status code when email provided is not valid', function() {
       // Given
-      const follower = { "email": "testeur@follower.pix" };
+      const follower = { 'email': 'testeur@follower.pix' };
       const emailValidatorStub = sinon.stub(EmailValidator, 'emailIsValid').returns(false);
       sinon.stub(followerSerializer, 'deserialize', _ => new Follower(follower));
 
       // When
-      let promise = server.injectThen({ method: 'POST', url: '/api/followers', payload: { "email": 'INVALID_EMAIL' } });
+      const promise = server.injectThen({ method: 'POST', url: '/api/followers', payload: { 'email': 'INVALID_EMAIL' } });
 
       // Then
       return promise.then((res) => {
@@ -43,7 +43,7 @@ describe('Unit | Controller | FollowerController', function () {
       });
     });
 
-    it('should send a welcome email', function () {
+    it('should send a welcome email', function() {
       // Given
       const email = faker.internet.email();
       const request = { payload: { data: { attributes: { email } } } };
@@ -57,7 +57,7 @@ describe('Unit | Controller | FollowerController', function () {
       });
     });
 
-    it('should add the email into a random contact list', function () {
+    it('should add the email into a random contact list', function() {
       // Given
       const email = faker.internet.email();
       const request = { payload: { data: { attributes: { email } } } };

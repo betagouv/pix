@@ -3,12 +3,12 @@ const Mailjet = require('../../../lib/infrastructure/mailjet');
 
 const nodeMailjet = require('node-mailjet');
 
-describe('Unit | Class | Mailjet', function () {
+describe('Unit | Class | Mailjet', function() {
 
   let mailJetConnectStub;
 
   beforeEach(() => {
-    mailJetConnectStub = sinon.stub(nodeMailjet, "connect");
+    mailJetConnectStub = sinon.stub(nodeMailjet, 'connect');
   });
 
   afterEach(() => {
@@ -24,7 +24,7 @@ describe('Unit | Class | Mailjet', function () {
           return {
             request: () => {
             }
-          }
+          };
         }
       });
 
@@ -32,7 +32,7 @@ describe('Unit | Class | Mailjet', function () {
       Mailjet.sendEmail();
 
       // Then
-      sinon.assert.calledWith(mailJetConnectStub, 'test-api-ket', 'test-api-secret')
+      sinon.assert.calledWith(mailJetConnectStub, 'test-api-ket', 'test-api-secret');
     });
 
     it('should post a send instruction', () => {
@@ -109,32 +109,32 @@ describe('Unit | Class | Mailjet', function () {
     let requestStub;
 
     const contactListDetails = {
-      "Address": "Xpgno5zs4",
-      "CreatedAt": "2017-05-10T08:06:17Z",
-      "ID": 1766080,
-      "IsDeleted": false,
-      "Name": "WEBPIX",
-      "SubscriberCount": 0
+      'Address': 'Xpgno5zs4',
+      'CreatedAt': '2017-05-10T08:06:17Z',
+      'ID': 1766080,
+      'IsDeleted': false,
+      'Name': 'WEBPIX',
+      'SubscriberCount': 0
     };
 
     beforeEach(() => {
       const mailJetResponse = {
-        "response": {
-          "req": {
-            "method": "GET",
-            "url": "WEBPIX",
-            "headers": {
-              "content-type": "application/json",
-              "authorization": "Basic "
+        'response': {
+          'req': {
+            'method': 'GET',
+            'url': 'WEBPIX',
+            'headers': {
+              'content-type': 'application/json',
+              'authorization': 'Basic '
             }
           }
         },
-        "body": {
-          "Count": 1,
-          "Data": [
+        'body': {
+          'Count': 1,
+          'Data': [
             contactListDetails
           ],
-          "Total": 1
+          'Total': 1
         }
       };
 
@@ -144,7 +144,7 @@ describe('Unit | Class | Mailjet', function () {
       });
       mailJetConnectStub.returns({
         get: getStub
-      })
+      });
     });
 
     it('should connect to MailJet', () => {
@@ -216,7 +216,7 @@ describe('Unit | Class | Mailjet', function () {
       Mailjet.addEmailToContactList(email, contactListID);
 
       // Then
-      sinon.assert.calledWith(mailJetConnectStub, 'test-api-ket', 'test-api-secret')
+      sinon.assert.calledWith(mailJetConnectStub, 'test-api-ket', 'test-api-secret');
     });
 
     it('should add email to a contact list', () => {

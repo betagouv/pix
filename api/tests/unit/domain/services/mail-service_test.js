@@ -13,7 +13,7 @@ describe('Unit | Service | MailService', () => {
     let sendEmailStub;
 
     beforeEach(() => {
-      sendEmailStub = sinon.stub(mailJet, "sendEmail").resolves()
+      sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
     });
 
     afterEach(() => {
@@ -23,7 +23,6 @@ describe('Unit | Service | MailService', () => {
     it('should use mailJet to send an email', () => {
       // Given
       const email = 'text@example.net';
-
 
       // When
       const promise = mailService.sendAccountCreationEmail(email);
@@ -46,7 +45,7 @@ describe('Unit | Service | MailService', () => {
     let sendEmailStub;
 
     beforeEach(() => {
-      sendEmailStub = sinon.stub(mailJet, "sendEmail").resolves()
+      sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
     });
 
     afterEach(() => {
@@ -56,7 +55,6 @@ describe('Unit | Service | MailService', () => {
     it('should use mailJet to send an email', () => {
       // Given
       const email = 'text@example.net';
-
 
       // When
       const promise = mailService.sendWelcomeEmail(email);
@@ -81,19 +79,19 @@ describe('Unit | Service | MailService', () => {
     const email = 'test@example.net';
 
     const contactListDetails = {
-      "Address": "Xpgno5zs4",
-      "CreatedAt": "2017-05-10T08:06:17Z",
-      "ID": 1766080,
-      "IsDeleted": false,
-      "Name": "WEBPIX",
-      "SubscriberCount": 0
+      'Address': 'Xpgno5zs4',
+      'CreatedAt': '2017-05-10T08:06:17Z',
+      'ID': 1766080,
+      'IsDeleted': false,
+      'Name': 'WEBPIX',
+      'SubscriberCount': 0
     };
 
     beforeEach(() => {
       errorStub = sinon.stub(logger, 'error');
       lodashSampleSpy = sinon.spy(_, 'sample');
-      getContactListByNameStub = sinon.stub(mailJet, "getContactListByName").resolves(contactListDetails);
-      addEmailToContactListStub = sinon.stub(mailJet, "addEmailToContactList").resolves();
+      getContactListByNameStub = sinon.stub(mailJet, 'getContactListByName').resolves(contactListDetails);
+      addEmailToContactListStub = sinon.stub(mailJet, 'addEmailToContactList').resolves();
     });
 
     afterEach(() => {
@@ -150,7 +148,8 @@ describe('Unit | Service | MailService', () => {
 
     it('should log error when unable to add email to contact list', () => {
       // Given
-      addEmailToContactListStub.rejects(new Error('addEmailToContactList ERROR'));
+      const error = new Error('addEmailToContactList ERROR');
+      addEmailToContactListStub.rejects(error);
 
       // When
       const promise = mailService.addEmailToRandomContactList(email);
@@ -160,7 +159,5 @@ describe('Unit | Service | MailService', () => {
         sinon.assert.calledWith(errorStub, error);
       });
     });
-
   });
-
 });

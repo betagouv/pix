@@ -28,12 +28,13 @@ if (config.environment === 'integration' || config.environment === 'staging' || 
   });
 }
 
-export default Router.map(function () {
+export default Router.map(function() {
   this.route('index', { path: '/' });
   this.route('courses');
   this.route('placement-tests');
   this.route('project', { path: '/projet' });
   this.route('competences');
+  this.route('inscription');
 
   this.route('challenges.get-preview', { path: '/challenges/:challenge_id/preview' });
 
