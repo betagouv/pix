@@ -1089,6 +1089,10 @@ define('pix-live/components/progress-bar', ['exports', 'ember'], function (expor
 define('pix-live/components/qcm-proposals', ['exports', 'ember', 'pix-live/utils/labeled-checkboxes', 'pix-live/utils/proposals-as-array'], function (exports, _ember, _pixLiveUtilsLabeledCheckboxes, _pixLiveUtilsProposalsAsArray) {
   exports['default'] = _ember['default'].Component.extend({
 
+    answers: null,
+    proposals: null,
+    onAnswerUpdated: null, // action
+
     labeledCheckboxes: _ember['default'].computed('proposals', 'answers', function () {
       var arrayOfProposals = (0, _pixLiveUtilsProposalsAsArray['default'])(this.get('proposals'));
       return (0, _pixLiveUtilsLabeledCheckboxes['default'])(arrayOfProposals, this.get('answers'));
@@ -1128,26 +1132,29 @@ define('pix-live/components/qcm-solution-panel', ['exports', 'ember', 'pix-live/
   });
 });
 define('pix-live/components/qcu-proposals', ['exports', 'ember', 'pix-live/utils/labeled-checkboxes', 'pix-live/utils/proposals-as-array'], function (exports, _ember, _pixLiveUtilsLabeledCheckboxes, _pixLiveUtilsProposalsAsArray) {
-
-  function _uncheckAllRadioButtons() {
-    this.$(':radio').prop('checked', false);
-  }
-
-  function _checkAgainTheSelectedOption(index) {
-    this.$(':radio:nth(' + index + ')').prop('checked', true);
-  }
-
   exports['default'] = _ember['default'].Component.extend({
+
+    answers: null,
+    proposals: null,
+    onAnswerUpdated: null,
 
     labeledRadios: _ember['default'].computed('proposals', 'answers', function () {
       var arrayOfProposals = (0, _pixLiveUtilsProposalsAsArray['default'])(this.get('proposals'));
       return (0, _pixLiveUtilsLabeledCheckboxes['default'])(arrayOfProposals, this.get('answers'));
     }),
 
+    _uncheckAllRadioButtons: function _uncheckAllRadioButtons() {
+      this.$(':radio').prop('checked', false);
+    },
+
+    _checkAgainTheSelectedOption: function _checkAgainTheSelectedOption(index) {
+      this.$(':radio:nth(' + index + ')').prop('checked', true);
+    },
+
     actions: {
       radioClicked: function radioClicked(index) {
-        _uncheckAllRadioButtons.call(this);
-        _checkAgainTheSelectedOption.call(this, index);
+        this._uncheckAllRadioButtons();
+        this._checkAgainTheSelectedOption(index);
         this.sendAction('answerChanged');
       }
     }
@@ -1184,6 +1191,10 @@ define('pix-live/components/qroc-proposal', ['exports', 'ember', 'pix-live/utils
   exports['default'] = _ember['default'].Component.extend({
 
     classNames: ['qroc-proposal'],
+
+    proposals: null,
+    answerValue: null,
+    onInputChanged: null, // action
 
     _blocks: _ember['default'].computed('proposals', function () {
       return (0, _pixLiveUtilsProposalsAsBlocks['default'])(this.get('proposals'));
@@ -1302,6 +1313,10 @@ define('pix-live/components/qrocm-proposal', ['exports', 'ember', 'pix-live/util
   exports['default'] = _ember['default'].Component.extend({
 
     classNames: ['qrocm-proposal'],
+
+    proposals: null,
+    answersValue: null,
+    onInputChanged: null, // action
 
     _blocks: _ember['default'].computed('proposals', function () {
       return (0, _pixLiveUtilsProposalsAsBlocks['default'])(this.get('proposals'));
@@ -5429,6 +5444,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+6cd73302"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+b81b155b"});
 }
 //# sourceMappingURL=pix-live.map
