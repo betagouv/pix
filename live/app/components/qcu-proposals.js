@@ -6,7 +6,7 @@ export default Ember.Component.extend({
 
   answers: null,
   proposals: null,
-  onAnswerUpdated: null,
+  answerChanged: null, // action
 
   labeledRadios: Ember.computed('proposals', 'answers', function() {
     const arrayOfProposals = proposalsAsArray(this.get('proposals'));
@@ -25,7 +25,7 @@ export default Ember.Component.extend({
     radioClicked(index) {
       this._uncheckAllRadioButtons();
       this._checkAgainTheSelectedOption(index);
-      this.sendAction('answerChanged');
+      this.get('answerChanged')();
     }
   }
 

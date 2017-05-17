@@ -35,7 +35,7 @@ describe('Integration | Component | QCU proposals', function() {
       this.set('answerChanged', answerChangedHandler);
 
       // when
-      this.render(hbs`{{qcu-proposals answers=answers proposals=proposals onAnswerUpdated='answerChanged'}}`);
+      this.render(hbs`{{qcu-proposals answers=answers proposals=proposals answerChanged='answerChanged'}}`);
 
       // then
       expect(this.$('.proposal-text')).to.have.lengthOf(3);

@@ -17,7 +17,7 @@
       {{qrocm-proposal
         proposals=challenge.proposals
         answersValue=answers._valuesAsMap
-        onInputChanged='inputChanged' }}
+        answerChanged=(action 'inputChanged') }}
     </div>
     {{#if challenge.timer}}
       {{#if hasUserConfirmWarning}}

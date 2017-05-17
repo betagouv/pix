@@ -17,7 +17,7 @@
       {{qcm-proposals
         answers=answers._valueAsArrayOfBoolean
         proposals=challenge.proposals
-        onAnswerUpdated='answerChanged'}}
+        answerChanged=(action 'answerChanged')}}
     </div>
     {{#if challenge.timer}}
       {{#if hasUserConfirmWarning}}

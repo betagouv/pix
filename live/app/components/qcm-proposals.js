@@ -6,7 +6,7 @@ export default Ember.Component.extend({
 
   answers: null,
   proposals: null,
-  onAnswerUpdated: null, // action
+  answerChanged: null, // action
 
   labeledCheckboxes: Ember.computed('proposals', 'answers', function() {
     const arrayOfProposals = proposalsAsArray(this.get('proposals'));
@@ -15,7 +15,7 @@ export default Ember.Component.extend({
 
   actions: {
     checkboxClicked: function() {
-      this.sendAction('answerChanged');
+      this.get('answerChanged')();
     }
   }
 
