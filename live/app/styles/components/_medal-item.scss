@@ -16,7 +16,7 @@
 
   font-size: 45px;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     font-size: 65px;
   }
 
@@ -36,7 +36,7 @@
   margin-top: -20px;
   font-size: 30px;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     margin-top: -35px;
     font-size: 40px;
   }
@@ -56,7 +56,7 @@
 
   font-size: 12px;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     font-size: 18px;
   }
 }
