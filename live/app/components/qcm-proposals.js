@@ -4,6 +4,10 @@ import proposalsAsArray from 'pix-live/utils/proposals-as-array';
 
 export default Ember.Component.extend({
 
+  answers: null,
+  proposals: null,
+  onAnswerUpdated: null, // action
+
   labeledCheckboxes: Ember.computed('proposals', 'answers', function() {
     const arrayOfProposals = proposalsAsArray(this.get('proposals'));
     return labeledCheckboxes(arrayOfProposals, this.get('answers'));

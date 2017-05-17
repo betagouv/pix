@@ -5,6 +5,10 @@ export default Ember.Component.extend({
 
   classNames: ['qrocm-proposal'],
 
+  proposals: null,
+  answersValue: null,
+  onInputChanged: null, // action
+
   _blocks: Ember.computed('proposals', function() {
     return proposalsAsBlocks(this.get('proposals'));
   }),
