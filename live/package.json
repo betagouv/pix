@@ -52,7 +52,7 @@
     "ember-route-action-helper": "^2.0.3",
     "ember-source": "2.11.2",
     "eslint": "^3.19.0",
-    "loader.js": "4.1.0",
+    "loader.js": "^4.4.0",
     "phantomjs-prebuilt": "2.1.14",
     "showdown": "showdownjs/showdown#1bca88f"
   },
