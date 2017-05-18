@@ -2097,14 +2097,6 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('models/challenge/proposals-as-array-mixin.js', function () {
-      // test passed
-    });
-
-    it('models/challenge/proposals-as-blocks-mixin.js', function () {
-      // test passed
-    });
-
     it('models/course.js', function () {
       // test passed
     });
@@ -2242,6 +2234,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('utils/proposals-as-array.js', function () {
+      // test passed
+    });
+
+    it('utils/proposals-as-blocks.js', function () {
       // test passed
     });
 
@@ -3620,7 +3616,7 @@ define('pix-live/tests/integration/components/pix-logo-test', ['exports', 'chai'
 });
 define('pix-live/tests/integration/components/qcm-proposals-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _mocha.describe)('Integration | Component | QcmProposals', function () {
+  (0, _mocha.describe)('Integration | Component | QCM proposals', function () {
 
     (0, _emberMocha.setupComponentTest)('qcm-proposals', {
       integration: true
@@ -3827,7 +3823,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
 });
 define('pix-live/tests/integration/components/qcu-proposals-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _mocha.describe)('Integration | Component | QcuProposals', function () {
+  (0, _mocha.describe)('Integration | Component | QCU proposals', function () {
 
     (0, _emberMocha.setupComponentTest)('qcu-proposals', {
       integration: true
@@ -3843,7 +3839,7 @@ define('pix-live/tests/integration/components/qcu-proposals-test', ['exports', '
       var answerChangedHandler = undefined;
 
       beforeEach(function () {
-        proposals = ['prop 1', 'prop 2', 'prop 3'];
+        proposals = '- prop 1\n- prop 2\n- prop 3';
         answers = [false, true, false];
         answerChangedHandler = function () {
           return true;
@@ -3862,13 +3858,13 @@ define('pix-live/tests/integration/components/qcu-proposals-test', ['exports', '
 
         // when
         this.render(Ember.HTMLBars.template({
-          'id': '1V4kv/sg',
-          'block': '{"statements":[["append",["helper",["qcu-proposals"],null,[["answers","proposals","onAnswerUpdated"],[["get",["answers"]],["get",["proposals"]],"answerChanged"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          'id': 'BlUb/wun',
+          'block': '{"statements":[["append",["helper",["qcu-proposals"],null,[["answers","proposals","answerChanged"],[["get",["answers"]],["get",["proposals"]],"answerChanged"]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
 
         // then
-        (0, _chai.expect)(this.$('.proposal-text')).to.have.lengthOf(proposals.length);
+        (0, _chai.expect)(this.$('.proposal-text')).to.have.lengthOf(3);
       });
     });
   });
@@ -4059,44 +4055,42 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
     });
   });
 });
-define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
-  (0, _mocha.describe)('Integration | Component | QrocProposal', function () {
+  (0, _mocha.describe)('Integration | Component | QROC proposal', function () {
 
     (0, _emberMocha.setupComponentTest)('qroc-proposal', {
       integration: true
     });
 
-    beforeEach(function () {
-      var block = [];
-      block.push(_ember['default'].Object.create({ name: 'myInput', input: 'mylabel' }));
-      this.set('blocks', block);
+    (0, _mocha.it)('renders', function () {
+      this.render(Ember.HTMLBars.template({
+        'id': '1i/FB0iM',
+        'block': '{"statements":[["append",["unknown",["qroc-proposal"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        'meta': {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
     });
 
     (0, _mocha.describe)('Component behavior when user fill input of challenge:', function () {
 
-      (0, _mocha.it)('renders', function () {
-        this.render(_ember['default'].HTMLBars.template({
-          'id': '1i/FB0iM',
-          'block': '{"statements":[["append",["unknown",["qroc-proposal"]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
-          'meta': {}
-        }));
-        (0, _chai.expect)(this.$()).to.have.length(1);
-      });
-
       (0, _mocha.it)('should display a value when a non-empty value is providing by user', function () {
         // given
+        var proposals = '${myInput}';
+        this.set('proposals', proposals);
         this.set('answerValue', 'myValue');
         // when
-        this.render(_ember['default'].HTMLBars.template({
-          'id': 'kJs1JVvn',
-          'block': '{"statements":[["append",["helper",["qroc-proposal"],null,[["blocks","answerValue"],[["get",["blocks"]],["get",["answerValue"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+        this.render(Ember.HTMLBars.template({
+          'id': 'p3CfIgDp',
+          'block': '{"statements":[["append",["helper",["qroc-proposal"],null,[["proposals","answerValue"],[["get",["proposals"]],["get",["answerValue"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
           'meta': {}
         }));
         // then
-        (0, _chai.expect)(this.$('.challenge-response__proposal-input').val()).to.be.equal('myValue');
+        (0, _chai.expect)(this.$('.challenge-response__proposal-input').val()).to.equal('myValue');
       });
     });
+
+    //     block.push(Ember.Object.create({name: 'myInput', input: 'mylabel'}));
 
     (0, _mocha.describe)('Component behavior when user skip challenge:', function () {
 
@@ -4106,11 +4100,12 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', '
 
         (0, _mocha.it)('should display \'\' value ' + input + ' is providing to component', function () {
           // given
+          this.set('proposals', '${myLabel}');
           this.set('answerValue', input);
           // when
-          this.render(_ember['default'].HTMLBars.template({
-            'id': 'kJs1JVvn',
-            'block': '{"statements":[["append",["helper",["qroc-proposal"],null,[["blocks","answerValue"],[["get",["blocks"]],["get",["answerValue"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
+          this.render(Ember.HTMLBars.template({
+            'id': 'p3CfIgDp',
+            'block': '{"statements":[["append",["helper",["qroc-proposal"],null,[["proposals","answerValue"],[["get",["proposals"]],["get",["answerValue"]]]]],false]],"locals":[],"named":[],"yields":[],"blocks":[],"hasPartials":false}',
             'meta': {}
           }));
           // then
@@ -5874,14 +5869,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/models/challenge/proposals-as-array-mixin-test.js', function () {
-      // test passed
-    });
-
-    it('unit/models/challenge/proposals-as-blocks-mixin-test.js', function () {
-      // test passed
-    });
-
     it('unit/models/course-test.js', function () {
       // test passed
     });
@@ -5979,6 +5966,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/utils/proposals-as-array-test.js', function () {
+      // test passed
+    });
+
+    it('unit/utils/proposals-as-blocks-test.js', function () {
       // test passed
     });
 
@@ -6526,7 +6517,7 @@ define('pix-live/tests/unit/components/follower-form-test', ['exports', 'ember',
 });
 define('pix-live/tests/unit/components/qcu-proposals-test', ['exports', 'pix-live/utils/lodash-custom', 'chai', 'mocha', 'ember-mocha'], function (exports, _pixLiveUtilsLodashCustom, _chai, _mocha, _emberMocha) {
 
-  (0, _mocha.describe)('Unit | Component | QcuProposalsComponent', function () {
+  (0, _mocha.describe)('Unit | Component | QCU proposals', function () {
 
     (0, _emberMocha.setupTest)('component:qcu-proposals', {});
 
@@ -6535,7 +6526,7 @@ define('pix-live/tests/unit/components/qcu-proposals-test', ['exports', 'pix-liv
 
     (0, _mocha.describe)('Computed property "labeledRadios"', function () {
 
-      var DEFAULT_PROPOSALS = ['prop 1', 'prop 2', 'prop 3'];
+      var DEFAULT_PROPOSALS = '- prop 1\n- prop 2\n- prop 3';
       var DEFAULT_ANSWERS = [false, true, false];
       var PROPOSAL_TEXT = 0;
       var BOOLEAN_ANSWER = 1;
@@ -6570,26 +6561,26 @@ define('pix-live/tests/unit/components/qcu-proposals-test', ['exports', 'pix-liv
         var labeledRadios = component.get('labeledRadios');
 
         // then
-        (0, _chai.expect)(labeledRadios[0][PROPOSAL_TEXT]).to.equal(DEFAULT_PROPOSALS[0]);
+        (0, _chai.expect)(labeledRadios[0][PROPOSAL_TEXT]).to.equal('prop 1');
         (0, _chai.expect)(labeledRadios[0][BOOLEAN_ANSWER]).to.equal(DEFAULT_ANSWERS[0]);
 
-        (0, _chai.expect)(labeledRadios[1][PROPOSAL_TEXT]).to.equal(DEFAULT_PROPOSALS[1]);
+        (0, _chai.expect)(labeledRadios[1][PROPOSAL_TEXT]).to.equal('prop 2');
         (0, _chai.expect)(labeledRadios[1][BOOLEAN_ANSWER]).to.equal(DEFAULT_ANSWERS[1]);
 
-        (0, _chai.expect)(labeledRadios[2][PROPOSAL_TEXT]).to.equal(DEFAULT_PROPOSALS[2]);
+        (0, _chai.expect)(labeledRadios[2][PROPOSAL_TEXT]).to.equal('prop 3');
         (0, _chai.expect)(labeledRadios[2][BOOLEAN_ANSWER]).to.equal(DEFAULT_ANSWERS[2]);
       });
 
       (0, _mocha.it)('should return an array of [<proposal_text>, <boolean_answer>] with as many items than challenge proposals', function () {
         // given
-        proposals = ['prop 1', 'prop 2', 'prop 3', 'prop 4', 'prop 5'];
+        proposals = '- prop 1\n- prop 2\n- prop 3\n- prop 4\n- prop 5';
         initComponent.call(this);
 
         // when
         var labeledRadios = component.get('labeledRadios');
 
         // then
-        (0, _chai.expect)(labeledRadios).to.have.lengthOf(proposals.length);
+        (0, _chai.expect)(labeledRadios).to.have.lengthOf(5);
       });
 
       (0, _mocha.it)('should return an array of [<proposal_text>, <boolean_answer>] with all <boolean_answer> values set to "false" when given answer is "null"', function () {
@@ -7619,51 +7610,6 @@ define('pix-live/tests/unit/models/challenge-test', ['exports', 'ember', 'chai',
     });
   });
 });
-define('pix-live/tests/unit/models/challenge/proposals-as-array-mixin-test', ['exports', 'ember', 'chai', 'mocha', 'pix-live/models/challenge/proposals-as-array-mixin'], function (exports, _ember, _chai, _mocha, _pixLiveModelsChallengeProposalsAsArrayMixin) {
-
-  (0, _mocha.describe)('Unit | Model | Challenge/Propsals As Array Mixin', function () {
-
-    var testData = [{ data: '', expected: [] }, { data: 'foo', expected: [] }, { data: '- foo', expected: ['foo'] }, { data: '-foo\n- bar', expected: ['foo', 'bar'] }, { data: '- cerf-volant', expected: ['cerf-volant'] }, { data: '- xi\n- foo mi', expected: ['xi', 'foo mi'] }, { data: '- joli\n- cerf-volant', expected: ['joli', 'cerf-volant'] }, { data: '- xi\n- foo\n- mi', expected: ['xi', 'foo', 'mi'] }, { data: '-- foo', expected: ['- foo'] }, { data: '- foo\n\r\t\n\r\t\n\r\t\n- bar', expected: ['foo', 'bar'] }];
-
-    var Challenge = _ember['default'].Object.extend(_pixLiveModelsChallengeProposalsAsArrayMixin['default'], {});
-
-    testData.forEach(function (_ref) {
-      var data = _ref.data;
-      var expected = _ref.expected;
-
-      (0, _mocha.it)('"' + data.toString() + '" retourne [' + expected + ']', function () {
-        var sut = Challenge.create({ proposals: data });
-        (0, _chai.expect)(sut.get('_proposalsAsArray')).to.deep.equal(expected);
-      });
-    });
-  });
-});
-define('pix-live/tests/unit/models/challenge/proposals-as-blocks-mixin-test', ['exports', 'ember', 'mocha', 'ember-mocha', 'chai', 'pix-live/models/challenge/proposals-as-blocks-mixin'], function (exports, _ember, _mocha, _emberMocha, _chai, _pixLiveModelsChallengeProposalsAsBlocksMixin) {
-
-  (0, _mocha.describe)('Unit | Model | Challenge/Proposal As Blocks Mixin', function () {
-
-    var testData = [{ data: '', expected: [] }, { data: 'Text', expected: [{ text: 'Text' }] }, { data: 'Text test plop', expected: [{ text: 'Text test plop' }] }, { data: '${qroc}', expected: [{ input: 'qroc' }] }, { data: 'Test: ${test}', expected: [{ text: 'Test:' }, { input: 'test' }] }, {
-      data: 'Test: ${test} (kilometres)',
-      expected: [{ text: 'Test:' }, { input: 'test' }, { text: '(kilometres)' }]
-    }, {
-      data: '${plop}, ${plop} ${plop}',
-      expected: [{ input: 'plop' }, { text: ',' }, { input: 'plop' }, { input: 'plop' }]
-    }, { data: '${plop#var}', expected: [{ input: 'plop', placeholder: 'var' }] }, { data: 'line1\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\r\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\n\rline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\n\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }];
-
-    var Challenge = _ember['default'].Object.extend(_pixLiveModelsChallengeProposalsAsBlocksMixin['default'], {});
-
-    testData.forEach(function (_ref) {
-      var data = _ref.data;
-      var expected = _ref.expected;
-
-      (0, _emberMocha.it)('"' + data + '" retourne ' + JSON.stringify(expected), function () {
-        var sut = Challenge.create({ proposals: data });
-        var blocks = sut.get('_proposalsAsBlocks');
-        (0, _chai.expect)(blocks, JSON.stringify(blocks)).to.deep.equals(expected);
-      });
-    });
-  });
-});
 define('pix-live/tests/unit/models/course-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Model | Course', function () {
@@ -8402,6 +8348,22 @@ define('pix-live/tests/unit/utils/proposals-as-array-test', ['exports', 'chai', 
 
       (0, _mocha.it)('"' + data.toString() + '" retourne [' + expected + ']', function () {
         (0, _chai.expect)((0, _pixLiveUtilsProposalsAsArray['default'])(data)).to.deep.equal(expected);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/utils/proposals-as-blocks-test', ['exports', 'chai', 'mocha', 'pix-live/utils/proposals-as-blocks'], function (exports, _chai, _mocha, _pixLiveUtilsProposalsAsBlocks) {
+
+  (0, _mocha.describe)('Unit | Utility | proposals as blocks', function () {
+
+    var testData = [{ data: '', expected: [] }, { data: 'Text', expected: [{ text: 'Text' }] }, { data: 'Text test plop', expected: [{ text: 'Text test plop' }] }, { data: '${qroc}', expected: [{ input: 'qroc' }] }, { data: 'Test: ${test}', expected: [{ text: 'Test:' }, { input: 'test' }] }, { data: 'Test: ${test} (kilometres)', expected: [{ text: 'Test:' }, { input: 'test' }, { text: '(kilometres)' }] }, { data: '${plop}, ${plop} ${plop}', expected: [{ input: 'plop' }, { text: ',' }, { input: 'plop' }, { input: 'plop' }] }, { data: '${plop#var}', expected: [{ input: 'plop', placeholder: 'var' }] }, { data: 'line1\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\r\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\n\rline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\n\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }];
+
+    testData.forEach(function (_ref) {
+      var data = _ref.data;
+      var expected = _ref.expected;
+
+      (0, _mocha.it)('"' + data + '" retourne ' + JSON.stringify(expected), function () {
+        (0, _chai.expect)((0, _pixLiveUtilsProposalsAsBlocks['default'])(data)).to.deep.equal(expected);
       });
     });
   });
