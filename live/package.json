@@ -47,7 +47,7 @@
     "ember-lodash": "^4.17.2",
     "ember-math-helpers": "^2.1.0",
     "ember-metrics": "^0.10.0",
-    "ember-resolver": "2.1.1",
+    "ember-resolver": "^4.1.0",
     "ember-routable-modal": "dbbk/ember-routable-modal#a5b7a0bb",
     "ember-route-action-helper": "^2.0.3",
     "ember-source": "2.11.2",
