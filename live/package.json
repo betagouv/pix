@@ -28,7 +28,7 @@
     "ember-cli-dependency-checker": "^2.0.0",
     "ember-cli-eslint": "^3.1.0",
     "ember-cli-google-fonts": "^2.3.1",
-    "ember-cli-htmlbars": "1.1.1",
+    "ember-cli-htmlbars": "^1.1.1",
     "ember-cli-htmlbars-inline-precompile": "^0.4.0",
     "ember-cli-inject-live-reload": "^1.6.1",
     "ember-cli-mirage": "^0.3.1",
@@ -54,8 +54,7 @@
     "eslint": "^3.19.0",
     "loader.js": "4.1.0",
     "phantomjs-prebuilt": "2.1.14",
-    "showdown": "showdownjs/showdown#1bca88f",
-    "tap-xunit": "^1.7.0"
+    "showdown": "showdownjs/showdown#1bca88f"
   },
   "scripts": {
     "postinstall": "bower cache clean && bower install",
