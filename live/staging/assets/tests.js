@@ -100,15 +100,6 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['exports', 'mocha', 'c
     });
   });
 });
-define('pix-live/tests/acceptance/a1-page-accueil-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/a1-page-accueil-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (exports, _ember, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveUtilsLodashCustom) {
 
   var URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
@@ -223,15 +214,6 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['exports', 'ember'
     });
   });
 });
-define('pix-live/tests/acceptance/a4-demarrer-un-test-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/a4-demarrer-un-test-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | a5 - La page des tests adaptatifs', function () {
@@ -256,15 +238,6 @@ define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['export
       (0, _mocha.it)('a5.1.1 avec la liste des tests', function () {
         findWithAssert('.placement-tests-page-courses__course-list');
       });
-    });
-  });
-});
-define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/a5-voir-liste-tests-adaptatifs-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -393,15 +366,6 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['exports', 'mocha', 'ch
 });
 
 // then
-define('pix-live/tests/acceptance/b1-epreuve-qcu-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/b1-epreuve-qcu-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveTestsHelpersSharedState, _pixLiveUtilsLodashCustom) {
 
   function visitTimedChallenge() {
@@ -508,15 +472,6 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['exports', 'mocha', 'ch
     });
   });
 });
-define('pix-live/tests/acceptance/b2-epreuve-qcm-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/b2-epreuve-qcm-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/shared-state', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (exports, _mocha, _chai, _pixLiveTestsHelpersSharedState, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp, _pixLiveUtilsLodashCustom) {
 
   (0, _mocha.describe)('Acceptance | b3 - Afficher un QROC | ', function () {
@@ -571,15 +526,6 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['exports', 'mocha', 'c
             return context$2$0.stop();
         }
       }, null, this);
-    });
-  });
-});
-define('pix-live/tests/acceptance/b3-epreuve-qroc-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/b3-epreuve-qroc-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -653,15 +599,6 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['exports', 'mocha', '
     });
   });
 });
-define('pix-live/tests/acceptance/b4-epreuve-qrocm-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/b4-epreuve-qrocm-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   function visitTimedChallenge() {
@@ -719,15 +656,6 @@ define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['exports', 'mocha', 'cha
         // ... but attachment is hidden
         (0, _chai.expect)($ATTACHMENT_LINK.length).to.equal(0);
       });
-    });
-  });
-});
-define('pix-live/tests/acceptance/b6-epreuve-pj-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/b6-epreuve-pj-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -796,15 +724,6 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['exports', '
     });
   });
 });
-define('pix-live/tests/acceptance/b7-epreuve-points-communs-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/b7-epreuve-points-communs-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/acceptance/c1-recapitulatif-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function () {
@@ -855,15 +774,6 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['exports', 'mocha', '
 
     (0, _mocha.it)('c1.12. La bannière est affichée', function () {
       findWithAssert('.assessment-results__course-banner');
-    });
-  });
-});
-define('pix-live/tests/acceptance/c1-recapitulatif-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/c1-recapitulatif-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -972,15 +882,6 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['exports', 'moch
           }
         }, null, this);
       });
-    });
-  });
-});
-define('pix-live/tests/acceptance/d1-epreuve-validation-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/d1-epreuve-validation-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -1093,15 +994,6 @@ define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test', ['exports',
 // Given
 
 // Given
-define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/e1-previsualisation-epreuve-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | f1 - Prévisualisation  d\'un test |', function () {
@@ -1198,15 +1090,6 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['exports', 'm
     });
   });
 });
-define('pix-live/tests/acceptance/f1-previsualisation-test-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/f1-previsualisation-test-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   var CHALLENGE_WITHOUT_INTERNET_NOR_TOOLS_URI = '/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id';
@@ -1244,15 +1127,6 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['expo
     (0, _mocha.it)('g1.2 le bandeau ne doit pas être affiché si l\'usage d\'Internet ou d\'outils est autorisé dans le cadre de l\'épreuve', function () {
       visit(CHALLENGE_ALLOWING_INTERNET_OR_TOOS_URI);
       (0, _chai.expect)($('.challenge-stay__text')).to.have.lengthOf(0);
-    });
-  });
-});
-define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/g1-bandeau-no-internet-no-outils-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -1342,15 +1216,6 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['exports', 'mocha', '
           });
         });
       });
-    });
-  });
-});
-define('pix-live/tests/acceptance/h1-timeout-jauge-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/h1-timeout-jauge-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -1486,15 +1351,6 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['exports', 'moch
 // given
 
 // when
-define('pix-live/tests/acceptance/h2-page-warning-timee-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/h2-page-warning-timee-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   // see http://stackoverflow.com/a/7349478/2595513
@@ -1669,15 +1525,6 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['exports', 
     });
   });
 });
-define('pix-live/tests/acceptance/j1-compare-answer-solution-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/j1-compare-answer-solution-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', function () {
@@ -1829,15 +1676,6 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['expor
     });
   });
 });
-define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/j2-compare-answer-solution-qroc-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/acceptance/k1-competences-page-test', ['exports', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _mocha, _chai, _pixLiveTestsHelpersStartApp, _pixLiveTestsHelpersDestroyApp) {
 
   (0, _mocha.describe)('Acceptance | competences page', function () {
@@ -1878,15 +1716,6 @@ define('pix-live/tests/acceptance/k1-competences-page-test', ['exports', 'mocha'
       return andThen(function () {
         (0, _chai.expect)(find('.competences-domain__topics')).to.have.lengthOf(1);
       });
-    });
-  });
-});
-define('pix-live/tests/acceptance/k1-competences-page-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/k1-competences-page-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -2031,408 +1860,401 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['exports', 'mo
 });
 
 // In our Mirage data set, in the "ref course", the QCU challenge is followed by a QRU's one
-define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - acceptance/l1-signaler-une-epreuve-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/adapters/application.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - adapters/application.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/adapters/challenge.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - adapters/challenge.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/adapters/solution.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - adapters/solution.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/app.lint-test', [], function () {
   'use strict';
 
-  describe('ESLint - app.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/components/app-footer.lint-test', [], function () {
-  'use strict';
+  describe('ESLint | app', function () {
 
-  describe('ESLint - components/app-footer.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('adapters/application.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/beta-logo.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/beta-logo.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('adapters/challenge.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/challenge-actions.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/challenge-actions.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('adapters/solution.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/challenge-item-generic.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/challenge-item-generic.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('app.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/challenge-item-qcm.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/challenge-item-qcm.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/app-footer.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/challenge-item-qcu.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/challenge-item-qcu.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/beta-logo.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/challenge-item-qroc.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/challenge-item-qroc.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/challenge-actions.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/challenge-item-qrocm.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/challenge-item-qrocm.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/challenge-item-generic.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/challenge-statement.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/challenge-statement.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/challenge-item-qcm.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/challenge-stay.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/challenge-stay.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/challenge-item-qcu.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/comparison-window.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/comparison-window.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/challenge-item-qroc.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/corner-ribbon.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/corner-ribbon.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/challenge-item-qrocm.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/course-banner.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/course-banner.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/challenge-statement.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/course-item.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/course-item.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/challenge-stay.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/course-list.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/course-list.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/comparison-window.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/feature-item.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/feature-item.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/corner-ribbon.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/feature-list.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/feature-list.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/course-banner.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/feedback-panel.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/feedback-panel.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/course-item.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/follower-form.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/follower-form.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/course-list.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/modal-mobile.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/modal-mobile.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/feature-item.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/navbar-header.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/navbar-header.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/feature-list.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/pix-logo.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/pix-logo.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/feedback-panel.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/progress-bar.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/progress-bar.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/follower-form.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/qcm-proposals.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/qcm-proposals.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/modal-mobile.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/qcm-solution-panel.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/qcm-solution-panel.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/navbar-header.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/qcu-proposals.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/qcu-proposals.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/pix-logo.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/qcu-solution-panel.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/qcu-solution-panel.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/progress-bar.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/qroc-proposal.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/qroc-proposal.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/qcm-proposals.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/qroc-solution-panel.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/qroc-solution-panel.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/qcm-solution-panel.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/qrocm-ind-solution-panel.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/qrocm-ind-solution-panel.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/qcu-proposals.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/qrocm-proposal.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/qrocm-proposal.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/qcu-solution-panel.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/result-item.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/result-item.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/qroc-proposal.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/scoring-panel-tantpix.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/scoring-panel-tantpix.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/qroc-solution-panel.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/scoring-panel.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/scoring-panel.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/qrocm-ind-solution-panel.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/signup-form.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/signup-form.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/qrocm-proposal.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/signup-textfield.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/signup-textfield.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/result-item.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/timeout-jauge.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/timeout-jauge.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/scoring-panel-tantpix.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/components/warning-page.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - components/warning-page.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/scoring-panel.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/controllers/courses/get-challenge-preview.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - controllers/courses/get-challenge-preview.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/signup-form.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/helpers/convert-to-html.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - helpers/convert-to-html.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('components/signup-textfield.js', function () {
+      // test passed
+    });
+
+    it('components/timeout-jauge.js', function () {
+      // test passed
+    });
+
+    it('components/warning-page.js', function () {
+      // test passed
+    });
+
+    it('controllers/courses/get-challenge-preview.js', function () {
+      // test passed
+    });
+
+    it('helpers/convert-to-html.js', function () {
+      // test passed
+    });
+
+    it('helpers/eq.js', function () {
+      // test passed
+    });
+
+    it('helpers/extract-extension.js', function () {
+      // test passed
+    });
+
+    it('helpers/get-challenge-component-class.js', function () {
+      // test passed
+    });
+
+    it('helpers/inc.js', function () {
+      // test passed
+    });
+
+    it('helpers/or.js', function () {
+      // test passed
+    });
+
+    it('helpers/property-of.js', function () {
+      // test passed
+    });
+
+    it('helpers/strip-instruction.js', function () {
+      // test passed
+    });
+
+    it('initializers/ajax-interceptor.js', function () {
+      // test passed
+    });
+
+    it('initializers/router.js', function () {
+      // test passed
+    });
+
+    it('models/answer.js', function () {
+      // test passed
+    });
+
+    it('models/answer/value-as-array-of-boolean-mixin.js', function () {
+      // test passed
+    });
+
+    it('models/answer/value-as-array-of-string-mixin.js', function () {
+      // test passed
+    });
+
+    it('models/assessment.js', function () {
+      // test passed
+    });
+
+    it('models/challenge.js', function () {
+      // test passed
+    });
+
+    it('models/challenge/proposals-as-array-mixin.js', function () {
+      // test passed
+    });
+
+    it('models/challenge/proposals-as-blocks-mixin.js', function () {
+      // test passed
+    });
+
+    it('models/course.js', function () {
+      // test passed
+    });
+
+    it('models/feedback.js', function () {
+      // test passed
+    });
+
+    it('models/follower.js', function () {
+      // test passed
+    });
+
+    it('models/solution.js', function () {
+      // test passed
+    });
+
+    it('models/user.js', function () {
+      // test passed
+    });
+
+    it('resolver.js', function () {
+      // test passed
+    });
+
+    it('router.js', function () {
+      // test passed
+    });
+
+    it('routes/assessments/get-challenge.js', function () {
+      // test passed
+    });
+
+    it('routes/assessments/get-comparison.js', function () {
+      // test passed
+    });
+
+    it('routes/assessments/get-results.js', function () {
+      // test passed
+    });
+
+    it('routes/base-route.js', function () {
+      // test passed
+    });
+
+    it('routes/challenges/get-preview.js', function () {
+      // test passed
+    });
+
+    it('routes/competences.js', function () {
+      // test passed
+    });
+
+    it('routes/courses.js', function () {
+      // test passed
+    });
+
+    it('routes/courses/create-assessment-old.js', function () {
+      // test passed
+    });
+
+    it('routes/courses/create-assessment.js', function () {
+      // test passed
+    });
+
+    it('routes/courses/get-challenge-preview.js', function () {
+      // test passed
+    });
+
+    it('routes/courses/get-course-preview.js', function () {
+      // test passed
+    });
+
+    it('routes/index.js', function () {
+      // test passed
+    });
+
+    it('routes/inscription.js', function () {
+      // test passed
+    });
+
+    it('routes/placement-tests.js', function () {
+      // test passed
+    });
+
+    it('routes/project.js', function () {
+      // test passed
+    });
+
+    it('serializers/challenge.js', function () {
+      // test passed
+    });
+
+    it('services/assessment.js', function () {
+      // test passed
+    });
+
+    it('services/delay.js', function () {
+      // test passed
+    });
+
+    it('transforms/array.js', function () {
+      // test passed
+    });
+
+    it('utils/answers-as-object.js', function () {
+      // test passed
+    });
+
+    it('utils/call-only-once.js', function () {
+      // test passed
+    });
+
+    it('utils/email-validator.js', function () {
+      // test passed
+    });
+
+    it('utils/get-challenge-type.js', function () {
+      // test passed
+    });
+
+    it('utils/labeled-checkboxes.js', function () {
+      // test passed
+    });
+
+    it('utils/labels-as-object.js', function () {
+      // test passed
+    });
+
+    it('utils/lodash-custom.js', function () {
+      // test passed
+    });
+
+    it('utils/password-validator.js', function () {
+      // test passed
+    });
+
+    it('utils/proposals-as-array.js', function () {
+      // test passed
+    });
+
+    it('utils/result-details-as-object.js', function () {
+      // test passed
+    });
+
+    it('utils/solution-as-object.js', function () {
+      // test passed
+    });
+
+    it('utils/value-as-array-of-boolean.js', function () {
+      // test passed
     });
   });
 });
@@ -2444,591 +2266,6 @@ define('pix-live/tests/helpers/destroy-app', ['exports', 'ember'], function (exp
     server.shutdown();
   }
 });
-define('pix-live/tests/helpers/destroy-app.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - helpers/destroy-app.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/helpers/ember-cli-mocha-reporter', ['exports', 'npm:urljs'], function (exports, _npmUrljs) {
-    var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
-
-    var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-    // apparently Sinon can mess with the Date constructor
-    var OriginalDate = Date;
-
-    function hasQueryParam(name) {
-        var result = _npmUrljs['default'].queryString(name);
-        return typeof result === 'string' || result;
-    }
-
-    var Reporter = (function () {
-        function Reporter(runner, options) {
-            _classCallCheck(this, Reporter);
-
-            this.passes = 0;
-            this.failures = 0;
-            this.runner = runner;
-
-            this.setupDOM();
-            this.setupEvents(runner);
-            this.setupBlanket();
-
-            options.allowUncaught = hasQueryParam('no_try_catch');
-        }
-
-        _createClass(Reporter, [{
-            key: 'setupDOM',
-            value: function setupDOM() {
-                var _this = this;
-
-                var $rootNode = $('#mocha');
-
-                if (!$rootNode) {
-                    throw new Error('#mocha missing, ensure it is in your document');
-                }
-
-                $rootNode.append(template);
-
-                $('#test-title').text(document.title);
-
-                this.setupCanvas();
-
-                this.$stats = $('#mocha-stats');
-                this.stack = [$('#mocha-report')];
-
-                this.$hidePassed = this.$stats.find('#hide-passed');
-
-                this.$hidePassed.attr('checked', /hide_passed/.test(window.location.hash)).on('change', function () {
-                    return _this.updateHidePassed();
-                });
-
-                this.updateHidePassed();
-
-                this.$coverage = this.$stats.find('#enable-coverage');
-                this.$coverage.attr('checked', hasQueryParam('coverage')).on('change', function () {
-                    return _this.updateCoverageEnabled();
-                });
-
-                this.updateCoverageEnabled();
-
-                this.$noTryCatch = this.$stats.find('#no-try-catch');
-                this.$noTryCatch.attr('checked', hasQueryParam('no_try_catch')).on('change', function () {
-                    return _this.updateNoTryCatch();
-                });
-
-                this.updateNoTryCatch();
-            }
-        }, {
-            key: 'setupEvents',
-            value: function setupEvents(runner) {
-                var _this2 = this;
-
-                function handlerForEvent(event) {
-                    // e.g., "suite end" => "onSuiteEnd"
-                    return ('on ' + event).replace(/ [\w]/g, function (m) {
-                        return m[1].toUpperCase();
-                    });
-                }
-
-                var events = ['start', // execution of testing started
-                'end', // execution of testing ended
-                'suite', // execution of a test suite started
-                'suite end', // execution of a test suite ended
-                'test', // execution of a test started
-                'test end', // execution of a test ended
-                'hook', // execution of a hook started
-                'hook end', // execution of a hook ended
-                'pass', // execution of a test ended in pass
-                'fail', // execution of a test ended in fail
-                'pending'];
-                events.forEach(function (event) {
-                    var reporter = _this2;
-                    runner.on(event, function () /* arguments */{
-                        var handler = reporter[handlerForEvent(event)];
-                        if (handler) {
-                            handler.apply(reporter, arguments);
-                        }
-                    });
-                });
-            }
-        }, {
-            key: 'setupBlanket',
-            value: function setupBlanket() {
-                var _this3 = this;
-
-                if (!window.blanket) {
-                    $('#enable-coverage').parentsUntil('#mocha-stats', '.test-option').hide();
-                    return;
-                }
-                var blanket = window.blanket;
-                var origOnTestsDone = blanket.onTestsDone;
-
-                blanket.onTestsDone = function () {
-                    origOnTestsDone.apply(blanket);
-                    _this3.onBlanketDone();
-                };
-            }
-        }, {
-            key: 'setupCanvas',
-            value: function setupCanvas() {
-                this.canvas = $('.mocha-progress canvas')[0];
-                this.ctx = this.canvas.getContext('2d');
-            }
-        }, {
-            key: 'updateDuration',
-            value: function updateDuration() {
-                var seconds = (new OriginalDate() - this.startedAt) / 1000;
-                this.$stats.find('.duration .value').text(seconds.toFixed(2));
-            }
-        }, {
-            key: 'updateProgress',
-            value: function updateProgress() {
-                try {
-                    var width = this.canvas.clientWidth;
-
-                    this.renderProgressRing(width);
-                } catch (err) {
-                    // don't fail if we can't render progress
-                }
-            }
-        }, {
-            key: 'renderProgressRing',
-            value: function renderProgressRing(diameter) {
-                var totalTests = this.passes + this.failures;
-                var progress = totalTests / this.runner.total * 100 | 0;
-                var percent = Math.min(progress, 100);
-                var angle = Math.PI * 2 * (percent / 100);
-                var halfSize = diameter / 2;
-                var rad = halfSize - 1;
-                var fontSize = 11;
-                var ctx = this.ctx;
-
-                var quarterCircle = 0.5 * Math.PI;
-
-                ctx.font = fontSize + 'px helvetica, arial, sans-serif';
-
-                ctx.clearRect(0, 0, diameter, diameter);
-
-                // outer circle
-                ctx.strokeStyle = '#9f9f9f';
-                ctx.beginPath();
-                ctx.arc(halfSize, halfSize, rad, -quarterCircle, angle - quarterCircle, false);
-                ctx.stroke();
-
-                // inner circle
-                ctx.strokeStyle = '#eee';
-                ctx.beginPath();
-                ctx.arc(halfSize, halfSize, rad - 1, -quarterCircle, angle - quarterCircle, true);
-                ctx.stroke();
-
-                // text
-                var text = (percent | 0) + '%';
-                var textWidth = ctx.measureText(text).width;
-
-                ctx.fillText(text, halfSize - textWidth / 2 + 1, halfSize + fontSize / 2 - 1);
-            }
-        }, {
-            key: 'updateHidePassed',
-            value: function updateHidePassed() {
-                if (this.$stats.find('#hide-passed').is(':checked')) {
-                    $('#mocha-report').addClass('hide-passed');
-                    $('#blanket-main').addClass('hide-passed');
-                    window.location.hash = '#hide_passed';
-                } else {
-                    $('#mocha-report').removeClass('hide-passed');
-                    $('#blanket-main').removeClass('hide-passed');
-                    window.location.hash = '#';
-                }
-            }
-        }, {
-            key: 'updateCoverageEnabled',
-            value: function updateCoverageEnabled() {
-                if (this.$stats.find('#enable-coverage').is(':checked')) {
-                    if (!hasQueryParam('coverage')) {
-                        _npmUrljs['default'].updateSearchParam("coverage", 'true');
-                        _npmUrljs['default'].updateSearchParam("no_try_catch");
-                        this.$noTryCatch.attr('checked', false);
-                        window.location.reload();
-                    }
-                } else {
-                    if (hasQueryParam('coverage')) {
-                        _npmUrljs['default'].updateSearchParam("coverage");
-                        window.location.reload();
-                    }
-                }
-            }
-        }, {
-            key: 'updateNoTryCatch',
-            value: function updateNoTryCatch() {
-                if (this.$stats.find('#no-try-catch').is(':checked')) {
-                    if (!hasQueryParam('no_try_catch')) {
-                        _npmUrljs['default'].updateSearchParam("no_try_catch", 'true');
-                        _npmUrljs['default'].updateSearchParam("coverage");
-                        this.$coverage.attr('checked', false);
-                        window.location.reload();
-                    }
-                } else {
-                    if (hasQueryParam('no_try_catch')) {
-                        _npmUrljs['default'].updateSearchParam("no_try_catch");
-                        window.location.reload();
-                    }
-                }
-            }
-        }, {
-            key: 'setMood',
-            value: function setMood(mood) {
-                this.$stats.removeClass(this.mood);
-
-                this.mood = mood;
-                this.$stats.addClass(mood);
-                setFavicon(mood);
-            }
-        }, {
-            key: 'onStart',
-            value: function onStart() {
-                this.startedAt = new OriginalDate();
-            }
-        }, {
-            key: 'onEnd',
-            value: function onEnd() {
-                if (this.mood !== 'sad') {
-                    this.setMood('happy');
-                }
-
-                groupDescribes('JSHint');
-                groupDescribes('JSCS');
-            }
-        }, {
-            key: 'onSuite',
-            value: function onSuite(suite) {
-                if (suite.root) {
-                    return;
-                }
-
-                var title = suite.fullTitle();
-                var $fragment = $('<li class="suite"><h1><a></a></h1><ul></ul></li>');
-
-                $fragment.find('a').text(suite.title).attr('href', grepUrl(title));
-
-                this.stack[0].append($fragment);
-                this.stack.unshift($fragment.find('ul'));
-            }
-        }, {
-            key: 'onSuiteEnd',
-            value: function onSuiteEnd(suite) {
-                if (suite.root) {
-                    return;
-                }
-
-                var $ul = this.stack.shift();
-
-                if ($ul.find('.fail').length > 0) {
-                    $ul.parent().addClass('fail');
-                } else {
-                    $ul.parent().addClass('pass');
-                }
-            }
-        }, {
-            key: 'onTestEnd',
-            value: function onTestEnd(test) {
-                this.updateDuration();
-
-                var $fragment = fragmentForTest(test);
-
-                if (!this.stack[0]) {
-                    var $report = $('#mocha-report');
-                    $report.append('<li class="suite"><h1></h1><ul></ul></li>');
-                    $report.find('h1').text('ORPHAN TESTS');
-                    this.stack.unshift($report.find('ul'));
-                }
-
-                this.stack[0].append($fragment);
-
-                this.updateProgress();
-            }
-        }, {
-            key: 'onPass',
-            value: function onPass() {
-                this.passes++;
-                this.$stats.find('.passes .value').text(this.passes);
-            }
-        }, {
-            key: 'onFail',
-            value: function onFail(test, err) {
-                this.failures++;
-                this.$stats.find('.failures .value').text(this.failures);
-                this.setMood('sad');
-
-                test.err = err;
-                if (test.type === 'hook') {
-                    // This is a bizarre misfeature in mocha, but apparently without
-                    // the reporter feeding this back, you will never hear these
-                    // hook failures. Things like the testem mocha adapter assume
-                    // this behavior.
-                    this.runner.emit('test end', test);
-                }
-            }
-        }, {
-            key: 'onBlanketDone',
-            value: function onBlanketDone() {
-                var $blanket = $('#blanket-main');
-                var $title = $blanket.find('.bl-title > .bl-file');
-
-                $title.text('Code Coverage');
-
-                this.updateHidePassed();
-            }
-        }]);
-
-        return Reporter;
-    })();
-
-    exports['default'] = Reporter;
-
-    function grepUrl(pattern) {
-        var location = window.location;
-        var search = location.search;
-
-        if (search) {
-            search = search.replace(/[?&]grep=[^&\s]*/g, '').replace(/^&/, '?');
-        }
-
-        var prefix = search ? search + '&' : '?';
-        var locationPath = location.pathname;
-
-        var encodedPattern = encodeURIComponent(pattern);
-
-        return '' + locationPath + prefix + 'grep=' + encodedPattern;
-    }
-
-    function fragmentForTest(test) {
-        var $fragment = $('<li class="test"><h2><span class="title"></h2></li>');
-
-        $fragment.find('h2 .title').text(test.title);
-        $fragment.addClass(speedOfTest(test));
-
-        if (test.state === 'passed') {
-            $fragment.addClass('pass');
-
-            $fragment.find('h2').append('<span class="duration"></span>');
-            $fragment.find('.duration').text(test.duration + 'ms');
-        } else if (test.pending) {
-            $fragment.addClass('pass').addClass('pending');
-        } else {
-            $fragment.addClass('fail');
-
-            $fragment.append('<pre class="error"></pre>');
-            $fragment.find('.error').text(errorSummaryForTest(test)).append('<div class="dump">Dump stack to console</div>');
-
-            $fragment.find('.dump').on('click', function () {
-                return console.log(test.err.stack);
-            });
-        }
-
-        if (!test.pending) {
-            (function () {
-                var h2 = $fragment.find('h2');
-                h2.append('<a class="replay" title="Replay">‣</a>');
-                h2.find('.replay').attr('href', grepUrl(test.fullTitle()));
-
-                var code = $('<pre><code></code></pre>');
-                if (test.state === 'passed') {
-                    code.css('display', 'none');
-                }
-                code.find('code').text(cleanCode(test.fn.toString()));
-                $fragment.append(code);
-                h2.on('click', function () {
-                    return code.toggle();
-                });
-            })();
-        }
-
-        return $fragment;
-    }
-
-    function speedOfTest(test) {
-        var slow = test.slow();
-        var medium = slow / 2;
-
-        if (test.duration > slow) {
-            return 'slow';
-        } else if (test.duration > medium) {
-            return 'medium';
-        }
-
-        return 'fast';
-    }
-
-    function errorSummaryForTest(test) {
-        var summary = test.err.stack || test.err.toString();
-
-        if (summary.indexOf(test.err.message) === -1) {
-            summary = test.err.message + '\n' + summary;
-        }
-
-        if (summary === '[object Error]') {
-            summary = test.err.message;
-        }
-
-        if (!test.err.stack && test.err.sourceURL && test.err.line !== undefined) {
-            summary += '\n(' + test.err.sourceURL + ':' + test.err.line + ')';
-        }
-
-        return summary;
-    }
-
-    function cleanCode(code) {
-        code = code.replace(/\r\n?|[\n\u2028\u2029]/g, '\n').replace(/^\uFEFF/, '').replace(/^function *\(.*\) *{|\(.*\) *=> *{?/, '').replace(/\s+\}$/, '');
-
-        var spaces = code.match(/^\n?( *)/)[1].length;
-        var tabs = code.match(/^\n?(\t*)/)[1].length;
-        var count = tabs ? tabs : spaces;
-        var ws = tabs ? '\t' : ' ';
-
-        var re = new RegExp('^\n?' + ws + '{' + count + '}', 'gm');
-
-        code = code.replace(re, '');
-
-        return code.trim();
-    }
-
-    // Original from <https://gist.github.com/timrwood/7754098>
-    function setFavicon(mood) {
-        var pngPrefix = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/';
-        var redGraphic = pngPrefix + '9hAAAAH0lEQVQ4T2P8z8AAROQDxlEDGEbDgGE0DIBZaBikAwCl1B/x0/RuTAAAAABJRU5ErkJggg==';
-        var greenGraphic = pngPrefix + '9hAAAAHklEQVQ4T2Nk+A+EFADGUQMYRsOAYTQMgHloGKQDAJXkH/HZpKBrAAAAAElFTkSuQmCC';
-
-        var uri = mood === 'happy' ? greenGraphic : redGraphic;
-        var links = $('link');
-
-        // Remove existing favicons
-        links.each(function (idx, link) {
-            if (/\bicon\b/i.test(link.getAttribute('rel'))) {
-                link.parentNode.removeChild(link);
-            }
-        });
-
-        // Add new favicon
-        var $link = $('<link type="image/x-icon" rel="icon">');
-        $link.attr('href', uri);
-        $('head').append($link);
-    }
-
-    function groupDescribes(linter) {
-        var $linter = $('<li class="suite"><h1><a></a></h1><ul></ul></li>');
-        $linter.find('a').text(linter).attr('href', grepUrl('{linter}'));
-
-        var $suites = $('.suite:contains("' + linter + '")');
-
-        $suites.each(function (idx, suite) {
-            var $suite = $(suite);
-            var suiteTitle = $suite.find('h1').text();
-
-            var _suiteTitle$match = suiteTitle.match('^' + linter + ' - (.*)$');
-
-            var _suiteTitle$match2 = _slicedToArray(_suiteTitle$match, 2);
-
-            var fileName = _suiteTitle$match2[1];
-
-            var $test = $suite.find('.test');
-
-            $test.find('.title').text(fileName);
-
-            $linter.find('ul').append($test);
-            $suite.remove();
-        });
-
-        if ($linter.find('.test.fail').length > 0) {
-            $linter.addClass('fail');
-        } else {
-            $linter.addClass('pass');
-        }
-
-        $('#mocha-report').append($linter);
-    }
-
-    // jscs:disable disallowVar
-    var template = '<h1 id=\'test-title\'></h1>\n<ul id="mocha-stats">\n  <li class="test-option">\n    <label>\n      <input type="checkbox" id="enable-coverage"> Enable coverage\n    </label>\n  </li>\n  <li class="test-option">\n    <label>\n      <input type="checkbox" id="hide-passed"> Hide passed\n    </label>\n  </li>\n  <li class="test-option">\n    <label>\n      <input type="checkbox" id="no-try-catch"> No try/catch\n    </label>\n  </li>\n  <li class="passes">passes: <em class="value">0</em></li>\n  <li class="failures">failures: <em class="value">0</em></li>\n  <li class="duration">duration: <em class="value">0</em>s</li>\n  <li class="mocha-progress"><canvas width="40" height="40"></canvas></li>\n</ul>\n<ul id="mocha-report"></ul>';
-    // jscs:enable disallowVar
-});
-/*
- * A Mocha reporter meant to be used with ember-cli-mocha and ember-cli-blanket
- *
- * Based on Edward Faulnker's better-mocha-html-reporter:
- * <https://github.com/ef4/better-mocha-html-reporter>
- *
- * With modifications from Elad Shahar:
- * <https://gist.github.com/SaladFork/15683b00388bfe1d1458>
- *
- * And Andrey Mikhaylov (lolmaus):
- * <https://gist.github.com/lolmaus/8b5e84762c85142e43c2>
- *
- * Made into an Ember CLI addon and tweaked by Michael Melvin (mmelvin0):
- * <https://github.com/mmelvin0/ember-cli-mocha-reporter>
- */
-
-/* global $, Date */
-define('pix-live/tests/helpers/eq.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - helpers/eq.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/helpers/extract-extension.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - helpers/extract-extension.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/helpers/get-challenge-component-class.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - helpers/get-challenge-component-class.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/helpers/inc.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - helpers/inc.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/helpers/or.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - helpers/or.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/helpers/property-of.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - helpers/property-of.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-live/config/environment'], function (exports, _pixLiveResolver, _pixLiveConfigEnvironment) {
 
   var resolver = _pixLiveResolver['default'].create();
@@ -3039,15 +2276,6 @@ define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-
   };
 
   exports['default'] = resolver;
-});
-define('pix-live/tests/helpers/resolver.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - helpers/resolver.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
 });
 define('pix-live/tests/helpers/shared-state', ['exports'], function (exports) {
   exports.resetTestingState = resetTestingState;
@@ -3071,15 +2299,6 @@ define('pix-live/tests/helpers/shared-state', ['exports'], function (exports) {
     return JSON.parse(JSON.parse(localStorage.getItem('miragePostUrl')).body);
   }
 });
-define('pix-live/tests/helpers/shared-state.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - helpers/shared-state.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/helpers/start-app', ['exports', 'ember', 'pix-live/app', 'pix-live/config/environment'], function (exports, _ember, _pixLiveApp, _pixLiveConfigEnvironment) {
   exports['default'] = startApp;
 
@@ -3097,42 +2316,6 @@ define('pix-live/tests/helpers/start-app', ['exports', 'ember', 'pix-live/app', 
 
     return application;
   }
-});
-define('pix-live/tests/helpers/start-app.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - helpers/start-app.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/helpers/strip-instruction.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - helpers/strip-instruction.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/initializers/ajax-interceptor.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - initializers/ajax-interceptor.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/initializers/router.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - initializers/router.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
 });
 define('pix-live/tests/integration/components/challenge-statement-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
@@ -3360,15 +2543,6 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['expor
     });
   });
 });
-define('pix-live/tests/integration/components/challenge-statement-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/challenge-statement-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/challenge-stay-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | challenge stay', function () {
@@ -3384,15 +2558,6 @@ define('pix-live/tests/integration/components/challenge-stay-test', ['exports', 
         'meta': {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
-    });
-  });
-});
-define('pix-live/tests/integration/components/challenge-stay-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/challenge-stay-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -3537,17 +2702,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['exports
         }));
         // then
         (0, _chai.expect)(this.$('.comparison-window').css('max-width')).to.be.equal('900px');
-        (0, _chai.expect)(this.$('.comparison-window').css('margin')).to.be.equal('0px');
       });
-    });
-  });
-});
-define('pix-live/tests/integration/components/comparison-window-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/comparison-window-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -3566,15 +2721,6 @@ define('pix-live/tests/integration/components/corner-ribbon-test', ['exports', '
         'meta': {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
-    });
-  });
-});
-define('pix-live/tests/integration/components/corner-ribbon-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/corner-ribbon-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -3743,15 +2889,6 @@ define('pix-live/tests/integration/components/course-item-test', ['exports', 'em
     });
   });
 });
-define('pix-live/tests/integration/components/course-item-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/course-item-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/course-list-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | course list', function () {
@@ -3786,15 +2923,6 @@ define('pix-live/tests/integration/components/course-list-test', ['exports', 'em
         // then
         (0, _chai.expect)(this.$('.course-list__li')).to.have.length(courses.length);
       });
-    });
-  });
-});
-define('pix-live/tests/integration/components/course-list-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/course-list-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -3862,15 +2990,6 @@ define('pix-live/tests/integration/components/feature-item-test', ['exports', 'c
     });
   });
 });
-define('pix-live/tests/integration/components/feature-item-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/feature-item-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/feature-list-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | feature list', function () {
@@ -3899,15 +3018,6 @@ define('pix-live/tests/integration/components/feature-list-test', ['exports', 'c
       // then
       (0, _chai.expect)(this.$('.feature-list__li')).to.have.lengthOf(5);
       (0, _chai.expect)(this.$('.feature-item')).to.have.lengthOf(5);
-    });
-  });
-});
-define('pix-live/tests/integration/components/feature-list-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/feature-list-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -4280,15 +3390,6 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['exports', 
     });
   });
 });
-define('pix-live/tests/integration/components/feedback-panel-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/feedback-panel-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/follower-form-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait'], function (exports, _chai, _mocha, _emberMocha, _ember, _emberTestHelpersWait) {
 
   var BUTTON_SEND = '.follower-form__button';
@@ -4446,15 +3547,6 @@ define('pix-live/tests/integration/components/follower-form-test', ['exports', '
     });
   });
 });
-define('pix-live/tests/integration/components/follower-form-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/follower-form-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/navbar-header-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | navbar-header', function () {
@@ -4486,15 +3578,6 @@ define('pix-live/tests/integration/components/navbar-header-test', ['exports', '
 
     (0, _mocha.it)('should display a link to "referential" page', function () {
       (0, _chai.expect)(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
-    });
-  });
-});
-define('pix-live/tests/integration/components/navbar-header-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/navbar-header-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -4535,15 +3618,6 @@ define('pix-live/tests/integration/components/pix-logo-test', ['exports', 'chai'
     });
   });
 });
-define('pix-live/tests/integration/components/pix-logo-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/pix-logo-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/qcm-proposals-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | QcmProposals', function () {
@@ -4559,15 +3633,6 @@ define('pix-live/tests/integration/components/qcm-proposals-test', ['exports', '
         'meta': {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
-    });
-  });
-});
-define('pix-live/tests/integration/components/qcm-proposals-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/qcm-proposals-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -4760,15 +3825,6 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['export
     });
   });
 });
-define('pix-live/tests/integration/components/qcm-solution-panel-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/qcm-solution-panel-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/qcu-proposals-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | QcuProposals', function () {
@@ -4814,15 +3870,6 @@ define('pix-live/tests/integration/components/qcu-proposals-test', ['exports', '
         // then
         (0, _chai.expect)(this.$('.proposal-text')).to.have.lengthOf(proposals.length);
       });
-    });
-  });
-});
-define('pix-live/tests/integration/components/qcu-proposals-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/qcu-proposals-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -5012,15 +4059,6 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['export
     });
   });
 });
-define('pix-live/tests/integration/components/qcu-solution-panel-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/qcu-solution-panel-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | QrocProposal', function () {
@@ -5079,15 +4117,6 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['exports', '
           (0, _chai.expect)(this.$('.challenge-response__proposal-input').val()).to.be.equal(output);
         });
       });
-    });
-  });
-});
-define('pix-live/tests/integration/components/qroc-proposal-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/qroc-proposal-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -5219,15 +4248,6 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['expor
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
         });
       });
-    });
-  });
-});
-define('pix-live/tests/integration/components/qroc-solution-panel-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/qroc-solution-panel-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -5429,15 +4449,6 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
     });
   });
 });
-define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/qrocm-ind-solution-panel-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/qrocm-proposal-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | QrocmProposalComponent', function () {
@@ -5453,15 +4464,6 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['exports', 
         'meta': {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
-    });
-  });
-});
-define('pix-live/tests/integration/components/qrocm-proposal-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/qrocm-proposal-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -5609,15 +4611,6 @@ define('pix-live/tests/integration/components/result-item-test', ['exports', 'ch
     });
   });
 });
-define('pix-live/tests/integration/components/result-item-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/result-item-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/scoring-panel-tantpix-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   var COMPONENT_WRAPPER = '.scoring-panel-tantpix';
@@ -5737,15 +4730,6 @@ define('pix-live/tests/integration/components/scoring-panel-tantpix-test', ['exp
     });
   });
 });
-define('pix-live/tests/integration/components/scoring-panel-tantpix-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/scoring-panel-tantpix-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/scoring-panel-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
   var TANTPIX_CONTAINER_CLASS = '.scoring-panel-tantpix';
@@ -5822,15 +4806,6 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['exports', '
         (0, _chai.expect)(this.$('.scoring-panel__index-link')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.scoring-panel__index-link-back').text()).to.be.equal('REVENIR À L\'ACCUEIL');
       });
-    });
-  });
-});
-define('pix-live/tests/integration/components/scoring-panel-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/scoring-panel-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -6342,15 +5317,6 @@ define('pix-live/tests/integration/components/signup-form-test', ['exports', 'ch
     });
   });
 });
-define('pix-live/tests/integration/components/signup-form-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/signup-form-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/signup-textfield-test', ['exports', 'chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (exports, _chai, _mocha, _emberMocha, _emberTestHelpersWait) {
 
   (0, _mocha.describe)('Integration | Component | signup textfield', function () {
@@ -6547,15 +5513,6 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['exports'
     });
   });
 });
-define('pix-live/tests/integration/components/signup-textfield-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/signup-textfield-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/integration/components/timeout-jauge-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Integration | Component | TimeoutJauge', function () {
@@ -6607,303 +5564,6 @@ define('pix-live/tests/integration/components/timeout-jauge-test', ['exports', '
     });
   });
 });
-define('pix-live/tests/integration/components/timeout-jauge-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - integration/components/timeout-jauge-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/models/answer.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - models/answer.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/models/answer/value-as-array-of-boolean-mixin.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - models/answer/value-as-array-of-boolean-mixin.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/models/answer/value-as-array-of-string-mixin.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - models/answer/value-as-array-of-string-mixin.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/models/assessment.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - models/assessment.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/models/challenge.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - models/challenge.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/models/challenge/proposals-as-array-mixin.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - models/challenge/proposals-as-array-mixin.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/models/challenge/proposals-as-blocks-mixin.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - models/challenge/proposals-as-blocks-mixin.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/models/course.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - models/course.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/models/feedback.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - models/feedback.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/models/follower.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - models/follower.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/models/solution.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - models/solution.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/models/user.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - models/user.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/resolver.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - resolver.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/router.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - router.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/assessments/get-challenge.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - routes/assessments/get-challenge.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/assessments/get-comparison.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - routes/assessments/get-comparison.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/assessments/get-results.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - routes/assessments/get-results.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/base-route.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - routes/base-route.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/challenges/get-preview.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - routes/challenges/get-preview.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/competences.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - routes/competences.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/courses.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - routes/courses.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/courses/create-assessment-old.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - routes/courses/create-assessment-old.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/courses/create-assessment.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - routes/courses/create-assessment.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/courses/get-challenge-preview.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - routes/courses/get-challenge-preview.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/courses/get-course-preview.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - routes/courses/get-course-preview.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/index.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - routes/index.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/inscription.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - routes/inscription.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/placement-tests.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - routes/placement-tests.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/routes/project.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - routes/project.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/serializers/challenge.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - serializers/challenge.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/services/assessment.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - services/assessment.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/services/delay.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - services/delay.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/test-helper', ['exports', 'pix-live/tests/helpers/resolver', 'ember-mocha', 'mocha'], function (exports, _pixLiveTestsHelpersResolver, _emberMocha, _mocha) {
 
   _mocha.mocha.setup({
@@ -6913,21 +5573,425 @@ define('pix-live/tests/test-helper', ['exports', 'pix-live/tests/helpers/resolve
 
   (0, _emberMocha.setResolver)(_pixLiveTestsHelpersResolver['default']);
 });
-define('pix-live/tests/test-helper.lint-test', [], function () {
+define('pix-live/tests/tests.lint-test', [], function () {
   'use strict';
 
-  describe('ESLint - test-helper.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+  describe('ESLint | tests', function () {
+
+    it('acceptance/a1-page-accueil-test.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/transforms/array.lint-test', [], function () {
-  'use strict';
 
-  describe('ESLint - transforms/array.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+    it('acceptance/a4-demarrer-un-test-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/a5-voir-liste-tests-adaptatifs-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/b1-epreuve-qcu-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/b2-epreuve-qcm-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/b3-epreuve-qroc-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/b4-epreuve-qrocm-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/b6-epreuve-pj-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/b7-epreuve-points-communs-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/c1-recapitulatif-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/d1-epreuve-validation-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/e1-previsualisation-epreuve-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/f1-previsualisation-test-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/g1-bandeau-no-internet-no-outils-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/h1-timeout-jauge-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/h2-page-warning-timee-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/j1-compare-answer-solution-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/j2-compare-answer-solution-qroc-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/k1-competences-page-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/l1-signaler-une-epreuve-test.js', function () {
+      // test passed
+    });
+
+    it('helpers/destroy-app.js', function () {
+      // test passed
+    });
+
+    it('helpers/resolver.js', function () {
+      // test passed
+    });
+
+    it('helpers/shared-state.js', function () {
+      // test passed
+    });
+
+    it('helpers/start-app.js', function () {
+      // test passed
+    });
+
+    it('integration/components/challenge-statement-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/challenge-stay-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/comparison-window-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/corner-ribbon-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/course-item-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/course-list-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/feature-item-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/feature-list-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/feedback-panel-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/follower-form-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/navbar-header-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/pix-logo-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/qcm-proposals-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/qcm-solution-panel-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/qcu-proposals-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/qcu-solution-panel-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/qroc-proposal-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/qroc-solution-panel-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/qrocm-ind-solution-panel-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/qrocm-proposal-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/result-item-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/scoring-panel-tantpix-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/scoring-panel-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/signup-form-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/signup-textfield-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/timeout-jauge-test.js', function () {
+      // test passed
+    });
+
+    it('test-helper.js', function () {
+      // test passed
+    });
+
+    it('unit/adapters/solution-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/comparison-window-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/course-item-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/course-list-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/feedback-panel-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/follower-form-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/qcu-proposals-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/qroc-solution-panel-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/qrocm-ind-solution-panel-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/result-item-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/scoring-panel-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/signup-textfield-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/timeout-jauge-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/warning-time-page-test.js', function () {
+      // test passed
+    });
+
+    it('unit/helpers/convert-to-html-test.js', function () {
+      // test passed
+    });
+
+    it('unit/helpers/eq-test.js', function () {
+      // test passed
+    });
+
+    it('unit/helpers/extract-extension-test.js', function () {
+      // test passed
+    });
+
+    it('unit/helpers/get-challenge-component-class-test.js', function () {
+      // test passed
+    });
+
+    it('unit/helpers/or-test.js', function () {
+      // test passed
+    });
+
+    it('unit/helpers/strip-instruction-test.js', function () {
+      // test passed
+    });
+
+    it('unit/models/answer-test.js', function () {
+      // test passed
+    });
+
+    it('unit/models/answer/value-as-array-of-boolean-mixin-test.js', function () {
+      // test passed
+    });
+
+    it('unit/models/challenge-test.js', function () {
+      // test passed
+    });
+
+    it('unit/models/challenge/proposals-as-array-mixin-test.js', function () {
+      // test passed
+    });
+
+    it('unit/models/challenge/proposals-as-blocks-mixin-test.js', function () {
+      // test passed
+    });
+
+    it('unit/models/course-test.js', function () {
+      // test passed
+    });
+
+    it('unit/models/feedback-test.js', function () {
+      // test passed
+    });
+
+    it('unit/models/follower-test.js', function () {
+      // test passed
+    });
+
+    it('unit/models/user-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/assessments/get-challenge-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/assessments/get-results-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/challenges/get-preview-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/competences-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/courses-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/courses/get-challenge-preview-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/courses/get-course-preview-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/index-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/inscription-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/placement-tests-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/project-test.js', function () {
+      // test passed
+    });
+
+    it('unit/services/assessment-test.js', function () {
+      // test passed
+    });
+
+    it('unit/services/delay-test.js', function () {
+      // test passed
+    });
+
+    it('unit/transforms/array-test.js', function () {
+      // test passed
+    });
+
+    it('unit/utils/answers-as-object-test.js', function () {
+      // test passed
+    });
+
+    it('unit/utils/email-validator-test.js', function () {
+      // test passed
+    });
+
+    it('unit/utils/labeled-checkboxes-test.js', function () {
+      // test passed
+    });
+
+    it('unit/utils/labels-as-object-test.js', function () {
+      // test passed
+    });
+
+    it('unit/utils/lodash-custom-test.js', function () {
+      // test passed
+    });
+
+    it('unit/utils/password-validator-test.js', function () {
+      // test passed
+    });
+
+    it('unit/utils/proposals-as-array-test.js', function () {
+      // test passed
+    });
+
+    it('unit/utils/result-details-as-object-test.js', function () {
+      // test passed
+    });
+
+    it('unit/utils/solution-as-object-test.js', function () {
+      // test passed
+    });
+
+    it('unit/utils/value-as-array-of-boolean-test.js', function () {
+      // test passed
     });
   });
 });
@@ -6940,15 +6004,6 @@ define('pix-live/tests/unit/adapters/solution-test', ['exports', 'chai', 'mocha'
     (0, _mocha.it)('exists', function () {
       var adapter = this.subject();
       (0, _chai.expect)(adapter).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/adapters/solution-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/adapters/solution-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -7167,15 +6222,6 @@ define('pix-live/tests/unit/components/comparison-window-test', ['exports', 'emb
     });
   });
 });
-define('pix-live/tests/unit/components/comparison-window-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/components/comparison-window-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/components/course-item-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Component | CourseItemComponent', function () {
@@ -7221,15 +6267,6 @@ define('pix-live/tests/unit/components/course-item-test', ['exports', 'chai', 'm
         (0, _chai.expect)(imageUrl).to.exists;
         (0, _chai.expect)(imageUrl).to.equal('/images/course-default-image.png');
       });
-    });
-  });
-});
-define('pix-live/tests/unit/components/course-item-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/components/course-item-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -7295,15 +6332,6 @@ define('pix-live/tests/unit/components/course-list-test', ['exports', 'chai', 'm
         // then
         (0, _chai.expect)(result).to.have.lengthOf(1);
       });
-    });
-  });
-});
-define('pix-live/tests/unit/components/course-list-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/components/course-list-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -7445,15 +6473,6 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['exports', 'chai',
     });
   });
 });
-define('pix-live/tests/unit/components/feedback-panel-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/components/feedback-panel-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/components/follower-form-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
   var errorMessages = {
@@ -7502,15 +6521,6 @@ define('pix-live/tests/unit/components/follower-form-test', ['exports', 'ember',
           });
         });
       });
-    });
-  });
-});
-define('pix-live/tests/unit/components/follower-form-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/components/follower-form-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -7607,15 +6617,6 @@ define('pix-live/tests/unit/components/qcu-proposals-test', ['exports', 'pix-liv
         // then
         (0, _chai.expect)(labeledRadios).to.have.lengthOf(0);
       });
-    });
-  });
-});
-define('pix-live/tests/unit/components/qcu-proposals-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/components/qcu-proposals-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -7733,15 +6734,6 @@ define('pix-live/tests/unit/components/qroc-solution-panel-test', ['exports', 'c
         // then
         (0, _chai.expect)(solutionToDisplay).to.equal('');
       });
-    });
-  });
-});
-define('pix-live/tests/unit/components/qroc-solution-panel-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/components/qroc-solution-panel-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -7986,15 +6978,6 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['exports
     });
   });
 });
-define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/components/qrocm-ind-solution-panel-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/components/result-item-test', ['exports', 'ember', 'chai', 'mocha', 'ember-mocha'], function (exports, _ember, _chai, _mocha, _emberMocha) {
 
   var undefinedAnswer = 'undefined';
@@ -8078,15 +7061,6 @@ define('pix-live/tests/unit/components/result-item-test', ['exports', 'ember', '
     });
   });
 });
-define('pix-live/tests/unit/components/result-item-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/components/result-item-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/components/scoring-panel-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Component | scoring-panel', function () {
@@ -8120,15 +7094,6 @@ define('pix-live/tests/unit/components/scoring-panel-test', ['exports', 'chai', 
         // then
         (0, _chai.expect)(hasATrophy).to.be.equal(false);
       });
-    });
-  });
-});
-define('pix-live/tests/unit/components/scoring-panel-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/components/scoring-panel-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -8273,15 +7238,6 @@ define('pix-live/tests/unit/components/signup-textfield-test', ['exports', 'chai
     });
   });
 });
-define('pix-live/tests/unit/components/signup-textfield-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/components/signup-textfield-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/components/timeout-jauge-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Component | timeout-jauge-component ', function () {
@@ -8343,15 +7299,6 @@ define('pix-live/tests/unit/components/timeout-jauge-test', ['exports', 'chai', 
     });
   });
 });
-define('pix-live/tests/unit/components/timeout-jauge-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/components/timeout-jauge-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/components/warning-time-page-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Component | warning-page-component ', function () {
@@ -8398,15 +7345,6 @@ define('pix-live/tests/unit/components/warning-time-page-test', ['exports', 'cha
     });
   });
 });
-define('pix-live/tests/unit/components/warning-time-page-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/components/warning-time-page-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/helpers/convert-to-html-test', ['exports', 'chai', 'mocha', 'pix-live/helpers/convert-to-html'], function (exports, _chai, _mocha, _pixLiveHelpersConvertToHtml) {
 
   (0, _mocha.describe)('Unit | Helpers | ConvertToHtmlHelper', function () {
@@ -8419,15 +7357,6 @@ define('pix-live/tests/unit/helpers/convert-to-html-test', ['exports', 'chai', '
     (0, _mocha.it)('skip call with bad arg', function () {
       (0, _chai.expect)((0, _pixLiveHelpersConvertToHtml.convertToHtml)('bad argument')).to.equal('');
       (0, _chai.expect)((0, _pixLiveHelpersConvertToHtml.convertToHtml)([])).to.equal('');
-    });
-  });
-});
-define('pix-live/tests/unit/helpers/convert-to-html-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/helpers/convert-to-html-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -8448,15 +7377,6 @@ define('pix-live/tests/unit/helpers/eq-test', ['exports', 'chai', 'mocha', 'pix-
     });
   });
 });
-define('pix-live/tests/unit/helpers/eq-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/helpers/eq-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/helpers/extract-extension-test', ['exports', 'chai', 'mocha', 'pix-live/helpers/extract-extension'], function (exports, _chai, _mocha, _pixLiveHelpersExtractExtension) {
 
   (0, _mocha.describe)('Unit | Helpers | ExtractExtension', function () {
@@ -8464,15 +7384,6 @@ define('pix-live/tests/unit/helpers/extract-extension-test', ['exports', 'chai',
       (0, _chai.expect)((0, _pixLiveHelpersExtractExtension.extractExtension)(['file.url.ext.docx'])).to.equal('docx');
       (0, _chai.expect)((0, _pixLiveHelpersExtractExtension.extractExtension)(['file_url_without_extension'])).to.equal('file_url_without_extension');
       (0, _chai.expect)((0, _pixLiveHelpersExtractExtension.extractExtension)([''])).to.equal('');
-    });
-  });
-});
-define('pix-live/tests/unit/helpers/extract-extension-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/helpers/extract-extension-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -8496,15 +7407,6 @@ define('pix-live/tests/unit/helpers/get-challenge-component-class-test', ['expor
     });
   });
 });
-define('pix-live/tests/unit/helpers/get-challenge-component-class-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/helpers/get-challenge-component-class-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/helpers/or-test', ['exports', 'chai', 'mocha', 'pix-live/helpers/or'], function (exports, _chai, _mocha, _pixLiveHelpersOr) {
 
   (0, _mocha.describe)('Unit | Helper | or', function () {
@@ -8522,15 +7424,6 @@ define('pix-live/tests/unit/helpers/or-test', ['exports', 'chai', 'mocha', 'pix-
     });
   });
 });
-define('pix-live/tests/unit/helpers/or-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/helpers/or-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/helpers/strip-instruction-test', ['exports', 'chai', 'mocha', 'pix-live/helpers/strip-instruction'], function (exports, _chai, _mocha, _pixLiveHelpersStripInstruction) {
 
   (0, _mocha.describe)('Unit | Helpers | StripInstructionHelper', function () {
@@ -8538,15 +7431,6 @@ define('pix-live/tests/unit/helpers/strip-instruction-test', ['exports', 'chai',
     (0, _mocha.it)('works', function () {
       var result = (0, _pixLiveHelpersStripInstruction.stripInstruction)(['<div class="paragraph"><strong>a bold sentence</strong></div>']);
       (0, _chai.expect)(result).to.equal('a bold sentence...');
-    });
-  });
-});
-define('pix-live/tests/unit/helpers/strip-instruction-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/helpers/strip-instruction-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -8580,15 +7464,6 @@ define('pix-live/tests/unit/models/answer-test', ['exports', 'ember', 'chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/models/answer-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/models/answer-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/models/answer/value-as-array-of-boolean-mixin-test', ['exports', 'ember', 'chai', 'mocha', 'pix-live/models/answer/value-as-array-of-boolean-mixin'], function (exports, _ember, _chai, _mocha, _pixLiveModelsAnswerValueAsArrayOfBooleanMixin) {
 
   (0, _mocha.describe)('Unit | Model | Value As Array of Boolean Mixin', function () {
@@ -8606,15 +7481,6 @@ define('pix-live/tests/unit/models/answer/value-as-array-of-boolean-mixin-test',
         var sut = Challenge.create({ value: input });
         (0, _chai.expect)(sut.get('_valueAsArrayOfBoolean')).to.deep.equal(expected);
       });
-    });
-  });
-});
-define('pix-live/tests/unit/models/answer/value-as-array-of-boolean-mixin-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/models/answer/value-as-array-of-boolean-mixin-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -8753,15 +7619,6 @@ define('pix-live/tests/unit/models/challenge-test', ['exports', 'ember', 'chai',
     });
   });
 });
-define('pix-live/tests/unit/models/challenge-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/models/challenge-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/models/challenge/proposals-as-array-mixin-test', ['exports', 'ember', 'chai', 'mocha', 'pix-live/models/challenge/proposals-as-array-mixin'], function (exports, _ember, _chai, _mocha, _pixLiveModelsChallengeProposalsAsArrayMixin) {
 
   (0, _mocha.describe)('Unit | Model | Challenge/Propsals As Array Mixin', function () {
@@ -8778,15 +7635,6 @@ define('pix-live/tests/unit/models/challenge/proposals-as-array-mixin-test', ['e
         var sut = Challenge.create({ proposals: data });
         (0, _chai.expect)(sut.get('_proposalsAsArray')).to.deep.equal(expected);
       });
-    });
-  });
-});
-define('pix-live/tests/unit/models/challenge/proposals-as-array-mixin-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/models/challenge/proposals-as-array-mixin-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -8813,15 +7661,6 @@ define('pix-live/tests/unit/models/challenge/proposals-as-blocks-mixin-test', ['
         var blocks = sut.get('_proposalsAsBlocks');
         (0, _chai.expect)(blocks, JSON.stringify(blocks)).to.deep.equals(expected);
       });
-    });
-  });
-});
-define('pix-live/tests/unit/models/challenge/proposals-as-blocks-mixin-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/models/challenge/proposals-as-blocks-mixin-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -8900,15 +7739,6 @@ define('pix-live/tests/unit/models/course-test', ['exports', 'ember', 'chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/models/course-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/models/course-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/models/feedback-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Model | feedback', function () {
@@ -8920,15 +7750,6 @@ define('pix-live/tests/unit/models/feedback-test', ['exports', 'chai', 'mocha', 
     (0, _mocha.it)('exists', function () {
       var model = this.subject();
       (0, _chai.expect)(model).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/models/feedback-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/models/feedback-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -8948,15 +7769,6 @@ define('pix-live/tests/unit/models/follower-test', ['exports', 'chai', 'mocha', 
     });
   });
 });
-define('pix-live/tests/unit/models/follower-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/models/follower-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/models/user-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('user', function () {
@@ -8969,15 +7781,6 @@ define('pix-live/tests/unit/models/user-test', ['exports', 'chai', 'mocha', 'emb
       var model = this.subject();
       // var store = this.store();
       (0, _chai.expect)(model).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/models/user-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/models/user-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -8995,15 +7798,6 @@ define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['exports', 
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/get-challenge-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/routes/assessments/get-challenge-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/routes/assessments/get-results-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Route | Assessments.ResultsRoute', function () {
@@ -9016,15 +7810,6 @@ define('pix-live/tests/unit/routes/assessments/get-results-test', ['exports', 'c
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/get-results-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/routes/assessments/get-results-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/routes/challenges/get-preview-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Route | challenges.get-preview', function () {
@@ -9034,15 +7819,6 @@ define('pix-live/tests/unit/routes/challenges/get-preview-test', ['exports', 'ch
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/challenges/get-preview-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/routes/challenges/get-preview-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -9060,15 +7836,6 @@ define('pix-live/tests/unit/routes/competences-test', ['exports', 'chai', 'mocha
     });
   });
 });
-define('pix-live/tests/unit/routes/competences-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/routes/competences-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/routes/courses-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Route | courses', function () {
@@ -9078,15 +7845,6 @@ define('pix-live/tests/unit/routes/courses-test', ['exports', 'chai', 'mocha', '
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/courses-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/routes/courses-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -9102,15 +7860,6 @@ define('pix-live/tests/unit/routes/courses/get-challenge-preview-test', ['export
     });
   });
 });
-define('pix-live/tests/unit/routes/courses/get-challenge-preview-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/routes/courses/get-challenge-preview-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/routes/courses/get-course-preview-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Route | CoursePreview', function () {
@@ -9123,15 +7872,6 @@ define('pix-live/tests/unit/routes/courses/get-course-preview-test', ['exports',
     });
   });
 });
-define('pix-live/tests/unit/routes/courses/get-course-preview-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/routes/courses/get-course-preview-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/routes/index-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Route | index', function () {
@@ -9141,15 +7881,6 @@ define('pix-live/tests/unit/routes/index-test', ['exports', 'chai', 'mocha', 'em
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/index-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/routes/index-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -9167,15 +7898,6 @@ define('pix-live/tests/unit/routes/inscription-test', ['exports', 'chai', 'mocha
     });
   });
 });
-define('pix-live/tests/unit/routes/inscription-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/routes/inscription-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/routes/placement-tests-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Route | placement-tests', function () {
@@ -9187,15 +7909,6 @@ define('pix-live/tests/unit/routes/placement-tests-test', ['exports', 'chai', 'm
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/placement-tests-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/routes/placement-tests-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -9211,15 +7924,6 @@ define('pix-live/tests/unit/routes/project-test', ['exports', 'chai', 'mocha', '
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/project-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/routes/project-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -9331,15 +8035,6 @@ define('pix-live/tests/unit/services/assessment-test', ['exports', 'ember', 'cha
     });
   });
 });
-define('pix-live/tests/unit/services/assessment-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/services/assessment-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/services/delay-test', ['exports', 'chai', 'mocha', 'ember-mocha'], function (exports, _chai, _mocha, _emberMocha) {
 
   (0, _mocha.describe)('Unit | Service | DelayService', function () {
@@ -9356,15 +8051,6 @@ define('pix-live/tests/unit/services/delay-test', ['exports', 'chai', 'mocha', '
       (0, _chai.expect)(delay).to.respondsTo('ms');
       var promise = delay.ms(0);
       (0, _chai.expect)(promise).to.respondsTo('then');
-    });
-  });
-});
-define('pix-live/tests/unit/services/delay-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/services/delay-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -9385,15 +8071,6 @@ define('pix-live/tests/unit/transforms/array-test', ['exports', 'chai', 'mocha',
         // then
         (0, _chai.expect)(serialized).to.deep.equal(array);
       });
-    });
-  });
-});
-define('pix-live/tests/unit/transforms/array-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/transforms/array-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -9436,15 +8113,6 @@ define('pix-live/tests/unit/utils/answers-as-object-test', ['exports', 'pix-live
     });
   });
 });
-define('pix-live/tests/unit/utils/answers-as-object-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/utils/answers-as-object-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/utils/email-validator-test', ['exports', 'chai', 'mocha', 'pix-live/utils/email-validator'], function (exports, _chai, _mocha, _pixLiveUtilsEmailValidator) {
 
   (0, _mocha.describe)('Unit | Utility | email validator', function () {
@@ -9462,15 +8130,6 @@ define('pix-live/tests/unit/utils/email-validator-test', ['exports', 'chai', 'mo
           (0, _chai.expect)((0, _pixLiveUtilsEmailValidator['default'])(validEmail)).to.be['true'];
         });
       });
-    });
-  });
-});
-define('pix-live/tests/unit/utils/email-validator-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/utils/email-validator-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -9535,15 +8194,6 @@ define('pix-live/tests/unit/utils/labeled-checkboxes-test', ['exports', 'chai', 
           (0, _chai.expect)(JSON.stringify((0, _pixLiveUtilsLabeledCheckboxes['default'])(testCase.proposals, testCase.answers))).to.equal(JSON.stringify(testCase.output));
         });
       });
-    });
-  });
-});
-define('pix-live/tests/unit/utils/labeled-checkboxes-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/utils/labeled-checkboxes-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -9626,15 +8276,6 @@ define('pix-live/tests/unit/utils/labels-as-object-test', ['exports', 'chai', 'm
         //then
         (0, _chai.expect)(result).to.be.deep.equal(expectedResult);
       });
-    });
-  });
-});
-define('pix-live/tests/unit/utils/labels-as-object-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/utils/labels-as-object-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -9729,15 +8370,6 @@ define('pix-live/tests/unit/utils/lodash-custom-test', ['exports', 'chai', 'moch
     });
   });
 });
-define('pix-live/tests/unit/utils/lodash-custom-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/utils/lodash-custom-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/utils/password-validator-test', ['exports', 'chai', 'mocha', 'pix-live/utils/password-validator'], function (exports, _chai, _mocha, _pixLiveUtilsPasswordValidator) {
 
   (0, _mocha.describe)('Unit | Utility | password validator', function () {
@@ -9758,15 +8390,6 @@ define('pix-live/tests/unit/utils/password-validator-test', ['exports', 'chai', 
     });
   });
 });
-define('pix-live/tests/unit/utils/password-validator-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/utils/password-validator-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/utils/proposals-as-array-test', ['exports', 'chai', 'mocha', 'pix-live/utils/proposals-as-array'], function (exports, _chai, _mocha, _pixLiveUtilsProposalsAsArray) {
 
   (0, _mocha.describe)('Unit | Utility | proposals as array', function () {
@@ -9780,15 +8403,6 @@ define('pix-live/tests/unit/utils/proposals-as-array-test', ['exports', 'chai', 
       (0, _mocha.it)('"' + data.toString() + '" retourne [' + expected + ']', function () {
         (0, _chai.expect)((0, _pixLiveUtilsProposalsAsArray['default'])(data)).to.deep.equal(expected);
       });
-    });
-  });
-});
-define('pix-live/tests/unit/utils/proposals-as-array-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/utils/proposals-as-array-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -9815,15 +8429,6 @@ define('pix-live/tests/unit/utils/result-details-as-object-test', ['exports', 'c
       var result = (0, _pixLiveUtilsResultDetailsAsObject['default'])(resultDetailYaml);
       // then
       (0, _chai.expect)(result).to.deep.equal(expectedObject);
-    });
-  });
-});
-define('pix-live/tests/unit/utils/result-details-as-object-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/utils/result-details-as-object-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });
@@ -9870,15 +8475,6 @@ define('pix-live/tests/unit/utils/solution-as-object-test', ['exports', 'chai', 
     });
   });
 });
-define('pix-live/tests/unit/utils/solution-as-object-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/utils/solution-as-object-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
 define('pix-live/tests/unit/utils/value-as-array-of-boolean-test', ['exports', 'chai', 'mocha', 'pix-live/utils/value-as-array-of-boolean'], function (exports, _chai, _mocha, _pixLiveUtilsValueAsArrayOfBoolean) {
 
   (0, _mocha.describe)('Unit | Utility | value as array of boolean', function () {
@@ -9893,123 +8489,6 @@ define('pix-live/tests/unit/utils/value-as-array-of-boolean-test', ['exports', '
       (0, _mocha.it)('"' + when + '", example : "' + JSON.stringify(input) + '" retourne [' + expected + ']', function () {
         (0, _chai.expect)((0, _pixLiveUtilsValueAsArrayOfBoolean['default'])(input)).to.deep.equal(expected);
       });
-    });
-  });
-});
-define('pix-live/tests/unit/utils/value-as-array-of-boolean-test.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - unit/utils/value-as-array-of-boolean-test.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/utils/answers-as-object.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - utils/answers-as-object.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/utils/call-only-once.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - utils/call-only-once.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/utils/email-validator.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - utils/email-validator.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/utils/get-challenge-type.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - utils/get-challenge-type.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/utils/labeled-checkboxes.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - utils/labeled-checkboxes.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/utils/labels-as-object.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - utils/labels-as-object.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/utils/lodash-custom.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - utils/lodash-custom.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/utils/password-validator.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - utils/password-validator.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/utils/proposals-as-array.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - utils/proposals-as-array.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/utils/result-details-as-object.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - utils/result-details-as-object.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/utils/solution-as-object.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - utils/solution-as-object.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
-    });
-  });
-});
-define('pix-live/tests/utils/value-as-array-of-boolean.lint-test', [], function () {
-  'use strict';
-
-  describe('ESLint - utils/value-as-array-of-boolean.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
     });
   });
 });

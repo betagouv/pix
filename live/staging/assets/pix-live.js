@@ -4796,290 +4796,171 @@ define("pix-live/templates/placement-tests", ["exports"], function (exports) {
 define("pix-live/templates/project", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template({ "id": "QDmB7dSL", "block": "{\"statements\":[[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"project-page\"],[\"flush-element\"],[\"text\",\"\\n\\n  \"],[\"append\",[\"helper\",[\"navbar-header\"],null,[[\"class\"],[\"navbar-header--white\"]]],false],[\"text\",\"\\n\\n  \"],[\"open-element\",\"section\",[]],[\"static-attr\",\"class\",\"project-page__panel project-page__header\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"h1\",[]],[\"static-attr\",\"class\",\"project-page__header-text\"],[\"flush-element\"],[\"text\",\"PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.\"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"section\",[]],[\"static-attr\",\"class\",\"rounded-panel project-page__panel project-page__populations\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"p\",[]],[\"static-attr\",\"class\",\"project-page__populations-headline\"],[\"flush-element\"],[\"text\",\"Le service sera accessible gratuitement et ouvert à tous les francophones :\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"ul\",[]],[\"static-attr\",\"class\",\"project-page__user-types\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"project-page__user-type\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"img\",[]],[\"static-attr\",\"class\",\"project-page__user-type-image\"],[\"dynamic-attr\",\"src\",[\"concat\",[[\"unknown\",[\"rootURL\"]],\"images/project/schoolers.png\"]]],[\"static-attr\",\"alt\",\"\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"project-page__user-type-name\"],[\"flush-element\"],[\"text\",\"Collégiens et lycéens\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"project-page__user-type\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"img\",[]],[\"static-attr\",\"class\",\"project-page__user-type-image\"],[\"dynamic-attr\",\"src\",[\"concat\",[[\"unknown\",[\"rootURL\"]],\"images/project/students.png\"]]],[\"static-attr\",\"alt\",\"\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"project-page__user-type-name\"],[\"flush-element\"],[\"text\",\"Étudiants\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"project-page__user-type\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"img\",[]],[\"static-attr\",\"class\",\"project-page__user-type-image\"],[\"dynamic-attr\",\"src\",[\"concat\",[[\"unknown\",[\"rootURL\"]],\"images/project/professionals.png\"]]],[\"static-attr\",\"alt\",\"\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"project-page__user-type-name\"],[\"flush-element\"],[\"text\",\"Professionnels de tous secteurs\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"li\",[]],[\"static-attr\",\"class\",\"project-page__user-type\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"img\",[]],[\"static-attr\",\"class\",\"project-page__user-type-image\"],[\"dynamic-attr\",\"src\",[\"concat\",[[\"unknown\",[\"rootURL\"]],\"images/project/citizens.png\"]]],[\"static-attr\",\"alt\",\"\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"span\",[]],[\"static-attr\",\"class\",\"project-page__user-type-name\"],[\"flush-element\"],[\"text\",\"Citoyens\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"p\",[]],[\"static-attr\",\"class\",\"project-page__populations-description\"],[\"flush-element\"],[\"text\",\"Son objectif est d’accompagner l’élévation du niveau général de connaissances et de compétences numériques et ainsi de préparer la transformation digitale de l’ensemble de notre société et de notre économie.\"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"section\",[]],[\"static-attr\",\"class\",\"rounded-panel project-page__panel project-page__value project-page__value--measure\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"project-page__value-header\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"img\",[]],[\"static-attr\",\"class\",\"project-page__value-header-image\"],[\"dynamic-attr\",\"src\",[\"concat\",[[\"unknown\",[\"rootURL\"]],\"images/project/measure.png\"]]],[\"static-attr\",\"alt\",\"\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"h2\",[]],[\"static-attr\",\"class\",\"project-page__value-header-name\"],[\"flush-element\"],[\"text\",\"Mesurer ses compétences numériques\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"hr\",[]],[\"static-attr\",\"class\",\"project-page__value-header-line\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"project-page__value-body\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"PIX permettra d’obtenir un profil de compétences associé à un score global sur 1024 pix. En conformité avec le cadre de référence européen DIGCOMP, PIX évaluera les compétences numériques sur 8 niveaux et 5 grands domaines :\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"ul\",[]],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"li\",[]],[\"flush-element\"],[\"text\",\"Informations et données\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"li\",[]],[\"flush-element\"],[\"text\",\"Communication et collaboration\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"li\",[]],[\"flush-element\"],[\"text\",\"Création de contenu\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"li\",[]],[\"flush-element\"],[\"text\",\"Protection et sécurité\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"li\",[]],[\"flush-element\"],[\"text\",\"Environnement numérique\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"Les épreuves évalueront les connaissances mais également les savoir-faire et la capacité à identifier les enjeux du numérique.\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"Des modalités innovantes d’évaluation seront proposées, dépassant le cadre habituel des QCM et privilégiant la mesure in vivo de compétences à partir d’activités réalisées dans leur environnement numérique réel : interactions, manipulations de fichiers, résolutions de problèmes, productions créatives, évaluations par les pairs, etc.\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"section\",[]],[\"static-attr\",\"class\",\"rounded-panel project-page__panel project-page__value project-page__value--develop\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"project-page__value-header\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"img\",[]],[\"static-attr\",\"class\",\"project-page__value-header-image\"],[\"dynamic-attr\",\"src\",[\"concat\",[[\"unknown\",[\"rootURL\"]],\"images/project/develop.png\"]]],[\"static-attr\",\"alt\",\"\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"h2\",[]],[\"static-attr\",\"class\",\"project-page__value-header-name\"],[\"flush-element\"],[\"text\",\"Développer ses compétences numériques\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"hr\",[]],[\"static-attr\",\"class\",\"project-page__value-header-line\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"project-page__value-body\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"Les apports de PIX au développement des compétences de chacun sont triples :\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"1. PIX permettra d’apprendre en se testant. Une part importante des épreuves PIX sont conçues sous la forme de défis à relever au cours desquels on développe ses compétences.\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"2. En s’appuyant sur les résultats des épreuves, PIX offrira également des recommandations ciblées de formation.\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"3. Le service proposera enfin un accès dédié aux équipes pédagogiques (collège, lycée, enseignement supérieur) et aux responsables de formation continue. Ils pourront suivre l’évolution des compétences des publics qu’ils encadrent, et concevoir des stratégies de formation sur mesure.\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"Pour témoigner des progrès de manière continue et stimulante, les utilisateurs disposeront d’un compte personnel sécurisé qui leur permettra de faire valoir leurs nouveaux acquis à leur rythme et tout au long de la vie.\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"section\",[]],[\"static-attr\",\"class\",\"rounded-panel project-page__panel project-page__value project-page__value--valorize\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"project-page__value-header\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"img\",[]],[\"static-attr\",\"class\",\"project-page__value-header-image\"],[\"dynamic-attr\",\"src\",[\"concat\",[[\"unknown\",[\"rootURL\"]],\"images/project/valorize.png\"]]],[\"static-attr\",\"alt\",\"\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"h2\",[]],[\"static-attr\",\"class\",\"project-page__value-header-name\"],[\"flush-element\"],[\"text\",\"Valoriser ses compétences numériques\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"hr\",[]],[\"static-attr\",\"class\",\"project-page__value-header-line\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"project-page__value-body\"],[\"flush-element\"],[\"text\",\"\\n      \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"PIX proposera, de manière optionnelle, un mode « certifiant », permettant d’obtenir une certification\\n        officielle fiable et reconnue par l’éducation nationale, l’enseignement supérieur et le monde professionnel.\"],[\"close-element\"],[\"text\",\"\\n\\n      \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"Ce test complémentaire nécessitera, dans un premier temps, une passation en présentiel dans les centres\\n        agréés par PIX : collèges, lycées, établissements d’enseignement supérieur, structures partenaires.\"],[\"close-element\"],[\"text\",\"\\n\\n      \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"Des solutions de passation du mode certifiant à distance seront étudiées par la suite, à destination des\\n        professionnels.\"],[\"close-element\"],[\"text\",\"\\n\\n      \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"PIX se substituera au Brevet informatique et internet (B2i) et à la Certification informatique et internet\\n        (C2i) progressivement à partir de la rentrée 2017–2018.\"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n  \"],[\"open-element\",\"section\",[]],[\"static-attr\",\"class\",\"project-page__presentation\"],[\"flush-element\"],[\"text\",\"\\n    \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"project-page__panel project-page__presentation-container\"],[\"flush-element\"],[\"text\",\"\\n\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"project-page__presentation-header\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"h2\",[]],[\"static-attr\",\"class\",\"project-page__presentation-header-name\"],[\"flush-element\"],[\"text\",\"PIX, un service en ligne co-construit et évolutif\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"hr\",[]],[\"static-attr\",\"class\",\"project-page__presentation-header-line\"],[\"flush-element\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n\\n      \"],[\"open-element\",\"div\",[]],[\"static-attr\",\"class\",\"project-page__presentation-body\"],[\"flush-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"PIX respectera l’exigence de neutralité du service public et sera compatible avec l’ensemble des environnements numériques : diversité des systèmes d’exploitation et des services en ligne, logiciels propriétaires comme logiciels libres, etc.\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"PIX est développé selon la méthodologie agile des « Startups d’État » dans le cadre d’un partenariat entre tous les acteurs du ministère de l’Éducation nationale, de l’Enseignement supérieur et la Recherche, le Conseil national éducation-économie et le secrétariat général à la modernisation de l’action publique.\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"Le projet fait l’objet d’une démarche inédite de co-construction avec des acteurs du monde professionnel.\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"Des panels de tests sont organisés en établissement scolaire, dans l’enseignement supérieur ou en entreprise toutes les deux semaines pour mettre à l’épreuve les nouvelles fonctionnalités au fur et à mesure de leur développement et pour calibrer les épreuves.\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"PIX fait appel à la multitude des utilisateurs. Toutes les personnes, établissements et entreprises qui le souhaitent ont la possibilité de rejoindre la communauté des bêta-testeurs à distance. Le référentiel de compétences et les épreuves sont pensés pour évoluer dans le temps à l’aune des retours des utilisateurs.\"],[\"close-element\"],[\"text\",\"\\n        \"],[\"open-element\",\"p\",[]],[\"flush-element\"],[\"text\",\"Le code source de la plateforme PIX est libre.\"],[\"close-element\"],[\"text\",\"\\n      \"],[\"close-element\"],[\"text\",\"\\n    \"],[\"close-element\"],[\"text\",\"\\n  \"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"close-element\"],[\"text\",\"\\n\\n\"],[\"append\",[\"unknown\",[\"app-footer\"]],false],[\"text\",\"\\n\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/project.hbs" } });
 });
-define('pix-live/tests/mirage/mirage/config.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/config.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+define('pix-live/tests/mirage/mirage.lint-test', ['exports'], function (exports) {
+  describe('ESLint | mirage', function () {
+
+    it('mirage/config.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/ref-qcm-answer.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/ref-qcm-answer.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/answers/ref-qcm-answer.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/ref-qcu-answer.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/ref-qcu-answer.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/answers/ref-qcu-answer.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/ref-qroc-answer.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/ref-qroc-answer.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/answers/ref-qroc-answer.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/ref-qrocm-answer.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/ref-qrocm-answer.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/answers/ref-qrocm-answer.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/ref-qru-answer.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/ref-qru-answer.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/answers/ref-qru-answer.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/ref-timed-answer-bis.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/ref-timed-answer-bis.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/answers/ref-timed-answer-bis.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/answers/ref-timed-answer.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/answers/ref-timed-answer.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/answers/ref-timed-answer.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/assessments/ref-assessment-timed-challenges.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/assessments/ref-assessment-timed-challenges.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/assessments/ref-assessment-timed-challenges.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/assessments/ref-assessment.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/assessments/ref-assessment.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/assessments/ref-assessment.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/ref-qcm-challenge.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/ref-qcm-challenge.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/challenges/ref-qcm-challenge.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/ref-qcu-challenge.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/ref-qcu-challenge.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/challenges/ref-qcu-challenge.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/ref-qroc-challenge.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/ref-qroc-challenge.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/challenges/ref-qroc-challenge.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/ref-qrocm-challenge.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/ref-qrocm-challenge.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/challenges/ref-qrocm-challenge.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/ref-qru-challenge.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/ref-qru-challenge.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/challenges/ref-qru-challenge.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/ref-timed-challenge-bis.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/ref-timed-challenge-bis.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/challenges/ref-timed-challenge-bis.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/challenges/ref-timed-challenge.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/challenges/ref-timed-challenge.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/challenges/ref-timed-challenge.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/courses/highlighted-course.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/courses/highlighted-course.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/courses/highlighted-course.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/courses/ref-course-timed-challenges.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/courses/ref-course-timed-challenges.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/courses/ref-course-timed-challenges.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/courses/ref-course.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/courses/ref-course.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/courses/ref-course.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/feedbacks/ref-feedback.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/feedbacks/ref-feedback.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/feedbacks/ref-feedback.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/followers/index.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/followers/index.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/followers/index.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/solutions/ref-qcu-solution.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/solutions/ref-qcu-solution.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/solutions/ref-qcu-solution.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/solutions/ref-solution.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/solutions/ref-solution.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/solutions/ref-solution.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/data/users/index.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/data/users/index.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/data/users/index.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/get-answer-by-challenge-and-assessment.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/get-answer-by-challenge-and-assessment.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/get-answer-by-challenge-and-assessment.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/get-answer.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/get-answer.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/get-answer.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/get-assessment-solutions.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/get-assessment-solutions.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/get-assessment-solutions.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/get-assessment.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/get-assessment.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/get-assessment.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/get-challenge.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/get-challenge.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/get-challenge.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/get-challenges.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/get-challenges.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/get-challenges.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/get-course.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/get-course.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/get-course.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/get-courses-of-the-week.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/get-courses-of-the-week.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/get-courses-of-the-week.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/get-courses.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/get-courses.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/get-courses.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/get-next-challenge.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/get-next-challenge.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/get-next-challenge.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/post-answers.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/post-answers.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/post-answers.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/post-assessments.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/post-assessments.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/post-assessments.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/post-feedbacks.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/post-feedbacks.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/post-feedbacks.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/post-followers.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/post-followers.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/post-followers.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/post-refresh-solution.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/post-refresh-solution.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/post-refresh-solution.js', function () {
+      // test passed
     });
-  });
-});
-define('pix-live/tests/mirage/mirage/routes/post-users.lint-test', ['exports'], function (exports) {
-  describe('ESLint - mirage/routes/post-users.js', function () {
-    it('should pass ESLint', function () {
-      // precompiled test passed
+
+    it('mirage/routes/post-users.js', function () {
+      // test passed
     });
   });
 });
@@ -5443,6 +5324,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+436d42a8"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+1525ee49"});
 }
 //# sourceMappingURL=pix-live.map
