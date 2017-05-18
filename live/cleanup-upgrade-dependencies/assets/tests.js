@@ -2813,8 +2813,8 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['ember
 
     function renderChallengeStatement(component) {
       component.render(_ember.default.HTMLBars.template({
-        "id": "Y14jYUP9",
-        "block": "{\"statements\":[[\"append\",[\"helper\",[\"challenge-statement\"],null,[[\"challenge\"],[[\"get\",[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "ucxCcrbv",
+        "block": "{\"statements\":[[1,[33,[\"challenge-statement\"],null,[[\"challenge\"],[[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
     }
@@ -3036,8 +3036,8 @@ define('pix-live/tests/integration/components/challenge-stay-test', ['chai', 'mo
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "GcRxH7qZ",
-        "block": "{\"statements\":[[\"append\",[\"unknown\",[\"challenge-stay\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "XrhrN5ED",
+        "block": "{\"statements\":[[1,[26,[\"challenge-stay\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -3079,8 +3079,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
       (0, _mocha.it)('renders', function () {
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "HzwL0O/u",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[\"get\",[\"answer\"]],[\"get\",[\"challenge\"]],[\"get\",[\"solution\"]],[\"get\",[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "tusRoHTL",
+          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         // then
@@ -3090,8 +3090,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
       (0, _mocha.it)('should render challenge result in the header', function () {
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "HzwL0O/u",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[\"get\",[\"answer\"]],[\"get\",[\"challenge\"]],[\"get\",[\"solution\"]],[\"get\",[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "tusRoHTL",
+          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         // then
@@ -3101,8 +3101,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
       (0, _mocha.it)('should render challenge instruction', function () {
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "HzwL0O/u",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[\"get\",[\"answer\"]],[\"get\",[\"challenge\"]],[\"get\",[\"solution\"]],[\"get\",[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "tusRoHTL",
+          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         // then
@@ -3112,8 +3112,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
       (0, _mocha.it)('should not render corrected answers when challenge has no type', function () {
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "HzwL0O/u",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[\"get\",[\"answer\"]],[\"get\",[\"challenge\"]],[\"get\",[\"solution\"]],[\"get\",[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "tusRoHTL",
+          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         // then
@@ -3126,8 +3126,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
         this.set('challenge', challenge);
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "HzwL0O/u",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[\"get\",[\"answer\"]],[\"get\",[\"challenge\"]],[\"get\",[\"solution\"]],[\"get\",[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "tusRoHTL",
+          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         // then
@@ -3142,8 +3142,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
         this.set('solution', solution);
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "HzwL0O/u",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[\"get\",[\"answer\"]],[\"get\",[\"challenge\"]],[\"get\",[\"solution\"]],[\"get\",[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "tusRoHTL",
+          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         // then
@@ -3156,8 +3156,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
         this.set('challenge', challenge);
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "HzwL0O/u",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[\"get\",[\"answer\"]],[\"get\",[\"challenge\"]],[\"get\",[\"solution\"]],[\"get\",[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "tusRoHTL",
+          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         // then
@@ -3167,8 +3167,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
       (0, _mocha.it)('should render a feedback panel already opened', function () {
         //when
         this.render(_ember.default.HTMLBars.template({
-          "id": "HzwL0O/u",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[\"get\",[\"answer\"]],[\"get\",[\"challenge\"]],[\"get\",[\"solution\"]],[\"get\",[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "tusRoHTL",
+          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         //then
@@ -3180,8 +3180,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
       (0, _mocha.it)('should have a max width of 900px and a margin auto in order to quit by clicking beside', function () {
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "5+mLThjy",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"comparison-window\"],[[\"get\",[\"answer\"]],[\"get\",[\"challenge\"]],[\"get\",[\"solution\"]],[\"get\",[\"index\"]]],null],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "XPYTajZT",
+          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]],null],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         // then
@@ -3201,8 +3201,8 @@ define('pix-live/tests/integration/components/corner-ribbon-test', ['chai', 'emb
 
     (0, _emberMocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "ahDrE2M0",
-        "block": "{\"statements\":[[\"append\",[\"unknown\",[\"corner-ribbon\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "U22p/XCA",
+        "block": "{\"statements\":[[1,[26,[\"corner-ribbon\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -3222,8 +3222,8 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('renders', function () {
         this.render(_ember.default.HTMLBars.template({
-          "id": "9SOyPEls",
-          "block": "{\"statements\":[[\"append\",[\"unknown\",[\"course-item\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "IlH0PQOd",
+          "block": "{\"statements\":[[1,[26,[\"course-item\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         (0, _chai.expect)(this.$()).to.have.length(1);
@@ -3236,8 +3236,8 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "ldqh36hZ",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"course-item\"],null,[[\"course\"],[[\"get\",[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "Ig9hFQ2w",
+          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3253,8 +3253,8 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "ldqh36hZ",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"course-item\"],null,[[\"course\"],[[\"get\",[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "Ig9hFQ2w",
+          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3270,8 +3270,8 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "ldqh36hZ",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"course-item\"],null,[[\"course\"],[[\"get\",[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "Ig9hFQ2w",
+          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3287,8 +3287,8 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "ldqh36hZ",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"course-item\"],null,[[\"course\"],[[\"get\",[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "Ig9hFQ2w",
+          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3304,8 +3304,8 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "ldqh36hZ",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"course-item\"],null,[[\"course\"],[[\"get\",[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "Ig9hFQ2w",
+          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3321,8 +3321,8 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "ldqh36hZ",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"course-item\"],null,[[\"course\"],[[\"get\",[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "Ig9hFQ2w",
+          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3338,8 +3338,8 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "ldqh36hZ",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"course-item\"],null,[[\"course\"],[[\"get\",[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "Ig9hFQ2w",
+          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3362,8 +3362,8 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "xVrQ+R+D",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"course-item\"],null,[[\"course\",\"startCourse\"],[[\"get\",[\"course\"]],\"actionHandler\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "1Ht5d7Cr",
+          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\",\"startCourse\"],[[28,[\"course\"]],\"actionHandler\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3388,8 +3388,8 @@ define('pix-live/tests/integration/components/course-list-test', ['ember', 'chai
 
       (0, _mocha.it)('renders', function () {
         this.render(_ember.default.HTMLBars.template({
-          "id": "SiQ4ynL+",
-          "block": "{\"statements\":[[\"append\",[\"unknown\",[\"course-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "ZbjKlqif",
+          "block": "{\"statements\":[[1,[26,[\"course-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         (0, _chai.expect)(this.$()).to.have.length(1);
@@ -3402,8 +3402,8 @@ define('pix-live/tests/integration/components/course-list-test', ['ember', 'chai
 
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "ojVuhFHL",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"course-list\"],null,[[\"courses\"],[[\"get\",[\"courses\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "LDBKp7if",
+          "block": "{\"statements\":[[1,[33,[\"course-list\"],null,[[\"courses\"],[[28,[\"courses\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3431,8 +3431,8 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
     (0, _mocha.it)('renders', function () {
       this.set('feature', feature);
       this.render(Ember.HTMLBars.template({
-        "id": "k8aoFIfT",
-        "block": "{\"statements\":[[\"append\",[\"helper\",[\"feature-item\"],null,[[\"feature\"],[[\"get\",[\"feature\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "tBD0caAl",
+        "block": "{\"statements\":[[1,[33,[\"feature-item\"],null,[[\"feature\"],[[28,[\"feature\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -3441,8 +3441,8 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
     (0, _mocha.it)('should render an icon', function () {
       this.set('feature', feature);
       this.render(Ember.HTMLBars.template({
-        "id": "k8aoFIfT",
-        "block": "{\"statements\":[[\"append\",[\"helper\",[\"feature-item\"],null,[[\"feature\"],[[\"get\",[\"feature\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "tBD0caAl",
+        "block": "{\"statements\":[[1,[33,[\"feature-item\"],null,[[\"feature\"],[[28,[\"feature\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
 
@@ -3454,8 +3454,8 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
     (0, _mocha.it)('should render an title', function () {
       this.set('feature', feature);
       this.render(Ember.HTMLBars.template({
-        "id": "k8aoFIfT",
-        "block": "{\"statements\":[[\"append\",[\"helper\",[\"feature-item\"],null,[[\"feature\"],[[\"get\",[\"feature\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "tBD0caAl",
+        "block": "{\"statements\":[[1,[33,[\"feature-item\"],null,[[\"feature\"],[[28,[\"feature\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
 
@@ -3467,8 +3467,8 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
     (0, _mocha.it)('should render an description', function () {
       this.set('feature', feature);
       this.render(Ember.HTMLBars.template({
-        "id": "k8aoFIfT",
-        "block": "{\"statements\":[[\"append\",[\"helper\",[\"feature-item\"],null,[[\"feature\"],[[\"get\",[\"feature\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "tBD0caAl",
+        "block": "{\"statements\":[[1,[33,[\"feature-item\"],null,[[\"feature\"],[[28,[\"feature\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
 
@@ -3489,8 +3489,8 @@ define('pix-live/tests/integration/components/feature-list-test', ['chai', 'moch
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "12Co2Nrn",
-        "block": "{\"statements\":[[\"append\",[\"unknown\",[\"feature-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "zQch9no4",
+        "block": "{\"statements\":[[1,[26,[\"feature-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -3499,8 +3499,8 @@ define('pix-live/tests/integration/components/feature-list-test', ['chai', 'moch
     (0, _mocha.it)('should always render 5 feature-items', function () {
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "12Co2Nrn",
-        "block": "{\"statements\":[[\"append\",[\"unknown\",[\"feature-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "zQch9no4",
+        "block": "{\"statements\":[[1,[26,[\"feature-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
 
@@ -3590,8 +3590,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
       (0, _mocha.it)('should display the feedback Panel', function () {
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "W1nXUGqH",
-          "block": "{\"statements\":[[\"append\",[\"unknown\",[\"feedback-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "vYG6y2lL",
+          "block": "{\"statements\":[[1,[26,[\"feedback-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         // then
@@ -3604,8 +3604,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       beforeEach(function () {
         this.render(_ember.default.HTMLBars.template({
-          "id": "W1nXUGqH",
-          "block": "{\"statements\":[[\"append\",[\"unknown\",[\"feedback-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "vYG6y2lL",
+          "block": "{\"statements\":[[1,[26,[\"feedback-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
       });
@@ -3664,8 +3664,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
         this.inject.service('store', { as: 'store' });
 
         this.render(_ember.default.HTMLBars.template({
-          "id": "tTYbfQ+0",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\"],[[\"get\",[\"assessment\"]],[\"get\",[\"challenge\"]],false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "qFA+EGeX",
+          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\"],[[28,[\"assessment\"]],[28,[\"challenge\"]],false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
       });
@@ -3740,8 +3740,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
       (0, _mocha.it)('should not be visible if feedback-panel is not collapsible', function () {
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "tTYbfQ+0",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\"],[[\"get\",[\"assessment\"]],[\"get\",[\"challenge\"]],false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "qFA+EGeX",
+          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\"],[[28,[\"assessment\"]],[28,[\"challenge\"]],false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3752,8 +3752,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
       (0, _mocha.it)('should not be visible if status is not FORM_OPENED', function () {
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "NS0W13f6",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\",\"_status\"],[[\"get\",[\"assessment\"]],[\"get\",[\"challenge\"]],true,\"FORM_CLOSED\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "LwVlgJUd",
+          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\",\"_status\"],[[28,[\"assessment\"]],[28,[\"challenge\"]],true,\"FORM_CLOSED\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3768,8 +3768,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
               case 0:
                 // given
                 this.render(_ember.default.HTMLBars.template({
-                  "id": "FGT5CvuQ",
-                  "block": "{\"statements\":[[\"append\",[\"helper\",[\"feedback-panel\"],null,[[\"assessment\",\"challenge\"],[[\"get\",[\"assessment\"]],[\"get\",[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+                  "id": "5kGcVXmC",
+                  "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\"],[[28,[\"assessment\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
                   "meta": {}
                 }));
 
@@ -3790,8 +3790,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
       (0, _mocha.it)('should contain "cancel" button with label "Annuler" and placeholder "Votre message"', function () {
         // given
         this.render(_ember.default.HTMLBars.template({
-          "id": "FGT5CvuQ",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"feedback-panel\"],null,[[\"assessment\",\"challenge\"],[[\"get\",[\"assessment\"]],[\"get\",[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "5kGcVXmC",
+          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\"],[[28,[\"assessment\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3807,8 +3807,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
       (0, _mocha.it)('clicking on "cancel" button should close the "form" view and and display the "link" view', function () {
         // given
         this.render(_ember.default.HTMLBars.template({
-          "id": "FGT5CvuQ",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"feedback-panel\"],null,[[\"assessment\",\"challenge\"],[[\"get\",[\"assessment\"]],[\"get\",[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "5kGcVXmC",
+          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\"],[[28,[\"assessment\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3825,8 +3825,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
       (0, _mocha.it)('should display error if "content" is empty', function () {
         // given
         this.render(_ember.default.HTMLBars.template({
-          "id": "dA6YD+oV",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "hpJwRXcm",
+          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3841,8 +3841,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
       (0, _mocha.it)('should display error if "content" is blank', function () {
         // given
         this.render(_ember.default.HTMLBars.template({
-          "id": "dA6YD+oV",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "hpJwRXcm",
+          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         setContent(this, '');
@@ -3858,8 +3858,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
       (0, _mocha.it)('should display error if "email" is set but invalid', function () {
         // given
         this.render(_ember.default.HTMLBars.template({
-          "id": "dA6YD+oV",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "hpJwRXcm",
+          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         setEmail(this, 'wrong_email');
@@ -3875,8 +3875,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
       (0, _mocha.it)('should not display error if "form" view (with error) was closed and re-opened', function () {
         // given
         this.render(_ember.default.HTMLBars.template({
-          "id": "W1nXUGqH",
-          "block": "{\"statements\":[[\"append\",[\"unknown\",[\"feedback-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "vYG6y2lL",
+          "block": "{\"statements\":[[1,[26,[\"feedback-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3897,8 +3897,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
       (0, _mocha.it)('should display an error even if the user did not focus on email or content', function () {
         // given
         this.render(_ember.default.HTMLBars.template({
-          "id": "dA6YD+oV",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "hpJwRXcm",
+          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -3925,8 +3925,8 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
 
     (0, _mocha.it)('renders', function () {
       this.render(_ember.default.HTMLBars.template({
-        "id": "O9xGjXjO",
-        "block": "{\"statements\":[[\"append\",[\"unknown\",[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "3KqB2opg",
+        "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -3936,8 +3936,8 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
       (0, _mocha.it)('should render submit button', function () {
         //When
         this.render(_ember.default.HTMLBars.template({
-          "id": "O9xGjXjO",
-          "block": "{\"statements\":[[\"append\",[\"unknown\",[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "3KqB2opg",
+          "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         //then
@@ -3947,8 +3947,8 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
       (0, _mocha.it)('should return true if input exist', function () {
         //When
         this.render(_ember.default.HTMLBars.template({
-          "id": "O9xGjXjO",
-          "block": "{\"statements\":[[\"append\",[\"unknown\",[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "3KqB2opg",
+          "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         //then
@@ -4013,8 +4013,8 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
         this.inject.service('store', { as: 'store' });
 
         this.render(_ember.default.HTMLBars.template({
-          "id": "O9xGjXjO",
-          "block": "{\"statements\":[[\"append\",[\"unknown\",[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "3KqB2opg",
+          "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -4043,8 +4043,8 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
         this.register('service:store', storeStubRejection);
 
         this.render(_ember.default.HTMLBars.template({
-          "id": "O9xGjXjO",
-          "block": "{\"statements\":[[\"append\",[\"unknown\",[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "3KqB2opg",
+          "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -4080,8 +4080,8 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
 
     (0, _mocha.beforeEach)(function () {
       this.render(Ember.HTMLBars.template({
-        "id": "jsAxs+PS",
-        "block": "{\"statements\":[[\"append\",[\"unknown\",[\"navbar-header\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "Jj0Mqu5s",
+        "block": "{\"statements\":[[1,[26,[\"navbar-header\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
     });
@@ -4115,8 +4115,8 @@ define('pix-live/tests/integration/components/pix-logo-test', ['chai', 'mocha', 
 
     (0, _mocha.beforeEach)(function () {
       this.render(Ember.HTMLBars.template({
-        "id": "MtdoQIJl",
-        "block": "{\"statements\":[[\"append\",[\"unknown\",[\"pix-logo\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "WqkNWQp7",
+        "block": "{\"statements\":[[1,[26,[\"pix-logo\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
     });
@@ -4153,8 +4153,8 @@ define('pix-live/tests/integration/components/qcm-proposals-test', ['chai', 'moc
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "6wMkvUeQ",
-        "block": "{\"statements\":[[\"append\",[\"unknown\",[\"qcm-proposals\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "SFVCBMML",
+        "block": "{\"statements\":[[1,[26,[\"qcm-proposals\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -4205,8 +4205,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
       (0, _mocha.it)('Should renders', function () {
         this.render(_ember.default.HTMLBars.template({
-          "id": "tl+2p2hY",
-          "block": "{\"statements\":[[\"append\",[\"unknown\",[\"qcm-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "lMfyMGVi",
+          "block": "{\"statements\":[[1,[26,[\"qcm-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         (0, _chai.expect)(this.$()).to.have.length(1);
@@ -4243,8 +4243,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           this.set('challenge', challenge);
           // When
           this.render(_ember.default.HTMLBars.template({
-            "id": "g45K7pGO",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "6bxZetM3",
+            "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -4267,8 +4267,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
           // When
           this.render(_ember.default.HTMLBars.template({
-            "id": "g45K7pGO",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "6bxZetM3",
+            "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -4290,8 +4290,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
           // When
           this.render(_ember.default.HTMLBars.template({
-            "id": "g45K7pGO",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "6bxZetM3",
+            "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -4313,8 +4313,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
           // When
           this.render(_ember.default.HTMLBars.template({
-            "id": "g45K7pGO",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "6bxZetM3",
+            "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -4336,8 +4336,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
           // When
           this.render(_ember.default.HTMLBars.template({
-            "id": "g45K7pGO",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "6bxZetM3",
+            "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -4389,8 +4389,8 @@ define('pix-live/tests/integration/components/qcu-proposals-test', ['chai', 'moc
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "BlUb/wun",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"qcu-proposals\"],null,[[\"answers\",\"proposals\",\"answerChanged\"],[[\"get\",[\"answers\"]],[\"get\",[\"proposals\"]],\"answerChanged\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "n0NAj1zM",
+          "block": "{\"statements\":[[1,[33,[\"qcu-proposals\"],null,[[\"answers\",\"proposals\",\"answerChanged\"],[[28,[\"answers\"]],[28,[\"proposals\"]],\"answerChanged\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -4449,8 +4449,8 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
 
       (0, _mocha.it)('Should renders', function () {
         this.render(_ember.default.HTMLBars.template({
-          "id": "h5StfS3D",
-          "block": "{\"statements\":[[\"append\",[\"unknown\",[\"qcu-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "ImJDD4J6",
+          "block": "{\"statements\":[[1,[26,[\"qcu-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         (0, _chai.expect)(this.$()).to.have.length(1);
@@ -4480,8 +4480,8 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           this.set('challenge', challenge);
           // When
           this.render(_ember.default.HTMLBars.template({
-            "id": "5mvqj82b",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "YHeVDTOT",
+            "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -4506,8 +4506,8 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
 
           // When
           this.render(_ember.default.HTMLBars.template({
-            "id": "5mvqj82b",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "YHeVDTOT",
+            "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -4528,8 +4528,8 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
 
           // When
           this.render(_ember.default.HTMLBars.template({
-            "id": "5mvqj82b",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "YHeVDTOT",
+            "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -4551,8 +4551,8 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
 
           // When
           this.render(_ember.default.HTMLBars.template({
-            "id": "5mvqj82b",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "YHeVDTOT",
+            "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -4572,8 +4572,8 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
 
           // When
           this.render(_ember.default.HTMLBars.template({
-            "id": "5mvqj82b",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "YHeVDTOT",
+            "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -4598,8 +4598,8 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['chai', 'moc
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "1i/FB0iM",
-        "block": "{\"statements\":[[\"append\",[\"unknown\",[\"qroc-proposal\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "D54D+XbD",
+        "block": "{\"statements\":[[1,[26,[\"qroc-proposal\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -4614,8 +4614,8 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['chai', 'moc
         this.set('answerValue', 'myValue');
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "p3CfIgDp",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"qroc-proposal\"],null,[[\"proposals\",\"answerValue\"],[[\"get\",[\"proposals\"]],[\"get\",[\"answerValue\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "he4fPAR2",
+          "block": "{\"statements\":[[1,[33,[\"qroc-proposal\"],null,[[\"proposals\",\"answerValue\"],[[28,[\"proposals\"]],[28,[\"answerValue\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         // then
@@ -4638,8 +4638,8 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['chai', 'moc
           this.set('answerValue', input);
           // when
           this.render(Ember.HTMLBars.template({
-            "id": "p3CfIgDp",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qroc-proposal\"],null,[[\"proposals\",\"answerValue\"],[[\"get\",[\"proposals\"]],[\"get\",[\"answerValue\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "he4fPAR2",
+            "block": "{\"statements\":[[1,[33,[\"qroc-proposal\"],null,[[\"proposals\",\"answerValue\"],[[28,[\"proposals\"]],[28,[\"answerValue\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
           // then
@@ -4668,8 +4668,8 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
 
     (0, _mocha.it)('renders', function () {
       this.render(_ember.default.HTMLBars.template({
-        "id": "d0K2Guv4",
-        "block": "{\"statements\":[[\"append\",[\"unknown\",[\"qroc-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "NpKj63LV",
+        "block": "{\"statements\":[[1,[26,[\"qroc-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -4678,8 +4678,8 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
     (0, _mocha.it)('should disabled all inputs', function () {
       // given
       this.render(_ember.default.HTMLBars.template({
-        "id": "d0K2Guv4",
-        "block": "{\"statements\":[[\"append\",[\"unknown\",[\"qroc-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "NpKj63LV",
+        "block": "{\"statements\":[[1,[26,[\"qroc-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
       var input = this.$('input');
@@ -4697,8 +4697,8 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
         // given
         this.set('answer', answer);
         this.render(_ember.default.HTMLBars.template({
-          "id": "wYkLQEux",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"qroc-solution-panel\"],null,[[\"answer\"],[[\"get\",[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "MvdjYNn/",
+          "block": "{\"statements\":[[1,[33,[\"qroc-solution-panel\"],null,[[\"answer\"],[[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         // when
@@ -4724,8 +4724,8 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
 
         this.set('answer', answer);
         this.render(_ember.default.HTMLBars.template({
-          "id": "wYkLQEux",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"qroc-solution-panel\"],null,[[\"answer\"],[[\"get\",[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "MvdjYNn/",
+          "block": "{\"statements\":[[1,[33,[\"qroc-solution-panel\"],null,[[\"answer\"],[[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
       });
@@ -4762,8 +4762,8 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
           this.set('answer', answer);
           this.set('isResultWithoutAnswer', true);
           this.render(_ember.default.HTMLBars.template({
-            "id": "wYkLQEux",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qroc-solution-panel\"],null,[[\"answer\"],[[\"get\",[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "MvdjYNn/",
+            "block": "{\"statements\":[[1,[33,[\"qroc-solution-panel\"],null,[[\"answer\"],[[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
         });
@@ -4820,8 +4820,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
     (0, _mocha.it)('renders', function () {
       this.render(_ember.default.HTMLBars.template({
-        "id": "S1YJQuVj",
-        "block": "{\"statements\":[[\"append\",[\"helper\",[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[\"get\",[\"answer\"]],[\"get\",[\"solution\"]],[\"get\",[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "AQ8byhGY",
+        "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[28,[\"answer\"]],[28,[\"solution\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -4830,8 +4830,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
     (0, _mocha.it)('should disabled all inputs', function () {
       // given
       this.render(_ember.default.HTMLBars.template({
-        "id": "S1YJQuVj",
-        "block": "{\"statements\":[[\"append\",[\"helper\",[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[\"get\",[\"answer\"]],[\"get\",[\"solution\"]],[\"get\",[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "AQ8byhGY",
+        "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[28,[\"answer\"]],[28,[\"solution\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
       var input = this.$('input');
@@ -4842,8 +4842,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
     (0, _mocha.it)('should contains three labels', function () {
       // given
       this.render(_ember.default.HTMLBars.template({
-        "id": "S1YJQuVj",
-        "block": "{\"statements\":[[\"append\",[\"helper\",[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[\"get\",[\"answer\"]],[\"get\",[\"solution\"]],[\"get\",[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "AQ8byhGY",
+        "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[28,[\"answer\"]],[28,[\"solution\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
       var labels = this.$(LABEL);
@@ -4858,8 +4858,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
         (0, _mocha.it)('should display the right answer in green bold', function () {
           // given
           this.render(_ember.default.HTMLBars.template({
-            "id": "R+qycNfq",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "18Tupy2D",
+            "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
           var answerBlock = this.$(FIRST_CORRECTION_BLOCK);
@@ -4881,8 +4881,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
         (0, _mocha.it)('should not display the solution', function () {
           // given
           this.render(_ember.default.HTMLBars.template({
-            "id": "R+qycNfq",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "18Tupy2D",
+            "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
           var solutionBlock = this.$(FIRST_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
@@ -4897,8 +4897,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
         (0, _mocha.it)('should display the wrong answer in the second div line-throughed bold', function () {
           // given
           this.render(_ember.default.HTMLBars.template({
-            "id": "R+qycNfq",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "18Tupy2D",
+            "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
           var answerBlock = this.$(SECOND_CORRECTION_BLOCK);
@@ -4918,8 +4918,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
         (0, _mocha.it)('should display one solution in bold green below the input', function () {
           // given
           this.render(_ember.default.HTMLBars.template({
-            "id": "R+qycNfq",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "18Tupy2D",
+            "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
           var solutionBlock = this.$(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
@@ -4940,8 +4940,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
         (0, _mocha.it)('should display the empty answer in the third div with "pas de réponse" in italic', function () {
           // given
           this.render(_ember.default.HTMLBars.template({
-            "id": "R+qycNfq",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "18Tupy2D",
+            "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
           var answerBlock = this.$(THIRD_CORRECTION_BLOCK);
@@ -4961,8 +4961,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
         (0, _mocha.it)('should display one solution in bold green below the input', function () {
           // given
           this.render(_ember.default.HTMLBars.template({
-            "id": "R+qycNfq",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[\"get\",[\"challenge\"]],[\"get\",[\"answer\"]],[\"get\",[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "18Tupy2D",
+            "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
           var solutionBlock = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
@@ -4991,8 +4991,8 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['chai', 'mo
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "OU8/haVw",
-        "block": "{\"statements\":[[\"append\",[\"unknown\",[\"qrocm-proposal\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "EAv26+Pz",
+        "block": "{\"statements\":[[1,[26,[\"qrocm-proposal\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -5042,8 +5042,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
 
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "04QDXBQ+",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"result-item\"],null,[[\"answer\",\"index\"],[[\"get\",[\"answer\"]],[\"get\",[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "f8lT9MrH",
+          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -5057,8 +5057,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
 
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "04QDXBQ+",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"result-item\"],null,[[\"answer\",\"index\"],[[\"get\",[\"answer\"]],[\"get\",[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "f8lT9MrH",
+          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -5073,8 +5073,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
 
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "04QDXBQ+",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"result-item\"],null,[[\"answer\",\"index\"],[[\"get\",[\"answer\"]],[\"get\",[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "f8lT9MrH",
+          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -5089,8 +5089,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
 
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "04QDXBQ+",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"result-item\"],null,[[\"answer\",\"index\"],[[\"get\",[\"answer\"]],[\"get\",[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "f8lT9MrH",
+          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -5103,8 +5103,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         this.set('answer', answer);
 
         this.render(_ember.default.HTMLBars.template({
-          "id": "04QDXBQ+",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"result-item\"],null,[[\"answer\",\"index\"],[[\"get\",[\"answer\"]],[\"get\",[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "f8lT9MrH",
+          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         // Then
@@ -5117,8 +5117,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
 
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "04QDXBQ+",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"result-item\"],null,[[\"answer\",\"index\"],[[\"get\",[\"answer\"]],[\"get\",[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "f8lT9MrH",
+          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -5132,8 +5132,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
 
         // when
         this.render(_ember.default.HTMLBars.template({
-          "id": "04QDXBQ+",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"result-item\"],null,[[\"answer\",\"index\"],[[\"get\",[\"answer\"]],[\"get\",[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "f8lT9MrH",
+          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -5173,8 +5173,8 @@ define('pix-live/tests/integration/components/scoring-panel-tantpix-test', ['cha
     (0, _mocha.describe)('On Component rendering:', function () {
       beforeEach(function () {
         this.render(Ember.HTMLBars.template({
-          "id": "mBYclNqy",
-          "block": "{\"statements\":[[\"append\",[\"unknown\",[\"scoring-panel-tantpix\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "d/VKRoUr",
+          "block": "{\"statements\":[[1,[26,[\"scoring-panel-tantpix\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
       });
@@ -5280,8 +5280,8 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'ch
 
     (0, _mocha.it)('renders', function () {
       this.render(_ember.default.HTMLBars.template({
-        "id": "3D6Cvg1E",
-        "block": "{\"statements\":[[\"append\",[\"unknown\",[\"scoring-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+        "id": "WOCk/+rI",
+        "block": "{\"statements\":[[1,[26,[\"scoring-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -5292,8 +5292,8 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'ch
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithNoTrophy);
         this.render(_ember.default.HTMLBars.template({
-          "id": "FwD67xpw",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"scoring-panel\"],null,[[\"assessment\"],[[\"get\",[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "2eDn5awa",
+          "block": "{\"statements\":[[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
       });
@@ -5315,8 +5315,8 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'ch
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithTrophy);
         this.render(_ember.default.HTMLBars.template({
-          "id": "FwD67xpw",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"scoring-panel\"],null,[[\"assessment\"],[[\"get\",[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "2eDn5awa",
+          "block": "{\"statements\":[[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
       });
@@ -5392,8 +5392,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
       beforeEach(function () {
         this.set('user', userEmpty);
         this.render(_ember.default.HTMLBars.template({
-          "id": "uK1xYtLF",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\"],[[\"get\",[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "1MFHuc1Q",
+          "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
       });
@@ -5465,8 +5465,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
         this.set('user', user);
         this.render(_ember.default.HTMLBars.template({
-          "id": "KqPEcC+o",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\",\"signup\"],[[\"get\",[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "IuLTjz0W",
+          "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -5486,8 +5486,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(_ember.default.HTMLBars.template({
-            "id": "uK1xYtLF",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\"],[[\"get\",[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -5512,8 +5512,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(_ember.default.HTMLBars.template({
-            "id": "uK1xYtLF",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\"],[[\"get\",[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -5538,8 +5538,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(_ember.default.HTMLBars.template({
-            "id": "uK1xYtLF",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\"],[[\"get\",[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -5564,8 +5564,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(_ember.default.HTMLBars.template({
-            "id": "uK1xYtLF",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\"],[[\"get\",[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -5606,8 +5606,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           this.set('user', userWithCguNotAccepted);
           this.render(_ember.default.HTMLBars.template({
-            "id": "uK1xYtLF",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\"],[[\"get\",[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -5639,8 +5639,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           this.set('user', userWithCguNotAccepted);
           this.render(_ember.default.HTMLBars.template({
-            "id": "uK1xYtLF",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\"],[[\"get\",[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -5661,8 +5661,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(_ember.default.HTMLBars.template({
-            "id": "uK1xYtLF",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\"],[[\"get\",[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -5687,8 +5687,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(_ember.default.HTMLBars.template({
-            "id": "uK1xYtLF",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\"],[[\"get\",[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -5713,8 +5713,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(_ember.default.HTMLBars.template({
-            "id": "uK1xYtLF",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\"],[[\"get\",[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -5739,8 +5739,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(_ember.default.HTMLBars.template({
-            "id": "uK1xYtLF",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\"],[[\"get\",[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -5773,8 +5773,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           this.set('user', userWithCguAccepted);
           this.render(_ember.default.HTMLBars.template({
-            "id": "uK1xYtLF",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\"],[[\"get\",[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -5805,8 +5805,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           this.set('user', validUser);
           this.render(_ember.default.HTMLBars.template({
-            "id": "uK1xYtLF",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\"],[[\"get\",[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -5837,8 +5837,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           this.set('user', validUser);
           this.render(_ember.default.HTMLBars.template({
-            "id": "uK1xYtLF",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-form\"],null,[[\"user\"],[[\"get\",[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
 
@@ -5884,8 +5884,8 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
 
         // When
         this.render(Ember.HTMLBars.template({
-          "id": "5UJZz5Nx",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-textfield\"],null,[[\"label\",\"validationStatus\",\"textfieldName\"],[[\"get\",[\"label\"]],[\"get\",[\"validationStatus\"]],[\"get\",[\"textfieldName\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "nwMIYuK3",
+          "block": "{\"statements\":[[1,[33,[\"signup-textfield\"],null,[[\"label\",\"validationStatus\",\"textfieldName\"],[[28,[\"label\"]],[28,[\"validationStatus\"]],[28,[\"textfieldName\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
       });
@@ -5933,8 +5933,8 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
         this.set('textfieldName', 'firstname');
 
         this.render(Ember.HTMLBars.template({
-          "id": "9+fEj/Ti",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-textfield\"],null,[[\"label\",\"validationStatus\",\"textfieldName\",\"validate\"],[[\"get\",[\"label\"]],[\"get\",[\"validationStatus\"]],[\"get\",[\"textfieldName\"]],\"validate\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "oQooY6uX",
+          "block": "{\"statements\":[[1,[33,[\"signup-textfield\"],null,[[\"label\",\"validationStatus\",\"textfieldName\",\"validate\"],[[28,[\"label\"]],[28,[\"validationStatus\"]],[28,[\"textfieldName\"]],\"validate\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         // when
@@ -5956,8 +5956,8 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
 
           // When
           this.render(Ember.HTMLBars.template({
-            "id": "EjA+mv02",
-            "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-textfield\"],null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[\"get\",[\"label\"]],[\"get\",[\"validationStatus\"]],[\"get\",[\"validationMessage\"]],[\"get\",[\"textfieldName\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+            "id": "lfWgRj6S",
+            "block": "{\"statements\":[[1,[33,[\"signup-textfield\"],null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[28,[\"label\"]],[28,[\"validationStatus\"]],[28,[\"validationMessage\"]],[28,[\"textfieldName\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
         });
@@ -5989,8 +5989,8 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
 
         // When
         this.render(Ember.HTMLBars.template({
-          "id": "EjA+mv02",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-textfield\"],null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[\"get\",[\"label\"]],[\"get\",[\"validationStatus\"]],[\"get\",[\"validationMessage\"]],[\"get\",[\"textfieldName\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "lfWgRj6S",
+          "block": "{\"statements\":[[1,[33,[\"signup-textfield\"],null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[28,[\"label\"]],[28,[\"validationStatus\"]],[28,[\"validationMessage\"]],[28,[\"textfieldName\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
         this.set('validationMessage', '');
@@ -6027,8 +6027,8 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
 
         // When
         this.render(Ember.HTMLBars.template({
-          "id": "EjA+mv02",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"signup-textfield\"],null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[\"get\",[\"label\"]],[\"get\",[\"validationStatus\"]],[\"get\",[\"validationMessage\"]],[\"get\",[\"textfieldName\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "lfWgRj6S",
+          "block": "{\"statements\":[[1,[33,[\"signup-textfield\"],null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[28,[\"label\"]],[28,[\"validationStatus\"]],[28,[\"validationMessage\"]],[28,[\"textfieldName\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
       });
@@ -6067,8 +6067,8 @@ define('pix-live/tests/integration/components/timeout-jauge-test', ['chai', 'moc
       (0, _mocha.it)('It renders', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "OXRSqSZy",
-          "block": "{\"statements\":[[\"append\",[\"unknown\",[\"timeout-jauge\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "l29hgisL",
+          "block": "{\"statements\":[[1,[26,[\"timeout-jauge\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -6079,8 +6079,8 @@ define('pix-live/tests/integration/components/timeout-jauge-test', ['chai', 'moc
       (0, _mocha.it)('It renders a red clock if time is over', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "mKkmjVMa",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"timeout-jauge\"],null,[[\"allotedTime\"],[0]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "8Nzygbqf",
+          "block": "{\"statements\":[[1,[33,[\"timeout-jauge\"],null,[[\"allotedTime\"],[0]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -6092,8 +6092,8 @@ define('pix-live/tests/integration/components/timeout-jauge-test', ['chai', 'moc
       (0, _mocha.it)('It renders a black clock if time is not over', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "KUzLMFLz",
-          "block": "{\"statements\":[[\"append\",[\"helper\",[\"timeout-jauge\"],null,[[\"allotedTime\"],[1]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"blocks\":[],\"hasPartials\":false}",
+          "id": "5n8R0sRB",
+          "block": "{\"statements\":[[1,[33,[\"timeout-jauge\"],null,[[\"allotedTime\"],[1]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -8313,7 +8313,7 @@ define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['chai', 'mo
   (0, _mocha.describe)('Unit | Route | Assessments.ChallengeRoute', function () {
 
     (0, _emberMocha.setupTest)('route:assessments.get-challenge', {
-      needs: ['service:assessment']
+      needs: ['service:assessment', 'service:current-routed-modal']
     });
 
     (0, _mocha.it)('exists', function () {
@@ -8327,7 +8327,9 @@ define('pix-live/tests/unit/routes/assessments/get-results-test', ['chai', 'moch
 
   (0, _mocha.describe)('Unit | Route | Assessments.ResultsRoute', function () {
 
-    (0, _emberMocha.setupTest)('route:assessments.get-results', {});
+    (0, _emberMocha.setupTest)('route:assessments.get-results', {
+      needs: ['service:current-routed-modal']
+    });
 
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
@@ -8340,7 +8342,9 @@ define('pix-live/tests/unit/routes/challenges/get-preview-test', ['chai', 'mocha
 
   (0, _mocha.describe)('Unit | Route | challenges.get-preview', function () {
 
-    (0, _emberMocha.setupTest)('route:challenges.get-preview', {});
+    (0, _emberMocha.setupTest)('route:challenges.get-preview', {
+      needs: ['service:current-routed-modal']
+    });
 
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
@@ -8354,7 +8358,7 @@ define('pix-live/tests/unit/routes/competences-test', ['chai', 'mocha', 'ember-m
   (0, _mocha.describe)('Unit | Route | competences', function () {
 
     (0, _emberMocha.setupTest)('route:competences', {
-      needs: ['service:panelActions']
+      needs: ['service:panelActions', 'service:current-routed-modal']
     });
 
     (0, _mocha.it)('exists', function () {
@@ -8368,7 +8372,9 @@ define('pix-live/tests/unit/routes/courses-test', ['chai', 'mocha', 'ember-mocha
 
   (0, _mocha.describe)('Unit | Route | courses', function () {
 
-    (0, _emberMocha.setupTest)('route:courses', {});
+    (0, _emberMocha.setupTest)('route:courses', {
+      needs: ['service:current-routed-modal']
+    });
 
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
@@ -8381,7 +8387,9 @@ define('pix-live/tests/unit/routes/courses/get-challenge-preview-test', ['chai',
 
   (0, _mocha.describe)('Unit | Route | ChallengePreview', function () {
 
-    (0, _emberMocha.setupTest)('route:courses/get-challenge-preview', {});
+    (0, _emberMocha.setupTest)('route:courses/get-challenge-preview', {
+      needs: ['service:current-routed-modal']
+    });
 
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
@@ -8394,7 +8402,9 @@ define('pix-live/tests/unit/routes/courses/get-course-preview-test', ['chai', 'm
 
   (0, _mocha.describe)('Unit | Route | CoursePreview', function () {
 
-    (0, _emberMocha.setupTest)('route:courses/get-course-preview', {});
+    (0, _emberMocha.setupTest)('route:courses/get-course-preview', {
+      needs: ['service:current-routed-modal']
+    });
 
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
@@ -8407,7 +8417,9 @@ define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha']
 
   (0, _mocha.describe)('Unit | Route | index', function () {
 
-    (0, _emberMocha.setupTest)('route:index', {});
+    (0, _emberMocha.setupTest)('route:index', {
+      needs: ['service:current-routed-modal']
+    });
 
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
@@ -8419,9 +8431,9 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | inscription', function () {
+
     (0, _emberMocha.setupTest)('route:inscription', {
-      // Specify the other units that are required for this test.
-      // needs: ['controller:foo']
+      needs: ['service:current-routed-modal']
     });
 
     (0, _mocha.it)('exists', function () {
@@ -8436,7 +8448,7 @@ define('pix-live/tests/unit/routes/placement-tests-test', ['chai', 'mocha', 'emb
   (0, _mocha.describe)('Unit | Route | placement-tests', function () {
 
     (0, _emberMocha.setupTest)('route:placement-tests', {
-      needs: ['service:delay']
+      needs: ['service:delay', 'service:current-routed-modal']
     });
 
     (0, _mocha.it)('exists', function () {
@@ -8451,8 +8463,7 @@ define('pix-live/tests/unit/routes/project-test', ['chai', 'mocha', 'ember-mocha
   (0, _mocha.describe)('Unit | Route | project', function () {
 
     (0, _emberMocha.setupTest)('route:project', {
-      // Specify the other units that are required for this test.
-      // needs: ['controller:foo']
+      needs: ['service:current-routed-modal']
     });
 
     (0, _mocha.it)('exists', function () {
