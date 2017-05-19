@@ -112,10 +112,10 @@ describe('Integration | Component | scoring panel tantpix', function() {
 
       it('should return a smiley illustration which satisfy minimals accessibilities conditions', function() {
         const smiley = this.$(HEADING_ILLUSTRATION_CLASS);
-        expect(smiley.attr('src')).to.includes('images/smiley.png');
-        expect(smiley.attr('srcset')).to.includes('images/smiley@2x.png');
-        expect(smiley.attr('srcset')).to.includes('images/smiley@3x.png');
-        expect(smiley.attr('alt')).to.includes('smiley tant pix');
+        expect(smiley.attr('src')).to.includes('/images/smiley.png');
+        expect(smiley.attr('srcset')).to.includes('/images/smiley@2x.png');
+        expect(smiley.attr('srcset')).to.includes('/images/smiley@3x.png');
+        expect(smiley.attr('alt')).to.includes('smiley');
       });
     });
 
