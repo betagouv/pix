@@ -1664,7 +1664,7 @@ button.routable-modal--close:active {
   line-height: 1.07; }
   @media (min-width: 768px) {
     .scoring-panel__congrats-scoring {
-      font-size: 28px; } }
+      font-size: 21px; } }
 
 .scoring-panel__congrats-beta {
   font-weight: 500;
