@@ -201,7 +201,6 @@ describe('Unit | Component | comparison-window', function() {
       // then
       _assertResultItemTitle(resultItem, 'Vous avez donné une réponse partielle');
       _assertResultItemTooltip(resultItem, 'Réponse partielle');
-      expect(resultItem.custom).to.be.true;
     });
 
     it('should return adapted title and tooltip when result is "timedout"', function() {
