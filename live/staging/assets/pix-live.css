@@ -2443,7 +2443,7 @@ button.routable-modal--close:active {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .index-page__background {
   position: absolute;
-  background: url("/images/index-hero-bg.jpg");
+  background: url("/images/index-hero-bg-min.jpg");
   background-size: cover;
   height: 600px;
   width: 100%;
@@ -2595,7 +2595,7 @@ button.routable-modal--close:active {
   -ms-flex-align: center;
   align-items: center;
   color: #ffffff;
-  background: url("/images/index-community-bg.png");
+  background: url("/images/index-community-bg-min.jpg");
   background-size: cover; }
 
 .index-page-community__title {
