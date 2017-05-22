@@ -1,12 +1,9 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import {expect} from 'chai';
+import {describe, it} from 'mocha';
+import {setupTest} from 'ember-mocha';
 
 describe('Unit | Route | inscription', function() {
-  setupTest('route:inscription', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  });
+  setupTest('route:inscription', {});
 
   it('exists', function() {
     const route = this.subject();
