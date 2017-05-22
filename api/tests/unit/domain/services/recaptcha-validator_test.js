@@ -15,7 +15,7 @@ const expectedValidReCaptcha = {
   success: true
 };
 
-describe('Unit | Service | reCaptcha Validator', function() {
+describe.only('Unit | Service | reCaptcha Validator', function() {
   describe('#Service:', function() {
 
     describe('Service with invalid user response', function() {

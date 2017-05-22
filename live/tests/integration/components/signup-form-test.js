@@ -40,6 +40,7 @@ const ICON_ERROR_CLASS = 'validation-icon-error';
 const ICON_SUCCESS_CLASS = 'validation-icon-success';
 
 const userEmpty = Ember.Object.create({});
+const CAPTCHA_CONTAINER = '.signup-form__captcha';
 
 describe('Integration | Component | signup form', function() {
   setupComponentTest('signup-form', {
@@ -69,6 +70,7 @@ describe('Integration | Component | signup form', function() {
       {expectedRendering: 'cgu container', input: CHECKBOX_CGU_CONTAINER, expected: 1},
       {expectedRendering: 'cgu checkbox', input: CHECKBOX_CGU_INPUT, expected: 1},
       {expectedRendering: 'cgu label', input: CHECKBOX_CGU_LABEL, expected: 1},
+      {expectedRendering: 'a captcha', input: CAPTCHA_CONTAINER, expected: 1},
       {expectedRendering: 'submit button', input: SUBMIT_BUTTON_CONTAINER, expected: 1},
 
     ].forEach(function({expectedRendering, input, expected}) {
@@ -263,6 +265,34 @@ describe('Integration | Component | signup form', function() {
         });
 
         this.set('user', userWithCguNotAccepted);
+        this.render(hbs`{{signup-form user=user}}`);
+
+        // when
+        this.$('.signup__submit-button').click();
+        // then
+        return wait().then(() => {
+          const headingErrorMessageContent = this.$('.signup-form__temporary-msg h4').text();
+          expect(headingErrorMessageContent.trim()).to.equal(EXPECTED_FORM_HEADING_CONTENT_ERROR);
+        });
+      });
+
+      it.skip('should display an error message on form title, when user has not checked re-captcha', function() {
+        // given
+        const userWithCaptchaNotValid = Ember.Object.create({
+          cgu: true,
+          captcha: false,
+          errors: {
+            content: [{
+              attribute: 'captcha',
+              message: UNCHECKED_CHECKBOX_CGU_ERROR,
+            }]
+          },
+          save() {
+            return new Ember.RSVP.reject();
+          }
+        });
+
+        this.set('user', userWithCaptchaNotValid);
         this.render(hbs`{{signup-form user=user}}`);
 
         // when
