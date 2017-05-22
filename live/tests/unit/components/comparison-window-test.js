@@ -8,7 +8,7 @@ function _assertResultItemTitle(resultItem, expected) {
 }
 
 function _assertResultItemTooltip(resultItem, expected) {
-  expect(resultItem.titleTooltip).to.equal(expected);
+  expect(resultItem.tooltip).to.equal(expected);
 }
 
 describe('Unit | Component | comparison-window', function() {

@@ -22,8 +22,7 @@
       </div>
 
       <div class="comparison-window__title">
-
-        <div data-toggle="tooltip" data-placement="top" title="{{resultItem.titleTooltip}}">
+        <div data-toggle="tooltip" data-placement="top" title="{{resultItem.tooltip}}">
           <img class="comparison-window__result-icon comparison-window__result-icon--{{resultItem.status}}" src="/images/answer-validation/icon-{{resultItem.status}}.svg" alt="">
         </div>
       </div>
@@ -39,8 +38,7 @@
 
         {{#if challenge.illustrationUrl}}
           <div class="rounded-panel__row challenge-statement__illustration-section">
-            <img class="challenge-statement__illustration" src="{{ challenge.illustrationUrl }}"
-                 alt="Illustration de l'épreuve">
+            <img class="challenge-statement__illustration" src="{{ challenge.illustrationUrl }}" alt="Illustration de l'épreuve">
           </div>
         {{/if}}
       </div>

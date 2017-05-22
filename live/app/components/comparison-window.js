@@ -4,37 +4,37 @@ const contentReference = {
   ok: {
     status: 'ok',
     title: 'Vous avez la bonne réponse !',
-    titleTooltip: 'Réponse correcte'
+    tooltip: 'Réponse correcte'
   },
 
   ko: {
     status: 'ko',
     title: 'Vous n\'avez pas la bonne réponse',
-    titleTooltip: 'Réponse incorrecte'
+    tooltip: 'Réponse incorrecte'
   },
 
   aband: {
     status: 'aband',
     title: 'Vous n\'avez pas donné de réponse',
-    titleTooltip: 'Sans réponse'
+    tooltip: 'Sans réponse'
   },
 
   partially: {
     status: 'partially',
     title: 'Vous avez donné une réponse partielle',
-    titleTooltip: 'Réponse partielle'
+    tooltip: 'Réponse partielle'
   },
 
   timedout: {
     status: 'timedout',
     title: 'Vous avez dépassé le temps imparti',
-    titleTooltip: 'Temps dépassé'
+    tooltip: 'Temps dépassé'
   },
 
   default: {
     status: 'default',
     title: '',
-    titleTooltip: 'Correction automatique en cours de développement ;)'
+    tooltip: 'Correction automatique en cours de développement ;)'
   }
 };
 
