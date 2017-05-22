@@ -4082,6 +4082,51 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
     });
   });
 });
+define('pix-live/tests/integration/components/modal-mobile-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | modal mobile', function () {
+
+    (0, _emberMocha.setupComponentTest)('modal-mobile', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      this.render(Ember.HTMLBars.template({
+        "id": "98vXZoLV",
+        "block": "{\"statements\":[[1,[26,[\"modal-mobile\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should display a title with a "warning" icon', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "98vXZoLV",
+        "block": "{\"statements\":[[1,[26,[\"modal-mobile\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+
+      // then
+      var $titleWarningIcon = this.$('.modal-title__warning-icon');
+      (0, _chai.expect)($titleWarningIcon.attr('src')).to.equal('/images/icon-mobile-support-warning.svg');
+    });
+
+    (0, _mocha.it)('should display a message', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "98vXZoLV",
+        "block": "{\"statements\":[[1,[26,[\"modal-mobile\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+
+      // then
+      var expected = 'Certaines épreuves PIX peuvent être difficiles à réussir sur mobile. Pour une meilleure expérience, nous vous conseillons de passer ce test sur un ordinateur.';
+      (0, _chai.expect)(this.$('.modal-body').text().trim()).to.equal(expected);
+    });
+  });
+});
 define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -6265,6 +6310,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/follower-form-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/modal-mobile-test.js', function () {
       // test passed
     });
 
