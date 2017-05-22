@@ -4164,17 +4164,13 @@ define('pix-live/tests/integration/components/qcm-proposals-test', ['chai', 'moc
 define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'pix-live/utils/lodash-custom'], function (_chai, _mocha, _emberMocha, _ember, _lodashCustom) {
   'use strict';
 
-  var CHECKBOX_CORRECT_AND_CHECKED = '.qcm-proposal-label__checkbox-picture:eq(1)';
+  var CHECKBOX_CORRECT_AND_CHECKED = 'input[type=checkbox]:eq(1)';
   var LABEL_CORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(1)';
 
   var CHECKBOX_CORRECT_AND_UNCHECKED = '.qcm-proposal-label__checkbox-picture:eq(2)';
   var LABEL_CORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(2)';
 
-  var CHECKBOX_INCORRECT_AND_CHECKED = '.qcm-proposal-label__checkbox-picture:eq(0)';
-  var CHECKBOX_INCORRECT_AND_CHECKED_SECOND = '.qcm-proposal-label__checkbox-picture:eq(3)';
   var LABEL_INCORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(0)';
-
-  var CHECKBOX_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__checkbox-picture:eq(0)';
   var LABEL_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(0)';
 
   var CSS_BOLD_FONT_WEIGHT = '900';
@@ -4253,7 +4249,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
           (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
 
-          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED).hasClass('checkbox-disabled-on')).to.equal(true);
+          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED).attr('disabled')).to.equal('disabled');
           (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
@@ -4274,7 +4270,6 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           }));
 
           // Then
-          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_UNCHECKED).hasClass('checkbox-disabled-on')).to.equal(false);
           (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
@@ -4297,7 +4292,6 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           }));
 
           // Then
-          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_UNCHECKED).hasClass('checkbox-disabled-on')).to.equal(false);
           (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
@@ -4320,8 +4314,6 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           }));
 
           // Then
-          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_CHECKED).hasClass('checkbox-disabled-on')).to.equal(true);
-          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_CHECKED_SECOND).hasClass('checkbox-disabled-on')).to.equal(true);
           (0, _chai.expect)($(CHECKBOX_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
           (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
@@ -5359,7 +5351,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var INPUT_TEXT_FIELD_CLASS_DEFAULT = 'signup-textfield__input-container--default';
 
   var CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
-  var CHECKBOX_CGU_INPUT = '.signup-form__cgu-checkbox';
+  var CHECKBOX_CGU_INPUT = '#cgu';
   var CHECKBOX_CGU_LABEL = '.signup-form__cgu-label';
   var UNCHECKED_CHECKBOX_CGU_ERROR = 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.';
 

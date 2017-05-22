@@ -166,13 +166,15 @@ input[type="checkbox"]:checked:before {
   background-color: #3d68ff; }
 
 input[type="checkbox"]:checked:after {
+  height: 18px;
+  width: 18px;
   position: relative;
   top: -21px;
-  padding-left: 3px;
-  font-size: 0.75em;
+  font-size: 14px;
   color: #ffffff;
   content: '✓';
-  display: block; }
+  display: block;
+  text-align: center; }
 
 input[type="checkbox"]:checked:focus:before {
   box-shadow: 0 0 4px #3d68ff; }
@@ -246,7 +248,6 @@ input[type=radio]:focus:before {
 
 .qcm-panel__proposal-label {
   display: inline-block;
-  padding-left: 20px;
   line-height: 21px;
   position: relative; }
 
@@ -265,19 +266,6 @@ input[type=radio]:focus:before {
 .qcm-panel__proposal-checkbox {
   opacity: 0;
   display: none; }
-
-/*XXX Can't use BEM properly when using CSS state manipulation*/
-.qcm-panel__proposal-checkbox:checked ~ label svg.checkbox-disabled-on {
-  opacity: 0; }
-
-.qcm-panel__proposal-checkbox:not(:checked) ~ label svg.checkbox-disabled-off {
-  opacity: 1; }
-
-.qcm-panel__proposal-checkbox:checked ~ label svg.checkbox-disabled-on {
-  opacity: 1; }
-
-.qcm-panel__proposal-checkbox:not(:checked) ~ label svg.checkbox-disabled-on {
-  opacity: 0; }
 
 /* Breakpoints definition */
 /*
@@ -2111,6 +2099,9 @@ button.routable-modal--close:active {
   font-weight: 400;
   width: 100%; }
 
+.qcm-panel__proposal-label input[type=checkbox] {
+  margin-right: 10px; }
+
 .qcm-proposal-label__oracle[data-goodness='good'] {
   color: #13c9a0;
   font-weight: 900; }
@@ -2257,55 +2248,14 @@ button.routable-modal--close:active {
       margin-bottom: 0;
       padding: 0; } }
 
-.signup-form__cgu-container input[type="checkbox"] {
-  -webkit-appearance: none; }
-
-.signup-form__cgu-container input[type="checkbox"]:after {
-  border-color: #D8D8D8; }
-
-.signup-form__cgu-container input[type="checkbox"]:disabled:after {
-  border-color: #D8D8D8; }
-
-.signup-form__cgu-container input[type="checkbox"]:focus {
-  outline: none; }
-
-.signup-form__cgu-container input[type="checkbox"]:after {
-  border: 2px solid #D8D8D8;
-  border-radius: 2px;
-  content: '';
-  display: block;
-  height: 18px;
-  transition: 240ms;
-  width: 18px; }
-
-.signup-form__cgu-container input[type="checkbox"]:checked:before {
-  transform: rotate(45deg);
-  position: absolute;
-  left: 6px;
-  display: table;
-  width: 7px;
-  height: 14px;
-  border: 2px solid #ffffff;
-  border-top: 0;
-  border-left: 0;
-  content: ''; }
-
-.signup-form__cgu-container input[type="checkbox"]:checked:after {
-  background-color: #3d68ff;
-  border-color: #3d68ff; }
-
-.signup-form__cgu-container input[type="checkbox"]:disabled:checked:after {
-  background-color: rgba(0, 0, 0, 0.26);
-  border-color: transparent; }
-
-.signup-form__cgu-container input[type="checkbox"]:focus:after {
-  border-color: #3d68ff; }
-
 .signup-form__cgu-label {
   position: relative;
   display: -ms-flexbox;
   display: flex;
   margin-bottom: 0; }
+
+.signup-form__cgu-label input[type=checkbox] {
+  margin: 3px 15px; }
 
 .signup-form__cgu-label span {
   color: #6a6d76;
