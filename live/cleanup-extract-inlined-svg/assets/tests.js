@@ -3461,7 +3461,7 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
 
       var $icon = this.$('.feature-item__icon');
       (0, _chai.expect)($icon).to.exist;
-      (0, _chai.expect)($icon.attr('src')).to.equal('images/icon-coucou.svg');
+      (0, _chai.expect)($icon.attr('src')).to.equal('images/features/icon-coucou.svg');
     });
 
     (0, _mocha.it)('should render an title', function () {
