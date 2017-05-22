@@ -489,13 +489,19 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
     });
 
     (0, _mocha.it)('b2.1 It should render challenge instruction', function () {
+      // Given
+      var expectedInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
+
+      // Then
       var $challengeInstruction = $('.challenge-statement__instruction');
-      var instructionText = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
-      (0, _chai.expect)($challengeInstruction.text().trim()).to.equal(instructionText);
+      (0, _chai.expect)($challengeInstruction.text().trim()).to.equal(expectedInstruction);
     });
 
     (0, _mocha.it)('b2.2 Le contenu de type [foo](bar) doit être converti sous forme de lien', function () {
+      // When
       var $links = findWithAssert('.challenge-statement__instruction a');
+
+      // Then
       (0, _chai.expect)($links.length).to.equal(1);
       (0, _chai.expect)($links.text()).to.equal('plusieurs');
       (0, _chai.expect)($links.attr('href')).to.equal('http://link.plusieurs.url');
@@ -538,36 +544,27 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
       });
     });
 
-    (0, _mocha.it)('b2.9 If an user check a checkbox, it is checked', function () {
-      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(0);
-      $('.input-checkbox-proposal:eq(1)').click();
-      andThen(function () {
-        (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
-      });
-    });
-
-    (0, _mocha.it)('b2.10 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function () {
-      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
-      $('.input-checkbox-proposal:eq(2)').click();
-      andThen(function () {
-        (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
-      });
-    });
-
-    (0, _mocha.it)('b2.11 If an user validate the challenge, the api is request to save the answer of the user', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('b2.9 If an user validate the challenge with two answers, the api is request to save the answer of the user', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
+              // Given
               (0, _sharedState.resetTestingState)();
-              _context.next = 3;
+              $('.proposal-text:eq(1)').click();
+              $('.proposal-text:eq(2)').click();
+
+              // When
+              _context.next = 5;
               return click('.challenge-actions__action-validate');
 
-            case 3:
+            case 5:
+
+              // Then
               (0, _chai.expect)((0, _sharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
               (0, _chai.expect)(_lodashCustom.default.get((0, _sharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('2,3');
 
-            case 5:
+            case 7:
             case 'end':
               return _context.stop();
           }

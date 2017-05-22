@@ -144,6 +144,39 @@
   opacity: 0;
   transition: opacity .2s linear; }
 
+input[type="checkbox"]:focus {
+  outline: none; }
+
+input[type="checkbox"]:before {
+  position: relative;
+  height: 18px;
+  width: 18px;
+  top: -3px;
+  border: 2px solid #D8D8D8;
+  content: ' ';
+  display: block;
+  background-color: #ffffff;
+  border-radius: 10%; }
+
+input[type="checkbox"]:focus:before {
+  border-color: #3d68ff; }
+
+input[type="checkbox"]:checked:before {
+  border: 2px solid #3d68ff;
+  background-color: #3d68ff; }
+
+input[type="checkbox"]:checked:after {
+  position: relative;
+  top: -21px;
+  padding-left: 3px;
+  font-size: 0.75em;
+  color: #ffffff;
+  content: '✓';
+  display: block; }
+
+input[type="checkbox"]:checked:focus:before {
+  box-shadow: 0 0 4px #3d68ff; }
+
 /**
  *
  * Configure Radios of proposals
@@ -3070,6 +3103,5 @@ body {
   font-family: "Lato", Arial, sans-serif;
   background-color: #f2f3f4; }
 
-input[type="radio"],
-input[type="checkbox"] {
+input[type="radio"] {
   margin: 0 5px 0 0; }
