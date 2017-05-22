@@ -135,7 +135,7 @@ describe('Integration | Component | signup textfield', function() {
       // then
       return wait().then(() => {
         expect(this.$('img')).to.have.length(1);
-        expect(this.$('img').attr('class')).to.equal('validation-icon-error');
+        expect(this.$('img').attr('class')).to.contain('signup-textfield__icon--error');
       });
     });
 
@@ -167,7 +167,7 @@ describe('Integration | Component | signup textfield', function() {
     it('return true if any img does exist', function() {
       // then
       expect(this.$('img')).to.have.length(1);
-      expect(this.$('img').attr('class')).to.equal('validation-icon-success');
+      expect(this.$('img').attr('class')).to.contain('signup-textfield__icon--success');
     });
 
     [
