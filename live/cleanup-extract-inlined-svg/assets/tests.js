@@ -5452,8 +5452,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et' + ' 8 caractères.';
   var MESSAGE_SUCCESS_STATUS = 'signup-textfield__message--success';
 
-  var ICON_ERROR_CLASS = 'validation-icon-error';
-  var ICON_SUCCESS_CLASS = 'validation-icon-success';
+  var ICON_ERROR_CLASS = 'signup-textfield__icon--error';
+  var ICON_SUCCESS_CLASS = 'signup-textfield__icon--success';
 
   var userEmpty = _ember.default.Object.create({});
 
@@ -5578,7 +5578,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             var iconSiblingClass = _this.$('#firstName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_ERROR_CLASS);
           });
         });
 
@@ -5604,7 +5604,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             var iconSiblingClass = _this2.$('#lastName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_ERROR_CLASS);
           });
         });
 
@@ -5630,7 +5630,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             var iconSiblingClass = _this3.$('#email').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_ERROR_CLASS);
           });
         });
 
@@ -5656,7 +5656,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             var iconSiblingClass = _this4.$('#password').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_ERROR_CLASS);
           });
         });
 
@@ -5753,7 +5753,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             var iconSiblingClass = _this7.$('#firstName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
           });
         });
 
@@ -5779,7 +5779,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             var iconSiblingClass = _this8.$('#lastName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
           });
         });
 
@@ -5805,7 +5805,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             var iconSiblingClass = _this9.$('#email').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
           });
         });
 
@@ -5831,7 +5831,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             var iconSiblingClass = _this10.$('#password').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
           });
         });
 
@@ -6078,7 +6078,7 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
         // then
         return (0, _wait.default)().then(function () {
           (0, _chai.expect)(_this.$('img')).to.have.length(1);
-          (0, _chai.expect)(_this.$('img').attr('class')).to.equal('validation-icon-error');
+          (0, _chai.expect)(_this.$('img').attr('class')).to.contain('signup-textfield__icon--error');
         });
       });
 
@@ -6112,7 +6112,7 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
       (0, _mocha.it)('return true if any img does exist', function () {
         // then
         (0, _chai.expect)(this.$('img')).to.have.length(1);
-        (0, _chai.expect)(this.$('img').attr('class')).to.equal('validation-icon-success');
+        (0, _chai.expect)(this.$('img').attr('class')).to.contain('signup-textfield__icon--success');
       });
 
       [{ item: 'Input', itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS }, { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS }].forEach(function (_ref5) {
