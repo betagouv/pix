@@ -5555,6 +5555,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
       });
 
       (0, _mocha.describe)('Errors management', function () {
+
         (0, _mocha.it)('should display an error message on first name field, when field is empty and focus-out', function () {
           var _this = this;
 
@@ -5574,7 +5575,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this.$('#firstName').parent().prev().attr('class');
             var divSiblingContent = _this.$('#firstName').parent().prev('div').text();
-            var iconSiblingClass = _this.$('#firstName').next('svg').attr('class');
+            var iconSiblingClass = _this.$('#firstName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
             (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
@@ -5600,7 +5601,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this2.$('#lastName').parent().prev().attr('class');
             var divSiblingContent = _this2.$('#lastName').parent().prev('div').text();
-            var iconSiblingClass = _this2.$('#lastName').next('svg').attr('class');
+            var iconSiblingClass = _this2.$('#lastName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
             (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
@@ -5626,7 +5627,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this3.$('#email').parent().prev().attr('class');
             var divSiblingContent = _this3.$('#email').parent().prev('div').text();
-            var iconSiblingClass = _this3.$('#email').next('svg').attr('class');
+            var iconSiblingClass = _this3.$('#email').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
             (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
@@ -5652,7 +5653,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this4.$('#password').parent().prev().attr('class');
             var divSiblingContent = _this4.$('#password').parent().prev('div').text();
-            var iconSiblingClass = _this4.$('#password').next('svg').attr('class');
+            var iconSiblingClass = _this4.$('#password').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
             (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
@@ -5749,7 +5750,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this7.$('#firstName').parent().prev().attr('class');
             var divSiblingContent = _this7.$('#firstName').parent().prev('div').text();
-            var iconSiblingClass = _this7.$('#firstName').next('svg').attr('class');
+            var iconSiblingClass = _this7.$('#firstName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
             (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
@@ -5775,7 +5776,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this8.$('#lastName').parent().prev().attr('class');
             var divSiblingContent = _this8.$('#lastName').parent().prev('div').text();
-            var iconSiblingClass = _this8.$('#lastName').next('svg').attr('class');
+            var iconSiblingClass = _this8.$('#lastName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
             (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
@@ -5801,7 +5802,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this9.$('#email').parent().prev().attr('class');
             var divSiblingContent = _this9.$('#email').parent().prev('div').text();
-            var iconSiblingClass = _this9.$('#email').next('svg').attr('class');
+            var iconSiblingClass = _this9.$('#email').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
             (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
@@ -5827,7 +5828,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this10.$('#password').parent().prev().attr('class');
             var divSiblingContent = _this10.$('#password').parent().prev('div').text();
-            var iconSiblingClass = _this10.$('#password').next('svg').attr('class');
+            var iconSiblingClass = _this10.$('#password').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
             (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
@@ -6039,7 +6040,7 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
 
         (0, _mocha.it)('return true if any svg doesn\'t exist', function () {
           // then
-          (0, _chai.expect)(this.$('svg')).to.have.length(0);
+          (0, _chai.expect)(this.$('img')).to.have.length(0);
         });
 
         (0, _mocha.it)('contain an input with an additional class ' + INPUT_DEFAULT_CLASS, function () {
@@ -6071,13 +6072,13 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
         this.set('validationMessage', '');
       });
 
-      (0, _mocha.it)('return true if any svg does exist', function () {
+      (0, _mocha.it)('return true if any img does exist', function () {
         var _this = this;
 
         // then
         return (0, _wait.default)().then(function () {
-          (0, _chai.expect)(_this.$('svg')).to.have.length(1);
-          (0, _chai.expect)(_this.$('svg').attr('class')).to.equal('validation-icon-error');
+          (0, _chai.expect)(_this.$('img')).to.have.length(1);
+          (0, _chai.expect)(_this.$('img').attr('class')).to.equal('validation-icon-error');
         });
       });
 
@@ -6108,10 +6109,10 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
         }));
       });
 
-      (0, _mocha.it)('return true if any svg does exist', function () {
+      (0, _mocha.it)('return true if any img does exist', function () {
         // then
-        (0, _chai.expect)(this.$('svg')).to.have.length(1);
-        (0, _chai.expect)(this.$('svg').attr('class')).to.equal('validation-icon-success');
+        (0, _chai.expect)(this.$('img')).to.have.length(1);
+        (0, _chai.expect)(this.$('img').attr('class')).to.equal('validation-icon-success');
       });
 
       [{ item: 'Input', itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS }, { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS }].forEach(function (_ref5) {
