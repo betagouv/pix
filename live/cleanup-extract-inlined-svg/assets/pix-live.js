@@ -825,37 +825,37 @@ define('pix-live/components/comparison-window', ['exports', 'ember'], function (
     ok: {
       status: 'ok',
       title: 'Vous avez la bonne réponse !',
-      titleTooltip: 'Réponse correcte'
+      tooltip: 'Réponse correcte'
     },
 
     ko: {
       status: 'ko',
       title: 'Vous n\'avez pas la bonne réponse',
-      titleTooltip: 'Réponse incorrecte'
+      tooltip: 'Réponse incorrecte'
     },
 
     aband: {
       status: 'aband',
       title: 'Vous n\'avez pas donné de réponse',
-      titleTooltip: 'Sans réponse'
+      tooltip: 'Sans réponse'
     },
 
     partially: {
       status: 'partially',
       title: 'Vous avez donné une réponse partielle',
-      titleTooltip: 'Réponse partielle'
+      tooltip: 'Réponse partielle'
     },
 
     timedout: {
       status: 'timedout',
       title: 'Vous avez dépassé le temps imparti',
-      titleTooltip: 'Temps dépassé'
+      tooltip: 'Temps dépassé'
     },
 
     default: {
       status: 'default',
       title: '',
-      titleTooltip: 'Correction automatique en cours de développement ;)'
+      tooltip: 'Correction automatique en cours de développement ;)'
     }
   };
 
@@ -1684,63 +1684,43 @@ define('pix-live/components/result-item', ['exports', 'ember'], function (export
 
   var contentReference = {
     ok: {
-      title: 'Réponse correcte',
-      path: 'M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z',
-      color: '#30d5b0',
-      selector: 'svg-correct-answer'
+      status: 'ok',
+      tooltip: 'Réponse correcte'
     },
 
     ko: {
-      title: 'Réponse incorrecte',
-      path: 'M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z',
-      color: '#ff4600',
-      selector: 'svg-correct-answer'
+      status: 'ko',
+      tooltip: 'Réponse incorrecte'
     },
 
     aband: {
-      title: 'Sans réponse',
-      path: 'M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M8,8L13,12L8,16M14,8H16V16H14',
-      color: '#3e4149',
-      selector: 'svg-correct-answer'
+      status: 'aband',
+      tooltip: 'Sans réponse'
     },
 
     partially: {
-      title: 'Réponse partielle',
-      path: 'M941,28.7873535 C944.182598,28.7873535 947.234845,30.0516356 949.485281,32.3020721 C951.735718,34.5525087 953,37.6047556 953,40.7873535 C953,47.4147705 947.627417,52.7873535 941,52.7873535 C937.817402,52.7873535 934.765155,51.5230714 932.514719,49.2726349 C930.264282,47.0221983 929,43.9699514 929,40.7873535 C929,37.6047556 930.264282,34.5525087 932.514719,32.3020721 C934.765155,30.0516356 937.817402,28.7873535 941,28.7873535 L941,28.7873535 Z',
-      color: '#ffffff',
-      custom: true,
-      selector: 'svg-correct-answer'
+      status: 'partially',
+      tooltip: 'Réponse partielle'
     },
 
     timedout: {
-      title: 'Temps dépassé',
-      path: 'M11,17A1,1 0 0,0 12,18A1,1 0 0,0 13,17A1,1 0 0,0 12,16A1,1 0 0,0 11,17M11,3V7H13V5.08C16.39,5.57 19,8.47 19,12A7,7 0 0,1 12,19A7,7 0 0,1 5,12C5,10.32 5.59,8.78 6.58,7.58L12,13L13.41,11.59L6.61,4.79V4.81C4.42,6.45 3,9.05 3,12A9,9 0 0,0 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3M18,12A1,1 0 0,0 17,11A1,1 0 0,0 16,12A1,1 0 0,0 17,13A1,1 0 0,0 18,12M6,12A1,1 0 0,0 7,13A1,1 0 0,0 8,12A1,1 0 0,0 7,11A1,1 0 0,0 6,12Z',
-      color: '#ff0000',
-      selector: 'svg-correct-answer'
+      status: 'timedout',
+      tooltip: 'Temps dépassé'
     },
 
     default: {
-      title: 'Correction automatique en cours de développement ;)',
-      path: 'M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z',
-      color: '#446eff',
-      selector: 'svg-correct-answer'
+      status: 'default',
+      tooltip: 'Correction automatique en cours de développement ;)'
     }
-
   };
 
   var timeOutAfterRender = 1000; //XXX: Wait after attribute rendering
 
-  var resultItem = _ember.default.Component.extend({
+  exports.default = _ember.default.Component.extend({
+
     classNames: ['result-item'],
-    didRender: function didRender() {
-      this._super.apply(this, arguments);
-      _ember.default.run.debounce(this, function () {
-        $('[data-toggle="tooltip"]').tooltip();
-      }, timeOutAfterRender);
-    },
 
-
-    resultItemContent: _ember.default.computed('answer.result', function () {
+    resultItem: _ember.default.computed('answer.result', function () {
       if (!this.get('answer.result')) return;
       return contentReference[this.get('answer.result')] || contentReference['default'];
     }),
@@ -1750,6 +1730,14 @@ define('pix-live/components/result-item', ['exports', 'ember'], function (export
       var challengeType = this.get('answer.challenge.type');
       return implementedTypes.includes(challengeType);
     }),
+
+    didRender: function didRender() {
+      this._super.apply(this, arguments);
+      _ember.default.run.debounce(this, function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      }, timeOutAfterRender);
+    },
+
 
     actions: {
       openComparisonPopin: function openComparisonPopin() {
@@ -1761,8 +1749,6 @@ define('pix-live/components/result-item', ['exports', 'ember'], function (export
       }
     }
   });
-
-  exports.default = resultItem;
 });
 define('pix-live/components/routable-modal-backdrop', ['exports', 'ember-routable-modal/components/backdrop'], function (exports, _backdrop) {
   'use strict';
@@ -5764,7 +5750,7 @@ define("pix-live/templates/components/comparison-window", ["exports"], function 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "VM9ASq/0", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"routable-modal--dialog comparison-window--dialog\"],[13],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"routable-modal--content comparison-window--content\"],[13],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"routable-modal--header comparison-window__header\"],[13],[0,\"\\n\\n\\n\"],[6,[\"routable-modal-close-button\"],null,[[\"class\"],[\"routable-modal--close-button\"]],{\"statements\":[[0,\"        \"],[11,\"div\",[]],[15,\"class\",\"close-button-container\"],[13],[0,\"\\n          \"],[11,\"div\",[]],[13],[0,\"fermer\"],[14],[0,\"\\n          \"],[11,\"div\",[]],[13],[0,\"\\n            \"],[11,\"img\",[]],[15,\"src\",\"/images/comparison-window/icon-close-modal.svg\"],[15,\"alt\",\"Fermer la fenêtre modale\"],[15,\"width\",\"24\"],[15,\"height\",\"24\"],[13],[14],[0,\"\\n          \"],[14],[0,\"\\n        \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__result-item-index\"],[13],[0,\"\\n        \"],[1,[26,[\"index\"]],false],[0,\"\\n      \"],[14],[0,\"\\n\\n      \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__result-item-line\"],[13],[0,\"\\n      \"],[14],[0,\"\\n\\n      \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__title\"],[13],[0,\"\\n\\n        \"],[11,\"div\",[]],[15,\"data-toggle\",\"tooltip\"],[15,\"data-placement\",\"top\"],[16,\"title\",[34,[[28,[\"resultItem\",\"titleTooltip\"]]]]],[13],[0,\"\\n          \"],[11,\"img\",[]],[16,\"class\",[34,[\"comparison-window__result-icon comparison-window__result-icon--\",[28,[\"resultItem\",\"status\"]]]]],[16,\"src\",[34,[\"/images/answer-validation/icon-\",[28,[\"resultItem\",\"status\"]],\".svg\"]]],[15,\"alt\",\"\"],[13],[14],[0,\"\\n        \"],[14],[0,\"\\n      \"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__title-text\"],[13],[1,[28,[\"resultItem\",\"title\"]],false],[14],[0,\"\\n    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"routable-modal--body comparison-window--body\"],[13],[0,\"\\n\\n      \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel comparison-window__instruction\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel__row \"],[13],[0,\"\\n          \"],[1,[33,[\"markdown-to-html\"],null,[[\"class\",\"markdown\"],[\"challenge-statement__instruction\",[28,[\"challenge\",\"instruction\"]]]]],false],[0,\"\\n        \"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"challenge\",\"illustrationUrl\"]]],null,{\"statements\":[[0,\"          \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel__row challenge-statement__illustration-section\"],[13],[0,\"\\n            \"],[11,\"img\",[]],[15,\"class\",\"challenge-statement__illustration\"],[16,\"src\",[34,[[28,[\"challenge\",\"illustrationUrl\"]]]]],[15,\"alt\",\"Illustration de l'épreuve\"],[13],[14],[0,\"\\n          \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"      \"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"isAssessmentChallengeTypeQcm\"]]],null,{\"statements\":[[0,\"        \"],[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"isAssessmentChallengeTypeQcu\"]]],null,{\"statements\":[[0,\"          \"],[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"isAssessmentChallengeTypeQroc\"]]],null,{\"statements\":[[0,\"        \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__corrected-answers comparison-window__corrected-answers--qroc\"],[13],[0,\"\\n          \"],[1,[33,[\"qroc-solution-panel\"],null,[[\"answer\",\"solution\"],[[28,[\"answer\"]],[28,[\"solution\"]]]]],false],[0,\"\\n        \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"isAssessmentChallengeTypeQrocmInd\"]]],null,{\"statements\":[[0,\"        \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__corrected-answers comparison-window__corrected-answers--qrocm\"],[13],[0,\"\\n          \"],[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[28,[\"answer\"]],[28,[\"solution\"]],[28,[\"challenge\"]]]]],false],[0,\"\\n        \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"routable-modal--footer\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__feedback-panel\"],[13],[0,\"\\n        \"],[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\"],[[28,[\"answer\",\"assessment\"]],[28,[\"challenge\"]],false]]],false],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/comparison-window.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "IJXtRTHY", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"routable-modal--dialog comparison-window--dialog\"],[13],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"routable-modal--content comparison-window--content\"],[13],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"routable-modal--header comparison-window__header\"],[13],[0,\"\\n\\n\\n\"],[6,[\"routable-modal-close-button\"],null,[[\"class\"],[\"routable-modal--close-button\"]],{\"statements\":[[0,\"        \"],[11,\"div\",[]],[15,\"class\",\"close-button-container\"],[13],[0,\"\\n          \"],[11,\"div\",[]],[13],[0,\"fermer\"],[14],[0,\"\\n          \"],[11,\"div\",[]],[13],[0,\"\\n            \"],[11,\"img\",[]],[15,\"src\",\"/images/comparison-window/icon-close-modal.svg\"],[15,\"alt\",\"Fermer la fenêtre modale\"],[15,\"width\",\"24\"],[15,\"height\",\"24\"],[13],[14],[0,\"\\n          \"],[14],[0,\"\\n        \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__result-item-index\"],[13],[0,\"\\n        \"],[1,[26,[\"index\"]],false],[0,\"\\n      \"],[14],[0,\"\\n\\n      \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__result-item-line\"],[13],[0,\"\\n      \"],[14],[0,\"\\n\\n      \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__title\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[15,\"data-toggle\",\"tooltip\"],[15,\"data-placement\",\"top\"],[16,\"title\",[34,[[28,[\"resultItem\",\"tooltip\"]]]]],[13],[0,\"\\n          \"],[11,\"img\",[]],[16,\"class\",[34,[\"comparison-window__result-icon comparison-window__result-icon--\",[28,[\"resultItem\",\"status\"]]]]],[16,\"src\",[34,[\"/images/answer-validation/icon-\",[28,[\"resultItem\",\"status\"]],\".svg\"]]],[15,\"alt\",\"\"],[13],[14],[0,\"\\n        \"],[14],[0,\"\\n      \"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__title-text\"],[13],[1,[28,[\"resultItem\",\"title\"]],false],[14],[0,\"\\n    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"routable-modal--body comparison-window--body\"],[13],[0,\"\\n\\n      \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel comparison-window__instruction\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel__row \"],[13],[0,\"\\n          \"],[1,[33,[\"markdown-to-html\"],null,[[\"class\",\"markdown\"],[\"challenge-statement__instruction\",[28,[\"challenge\",\"instruction\"]]]]],false],[0,\"\\n        \"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"challenge\",\"illustrationUrl\"]]],null,{\"statements\":[[0,\"          \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel__row challenge-statement__illustration-section\"],[13],[0,\"\\n            \"],[11,\"img\",[]],[15,\"class\",\"challenge-statement__illustration\"],[16,\"src\",[34,[[28,[\"challenge\",\"illustrationUrl\"]]]]],[15,\"alt\",\"Illustration de l'épreuve\"],[13],[14],[0,\"\\n          \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"      \"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"isAssessmentChallengeTypeQcm\"]]],null,{\"statements\":[[0,\"        \"],[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"isAssessmentChallengeTypeQcu\"]]],null,{\"statements\":[[0,\"          \"],[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"isAssessmentChallengeTypeQroc\"]]],null,{\"statements\":[[0,\"        \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__corrected-answers comparison-window__corrected-answers--qroc\"],[13],[0,\"\\n          \"],[1,[33,[\"qroc-solution-panel\"],null,[[\"answer\",\"solution\"],[[28,[\"answer\"]],[28,[\"solution\"]]]]],false],[0,\"\\n        \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"isAssessmentChallengeTypeQrocmInd\"]]],null,{\"statements\":[[0,\"        \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__corrected-answers comparison-window__corrected-answers--qrocm\"],[13],[0,\"\\n          \"],[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[28,[\"answer\"]],[28,[\"solution\"]],[28,[\"challenge\"]]]]],false],[0,\"\\n        \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"routable-modal--footer\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__feedback-panel\"],[13],[0,\"\\n        \"],[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\"],[[28,[\"answer\",\"assessment\"]],[28,[\"challenge\"]],false]]],false],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/comparison-window.hbs" } });
 });
 define("pix-live/templates/components/corner-ribbon", ["exports"], function (exports) {
   "use strict";
@@ -6052,7 +6038,7 @@ define("pix-live/templates/components/result-item", ["exports"], function (expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "+lqd6C1n", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"result-item__index\"],[13],[0,\"\\n  \"],[1,[33,[\"add\"],[[28,[\"index\"]],1],null],false],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__item-line\"],[13],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__icon\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"data-toggle\",\"tooltip\"],[15,\"data-placement\",\"top\"],[16,\"title\",[34,[[28,[\"resultItemContent\",\"title\"]]]]],[13],[0,\"\\n\"],[6,[\"if\"],[[28,[\"resultItemContent\",\"custom\"]]],null,{\"statements\":[[0,\"      \"],[11,\"svg\",[]],[15,\"width\",\"22\"],[15,\"height\",\"22\"],[15,\"viewBox\",\"0 0 24 25\"],[15,\"version\",\"1.1\"],[15,\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[15,\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[13],[11,\"defs\",[]],[13],[11,\"path\",[]],[16,\"d\",[34,[[28,[\"resultItemContent\",\"path\"]]]]],[15,\"id\",\"path-1\"],[13],[14],[11,\"mask\",[]],[15,\"id\",\"mask-2\"],[15,\"maskContentUnits\",\"userSpaceOnUse\"],[15,\"maskUnits\",\"objectBoundingBox\"],[15,\"x\",\"0\"],[15,\"y\",\"0\"],[15,\"width\",\"24\"],[15,\"height\",\"24\"],[15,\"fill\",\"white\"],[13],[11,\"use\",[]],[15,\"xlink:href\",\"#path-1\",\"http://www.w3.org/1999/xlink\"],[13],[14],[14],[14],[11,\"g\",[]],[15,\"id\",\"Résultats\"],[15,\"stroke\",\"none\"],[15,\"stroke-width\",\"1\"],[15,\"fill\",\"none\"],[15,\"fill-rule\",\"evenodd\"],[13],[11,\"g\",[]],[15,\"id\",\"test-fin-1\"],[15,\"transform\",\"translate(-1155.000000, -532.000000)\"],[15,\"stroke\",\"#FFBE00\"],[15,\"stroke-width\",\"14\"],[13],[11,\"g\",[]],[15,\"id\",\"Group3\"],[15,\"transform\",\"translate(226.000000, 504.000000)\"],[13],[11,\"use\",[]],[15,\"id\",\"Shape-Copy-3\"],[15,\"mask\",\"url(#mask-2)\"],[15,\"xlink:href\",\"#path-1\",\"http://www.w3.org/1999/xlink\"],[13],[14],[14],[14],[14],[14],[0,\"\\n\"]],\"locals\":[]},{\"statements\":[[0,\"      \"],[11,\"svg\",[]],[15,\"xmlns\",\"http://www.w3.org/2000/svg\",\"http://www.w3.org/2000/xmlns/\"],[15,\"xmlns:xlink\",\"http://www.w3.org/1999/xlink\",\"http://www.w3.org/2000/xmlns/\"],[15,\"version\",\"1.1\"],[15,\"width\",\"24\"],[15,\"height\",\"24\"],[15,\"viewBox\",\"0 0 24 24\"],[13],[11,\"path\",[]],[16,\"d\",[34,[[28,[\"resultItemContent\",\"path\"]]]]],[16,\"fill\",[34,[[28,[\"resultItemContent\",\"color\"]]]]],[13],[14],[14],[0,\"\\n\"]],\"locals\":[]}],[0,\"\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__instruction\"],[13],[0,\"\\n  \"],[1,[33,[\"strip-instruction\"],[[33,[\"convert-to-html\"],[[28,[\"answer\",\"challenge\",\"instruction\"]]],null]],null],false],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__correction\"],[13],[0,\"\\n\"],[6,[\"if\"],[[28,[\"validationImplementedForChallengeType\"]]],null,{\"statements\":[[0,\"    \"],[11,\"button\",[]],[15,\"class\",\"result-item__correction__button js-correct-answer\"],[5,[\"action\"],[[28,[null]],\"openComparisonPopin\"]],[13],[0,\" RÉPONSE\"],[14],[0,\"\\n\"]],\"locals\":[]},null],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/result-item.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "MwTlPNzG", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"result-item__index\"],[13],[0,\"\\n  \"],[1,[33,[\"add\"],[[28,[\"index\"]],1],null],false],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__item-line\"],[13],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__icon\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"data-toggle\",\"tooltip\"],[15,\"data-placement\",\"top\"],[16,\"title\",[34,[[28,[\"resultItem\",\"tooltip\"]]]]],[13],[0,\"\\n    \"],[11,\"img\",[]],[16,\"class\",[34,[\"result-item__icon-img result-item__icon-img--\",[28,[\"resultItem\",\"status\"]]]]],[16,\"src\",[34,[\"/images/answer-validation/icon-\",[28,[\"resultItem\",\"status\"]],\".svg\"]]],[15,\"alt\",\"\"],[13],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__instruction\"],[13],[0,\"\\n  \"],[1,[33,[\"strip-instruction\"],[[33,[\"convert-to-html\"],[[28,[\"answer\",\"challenge\",\"instruction\"]]],null]],null],false],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__correction\"],[13],[0,\"\\n\"],[6,[\"if\"],[[28,[\"validationImplementedForChallengeType\"]]],null,{\"statements\":[[0,\"    \"],[11,\"button\",[]],[15,\"class\",\"result-item__correction__button js-correct-answer\"],[5,[\"action\"],[[28,[null]],\"openComparisonPopin\"]],[13],[0,\" RÉPONSE\"],[14],[0,\"\\n\"]],\"locals\":[]},null],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/result-item.hbs" } });
 });
 define("pix-live/templates/components/routable-modal-backdrop", ["exports"], function (exports) {
   "use strict";
@@ -6868,6 +6854,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+980455a8"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+763aeedc"});
 }
 //# sourceMappingURL=pix-live.map

@@ -5060,28 +5060,6 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['chai', 'mo
 define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember', 'mocha', 'ember-mocha'], function (_chai, _ember, _mocha, _emberMocha) {
   'use strict';
 
-  var providedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)';
-
-  var emberChallengeObject = _ember.default.Object.create({
-    type: 'QCM',
-    instruction: providedChallengeInstruction,
-    proposals: '- soit possibilite A, et/ou' + '\n - soit possibilite B, et/ou' + '\n - soit possibilite C, et/ou' + '\n - soit possibilite D'
-  });
-
-  var answer = _ember.default.Object.create({
-    value: '2,4',
-    result: 'ko',
-    id: 1,
-    challenge: emberChallengeObject,
-    assessment: {
-      id: 4
-    }
-  });
-
-  var expectedPath = 'M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z';
-
-  var expectedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieur...';
-
   (0, _mocha.describe)('Integration | Component | result item', function () {
 
     (0, _emberMocha.setupComponentTest)('result-item', {
@@ -5089,6 +5067,24 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
     });
 
     (0, _mocha.describe)('Component rendering ', function () {
+
+      var providedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)';
+
+      var emberChallengeObject = _ember.default.Object.create({
+        type: 'QCM',
+        instruction: providedChallengeInstruction,
+        proposals: '- soit possibilite A, et/ou' + '\n - soit possibilite B, et/ou' + '\n - soit possibilite C, et/ou' + '\n - soit possibilite D'
+      });
+
+      var answer = _ember.default.Object.create({
+        value: '2,4',
+        result: 'ko',
+        id: 1,
+        challenge: emberChallengeObject,
+        assessment: {
+          id: 4
+        }
+      });
 
       (0, _mocha.beforeEach)(function () {
         this.set('index', 0);
@@ -5109,7 +5105,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         (0, _chai.expect)(this.$()).to.have.length(1);
       });
 
-      (0, _mocha.it)('component render an index 1 when 0 provided', function () {
+      (0, _mocha.it)('should render an index 1 when 0 provided', function () {
         // given
         this.set('answer', '');
 
@@ -5125,7 +5121,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         (0, _chai.expect)(index.trim().replace('\n', '')).to.equal('1');
       });
 
-      (0, _mocha.it)('component render an instruction with no empty content', function () {
+      (0, _mocha.it)('should render an instruction with no empty content', function () {
         // given
         this.set('answer', '');
 
@@ -5141,7 +5137,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         (0, _chai.expect)(this.$('.result-item__instruction').text()).to.contain('\n');
       });
 
-      (0, _mocha.it)('component render an instruction which contain ' + expectedChallengeInstruction, function () {
+      (0, _mocha.it)('should render the challenge instruction', function () {
         // given
         this.set('answer', answer);
 
@@ -5153,10 +5149,11 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         }));
 
         // then
+        var expectedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieur...';
         (0, _chai.expect)(this.$('.result-item__instruction').text().trim()).to.equal(expectedChallengeInstruction);
       });
 
-      (0, _mocha.it)('component render an button when QCM', function () {
+      (0, _mocha.it)('should render an button when QCM', function () {
         // given
         this.set('answer', answer);
 
@@ -5169,7 +5166,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         (0, _chai.expect)(this.$('.result-item__correction__button').text().trim()).to.deep.equal('RÉPONSE');
       });
 
-      (0, _mocha.it)('component render tooltip with title Réponse incorrecte', function () {
+      (0, _mocha.it)('should render tooltip with title Réponse incorrecte', function () {
         // given
         this.set('answer', answer);
 
@@ -5184,7 +5181,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         (0, _chai.expect)(this.$('div[data-toggle="tooltip"]').attr('title').trim()).to.equal('Réponse incorrecte');
       });
 
-      (0, _mocha.it)('component render tooltip with svg', function () {
+      (0, _mocha.it)('should render tooltip with an image', function () {
         // given
         this.set('answer', answer);
 
@@ -5196,8 +5193,28 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         }));
 
         // Then
-        (0, _chai.expect)(this.$('svg path').attr('d')).to.equal(expectedPath);
-        (0, _chai.expect)(this.$('svg path').attr('fill')).to.equal('#ff4600');
+        (0, _chai.expect)(this.$('result-item__icon-img'));
+      });
+
+      [{ status: 'ok' }, { status: 'ko' }, { status: 'aband' }, { status: 'partially' }, { status: 'timedout' }, { status: 'default' }].forEach(function (data) {
+
+        (0, _mocha.it)('should display the good result icon when answer\'s result is "' + data.status + '"', function () {
+          // given
+          answer.set('result', data.status);
+          this.set('answer', answer);
+
+          // when
+          this.render(_ember.default.HTMLBars.template({
+            "id": "f8lT9MrH",
+            "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // then
+          var $icon = this.$('.result-item__icon-img');
+          (0, _chai.expect)(this.$('.result-item__icon-img--' + data.status)).to.have.lengthOf(1);
+          (0, _chai.expect)($icon.attr('src')).to.equal('/images/answer-validation/icon-' + data.status + '.svg');
+        });
       });
     });
   });
@@ -6615,7 +6632,7 @@ define('pix-live/tests/unit/components/comparison-window-test', ['ember', 'chai'
   }
 
   function _assertResultItemTooltip(resultItem, expected) {
-    (0, _chai.expect)(resultItem.titleTooltip).to.equal(expected);
+    (0, _chai.expect)(resultItem.tooltip).to.equal(expected);
   }
 
   (0, _mocha.describe)('Unit | Component | comparison-window', function () {
@@ -7623,30 +7640,30 @@ define('pix-live/tests/unit/components/result-item-test', ['ember', 'chai', 'moc
       component = this.subject();
     });
 
-    (0, _mocha.describe)('#resultItemContent Computed property - undefined case', function () {
+    (0, _mocha.describe)('#resultItem Computed property - undefined case', function () {
       [undefinedAnswer, answerWithEmptyResult, answerWithUndefinedResult, answerWithNullResult].forEach(function (answer) {
         (0, _mocha.it)('should returns false when answer provided is: ' + answer.name, function () {
           // when
           component.set('answer', answer);
           // then
-          (0, _chai.expect)(component.get('resultItemContent')).to.be.undefined;
+          (0, _chai.expect)(component.get('resultItem')).to.be.undefined;
         });
       });
     });
 
-    (0, _mocha.describe)('#resultItemContent Computed property - defined case', function () {
+    (0, _mocha.describe)('#resultItem Computed property - defined case', function () {
       (0, _mocha.it)('should returns true when answer provided with result ok', function () {
         // when
         component.set('answer', answerWithOkResult);
         // then
-        (0, _chai.expect)(component.get('resultItemContent.title')).to.equal('Réponse correcte');
+        (0, _chai.expect)(component.get('resultItem.tooltip')).to.equal('Réponse correcte');
       });
 
       (0, _mocha.it)('should returns true when answer provided with result uncommon value by not null or undefined ', function () {
         // when
         component.set('answer', answerWithRandomResult);
         // then
-        (0, _chai.expect)(component.get('resultItemContent.title')).to.equal('Correction automatique en cours de développement ;)');
+        (0, _chai.expect)(component.get('resultItem.tooltip')).to.equal('Correction automatique en cours de développement ;)');
       });
     });
 
