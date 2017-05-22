@@ -2784,18 +2784,15 @@ define('pix-live/tests/helpers/start-app', ['exports', 'ember', 'pix-live/app', 
   });
   exports.default = startApp;
   function startApp(attrs) {
-    var application = void 0;
-
     var attributes = _ember.default.merge({}, _environment.default.APP);
     attributes = _ember.default.merge(attributes, attrs); // use defaults, but you can override;
 
-    _ember.default.run(function () {
-      application = _app.default.create(attributes);
+    return _ember.default.run(function () {
+      var application = _app.default.create(attributes);
       application.setupForTesting();
       application.injectTestHelpers();
+      return application;
     });
-
-    return application;
   }
 });
 define('pix-live/tests/integration/components/challenge-statement-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {

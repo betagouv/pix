@@ -4866,7 +4866,7 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     });
   }
 
-  exports.default = Router.map(function () {
+  Router.map(function () {
     this.route('index', { path: '/' });
     this.route('courses');
     this.route('placement-tests');
@@ -4885,6 +4885,8 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
     this.route('assessments.get-comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
   });
+
+  exports.default = Router;
 });
 define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp', 'pix-live/routes/base-route'], function (exports, _ember, _rsvp, _baseRoute) {
   'use strict';
@@ -6875,6 +6877,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+66c95d27"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+679f4c54"});
 }
 //# sourceMappingURL=pix-live.map
