@@ -62,8 +62,6 @@ define('pix-live/app', ['exports', 'ember', 'pix-live/resolver', 'ember-load-ini
   });
 
 
-  _ember.default.MODEL_FACTORY_INJECTIONS = true;
-
   var App = _ember.default.Application.extend({
     modulePrefix: _environment.default.modulePrefix,
     podModulePrefix: _environment.default.podModulePrefix,
@@ -5457,8 +5455,9 @@ define('pix-live/services/current-routed-modal', ['exports', 'ember', 'ember-rou
             }
         },
         close: function close() {
-            var rout = this.get('routing.router.router');
-            var handlerInfos = this.get('routing.router.router.state.handlerInfos');
+            var routerMain = this.get('routing.router');
+            var routerLib = routerMain._routerMicrolib || routerMain.router;
+            var handlerInfos = routerLib.state.handlerInfos;
             var currentController = handlerInfos[handlerInfos.length - 1]._handler.controller;
 
             this.set('routeName', null);
@@ -5466,11 +5465,11 @@ define('pix-live/services/current-routed-modal', ['exports', 'ember', 'ember-rou
             if (currentController._isModalRoute) {
                 var parentRoute = handlerInfos[handlerInfos.length - 2].name;
 
-                rout.transitionTo(parentRoute);
+                routerLib.transitionTo(parentRoute);
             } else {
                 var url = this.get('routing').generateURL(this.get('routing.currentPath'));
 
-                rout.updateURL(url);
+                routerLib.updateURL(url);
             }
         }
     });
@@ -6877,6 +6876,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+679f4c54"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+77978875"});
 }
 //# sourceMappingURL=pix-live.map
