@@ -2,8 +2,6 @@ import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import { resetTestingState, bodyOfLastPostRequest, urlOfLastPostRequest } from '../helpers/shared-state';
-import _ from 'pix-live/utils/lodash-custom';
 
 let application;
 
@@ -64,24 +62,5 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
     expect($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(false);
     expect($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
     expect($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
-  });
-
-  it('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', async function() {
-    // Given
-    resetTestingState();
-
-    // Given
-    expect($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
-    expect($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(true);
-    expect($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
-    expect($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
-
-    // When
-    await click($('.label-checkbox-proposal--qcu:eq(3)'));
-    await click('.challenge-actions__action-validate');
-
-    // Then
-    expect(urlOfLastPostRequest()).to.equal('/api/answers');
-    expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('4');
   });
 });
