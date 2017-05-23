@@ -1,11 +1,10 @@
 @charset "UTF-8";
 /* globals */
-/* html background */
-/* hr */
-/* border-color */
-.text--marigold {
-  color: #ffbe00; }
-
+/*
+  Colors name From:
+    - http://www.colorhexa.com
+    - http://chir.ag/projects/name-that-color
+*/
 .alert {
   outline: none;
   border-radius: 0.3125em;
@@ -24,7 +23,7 @@
   background-color: #E14956; }
 
 .button {
-  color: #fff;
+  color: #ffffff;
   font-size: 0.9em;
   font-weight: 400;
   letter-spacing: 0.025em;
@@ -41,7 +40,7 @@
   cursor: pointer; }
 
 .button-primary {
-  color: #fff;
+  color: #ffffff;
   font-size: 0.9em;
   font-weight: 400;
   letter-spacing: 0.025em;
@@ -59,14 +58,14 @@
 
 .button-primary:hover,
 .button-primary:focus {
-  color: #fff;
+  color: #ffffff;
   background-color: #67b972;
   border-color: #67b972;
   border-bottom-color: #4aa256;
   text-decoration: none; }
 
 .button-secondary {
-  color: #fff;
+  color: #ffffff;
   font-size: 0.9em;
   font-weight: 400;
   letter-spacing: 0.025em;
@@ -84,7 +83,7 @@
 
 .button-secondary:hover,
 .button-secondary:focus {
-  color: #fff;
+  color: #ffffff;
   background-color: #989a9e;
   border-color: #989a9e;
   border-bottom-color: #7e8086;
@@ -145,6 +144,41 @@
   opacity: 0;
   transition: opacity .2s linear; }
 
+input[type="checkbox"]:focus {
+  outline: none; }
+
+input[type="checkbox"]:before {
+  position: relative;
+  height: 18px;
+  width: 18px;
+  top: -3px;
+  border: 2px solid #D8D8D8;
+  content: ' ';
+  display: block;
+  background-color: #ffffff;
+  border-radius: 10%; }
+
+input[type="checkbox"]:focus:before {
+  border-color: #3d68ff; }
+
+input[type="checkbox"]:checked:before {
+  border: 2px solid #3d68ff;
+  background-color: #3d68ff; }
+
+input[type="checkbox"]:checked:after {
+  height: 18px;
+  width: 18px;
+  position: relative;
+  top: -21px;
+  font-size: 14px;
+  color: #ffffff;
+  content: '✓';
+  display: block;
+  text-align: center; }
+
+input[type="checkbox"]:checked:focus:before {
+  box-shadow: 0 0 4px #3d68ff; }
+
 /**
  *
  * Configure Radios of proposals
@@ -162,67 +196,45 @@
   position: relative;
   cursor: pointer; }
 
-.input-radio-proposal {
-  opacity: 0;
-  display: none; }
+input[type=radio] {
+  width: 0; }
 
-/*XXX Can't use BEM properly when using CSS state manipulation*/
-.input-radio-proposal:checked ~ label svg.radio-off {
-  opacity: 0;
-  transition: opacity .2s linear; }
+input[type=radio]:before,
+input[type=radio]:checked:after {
+  display: block;
+  position: relative;
+  content: '';
+  border-radius: 100%; }
 
-.input-radio-proposal:not(:checked) ~ label svg.radio-off {
-  opacity: 1;
-  transition: opacity .2s linear; }
+input[type=radio]:checked:after {
+  height: 8.5px;
+  width: 8.5px;
+  top: -15px;
+  left: 2px;
+  background-color: #3D68FF; }
 
-.input-radio-proposal:checked ~ label svg.radio-on {
-  opacity: 1;
-  transition: opacity .2s linear; }
+input[type=radio]:before {
+  height: 17px;
+  width: 17px;
+  top: -2px;
+  left: -2px;
+  border: solid 2px #7D808B;
+  background-color: white; }
 
-.input-radio-proposal:not(:checked) ~ label svg.radio-on {
-  opacity: 0;
-  transition: opacity .2s linear; }
+input[type=radio]:focus:before {
+  border: solid 2px #3D68FF;
+  box-shadow: 0px 0px 5px 0px #3D68FF; }
 
 /**
  *
  * Configure Radios of input files
  *
  **/
-.picture-checkbox-downloadable {
-  position: absolute;
-  left: -8px;
-  top: 1px; }
-
 .label-checkbox-downloadable {
   display: inline-block;
   padding-left: 18px;
   position: relative;
   cursor: pointer; }
-
-.challenge-statement__picture-container {
-  height: 100%;
-  display: -ms-flexbox;
-  display: flex; }
-
-.challenge-statement__file-option-input {
-  opacity: 0; }
-
-/*XXX Can't use BEM properly when using CSS state manipulation*/
-.challenge-statement__file-option-input:checked ~ label svg.radio2-off {
-  opacity: 0;
-  transition: opacity .2s linear; }
-
-.challenge-statement__file-option-input:not(:checked) ~ label svg.radio2-off {
-  opacity: 1;
-  transition: opacity .2s linear; }
-
-.challenge-statement__file-option-input:checked ~ label svg.radio2-on {
-  opacity: 1;
-  transition: opacity .2s linear; }
-
-.challenge-statement__file-option-input:not(:checked) ~ label svg.radio2-on {
-  opacity: 0;
-  transition: opacity .2s linear; }
 
 /**
  *
@@ -236,7 +248,6 @@
 
 .qcm-panel__proposal-label {
   display: inline-block;
-  padding-left: 20px;
   line-height: 21px;
   position: relative; }
 
@@ -256,19 +267,11 @@
   opacity: 0;
   display: none; }
 
-/*XXX Can't use BEM properly when using CSS state manipulation*/
-.qcm-panel__proposal-checkbox:checked ~ label svg.checkbox-disabled-on {
-  opacity: 0; }
-
-.qcm-panel__proposal-checkbox:not(:checked) ~ label svg.checkbox-disabled-off {
-  opacity: 1; }
-
-.qcm-panel__proposal-checkbox:checked ~ label svg.checkbox-disabled-on {
-  opacity: 1; }
-
-.qcm-panel__proposal-checkbox:not(:checked) ~ label svg.checkbox-disabled-on {
-  opacity: 0; }
-
+/* Breakpoints definition */
+/*
+  - Breakpoint mixin
+  - From: https://css-tricks.com/snippets/sass/mixin-manage-breakpoints/
+*/
 /* 3rd-party */
 .routable-modal--open {
   overflow: hidden; }
@@ -299,7 +302,7 @@
   margin: 30px auto; }
 
 .routable-modal--content {
-  background: #fff; }
+  background: #ffffff; }
 
 .routable-modal--header {
   display: inline-block;
@@ -317,19 +320,19 @@ button.routable-modal--close {
   font-size: 2rem;
   line-height: 1.5rem;
   border: 0;
-  color: #777;
+  color: #777777;
   cursor: pointer;
   float: right; }
 
 button.routable-modal--close:hover,
 button.routable-modal--close:focus,
 button.routable-modal--close:active {
-  color: #000;
+  color: #000000;
   outline: 0; }
 
 /* components */
 .rounded-panel {
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 5px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   margin-bottom: 30px;
@@ -422,7 +425,7 @@ button.routable-modal--close:active {
   transform: rotate(45deg); }
 
 .ribbon a {
-  color: #fff;
+  color: #ffffff;
   display: block;
   font-weight: 700;
   font-size: 20px;
@@ -462,6 +465,8 @@ button.routable-modal--close:active {
   font-weight: 600; }
 
 .challenge-actions__action-validate {
+  -ms-flex-order: 1;
+  order: 1;
   width: 130px;
   height: 46px;
   border-radius: 23px;
@@ -485,7 +490,7 @@ button.routable-modal--close:active {
   top: 3px; }
 
 .challenge-item__feedback {
-  border-top: solid 1px #d8d8d8;
+  border-top: solid 1px #D8D8D8;
   padding: 20px 0; }
 
 .challenge-response {
@@ -539,9 +544,9 @@ button.routable-modal--close:active {
   width: 18px;
   height: 18px;
   line-height: 18px;
-  color: #fff;
+  color: #ffffff;
   display: inline-block;
-  background: #446eff;
+  background: #3d68ff;
   border-radius: 50%;
   margin: 0 5px;
   cursor: pointer;
@@ -558,7 +563,7 @@ button.routable-modal--close:active {
 
 .challenge-statement__help-tooltip {
   visibility: hidden;
-  color: #ccc;
+  color: #CCCCCC;
   text-align: justify;
   border-radius: 6px;
   padding: 15px;
@@ -566,7 +571,7 @@ button.routable-modal--close:active {
   height: auto;
   background-color: #ffffff;
   box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.1);
-  border: solid 1px #d8d8d8;
+  border: solid 1px #D8D8D8;
   position: absolute;
   z-index: 999;
   left: 50%;
@@ -582,7 +587,7 @@ button.routable-modal--close:active {
   margin-left: -10px;
   width: 0;
   height: 0;
-  border-top: 10px solid #d8d8d8;
+  border-top: 10px solid #D8D8D8;
   border-right: 10px solid transparent;
   border-left: 10px solid transparent; }
 
@@ -594,7 +599,7 @@ button.routable-modal--close:active {
   margin-left: -8px;
   width: 0;
   height: 0;
-  border-top: 8px solid #FFFFFF;
+  border-top: 8px solid white;
   border-right: 8px solid transparent;
   border-left: 8px solid transparent; }
 
@@ -632,10 +637,13 @@ button.routable-modal--close:active {
   width: 156px;
   height: 46px;
   border-radius: 23px;
-  background-color: #446eff;
+  background-color: #3d68ff;
   color: #ffffff;
   cursor: pointer;
   text-align: center; }
+
+.challenge-statement__action-link:focus {
+  color: #ffffff; }
 
 .challenge-statement__action-link:hover {
   color: #ffffff; }
@@ -668,7 +676,7 @@ button.routable-modal--close:active {
   padding-left: 15px;
   font-size: 12px;
   font-weight: 700; }
-  @media (min-width: 700px) {
+  @media (min-width: 768px) {
     .challenge-stay__text {
       font-size: 16px; } }
 
@@ -756,7 +764,7 @@ button.routable-modal--close:active {
 .assessment-results-result-light-line {
   width: 1px;
   height: 50px;
-  border: solid 1.5px #d5d5d5;
+  border: solid 1.5px #D5D5D5;
   margin-left: 15px; }
 
 .close-button-container {
@@ -776,7 +784,7 @@ button.routable-modal--close:active {
 .comparison-window__result-item-line {
   width: 2px;
   height: 61px;
-  border: solid 1.5px #d5d5d5;
+  border: solid 1.5px #D5D5D5;
   margin-left: 22px; }
 
 .comparison-window__feedback-panel {
@@ -786,7 +794,7 @@ button.routable-modal--close:active {
   padding: 20px 40px; }
 
 .course-banner {
-  background-color: #446eff;
+  background-color: #3d68ff;
   color: white;
   display: -ms-flexbox;
   display: flex;
@@ -1022,7 +1030,7 @@ h1.course-banner__name {
   width: 100%;
   border-radius: 3px;
   background-color: #ffffff;
-  border: solid 1px #d8d8d8;
+  border: solid 1px #D8D8D8;
   box-sizing: border-box;
   padding: 8px;
   font-size: 14px; }
@@ -1035,11 +1043,11 @@ h1.course-banner__name {
   box-sizing: border-box;
   padding: 10px 20px;
   background-color: #dedede;
-  border: 1px solid #7d808b;
+  border: 1px solid #7d808a;
   margin-right: 10px; }
 
 .feedback-panel__button--send {
-  background-color: #7d808b;
+  background-color: #7d808a;
   color: white; }
 
 /* "Mercix" view
@@ -1117,7 +1125,7 @@ h1.course-banner__name {
   position: absolute;
   z-index: 500;
   transform: rotateX(180deg);
-  color: #fff;
+  color: #ffffff;
   letter-spacing: 1px;
   opacity: 0;
   transition: none; }
@@ -1141,7 +1149,7 @@ h1.course-banner__name {
 
 .follower-button-is-active {
   transform: rotateX(180deg);
-  background-color: #fff;
+  background-color: #ffffff;
   box-shadow: 1px 1px 4px 1px transparent !important;
   transition: transform 300ms ease-in-out, background-color 300ms ease-in; }
 
@@ -1157,7 +1165,7 @@ h1.course-banner__name {
 
 .follower-button-is-error {
   transform: rotateX(180deg);
-  background-color: #fff;
+  background-color: #ffffff;
   box-shadow: 1px 1px 4px 1px transparent !important;
   transition: transform 300ms ease-in-out, background-color 300ms ease-in; }
 
@@ -1244,8 +1252,8 @@ h1.course-banner__name {
   justify-content: center; }
 
 .modal-mobile__confirm-button {
-  background-color: #446eff;
-  border-color: #446eff;
+  background-color: #3d68ff;
+  border-color: #3d68ff;
   border-bottom: 1px solid #2861CF;
   height: 46px;
   border-radius: 23px;
@@ -1395,7 +1403,7 @@ h1.course-banner__name {
   border-radius: 3px;
   background-color: #ffffff;
   box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
-  border: solid 1px #d8d8d8;
+  border: solid 1px #D8D8D8;
   padding: 8px 8px 12px 10px; }
 
 .correction-qroc-box__input-right-answer {
@@ -1476,7 +1484,7 @@ h1.course-banner__name {
 .result-item__item-line {
   width: 2px;
   height: 61px;
-  border: solid 1.5px #d5d5d5;
+  border: solid 1.5px #D5D5D5;
   margin-left: 22px; }
 
 .result-item__instruction {
@@ -1490,7 +1498,7 @@ h1.course-banner__name {
   font-family: "Lato", Arial, sans-serif;
   font-size: 12px;
   font-weight: 700;
-  color: #446eff;
+  color: #3d68ff;
   margin-right: 23px;
   margin-left: auto;
   height: 21px;
@@ -1540,6 +1548,151 @@ h1.course-banner__name {
   .result-item__icon [data-lines="2"] + div .tooltip-inner {
     padding-top: 3px; }
 
+.scoring-panel {
+  height: 100%;
+  width: 100%;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+  color: #ffffff;
+  font-family: "Raleway", Arial, sans-serif; }
+
+/*-----------------------------------*/
+.scoring-panel__trophy {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  margin-top: -30px;
+  text-align: center; }
+  @media (min-width: 768px) {
+    .scoring-panel__trophy {
+      margin-right: 50px; } }
+  @media (min-width: 992px) {
+    .scoring-panel__trophy {
+      margin-right: 80px; } }
+
+.scoring-panel__congrats {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  max-width: 386px;
+  text-align: center;
+  padding: 20px; }
+  @media (min-width: 768px) {
+    .scoring-panel__congrats {
+      text-align: left;
+      padding: 0px; } }
+
+.scoring-panel__index-link {
+  border-radius: 23px;
+  border: solid 1px #ffffff;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  text-align: center; }
+  @media (min-width: 768px) {
+    .scoring-panel__index-link {
+      margin-left: 30px; } }
+  @media (min-width: 992px) {
+    .scoring-panel__index-link {
+      margin-left: 60px;
+      margin-bottom: -30px; } }
+
+/*-----------------------------------*/
+.scoring-panel__trophy-div-svg {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center; }
+
+.scoring-panel__trophy-img {
+  height: 169px;
+  width: 150px; }
+  @media (min-width: 768px) {
+    .scoring-panel__trophy-img {
+      height: 237px;
+      width: 267px; } }
+
+.scoring-panel__trophy-level {
+  font-weight: 800;
+  text-align: center;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  font-family: "Overpass", Arial, sans-serif;
+  font-weight: 900;
+  color: #3d68ff;
+  letter-spacing: 3px;
+  margin-top: -38px;
+  font-size: 17px; }
+  @media (min-width: 768px) {
+    .scoring-panel__trophy-level {
+      margin-top: -55px;
+      font-size: 26px; } }
+
+.scoring-panel__trophy-bêta {
+  color: #ffbe00;
+  font-weight: 900;
+  letter-spacing: 6px;
+  margin-top: 10px;
+  font-size: 12px; }
+  @media (min-width: 768px) {
+    .scoring-panel__trophy-bêta {
+      font-size: 18px; } }
+
+/*-----------------------------------*/
+.scoring-panel__congrats-course-name {
+  margin-bottom: 15px;
+  font-weight: 600;
+  line-height: 0.95;
+  font-size: 20px; }
+  @media (min-width: 768px) {
+    .scoring-panel__congrats-course-name {
+      font-size: 20px; } }
+
+.scoring-panel__congrats-line {
+  margin-bottom: 10px;
+  height: 1px;
+  opacity: 0.5;
+  background-color: #ffffff; }
+
+.scoring-panel__congrats-felicitations {
+  font-weight: 300;
+  font-size: 45px; }
+  @media (min-width: 768px) {
+    .scoring-panel__congrats-felicitations {
+      font-size: 60px; } }
+
+.scoring-panel__congrats-scoring {
+  margin-bottom: 10px;
+  font-size: 20px;
+  line-height: 1.07; }
+  @media (min-width: 768px) {
+    .scoring-panel__congrats-scoring {
+      font-size: 28px; } }
+
+.scoring-panel__congrats-beta {
+  font-weight: 500;
+  font-size: 10px; }
+  @media (min-width: 768px) {
+    .scoring-panel__congrats-beta {
+      font-size: 14px; } }
+
+/*-----------------------------------*/
+.scoring-panel__index-link__element {
+  font-family: "Lato", Arial, sans-serif;
+  letter-spacing: 0.5px;
+  text-align: center;
+  background-color: transparent;
+  border: transparent; }
+
 .timeout-jauge-wrapper {
   padding-top: 0;
   margin-top: -23px; }
@@ -1559,7 +1712,7 @@ h1.course-banner__name {
 .timeout-jauge-container {
   position: relative;
   z-index: 0;
-  background-color: #d8d8d8;
+  background-color: #D8D8D8;
   width: 100px;
   height: 36px;
   border-radius: 5px;
@@ -1593,7 +1746,7 @@ h1.course-banner__name {
 
 .challenge-item-warning {
   border-radius: 5px;
-  background-color: #ffffff;
+  background-color: white;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   padding: 20px;
   margin-bottom: 10px;
@@ -1639,7 +1792,7 @@ h1.course-banner__name {
   width: 139px;
   height: 50px;
   border-radius: 7px;
-  background-color: #d8d8d8;
+  background-color: #D8D8D8;
   margin: 0 auto;
   line-height: 50px;
   display: -ms-flexbox;
@@ -1703,7 +1856,7 @@ h1.course-banner__name {
 .result-item__item-line {
   width: 2px;
   height: 61px;
-  border: solid 1.5px #d5d5d5;
+  border: solid 1.5px #D5D5D5;
   margin-left: 22px; }
 
 .result-item__instruction {
@@ -1717,7 +1870,7 @@ h1.course-banner__name {
   font-family: "Lato", Arial, sans-serif;
   font-size: 12px;
   font-weight: 700;
-  color: #446eff;
+  color: #3d68ff;
   margin-right: 23px;
   margin-left: auto;
   height: 21px;
@@ -1851,7 +2004,7 @@ h1.course-banner__name {
 .assessment-results-result-light-line {
   width: 1px;
   height: 50px;
-  border: solid 1.5px #d5d5d5;
+  border: solid 1.5px #D5D5D5;
   margin-left: 15px; }
 
 .close-button-container {
@@ -1871,7 +2024,7 @@ h1.course-banner__name {
 .comparison-window__result-item-line {
   width: 2px;
   height: 61px;
-  border: solid 1.5px #d5d5d5;
+  border: solid 1.5px #D5D5D5;
   margin-left: 22px; }
 
 .comparison-window__feedback-panel {
@@ -1885,7 +2038,7 @@ h1.course-banner__name {
   border-radius: 3px;
   background-color: #ffffff;
   box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
-  border: solid 1px #d8d8d8;
+  border: solid 1px #D8D8D8;
   padding: 8px 8px 12px 10px; }
 
 .correction-qroc-box__input-right-answer {
@@ -1944,7 +2097,7 @@ h1.course-banner__name {
   border-radius: 3px;
   background-color: #ffffff;
   box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
-  border: solid 1px #d8d8d8;
+  border: solid 1px #D8D8D8;
   padding: 8px 8px 12px 10px; }
 
 .correction-qrocm__solution {
@@ -1976,6 +2129,9 @@ h1.course-banner__name {
 .qcm-panel__proposal-label {
   font-weight: 400;
   width: 100%; }
+
+.qcm-panel__proposal-label input[type=checkbox] {
+  margin-right: 10px; }
 
 .qcm-proposal-label__oracle[data-goodness='good'] {
   color: #13c9a0;
@@ -2022,6 +2178,256 @@ h1.course-banner__name {
   position: relative;
   cursor: pointer; }
 
+.signup-form {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  max-width: 609px;
+  width: 100%; }
+
+.signup-form-container {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  border-radius: 10px;
+  margin: 10px 5px 10px;
+  background-color: #ffffff; }
+  @media (maw-width: 767px) {
+    .signup-form-container {
+      margin: 25px 15px 15px; } }
+  @media (min-width: 768px) {
+    .signup-form-container {
+      margin: 80px 0; } }
+
+.signup-form__logo {
+  position: relative;
+  width: 106px;
+  height: 79px;
+  margin: 26px auto 23px; }
+  @media (min-width: 768px) {
+    .signup-form__logo {
+      margin: 56px auto 53px; } }
+
+.signup-form__heading-container {
+  margin-bottom: 20px; }
+  @media (min-width: 768px) {
+    .signup-form__heading-container {
+      margin-bottom: 44px; } }
+
+.signup-form__heading {
+  font-family: "Raleway", Arial, sans-serif;
+  color: #3e4149;
+  margin: 0;
+  font-size: 22px; }
+  @media (maw-width: 767px) {
+    .signup-form__heading {
+      font-size: 25px; } }
+  @media (min-width: 768px) {
+    .signup-form__heading {
+      font-size: 36px; } }
+
+.signup-form__temporary-msg {
+  max-width: 449px;
+  width: 100%;
+  text-align: center; }
+
+.signup-form__temporary-msg h4 {
+  border-radius: 3px;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 9px; }
+
+.signup-form__temporary-msg.signup-form__temporary-msg--error, .signup-form__temporary-msg.signup-form__temporary-msg--success {
+  margin-bottom: 10px; }
+
+.signup-form__temporary-msg.signup-form__temporary-msg--error h4 {
+  background: #f45c00; }
+
+.signup-form__temporary-msg.signup-form__temporary-msg--success h4 {
+  background: #13c9a0; }
+
+.signup-form__input-container {
+  max-width: 449px;
+  width: 100%;
+  padding: 0 20px; }
+  @media (min-width: 768px) {
+    .signup-form__input-container {
+      padding: 0; } }
+
+.signup-form__cgu-container {
+  max-width: 449px;
+  width: 100%;
+  padding: 0 15px;
+  margin-top: 0px;
+  margin-bottom: 6px;
+  position: relative;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column; }
+  @media (maw-width: 767px) {
+    .signup-form__cgu-container {
+      margin-top: 6px;
+      margin-bottom: 0;
+      padding: 0; } }
+
+.signup-form__cgu-label {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 0; }
+
+.signup-form__cgu-label input[type=checkbox] {
+  margin: 3px 15px; }
+
+.signup-form__cgu-label span {
+  color: #6a6d76;
+  font-size: 13px; }
+  @media (maw-width: 767px) {
+    .signup-form__cgu-label span {
+      font-size: 14px; } }
+
+.signup__cgu-link {
+  color: #2549FF; }
+
+.signup-form__submit-container {
+  margin: 5px auto 20px; }
+  @media (maw-width: 767px) {
+    .signup-form__submit-container {
+      margin: 31px auto 34px; } }
+
+.signup-textfield__cgu-message--error {
+  color: #f45c00;
+  font-size: 12px;
+  margin-bottom: 7px;
+  text-align: center; }
+
+.signup__submit-button {
+  width: 150px;
+  height: 40px;
+  border-radius: 25px;
+  border: none;
+  text-transform: uppercase;
+  font-size: 13px;
+  background: #3d68ff;
+  color: #ffffff;
+  outline: none; }
+
+.signup-textfield {
+  position: relative; }
+
+.signup-textfield__label {
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  color: #3e4149;
+  text-transform: uppercase; }
+
+.signup-textfield__input-field-container {
+  display: -ms-flexbox;
+  display: flex;
+  height: 35px;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  -ms-flex-align: center;
+  align-items: center; }
+
+.signup-textfield__input-container--default {
+  border: 1px solid #D8D8D8; }
+
+.signup-textfield__input-container--error {
+  border: 1px solid #f45c00; }
+
+.signup-textfield__input-container--success {
+  border: 1px solid #13c9a0; }
+
+.signup-textfield__input-field-container input {
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  border: none;
+  margin-left: 10px;
+  outline: none;
+  color: #6a6d76; }
+
+.signup-textfield__input-field-container svg {
+  margin: 6px 8px; }
+
+.signup-textfield__message {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 12px; }
+
+.signup-textfield__message--error {
+  color: #f45c00; }
+
+.signup-textfield__message--error.signup-textfield__message-password, .signup-textfield__message--error.signup-textfield__message-email {
+  position: relative;
+  text-align: right;
+  margin-top: -5px;
+  margin-bottom: 5px; }
+
+.scoring-panel-tantpix {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-direction: column;
+  flex-direction: column; }
+
+.tantpix-panel__illustration-container {
+  margin-top: 16px;
+  max-width: 155px;
+  width: 100%; }
+
+@media (min-width: 768px) {
+  .tantpix-panel__illustration {
+    max-width: 100%; } }
+
+.tantpix-panel__title {
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 40px;
+  font-weight: 300; }
+  @media (min-width: 768px) {
+    .tantpix-panel__title {
+      font-size: 60px; } }
+
+.tantpix-panel__description-container {
+  max-width: 550px;
+  width: 100%; }
+
+.tantpix-panel__description {
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 17px;
+  text-align: center;
+  font-weight: 300; }
+  @media (min-width: 768px) {
+    .tantpix-panel__description {
+      font-size: 28px; } }
+
+.tantpix-panel__button-container {
+  margin-top: 18px;
+  margin-bottom: 32px; }
+
+.tantpix-panel__button {
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 13px;
+  text-transform: uppercase;
+  width: 160px;
+  height: 40px;
+  border-radius: 23px;
+  border: solid 1px #ffffff;
+  background: none;
+  letter-spacing: 0.5px; }
+
 /* pages */
 /* Sections:
 
@@ -2034,7 +2440,7 @@ h1.course-banner__name {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .index-page__background {
   position: absolute;
-  background: url("/images/index-hero-bg.jpg");
+  background: url("/images/index-hero-bg-min.jpg");
   background-size: cover;
   height: 600px;
   width: 100%;
@@ -2125,6 +2531,9 @@ h1.course-banner__name {
     .index-page-challenges__presentation-title {
       font-size: 58px; } }
 
+.index-page-challenges__presentation-title span {
+  color: #ffbe00; }
+
 .index-page-challenges__presentation-text {
   font-size: 24px;
   font-weight: 300;
@@ -2149,7 +2558,7 @@ h1.course-banner__name {
   padding-bottom: 70px; }
 
 .index-page-courses {
-  background-color: #fafafa;
+  background-color: #FAFAFA;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
@@ -2183,7 +2592,7 @@ h1.course-banner__name {
   -ms-flex-align: center;
   align-items: center;
   color: #ffffff;
-  background: url("/images/index-community-bg.png");
+  background: url("/images/index-community-bg-min.jpg");
   background-size: cover; }
 
 .index-page-community__title {
@@ -2245,7 +2654,7 @@ h1.course-banner__name {
 /* Partners
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .index-page-partners {
-  background: #fafafa; }
+  background: #FAFAFA; }
 
 .project-page {
   display: -ms-flexbox;
@@ -2256,7 +2665,7 @@ h1.course-banner__name {
   justify-content: space-around;
   -ms-flex-item-align: center;
   align-self: center;
-  background-color: #fafafa;
+  background-color: #FAFAFA;
   color: #3e4149;
   text-rendering: optimizeLegibility; }
 
@@ -2396,7 +2805,7 @@ hr.project-page__presentation-header-line {
   background-color: #ffffff; }
 
 #course-preview strong {
-  color: #446eff;
+  color: #3d68ff;
   font-weight: 600; }
 
 .assessment-challenge {
@@ -2432,13 +2841,20 @@ hr.project-page__presentation-header-line {
   align-items: center; }
 
 .assessment-results__course-banner {
+  width: 100%; }
+
+.assessment-results__logo-banner {
   width: 100%;
-  margin-bottom: 30px; }
+  padding: 20px; }
+
+.assessment-results__scoring {
+  width: 100%; }
 
 .assessment-results__content {
   padding: 0 20px;
   max-width: 990px;
-  width: 100%; }
+  width: 100%;
+  margin-top: 30px; }
   @media (min-width: 992px) {
     .assessment-results__content {
       padding: 0; } }
@@ -2481,7 +2897,7 @@ hr.project-page__presentation-header-line {
   height: 48px;
   font-size: 40px;
   font-weight: 900;
-  color: #446eff;
+  color: #3d68ff;
   margin-bottom: 26px; }
 
 /* List of results
@@ -2507,8 +2923,11 @@ hr.project-page__presentation-header-line {
   width: 275px;
   height: 46px;
   border-radius: 23px;
-  background-color: #446eff;
+  background-color: #3d68ff;
   border: none; }
+
+.assessment-results__index-link__element:hover {
+  background-color: #2549FF; }
 
 .assessment-results__link-back {
   width: 277px;
@@ -2527,7 +2946,7 @@ hr.project-page__presentation-header-line {
   flex-flow: column;
   -ms-flex-align: center;
   align-items: center;
-  background-color: #fafafa;
+  background-color: #FAFAFA;
   color: #3e4149;
   text-rendering: optimizeLegibility; }
 
@@ -2617,7 +3036,7 @@ hr.project-page__presentation-header-line {
   border-right: none; }
 
 .domain-topic {
-  border-top: 1px solid #d8d8d8;
+  border-top: 1px solid #D8D8D8;
   padding: 26px 0 5px;
   margin-top: 30px; }
 
@@ -2648,10 +3067,22 @@ hr.project-page__presentation-header-line {
   font-weight: 300;
   color: #3e4149; }
 
+.signup-container {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background: url("/images/signup-bg.jpg") no-repeat;
+  background-size: cover;
+  width: 100%;
+  min-height: 100vh; }
+  @media screen and (min-width: 767px) {
+    .signup-container {
+      height: 100%; } }
+
 body {
   font-family: "Lato", Arial, sans-serif;
   background-color: #f2f3f4; }
 
-input[type="radio"],
-input[type="checkbox"] {
+input[type="radio"] {
   margin: 0 5px 0 0; }
