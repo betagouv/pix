@@ -18,25 +18,25 @@ describe('Unit | Component | QCU proposals', function() {
     const PROPOSAL_TEXT = 0;
     const BOOLEAN_ANSWER = 1;
 
-    let answers;
+    let answersValue;
     let proposals;
     let component;
 
     beforeEach(function() {
       proposals = DEFAULT_PROPOSALS;
-      answers = DEFAULT_ANSWERS;
+      answersValue = DEFAULT_ANSWERS;
     });
 
     function initComponent() {
       component = this.subject();
       component.set('proposals', proposals);
-      component.set('answers', answers);
+      component.set('answersValue', answersValue);
     }
 
     /*
      * Ex :
      * - proposals = ['prop 1', 'prop 2', 'prop 3']
-     * - answers = [false, true, false]
+     * - answersValue = [false, true, false]
      *
      * => labeledRadios = [['prop 1', false], ['prop 2', true], ['prop 3', false]]
      */
@@ -72,7 +72,7 @@ describe('Unit | Component | QCU proposals', function() {
 
     it('should return an array of [<proposal_text>, <boolean_answer>] with all <boolean_answer> values set to "false" when given answer is "null"', function() {
       // given
-      answers = null;
+      answersValue = null;
       initComponent.call(this);
 
       // when
@@ -84,7 +84,7 @@ describe('Unit | Component | QCU proposals', function() {
 
     it('should return an array of [<proposal_text>, <boolean_answer>] with <boolean_answer> values empty when answer value is not a boolean', function() {
       // given
-      answers = [true, undefined, null];
+      answersValue = [true, undefined, null];
       initComponent.call(this);
 
       // when
