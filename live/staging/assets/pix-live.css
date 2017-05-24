@@ -814,6 +814,9 @@ button.routable-modal--close:active {
     .course-banner__name {
       font-size: 28px; } }
 
+h1.course-banner__name {
+  margin-top: 10px; }
+
 .course-banner__home-link {
   font-size: 16px;
   margin-left: auto;
@@ -1449,6 +1452,10 @@ button.routable-modal--close:active {
     box-shadow: none;
     border: solid 2px #446eff;
     transition: border-color 1s ease; }
+  .result-item:focus {
+    outline: none;
+    box-shadow: none;
+    border: solid 2px #446eff; }
   .result-item:nth-last-child(1) {
     margin-bottom: 20px; }
 
@@ -1492,9 +1499,19 @@ button.routable-modal--close:active {
   /* XXX : should be aligned with flexbox */ }
 
 .result-item__correction__button {
+  color: #3d68ff;
+  font-weight: 700;
+  padding-right: 0;
+  padding-left: 0;
+  margin-left: 12px;
   border: none;
   outline: 0;
   background-color: transparent; }
+
+.result-item__correction__button:focus,
+.result-item__correction__button:hover {
+  border-bottom: solid 2px;
+  font-weight: 900; }
 
 .result-item__icon {
   margin-left: 14px;
@@ -1807,6 +1824,10 @@ button.routable-modal--close:active {
     box-shadow: none;
     border: solid 2px #446eff;
     transition: border-color 1s ease; }
+  .result-item:focus {
+    outline: none;
+    box-shadow: none;
+    border: solid 2px #446eff; }
   .result-item:nth-last-child(1) {
     margin-bottom: 20px; }
 
@@ -1850,9 +1871,19 @@ button.routable-modal--close:active {
   /* XXX : should be aligned with flexbox */ }
 
 .result-item__correction__button {
+  color: #3d68ff;
+  font-weight: 700;
+  padding-right: 0;
+  padding-left: 0;
+  margin-left: 12px;
   border: none;
   outline: 0;
   background-color: transparent; }
+
+.result-item__correction__button:focus,
+.result-item__correction__button:hover {
+  border-bottom: solid 2px;
+  font-weight: 900; }
 
 .result-item__icon {
   margin-left: 14px;

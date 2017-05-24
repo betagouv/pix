@@ -5043,6 +5043,7 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['chai', 'mo
         "block": "{\"statements\":[[1,[26,[\"qrocm-proposal\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
+
       (0, _chai.expect)(this.$()).to.have.length(1);
     });
   });
@@ -6628,7 +6629,9 @@ define('pix-live/tests/unit/components/comparison-window-test', ['ember', 'chai'
 
   (0, _mocha.describe)('Unit | Component | comparison-window', function () {
 
-    (0, _emberMocha.setupTest)('component:comparison-window', {});
+    (0, _emberMocha.setupTest)('component:comparison-window', {
+      needs: ['service:current-routed-modal', 'initializer:jquery-tabbable']
+    });
 
     var component = void 0;
     var answer = void 0;

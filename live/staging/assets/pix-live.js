@@ -874,7 +874,16 @@ define('pix-live/components/comparison-window', ['exports', 'ember'], function (
     }
   };
 
+  function _setFocusOnFirstTabbableElement(modalId) {
+    var $tabbableElementInModal = _ember.default.$(modalId).find(':tabbable');
+
+    var $firstElementToFocus = $tabbableElementInModal.get(0);
+    $firstElementToFocus.focus();
+  }
+
   exports.default = _ember.default.Component.extend({
+
+    modal: _ember.default.inject.service('current-routed-modal'),
 
     classNames: ['comparison-window'],
 
@@ -889,6 +898,29 @@ define('pix-live/components/comparison-window', ['exports', 'ember'], function (
     isAssessmentChallengeTypeQrocm: _ember.default.computed.equal('challenge.type', 'QROCM'),
     isAssessmentChallengeTypeQrocmInd: _ember.default.computed.equal('challenge.type', 'QROCM-ind'),
     isAssessmentChallengeTypeQrocmDep: _ember.default.computed.equal('challenge.type', 'QROCM-dep'),
+
+    didInsertElement: function didInsertElement() {
+      this._super.apply(this, arguments);
+
+      var modalId = '#' + this.elementId;
+
+      _setFocusOnFirstTabbableElement(modalId);
+
+      _ember.default.$(modalId).find(':tabbable').last().on('blur', function () {
+        _setFocusOnFirstTabbableElement(modalId);
+      });
+    },
+    keyUp: function keyUp(event) {
+      if (event.key === 'Escape') {
+        this.get('modal').close();
+      }
+
+      event.preventDefault();
+    },
+    didDestroyElement: function didDestroyElement() {
+      _ember.default.$('#open-comparison_' + this.get('index')).focus();
+    },
+
 
     resultItem: _ember.default.computed('answer.result', function () {
       var resultItem = contentReference['default'];
@@ -1680,10 +1712,8 @@ define('pix-live/components/qrocm-proposal', ['exports', 'ember', 'pix-live/util
     }),
 
     didInsertElement: function didInsertElement() {
-      var _this = this;
-
       this.$('input').keydown(function () {
-        _this.get('answerChanged')();
+        this.get('answerChanged')();
       });
     }
 
@@ -1734,6 +1764,10 @@ define('pix-live/components/result-item', ['exports', 'ember'], function (export
   exports.default = _ember.default.Component.extend({
 
     classNames: ['result-item'],
+
+    attributeBindings: ['tabindex'],
+
+    tabindex: 0,
 
     resultItem: _ember.default.computed('answer.result', function () {
       if (!this.get('answer.result')) return;
@@ -3498,6 +3532,25 @@ define('pix-live/initializers/injectStore', ['exports', 'ember'], function (expo
     before: 'store',
     initialize: function initialize() {}
   };
+});
+define('pix-live/initializers/jquery-tabbable', ['exports', 'ember-tabbable/initializers/jquery-tabbable'], function (exports, _jqueryTabbable) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function () {
+      return _jqueryTabbable.default;
+    }
+  });
+  Object.defineProperty(exports, 'initialize', {
+    enumerable: true,
+    get: function () {
+      return _jqueryTabbable.initialize;
+    }
+  });
 });
 define('pix-live/initializers/load-bootstrap-config', ['exports', 'pix-live/config/environment', 'ember-bootstrap/config'], function (exports, _environment, _config) {
   'use strict';
@@ -5560,7 +5613,7 @@ define("pix-live/templates/assessments/get-results", ["exports"], function (expo
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "bzH197Rm", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"assessment-results\"],[13],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"model\",\"assessment\",\"course\",\"isAdaptive\"]]],null,{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__logo-banner\"],[13],[0,\"\\n      \"],[1,[26,[\"pix-logo\"]],false],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__scoring\"],[13],[0,\"\\n      \"],[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"model\",\"assessment\"]]]]],false],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[]},{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__course-banner\"],[13],[0,\"\\n      \"],[1,[33,[\"course-banner\"],null,[[\"course\"],[[28,[\"model\",\"assessment\",\"course\"]]]]],false],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[]}],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__content\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__title\"],[13],[0,\"\\n      Vos résultats\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__list\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"model\",\"assessment\",\"answers\"]]],null,{\"statements\":[[0,\"        \"],[1,[33,[\"result-item\"],null,[[\"answer\",\"index\",\"openComparison\"],[[28,[\"answer\"]],[28,[\"index\"]],\"openComparison\"]]],false],[0,\"\\n\"]],\"locals\":[\"answer\",\"index\"]},null],[0,\"    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__index-link-container\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"index\"],[[\"class\",\"tagName\"],[\"assessment-results__index-link__element\",\"button\"]],{\"statements\":[[0,\"        \"],[11,\"span\",[]],[15,\"class\",\"assessment-results__link-back\"],[13],[0,\"Revenir à la liste des tests\"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/assessments/get-results.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "8SdWK64n", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"assessment-results\"],[13],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"model\",\"assessment\",\"course\",\"isAdaptive\"]]],null,{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__logo-banner\"],[13],[0,\"\\n      \"],[1,[26,[\"pix-logo\"]],false],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__scoring\"],[13],[0,\"\\n      \"],[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"model\",\"assessment\"]]]]],false],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[]},{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__course-banner\"],[13],[0,\"\\n      \"],[1,[33,[\"course-banner\"],null,[[\"course\"],[[28,[\"model\",\"assessment\",\"course\"]]]]],false],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[]}],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__content\"],[13],[0,\"\\n    \"],[11,\"h2\",[]],[15,\"class\",\"assessment-results__title\"],[13],[0,\"\\n      Vos résultats\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__list\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"model\",\"assessment\",\"answers\"]]],null,{\"statements\":[[0,\"        \"],[1,[33,[\"result-item\"],null,[[\"answer\",\"index\",\"openComparison\",\"a11y-focus-id\"],[[28,[\"answer\"]],[28,[\"index\"]],\"openComparison\",[33,[\"concat\"],[\"open-comparison_\",[33,[\"add\"],[[28,[\"index\"]],1],null]],null]]]],false],[0,\"\\n\"]],\"locals\":[\"answer\",\"index\"]},null],[0,\"    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__index-link-container\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"index\"],[[\"class\",\"tagName\"],[\"assessment-results__index-link__element\",\"button\"]],{\"statements\":[[0,\"        \"],[11,\"span\",[]],[15,\"class\",\"assessment-results__link-back\"],[13],[0,\"Revenir à la liste des tests\"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/assessments/get-results.hbs" } });
 });
 define("pix-live/templates/challenges/get-preview", ["exports"], function (exports) {
   "use strict";
@@ -5752,7 +5805,7 @@ define("pix-live/templates/components/challenge-statement", ["exports"], functio
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "eR2s3i/M", "block": "{\"statements\":[[6,[\"if\"],[[28,[\"challenge\",\"instruction\"]]],null,{\"statements\":[[0,\"  \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel__row challenge-statement__instruction-section\"],[13],[0,\"\\n    \"],[1,[33,[\"markdown-to-html\"],null,[[\"class\",\"markdown\"],[\"challenge-statement__instruction\",[28,[\"challenge\",\"instruction\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"challenge\",\"illustrationUrl\"]]],null,{\"statements\":[[0,\"  \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel__row challenge-statement__illustration-section\"],[13],[0,\"\\n    \"],[11,\"img\",[]],[15,\"class\",\"challenge-statement__illustration\"],[16,\"src\",[34,[[28,[\"challenge\",\"illustrationUrl\"]]]]],[15,\"alt\",\"Illustration de l'épreuve\"],[13],[14],[0,\"\\n  \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"challenge\",\"hasAttachment\"]]],null,{\"statements\":[[0,\"  \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel__row challenge-statement__attachments-section\"],[13],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"challenge\",\"hasSingleAttachment\"]]],null,{\"statements\":[[0,\"      \"],[11,\"div\",[]],[15,\"class\",\"challenge-statement__action\"],[13],[0,\"\\n        \"],[11,\"a\",[]],[15,\"class\",\"challenge-statement__action-link\"],[16,\"href\",[34,[[28,[\"challenge\",\"attachments\",\"firstObject\"]]]]],[15,\"target\",\"_blank\"],[15,\"download\",\"Télécharger la pièce jointe\"],[13],[0,\"\\n          \"],[11,\"span\",[]],[15,\"class\",\"challenge-statement__action-label\"],[13],[0,\"Télécharger\"],[14],[0,\"\\n        \"],[14],[0,\"\\n      \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"challenge\",\"hasMultipleAttachments\"]]],null,{\"statements\":[[0,\"      \"],[11,\"p\",[]],[15,\"class\",\"challenge-statement__text\"],[13],[0,\"\\n        \"],[11,\"span\",[]],[15,\"class\",\"challenge-statement__text-content\"],[13],[0,\"Choisissez le type de fichier que vous voulez utiliser\"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"challenge-statement__help-icon\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"challenge-statement__help-tooltip\"],[13],[0,\"\\n          \"],[11,\"span\",[]],[15,\"class\",\"challenge-statement__help-text\"],[13],[0,\"Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.\"],[14],[0,\"\\n        \"],[14],[0,\"\\n      \"],[14],[0,\"\\n      \"],[14],[0,\"\\n      \"],[11,\"ul\",[]],[15,\"class\",\"challenge-statement__file-options\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"attachmentsData\"]]],null,{\"statements\":[[0,\"          \"],[11,\"li\",[]],[15,\"class\",\"challenge-statement__file-option\"],[13],[0,\"\\n\\n\"],[0,\"            \"],[11,\"input\",[]],[15,\"type\",\"radio\"],[16,\"id\",[34,[\"attachment\",[28,[\"index\"]]]]],[15,\"class\",\"challenge-statement__file-option_input\"],[15,\"name\",\"attachment_selector\"],[16,\"value\",[34,[[28,[\"attachmentUrl\"]]]]],[16,\"onclick\",[33,[\"action\"],[[28,[null]],\"selectAttachementUrl\",[28,[\"attachmentUrl\"]]],null],null],[16,\"checked\",[34,[[33,[\"if\"],[[33,[\"eq\"],[[28,[\"attachmentUrl\"]],[28,[\"selectedAttachmentUrl\"]]],null],\"checked\"],null]]]],[13],[14],[0,\"\\n\\n            \"],[11,\"label\",[]],[15,\"class\",\"label-checkbox-downloadable\"],[16,\"for\",[34,[\"attachment\",[28,[\"index\"]]]]],[13],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"challenge-statement__file-option-label\"],[13],[0,\"fichier .\"],[1,[33,[\"extract-extension\"],[[28,[\"attachmentUrl\"]]],null],false],[14],[0,\"\\n            \"],[14],[0,\"\\n\\n          \"],[14],[0,\"\\n\"]],\"locals\":[\"attachmentUrl\",\"index\"]},null],[0,\"      \"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"challenge-statement__action\"],[13],[0,\"\\n        \"],[11,\"a\",[]],[15,\"class\",\"challenge-statement__action-link\"],[16,\"href\",[34,[[26,[\"selectedAttachmentUrl\"]]]]],[15,\"target\",\"_blank\"],[15,\"download\",\"Télécharger la pièce jointe\"],[13],[0,\"\\n          \"],[11,\"span\",[]],[15,\"class\",\"challenge-statement__action-label\"],[13],[0,\"Télécharger\"],[14],[0,\"\\n        \"],[14],[0,\"\\n      \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"  \"],[14],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/challenge-statement.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "yfNN7szC", "block": "{\"statements\":[[6,[\"if\"],[[28,[\"challenge\",\"instruction\"]]],null,{\"statements\":[[0,\"  \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel__row challenge-statement__instruction-section\"],[13],[0,\"\\n    \"],[1,[33,[\"markdown-to-html\"],null,[[\"class\",\"markdown\"],[\"challenge-statement__instruction\",[28,[\"challenge\",\"instruction\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"challenge\",\"illustrationUrl\"]]],null,{\"statements\":[[0,\"  \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel__row challenge-statement__illustration-section\"],[13],[0,\"\\n    \"],[11,\"img\",[]],[15,\"class\",\"challenge-statement__illustration\"],[16,\"src\",[34,[[28,[\"challenge\",\"illustrationUrl\"]]]]],[15,\"alt\",\"Illustration de l'épreuve\"],[13],[14],[0,\"\\n  \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"challenge\",\"hasAttachment\"]]],null,{\"statements\":[[0,\"  \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel__row challenge-statement__attachments-section\"],[13],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"challenge\",\"hasSingleAttachment\"]]],null,{\"statements\":[[0,\"      \"],[11,\"div\",[]],[15,\"class\",\"challenge-statement__action\"],[13],[0,\"\\n        \"],[11,\"a\",[]],[15,\"class\",\"challenge-statement__action-link\"],[16,\"href\",[34,[[28,[\"challenge\",\"attachments\",\"firstObject\"]]]]],[15,\"target\",\"_blank\"],[15,\"download\",\"\"],[13],[0,\"\\n          \"],[11,\"span\",[]],[15,\"class\",\"challenge-statement__action-label\"],[13],[0,\"Télécharger\"],[14],[0,\"\\n        \"],[14],[0,\"\\n      \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"challenge\",\"hasMultipleAttachments\"]]],null,{\"statements\":[[0,\"      \"],[11,\"p\",[]],[15,\"class\",\"challenge-statement__text\"],[13],[0,\"\\n        \"],[11,\"span\",[]],[15,\"class\",\"challenge-statement__text-content\"],[13],[0,\"Choisissez le type de fichier que vous voulez utiliser\"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"challenge-statement__help-icon\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"challenge-statement__help-tooltip\"],[13],[0,\"\\n          \"],[11,\"span\",[]],[15,\"class\",\"challenge-statement__help-text\"],[13],[0,\"Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.\"],[14],[0,\"\\n        \"],[14],[0,\"\\n      \"],[14],[0,\"\\n      \"],[14],[0,\"\\n      \"],[11,\"ul\",[]],[15,\"class\",\"challenge-statement__file-options\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"attachmentsData\"]]],null,{\"statements\":[[0,\"          \"],[11,\"li\",[]],[15,\"class\",\"challenge-statement__file-option\"],[13],[0,\"\\n\\n\"],[0,\"            \"],[11,\"input\",[]],[15,\"type\",\"radio\"],[16,\"id\",[34,[\"attachment\",[28,[\"index\"]]]]],[15,\"class\",\"challenge-statement__file-option_input\"],[15,\"name\",\"attachment_selector\"],[16,\"value\",[34,[[28,[\"attachmentUrl\"]]]]],[16,\"onclick\",[33,[\"action\"],[[28,[null]],\"selectAttachementUrl\",[28,[\"attachmentUrl\"]]],null],null],[16,\"checked\",[34,[[33,[\"if\"],[[33,[\"eq\"],[[28,[\"attachmentUrl\"]],[28,[\"selectedAttachmentUrl\"]]],null],\"checked\"],null]]]],[13],[14],[0,\"\\n\\n            \"],[11,\"label\",[]],[15,\"class\",\"label-checkbox-downloadable\"],[16,\"for\",[34,[\"attachment\",[28,[\"index\"]]]]],[13],[0,\"\\n              \"],[11,\"span\",[]],[15,\"class\",\"challenge-statement__file-option-label\"],[13],[0,\"fichier .\"],[1,[33,[\"extract-extension\"],[[28,[\"attachmentUrl\"]]],null],false],[14],[0,\"\\n            \"],[14],[0,\"\\n\\n          \"],[14],[0,\"\\n\"]],\"locals\":[\"attachmentUrl\",\"index\"]},null],[0,\"      \"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"challenge-statement__action\"],[13],[0,\"\\n        \"],[11,\"a\",[]],[15,\"class\",\"challenge-statement__action-link\"],[16,\"href\",[34,[[26,[\"selectedAttachmentUrl\"]]]]],[15,\"target\",\"_blank\"],[15,\"download\",\"\"],[13],[0,\"\\n          \"],[11,\"span\",[]],[15,\"class\",\"challenge-statement__action-label\"],[13],[0,\"Télécharger\"],[14],[0,\"\\n        \"],[14],[0,\"\\n      \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"  \"],[14],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/challenge-statement.hbs" } });
 });
 define("pix-live/templates/components/challenge-stay", ["exports"], function (exports) {
   "use strict";
@@ -5784,7 +5837,7 @@ define("pix-live/templates/components/course-banner", ["exports"], function (exp
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "9L4dHvyJ", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"course-banner__container\"],[13],[0,\"\\n\\n  \"],[11,\"span\",[]],[15,\"class\",\"course-banner__name\"],[13],[1,[28,[\"course\",\"name\"]],false],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"withHomeLink\"]]],null,{\"statements\":[[0,\"    \"],[6,[\"link-to\"],[\"index\"],[[\"class\"],[\"course-banner__home-link\"]],{\"statements\":[[0,\"Retour à la liste des tests\"]],\"locals\":[]},null],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/course-banner.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "HCT6KAih", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"course-banner__container\"],[13],[0,\"\\n\\n  \"],[11,\"h1\",[]],[15,\"class\",\"course-banner__name\"],[13],[1,[28,[\"course\",\"name\"]],false],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"withHomeLink\"]]],null,{\"statements\":[[0,\"    \"],[6,[\"link-to\"],[\"index\"],[[\"class\"],[\"course-banner__home-link\"]],{\"statements\":[[0,\"Retour à la liste des tests\"]],\"locals\":[]},null],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/course-banner.hbs" } });
 });
 define("pix-live/templates/components/course-item", ["exports"], function (exports) {
   "use strict";
@@ -6056,7 +6109,7 @@ define("pix-live/templates/components/result-item", ["exports"], function (expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "MwTlPNzG", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"result-item__index\"],[13],[0,\"\\n  \"],[1,[33,[\"add\"],[[28,[\"index\"]],1],null],false],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__item-line\"],[13],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__icon\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"data-toggle\",\"tooltip\"],[15,\"data-placement\",\"top\"],[16,\"title\",[34,[[28,[\"resultItem\",\"tooltip\"]]]]],[13],[0,\"\\n    \"],[11,\"img\",[]],[16,\"class\",[34,[\"result-item__icon-img result-item__icon-img--\",[28,[\"resultItem\",\"status\"]]]]],[16,\"src\",[34,[\"/images/answer-validation/icon-\",[28,[\"resultItem\",\"status\"]],\".svg\"]]],[15,\"alt\",\"\"],[13],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__instruction\"],[13],[0,\"\\n  \"],[1,[33,[\"strip-instruction\"],[[33,[\"convert-to-html\"],[[28,[\"answer\",\"challenge\",\"instruction\"]]],null]],null],false],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__correction\"],[13],[0,\"\\n\"],[6,[\"if\"],[[28,[\"validationImplementedForChallengeType\"]]],null,{\"statements\":[[0,\"    \"],[11,\"button\",[]],[15,\"class\",\"result-item__correction__button js-correct-answer\"],[5,[\"action\"],[[28,[null]],\"openComparisonPopin\"]],[13],[0,\" RÉPONSE\"],[14],[0,\"\\n\"]],\"locals\":[]},null],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/result-item.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "pOfS5A7M", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"result-item__index\"],[13],[0,\"\\n  \"],[1,[33,[\"add\"],[[28,[\"index\"]],1],null],false],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__item-line\"],[13],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__icon\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"data-toggle\",\"tooltip\"],[15,\"data-placement\",\"top\"],[16,\"title\",[34,[[28,[\"resultItem\",\"tooltip\"]]]]],[13],[0,\"\\n    \"],[11,\"img\",[]],[16,\"class\",[34,[\"result-item__icon-img result-item__icon-img--\",[28,[\"resultItem\",\"status\"]]]]],[16,\"src\",[34,[\"/images/answer-validation/icon-\",[28,[\"resultItem\",\"status\"]],\".svg\"]]],[15,\"alt\",\"\"],[13],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__instruction\"],[13],[0,\"\\n  \"],[1,[33,[\"strip-instruction\"],[[33,[\"convert-to-html\"],[[28,[\"answer\",\"challenge\",\"instruction\"]]],null]],null],false],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"result-item__correction\"],[13],[0,\"\\n\"],[6,[\"if\"],[[28,[\"validationImplementedForChallengeType\"]]],null,{\"statements\":[[0,\"    \"],[11,\"button\",[]],[15,\"class\",\"result-item__correction__button js-correct-answer\"],[16,\"id\",[34,[[26,[\"a11y-focus-id\"]]]]],[5,[\"action\"],[[28,[null]],\"openComparisonPopin\",[28,[\"a11y-focus-id\"]]]],[13],[0,\" RÉPONSE\"],[14],[0,\"\\n\"]],\"locals\":[]},null],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/result-item.hbs" } });
 });
 define("pix-live/templates/components/routable-modal-backdrop", ["exports"], function (exports) {
   "use strict";
@@ -6872,6 +6925,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+b9536645"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+a51eaabc"});
 }
 //# sourceMappingURL=pix-live.map
