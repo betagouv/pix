@@ -1738,7 +1738,6 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
     var COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1';
 
     var TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title-text';
-    var SVG_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title svg';
     var INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__result-item-index';
 
     var TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
@@ -1847,25 +1846,22 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
 
               case 2:
                 (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
-                (0, _chai.expect)($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
                 (0, _chai.expect)($(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
 
-                _context4.next = 7;
+                _context4.next = 6;
                 return visit(COMPARISON_MODAL_URL);
 
-              case 7:
+              case 6:
                 (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('1');
-                (0, _chai.expect)($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(1);
-                (0, _chai.expect)(charCount($(TEXT_OF_RESULT_SELECTOR).text())).to.be.above(5); // XXX : Above 5 means "must be a sentence"
 
                 // XXX test env needs the modal to be closed manually
-                _context4.next = 12;
+                _context4.next = 9;
                 return click('.close-button-container');
 
-              case 12:
+              case 9:
                 (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
 
-              case 13:
+              case 10:
               case 'end':
                 return _context4.stop();
             }
@@ -1947,7 +1943,6 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
     var COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4';
 
     var TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title .comparison-window__title-text';
-    var SVG_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title svg';
     var INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__result-item-index';
     var TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
     var CORRECTION_BOX_QROC = '.comparison-window__corrected-answers--qroc';
@@ -1991,10 +1986,9 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
               case 0:
                 (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
                 (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
-                (0, _chai.expect)($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
                 (0, _chai.expect)($(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
 
-              case 4:
+              case 3:
               case 'end':
                 return _context2.stop();
             }
@@ -2030,9 +2024,8 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
             switch (_context4.prev = _context4.next) {
               case 0:
                 (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
-                (0, _chai.expect)($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(1);
 
-              case 2:
+              case 1:
               case 'end':
                 return _context4.stop();
             }
@@ -3184,6 +3177,26 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
         // then
         (0, _chai.expect)(this.$('.comparison-window').css('max-width')).to.be.equal('900px');
       });
+
+      [{ status: 'ok' }, { status: 'ko' }, { status: 'aband' }, { status: 'partially' }, { status: 'timedout' }, { status: 'default' }].forEach(function (data) {
+
+        (0, _mocha.it)('should display the good icon in title when answer\'s result is "' + data.status + '"', function () {
+          // given
+          answer.set('result', data.status);
+
+          // when
+          this.render(_ember.default.HTMLBars.template({
+            "id": "tusRoHTL",
+            "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // then
+          var $icon = this.$('.comparison-window__result-icon');
+          (0, _chai.expect)(this.$('.comparison-window__result-icon--' + data.status)).to.have.lengthOf(1);
+          (0, _chai.expect)($icon.attr('src')).to.equal('/images/answer-validation/icon-' + data.status + '.svg');
+        });
+      });
     });
   });
 });
@@ -3445,7 +3458,7 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
 
       var $icon = this.$('.feature-item__icon');
       (0, _chai.expect)($icon).to.exist;
-      (0, _chai.expect)($icon.attr('src')).to.equal('images/icon-coucou.svg');
+      (0, _chai.expect)($icon.attr('src')).to.equal('images/features/icon-coucou.svg');
     });
 
     (0, _mocha.it)('should render an title', function () {
@@ -4063,6 +4076,51 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
           (0, _chai.expect)(_this.$(INPUT_EMAIL).val()).to.equal('myemail@gemail.com');
         });
       });
+    });
+  });
+});
+define('pix-live/tests/integration/components/modal-mobile-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | modal mobile', function () {
+
+    (0, _emberMocha.setupComponentTest)('modal-mobile', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      this.render(Ember.HTMLBars.template({
+        "id": "98vXZoLV",
+        "block": "{\"statements\":[[1,[26,[\"modal-mobile\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should display a title with a "warning" icon', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "98vXZoLV",
+        "block": "{\"statements\":[[1,[26,[\"modal-mobile\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+
+      // then
+      var $titleWarningIcon = this.$('.modal-title__warning-icon');
+      (0, _chai.expect)($titleWarningIcon.attr('src')).to.equal('/images/icon-mobile-support-warning.svg');
+    });
+
+    (0, _mocha.it)('should display a message', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "98vXZoLV",
+        "block": "{\"statements\":[[1,[26,[\"modal-mobile\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+
+      // then
+      var expected = 'Certaines épreuves PIX peuvent être difficiles à réussir sur mobile. Pour une meilleure expérience, nous vous conseillons de passer ce test sur un ordinateur.';
+      (0, _chai.expect)(this.$('.modal-body').text().trim()).to.equal(expected);
     });
   });
 });
@@ -4993,28 +5051,6 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['chai', 'mo
 define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember', 'mocha', 'ember-mocha'], function (_chai, _ember, _mocha, _emberMocha) {
   'use strict';
 
-  var providedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)';
-
-  var emberChallengeObject = _ember.default.Object.create({
-    type: 'QCM',
-    instruction: providedChallengeInstruction,
-    proposals: '- soit possibilite A, et/ou' + '\n - soit possibilite B, et/ou' + '\n - soit possibilite C, et/ou' + '\n - soit possibilite D'
-  });
-
-  var answer = _ember.default.Object.create({
-    value: '2,4',
-    result: 'ko',
-    id: 1,
-    challenge: emberChallengeObject,
-    assessment: {
-      id: 4
-    }
-  });
-
-  var expectedPath = 'M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z';
-
-  var expectedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieur...';
-
   (0, _mocha.describe)('Integration | Component | result item', function () {
 
     (0, _emberMocha.setupComponentTest)('result-item', {
@@ -5022,6 +5058,24 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
     });
 
     (0, _mocha.describe)('Component rendering ', function () {
+
+      var providedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)';
+
+      var emberChallengeObject = _ember.default.Object.create({
+        type: 'QCM',
+        instruction: providedChallengeInstruction,
+        proposals: '- soit possibilite A, et/ou' + '\n - soit possibilite B, et/ou' + '\n - soit possibilite C, et/ou' + '\n - soit possibilite D'
+      });
+
+      var answer = _ember.default.Object.create({
+        value: '2,4',
+        result: 'ko',
+        id: 1,
+        challenge: emberChallengeObject,
+        assessment: {
+          id: 4
+        }
+      });
 
       (0, _mocha.beforeEach)(function () {
         this.set('index', 0);
@@ -5042,7 +5096,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         (0, _chai.expect)(this.$()).to.have.length(1);
       });
 
-      (0, _mocha.it)('component render an index 1 when 0 provided', function () {
+      (0, _mocha.it)('should render an index 1 when 0 provided', function () {
         // given
         this.set('answer', '');
 
@@ -5058,7 +5112,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         (0, _chai.expect)(index.trim().replace('\n', '')).to.equal('1');
       });
 
-      (0, _mocha.it)('component render an instruction with no empty content', function () {
+      (0, _mocha.it)('should render an instruction with no empty content', function () {
         // given
         this.set('answer', '');
 
@@ -5074,7 +5128,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         (0, _chai.expect)(this.$('.result-item__instruction').text()).to.contain('\n');
       });
 
-      (0, _mocha.it)('component render an instruction which contain ' + expectedChallengeInstruction, function () {
+      (0, _mocha.it)('should render the challenge instruction', function () {
         // given
         this.set('answer', answer);
 
@@ -5086,10 +5140,11 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         }));
 
         // then
+        var expectedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieur...';
         (0, _chai.expect)(this.$('.result-item__instruction').text().trim()).to.equal(expectedChallengeInstruction);
       });
 
-      (0, _mocha.it)('component render an button when QCM', function () {
+      (0, _mocha.it)('should render an button when QCM', function () {
         // given
         this.set('answer', answer);
 
@@ -5102,7 +5157,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         (0, _chai.expect)(this.$('.result-item__correction__button').text().trim()).to.deep.equal('RÉPONSE');
       });
 
-      (0, _mocha.it)('component render tooltip with title Réponse incorrecte', function () {
+      (0, _mocha.it)('should render tooltip with title Réponse incorrecte', function () {
         // given
         this.set('answer', answer);
 
@@ -5117,7 +5172,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         (0, _chai.expect)(this.$('div[data-toggle="tooltip"]').attr('title').trim()).to.equal('Réponse incorrecte');
       });
 
-      (0, _mocha.it)('component render tooltip with svg', function () {
+      (0, _mocha.it)('should render tooltip with an image', function () {
         // given
         this.set('answer', answer);
 
@@ -5129,8 +5184,28 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         }));
 
         // Then
-        (0, _chai.expect)(this.$('svg path').attr('d')).to.equal(expectedPath);
-        (0, _chai.expect)(this.$('svg path').attr('fill')).to.equal('#ff4600');
+        (0, _chai.expect)(this.$('result-item__icon-img'));
+      });
+
+      [{ status: 'ok' }, { status: 'ko' }, { status: 'aband' }, { status: 'partially' }, { status: 'timedout' }, { status: 'default' }].forEach(function (data) {
+
+        (0, _mocha.it)('should display the good result icon when answer\'s result is "' + data.status + '"', function () {
+          // given
+          answer.set('result', data.status);
+          this.set('answer', answer);
+
+          // when
+          this.render(_ember.default.HTMLBars.template({
+            "id": "f8lT9MrH",
+            "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // then
+          var $icon = this.$('.result-item__icon-img');
+          (0, _chai.expect)(this.$('.result-item__icon-img--' + data.status)).to.have.lengthOf(1);
+          (0, _chai.expect)($icon.attr('src')).to.equal('/images/answer-validation/icon-' + data.status + '.svg');
+        });
       });
     });
   });
@@ -5368,8 +5443,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et' + ' 8 caractères.';
   var MESSAGE_SUCCESS_STATUS = 'signup-textfield__message--success';
 
-  var ICON_ERROR_CLASS = 'validation-icon-error';
-  var ICON_SUCCESS_CLASS = 'validation-icon-success';
+  var ICON_ERROR_CLASS = 'signup-textfield__icon--error';
+  var ICON_SUCCESS_CLASS = 'signup-textfield__icon--success';
 
   var userEmpty = _ember.default.Object.create({});
 
@@ -5471,6 +5546,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
       });
 
       (0, _mocha.describe)('Errors management', function () {
+
         (0, _mocha.it)('should display an error message on first name field, when field is empty and focus-out', function () {
           var _this = this;
 
@@ -5490,10 +5566,10 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this.$('#firstName').parent().prev().attr('class');
             var divSiblingContent = _this.$('#firstName').parent().prev('div').text();
-            var iconSiblingClass = _this.$('#firstName').next('svg').attr('class');
+            var iconSiblingClass = _this.$('#firstName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_ERROR_CLASS);
           });
         });
 
@@ -5516,10 +5592,10 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this2.$('#lastName').parent().prev().attr('class');
             var divSiblingContent = _this2.$('#lastName').parent().prev('div').text();
-            var iconSiblingClass = _this2.$('#lastName').next('svg').attr('class');
+            var iconSiblingClass = _this2.$('#lastName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_ERROR_CLASS);
           });
         });
 
@@ -5542,10 +5618,10 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this3.$('#email').parent().prev().attr('class');
             var divSiblingContent = _this3.$('#email').parent().prev('div').text();
-            var iconSiblingClass = _this3.$('#email').next('svg').attr('class');
+            var iconSiblingClass = _this3.$('#email').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_ERROR_CLASS);
           });
         });
 
@@ -5568,10 +5644,10 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this4.$('#password').parent().prev().attr('class');
             var divSiblingContent = _this4.$('#password').parent().prev('div').text();
-            var iconSiblingClass = _this4.$('#password').next('svg').attr('class');
+            var iconSiblingClass = _this4.$('#password').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_ERROR_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_ERROR_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_ERROR_CLASS);
           });
         });
 
@@ -5665,10 +5741,10 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this7.$('#firstName').parent().prev().attr('class');
             var divSiblingContent = _this7.$('#firstName').parent().prev('div').text();
-            var iconSiblingClass = _this7.$('#firstName').next('svg').attr('class');
+            var iconSiblingClass = _this7.$('#firstName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
           });
         });
 
@@ -5691,10 +5767,10 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this8.$('#lastName').parent().prev().attr('class');
             var divSiblingContent = _this8.$('#lastName').parent().prev('div').text();
-            var iconSiblingClass = _this8.$('#lastName').next('svg').attr('class');
+            var iconSiblingClass = _this8.$('#lastName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
           });
         });
 
@@ -5717,10 +5793,10 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this9.$('#email').parent().prev().attr('class');
             var divSiblingContent = _this9.$('#email').parent().prev('div').text();
-            var iconSiblingClass = _this9.$('#email').next('svg').attr('class');
+            var iconSiblingClass = _this9.$('#email').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
           });
         });
 
@@ -5743,10 +5819,10 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var divSiblingClass = _this10.$('#password').parent().prev().attr('class');
             var divSiblingContent = _this10.$('#password').parent().prev('div').text();
-            var iconSiblingClass = _this10.$('#password').next('svg').attr('class');
+            var iconSiblingClass = _this10.$('#password').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
-            (0, _chai.expect)(iconSiblingClass).to.equal(ICON_SUCCESS_CLASS);
+            (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
           });
         });
 
@@ -5955,7 +6031,7 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
 
         (0, _mocha.it)('return true if any svg doesn\'t exist', function () {
           // then
-          (0, _chai.expect)(this.$('svg')).to.have.length(0);
+          (0, _chai.expect)(this.$('img')).to.have.length(0);
         });
 
         (0, _mocha.it)('contain an input with an additional class ' + INPUT_DEFAULT_CLASS, function () {
@@ -5987,13 +6063,13 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
         this.set('validationMessage', '');
       });
 
-      (0, _mocha.it)('return true if any svg does exist', function () {
+      (0, _mocha.it)('return true if any img does exist', function () {
         var _this = this;
 
         // then
         return (0, _wait.default)().then(function () {
-          (0, _chai.expect)(_this.$('svg')).to.have.length(1);
-          (0, _chai.expect)(_this.$('svg').attr('class')).to.equal('validation-icon-error');
+          (0, _chai.expect)(_this.$('img')).to.have.length(1);
+          (0, _chai.expect)(_this.$('img').attr('class')).to.contain('signup-textfield__icon--error');
         });
       });
 
@@ -6024,10 +6100,10 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
         }));
       });
 
-      (0, _mocha.it)('return true if any svg does exist', function () {
+      (0, _mocha.it)('return true if any img does exist', function () {
         // then
-        (0, _chai.expect)(this.$('svg')).to.have.length(1);
-        (0, _chai.expect)(this.$('svg').attr('class')).to.equal('validation-icon-success');
+        (0, _chai.expect)(this.$('img')).to.have.length(1);
+        (0, _chai.expect)(this.$('img').attr('class')).to.contain('signup-textfield__icon--success');
       });
 
       [{ item: 'Input', itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS }, { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS }].forEach(function (_ref5) {
@@ -6243,6 +6319,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/follower-form-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/modal-mobile-test.js', function () {
       // test passed
     });
 
@@ -6544,7 +6624,7 @@ define('pix-live/tests/unit/components/comparison-window-test', ['ember', 'chai'
   }
 
   function _assertResultItemTooltip(resultItem, expected) {
-    (0, _chai.expect)(resultItem.titleTooltip).to.equal(expected);
+    (0, _chai.expect)(resultItem.tooltip).to.equal(expected);
   }
 
   (0, _mocha.describe)('Unit | Component | comparison-window', function () {
@@ -6737,7 +6817,6 @@ define('pix-live/tests/unit/components/comparison-window-test', ['ember', 'chai'
         // then
         _assertResultItemTitle(resultItem, 'Vous avez donné une réponse partielle');
         _assertResultItemTooltip(resultItem, 'Réponse partielle');
-        (0, _chai.expect)(resultItem.custom).to.be.true;
       });
 
       (0, _mocha.it)('should return adapted title and tooltip when result is "timedout"', function () {
@@ -7555,30 +7634,30 @@ define('pix-live/tests/unit/components/result-item-test', ['ember', 'chai', 'moc
       component = this.subject();
     });
 
-    (0, _mocha.describe)('#resultItemContent Computed property - undefined case', function () {
+    (0, _mocha.describe)('#resultItem Computed property - undefined case', function () {
       [undefinedAnswer, answerWithEmptyResult, answerWithUndefinedResult, answerWithNullResult].forEach(function (answer) {
         (0, _mocha.it)('should returns false when answer provided is: ' + answer.name, function () {
           // when
           component.set('answer', answer);
           // then
-          (0, _chai.expect)(component.get('resultItemContent')).to.be.undefined;
+          (0, _chai.expect)(component.get('resultItem')).to.be.undefined;
         });
       });
     });
 
-    (0, _mocha.describe)('#resultItemContent Computed property - defined case', function () {
+    (0, _mocha.describe)('#resultItem Computed property - defined case', function () {
       (0, _mocha.it)('should returns true when answer provided with result ok', function () {
         // when
         component.set('answer', answerWithOkResult);
         // then
-        (0, _chai.expect)(component.get('resultItemContent.title')).to.equal('Réponse correcte');
+        (0, _chai.expect)(component.get('resultItem.tooltip')).to.equal('Réponse correcte');
       });
 
       (0, _mocha.it)('should returns true when answer provided with result uncommon value by not null or undefined ', function () {
         // when
         component.set('answer', answerWithRandomResult);
         // then
-        (0, _chai.expect)(component.get('resultItemContent.title')).to.equal('Correction automatique en cours de développement ;)');
+        (0, _chai.expect)(component.get('resultItem.tooltip')).to.equal('Correction automatique en cours de développement ;)');
       });
     });
 
