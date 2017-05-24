@@ -110,7 +110,7 @@ describe('Integration | Component | signup form', function() {
 
   describe('Component Behavior', function() {
 
-    it('should return true if action <Signup> is handled', function() {
+    it.skip('should return true if action <Signup> is handled', function() {
       // given
       let isFormSubmitted = false;
       const user = Ember.Object.create({
