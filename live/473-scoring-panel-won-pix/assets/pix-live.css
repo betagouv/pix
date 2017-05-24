@@ -1699,7 +1699,7 @@ button.routable-modal--close:active {
   outline: 0; }
   @media (min-width: 768px) {
     .scoring-panel__index-link__element {
-      font-size: 10px;
+      font-size: 13px;
       -ms-flex-item-align: end;
       align-self: flex-end; } }
 
