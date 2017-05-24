@@ -22,7 +22,16 @@ describe('Integration | Component | g recaptcha', function() {
     expect(this.$()).to.have.length(1);
   });
 
-  it('should render the google recaptcha', function() {
+  it('should render the google recaptcha widget', function() {
+    // given
+
+    // when
+
+    // then import script et div avec id:g-recaptcha
+
+  });
+
+  it('should return a key in case of success', function() {
     // given
 
     // when
