@@ -479,23 +479,27 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
 
     var application = void 0;
 
-    (0, _mocha.before)(function () {
+    (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
       visitTimedChallenge();
     });
 
-    (0, _mocha.after)(function () {
+    (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
     (0, _mocha.it)('b2.1 It should render challenge instruction', function () {
       var $challengeInstruction = $('.challenge-statement__instruction');
       var instructionText = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
+
+      // Then
       (0, _chai.expect)($challengeInstruction.text().trim()).to.equal(instructionText);
     });
 
     (0, _mocha.it)('b2.2 Le contenu de type [foo](bar) doit être converti sous forme de lien', function () {
       var $links = findWithAssert('.challenge-statement__instruction a');
+
+      // Then
       (0, _chai.expect)($links.length).to.equal(1);
       (0, _chai.expect)($links.text()).to.equal('plusieurs');
       (0, _chai.expect)($links.attr('href')).to.equal('http://link.plusieurs.url');
@@ -511,7 +515,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
       (0, _chai.expect)($proposals).to.have.lengthOf(4);
     });
 
-    (0, _mocha.it)('b2.5 By default, already checked checkboxes are checked', function () {
+    (0, _mocha.it)('b2.5 It should mark checkboxes that have been checked', function () {
       (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
     });
 
@@ -527,45 +531,39 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
     });
 
     (0, _mocha.it)('b2.8 Error alert box should be displayed if user validate without checking a checkbox', function () {
+      // Given
       var $validateLink = $('.challenge-actions__action-validate');
       (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
+
+      //
       $('input:checkbox').prop('checked', false);
       (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(0);
+
+      // When
       click($validateLink);
+
+      // Then
       andThen(function () {
         (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
         (0, _chai.expect)($('.alert').text().trim()).to.equal('Pour valider, sélectionner au moins une réponse. Sinon, passer.');
       });
     });
 
-    (0, _mocha.it)('b2.9 If an user check a checkbox, it is checked', function () {
-      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(0);
-      $('.input-checkbox-proposal:eq(1)').click();
-      andThen(function () {
-        (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
-      });
-    });
-
-    (0, _mocha.it)('b2.10 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function () {
-      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
-      $('.input-checkbox-proposal:eq(2)').click();
-      andThen(function () {
-        (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
-      });
-    });
-
-    (0, _mocha.it)('b2.11 If an user validate the challenge, the api is request to save the answer of the user', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('b2.9 If an user validate the challenge, the api is request to save the answer of the user', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              (0, _sharedState.resetTestingState)();
-              _context.next = 3;
+              _context.next = 2;
               return click('.challenge-actions__action-validate');
 
-            case 3:
+            case 2:
+
+              $('input:checkbox:checked');
+
+              // Then
               (0, _chai.expect)((0, _sharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
-              (0, _chai.expect)(_lodashCustom.default.get((0, _sharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('2,3');
+              (0, _chai.expect)(_lodashCustom.default.get((0, _sharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('2,4');
 
             case 5:
             case 'end':
@@ -2545,10 +2543,6 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('models/answer.js', function () {
-      // test passed
-    });
-
-    it('models/answer/value-as-array-of-boolean-mixin.js', function () {
       // test passed
     });
 
@@ -6404,10 +6398,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/models/answer/value-as-array-of-boolean-mixin-test.js', function () {
-      // test passed
-    });
-
     it('unit/models/challenge-test.js', function () {
       // test passed
     });
@@ -8003,28 +7993,6 @@ define('pix-live/tests/unit/models/answer-test', ['ember', 'chai', 'mocha', 'emb
 
           (0, _chai.expect)(answer.get('result')).to.equal('ok');
         });
-      });
-    });
-  });
-});
-define('pix-live/tests/unit/models/answer/value-as-array-of-boolean-mixin-test', ['ember', 'chai', 'mocha', 'pix-live/models/answer/value-as-array-of-boolean-mixin'], function (_ember, _chai, _mocha, _valueAsArrayOfBooleanMixin) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Model | Value As Array of Boolean Mixin', function () {
-
-    var testData = [{ when: 'Empty String', input: '', expected: [] }, { when: 'Wrong type as input', input: new Date(), expected: [] }, { when: 'Undefined input', input: undefined, expected: [] }, { when: 'Nominal case', input: '2,3', expected: [false, true, true] }, { when: 'Only one value', input: '4', expected: [false, false, false, true] }, { when: 'Resist to order, empty space and empty value', input: ',4, 2 , 2,1,  ,', expected: [true, true, false, true] }];
-
-    var Challenge = _ember.default.Object.extend(_valueAsArrayOfBooleanMixin.default, {});
-
-    testData.forEach(function (_ref) {
-      var when = _ref.when,
-          input = _ref.input,
-          expected = _ref.expected;
-
-
-      (0, _mocha.it)('"' + when + '", example : "' + JSON.stringify(input) + '" retourne [' + expected + ']', function () {
-        var sut = Challenge.create({ value: input });
-        (0, _chai.expect)(sut.get('_valueAsArrayOfBoolean')).to.deep.equal(expected);
       });
     });
   });
