@@ -2360,9 +2360,6 @@ button.routable-modal--close:active {
   outline: none;
   color: #6a6d76; }
 
-.signup-textfield__input-field-container svg {
-  margin: 6px 8px; }
-
 .signup-textfield__message {
   position: absolute;
   top: 0;
@@ -2377,6 +2374,11 @@ button.routable-modal--close:active {
   text-align: right;
   margin-top: -5px;
   margin-bottom: 5px; }
+
+.signup-textfield__icon {
+  width: 20px;
+  height: 20px;
+  margin: 6px 8px; }
 
 .scoring-panel-tantpix {
   display: -ms-flexbox;
