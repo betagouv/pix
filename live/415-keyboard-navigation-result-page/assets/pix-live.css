@@ -263,10 +263,6 @@ input[type=radio]:focus:before {
   padding-left: 20px;
   position: relative; }
 
-.qcm-panel__proposal-checkbox {
-  opacity: 0;
-  display: none; }
-
 /* Breakpoints definition */
 /*
   - Breakpoint mixin
@@ -642,10 +638,8 @@ button.routable-modal--close:active {
   cursor: pointer;
   text-align: center; }
 
+.challenge-statement__action-link:hover,
 .challenge-statement__action-link:focus {
-  color: #ffffff; }
-
-.challenge-statement__action-link:hover {
   color: #ffffff; }
 
 .challenge-statement__action-label {
@@ -2122,16 +2116,12 @@ h1.course-banner__name {
 .qcm-panel__proposal-item {
   margin-left: 7px; }
 
-.qcm-panel__proposal-checkbox {
-  opacity: 0;
-  display: none; }
+input.qcm-panel__proposal-checkbox {
+  margin-right: 10px; }
 
 .qcm-panel__proposal-label {
   font-weight: 400;
   width: 100%; }
-
-.qcm-panel__proposal-label input[type=checkbox] {
-  margin-right: 10px; }
 
 .qcm-proposal-label__oracle[data-goodness='good'] {
   color: #13c9a0;
