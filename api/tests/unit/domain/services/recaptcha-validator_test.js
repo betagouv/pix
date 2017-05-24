@@ -15,7 +15,7 @@ const expectedValidReCaptcha = {
   success: true
 };
 
-describe.only('Unit | Service | reCaptcha Validator', function() {
+describe('Unit | Service | reCaptcha Validator', function() {
   describe('#Service:', function() {
 
     describe('Service with invalid user response', function() {
@@ -46,7 +46,7 @@ describe.only('Unit | Service | reCaptcha Validator', function() {
 
       it('should get success, when user response is provided and valid', function() {
         // when
-        const promise = reCaptcha.verify('INVALID_RECAPTCHA');
+        const promise = reCaptcha.verify('VALID_RECAPTCHA');
         // then
         return promise.catch((verificationStatus) => {
           expect(verificationStatus).to.include.keys('success');
@@ -57,23 +57,6 @@ describe.only('Unit | Service | reCaptcha Validator', function() {
         });
 
       });
-    });
-
-    it('should call the google reCaptcha API with good parameters', function() {
-      // given
-      const requestMock = sinon.mock(request);
-
-      // Expect
-      requestMock.expects('post').once();
-      //requestMock.expects('post').withArgs('https://www.google.com/recaptcha/api/siteverify');
-
-      // When
-      reCaptcha.verify('my response');
-
-      // Then
-      requestMock.verify();
-      requestMock.restore();
-
     });
 
     describe('success management', () => {
@@ -94,6 +77,19 @@ describe.only('Unit | Service | reCaptcha Validator', function() {
           expect(verificationStatus).to.include.keys('success');
           expect(verificationStatus.success).to.be.true;
         });
+
+      })
+
+      it('should call the google reCaptcha API with good parameters', function() {
+        // given
+        const requestStub = sinon.spy(request, 'post');
+        // When
+        reCaptcha.getGoogleVerification('VALID_RECAPTCHA');
+        // then
+        expect(request.post.calledOnce).to.be.true;
+        expect(request.post.getCall(0).args[0].form.secret).to.be.equal('test-recaptcha-key');
+        expect(request.post.getCall(0).args[0].form.response).to.be.equal('VALID_RECAPTCHA');
+        requestStub.restore();
 
       });
 
