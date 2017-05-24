@@ -3,7 +3,7 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 
 const Bookshelf = require('../../../../../lib/infrastructure/bookshelf');
 
-describe.only('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
+describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
 
   describe('#serialize', () => {
 
