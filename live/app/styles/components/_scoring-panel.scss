@@ -135,7 +135,7 @@
   outline: 0;
 
   @include device-is('tablet') {
-    font-size: 10px;
+    font-size: 13px;
     align-self: flex-end;
   }
 }
