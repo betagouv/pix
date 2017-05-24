@@ -2,7 +2,7 @@ import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import {resetTestingState, bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
+import {bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
 import _ from 'pix-live/utils/lodash-custom';
 
 function visitTimedChallenge() {
