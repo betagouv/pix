@@ -29,11 +29,9 @@ export default Ember.Component.extend({
   },
 
   successCallback(reCaptchaResponse) {
-    const action = this.get('onSuccess');//Action-up
-    console.log(reCaptchaResponse);
-    if (Ember.isPresent(action)) {
-      action(reCaptchaResponse);
-    }
+    this.sendAction('validateCaptcha', reCaptchaResponse);
   },
+
+  //Créer un reset avec callback de reset qui sendAction a resetCapctha response from user
 
 });

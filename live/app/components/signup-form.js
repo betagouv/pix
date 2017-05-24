@@ -103,6 +103,10 @@ export default Ember.Component.extend({
   },
 
   actions: {
+    setUserReCatpchaReponse(googleRecaptchaReponse) {
+      this.set('user.captchaResponse', googleRecaptchaReponse);
+    },
+
     validateInput(key) {
       this._executeFieldValidation(key, isValuePresent);
     },
