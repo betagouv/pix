@@ -4,13 +4,17 @@ export default Ember.Component.extend({
 
   classNames: ['challenge-actions'],
 
+  challengeSkipped: null, // action
+  answerValidated: null, // action
+
   actions: {
 
-    skip: function() {
-      this.sendAction('skip');
+    skipChallenge() {
+      this.get('challengeSkipped')();
     },
-    validate: function() {
-      this.sendAction('validate');
+
+    validateAnswer() {
+      this.get('answerValidated')();
     }
   }
 
