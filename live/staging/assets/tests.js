@@ -192,7 +192,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['ember', 'mocha', 
       var $startLink = findWithAssert(START_BUTTON);
       return click($startLink).then(function () {
         findWithAssert('.assessment-challenge');
-        (0, _chai.expect)(currentURL()).to.contains(URL_OF_FIRST_TEST);
+        (0, _chai.expect)(currentURL()).to.contain(URL_OF_FIRST_TEST);
       });
     });
 
@@ -224,7 +224,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['ember', 'mocha', 
           $('a[data-dismiss]').click();
 
           return click($startLink).then(function () {
-            (0, _chai.expect)(currentURL()).to.contains(URL_OF_FIRST_TEST);
+            (0, _chai.expect)(currentURL()).to.contain(URL_OF_FIRST_TEST);
             done();
           });
         }, 500);
@@ -243,7 +243,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['ember', 'mocha', 
       });
       click($startLink);
       andThen(function () {
-        (0, _chai.expect)(currentURL()).to.contains('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        (0, _chai.expect)(currentURL()).to.contain('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
         done();
       });
     });
@@ -323,12 +323,12 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
     });
 
     (0, _mocha.it)('b1.1 Une liste de radiobuttons doit s\'afficher', function () {
-      var $proposals = $('.input-radio-proposal');
+      var $proposals = $('input[type=radio][name="radio"]');
       (0, _chai.expect)($proposals).to.have.lengthOf(4);
     });
 
     (0, _mocha.it)('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', function () {
-      (0, _chai.expect)($('.input-radio-proposal:checked')).to.have.lengthOf(1);
+      (0, _chai.expect)($('input[type=radio][name="radio"]:checked')).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', function () {
@@ -375,10 +375,10 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
             case 0:
 
               // Given
-              (0, _chai.expect)($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
-              (0, _chai.expect)($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(true);
-              (0, _chai.expect)($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
-              (0, _chai.expect)($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
+              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
+              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
+              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
+              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
               // When
               _context2.next = 6;
@@ -388,10 +388,10 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
               // Click on label trigger the event.
 
               // Then
-              (0, _chai.expect)($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(true);
-              (0, _chai.expect)($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(false);
-              (0, _chai.expect)($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
-              (0, _chai.expect)($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
+              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(true);
+              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(false);
+              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
+              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
             case 10:
             case 'end':
@@ -410,10 +410,10 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
               (0, _sharedState.resetTestingState)();
 
               // Given
-              (0, _chai.expect)($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
-              (0, _chai.expect)($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(true);
-              (0, _chai.expect)($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
-              (0, _chai.expect)($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
+              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
+              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
+              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
+              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
               // When
               _context3.next = 7;
@@ -489,13 +489,19 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
     });
 
     (0, _mocha.it)('b2.1 It should render challenge instruction', function () {
+      // Given
+      var expectedInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
+
+      // Then
       var $challengeInstruction = $('.challenge-statement__instruction');
-      var instructionText = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
-      (0, _chai.expect)($challengeInstruction.text().trim()).to.equal(instructionText);
+      (0, _chai.expect)($challengeInstruction.text().trim()).to.equal(expectedInstruction);
     });
 
     (0, _mocha.it)('b2.2 Le contenu de type [foo](bar) doit être converti sous forme de lien', function () {
+      // When
       var $links = findWithAssert('.challenge-statement__instruction a');
+
+      // Then
       (0, _chai.expect)($links.length).to.equal(1);
       (0, _chai.expect)($links.text()).to.equal('plusieurs');
       (0, _chai.expect)($links.attr('href')).to.equal('http://link.plusieurs.url');
@@ -538,36 +544,27 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
       });
     });
 
-    (0, _mocha.it)('b2.9 If an user check a checkbox, it is checked', function () {
-      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(0);
-      $('.input-checkbox-proposal:eq(1)').click();
-      andThen(function () {
-        (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
-      });
-    });
-
-    (0, _mocha.it)('b2.10 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function () {
-      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
-      $('.input-checkbox-proposal:eq(2)').click();
-      andThen(function () {
-        (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
-      });
-    });
-
-    (0, _mocha.it)('b2.11 If an user validate the challenge, the api is request to save the answer of the user', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('b2.9 If an user validate the challenge with two answers, the api is request to save the answer of the user', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
+              // Given
               (0, _sharedState.resetTestingState)();
-              _context.next = 3;
+              $('.proposal-text:eq(1)').click();
+              $('.proposal-text:eq(2)').click();
+
+              // When
+              _context.next = 5;
               return click('.challenge-actions__action-validate');
 
-            case 3:
+            case 5:
+
+              // Then
               (0, _chai.expect)((0, _sharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
               (0, _chai.expect)(_lodashCustom.default.get((0, _sharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('2,3');
 
-            case 5:
+            case 7:
             case 'end':
               return _context.stop();
           }
@@ -750,13 +747,16 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix
           switch (_context2.prev = _context2.next) {
             case 0:
               (0, _sharedState.resetTestingState)();
+
               $(':input:eq(0)').val('stuff1');
               $(':input:eq(1)').val('stuff2');
               $(':input:eq(2)').val('stuff3');
+
               _context2.next = 6;
               return click('.challenge-actions__action-validate');
 
             case 6:
+
               (0, _chai.expect)((0, _sharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
               (0, _chai.expect)(_lodashCustom.default.get((0, _sharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('logiciel1: stuff1\nlogiciel2: stuff2\nlogiciel3: stuff3\n');
 
@@ -804,7 +804,7 @@ define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['mocha', 'chai', 'pix-li
 
       (0, _mocha.it)('b6.2 Le lien de la pièce jointe pointe vers le bon lien', function () {
         var $ATTACHMENT_LINK = $('.challenge-statement__action-link');
-        (0, _chai.expect)($ATTACHMENT_LINK.text()).to.contains('Télécharger');
+        (0, _chai.expect)($ATTACHMENT_LINK.text()).to.contain('Télécharger');
         (0, _chai.expect)($ATTACHMENT_LINK.attr('href')).to.equal('http://example_of_url');
       });
 
@@ -847,7 +847,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'ch
     });
 
     (0, _mocha.it)('b7.0 Le nom du test est affiché', function () {
-      (0, _chai.expect)(findWithAssert('.course-banner__name').text()).to.contains('First Course');
+      (0, _chai.expect)(findWithAssert('.course-banner__name').text()).to.contain('First Course');
     });
 
     (0, _mocha.it)('b7.1 L\'instruction de l\'epreuve est affichée', function () {
@@ -922,10 +922,10 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
 
     (0, _mocha.it)('c1.2 le tableau récapitulatif contient les instructions ', function () {
       var $proposals = findWithAssert('.result-item');
-      (0, _chai.expect)($proposals.text()).to.contains('Un QCM propose plusieurs choix');
-      (0, _chai.expect)($proposals.text()).to.contains('Un QCU propose plusieurs choix');
-      (0, _chai.expect)($proposals.text()).to.contains('Un QROC est une question ouverte');
-      (0, _chai.expect)($proposals.text()).to.contains('Un QROCM est une question ouverte');
+      (0, _chai.expect)($proposals.text()).to.contain('Un QCM propose plusieurs choix');
+      (0, _chai.expect)($proposals.text()).to.contain('Un QCU propose plusieurs choix');
+      (0, _chai.expect)($proposals.text()).to.contain('Un QROC est une question ouverte');
+      (0, _chai.expect)($proposals.text()).to.contain('Un QROCM est une question ouverte');
     });
 
     (0, _mocha.it)('c1.3 Pour une mauvaise réponse, le tableau récapitulatif donne une indication adéquate', function () {
@@ -934,7 +934,7 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
     });
 
     (0, _mocha.it)('c1.9 Le nom du test est affiché', function () {
-      (0, _chai.expect)(findWithAssert('.course-banner__name').text()).to.contains('First Course');
+      (0, _chai.expect)(findWithAssert('.course-banner__name').text()).to.contain('First Course');
     });
 
     (0, _mocha.it)('c1.10 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
@@ -1050,7 +1050,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
                 return click('.challenge-actions__action-validate');
 
               case 4:
-                (0, _chai.expect)(currentURL()).to.contains('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+                (0, _chai.expect)(currentURL()).to.contain('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
               case 5:
               case 'end':
@@ -1062,7 +1062,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
 
       (0, _mocha.it)('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', function () {
         var expectedText = '2';
-        (0, _chai.expect)(findWithAssert('.pix-progress-bar').text()).to.contains(expectedText);
+        (0, _chai.expect)(findWithAssert('.pix-progress-bar').text()).to.contain(expectedText);
       });
 
       (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
@@ -1082,7 +1082,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
                 return click('.challenge-actions__action-validate');
 
               case 6:
-                (0, _chai.expect)(currentURL()).to.contains('/assessments/ref_assessment_id/results');
+                (0, _chai.expect)(currentURL()).to.contain('/assessments/ref_assessment_id/results');
 
               case 7:
               case 'end':
@@ -1304,13 +1304,13 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'cha
         });
 
         (0, _mocha.it)('f1.2 le nom du test', function () {
-          (0, _chai.expect)($preview.find('.course-name').text()).to.contains('First Course');
+          (0, _chai.expect)($preview.find('.course-name').text()).to.contain('First Course');
         });
 
         (0, _mocha.it)('f1.3 la description du test', function () {
           var $courseDescription = $preview.find('.course-description');
           var instructionText = 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.';
-          (0, _chai.expect)($courseDescription.text()).to.contains(instructionText);
+          (0, _chai.expect)($courseDescription.text()).to.contain(instructionText);
         });
 
         (0, _mocha.it)('f1.4 un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
@@ -1363,7 +1363,7 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'cha
         })));
 
         (0, _mocha.it)('f1.7 un bouton pour accéder à l\'épreuve suivante', function () {
-          (0, _chai.expect)(findWithAssert('.challenge-actions__action-validate').text()).to.contains('Je valide');
+          (0, _chai.expect)(findWithAssert('.challenge-actions__action-validate').text()).to.contain('Je valide');
         });
       });
     });
@@ -1425,7 +1425,7 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['moch
               return visit(CHALLENGE_WITHOUT_INTERNET_NOR_TOOLS_URI);
 
             case 2:
-              (0, _chai.expect)($('.challenge-stay__text').text()).to.contains('Vous devez répondre à cette question sans sortir de cette page !');
+              (0, _chai.expect)($('.challenge-stay__text').text()).to.contain('Vous devez répondre à cette question sans sortir de cette page !');
 
             case 3:
             case 'end':
@@ -1647,7 +1647,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
       });
 
       (0, _mocha.it)('h2.2- vérifier que le contenu de l\'épreuve est affiché', function () {
-        (0, _chai.expect)($('.challenge-statement').css('display')).to.contains('block');
+        (0, _chai.expect)($('.challenge-statement').css('display')).to.contain('block');
       });
 
       (0, _mocha.it)('h2.3- vérifier que le timer est démarré ', function () {
@@ -2947,7 +2947,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['ember
           renderChallengeStatement(this);
 
           // then
-          (0, _chai.expect)(this.$('.challenge-statement__file-option-input')).to.have.lengthOf(challenge.attachments.length);
+          (0, _chai.expect)(this.$('.challenge-statement__file-option_input')).to.have.lengthOf(challenge.attachments.length);
         });
 
         (0, _mocha.it)('should display radio buttons with right label', function () {
@@ -2970,8 +2970,8 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['ember
           renderChallengeStatement(this);
 
           // then
-          var $firstRadioButton = this.$('.challenge-statement__file-option-input')[0];
-          var $secondRadioButton = this.$('.challenge-statement__file-option-input')[1];
+          var $firstRadioButton = this.$('.challenge-statement__file-option_input')[0];
+          var $secondRadioButton = this.$('.challenge-statement__file-option_input')[1];
           (0, _chai.expect)($firstRadioButton.checked).to.be.true;
           (0, _chai.expect)($secondRadioButton.checked).to.be.false;
         });
@@ -2984,8 +2984,8 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['ember
           renderChallengeStatement(this);
 
           // then
-          var $firstRadioButton = this.$('.challenge-statement__file-option-input')[0];
-          var $secondRadioButton = this.$('.challenge-statement__file-option-input')[1];
+          var $firstRadioButton = this.$('.challenge-statement__file-option_input')[0];
+          var $secondRadioButton = this.$('.challenge-statement__file-option_input')[1];
           (0, _chai.expect)($firstRadioButton.checked).to.be.true;
           (0, _chai.expect)($secondRadioButton.checked).to.be.false;
         });
@@ -3625,7 +3625,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
       });
 
       (0, _mocha.it)('the link label should be "Signaler un problème"', function () {
-        (0, _chai.expect)(this.$(OPEN_LINK).text()).to.contains('Signaler un problème');
+        (0, _chai.expect)(this.$(OPEN_LINK).text()).to.contain('Signaler un problème');
       });
 
       (0, _mocha.it)('clicking on the open link should hide the "link" view and display the "form" view', function () {
@@ -4219,17 +4219,13 @@ define('pix-live/tests/integration/components/qcm-proposals-test', ['chai', 'moc
 define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'pix-live/utils/lodash-custom'], function (_chai, _mocha, _emberMocha, _ember, _lodashCustom) {
   'use strict';
 
-  var CHECKBOX_CORRECT_AND_CHECKED = '.qcm-proposal-label__checkbox-picture:eq(1)';
+  var CHECKBOX_CORRECT_AND_CHECKED = 'input[type=checkbox]:eq(1)';
   var LABEL_CORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(1)';
 
   var CHECKBOX_CORRECT_AND_UNCHECKED = '.qcm-proposal-label__checkbox-picture:eq(2)';
   var LABEL_CORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(2)';
 
-  var CHECKBOX_INCORRECT_AND_CHECKED = '.qcm-proposal-label__checkbox-picture:eq(0)';
-  var CHECKBOX_INCORRECT_AND_CHECKED_SECOND = '.qcm-proposal-label__checkbox-picture:eq(3)';
   var LABEL_INCORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(0)';
-
-  var CHECKBOX_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__checkbox-picture:eq(0)';
   var LABEL_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(0)';
 
   var CSS_BOLD_FONT_WEIGHT = '900';
@@ -4292,10 +4288,11 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
         });
 
         (0, _mocha.it)('QCM, la réponse correcte est cochée', function () {
-          //Given
+          // Given
           this.set('answer', answer);
           this.set('solution', solution);
           this.set('challenge', challenge);
+
           // When
           this.render(_ember.default.HTMLBars.template({
             "id": "6bxZetM3",
@@ -4307,11 +4304,11 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
           (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
 
-          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED).hasClass('checkbox-disabled-on')).to.equal(true);
+          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED).attr('disabled')).to.equal('disabled');
           (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
         (0, _mocha.it)('QCM, aucune réponse incorrecte n\'est cochée', function () {
@@ -4328,11 +4325,10 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           }));
 
           // Then
-          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_UNCHECKED).hasClass('checkbox-disabled-on')).to.equal(false);
           (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
         (0, _mocha.it)('QCM, Au moins l\'une des réponse correcte n\'est pas cochée', function () {
@@ -4351,11 +4347,10 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           }));
 
           // Then
-          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_UNCHECKED).hasClass('checkbox-disabled-on')).to.equal(false);
           (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
         (0, _mocha.it)('QCM, au moins l\'une des réponse incorrecte est cochée', function () {
@@ -4374,13 +4369,11 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           }));
 
           // Then
-          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_CHECKED).hasClass('checkbox-disabled-on')).to.equal(true);
-          (0, _chai.expect)($(CHECKBOX_INCORRECT_AND_CHECKED_SECOND).hasClass('checkbox-disabled-on')).to.equal(true);
           (0, _chai.expect)($(CHECKBOX_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
           (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_ON);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_ON);
         });
 
         (0, _mocha.it)('Aucune case à cocher n\'est cliquable', function () {
@@ -4548,7 +4541,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
         (0, _mocha.it)('QCU, la réponse correcte n\'est pas cochée', function () {
@@ -4572,7 +4565,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
         (0, _mocha.it)('QCU, la réponse incorrecte n\'est pas cochée', function () {
@@ -4593,7 +4586,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
         (0, _mocha.it)('QCU,la réponse incorrecte est cochée', function () {
@@ -4616,7 +4609,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_ON);
+          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_ON);
         });
 
         (0, _mocha.it)('Aucune case à cocher n\'est cliquable', function () {
@@ -4764,7 +4757,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
         (0, _chai.expect)(answerInput).to.have.length(1);
         (0, _chai.expect)(answerBlock).to.have.length(1);
         (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('bold');
-        (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('none');
+        (0, _chai.expect)(answerInput.css('text-decoration')).to.be.contains('none');
         (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
         (0, _chai.expect)(solutionBlock).to.have.length(0);
       });
@@ -4792,7 +4785,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
         // then
         (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
         (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
-        (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('line-through');
+        (0, _chai.expect)(answerInput.css('text-decoration')).to.be.contains('line-through');
       });
 
       (0, _mocha.it)('should display the solution with an arrow and the solution in bold green', function () {
@@ -4930,7 +4923,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
           (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('bold');
-          (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('none');
+          (0, _chai.expect)(answerInput.css('text-decoration')).to.be.contains('none');
         });
 
         (0, _mocha.it)('should not display the solution', function () {
@@ -4967,7 +4960,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
           (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
-          (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('line-through');
+          (0, _chai.expect)(answerInput.css('text-decoration')).to.be.contains('line-through');
         });
 
         (0, _mocha.it)('should display one solution in bold green below the input', function () {
@@ -4986,7 +4979,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
           (0, _chai.expect)(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
           (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('bold');
-          (0, _chai.expect)(solutionText.css('text-decoration')).to.be.equal('none');
+          (0, _chai.expect)(solutionText.css('text-decoration')).to.be.contains('none');
         });
       });
 
@@ -5010,7 +5003,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
           (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
-          (0, _chai.expect)(answerInput.css('text-decoration')).to.be.equal('none');
+          (0, _chai.expect)(answerInput.css('text-decoration')).to.be.contains('none');
         });
 
         (0, _mocha.it)('should display one solution in bold green below the input', function () {
@@ -5029,7 +5022,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
           (0, _chai.expect)(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
           (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('bold');
-          (0, _chai.expect)(solutionText.css('text-decoration')).to.be.equal('none');
+          (0, _chai.expect)(solutionText.css('text-decoration')).to.be.contains('none');
         });
       });
     });
@@ -5430,7 +5423,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var INPUT_TEXT_FIELD_CLASS_DEFAULT = 'signup-textfield__input-container--default';
 
   var CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
-  var CHECKBOX_CGU_INPUT = '.signup-form__cgu-checkbox';
+  var CHECKBOX_CGU_INPUT = '#pix-cgu';
   var CHECKBOX_CGU_LABEL = '.signup-form__cgu-label';
   var UNCHECKED_CHECKBOX_CGU_ERROR = 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.';
 
@@ -5688,7 +5681,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           this.$('.signup__submit-button').click();
           // then
           return (0, _wait.default)().then(function () {
-            var cguErrorMessageContent = _this5.$('#cgu').parent().siblings('div').text();
+            var cguErrorMessageContent = _this5.$(CHECKBOX_CGU_INPUT).parent().siblings('div').text();
             (0, _chai.expect)(cguErrorMessageContent.trim()).to.equal(UNCHECKED_CHECKBOX_CGU_ERROR);
           });
         });
@@ -5855,7 +5848,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           this.$('.signup__submit-button').click();
           // then
           return (0, _wait.default)().then(function () {
-            var cguErrorMessageContent = _this11.$('#cgu').parent().siblings('div').text();
+            var cguErrorMessageContent = _this11.$(CHECKBOX_CGU_INPUT).parent().siblings('div').text();
             (0, _chai.expect)(cguErrorMessageContent).to.equal('');
           });
         });

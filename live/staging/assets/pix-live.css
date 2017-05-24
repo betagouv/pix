@@ -144,6 +144,41 @@
   opacity: 0;
   transition: opacity .2s linear; }
 
+input[type="checkbox"]:focus {
+  outline: none; }
+
+input[type="checkbox"]:before {
+  position: relative;
+  height: 18px;
+  width: 18px;
+  top: -3px;
+  border: 2px solid #D8D8D8;
+  content: ' ';
+  display: block;
+  background-color: #ffffff;
+  border-radius: 10%; }
+
+input[type="checkbox"]:focus:before {
+  border-color: #3d68ff; }
+
+input[type="checkbox"]:checked:before {
+  border: 2px solid #3d68ff;
+  background-color: #3d68ff; }
+
+input[type="checkbox"]:checked:after {
+  height: 18px;
+  width: 18px;
+  position: relative;
+  top: -21px;
+  font-size: 14px;
+  color: #ffffff;
+  content: '✓';
+  display: block;
+  text-align: center; }
+
+input[type="checkbox"]:checked:focus:before {
+  box-shadow: 0 0 4px #3d68ff; }
+
 /**
  *
  * Configure Radios of proposals
@@ -161,67 +196,45 @@
   position: relative;
   cursor: pointer; }
 
-.input-radio-proposal {
-  opacity: 0;
-  display: none; }
+input[type=radio] {
+  width: 0; }
 
-/*XXX Can't use BEM properly when using CSS state manipulation*/
-.input-radio-proposal:checked ~ label svg.radio-off {
-  opacity: 0;
-  transition: opacity .2s linear; }
+input[type=radio]:before,
+input[type=radio]:checked:after {
+  display: block;
+  position: relative;
+  content: '';
+  border-radius: 100%; }
 
-.input-radio-proposal:not(:checked) ~ label svg.radio-off {
-  opacity: 1;
-  transition: opacity .2s linear; }
+input[type=radio]:checked:after {
+  height: 8.5px;
+  width: 8.5px;
+  top: -15px;
+  left: 2px;
+  background-color: #3D68FF; }
 
-.input-radio-proposal:checked ~ label svg.radio-on {
-  opacity: 1;
-  transition: opacity .2s linear; }
+input[type=radio]:before {
+  height: 17px;
+  width: 17px;
+  top: -2px;
+  left: -2px;
+  border: solid 2px #7D808B;
+  background-color: white; }
 
-.input-radio-proposal:not(:checked) ~ label svg.radio-on {
-  opacity: 0;
-  transition: opacity .2s linear; }
+input[type=radio]:focus:before {
+  border: solid 2px #3D68FF;
+  box-shadow: 0px 0px 5px 0px #3D68FF; }
 
 /**
  *
  * Configure Radios of input files
  *
  **/
-.picture-checkbox-downloadable {
-  position: absolute;
-  left: -8px;
-  top: 1px; }
-
 .label-checkbox-downloadable {
   display: inline-block;
   padding-left: 18px;
   position: relative;
   cursor: pointer; }
-
-.challenge-statement__picture-container {
-  height: 100%;
-  display: -ms-flexbox;
-  display: flex; }
-
-.challenge-statement__file-option-input {
-  opacity: 0; }
-
-/*XXX Can't use BEM properly when using CSS state manipulation*/
-.challenge-statement__file-option-input:checked ~ label svg.radio2-off {
-  opacity: 0;
-  transition: opacity .2s linear; }
-
-.challenge-statement__file-option-input:not(:checked) ~ label svg.radio2-off {
-  opacity: 1;
-  transition: opacity .2s linear; }
-
-.challenge-statement__file-option-input:checked ~ label svg.radio2-on {
-  opacity: 1;
-  transition: opacity .2s linear; }
-
-.challenge-statement__file-option-input:not(:checked) ~ label svg.radio2-on {
-  opacity: 0;
-  transition: opacity .2s linear; }
 
 /**
  *
@@ -235,7 +248,6 @@
 
 .qcm-panel__proposal-label {
   display: inline-block;
-  padding-left: 20px;
   line-height: 21px;
   position: relative; }
 
@@ -250,23 +262,6 @@
   display: inline-block;
   padding-left: 20px;
   position: relative; }
-
-.qcm-panel__proposal-checkbox {
-  opacity: 0;
-  display: none; }
-
-/*XXX Can't use BEM properly when using CSS state manipulation*/
-.qcm-panel__proposal-checkbox:checked ~ label svg.checkbox-disabled-on {
-  opacity: 0; }
-
-.qcm-panel__proposal-checkbox:not(:checked) ~ label svg.checkbox-disabled-off {
-  opacity: 1; }
-
-.qcm-panel__proposal-checkbox:checked ~ label svg.checkbox-disabled-on {
-  opacity: 1; }
-
-.qcm-panel__proposal-checkbox:not(:checked) ~ label svg.checkbox-disabled-on {
-  opacity: 0; }
 
 /* Breakpoints definition */
 /*
@@ -466,6 +461,8 @@ button.routable-modal--close:active {
   font-weight: 600; }
 
 .challenge-actions__action-validate {
+  -ms-flex-order: 1;
+  order: 1;
   width: 130px;
   height: 46px;
   border-radius: 23px;
@@ -641,7 +638,8 @@ button.routable-modal--close:active {
   cursor: pointer;
   text-align: center; }
 
-.challenge-statement__action-link:hover {
+.challenge-statement__action-link:hover,
+.challenge-statement__action-link:focus {
   color: #ffffff; }
 
 .challenge-statement__action-label {
@@ -2087,9 +2085,8 @@ button.routable-modal--close:active {
 .qcm-panel__proposal-item {
   margin-left: 7px; }
 
-.qcm-panel__proposal-checkbox {
-  opacity: 0;
-  display: none; }
+input.qcm-panel__proposal-checkbox {
+  margin-right: 10px; }
 
 .qcm-panel__proposal-label {
   font-weight: 400;
@@ -2241,55 +2238,14 @@ button.routable-modal--close:active {
       margin-bottom: 0;
       padding: 0; } }
 
-.signup-form__cgu-container input[type="checkbox"] {
-  -webkit-appearance: none; }
-
-.signup-form__cgu-container input[type="checkbox"]:after {
-  border-color: #D8D8D8; }
-
-.signup-form__cgu-container input[type="checkbox"]:disabled:after {
-  border-color: #D8D8D8; }
-
-.signup-form__cgu-container input[type="checkbox"]:focus {
-  outline: none; }
-
-.signup-form__cgu-container input[type="checkbox"]:after {
-  border: 2px solid #D8D8D8;
-  border-radius: 2px;
-  content: '';
-  display: block;
-  height: 18px;
-  transition: 240ms;
-  width: 18px; }
-
-.signup-form__cgu-container input[type="checkbox"]:checked:before {
-  transform: rotate(45deg);
-  position: absolute;
-  left: 6px;
-  display: table;
-  width: 7px;
-  height: 14px;
-  border: 2px solid #ffffff;
-  border-top: 0;
-  border-left: 0;
-  content: ''; }
-
-.signup-form__cgu-container input[type="checkbox"]:checked:after {
-  background-color: #3d68ff;
-  border-color: #3d68ff; }
-
-.signup-form__cgu-container input[type="checkbox"]:disabled:checked:after {
-  background-color: rgba(0, 0, 0, 0.26);
-  border-color: transparent; }
-
-.signup-form__cgu-container input[type="checkbox"]:focus:after {
-  border-color: #3d68ff; }
-
 .signup-form__cgu-label {
   position: relative;
   display: -ms-flexbox;
   display: flex;
   margin-bottom: 0; }
+
+.signup-form__cgu-label input[type=checkbox] {
+  margin: 3px 15px; }
 
 .signup-form__cgu-label span {
   color: #6a6d76;
@@ -3089,6 +3045,5 @@ body {
   font-family: "Lato", Arial, sans-serif;
   background-color: #f2f3f4; }
 
-input[type="radio"],
-input[type="checkbox"] {
+input[type="radio"] {
   margin: 0 5px 0 0; }
