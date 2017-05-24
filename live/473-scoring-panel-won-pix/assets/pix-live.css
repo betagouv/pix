@@ -2913,7 +2913,8 @@ hr.project-page__presentation-header-line {
 .assessment-results__logo-banner {
   width: 100%;
   padding: 20px;
-  padding-left: 12%; }
+  padding-left: 12%;
+  background-color: #ffffff; }
 
 .assessment-results__scoring {
   width: 100%; }
