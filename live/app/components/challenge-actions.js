@@ -7,6 +7,11 @@ export default Ember.Component.extend({
   challengeSkipped: null, // action
   answerValidated: null, // action
 
+  _validateButtonStatus: 'enable', // enable, pending, offline
+  isValidateButtonEnable: Ember.computed.equal('_validateButtonStatus', 'enable'),
+  isValidateButtonPending: Ember.computed.equal('_validateButtonStatus', 'pending'),
+  isValidateButtonOffline: Ember.computed.equal('_validateButtonStatus', 'offline'),
+
   actions: {
 
     skipChallenge() {
@@ -14,12 +19,16 @@ export default Ember.Component.extend({
     },
 
     validateAnswer() {
+      this.set('_validateButtonStatus', 'pending');
+
       const promise = this.get('answerValidated')();
       promise
         .then(() => {
+          this.set('_validateButtonStatus', 'enable');
           Ember.Logger.log('YEAH!');
         })
         .catch(err => {
+          this.set('_validateButtonStatus', 'enable');
           Ember.Logger.log(err);
         });
     }
