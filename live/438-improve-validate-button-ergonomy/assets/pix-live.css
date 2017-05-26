@@ -144,6 +144,41 @@
   opacity: 0;
   transition: opacity .2s linear; }
 
+input[type="checkbox"]:focus {
+  outline: none; }
+
+input[type="checkbox"]:before {
+  position: relative;
+  height: 18px;
+  width: 18px;
+  top: -3px;
+  border: 2px solid #D8D8D8;
+  content: ' ';
+  display: block;
+  background-color: #ffffff;
+  border-radius: 10%; }
+
+input[type="checkbox"]:focus:before {
+  border-color: #3d68ff; }
+
+input[type="checkbox"]:checked:before {
+  border: 2px solid #3d68ff;
+  background-color: #3d68ff; }
+
+input[type="checkbox"]:checked:after {
+  height: 18px;
+  width: 18px;
+  position: relative;
+  top: -21px;
+  font-size: 14px;
+  color: #ffffff;
+  content: '✓';
+  display: block;
+  text-align: center; }
+
+input[type="checkbox"]:checked:focus:before {
+  box-shadow: 0 0 4px #3d68ff; }
+
 /**
  *
  * Configure Radios of proposals
@@ -161,67 +196,45 @@
   position: relative;
   cursor: pointer; }
 
-.input-radio-proposal {
-  opacity: 0;
-  display: none; }
+input[type=radio] {
+  width: 0; }
 
-/*XXX Can't use BEM properly when using CSS state manipulation*/
-.input-radio-proposal:checked ~ label svg.radio-off {
-  opacity: 0;
-  transition: opacity .2s linear; }
+input[type=radio]:before,
+input[type=radio]:checked:after {
+  display: block;
+  position: relative;
+  content: '';
+  border-radius: 100%; }
 
-.input-radio-proposal:not(:checked) ~ label svg.radio-off {
-  opacity: 1;
-  transition: opacity .2s linear; }
+input[type=radio]:checked:after {
+  height: 8.5px;
+  width: 8.5px;
+  top: -15px;
+  left: 2px;
+  background-color: #3D68FF; }
 
-.input-radio-proposal:checked ~ label svg.radio-on {
-  opacity: 1;
-  transition: opacity .2s linear; }
+input[type=radio]:before {
+  height: 17px;
+  width: 17px;
+  top: -2px;
+  left: -2px;
+  border: solid 2px #7D808B;
+  background-color: white; }
 
-.input-radio-proposal:not(:checked) ~ label svg.radio-on {
-  opacity: 0;
-  transition: opacity .2s linear; }
+input[type=radio]:focus:before {
+  border: solid 2px #3D68FF;
+  box-shadow: 0px 0px 5px 0px #3D68FF; }
 
 /**
  *
  * Configure Radios of input files
  *
  **/
-.picture-checkbox-downloadable {
-  position: absolute;
-  left: -8px;
-  top: 1px; }
-
 .label-checkbox-downloadable {
   display: inline-block;
   padding-left: 18px;
   position: relative;
   cursor: pointer; }
-
-.challenge-statement__picture-container {
-  height: 100%;
-  display: -ms-flexbox;
-  display: flex; }
-
-.challenge-statement__file-option-input {
-  opacity: 0; }
-
-/*XXX Can't use BEM properly when using CSS state manipulation*/
-.challenge-statement__file-option-input:checked ~ label svg.radio2-off {
-  opacity: 0;
-  transition: opacity .2s linear; }
-
-.challenge-statement__file-option-input:not(:checked) ~ label svg.radio2-off {
-  opacity: 1;
-  transition: opacity .2s linear; }
-
-.challenge-statement__file-option-input:checked ~ label svg.radio2-on {
-  opacity: 1;
-  transition: opacity .2s linear; }
-
-.challenge-statement__file-option-input:not(:checked) ~ label svg.radio2-on {
-  opacity: 0;
-  transition: opacity .2s linear; }
 
 /**
  *
@@ -235,7 +248,6 @@
 
 .qcm-panel__proposal-label {
   display: inline-block;
-  padding-left: 20px;
   line-height: 21px;
   position: relative; }
 
@@ -250,23 +262,6 @@
   display: inline-block;
   padding-left: 20px;
   position: relative; }
-
-.qcm-panel__proposal-checkbox {
-  opacity: 0;
-  display: none; }
-
-/*XXX Can't use BEM properly when using CSS state manipulation*/
-.qcm-panel__proposal-checkbox:checked ~ label svg.checkbox-disabled-on {
-  opacity: 0; }
-
-.qcm-panel__proposal-checkbox:not(:checked) ~ label svg.checkbox-disabled-off {
-  opacity: 1; }
-
-.qcm-panel__proposal-checkbox:checked ~ label svg.checkbox-disabled-on {
-  opacity: 1; }
-
-.qcm-panel__proposal-checkbox:not(:checked) ~ label svg.checkbox-disabled-on {
-  opacity: 0; }
 
 /* Breakpoints definition */
 /*
@@ -466,6 +461,8 @@ button.routable-modal--close:active {
   font-weight: 600; }
 
 .challenge-actions__action-validate {
+  -ms-flex-order: 1;
+  order: 1;
   width: 130px;
   height: 46px;
   border-radius: 23px;
@@ -642,7 +639,8 @@ button.routable-modal--close:active {
   cursor: pointer;
   text-align: center; }
 
-.challenge-statement__action-link:hover {
+.challenge-statement__action-link:hover,
+.challenge-statement__action-link:focus {
   color: #ffffff; }
 
 .challenge-statement__action-label {
@@ -816,6 +814,9 @@ button.routable-modal--close:active {
   @media (min-width: 992px) {
     .course-banner__name {
       font-size: 28px; } }
+
+h1.course-banner__name {
+  margin-top: 10px; }
 
 .course-banner__home-link {
   font-size: 16px;
@@ -1271,6 +1272,53 @@ button.routable-modal--close:active {
   font-size: 14px;
   text-decoration: underline; }
 
+.medal-item {
+  position: relative; }
+
+.medal-item__medal-img {
+  width: 100%; }
+
+.medal-item__pix-score {
+  font-family: "Overpass", Arial, sans-serif;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  color: #3d68ff;
+  font-size: 45px;
+  position: absolute;
+  top: 15%;
+  left: 31%; }
+  @media (min-width: 768px) {
+    .medal-item__pix-score {
+      font-size: 65px; } }
+
+.medal-item__pix-text {
+  font-family: "Raleway", Arial, sans-serif;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  color: #3d68ff;
+  margin-top: -20px;
+  font-size: 30px;
+  position: absolute;
+  top: 61%;
+  left: 37%; }
+  @media (min-width: 768px) {
+    .medal-item__pix-text {
+      margin-top: -35px;
+      font-size: 40px; } }
+
+.medal-item__bêta {
+  position: absolute;
+  left: 35%;
+  color: #ffbe00;
+  font-weight: 900;
+  letter-spacing: 6px;
+  font-size: 12px; }
+  @media (min-width: 768px) {
+    .medal-item__bêta {
+      font-size: 18px; } }
+
 .navbar-header {
   background-color: transparent;
   padding: 20px 0;
@@ -1452,6 +1500,10 @@ button.routable-modal--close:active {
     box-shadow: none;
     border: solid 2px #446eff;
     transition: border-color 1s ease; }
+  .result-item:focus {
+    outline: none;
+    box-shadow: none;
+    border: solid 2px #446eff; }
   .result-item:nth-last-child(1) {
     margin-bottom: 20px; }
 
@@ -1495,9 +1547,19 @@ button.routable-modal--close:active {
   /* XXX : should be aligned with flexbox */ }
 
 .result-item__correction__button {
+  color: #3d68ff;
+  font-weight: 700;
+  padding-right: 0;
+  padding-left: 0;
+  margin-left: 12px;
   border: none;
   outline: 0;
   background-color: transparent; }
+
+.result-item__correction__button:focus,
+.result-item__correction__button:hover {
+  border-bottom: solid 2px;
+  font-weight: 900; }
 
 .result-item__icon {
   margin-left: 14px;
@@ -1542,23 +1604,35 @@ button.routable-modal--close:active {
   background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
   color: #ffffff;
   font-family: "Raleway", Arial, sans-serif; }
+  @media (min-width: 768px) {
+    .scoring-panel {
+      -ms-flex-direction: row;
+      flex-direction: row;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap; } }
 
-/*-----------------------------------*/
-.scoring-panel__trophy {
+/*---------------Reward DIV--------------------*/
+.scoring-panel__reward {
+  height: 169px;
+  width: 150px;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column;
-  position: relative;
   margin-top: -30px;
   text-align: center; }
   @media (min-width: 768px) {
-    .scoring-panel__trophy {
-      margin-right: 50px; } }
+    .scoring-panel__reward {
+      margin-right: 50px;
+      height: 245px;
+      width: 217px;
+      margin-top: 71px;
+      margin-bottom: 71px; } }
   @media (min-width: 992px) {
-    .scoring-panel__trophy {
+    .scoring-panel__reward {
       margin-right: 80px; } }
 
+/*-----------------Congrats DIV-------------------*/
 .scoring-panel__congrats {
   display: -ms-flexbox;
   display: flex;
@@ -1570,64 +1644,10 @@ button.routable-modal--close:active {
   @media (min-width: 768px) {
     .scoring-panel__congrats {
       text-align: left;
-      padding: 0px; } }
+      padding: 0px;
+      margin-top: 71px;
+      margin-bottom: 71px; } }
 
-.scoring-panel__index-link {
-  border-radius: 23px;
-  border: solid 1px #ffffff;
-  margin-top: 10px;
-  margin-bottom: 15px;
-  padding: 5px 10px;
-  text-align: center; }
-  @media (min-width: 768px) {
-    .scoring-panel__index-link {
-      margin-left: 30px; } }
-  @media (min-width: 992px) {
-    .scoring-panel__index-link {
-      margin-left: 60px;
-      margin-bottom: -30px; } }
-
-/*-----------------------------------*/
-.scoring-panel__trophy-div-svg {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: center;
-  justify-content: center; }
-
-.scoring-panel__trophy-img {
-  height: 169px;
-  width: 150px; }
-  @media (min-width: 768px) {
-    .scoring-panel__trophy-img {
-      height: 237px;
-      width: 267px; } }
-
-.scoring-panel__trophy-level {
-  font-weight: 800;
-  text-align: center;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  font-family: "Overpass", Arial, sans-serif;
-  font-weight: 900;
-  color: #3d68ff;
-  letter-spacing: 3px;
-  margin-top: -38px;
-  font-size: 17px; }
-  @media (min-width: 768px) {
-    .scoring-panel__trophy-level {
-      margin-top: -55px;
-      font-size: 26px; } }
-
-.scoring-panel__trophy-bêta {
-  color: #ffbe00;
-  font-weight: 900;
-  letter-spacing: 6px;
-  margin-top: 10px;
-  font-size: 12px; }
-  @media (min-width: 768px) {
-    .scoring-panel__trophy-bêta {
-      font-size: 18px; } }
-
-/*-----------------------------------*/
 .scoring-panel__congrats-course-name {
   margin-bottom: 15px;
   font-weight: 600;
@@ -1650,13 +1670,17 @@ button.routable-modal--close:active {
     .scoring-panel__congrats-felicitations {
       font-size: 60px; } }
 
+.scoring-panel__congrats-pas-mal {
+  font-weight: 300;
+  font-size: 35px; }
+
 .scoring-panel__congrats-scoring {
   margin-bottom: 10px;
   font-size: 20px;
   line-height: 1.07; }
   @media (min-width: 768px) {
     .scoring-panel__congrats-scoring {
-      font-size: 28px; } }
+      font-size: 21px; } }
 
 .scoring-panel__congrats-beta {
   font-weight: 500;
@@ -1665,13 +1689,35 @@ button.routable-modal--close:active {
     .scoring-panel__congrats-beta {
       font-size: 14px; } }
 
-/*-----------------------------------*/
+/*------------BUTTON RETOUR ACCUEIL DIV-----------------*/
+.scoring-panel__index-link {
+  border-radius: 23px;
+  border: solid 1px #ffffff;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  text-align: center; }
+  @media (min-width: 768px) {
+    .scoring-panel__index-link {
+      margin-left: 30px;
+      -ms-flex-item-align: end;
+      align-self: flex-end; } }
+  @media (min-width: 992px) {
+    .scoring-panel__index-link {
+      margin-left: 60px; } }
+
 .scoring-panel__index-link__element {
   font-family: "Lato", Arial, sans-serif;
   letter-spacing: 0.5px;
   text-align: center;
   background-color: transparent;
-  border: transparent; }
+  border: transparent;
+  outline: 0; }
+  @media (min-width: 768px) {
+    .scoring-panel__index-link__element {
+      font-size: 13px;
+      -ms-flex-item-align: end;
+      align-self: flex-end; } }
 
 .timeout-jauge-wrapper {
   padding-top: 0;
@@ -1723,6 +1769,39 @@ button.routable-modal--close:active {
   align-items: center;
   -ms-flex-pack: center;
   justify-content: center; }
+
+.trophy-item {
+  position: relative; }
+
+.trophy-item__img {
+  width: 100%; }
+
+.trophy-item__level {
+  font-weight: 800;
+  text-align: center;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  font-family: "Overpass", Arial, sans-serif;
+  font-weight: 900;
+  color: #3d68ff;
+  letter-spacing: 3px;
+  position: absolute;
+  top: 77%;
+  left: 19%;
+  font-size: 17px; }
+  @media (min-width: 768px) {
+    .trophy-item__level {
+      font-size: 26px; } }
+
+.trophy-item__bêta {
+  position: absolute;
+  left: 35%;
+  color: #ffbe00;
+  font-weight: 900;
+  letter-spacing: 6px;
+  font-size: 12px; }
+  @media (min-width: 768px) {
+    .trophy-item__bêta {
+      font-size: 18px; } }
 
 .challenge-item-warning {
   border-radius: 5px;
@@ -1810,6 +1889,10 @@ button.routable-modal--close:active {
     box-shadow: none;
     border: solid 2px #446eff;
     transition: border-color 1s ease; }
+  .result-item:focus {
+    outline: none;
+    box-shadow: none;
+    border: solid 2px #446eff; }
   .result-item:nth-last-child(1) {
     margin-bottom: 20px; }
 
@@ -1853,9 +1936,19 @@ button.routable-modal--close:active {
   /* XXX : should be aligned with flexbox */ }
 
 .result-item__correction__button {
+  color: #3d68ff;
+  font-weight: 700;
+  padding-right: 0;
+  padding-left: 0;
+  margin-left: 12px;
   border: none;
   outline: 0;
   background-color: transparent; }
+
+.result-item__correction__button:focus,
+.result-item__correction__button:hover {
+  border-bottom: solid 2px;
+  font-weight: 900; }
 
 .result-item__icon {
   margin-left: 14px;
@@ -2088,9 +2181,8 @@ button.routable-modal--close:active {
 .qcm-panel__proposal-item {
   margin-left: 7px; }
 
-.qcm-panel__proposal-checkbox {
-  opacity: 0;
-  display: none; }
+input.qcm-panel__proposal-checkbox {
+  margin-right: 10px; }
 
 .qcm-panel__proposal-label {
   font-weight: 400;
@@ -2242,55 +2334,14 @@ button.routable-modal--close:active {
       margin-bottom: 0;
       padding: 0; } }
 
-.signup-form__cgu-container input[type="checkbox"] {
-  -webkit-appearance: none; }
-
-.signup-form__cgu-container input[type="checkbox"]:after {
-  border-color: #D8D8D8; }
-
-.signup-form__cgu-container input[type="checkbox"]:disabled:after {
-  border-color: #D8D8D8; }
-
-.signup-form__cgu-container input[type="checkbox"]:focus {
-  outline: none; }
-
-.signup-form__cgu-container input[type="checkbox"]:after {
-  border: 2px solid #D8D8D8;
-  border-radius: 2px;
-  content: '';
-  display: block;
-  height: 18px;
-  transition: 240ms;
-  width: 18px; }
-
-.signup-form__cgu-container input[type="checkbox"]:checked:before {
-  transform: rotate(45deg);
-  position: absolute;
-  left: 6px;
-  display: table;
-  width: 7px;
-  height: 14px;
-  border: 2px solid #ffffff;
-  border-top: 0;
-  border-left: 0;
-  content: ''; }
-
-.signup-form__cgu-container input[type="checkbox"]:checked:after {
-  background-color: #3d68ff;
-  border-color: #3d68ff; }
-
-.signup-form__cgu-container input[type="checkbox"]:disabled:checked:after {
-  background-color: rgba(0, 0, 0, 0.26);
-  border-color: transparent; }
-
-.signup-form__cgu-container input[type="checkbox"]:focus:after {
-  border-color: #3d68ff; }
-
 .signup-form__cgu-label {
   position: relative;
   display: -ms-flexbox;
   display: flex;
   margin-bottom: 0; }
+
+.signup-form__cgu-label input[type=checkbox] {
+  margin: 3px 15px; }
 
 .signup-form__cgu-label span {
   color: #6a6d76;
@@ -2361,9 +2412,6 @@ button.routable-modal--close:active {
   outline: none;
   color: #6a6d76; }
 
-.signup-textfield__input-field-container svg {
-  margin: 6px 8px; }
-
 .signup-textfield__message {
   position: absolute;
   top: 0;
@@ -2378,6 +2426,11 @@ button.routable-modal--close:active {
   text-align: right;
   margin-top: -5px;
   margin-bottom: 5px; }
+
+.signup-textfield__icon {
+  width: 20px;
+  height: 20px;
+  margin: 6px 8px; }
 
 .scoring-panel-tantpix {
   display: -ms-flexbox;
@@ -2849,7 +2902,9 @@ hr.project-page__presentation-header-line {
 
 .assessment-results__logo-banner {
   width: 100%;
-  padding: 20px; }
+  padding: 20px;
+  padding-left: 12%;
+  background-color: #ffffff; }
 
 .assessment-results__scoring {
   width: 100%; }
@@ -3088,6 +3143,5 @@ body {
   font-family: "Lato", Arial, sans-serif;
   background-color: #f2f3f4; }
 
-input[type="radio"],
-input[type="checkbox"] {
+input[type="radio"] {
   margin: 0 5px 0 0; }
