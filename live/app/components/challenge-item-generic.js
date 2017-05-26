@@ -81,6 +81,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
     validate: callOnlyOnce(function() {
       if (this._hasError()) {
         this.set('errorMessage', this._getErrorMessage());
+        return this.sendAction('onError', this.get('errorMessage'));
       }
       const answerValue = this._getAnswerValue();
       this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), answerValue, this._getTimeout(), this._getElapsedTime());
