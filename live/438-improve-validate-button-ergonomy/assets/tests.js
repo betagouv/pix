@@ -2501,10 +2501,6 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('controllers/courses/get-challenge-preview.js', function () {
-      // test passed
-    });
-
     it('helpers/convert-to-html.js', function () {
       // test passed
     });
@@ -2795,6 +2791,114 @@ define('pix-live/tests/helpers/start-app', ['exports', 'ember', 'pix-live/app', 
       return application;
     });
   }
+});
+define('pix-live/tests/integration/components/challenge-actions-test', ['rsvp', 'chai', 'mocha', 'ember-mocha'], function (_rsvp, _chai, _mocha, _emberMocha) {
+  'use strict';
+
+  var VALIDATE_BUTTON = '.challenge-actions__action-validate';
+  var SKIP_BUTTON = '.challenge-actions__action-skip';
+
+  (0, _mocha.describe)('Integration | Component | challenge actions', function () {
+
+    (0, _emberMocha.setupComponentTest)('challenge-actions', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      this.render(Ember.HTMLBars.template({
+        "id": "EP4MIB23",
+        "block": "{\"statements\":[[1,[26,[\"challenge-actions\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.describe)('Validate button (and placeholding loader)', function () {
+
+      (0, _mocha.it)('should be displayed and enable by default but not loader', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "EP4MIB23",
+          "block": "{\"statements\":[[1,[26,[\"challenge-actions\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+        // then
+        (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('should be replaced by a (spinning) loader during treatment', function () {
+        // given
+        this.set('externalAction', function () {
+          return new _rsvp.default.Promise(function () {});
+        });
+        this.render(Ember.HTMLBars.template({
+          "id": "3ec6dWM6",
+          "block": "{\"statements\":[[1,[33,[\"challenge-actions\"],null,[[\"answerValidated\"],[[33,[\"action\"],[[28,[null]],[28,[\"externalAction\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        this.$('.challenge-actions__action-validate').click();
+
+        // then
+        (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should be enable again when the treatment succeeded', function () {
+        // given
+        this.set('externalAction', function () {
+          return _rsvp.default.resolve();
+        });
+        this.render(Ember.HTMLBars.template({
+          "id": "3ec6dWM6",
+          "block": "{\"statements\":[[1,[33,[\"challenge-actions\"],null,[[\"answerValidated\"],[[33,[\"action\"],[[28,[null]],[28,[\"externalAction\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        this.$('.challenge-actions__action-validate').click();
+
+        // then
+        (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('should be enable again when the treatment failed', function () {
+        // given
+        this.set('externalAction', function () {
+          return _rsvp.default.reject('Some error');
+        });
+        this.render(Ember.HTMLBars.template({
+          "id": "3ec6dWM6",
+          "block": "{\"statements\":[[1,[33,[\"challenge-actions\"],null,[[\"answerValidated\"],[[33,[\"action\"],[[28,[null]],[28,[\"externalAction\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        this.$('.challenge-actions__action-validate').click();
+
+        // then
+        (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
+      });
+    });
+
+    (0, _mocha.describe)('Skip button', function () {
+
+      (0, _mocha.it)('should be displayed and enable by default', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "EP4MIB23",
+          "block": "{\"statements\":[[1,[26,[\"challenge-actions\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+        // then
+        (0, _chai.expect)(this.$(SKIP_BUTTON)).to.have.lengthOf(1);
+      });
+    });
+  });
 });
 define('pix-live/tests/integration/components/challenge-statement-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
   'use strict';
@@ -6428,6 +6532,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/challenge-actions-test.js', function () {
+      // test passed
+    });
+
     it('integration/components/challenge-statement-test.js', function () {
       // test passed
     });
@@ -8643,7 +8751,7 @@ define('pix-live/tests/unit/routes/courses/get-challenge-preview-test', ['chai',
   (0, _mocha.describe)('Unit | Route | ChallengePreview', function () {
 
     (0, _emberMocha.setupTest)('route:courses/get-challenge-preview', {
-      needs: ['service:current-routed-modal']
+      needs: ['service:current-routed-modal', 'service:assessment']
     });
 
     (0, _mocha.it)('exists', function () {
