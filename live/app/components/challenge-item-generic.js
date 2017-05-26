@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import RSVP from 'rsvp';
 import callOnlyOnce from '../utils/call-only-once';
 import _ from 'pix-live/utils/lodash-custom';
 import ENV from 'pix-live/config/environment';
@@ -80,20 +81,21 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
   actions: {
 
-    validateAnswer: callOnlyOnce(function() {
+    validateAnswer() {
       if (this._hasError()) {
-        this.set('errorMessage', this._getErrorMessage());
-        return this.sendAction('onError', this.get('errorMessage'));
+        const errorMessage = this._getErrorMessage();
+        this.set('errorMessage', errorMessage);
+        return RSVP.reject(errorMessage);
       }
       const answerValue = this._getAnswerValue();
-      this.get('answerValidated')(this.get('challenge'), this.get('assessment'), answerValue, this._getTimeout(), this._getElapsedTime());
       this.set('_hasUserAknowledgedTimingWarning', false);
-    }),
+      return this.get('answerValidated')(this.get('challenge'), this.get('assessment'), answerValue, this._getTimeout(), this._getElapsedTime());
+    },
 
     skipChallenge: callOnlyOnce(function() {
       this.set('errorMessage', null);
-      this.get('answerValidated')(this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout(), this._getElapsedTime());
       this.set('_hasUserAknowledgedTimingWarning', false);
+      this.get('answerValidated')(this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout(), this._getElapsedTime());
     }),
 
     setUserConfirmation() {

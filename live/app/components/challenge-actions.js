@@ -14,7 +14,14 @@ export default Ember.Component.extend({
     },
 
     validateAnswer() {
-      this.get('answerValidated')();
+      const promise = this.get('answerValidated')();
+      promise
+        .then(() => {
+          Ember.Logger.log('YEAH!');
+        })
+        .catch(err => {
+          Ember.Logger.log(err);
+        });
     }
   }
 
