@@ -2731,8 +2731,41 @@ define('pix-live/tests/helpers/destroy-app', ['exports', 'ember'], function (exp
   exports.default = destroyApp;
   function destroyApp(application) {
     _ember.default.run(application, 'destroy');
-    server.shutdown();
+    if (window.server) {
+      window.server.shutdown();
+    }
   }
+});
+define('pix-live/tests/helpers/module-for-acceptance', ['exports', 'qunit', 'ember', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _qunit, _ember, _startApp, _destroyApp) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  exports.default = function (name) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    (0, _qunit.module)(name, {
+      beforeEach: function beforeEach() {
+        this.application = (0, _startApp.default)();
+
+        if (options.beforeEach) {
+          return options.beforeEach.apply(this, arguments);
+        }
+      },
+      afterEach: function afterEach() {
+        var _this = this;
+
+        var afterEach = options.afterEach && options.afterEach.apply(this, arguments);
+        return Promise.resolve(afterEach).then(function () {
+          return (0, _destroyApp.default)(_this.application);
+        });
+      }
+    });
+  };
+
+  var Promise = _ember.default.RSVP.Promise;
 });
 define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-live/config/environment'], function (exports, _resolver, _environment) {
   'use strict';
@@ -6428,6 +6461,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('helpers/destroy-app.js', function () {
+      // test passed
+    });
+
+    it('helpers/module-for-acceptance.js', function () {
       // test passed
     });
 
