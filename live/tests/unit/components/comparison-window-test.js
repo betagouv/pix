@@ -8,12 +8,14 @@ function _assertResultItemTitle(resultItem, expected) {
 }
 
 function _assertResultItemTooltip(resultItem, expected) {
-  expect(resultItem.titleTooltip).to.equal(expected);
+  expect(resultItem.tooltip).to.equal(expected);
 }
 
 describe('Unit | Component | comparison-window', function() {
 
-  setupTest('component:comparison-window', {});
+  setupTest('component:comparison-window', {
+    needs: ['service:current-routed-modal', 'initializer:jquery-tabbable']
+  });
 
   let component;
   let answer;
@@ -201,7 +203,6 @@ describe('Unit | Component | comparison-window', function() {
       // then
       _assertResultItemTitle(resultItem, 'Vous avez donné une réponse partielle');
       _assertResultItemTooltip(resultItem, 'Réponse partielle');
-      expect(resultItem.custom).to.be.true;
     });
 
     it('should return adapted title and tooltip when result is "timedout"', function() {
