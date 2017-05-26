@@ -5377,6 +5377,8 @@ define('pix-live/tests/integration/components/scoring-panel-tantpix-test', ['cha
         (0, _mocha.it)('should return a smiley illustration which satisfy minimals accessibilities conditions', function () {
           var smiley = this.$(HEADING_ILLUSTRATION_CLASS);
           (0, _chai.expect)(smiley.attr('src')).to.includes('/images/smiley.png');
+          (0, _chai.expect)(smiley.attr('srcset')).to.includes('/images/smiley@2x.png');
+          (0, _chai.expect)(smiley.attr('srcset')).to.includes('/images/smiley@3x.png');
           (0, _chai.expect)(smiley.attr('alt')).to.includes('smiley');
         });
       });
