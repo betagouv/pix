@@ -2252,7 +2252,7 @@ input.qcm-panel__proposal-checkbox {
   border-radius: 10px;
   margin: 10px 5px 10px;
   background-color: #ffffff; }
-  @media (maw-width: 767px) {
+  @media (max-width: 767px) {
     .signup-form-container {
       margin: 25px 15px 15px; } }
   @media (min-width: 768px) {
@@ -2279,7 +2279,7 @@ input.qcm-panel__proposal-checkbox {
   color: #3e4149;
   margin: 0;
   font-size: 22px; }
-  @media (maw-width: 767px) {
+  @media (max-width: 767px) {
     .signup-form__heading {
       font-size: 25px; } }
   @media (min-width: 768px) {
@@ -2327,7 +2327,7 @@ input.qcm-panel__proposal-checkbox {
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column; }
-  @media (maw-width: 767px) {
+  @media (max-width: 767px) {
     .signup-form__cgu-container {
       margin-top: 6px;
       margin-bottom: 0;
@@ -2345,7 +2345,7 @@ input.qcm-panel__proposal-checkbox {
 .signup-form__cgu-label span {
   color: #6a6d76;
   font-size: 13px; }
-  @media (maw-width: 767px) {
+  @media (max-width: 767px) {
     .signup-form__cgu-label span {
       font-size: 14px; } }
 
@@ -2354,7 +2354,7 @@ input.qcm-panel__proposal-checkbox {
 
 .signup-form__submit-container {
   margin: 5px auto 20px; }
-  @media (maw-width: 767px) {
+  @media (max-width: 767px) {
     .signup-form__submit-container {
       margin: 31px auto 34px; } }
 

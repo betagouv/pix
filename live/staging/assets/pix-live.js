@@ -3416,13 +3416,14 @@ define('pix-live/initializers/data-adapter', ['exports', 'ember'], function (exp
     initialize: function initialize() {}
   };
 });
-define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember-cli-mirage/utils/read-modules', 'pix-live/config/environment', 'pix-live/mirage/config', 'ember-cli-mirage/server', 'lodash/assign'], function (exports, _readModules, _environment, _config, _server, _assign2) {
+define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember', 'ember-cli-mirage/utils/read-modules', 'pix-live/config/environment', 'pix-live/mirage/config', 'ember-cli-mirage/server', 'lodash/assign'], function (exports, _ember, _readModules, _environment, _config, _server, _assign2) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
   exports.startMirage = startMirage;
+  var getWithDefault = _ember.default.getWithDefault;
   exports.default = {
     name: 'ember-cli-mirage',
     initialize: function initialize(application) {
@@ -3441,8 +3442,9 @@ define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember-cli-mirage/u
     var env = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _environment.default;
 
     var environment = env.environment;
+    var discoverEmberDataModels = getWithDefault(env['ember-cli-mirage'] || {}, 'discoverEmberDataModels', true);
     var modules = (0, _readModules.default)(env.modulePrefix);
-    var options = (0, _assign2.default)(modules, { environment: environment, baseConfig: _config.default, testConfig: _config.testConfig });
+    var options = (0, _assign2.default)(modules, { environment: environment, baseConfig: _config.default, testConfig: _config.testConfig, discoverEmberDataModels: discoverEmberDataModels });
 
     return new _server.default(options);
   }
@@ -6967,6 +6969,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+00aa93e1"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+3d26932e"});
 }
 //# sourceMappingURL=pix-live.map
