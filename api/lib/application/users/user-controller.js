@@ -4,7 +4,7 @@ const _ = require('../../infrastructure/utils/lodash-utils');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const mailService = require('../../domain/services/mail-service');
-const googleRecaptcha = require('../../domain/services/recaptcha-validator')
+const googleRecaptcha = require('../../domain/services/recaptcha-validator');
 
 function _isUniqConstraintViolated(err) {
   const SQLITE_UNIQ_CONSTRAINT = 'SQLITE_CONSTRAINT';

@@ -188,7 +188,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
             'title': 'Invalid Attribute'
           }
         ]
-      }
+      };
       // when
       const formattedJSON = serializer.serialize(invalidCaptchaResponse);
 
