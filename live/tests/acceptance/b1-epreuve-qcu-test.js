@@ -20,23 +20,21 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
     // then
-    const $proposals = $('.input-radio-proposal');
+    const $proposals = $('input[type=radio][name="radio"]');
     expect($proposals).to.have.lengthOf(4);
   });
 
   it('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', async function() {
     // given
-    await
-    visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+    await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
     // then
-    expect($('.input-radio-proposal:checked')).to.have.lengthOf(1);
+    expect($('input[type=radio][name="radio"]:checked')).to.have.lengthOf(1);
   });
 
   it('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', async function() {
     // given
-    await
-    visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+    await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
     // then
     expect($('.proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
@@ -64,19 +62,19 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
     // Given
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
-    expect($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
-    expect($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(true);
-    expect($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
-    expect($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
+    expect($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
     // When
     await click($('.label-checkbox-proposal--qcu:eq(0)')); // Click on label trigger the event.
 
     // Then
-    expect($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(true);
-    expect($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(false);
-    expect($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
-    expect($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(true);
+    expect($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
   });
 
   it('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', async function() {
@@ -100,10 +98,10 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
 
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
-    expect($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
-    expect($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(true);
-    expect($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
-    expect($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
+    expect($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
     // When
     await click($('.label-checkbox-proposal--qcu:eq(3)'));

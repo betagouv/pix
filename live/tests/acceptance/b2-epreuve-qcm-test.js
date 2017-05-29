@@ -22,13 +22,19 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
   });
 
   it('b2.1 It should render challenge instruction', function() {
+    // Given
+    const expectedInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
+
+    // Then
     const $challengeInstruction = $('.challenge-statement__instruction');
-    const instructionText = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
-    expect($challengeInstruction.text().trim()).to.equal(instructionText);
+    expect($challengeInstruction.text().trim()).to.equal(expectedInstruction);
   });
 
   it('b2.2 Le contenu de type [foo](bar) doit être converti sous forme de lien', function() {
+    // When
     const $links = findWithAssert('.challenge-statement__instruction a');
+
+    // Then
     expect($links.length).to.equal(1);
     expect($links.text()).to.equal('plusieurs');
     expect($links.attr('href')).to.equal('http://link.plusieurs.url');
@@ -73,7 +79,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
 
   it('b2.9 If an user check a checkbox, it is checked', function() {
     expect($('input:checkbox:checked')).to.have.lengthOf(0);
-    $('.input-checkbox-proposal:eq(1)').click();
+    $('.proposal-text:eq(1)').click();
     andThen(() => {
       expect($('input:checkbox:checked')).to.have.lengthOf(1);
     });
@@ -81,7 +87,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
 
   it('b2.10 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function() {
     expect($('input:checkbox:checked')).to.have.lengthOf(1);
-    $('.input-checkbox-proposal:eq(2)').click();
+    $('.proposal-text:eq(2)').click();
     andThen(() => {
       expect($('input:checkbox:checked')).to.have.lengthOf(2);
     });
