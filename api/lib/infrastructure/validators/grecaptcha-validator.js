@@ -4,7 +4,7 @@ const logger = require('../logger');
 
 module.exports = {
 
-  verify(responseToken){
+  verify(responseToken) {
     return new Promise((resolve, reject) => {
       request.post(`https://www.google.com/recaptcha/api/siteverify?secret=${config.googleReCaptcha.secret}&response=${responseToken}`, (err, response, body) => {
         if(err) {
