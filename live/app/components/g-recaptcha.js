@@ -6,8 +6,9 @@ export default Ember.Component.extend({
 
   googleRecaptcha: Ember.inject.service(),
 
-  recaptchaToken: null,
-  tokenHasBeenUsed: null,
+  validateRecaptcha: null, // action
+  resetRecaptcha: null, // action
+  validation: null,
 
   didInsertElement() {
     this._super(...arguments);
@@ -19,7 +20,7 @@ export default Ember.Component.extend({
 
   didUpdateAttrs() {
     this._super(...arguments);
-    if (this.get('tokenHasBeenUsed')) {
+    if(this.get('tokenHasBeenUsed')) {
       this.get('googleRecaptcha').reset();
     }
   },
