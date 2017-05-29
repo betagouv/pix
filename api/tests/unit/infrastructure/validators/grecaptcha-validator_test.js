@@ -30,7 +30,24 @@ describe('Unit | Service | google-recaptcha-validator', () => {
     });
 
     describe('Success case', function() {
+      it('should return a resolved promise when user response token is valid', function() {
+        // given
+        const requestPostErrorStub = sinon.stub(request, 'post', function(uri, cb) {
+          requestPostErrorStub.restore();
+          const err = null;
+          const response = {statusCode: 200};
+          const body = {
+            'success': true,
+            'error-codes': []
+          };
 
+          cb(err, response, body);
+        });
+
+        // when
+        const promise = gRecaptcha.verify(RECAPTCHA_TOKEN);
+        return expect(promise).to.be.resolved;
+      });
     });
 
     describe('Error cases', function() {
@@ -53,45 +70,46 @@ describe('Unit | Service | google-recaptcha-validator', () => {
         const promise = gRecaptcha.verify(INVALID_RECAPTCHA_TOKEN);
         return expect(promise).to.be.rejected;
       });
-    });
 
-    it('should return a rejected promise when request failed for network reason', function() {
-      // given
-      const loggerStub = sinon.stub(logger, 'error').returns({});
-      const requestPostErrorStub = sinon.stub(request, 'post', function(uri, cb) {
-        requestPostErrorStub.restore();
-        const err = new Error();
-        const response = {};
-        const body = {};
+      it('should return a rejected promise when request failed for network reason', function() {
+        // given
+        const loggerStub = sinon.stub(logger, 'error').returns({});
+        const requestPostErrorStub = sinon.stub(request, 'post', function(uri, cb) {
+          requestPostErrorStub.restore();
+          const err = new Error();
+          const response = {};
+          const body = {};
 
-        cb(err, response, body);
-      });
+          cb(err, response, body);
+        });
 
-      // when
-      const promise = gRecaptcha.verify('foo-bar');
-      loggerStub.restore();
-      return expect(promise).to.be.rejectedWith('An error occurred during connection to the Google servers');
-    });
-
-    it('should call logger once time, when request failed for network reason', function() {
-      // given
-      const loggerStub = sinon.stub(logger, 'error').returns({});
-      const requestPostErrorStub = sinon.stub(request, 'post', function(uri, cb) {
-        requestPostErrorStub.restore();
-        const err = new Error();
-        const response = {};
-        const body = {};
-
-        cb(err, response, body);
-      });
-
-      // when
-      return gRecaptcha.verify('foo-bar').catch(() => {
+        // when
+        const promise = gRecaptcha.verify('foo-bar');
         loggerStub.restore();
-        sinon.assert.calledOnce(loggerStub);
+        return expect(promise).to.be.rejectedWith('An error occurred during connection to the Google servers');
+      });
 
+      it('should call logger once time, when request failed for network reason', function() {
+        // given
+        const loggerStub = sinon.stub(logger, 'error').returns({});
+        const requestPostErrorStub = sinon.stub(request, 'post', function(uri, cb) {
+          requestPostErrorStub.restore();
+          const err = new Error();
+          const response = {};
+          const body = {};
+
+          cb(err, response, body);
+        });
+
+        // when
+        return gRecaptcha.verify('foo-bar').catch(() => {
+          loggerStub.restore();
+          sinon.assert.calledOnce(loggerStub);
+
+        });
       });
     });
+
   });
 
 });
