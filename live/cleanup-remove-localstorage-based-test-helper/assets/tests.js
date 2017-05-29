@@ -309,58 +309,35 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
     };
   }
 
-  var application = void 0;
-
   (0, _mocha.describe)('Acceptance | b1 - Afficher un QCU | ', function () {
+
+    var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
-      visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
     });
 
     (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
-    (0, _mocha.it)('b1.1 Une liste de radiobuttons doit s\'afficher', function () {
-      var $proposals = $('.input-radio-proposal');
-      (0, _chai.expect)($proposals).to.have.lengthOf(4);
-    });
-
-    (0, _mocha.it)('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', function () {
-      (0, _chai.expect)($('.input-radio-proposal:checked')).to.have.lengthOf(1);
-    });
-
-    (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', function () {
-      (0, _chai.expect)($('.proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
-      (0, _chai.expect)($('.proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
-      (0, _chai.expect)($('.proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
-      (0, _chai.expect)($('.proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
-    });
-
-    (0, _mocha.it)('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-      var $alert;
+    (0, _mocha.it)('b1.1 Une liste de radiobuttons doit s\'afficher', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      var $proposals;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
+              _context.next = 2;
+              return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
-              // given
-              $(':radio').prop('checked', false);
-
-              // when
-              _context.next = 3;
-              return click('.challenge-actions__action-validate');
-
-            case 3:
+            case 2:
 
               // then
-              $alert = $('.alert');
+              $proposals = $('.input-radio-proposal');
 
-              (0, _chai.expect)($alert).to.have.lengthOf(1);
-              (0, _chai.expect)($alert.text().trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
+              (0, _chai.expect)($proposals).to.have.lengthOf(4);
 
-            case 6:
+            case 4:
             case 'end':
               return _context.stop();
           }
@@ -368,23 +345,104 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
+              _context2.next = 2;
+              return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
-              // Given
+            case 2:
+
+              // then
+              (0, _chai.expect)($('.input-radio-proposal:checked')).to.have.lengthOf(1);
+
+            case 3:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
+
+    (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+
+            case 2:
+
+              // then
+              (0, _chai.expect)($('.proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
+              (0, _chai.expect)($('.proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
+              (0, _chai.expect)($('.proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
+              (0, _chai.expect)($('.proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
+
+            case 6:
+            case 'end':
+              return _context3.stop();
+          }
+        }
+      }, _callee3, this);
+    })));
+
+    (0, _mocha.it)('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+      var $alert;
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+
+            case 2:
+
+              $(':radio').prop('checked', false);
+
+              // when
+              _context4.next = 5;
+              return click('.challenge-actions__action-validate');
+
+            case 5:
+
+              // then
+              $alert = $('.alert');
+
+              (0, _chai.expect)($alert).to.have.lengthOf(1);
+              (0, _chai.expect)($alert.text().trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
+
+            case 8:
+            case 'end':
+              return _context4.stop();
+          }
+        }
+      }, _callee4, this);
+    })));
+
+    (0, _mocha.it)('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+      return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              _context5.next = 2;
+              return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+
+            case 2:
+
               (0, _chai.expect)($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
               (0, _chai.expect)($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(true);
               (0, _chai.expect)($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
               (0, _chai.expect)($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
 
               // When
-              _context2.next = 6;
+              _context5.next = 8;
               return click($('.label-checkbox-proposal--qcu:eq(0)'));
 
-            case 6:
+            case 8:
               // Click on label trigger the event.
 
               // Then
@@ -393,12 +451,61 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
               (0, _chai.expect)($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
               (0, _chai.expect)($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
 
-            case 10:
+            case 12:
             case 'end':
-              return _context2.stop();
+              return _context5.stop();
           }
         }
-      }, _callee2, this);
+      }, _callee5, this);
+    })));
+
+    (0, _mocha.it)('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+      return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              // Given
+              server.post('/answers', function (schema, request) {
+                var params = JSON.parse(request.requestBody);
+
+                (0, _chai.expect)(params.data.type).to.equal('answers');
+                (0, _chai.expect)(params.data.attributes.value).to.equal('4');
+
+                return {
+                  data: {
+                    type: 'answers',
+                    id: 'ref_answer_qcm_id',
+                    attributes: {
+                      value: '4'
+                    }
+                  }
+                };
+              });
+
+              _context6.next = 3;
+              return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+
+            case 3:
+
+              (0, _chai.expect)($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
+              (0, _chai.expect)($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(true);
+              (0, _chai.expect)($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
+              (0, _chai.expect)($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
+
+              // When
+              _context6.next = 9;
+              return click($('.label-checkbox-proposal--qcu:eq(3)'));
+
+            case 9:
+              _context6.next = 11;
+              return click('.challenge-actions__action-validate');
+
+            case 11:
+            case 'end':
+              return _context6.stop();
+          }
+        }
+      }, _callee6, this);
     })));
   });
 });
@@ -2369,7 +2476,11 @@ define('pix-live/tests/helpers/destroy-app', ['exports', 'ember'], function (exp
   exports.default = destroyApp;
   function destroyApp(application) {
     _ember.default.run(application, 'destroy');
-    server.shutdown();
+    if (window.server) {
+      window.server.shutdown();
+    } else {
+      server.shutdown();
+    }
   }
 });
 define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-live/config/environment'], function (exports, _resolver, _environment) {
