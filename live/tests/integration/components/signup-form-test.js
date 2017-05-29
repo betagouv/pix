@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {describe, it} from 'mocha';
+import {describe, it, beforeEach} from 'mocha';
 import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
@@ -40,9 +40,9 @@ const ICON_ERROR_CLASS = 'signup-textfield__icon--error';
 const ICON_SUCCESS_CLASS = 'signup-textfield__icon--success';
 
 const userEmpty = Ember.Object.create({});
-const CAPTCHA_CONTAINER = '.signup-form__captcha';
+const CAPTCHA_CONTAINER = '.signup-form__captcha-container';
 
-describe('Integration | Component | signup form', function() {
+describe.only('Integration | Component | signup form', function() {
   setupComponentTest('signup-form', {
     integration: true
   });

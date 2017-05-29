@@ -1,37 +1,39 @@
 import Ember from 'ember';
 
-export default Ember.Component.extend({
+const siteKey = '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO';
 
-  siteKey: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO',
+export default Ember.Component.extend({
+  classNames: ['gg-recaptcha'],
+
+  validateCaptcha: null, // action
+
+
 
   didInsertElement() {
     this._super(...arguments);
-    Ember.run.next(() => {
-      this.renderReCaptcha();
-    });
+    const component = this;
+    window.onGrecaptchaLoad = function() {
+      component.renderReCaptcha();
+    };
   },
 
   renderReCaptcha() {
-    if (Ember.isNone(window.grecaptcha)) {
-      Ember.run.later(() => {
-        this.renderReCaptcha();
-      }, 500);
-    } else {
-      const container = 'g-recaptcha';
+    Ember.assert('window.grecaptcha must be available', window.grecaptcha);
+    if (!this.get('isDestroyed')) {
       const parameters = {
         callback: this.get('successCallback').bind(this),
-        'sitekey': this.getProperties('siteKey')['siteKey']
+        'expired-callback': this.get('expiredCallback').bind(this),
+        'sitekey': siteKey
       };
-      const widgetId = window.grecaptcha.render(container, parameters);
-      this.set('widgetId', widgetId);
-      this.set('ref', this);
+      window.grecaptcha.render('g-recaptcha', parameters);
     }
   },
 
   successCallback(reCaptchaResponse) {
-    this.sendAction('validateCaptcha', reCaptchaResponse);
+    this.get('validateCaptcha')(reCaptchaResponse);
   },
 
-  //Créer un reset avec callback de reset qui sendAction a resetCapctha response from user
+  expiredCallback() {
+  }
 
 });

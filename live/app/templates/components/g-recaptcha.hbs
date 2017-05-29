@@ -1,3 +1,8 @@
-<div id= "g-recaptcha"></div>
+<div id="g-recaptcha"></div>
 
-<script src="https://www.google.com/recaptcha/api.js?render=explicit"></script>
+
+{{#if LOAD_EXTERNAL_SCRIPT}}
+
+  <script src="https://www.google.com/recaptcha/api.js?onload=onGrecaptchaLoad&render=explicit"></script>
+
+{{/if}}

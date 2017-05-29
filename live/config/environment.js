@@ -26,7 +26,8 @@ module.exports = function (environment) {
       MESSAGE_DISPLAY_DURATION: 1500,
       isMobileSimulationEnabled: false,
       isTimerCountdownEnabled: true,
-      isMessageStatusTogglingEnabled: true
+      isMessageStatusTogglingEnabled: true,
+      LOAD_EXTERNAL_SCRIPT:true
     },
 
     googleFonts: [
@@ -79,6 +80,7 @@ module.exports = function (environment) {
     ENV.APP.isMobileSimulationEnabled = true;
     ENV.APP.isTimerCountdownEnabled = false;
     ENV.APP.isMessageStatusTogglingEnabled = false;
+    ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
   }
 
   if (environment === 'integration') {

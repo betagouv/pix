@@ -19,7 +19,6 @@ describe('Integration | Component | g recaptcha', function() {
     // then
     expect(this.$('#g-recaptcha')).to.have.lengthOf(1);
     expect(this.$('script').attr('src')).to.equal('https://www.google.com/recaptcha/api.js?render=explicit');
-
   });
 
   it('should return a key in case of success', function() {
