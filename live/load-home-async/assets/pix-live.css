@@ -940,14 +940,14 @@ h1.course-banner__name {
   width: 200px;
   height: 30px;
   margin: 30px auto 40px auto;
-  border-top: 8px solid #bec1c8;
-  border-bottom: 8px solid #bec1c8; }
+  border-top: 8px solid #dadbdf;
+  border-bottom: 8px solid #dadbdf; }
 
 .course-item-placeholder__challenges-number {
   width: 60px;
   height: 12px;
   margin: 20px auto auto auto;
-  background-color: #bec1c8; }
+  background-color: #dadbdf; }
 
 .course-item-placeholder__begin-button {
   width: 100px;

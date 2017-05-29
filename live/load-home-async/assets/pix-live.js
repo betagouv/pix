@@ -5892,7 +5892,7 @@ define("pix-live/templates/components/course-list", ["exports"], function (expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "Xpl8X75+", "block": "{\"statements\":[[11,\"ul\",[]],[15,\"class\",\"course-list__ul\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"filteredCourses\"]]],null,{\"statements\":[[0,\"    \"],[11,\"li\",[]],[15,\"class\",\"course-list__li animated fadeIn\"],[13],[0,\"\\n      \"],[1,[33,[\"course-item\"],null,[[\"course\",\"startCourse\"],[[28,[\"course\"]],\"startCourse\"]]],false],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[\"course\"]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"isLoading\"]]],null,{\"statements\":[[0,\"    \"],[11,\"li\",[]],[15,\"class\",\"course-list__li\"],[13],[1,[33,[\"course-item-placeholder\"],null,[[\"class\"],[\"course-item-placeholder--first\"]]],false],[14],[0,\"\\n    \"],[11,\"li\",[]],[15,\"class\",\"course-list__li\"],[13],[1,[26,[\"course-item-placeholder\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[14],[0,\"\\n\\n\"],[1,[26,[\"modal-mobile\"]],false],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/course-list.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "qat1fbAP", "block": "{\"statements\":[[11,\"ul\",[]],[15,\"class\",\"course-list__ul\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"filteredCourses\"]]],null,{\"statements\":[[0,\"    \"],[11,\"li\",[]],[15,\"class\",\"course-list__li\"],[13],[0,\"\\n      \"],[1,[33,[\"course-item\"],null,[[\"course\",\"startCourse\"],[[28,[\"course\"]],\"startCourse\"]]],false],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[\"course\"]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"isLoading\"]]],null,{\"statements\":[[0,\"    \"],[11,\"li\",[]],[15,\"class\",\"course-list__li\"],[13],[1,[33,[\"course-item-placeholder\"],null,[[\"class\"],[\"course-item-placeholder--first\"]]],false],[14],[0,\"\\n    \"],[11,\"li\",[]],[15,\"class\",\"course-list__li\"],[13],[1,[26,[\"course-item-placeholder\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[14],[0,\"\\n\\n\"],[1,[26,[\"modal-mobile\"]],false],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/course-list.hbs" } });
 });
 define("pix-live/templates/components/feature-item", ["exports"], function (exports) {
   "use strict";
@@ -6980,6 +6980,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+079e2ce6"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+45ba3be4"});
 }
 //# sourceMappingURL=pix-live.map
