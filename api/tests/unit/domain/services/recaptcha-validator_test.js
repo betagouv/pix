@@ -78,7 +78,7 @@ describe('Unit | Service | reCaptcha Validator', function() {
           expect(verificationStatus.success).to.be.true;
         });
 
-      })
+      });
 
       it('should call the google reCaptcha API with good parameters', function() {
         // given

@@ -5,15 +5,18 @@ const server = require('../../../server');
 const User = require('../../../lib/domain/models/data/user');
 
 const mailService = require('../../../lib/domain/services/mail-service');
+const googleRecaptcha = require('../../../lib/domain/services/recaptcha-validator');
 
 describe('Acceptance | Controller | users-controller', function() {
 
   let options;
   let attributes;
   let sendAccountCreationEmailStub;
+  let googleRecaptchaStub;
 
   before(() => {
     sendAccountCreationEmailStub = sinon.stub(mailService, 'sendAccountCreationEmail');
+    googleRecaptchaStub = sinon.stub(googleRecaptcha, 'verify').returns(true);
   });
 
   beforeEach(function() {
@@ -40,6 +43,7 @@ describe('Acceptance | Controller | users-controller', function() {
 
   after(function() {
     sendAccountCreationEmailStub.restore();
+    googleRecaptchaStub.restore();
   });
 
   it('should return 201 HTTP status code', function() {
