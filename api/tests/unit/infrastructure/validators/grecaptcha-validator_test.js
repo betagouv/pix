@@ -3,8 +3,8 @@ const gRecaptcha = require('../../../../lib/infrastructure/validators/grecaptcha
 const request = require('request');
 const logger = require('../../../../lib/infrastructure/logger');
 
-const INVALID_RECAPTCHA_TOKEN = 'INVALID_RECAPTCHA';
-const RECAPTCHA_TOKEN = '03AOPBWq981qDlqqeuJvRRPOdV_jUsJKV7K9y8EdroTMzC50kWInTzGqEdKAhaSRozRS2Z84XzrpmcGmmF1qxC06lGPxbBfYOon_dVIie98Dr-sclrLJ69D6C3E5r9DLxNvKZjSF9cEmp7HdJzHR1Bw5-fqoqAw-9daY05zEU7abA6Wr59RPs8UvU1QnWXACcbIDW64F723EeAOWBuq14vUaYJRWGEhSbucM7uL7Uc9YbErVbJoVmH5YwVPuQiHBv9F39UBUC7qIaSKbruIy6lD7pKL0_Acyy_BGkaTSavHAdTBG_b091ex6-XheE8UigM2YeTKnch_6sandf0lmt47SCvwFlvBBMQMWJL2h8fpXfijP2kTEQiMlIhdOEslkqDykE6hCMtZLsE';
+const INVALID_OR_UNKNOW_RECAPTCHA = 'INVALID_RECAPTCHA';
+const RECAPTCHA_TOKEN = 'a-valid-recaptch-token-should-be-a-string-of-512-numalpha-characters';
 
 describe('Unit | Service | google-recaptcha-validator', () => {
 
@@ -37,8 +37,7 @@ describe('Unit | Service | google-recaptcha-validator', () => {
           const err = null;
           const response = {statusCode: 200};
           const body = {
-            'success': true,
-            'error-codes': []
+            'success': true
           };
 
           cb(err, response, body);
@@ -67,7 +66,7 @@ describe('Unit | Service | google-recaptcha-validator', () => {
         });
 
         // when
-        const promise = gRecaptcha.verify(INVALID_RECAPTCHA_TOKEN);
+        const promise = gRecaptcha.verify(INVALID_OR_UNKNOW_RECAPTCHA);
         return expect(promise).to.be.rejected;
       });
 
