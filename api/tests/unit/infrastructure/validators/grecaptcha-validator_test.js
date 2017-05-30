@@ -53,6 +53,7 @@ describe('Unit | Service | google-recaptcha-validator', () => {
 
       it('should return a rejected promise when user response token is invalid', function() {
         // given
+        const loggerStub = sinon.stub(logger, 'error').returns({});
         const requestPostErrorStub = sinon.stub(request, 'post', function(uri, cb) {
           requestPostErrorStub.restore();
           const err = null;
@@ -67,6 +68,8 @@ describe('Unit | Service | google-recaptcha-validator', () => {
 
         // when
         const promise = gRecaptcha.verify(INVALID_OR_UNKNOW_RECAPTCHA);
+        expect(promise).to.be.rejectedWith('Invalid reCaptcha token');
+        loggerStub.restore();
         return expect(promise).to.be.rejected;
       });
 
@@ -104,7 +107,6 @@ describe('Unit | Service | google-recaptcha-validator', () => {
         return gRecaptcha.verify('foo-bar').catch(() => {
           loggerStub.restore();
           sinon.assert.calledOnce(loggerStub);
-
         });
       });
     });

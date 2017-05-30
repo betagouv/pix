@@ -8,6 +8,9 @@ const server = require('../../../../server');
 
 const userController = require('../../../../lib/application/users/user-controller');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+const googleReCaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
+const {InvalidRecaptchaTokenError} = require('../../../../lib/infrastructure/validators/errors');
+const logger = require('../../../../lib/infrastructure/logger');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
@@ -23,16 +26,22 @@ describe('Unit | Controller | user-controller', () => {
     let boomBadRequestMock;
     let validationErrorSerializerStub;
     let replyStub;
+    let loggerStub;
+    let googleReCaptchaStub;
 
     beforeEach(() => {
       boomBadRequestMock = sinon.mock(Boom);
       validationErrorSerializerStub = sinon.stub(validationErrorSerializer, 'serialize');
       replyStub = sinon.stub();
+      loggerStub = sinon.stub(logger, 'error').returns({});
+      googleReCaptchaStub = sinon.stub(googleReCaptcha, 'verify').returns(Promise.resolve());
     });
 
     afterEach(() => {
       validationErrorSerializerStub.restore();
       boomBadRequestMock.restore();
+      loggerStub.restore();
+      googleReCaptchaStub.restore();
     });
 
     describe('when the account is created', () => {
@@ -67,6 +76,31 @@ describe('Unit | Controller | user-controller', () => {
       afterEach(() => {
         userSerializerDeserializeStub.restore();
         userSerializerStub.restore();
+      });
+
+      it('should call validator once', () => {
+        googleReCaptchaStub.restore();
+        const request = {
+          payload: {
+            data: {
+              attributes: {
+                recaptchaToken: 'a-random-token'
+              }
+            }
+          }
+        };
+        const codeMethodStub = sinon.stub();
+        const replyStub = function() {
+          return {code: codeMethodStub};
+        };
+
+        //when
+        const promise = userController.save(request, replyStub);
+
+        return promise.catch(() => {
+          sinon.assert.calledOnce(gRecaptchaValidator);
+        });
+
       });
 
       it('should send an email', () => {
@@ -272,6 +306,50 @@ describe('Unit | Controller | user-controller', () => {
         boomBadRequestMock.verify();
       });
 
+      describe('Error cases according to recaptcha', function() {
+
+        it('should return 422 Bad request, when captcha is not valid', () => {
+          // given
+          googleReCaptchaStub.restore();
+          validationErrorSerializerStub.restore();
+
+          googleReCaptchaStub = sinon.stub(googleReCaptcha, 'verify').rejects(new InvalidRecaptchaTokenError('Invalid reCaptcha token'));
+          validationErrorSerializerSpy = sinon.spy(validationErrorSerializer, 'serialize');
+          const request = {
+            payload: {
+              data: {
+                attributes: {
+                  firstName: '',
+                  lastName: ''
+                }
+              }
+            }
+          };
+
+          let codeMethod = function(code) {
+          };
+
+          codeMethodSpy = sinon.spy(codeMethod);
+          const replyErrorStub = function() {
+            return {code: codeMethodSpy};
+          };
+
+          // When
+          const promise = userController.save(request, replyErrorStub);
+
+          // Then
+          return promise.then(() => {
+            googleReCaptchaStub.restore();
+            sinon.assert.calledWith(codeMethodSpy, 422);
+            sinon.assert.calledWith(validationErrorSerializerSpy, {
+              data: {
+                recaptchaToken: ['Le captcha est n\'est pas valide.']
+              }
+            });
+          });
+        });
+
+      });
     });
 
   });

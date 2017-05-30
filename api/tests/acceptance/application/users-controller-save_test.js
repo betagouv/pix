@@ -106,5 +106,17 @@ describe('Acceptance | Controller | users-controller', function() {
         expect(response.statusCode).to.equal(422);
       });
     });
+
+  });
+
+  describe.skip('Error cases according to recaptcha', function() {
+
+    it(`should return 422 HTTP status code, when captcha is `, function() {
+      // given
+
+      // when
+
+      // then
+    });
   });
 });
