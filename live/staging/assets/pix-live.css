@@ -1544,6 +1544,10 @@ h1.course-banner__name {
   position: relative;
   bottom: 3px; }
 
+.correction-qroc-box__solution-img {
+  width: 18px;
+  height: 18px; }
+
 .challenge-response__proposal-input {
   margin-bottom: 10px;
   margin-top: 10px; }
@@ -2196,6 +2200,10 @@ h1.course-banner__name {
   position: relative;
   bottom: 3px; }
 
+.correction-qroc-box__solution-img {
+  width: 18px;
+  height: 18px; }
+
 .correction-qrocm {
   padding: 10px;
   display: -ms-flexbox;
@@ -2225,6 +2233,10 @@ h1.course-banner__name {
   -ms-flex-align: center;
   align-items: center;
   margin-top: 4px; }
+
+.correction-qrocm__solution-img {
+  width: 18px;
+  height: 18px; }
 
 .correction-qrocm__solution-text {
   font-family: "Lato", Arial, sans-serif;
