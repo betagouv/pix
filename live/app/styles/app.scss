@@ -23,12 +23,14 @@
 @import 'components/comparison-window';
 @import 'components/course-banner';
 @import 'components/course-item';
+@import 'components/course-item-placeholder';
 @import 'components/course-list';
 @import 'components/feature-item';
 @import 'components/feature-list';
 @import 'components/feedback-panel';
 @import 'components/follower-form';
 @import 'components/modal-mobile';
+@import 'components/medal-item';
 @import 'components/navbar-header';
 @import 'components/pix-logo';
 @import 'components/qroc-solution-panel';
@@ -36,6 +38,7 @@
 @import 'components/result-item';
 @import 'components/scoring-panel';
 @import 'components/timeout-jauge';
+@import 'components/trophy-item';
 @import 'components/warning-timing-page';
 @import 'components/result-item';
 @import 'components/comparison-window';
@@ -60,7 +63,6 @@ body {
   background-color: $porcelain-grey;
 }
 
-input[type="radio"],
-input[type="checkbox"] {
+input[type="radio"] {
   margin: 0 5px 0 0;
 }

@@ -24,6 +24,10 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
   });
 
   it('b2.1 It should render challenge instruction', function() {
+    // Given
+    const expectedInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
+
+    // Then
     const $challengeInstruction = $('.challenge-statement__instruction');
     const instructionText = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
 
@@ -32,6 +36,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
   });
 
   it('b2.2 Le contenu de type [foo](bar) doit être converti sous forme de lien', function() {
+    // When
     const $links = findWithAssert('.challenge-statement__instruction a');
 
     // Then
@@ -84,12 +89,14 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
     });
   });
 
-  it('b2.9 If an user validate the challenge, the api is request to save the answer of the user', async function() {
+  it('b2.9 If an user validate the challenge with two answers, the api is request to save the answer of the user', async function() {
+    // Given
+    resetTestingState();
+    $('.proposal-text:eq(1)').click();
+    $('.proposal-text:eq(2)').click();
 
     // When
     await click('.challenge-actions__action-validate');
-
-    $('input:checkbox:checked');
 
     // Then
     expect(urlOfLastPostRequest()).to.equal('/api/answers');
