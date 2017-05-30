@@ -7,5 +7,5 @@ export default Model.extend({
   email: attr('string'),
   password: attr('string'),
   cgu: attr('boolean'),
-  captchaResponse: attr('string')
+  recaptchaToken: attr('string')
 });

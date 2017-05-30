@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
+import Ember from 'ember';
 
 describe('Integration | Component | g recaptcha', function() {
   setupComponentTest('g-recaptcha', {
@@ -18,15 +19,44 @@ describe('Integration | Component | g recaptcha', function() {
     this.render(hbs`{{g-recaptcha}}`);
     // then
     expect(this.$('#g-recaptcha')).to.have.lengthOf(1);
-    expect(this.$('script').attr('src')).to.equal('https://www.google.com/recaptcha/api.js?render=explicit');
   });
 
-  it('should return a key in case of success', function() {
-    // given
+  describe('#successCallback', function() {
 
-    // when
+    beforeEach(function() {
 
-    // then
+      const googleRecaptchaStub = Ember.Service.extend({
+
+      });
+
+      this.register('service:google-recaptcha', googleRecaptchaStub);
+      this.inject.service('google-recaptcha', { as: 'location' });
+    });
+
+    it('should call set Recaptcha if google API send success', function() {
+      //given
+      this.render(hbs`{{g-recaptcha}}`);
+
+      //when google API send onSuccess
+
+      //then this.get(valideRecaptcha) doit être appelé
+
+    });
 
   });
+
+  describe('#expiredCallback', function() {
+
+    it('should call resetRecaptcha Action if expired', function() {
+      //given
+      this.render(hbs`{{g-recaptcha}}`);
+
+      //when google API send onReset
+
+      //then this.get(resetRecaptcha) doit être appelé
+
+    });
+
+  });
+
 });

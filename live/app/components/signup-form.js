@@ -103,8 +103,12 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    setUserReCatpchaReponse(googleRecaptchaReponse) {
-      this.set('user.captchaResponse', googleRecaptchaReponse);
+    setUserRecatpchaReponse(googleRecaptchaToken) {
+      this.set('user.recaptchaToken', googleRecaptchaToken);
+    },
+
+    resetUserRecatpchaReponse() {
+      this.set('user.recaptchaToken', null);
     },
 
     validateInput(key) {

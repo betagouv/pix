@@ -68,7 +68,8 @@
   </div>
 
   <div class="signup-form__captcha-container">
-    {{g-recaptcha validateCaptcha=(action "setUserReCatpchaReponse")}}
+    {{g-recaptcha validateRecaptcha=(action "setUserRecatpchaReponse")
+                  resetRecaptcha=(action "resetUserRecatpchaReponse")}}
   </div>
 
   <div class="signup-form__submit-container">
