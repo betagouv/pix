@@ -2485,8 +2485,6 @@ define('pix-live/tests/helpers/destroy-app', ['exports', 'ember'], function (exp
     _ember.default.run(application, 'destroy');
     if (window.server) {
       window.server.shutdown();
-    } else {
-      server.shutdown();
     }
   }
 });
