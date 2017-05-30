@@ -3327,35 +3327,6 @@ define('pix-live/helpers/trunc', ['exports', 'ember-math-helpers/helpers/trunc']
     }
   });
 });
-define('pix-live/initializers/ajax-interceptor', ['exports', 'pix-live/config/environment'], function (exports, _environment) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.initialize = initialize;
-  function initialize() /* application */{
-    // XXX : Small hack, huge reward : we can now assert in tests what is the content of outgoing requests.
-    if (_environment.default.environment === 'test') {
-      $(document).ajaxComplete(function (event, xhr, settings) {
-        if ('POST' === settings.type) {
-          localStorage.setItem('miragePostUrl', JSON.stringify({
-            url: '/api' + settings.url.split('api')[1],
-            body: settings.data
-          }));
-        }
-        if ('POST' === settings.type) {
-          localStorage.setItem('POST_ON_URL_' + settings.url.split('api')[1], settings.data);
-        }
-      });
-    }
-  }
-
-  exports.default = {
-    name: 'ajax-interceptor',
-    initialize: initialize
-  };
-});
 define('pix-live/initializers/app-version', ['exports', 'ember-cli-app-version/initializer-factory', 'pix-live/config/environment'], function (exports, _initializerFactory, _environment) {
   'use strict';
 
@@ -6972,6 +6943,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+7cf1fc89"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+1db16c00"});
 }
 //# sourceMappingURL=pix-live.map
