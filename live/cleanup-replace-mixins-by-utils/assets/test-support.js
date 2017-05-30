@@ -21694,7 +21694,7 @@ define('ember-mocha/mocha-module', ['exports', 'ember', 'mocha', 'ember-test-hel
     };
   }
 });
-define('ember-mocha/setup-test-factory', ['exports', 'mocha', 'ember-test-helpers'], function (exports, _mocha, _emberTestHelpers) {
+define('ember-mocha/setup-test-factory', ['exports', 'ember', 'mocha', 'ember-test-helpers'], function (exports, _ember, _mocha, _emberTestHelpers) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -21702,8 +21702,15 @@ define('ember-mocha/setup-test-factory', ['exports', 'mocha', 'ember-test-helper
   });
 
   exports.default = function (Constructor) {
-    return function setupTest(moduleName, options) {
+    return function setupTest(moduleName) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
       var module;
+
+      if (_ember.default.typeOf(moduleName) === 'object') {
+        options = moduleName;
+        moduleName = '';
+      }
 
       (0, _mocha.before)(function () {
         module = new Constructor(moduleName, options);
