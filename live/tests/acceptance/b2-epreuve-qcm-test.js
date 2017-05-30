@@ -2,8 +2,6 @@ import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import {bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
-import _ from 'pix-live/utils/lodash-custom';
 
 function visitTimedChallenge() {
   visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
@@ -27,12 +25,11 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
     // Given
     const expectedInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
 
-    // Then
+    // When
     const $challengeInstruction = $('.challenge-statement__instruction');
-    const instructionText = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
 
     // Then
-    expect($challengeInstruction.text().trim()).to.equal(instructionText);
+    expect($challengeInstruction.text().trim()).to.equal(expectedInstruction);
   });
 
   it('b2.2 Le contenu de type [foo](bar) doit être converti sous forme de lien', function() {
@@ -89,17 +86,21 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
     });
   });
 
-  it('b2.9 If an user validate the challenge with two answers, the api is request to save the answer of the user', async function() {
-    // Given
-    resetTestingState();
+  it('b2.9 If an user check a checkbox, it is checked', function() {
+    $('input:checkbox').prop('checked', false);
     $('.proposal-text:eq(1)').click();
+    andThen(() => {
+      expect($('input:checkbox:checked')).to.have.lengthOf(1);
+    });
+  });
+
+  it('b2.10 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function() {
+    $('input:checkbox').prop('checked', false);
+    $('input:checkbox:eq(1)').prop('checked', true);
+    expect($('input:checkbox:checked')).to.have.lengthOf(1);
     $('.proposal-text:eq(2)').click();
-
-    // When
-    await click('.challenge-actions__action-validate');
-
-    // Then
-    expect(urlOfLastPostRequest()).to.equal('/api/answers');
-    expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('2,4');
+    andThen(() => {
+      expect($('input:checkbox:checked')).to.have.lengthOf(2);
+    });
   });
 });
