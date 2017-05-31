@@ -532,10 +532,8 @@ define('pix-live/components/challenge-actions', ['exports', 'ember'], function (
         var promise = this.get('answerValidated')();
         promise.then(function () {
           _this.set('_validateButtonStatus', 'enable');
-          _ember.default.Logger.log('YEAH!');
-        }).catch(function (err) {
+        }).catch(function () {
           _this.set('_validateButtonStatus', 'enable');
-          _ember.default.Logger.log(err);
         });
       }
     }
@@ -6979,6 +6977,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+46026451"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.0+e00f69e5"});
 }
 //# sourceMappingURL=pix-live.map

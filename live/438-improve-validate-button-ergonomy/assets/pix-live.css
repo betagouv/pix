@@ -497,8 +497,7 @@ button.routable-modal--close:active {
   padding: 3px; }
 
 .challenge-actions__loader-spinner {
-  border: 5px solid #d8d8d8;
-  /* light-grey */
+  border: 5px solid #D8D8D8;
   border-top: 5px solid #0BA86D;
   border-radius: 50%;
   width: 40px;
