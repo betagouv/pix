@@ -25,11 +25,9 @@ export default Ember.Component.extend({
       promise
         .then(() => {
           this.set('_validateButtonStatus', 'enable');
-          Ember.Logger.log('YEAH!');
         })
-        .catch(err => {
+        .catch(() => {
           this.set('_validateButtonStatus', 'enable');
-          Ember.Logger.log(err);
         });
     }
   }
