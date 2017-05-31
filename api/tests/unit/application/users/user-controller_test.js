@@ -80,6 +80,7 @@ describe('Unit | Controller | user-controller', () => {
 
       it('should call validator once', () => {
         googleReCaptchaStub.restore();
+        googleReCaptchaStub = sinon.stub(googleReCaptcha, 'verify').returns(Promise.reject([]));
         const request = {
           payload: {
             data: {
@@ -97,8 +98,9 @@ describe('Unit | Controller | user-controller', () => {
         //when
         const promise = userController.save(request, replyStub);
 
-        return promise.catch(() => {
-          sinon.assert.calledOnce(gRecaptchaValidator);
+        return promise.then(() => {
+          sinon.assert.calledOnce(googleReCaptchaStub);
+          googleReCaptchaStub.restore();
         });
 
       });
@@ -314,7 +316,7 @@ describe('Unit | Controller | user-controller', () => {
           validationErrorSerializerStub.restore();
 
           googleReCaptchaStub = sinon.stub(googleReCaptcha, 'verify').rejects(new InvalidRecaptchaTokenError('Invalid reCaptcha token'));
-          validationErrorSerializerSpy = sinon.spy(validationErrorSerializer, 'serialize');
+          const validationErrorSerializerSpy = sinon.spy(validationErrorSerializer, 'serialize');
           const request = {
             payload: {
               data: {
@@ -326,10 +328,10 @@ describe('Unit | Controller | user-controller', () => {
             }
           };
 
-          let codeMethod = function(code) {
+          const codeMethod = function() {
           };
 
-          codeMethodSpy = sinon.spy(codeMethod);
+          const codeMethodSpy = sinon.spy(codeMethod);
           const replyErrorStub = function() {
             return {code: codeMethodSpy};
           };

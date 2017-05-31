@@ -32,7 +32,7 @@ module.exports = {
             mailService.sendAccountCreationEmail(user.get('email'));
 
             reply(userSerializer.serialize(user)).code(201);
-          })
+          });
       }).catch((err) => {
         if(err instanceof InvalidRecaptchaTokenError) {
           err = _buildErrorWhenRecaptchaTokenInvalid();
