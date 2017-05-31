@@ -5325,7 +5325,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
       integration: true
     });
 
-    (0, _mocha.describe)('Component Rendering', function () {
+    (0, _mocha.describe)('Rendering', function () {
 
       beforeEach(function () {
         this.set('user', userEmpty);
@@ -5383,7 +5383,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
       });
     });
 
-    (0, _mocha.describe)('Component Behavior', function () {
+    (0, _mocha.describe)('Behaviors', function () {
 
       (0, _mocha.it)('should return true if action <Signup> is handled', function () {
         // given
@@ -5786,6 +5786,37 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             var inputFirst = _this13.$('.signup-textfield__input-field-container').first();
             (0, _chai.expect)(inputFirst.prop('class')).to.includes(INPUT_TEXT_FIELD_CLASS_DEFAULT);
           });
+        });
+      });
+    });
+
+    _mocha.describe.only('Accessibility', function () {
+
+      (0, _mocha.it)('should render an accessible notification message when the account was successfully created', function () {
+        var _this14 = this;
+
+        // given
+        var user = _ember.default.Object.create({
+          save: function save() {
+            return _ember.default.RSVP.resolve();
+          }
+        });
+
+        this.set('user', user);
+        this.render(_ember.default.HTMLBars.template({
+          "id": "IuLTjz0W",
+          "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        $(SUBMIT_BUTTON).click();
+
+        // then
+        return (0, _wait.default)().then(function () {
+
+          var $notificationMessage = _this14.$('.signup-form__notification-message');
+          (0, _chai.expect)($notificationMessage.attr('aria-live')).to.equal('polite');
         });
       });
     });
