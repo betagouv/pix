@@ -11,7 +11,8 @@ const StubGoogleRecaptchaService = Ember.Service.extend({
     return RSVP.resolve();
   },
 
-  render(containerId/*, callback, expiredCallback*/) {
+  // XXX Due to Google reCAPTCHA, we can not assert that callback and expiredCallback are well set.
+  render(containerId /* , callback, expiredCallback  */) {
     this.set('calledWithContainerId', containerId);
     // We create a div here to simulate our Google recaptcha service,
     // which will create and then cache the recaptcha element

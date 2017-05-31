@@ -68,8 +68,8 @@
   </div>
 
   <div class="signup-form__captcha-container">
-    {{#if user.errors.recaptcha.firstObject.message}}
-      <div class="signup-textfield__recaptcha-message--error">{{user.errors.recaptcha.firstObject.message}}</div>
+    {{#if user.errors.recaptchaToken.firstObject.message}}
+      <div class="signup-field__recaptcha-message--error">{{user.errors.recaptcha.firstObject.message}}</div>
     {{/if}}
     {{g-recaptcha validateRecaptcha=(action "setUserRecatpchaReponse")
                   resetRecaptcha=(action "resetUserRecatpchaReponse")}}

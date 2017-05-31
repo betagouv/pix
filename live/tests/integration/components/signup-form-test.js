@@ -312,6 +312,7 @@ describe('Integration | Component | signup form', function() {
         return wait().then(() => {
           const headingErrorMessageContent = this.$('.signup-form__temporary-msg h4').text();
           expect(headingErrorMessageContent.trim()).to.equal(EXPECTED_FORM_HEADING_CONTENT_ERROR);
+          expect(this.$('.signup-field__recaptcha-message--error')).to.have.lengthOf(1);
         });
       });
     });
