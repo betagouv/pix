@@ -7,18 +7,20 @@ module.exports = {
 
   verify(responseToken) {
     return new Promise((resolve, reject) => {
-      request.post(`https://www.google.com/recaptcha/api/siteverify?secret=${config.googleReCaptcha.secret}&response=${responseToken}`, (err, response, body) => {
+      request.post(`https://www.google.com/recaptcha/api/siteverify?secret=${config.googleReCaptcha.secret}&response=${responseToken}`, (err, response) => {
         if(err) {
           logger.error(err);
           return reject('An error occurred during connection to the Google servers');
         }
 
-        if(!body || !body.success) {
+        const bodyResponse = JSON.parse(response.body);
+
+        if(!bodyResponse.success) {
           const recaptchaError = new error.InvalidRecaptchaTokenError('Invalid reCaptcha token');
-          reject(recaptchaError);
+          return reject(recaptchaError);
         }
 
-        resolve();
+        return resolve();
       });
     });
   }

@@ -22,10 +22,10 @@ module.exports = {
       return reply(Boom.badRequest());
     }
 
+    const user = userSerializer.deserialize(request.payload);
+
     return googleReCaptcha.verify(request.payload.data.attributes.recaptchaToken)
       .then(() => {
-        const user = userSerializer.deserialize(request.payload);
-
         return user
           .save()
           .then((user) => {
@@ -35,7 +35,10 @@ module.exports = {
           });
       }).catch((err) => {
         if(err instanceof InvalidRecaptchaTokenError) {
-          err = _buildErrorWhenRecaptchaTokenInvalid();
+          const userValidationErrors = user.validationErrors();
+          const captchaError = {recaptchaToken: ['Le captcha n\'est pas valide.']};
+          const mergedErrors = Object.assign(captchaError, userValidationErrors);
+          err = _buildErrorWhenRecaptchaTokenInvalid(mergedErrors);
         }
         if(_isUniqConstraintViolated(err)) {
           err = _buildErrorWhenUniquEmail();
@@ -48,11 +51,9 @@ module.exports = {
 
 };
 
-function _buildErrorWhenRecaptchaTokenInvalid() {
+function _buildErrorWhenRecaptchaTokenInvalid(errors) {
   return {
-    data: {
-      recaptchaToken: ['Le captcha est n\'est pas valide.']
-    }
+    data: errors
   };
 }
 

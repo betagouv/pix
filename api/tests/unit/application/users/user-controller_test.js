@@ -309,25 +309,33 @@ describe('Unit | Controller | user-controller', () => {
       });
 
       describe('Error cases according to recaptcha', function() {
+        const user = new User({
+          email: 'shi@fu.me'
+        });
+        const request = {
+          payload: {
+            data: {
+              attributes: {}
+            }
+          }
+        };
+        let userSerializerStub;
+
+        beforeEach(function() {
+          googleReCaptchaStub.restore();
+          validationErrorSerializerStub.restore();
+          userSerializer.deserialize.restore();
+          userSerializerStub = sinon.stub(userSerializer, 'deserialize').returns(user);
+          googleReCaptchaStub = sinon.stub(googleReCaptcha, 'verify').rejects(new InvalidRecaptchaTokenError('Invalid reCaptcha token'));
+        });
+
+        afterEach(function() {
+          googleReCaptchaStub.restore();
+          userSerializerStub.restore();
+        });
 
         it('should return 422 Bad request, when captcha is not valid', () => {
           // given
-          googleReCaptchaStub.restore();
-          validationErrorSerializerStub.restore();
-
-          googleReCaptchaStub = sinon.stub(googleReCaptcha, 'verify').rejects(new InvalidRecaptchaTokenError('Invalid reCaptcha token'));
-          const validationErrorSerializerSpy = sinon.spy(validationErrorSerializer, 'serialize');
-          const request = {
-            payload: {
-              data: {
-                attributes: {
-                  firstName: '',
-                  lastName: ''
-                }
-              }
-            }
-          };
-
           const codeMethod = function() {
           };
 
@@ -335,19 +343,45 @@ describe('Unit | Controller | user-controller', () => {
           const replyErrorStub = function() {
             return {code: codeMethodSpy};
           };
+          // When
+          const promise = userController.save(request, replyErrorStub);
+
+          // Then
+          return promise.then(() => {
+            sinon.assert.calledWith(codeMethodSpy, 422);
+          });
+        });
+
+        it('should return handle bookshelf model validation, when captcha is not valid', () => {
+          // given
+          const expectedMergedErrors = {
+            errors: [{
+              status: '400',
+              title: 'Invalid Attribute',
+              detail: 'Le captcha n\'est pas valide.',
+              source: {pointer: '/data/attributes/recaptcha-token'},
+              meta: {field: 'recaptchaToken'}
+            },
+            {
+              status: '400',
+              title: 'Invalid Attribute',
+              detail: 'Le champ CGU doit être renseigné.',
+              source: {pointer: '/data/attributes/cgu'},
+              meta: {field: 'cgu'}
+            }]
+          };
+          const replyErrorStub = sinon.stub();
+          replyErrorStub.returns({
+            code: () => {
+            }
+          });
 
           // When
           const promise = userController.save(request, replyErrorStub);
 
           // Then
           return promise.then(() => {
-            googleReCaptchaStub.restore();
-            sinon.assert.calledWith(codeMethodSpy, 422);
-            sinon.assert.calledWith(validationErrorSerializerSpy, {
-              data: {
-                recaptchaToken: ['Le captcha est n\'est pas valide.']
-              }
-            });
+            sinon.assert.calledWith(replyErrorStub, expectedMergedErrors);
           });
         });
 

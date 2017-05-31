@@ -20,9 +20,8 @@ describe('Unit | Service | google-recaptcha-validator', () => {
         // then
         requestPostStub.restore();
         expect(uri).to.equal(`https://www.google.com/recaptcha/api/siteverify?secret=test-recaptcha-key&response=${RECAPTCHA_TOKEN}`);
-        cb(null, null, {
-          'success': true
-        });
+
+        cb(null, {'body': '{\n  "success": true,\n  "challenge_ts": "2017-05-31T12:58:56Z",\n  "hostname": "",\n  "error-codes": [\n    "timeout-or-duplicate"\n  ]\n}'});
       });
 
       // when
