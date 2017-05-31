@@ -82,6 +82,10 @@ export default Ember.Component.extend({
       cgu: {
         status: 'default',
         message: null
+      },
+      recaptchaToken:{
+        status: 'default',
+        message: null
       }
     };
     this.set('validation', defaultValidationObject);
@@ -104,6 +108,7 @@ export default Ember.Component.extend({
 
   actions: {
     setUserRecatpchaReponse(googleRecaptchaToken) {
+      Ember.Logger.log(googleRecaptchaToken);
       this.set('user.recaptchaToken', googleRecaptchaToken);
     },
 

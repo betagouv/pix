@@ -1,8 +1,7 @@
 import Ember from 'ember';
 
-const siteKey = '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO';
-
 export default Ember.Component.extend({
+
   classNames: ['gg-recaptcha'],
 
   googleRecaptcha: Ember.inject.service(),
@@ -12,27 +11,19 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-    this.get('googleRecaptcha').loadScript();
     const component = this;
-    window.onGrecaptchaLoad = function() {
-      component.renderReCaptcha();
-    };
+    this.get('googleRecaptcha').loadScript().then(function() {
+      component.renderRecaptcha();
+    });
   },
 
-  renderReCaptcha() {
-    Ember.assert('window.grecaptcha must be available', window.grecaptcha);
-    if (!this.get('isDestroyed')) {
-      const containerId = 'g-recaptcha';
-      const parameters = {
-        callback: this.get('successCallback').bind(this),
-        'expired-callback': this.get('expiredCallback').bind(this),
-        'sitekey': siteKey
-      };
-      window.grecaptcha.render(containerId, parameters);
-    }
+  renderRecaptcha() {
+    const callback = this.get('validateCallback').bind(this);
+    const expiredCallback = this.get('expiredCallback').bind(this);
+    this.get('googleRecaptcha').render('g-recaptcha-container', callback, expiredCallback);
   },
 
-  successCallback(recaptchaResponse) {
+  validateCallback(recaptchaResponse) {
     this.get('validateRecaptcha')(recaptchaResponse);
   },
 

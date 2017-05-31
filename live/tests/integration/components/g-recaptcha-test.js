@@ -3,10 +3,33 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
+import RSVP from 'rsvp';
+
+const StubGoogleRecaptchaService = Ember.Service.extend({
+
+  loadScript() {
+    return RSVP.resolve();
+  },
+
+  render(containerId/*, callback, expiredCallback*/) {
+    this.set('calledWithContainerId', containerId);
+    // We create a div here to simulate our Google recaptcha service,
+    // which will create and then cache the recaptcha element
+    const container = document.getElementById(containerId);
+    const recaptchaElement = document.createElement('div');
+    return container.appendChild(recaptchaElement);
+  }
+});
 
 describe('Integration | Component | g recaptcha', function() {
+
   setupComponentTest('g-recaptcha', {
     integration: true
+  });
+
+  beforeEach(function() {
+    this.register('service:google-recaptcha', StubGoogleRecaptchaService);
+    this.inject.service('google-recaptcha', { as: 'googleRecaptchaService' });
   });
 
   it('renders', function() {
@@ -14,49 +37,14 @@ describe('Integration | Component | g recaptcha', function() {
     expect(this.$()).to.have.length(1);
   });
 
-  it('should render the google recaptcha widget', function() {
-    // given
+  // XXX Inspired of https://guides.emberjs.com/v2.13.0/tutorial/service/#toc_integration-testing-the-map-component
+  it('should append recaptcha element to container element', function() {
+    // when
     this.render(hbs`{{g-recaptcha}}`);
+
     // then
-    expect(this.$('#g-recaptcha')).to.have.lengthOf(1);
-  });
-
-  describe('#successCallback', function() {
-
-    beforeEach(function() {
-
-      const googleRecaptchaStub = Ember.Service.extend({
-
-      });
-
-      this.register('service:google-recaptcha', googleRecaptchaStub);
-      this.inject.service('google-recaptcha', { as: 'location' });
-    });
-
-    it('should call set Recaptcha if google API send success', function() {
-      //given
-      this.render(hbs`{{g-recaptcha}}`);
-
-      //when google API send onSuccess
-
-      //then this.get(valideRecaptcha) doit être appelé
-
-    });
-
-  });
-
-  describe('#expiredCallback', function() {
-
-    it('should call resetRecaptcha Action if expired', function() {
-      //given
-      this.render(hbs`{{g-recaptcha}}`);
-
-      //when google API send onReset
-
-      //then this.get(resetRecaptcha) doit être appelé
-
-    });
-
+    expect(this.$('#g-recaptcha-container').children()).to.have.lengthOf(1);
+    expect(this.get('googleRecaptchaService.calledWithContainerId')).to.equal('g-recaptcha-container');
   });
 
 });

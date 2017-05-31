@@ -20,6 +20,8 @@ const CHECKBOX_CGU_INPUT = '#pix-cgu';
 const CHECKBOX_CGU_LABEL = '.signup-form__cgu-label';
 const UNCHECKED_CHECKBOX_CGU_ERROR = 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.';
 
+const UNCHECKED_CHECKBOX_RECAPTCHA_ERROR = 'Veuillez cocher le recaptcha.';
+
 const CGU_LINK = '.signup__cgu-link';
 const CGU_LINK_CONTENT = 'conditions d\'​utilisation de Pix';
 
@@ -43,6 +45,7 @@ const userEmpty = Ember.Object.create({});
 const CAPTCHA_CONTAINER = '.signup-form__captcha-container';
 
 describe('Integration | Component | signup form', function() {
+
   setupComponentTest('signup-form', {
     integration: true
   });
@@ -224,7 +227,7 @@ describe('Integration | Component | signup form', function() {
         });
       });
 
-      it('should display an error message on cgu field, when cgu isn\'t accepted and form is submited', function() {
+      it('should display an error message on cgu field, when cgu isn\'t accepted and form is submitted', function() {
         // given
         const userWithCguNotAccepted = Ember.Object.create({
           cgu: false,
@@ -281,15 +284,18 @@ describe('Integration | Component | signup form', function() {
         });
       });
 
-      it.skip('should display an error message on form title, when user has not checked re-captcha', function() {
+      it('should display an error message on form title, when user has not checked re-captcha', function() {
         // given
         const userWithCaptchaNotValid = Ember.Object.create({
           cgu: true,
-          captcha: false,
+          recaptchaToken: null,
           errors: {
             content: [{
-              attribute: 'captcha',
-              message: UNCHECKED_CHECKBOX_CGU_ERROR,
+              attribute: 'recaptchaToken',
+              message: UNCHECKED_CHECKBOX_RECAPTCHA_ERROR,
+            }],
+            recaptchaToken: [{
+              message: UNCHECKED_CHECKBOX_RECAPTCHA_ERROR
             }]
           },
           save() {
@@ -311,6 +317,7 @@ describe('Integration | Component | signup form', function() {
     });
 
     describe('Successfull cases', function() {
+
       it('should display first name field as validated without error message, when field is filled and focus-out', function() {
         // given
         this.set('user', userEmpty);
@@ -470,5 +477,4 @@ describe('Integration | Component | signup form', function() {
 
   });
 
-})
-;
+});
