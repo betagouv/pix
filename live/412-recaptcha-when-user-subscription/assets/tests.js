@@ -2418,10 +2418,7 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('components/g-recaptcha.js', function () {
-      // test failed
-      var error = new chai.AssertionError('components/g-recaptcha.js should pass ESLint\n\n9:1 - More than 1 blank line not allowed. (no-multiple-empty-lines)');
-      error.stack = undefined;
-      throw error;
+      // test passed
     });
 
     it('components/medal-item.js', function () {
@@ -2669,6 +2666,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('services/delay.js', function () {
+      // test passed
+    });
+
+    it('services/google-recaptcha.js', function () {
       // test passed
     });
 
@@ -4094,16 +4095,36 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
     });
   });
 });
-define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'rsvp'], function (_chai, _mocha, _emberMocha, _ember, _rsvp) {
   'use strict';
 
+  var StubGoogleRecaptchaService = _ember.default.Service.extend({
+    loadScript: function loadScript() {
+      return _rsvp.default.resolve();
+    },
+    render: function render(containerId /* , callback, expiredCallback  */) {
+      this.set('calledWithContainerId', containerId);
+      // We create a div here to simulate our Google recaptcha service,
+      // which will create and then cache the recaptcha element
+      var container = document.getElementById(containerId);
+      var recaptchaElement = document.createElement('div');
+      return container.appendChild(recaptchaElement);
+    }
+  });
+
   (0, _mocha.describe)('Integration | Component | g recaptcha', function () {
+
     (0, _emberMocha.setupComponentTest)('g-recaptcha', {
       integration: true
     });
 
+    beforeEach(function () {
+      this.register('service:google-recaptcha', StubGoogleRecaptchaService);
+      this.inject.service('google-recaptcha', { as: 'googleRecaptchaService' });
+    });
+
     (0, _mocha.it)('renders', function () {
-      this.render(Ember.HTMLBars.template({
+      this.render(_ember.default.HTMLBars.template({
         "id": "BuJ6Tpul",
         "block": "{\"statements\":[[1,[26,[\"g-recaptcha\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -4111,25 +4132,18 @@ define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha
       (0, _chai.expect)(this.$()).to.have.length(1);
     });
 
-    (0, _mocha.it)('should render the google recaptcha widget', function () {
-      // given
-      this.render(Ember.HTMLBars.template({
+    // XXX Inspired of https://guides.emberjs.com/v2.13.0/tutorial/service/#toc_integration-testing-the-map-component
+    (0, _mocha.it)('should append recaptcha element to container element', function () {
+      // when
+      this.render(_ember.default.HTMLBars.template({
         "id": "BuJ6Tpul",
         "block": "{\"statements\":[[1,[26,[\"g-recaptcha\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
-      // then
-      (0, _chai.expect)(this.$('#g-recaptcha')).to.have.lengthOf(1);
-      (0, _chai.expect)(this.$('script').attr('src')).to.equal('https://www.google.com/recaptcha/api.js?render=explicit');
-    });
-
-    (0, _mocha.it)('should return a key in case of success', function () {
-      // given
-
-      // when
 
       // then
-
+      (0, _chai.expect)(this.$('#g-recaptcha-container').children()).to.have.lengthOf(1);
+      (0, _chai.expect)(this.get('googleRecaptchaService.calledWithContainerId')).to.equal('g-recaptcha-container');
     });
   });
 });
@@ -5573,6 +5587,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var CHECKBOX_CGU_LABEL = '.signup-form__cgu-label';
   var UNCHECKED_CHECKBOX_CGU_ERROR = 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.';
 
+  var UNCHECKED_CHECKBOX_RECAPTCHA_ERROR = 'Veuillez cocher le recaptcha.';
+
   var CGU_LINK = '.signup__cgu-link';
   var CGU_LINK_CONTENT = 'conditions d\'​utilisation de Pix';
 
@@ -5594,7 +5610,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var userEmpty = _ember.default.Object.create({});
   var CAPTCHA_CONTAINER = '.signup-form__captcha-container';
 
-  _mocha.describe.only('Integration | Component | signup form', function () {
+  (0, _mocha.describe)('Integration | Component | signup form', function () {
+
     (0, _emberMocha.setupComponentTest)('signup-form', {
       integration: true
     });
@@ -5658,6 +5675,10 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
     });
 
     (0, _mocha.describe)('Component Behavior', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        this.register('component:g-recaptcha', _ember.default.Component.extend());
+      });
 
       (0, _mocha.it)('should return true if action <Signup> is handled', function () {
         // given
@@ -5797,7 +5818,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           });
         });
 
-        (0, _mocha.it)('should display an error message on cgu field, when cgu isn\'t accepted and form is submited', function () {
+        (0, _mocha.it)('should display an error message on cgu field, when cgu isn\'t accepted and form is submitted', function () {
           var _this5 = this;
 
           // given
@@ -5866,17 +5887,20 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           });
         });
 
-        _mocha.it.skip('should display an error message on form title, when user has not checked re-captcha', function () {
+        (0, _mocha.it)('should display an error message on form title, when user has not checked re-captcha', function () {
           var _this7 = this;
 
           // given
           var userWithCaptchaNotValid = _ember.default.Object.create({
             cgu: true,
-            captcha: false,
+            recaptchaToken: null,
             errors: {
               content: [{
-                attribute: 'captcha',
-                message: UNCHECKED_CHECKBOX_CGU_ERROR
+                attribute: 'recaptchaToken',
+                message: UNCHECKED_CHECKBOX_RECAPTCHA_ERROR
+              }],
+              recaptchaToken: [{
+                message: UNCHECKED_CHECKBOX_RECAPTCHA_ERROR
               }]
             },
             save: function save() {
@@ -5897,11 +5921,13 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             var headingErrorMessageContent = _this7.$('.signup-form__temporary-msg h4').text();
             (0, _chai.expect)(headingErrorMessageContent.trim()).to.equal(EXPECTED_FORM_HEADING_CONTENT_ERROR);
+            (0, _chai.expect)(_this7.$('.signup-field__recaptcha-message--error')).to.have.lengthOf(1);
           });
         });
       });
 
       (0, _mocha.describe)('Successfull cases', function () {
+
         (0, _mocha.it)('should display first name field as validated without error message, when field is filled and focus-out', function () {
           var _this8 = this;
 
