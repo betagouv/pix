@@ -19,6 +19,10 @@ const StubGoogleRecaptchaService = Ember.Service.extend({
     const container = document.getElementById(containerId);
     const recaptchaElement = document.createElement('div');
     return container.appendChild(recaptchaElement);
+  },
+
+  reset() {
+
   }
 });
 
@@ -42,10 +46,13 @@ describe('Integration | Component | g recaptcha', function() {
   it('should append recaptcha element to container element', function() {
     // when
     this.render(hbs`{{g-recaptcha}}`);
-
     // then
     expect(this.$('#g-recaptcha-container').children()).to.have.lengthOf(1);
     expect(this.get('googleRecaptchaService.calledWithContainerId')).to.equal('g-recaptcha-container');
+  });
+
+  it('should render the captcha even after a reset', function() {
+
   });
 
 });

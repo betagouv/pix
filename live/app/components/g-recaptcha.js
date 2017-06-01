@@ -2,12 +2,14 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-  classNames: ['gg-recaptcha'], 
+  classNames: ['gg-recaptcha'],
 
   googleRecaptcha: Ember.inject.service(),
 
   validateRecaptcha: null, // action
   resetRecaptcha: null, // action
+
+  validation: null,
 
   didInsertElement() {
     this._super(...arguments);
@@ -24,11 +26,11 @@ export default Ember.Component.extend({
   },
 
   validateCallback(recaptchaResponse) {
-    this.get('validateRecaptcha')(recaptchaResponse);
+    this.get('validateRecaptchaToken')(recaptchaResponse);
   },
 
   expiredCallback() {
-    this.get('resetRecaptcha')();
+    this.get('resetRecaptchaToken')();
   }
 
 });

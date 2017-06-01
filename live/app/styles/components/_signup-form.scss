@@ -138,6 +138,13 @@
   text-align: center;
 }
 
+.signup-field__recaptcha-message--error {
+  color: $pure-orange;
+  font-size: 12px;
+  margin-bottom: 7px;
+  text-align: center;
+}
+
 .signup-form__captcha-container {
   padding: 20px;
 }

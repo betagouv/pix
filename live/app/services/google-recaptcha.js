@@ -28,6 +28,11 @@ export default Ember.Service.extend({
       };
       grecaptcha.render(containerId, parameters);
     }
+  },
+
+  reset() {
+    const grecaptcha = window.grecaptcha;
+    grecaptcha.reset();
   }
 
 });

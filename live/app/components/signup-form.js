@@ -108,7 +108,6 @@ export default Ember.Component.extend({
 
   actions: {
     setUserRecatpchaReponse(googleRecaptchaToken) {
-      Ember.Logger.log(googleRecaptchaToken);
       this.set('user.recaptchaToken', googleRecaptchaToken);
     },
 
