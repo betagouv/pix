@@ -23,8 +23,9 @@ module.exports = {
     }
 
     const user = userSerializer.deserialize(request.payload);
+    const recaptchaToken = request.payload.data.attributes['recaptcha-token'];
 
-    return googleReCaptcha.verify(request.payload.data.attributes.recaptchaToken)
+    return googleReCaptcha.verify(recaptchaToken)
       .then(() => {
         return user
           .save()

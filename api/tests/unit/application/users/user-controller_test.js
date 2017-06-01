@@ -105,6 +105,37 @@ describe('Unit | Controller | user-controller', () => {
 
       });
 
+      it('should call validator with good parameter', () => {
+        googleReCaptchaStub.restore();
+        googleReCaptchaStub = sinon.stub(googleReCaptcha, 'verify').returns(Promise.reject([]));
+
+        //Given
+        const request = {
+          payload: {
+            data: {
+              attributes: {
+                'recaptcha-token': 'a-random-token'
+              }
+            }
+          }
+        };
+
+        const replyStub = function() {
+          return {
+            code: _ => {
+
+            }
+          };
+        };
+
+        const promise = userController.save(request, replyStub)
+        const expectedValue = 'a-random-token';
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledWith(googleReCaptchaStub, expectedValue);
+        });
+      });
+
       it('should send an email', () => {
         // Given
         const request = {
