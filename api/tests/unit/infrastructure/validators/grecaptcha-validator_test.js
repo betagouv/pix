@@ -50,7 +50,7 @@ describe('Unit | Service | google-recaptcha-validator', () => {
 
     describe('Error cases', function() {
 
-      it('should return a rejected promise when user response token is invalid', function() {
+      it('should log an error and return a rejected promise, when user response token is invalid', function() {
         // given
         const loggerStub = sinon.stub(logger, 'error').returns({});
         const requestPostErrorStub = sinon.stub(request, 'post', function(uri, cb) {

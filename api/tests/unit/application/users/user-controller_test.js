@@ -336,10 +336,7 @@ describe('Unit | Controller | user-controller', () => {
 
         it('should return 422 Bad request, when captcha is not valid', () => {
           // given
-          const codeMethod = function() {
-          };
-
-          const codeMethodSpy = sinon.spy(codeMethod);
+          const codeMethodSpy = sinon.spy();
           const replyErrorStub = function() {
             return {code: codeMethodSpy};
           };
@@ -362,13 +359,13 @@ describe('Unit | Controller | user-controller', () => {
               source: {pointer: '/data/attributes/recaptcha-token'},
               meta: {field: 'recaptchaToken'}
             },
-            {
-              status: '400',
-              title: 'Invalid Attribute',
-              detail: 'Le champ CGU doit être renseigné.',
-              source: {pointer: '/data/attributes/cgu'},
-              meta: {field: 'cgu'}
-            }]
+              {
+                status: '400',
+                title: 'Invalid Attribute',
+                detail: 'Le champ CGU doit être renseigné.',
+                source: {pointer: '/data/attributes/cgu'},
+                meta: {field: 'cgu'}
+              }]
           };
           const replyErrorStub = sinon.stub();
           replyErrorStub.returns({
