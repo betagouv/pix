@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
-  classNames: ['gg-recaptcha'],
+  classNames: ['gg-recaptcha'], 
 
   googleRecaptcha: Ember.inject.service(),
 
