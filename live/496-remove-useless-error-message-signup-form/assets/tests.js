@@ -5790,7 +5790,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
       });
     });
 
-    _mocha.describe.only('Accessibility', function () {
+    (0, _mocha.describe)('Accessibility', function () {
 
       (0, _mocha.it)('should render an accessible notification message when the account was successfully created', function () {
         var _this14 = this;
