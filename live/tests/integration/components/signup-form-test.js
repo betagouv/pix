@@ -431,10 +431,6 @@ describe('Integration | Component | signup form', function() {
           expect(inputFirst.prop('class')).to.includes(INPUT_TEXT_FIELD_CLASS_DEFAULT);
         });
       });
-
     });
-
   });
-
-})
-;
+});
