@@ -5,6 +5,8 @@ const logger = require('../../../../lib/infrastructure/logger');
 
 const INVALID_OR_UNKNOW_RECAPTCHA = 'INVALID_RECAPTCHA';
 const RECAPTCHA_TOKEN = 'a-valid-recaptch-token-should-be-a-string-of-512-numalpha-characters';
+const SUCCESSFULL_VERIFICATION_RESPONSE = {'body': '{\n  "success": true,\n  "challenge_ts": "2017-05-31T12:58:56Z",\n  "hostname": "",\n  "error-codes": [\n    "timeout-or-duplicate"\n  ]\n}'};
+const UNSUCCESSFULL_VERIFICATION_RESPONSE = {'body': '{\n  "success": false,\n  "challenge_ts": "2017-05-31T12:58:56Z",\n  "hostname": "",\n  "error-codes": [\n    "timeout-or-duplicate"\n  ]\n}'};
 
 describe('Unit | Service | google-recaptcha-validator', () => {
 
@@ -21,7 +23,7 @@ describe('Unit | Service | google-recaptcha-validator', () => {
         requestPostStub.restore();
         expect(uri).to.equal(`https://www.google.com/recaptcha/api/siteverify?secret=test-recaptcha-key&response=${RECAPTCHA_TOKEN}`);
 
-        cb(null, {'body': '{\n  "success": true,\n  "challenge_ts": "2017-05-31T12:58:56Z",\n  "hostname": "",\n  "error-codes": [\n    "timeout-or-duplicate"\n  ]\n}'});
+        cb(null, SUCCESSFULL_VERIFICATION_RESPONSE);
       });
 
       // when
@@ -34,12 +36,7 @@ describe('Unit | Service | google-recaptcha-validator', () => {
         const requestPostErrorStub = sinon.stub(request, 'post', function(uri, cb) {
           requestPostErrorStub.restore();
           const err = null;
-          const response = {statusCode: 200};
-          const body = {
-            'success': true
-          };
-
-          cb(err, response, body);
+          cb(err, SUCCESSFULL_VERIFICATION_RESPONSE);
         });
 
         // when
@@ -56,13 +53,7 @@ describe('Unit | Service | google-recaptcha-validator', () => {
         const requestPostErrorStub = sinon.stub(request, 'post', function(uri, cb) {
           requestPostErrorStub.restore();
           const err = null;
-          const response = {statusCode: 200};
-          const body = {
-            'success': false,
-            'error-codes': ['invalid-input-secret']
-          };
-
-          cb(err, response, body);
+          cb(err, UNSUCCESSFULL_VERIFICATION_RESPONSE);
         });
 
         // when
