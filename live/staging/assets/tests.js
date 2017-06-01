@@ -5160,7 +5160,7 @@ define('pix-live/tests/integration/components/scoring-panel-tantpix-test', ['cha
           (0, _chai.expect)(smiley.attr('src')).to.includes('/images/smiley.png');
           (0, _chai.expect)(smiley.attr('srcset')).to.includes('/images/smiley@2x.png');
           (0, _chai.expect)(smiley.attr('srcset')).to.includes('/images/smiley@3x.png');
-          (0, _chai.expect)(smiley.attr('alt')).to.includes('smiley tant pix');
+          (0, _chai.expect)(smiley.attr('alt')).to.includes('smiley');
         });
       });
     });

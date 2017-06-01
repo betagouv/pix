@@ -5997,7 +5997,7 @@ define("pix-live/templates/components/pix-logo", ["exports"], function (exports)
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "Yjt5pnyi", "block": "{\"statements\":[[6,[\"link-to\"],[\"index\"],[[\"class\",\"title\"],[\"pix-logo__link\",\"Lien vers la page d'accueil de PIX\"]],{\"statements\":[[0,\"  \"],[11,\"img\",[]],[15,\"class\",\"pix-logo__image\"],[16,\"src\",[34,[[26,[\"rootURL\"]],\"/images/pix-logo.svg\"]]],[15,\"alt\",\"Logo officiel de PIX (version bêta)\"],[13],[14],[0,\"\\n  \"],[11,\"span\",[]],[15,\"class\",\"pix-logo__beta\"],[13],[0,\"Bêta\"],[14],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/pix-logo.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "NukAoSBt", "block": "{\"statements\":[[6,[\"link-to\"],[\"index\"],[[\"class\",\"title\"],[\"pix-logo__link\",\"Lien vers la page d'accueil de PIX\"]],{\"statements\":[[0,\"  \"],[11,\"img\",[]],[15,\"class\",\"pix-logo__image\"],[15,\"src\",\"/images/pix-logo.svg\"],[15,\"alt\",\"Logo officiel de PIX (version bêta)\"],[13],[14],[0,\"\\n  \"],[11,\"span\",[]],[15,\"class\",\"pix-logo__beta\"],[13],[0,\"Bêta\"],[14],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/pix-logo.hbs" } });
 });
 define("pix-live/templates/components/progress-bar", ["exports"], function (exports) {
   "use strict";
@@ -6117,7 +6117,7 @@ define("pix-live/templates/components/scoring-panel-tantpix", ["exports"], funct
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "NkqayfsU", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"tantpix-panel__illustration-container\"],[13],[0,\"\\n  \"],[11,\"img\",[]],[16,\"src\",[34,[[26,[\"rootURL\"]],\"/images/smiley.png\"]]],[16,\"srcset\",[34,[[26,[\"rootURL\"]],\"/images/smiley@2x.png 2x,\\n\\t\\t\\t\\t\\t \",[26,[\"rootURL\"]],\"/images/smiley@3x.png 3x\"]]],[15,\"class\",\"tantpix-panel__illustration\"],[15,\"alt\",\"smiley tant pix\"],[13],[14],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"tantpix-panel__title-container\"],[13],[0,\"\\n  \"],[11,\"h1\",[]],[15,\"class\",\"tantpix-panel__title\"],[13],[0,\"Tant pix !\"],[14],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"tantpix-panel__description-container\"],[13],[0,\"\\n  \"],[11,\"p\",[]],[15,\"class\",\"tantpix-panel__description\"],[13],[0,\"\\n    Manifestement, ce n'est pas votre jour mais vous ferez mieux la prochaine fois.\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"],[11,\"div\",[]],[15,\"class\",\"tantpix-panel__button-container\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"index\"],[[\"class\",\"tagName\"],[\"tantpix-panel__button\",\"button\"]],{\"statements\":[[0,\"    revenir à l'accueil\\n\"]],\"locals\":[]},null],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/scoring-panel-tantpix.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "sDmUZdSw", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"tantpix-panel__illustration-container\"],[13],[0,\"\\n  \"],[11,\"img\",[]],[16,\"src\",[34,[[26,[\"rootURL\"]],\"/images/smiley.png\"]]],[16,\"srcset\",[34,[[26,[\"rootURL\"]],\"/images/smiley@2x.png 2x,\\n\\t\\t\\t\\t\\t \",[26,[\"rootURL\"]],\"/images/smiley@3x.png 3x\"]]],[15,\"class\",\"tantpix-panel__illustration\"],[15,\"alt\",\"smiley\"],[13],[14],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"tantpix-panel__title-container\"],[13],[0,\"\\n  \"],[11,\"h1\",[]],[15,\"class\",\"tantpix-panel__title\"],[13],[0,\"Tant pix !\"],[14],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"tantpix-panel__description-container\"],[13],[0,\"\\n  \"],[11,\"p\",[]],[15,\"class\",\"tantpix-panel__description\"],[13],[0,\"\\n    Manifestement, ce n'est pas votre jour mais vous ferez mieux la prochaine fois.\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"],[11,\"div\",[]],[15,\"class\",\"tantpix-panel__button-container\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"index\"],[[\"class\",\"tagName\"],[\"tantpix-panel__button\",\"button\"]],{\"statements\":[[0,\"    revenir à l'accueil\\n\"]],\"locals\":[]},null],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/scoring-panel-tantpix.hbs" } });
 });
 define("pix-live/templates/components/scoring-panel", ["exports"], function (exports) {
   "use strict";
@@ -6540,11 +6540,11 @@ define('pix-live/utils/labeled-checkboxes', ['exports', 'pix-live/utils/lodash-c
     var sizeDifference = (0, _lodashCustom.default)(proposals).size() - (0, _lodashCustom.default)(definedUserAnswers).size(); // 2
     var arrayOfFalse = _lodashCustom.default.times(sizeDifference, _lodashCustom.default.constant(false)); // [false, false]
 
-    return _lodashCustom.default.chain(definedUserAnswers) // [false, true]
-    .concat(arrayOfFalse) // [false, true, false, false]
-    .zip(proposals) // [[false, 'prop 1'], [true, 'prop 2'], [false, 'prop 3'], [false, 'prop 4']]
-    .map(_lodashCustom.default.reverse) // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
-    .value();
+    return _lodashCustom.default.chain(definedUserAnswers // [false, true]
+    ).concat(arrayOfFalse // [false, true, false, false]
+    ).zip(proposals // [[false, 'prop 1'], [true, 'prop 2'], [false, 'prop 3'], [false, 'prop 4']]
+    ).map(_lodashCustom.default.reverse // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
+    ).value();
   }
 });
 define('pix-live/utils/labels-as-object', ['exports'], function (exports) {
@@ -6856,23 +6856,23 @@ define('pix-live/utils/value-as-array-of-boolean', ['exports', 'pix-live/utils/l
   });
   exports.default = valueAsArrayOfBoolean;
   function valueAsArrayOfBoolean(value) {
-    return _lodashCustom.default.chain(value) // in the worst case : ',4, 2 , 2,1,  ,'
-    .checkPoint(function (e) {
+    return _lodashCustom.default.chain(value // in the worst case : ',4, 2 , 2,1,  ,'
+    ).checkPoint(function (e) {
       return _lodashCustom.default.isString(e) ? e : '';
-    }) // check if string
-    .split(',') // now ['', '4', ' 2 ', ' 2', '1', '  ', '']
-    .map(_lodashCustom.default.trim) // now ['', '4', '2', '2', '1', '', '']
-    .reject(_lodashCustom.default.isEmpty) // now ['4', '2', '2', '1']
-    .checkPoint(function (e) {
+    } // check if string
+    ).split(',' // now ['', '4', ' 2 ', ' 2', '1', '  ', '']
+    ).map(_lodashCustom.default.trim // now ['', '4', '2', '2', '1', '', '']
+    ).reject(_lodashCustom.default.isEmpty // now ['4', '2', '2', '1']
+    ).checkPoint(function (e) {
       return _lodashCustom.default.every(e, _lodashCustom.default.isStrictlyPositiveInteger) ? e : [];
-    }) // check if int >= 1
-    .map(_lodashCustom.default.parseInt) // now [4, 2, 2, 1]
-    .sortBy() // now [1, 2, 2, 4]
-    .uniqBy() // now [1, 2, 4]
-    .map(function (e) {
+    } // check if int >= 1
+    ).map(_lodashCustom.default.parseInt // now [4, 2, 2, 1]
+    ).sortBy // now [1, 2, 2, 4]
+    ().uniqBy // now [1, 2, 4]
+    ().map(function (e) {
       return e - 1;
-    }) // now [0, 1, 3]
-    .thru(function (e) {
+    } // now [0, 1, 3]
+    ).thru(function (e) {
       return _lodashCustom.default.times(_lodashCustom.default.max(e) + 1, function (o) {
         return (0, _lodashCustom.default)(e).includes(o);
       });
@@ -6901,6 +6901,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+e3ec5f87"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+cc6ec794"});
 }
 //# sourceMappingURL=pix-live.map
