@@ -4109,7 +4109,8 @@ define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha
       var container = document.getElementById(containerId);
       var recaptchaElement = document.createElement('div');
       return container.appendChild(recaptchaElement);
-    }
+    },
+    reset: function reset() {}
   });
 
   (0, _mocha.describe)('Integration | Component | g recaptcha', function () {
@@ -4140,11 +4141,12 @@ define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha
         "block": "{\"statements\":[[1,[26,[\"g-recaptcha\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
       }));
-
       // then
       (0, _chai.expect)(this.$('#g-recaptcha-container').children()).to.have.lengthOf(1);
       (0, _chai.expect)(this.get('googleRecaptchaService.calledWithContainerId')).to.equal('g-recaptcha-container');
     });
+
+    (0, _mocha.it)('should render the captcha even after a reset', function () {});
   });
 });
 define('pix-live/tests/integration/components/medal-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
@@ -6683,6 +6685,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/components/g-recaptcha.js', function () {
+      // test passed
+    });
+
     it('unit/components/qcu-proposals-test.js', function () {
       // test passed
     });
@@ -7400,6 +7406,26 @@ define('pix-live/tests/unit/components/follower-form-test', ['ember', 'chai', 'm
             (0, _chai.expect)(component.get(attribute)).to.equal(expected);
           });
         });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/g-recaptcha', ['mocha', 'ember-mocha'], function (_mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | g-recaptcha', function () {
+
+    (0, _emberMocha.setupTest)('component:g-recaptcha', {});
+
+    (0, _mocha.describe)('', function () {
+
+      (0, _mocha.it)('', function () {
+        // given
+
+        // when
+
+        // then
+
       });
     });
   });

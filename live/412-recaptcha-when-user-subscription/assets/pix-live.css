@@ -2364,6 +2364,12 @@ input.qcm-panel__proposal-checkbox {
   margin-bottom: 7px;
   text-align: center; }
 
+.signup-field__recaptcha-message--error {
+  color: #f45c00;
+  font-size: 12px;
+  margin-bottom: 7px;
+  text-align: center; }
+
 .signup-form__captcha-container {
   padding: 20px; }
 
