@@ -2,6 +2,7 @@ const {describe, it, expect, sinon} = require('../../../test-helper');
 const gRecaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
 const request = require('request');
 const logger = require('../../../../lib/infrastructure/logger');
+const {googleReCaptcha} = require('../../../../lib/settings');
 
 const INVALID_OR_UNKNOW_RECAPTCHA = 'INVALID_RECAPTCHA';
 const RECAPTCHA_TOKEN = 'a-valid-recaptch-token-should-be-a-string-of-512-numalpha-characters';
@@ -21,7 +22,7 @@ describe('Unit | Service | google-recaptcha-validator', () => {
       const requestPostStub = sinon.stub(request, 'post', function(uri, cb) {
         // then
         requestPostStub.restore();
-        expect(uri).to.equal(`https://www.google.com/recaptcha/api/siteverify?secret=test-recaptcha-key&response=${RECAPTCHA_TOKEN}`);
+        expect(uri).to.equal(`https://www.google.com/recaptcha/api/siteverify?secret=${googleReCaptcha.secret}&response=${RECAPTCHA_TOKEN}`);
 
         cb(null, SUCCESSFULL_VERIFICATION_RESPONSE);
       });

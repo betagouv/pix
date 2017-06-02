@@ -1,7 +1,7 @@
 const request = require('request');
 const config = require('../../settings');
 const logger = require('../logger');
-const error = require('./errors');
+const {InvalidRecaptchaTokenError} = require('./errors');
 
 module.exports = {
 
@@ -16,7 +16,7 @@ module.exports = {
         const bodyResponse = JSON.parse(response.body);
 
         if(!bodyResponse.success) {
-          const recaptchaError = new error.InvalidRecaptchaTokenError('Invalid reCaptcha token');
+          const recaptchaError = new InvalidRecaptchaTokenError('Invalid reCaptcha token');
           return reject(recaptchaError);
         }
 

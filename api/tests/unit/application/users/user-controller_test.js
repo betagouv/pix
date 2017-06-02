@@ -128,7 +128,7 @@ describe('Unit | Controller | user-controller', () => {
           };
         };
 
-        const promise = userController.save(request, replyStub)
+        const promise = userController.save(request, replyStub);
         const expectedValue = 'a-random-token';
         // Then
         return promise.then(() => {
@@ -390,13 +390,13 @@ describe('Unit | Controller | user-controller', () => {
               source: {pointer: '/data/attributes/recaptcha-token'},
               meta: {field: 'recaptchaToken'}
             },
-              {
-                status: '400',
-                title: 'Invalid Attribute',
-                detail: 'Le champ CGU doit être renseigné.',
-                source: {pointer: '/data/attributes/cgu'},
-                meta: {field: 'cgu'}
-              }]
+            {
+              status: '400',
+              title: 'Invalid Attribute',
+              detail: 'Le champ CGU doit être renseigné.',
+              source: {pointer: '/data/attributes/cgu'},
+              meta: {field: 'cgu'}
+            }]
           };
           const replyErrorStub = sinon.stub();
           replyErrorStub.returns({
