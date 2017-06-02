@@ -51,8 +51,4 @@ describe('Integration | Component | g recaptcha', function() {
     expect(this.get('googleRecaptchaService.calledWithContainerId')).to.equal('g-recaptcha-container');
   });
 
-  it('should render the captcha even after a reset', function() {
-
-  });
-
 });

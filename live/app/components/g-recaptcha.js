@@ -6,10 +6,8 @@ export default Ember.Component.extend({
 
   googleRecaptcha: Ember.inject.service(),
 
-  validateRecaptcha: null, // action
-  resetRecaptcha: null, // action
-
-  validation: null,
+  recaptchaToken: null,
+  tokenHasBeenUsed: null,
 
   didInsertElement() {
     this._super(...arguments);
@@ -19,6 +17,13 @@ export default Ember.Component.extend({
     });
   },
 
+  didUpdateAttrs() {
+    this._super(...arguments);
+    if (this.get('tokenHasBeenUsed')) {
+      this.get('googleRecaptcha').reset();
+    }
+  },
+
   renderRecaptcha() {
     const callback = this.get('validateCallback').bind(this);
     const expiredCallback = this.get('expiredCallback').bind(this);
@@ -26,11 +31,13 @@ export default Ember.Component.extend({
   },
 
   validateCallback(recaptchaResponse) {
-    this.get('validateRecaptchaToken')(recaptchaResponse);
+    this.set('recaptchaToken', recaptchaResponse);
+    this.set('tokenHasBeenUsed', false);
   },
 
   expiredCallback() {
-    this.get('resetRecaptchaToken')();
+    this.set('recaptchaToken', null);
+    this.set('tokenHasBeenUsed', false);
   }
 
 });

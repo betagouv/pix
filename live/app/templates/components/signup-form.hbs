@@ -71,8 +71,8 @@
     {{#if user.errors.recaptchaToken}}
       <div class="signup-field__recaptcha-message--error">{{user.errors.recaptchaToken.firstObject.message}}</div>
     {{/if}}
-    {{g-recaptcha validateRecaptchaToken=(action "setUserRecatpchaReponse")
-                  resetRecaptchaToken=(action "resetUserRecatpchaReponse")}}
+    {{g-recaptcha recaptchaToken=user.recaptchaToken
+                  tokenHasBeenUsed=_tokenHasBeenUsed}}
   </div>
 
   <div class="signup-form__submit-container">

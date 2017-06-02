@@ -32,6 +32,7 @@ export default Ember.Service.extend({
 
   reset() {
     const grecaptcha = window.grecaptcha;
+    Ember.assert('window.grecaptcha must be available', grecaptcha);
     grecaptcha.reset();
   }
 

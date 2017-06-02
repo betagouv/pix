@@ -34,6 +34,7 @@ export default Ember.Component.extend({
     status: 'default',
     message: ''
   },
+  _tokenHasBeenUsed: null,
 
   init() {
     this._super(...arguments);
@@ -53,10 +54,10 @@ export default Ember.Component.extend({
   },
 
   _toggleConfirmation(status, message) {
-    this.set('temporaryAlert', {status: TEMPORARY_DIV_CLASS_MAP[status], message});
-    if(config.APP.isMessageStatusTogglingEnabled) {
+    this.set('temporaryAlert', { status: TEMPORARY_DIV_CLASS_MAP[status], message });
+    if (config.APP.isMessageStatusTogglingEnabled) {
       Ember.run.later(() => {
-        this.set('temporaryAlert', {status: 'default', message: ''});
+        this.set('temporaryAlert', { status: 'default', message: '' });
       }, config.APP.MESSAGE_DISPLAY_DURATION);
     }
   },
@@ -83,7 +84,7 @@ export default Ember.Component.extend({
         status: 'default',
         message: null
       },
-      recaptchaToken:{
+      recaptchaToken: {
         status: 'default',
         message: null
       }
@@ -93,7 +94,7 @@ export default Ember.Component.extend({
 
   _updateInputsStatus() {
     const errors = this.get('user.errors.content');
-    errors.forEach(({attribute, message}) => {
+    errors.forEach(({ attribute, message }) => {
       this._updateValidationStatus(attribute, 'error', message);
     });
   },
@@ -107,12 +108,9 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    setUserRecatpchaReponse(googleRecaptchaToken) {
-      this.set('user.recaptchaToken', googleRecaptchaToken);
-    },
 
-    resetUserRecatpchaReponse() {
-      this.set('user.recaptchaToken', null);
+    resetTokenHasBeenUsed() {
+      this.set('_tokenHasBeenUsed', false);
     },
 
     validateInput(key) {
@@ -132,9 +130,11 @@ export default Ember.Component.extend({
         this._toggleConfirmation('success', 'Le compte a été bien créé!');
         this._resetValidationFields();
         this.sendAction('refresh');
+        this.set('_tokenHasBeenUsed', true);
       }).catch(() => {
         this._updateInputsStatus();
         this._toggleConfirmation('error', 'Oups! Une erreur s\'est produite...');
+        this.set('_tokenHasBeenUsed', true);
       });
     }
   }
