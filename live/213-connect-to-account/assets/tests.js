@@ -277,7 +277,7 @@ define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['mocha'
     });
   });
 });
-define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (_mocha, _chai, _startApp, _destroyApp, _sharedState, _lodashCustom) {
+define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -309,58 +309,35 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
     };
   }
 
-  var application = void 0;
-
   (0, _mocha.describe)('Acceptance | b1 - Afficher un QCU | ', function () {
+
+    var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
-      visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
     });
 
     (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
-    (0, _mocha.it)('b1.1 Une liste de radiobuttons doit s\'afficher', function () {
-      var $proposals = $('input[type=radio][name="radio"]');
-      (0, _chai.expect)($proposals).to.have.lengthOf(4);
-    });
-
-    (0, _mocha.it)('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', function () {
-      (0, _chai.expect)($('input[type=radio][name="radio"]:checked')).to.have.lengthOf(1);
-    });
-
-    (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', function () {
-      (0, _chai.expect)($('.proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
-      (0, _chai.expect)($('.proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
-      (0, _chai.expect)($('.proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
-      (0, _chai.expect)($('.proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
-    });
-
-    (0, _mocha.it)('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-      var $alert;
+    (0, _mocha.it)('b1.1 Une liste de radiobuttons doit s\'afficher', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      var $proposals;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
+              _context.next = 2;
+              return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
-              // given
-              $(':radio').prop('checked', false);
-
-              // when
-              _context.next = 3;
-              return click('.challenge-actions__action-validate');
-
-            case 3:
+            case 2:
 
               // then
-              $alert = $('.alert');
+              $proposals = $('input[type=radio][name="radio"]');
 
-              (0, _chai.expect)($alert).to.have.lengthOf(1);
-              (0, _chai.expect)($alert.text().trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
+              (0, _chai.expect)($proposals).to.have.lengthOf(4);
 
-            case 6:
+            case 4:
             case 'end':
               return _context.stop();
           }
@@ -368,23 +345,104 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
+              _context2.next = 2;
+              return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
-              // Given
+            case 2:
+
+              // then
+              (0, _chai.expect)($('input[type=radio][name="radio"]:checked')).to.have.lengthOf(1);
+
+            case 3:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
+
+    (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+
+            case 2:
+
+              // then
+              (0, _chai.expect)($('.proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
+              (0, _chai.expect)($('.proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
+              (0, _chai.expect)($('.proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
+              (0, _chai.expect)($('.proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
+
+            case 6:
+            case 'end':
+              return _context3.stop();
+          }
+        }
+      }, _callee3, this);
+    })));
+
+    (0, _mocha.it)('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+      var $alert;
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+
+            case 2:
+
+              $(':radio').prop('checked', false);
+
+              // when
+              _context4.next = 5;
+              return click('.challenge-actions__action-validate');
+
+            case 5:
+
+              // then
+              $alert = $('.alert');
+
+              (0, _chai.expect)($alert).to.have.lengthOf(1);
+              (0, _chai.expect)($alert.text().trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
+
+            case 8:
+            case 'end':
+              return _context4.stop();
+          }
+        }
+      }, _callee4, this);
+    })));
+
+    (0, _mocha.it)('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+      return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              _context5.next = 2;
+              return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+
+            case 2:
+
               (0, _chai.expect)($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
               (0, _chai.expect)($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
               (0, _chai.expect)($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
               (0, _chai.expect)($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
               // When
-              _context2.next = 6;
+              _context5.next = 8;
               return click($('.label-checkbox-proposal--qcu:eq(0)'));
 
-            case 6:
+            case 8:
               // Click on label trigger the event.
 
               // Then
@@ -393,82 +451,66 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
               (0, _chai.expect)($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
               (0, _chai.expect)($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
-            case 10:
+            case 12:
             case 'end':
-              return _context2.stop();
+              return _context5.stop();
           }
         }
-      }, _callee2, this);
+      }, _callee5, this);
     })));
 
-    (0, _mocha.it)('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
-      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+    (0, _mocha.it)('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+      return regeneratorRuntime.wrap(function _callee6$(_context6) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context6.prev = _context6.next) {
             case 0:
               // Given
-              (0, _sharedState.resetTestingState)();
+              server.post('/answers', function (schema, request) {
+                var params = JSON.parse(request.requestBody);
 
-              // Given
+                (0, _chai.expect)(params.data.type).to.equal('answers');
+                (0, _chai.expect)(params.data.attributes.value).to.equal('4');
+
+                return {
+                  data: {
+                    type: 'answers',
+                    id: 'ref_answer_qcm_id',
+                    attributes: {
+                      value: '4'
+                    }
+                  }
+                };
+              });
+
+              _context6.next = 3;
+              return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+
+            case 3:
+
               (0, _chai.expect)($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
               (0, _chai.expect)($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
               (0, _chai.expect)($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
               (0, _chai.expect)($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
               // When
-              _context3.next = 7;
+              _context6.next = 9;
               return click($('.label-checkbox-proposal--qcu:eq(3)'));
 
-            case 7:
-              _context3.next = 9;
-              return click('.challenge-actions__action-validate');
-
             case 9:
-
-              // Then
-              (0, _chai.expect)((0, _sharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
-              (0, _chai.expect)(_lodashCustom.default.get((0, _sharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('4');
+              _context6.next = 11;
+              return click('.challenge-actions__action-validate');
 
             case 11:
             case 'end':
-              return _context3.stop();
+              return _context6.stop();
           }
         }
-      }, _callee3, this);
+      }, _callee6, this);
     })));
   });
 });
-define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (_mocha, _chai, _startApp, _destroyApp, _sharedState, _lodashCustom) {
+define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
   'use strict';
-
-  function _asyncToGenerator(fn) {
-    return function () {
-      var gen = fn.apply(this, arguments);
-      return new Promise(function (resolve, reject) {
-        function step(key, arg) {
-          try {
-            var info = gen[key](arg);
-            var value = info.value;
-          } catch (error) {
-            reject(error);
-            return;
-          }
-
-          if (info.done) {
-            resolve(value);
-          } else {
-            return Promise.resolve(value).then(function (value) {
-              step("next", value);
-            }, function (err) {
-              step("throw", err);
-            });
-          }
-        }
-
-        return step("next");
-      });
-    };
-  }
 
   function visitTimedChallenge() {
     visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
@@ -479,12 +521,12 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
 
     var application = void 0;
 
-    (0, _mocha.before)(function () {
+    (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
       visitTimedChallenge();
     });
 
-    (0, _mocha.after)(function () {
+    (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
@@ -492,8 +534,10 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
       // Given
       var expectedInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
 
-      // Then
+      // When
       var $challengeInstruction = $('.challenge-statement__instruction');
+
+      // Then
       (0, _chai.expect)($challengeInstruction.text().trim()).to.equal(expectedInstruction);
     });
 
@@ -517,7 +561,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
       (0, _chai.expect)($proposals).to.have.lengthOf(4);
     });
 
-    (0, _mocha.it)('b2.5 By default, already checked checkboxes are checked', function () {
+    (0, _mocha.it)('b2.5 It should mark checkboxes that have been checked', function () {
       (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
     });
 
@@ -533,77 +577,45 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
     });
 
     (0, _mocha.it)('b2.8 Error alert box should be displayed if user validate without checking a checkbox', function () {
+      // Given
       var $validateLink = $('.challenge-actions__action-validate');
       (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
+
+      //
       $('input:checkbox').prop('checked', false);
       (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(0);
+
+      // When
       click($validateLink);
+
+      // Then
       andThen(function () {
         (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
         (0, _chai.expect)($('.alert').text().trim()).to.equal('Pour valider, sélectionner au moins une réponse. Sinon, passer.');
       });
     });
 
-    (0, _mocha.it)('b2.9 If an user validate the challenge with two answers, the api is request to save the answer of the user', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              // Given
-              (0, _sharedState.resetTestingState)();
-              $('.proposal-text:eq(1)').click();
-              $('.proposal-text:eq(2)').click();
+    (0, _mocha.it)('b2.9 If an user check a checkbox, it is checked', function () {
+      $('input:checkbox').prop('checked', false);
+      $('.proposal-text:eq(1)').click();
+      andThen(function () {
+        (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
+      });
+    });
 
-              // When
-              _context.next = 5;
-              return click('.challenge-actions__action-validate');
-
-            case 5:
-
-              // Then
-              (0, _chai.expect)((0, _sharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
-              (0, _chai.expect)(_lodashCustom.default.get((0, _sharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('2,3');
-
-            case 7:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, this);
-    })));
+    (0, _mocha.it)('b2.10 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function () {
+      $('input:checkbox').prop('checked', false);
+      $('input:checkbox:eq(1)').prop('checked', true);
+      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
+      $('.proposal-text:eq(2)').click();
+      andThen(function () {
+        (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
+      });
+    });
   });
 });
-define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['mocha', 'chai', 'pix-live/tests/helpers/shared-state', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (_mocha, _chai, _sharedState, _startApp, _destroyApp, _lodashCustom) {
+define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
   'use strict';
-
-  function _asyncToGenerator(fn) {
-    return function () {
-      var gen = fn.apply(this, arguments);
-      return new Promise(function (resolve, reject) {
-        function step(key, arg) {
-          try {
-            var info = gen[key](arg);
-            var value = info.value;
-          } catch (error) {
-            reject(error);
-            return;
-          }
-
-          if (info.done) {
-            resolve(value);
-          } else {
-            return Promise.resolve(value).then(function (value) {
-              step("next", value);
-            }, function (err) {
-              step("throw", err);
-            });
-          }
-        }
-
-        return step("next");
-      });
-    };
-  }
 
   (0, _mocha.describe)('Acceptance | b3 - Afficher un QROC | ', function () {
 
@@ -638,31 +650,9 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['mocha', 'chai', 'pix-
         (0, _chai.expect)($('.alert').text().trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
       });
     });
-
-    (0, _mocha.it)('b3.4 It should save the answer of the user when user validate', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              (0, _sharedState.resetTestingState)();
-              fillIn('input[data-uid="qroc-proposal-uid"]', 'My New Answer');
-              _context.next = 4;
-              return click('.challenge-actions__action-validate');
-
-            case 4:
-              (0, _chai.expect)((0, _sharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
-              (0, _chai.expect)(_lodashCustom.default.get((0, _sharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('My New Answer');
-
-            case 6:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, this);
-    })));
   });
 });
-define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (_mocha, _chai, _startApp, _destroyApp, _sharedState, _lodashCustom) {
+define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -739,33 +729,6 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix
           }
         }
       }, _callee, this);
-    })));
-
-    (0, _mocha.it)('b4.4 It should save the answer of the user when user validate', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              (0, _sharedState.resetTestingState)();
-
-              $(':input:eq(0)').val('stuff1');
-              $(':input:eq(1)').val('stuff2');
-              $(':input:eq(2)').val('stuff3');
-
-              _context2.next = 6;
-              return click('.challenge-actions__action-validate');
-
-            case 6:
-
-              (0, _chai.expect)((0, _sharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
-              (0, _chai.expect)(_lodashCustom.default.get((0, _sharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('logiciel1: stuff1\nlogiciel2: stuff2\nlogiciel3: stuff3\n');
-
-            case 8:
-            case 'end':
-              return _context2.stop();
-          }
-        }
-      }, _callee2, this);
     })));
   });
 });
@@ -1094,153 +1057,6 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
     });
   });
 });
-define('pix-live/tests/acceptance/e1-previsualisation-epreuve-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (_mocha, _chai, _startApp, _destroyApp, _sharedState, _lodashCustom) {
-  'use strict';
-
-  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-    return typeof obj;
-  } : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-  };
-
-  function _asyncToGenerator(fn) {
-    return function () {
-      var gen = fn.apply(this, arguments);
-      return new Promise(function (resolve, reject) {
-        function step(key, arg) {
-          try {
-            var info = gen[key](arg);
-            var value = info.value;
-          } catch (error) {
-            reject(error);
-            return;
-          }
-
-          if (info.done) {
-            resolve(value);
-          } else {
-            return Promise.resolve(value).then(function (value) {
-              step("next", value);
-            }, function (err) {
-              step("throw", err);
-            });
-          }
-        }
-
-        return step("next");
-      });
-    };
-  }
-
-  (0, _mocha.describe)('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
-
-    var application = void 0;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
-    });
-
-    (0, _mocha.describe)('e1 - Prévisualiser une épreuve | ', function () {
-
-      (0, _mocha.beforeEach)(function () {
-        // localStorage.clear();
-        (0, _sharedState.resetTestingState)();
-        visit('/');
-      });
-
-      (0, _mocha.it)('e1.1 Il y a une demande de création d\'un assessment avec un course vide', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        var postOnAssessment, postOnAssessmentObj, idFirstChars;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                // Given
-                postOnAssessment = localStorage.getItem('POST_ON_URL_/assessments');
-
-                (0, _chai.expect)(postOnAssessment).not.to.exist;
-
-                // When
-                _context.next = 4;
-                return visit('/challenges/ref_qcu_challenge_id/preview');
-
-              case 4:
-
-                // Then
-                postOnAssessment = localStorage.getItem('POST_ON_URL_/assessments');
-                (0, _chai.expect)(postOnAssessment).to.exist;
-                postOnAssessmentObj = JSON.parse(postOnAssessment);
-
-                (0, _chai.expect)(typeof postOnAssessment === 'undefined' ? 'undefined' : _typeof(postOnAssessment)).to.equal('string');
-                (0, _chai.expect)(typeof postOnAssessmentObj === 'undefined' ? 'undefined' : _typeof(postOnAssessmentObj)).to.equal('object');
-                (0, _chai.expect)(_lodashCustom.default.get(postOnAssessmentObj, 'data.type')).to.equal('assessments');
-                idFirstChars = _lodashCustom.default.get(postOnAssessmentObj, 'data.relationships.course.data.id').substring(0, 4);
-
-                (0, _chai.expect)(_lodashCustom.default.get(postOnAssessmentObj, 'data.relationships.course.data.type')).to.deep.equal('courses');
-                (0, _chai.expect)(idFirstChars).to.equal('null');
-
-              case 13:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      })));
-
-      (0, _mocha.it)('e1.2 On affiche l\'assessment retourné par le serveur', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return visit('/challenges/ref_qcu_challenge_id/preview');
-
-              case 2:
-                (0, _chai.expect)(currentURL()).to.equal('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
-                (0, _chai.expect)(findWithAssert('.assessment-challenge'));
-
-              case 4:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      })));
-
-      (0, _mocha.it)('e1.3 Il y a une demande de rafraichissement du cache des solutions', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
-        var postOnAssessment;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                // Given
-                postOnAssessment = localStorage.getItem('POST_ON_URL_/challenges/ref_qcu_challenge_id/solution');
-
-                (0, _chai.expect)(postOnAssessment).not.to.exist;
-
-                // When
-                _context3.next = 4;
-                return visit('/challenges/ref_qcu_challenge_id/preview');
-
-              case 4:
-
-                // Then
-                postOnAssessment = localStorage.getItem('POST_ON_URL_/challenges/ref_qcu_challenge_id/solution');
-                (0, _chai.expect)(postOnAssessment).to.exist;
-
-              case 6:
-              case 'end':
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this);
-      })));
-    });
-  });
-});
 define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
   'use strict';
 
@@ -1441,15 +1257,8 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['moch
     });
   });
 });
-define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/tests/helpers/shared-state', 'pix-live/utils/lodash-custom'], function (_mocha, _chai, _startApp, _destroyApp, _sharedState, _lodashCustom) {
+define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
   'use strict';
-
-  function getValidateActionLink() {
-    return $('.challenge-actions__action-validate');
-  }
-  function getSkipActionLink() {
-    return $('.challenge-actions__action-skip');
-  }
 
   function visitTimedChallenge() {
     visit(TIMED_CHALLENGE_URI);
@@ -1484,48 +1293,6 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['mocha', 'chai', 'pix
         visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
         andThen(function () {
           (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(0);
-        });
-      });
-    });
-
-    (0, _mocha.describe)('Test quand la jauge est affichée', function () {
-
-      beforeEach(function () {
-        (0, _sharedState.resetTestingState)();
-        visit('/');
-      });
-
-      afterEach(function () {
-        (0, _sharedState.resetTestingState)();
-      });
-      (0, _mocha.describe)('Sauvegarde du temps passé | ', function () {
-
-        (0, _mocha.it)('Si l\'utilisateur valide, demande la sauvegarde du temps restant en secondes', function () {
-          visitTimedChallenge();
-          andThen(function () {
-            var $countDown = findWithAssert('.timeout-jauge-remaining');
-            (0, _chai.expect)($countDown.text().trim()).to.equal('0:02');
-          });
-          andThen(function () {
-            click(getValidateActionLink());
-          });
-          andThen(function () {
-            (0, _chai.expect)((0, _sharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
-            (0, _chai.expect)(_lodashCustom.default.get((0, _sharedState.bodyOfLastPostRequest)(), 'data.attributes.timeout')).to.equal(2);
-            (0, _chai.expect)(_lodashCustom.default.get((0, _sharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('2,4');
-          });
-        });
-
-        (0, _mocha.it)('Si l\'utilisateur ABANDONNE, demande la sauvegarde du temps restant en secondes', function () {
-          visitTimedChallenge();
-          andThen(function () {
-            click(getSkipActionLink());
-          });
-          andThen(function () {
-            (0, _chai.expect)((0, _sharedState.urlOfLastPostRequest)()).to.equal('/api/answers');
-            (0, _chai.expect)(_lodashCustom.default.get((0, _sharedState.bodyOfLastPostRequest)(), 'data.attributes.timeout')).to.equal(2);
-            (0, _chai.expect)(_lodashCustom.default.get((0, _sharedState.bodyOfLastPostRequest)(), 'data.attributes.value')).to.equal('#ABAND#');
-          });
         });
       });
     });
@@ -2505,10 +2272,6 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('controllers/courses/get-challenge-preview.js', function () {
-      // test passed
-    });
-
     it('helpers/convert-to-html.js', function () {
       // test passed
     });
@@ -2541,19 +2304,11 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('initializers/ajax-interceptor.js', function () {
-      // test passed
-    });
-
     it('initializers/router.js', function () {
       // test passed
     });
 
     it('models/answer.js', function () {
-      // test passed
-    });
-
-    it('models/answer/value-as-array-of-boolean-mixin.js', function () {
       // test passed
     });
 
@@ -2747,8 +2502,41 @@ define('pix-live/tests/helpers/destroy-app', ['exports', 'ember'], function (exp
   exports.default = destroyApp;
   function destroyApp(application) {
     _ember.default.run(application, 'destroy');
-    server.shutdown();
+    if (window.server) {
+      window.server.shutdown();
+    }
   }
+});
+define('pix-live/tests/helpers/module-for-acceptance', ['exports', 'qunit', 'ember', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _qunit, _ember, _startApp, _destroyApp) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  exports.default = function (name) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    (0, _qunit.module)(name, {
+      beforeEach: function beforeEach() {
+        this.application = (0, _startApp.default)();
+
+        if (options.beforeEach) {
+          return options.beforeEach.apply(this, arguments);
+        }
+      },
+      afterEach: function afterEach() {
+        var _this = this;
+
+        var afterEach = options.afterEach && options.afterEach.apply(this, arguments);
+        return Promise.resolve(afterEach).then(function () {
+          return (0, _destroyApp.default)(_this.application);
+        });
+      }
+    });
+  };
+
+  var Promise = _ember.default.RSVP.Promise;
 });
 define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-live/config/environment'], function (exports, _resolver, _environment) {
   'use strict';
@@ -2766,32 +2554,6 @@ define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-
   };
 
   exports.default = resolver;
-});
-define('pix-live/tests/helpers/shared-state', ['exports'], function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.resetTestingState = resetTestingState;
-  exports.setTestingState = setTestingState;
-  exports.urlOfLastPostRequest = urlOfLastPostRequest;
-  exports.bodyOfLastPostRequest = bodyOfLastPostRequest;
-  function resetTestingState() {
-    localStorage.clear();
-  }
-
-  function setTestingState(state) {
-    localStorage.setItem('mirageTestingState', JSON.stringify(state));
-  }
-
-  function urlOfLastPostRequest() {
-    return JSON.parse(localStorage.getItem('miragePostUrl')).url;
-  }
-
-  function bodyOfLastPostRequest() {
-    return JSON.parse(JSON.parse(localStorage.getItem('miragePostUrl')).body);
-  }
 });
 define('pix-live/tests/helpers/start-app', ['exports', 'ember', 'pix-live/app', 'pix-live/config/environment'], function (exports, _ember, _app, _environment) {
   'use strict';
@@ -2811,6 +2573,114 @@ define('pix-live/tests/helpers/start-app', ['exports', 'ember', 'pix-live/app', 
       return application;
     });
   }
+});
+define('pix-live/tests/integration/components/challenge-actions-test', ['rsvp', 'chai', 'mocha', 'ember-mocha'], function (_rsvp, _chai, _mocha, _emberMocha) {
+  'use strict';
+
+  var VALIDATE_BUTTON = '.challenge-actions__action-validate';
+  var SKIP_BUTTON = '.challenge-actions__action-skip';
+
+  (0, _mocha.describe)('Integration | Component | challenge actions', function () {
+
+    (0, _emberMocha.setupComponentTest)('challenge-actions', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      this.render(Ember.HTMLBars.template({
+        "id": "EP4MIB23",
+        "block": "{\"statements\":[[1,[26,[\"challenge-actions\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.describe)('Validate button (and placeholding loader)', function () {
+
+      (0, _mocha.it)('should be displayed and enable by default but not loader', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "EP4MIB23",
+          "block": "{\"statements\":[[1,[26,[\"challenge-actions\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+        // then
+        (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('should be replaced by a (spinning) loader during treatment', function () {
+        // given
+        this.set('externalAction', function () {
+          return new _rsvp.default.Promise(function () {});
+        });
+        this.render(Ember.HTMLBars.template({
+          "id": "3ec6dWM6",
+          "block": "{\"statements\":[[1,[33,[\"challenge-actions\"],null,[[\"answerValidated\"],[[33,[\"action\"],[[28,[null]],[28,[\"externalAction\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        this.$('.challenge-actions__action-validate').click();
+
+        // then
+        (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should be enable again when the treatment succeeded', function () {
+        // given
+        this.set('externalAction', function () {
+          return _rsvp.default.resolve();
+        });
+        this.render(Ember.HTMLBars.template({
+          "id": "3ec6dWM6",
+          "block": "{\"statements\":[[1,[33,[\"challenge-actions\"],null,[[\"answerValidated\"],[[33,[\"action\"],[[28,[null]],[28,[\"externalAction\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        this.$('.challenge-actions__action-validate').click();
+
+        // then
+        (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('should be enable again when the treatment failed', function () {
+        // given
+        this.set('externalAction', function () {
+          return _rsvp.default.reject('Some error');
+        });
+        this.render(Ember.HTMLBars.template({
+          "id": "3ec6dWM6",
+          "block": "{\"statements\":[[1,[33,[\"challenge-actions\"],null,[[\"answerValidated\"],[[33,[\"action\"],[[28,[null]],[28,[\"externalAction\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        this.$('.challenge-actions__action-validate').click();
+
+        // then
+        (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
+      });
+    });
+
+    (0, _mocha.describe)('Skip button', function () {
+
+      (0, _mocha.it)('should be displayed and enable by default', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "EP4MIB23",
+          "block": "{\"statements\":[[1,[26,[\"challenge-actions\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+        // then
+        (0, _chai.expect)(this.$(SKIP_BUTTON)).to.have.lengthOf(1);
+      });
+    });
+  });
 });
 define('pix-live/tests/integration/components/challenge-statement-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
   'use strict';
@@ -3055,6 +2925,21 @@ define('pix-live/tests/integration/components/challenge-stay-test', ['chai', 'mo
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should display a warning icon with an accessible description', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "XrhrN5ED",
+        "block": "{\"statements\":[[1,[26,[\"challenge-stay\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+
+      // then
+      var $img = this.$('.challenge-stay__icon-img');
+      (0, _chai.expect)($img).to.have.lengthOf(1);
+      (0, _chai.expect)($img.attr('src')).to.equal('/images/icon-warning.svg');
+      (0, _chai.expect)($img.attr('alt')).to.not.be.empty;
     });
   });
 });
@@ -4994,7 +4879,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
           (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('bold');
-          (0, _chai.expect)(answerInput.css('text-decoration')).to.be.contains('none');
+          (0, _chai.expect)(answerInput.css('text-decoration')).to.contain('none');
         });
 
         (0, _mocha.it)('should not display the solution', function () {
@@ -5031,7 +4916,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
           (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
-          (0, _chai.expect)(answerInput.css('text-decoration')).to.be.contains('line-through');
+          (0, _chai.expect)(answerInput.css('text-decoration')).to.contain('line-through');
         });
 
         (0, _mocha.it)('should display one solution in bold green below the input', function () {
@@ -5050,7 +4935,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
           (0, _chai.expect)(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
           (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('bold');
-          (0, _chai.expect)(solutionText.css('text-decoration')).to.be.contains('none');
+          (0, _chai.expect)(solutionText.css('text-decoration')).to.contain('none');
         });
       });
 
@@ -5074,7 +4959,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
           (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
-          (0, _chai.expect)(answerInput.css('text-decoration')).to.be.contains('none');
+          (0, _chai.expect)(answerInput.css('text-decoration')).to.contain('none');
         });
 
         (0, _mocha.it)('should display one solution in bold green below the input', function () {
@@ -5093,7 +4978,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
           (0, _chai.expect)(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
           (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('bold');
-          (0, _chai.expect)(solutionText.css('text-decoration')).to.be.contains('none');
+          (0, _chai.expect)(solutionText.css('text-decoration')).to.contain('none');
         });
       });
     });
@@ -5395,7 +5280,7 @@ define('pix-live/tests/integration/components/scoring-panel-tantpix-test', ['cha
           (0, _chai.expect)(smiley.attr('src')).to.includes('/images/smiley.png');
           (0, _chai.expect)(smiley.attr('srcset')).to.includes('/images/smiley@2x.png');
           (0, _chai.expect)(smiley.attr('srcset')).to.includes('/images/smiley@3x.png');
-          (0, _chai.expect)(smiley.attr('alt')).to.includes('smiley tant pix');
+          (0, _chai.expect)(smiley.attr('alt')).to.includes('smiley');
         });
       });
     });
@@ -6496,10 +6381,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('acceptance/e1-previsualisation-epreuve-test.js', function () {
-      // test passed
-    });
-
     it('acceptance/f1-previsualisation-test-test.js', function () {
       // test passed
     });
@@ -6536,15 +6417,19 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('helpers/module-for-acceptance.js', function () {
+      // test passed
+    });
+
     it('helpers/resolver.js', function () {
       // test passed
     });
 
-    it('helpers/shared-state.js', function () {
+    it('helpers/start-app.js', function () {
       // test passed
     });
 
-    it('helpers/start-app.js', function () {
+    it('integration/components/challenge-actions-test.js', function () {
       // test passed
     });
 
@@ -6757,10 +6642,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/models/answer-test.js', function () {
-      // test passed
-    });
-
-    it('unit/models/answer/value-as-array-of-boolean-mixin-test.js', function () {
       // test passed
     });
 
@@ -7476,7 +7357,7 @@ define('pix-live/tests/unit/components/follower-form-test', ['ember', 'chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/components/qcu-proposals-test', ['pix-live/utils/lodash-custom', 'chai', 'mocha', 'ember-mocha'], function (_lodashCustom, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/components/qcu-proposals-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Component | QCU proposals', function () {
@@ -7489,51 +7370,36 @@ define('pix-live/tests/unit/components/qcu-proposals-test', ['pix-live/utils/lod
     (0, _mocha.describe)('Computed property "labeledRadios"', function () {
 
       var DEFAULT_PROPOSALS = '- prop 1\n- prop 2\n- prop 3';
-      var DEFAULT_ANSWERS = [false, true, false];
-      var PROPOSAL_TEXT = 0;
-      var BOOLEAN_ANSWER = 1;
 
-      var answers = void 0;
+      var answersValue = void 0;
       var proposals = void 0;
       var component = void 0;
 
       beforeEach(function () {
         proposals = DEFAULT_PROPOSALS;
-        answers = DEFAULT_ANSWERS;
+        answersValue = '2';
       });
 
       function initComponent() {
         component = this.subject();
         component.set('proposals', proposals);
-        component.set('answers', answers);
+        component.set('answersValue', answersValue);
       }
 
-      /*
-       * Ex :
-       * - proposals = ['prop 1', 'prop 2', 'prop 3']
-       * - answers = [false, true, false]
-       *
-       * => labeledRadios = [['prop 1', false], ['prop 2', true], ['prop 3', false]]
-       */
       (0, _mocha.it)('should return an array of [<proposal_text>, <boolean_answer>]', function () {
-        // given
+        // Given
+        answersValue = '2';
+        var expectedLabeledRadios = [['prop 1', false], ['prop 2', true], ['prop 3', false]];
         initComponent.call(this);
 
-        // when
+        // When
         var labeledRadios = component.get('labeledRadios');
 
-        // then
-        (0, _chai.expect)(labeledRadios[0][PROPOSAL_TEXT]).to.equal('prop 1');
-        (0, _chai.expect)(labeledRadios[0][BOOLEAN_ANSWER]).to.equal(DEFAULT_ANSWERS[0]);
-
-        (0, _chai.expect)(labeledRadios[1][PROPOSAL_TEXT]).to.equal('prop 2');
-        (0, _chai.expect)(labeledRadios[1][BOOLEAN_ANSWER]).to.equal(DEFAULT_ANSWERS[1]);
-
-        (0, _chai.expect)(labeledRadios[2][PROPOSAL_TEXT]).to.equal('prop 3');
-        (0, _chai.expect)(labeledRadios[2][BOOLEAN_ANSWER]).to.equal(DEFAULT_ANSWERS[2]);
+        // Then
+        (0, _chai.expect)(labeledRadios).to.deep.equal(expectedLabeledRadios);
       });
 
-      (0, _mocha.it)('should return an array of [<proposal_text>, <boolean_answer>] with as many items than challenge proposals', function () {
+      (0, _mocha.it)('should return an array of [<proposal_text>, <boolean_answer>] with as many items as challenge proposals', function () {
         // given
         proposals = '- prop 1\n- prop 2\n- prop 3\n- prop 4\n- prop 5';
         initComponent.call(this);
@@ -7545,30 +7411,30 @@ define('pix-live/tests/unit/components/qcu-proposals-test', ['pix-live/utils/lod
         (0, _chai.expect)(labeledRadios).to.have.lengthOf(5);
       });
 
-      (0, _mocha.it)('should return an array of [<proposal_text>, <boolean_answer>] with all <boolean_answer> values set to "false" when given answer is "null"', function () {
+      (0, _mocha.it)('should not select a radio when given answer is null', function () {
         // given
-        answers = null;
+        answersValue = null;
+        var expectedLabeledRadios = [['prop 1', false], ['prop 2', false], ['prop 3', false]];
         initComponent.call(this);
 
         // when
         var labeledRadios = component.get('labeledRadios');
 
         // then
-        (0, _chai.expect)(_lodashCustom.default.every(labeledRadios, function (labeledRadio) {
-          return labeledRadio[1] === false;
-        })).to.be.true;
+        (0, _chai.expect)(labeledRadios).to.deep.equal(expectedLabeledRadios);
       });
 
-      (0, _mocha.it)('should return an array of [<proposal_text>, <boolean_answer>] with <boolean_answer> values empty when answer value is not a boolean', function () {
+      (0, _mocha.it)('should not select a radio when no answer is given', function () {
         // given
-        answers = [true, undefined, null];
+        answersValue = '';
+        var expectedLabeledRadios = [['prop 1', false], ['prop 2', false], ['prop 3', false]];
         initComponent.call(this);
 
         // when
         var labeledRadios = component.get('labeledRadios');
 
         // then
-        (0, _chai.expect)(labeledRadios).to.have.lengthOf(0);
+        (0, _chai.expect)(labeledRadios).to.deep.equal(expectedLabeledRadios);
       });
     });
   });
@@ -8463,28 +8329,6 @@ define('pix-live/tests/unit/models/answer-test', ['ember', 'chai', 'mocha', 'emb
     });
   });
 });
-define('pix-live/tests/unit/models/answer/value-as-array-of-boolean-mixin-test', ['ember', 'chai', 'mocha', 'pix-live/models/answer/value-as-array-of-boolean-mixin'], function (_ember, _chai, _mocha, _valueAsArrayOfBooleanMixin) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Model | Value As Array of Boolean Mixin', function () {
-
-    var testData = [{ when: 'Empty String', input: '', expected: [] }, { when: 'Wrong type as input', input: new Date(), expected: [] }, { when: 'Undefined input', input: undefined, expected: [] }, { when: 'Nominal case', input: '2,3', expected: [false, true, true] }, { when: 'Only one value', input: '4', expected: [false, false, false, true] }, { when: 'Resist to order, empty space and empty value', input: ',4, 2 , 2,1,  ,', expected: [true, true, false, true] }];
-
-    var Challenge = _ember.default.Object.extend(_valueAsArrayOfBooleanMixin.default, {});
-
-    testData.forEach(function (_ref) {
-      var when = _ref.when,
-          input = _ref.input,
-          expected = _ref.expected;
-
-
-      (0, _mocha.it)('"' + when + '", example : "' + JSON.stringify(input) + '" retourne [' + expected + ']', function () {
-        var sut = Challenge.create({ value: input });
-        (0, _chai.expect)(sut.get('_valueAsArrayOfBoolean')).to.deep.equal(expected);
-      });
-    });
-  });
-});
 define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -8935,7 +8779,7 @@ define('pix-live/tests/unit/routes/courses/get-challenge-preview-test', ['chai',
   (0, _mocha.describe)('Unit | Route | ChallengePreview', function () {
 
     (0, _emberMocha.setupTest)('route:courses/get-challenge-preview', {
-      needs: ['service:current-routed-modal']
+      needs: ['service:current-routed-modal', 'service:assessment']
     });
 
     (0, _mocha.it)('exists', function () {
