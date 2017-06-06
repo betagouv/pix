@@ -16,7 +16,7 @@ module.exports = {
 
   save(request, reply) {
 
-    if (!_.has(request, 'payload') || !_.has(request, 'payload.data.attributes')) {
+    if(!_.has(request, 'payload') || !_.has(request, 'payload.data.attributes')) {
       return reply(Boom.badRequest());
     }
 
@@ -30,12 +30,16 @@ module.exports = {
         reply(userSerializer.serialize(user)).code(201);
       })
       .catch((err) => {
-        if (_isUniqConstraintViolated(err)) {
+        if(_isUniqConstraintViolated(err)) {
           err = _buildErrorWhenUniquEmail();
         }
 
         reply(validationErrorSerializer.serialize(err)).code(422);
       });
+  },
+
+  getProfil() {
+    
   }
 
 };
@@ -43,7 +47,7 @@ module.exports = {
 function _buildErrorWhenUniquEmail() {
   return {
     data: {
-      email: [ 'Cette adresse electronique est déjà enregistrée.' ]
+      email: ['Cette adresse electronique est déjà enregistrée.']
     }
   };
 }
