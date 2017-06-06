@@ -3,12 +3,16 @@ import { expect } from 'chai';
 import { setupTest } from 'ember-mocha';
 import RSVP from 'rsvp';
 import Ember from 'ember';
-import sinon from 'sinon';
 
-describe.only('Unit | Component | g-recaptcha', function() {
+describe('Unit | Component | g-recaptcha', function() {
+
+  let serviceResetCalled = false;
 
   setupTest('component:g-recaptcha', {});
+
   beforeEach(function() {
+
+    serviceResetCalled = false;
 
     this.register('service:googleRecaptcha', Ember.Service.extend({
       loadScript() {
@@ -19,9 +23,12 @@ describe.only('Unit | Component | g-recaptcha', function() {
         return true;
       },
 
-      const reset = sinon.spy();
+      reset() {
+        serviceResetCalled = true;
+      }
 
     }));
+    this.inject.service('googleRecaptcha', { as: 'googleRecaptcha' });
 
   });
 
@@ -36,8 +43,8 @@ describe.only('Unit | Component | g-recaptcha', function() {
       // when
       component.didUpdateAttrs();
 
-      // then verify reset has been called
-
+      // then
+      expect(serviceResetCalled).to.be.true;
     });
 
     it('should not reset the recaptcha if the token has not been used', function() {
@@ -50,6 +57,7 @@ describe.only('Unit | Component | g-recaptcha', function() {
       component.didUpdateAttrs();
 
       // then verify reset has not been called
+      expect(serviceResetCalled).to.be.false;
 
     });
   });
