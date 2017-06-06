@@ -1372,8 +1372,9 @@ define('pix-live/components/g-recaptcha', ['exports', 'ember'], function (export
 
     googleRecaptcha: _ember.default.inject.service(),
 
-    recaptchaToken: null,
-    tokenHasBeenUsed: null,
+    validateRecaptcha: null, // action
+    resetRecaptcha: null, // action
+    validation: null,
 
     didInsertElement: function didInsertElement() {
       this._super.apply(this, arguments);
@@ -5456,7 +5457,14 @@ define('pix-live/routes/inscription', ['exports', 'ember'], function (exports, _
   });
   exports.default = _ember.default.Route.extend({
     model: function model() {
-      return this.store.createRecord('user');
+      // XXX: Model needs to be initialize with empty to handle validations on all fields from Api
+      return this.store.createRecord('user', {
+        lastName: '',
+        firstName: '',
+        email: '',
+        password: '',
+        cgu: false
+      });
     },
 
 
@@ -7065,6 +7073,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"name":"pix-live","version":"1.11.1+fea1e58a"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"name":"pix-live","version":"1.11.1+7350c478"});
 }
 //# sourceMappingURL=pix-live.map
