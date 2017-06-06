@@ -2087,6 +2087,95 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     });
   });
 });
+define('pix-live/tests/acceptance/m1-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'ember-test-helpers/wait'], function (_mocha, _chai, _startApp, _destroyApp, _wait) {
+  'use strict';
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
+
+  (0, _mocha.describe)('Acceptance | Espace compte', function () {
+
+    var application = void 0;
+
+    (0, _mocha.before)(function () {
+      application = (0, _startApp.default)();
+    });
+
+    (0, _mocha.after)(function () {
+      (0, _destroyApp.default)(application);
+    });
+
+    (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
+      (0, _mocha.it)('should redirect to the connexion page', function () {
+        visit('/compte');
+
+        return andThen(function () {
+          (0, _chai.expect)(currentURL()).to.equal('/connexion');
+        });
+      });
+    });
+
+    (0, _mocha.describe)('m1.2 Log-in phase', function () {
+      var _this = this;
+
+      (0, _mocha.it)('should redirect to the /compte after connexion', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return visit('/connexion');
+
+              case 2:
+
+                _fillConnexionForm('pix@contact.com', 'PasswordPix#');
+                $('form').submit();
+
+                return _context.abrupt('return', (0, _wait.default)().then(function () {
+                  (0, _chai.expect)(currentURL()).to.equal('/compte');
+                }));
+
+              case 5:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, _this);
+      })));
+    });
+
+    function _fillConnexionForm(email, password) {
+      $('input[type=email]').val(email);
+      $('input[type=password]').val(password);
+    }
+  });
+});
 define('pix-live/tests/app.lint-test', [], function () {
   'use strict';
 
@@ -2105,6 +2194,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('app.js', function () {
+      // test passed
+    });
+
+    it('authenticators/simple.js', function () {
       // test passed
     });
 
@@ -2320,6 +2413,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('models/authentication.js', function () {
+      // test passed
+    });
+
     it('models/challenge.js', function () {
       // test passed
     });
@@ -2333,10 +2430,6 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('models/follower.js', function () {
-      // test passed
-    });
-
-    it('models/login.js', function () {
       // test passed
     });
 
@@ -2380,6 +2473,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('routes/compte.js', function () {
+      // test passed
+    });
+
     it('routes/connexion.js', function () {
       // test passed
     });
@@ -2401,6 +2498,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/courses/get-course-preview.js', function () {
+      // test passed
+    });
+
+    it('routes/deconnexion.js', function () {
       // test passed
     });
 
@@ -2505,6 +2606,47 @@ define('pix-live/tests/helpers/destroy-app', ['exports', 'ember'], function (exp
     if (window.server) {
       window.server.shutdown();
     }
+  }
+});
+define('pix-live/tests/helpers/ember-simple-auth', ['exports', 'ember-simple-auth/authenticators/test'], function (exports, _test) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.authenticateSession = authenticateSession;
+  exports.currentSession = currentSession;
+  exports.invalidateSession = invalidateSession;
+
+
+  var TEST_CONTAINER_KEY = 'authenticator:test'; /* global wait */
+
+  function ensureAuthenticator(app, container) {
+    var authenticator = container.lookup(TEST_CONTAINER_KEY);
+    if (!authenticator) {
+      app.register(TEST_CONTAINER_KEY, _test.default);
+    }
+  }
+
+  function authenticateSession(app, sessionData) {
+    var container = app.__container__;
+
+    var session = container.lookup('service:session');
+    ensureAuthenticator(app, container);
+    session.authenticate(TEST_CONTAINER_KEY, sessionData);
+    return wait();
+  }
+
+  function currentSession(app) {
+    return app.__container__.lookup('service:session');
+  }
+
+  function invalidateSession(app) {
+    var session = app.__container__.lookup('service:session');
+    if (session.get('isAuthenticated')) {
+      session.invalidate();
+    }
+    return wait();
   }
 });
 define('pix-live/tests/helpers/module-for-acceptance', ['exports', 'qunit', 'ember', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _qunit, _ember, _startApp, _destroyApp) {
@@ -6413,6 +6555,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('acceptance/m1-authentication-and-profile-test.js', function () {
+      // test passed
+    });
+
     it('helpers/destroy-app.js', function () {
       // test passed
     });
@@ -6681,6 +6827,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/routes/compte-test.js', function () {
+      // test passed
+    });
+
     it('unit/routes/connexion-test.js', function () {
       // test passed
     });
@@ -6694,6 +6844,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/courses/get-course-preview-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/deconnexion-test.js', function () {
       // test passed
     });
 
@@ -8649,6 +8803,28 @@ define('pix-live/tests/unit/routes/competences-test', ['chai', 'mocha', 'ember-m
     });
   });
 });
+define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | compte', function () {
+    (0, _emberMocha.setupTest)('route:compte', {
+      needs: ['service:current-routed-modal', 'service:session']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.it)('should redirect to /connexion', function () {
+      // Given
+      var route = this.subject();
+
+      // Then
+      (0, _chai.expect)(route.authenticationRoute).to.equal('/connexion');
+    });
+  });
+});
 define('pix-live/tests/unit/routes/connexion-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -8704,19 +8880,38 @@ define('pix-live/tests/unit/routes/connexion-test', ['ember', 'chai', 'mocha', '
     return StoreStub;
   }();
 
+  var SessionStub = function () {
+    function SessionStub() {
+      _classCallCheck(this, SessionStub);
+    }
+
+    _createClass(SessionStub, [{
+      key: 'authenticate',
+      value: function authenticate() {
+        this.callArgs = Array.from(arguments);
+      }
+    }]);
+
+    return SessionStub;
+  }();
+
   (0, _mocha.describe)('Unit | Route | connexion', function () {
     (0, _emberMocha.setupTest)('route:connexion', {
-      needs: ['service:current-routed-modal', 'service:authentication']
+      needs: ['service:current-routed-modal', 'service:authentication', 'service:session']
     });
 
     var expectedEmail = 'email@example.net';
     var expectedPassword = 'azerty';
     var storeStub = new StoreStub();
+    var sessionStub = new SessionStub();
 
     (0, _mocha.it)('should record the login', function () {
       // Given
       var route = this.subject();
+      route.transitionTo = function () {};
+
       route.set('store', storeStub);
+      route.set('session', sessionStub);
 
       // When
       var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
@@ -8724,15 +8919,17 @@ define('pix-live/tests/unit/routes/connexion-test', ['ember', 'chai', 'mocha', '
       // Then
       return promise.then(function () {
         (0, _chai.expect)(storeStub.createRecordIsCalled).to.be.true;
-        (0, _chai.expect)(storeStub.calls[0]).to.deep.equal(['login', { email: expectedEmail, password: expectedPassword }]);
+        (0, _chai.expect)(storeStub.calls[0]).to.deep.equal(['authentication', { email: expectedEmail, password: expectedPassword }]);
       });
     });
 
     (0, _mocha.it)('should save the login', function () {
       // Given
       var route = this.subject();
+      route.transitionTo = function () {};
 
       route.set('store', storeStub);
+      route.set('session', sessionStub);
 
       // When
       var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
@@ -8746,14 +8943,17 @@ define('pix-live/tests/unit/routes/connexion-test', ['ember', 'chai', 'mocha', '
     (0, _mocha.it)('should authenticate the user', function () {
       // Given
       var route = this.subject();
+      route.transitionTo = function () {};
+
       route.set('store', storeStub);
+      route.set('session', sessionStub);
 
       // When
       var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
 
       // Then
       return promise.then(function () {
-        (0, _chai.expect)(route.get('authentication').token).to.equal(expectedToken);
+        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedToken]);
       });
     });
   });
@@ -8800,6 +9000,96 @@ define('pix-live/tests/unit/routes/courses/get-course-preview-test', ['chai', 'm
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/deconnexion-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
+  var SessionStub = function () {
+    function SessionStub() {
+      _classCallCheck(this, SessionStub);
+
+      this.isInvalidateCalled = false;
+    }
+
+    _createClass(SessionStub, [{
+      key: 'invalidate',
+      value: function invalidate() {
+        this.isInvalidateCalled = true;
+      }
+    }]);
+
+    return SessionStub;
+  }();
+
+  (0, _mocha.describe)('Unit | Route | deconnexion', function () {
+    (0, _emberMocha.setupTest)('route:deconnexion', {
+      needs: ['service:current-routed-modal', 'service:session']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.it)('should disconnect the user', function () {
+      // Given
+      var route = this.subject();
+      var sessionStub = new SessionStub();
+      route.set('session', sessionStub);
+      route.transitionTo = function () {};
+
+      // When
+      route.beforeModel();
+
+      // Then
+      (0, _chai.expect)(sessionStub.isInvalidateCalled).to.be.true;
+    });
+
+    (0, _mocha.it)('should redirect after disconnection', function () {
+      // Given
+      var isTransitionToCalled = false;
+      var isTransitionToArgs = [];
+
+      var sessionStub = new SessionStub();
+      var route = this.subject();
+      route.set('session', sessionStub);
+      route.transitionTo = function () {
+        isTransitionToCalled = true;
+        isTransitionToArgs = Array.from(arguments);
+      };
+
+      // When
+      route.beforeModel();
+
+      // Then
+      (0, _chai.expect)(isTransitionToCalled).to.be.true;
+      (0, _chai.expect)(isTransitionToArgs).to.deep.equal(['/']);
     });
   });
 });
