@@ -4145,8 +4145,6 @@ define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha
       (0, _chai.expect)(this.$('#g-recaptcha-container').children()).to.have.lengthOf(1);
       (0, _chai.expect)(this.get('googleRecaptchaService.calledWithContainerId')).to.equal('g-recaptcha-container');
     });
-
-    (0, _mocha.it)('should render the captcha even after a reset', function () {});
   });
 });
 define('pix-live/tests/integration/components/medal-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
@@ -6685,7 +6683,7 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/components/g-recaptcha.js', function () {
+    it('unit/components/g-recaptcha-test.js', function () {
       // test passed
     });
 
@@ -7410,22 +7408,94 @@ define('pix-live/tests/unit/components/follower-form-test', ['ember', 'chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/components/g-recaptcha', ['mocha', 'ember-mocha'], function (_mocha, _emberMocha) {
+define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'ember-mocha', 'rsvp', 'ember'], function (_mocha, _chai, _emberMocha, _rsvp, _ember) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Component | g-recaptcha', function () {
 
+    var serviceResetCalled = false;
+
     (0, _emberMocha.setupTest)('component:g-recaptcha', {});
 
-    (0, _mocha.describe)('', function () {
+    beforeEach(function () {
 
-      (0, _mocha.it)('', function () {
+      serviceResetCalled = false;
+
+      this.register('service:googleRecaptcha', _ember.default.Service.extend({
+        loadScript: function loadScript() {
+          return _rsvp.default.resolve();
+        },
+        render: function render() {
+          return true;
+        },
+        reset: function reset() {
+          serviceResetCalled = true;
+        }
+      }));
+      this.inject.service('googleRecaptcha', { as: 'googleRecaptcha' });
+    });
+
+    (0, _mocha.describe)('#didUpdateAttrs', function () {
+
+      (0, _mocha.it)('should reset the recaptcha if the token has been used', function () {
         // given
+        var component = this.subject({});
+        component.set('recaptchaToken', null);
+        component.set('tokenHasBeenUsed', true);
 
         // when
+        component.didUpdateAttrs();
 
         // then
+        (0, _chai.expect)(serviceResetCalled).to.be.true;
+      });
 
+      (0, _mocha.it)('should not reset the recaptcha if the token has not been used', function () {
+        // given
+        var component = this.subject({});
+        component.set('recaptchaToken', null);
+        component.set('tokenHasBeenUsed', false);
+
+        // when
+        component.didUpdateAttrs();
+
+        // then verify reset has not been called
+        (0, _chai.expect)(serviceResetCalled).to.be.false;
+      });
+    });
+
+    (0, _mocha.describe)('#validateCallback', function () {
+
+      (0, _mocha.it)('should set the recaptchaToken to the GoogleRecaptchaToken and indicate that he has not been used', function () {
+        // given
+        var component = this.subject({});
+        component.set('recaptchaToken', null);
+        component.set('tokenHasBeenUsed', true);
+        var googleRecaptchaResponse = 'la reponse de recaptcha';
+
+        // when
+        component.validateCallback(googleRecaptchaResponse);
+
+        // then
+        (0, _chai.expect)(component.get('recaptchaToken')).to.be.equal(googleRecaptchaResponse);
+        (0, _chai.expect)(component.get('tokenHasBeenUsed')).to.be.false;
+      });
+    });
+
+    (0, _mocha.describe)('#expiredCallback', function () {
+
+      (0, _mocha.it)('should set the recaptchaToken to null and indicate that he has not been used', function () {
+        // given
+        var component = this.subject();
+        component.set('recaptchaToken', 'un token');
+        component.set('tokenHasBeenUsed', true);
+
+        // when
+        component.expiredCallback();
+
+        // then
+        (0, _chai.expect)(component.get('recaptchaToken')).to.be.null;
+        (0, _chai.expect)(component.get('tokenHasBeenUsed')).to.be.false;
       });
     });
   });
