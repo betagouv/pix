@@ -14,7 +14,6 @@ const logger = require('../../../../lib/infrastructure/logger');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
-const googleRecaptcha = require('../../../../lib/domain/services/recaptcha-validator');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -41,128 +40,6 @@ describe('Unit | Controller | user-controller', () => {
     afterEach(() => {
       validationErrorSerializerStub.restore();
       boomBadRequestMock.restore();
-      googleRecaptchaStub.restore();
-    });
-
-    describe('#Recaptcha Behavior', function() {
-
-      describe('recaptcha error:', function() {
-        let codeSpy;
-        let request;
-        beforeEach(() => {
-          codeSpy = sinon.spy();
-          replyStub.returns({code: codeSpy});
-
-          request = {
-            payload: {
-              data: {
-                attributes: {
-                  firstName: '',
-                  lastName: '',
-                  captchaResponse: 'VALID_CAPTCHA'
-                }
-              }
-            }
-          };
-
-          googleRecaptchaStub.returns(false);
-          validationErrorSerializerStub.restore();
-        });
-
-        afterEach(() => {
-
-        });
-
-        it('should get Ok only when google verify is called with param', function() {
-          // When
-          userController.save(request, replyStub);
-          // Then
-          sinon.assert.calledOnce(googleRecaptcha.verify);
-          sinon.assert.calledWith(googleRecaptcha.verify, 'VALID_CAPTCHA');
-        });
-
-        it('should get error when there is not captchaResponse in payload', function() {
-          // given
-          const expectedFormattedCaptchaError = {
-            'errors': [
-              {
-                'detail': 'Le captcha est invalide.',
-                'meta': {
-                  'field': 'captchaResponse'
-                },
-                'source': {
-                  'pointer': '/data/attributes/captcha-response'
-                },
-                'status': '400',
-                'title': 'Invalid Attribute'
-              },
-              {
-                'detail': 'Le champ CGU doit être renseigné.',
-                'meta': {
-                  'field': 'cgu'
-                },
-                'source': {
-                  'pointer': '/data/attributes/cgu'
-                },
-                'status': '400',
-                'title': 'Invalid Attribute'
-              }
-            ]
-          };
-
-          // When
-          userController.save(request, replyStub);
-
-          // Then
-          sinon.assert.calledOnce(replyStub);
-          sinon.assert.calledWith(replyStub, expectedFormattedCaptchaError);
-          sinon.assert.calledWith(codeSpy, 422);
-        });
-
-        it('should get ok for invalid captcha, validationErrors is handle on user', function() {
-          // given
-          const user = new User({
-            email: 'shi@fu.me'
-          });
-
-          const expectedMergedErrors = {
-            'errors': [
-              {
-                'detail': 'Le captcha est invalide.',
-                'meta': {
-                  'field': 'captchaResponse'
-                },
-                'source': {
-                  'pointer': '/data/attributes/captcha-response'
-                },
-                'status': '400',
-                'title': 'Invalid Attribute'
-              },
-              {
-                'detail': 'Le champ CGU doit être renseigné.',
-                'meta': {
-                  'field': 'cgu'
-                },
-                'source': {
-                  'pointer': '/data/attributes/cgu'
-                },
-                'status': '400',
-                'title': 'Invalid Attribute'
-              }
-            ]
-          };
-          const userSerializerStub = sinon.stub(userSerializer, 'serialize').returns(user);
-
-          // When
-          userController.save(request, replyStub);
-
-          // then
-          sinon.assert.calledWith(replyStub, expectedMergedErrors);
-          userSerializerStub.restore();
-        });
-
-        // Merge errors data
-      });
       loggerStub.restore();
       googleReCaptchaStub.restore();
     });
@@ -513,13 +390,13 @@ describe('Unit | Controller | user-controller', () => {
               source: {pointer: '/data/attributes/recaptcha-token'},
               meta: {field: 'recaptchaToken'}
             },
-              {
-                status: '400',
-                title: 'Invalid Attribute',
-                detail: 'Le champ CGU doit être renseigné.',
-                source: {pointer: '/data/attributes/cgu'},
-                meta: {field: 'cgu'}
-              }]
+            {
+              status: '400',
+              title: 'Invalid Attribute',
+              detail: 'Le champ CGU doit être renseigné.',
+              source: {pointer: '/data/attributes/cgu'},
+              meta: {field: 'cgu'}
+            }]
           };
           const replyErrorStub = sinon.stub();
           replyErrorStub.returns({
