@@ -3416,13 +3416,14 @@ define('pix-live/initializers/data-adapter', ['exports', 'ember'], function (exp
     initialize: function initialize() {}
   };
 });
-define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember-cli-mirage/utils/read-modules', 'pix-live/config/environment', 'pix-live/mirage/config', 'ember-cli-mirage/server', 'lodash/assign'], function (exports, _readModules, _environment, _config, _server, _assign2) {
+define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember', 'ember-cli-mirage/utils/read-modules', 'pix-live/config/environment', 'pix-live/mirage/config', 'ember-cli-mirage/server', 'lodash/assign'], function (exports, _ember, _readModules, _environment, _config, _server, _assign2) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
   exports.startMirage = startMirage;
+  var getWithDefault = _ember.default.getWithDefault;
   exports.default = {
     name: 'ember-cli-mirage',
     initialize: function initialize(application) {
@@ -3441,8 +3442,9 @@ define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember-cli-mirage/u
     var env = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _environment.default;
 
     var environment = env.environment;
+    var discoverEmberDataModels = getWithDefault(env['ember-cli-mirage'] || {}, 'discoverEmberDataModels', true);
     var modules = (0, _readModules.default)(env.modulePrefix);
-    var options = (0, _assign2.default)(modules, { environment: environment, baseConfig: _config.default, testConfig: _config.testConfig });
+    var options = (0, _assign2.default)(modules, { environment: environment, baseConfig: _config.default, testConfig: _config.testConfig, discoverEmberDataModels: discoverEmberDataModels });
 
     return new _server.default(options);
   }
@@ -4712,23 +4714,23 @@ define('pix-live/models/answer/value-as-array-of-boolean-mixin', ['exports', 'em
     * Convert "1,2,4" into [true, true, false, true]
     */
     _valueAsArrayOfBoolean: _ember.default.computed('value', function () {
-      return _lodashCustom.default.chain(this.get('value')) // in the worst case : ',4, 2 , 2,1,  ,'
-      .checkPoint(function (e) {
+      return _lodashCustom.default.chain(this.get('value') // in the worst case : ',4, 2 , 2,1,  ,'
+      ).checkPoint(function (e) {
         return _lodashCustom.default.isString(e) ? e : '';
-      }) // check if string
-      .split(',') // now ['', '4', ' 2 ', ' 2', '1', '  ', '']
-      .map(_lodashCustom.default.trim) // now ['', '4', '2', '2', '1', '', '']
-      .reject(_lodashCustom.default.isEmpty) // now ['4', '2', '2', '1']
-      .checkPoint(function (e) {
+      } // check if string
+      ).split(',' // now ['', '4', ' 2 ', ' 2', '1', '  ', '']
+      ).map(_lodashCustom.default.trim // now ['', '4', '2', '2', '1', '', '']
+      ).reject(_lodashCustom.default.isEmpty // now ['4', '2', '2', '1']
+      ).checkPoint(function (e) {
         return _lodashCustom.default.every(e, _lodashCustom.default.isStrictlyPositiveInteger) ? e : [];
-      }) // check if int >= 1
-      .map(_lodashCustom.default.parseInt) // now [4, 2, 2, 1]
-      .sortBy() // now [1, 2, 2, 4]
-      .uniqBy() // now [1, 2, 4]
-      .map(function (e) {
+      } // check if int >= 1
+      ).map(_lodashCustom.default.parseInt // now [4, 2, 2, 1]
+      ).sortBy // now [1, 2, 2, 4]
+      ().uniqBy // now [1, 2, 4]
+      ().map(function (e) {
         return e - 1;
-      }) // now [0, 1, 3]
-      .thru(function (e) {
+      } // now [0, 1, 3]
+      ).thru(function (e) {
         return _lodashCustom.default.times(_lodashCustom.default.max(e) + 1, function (o) {
           return (0, _lodashCustom.default)(e).includes(o);
         });
@@ -6606,11 +6608,11 @@ define('pix-live/utils/labeled-checkboxes', ['exports', 'pix-live/utils/lodash-c
     var sizeDifference = (0, _lodashCustom.default)(proposals).size() - (0, _lodashCustom.default)(definedUserAnswers).size(); // 2
     var arrayOfFalse = _lodashCustom.default.times(sizeDifference, _lodashCustom.default.constant(false)); // [false, false]
 
-    return _lodashCustom.default.chain(definedUserAnswers) // [false, true]
-    .concat(arrayOfFalse) // [false, true, false, false]
-    .zip(proposals) // [[false, 'prop 1'], [true, 'prop 2'], [false, 'prop 3'], [false, 'prop 4']]
-    .map(_lodashCustom.default.reverse) // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
-    .value();
+    return _lodashCustom.default.chain(definedUserAnswers // [false, true]
+    ).concat(arrayOfFalse // [false, true, false, false]
+    ).zip(proposals // [[false, 'prop 1'], [true, 'prop 2'], [false, 'prop 3'], [false, 'prop 4']]
+    ).map(_lodashCustom.default.reverse // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
+    ).value();
   }
 });
 define('pix-live/utils/labels-as-object', ['exports'], function (exports) {
@@ -6922,23 +6924,23 @@ define('pix-live/utils/value-as-array-of-boolean', ['exports', 'pix-live/utils/l
   });
   exports.default = valueAsArrayOfBoolean;
   function valueAsArrayOfBoolean(value) {
-    return _lodashCustom.default.chain(value) // in the worst case : ',4, 2 , 2,1,  ,'
-    .checkPoint(function (e) {
+    return _lodashCustom.default.chain(value // in the worst case : ',4, 2 , 2,1,  ,'
+    ).checkPoint(function (e) {
       return _lodashCustom.default.isString(e) ? e : '';
-    }) // check if string
-    .split(',') // now ['', '4', ' 2 ', ' 2', '1', '  ', '']
-    .map(_lodashCustom.default.trim) // now ['', '4', '2', '2', '1', '', '']
-    .reject(_lodashCustom.default.isEmpty) // now ['4', '2', '2', '1']
-    .checkPoint(function (e) {
+    } // check if string
+    ).split(',' // now ['', '4', ' 2 ', ' 2', '1', '  ', '']
+    ).map(_lodashCustom.default.trim // now ['', '4', '2', '2', '1', '', '']
+    ).reject(_lodashCustom.default.isEmpty // now ['4', '2', '2', '1']
+    ).checkPoint(function (e) {
       return _lodashCustom.default.every(e, _lodashCustom.default.isStrictlyPositiveInteger) ? e : [];
-    }) // check if int >= 1
-    .map(_lodashCustom.default.parseInt) // now [4, 2, 2, 1]
-    .sortBy() // now [1, 2, 2, 4]
-    .uniqBy() // now [1, 2, 4]
-    .map(function (e) {
+    } // check if int >= 1
+    ).map(_lodashCustom.default.parseInt // now [4, 2, 2, 1]
+    ).sortBy // now [1, 2, 2, 4]
+    ().uniqBy // now [1, 2, 4]
+    ().map(function (e) {
       return e - 1;
-    }) // now [0, 1, 3]
-    .thru(function (e) {
+    } // now [0, 1, 3]
+    ).thru(function (e) {
       return _lodashCustom.default.times(_lodashCustom.default.max(e) + 1, function (o) {
         return (0, _lodashCustom.default)(e).includes(o);
       });
