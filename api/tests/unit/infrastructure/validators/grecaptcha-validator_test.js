@@ -6,8 +6,8 @@ const {googleReCaptcha} = require('../../../../lib/settings');
 
 const INVALID_OR_UNKNOW_RECAPTCHA = 'INVALID_RECAPTCHA';
 const RECAPTCHA_TOKEN = 'a-valid-recaptch-token-should-be-a-string-of-512-numalpha-characters';
-const SUCCESSFULL_VERIFICATION_RESPONSE = {'body': '{\n  "success": true,\n  "challenge_ts": "2017-05-31T12:58:56Z",\n  "hostname": "",\n  "error-codes": [\n    "timeout-or-duplicate"\n  ]\n}'};
-const UNSUCCESSFULL_VERIFICATION_RESPONSE = {'body': '{\n  "success": false,\n  "challenge_ts": "2017-05-31T12:58:56Z",\n  "hostname": "",\n  "error-codes": [\n    "timeout-or-duplicate"\n  ]\n}'};
+const SUCCESSFULL_VERIFICATION_RESPONSE = {'body': '{\n  "success": true,\n "hostname": "",\n  "error-codes": [\n    "timeout-or-duplicate"\n  ]\n}'};
+const UNSUCCESSFULL_VERIFICATION_RESPONSE = {'body': '{\n  "success": false,\n "hostname": "",\n  "error-codes": [\n    "timeout-or-duplicate"\n  ]\n}'};
 
 describe('Unit | Service | google-recaptcha-validator', () => {
 
