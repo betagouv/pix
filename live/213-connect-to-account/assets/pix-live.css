@@ -2558,6 +2558,15 @@ input.qcm-panel__proposal-checkbox {
   background-color: #3d68ff;
   padding: 10px 30px; }
 
+.signin-form__errors {
+  color: #ffffff;
+  padding: 10px;
+  background-color: #f45c00; }
+  @media (min-width: 768px) {
+    .signin-form__errors {
+      margin: 40px 80px 0px 80px;
+      border-radius: 3px; } }
+
 .signup-textfield {
   position: relative; }
 
