@@ -4,7 +4,8 @@ const _ = require('../../infrastructure/utils/lodash-utils');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const mailService = require('../../domain/services/mail-service');
-const googleRecaptcha = require('../../domain/services/recaptcha-validator');
+const googleReCaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
+const {InvalidRecaptchaTokenError} = require('../../../lib/infrastructure/validators/errors');
 
 function _isUniqConstraintViolated(err) {
   const SQLITE_UNIQ_CONSTRAINT = 'SQLITE_CONSTRAINT';
@@ -22,36 +23,35 @@ module.exports = {
     }
 
     const user = userSerializer.deserialize(request.payload);
+    const recaptchaToken = request.payload.data.attributes['recaptcha-token'];
 
-    const isCaptchaValid = googleRecaptcha.verify(request.payload.data.attributes.captchaResponse);
+    return googleReCaptcha.verify(recaptchaToken)
+      .then(() => {
+        return user
+          .save()
+          .then((user) => {
+            mailService.sendAccountCreationEmail(user.get('email'));
 
-    if(!isCaptchaValid) {
-      const userValidationErrors = user.validationErrors();
-      const captchaError = {captchaResponse: ['Le captcha est invalide.']};
-      const mergedErrors = Object.assign(captchaError, userValidationErrors);
-      const errors = _buildErrorWhenInvalidReCaptcha(mergedErrors);
-      return reply(validationErrorSerializer.serialize(errors)).code(422);
-    }
-
-    return user
-      .save()
-      .then((user) => {
-        mailService.sendAccountCreationEmail(user.get('email'));
-
-        reply(userSerializer.serialize(user)).code(201);
-      })
-      .catch((err) => {
+            reply(userSerializer.serialize(user)).code(201);
+          });
+      }).catch((err) => {
+        if(err instanceof InvalidRecaptchaTokenError) {
+          const userValidationErrors = user.validationErrors();
+          const captchaError = {recaptchaToken: ['Le captcha n\'est pas valide.']};
+          const mergedErrors = Object.assign(captchaError, userValidationErrors);
+          err = _buildErrorWhenRecaptchaTokenInvalid(mergedErrors);
+        }
         if(_isUniqConstraintViolated(err)) {
           err = _buildErrorWhenUniquEmail();
         }
 
         reply(validationErrorSerializer.serialize(err)).code(422);
       });
+
   }
 
 };
-
-function _buildErrorWhenInvalidReCaptcha(errors) {
+function _buildErrorWhenRecaptchaTokenInvalid(errors) {
   return {
     data: errors
   };
