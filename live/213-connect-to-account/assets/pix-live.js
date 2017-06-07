@@ -13,18 +13,19 @@ define('pix-live/adapters/application', ['exports', 'ember', 'ember-data', 'pix-
     namespace: 'api',
     host: _environment.default.APP.API_HOST,
 
-    authentication: _ember.default.inject.service(),
+    session: _ember.default.inject.service(),
 
-    headers: _ember.default.computed('authentication.token', function () {
+    headers: _ember.default.computed('session.data.authenticated.token', function () {
+
       var tokenBearer = void 0;
-      if (this.get('authentication.token')) {
-        tokenBearer = 'bearer ' + this.get('authentication.token');
+      if (this.get('session.data.authenticated.token')) {
+        tokenBearer = 'bearer ' + this.get('session.data.authenticated.token');
       } else {
         tokenBearer = '';
       }
 
       return {
-        'www-authentication': tokenBearer
+        'Authorization': tokenBearer
       };
     })
 
@@ -87,19 +88,38 @@ define('pix-live/app', ['exports', 'ember', 'pix-live/resolver', 'ember-load-ini
 
   exports.default = App;
 });
-define('pix-live/authenticators/simple', ['exports', 'rsvp', 'ember-simple-auth/authenticators/base'], function (exports, _rsvp, _base) {
+define('pix-live/authenticators/simple', ['exports', 'rsvp', 'ember-simple-auth/authenticators/base', 'ember'], function (exports, _rsvp, _base, _ember) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
   exports.default = _base.default.extend({
+
+    ajax: _ember.default.inject.service(),
+
     restore: function restore(data) {
       return _rsvp.default.resolve(data);
     },
-    authenticate: function authenticate(username) {
-      // Un promise qui dit si OUI ou NON on est authentifie
-      return _rsvp.default.resolve({ username: username });
+    authenticate: function authenticate(email, password) {
+      return this.get('ajax').request('/api/authentications', {
+        method: 'POST',
+        data: JSON.stringify({
+          data: {
+            attributes: {
+              password: password,
+              email: email
+            }
+          }
+        })
+      }).then(function (payload) {
+        return new _rsvp.default.Promise(function (resolve) {
+          resolve({
+            token: payload.data.attributes.token,
+            userId: payload.data.attributes['user-id']
+          });
+        });
+      });
     }
   });
 });
@@ -4833,21 +4853,6 @@ define('pix-live/models/assessment', ['exports', 'ember', 'ember-data'], functio
 
   });
 });
-define('pix-live/models/authentication', ['exports', 'ember-data'], function (exports, _emberData) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  var Model = _emberData.default.Model,
-      attr = _emberData.default.attr;
-  exports.default = Model.extend({
-    userId: attr('string'),
-    email: attr('string'),
-    password: attr('string'),
-    token: attr('string')
-  });
-});
 define('pix-live/models/challenge', ['exports', 'ember', 'ember-data'], function (exports, _ember, _emberData) {
   'use strict';
 
@@ -5341,7 +5346,6 @@ define('pix-live/routes/connexion', ['exports', 'ember', 'ember-simple-auth/mixi
   exports.default = _ember.default.Route.extend(_unauthenticatedRouteMixin.default, {
 
     session: _ember.default.inject.service(),
-    authentication: _ember.default.inject.service(),
 
     routeIfAlreadyAuthenticated: '/compte',
 
@@ -5349,8 +5353,7 @@ define('pix-live/routes/connexion', ['exports', 'ember', 'ember-simple-auth/mixi
       signin: function signin(email, password) {
         var _this = this;
 
-        return this.get('store').createRecord('authentication', { email: email, password: password }).save().then(function (login) {
-          _this.get('session').authenticate('authenticator:simple', login.get('token'));
+        return this.get('session').authenticate('authenticator:simple', email, password).then(function () {
           _this.transitionTo(_this.routeIfAlreadyAuthenticated);
         });
       }
@@ -5514,13 +5517,16 @@ define('pix-live/routes/deconnexion', ['exports', 'ember'], function (exports, _
     }
   });
 });
-define('pix-live/routes/index', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
+define('pix-live/routes/index', ['exports', 'ember', 'pix-live/routes/base-route'], function (exports, _ember, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
   exports.default = _baseRoute.default.extend({
+
+    session: _ember.default.inject.service(),
+
     model: function model() {
       return {
         coursesOfTheWeek: this.get('store').query('course', { isCourseOfTheWeek: true }),
@@ -5609,17 +5615,15 @@ define('pix-live/serializers/challenge', ['exports', 'ember-data'], function (ex
     }
   });
 });
-define('pix-live/services/ajax', ['exports', 'ember-ajax/services/ajax'], function (exports, _ajax) {
+define('pix-live/services/ajax', ['exports', 'ember-ajax/services/ajax', 'pix-live/config/environment'], function (exports, _ajax, _environment) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _ajax.default;
-    }
+  exports.default = _ajax.default.extend({
+    host: _environment.default.APP.API_HOST,
+    contentType: 'application/json; charset=utf-8'
   });
 });
 define('pix-live/services/assessment', ['exports', 'ember'], function (exports, _ember) {
@@ -5639,24 +5643,6 @@ define('pix-live/services/assessment', ['exports', 'ember'], function (exports, 
         }
         return challenges.objectAt(challenges.indexOf(currentChallenge) + 1);
       });
-    }
-  });
-});
-define('pix-live/services/authentication', ['exports', 'ember'], function (exports, _ember) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = _ember.default.Service.extend({
-
-    token: '',
-
-    logout: function logout() {
-      this.set('token', '');
-    },
-    login: function login(token) {
-      this.set('token', token);
     }
   });
 });
@@ -7194,6 +7180,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+47d6b648"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+01b6fd23"});
 }
 //# sourceMappingURL=pix-live.map

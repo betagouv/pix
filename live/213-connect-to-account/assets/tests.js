@@ -2413,10 +2413,6 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('models/authentication.js', function () {
-      // test passed
-    });
-
     it('models/challenge.js', function () {
       // test passed
     });
@@ -2525,11 +2521,11 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('services/assessment.js', function () {
+    it('services/ajax.js', function () {
       // test passed
     });
 
-    it('services/authentication.js', function () {
+    it('services/assessment.js', function () {
       // test passed
     });
 
@@ -6711,6 +6707,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/authenticators/simple-test.js', function () {
+      // test passed
+    });
+
     it('unit/components/comparison-window-test.js', function () {
       // test passed
     });
@@ -6871,10 +6871,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/services/authentication-test.js', function () {
-      // test passed
-    });
-
     it('unit/services/delay-test.js', function () {
       // test passed
     });
@@ -6933,7 +6929,7 @@ define('pix-live/tests/unit/adapters/application-test', ['chai', 'mocha', 'ember
 
   (0, _mocha.describe)('Unit | Route | subscribers', function () {
     (0, _emberMocha.setupTest)('adapter:application', {
-      needs: ['service:authentication']
+      needs: ['service:session']
     });
 
     (0, _mocha.it)('should precise /api as the root url', function () {
@@ -6950,25 +6946,20 @@ define('pix-live/tests/unit/adapters/application-test', ['chai', 'mocha', 'ember
       var applicationAdapter = this.subject();
 
       // When
-      applicationAdapter.get('authentication').set('token', expectedToken);
+      applicationAdapter.set('session', { data: { authenticated: { token: expectedToken } } });
 
-      // Then
       (0, _chai.expect)(applicationAdapter.get('headers')).to.deep.equal({
-        'www-authentication': 'bearer ' + expectedToken
+        'Authorization': 'bearer ' + expectedToken
       });
     });
 
     (0, _mocha.it)('should allow to logout ', function () {
       // Given
       var applicationAdapter = this.subject();
-      applicationAdapter.get('authentication').set('token', '123456789');
-
-      // When
-      applicationAdapter.get('authentication').logout();
 
       // Then
       (0, _chai.expect)(applicationAdapter.get('headers')).to.deep.equal({
-        'www-authentication': ''
+        'Authorization': ''
       });
     });
   });
@@ -6979,12 +6970,114 @@ define('pix-live/tests/unit/adapters/solution-test', ['chai', 'mocha', 'ember-mo
   (0, _mocha.describe)('Unit | Adapters | solution', function () {
 
     (0, _emberMocha.setupTest)('adapter:solution', {
-      needs: ['service:authentication']
+      needs: ['service:session']
     });
 
     (0, _mocha.it)('exists', function () {
       var adapter = this.subject();
       (0, _chai.expect)(adapter).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'ember-mocha'], function (_mocha, _chai, _emberMocha) {
+  'use strict';
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
+  var expectedUserId = 1;
+  var expectedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6InBpeEBjb250YWN0LmNvbSIsImlhdCI6MTQ5Njg0NTY3OSwiZXhwIjoxNDk3NDUwNDc5fQ.6Mkkstj-9SjXX4lsXrsZ2KL91Ol3kbxn6tlus2apGVY';
+
+  var AjaxStub = function () {
+    function AjaxStub() {
+      _classCallCheck(this, AjaxStub);
+    }
+
+    _createClass(AjaxStub, [{
+      key: 'request',
+      value: function request() {
+        this.callArgs = Array.from(arguments);
+        return Promise.resolve({
+          'data': {
+            'type': 'authentication',
+            'attributes': {
+              'user-id': expectedUserId,
+              'token': expectedToken,
+              'password': ''
+            },
+            'id': expectedUserId
+          }
+        });
+      }
+    }]);
+
+    return AjaxStub;
+  }();
+
+  (0, _mocha.describe)('Unit | Authenticator | simple', function () {
+
+    (0, _emberMocha.setupTest)('authenticator:simple', {
+      needs: ['service:ajax']
+    });
+
+    (0, _mocha.it)('should post a request to retrieve token', function () {
+      // Given
+      var email = 'test@example.net';
+      var password = 'Hx523è9#';
+      var ajaxStub = new AjaxStub();
+      var authenticator = this.subject();
+      authenticator.set('ajax', ajaxStub);
+
+      // When
+      var promise = authenticator.authenticate(email, password);
+
+      // Then
+      return promise.then(function (_) {
+        (0, _chai.expect)(ajaxStub.callArgs[0]).to.deep.equal('/api/authentications');
+        (0, _chai.expect)(ajaxStub.callArgs[1]).to.deep.equal({
+          method: 'POST',
+          data: '{"data":{"attributes":{"password":"Hx523è9#","email":"test@example.net"}}}'
+        });
+      });
+    });
+
+    (0, _mocha.it)('should return the token', function () {
+      // Given
+      var email = 'test@example.net';
+      var password = 'Hx523è9#';
+      var ajaxStub = new AjaxStub();
+      var authenticator = this.subject();
+      authenticator.set('ajax', ajaxStub);
+
+      // When
+      var promise = authenticator.authenticate(email, password);
+
+      // Then
+      return promise.then(function (data) {
+        (0, _chai.expect)(data.userId).to.equal(expectedUserId);
+        (0, _chai.expect)(data.token).to.equal(expectedToken);
+      });
     });
   });
 });
@@ -8825,7 +8918,7 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
     });
   });
 });
-define('pix-live/tests/unit/routes/connexion-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/connexion-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   function _classCallCheck(instance, Constructor) {
@@ -8852,34 +8945,6 @@ define('pix-live/tests/unit/routes/connexion-test', ['ember', 'chai', 'mocha', '
     };
   }();
 
-  var expectedToken = 'bH72bvnj4512)çè!2B$ùKJ2b!3,2ppyB';
-
-  var StoreStub = function () {
-    function StoreStub() {
-      _classCallCheck(this, StoreStub);
-
-      this.calls = [];
-    }
-
-    _createClass(StoreStub, [{
-      key: 'createRecord',
-      value: function createRecord() {
-        this.createRecordIsCalled = true;
-        this.calls.push(Array.from(arguments));
-        return this;
-      }
-    }, {
-      key: 'save',
-      value: function save() {
-        this.saveIsCalled = true;
-        var loginWithToken = _ember.default.Object.extend({ token: expectedToken }).create();
-        return Promise.resolve(loginWithToken);
-      }
-    }]);
-
-    return StoreStub;
-  }();
-
   var SessionStub = function () {
     function SessionStub() {
       _classCallCheck(this, SessionStub);
@@ -8889,6 +8954,7 @@ define('pix-live/tests/unit/routes/connexion-test', ['ember', 'chai', 'mocha', '
       key: 'authenticate',
       value: function authenticate() {
         this.callArgs = Array.from(arguments);
+        return Promise.resolve();
       }
     }]);
 
@@ -8897,63 +8963,25 @@ define('pix-live/tests/unit/routes/connexion-test', ['ember', 'chai', 'mocha', '
 
   (0, _mocha.describe)('Unit | Route | connexion', function () {
     (0, _emberMocha.setupTest)('route:connexion', {
-      needs: ['service:current-routed-modal', 'service:authentication', 'service:session']
+      needs: ['service:current-routed-modal', 'service:session']
     });
 
     var expectedEmail = 'email@example.net';
     var expectedPassword = 'azerty';
-    var storeStub = new StoreStub();
     var sessionStub = new SessionStub();
-
-    (0, _mocha.it)('should record the login', function () {
-      // Given
-      var route = this.subject();
-      route.transitionTo = function () {};
-
-      route.set('store', storeStub);
-      route.set('session', sessionStub);
-
-      // When
-      var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
-
-      // Then
-      return promise.then(function () {
-        (0, _chai.expect)(storeStub.createRecordIsCalled).to.be.true;
-        (0, _chai.expect)(storeStub.calls[0]).to.deep.equal(['authentication', { email: expectedEmail, password: expectedPassword }]);
-      });
-    });
-
-    (0, _mocha.it)('should save the login', function () {
-      // Given
-      var route = this.subject();
-      route.transitionTo = function () {};
-
-      route.set('store', storeStub);
-      route.set('session', sessionStub);
-
-      // When
-      var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
-
-      // Then
-      return promise.then(function () {
-        (0, _chai.expect)(storeStub.saveIsCalled).to.be.true;
-      });
-    });
 
     (0, _mocha.it)('should authenticate the user', function () {
       // Given
       var route = this.subject();
-      route.transitionTo = function () {};
-
-      route.set('store', storeStub);
       route.set('session', sessionStub);
+      route.transitionTo = function () {};
 
       // When
       var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
 
       // Then
       return promise.then(function () {
-        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedToken]);
+        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
       });
     });
   });
@@ -9099,7 +9127,7 @@ define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha']
   (0, _mocha.describe)('Unit | Route | index', function () {
 
     (0, _emberMocha.setupTest)('route:index', {
-      needs: ['service:current-routed-modal']
+      needs: ['service:current-routed-modal', 'service:session']
     });
 
     (0, _mocha.it)('exists', function () {
@@ -9255,61 +9283,6 @@ define('pix-live/tests/unit/services/assessment-test', ['ember', 'chai', 'mocha'
           });
         });
       });
-    });
-  });
-});
-define('pix-live/tests/unit/services/authentication-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Service | authentication', function () {
-    (0, _emberMocha.setupTest)('service:authentication', {});
-
-    // Replace this with your real tests.
-    (0, _mocha.it)('exists', function () {
-      var service = this.subject();
-      (0, _chai.expect)(service).to.be.ok;
-    });
-
-    (0, _mocha.it)('has a property token', function () {
-      // Given
-      var service = this.subject();
-
-      // Then
-      (0, _chai.expect)(service.get('token')).to.equal('');
-    });
-
-    (0, _mocha.it)('has a token that can be set', function () {
-      // Given
-      var service = this.subject();
-
-      // When
-      service.set('token', '234UI');
-
-      // Then
-      (0, _chai.expect)(service.get('token')).to.equal('234UI');
-    });
-
-    (0, _mocha.it)('should allow to logout', function () {
-      // Given
-      var service = this.subject();
-      service.set('token', '234UI');
-
-      // When
-      service.logout();
-
-      // Then
-      (0, _chai.expect)(service.get('token')).to.equal('');
-    });
-
-    (0, _mocha.it)('should allow to logout', function () {
-      // Given
-      var service = this.subject();
-
-      // When
-      service.login('234UI12TBHU2');
-
-      // Then
-      (0, _chai.expect)(service.get('token')).to.equal('234UI12TBHU2');
     });
   });
 });
