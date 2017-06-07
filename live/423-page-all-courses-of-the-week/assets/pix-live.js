@@ -4799,6 +4799,22 @@ define('pix-live/models/follower', ['exports', 'ember-data'], function (exports,
     email: _emberData.default.attr('string')
   });
 });
+define('pix-live/models/serie', ['exports', 'ember-data'], function (exports, _emberData) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var Model = _emberData.default.Model,
+      attr = _emberData.default.attr,
+      hasMany = _emberData.default.hasMany;
+  exports.default = Model.extend({
+
+    name: attr('string'),
+    courses: hasMany('course', { inverse: null })
+
+  });
+});
 define('pix-live/models/solution', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
 
@@ -6909,6 +6925,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+619c2bfb"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+ba36f6a3"});
 }
 //# sourceMappingURL=pix-live.map

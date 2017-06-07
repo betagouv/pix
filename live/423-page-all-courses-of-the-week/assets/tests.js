@@ -2332,6 +2332,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('models/serie.js', function () {
+      // test passed
+    });
+
     it('models/solution.js', function () {
       // test passed
     });
