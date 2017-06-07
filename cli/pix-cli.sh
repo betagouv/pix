@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PIX_CLI_VERSION="1.2.0"
+PIX_CLI_VERSION="1.3.0"
 
 COMMAND=$1
 
@@ -190,26 +190,54 @@ if [ "$COMMAND" == "placement_tests:list" ]; then
 
   ls ~/placement_tests
 
-  echo ${PIX_CLI_VERSION}
   exit 0
 fi
 
 # pix placement_tests:load <scenarios_file> <app_name>
 # ex: pix placement_tests:load scenarios11.csv 213-connect-to-account
-if [ "$COMMAND" == "placement_tests:list" ]; then
+if [ "$COMMAND" == "placement_tests:load" ]; then
   if [ $# -ne 3 ]; then
     echo "Bad number of arguments. See usage for command $COMMAND."
     exit 1
   fi
 
   SCENARIOS_FILE=$2
+  if [ ! -e ~/placement_tests/$SCENARIOS_FILE ]; then
+    echo "File ~/placement_tests/$SCENARIOS_FILE does not exists."
+    echo "Available adaptive tests scenarios files are:"
+    echo ""
+    ls ~/placement_tests
+    echo ""
+    exit 1
+  fi
+
   APP_NAME=$3
+  dokku apps:list | grep $APP_NAME > /dev/null
+  if [ $? -ne 0 ]; then
+    echo "Application $APP_NAME does not exist."
+    echo "Available applications are:"
+    echo ""
+    dokku apps:list
+    echo ""
+    exit 1
+  fi
 
-  dokku storage:mount $APP_NAME /var/lib/dokku/data/storage/placement_tests:/placement_tests
-  dokku ps:restart $APP_NAME
-  dokku run $APP_NAME ./scripts/add_adaptive_tests.py $SCENARIOS_FILE
+  echo "Check if volume /var/lib/dokku/data/storage/placement_tests is already mounted on application $APP_NAME"
+  dokku run infra-improve-adaptive-tests-integration ls /placement_tests > /dev/null
+  if [ $? -ne 0 ]; then
+    echo "Mount path does not exist."
+    echo "Create mount point for volume /var/lib/dokku/data/storage/placement_tests on /placement_tests."
+    dokku storage:mount $APP_NAME /var/lib/dokku/data/storage/placement_tests:/placement_tests
+    echo "Restart the application in order to take into account the new mount point."
+    dokku ps:restart $APP_NAME
+  else
+    echo "Mount path already set :-)"
+  fi
 
-  echo ${PIX_CLI_VERSION}
+  echo "Load all the given adaptive test scenarios into the application internal database."
+  dokku run $APP_NAME python ./scripts/add_adaptive_tests.py /placement_tests/$SCENARIOS_FILE
+  echo "Scenarios successfully loaded."
+
   exit 0
 fi
 
