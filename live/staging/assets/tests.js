@@ -5401,8 +5401,6 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var FORM_HEADING_CONTAINER = '.signup-form__heading-container';
   var FORM_HEADING = '.signup-form__heading';
   var EXPECTED_FORM_HEADING_CONTENT = 'Inscription gratuite';
-  var EXPECTED_FORM_HEADING_CONTENT_ERROR = 'Oups! Une erreur s\'est produite...';
-  var EXPECTED_FORM_HEADING_CONTENT_SUCCESS = 'Le compte a été bien créé!';
 
   var INPUT_TEXT_FIELD = '.signup-form__input-container';
   var INPUT_TEXT_FIELD_CLASS_DEFAULT = 'signup-textfield__input-container--default';
@@ -5433,11 +5431,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var userEmpty = _ember.default.Object.create({});
 
   (0, _mocha.describe)('Integration | Component | signup form', function () {
+
     (0, _emberMocha.setupComponentTest)('signup-form', {
       integration: true
     });
 
-    (0, _mocha.describe)('Component Rendering', function () {
+    (0, _mocha.describe)('Rendering', function () {
 
       beforeEach(function () {
         this.set('user', userEmpty);
@@ -5495,7 +5494,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
       });
     });
 
-    (0, _mocha.describe)('Component Behavior', function () {
+    (0, _mocha.describe)('Behaviors', function () {
 
       (0, _mocha.it)('should return true if action <Signup> is handled', function () {
         // given
@@ -5635,7 +5634,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           });
         });
 
-        (0, _mocha.it)('should display an error message on cgu field, when cgu isn\'t accepted and form is submited', function () {
+        (0, _mocha.it)('should display an error message on cgu field, when cgu isn\'t accepted and form is submitted', function () {
           var _this5 = this;
 
           // given
@@ -5671,16 +5670,14 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           });
         });
 
-        (0, _mocha.it)('should display an error message on form title, when an error occured and form is submited', function () {
+        (0, _mocha.it)('should not display success notification message when an error occurred during the form submission', function () {
           var _this6 = this;
 
-          // given
-          var userWithCguNotAccepted = _ember.default.Object.create({
-            cgu: false,
+          var userThatThrowAnErrorDuringSaving = _ember.default.Object.create({
             errors: {
               content: [{
-                attribute: 'cgu',
-                message: UNCHECKED_CHECKBOX_CGU_ERROR
+                attribute: 'email',
+                message: 'An error concerning the email thrown by the API'
               }]
             },
             save: function save() {
@@ -5688,7 +5685,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             }
           });
 
-          this.set('user', userWithCguNotAccepted);
+          this.set('user', userThatThrowAnErrorDuringSaving);
           this.render(_ember.default.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
@@ -5699,8 +5696,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           this.$('.signup__submit-button').click();
           // then
           return (0, _wait.default)().then(function () {
-            var headingErrorMessageContent = _this6.$('.signup-form__temporary-msg h4').text();
-            (0, _chai.expect)(headingErrorMessageContent.trim()).to.equal(EXPECTED_FORM_HEADING_CONTENT_ERROR);
+            (0, _chai.expect)(_this6.$('.signup-form__notification-message')).to.have.lengthOf(0);
           });
         });
       });
@@ -5810,7 +5806,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           });
         });
 
-        (0, _mocha.it)('should not display an error message on cgu field, when cgu is accepted and form is submited', function () {
+        (0, _mocha.it)('should not display an error message on cgu field, when cgu is accepted and form is submitted', function () {
           var _this11 = this;
 
           // given
@@ -5865,12 +5861,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           this.$('.signup__submit-button').click();
           // then
           return (0, _wait.default)().then(function () {
-            var headingErrorMessageContent = _this12.$('.signup-form__temporary-msg h4').text();
-            (0, _chai.expect)(headingErrorMessageContent.trim()).to.equal(EXPECTED_FORM_HEADING_CONTENT_SUCCESS);
+            var $notificationMessage = _this12.$('.signup-form__notification-message').text();
+            (0, _chai.expect)($notificationMessage.trim()).to.equal('Votre compte a bien été créé !');
           });
         });
 
-        (0, _mocha.it)('should reset validation property, when all things are ok and form is submited', function () {
+        (0, _mocha.it)('should reset validation property, when all things are ok and form is submitted', function () {
           var _this13 = this;
 
           // given
@@ -5901,6 +5897,37 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             var inputFirst = _this13.$('.signup-textfield__input-field-container').first();
             (0, _chai.expect)(inputFirst.prop('class')).to.includes(INPUT_TEXT_FIELD_CLASS_DEFAULT);
           });
+        });
+      });
+    });
+
+    (0, _mocha.describe)('Accessibility', function () {
+
+      (0, _mocha.it)('should render an accessible notification message when the account was successfully created', function () {
+        var _this14 = this;
+
+        // given
+        var user = _ember.default.Object.create({
+          save: function save() {
+            return _ember.default.RSVP.resolve();
+          }
+        });
+
+        this.set('user', user);
+        this.render(_ember.default.HTMLBars.template({
+          "id": "IuLTjz0W",
+          "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        $(SUBMIT_BUTTON).click();
+
+        // then
+        return (0, _wait.default)().then(function () {
+
+          var $notificationMessage = _this14.$('.signup-form__notification-message');
+          (0, _chai.expect)($notificationMessage.attr('aria-live')).to.equal('polite');
         });
       });
     });

@@ -2384,24 +2384,14 @@ input.qcm-panel__proposal-checkbox {
     .signup-form__heading {
       font-size: 36px; } }
 
-.signup-form__temporary-msg {
+.signup-form__notification-message {
   max-width: 449px;
   width: 100%;
-  text-align: center; }
-
-.signup-form__temporary-msg h4 {
+  text-align: center;
   border-radius: 3px;
   color: #ffffff;
   font-size: 14px;
-  padding: 9px; }
-
-.signup-form__temporary-msg.signup-form__temporary-msg--error, .signup-form__temporary-msg.signup-form__temporary-msg--success {
-  margin-bottom: 10px; }
-
-.signup-form__temporary-msg.signup-form__temporary-msg--error h4 {
-  background: #f45c00; }
-
-.signup-form__temporary-msg.signup-form__temporary-msg--success h4 {
+  padding: 9px;
   background: #13c9a0; }
 
 .signup-form__input-container {

@@ -1938,12 +1938,9 @@ define('pix-live/components/signup-form', ['exports', 'ember', 'pix-live/utils/e
 
   exports.default = _ember.default.Component.extend({
     classNames: ['signup-form'],
-    registrationMessage: '',
+
+    _notificationMessage: null,
     validation: null,
-    temporaryAlert: {
-      status: 'default',
-      message: ''
-    },
 
     init: function init() {
       this._super.apply(this, arguments);
@@ -2028,13 +2025,13 @@ define('pix-live/components/signup-form', ['exports', 'ember', 'pix-live/utils/e
       signup: function signup() {
         var _this3 = this;
 
+        this.set('_notificationMessage', null);
         this.get('user').save().then(function () {
-          _this3._toggleConfirmation('success', 'Le compte a été bien créé!');
+          _this3.set('_notificationMessage', 'Votre compte a bien été créé !');
           _this3._resetValidationFields();
           _this3.sendAction('refresh');
         }).catch(function () {
           _this3._updateInputsStatus();
-          _this3._toggleConfirmation('error', 'Oups! Une erreur s\'est produite...');
         });
       }
     }
@@ -4315,7 +4312,13 @@ define('pix-live/mirage/data/users/index', ['exports'], function (exports) {
     data: {
       type: 'users',
       id: 'user_id',
-      attributes: {}
+      attributes: {
+        'first-name': 'Samurai',
+        'last-name': 'Jack',
+        'email': 'samurai.jack@cartoon-network.com',
+        'password': 'Back2TheP@st',
+        'cgu': true
+      }
     }
   };
 });
@@ -6141,7 +6144,7 @@ define("pix-live/templates/components/signup-form", ["exports"], function (expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "SucDJcc1", "block": "{\"statements\":[[11,\"form\",[]],[15,\"class\",\"signup-form-container\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__logo\"],[13],[0,\"\\n    \"],[1,[26,[\"pix-logo\"]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__heading-container\"],[13],[0,\"\\n    \"],[11,\"h1\",[]],[15,\"class\",\"signup-form__heading\"],[13],[0,\"Inscription gratuite\"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n\\n  \"],[11,\"div\",[]],[16,\"class\",[34,[\"signup-form__temporary-msg \",[28,[\"temporaryAlert\",\"status\"]]]]],[13],[0,\"\\n    \"],[11,\"h4\",[]],[13],[1,[28,[\"temporaryAlert\",\"message\"]],false],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__input-container\"],[13],[0,\"\\n    \"],[1,[33,[\"signup-textfield\"],null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Nom\",\"lastName\",[28,[\"user\",\"lastName\"]],\"validateInput\",[28,[\"validation\",\"lastName\",\"status\"]],[28,[\"validation\",\"lastName\",\"message\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__input-container\"],[13],[0,\"\\n    \"],[1,[33,[\"signup-textfield\"],null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Prénom\",\"firstName\",[28,[\"user\",\"firstName\"]],\"validateInput\",[28,[\"validation\",\"firstName\",\"status\"]],[28,[\"validation\",\"firstName\",\"message\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__input-container\"],[13],[0,\"\\n    \"],[1,[33,[\"signup-textfield\"],null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Adresse Email\",\"email\",[28,[\"validation\",\"email\",\"status\"]],\"validateInputEmail\",[28,[\"user\",\"email\"]],[28,[\"validation\",\"email\",\"message\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__input-container\"],[13],[0,\"\\n    \"],[1,[33,[\"signup-textfield\"],null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Mot de passe\",\"password\",[28,[\"validation\",\"password\",\"status\"]],\"validateInputPassword\",[28,[\"user\",\"password\"]],[28,[\"validation\",\"password\",\"message\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__cgu-container\"],[13],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"user\",\"errors\",\"cgu\"]]],null,{\"statements\":[[0,\"      \"],[11,\"div\",[]],[15,\"class\",\"signup-textfield__cgu-message--error\"],[13],[0,\"\\n        \"],[1,[28,[\"user\",\"errors\",\"cgu\",\"firstObject\",\"message\"]],false],[0,\"\\n      \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n    \"],[11,\"label\",[]],[15,\"for\",\"pix-cgu\"],[15,\"class\",\"signup-form__cgu-label\"],[13],[0,\"\\n      \"],[1,[33,[\"input\"],null,[[\"type\",\"id\",\"checked\"],[\"checkbox\",\"pix-cgu\",[28,[\"user\",\"cgu\"]]]]],false],[0,\"\\n      \"],[11,\"span\",[]],[13],[0,\"J'​accepte les \"],[6,[\"link-to\"],[\"inscription\"],[[\"class\"],[\"signup__cgu-link\"]],{\"statements\":[[0,\"\\n        conditions d'​utilisation de Pix\"]],\"locals\":[]},null],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__submit-container\"],[13],[0,\"\\n    \"],[11,\"button\",[]],[15,\"class\",\"signup__submit-button\"],[5,[\"action\"],[[28,[null]],\"signup\"]],[13],[0,\"Je m'inscris\"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-form.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "iTyqgZu0", "block": "{\"statements\":[[11,\"form\",[]],[15,\"class\",\"signup-form-container\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__logo\"],[13],[0,\"\\n    \"],[1,[26,[\"pix-logo\"]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__heading-container\"],[13],[0,\"\\n    \"],[11,\"h1\",[]],[15,\"class\",\"signup-form__heading\"],[13],[0,\"Inscription gratuite\"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"_notificationMessage\"]]],null,{\"statements\":[[0,\"    \"],[11,\"p\",[]],[15,\"class\",\"signup-form__notification-message\"],[15,\"aria-live\",\"polite\"],[13],[1,[26,[\"_notificationMessage\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__input-container\"],[13],[0,\"\\n    \"],[1,[33,[\"signup-textfield\"],null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Nom\",\"lastName\",[28,[\"user\",\"lastName\"]],\"validateInput\",[28,[\"validation\",\"lastName\",\"status\"]],[28,[\"validation\",\"lastName\",\"message\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__input-container\"],[13],[0,\"\\n    \"],[1,[33,[\"signup-textfield\"],null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Prénom\",\"firstName\",[28,[\"user\",\"firstName\"]],\"validateInput\",[28,[\"validation\",\"firstName\",\"status\"]],[28,[\"validation\",\"firstName\",\"message\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__input-container\"],[13],[0,\"\\n    \"],[1,[33,[\"signup-textfield\"],null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Adresse Email\",\"email\",[28,[\"validation\",\"email\",\"status\"]],\"validateInputEmail\",[28,[\"user\",\"email\"]],[28,[\"validation\",\"email\",\"message\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__input-container\"],[13],[0,\"\\n    \"],[1,[33,[\"signup-textfield\"],null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Mot de passe\",\"password\",[28,[\"validation\",\"password\",\"status\"]],\"validateInputPassword\",[28,[\"user\",\"password\"]],[28,[\"validation\",\"password\",\"message\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__cgu-container\"],[13],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"user\",\"errors\",\"cgu\"]]],null,{\"statements\":[[0,\"      \"],[11,\"div\",[]],[15,\"class\",\"signup-textfield__cgu-message--error\"],[13],[0,\"\\n        \"],[1,[28,[\"user\",\"errors\",\"cgu\",\"firstObject\",\"message\"]],false],[0,\"\\n      \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n    \"],[11,\"label\",[]],[15,\"for\",\"pix-cgu\"],[15,\"class\",\"signup-form__cgu-label\"],[13],[0,\"\\n      \"],[1,[33,[\"input\"],null,[[\"type\",\"id\",\"checked\"],[\"checkbox\",\"pix-cgu\",[28,[\"user\",\"cgu\"]]]]],false],[0,\"\\n      \"],[11,\"span\",[]],[13],[0,\"J'​accepte les \"],[6,[\"link-to\"],[\"inscription\"],[[\"class\"],[\"signup__cgu-link\"]],{\"statements\":[[0,\"\\n        conditions d'​utilisation de Pix\"]],\"locals\":[]},null],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-form__submit-container\"],[13],[0,\"\\n    \"],[11,\"button\",[]],[15,\"class\",\"signup__submit-button\"],[5,[\"action\"],[[28,[null]],\"signup\"]],[13],[0,\"Je m'inscris\"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-form.hbs" } });
 });
 define("pix-live/templates/components/signup-textfield", ["exports"], function (exports) {
   "use strict";
@@ -6909,6 +6912,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+c3513ab6"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+53ae5a70"});
 }
 //# sourceMappingURL=pix-live.map
