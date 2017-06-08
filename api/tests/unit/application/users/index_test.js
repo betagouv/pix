@@ -36,11 +36,11 @@ describe('Unit | Router | user-router', () => {
 
   describe('GET /api/users', function() {
     before(() => {
-      sinon.stub(UserController, 'getProfil', (request, reply) => reply('ok'));
+      sinon.stub(UserController, 'getProfile', (request, reply) => reply('ok'));
     });
 
     after(() => {
-      UserController.getProfil.restore();
+      UserController.getProfile.restore();
     });
 
     it('should exist', (done) => {
