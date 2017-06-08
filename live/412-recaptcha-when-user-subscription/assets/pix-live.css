@@ -466,7 +466,7 @@ button.routable-modal--close:active {
   width: 130px;
   height: 46px;
   border-radius: 23px;
-  background-color: #12caa1;
+  background-color: #0BA86D;
   color: #ffffff; }
 
 .challenge-actions__action-validate:hover {
@@ -478,12 +478,37 @@ button.routable-modal--close:active {
   font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
   font-weight: 900;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  letter-spacing: 1.5px; }
 
 .picture-checkbox-proposal--qcm {
   position: absolute;
   left: -11px;
   top: 3px; }
+
+.challenge-actions__loader--validate {
+  -ms-flex-order: 1;
+  order: 1;
+  width: 130px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 3px; }
+
+.challenge-actions__loader-spinner {
+  border: 5px solid #D8D8D8;
+  border-top: 5px solid #0BA86D;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite; }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
 
 .challenge-item__feedback {
   border-top: solid 1px #D8D8D8;
@@ -894,6 +919,67 @@ h1.course-banner__name {
     text-decoration: none;
     color: #3d68ff; }
 
+.course-item-placeholder {
+  position: relative;
+  width: 280px;
+  height: 400px;
+  padding: 0;
+  margin: 0; }
+
+.course-item-placeholder__picture {
+  width: 100%;
+  height: 160px;
+  background: linear-gradient(90deg, #bec1c8, #bec1c8, #dadbdf, #bec1c8);
+  background-size: 300% 100%;
+  animation: placeholder-gradient-animation 1.5s linear infinite; }
+
+.course-item-placeholder--first .course-item-placeholder__picture {
+  animation-delay: 0.3s; }
+
+@keyframes placeholder-gradient-animation {
+  0% {
+    background-position: 0%   50%; }
+  70% {
+    background-position: 0%   50%; }
+  100% {
+    background-position: 150% 50%; } }
+
+.course-item-placeholder__container {
+  display: -ms-flexbox;
+  display: flex;
+  height: 240px;
+  padding: 10px;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: end;
+  justify-content: flex-end; }
+
+.course-item-placeholder__name {
+  width: 120px;
+  height: 22px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto; }
+
+.course-item-placeholder__description {
+  width: 200px;
+  height: 30px;
+  margin: 30px auto 40px auto;
+  border-top: 8px solid #dadbdf;
+  border-bottom: 8px solid #dadbdf; }
+
+.course-item-placeholder__challenges-number {
+  width: 60px;
+  height: 12px;
+  margin: 20px auto auto auto;
+  background-color: #dadbdf; }
+
+.course-item-placeholder__begin-button {
+  width: 100px;
+  height: 12px;
+  margin: 30px auto 15px auto;
+  background-color: #a3b7ff; }
+
 .course-list {
   width: 100%; }
 
@@ -1112,7 +1198,7 @@ h1.course-banner__name {
   background: #3d68ff; }
 
 .follower-form__button--pending {
-  background: #12caa1; }
+  background: #0BA86D; }
 
 .follower-button:before {
   content: '\00a0\00a0\00a0\00a0 Merci';
@@ -1202,9 +1288,9 @@ h1.course-banner__name {
 .follower-info-message.has-success {
   border-radius: 4px;
   background-color: #ffffff;
-  border: solid 2px #12caa1;
+  border: solid 2px #0BA86D;
   padding: 14px 91px;
-  color: #12caa1; }
+  color: #0BA86D; }
 
 /* XXX : Forces bootstrap's default by including bootstrap props into .modal-mobile  container */
 .modal-mobile .modal-header {
@@ -1482,6 +1568,10 @@ h1.course-banner__name {
   margin-left: 7px;
   position: relative;
   bottom: 3px; }
+
+.correction-qroc-box__solution-img {
+  width: 18px;
+  height: 18px; }
 
 .challenge-response__proposal-input {
   margin-bottom: 10px;
@@ -1872,7 +1962,7 @@ h1.course-banner__name {
   border-radius: 5px;
   margin-top: 22px;
   border: none;
-  background-color: #12caa1;
+  background-color: #0BA86D;
   color: #ffffff;
   text-transform: uppercase; }
 
@@ -2135,6 +2225,10 @@ h1.course-banner__name {
   position: relative;
   bottom: 3px; }
 
+.correction-qroc-box__solution-img {
+  width: 18px;
+  height: 18px; }
+
 .correction-qrocm {
   padding: 10px;
   display: -ms-flexbox;
@@ -2164,6 +2258,10 @@ h1.course-banner__name {
   -ms-flex-align: center;
   align-items: center;
   margin-top: 4px; }
+
+.correction-qrocm__solution-img {
+  width: 18px;
+  height: 18px; }
 
 .correction-qrocm__solution-text {
   font-family: "Lato", Arial, sans-serif;
@@ -2286,24 +2384,14 @@ input.qcm-panel__proposal-checkbox {
     .signup-form__heading {
       font-size: 36px; } }
 
-.signup-form__temporary-msg {
+.signup-form__notification-message {
   max-width: 449px;
   width: 100%;
-  text-align: center; }
-
-.signup-form__temporary-msg h4 {
+  text-align: center;
   border-radius: 3px;
   color: #ffffff;
   font-size: 14px;
-  padding: 9px; }
-
-.signup-form__temporary-msg.signup-form__temporary-msg--error, .signup-form__temporary-msg.signup-form__temporary-msg--success {
-  margin-bottom: 10px; }
-
-.signup-form__temporary-msg.signup-form__temporary-msg--error h4 {
-  background: #f45c00; }
-
-.signup-form__temporary-msg.signup-form__temporary-msg--success h4 {
+  padding: 9px;
   background: #13c9a0; }
 
 .signup-form__input-container {
