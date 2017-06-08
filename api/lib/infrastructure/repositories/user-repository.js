@@ -1,4 +1,5 @@
 const User = require('../../domain/models/data/user');
+const {NotFoundError} = require('../../domain/errors');
 
 module.exports = {
   findUserById(userId){
@@ -6,8 +7,12 @@ module.exports = {
       User
         .where({id: userId})
         .fetch()
-        .then(user => resolve(user))
-        .catch(reject);
+        .then((foundedUSer) => {
+          if(!foundedUSer) {
+            return reject(new NotFoundError());
+          }
+          return resolve(foundedUSer);
+        });
     });
   }
 };

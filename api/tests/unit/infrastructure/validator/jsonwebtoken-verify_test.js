@@ -33,8 +33,8 @@ describe('Unit | Validator | json-web-token-verify', function() {
 
       let jsonwebtokenStub;
       beforeEach(function() {
-        jsonwebtokenStub = sinon.stub(jsonwebtoken, 'verify', function(err, cb) {
-          cb(null, 1);
+        jsonwebtokenStub = sinon.stub(jsonwebtoken, 'verify', function(token, key, cb) {
+          cb(null, {user_id: 1});
         });
       });
 
@@ -46,9 +46,13 @@ describe('Unit | Validator | json-web-token-verify', function() {
         // When
         const promise = authorizationToken.verify('VALID_TOKEN');
 
-        return promise.catch((result) => {
+        return promise.then((result) => {
           // Then
-          expect(result).to.be.ok;
+          expect(promise).to.be.fulfilled
+          expect(result).to.be.equal(1);
+          expect(jsonwebtokenStub.getCall(0).args[0]).to.be.equal('VALID_TOKEN');
+          expect(jsonwebtokenStub.getCall(0).args[1]).to.be.equal('shhhhhhhhh');
+
         });
       });
     });

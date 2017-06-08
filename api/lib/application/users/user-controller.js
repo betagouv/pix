@@ -6,6 +6,8 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const mailService = require('../../domain/services/mail-service');
 const config = require('../../../lib/settings');
+const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
+const {NotFoundError} = require('../../../lib/domain/errors');
 
 function _isUniqConstraintViolated(err) {
   const SQLITE_UNIQ_CONSTRAINT = 'SQLITE_CONSTRAINT';
@@ -44,11 +46,21 @@ module.exports = {
     const token = request.headers.authorization;
     return authorizationToken
       .verify(token)
-      .then((decoded) => {
-        return reply(decoded).code(201);
+      .then((user_id) => {
+        console.log(user_id)
+        UserRepository.findUserById(user_id)
+          .then((foundedUser) => {
+            return reply(userSerializer.serialize(foundedUser)).code(201);
+          });
       })
       .catch((err) => {
-        return reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization())).code(401);
+        console.log(err)
+        if(err instanceof NotFoundError) {
+          err = 'Cet utilisateur est introuvable';
+        } else {
+          err = 'Le token n\'est pas valid';
+        }
+        reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(err))).code(401);
       });
   }
 
@@ -62,10 +74,10 @@ function _buildErrorWhenUniquEmail() {
   };
 }
 
-function _handleWhenInvalidAuthorization() {
+function _handleWhenInvalidAuthorization(errorMessage) {
   return {
     data: {
-      email: ['Le token n\'est pas valid']
+      message: [errorMessage]
     }
   };
 }

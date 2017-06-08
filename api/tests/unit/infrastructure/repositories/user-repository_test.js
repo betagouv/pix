@@ -1,6 +1,7 @@
 const {describe, it, before, after, expect, knex} = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
+const {NotFoundError} = require('../../../../lib/domain/errors');
 
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
@@ -48,6 +49,14 @@ describe('Unit | Repository | UserRepository', function() {
             expect(foundedUser.attributes.lastName).to.equal(inserted_user.lastName);
           })
       });
+
+      it('should handle a rejection, when user id is not found', () => {
+        return UserRepository.findUserById(10093)
+          .catch((err) => {
+            const errorType = err instanceof NotFoundError;
+            expect(errorType).to.be.ok;
+          })
+      })
     })
 
   });

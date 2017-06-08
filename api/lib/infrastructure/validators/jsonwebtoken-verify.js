@@ -6,8 +6,10 @@ module.exports = {
     return new Promise((resolve, reject) => {
       jsonwebtoken.verify(token, settings.authentification.secret, function(err, decoded) {
         if(err) {
-          reject(false);
+          return reject(false);
         }
+        const id = decoded.user_id;
+        resolve(id);
       });
     });
   }
