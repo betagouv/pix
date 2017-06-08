@@ -21,10 +21,15 @@ module.exports = (function() {
     mailjet: {
       apiKey: process.env.MAILJET_KEY,
       apiSecret: process.env.MAILJET_SECRET
+    },
+
+    authentification: {
+      secret: process.env.AUTH_SECRET
     }
+
   };
 
-  if (process.env.NODE_ENV === 'test') {
+  if(process.env.NODE_ENV === 'test') {
     config.port = null;
 
     config.airtable = {
