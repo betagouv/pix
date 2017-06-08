@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# Exit on errors, pipe errors and undefined variables
+set -euo pipefail
+
 echo "Usage: npm run COMMAND"
 echo ""
 echo "  help               # display the available NPM tasks"

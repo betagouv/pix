@@ -1,4 +1,8 @@
-#! /bin/bash
+#! /bin/bash -x
+
+# Exit on errors, pipe errors and undefined variables
+set -e
+set -u
 
 BUILD_ENV=$1
 BUILD_OUTPUT="undefined"

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Exit on errors, pipe errors and undefined variables
+set -eu
+
 [ -z $GITHUB_TOKEN ] && {
 	echo 'FATAL: $GITHUB_TOKEN is absent'
 	exit 1

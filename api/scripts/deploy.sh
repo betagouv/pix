@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# Exit on errors, pipe errors and undefined variables
+set -euo pipefail
+
 BUILD_ENV=$1
 APP="undefined"
 

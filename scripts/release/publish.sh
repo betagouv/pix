@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-set -e # https://www.gnu.org/software/bash/manual/bashref.html#The-Set-Builtin
-set -o pipefail
+# Exit on errors, pipe errors and undefined variables
+set -euo pipefail
 
 # Set colors
 RESET_COLOR="$(tput sgr0)"
