@@ -64,15 +64,15 @@ describe('Integration | Component | signup form', function() {
     });
 
     [
-      {expectedRendering: 'form container', input: FORM_CONTAINER, expected: 1},
-      {expectedRendering: 'div to wrap heading of form', input: FORM_HEADING_CONTAINER, expected: 1},
-      {expectedRendering: 'form title (h1)', input: FORM_HEADING, expected: 1},
-      {expectedRendering: '4 input fields in form', input: INPUT_TEXT_FIELD, expected: 4},
-      {expectedRendering: 'cgu container', input: CHECKBOX_CGU_CONTAINER, expected: 1},
-      {expectedRendering: 'cgu checkbox', input: CHECKBOX_CGU_INPUT, expected: 1},
-      {expectedRendering: 'cgu label', input: CHECKBOX_CGU_LABEL, expected: 1},
-      {expectedRendering: 'a captcha', input: CAPTCHA_CONTAINER, expected: 1},
-      {expectedRendering: 'submit button', input: SUBMIT_BUTTON_CONTAINER, expected: 1},
+      { expectedRendering: 'form container', input: FORM_CONTAINER, expected: 1 },
+      { expectedRendering: 'div to wrap heading of form', input: FORM_HEADING_CONTAINER, expected: 1 },
+      { expectedRendering: 'form title (h1)', input: FORM_HEADING, expected: 1 },
+      { expectedRendering: '4 input fields in form', input: INPUT_TEXT_FIELD, expected: 4 },
+      { expectedRendering: 'cgu container', input: CHECKBOX_CGU_CONTAINER, expected: 1 },
+      { expectedRendering: 'cgu checkbox', input: CHECKBOX_CGU_INPUT, expected: 1 },
+      { expectedRendering: 'cgu label', input: CHECKBOX_CGU_LABEL, expected: 1 },
+      { expectedRendering: 'a captcha', input: CAPTCHA_CONTAINER, expected: 1 },
+      { expectedRendering: 'submit button', input: SUBMIT_BUTTON_CONTAINER, expected: 1 },
     ].forEach(function({ expectedRendering, input, expected }) {
 
       it(`should render ${expectedRendering}`, function() {
@@ -304,8 +304,6 @@ describe('Integration | Component | signup form', function() {
         this.$('.signup__submit-button').click();
         // then
         return wait().then(() => {
-          const headingErrorMessageContent = this.$('.signup-form__temporary-msg h4').text();
-          expect(headingErrorMessageContent.trim()).to.equal(EXPECTED_FORM_HEADING_CONTENT_ERROR);
           expect(this.$('.signup-field__recaptcha-message--error')).to.have.lengthOf(1);
         });
       });
@@ -468,7 +466,7 @@ describe('Integration | Component | signup form', function() {
         });
       });
     });
-    
+
     describe('Accessibility', function() {
 
       it('should render an accessible notification message when the account was successfully created', function() {
