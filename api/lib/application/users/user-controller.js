@@ -1,6 +1,6 @@
 const Boom = require('boom');
 const _ = require('../../infrastructure/utils/lodash-utils');
-const jsonwebtoken = require('jsonwebtoken');
+const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -14,17 +14,6 @@ function _isUniqConstraintViolated(err) {
   return (err.code === SQLITE_UNIQ_CONSTRAINT || err.code === PGSQL_UNIQ_CONSTRAINT);
 }
 
-function verifyToken(authorizationToken) {
-  return new Promise((resolve, reject) => {
-    jsonwebtoken.verify(authorizationToken, config.authentification.secret, (err, decoded) => {
-      if(err) {
-        return reject(err);
-      }
-
-      resolve(decoded);
-    });
-  });
-}
 module.exports = {
 
   save(request, reply) {
@@ -52,14 +41,11 @@ module.exports = {
   },
 
   getProfile(request, reply) {
-    const authorization = request.headers.authorization;
-    if(!authorization) {
-      return reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization())).code(401);
-    }
-
-    return verifyToken(authorization)
+    const token = request.headers.authorization;
+    return authorizationToken
+      .verify(token)
       .then((decoded) => {
-        reply().code(201);
+        return reply(decoded).code(201);
       })
       .catch((err) => {
         return reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization())).code(401);
