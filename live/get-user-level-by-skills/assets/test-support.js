@@ -8,7 +8,7 @@
  *            Portions Copyright 2008-2011 Apple Inc. All rights reserved.
  * @license   Licensed under MIT license
  *            See https://raw.github.com/emberjs/ember.js/master/LICENSE
- * @version   2.13.3
+ * @version   2.13.2
  */
 
 var enifed, requireModule, Ember;
@@ -21694,7 +21694,7 @@ define('ember-mocha/mocha-module', ['exports', 'ember', 'mocha', 'ember-test-hel
     };
   }
 });
-define('ember-mocha/setup-test-factory', ['exports', 'ember', 'mocha', 'ember-test-helpers'], function (exports, _ember, _mocha, _emberTestHelpers) {
+define('ember-mocha/setup-test-factory', ['exports', 'mocha', 'ember-test-helpers'], function (exports, _mocha, _emberTestHelpers) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -21702,15 +21702,8 @@ define('ember-mocha/setup-test-factory', ['exports', 'ember', 'mocha', 'ember-te
   });
 
   exports.default = function (Constructor) {
-    return function setupTest(moduleName) {
-      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
+    return function setupTest(moduleName, options) {
       var module;
-
-      if (_ember.default.typeOf(moduleName) === 'object') {
-        options = moduleName;
-        moduleName = '';
-      }
 
       (0, _mocha.before)(function () {
         module = new Constructor(moduleName, options);
