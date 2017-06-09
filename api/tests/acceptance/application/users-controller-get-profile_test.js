@@ -1,4 +1,4 @@
-const {describe, it, after, beforeEach, before, expect, sinon} = require('../../test-helper');
+const {describe, it, expect, sinon} = require('../../test-helper');
 const faker = require('faker');
 const server = require('../../../server');
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');

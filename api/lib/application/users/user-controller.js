@@ -5,7 +5,6 @@ const authorizationToken = require('../../../lib/infrastructure/validators/jsonw
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const mailService = require('../../domain/services/mail-service');
-const config = require('../../../lib/settings');
 const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const {NotFoundError} = require('../../../lib/domain/errors');
 

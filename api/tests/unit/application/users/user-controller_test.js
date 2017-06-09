@@ -281,5 +281,5 @@ describe('Unit | Controller | user-controller', () => {
       // then
       expect(userController.getProfile).to.be.a('function');
     });
-  })
+  });
 });

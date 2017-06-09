@@ -47,7 +47,7 @@ describe('Unit | Repository | UserRepository', function() {
             expect(foundedUser.attributes.email).to.equal(inserted_user.email);
             expect(foundedUser.attributes.firstName).to.equal(inserted_user.firstName);
             expect(foundedUser.attributes.lastName).to.equal(inserted_user.lastName);
-          })
+          });
       });
 
       it('should handle a rejection, when user id is not found', () => {
@@ -55,9 +55,9 @@ describe('Unit | Repository | UserRepository', function() {
           .catch((err) => {
             const errorType = err instanceof NotFoundError;
             expect(errorType).to.be.ok;
-          })
-      })
-    })
+          });
+      });
+    });
 
   });
 });

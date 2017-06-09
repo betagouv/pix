@@ -48,7 +48,7 @@ describe('Unit | Validator | json-web-token-verify', function() {
 
         return promise.then((result) => {
           // Then
-          expect(promise).to.be.fulfilled
+          expect(promise).to.be.fulfilled;
           expect(result).to.be.equal(1);
           expect(jsonwebtokenStub.getCall(0).args[0]).to.be.equal('VALID_TOKEN');
           expect(jsonwebtokenStub.getCall(0).args[1]).to.be.equal('shhhhhhhhh');

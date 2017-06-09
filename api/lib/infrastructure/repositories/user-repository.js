@@ -2,7 +2,7 @@ const User = require('../../domain/models/data/user');
 const {NotFoundError} = require('../../domain/errors');
 
 module.exports = {
-  findUserById(userId){
+  findUserById(userId) {
     return new Promise((resolve, reject) => {
       User
         .where({id: userId})
