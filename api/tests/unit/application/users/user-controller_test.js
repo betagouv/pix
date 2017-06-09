@@ -386,7 +386,7 @@ describe('Unit | Controller | user-controller', () => {
             errors: [{
               status: '400',
               title: 'Invalid Attribute',
-              detail: 'Le captcha n\'est pas valide.',
+              detail: 'Vous devez cliquer ci-dessous.',
               source: {pointer: '/data/attributes/recaptcha-token'},
               meta: {field: 'recaptchaToken'}
             },

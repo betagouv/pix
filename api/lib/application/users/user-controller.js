@@ -37,7 +37,7 @@ module.exports = {
       }).catch((err) => {
         if(err instanceof InvalidRecaptchaTokenError) {
           const userValidationErrors = user.validationErrors();
-          const captchaError = {recaptchaToken: ['Le captcha n\'est pas valide.']};
+          const captchaError = {recaptchaToken: ['Vous devez cliquer ci-dessous.']};
           const mergedErrors = Object.assign(captchaError, userValidationErrors);
           err = _buildErrorWhenRecaptchaTokenInvalid(mergedErrors);
         }
