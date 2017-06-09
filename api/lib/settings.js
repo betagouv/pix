@@ -41,6 +41,10 @@ module.exports = (function() {
       apiKey: 'test-api-ket',
       apiSecret: 'test-api-secret'
     };
+
+    config.authentification = {
+      secret: 'test-jwt-key'
+    }
   }
 
   return config;

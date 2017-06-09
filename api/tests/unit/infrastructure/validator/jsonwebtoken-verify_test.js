@@ -1,5 +1,6 @@
 const {describe, it, beforeEach, afterEach, sinon, expect} = require('../../../test-helper');
 const jsonwebtoken = require('jsonwebtoken');
+const settings = require('../../../../lib/settings');
 
 const authorizationToken = require('../../../../lib/infrastructure/validators/jsonwebtoken-verify');
 
@@ -51,8 +52,7 @@ describe('Unit | Validator | json-web-token-verify', function() {
           expect(promise).to.be.fulfilled;
           expect(result).to.be.equal(1);
           expect(jsonwebtokenStub.getCall(0).args[0]).to.be.equal('VALID_TOKEN');
-          expect(jsonwebtokenStub.getCall(0).args[1]).to.be.equal('shhhhhhhhh');
-
+          expect(jsonwebtokenStub.getCall(0).args[1]).to.be.equal(settings.authentification.secret);
         });
       });
     });
