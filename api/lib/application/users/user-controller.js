@@ -47,14 +47,12 @@ module.exports = {
     return authorizationToken
       .verify(token)
       .then((user_id) => {
-        console.log(user_id)
-        UserRepository.findUserById(user_id)
+        return UserRepository.findUserById(user_id)
           .then((foundedUser) => {
             return reply(userSerializer.serialize(foundedUser)).code(201);
           });
       })
       .catch((err) => {
-        console.log(err)
         if(err instanceof NotFoundError) {
           err = 'Cet utilisateur est introuvable';
         } else {

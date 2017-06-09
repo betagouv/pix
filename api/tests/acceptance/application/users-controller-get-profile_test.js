@@ -6,7 +6,7 @@ const UserRepository = require('../../../lib/infrastructure/repositories/user-re
 const User = require('../../../lib/domain/models/data/user');
 const {NotFoundError} = require('../../../lib/domain/errors');
 
-describe.only('Acceptance | Controller | users-controller-get-profile', function() {
+describe('Acceptance | Controller | users-controller-get-profile', function() {
 
   const options = {
     method: 'GET',
@@ -36,9 +36,9 @@ describe.only('Acceptance | Controller | users-controller-get-profile', function
         });
       });
 
-      it('should return 401  HTTP status code, when authorization is valid but user not found', (done) => {
+      it('should return 401  HTTP status code, when authorization is valid but user not found', () => {
         const authorizationTokenStub = sinon.stub(authorizationToken, 'verify').resolves(4);
-        const UserRepositoryStub = sinon.stub(UserRepository, 'findUserById').rejects(new NotFoundError());
+        const UserRepositoryStub = sinon.stub(UserRepository, 'findUserById').returns(Promise.reject(new NotFoundError()));
         options['headers'] = {authorization: 'VALID_TOKEN'};
         // When
         return server.injectThen(options).then(response => {
@@ -46,13 +46,12 @@ describe.only('Acceptance | Controller | users-controller-get-profile', function
           authorizationTokenStub.restore();
           UserRepositoryStub.restore();
           expect(response.statusCode).to.equal(401);
-          done();
         });
       });
 
     });
 
-    describe.skip('Success cases:', function() {
+    describe('Success cases:', function() {
 
       it('should response with 201 HTTP status code, when authorization is valid and user is found', () => {
         // Given
