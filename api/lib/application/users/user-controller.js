@@ -45,11 +45,9 @@ module.exports = {
     const token = request.headers.authorization;
     return authorizationToken
       .verify(token)
-      .then((user_id) => {
-        return UserRepository.findUserById(user_id)
-          .then((foundedUser) => {
-            return reply(userSerializer.serialize(foundedUser)).code(201);
-          });
+      .then(UserRepository.findUserById)
+      .then((foundedUser) => {
+        reply(userSerializer.serialize(foundedUser)).code(201);
       })
       .catch((err) => {
         if(err instanceof NotFoundError) {
