@@ -15,6 +15,8 @@ describe('Unit | Validator | json-web-token-verify', function() {
       [
         '',
         ' ',
+        'BEARER ',
+        'VALID_TOKEN',
         undefined,
         null
       ].forEach((token) => {
@@ -43,9 +45,19 @@ describe('Unit | Validator | json-web-token-verify', function() {
         jsonwebtokenStub.restore();
       });
 
-      it('should resolve a promise, when token is valid', () => {
+      it('should reject a promise, when token is valid but has not key word bearer', () => {
         // When
         const promise = authorizationToken.verify('VALID_TOKEN');
+
+        return promise.catch(_ => {
+          // Then
+          expect(promise).to.be.rejected;
+        });
+      });
+
+      it('should resolve a promise, when token is valid', () => {
+        // When
+        const promise = authorizationToken.verify('Bearer VALID_TOKEN');
 
         return promise.then((result) => {
           // Then

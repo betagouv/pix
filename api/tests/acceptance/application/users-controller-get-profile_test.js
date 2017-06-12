@@ -39,7 +39,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       it('should return 401  HTTP status code, when authorization is valid but user not found', () => {
         const authorizationTokenStub = sinon.stub(authorizationToken, 'verify').resolves(4);
         const UserRepositoryStub = sinon.stub(UserRepository, 'findUserById').returns(Promise.reject(new NotFoundError()));
-        options['headers'] = {authorization: 'VALID_TOKEN'};
+        options['headers'] = {authorization: 'Bearer VALID_TOKEN'};
         // When
         return server.injectThen(options).then(response => {
           // Then
@@ -65,7 +65,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
 
         const authorizationTokenStub = sinon.stub(authorizationToken, 'verify').resolves(1);
         const UserRepositoryStub = sinon.stub(UserRepository, 'findUserById').resolves(user);
-        options['headers'] = {authorization: 'VALID_TOKEN'};
+        options['headers'] = {authorization: 'Bearer VALID_TOKEN'};
         // When
         return server.injectThen(options).then(response => {
           // Then

@@ -44,7 +44,7 @@ module.exports = (function() {
 
     config.authentification = {
       secret: 'test-jwt-key'
-    }
+    };
   }
 
   return config;
