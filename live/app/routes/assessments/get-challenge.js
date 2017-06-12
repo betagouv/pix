@@ -63,9 +63,13 @@ export default BaseRoute.extend({
 
     saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
       const answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime);
-      return answer.save().then(() => {
-        return this._navigateToNextView(currentChallenge, assessment);
-      });
+      return answer.save()
+        .then(() => {
+          return this._navigateToNextView(currentChallenge, assessment);
+        }).catch((err) => {
+          alert(`Erreur lors de l’enregistrement de la réponse : ${err}`);
+          return err;
+        });
     }
   },
 
