@@ -51,7 +51,8 @@ describe('Unit | Repository | UserRepository', function() {
       });
 
       it('should handle a rejection, when user id is not found', () => {
-        return UserRepository.findUserById(10093)
+        const inexistenteId = 10093;
+        return UserRepository.findUserById(inexistenteId)
           .catch((err) => {
             const errorType = err instanceof NotFoundError;
             expect(errorType).to.be.ok;
