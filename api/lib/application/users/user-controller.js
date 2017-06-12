@@ -7,6 +7,7 @@ const validationErrorSerializer = require('../../infrastructure/serializers/json
 const mailService = require('../../domain/services/mail-service');
 const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const {NotFoundError} = require('../../../lib/domain/errors');
+const {InvalidTokenError} = require('../../../lib/domain/errors');
 
 function _isUniqConstraintViolated(err) {
   const SQLITE_UNIQ_CONSTRAINT = 'SQLITE_CONSTRAINT';
@@ -51,9 +52,17 @@ module.exports = {
       })
       .catch((err) => {
         if(err instanceof NotFoundError) {
+
           err = 'Cet utilisateur est introuvable';
-        } else {
+
+        } else if(err instanceof InvalidTokenError) {
+
           err = 'Le token n\'est pas valid';
+
+        } else {
+
+          err = 'Une erreur est survenue lors de l’authentification de l’utilisateur';
+          
         }
         reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(err))).code(401);
       });
@@ -72,7 +81,7 @@ function _buildErrorWhenUniquEmail() {
 function _handleWhenInvalidAuthorization(errorMessage) {
   return {
     data: {
-      message: [errorMessage]
+      authorization: [errorMessage]
     }
   };
 }

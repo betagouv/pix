@@ -6,6 +6,36 @@ const UserRepository = require('../../../lib/infrastructure/repositories/user-re
 const User = require('../../../lib/domain/models/data/user');
 const {NotFoundError} = require('../../../lib/domain/errors');
 
+const expectedResultWhenInvalidToken = {
+  errors: [{
+    status: '400',
+    title: 'Invalid Attribute',
+    detail: 'Le token n\'est pas valid',
+    source: {'pointer': '/data/attributes/authorization'},
+    meta: {'field': 'authorization'}
+  }]
+};
+
+const expectedResultUserNotFounded = {
+  errors: [{
+    status: '400',
+    title: 'Invalid Attribute',
+    detail: 'Cet utilisateur est introuvable',
+    source: {'pointer': '/data/attributes/authorization'},
+    meta: {'field': 'authorization'}
+  }]
+};
+
+const expectedResultWhenErrorOccured = {
+  errors: [{
+    status: '400',
+    title: 'Invalid Attribute',
+    detail: 'Une erreur est survenue lors de l’authentification de l’utilisateur',
+    source: {'pointer': '/data/attributes/authorization'},
+    meta: {'field': 'authorization'}
+  }]
+};
+
 describe('Acceptance | Controller | users-controller-get-profile', function() {
 
   const options = {
@@ -23,6 +53,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
         return server.injectThen(options).then(response => {
           // Then
           expect(response.statusCode).to.equal(401);
+          expect(response.result).to.be.deep.equal(expectedResultWhenInvalidToken);
         });
       });
 
@@ -46,6 +77,21 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
           authorizationTokenStub.restore();
           UserRepositoryStub.restore();
           expect(response.statusCode).to.equal(401);
+          expect(response.result).to.deep.equal(expectedResultUserNotFounded);
+        });
+      });
+
+      it('should return 401  HTTP status code, when authorization is valid but error occurred', () => {
+        const authorizationTokenStub = sinon.stub(authorizationToken, 'verify').resolves(4);
+        const UserRepositoryStub = sinon.stub(UserRepository, 'findUserById').returns(Promise.reject(new Error()));
+        options['headers'] = {authorization: 'Bearer VALID_TOKEN'};
+        // When
+        return server.injectThen(options).then(response => {
+          // Then
+          authorizationTokenStub.restore();
+          UserRepositoryStub.restore();
+          expect(response.statusCode).to.equal(401);
+          expect(response.result).to.deep.equal(expectedResultWhenErrorOccured);
         });
       });
 
