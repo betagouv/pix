@@ -57,12 +57,12 @@ module.exports = {
 
         } else if(err instanceof InvalidTokenError) {
 
-          err = 'Le token n\'est pas valid';
+          err = 'Le token n’est pas valid';
 
         } else {
 
           err = 'Une erreur est survenue lors de l’authentification de l’utilisateur';
-          
+
         }
         reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(err))).code(401);
       });

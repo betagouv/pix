@@ -10,7 +10,7 @@ const expectedResultWhenInvalidToken = {
   errors: [{
     status: '400',
     title: 'Invalid Attribute',
-    detail: 'Le token n\'est pas valid',
+    detail: 'Le token n’est pas valid',
     source: {'pointer': '/data/attributes/authorization'},
     meta: {'field': 'authorization'}
   }]
