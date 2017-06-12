@@ -1,6 +1,7 @@
 const {describe, it, beforeEach, afterEach, sinon, expect} = require('../../../test-helper');
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../../../lib/settings');
+const {InvalidTokenError} = require('../../../../lib/domain/errors');
 
 const authorizationToken = require('../../../../lib/infrastructure/validators/jsonwebtoken-verify');
 
@@ -25,7 +26,8 @@ describe('Unit | Validator | json-web-token-verify', function() {
           const promise = authorizationToken.verify(token);
           return promise.catch((result) => {
             // Then
-            expect(result).to.be.false;
+            expect(result.name).to.be.equal('Error');
+            expect(result instanceof InvalidTokenError).to.be.true;
           });
         });
       });
