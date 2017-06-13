@@ -49,7 +49,7 @@ module.exports = {
 };
 
 function _buildErrorWhenRecaptchaTokenInvalid(validationErrors) {
-  const captchaError = {recaptchaToken: ['Le captcha n\'est pas valide.']};
+  const captchaError = {recaptchaToken: ['Vous devez cliquer ci-dessous.']};
   const mergedErrors = Object.assign(captchaError, validationErrors);
   return {
     data: mergedErrors
