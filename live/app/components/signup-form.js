@@ -28,12 +28,9 @@ function isValuePresent(value) {
 
 export default Ember.Component.extend({
   classNames: ['signup-form'],
-  registrationMessage: '',
+
+  _notificationMessage: null,
   validation: null,
-  temporaryAlert: {
-    status: 'default',
-    message: ''
-  },
   _tokenHasBeenUsed: null,
 
   init() {
@@ -126,14 +123,14 @@ export default Ember.Component.extend({
     },
 
     signup() {
+      this.set('_notificationMessage', null);
       this.get('user').save().then(() => {
-        this._toggleConfirmation('success', 'Le compte a été bien créé!');
+        this.set('_notificationMessage', 'Votre compte a bien été créé !');
         this._resetValidationFields();
         this.sendAction('refresh');
         this.set('_tokenHasBeenUsed', true);
       }).catch(() => {
         this._updateInputsStatus();
-        this._toggleConfirmation('error', 'Oups! Une erreur s\'est produite...');
         this.set('_tokenHasBeenUsed', true);
       });
     }
