@@ -26,20 +26,16 @@ module.exports = {
     const recaptchaToken = request.payload.data.attributes['recaptcha-token'];
 
     return googleReCaptcha.verify(recaptchaToken)
-      .then(() => {
-        return user
-          .save()
-          .then((user) => {
-            mailService.sendAccountCreationEmail(user.get('email'));
-
-            reply(userSerializer.serialize(user)).code(201);
-          });
+      .then(_ => {
+        return user.save();
+      })
+      .then((user) => {
+        mailService.sendAccountCreationEmail(user.get('email'));
+        reply(userSerializer.serialize(user)).code(201);
       }).catch((err) => {
         if(err instanceof InvalidRecaptchaTokenError) {
           const userValidationErrors = user.validationErrors();
-          const captchaError = {recaptchaToken: ['Le captcha n\'est pas valide.']};
-          const mergedErrors = Object.assign(captchaError, userValidationErrors);
-          err = _buildErrorWhenRecaptchaTokenInvalid(mergedErrors);
+          err = _buildErrorWhenRecaptchaTokenInvalid(userValidationErrors);
         }
         if(_isUniqConstraintViolated(err)) {
           err = _buildErrorWhenUniquEmail();
@@ -51,9 +47,12 @@ module.exports = {
   }
 
 };
-function _buildErrorWhenRecaptchaTokenInvalid(errors) {
+
+function _buildErrorWhenRecaptchaTokenInvalid(validationErrors) {
+  const captchaError = {recaptchaToken: ['Le captcha n\'est pas valide.']};
+  const mergedErrors = Object.assign(captchaError, validationErrors);
   return {
-    data: errors
+    data: mergedErrors
   };
 }
 
