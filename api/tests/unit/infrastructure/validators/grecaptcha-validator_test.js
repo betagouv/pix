@@ -59,6 +59,8 @@ describe('Unit | Service | google-recaptcha-validator', () => {
 
         // when
         const promise = gRecaptcha.verify(INVALID_OR_UNKNOW_RECAPTCHA);
+
+        // Then
         expect(promise).to.be.rejectedWith('Invalid reCaptcha token');
         loggerStub.restore();
         return expect(promise).to.be.rejected;
