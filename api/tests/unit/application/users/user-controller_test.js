@@ -79,8 +79,7 @@ describe('Unit | Controller | user-controller', () => {
       });
 
       it('should call validator once', () => {
-        googleReCaptchaStub.restore();
-        googleReCaptchaStub = sinon.stub(googleReCaptcha, 'verify').returns(Promise.reject([]));
+        googleReCaptchaStub.returns(Promise.reject([]));
         const request = {
           payload: {
             data: {
@@ -100,14 +99,12 @@ describe('Unit | Controller | user-controller', () => {
 
         return promise.then(() => {
           sinon.assert.calledOnce(googleReCaptchaStub);
-          googleReCaptchaStub.restore();
         });
 
       });
 
       it('should call validator with good parameter', () => {
-        googleReCaptchaStub.restore();
-        googleReCaptchaStub = sinon.stub(googleReCaptcha, 'verify').returns(Promise.reject([]));
+        googleReCaptchaStub.returns(Promise.reject([]));
 
         //Given
         const request = {
@@ -350,18 +347,13 @@ describe('Unit | Controller | user-controller', () => {
             }
           }
         };
-        let userSerializerStub;
 
         beforeEach(function() {
-          googleReCaptchaStub.restore();
-          validationErrorSerializerStub.restore();
-          userSerializer.deserialize.restore();
-          userSerializerStub = sinon.stub(userSerializer, 'deserialize').returns(user);
-          googleReCaptchaStub = sinon.stub(googleReCaptcha, 'verify').rejects(new InvalidRecaptchaTokenError('Invalid reCaptcha token'));
+          userSerializerStub.returns(user);
+          googleReCaptchaStub.rejects(new InvalidRecaptchaTokenError());
         });
 
         afterEach(function() {
-          googleReCaptchaStub.restore();
           userSerializerStub.restore();
         });
 
@@ -390,13 +382,13 @@ describe('Unit | Controller | user-controller', () => {
               source: {pointer: '/data/attributes/recaptcha-token'},
               meta: {field: 'recaptchaToken'}
             },
-            {
-              status: '400',
-              title: 'Invalid Attribute',
-              detail: 'Le champ CGU doit être renseigné.',
-              source: {pointer: '/data/attributes/cgu'},
-              meta: {field: 'cgu'}
-            }]
+              {
+                status: '400',
+                title: 'Invalid Attribute',
+                detail: 'Le champ CGU doit être renseigné.',
+                source: {pointer: '/data/attributes/cgu'},
+                meta: {field: 'cgu'}
+              }]
           };
           const replyErrorStub = sinon.stub();
           replyErrorStub.returns({
@@ -408,7 +400,7 @@ describe('Unit | Controller | user-controller', () => {
           const promise = userController.save(request, replyErrorStub);
 
           // Then
-          return promise.then(() => {
+          return promise.catch(() => {
             sinon.assert.calledWith(replyErrorStub, expectedMergedErrors);
           });
         });
