@@ -1,5 +1,6 @@
-const {describe, it, expect, sinon} = require('../../../test-helper');
+const {describe, it, expect, sinon, beforeEach, afterEach} = require('../../../test-helper');
 const gRecaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
+const {InvalidRecaptchaTokenError} = require('../../../../lib/infrastructure/validators/errors');
 const request = require('request');
 const logger = require('../../../../lib/infrastructure/logger');
 const {googleReCaptcha} = require('../../../../lib/settings');
@@ -48,57 +49,55 @@ describe('Unit | Service | google-recaptcha-validator', () => {
 
     describe('Error cases', function() {
 
-      it('should log an error and return a rejected promise, when user response token is invalid', function() {
+      let loggerStub;
+      let requestPostErrorStub;
+      const error = new Error();
+
+      beforeEach(() => {
+        loggerStub = sinon.stub(logger, 'error').returns({});
+        requestPostErrorStub = sinon.stub(request, 'post');
+      });
+
+      afterEach(() => {
+        loggerStub.restore();
+        requestPostErrorStub.restore();
+      });
+
+      it('should return a rejected promise, when user response token is invalid', function() {
         // given
-        const loggerStub = sinon.stub(logger, 'error').returns({});
-        const requestPostErrorStub = sinon.stub(request, 'post', function(uri, cb) {
-          requestPostErrorStub.restore();
-          const err = null;
-          cb(err, UNSUCCESSFULL_VERIFICATION_RESPONSE);
-        });
+        requestPostErrorStub.callsArgWith(1, null, UNSUCCESSFULL_VERIFICATION_RESPONSE);
 
         // when
         const promise = gRecaptcha.verify(INVALID_OR_UNKNOW_RECAPTCHA);
 
         // Then
-        expect(promise).to.be.rejectedWith('Invalid reCaptcha token');
-        loggerStub.restore();
-        return expect(promise).to.be.rejected;
+        return promise.catch((err) => {
+
+          expect(promise).to.be.rejected;
+          expect(promise).to.be.rejectedWith('Invalid reCaptcha token');
+          expect(err instanceof InvalidRecaptchaTokenError).to.be.ok;
+
+        });
+
       });
 
       it('should return a rejected promise when request failed for network reason', function() {
         // given
-        const loggerStub = sinon.stub(logger, 'error').returns({});
-        const requestPostErrorStub = sinon.stub(request, 'post', function(uri, cb) {
-          requestPostErrorStub.restore();
-          const err = new Error();
-          const response = {};
-          const body = {};
-
-          cb(err, response, body);
-        });
+        requestPostErrorStub.callsArgWith(1, error);
 
         // when
         const promise = gRecaptcha.verify('foo-bar');
-        loggerStub.restore();
-        return expect(promise).to.be.rejectedWith('An error occurred during connection to the Google servers');
+        return promise.catch((err) => {
+          expect(promise).to.be.rejected;
+          expect(err).to.be.equal('An error occurred during connection to the Google servers');
+        });
       });
 
       it('should call logger once time, when request failed for network reason', function() {
         // given
-        const loggerStub = sinon.stub(logger, 'error').returns({});
-        const requestPostErrorStub = sinon.stub(request, 'post', function(uri, cb) {
-          requestPostErrorStub.restore();
-          const err = new Error();
-          const response = {};
-          const body = {};
-
-          cb(err, response, body);
-        });
-
+        requestPostErrorStub.callsArgWith(1, error);
         // when
         return gRecaptcha.verify('foo-bar').catch(() => {
-          loggerStub.restore();
           sinon.assert.calledOnce(loggerStub);
         });
       });
