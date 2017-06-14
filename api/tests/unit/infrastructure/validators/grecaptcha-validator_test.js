@@ -33,18 +33,29 @@ describe('Unit | Service | google-recaptcha-validator', () => {
     });
 
     describe('Success case', function() {
+      let requestPostErrorStub;
+
+      before(() => {
+        requestPostErrorStub = sinon.stub(request, 'post');
+      });
+
+      after(() => {
+        requestPostErrorStub.restore();
+      });
+
       it('should return a resolved promise when user response token is valid', function() {
         // given
-        const requestPostErrorStub = sinon.stub(request, 'post', function(uri, cb) {
-          requestPostErrorStub.restore();
-          const err = null;
-          cb(err, SUCCESSFULL_VERIFICATION_RESPONSE);
-        });
+        requestPostErrorStub.callsArgWith(1, null, SUCCESSFULL_VERIFICATION_RESPONSE);
 
         // when
         const promise = gRecaptcha.verify(RECAPTCHA_TOKEN);
-        return expect(promise).to.be.resolved;
+
+        return promise.then(() => {
+          // Then
+          expect(promise).to.be.resolved;
+        });
       });
+
     });
 
     describe('Error cases', function() {
