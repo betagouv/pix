@@ -26,7 +26,7 @@ module.exports = {
     const recaptchaToken = request.payload.data.attributes['recaptcha-token'];
 
     return googleReCaptcha.verify(recaptchaToken)
-      .then(_ => {
+      .then(() => {
         return user.save();
       })
       .then((user) => {
