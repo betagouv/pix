@@ -18,8 +18,6 @@ const CHECKBOX_CGU_INPUT = '#pix-cgu';
 const CHECKBOX_CGU_LABEL = '.signup-form__cgu-label';
 const UNCHECKED_CHECKBOX_CGU_ERROR = 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.';
 
-const UNCHECKED_CHECKBOX_RECAPTCHA_ERROR = 'Veuillez cocher le recaptcha.';
-
 const CGU_LINK = '.signup__cgu-link';
 const CGU_LINK_CONTENT = 'conditions d\'​utilisation de Pix';
 
@@ -280,6 +278,7 @@ describe('Integration | Component | signup form', function() {
 
       it('should display an error message on form title, when user has not checked re-captcha', function() {
         // given
+        const UNCHECKED_CHECKBOX_RECAPTCHA_ERROR = 'Veuillez cocher le recaptcha.';
         const userWithCaptchaNotValid = Ember.Object.create({
           cgu: true,
           recaptchaToken: null,

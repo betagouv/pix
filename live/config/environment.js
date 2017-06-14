@@ -21,7 +21,7 @@ module.exports = function(environment) {
     },
 
     APP: {
-      
+
       // Here you can pass flags/options to your application instance
       // when it is created
       API_HOST: '',
@@ -30,7 +30,8 @@ module.exports = function(environment) {
       isMobileSimulationEnabled: false,
       isTimerCountdownEnabled: true,
       isMessageStatusTogglingEnabled: true,
-      LOAD_EXTERNAL_SCRIPT: true
+      LOAD_EXTERNAL_SCRIPT: true,
+      GOOGLE_RECAPTCHA_KEY: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO'
     },
 
     googleFonts: [

@@ -1,8 +1,7 @@
 import Ember from 'ember';
 import jQuery from 'jquery';
 import RSVP from 'rsvp';
-
-const siteKey = '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO';
+import config from 'pix-live/config/environment';
 
 // XXX Inspired of https://guides.emberjs.com/v2.13.0/tutorial/service/#toc_fetching-maps-with-a-service
 export default Ember.Service.extend({
@@ -24,7 +23,7 @@ export default Ember.Service.extend({
       const parameters = {
         'callback': callback,
         'expired-callback': expiredCallback,
-        'sitekey': siteKey
+        'sitekey': config.APP.GOOGLE_RECAPTCHA_KEY
       };
       grecaptcha.render(containerId, parameters);
     }
@@ -32,7 +31,6 @@ export default Ember.Service.extend({
 
   reset() {
     const grecaptcha = window.grecaptcha;
-    Ember.assert('window.grecaptcha must be available', grecaptcha);
     grecaptcha.reset();
   }
 

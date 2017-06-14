@@ -8,6 +8,8 @@ export default Ember.Component.extend({
 
   validateRecaptcha: null, // action
   resetRecaptcha: null, // action
+
+  tokenHasBeenUsed: null,
   validation: null,
 
   didInsertElement() {
