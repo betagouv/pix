@@ -1395,6 +1395,8 @@ define('pix-live/components/g-recaptcha', ['exports', 'ember'], function (export
 
     validateRecaptcha: null, // action
     resetRecaptcha: null, // action
+
+    tokenHasBeenUsed: null,
     validation: null,
 
     didInsertElement: function didInsertElement() {
@@ -5584,17 +5586,12 @@ define('pix-live/services/dependency-checker', ['exports', 'ember', 'pix-live/co
 
   });
 });
-define('pix-live/services/google-recaptcha', ['exports', 'ember', 'jquery', 'rsvp'], function (exports, _ember, _jquery, _rsvp) {
+define('pix-live/services/google-recaptcha', ['exports', 'ember', 'jquery', 'rsvp', 'pix-live/config/environment'], function (exports, _ember, _jquery, _rsvp, _environment) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  var siteKey = '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO';
-
-  // XXX Inspired of https://guides.emberjs.com/v2.13.0/tutorial/service/#toc_fetching-maps-with-a-service
   exports.default = _ember.default.Service.extend({
     loadScript: function loadScript() {
       return new _rsvp.default.Promise(function (resolve) {
@@ -5612,14 +5609,13 @@ define('pix-live/services/google-recaptcha', ['exports', 'ember', 'jquery', 'rsv
         var parameters = {
           'callback': callback,
           'expired-callback': expiredCallback,
-          'sitekey': siteKey
+          'sitekey': _environment.default.APP.GOOGLE_RECAPTCHA_KEY
         };
         grecaptcha.render(containerId, parameters);
       }
     },
     reset: function reset() {
       var grecaptcha = window.grecaptcha;
-      _ember.default.assert('window.grecaptcha must be available', grecaptcha);
       grecaptcha.reset();
     }
   });
@@ -7016,6 +7012,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"name":"pix-live","version":"1.11.1+b8de3fc4"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.11.1+b367aa96"});
 }
 //# sourceMappingURL=pix-live.map

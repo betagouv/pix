@@ -5470,8 +5470,6 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var CHECKBOX_CGU_LABEL = '.signup-form__cgu-label';
   var UNCHECKED_CHECKBOX_CGU_ERROR = 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.';
 
-  var UNCHECKED_CHECKBOX_RECAPTCHA_ERROR = 'Veuillez cocher le recaptcha.';
-
   var CGU_LINK = '.signup__cgu-link';
   var CGU_LINK_CONTENT = 'conditions d\'​utilisation de Pix';
 
@@ -5771,6 +5769,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           var _this7 = this;
 
           // given
+          var UNCHECKED_CHECKBOX_RECAPTCHA_ERROR = 'Veuillez cocher le recaptcha.';
           var userWithCaptchaNotValid = _ember.default.Object.create({
             cgu: true,
             recaptchaToken: null,
