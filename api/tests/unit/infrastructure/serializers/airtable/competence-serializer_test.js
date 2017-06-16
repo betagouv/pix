@@ -23,7 +23,7 @@ describe('Unit | Serializer | competence-serializer', function() {
         }
       };
 
-      it('should get a new competence object', () => {
+      it('should get a new competence Model object', () => {
         // When
         const competences = serializer.deserialize(airtableCompetencesRecord);
 
