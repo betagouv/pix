@@ -22,7 +22,7 @@ module.exports = {
         airtable.getRecords(AIRTABLE_TABLE_NAME, {}, serializer)
           .then(areas => {
             cache.set(cacheKey, areas);
-            return resolve(areas);
+            resolve(areas);
           })
           .catch(reject);
       });
