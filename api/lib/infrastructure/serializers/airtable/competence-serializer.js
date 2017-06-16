@@ -1,4 +1,3 @@
-const _ = require('../../utils/lodash-utils');
 const Competence = require('../../../domain/models/referential/compentence');
 const AirtableSerializer = require('./airtable-serializer');
 

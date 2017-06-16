@@ -1,4 +1,3 @@
-const _ = require('../../utils/lodash-utils');
 const Area = require('../../../domain/models/referential/area');
 const AirtableSerializer = require('./airtable-serializer');
 
