@@ -97,7 +97,7 @@ describe('Unit | Repository | competence-repository', function() {
           // Then
           expect(competencesFetched).to.be.equal(competences);
           sinon.assert.calledOnce(cacheStub);
-          sinon.assert.calledWith(cacheStub, 'competence-repository_list');
+          sinon.assert.calledWith(cacheStub, cacheKey);
           cacheStub.restore();
         });
       });
