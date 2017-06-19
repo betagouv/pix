@@ -65,17 +65,7 @@ define('pix-live/app', ['exports', 'ember', 'pix-live/resolver', 'ember-load-ini
   var App = _ember.default.Application.extend({
     modulePrefix: _environment.default.modulePrefix,
     podModulePrefix: _environment.default.podModulePrefix,
-    Resolver: _resolver.default,
-
-    ready: function ready() {
-      this._removeSplash();
-    },
-    _removeSplash: function _removeSplash() {
-      var splash = document.getElementById('app-splash');
-      if (splash) {
-        splash.remove();
-      }
-    }
+    Resolver: _resolver.default
   });
 
   (0, _emberLoadInitializers.default)(App, _environment.default.modulePrefix);
@@ -4908,6 +4898,20 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
 
   exports.default = Router;
 });
+define('pix-live/routes/application', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _ember.default.Route.extend({
+    splash: _ember.default.inject.service(),
+
+    activate: function activate() {
+      this.get('splash').hide();
+    }
+  });
+});
 define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp', 'pix-live/routes/base-route'], function (exports, _ember, _rsvp, _baseRoute) {
   'use strict';
 
@@ -5561,6 +5565,21 @@ define('pix-live/services/panel-actions', ['exports', 'ember-collapsible-panel/s
     enumerable: true,
     get: function () {
       return _panelActions.default;
+    }
+  });
+});
+define('pix-live/services/splash', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _ember.default.Service.extend({
+    hide: function hide() {
+      var splash = document.getElementById('app-splash');
+      if (splash) {
+        splash.remove();
+      }
     }
   });
 });
@@ -6561,11 +6580,11 @@ define('pix-live/utils/labeled-checkboxes', ['exports', 'pix-live/utils/lodash-c
     var sizeDifference = (0, _lodashCustom.default)(proposals).size() - (0, _lodashCustom.default)(definedUserAnswers).size(); // 2
     var arrayOfFalse = _lodashCustom.default.times(sizeDifference, _lodashCustom.default.constant(false)); // [false, false]
 
-    return _lodashCustom.default.chain(definedUserAnswers // [false, true]
-    ).concat(arrayOfFalse // [false, true, false, false]
-    ).zip(proposals // [[false, 'prop 1'], [true, 'prop 2'], [false, 'prop 3'], [false, 'prop 4']]
-    ).map(_lodashCustom.default.reverse // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
-    ).value();
+    return _lodashCustom.default.chain(definedUserAnswers) // [false, true]
+    .concat(arrayOfFalse) // [false, true, false, false]
+    .zip(proposals) // [[false, 'prop 1'], [true, 'prop 2'], [false, 'prop 3'], [false, 'prop 4']]
+    .map(_lodashCustom.default.reverse) // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
+    .value();
   }
 });
 define('pix-live/utils/labels-as-object', ['exports'], function (exports) {
@@ -6877,23 +6896,23 @@ define('pix-live/utils/value-as-array-of-boolean', ['exports', 'pix-live/utils/l
   });
   exports.default = valueAsArrayOfBoolean;
   function valueAsArrayOfBoolean(value) {
-    return _lodashCustom.default.chain(value // in the worst case : ',4, 2 , 2,1,  ,'
-    ).checkPoint(function (e) {
+    return _lodashCustom.default.chain(value) // in the worst case : ',4, 2 , 2,1,  ,'
+    .checkPoint(function (e) {
       return _lodashCustom.default.isString(e) ? e : '';
-    } // check if string
-    ).split(',' // now ['', '4', ' 2 ', ' 2', '1', '  ', '']
-    ).map(_lodashCustom.default.trim // now ['', '4', '2', '2', '1', '', '']
-    ).reject(_lodashCustom.default.isEmpty // now ['4', '2', '2', '1']
-    ).checkPoint(function (e) {
+    }) // check if string
+    .split(',') // now ['', '4', ' 2 ', ' 2', '1', '  ', '']
+    .map(_lodashCustom.default.trim) // now ['', '4', '2', '2', '1', '', '']
+    .reject(_lodashCustom.default.isEmpty) // now ['4', '2', '2', '1']
+    .checkPoint(function (e) {
       return _lodashCustom.default.every(e, _lodashCustom.default.isStrictlyPositiveInteger) ? e : [];
-    } // check if int >= 1
-    ).map(_lodashCustom.default.parseInt // now [4, 2, 2, 1]
-    ).sortBy // now [1, 2, 2, 4]
-    ().uniqBy // now [1, 2, 4]
-    ().map(function (e) {
+    }) // check if int >= 1
+    .map(_lodashCustom.default.parseInt) // now [4, 2, 2, 1]
+    .sortBy() // now [1, 2, 2, 4]
+    .uniqBy() // now [1, 2, 4]
+    .map(function (e) {
       return e - 1;
-    } // now [0, 1, 3]
-    ).thru(function (e) {
+    }) // now [0, 1, 3]
+    .thru(function (e) {
       return _lodashCustom.default.times(_lodashCustom.default.max(e) + 1, function (o) {
         return (0, _lodashCustom.default)(e).includes(o);
       });
@@ -6922,6 +6941,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+62b677ab"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+d2d3cc0f"});
 }
 //# sourceMappingURL=pix-live.map
