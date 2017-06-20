@@ -1787,8 +1787,6 @@ define('pix-live/components/result-item', ['exports', 'ember'], function (export
     }
   };
 
-  var timeOutAfterRender = 1000; // FIXME: This trigger the tooltip after rendering
-
   exports.default = _ember.default.Component.extend({
 
     classNames: ['result-item'],
@@ -1802,6 +1800,10 @@ define('pix-live/components/result-item', ['exports', 'ember'], function (export
       return contentReference[this.get('answer.result')] || contentReference['default'];
     }),
 
+    resultTooltip: _ember.default.computed('resultItem', function () {
+      return this.get('resultItem') ? this.get('resultItem').tooltip : null;
+    }),
+
     validationImplementedForChallengeType: _ember.default.computed('answer.challenge.type', function () {
       var implementedTypes = ['QCM', 'QROC', 'QCU', 'QROCM-ind'];
       var challengeType = this.get('answer.challenge.type');
@@ -1810,9 +1812,13 @@ define('pix-live/components/result-item', ['exports', 'ember'], function (export
 
     didRender: function didRender() {
       this._super.apply(this, arguments);
-      _ember.default.run.debounce(this, function () {
-        $('[data-toggle="tooltip"]').tooltip();
-      }, timeOutAfterRender);
+
+      var tooltipElement = this.$('[data-toggle="tooltip"]');
+      var tooltipValue = this.get('resultTooltip');
+
+      if (tooltipValue) {
+        tooltipElement.tooltip({ title: tooltipValue });
+      }
     },
 
 
@@ -6912,6 +6918,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+449239f5"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+e4eba395"});
 }
 //# sourceMappingURL=pix-live.map

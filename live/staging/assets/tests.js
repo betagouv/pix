@@ -5136,7 +5136,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         (0, _chai.expect)(this.$('.result-item__correction__button').text().trim()).to.deep.equal('RÉPONSE');
       });
 
-      (0, _mocha.it)('should render tooltip with title Réponse incorrecte', function () {
+      (0, _mocha.it)('should render tooltip for the answer', function () {
         // given
         this.set('answer', answer);
 
@@ -5148,7 +5148,38 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         }));
 
         // then
-        (0, _chai.expect)(this.$('div[data-toggle="tooltip"]').attr('title').trim()).to.equal('Réponse incorrecte');
+        (0, _chai.expect)(this.$('div[data-toggle="tooltip"]').attr('data-original-title').trim()).to.equal('Réponse incorrecte');
+      });
+
+      (0, _mocha.it)('should not render a tooltip when the answer is being retrieved', function () {
+        // given
+        this.set('answer', null);
+
+        // when
+        this.render(_ember.default.HTMLBars.template({
+          "id": "f8lT9MrH",
+          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('div[data-toggle="tooltip"]').attr('data-original-title')).to.equal(undefined);
+      });
+
+      (0, _mocha.it)('should update the tooltip when the answer is eventually retrieved', function () {
+        // given
+        this.set('answer', null);
+        this.render(_ember.default.HTMLBars.template({
+          "id": "f8lT9MrH",
+          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        this.set('answer', answer);
+
+        // then
+        (0, _chai.expect)(this.$('div[data-toggle="tooltip"]').attr('data-original-title').trim()).to.equal('Réponse incorrecte');
       });
 
       (0, _mocha.it)('should render tooltip with an image', function () {
@@ -6272,7 +6303,7 @@ define('pix-live/tests/test-helper', ['pix-live/tests/helpers/resolver', 'ember-
   'use strict';
 
   _mocha.mocha.setup({
-    timeout: 4000,
+    timeout: 1500,
     slow: 500
   });
 
