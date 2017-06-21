@@ -30,7 +30,7 @@ describe('Unit | Serializer | competence-serializer', function() {
         // Then
         expect(competences.id).to.be.equal(airtableCompetencesRecord.id);
         expect(competences.name).to.be.equal(airtableCompetencesRecord.fields['Nom']);
-        expect(competences.domaineId).to.be.equal(airtableCompetencesRecord.fields['Domaine']);
+        expect(competences.areaId).to.be.equal(airtableCompetencesRecord.fields['Domaine']);
         expect(competences.Epreuves).to.not.exist;
       });
 
