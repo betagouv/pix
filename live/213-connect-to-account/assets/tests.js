@@ -7,12 +7,12 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['mocha', 'chai', 'pix-
 
     var application = void 0;
 
-    (0, _mocha.before)(function () {
+    (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
       visit('/');
     });
 
-    (0, _mocha.after)(function () {
+    (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
@@ -506,7 +506,10 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
           }
         }
       }, _callee6, this);
-    })));
+    }))
+
+    // Then
+    );
   });
 });
 define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
@@ -688,12 +691,12 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix
 
     var application = void 0;
 
-    (0, _mocha.before)(function () {
+    (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
       visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
     });
 
-    (0, _mocha.after)(function () {
+    (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
@@ -866,12 +869,12 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
 
     var application = void 0;
 
-    (0, _mocha.before)(function () {
+    (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
       visit('/assessments/ref_assessment_id/results');
     });
 
-    (0, _mocha.after)(function () {
+    (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
@@ -950,26 +953,29 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
     click('.challenge-item-warning button');
   }
 
+  function progressBarText() {
+    var PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
+    return findWithAssert(PROGRESS_BAR_SELECTOR).text().trim();
+  }
+
   (0, _mocha.describe)('Acceptance | d1 - Valider une épreuve |', function () {
 
     var application = void 0;
-    var PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
-    (0, _mocha.before)(function () {
+
+    (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
       visitTimedChallenge();
     });
 
-    (0, _mocha.after)(function () {
+    (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
     (0, _mocha.it)('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', function () {
-      var $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
-      (0, _chai.expect)($progressBar.text().trim()).to.equal('1 / 5');
+      (0, _chai.expect)(progressBarText()).to.equal('1 / 5');
     });
 
     (0, _mocha.it)('d1.0b La barre de progression commence à 1, si j\'accède au challenge depuis depuis le lien Airtable', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-      var $progressBar;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -982,11 +988,9 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
               return click('.challenge-item-warning button');
 
             case 4:
-              $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
+              (0, _chai.expect)(progressBarText()).to.equal('1 / 5');
 
-              (0, _chai.expect)($progressBar.text().trim()).to.equal('1 / 5');
-
-            case 6:
+            case 5:
             case 'end':
               return _context.stop();
           }
@@ -999,8 +1003,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
     });
 
     (0, _mocha.describe)('quand je valide ma réponse à une épreuve', function () {
-
-      (0, _mocha.it)('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -1013,9 +1016,6 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
                 return click('.challenge-actions__action-validate');
 
               case 4:
-                (0, _chai.expect)(currentURL()).to.contain('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
-
-              case 5:
               case 'end':
                 return _context2.stop();
             }
@@ -1023,25 +1023,50 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
         }, _callee2, this);
       })));
 
-      (0, _mocha.it)('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', function () {
-        var expectedText = '2';
-        (0, _chai.expect)(findWithAssert('.pix-progress-bar').text()).to.contain(expectedText);
-      });
-
-      (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      (0, _mocha.it)('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
+                (0, _chai.expect)(currentURL()).to.contain('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+
+              case 1:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      })));
+
+      (0, _mocha.it)('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                (0, _chai.expect)(progressBarText()).to.equal('2 / 5');
+
+              case 1:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      })));
+
+      (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
                 return visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
 
               case 2:
-                _context3.next = 4;
+                _context5.next = 4;
                 return click('.challenge-response__proposal-input');
 
               case 4:
-                _context3.next = 6;
+                _context5.next = 6;
                 return click('.challenge-actions__action-validate');
 
               case 6:
@@ -1049,10 +1074,10 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
 
               case 7:
               case 'end':
-                return _context3.stop();
+                return _context5.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee5, this);
       })));
     });
   });
@@ -1093,17 +1118,17 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'cha
 
     var application = void 0;
 
-    (0, _mocha.before)(function () {
+    (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
     });
 
-    (0, _mocha.after)(function () {
+    (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
     (0, _mocha.describe)('Prévisualiser la première page d\'un test |', function () {
 
-      (0, _mocha.before)(function () {
+      (0, _mocha.beforeEach)(function () {
         visit('/courses/ref_course_id/preview');
       });
 
@@ -1115,7 +1140,7 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'cha
 
       (0, _mocha.describe)('On affiche', function () {
 
-        (0, _mocha.before)(function () {
+        (0, _mocha.beforeEach)(function () {
           $preview = findWithAssert('#course-preview');
         });
 
@@ -1139,9 +1164,25 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'cha
 
     (0, _mocha.describe)('Prévisualiser une épreuve dans le cadre d\'un test |', function () {
 
-      (0, _mocha.before)(function () {
-        visit('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
-      });
+      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return visit('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
+
+              case 2:
+                _context.next = 4;
+                return click('.challenge-item-warning button');
+
+              case 4:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      })));
 
       (0, _mocha.it)('f1.5 L\'accès à la preview d\'une épreuve d\'un test se fait en accédant à l\'URL /courses/:course_id/preview/challenges/:challenge_id', function () {
         (0, _chai.expect)(currentURL()).to.equal('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
@@ -1149,37 +1190,12 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'cha
 
       (0, _mocha.describe)('On affiche', function () {
 
-        var $challenge = void 0;
-
-        (0, _mocha.before)(function () {
-          $challenge = findWithAssert('.challenge-preview');
+        (0, _mocha.it)('f1.6 la consigne de l\'épreuve', function () {
+          (0, _chai.expect)(findWithAssert('.challenge-preview .challenge-statement__instruction').html()).to.contain('Un QCM propose plusieurs choix');
         });
 
-        (0, _mocha.it)('f1.6 la consigne de l\'épreuve', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-          return regeneratorRuntime.wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  _context.next = 2;
-                  return visit('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
-
-                case 2:
-                  _context.next = 4;
-                  return click('.challenge-item-warning button');
-
-                case 4:
-                  (0, _chai.expect)($challenge.find('.challenge-statement__instruction').html()).to.contain('Un QCM propose plusieurs choix');
-
-                case 5:
-                case 'end':
-                  return _context.stop();
-              }
-            }
-          }, _callee, this);
-        })));
-
         (0, _mocha.it)('f1.7 un bouton pour accéder à l\'épreuve suivante', function () {
-          (0, _chai.expect)(findWithAssert('.challenge-actions__action-validate').text()).to.contain('Je valide');
+          (0, _chai.expect)(findWithAssert('.challenge-preview .challenge-actions__action-validate').text()).to.contain('Je valide');
         });
       });
     });
@@ -1275,11 +1291,11 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['mocha', 'chai', 'pix
 
     var application = void 0;
 
-    (0, _mocha.before)(function () {
+    (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
     });
 
-    (0, _mocha.after)(function () {
+    (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
@@ -1512,11 +1528,11 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
 
     var application = void 0;
 
-    before(function () {
+    (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
     });
 
-    after(function () {
+    (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
@@ -1546,53 +1562,55 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
     });
 
     (0, _mocha.describe)('j1.2 Accès à la modale', function () {
-      (0, _mocha.it)('j1.2.2 On peut accèder directement à la modale via URL et fermer la modale', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+
+      (0, _mocha.it)('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return visit(COMPARISON_MODAL_URL);
-
-              case 2:
-                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
-                // XXX test env needs the modal to be closed manually
-                _context2.next = 5;
-                return click('.close-button-container');
-
-              case 5:
-                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
-
-              case 6:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      })));
-      (0, _mocha.it)('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
                 return visit(RESULT_URL);
 
               case 2:
                 (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
-                _context3.next = 5;
+                _context2.next = 5;
                 return click('.result-item__correction__button');
 
               case 5:
                 (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
                 // XXX test env needs the modal to be closed manually
-                _context3.next = 8;
+                _context2.next = 8;
                 return click('.close-button-container');
 
               case 8:
                 (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
 
               case 9:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      })));
+
+      (0, _mocha.it)('j1.2.2 On peut accèder directement à la modale via URL et fermer la modale', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return visit(COMPARISON_MODAL_URL);
+
+              case 2:
+                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
+                // XXX test env needs the modal to be closed manually
+                _context3.next = 5;
+                return click('.close-button-container');
+
+              case 5:
+                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+
+              case 6:
               case 'end':
                 return _context3.stop();
             }
@@ -1717,28 +1735,25 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
 
     var application = void 0;
 
-    before(function () {
+    (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
     });
 
-    after(function () {
+    (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
     (0, _mocha.describe)('j2.1 Depuis la page résultat', function () {
 
-      before(function () {
-        visit(RESULT_URL);
-      });
-
-      (0, _mocha.it)('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                (0, _chai.expect)($('.result-item .js-correct-answer').text()).to.contain('RÉPONSE');
+                _context.next = 2;
+                return visit(RESULT_URL);
 
-              case 1:
+              case 2:
               case 'end':
                 return _context.stop();
             }
@@ -1746,10 +1761,25 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee, this);
       })));
 
-      (0, _mocha.it)('On n\'affiche pas encore la modale, ni son contenu', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
+              case 0:
+                (0, _chai.expect)($('.result-item .js-correct-answer').text()).to.contain('RÉPONSE');
+
+              case 1:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      })));
+
+      (0, _mocha.it)('On n\'affiche pas encore la modale, ni son contenu', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
                 (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
@@ -1757,42 +1787,24 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
 
               case 3:
               case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      })));
-    });
-
-    (0, _mocha.describe)('j2.2 Contenu de la modale de correction pour un QROC', function () {
-
-      before(function () {
-        visit(COMPARISON_MODAL_URL);
-      });
-
-      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
-
-              case 1:
-              case 'end':
                 return _context3.stop();
             }
           }
         }, _callee3, this);
       })));
+    });
 
-      (0, _mocha.it)('contient un header', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+    (0, _mocha.describe)('j2.2 Contenu de la modale de correction pour un QROC', function () {
+
+      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
+                _context4.next = 2;
+                return visit(COMPARISON_MODAL_URL);
 
-              case 1:
+              case 2:
               case 'end':
                 return _context4.stop();
             }
@@ -1800,12 +1812,12 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee4, this);
       })));
 
-      (0, _mocha.it)('contient une instruction', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
+                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
 
               case 1:
               case 'end':
@@ -1815,12 +1827,12 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee5, this);
       })));
 
-      (0, _mocha.it)('contient une zone de correction', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+      (0, _mocha.it)('contient un header', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                (0, _chai.expect)($(CORRECTION_BOX_QROC)).to.have.lengthOf(1);
+                (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
 
               case 1:
               case 'end':
@@ -1830,12 +1842,12 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee6, this);
       })));
 
-      (0, _mocha.it)('contient une zone reservé au feedback panel', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+      (0, _mocha.it)('contient une instruction', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                (0, _chai.expect)($(FEEDBACK_PANEL)).to.have.lengthOf(1);
+                (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
 
               case 1:
               case 'end':
@@ -1845,12 +1857,42 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee7, this);
       })));
 
-      (0, _mocha.it)('on peut fermer la modale', _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
+      (0, _mocha.it)('contient une zone de correction', _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
         return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                _context8.next = 2;
+                (0, _chai.expect)($(CORRECTION_BOX_QROC)).to.have.lengthOf(1);
+
+              case 1:
+              case 'end':
+                return _context8.stop();
+            }
+          }
+        }, _callee8, this);
+      })));
+
+      (0, _mocha.it)('contient une zone reservé au feedback panel', _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                (0, _chai.expect)($(FEEDBACK_PANEL)).to.have.lengthOf(1);
+
+              case 1:
+              case 'end':
+                return _context9.stop();
+            }
+          }
+        }, _callee9, this);
+      })));
+
+      (0, _mocha.it)('on peut fermer la modale', _asyncToGenerator(regeneratorRuntime.mark(function _callee10() {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                _context10.next = 2;
                 return click('.close-button-container');
 
               case 2:
@@ -1858,10 +1900,10 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
 
               case 3:
               case 'end':
-                return _context8.stop();
+                return _context10.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee10, this);
       })));
     });
   });
@@ -1873,15 +1915,12 @@ define('pix-live/tests/acceptance/k1-competences-page-test', ['mocha', 'chai', '
 
     var application = void 0;
 
-    (0, _mocha.before)(function () {
-      // given
+    (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
-
-      // when
       visit('/competences');
     });
 
-    (0, _mocha.after)(function () {
+    (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
@@ -1965,11 +2004,11 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     (0, _mocha.describe)('l1.1 Depuis une epreuve', function () {
       var _this = this;
 
-      (0, _mocha.before)(function () {
+      (0, _mocha.beforeEach)(function () {
         application = (0, _startApp.default)();
       });
 
-      (0, _mocha.after)(function () {
+      (0, _mocha.afterEach)(function () {
         (0, _destroyApp.default)(application);
       });
 
@@ -2058,11 +2097,11 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     (0, _mocha.describe)('l1.2 Depuis la fenêtre de comparaison', function () {
       var _this2 = this;
 
-      (0, _mocha.before)(function () {
+      before(function () {
         application = (0, _startApp.default)();
       });
 
-      (0, _mocha.after)(function () {
+      after(function () {
         (0, _destroyApp.default)(application);
       });
 
@@ -2277,6 +2316,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/g-recaptcha.js', function () {
+      // test passed
+    });
+
     it('components/medal-item.js', function () {
       // test passed
     });
@@ -2445,6 +2488,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('routes/application.js', function () {
+      // test passed
+    });
+
     it('routes/assessments/get-challenge.js', function () {
       // test passed
     });
@@ -2530,6 +2577,14 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('services/delay.js', function () {
+      // test passed
+    });
+
+    it('services/google-recaptcha.js', function () {
+      // test passed
+    });
+
+    it('services/splash.js', function () {
       // test passed
     });
 
@@ -4126,6 +4181,58 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
     });
   });
 });
+define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'rsvp'], function (_chai, _mocha, _emberMocha, _ember, _rsvp) {
+  'use strict';
+
+  var StubGoogleRecaptchaService = _ember.default.Service.extend({
+    loadScript: function loadScript() {
+      return _rsvp.default.resolve();
+    },
+    render: function render(containerId /* , callback, expiredCallback  */) {
+      this.set('calledWithContainerId', containerId);
+      // We create a div here to simulate our Google recaptcha service,
+      // which will create and then cache the recaptcha element
+      var container = document.getElementById(containerId);
+      var recaptchaElement = document.createElement('div');
+      return container.appendChild(recaptchaElement);
+    },
+    reset: function reset() {}
+  });
+
+  (0, _mocha.describe)('Integration | Component | g recaptcha', function () {
+
+    (0, _emberMocha.setupComponentTest)('g-recaptcha', {
+      integration: true
+    });
+
+    beforeEach(function () {
+      this.register('service:google-recaptcha', StubGoogleRecaptchaService);
+      this.inject.service('google-recaptcha', { as: 'googleRecaptchaService' });
+    });
+
+    (0, _mocha.it)('renders', function () {
+      this.render(_ember.default.HTMLBars.template({
+        "id": "BuJ6Tpul",
+        "block": "{\"statements\":[[1,[26,[\"g-recaptcha\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    // XXX Inspired of https://guides.emberjs.com/v2.13.0/tutorial/service/#toc_integration-testing-the-map-component
+    (0, _mocha.it)('should append recaptcha element to container element', function () {
+      // when
+      this.render(_ember.default.HTMLBars.template({
+        "id": "BuJ6Tpul",
+        "block": "{\"statements\":[[1,[26,[\"g-recaptcha\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+      // then
+      (0, _chai.expect)(this.$('#g-recaptcha-container').children()).to.have.lengthOf(1);
+      (0, _chai.expect)(this.get('googleRecaptchaService.calledWithContainerId')).to.equal('g-recaptcha-container');
+    });
+  });
+});
 define('pix-live/tests/integration/components/medal-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -5251,7 +5358,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         (0, _chai.expect)(this.$('.result-item__correction__button').text().trim()).to.deep.equal('RÉPONSE');
       });
 
-      (0, _mocha.it)('should render tooltip with title Réponse incorrecte', function () {
+      (0, _mocha.it)('should render tooltip for the answer', function () {
         // given
         this.set('answer', answer);
 
@@ -5263,7 +5370,38 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         }));
 
         // then
-        (0, _chai.expect)(this.$('div[data-toggle="tooltip"]').attr('title').trim()).to.equal('Réponse incorrecte');
+        (0, _chai.expect)(this.$('div[data-toggle="tooltip"]').attr('data-original-title').trim()).to.equal('Réponse incorrecte');
+      });
+
+      (0, _mocha.it)('should not render a tooltip when the answer is being retrieved', function () {
+        // given
+        this.set('answer', null);
+
+        // when
+        this.render(_ember.default.HTMLBars.template({
+          "id": "f8lT9MrH",
+          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('div[data-toggle="tooltip"]').attr('data-original-title')).to.equal(undefined);
+      });
+
+      (0, _mocha.it)('should update the tooltip when the answer is eventually retrieved', function () {
+        // given
+        this.set('answer', null);
+        this.render(_ember.default.HTMLBars.template({
+          "id": "f8lT9MrH",
+          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        this.set('answer', answer);
+
+        // then
+        (0, _chai.expect)(this.$('div[data-toggle="tooltip"]').attr('data-original-title').trim()).to.equal('Réponse incorrecte');
       });
 
       (0, _mocha.it)('should render tooltip with an image', function () {
@@ -5659,8 +5797,6 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var FORM_HEADING_CONTAINER = '.signup-form__heading-container';
   var FORM_HEADING = '.signup-form__heading';
   var EXPECTED_FORM_HEADING_CONTENT = 'Inscription gratuite';
-  var EXPECTED_FORM_HEADING_CONTENT_ERROR = 'Oups! Une erreur s\'est produite...';
-  var EXPECTED_FORM_HEADING_CONTENT_SUCCESS = 'Le compte a été bien créé!';
 
   var INPUT_TEXT_FIELD = '.signup-form__input-container';
   var INPUT_TEXT_FIELD_CLASS_DEFAULT = 'signup-textfield__input-container--default';
@@ -5689,13 +5825,15 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var ICON_SUCCESS_CLASS = 'signup-textfield__icon--success';
 
   var userEmpty = _ember.default.Object.create({});
+  var CAPTCHA_CONTAINER = '.signup-form__captcha-container';
 
   (0, _mocha.describe)('Integration | Component | signup form', function () {
+
     (0, _emberMocha.setupComponentTest)('signup-form', {
       integration: true
     });
 
-    (0, _mocha.describe)('Component Rendering', function () {
+    (0, _mocha.describe)('Rendering', function () {
 
       beforeEach(function () {
         this.set('user', userEmpty);
@@ -5714,7 +5852,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
         (0, _chai.expect)(this.$(FORM_HEADING).text()).to.equal(EXPECTED_FORM_HEADING_CONTENT);
       });
 
-      [{ expectedRendering: 'form container', input: FORM_CONTAINER, expected: 1 }, { expectedRendering: 'div to wrap heading of form', input: FORM_HEADING_CONTAINER, expected: 1 }, { expectedRendering: 'form title (h1)', input: FORM_HEADING, expected: 1 }, { expectedRendering: '4 input fields in form', input: INPUT_TEXT_FIELD, expected: 4 }, { expectedRendering: 'cgu container', input: CHECKBOX_CGU_CONTAINER, expected: 1 }, { expectedRendering: 'cgu checkbox', input: CHECKBOX_CGU_INPUT, expected: 1 }, { expectedRendering: 'cgu label', input: CHECKBOX_CGU_LABEL, expected: 1 }, { expectedRendering: 'submit button', input: SUBMIT_BUTTON_CONTAINER, expected: 1 }].forEach(function (_ref2) {
+      [{ expectedRendering: 'form container', input: FORM_CONTAINER, expected: 1 }, { expectedRendering: 'div to wrap heading of form', input: FORM_HEADING_CONTAINER, expected: 1 }, { expectedRendering: 'form title (h1)', input: FORM_HEADING, expected: 1 }, { expectedRendering: '4 input fields in form', input: INPUT_TEXT_FIELD, expected: 4 }, { expectedRendering: 'cgu container', input: CHECKBOX_CGU_CONTAINER, expected: 1 }, { expectedRendering: 'cgu checkbox', input: CHECKBOX_CGU_INPUT, expected: 1 }, { expectedRendering: 'cgu label', input: CHECKBOX_CGU_LABEL, expected: 1 }, { expectedRendering: 'a captcha', input: CAPTCHA_CONTAINER, expected: 1 }, { expectedRendering: 'submit button', input: SUBMIT_BUTTON_CONTAINER, expected: 1 }].forEach(function (_ref2) {
         var expectedRendering = _ref2.expectedRendering,
             input = _ref2.input,
             expected = _ref2.expected;
@@ -5753,7 +5891,11 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
       });
     });
 
-    (0, _mocha.describe)('Component Behavior', function () {
+    (0, _mocha.describe)('Behaviors', function () {
+
+      beforeEach(function () {
+        this.register('component:g-recaptcha', _ember.default.Component.extend());
+      });
 
       (0, _mocha.it)('should return true if action <Signup> is handled', function () {
         // given
@@ -5893,7 +6035,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           });
         });
 
-        (0, _mocha.it)('should display an error message on cgu field, when cgu isn\'t accepted and form is submited', function () {
+        (0, _mocha.it)('should display an error message on cgu field, when cgu isn\'t accepted and form is submitted', function () {
           var _this5 = this;
 
           // given
@@ -5929,16 +6071,14 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           });
         });
 
-        (0, _mocha.it)('should display an error message on form title, when an error occured and form is submited', function () {
+        (0, _mocha.it)('should not display success notification message when an error occurred during the form submission', function () {
           var _this6 = this;
 
-          // given
-          var userWithCguNotAccepted = _ember.default.Object.create({
-            cgu: false,
+          var userThatThrowAnErrorDuringSaving = _ember.default.Object.create({
             errors: {
               content: [{
-                attribute: 'cgu',
-                message: UNCHECKED_CHECKBOX_CGU_ERROR
+                attribute: 'email',
+                message: 'An error concerning the email thrown by the API'
               }]
             },
             save: function save() {
@@ -5946,7 +6086,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             }
           });
 
-          this.set('user', userWithCguNotAccepted);
+          this.set('user', userThatThrowAnErrorDuringSaving);
           this.render(_ember.default.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
@@ -5957,15 +6097,52 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           this.$('.signup__submit-button').click();
           // then
           return (0, _wait.default)().then(function () {
-            var headingErrorMessageContent = _this6.$('.signup-form__temporary-msg h4').text();
-            (0, _chai.expect)(headingErrorMessageContent.trim()).to.equal(EXPECTED_FORM_HEADING_CONTENT_ERROR);
+            (0, _chai.expect)(_this6.$('.signup-form__notification-message')).to.have.lengthOf(0);
+          });
+        });
+
+        (0, _mocha.it)('should display an error message on form title, when user has not checked re-captcha', function () {
+          var _this7 = this;
+
+          // given
+          var UNCHECKED_CHECKBOX_RECAPTCHA_ERROR = 'Veuillez cocher le recaptcha.';
+          var userWithCaptchaNotValid = _ember.default.Object.create({
+            cgu: true,
+            recaptchaToken: null,
+            errors: {
+              content: [{
+                attribute: 'recaptchaToken',
+                message: UNCHECKED_CHECKBOX_RECAPTCHA_ERROR
+              }],
+              recaptchaToken: [{
+                message: UNCHECKED_CHECKBOX_RECAPTCHA_ERROR
+              }]
+            },
+            save: function save() {
+              return new _ember.default.RSVP.reject();
+            }
+          });
+
+          this.set('user', userWithCaptchaNotValid);
+          this.render(_ember.default.HTMLBars.template({
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // when
+          this.$('.signup__submit-button').click();
+          // then
+          return (0, _wait.default)().then(function () {
+            (0, _chai.expect)(_this7.$('.signup-field__recaptcha-message--error')).to.have.lengthOf(1);
           });
         });
       });
 
       (0, _mocha.describe)('Successfull cases', function () {
+
         (0, _mocha.it)('should display first name field as validated without error message, when field is filled and focus-out', function () {
-          var _this7 = this;
+          var _this8 = this;
 
           // given
           this.set('user', userEmpty);
@@ -5981,9 +6158,9 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // then
           return (0, _wait.default)().then(function () {
-            var divSiblingClass = _this7.$('#firstName').parent().prev().attr('class');
-            var divSiblingContent = _this7.$('#firstName').parent().prev('div').text();
-            var iconSiblingClass = _this7.$('#firstName').next('img').attr('class');
+            var divSiblingClass = _this8.$('#firstName').parent().prev().attr('class');
+            var divSiblingContent = _this8.$('#firstName').parent().prev('div').text();
+            var iconSiblingClass = _this8.$('#firstName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
             (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
@@ -5991,7 +6168,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
         });
 
         (0, _mocha.it)('should display last name field as validated without error message, when field is filled and focus-out', function () {
-          var _this8 = this;
+          var _this9 = this;
 
           // given
           this.set('user', userEmpty);
@@ -6007,9 +6184,9 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // then
           return (0, _wait.default)().then(function () {
-            var divSiblingClass = _this8.$('#lastName').parent().prev().attr('class');
-            var divSiblingContent = _this8.$('#lastName').parent().prev('div').text();
-            var iconSiblingClass = _this8.$('#lastName').next('img').attr('class');
+            var divSiblingClass = _this9.$('#lastName').parent().prev().attr('class');
+            var divSiblingContent = _this9.$('#lastName').parent().prev('div').text();
+            var iconSiblingClass = _this9.$('#lastName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
             (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
@@ -6017,7 +6194,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
         });
 
         (0, _mocha.it)('should display email field as validated without error message, when field is filled and focus-out', function () {
-          var _this9 = this;
+          var _this10 = this;
 
           // given
           this.set('user', userEmpty);
@@ -6033,9 +6210,9 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // then
           return (0, _wait.default)().then(function () {
-            var divSiblingClass = _this9.$('#email').parent().prev().attr('class');
-            var divSiblingContent = _this9.$('#email').parent().prev('div').text();
-            var iconSiblingClass = _this9.$('#email').next('img').attr('class');
+            var divSiblingClass = _this10.$('#email').parent().prev().attr('class');
+            var divSiblingContent = _this10.$('#email').parent().prev('div').text();
+            var iconSiblingClass = _this10.$('#email').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
             (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
@@ -6043,7 +6220,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
         });
 
         (0, _mocha.it)('should display password field as validated without error message, when field is filled and focus-out', function () {
-          var _this10 = this;
+          var _this11 = this;
 
           // given
           this.set('user', userEmpty);
@@ -6059,17 +6236,17 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // then
           return (0, _wait.default)().then(function () {
-            var divSiblingClass = _this10.$('#password').parent().prev().attr('class');
-            var divSiblingContent = _this10.$('#password').parent().prev('div').text();
-            var iconSiblingClass = _this10.$('#password').next('img').attr('class');
+            var divSiblingClass = _this11.$('#password').parent().prev().attr('class');
+            var divSiblingContent = _this11.$('#password').parent().prev('div').text();
+            var iconSiblingClass = _this11.$('#password').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
             (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
           });
         });
 
-        (0, _mocha.it)('should not display an error message on cgu field, when cgu is accepted and form is submited', function () {
-          var _this11 = this;
+        (0, _mocha.it)('should not display an error message on cgu field, when cgu is accepted and form is submitted', function () {
+          var _this12 = this;
 
           // given
           var userWithCguAccepted = _ember.default.Object.create({
@@ -6091,44 +6268,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           this.$('.signup__submit-button').click();
           // then
           return (0, _wait.default)().then(function () {
-            var cguErrorMessageContent = _this11.$(CHECKBOX_CGU_INPUT).parent().siblings('div').text();
+            var cguErrorMessageContent = _this12.$(CHECKBOX_CGU_INPUT).parent().siblings('div').text();
             (0, _chai.expect)(cguErrorMessageContent).to.equal('');
           });
         });
 
         (0, _mocha.it)('should display an success message on form title, when all things are ok and form is submited', function () {
-          var _this12 = this;
-
-          // given
-          var validUser = _ember.default.Object.create({
-            email: 'toto@pix.fr',
-            firstName: 'Marion',
-            lastName: 'Yade',
-            password: 'gipix2017',
-            cgu: true,
-
-            save: function save() {
-              return new _ember.default.RSVP.resolve();
-            }
-          });
-
-          this.set('user', validUser);
-          this.render(_ember.default.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-            "meta": {}
-          }));
-
-          // when
-          this.$('.signup__submit-button').click();
-          // then
-          return (0, _wait.default)().then(function () {
-            var headingErrorMessageContent = _this12.$('.signup-form__temporary-msg h4').text();
-            (0, _chai.expect)(headingErrorMessageContent.trim()).to.equal(EXPECTED_FORM_HEADING_CONTENT_SUCCESS);
-          });
-        });
-
-        (0, _mocha.it)('should reset validation property, when all things are ok and form is submited', function () {
           var _this13 = this;
 
           // given
@@ -6153,11 +6298,74 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // when
           this.$('.signup__submit-button').click();
+          // then
+          return (0, _wait.default)().then(function () {
+            var $notificationMessage = _this13.$('.signup-form__notification-message').text();
+            (0, _chai.expect)($notificationMessage.trim()).to.equal('Votre compte a bien été créé !');
+          });
+        });
+
+        (0, _mocha.it)('should reset validation property, when all things are ok and form is submitted', function () {
+          var _this14 = this;
+
+          // given
+          var validUser = _ember.default.Object.create({
+            email: 'toto@pix.fr',
+            firstName: 'Marion',
+            lastName: 'Yade',
+            password: 'gipix2017',
+            cgu: true,
+
+            save: function save() {
+              return new _ember.default.RSVP.resolve();
+            }
+          });
+
+          this.set('user', validUser);
+          this.render(_ember.default.HTMLBars.template({
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // when
+          this.$('.signup__submit-button').click();
 
           // then
           return (0, _wait.default)().then(function () {
-            var inputFirst = _this13.$('.signup-textfield__input-field-container').first();
+            var inputFirst = _this14.$('.signup-textfield__input-field-container').first();
             (0, _chai.expect)(inputFirst.prop('class')).to.includes(INPUT_TEXT_FIELD_CLASS_DEFAULT);
+          });
+        });
+      });
+
+      (0, _mocha.describe)('Accessibility', function () {
+
+        (0, _mocha.it)('should render an accessible notification message when the account was successfully created', function () {
+          var _this15 = this;
+
+          // given
+          var user = _ember.default.Object.create({
+            save: function save() {
+              return _ember.default.RSVP.resolve();
+            }
+          });
+
+          this.set('user', user);
+          this.render(_ember.default.HTMLBars.template({
+            "id": "IuLTjz0W",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // when
+          $(SUBMIT_BUTTON).click();
+
+          // then
+          return (0, _wait.default)().then(function () {
+
+            var $notificationMessage = _this15.$('.signup-form__notification-message');
+            (0, _chai.expect)($notificationMessage.attr('aria-live')).to.equal('polite');
           });
         });
       });
@@ -6464,7 +6672,7 @@ define('pix-live/tests/test-helper', ['pix-live/tests/helpers/resolver', 'ember-
   'use strict';
 
   _mocha.mocha.setup({
-    timeout: 2000,
+    timeout: 1500,
     slow: 500
   });
 
@@ -6615,6 +6823,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/g-recaptcha-test.js', function () {
+      // test passed
+    });
+
     it('integration/components/medal-item-test.js', function () {
       // test passed
     });
@@ -6731,6 +6943,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/components/g-recaptcha-test.js', function () {
+      // test passed
+    });
+
     it('unit/components/qcu-proposals-test.js', function () {
       // test passed
     });
@@ -6811,6 +7027,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/routes/application-test.js', function () {
+      // test passed
+    });
+
     it('unit/routes/assessments/get-challenge-test.js', function () {
       // test passed
     });
@@ -6872,6 +7092,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/services/delay-test.js', function () {
+      // test passed
+    });
+
+    it('unit/services/splash-test.js', function () {
       // test passed
     });
 
@@ -7600,6 +7824,98 @@ define('pix-live/tests/unit/components/follower-form-test', ['ember', 'chai', 'm
             (0, _chai.expect)(component.get(attribute)).to.equal(expected);
           });
         });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'ember-mocha', 'rsvp', 'ember'], function (_mocha, _chai, _emberMocha, _rsvp, _ember) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | g-recaptcha', function () {
+
+    var serviceResetCalled = false;
+
+    (0, _emberMocha.setupTest)('component:g-recaptcha', {});
+
+    beforeEach(function () {
+
+      serviceResetCalled = false;
+
+      this.register('service:googleRecaptcha', _ember.default.Service.extend({
+        loadScript: function loadScript() {
+          return _rsvp.default.resolve();
+        },
+        render: function render() {
+          return true;
+        },
+        reset: function reset() {
+          serviceResetCalled = true;
+        }
+      }));
+      this.inject.service('googleRecaptcha', { as: 'googleRecaptcha' });
+    });
+
+    (0, _mocha.describe)('#didUpdateAttrs', function () {
+
+      (0, _mocha.it)('should reset the recaptcha if the token has been used', function () {
+        // given
+        var component = this.subject({});
+        component.set('recaptchaToken', null);
+        component.set('tokenHasBeenUsed', true);
+
+        // when
+        component.didUpdateAttrs();
+
+        // then
+        (0, _chai.expect)(serviceResetCalled).to.be.true;
+      });
+
+      (0, _mocha.it)('should not reset the recaptcha if the token has not been used', function () {
+        // given
+        var component = this.subject({});
+        component.set('recaptchaToken', null);
+        component.set('tokenHasBeenUsed', false);
+
+        // when
+        component.didUpdateAttrs();
+
+        // then verify reset has not been called
+        (0, _chai.expect)(serviceResetCalled).to.be.false;
+      });
+    });
+
+    (0, _mocha.describe)('#validateCallback', function () {
+
+      (0, _mocha.it)('should set the recaptchaToken to the GoogleRecaptchaToken and indicate that he has not been used', function () {
+        // given
+        var component = this.subject({});
+        component.set('recaptchaToken', null);
+        component.set('tokenHasBeenUsed', true);
+        var googleRecaptchaResponse = 'la reponse de recaptcha';
+
+        // when
+        component.validateCallback(googleRecaptchaResponse);
+
+        // then
+        (0, _chai.expect)(component.get('recaptchaToken')).to.be.equal(googleRecaptchaResponse);
+        (0, _chai.expect)(component.get('tokenHasBeenUsed')).to.be.false;
+      });
+    });
+
+    (0, _mocha.describe)('#expiredCallback', function () {
+
+      (0, _mocha.it)('should set the recaptchaToken to null and indicate that he has not been used', function () {
+        // given
+        var component = this.subject();
+        component.set('recaptchaToken', 'un token');
+        component.set('tokenHasBeenUsed', true);
+
+        // when
+        component.expiredCallback();
+
+        // then
+        (0, _chai.expect)(component.get('recaptchaToken')).to.be.null;
+        (0, _chai.expect)(component.get('tokenHasBeenUsed')).to.be.false;
       });
     });
   });
@@ -8836,6 +9152,34 @@ define('pix-live/tests/unit/models/user-test', ['chai', 'mocha', 'ember-mocha'],
     });
   });
 });
+define('pix-live/tests/unit/routes/application-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+  'use strict';
+
+  var SplashServiceStub = _ember.default.Object.extend({
+    hideCount: 0,
+    hide: function hide() {
+      this.hideCount++;
+    }
+  });
+
+  (0, _mocha.describe)('Unit | Route | application splash', function () {
+    (0, _emberMocha.setupTest)('route:application', {
+      needs: ['service:splash', 'service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('initializes correctly', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.it)('hides the splash when the route is activated', function () {
+      var splashStub = SplashServiceStub.create();
+      var route = this.subject({ splash: splashStub });
+      route.activate();
+      (0, _chai.expect)(splashStub.hideCount).to.equal(1);
+    });
+  });
+});
 define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -9140,7 +9484,6 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | inscription', function () {
-
     (0, _emberMocha.setupTest)('route:inscription', {
       needs: ['service:current-routed-modal']
     });
@@ -9303,6 +9646,61 @@ define('pix-live/tests/unit/services/delay-test', ['chai', 'mocha', 'ember-mocha
       (0, _chai.expect)(delay).to.respondsTo('ms');
       var promise = delay.ms(0);
       (0, _chai.expect)(promise).to.respondsTo('then');
+    });
+  });
+});
+define('pix-live/tests/unit/services/splash-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  function createSplash() {
+    var splash = document.createElement('div');
+    splash.setAttribute('id', 'app-splash');
+    document.body.appendChild(splash);
+  }
+
+  function removeSplash() {
+    var splash = document.getElementById('app-splash');
+    if (splash) {
+      splash.parentNode.removeChild(splash);
+    }
+  }
+
+  function hasSplash() {
+    return document.getElementById('app-splash') != null;
+  }
+
+  (0, _mocha.describe)('Unit | Service | splash', function () {
+    (0, _emberMocha.setupTest)('service:splash');
+
+    (0, _mocha.describe)('#hide', function () {
+      context('when a splash is present in the DOM', function () {
+        (0, _mocha.it)('removes the splash from the DOM', function () {
+          // Given
+          var splash = this.subject();
+          createSplash();
+          (0, _chai.expect)(hasSplash()).to.be.true;
+          // When
+          splash.hide();
+          // Then
+          (0, _chai.expect)(hasSplash()).to.be.false;
+        });
+      });
+
+      context('when there is no splash', function () {
+        (0, _mocha.it)('does nothing', function () {
+          // Given
+          var splash = this.subject();
+          (0, _chai.expect)(hasSplash()).to.be.false;
+          // When
+          splash.hide();
+          // Then
+          (0, _chai.expect)(hasSplash()).to.be.false;
+        });
+      });
+
+      afterEach(function () {
+        removeSplash();
+      });
     });
   });
 });
