@@ -5,27 +5,21 @@ const cache = require('../../../../lib/infrastructure/cache');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const competenceSerializer = require('../../../../lib/infrastructure/serializers/airtable/competence-serializer');
 
-describe('Unit | Repository | competence-repository', function() {
+describe.only('Unit | Repository | competence-repository', function() {
 
   let getRecordsStub;
   const cacheKey = 'competence-repository_list';
-  const competences = {
-    id: 'recsvLDFHShyfDXXXXX',
-    fields: [
-      {
-        'Nom': '1.1 Mener une recherche d’information',
-        'Domaine': [
-          'recvoGdo0z0z0pXWZ-Domaine1'
-        ]
-      },
-      {
-        'Nom': '1.2 publier du contenu',
-        'Domaine': [
-          'recvoGdo0z0z0pXWZ-Domaine2'
-        ]
-      }
-    ]
-  };
+  const competenceRecords = [
+    {
+      id: 'recsvLDFHShyfDXXXXX',
+      name: '1.1 Mener une recherche d’information',
+      areaId: 'recvoGdo0z0z0pXWZ'
+    },
+    {
+      id: 'recsvLDFHShyfDXXXXX',
+      name: '1.1 Mener une recherche d’information',
+      areaId: 'recvoGdo0z0z0pXWZ'
+    }];
 
   beforeEach(function() {
     cache.flushAll();
@@ -58,7 +52,7 @@ describe('Unit | Repository | competence-repository', function() {
     describe('When record has not been cached', () => {
 
       beforeEach(() => {
-        getRecordsStub.resolves(competences);
+        getRecordsStub.resolves(competenceRecords);
       });
 
       it('should fetch Competences from Airtable', () => {
@@ -66,7 +60,7 @@ describe('Unit | Repository | competence-repository', function() {
         const competencesPromise = competenceRepository.list();
         // Then
         return competencesPromise.then((competencesFetched) => {
-          expect(competencesFetched).to.be.equal(competences);
+          expect(competencesFetched).to.be.equal(competenceRecords);
         });
       });
 
@@ -88,14 +82,14 @@ describe('Unit | Repository | competence-repository', function() {
       it('should retrieve records directly from cache', () => {
         // Given
         const cacheStub = sinon.stub(cache, 'get');
-        cacheStub.callsArgWith(1, null, competences);
+        cacheStub.callsArgWith(1, null, competenceRecords);
         getRecordsStub.resolves(true);
         // When
         const promise = competenceRepository.list();
 
         return promise.then((competencesFetched) => {
           // Then
-          expect(competencesFetched).to.be.equal(competences);
+          expect(competencesFetched).to.be.equal(competenceRecords);
           sinon.assert.calledOnce(cacheStub);
           sinon.assert.calledWith(cacheStub, cacheKey);
           cacheStub.restore();
@@ -142,4 +136,5 @@ describe('Unit | Repository | competence-repository', function() {
 
     });
   });
-});
+})
+;
