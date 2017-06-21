@@ -2223,6 +2223,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/g-recaptcha.js', function () {
+      // test passed
+    });
+
     it('components/medal-item.js', function () {
       // test passed
     });
@@ -2460,6 +2464,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('services/delay.js', function () {
+      // test passed
+    });
+
+    it('services/google-recaptcha.js', function () {
       // test passed
     });
 
@@ -4019,6 +4027,58 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
     });
   });
 });
+define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'rsvp'], function (_chai, _mocha, _emberMocha, _ember, _rsvp) {
+  'use strict';
+
+  var StubGoogleRecaptchaService = _ember.default.Service.extend({
+    loadScript: function loadScript() {
+      return _rsvp.default.resolve();
+    },
+    render: function render(containerId /* , callback, expiredCallback  */) {
+      this.set('calledWithContainerId', containerId);
+      // We create a div here to simulate our Google recaptcha service,
+      // which will create and then cache the recaptcha element
+      var container = document.getElementById(containerId);
+      var recaptchaElement = document.createElement('div');
+      return container.appendChild(recaptchaElement);
+    },
+    reset: function reset() {}
+  });
+
+  (0, _mocha.describe)('Integration | Component | g recaptcha', function () {
+
+    (0, _emberMocha.setupComponentTest)('g-recaptcha', {
+      integration: true
+    });
+
+    beforeEach(function () {
+      this.register('service:google-recaptcha', StubGoogleRecaptchaService);
+      this.inject.service('google-recaptcha', { as: 'googleRecaptchaService' });
+    });
+
+    (0, _mocha.it)('renders', function () {
+      this.render(_ember.default.HTMLBars.template({
+        "id": "BuJ6Tpul",
+        "block": "{\"statements\":[[1,[26,[\"g-recaptcha\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    // XXX Inspired of https://guides.emberjs.com/v2.13.0/tutorial/service/#toc_integration-testing-the-map-component
+    (0, _mocha.it)('should append recaptcha element to container element', function () {
+      // when
+      this.render(_ember.default.HTMLBars.template({
+        "id": "BuJ6Tpul",
+        "block": "{\"statements\":[[1,[26,[\"g-recaptcha\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+      // then
+      (0, _chai.expect)(this.$('#g-recaptcha-container').children()).to.have.lengthOf(1);
+      (0, _chai.expect)(this.get('googleRecaptchaService.calledWithContainerId')).to.equal('g-recaptcha-container');
+    });
+  });
+});
 define('pix-live/tests/integration/components/medal-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -5507,6 +5567,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var ICON_SUCCESS_CLASS = 'signup-textfield__icon--success';
 
   var userEmpty = _ember.default.Object.create({});
+  var CAPTCHA_CONTAINER = '.signup-form__captcha-container';
 
   (0, _mocha.describe)('Integration | Component | signup form', function () {
 
@@ -5533,7 +5594,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
         (0, _chai.expect)(this.$(FORM_HEADING).text()).to.equal(EXPECTED_FORM_HEADING_CONTENT);
       });
 
-      [{ expectedRendering: 'form container', input: FORM_CONTAINER, expected: 1 }, { expectedRendering: 'div to wrap heading of form', input: FORM_HEADING_CONTAINER, expected: 1 }, { expectedRendering: 'form title (h1)', input: FORM_HEADING, expected: 1 }, { expectedRendering: '4 input fields in form', input: INPUT_TEXT_FIELD, expected: 4 }, { expectedRendering: 'cgu container', input: CHECKBOX_CGU_CONTAINER, expected: 1 }, { expectedRendering: 'cgu checkbox', input: CHECKBOX_CGU_INPUT, expected: 1 }, { expectedRendering: 'cgu label', input: CHECKBOX_CGU_LABEL, expected: 1 }, { expectedRendering: 'submit button', input: SUBMIT_BUTTON_CONTAINER, expected: 1 }].forEach(function (_ref2) {
+      [{ expectedRendering: 'form container', input: FORM_CONTAINER, expected: 1 }, { expectedRendering: 'div to wrap heading of form', input: FORM_HEADING_CONTAINER, expected: 1 }, { expectedRendering: 'form title (h1)', input: FORM_HEADING, expected: 1 }, { expectedRendering: '4 input fields in form', input: INPUT_TEXT_FIELD, expected: 4 }, { expectedRendering: 'cgu container', input: CHECKBOX_CGU_CONTAINER, expected: 1 }, { expectedRendering: 'cgu checkbox', input: CHECKBOX_CGU_INPUT, expected: 1 }, { expectedRendering: 'cgu label', input: CHECKBOX_CGU_LABEL, expected: 1 }, { expectedRendering: 'a captcha', input: CAPTCHA_CONTAINER, expected: 1 }, { expectedRendering: 'submit button', input: SUBMIT_BUTTON_CONTAINER, expected: 1 }].forEach(function (_ref2) {
         var expectedRendering = _ref2.expectedRendering,
             input = _ref2.input,
             expected = _ref2.expected;
@@ -5573,6 +5634,10 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
     });
 
     (0, _mocha.describe)('Behaviors', function () {
+
+      beforeEach(function () {
+        this.register('component:g-recaptcha', _ember.default.Component.extend());
+      });
 
       (0, _mocha.it)('should return true if action <Signup> is handled', function () {
         // given
@@ -5777,11 +5842,49 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             (0, _chai.expect)(_this6.$('.signup-form__notification-message')).to.have.lengthOf(0);
           });
         });
+
+        (0, _mocha.it)('should display an error message on form title, when user has not checked re-captcha', function () {
+          var _this7 = this;
+
+          // given
+          var UNCHECKED_CHECKBOX_RECAPTCHA_ERROR = 'Veuillez cocher le recaptcha.';
+          var userWithCaptchaNotValid = _ember.default.Object.create({
+            cgu: true,
+            recaptchaToken: null,
+            errors: {
+              content: [{
+                attribute: 'recaptchaToken',
+                message: UNCHECKED_CHECKBOX_RECAPTCHA_ERROR
+              }],
+              recaptchaToken: [{
+                message: UNCHECKED_CHECKBOX_RECAPTCHA_ERROR
+              }]
+            },
+            save: function save() {
+              return new _ember.default.RSVP.reject();
+            }
+          });
+
+          this.set('user', userWithCaptchaNotValid);
+          this.render(_ember.default.HTMLBars.template({
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // when
+          this.$('.signup__submit-button').click();
+          // then
+          return (0, _wait.default)().then(function () {
+            (0, _chai.expect)(_this7.$('.signup-field__recaptcha-message--error')).to.have.lengthOf(1);
+          });
+        });
       });
 
       (0, _mocha.describe)('Successfull cases', function () {
+
         (0, _mocha.it)('should display first name field as validated without error message, when field is filled and focus-out', function () {
-          var _this7 = this;
+          var _this8 = this;
 
           // given
           this.set('user', userEmpty);
@@ -5797,9 +5900,9 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // then
           return (0, _wait.default)().then(function () {
-            var divSiblingClass = _this7.$('#firstName').parent().prev().attr('class');
-            var divSiblingContent = _this7.$('#firstName').parent().prev('div').text();
-            var iconSiblingClass = _this7.$('#firstName').next('img').attr('class');
+            var divSiblingClass = _this8.$('#firstName').parent().prev().attr('class');
+            var divSiblingContent = _this8.$('#firstName').parent().prev('div').text();
+            var iconSiblingClass = _this8.$('#firstName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
             (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
@@ -5807,7 +5910,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
         });
 
         (0, _mocha.it)('should display last name field as validated without error message, when field is filled and focus-out', function () {
-          var _this8 = this;
+          var _this9 = this;
 
           // given
           this.set('user', userEmpty);
@@ -5823,9 +5926,9 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // then
           return (0, _wait.default)().then(function () {
-            var divSiblingClass = _this8.$('#lastName').parent().prev().attr('class');
-            var divSiblingContent = _this8.$('#lastName').parent().prev('div').text();
-            var iconSiblingClass = _this8.$('#lastName').next('img').attr('class');
+            var divSiblingClass = _this9.$('#lastName').parent().prev().attr('class');
+            var divSiblingContent = _this9.$('#lastName').parent().prev('div').text();
+            var iconSiblingClass = _this9.$('#lastName').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
             (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
@@ -5833,7 +5936,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
         });
 
         (0, _mocha.it)('should display email field as validated without error message, when field is filled and focus-out', function () {
-          var _this9 = this;
+          var _this10 = this;
 
           // given
           this.set('user', userEmpty);
@@ -5849,9 +5952,9 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // then
           return (0, _wait.default)().then(function () {
-            var divSiblingClass = _this9.$('#email').parent().prev().attr('class');
-            var divSiblingContent = _this9.$('#email').parent().prev('div').text();
-            var iconSiblingClass = _this9.$('#email').next('img').attr('class');
+            var divSiblingClass = _this10.$('#email').parent().prev().attr('class');
+            var divSiblingContent = _this10.$('#email').parent().prev('div').text();
+            var iconSiblingClass = _this10.$('#email').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
             (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
@@ -5859,7 +5962,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
         });
 
         (0, _mocha.it)('should display password field as validated without error message, when field is filled and focus-out', function () {
-          var _this10 = this;
+          var _this11 = this;
 
           // given
           this.set('user', userEmpty);
@@ -5875,9 +5978,9 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // then
           return (0, _wait.default)().then(function () {
-            var divSiblingClass = _this10.$('#password').parent().prev().attr('class');
-            var divSiblingContent = _this10.$('#password').parent().prev('div').text();
-            var iconSiblingClass = _this10.$('#password').next('img').attr('class');
+            var divSiblingClass = _this11.$('#password').parent().prev().attr('class');
+            var divSiblingContent = _this11.$('#password').parent().prev('div').text();
+            var iconSiblingClass = _this11.$('#password').next('img').attr('class');
             (0, _chai.expect)(divSiblingClass).to.contain(MESSAGE_SUCCESS_STATUS);
             (0, _chai.expect)(divSiblingContent).to.equal('');
             (0, _chai.expect)(iconSiblingClass).to.contain(ICON_SUCCESS_CLASS);
@@ -5885,7 +5988,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
         });
 
         (0, _mocha.it)('should not display an error message on cgu field, when cgu is accepted and form is submitted', function () {
-          var _this11 = this;
+          var _this12 = this;
 
           // given
           var userWithCguAccepted = _ember.default.Object.create({
@@ -5907,44 +6010,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           this.$('.signup__submit-button').click();
           // then
           return (0, _wait.default)().then(function () {
-            var cguErrorMessageContent = _this11.$(CHECKBOX_CGU_INPUT).parent().siblings('div').text();
+            var cguErrorMessageContent = _this12.$(CHECKBOX_CGU_INPUT).parent().siblings('div').text();
             (0, _chai.expect)(cguErrorMessageContent).to.equal('');
           });
         });
 
         (0, _mocha.it)('should display an success message on form title, when all things are ok and form is submited', function () {
-          var _this12 = this;
-
-          // given
-          var validUser = _ember.default.Object.create({
-            email: 'toto@pix.fr',
-            firstName: 'Marion',
-            lastName: 'Yade',
-            password: 'gipix2017',
-            cgu: true,
-
-            save: function save() {
-              return new _ember.default.RSVP.resolve();
-            }
-          });
-
-          this.set('user', validUser);
-          this.render(_ember.default.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-            "meta": {}
-          }));
-
-          // when
-          this.$('.signup__submit-button').click();
-          // then
-          return (0, _wait.default)().then(function () {
-            var $notificationMessage = _this12.$('.signup-form__notification-message').text();
-            (0, _chai.expect)($notificationMessage.trim()).to.equal('Votre compte a bien été créé !');
-          });
-        });
-
-        (0, _mocha.it)('should reset validation property, when all things are ok and form is submitted', function () {
           var _this13 = this;
 
           // given
@@ -5969,43 +6040,75 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // when
           this.$('.signup__submit-button').click();
+          // then
+          return (0, _wait.default)().then(function () {
+            var $notificationMessage = _this13.$('.signup-form__notification-message').text();
+            (0, _chai.expect)($notificationMessage.trim()).to.equal('Votre compte a bien été créé !');
+          });
+        });
+
+        (0, _mocha.it)('should reset validation property, when all things are ok and form is submitted', function () {
+          var _this14 = this;
+
+          // given
+          var validUser = _ember.default.Object.create({
+            email: 'toto@pix.fr',
+            firstName: 'Marion',
+            lastName: 'Yade',
+            password: 'gipix2017',
+            cgu: true,
+
+            save: function save() {
+              return new _ember.default.RSVP.resolve();
+            }
+          });
+
+          this.set('user', validUser);
+          this.render(_ember.default.HTMLBars.template({
+            "id": "1MFHuc1Q",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // when
+          this.$('.signup__submit-button').click();
 
           // then
           return (0, _wait.default)().then(function () {
-            var inputFirst = _this13.$('.signup-textfield__input-field-container').first();
+            var inputFirst = _this14.$('.signup-textfield__input-field-container').first();
             (0, _chai.expect)(inputFirst.prop('class')).to.includes(INPUT_TEXT_FIELD_CLASS_DEFAULT);
           });
         });
       });
-    });
 
-    (0, _mocha.describe)('Accessibility', function () {
+      (0, _mocha.describe)('Accessibility', function () {
 
-      (0, _mocha.it)('should render an accessible notification message when the account was successfully created', function () {
-        var _this14 = this;
+        (0, _mocha.it)('should render an accessible notification message when the account was successfully created', function () {
+          var _this15 = this;
 
-        // given
-        var user = _ember.default.Object.create({
-          save: function save() {
-            return _ember.default.RSVP.resolve();
-          }
-        });
+          // given
+          var user = _ember.default.Object.create({
+            save: function save() {
+              return _ember.default.RSVP.resolve();
+            }
+          });
 
-        this.set('user', user);
-        this.render(_ember.default.HTMLBars.template({
-          "id": "IuLTjz0W",
-          "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
+          this.set('user', user);
+          this.render(_ember.default.HTMLBars.template({
+            "id": "IuLTjz0W",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
 
-        // when
-        $(SUBMIT_BUTTON).click();
+          // when
+          $(SUBMIT_BUTTON).click();
 
-        // then
-        return (0, _wait.default)().then(function () {
+          // then
+          return (0, _wait.default)().then(function () {
 
-          var $notificationMessage = _this14.$('.signup-form__notification-message');
-          (0, _chai.expect)($notificationMessage.attr('aria-live')).to.equal('polite');
+            var $notificationMessage = _this15.$('.signup-form__notification-message');
+            (0, _chai.expect)($notificationMessage.attr('aria-live')).to.equal('polite');
+          });
         });
       });
     });
@@ -6458,6 +6561,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/g-recaptcha-test.js', function () {
+      // test passed
+    });
+
     it('integration/components/medal-item-test.js', function () {
       // test passed
     });
@@ -6559,6 +6666,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/components/follower-form-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/g-recaptcha-test.js', function () {
       // test passed
     });
 
@@ -7283,6 +7394,98 @@ define('pix-live/tests/unit/components/follower-form-test', ['ember', 'chai', 'm
             (0, _chai.expect)(component.get(attribute)).to.equal(expected);
           });
         });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'ember-mocha', 'rsvp', 'ember'], function (_mocha, _chai, _emberMocha, _rsvp, _ember) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | g-recaptcha', function () {
+
+    var serviceResetCalled = false;
+
+    (0, _emberMocha.setupTest)('component:g-recaptcha', {});
+
+    beforeEach(function () {
+
+      serviceResetCalled = false;
+
+      this.register('service:googleRecaptcha', _ember.default.Service.extend({
+        loadScript: function loadScript() {
+          return _rsvp.default.resolve();
+        },
+        render: function render() {
+          return true;
+        },
+        reset: function reset() {
+          serviceResetCalled = true;
+        }
+      }));
+      this.inject.service('googleRecaptcha', { as: 'googleRecaptcha' });
+    });
+
+    (0, _mocha.describe)('#didUpdateAttrs', function () {
+
+      (0, _mocha.it)('should reset the recaptcha if the token has been used', function () {
+        // given
+        var component = this.subject({});
+        component.set('recaptchaToken', null);
+        component.set('tokenHasBeenUsed', true);
+
+        // when
+        component.didUpdateAttrs();
+
+        // then
+        (0, _chai.expect)(serviceResetCalled).to.be.true;
+      });
+
+      (0, _mocha.it)('should not reset the recaptcha if the token has not been used', function () {
+        // given
+        var component = this.subject({});
+        component.set('recaptchaToken', null);
+        component.set('tokenHasBeenUsed', false);
+
+        // when
+        component.didUpdateAttrs();
+
+        // then verify reset has not been called
+        (0, _chai.expect)(serviceResetCalled).to.be.false;
+      });
+    });
+
+    (0, _mocha.describe)('#validateCallback', function () {
+
+      (0, _mocha.it)('should set the recaptchaToken to the GoogleRecaptchaToken and indicate that he has not been used', function () {
+        // given
+        var component = this.subject({});
+        component.set('recaptchaToken', null);
+        component.set('tokenHasBeenUsed', true);
+        var googleRecaptchaResponse = 'la reponse de recaptcha';
+
+        // when
+        component.validateCallback(googleRecaptchaResponse);
+
+        // then
+        (0, _chai.expect)(component.get('recaptchaToken')).to.be.equal(googleRecaptchaResponse);
+        (0, _chai.expect)(component.get('tokenHasBeenUsed')).to.be.false;
+      });
+    });
+
+    (0, _mocha.describe)('#expiredCallback', function () {
+
+      (0, _mocha.it)('should set the recaptchaToken to null and indicate that he has not been used', function () {
+        // given
+        var component = this.subject();
+        component.set('recaptchaToken', 'un token');
+        component.set('tokenHasBeenUsed', true);
+
+        // when
+        component.expiredCallback();
+
+        // then
+        (0, _chai.expect)(component.get('recaptchaToken')).to.be.null;
+        (0, _chai.expect)(component.get('tokenHasBeenUsed')).to.be.false;
       });
     });
   });
@@ -8671,7 +8874,6 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | inscription', function () {
-
     (0, _emberMocha.setupTest)('route:inscription', {
       needs: ['service:current-routed-modal']
     });
