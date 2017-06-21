@@ -4904,6 +4904,20 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
 
   exports.default = Router;
 });
+define('pix-live/routes/application', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _ember.default.Route.extend({
+    splash: _ember.default.inject.service(),
+
+    activate: function activate() {
+      this.get('splash').hide();
+    }
+  });
+});
 define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp', 'pix-live/routes/base-route'], function (exports, _ember, _rsvp, _baseRoute) {
   'use strict';
 
@@ -5557,6 +5571,21 @@ define('pix-live/services/panel-actions', ['exports', 'ember-collapsible-panel/s
     enumerable: true,
     get: function () {
       return _panelActions.default;
+    }
+  });
+});
+define('pix-live/services/splash', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _ember.default.Service.extend({
+    hide: function hide() {
+      var splash = document.getElementById('app-splash');
+      if (splash) {
+        splash.remove();
+      }
     }
   });
 });
@@ -6918,6 +6947,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+e4eba395"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+a4d8e4c0"});
 }
 //# sourceMappingURL=pix-live.map

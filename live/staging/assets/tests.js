@@ -2387,6 +2387,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('routes/application.js', function () {
+      // test passed
+    });
+
     it('routes/assessments/get-challenge.js', function () {
       // test passed
     });
@@ -2456,6 +2460,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('services/delay.js', function () {
+      // test passed
+    });
+
+    it('services/splash.js', function () {
       // test passed
     });
 
@@ -6634,6 +6642,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/routes/application-test.js', function () {
+      // test passed
+    });
+
     it('unit/routes/assessments/get-challenge-test.js', function () {
       // test passed
     });
@@ -6683,6 +6695,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/services/delay-test.js', function () {
+      // test passed
+    });
+
+    it('unit/services/splash-test.js', function () {
       // test passed
     });
 
@@ -8503,6 +8519,34 @@ define('pix-live/tests/unit/models/user-test', ['chai', 'mocha', 'ember-mocha'],
     });
   });
 });
+define('pix-live/tests/unit/routes/application-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+  'use strict';
+
+  var SplashServiceStub = _ember.default.Object.extend({
+    hideCount: 0,
+    hide: function hide() {
+      this.hideCount++;
+    }
+  });
+
+  (0, _mocha.describe)('Unit | Route | application splash', function () {
+    (0, _emberMocha.setupTest)('route:application', {
+      needs: ['service:splash', 'service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('initializes correctly', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.it)('hides the splash when the route is activated', function () {
+      var splashStub = SplashServiceStub.create();
+      var route = this.subject({ splash: splashStub });
+      route.activate();
+      (0, _chai.expect)(splashStub.hideCount).to.equal(1);
+    });
+  });
+});
 define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -8790,6 +8834,61 @@ define('pix-live/tests/unit/services/delay-test', ['chai', 'mocha', 'ember-mocha
       (0, _chai.expect)(delay).to.respondsTo('ms');
       var promise = delay.ms(0);
       (0, _chai.expect)(promise).to.respondsTo('then');
+    });
+  });
+});
+define('pix-live/tests/unit/services/splash-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  function createSplash() {
+    var splash = document.createElement('div');
+    splash.setAttribute('id', 'app-splash');
+    document.body.appendChild(splash);
+  }
+
+  function removeSplash() {
+    var splash = document.getElementById('app-splash');
+    if (splash) {
+      splash.parentNode.removeChild(splash);
+    }
+  }
+
+  function hasSplash() {
+    return document.getElementById('app-splash') != null;
+  }
+
+  (0, _mocha.describe)('Unit | Service | splash', function () {
+    (0, _emberMocha.setupTest)('service:splash');
+
+    (0, _mocha.describe)('#hide', function () {
+      context('when a splash is present in the DOM', function () {
+        (0, _mocha.it)('removes the splash from the DOM', function () {
+          // Given
+          var splash = this.subject();
+          createSplash();
+          (0, _chai.expect)(hasSplash()).to.be.true;
+          // When
+          splash.hide();
+          // Then
+          (0, _chai.expect)(hasSplash()).to.be.false;
+        });
+      });
+
+      context('when there is no splash', function () {
+        (0, _mocha.it)('does nothing', function () {
+          // Given
+          var splash = this.subject();
+          (0, _chai.expect)(hasSplash()).to.be.false;
+          // When
+          splash.hide();
+          // Then
+          (0, _chai.expect)(hasSplash()).to.be.false;
+        });
+      });
+
+      afterEach(function () {
+        removeSplash();
+      });
     });
   });
 });
