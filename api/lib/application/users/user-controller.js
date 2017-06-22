@@ -52,18 +52,13 @@ module.exports = {
       })
       .catch((err) => {
         if(err instanceof NotFoundError) {
-
           err = 'Cet utilisateur est introuvable';
-
         } else if(err instanceof InvalidTokenError) {
-
           err = 'Le token n’est pas valid';
-
         } else {
-
           err = 'Une erreur est survenue lors de l’authentification de l’utilisateur';
-
         }
+        
         reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(err))).code(401);
       });
   }
