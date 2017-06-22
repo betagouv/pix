@@ -5,7 +5,7 @@ const areaRepository = require('../../../lib/infrastructure/repositories/area-re
 const Profile = require('../../../lib/domain/models/data/profile');
 
 const profileService = {
-  buildUserProfile(user_id){
+  buildUserProfile(user_id) {
     const user = userRepository.findUserById(user_id);
     const competences = competenceRepository.list();
     const areas = areaRepository.list();
@@ -16,5 +16,5 @@ const profileService = {
         return profile;
       });
   }
-}
+};
 module.exports = profileService;

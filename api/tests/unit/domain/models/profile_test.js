@@ -7,7 +7,7 @@ describe('Unit | Domain | Class | Profile', () => {
   describe('Profile', () => {
 
     it('should be exist', () => {
-      expect(Profile).to.exist
+      expect(Profile).to.exist;
     });
 
     it('should be a class', () => {
