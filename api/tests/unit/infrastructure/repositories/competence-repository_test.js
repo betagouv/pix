@@ -5,7 +5,7 @@ const cache = require('../../../../lib/infrastructure/cache');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const competenceSerializer = require('../../../../lib/infrastructure/serializers/airtable/competence-serializer');
 
-describe.only('Unit | Repository | competence-repository', function() {
+describe('Unit | Repository | competence-repository', function() {
 
   let getRecordsStub;
   const cacheKey = 'competence-repository_list';
