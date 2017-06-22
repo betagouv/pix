@@ -1,8 +1,8 @@
-const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
-const competenceRepository = require('../../../lib/infrastructure/repositories/competence-repository');
-const areaRepository = require('../../../lib/infrastructure/repositories/area-repository');
+const userRepository = require('../../infrastructure/repositories/user-repository');
+const competenceRepository = require('../../infrastructure/repositories/competence-repository');
+const areaRepository = require('../../infrastructure/repositories/area-repository');
 
-const Profile = require('../../../lib/domain/models/data/profile');
+const Profile = require('../../domain/models/data/profile');
 
 const profileService = {
   buildUserProfile(user_id) {

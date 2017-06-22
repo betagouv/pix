@@ -1,5 +1,5 @@
 const {describe, it, expect, sinon, beforeEach, afterEach} = require('../../../test-helper');
-const profileService = require('../../../../lib/domain/services/profile-user-service');
+const profileService = require('../../../../lib/domain/services/profile-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
