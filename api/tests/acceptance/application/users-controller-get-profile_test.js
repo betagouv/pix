@@ -1,10 +1,11 @@
-const {describe, it, expect, sinon} = require('../../test-helper');
+const {describe, it, expect, sinon, before, after} = require('../../test-helper');
 const faker = require('faker');
 const server = require('../../../server');
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const User = require('../../../lib/domain/models/data/user');
 const {NotFoundError} = require('../../../lib/domain/errors');
+const profileService = require('../../../lib/domain/services/profile-service');
 
 const expectedResultWhenInvalidToken = {
   errors: [{
@@ -37,11 +38,91 @@ const expectedResultWhenErrorOccured = {
 };
 
 describe('Acceptance | Controller | users-controller-get-profile', function() {
-
+  const firstName = faker.name.firstName();
+  const lastName = faker.name.lastName();
   const options = {
     method: 'GET',
     url: '/api/users',
     payload: {}
+  };
+  const expectedSerializedProfile = {
+    data: {
+      type: 'user',
+      id: 'user_id',
+      attributes: {
+        'first-name': firstName,
+        'last-name': lastName,
+      },
+      relationships: {
+        competences: {
+          data: [
+            {type: 'competences', id: 'recCompA'},
+            {type: 'competences', id: 'recCompB'}
+          ]
+        }
+      },
+      included: [
+        {
+          type: 'areas',
+          id: 'recAreaA',
+          attributes: {
+            name: 'domaine-name-1'
+          }
+        },
+        {
+          type: 'areas',
+          id: 'recAreaB',
+          attributes: {
+            name: 'domaine-name-2'
+          }
+        },
+        {
+          type: 'competences',
+          id: 'recCompA',
+          attributes: {
+            name: 'competence-name-1'
+          },
+          relationships: {
+            area: {
+              type: 'areas',
+              id: 'recAreaA'
+            }
+          }
+        },
+        {
+          type: 'competences',
+          id: 'recCompB',
+          attributes: {
+            name: 'competence-name-2'
+          },
+          relationships: {
+            area: {
+              type: 'areas',
+              id: 'recAreaB'
+            }
+          }
+        }
+      ]
+    }
+  };
+  const fakeUser = new User({
+    id: 'user_id',
+    'first-name': firstName,
+    'last-name': lastName,
+  });
+  const fakeBuildedProfile = {
+    user: fakeUser,
+    competences: [{
+      id: 'recCompA',
+      name: 'competence-name-1',
+      areaId: 'recAreaA'
+    },
+    {
+      id: 'recCompB',
+      name: 'competence-name-2',
+      areaId: 'recAreaB'
+    }],
+    areas: [{id: 'recAreaA', name: 'domaine-name-1'}, {id: 'recAreaB', name: 'domaine-name-2'}]
   };
 
   describe('GET /users', function() {
@@ -99,27 +180,43 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
 
     describe('Success cases:', function() {
 
+      let profileServiceStub;
+      let authorizationTokenStub;
+      let UserRepositoryStub;
+      const user = new User({
+        id: 'user_id',
+        'first-name': faker.name.firstName(),
+        'last-name': faker.name.lastName(),
+        email: faker.internet.email(),
+        password: 'A124B2C3#!',
+        cgu: true
+      });
+
+      before(() => {
+        authorizationTokenStub = sinon.stub(authorizationToken, 'verify').resolves(1);
+        UserRepositoryStub = sinon.stub(UserRepository, 'findUserById').resolves(user);
+        profileServiceStub = sinon.stub(profileService, 'buildUserProfile');
+      });
+
+      after(() => {
+        profileServiceStub.restore();
+        authorizationTokenStub.restore();
+        UserRepositoryStub.restore();
+      });
+
       it('should response with 201 HTTP status code, when authorization is valid and user is found', () => {
         // Given
-        const user = new User({
-          'first-name': faker.name.firstName(),
-          'last-name': faker.name.lastName(),
-          email: faker.internet.email(),
-          password: 'A124B2C3#!',
-          cgu: true
-        });
+        profileServiceStub.resolves(fakeBuildedProfile);
 
-        const authorizationTokenStub = sinon.stub(authorizationToken, 'verify').resolves(1);
-        const UserRepositoryStub = sinon.stub(UserRepository, 'findUserById').resolves(user);
         options['headers'] = {authorization: 'Bearer VALID_TOKEN'};
         // When
         return server.injectThen(options).then(response => {
           // Then
-          authorizationTokenStub.restore();
-          UserRepositoryStub.restore();
-          expect(response.statusCode).to.equal(201);
+          expect(response.statusCode).to.be.equal(201);
+          expect(response.result).to.be.deep.equal(expectedSerializedProfile);
         });
       });
     });
   });
-});
+})
+;

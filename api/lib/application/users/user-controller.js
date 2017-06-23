@@ -8,6 +8,8 @@ const mailService = require('../../domain/services/mail-service');
 const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const {NotFoundError} = require('../../../lib/domain/errors');
 const {InvalidTokenError} = require('../../../lib/domain/errors');
+const profileService = require('../../domain/services/profile-service');
+const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
 
 function _isUniqConstraintViolated(err) {
   const SQLITE_UNIQ_CONSTRAINT = 'SQLITE_CONSTRAINT';
@@ -48,7 +50,10 @@ module.exports = {
       .verify(token)
       .then(UserRepository.findUserById)
       .then((foundedUser) => {
-        reply(userSerializer.serialize(foundedUser)).code(201);
+        return profileService.buildUserProfile(foundedUser.id);
+      })
+      .then((buildedProfile) => {
+        reply(profileSerializer.serialize(buildedProfile)).code(201);
       })
       .catch((err) => {
         if(err instanceof NotFoundError) {
@@ -58,7 +63,7 @@ module.exports = {
         } else {
           err = 'Une erreur est survenue lors de l’authentification de l’utilisateur';
         }
-        
+
         reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(err))).code(401);
       });
   }
