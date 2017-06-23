@@ -50,7 +50,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               type: 'competences',
               id: 'recCompA',
               attributes: {
-                name: 'domaine-name-1'
+                name: 'domaine-name-1',
+                level: -1
               },
               relationships: {
                 area: {
@@ -63,7 +64,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               type: 'competences',
               id: 'recCompB',
               attributes: {
-                name: 'domaine-name-2'
+                name: 'domaine-name-2',
+                level: -1
               },
               relationships: {
                 area: {

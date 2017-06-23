@@ -16,7 +16,7 @@ describe('Unit | Service | Profil User Service', function() {
     {
       id: 'recsvLDFHShyfDXXXXX',
       name: '1.1 Mener une recherche d’information',
-      areaId: 'recvoGdo0z0z0pXWZ'
+      areaId: 'recvoGdo0z0z0pXWZA'
     },
     {
       id: 'recsvLDFHShyfDXXXXX',
@@ -70,7 +70,19 @@ describe('Unit | Service | Profil User Service', function() {
         // Given
         const expectedUser = {
           user: fakeUserRecord,
-          competences: fakeCompetenceRecords,
+          competences: [
+            {
+              id: 'recsvLDFHShyfDXXXXX',
+              name: '1.1 Mener une recherche d’information',
+              areaId: 'recvoGdo0z0z0pXWZA',
+              level: -1
+            },
+            {
+              id: 'recsvLDFHShyfDXXXXX',
+              name: '1.1 Mener une recherche d’information',
+              areaId: 'recvoGdo0z0z0pXWZ',
+              level: -1
+            }],
           areas: fakeAreaRecords
         };
 

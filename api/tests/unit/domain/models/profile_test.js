@@ -25,12 +25,26 @@ describe('Unit | Domain | Class | Profile', () => {
         {
           id: 'recsvLDFHShyfDXXXXX',
           name: '1.1 Mener une recherche d’information',
-          areaId: 'recvoGdo0z0z0pXWZ'
+          areaId: 'recvoGdo0z0z0pXWZ',
         },
         {
           id: 'recsvLDFHShyfDXXXXX',
           name: '1.1 Mener une recherche d’information',
           areaId: 'recvoGdo0z0z0pXWZ'
+        }];
+
+      const expectedCompetences = [
+        {
+          id: 'recsvLDFHShyfDXXXXX',
+          name: '1.1 Mener une recherche d’information',
+          areaId: 'recvoGdo0z0z0pXWZ',
+          level: -1
+        },
+        {
+          id: 'recsvLDFHShyfDXXXXX',
+          name: '1.1 Mener une recherche d’information',
+          areaId: 'recvoGdo0z0z0pXWZ',
+          level: -1
         }];
 
       const areas = [
@@ -49,7 +63,7 @@ describe('Unit | Domain | Class | Profile', () => {
       // then
       expect(profile).to.be.an.instanceof(Profile);
       expect(profile.user).to.be.equal(user);
-      expect(profile.competences).to.be.equal(competences);
+      expect(profile.competences).to.be.deep.equal(expectedCompetences);
       expect(profile.areas).to.be.equal(areas);
     });
 
