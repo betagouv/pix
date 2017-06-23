@@ -30,7 +30,7 @@ class JSONAPISerializer {
     data.attributes = {};
     this.serializeAttributes(entity, data);
     this.serializeRelationships(entity, data);
-    this.serializeIncluded();
+    this.serializeIncluded(entity, data);
     return data;
   }
 
@@ -43,7 +43,7 @@ class JSONAPISerializer {
   }
 
   // eslint-disable-next-line no-unused-vars
-  serializeIncluded(json) {
+  serializeIncluded(model, data) {
   }
 
   // eslint-disable-next-line no-unused-vars
