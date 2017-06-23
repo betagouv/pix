@@ -7,9 +7,9 @@ const faker = require('faker');
 
 describe('Unit | Service | Profil User Service', function() {
 
-  const fakeUserRecords = {
-    'first-name': faker.name.findName(),
-    'last-name': faker.name.findName(),
+  const fakeUserRecord = {
+    'firstName': faker.name.findName(),
+    'lastName': faker.name.findName(),
     'email': faker.internet.email
   };
   const fakeCompetenceRecords = [
@@ -48,7 +48,7 @@ describe('Unit | Service | Profil User Service', function() {
       let areasStub;
 
       beforeEach(() => {
-        userStub = sinon.stub(userRepository, 'findUserById').resolves(fakeUserRecords);
+        userStub = sinon.stub(userRepository, 'findUserById').resolves(fakeUserRecord);
         competencesStub = sinon.stub(competenceRepository, 'list').resolves(fakeCompetenceRecords);
         areasStub = sinon.stub(areaRepository, 'list').resolves(fakeAreaRecords);
       });
@@ -69,7 +69,7 @@ describe('Unit | Service | Profil User Service', function() {
       it('should return an enhanced user with all competences and area', () => {
         // Given
         const expectedUser = {
-          user: fakeUserRecords,
+          user: fakeUserRecord,
           competences: fakeCompetenceRecords,
           areas: fakeAreaRecords
         };

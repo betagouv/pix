@@ -11,8 +11,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       // given
       const user = new User({
         id: 'user_id',
-        'first-name': 'Luke',
-        'last-name': 'Skywalker'
+        'firstName': 'Luke',
+        'lastName': 'Skywalker'
       });
 
       const expectedJson = {

@@ -107,8 +107,8 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
   };
   const fakeUser = new User({
     id: 'user_id',
-    'first-name': firstName,
-    'last-name': lastName,
+    'firstName': firstName,
+    'lastName': lastName,
   });
   const fakeBuildedProfile = {
     user: fakeUser,

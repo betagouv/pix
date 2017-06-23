@@ -7,8 +7,8 @@ class ProfileSerializer extends JSONAPISerializer {
   }
 
   serializeAttributes(model, data) {
-    data.attributes['first-name'] = model['first-name'];
-    data.attributes['last-name'] = model['last-name'];
+    data.attributes['first-name'] = model.firstName;
+    data.attributes['last-name'] = model.lastName;
   }
 
   serializeRelationships(model, data) {
