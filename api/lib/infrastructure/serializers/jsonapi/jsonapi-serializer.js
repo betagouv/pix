@@ -20,7 +20,7 @@ class JSONAPISerializer {
   }
 
   serializeModelObject(modelObject) {
-    if (!modelObject) {
+    if(!modelObject) {
       return null;
     }
     const entity = modelObject.toJSON();
@@ -30,6 +30,7 @@ class JSONAPISerializer {
     data.attributes = {};
     this.serializeAttributes(entity, data);
     this.serializeRelationships(entity, data);
+    this.serializeIncluded();
     return data;
   }
 
@@ -39,6 +40,10 @@ class JSONAPISerializer {
 
   // eslint-disable-next-line no-unused-vars
   serializeRelationships(model, data) {
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  serializeIncluded(json) {
   }
 
   // eslint-disable-next-line no-unused-vars
