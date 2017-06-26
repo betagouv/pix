@@ -145,7 +145,7 @@ describe('Acceptance | Controller | answer-controller', function() {
             expect(answer.attributes['elapsed-time']).to.equal(model.get('elapsedTime'));
             expect(answer.attributes['timeout']).to.equal(model.get('timeout'));
             expect(answer.attributes['result']).to.equal(model.get('result'));
-            expect(answer.relationships.assessment.data.id).to.equal(model.get('assessmentId'));
+            expect(answer.relationships.assessment.data.id).to.equal(model.get('assessmentId').toString());
             expect(answer.relationships.challenge.data.id).to.equal(model.get('challengeId'));
 
             done();
