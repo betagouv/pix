@@ -51,10 +51,10 @@ module.exports = {
     answerRepository
       .findByChallengeAndAssessment(newAnswer.get('challengeId'), newAnswer.get('assessmentId'))
       .then(existingAnswer => {
-        if (!existingAnswer) {
-          return _saveNewAnswer(newAnswer, reply);
+        if (existingAnswer) {
+          return reply(Boom.conflict('An answer with id `' + existingAnswer.get('id') + '` already exists.'));
         }
-        return _updateExistingAnswer(existingAnswer, newAnswer, reply);
+        return _saveNewAnswer(newAnswer, reply);
       });
   },
 
@@ -63,6 +63,19 @@ module.exports = {
     new Answer({ id: request.params.id })
       .fetch()
       .then((answer) => reply(answerSerializer.serialize(answer)));
+  },
+
+  update(request, reply) {
+
+    const updatedAnswer = answerSerializer.deserialize(request.payload);
+    answerRepository
+      .findByChallengeAndAssessment(updatedAnswer.get('challengeId'), updatedAnswer.get('assessmentId'))
+      .then(existingAnswer => {
+        if (!existingAnswer) {
+          return reply(Boom.notFound());
+        }
+        return _updateExistingAnswer(existingAnswer, updatedAnswer, reply);
+      });
   },
 
   findByChallengeAndAssessment(request, reply) {
