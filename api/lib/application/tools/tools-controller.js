@@ -1,103 +1,35 @@
-const Boom = require('boom');
-const _ = require('../../infrastructure/utils/lodash-utils');
-const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
+const cache = require('../../infrastructure/cache');
+const jsonwebtoken = require('../../infrastructure/validators/jsonwebtoken-verify');
+const {NotFoundError, InvalidTokenError} = require('../../domain/errors');
 
-const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
-const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
-const mailService = require('../../domain/services/mail-service');
-const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
-const {NotFoundError} = require('../../../lib/domain/errors');
-const {InvalidTokenError} = require('../../../lib/domain/errors');
-const profileService = require('../../domain/services/profile-service');
-const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
-const googleReCaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
-const {InvalidRecaptchaTokenError} = require('../../../lib/infrastructure/validators/errors');
-
-function _isUniqConstraintViolated(err) {
-  const SQLITE_UNIQ_CONSTRAINT = 'SQLITE_CONSTRAINT';
-  const PGSQL_UNIQ_CONSTRAINT = '23505';
-
-  return (err.code === SQLITE_UNIQ_CONSTRAINT || err.code === PGSQL_UNIQ_CONSTRAINT);
-}
+const removeEntry = function(request) {
+  const deletedEntriesCount = cache.del(request.payload['cache-key']);
+  return deletedEntriesCount;
+};
 
 module.exports = {
 
-  save(request, reply) {
-
-    if(!_.has(request, 'payload') || !_.has(request, 'payload.data.attributes')) {
-      return reply(Boom.badRequest());
-    }
-
-    const user = userSerializer.deserialize(request.payload);
-    const recaptchaToken = request.payload.data.attributes['recaptcha-token'];
-
-    return googleReCaptcha.verify(recaptchaToken)
-      .then(() => {
-        return user.save();
-      })
-      .then((user) => {
-        mailService.sendAccountCreationEmail(user.get('email'));
-        reply(userSerializer.serialize(user)).code(201);
-      }).catch((err) => {
-        if(err instanceof InvalidRecaptchaTokenError) {
-          const userValidationErrors = user.validationErrors();
-          err = _buildErrorWhenRecaptchaTokenInvalid(userValidationErrors);
-        }
-        if(_isUniqConstraintViolated(err)) {
-          err = _buildErrorWhenUniquEmail();
-        }
-
-        reply(validationErrorSerializer.serialize(err)).code(422);
-      });
-  },
-
-  getProfile(request, reply) {
+  removeCacheEntry(request, reply) {
     const token = request.headers.authorization;
-    return authorizationToken
+    return jsonwebtoken
       .verify(token)
-      .then(UserRepository.findUserById)
-      .then((foundedUser) => {
-        return profileService.buildUserProfile(foundedUser.id);
-      })
-      .then((buildedProfile) => {
-        reply(profileSerializer.serialize(buildedProfile)).code(201);
+      .then(() => {
+        const deletedEntriesCount = removeEntry(request);
+        if(!deletedEntriesCount) {
+          throw new NotFoundError();
+        }
+        return reply('Entry successfully deleted').code(200);
       })
       .catch((err) => {
-        if(err instanceof NotFoundError) {
-          err = 'Cet utilisateur est introuvable';
-        } else if(err instanceof InvalidTokenError) {
-          err = 'Le token n’est pas valid';
+        let statusCode = 401;
+        if(err instanceof InvalidTokenError) {
+          err = 'Error on Token';
         } else {
-          err = 'Une erreur est survenue lors de l’authentification de l’utilisateur';
+          err = 'Entry key is not found';
+          statusCode = 404;
         }
-
-        reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(err))).code(401);
+        return reply(err).code(statusCode);
       });
+
   }
-
 };
-
-function _buildErrorWhenRecaptchaTokenInvalid(validationErrors) {
-  const captchaError = {recaptchaToken: ['Vous devez cliquer ci-dessous.']};
-  const mergedErrors = Object.assign(captchaError, validationErrors);
-  return {
-    data: mergedErrors
-  };
-}
-
-function _buildErrorWhenUniquEmail() {
-  return {
-    data: {
-      email: ['Cette adresse electronique est déjà enregistrée.']
-    }
-  };
-}
-
-function _handleWhenInvalidAuthorization(errorMessage) {
-  return {
-    data: {
-      authorization: [errorMessage]
-    }
-  };
-}
-

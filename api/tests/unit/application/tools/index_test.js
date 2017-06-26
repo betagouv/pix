@@ -2,7 +2,7 @@ const {expect, sinon} = require('../../../test-helper');
 const Hapi = require('hapi');
 const ToolsController = require('../../../../lib/application/tools/tools-controller');
 
-describe.only('Unit | Router | tools-router', () => {
+describe('Unit | Router | tools-router', () => {
 
   let server;
 
