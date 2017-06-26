@@ -23,8 +23,13 @@ module.exports = (function() {
       apiSecret: process.env.MAILJET_SECRET
     },
 
-    authentification: {
-      secret: process.env.AUTH_SECRET
+    googleReCaptcha: {
+      secret: process.env.RECAPTCHA_KEY
+    },
+
+    authentication: {
+      secret: process.env.AUTH_SECRET,
+      tokenLifespan: '7d'
     }
 
   };
@@ -42,9 +47,11 @@ module.exports = (function() {
       apiSecret: 'test-api-secret'
     };
 
-    config.authentification = {
-      secret: 'test-jwt-key'
+    config.googleReCaptcha = {
+      secret: 'test-recaptcha-key'
     };
+
+    config.authentication.secret = 'test-jwt-key';
   }
 
   return config;
