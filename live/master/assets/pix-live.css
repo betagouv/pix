@@ -196,9 +196,6 @@ input[type="checkbox"]:checked:focus:before {
   position: relative;
   cursor: pointer; }
 
-input[type=radio] {
-  width: 0; }
-
 input[type=radio]:before,
 input[type=radio]:checked:after {
   display: block;
@@ -209,14 +206,14 @@ input[type=radio]:checked:after {
 input[type=radio]:checked:after {
   height: 8.5px;
   width: 8.5px;
-  top: -15px;
+  top: -13px;
   left: 2px;
   background-color: #3D68FF; }
 
 input[type=radio]:before {
   height: 17px;
   width: 17px;
-  top: -2px;
+  top: 0px;
   left: -2px;
   border: solid 2px #7D808B;
   background-color: white; }
@@ -2472,6 +2469,100 @@ input.qcm-panel__proposal-checkbox {
   color: #ffffff;
   outline: none; }
 
+.signin-form-container {
+  text-align: right;
+  max-width: 609px;
+  margin: 30px auto auto; }
+  @media (min-width: 768px) {
+    .signin-form-container {
+      margin-top: 40px; } }
+
+.signin-form__home-link {
+  color: #ffffff;
+  margin-right: 20px; }
+  @media (min-width: 768px) {
+    .signin-form__home-link {
+      margin: 8px 0; } }
+
+.signin-form__home-link:hover,
+.signin-form__home-link:focus {
+  color: #ffffff; }
+
+.signin-form__home-link_close {
+  border: solid 2px #ffffff;
+  padding: 2px;
+  width: 20px;
+  border-radius: 20px;
+  margin-left: 5px; }
+
+.signin-form__panel {
+  background-color: #ffffff;
+  border-radius: 10px;
+  margin: 8px 20px;
+  padding-top: 16px;
+  text-align: center; }
+  @media (min-width: 768px) {
+    .signin-form__panel {
+      padding-top: 40px;
+      margin: 8px 0; } }
+
+.signin-form__panel-title {
+  font-family: "Raleway", Arial, sans-serif; }
+
+.signin-form__form {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 20px; }
+  @media (min-width: 768px) {
+    .signin-form__form {
+      padding: 40px 80px; } }
+
+.signin-form__form-field {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 20px; }
+
+.signin-form__form-field label,
+.signin-form__form-field input {
+  display: -ms-flexbox;
+  display: flex; }
+
+.signin-form__form-field label {
+  text-transform: uppercase; }
+
+.signin-form__form input {
+  border: solid 1px #D8D8D8;
+  border-radius: 3px;
+  outline: none;
+  padding: 5px; }
+
+.signin-form__form-field-button {
+  display: inline; }
+
+.signin-form__submit_button {
+  color: #ffffff;
+  font-size: 13px;
+  text-transform: uppercase;
+  border-radius: 23px;
+  border: solid 1px #3d68ff;
+  background-color: #3d68ff;
+  padding: 10px 30px; }
+
+.signin-form__errors {
+  color: #ffffff;
+  padding: 10px;
+  background-color: #f45c00; }
+  @media (min-width: 768px) {
+    .signin-form__errors {
+      margin: 40px 80px 0px 80px;
+      border-radius: 3px; } }
+
 .signup-textfield {
   position: relative; }
 
@@ -3234,6 +3325,40 @@ hr.project-page__presentation-header-line {
   @media screen and (min-width: 767px) {
     .signup-container {
       height: 100%; } }
+
+.signin-container {
+  background: url("/images/signup-bg.jpg") no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  height: 100vh; }
+  @media (min-width: 768px) {
+    .signin-container {
+      padding-top: 48px; } }
+
+.signin-no-account {
+  padding: 20px;
+  text-align: center; }
+
+.signin-no-account-text {
+  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 20px; }
+  @media (min-width: 768px) {
+    .signin-no-account-text {
+      display: inline;
+      margin-right: 10px; } }
+
+.signin-inscription-button {
+  border-radius: 20px;
+  border: solid 2px #ffffff;
+  color: #ffffff;
+  text-transform: uppercase;
+  padding: 10px 30px;
+  margin-top: 40px; }
+
+.signin-inscription-button:focus {
+  color: #3e4149;
+  background: #ffffff; }
 
 body {
   font-family: "Lato", Arial, sans-serif;
