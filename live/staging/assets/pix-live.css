@@ -196,9 +196,6 @@ input[type="checkbox"]:checked:focus:before {
   position: relative;
   cursor: pointer; }
 
-input[type=radio] {
-  width: 0; }
-
 input[type=radio]:before,
 input[type=radio]:checked:after {
   display: block;
@@ -209,14 +206,14 @@ input[type=radio]:checked:after {
 input[type=radio]:checked:after {
   height: 8.5px;
   width: 8.5px;
-  top: -15px;
+  top: -13px;
   left: 2px;
   background-color: #3D68FF; }
 
 input[type=radio]:before {
   height: 17px;
   width: 17px;
-  top: -2px;
+  top: 0px;
   left: -2px;
   border: solid 2px #7D808B;
   background-color: white; }
