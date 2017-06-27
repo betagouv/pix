@@ -3,7 +3,7 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const Profile = require('../../../../../lib/domain/models/data/profile');
 const User = require('../../../../../lib/domain/models/data/user');
 
-describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
+describe.only('Unit | Serializer | JSONAPI | profile-serializer', () => {
 
   describe('#serialize', function() {
 
@@ -16,7 +16,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       });
 
       const expectedJson = {
-        data: {
+        data: [{
           type: 'user',
           id: 'user_id',
           attributes: {
@@ -31,51 +31,52 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               ]
             }
           },
-          included: [
-            {
-              type: 'areas',
-              id: 'recAreaA',
-              attributes: {
-                name: 'area-name-1'
-              }
+
+        }],
+        included: [
+          {
+            type: 'areas',
+            id: 'recAreaA',
+            attributes: {
+              name: 'area-name-1'
+            }
+          },
+          {
+            type: 'areas',
+            id: 'recAreaB',
+            attributes: {
+              name: 'area-name-2'
+            }
+          },
+          {
+            type: 'competences',
+            id: 'recCompA',
+            attributes: {
+              name: 'competence-name-1',
+              level: -1
             },
-            {
-              type: 'areas',
-              id: 'recAreaB',
-              attributes: {
-                name: 'area-name-2'
-              }
-            },
-            {
-              type: 'competences',
-              id: 'recCompA',
-              attributes: {
-                name: 'domaine-name-1',
-                level: -1
-              },
-              relationships: {
-                area: {
-                  type: 'areas',
-                  id: 'recAreaA'
-                }
-              }
-            },
-            {
-              type: 'competences',
-              id: 'recCompB',
-              attributes: {
-                name: 'domaine-name-2',
-                level: -1
-              },
-              relationships: {
-                area: {
-                  type: 'areas',
-                  id: 'recAreaB'
-                }
+            relationships: {
+              area: {
+                type: 'areas',
+                id: 'recAreaA'
               }
             }
-          ]
-        }
+          },
+          {
+            type: 'competences',
+            id: 'recCompB',
+            attributes: {
+              name: 'competence-name-2',
+              level: -1
+            },
+            relationships: {
+              area: {
+                type: 'areas',
+                id: 'recAreaB'
+              }
+            }
+          }
+        ]
       };
 
       const areas = [
@@ -92,12 +93,12 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       const competences = [
         {
           id: 'recCompA',
-          name: 'domaine-name-1',
+          name: 'competence-name-1',
           areaId: 'recAreaA'
         },
         {
           id: 'recCompB',
-          name: 'domaine-name-2',
+          name: 'competence-name-2',
           areaId: 'recAreaB'
         }];
 

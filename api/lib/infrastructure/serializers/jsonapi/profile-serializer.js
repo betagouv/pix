@@ -6,36 +6,43 @@ class ProfileSerializer extends JSONAPISerializer {
     super('user');
   }
 
+  serialize(modelObject) {
+    const response = {};
+    response.data = this.serializeModelObject(modelObject);
+    response.included = this.serializeIncluded(modelObject);
+    return response;
+  }
+
   serializeAttributes(model, data) {
     data.attributes['first-name'] = model.firstName;
     data.attributes['last-name'] = model.lastName;
   }
 
-  serializeRelationships(model, data) {
+  serializeRelationships(model, modelName, data) {
     if(model) {
-      data.relationships = {
-        competences: {
-          data: []
-        }
+      data.relationships = {};
+      data.relationships[modelName] = {
+        data: []
       };
-      for (const competence of model) {
-        data.relationships.competences.data.push({
+
+      for (const modelItem of model) {
+        data.relationships[modelName].data.push({
           'type': 'competences',
-          'id': competence.id
+          'id': modelItem.id
         });
       }
     }
   }
 
-  serializeIncluded(model, data) {
+  serializeIncluded(model) {
     if(!model.competences || !model.areas) {
       return null;
     }
 
-    data.included = [];
+    const included = [];
 
     for (const area of model.areas) {
-      data.included.push({
+      included.push({
         'id': area.id,
         'type': 'areas',
         attributes: {
@@ -45,7 +52,7 @@ class ProfileSerializer extends JSONAPISerializer {
     }
 
     for (const competence of model.competences) {
-      data.included.push({
+      included.push({
         'id': competence.id,
         'type': 'competences',
         attributes: {
@@ -60,6 +67,8 @@ class ProfileSerializer extends JSONAPISerializer {
         }
       });
     }
+
+    return included;
   }
 
   serializeModelObject(modelObject) {
@@ -68,14 +77,14 @@ class ProfileSerializer extends JSONAPISerializer {
     }
     const entity = modelObject.user.toJSON();
     const competencesEntity = modelObject.competences;
-    const data = {};
+    const dataWrapper = [{}];
+    const data = dataWrapper[0];
     data.type = this.modelClassName;
     data.id = entity.id;
     data.attributes = {};
     this.serializeAttributes(entity, data);
-    this.serializeRelationships(competencesEntity, data);
-    this.serializeIncluded(modelObject, data);
-    return data;
+    this.serializeRelationships(competencesEntity, 'competences', data);
+    return dataWrapper;
   }
 }
 

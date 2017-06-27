@@ -27,8 +27,9 @@ class JSONAPISerializer {
     const data = {};
     data.type = this.modelClassName;
 
-    if(entity.id)
+    if(entity.id) {
       data.id = entity.id;
+    }
 
     data.attributes = {};
     this.serializeAttributes(entity, data);
