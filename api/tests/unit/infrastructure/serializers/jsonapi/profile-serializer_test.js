@@ -3,7 +3,7 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const Profile = require('../../../../../lib/domain/models/data/profile');
 const User = require('../../../../../lib/domain/models/data/user');
 
-describe.only('Unit | Serializer | JSONAPI | profile-serializer', () => {
+describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
 
   describe('#serialize', function() {
 

@@ -27,32 +27,16 @@ class ProfileSerializer extends JSONAPISerializer {
 
       for (const modelItem of model) {
         data.relationships[modelName].data.push({
-          'type': 'competences',
+          'type': modelName,
           'id': modelItem.id
         });
       }
     }
   }
 
-  serializeIncluded(model) {
-    if(!model.competences || !model.areas) {
-      return null;
-    }
-
-    const included = [];
-
-    for (const area of model.areas) {
-      included.push({
-        'id': area.id,
-        'type': 'areas',
-        attributes: {
-          'name': area.name
-        }
-      });
-    }
-
+  serializeCompetenceIncluded(model, included) {
     for (const competence of model.competences) {
-      included.push({
+      const competenceData = {
         'id': competence.id,
         'type': 'competences',
         attributes: {
@@ -65,9 +49,32 @@ class ProfileSerializer extends JSONAPISerializer {
             'id': competence.areaId
           }
         }
+      };
+
+      included.push(competenceData);
+    }
+  }
+
+  serializeAreaIncluded(model, included) {
+    for (const area of model.areas) {
+      included.push({
+        'id': area.id,
+        'type': 'areas',
+        attributes: {
+          'name': area.name
+        }
       });
     }
+  }
 
+  serializeIncluded(model) {
+    if(!model.competences || !model.areas) {
+      return null;
+    }
+
+    const included = [];
+    this.serializeAreaIncluded(model, included);
+    this.serializeCompetenceIncluded(model, included);
     return included;
   }
 

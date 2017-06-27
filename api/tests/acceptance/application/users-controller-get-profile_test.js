@@ -46,7 +46,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
     payload: {}
   };
   const expectedSerializedProfile = {
-    data: {
+    data: [{
       type: 'user',
       id: 'user_id',
       attributes: {
@@ -60,52 +60,52 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
             {type: 'competences', id: 'recCompB'}
           ]
         }
+      }
+    }],
+    included: [
+      {
+        type: 'areas',
+        id: 'recAreaA',
+        attributes: {
+          name: 'domaine-name-1'
+        }
       },
-      included: [
-        {
-          type: 'areas',
-          id: 'recAreaA',
-          attributes: {
-            name: 'domaine-name-1'
-          }
+      {
+        type: 'areas',
+        id: 'recAreaB',
+        attributes: {
+          name: 'domaine-name-2'
+        }
+      },
+      {
+        type: 'competences',
+        id: 'recCompA',
+        attributes: {
+          name: 'competence-name-1',
+          level: -1
         },
-        {
-          type: 'areas',
-          id: 'recAreaB',
-          attributes: {
-            name: 'domaine-name-2'
-          }
-        },
-        {
-          type: 'competences',
-          id: 'recCompA',
-          attributes: {
-            name: 'competence-name-1',
-            level: -1
-          },
-          relationships: {
-            area: {
-              type: 'areas',
-              id: 'recAreaA',
-            }
-          }
-        },
-        {
-          type: 'competences',
-          id: 'recCompB',
-          attributes: {
-            name: 'competence-name-2',
-            level: -1
-          },
-          relationships: {
-            area: {
-              type: 'areas',
-              id: 'recAreaB'
-            }
+        relationships: {
+          area: {
+            type: 'areas',
+            id: 'recAreaA',
           }
         }
-      ]
-    }
+      },
+      {
+        type: 'competences',
+        id: 'recCompB',
+        attributes: {
+          name: 'competence-name-2',
+          level: -1
+        },
+        relationships: {
+          area: {
+            type: 'areas',
+            id: 'recAreaB'
+          }
+        }
+      }
+    ]
   };
   const fakeUser = new User({
     id: 'user_id',
