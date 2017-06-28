@@ -6,11 +6,7 @@ const AIRTABLE_TABLE_NAME = 'Competences';
 const cacheKey = 'competence-repository_list';
 
 module.exports = {
-  /*
-   *  filterByFormula : "NOT({Domaine} = '')",
-   *  filterByFormula : "LEFT({Nom}, 3)",
-   *  sort : [{field: "Nom", direction: "asc"}]
-   * */
+
   list() {
     return new Promise((resolve, reject) => {
 
