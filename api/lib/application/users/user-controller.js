@@ -56,8 +56,8 @@ module.exports = {
     return authorizationToken
       .verify(token)
       .then(UserRepository.findUserById)
-      .then((foundedUser) => {
-        return profileService.buildUserProfile(foundedUser.id);
+      .then((foundUser) => {
+        return profileService.buildUserProfile(foundUser.id);
       })
       .then((buildedProfile) => {
         reply(profileSerializer.serialize(buildedProfile)).code(201);

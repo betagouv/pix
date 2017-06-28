@@ -102,7 +102,6 @@ describe('Unit | Repository | area-repository', function() {
     });
 
     describe('Error occured cases: ', () => {
-
       it('should throw an error, when something going wrong from cache', () => {
         // Given
         const cacheStub = sinon.stub(cache, 'get');
