@@ -102,10 +102,17 @@ describe('Unit | Repository | area-repository', function() {
     });
 
     describe('Error occured cases: ', () => {
+
+      beforeEach(() => {
+        sinon.stub(cache, 'get');
+      });
+      afterEach(() => {
+        cache.get.restore();
+      });
+
       it('should throw an error, when something going wrong from cache', () => {
         // Given
-        const cacheStub = sinon.stub(cache, 'get');
-        cacheStub.callsArgWith(1, new Error('Error on cache recuperation'));
+        cache.get.callsArgWith(1, new Error('Error on cache recuperation'));
 
         // When
         const cachedPromise = areaRepository.list();
@@ -113,15 +120,13 @@ describe('Unit | Repository | area-repository', function() {
         return cachedPromise.catch((err) => {
           expect(cachedPromise).to.be.rejectedWith(Error);
           expect(err.message).to.be.equal('Error on cache recuperation');
-          cacheStub.restore();
         });
 
       });
 
       it('should throw an error, when something going wrong from airtable', () => {
         // Given
-        const cacheStub = sinon.stub(cache, 'get');
-        cacheStub.callsArgWith(1, null, null);
+        cache.get.callsArgWith(1, null, null);
 
         getRecordsStub.rejects(new Error('Error on Airtable recuperation'));
 
@@ -132,7 +137,6 @@ describe('Unit | Repository | area-repository', function() {
           // Then
           expect(cachedPromise).to.be.rejectedWith(Error);
           expect(err.message).to.be.equal('Error on Airtable recuperation');
-          cacheStub.restore();
         });
       });
 
