@@ -10,7 +10,7 @@ class CompetenceSerializer extends AirtableSerializer {
 
     const fields = airtableRecord.fields;
     if(fields) {
-      competence.name = fields['Nom'];
+      competence.name = fields['Titre'];
       competence.areaId = fields['Domaine'];
     }
 

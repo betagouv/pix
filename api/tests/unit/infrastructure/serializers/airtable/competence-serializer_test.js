@@ -12,7 +12,9 @@ describe('Unit | Serializer | competence-serializer', function() {
       const airtableCompetencesRecord = {
         id: 'recsvLDFHShyfDXXXXX',
         fields: {
-          'Nom': '1.1 Mener une recherche d\'information',
+          'Référence': '1.1 Mener une recherche d\'information',
+          'Titre': 'Mener une recherche d\'information',
+          'Sous-domaine': '1.1',
           'Domaine': [
             'recvoGdo0z0z0pXWZ'
           ],
@@ -29,7 +31,7 @@ describe('Unit | Serializer | competence-serializer', function() {
 
         // Then
         expect(competences.id).to.be.equal(airtableCompetencesRecord.id);
-        expect(competences.name).to.be.equal(airtableCompetencesRecord.fields['Nom']);
+        expect(competences.name).to.be.equal(airtableCompetencesRecord.fields['Titre']);
         expect(competences.areaId).to.be.equal(airtableCompetencesRecord.fields['Domaine']);
         expect(competences.Epreuves).to.not.exist;
       });
