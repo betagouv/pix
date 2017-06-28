@@ -3820,7 +3820,7 @@ define('pix-live/instance-initializers/ember-simple-auth', ['exports', 'ember-si
     }
   };
 });
-define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-courses-of-the-week', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/post-followers', 'pix-live/mirage/routes/post-feedbacks', 'pix-live/mirage/routes/post-refresh-solution', 'pix-live/mirage/routes/post-users', 'pix-live/mirage/routes/post-authentications'], function (exports, _getChallenge, _getChallenges, _getNextChallenge, _getAssessmentSolutions, _getCourse, _getCourses, _getCoursesOfTheWeek, _getAnswer, _postAnswers, _getAssessment, _postAssessments, _getAnswerByChallengeAndAssessment, _postFollowers, _postFeedbacks, _postRefreshSolution, _postUsers, _postAuthentications) {
+define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-courses-of-the-week', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/patch-answer', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/post-followers', 'pix-live/mirage/routes/post-feedbacks', 'pix-live/mirage/routes/post-refresh-solution', 'pix-live/mirage/routes/post-users', 'pix-live/mirage/routes/post-authentications'], function (exports, _getChallenge, _getChallenges, _getNextChallenge, _getAssessmentSolutions, _getCourse, _getCourses, _getCoursesOfTheWeek, _getAnswer, _postAnswers, _patchAnswer, _getAssessment, _postAssessments, _getAnswerByChallengeAndAssessment, _postFollowers, _postFeedbacks, _postRefreshSolution, _postUsers, _postAuthentications) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -3856,6 +3856,7 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
     this.post('/answers', _postAnswers.default);
     this.get('/answers/:id', _getAnswer.default);
     this.get('/answers', _getAnswerByChallengeAndAssessment.default);
+    this.patch('/answers/:id', _patchAnswer.default);
 
     this.post('/feedbacks', _postFeedbacks.default);
 
@@ -4739,6 +4740,30 @@ define('pix-live/mirage/routes/get-next-challenge', ['exports', 'pix-live/mirage
     }
   };
 });
+define('pix-live/mirage/routes/patch-answer', ['exports', 'pix-live/utils/lodash-custom', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qru-answer', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer', 'pix-live/mirage/data/answers/ref-timed-answer', 'pix-live/mirage/data/answers/ref-timed-answer-bis'], function (exports, _lodashCustom, _refQcuAnswer, _refQruAnswer, _refQcmAnswer, _refQrocAnswer, _refQrocmAnswer, _refTimedAnswer, _refTimedAnswerBis) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  exports.default = function (schema, request) {
+
+    var receivedAnswer = JSON.parse(request.requestBody);
+
+    var allAnswers = [_refQcmAnswer.default, _refQcuAnswer.default, _refQruAnswer.default, _refQrocAnswer.default, _refQrocmAnswer.default, _refTimedAnswer.default, _refTimedAnswerBis.default];
+    var existingAnswer = _lodashCustom.default.find(allAnswers, function (answer) {
+      return answer.data.id === receivedAnswer.data.id;
+    });
+    if (!existingAnswer) {
+      throw new Error('Unable to PATCH this answer: no answer with id `' + receivedAnswer.data.id + '` found in the stubs.');
+    }
+
+    var updatedAnswer = existingAnswer;
+    Object.assign(updatedAnswer.data.attributes, receivedAnswer.data.attributes);
+    return updatedAnswer;
+  };
+});
 define('pix-live/mirage/routes/post-answers', ['exports', 'pix-live/utils/lodash-custom', 'pix-live/mirage/data/challenges/ref-qcm-challenge', 'pix-live/mirage/data/challenges/ref-qcu-challenge', 'pix-live/mirage/data/challenges/ref-qru-challenge', 'pix-live/mirage/data/challenges/ref-qroc-challenge', 'pix-live/mirage/data/challenges/ref-qrocm-challenge', 'pix-live/mirage/data/challenges/ref-timed-challenge', 'pix-live/mirage/data/challenges/ref-timed-challenge-bis', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qru-answer', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer', 'pix-live/mirage/data/answers/ref-timed-answer', 'pix-live/mirage/data/answers/ref-timed-answer-bis'], function (exports, _lodashCustom, _refQcmChallenge, _refQcuChallenge, _refQruChallenge, _refQrocChallenge, _refQrocmChallenge, _refTimedChallenge, _refTimedChallengeBis, _refQcuAnswer, _refQruAnswer, _refQcmAnswer, _refQrocAnswer, _refQrocmAnswer, _refTimedAnswer, _refTimedAnswerBis) {
   'use strict';
 
@@ -4923,7 +4948,8 @@ define('pix-live/models/challenge', ['exports', 'ember', 'ember-data'], function
     value: true
   });
   var Model = _emberData.default.Model,
-      attr = _emberData.default.attr;
+      attr = _emberData.default.attr,
+      belongsTo = _emberData.default.belongsTo;
   exports.default = Model.extend({
 
     instruction: attr('string'),
@@ -4934,11 +4960,12 @@ define('pix-live/models/challenge', ['exports', 'ember', 'ember-data'], function
     type: attr('string'),
 
     attachments: attr('array'),
+    answer: belongsTo('answer'),
+
     hasAttachment: _ember.default.computed.notEmpty('attachments'),
     hasSingleAttachment: _ember.default.computed.equal('attachments.length', 1),
     hasMultipleAttachments: _ember.default.computed.gt('attachments.length', 1),
     hasTimer: _ember.default.computed.notEmpty('timer')
-
   });
 });
 define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -5151,23 +5178,24 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp',
         challenge_id: model.challenge.id
       };
     },
-    _createAnswer: function _createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime) {
-      return this.get('store').createRecord('answer', {
-        value: answerValue,
-        timeout: answerTimeout,
-        challenge: currentChallenge,
-        elapsedTime: answerElapsedTime,
-        assessment: assessment
-      });
+    _findOrCreateAnswer: function _findOrCreateAnswer(challenge, assessment) {
+      var answer = assessment.get('answers').findBy('challenge.id', challenge.get('id'));
+      if (!answer) {
+        answer = this.get('store').createRecord('answer', {
+          assessment: assessment,
+          challenge: challenge
+        });
+      }
+      return answer;
     },
-    _urlForNextChallenge: function _urlForNextChallenge(adapter, assessmentId, currentChallengeId) {
-      return adapter.buildURL('assessment', assessmentId) + '/next/' + currentChallengeId;
+    _urlForNextChallenge: function _urlForNextChallenge(adapter, assessmentId, challengeId) {
+      return adapter.buildURL('assessment', assessmentId) + '/next/' + challengeId;
     },
-    _navigateToNextView: function _navigateToNextView(currentChallenge, assessment) {
+    _navigateToNextView: function _navigateToNextView(challenge, assessment) {
       var _this = this;
 
       var adapter = this.get('store').adapterFor('application');
-      return adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET').then(function (nextChallenge) {
+      return adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), challenge.get('id')), 'GET').then(function (nextChallenge) {
         if (nextChallenge) {
           return _this.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
         } else {
@@ -5178,12 +5206,20 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp',
 
 
     actions: {
-      saveAnswerAndNavigate: function saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
+      saveAnswerAndNavigate: function saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
         var _this2 = this;
 
-        var answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime);
+        var answer = this._findOrCreateAnswer(challenge, assessment);
+        answer.setProperties({
+          value: answerValue,
+          timeout: answerTimeout,
+          elapsedTime: answerElapsedTime
+        });
         return answer.save().then(function () {
-          return _this2._navigateToNextView(currentChallenge, assessment);
+          return _this2._navigateToNextView(challenge, assessment);
+        }).catch(function (err) {
+          alert('Erreur lors de l\u2019enregistrement de la r\xE9ponse : ' + err);
+          return err;
         });
       }
     }
@@ -6778,6 +6814,10 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
       // test passed
     });
 
+    it('mirage/routes/patch-answer.js', function () {
+      // test passed
+    });
+
     it('mirage/routes/post-answers.js', function () {
       // test passed
     });
@@ -7307,6 +7347,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.13.0+c093e092"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.13.0+ce8063f5"});
 }
 //# sourceMappingURL=pix-live.map
