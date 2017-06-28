@@ -17,7 +17,8 @@ module.exports = {
       if(!token) {
         return reject(new InvalidTokenError());
       }
-      jsonwebtoken.verify(token, settings.authentication.secret, function(err, decoded) {
+
+      jsonwebtoken.verify(token, settings.authentication.secret, (err, decoded) => {
         if(err) {
           return reject(new InvalidTokenError());
         }
