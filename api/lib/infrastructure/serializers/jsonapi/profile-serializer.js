@@ -34,8 +34,8 @@ class ProfileSerializer extends JSONAPISerializer {
     }
   }
 
-  serializeCompetenceIncluded(model, included) {
-    for (const competence of model.competences) {
+  _serializeCompetenceIncluded(model, included) {
+    model.competences.forEach((competence) => {
       const competenceData = {
         'id': competence.id,
         'type': 'competences',
@@ -52,10 +52,10 @@ class ProfileSerializer extends JSONAPISerializer {
       };
 
       included.push(competenceData);
-    }
+    });
   }
 
-  serializeAreaIncluded(model, included) {
+  _serializeAreaIncluded(model, included) {
     for (const area of model.areas) {
       included.push({
         'id': area.id,
@@ -73,8 +73,8 @@ class ProfileSerializer extends JSONAPISerializer {
     }
 
     const included = [];
-    this.serializeAreaIncluded(model, included);
-    this.serializeCompetenceIncluded(model, included);
+    this._serializeAreaIncluded(model, included);
+    this._serializeCompetenceIncluded(model, included);
     return included;
   }
 
