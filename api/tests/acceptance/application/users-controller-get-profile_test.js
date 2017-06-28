@@ -4,7 +4,6 @@ const server = require('../../../server');
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const User = require('../../../lib/domain/models/data/user');
-const {NotFoundError} = require('../../../lib/domain/errors');
 const profileService = require('../../../lib/domain/services/profile-service');
 
 const expectedResultWhenInvalidToken = {
@@ -120,12 +119,12 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       areaId: 'recAreaA',
       level: -1
     },
-    {
-      id: 'recCompB',
-      name: 'competence-name-2',
-      areaId: 'recAreaB',
-      level: -1
-    }],
+      {
+        id: 'recCompB',
+        name: 'competence-name-2',
+        areaId: 'recAreaB',
+        level: -1
+      }],
     areas: [{id: 'recAreaA', name: 'domaine-name-1'}, {id: 'recAreaB', name: 'domaine-name-2'}]
   };
 
@@ -154,7 +153,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
 
       it('should return 401  HTTP status code, when authorization is valid but user not found', () => {
         const authorizationTokenStub = sinon.stub(authorizationToken, 'verify').resolves(4);
-        const UserRepositoryStub = sinon.stub(UserRepository, 'findUserById').returns(Promise.reject(new NotFoundError()));
+        const UserRepositoryStub = sinon.stub(UserRepository, 'findUserById').returns(Promise.reject(User.NotFoundError));
         options['headers'] = {authorization: 'Bearer VALID_TOKEN'};
         // When
         return server.injectThen(options).then(response => {

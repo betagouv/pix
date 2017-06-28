@@ -6,8 +6,8 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const mailService = require('../../domain/services/mail-service');
 const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
-const {NotFoundError} = require('../../../lib/domain/errors');
 const {InvalidTokenError} = require('../../../lib/domain/errors');
+const User = require('../../../lib/domain/models/data/user');
 const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
 const googleReCaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
@@ -63,7 +63,7 @@ module.exports = {
         reply(profileSerializer.serialize(buildedProfile)).code(201);
       })
       .catch((err) => {
-        if(err instanceof NotFoundError) {
+        if(err === User.NotFoundError) {
           err = 'Cet utilisateur est introuvable';
         } else if(err instanceof InvalidTokenError) {
           err = 'Le token n’est pas valid';

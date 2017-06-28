@@ -1,8 +1,8 @@
-const {describe, it, before, after, expect, knex} = require('../../../test-helper');
+const {expect, knex} = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
-const {NotFoundError} = require('../../../../lib/domain/errors');
 
+const User = require('../../../../lib/domain/models/data/user');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 describe('Unit | Repository | UserRepository', function() {
@@ -54,8 +54,7 @@ describe('Unit | Repository | UserRepository', function() {
         const inexistenteId = 10093;
         return UserRepository.findUserById(inexistenteId)
           .catch((err) => {
-            const errorType = err instanceof NotFoundError;
-            expect(errorType).to.be.ok;
+            expect(err).to.be.an.instanceof(User.NotFoundError);
           });
       });
     });
