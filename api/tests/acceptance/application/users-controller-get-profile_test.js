@@ -1,10 +1,11 @@
-const {describe, it, expect, sinon, before, after} = require('../../test-helper');
+const {describe, it, expect, sinon} = require('../../test-helper');
 const faker = require('faker');
 const server = require('../../../server');
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const User = require('../../../lib/domain/models/data/user');
 const profileService = require('../../../lib/domain/services/profile-service');
+const {InvalidTokenError} = require('../../../lib/domain/errors');
 
 const expectedResultWhenInvalidToken = {
   errors: [{
@@ -119,12 +120,12 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       areaId: 'recAreaA',
       level: -1
     },
-    {
-      id: 'recCompB',
-      name: 'competence-name-2',
-      areaId: 'recAreaB',
-      level: -1
-    }],
+      {
+        id: 'recCompB',
+        name: 'competence-name-2',
+        areaId: 'recAreaB',
+        level: -1
+      }],
     areas: [{id: 'recAreaA', name: 'domaine-name-1'}, {id: 'recAreaB', name: 'domaine-name-2'}]
   };
 
@@ -132,7 +133,19 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
 
     describe('Errors case:', () => {
 
+      beforeEach(() => {
+        sinon.stub(authorizationToken, 'verify').resolves(4);
+        sinon.stub(UserRepository, 'findUserById').returns(Promise.reject(User.NotFoundError));
+      });
+
+      afterEach(() => {
+        authorizationToken.verify.restore();
+        UserRepository.findUserById.restore();
+      });
+
       it('should response with 401 HTTP status code, when empty authorization', () => {
+        // Then
+        authorizationToken.verify.returns(Promise.reject(new InvalidTokenError()));
         // When
         return server.injectThen(options).then(response => {
           // Then
@@ -152,28 +165,24 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       });
 
       it('should return 401  HTTP status code, when authorization is valid but user not found', () => {
-        const authorizationTokenStub = sinon.stub(authorizationToken, 'verify').resolves(4);
-        const UserRepositoryStub = sinon.stub(UserRepository, 'findUserById').returns(Promise.reject(User.NotFoundError));
+        authorizationToken.verify.resolves(4);
+        UserRepository.findUserById.returns(Promise.reject(User.NotFoundError));
         options['headers'] = {authorization: 'Bearer VALID_TOKEN'};
         // When
         return server.injectThen(options).then(response => {
           // Then
-          authorizationTokenStub.restore();
-          UserRepositoryStub.restore();
           expect(response.statusCode).to.equal(401);
           expect(response.result).to.deep.equal(expectedResultUserNotFounded);
         });
       });
 
       it('should return 401  HTTP status code, when authorization is valid but error occurred', () => {
-        const authorizationTokenStub = sinon.stub(authorizationToken, 'verify').resolves(4);
-        const UserRepositoryStub = sinon.stub(UserRepository, 'findUserById').returns(Promise.reject(new Error()));
+        authorizationToken.verify.resolves(4);
+        UserRepository.findUserById.returns(Promise.reject(new Error()));
         options['headers'] = {authorization: 'Bearer VALID_TOKEN'};
         // When
         return server.injectThen(options).then(response => {
           // Then
-          authorizationTokenStub.restore();
-          UserRepositoryStub.restore();
           expect(response.statusCode).to.equal(401);
           expect(response.result).to.deep.equal(expectedResultWhenErrorOccured);
         });
@@ -195,13 +204,13 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
         cgu: true
       });
 
-      before(() => {
+      beforeEach(() => {
         authorizationTokenStub = sinon.stub(authorizationToken, 'verify').resolves(1);
         UserRepositoryStub = sinon.stub(UserRepository, 'findUserById').resolves(user);
         profileServiceStub = sinon.stub(profileService, 'buildUserProfile');
       });
 
-      after(() => {
+      afterEach(() => {
         profileServiceStub.restore();
         authorizationTokenStub.restore();
         UserRepositoryStub.restore();
