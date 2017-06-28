@@ -79,9 +79,17 @@ describe('Unit | Repository | competence-repository', function() {
 
     describe('When record have been cached', () => {
 
+      let cacheStub;
+      beforeEach(() => {
+        cacheStub = sinon.stub(cache, 'get');
+      });
+
+      afterEach(() => {
+        cacheStub.restore();
+      });
+
       it('should retrieve records directly from cache', () => {
         // Given
-        const cacheStub = sinon.stub(cache, 'get');
         cacheStub.callsArgWith(1, null, competenceRecords);
         getRecordsStub.resolves(true);
         // When
@@ -92,16 +100,24 @@ describe('Unit | Repository | competence-repository', function() {
           expect(competencesFetched).to.be.equal(competenceRecords);
           sinon.assert.calledOnce(cacheStub);
           sinon.assert.calledWith(cacheStub, cacheKey);
-          cacheStub.restore();
         });
       });
+
     });
 
     describe('Error occured cases: ', () => {
 
+      let cacheStub;
+      beforeEach(() => {
+        cacheStub = sinon.stub(cache, 'get');
+      });
+
+      afterEach(() => {
+        cacheStub.restore();
+      });
+
       it('should throw an error, when something going wrong from cache', () => {
         // Given
-        const cacheStub = sinon.stub(cache, 'get');
         cacheStub.callsArgWith(1, new Error('Error on cache recuperation'));
 
         // When
@@ -111,14 +127,12 @@ describe('Unit | Repository | competence-repository', function() {
           // Then
           expect(cachedPromise).to.be.rejectedWith(Error);
           expect(err.message).to.be.equal('Error on cache recuperation');
-          cacheStub.restore();
         });
 
       });
 
       it('should throw an error, when something going wrong from airtable', () => {
         // Given
-        const cacheStub = sinon.stub(cache, 'get');
         cacheStub.callsArgWith(1, null, null);
 
         getRecordsStub.rejects(new Error('Error on Airtable recuperation'));
@@ -130,7 +144,6 @@ describe('Unit | Repository | competence-repository', function() {
           // Then
           expect(cachedPromise).to.be.rejectedWith(Error);
           expect(err.message).to.be.equal('Error on Airtable recuperation');
-          cacheStub.restore();
         });
       });
 
