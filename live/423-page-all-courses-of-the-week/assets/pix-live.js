@@ -3659,7 +3659,6 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
   });
 
   exports.default = function () {
-    this.logging = false;
     this.passthrough('/write-coverage');
     this.post('https://fonts.googleapis.com/**', function () {});
     this.post('https://formspree.io/**', function () {});
@@ -3671,7 +3670,7 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
 
     this.get('/courses', _getCourses.default);
     this.get('/courses?isCourseOfTheWeek=true', _getCoursesOfTheWeek.default);
-    this.get('/courses/:id', _getCourse.default);
+    //this.get('/courses/:id', getCourse);//DOMMAGE COLLATERAUX, DANS LA NOUVELLE VERSION RISQUE DE FAIRE PETER DES TESTS
 
     this.get('/challenges', _getChallenges.default);
     this.get('/challenges/:id', _getChallenge.default);
@@ -3693,6 +3692,22 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
     this.post('/followers', _postFollowers.default);
 
     this.post('/users', _postUsers.default);
+
+    //Nouveau Mirage
+    //CourseGroups
+    this.get('/course-groups');
+
+    //Courses
+    this.get('/courses/:id', function (schema, request) {
+
+      var id = request.params.id;
+      if (['ref_course_id', 'highligthed_course_id', 'ref_timed_challenge_course_id'].includes(id)) {
+        return (0, _getCourse.default)(schema, request);
+      }
+      return schema.courses.find(id);
+    });
+
+    //
   };
 });
 define('pix-live/mirage/data/answers/ref-qcm-answer', ['exports', 'pix-live/mirage/data/challenges/ref-qcm-challenge'], function (exports, _refQcmChallenge) {
@@ -4319,6 +4334,164 @@ define('pix-live/mirage/data/users/index', ['exports'], function (exports) {
     }
   };
 });
+define('pix-live/mirage/factories/course-group', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberCliMirage.Factory.extend({
+    name: function name() {
+      return _emberCliMirage.faker.name.lastName();
+    }
+  });
+});
+define('pix-live/mirage/factories/course', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberCliMirage.Factory.extend({
+    name: function name(i) {
+      return 'course ' + i;
+    }
+  });
+});
+define('pix-live/mirage/fixtures/answers', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{ id: 'ref_answer_qcm_id', value: '2, 4', result: 'ko', challengeId: 'ref_qcm_challenge_id', assessment: 'ref_assessment_id' }, { id: 'ref_answer_qcu_id', value: '2', result: 'ok', challengeId: 'ref_qcu_challenge_id', assessment: 'ref_assessment_id' }, { id: 'ref_answer_qroc_id', value: 'Bill', result: 'pending', challengeId: 'ref_qroc_challenge_id', assessment: 'ref_assessment_id' }, { id: 'ref_answer_qrocm_id', value: 'logiciel1: word\nlogiciel2: excel\nlogiciel3: powerpoint', result: 'partially', challengeId: 'ref_qrocm_challenge_id', assessment: 'ref_assessment_id' }, { id: 'ref_answer_qru_id', value: '', result: 'aband', challengeId: 'ref_qru_challenge_id', assessment: 'ref_assessment_id' }, { id: 'ref_timed_answer_id', value: '', result: 'aband', challengeId: 'ref_timed_challenge_id', assessment: 'ref_timed_challenge_assessment_id' }, { id: 'ref_timed_answer_bis_id', value: '', result: 'aband', challengeId: 'ref_timed_challenge_bis_id', assessment: 'ref_timed_challenge_assessment_id' }];
+});
+define('pix-live/mirage/fixtures/assessments', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{ id: 'ref_assessment_id', 'user-id': 'user_id', 'user-name': 'Jon Snow', 'user-email': 'jsnow@winterfell.got', course: 'ref_course_id', answers: ['ref_answer_qcm_id', 'ref_answer_qcu_id', 'ref_answer_qroc_id', 'ref_answer_qrocm_id', 'ref_answer_qru_id'] }, { id: 'ref_timed_challenge_assessment_id', 'user-id': 'user_id', 'user-name': 'Jon Snow', 'user-email': 'jsnow@winterfell.got', course: 'ref_timed_challenge_course_id', answers: ['ref_timed_answer_id', 'ref_timed_answer_bis_id'] }];
+});
+define('pix-live/mirage/fixtures/challenges', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{
+    id: 'ref_qcm_challenge_id',
+    type: 'QCM',
+    timer: 2,
+    instruction: 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)',
+    attachments: ['http://example_of_url'],
+    'illustration-url': 'http://fakeimg.pl/350x200/?text=PictureOfQCM',
+    proposals: '- possibilite 1, et/ou' + '\n - possibilite 2, et/ou' + '\n - possibilite 3, et/ou' + '\n - possibilite 4'
+  }, {
+    id: 'ref_qcu_challenge_id',
+    type: 'QCU',
+    timer: 2,
+    instruction: 'Un QCU propose plusieurs choix, l\'utilisateur peut en choisir [un seul](http://link.unseul.url)',
+    attachments: ['file.docx', 'file.odt'],
+    'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',
+    'hasnt-internet-allowed': true,
+    proposals: '- 1ere possibilite\n ' + '- 2eme possibilite\n ' + '- 3eme possibilite\n' + '- 4eme possibilite'
+  }, {
+    id: 'ref_qroc_challenge_id',
+    type: 'QROC',
+    instruction: 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre',
+    proposals: 'Entrez le prénom de B. Gates : ${firstname#prénom} (en toutes lettres)\nSVP'
+  }, {
+    id: 'ref_qrocm_challenge_id',
+    type: 'QROCM',
+    instruction: 'Un QROCM est une question [ouverte](http://link.ouverte.url) avec plusieurs champs texte libre pour repondre',
+    proposals: 'Trois logiciels libres : ${logiciel1#un} ${logiciel2#deux} ${logiciel3#trois}\nMerci'
+  }, {
+    id: 'ref_qru_challenge_id',
+    type: 'QRU',
+    'illustration-url': 'http://fakeimg.pl/350x200/?text=QRU',
+    attachments: ['http://example_of_url'],
+    instruction: 'Un QRU propose un seul choix, typiquement cocher si oui ou non il a effectué une action quelque [part](http://link.part.url) ',
+    proposals: '- Une seule possibilite '
+  }, {
+    id: 'ref_timed_challenge_id',
+    type: 'QRU',
+    timer: 5,
+    'illustration-url': 'http://fakeimg.pl/350x200/?text=QRU',
+    attachments: ['http://example_of_url'],
+    instruction: 'Une question timée contient un décompte en bas a droite qui se decremente à chaque seconde ',
+    proposals: '- Une seule possibilite '
+  }, {
+    id: 'ref_timed_challenge_bis_id',
+    type: 'QRU',
+    timer: 5,
+    'illustration-url': 'http://fakeimg.pl/350x200/?text=QRU',
+    attachments: ['http://example_of_url'],
+    instruction: 'Une question timée contient un décompte en bas a droite qui se decremente à chaque seconde ',
+    proposals: '- Une seule possibilite '
+  }];
+});
+define('pix-live/mirage/fixtures/courses', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{
+    id: 'highligthed_course_id',
+    name: 'Traiter des données',
+    description: 'Recherche d\'information, gestion et traitement de données.',
+    'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
+    challenges: ['ref_qcm_challenge_id']
+  }, {
+    id: 'ref_course_id',
+    name: 'First Course',
+    description: 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.',
+    duration: 10,
+    'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
+    challengeId: ['ref_qcm_challenge_id', 'ref_qcu_challenge_id', 'ref_qru_challenge_id', 'ref_qroc_challenge_id', 'ref_qrocm_challenge_id']
+  }, {
+    id: 'ref_timed_challenge_course_id',
+    name: 'Course with timed challenges',
+    description: 'Contient uniquement des épreuves timées',
+    duration: 10,
+    'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
+    challenges: ['ref_timed_challenge_id', 'ref_timed_challenge_bis_id']
+  }];
+});
+define('pix-live/mirage/fixtures/feedbacks', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{ id: 'ref_feedback_id', email: 'shi@fu.me', content: 'Some content', assessment: 'assessment_id', challenge: 'challenge_id' }];
+});
+define('pix-live/mirage/fixtures/followers', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{ id: 'follower_id', 'email': 'jsnow@winterfell.got' }];
+});
+define('pix-live/mirage/fixtures/solutions', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{ id: 'ref_solution_id', value: '2' }, { id: 'ref_solution_id2', value: '2,3' }];
+});
+define('pix-live/mirage/fixtures/users', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{ id: 'user_id' }];
+});
 define('pix-live/mirage/routes/get-answer-by-challenge-and-assessment', ['exports', 'pix-live/utils/lodash-custom', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qru-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer', 'pix-live/mirage/data/answers/ref-timed-answer', 'pix-live/mirage/data/answers/ref-timed-answer-bis'], function (exports, _lodashCustom, _refQcmAnswer, _refQcuAnswer, _refQruAnswer, _refQrocAnswer, _refQrocmAnswer, _refTimedAnswer, _refTimedAnswerBis) {
   'use strict';
 
@@ -4651,6 +4824,29 @@ define('pix-live/mirage/routes/post-users', ['exports', 'pix-live/mirage/data/us
     return _users.default;
   };
 });
+define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  exports.default = function (server) {
+
+    //console.log('je suis passé dans le scenario');
+
+    var courses = server.createList('course', 2, { name: 'course name' });
+    server.createList('courseGroup', 3, { courses: courses });
+  };
+});
+define('pix-live/mirage/serializers/application', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberCliMirage.JSONAPISerializer.extend({});
+});
 define('pix-live/models/answer', ['exports', 'ember-data', 'pix-live/models/answer/value-as-array-of-string-mixin'], function (exports, _emberData, _valueAsArrayOfStringMixin) {
   'use strict';
 
@@ -4737,6 +4933,19 @@ define('pix-live/models/challenge', ['exports', 'ember', 'ember-data'], function
 
   });
 });
+define('pix-live/models/course-group', ['exports', 'ember-data'], function (exports, _emberData) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var attr = _emberData.default.attr,
+      hasMany = _emberData.default.hasMany;
+  exports.default = _emberData.default.Model.extend({
+    name: attr('string'),
+    courses: hasMany('course')
+  });
+});
 define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
 
@@ -4797,22 +5006,6 @@ define('pix-live/models/follower', ['exports', 'ember-data'], function (exports,
   });
   exports.default = _emberData.default.Model.extend({
     email: _emberData.default.attr('string')
-  });
-});
-define('pix-live/models/serie', ['exports', 'ember-data'], function (exports, _emberData) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  var Model = _emberData.default.Model,
-      attr = _emberData.default.attr,
-      hasMany = _emberData.default.hasMany;
-  exports.default = Model.extend({
-
-    name: attr('string'),
-    courses: hasMany('course', { inverse: null })
-
   });
 });
 define('pix-live/models/solution', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -4907,6 +5100,8 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
     this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
     this.route('assessments.get-comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
+
+    this.route('course-groups', { path: '/defis-pix' });
   });
 
   exports.default = Router;
@@ -5183,6 +5378,18 @@ define('pix-live/routes/competences', ['exports', 'ember', 'pix-live/routes/base
 
     model: function model() {
       return domains;
+    }
+  });
+});
+define('pix-live/routes/course-groups', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _baseRoute.default.extend({
+    model: function model() {
+      return this.get('store').findAll('courseGroup');
     }
   });
 });
@@ -6191,6 +6398,14 @@ define("pix-live/templates/components/warning-page", ["exports"], function (expo
   });
   exports.default = Ember.HTMLBars.template({ "id": "kY4kvXCs", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"challenge-item-warning\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"challenge-item-warning__instruction-primary\"],[13],[0,\"\\n    Vous disposerez de \"],[11,\"span\",[]],[15,\"class\",\"challenge-item-warning__instruction-time\"],[13],[1,[26,[\"allocatedHumanTime\"]],false],[14],[0,\" pour\\n    réussir l’épreuve.\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"challenge-item-warning__intruction-secondary\"],[13],[0,\"\\n    Vous pourrez continuer à répondre ensuite, mais l’épreuve ne sera pas considérée comme réussie.\\n  \"],[14],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"challenge-item-warning__allocated-time\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"challenge__allocated-time__jauge\"],[13],[0,\"\\n      \"],[11,\"img\",[]],[15,\"class\",\"challenge__allocated-time__warning-icon\"],[15,\"src\",\"/images/icon-timed-challenge.svg\"],[15,\"alt\",\"Message d'avertissement\"],[13],[14],[0,\"\\n      \"],[11,\"span\",[]],[15,\"class\",\"challenge__allocated-time__value\"],[13],[1,[26,[\"allocatedTime\"]],false],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"challenge-item-warning__action\"],[13],[0,\"\\n    \"],[11,\"button\",[]],[15,\"class\",\"challenge-item-warning__confirm-btn\"],[5,[\"action\"],[[28,[null]],\"confirmWarning\"]],[13],[0,\"Commencer l'épreuve\"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/warning-page.hbs" } });
 });
+define("pix-live/templates/course-groups", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "hb3UKBwb", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"course-groups-page\"],[13],[0,\"\\n\\n  \"],[1,[33,[\"navbar-header\"],null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page__header\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page__header-title\"],[13],[0,\"Le défi \"],[11,\"span\",[]],[15,\"class\",\"course-groups-page__header-title__pix-span\"],[13],[0,\"pix\"],[14],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page__header-description\"],[13],[0,\"Chaque semaine, tester vos compétences numériques sur un nouveau\\n      sujet\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page__series\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"model\"]]],null,{\"statements\":[[0,\"      \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page__series-item\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page__series-name\"],[13],[1,[28,[\"serie\",\"name\"]],false],[14],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page_series-line\"],[13],[14],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page__courses\"],[13],[1,[33,[\"course-list\"],null,[[\"courses\"],[[28,[\"serie\",\"courses\"]]]]],false],[14],[0,\"\\n      \"],[14],[0,\"\\n\"]],\"locals\":[\"serie\"]},null],[0,\"  \"],[14],[0,\"\\n\\n  \"],[1,[26,[\"app-footer\"]],false],[0,\"\\n\\n\"],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/course-groups.hbs" } });
+});
 define("pix-live/templates/courses-loading", ["exports"], function (exports) {
   "use strict";
 
@@ -6360,6 +6575,46 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
       // test passed
     });
 
+    it('mirage/factories/course-group.js', function () {
+      // test passed
+    });
+
+    it('mirage/factories/course.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/answers.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/assessments.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/challenges.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/courses.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/feedbacks.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/followers.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/solutions.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/users.js', function () {
+      // test passed
+    });
+
     it('mirage/routes/get-answer-by-challenge-and-assessment.js', function () {
       // test passed
     });
@@ -6421,6 +6676,14 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
     });
 
     it('mirage/routes/post-users.js', function () {
+      // test passed
+    });
+
+    it('mirage/scenarios/default.js', function () {
+      // test passed
+    });
+
+    it('mirage/serializers/application.js', function () {
       // test passed
     });
   });
@@ -6564,11 +6827,11 @@ define('pix-live/utils/labeled-checkboxes', ['exports', 'pix-live/utils/lodash-c
     var sizeDifference = (0, _lodashCustom.default)(proposals).size() - (0, _lodashCustom.default)(definedUserAnswers).size(); // 2
     var arrayOfFalse = _lodashCustom.default.times(sizeDifference, _lodashCustom.default.constant(false)); // [false, false]
 
-    return _lodashCustom.default.chain(definedUserAnswers // [false, true]
-    ).concat(arrayOfFalse // [false, true, false, false]
-    ).zip(proposals // [[false, 'prop 1'], [true, 'prop 2'], [false, 'prop 3'], [false, 'prop 4']]
-    ).map(_lodashCustom.default.reverse // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
-    ).value();
+    return _lodashCustom.default.chain(definedUserAnswers) // [false, true]
+    .concat(arrayOfFalse) // [false, true, false, false]
+    .zip(proposals) // [[false, 'prop 1'], [true, 'prop 2'], [false, 'prop 3'], [false, 'prop 4']]
+    .map(_lodashCustom.default.reverse) // [['prop 1', false], ['prop 2', true], ['prop 3', false], ['prop 4', false]]
+    .value();
   }
 });
 define('pix-live/utils/labels-as-object', ['exports'], function (exports) {
@@ -6880,23 +7143,23 @@ define('pix-live/utils/value-as-array-of-boolean', ['exports', 'pix-live/utils/l
   });
   exports.default = valueAsArrayOfBoolean;
   function valueAsArrayOfBoolean(value) {
-    return _lodashCustom.default.chain(value // in the worst case : ',4, 2 , 2,1,  ,'
-    ).checkPoint(function (e) {
+    return _lodashCustom.default.chain(value) // in the worst case : ',4, 2 , 2,1,  ,'
+    .checkPoint(function (e) {
       return _lodashCustom.default.isString(e) ? e : '';
-    } // check if string
-    ).split(',' // now ['', '4', ' 2 ', ' 2', '1', '  ', '']
-    ).map(_lodashCustom.default.trim // now ['', '4', '2', '2', '1', '', '']
-    ).reject(_lodashCustom.default.isEmpty // now ['4', '2', '2', '1']
-    ).checkPoint(function (e) {
+    }) // check if string
+    .split(',') // now ['', '4', ' 2 ', ' 2', '1', '  ', '']
+    .map(_lodashCustom.default.trim) // now ['', '4', '2', '2', '1', '', '']
+    .reject(_lodashCustom.default.isEmpty) // now ['4', '2', '2', '1']
+    .checkPoint(function (e) {
       return _lodashCustom.default.every(e, _lodashCustom.default.isStrictlyPositiveInteger) ? e : [];
-    } // check if int >= 1
-    ).map(_lodashCustom.default.parseInt // now [4, 2, 2, 1]
-    ).sortBy // now [1, 2, 2, 4]
-    ().uniqBy // now [1, 2, 4]
-    ().map(function (e) {
+    }) // check if int >= 1
+    .map(_lodashCustom.default.parseInt) // now [4, 2, 2, 1]
+    .sortBy() // now [1, 2, 2, 4]
+    .uniqBy() // now [1, 2, 4]
+    .map(function (e) {
       return e - 1;
-    } // now [0, 1, 3]
-    ).thru(function (e) {
+    }) // now [0, 1, 3]
+    .thru(function (e) {
       return _lodashCustom.default.times(_lodashCustom.default.max(e) + 1, function (o) {
         return (0, _lodashCustom.default)(e).includes(o);
       });
@@ -6925,6 +7188,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+ba36f6a3"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"name":"pix-live","version":"1.11.1+439f54d6"});
 }
 //# sourceMappingURL=pix-live.map
