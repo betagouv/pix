@@ -14,7 +14,7 @@ describe('Unit | Domain | Class | Profile', () => {
       expect(new Profile()).to.be.an.instanceof(Profile);
     });
 
-    it('should create an instance of Profile', () => {
+    it('should create an instance of Profile (with level -1 by default)', () => {
       // given
       const user = {
         'first-name': faker.name.findName(),
