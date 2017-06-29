@@ -43,12 +43,14 @@ describe('Unit | Controller | CacheController', () => {
 
       it('should delete cache entry with key provided', () => {
         // Given
-        cache.del.returns(1);
+        const countOfDeletedEntries = 1;
+        cache.del.returns(countOfDeletedEntries);
         // When
         CacheController.removeCacheEntry(request, replyStub);
 
         // Then
         sinon.assert.calledWith(codeSpy, 200);
+        sinon.assert.calledWith(cache.del, 'test-cache-key');
         expect(replyStub.getCall(0).args[0]).to.be.equal('Entry successfully deleted');
       });
 
@@ -58,7 +60,8 @@ describe('Unit | Controller | CacheController', () => {
 
       it('should reply with Error, when cache key is not found', () => {
         // Given
-        cache.del.returns(0);
+        const noDeletedEntries = 0;
+        cache.del.returns(noDeletedEntries);
 
         // When
         CacheController.removeCacheEntry(request, replyStub);
