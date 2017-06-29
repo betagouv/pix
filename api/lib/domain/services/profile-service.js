@@ -12,8 +12,7 @@ const profileService = {
 
     return Promise.all([user, competences, areas])
       .then(([user, competences, areas]) => {
-        const profile = new Profile(user, competences, areas);
-        return profile;
+        return new Profile(user, competences, areas);
       });
   }
 };
