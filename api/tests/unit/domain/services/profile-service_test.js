@@ -38,7 +38,7 @@ describe('Unit | Service | Profil User Service', function() {
   describe('#getUser', () => {
 
     it('should exist', () => {
-      expect(profileService.buildUserProfile).to.exist;
+      expect(profileService.getByUserId).to.exist;
     });
 
     describe('Enhanced user', () => {
@@ -61,7 +61,7 @@ describe('Unit | Service | Profil User Service', function() {
 
       it('should return a resolved promise', () => {
         // when
-        const promise = profileService.buildUserProfile('user-id');
+        const promise = profileService.getByUserId('user-id');
         // then
         return expect(promise).to.be.fulfilled;
       });
@@ -87,7 +87,7 @@ describe('Unit | Service | Profil User Service', function() {
         };
 
         // When
-        const promise = profileService.buildUserProfile('user-id');
+        const promise = profileService.getByUserId('user-id');
         // Then
         return promise.then((enhancedUser) => {
           expect(enhancedUser).to.deep.equal(expectedUser);

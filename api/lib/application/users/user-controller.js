@@ -60,7 +60,7 @@ module.exports = {
       .verify(token)
       .then(UserRepository.findUserById)
       .then((foundUser) => {
-        return profileService.buildUserProfile(foundUser.id);
+        return profileService.getByUserId(foundUser.id);
       })
       .then((buildedProfile) => {
         reply(profileSerializer.serialize(buildedProfile)).code(201);

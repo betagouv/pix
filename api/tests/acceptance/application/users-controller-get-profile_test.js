@@ -120,12 +120,12 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       areaId: 'recAreaA',
       level: -1
     },
-    {
-      id: 'recCompB',
-      name: 'competence-name-2',
-      areaId: 'recAreaB',
-      level: -1
-    }],
+      {
+        id: 'recCompB',
+        name: 'competence-name-2',
+        areaId: 'recAreaB',
+        level: -1
+      }],
     areas: [{id: 'recAreaA', name: 'domaine-name-1'}, {id: 'recAreaB', name: 'domaine-name-2'}]
   };
 
@@ -207,7 +207,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       beforeEach(() => {
         authorizationTokenStub = sinon.stub(authorizationToken, 'verify').resolves(1);
         UserRepositoryStub = sinon.stub(UserRepository, 'findUserById').resolves(user);
-        profileServiceStub = sinon.stub(profileService, 'buildUserProfile');
+        profileServiceStub = sinon.stub(profileService, 'getByUserId');
       });
 
       afterEach(() => {
