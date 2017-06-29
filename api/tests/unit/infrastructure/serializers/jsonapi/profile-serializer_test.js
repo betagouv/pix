@@ -15,6 +15,29 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         'lastName': 'Skywalker'
       });
 
+      const areas = [
+        {
+          id: 'recAreaA',
+          name: 'area-name-1'
+        },
+        {
+          id: 'recAreaB',
+          name: 'area-name-2'
+        }
+      ];
+
+      const competences = [
+        {
+          id: 'recCompA',
+          name: 'competence-name-1',
+          areaId: 'recAreaA'
+        },
+        {
+          id: 'recCompB',
+          name: 'competence-name-2',
+          areaId: 'recAreaB'
+        }];
+
       const expectedJson = {
         data: [{
           type: 'user',
@@ -78,30 +101,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           }
         ]
       };
-
-      const areas = [
-        {
-          id: 'recAreaA',
-          name: 'area-name-1'
-        },
-        {
-          id: 'recAreaB',
-          name: 'area-name-2'
-        }
-      ];
-
-      const competences = [
-        {
-          id: 'recCompA',
-          name: 'competence-name-1',
-          areaId: 'recAreaA'
-        },
-        {
-          id: 'recCompB',
-          name: 'competence-name-2',
-          areaId: 'recAreaB'
-        }];
-
+      
       const profile = new Profile(user, competences, areas);
       // when
       const userSerialized = serializer.serialize(profile);
