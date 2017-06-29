@@ -20,9 +20,12 @@ import postAuthentications from './routes/post-authentications';
 export default function() {
   this.logging = false;
   this.passthrough('/write-coverage');
-  this.post('https://fonts.googleapis.com/**', () => {});
-  this.post('https://formspree.io/**', () => {});
-  this.post('https://sentry.io/**', () => {});
+  this.post('https://fonts.googleapis.com/**', () => {
+  });
+  this.post('https://formspree.io/**', () => {
+  });
+  this.post('https://sentry.io/**', () => {
+  });
 
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = '/api';
@@ -54,4 +57,6 @@ export default function() {
 
   this.post('/users', postUsers);
   this.post('/authentications', postAuthentications);
+  this.get('/users/:id');
+
 }

@@ -1,10 +1,10 @@
-import {Factory, faker} from 'ember-cli-mirage';
+import { Factory, faker } from 'ember-cli-mirage';
 
 export default Factory.extend({
-  firstName () {
+  firstName() {
     return faker.name.firstName();
   },
-  lastName () {
+  lastName() {
     return faker.name.lastName();
   },
   email() {

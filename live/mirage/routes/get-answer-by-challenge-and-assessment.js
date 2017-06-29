@@ -21,7 +21,7 @@ export default function(schema, request) {
   ];
 
   const answers = _.map(allAnswers, function(oneAnswer) {
-    return {id: oneAnswer.data.id, obj: oneAnswer};
+    return { id: oneAnswer.data.id, obj: oneAnswer };
   });
 
   const answer = _.find(answers,
@@ -35,11 +35,11 @@ export default function(schema, request) {
 
   if (answer) {
     return answer.obj;
-  } else {
+  }else {
     let queryParams = '';
     try {
       queryParams = JSON.stringify(request.queryParams);
-    } catch(e) {
+    } catch (e) {
       queryParams = '';
     }
     throw new Error('404 The answer you required in the fake server does not exist... ' + queryParams);
