@@ -8,5 +8,5 @@ module.exports = [
   require('./application/followers'),
   require('./application/feedbacks'),
   require('./application/healthcheck'),
-  require('./application/tools')
+  require('./application/cache')
 ];

@@ -1,11 +1,11 @@
-const ToolsController = require('./tools-controller');
+const CacheController = require('./cache-controller');
 
 exports.register = function(server, options, next) {
 
   server.route([{
     method: 'DELETE',
-    path: '/api/tools/cache',
-    config: {handler: ToolsController.removeCacheEntry, tags: ['api']}
+    path: '/api/cache',
+    config: {handler: CacheController.removeCacheEntry, tags: ['api']}
   }
   ]);
 
@@ -13,6 +13,6 @@ exports.register = function(server, options, next) {
 };
 
 exports.register.attributes = {
-  name: 'tools-api',
+  name: 'cache-api',
   version: '1.0.0'
 };

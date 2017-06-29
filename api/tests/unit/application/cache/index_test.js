@@ -1,15 +1,15 @@
 const {expect, sinon} = require('../../../test-helper');
 const Hapi = require('hapi');
-const ToolsController = require('../../../../lib/application/tools/tools-controller');
+const ToolsController = require('../../../../lib/application/cache/cache-controller');
 
-describe('Unit | Router | tools-router', () => {
+describe('Unit | Router | cache-router', () => {
 
   let server;
 
   beforeEach(() => {
     server = new Hapi.Server();
     server.connection({port: null});
-    server.register({register: require('../../../../lib/application/tools')});
+    server.register({register: require('../../../../lib/application/cache')});
   });
 
   function expectRouteToExist(routeOptions, done) {
@@ -19,7 +19,7 @@ describe('Unit | Router | tools-router', () => {
     });
   }
 
-  describe('DELETE /api/tools/cache', function() {
+  describe('DELETE /api/cache', function() {
     before(() => {
       sinon.stub(ToolsController, 'removeCacheEntry', (request, reply) => reply('ok'));
     });
@@ -29,7 +29,7 @@ describe('Unit | Router | tools-router', () => {
     });
 
     it('should exist', (done) => {
-      return expectRouteToExist({method: 'DELETE', url: '/api/tools/cache'}, done);
+      return expectRouteToExist({method: 'DELETE', url: '/api/cache'}, done);
     });
   });
 
