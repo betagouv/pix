@@ -21,6 +21,17 @@ describe('Unit | Domain | Class | Profile', () => {
         'last-name': faker.name.findName()
       };
 
+      const areas = [
+        {
+          id: 1,
+          name: 'Domaine 1'
+        },
+        {
+          id: 2,
+          name: 'Domaine 2'
+        }
+      ];
+
       const competences = [
         {
           id: 'recsvLDFHShyfDXXXXX',
@@ -46,17 +57,6 @@ describe('Unit | Domain | Class | Profile', () => {
           areaId: 'recvoGdo0z0z0pXWZ',
           level: -1
         }];
-
-      const areas = [
-        {
-          id: 1,
-          name: 'Domaine 1'
-        },
-        {
-          id: 2,
-          name: 'Domaine 2'
-        }
-      ];
 
       // when
       const profile = new Profile(user, competences, areas);

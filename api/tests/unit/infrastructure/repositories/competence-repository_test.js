@@ -8,6 +8,7 @@ const competenceSerializer = require('../../../../lib/infrastructure/serializers
 describe('Unit | Repository | competence-repository', function() {
 
   let getRecordsStub;
+  let cacheStub;
   const cacheKey = 'competence-repository_list';
   const competenceRecords = [
     {
@@ -23,10 +24,12 @@ describe('Unit | Repository | competence-repository', function() {
 
   beforeEach(function() {
     cache.flushAll();
+    cacheStub = sinon.stub(cache, 'get');
     getRecordsStub = sinon.stub(airtable, 'getRecords');
   });
 
   afterEach(function() {
+    cacheStub.restore();
     cache.flushAll();
     getRecordsStub.restore();
   });
@@ -40,6 +43,7 @@ describe('Unit | Repository | competence-repository', function() {
 
     it('should correctly query Airtable', () => {
       // Given
+      cacheStub.callsArgWith(1, null, null);
       getRecordsStub.resolves({});
       // When
       const competencesPromise = competenceRepository.list();
@@ -52,11 +56,17 @@ describe('Unit | Repository | competence-repository', function() {
     describe('When record has not been cached', () => {
 
       beforeEach(() => {
+        sinon.spy(cache, 'set');
         getRecordsStub.resolves(competenceRecords);
+      });
+
+      afterEach(() => {
+        cache.set.restore();
       });
 
       it('should fetch Competences from Airtable', () => {
         // When
+        cacheStub.callsArgWith(1, null, null);
         const competencesPromise = competenceRepository.list();
         // Then
         return competencesPromise.then((competencesFetched) => {
@@ -66,27 +76,18 @@ describe('Unit | Repository | competence-repository', function() {
 
       it('should cached previously fetched Competences', () => {
         // When
+        cacheStub.callsArgWith(1, null, null);
         const competencesPromise = competenceRepository.list();
         // Then
         return competencesPromise.then((competencesFetched) => {
-          cache.get('competence-repository_list', (err, list) => {
-            expect(list).to.be.deep.equal(competencesFetched);
-          });
+          expect(cache.set.getCall(0).args[0]).to.be.equal('competence-repository_list');
+          expect(cache.set.getCall(0).args[1]).to.be.equal(competencesFetched);
         });
       });
 
     });
 
     describe('When record have been cached', () => {
-
-      let cacheStub;
-      beforeEach(() => {
-        cacheStub = sinon.stub(cache, 'get');
-      });
-
-      afterEach(() => {
-        cacheStub.restore();
-      });
 
       it('should retrieve records directly from cache', () => {
         // Given
@@ -106,15 +107,6 @@ describe('Unit | Repository | competence-repository', function() {
     });
 
     describe('Error occured cases: ', () => {
-
-      let cacheStub;
-      beforeEach(() => {
-        cacheStub = sinon.stub(cache, 'get');
-      });
-
-      afterEach(() => {
-        cacheStub.restore();
-      });
 
       it('should throw an error, when something going wrong from cache', () => {
         // Given
