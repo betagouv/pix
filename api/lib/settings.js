@@ -51,7 +51,9 @@ module.exports = (function() {
       secret: 'test-recaptcha-key'
     };
 
-    config.authentication.secret = 'test-jwt-key';
+    config.authentication = {
+      secret: 'test-jwt-key'
+    };
   }
 
   return config;
