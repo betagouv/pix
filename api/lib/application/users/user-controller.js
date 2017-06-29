@@ -20,8 +20,8 @@ function _isUniqConstraintViolated(err) {
   return (err.code === SQLITE_UNIQ_CONSTRAINT || err.code === PGSQL_UNIQ_CONSTRAINT);
 }
 
-let _replyError401WithMessage = function(reply, errorMessage) {
-  reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(401);
+let _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
+  reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
 };
 module.exports = {
 
@@ -66,15 +66,15 @@ module.exports = {
         reply(profileSerializer.serialize(buildedProfile)).code(201);
       })
       .catch((err) => {
-        if(err === User.NotFoundError) {
-          _replyError401WithMessage(reply, 'Cet utilisateur est introuvable');
-        }
-
         if(err instanceof InvalidTokenError) {
-          _replyError401WithMessage(reply, 'Le token n’est pas valid');
+          return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 401);
         }
 
-        _replyError401WithMessage(reply, 'Une erreur est survenue lors de l’authentification de l’utilisateur');
+        if(err === User.NotFoundError) {
+          return _replyErrorWithMessage(reply, 'Cet utilisateur est introuvable', 404);
+        }
+
+        return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de l’authentification de l’utilisateur', 500);
       });
   }
 

@@ -11,7 +11,7 @@ const expectedResultWhenInvalidToken = {
   errors: [{
     status: '400',
     title: 'Invalid Attribute',
-    detail: 'Le token n’est pas valid',
+    detail: 'Le token n’est pas valide',
     source: {'pointer': '/data/attributes/authorization'},
     meta: {'field': 'authorization'}
   }]
@@ -135,7 +135,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
 
       beforeEach(() => {
         sinon.stub(authorizationToken, 'verify').resolves(4);
-        sinon.stub(UserRepository, 'findUserById').returns(Promise.reject(User.NotFoundError));
+        sinon.stub(UserRepository, 'findUserById').resolves();
       });
 
       afterEach(() => {
@@ -143,47 +143,39 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
         UserRepository.findUserById.restore();
       });
 
-      it('should response with 401 HTTP status code, when empty authorization', () => {
+      it('should response with 401 HTTP status code, when authorization token is not valid', (done) => {
         // Then
         authorizationToken.verify.returns(Promise.reject(new InvalidTokenError()));
+        options['headers'] = {authorization: 'INVALID_TOKEN'};
         // When
-        return server.injectThen(options).then(response => {
+        server.injectThen(options).then(response => {
           // Then
           expect(response.statusCode).to.equal(401);
           expect(response.result).to.be.deep.equal(expectedResultWhenInvalidToken);
+          done();
         });
       });
 
-      it('should response with 401  HTTP status code, when authorization is not valid', () => {
-        // Given
-        options['headers'] = {authorization: 'INVALID_TOKEN'};
-        // When
-        return server.injectThen(options).then(response => {
-          // Then
-          expect(response.statusCode).to.equal(401);
-        });
-      });
-
-      it('should return 401  HTTP status code, when authorization is valid but user not found', () => {
+      it('should return 404  HTTP status code, when authorization is valid but user not found', () => {
         authorizationToken.verify.resolves(4);
         UserRepository.findUserById.returns(Promise.reject(User.NotFoundError));
         options['headers'] = {authorization: 'Bearer VALID_TOKEN'};
         // When
         return server.injectThen(options).then(response => {
           // Then
-          expect(response.statusCode).to.equal(401);
+          expect(response.statusCode).to.equal(404);
           expect(response.result).to.deep.equal(expectedResultUserNotFounded);
         });
       });
 
-      it('should return 401  HTTP status code, when authorization is valid but error occurred', () => {
+      it('should return 500  HTTP status code, when authorization is valid but error occurred', () => {
         authorizationToken.verify.resolves(4);
         UserRepository.findUserById.returns(Promise.reject(new Error()));
         options['headers'] = {authorization: 'Bearer VALID_TOKEN'};
         // When
         return server.injectThen(options).then(response => {
           // Then
-          expect(response.statusCode).to.equal(401);
+          expect(response.statusCode).to.equal(500);
           expect(response.result).to.deep.equal(expectedResultWhenErrorOccured);
         });
       });
