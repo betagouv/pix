@@ -45,9 +45,9 @@ describe('Unit | Domain | Service | scoring', function() {
         startNode: 'web1', dir: 1, answer: [ 'web1', 'web2', 'web3', 'web4', 'web5', 'web6', 'web7', 'web8' ] },
       { title: 'direction is decreasing', allKnowledge: { 'web3': 1, 'web4': 1, 'web5': 1, 'web6': 1 },
         startNode: 'web4', dir: -1, answer: [ 'web3', 'web4' ] },
-      { title: 'direction is increasing with hole', allKnowledge: { 'web1': 1, 'web2': 1, 'web4': 1},
+      { title: 'direction is increasing with hole', allKnowledge: { 'web1': 1, 'web2': 1, 'web4': 1 },
         startNode: 'web2', dir: 1, answer: [ 'web2', 'web4' ] },
-      { title: 'direction is decreasing with hole', allKnowledge: { 'web1': 1, 'web2': 1, 'web4': 1},
+      { title: 'direction is decreasing with hole', allKnowledge: { 'web1': 1, 'web2': 1, 'web4': 1 },
         startNode: 'web4', dir: -1, answer: [ 'web1', 'web2', 'web4' ] },
     ].forEach(testCase => {
 
