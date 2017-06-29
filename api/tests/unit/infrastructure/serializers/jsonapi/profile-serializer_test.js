@@ -101,7 +101,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           }
         ]
       };
-      
+
       const profile = new Profile(user, competences, areas);
       // when
       const userSerialized = serializer.serialize(profile);

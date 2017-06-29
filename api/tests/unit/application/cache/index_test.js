@@ -1,6 +1,6 @@
 const {expect, sinon} = require('../../../test-helper');
 const Hapi = require('hapi');
-const ToolsController = require('../../../../lib/application/cache/cache-controller');
+const cacheController = require('../../../../lib/application/cache/cache-controller');
 
 describe('Unit | Router | cache-router', () => {
 
@@ -14,11 +14,11 @@ describe('Unit | Router | cache-router', () => {
 
   describe('DELETE /api/cache', function() {
     before(() => {
-      sinon.stub(ToolsController, 'removeCacheEntry', (request, reply) => reply('ok'));
+      sinon.stub(cacheController, 'removeCacheEntry', (request, reply) => reply('ok'));
     });
 
     after(() => {
-      ToolsController.removeCacheEntry.restore();
+      cacheController.removeCacheEntry.restore();
     });
 
     it('should exist', () => {
@@ -26,7 +26,6 @@ describe('Unit | Router | cache-router', () => {
       return server.inject({method: 'DELETE', url: '/api/cache'}, (res) => {
         // Then
         expect(res.statusCode).to.equal(200);
-        done();
       });
     });
   });
