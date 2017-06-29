@@ -12,13 +12,6 @@ describe('Unit | Router | cache-router', () => {
     server.register({register: require('../../../../lib/application/cache')});
   });
 
-  function expectRouteToExist(routeOptions, done) {
-    server.inject(routeOptions, (res) => {
-      expect(res.statusCode).to.equal(200);
-      done();
-    });
-  }
-
   describe('DELETE /api/cache', function() {
     before(() => {
       sinon.stub(ToolsController, 'removeCacheEntry', (request, reply) => reply('ok'));
@@ -28,8 +21,13 @@ describe('Unit | Router | cache-router', () => {
       ToolsController.removeCacheEntry.restore();
     });
 
-    it('should exist', (done) => {
-      return expectRouteToExist({method: 'DELETE', url: '/api/cache'}, done);
+    it('should exist', () => {
+      // When
+      return server.inject({method: 'DELETE', url: '/api/cache'}, (res) => {
+        // Then
+        expect(res.statusCode).to.equal(200);
+        done();
+      });
     });
   });
 
