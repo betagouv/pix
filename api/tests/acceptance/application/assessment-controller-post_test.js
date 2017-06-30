@@ -5,7 +5,7 @@ const Assessment = require('../../../lib/domain/models/data/assessment');
 const tokenService = require('../../../lib/domain/services/token-service');
 const User = require('../../../lib/domain/models/data/user');
 
-describe.only('Acceptance | API | Assessments POST', function() {
+describe('Acceptance | API | Assessments POST', function() {
 
   after(function(done) {
     server.stop(done);
@@ -129,7 +129,7 @@ describe.only('Acceptance | API | Assessments POST', function() {
           expect(response.statusCode).to.equal(201);
         });
       });
-      
+
     });
 
   });
