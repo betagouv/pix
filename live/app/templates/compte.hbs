@@ -1,7 +1,13 @@
-<div>
-  <h1>Bienvenue sur l'espace compte</h1>
+<div class="compte-page">
+
+  {{navbar-header class="navbar-header--white"}}
+
+  <h1>Bienvenue</h1>
 
   <a href="/deconnexion">Se déconnecter</a>
 
-  {{outlet}}
+  {{profil-component}}
+  
 </div>
+
+{{app-footer}}
