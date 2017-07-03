@@ -29,7 +29,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
             type: 'courses',
             id: 'course_id'
           }
-        }
+        },
       }
     }
   };
