@@ -58,5 +58,7 @@ export default function() {
   this.post('/users', postUsers);
   this.post('/authentications', postAuthentications);
   this.get('/users/:id');
+  this.get('/competences/:id');
+  this.get('/areas/:id');
 
 }
