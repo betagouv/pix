@@ -44,6 +44,27 @@ describe('Acceptance | API | Assessments POST', function() {
       };
     });
 
+    describe('when the user is authenticated', () => {
+      it('should save user_id in the database', () => {
+        // Given
+        const user = new User({ id: 436357 });
+        const token = tokenService.createTokenFromUser(user);
+        options.headers = {};
+        options.headers['Authorization'] = `Bearer ${token}`;
+
+        // When
+        const promise = server.injectThen(options);
+
+        // Then
+        return promise.then(response => {
+          return new Assessment({ id: response.result.data.id }).fetch();
+        })
+          .then(model => {
+            expect(model.get('userId')).to.equal(436357);
+          });
+      });
+    });
+
     it('should return application/json', function() {
       // When
       const promise = server.inject(options);
@@ -89,7 +110,7 @@ describe('Acceptance | API | Assessments POST', function() {
           });
       });
 
-      it('should persist the given course ID and user ID', function() {
+      it('should persist the given course ID', function() {
         // when
         const promise = server.inject(options);
 
@@ -100,7 +121,6 @@ describe('Acceptance | API | Assessments POST', function() {
           .then(function(model) {
             expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.data.id);
           });
-
       });
 
       it('should return persisted assessement', function() {
