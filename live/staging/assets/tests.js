@@ -2702,6 +2702,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('utils/result-icon-url.js', function () {
+      // test passed
+    });
+
     it('utils/solution-as-object.js', function () {
       // test passed
     });
@@ -3012,7 +3016,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['ember
       (0, _mocha.it)('should display challenge illustration (and alt) if it exists', function () {
         // given
         addChallengeToContext(this, {
-          illustrationUrl: 'http://challenge.illustration.url'
+          illustrationUrl: '/images/pix-logo.svg'
         });
 
         // when
@@ -3020,7 +3024,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['ember
 
         // then
         var $illustration = this.$('.challenge-statement__illustration');
-        (0, _chai.expect)($illustration.prop('src')).to.equal('http://challenge.illustration.url/');
+        (0, _chai.expect)($illustration.prop('src')).to.match(/\/images\/pix-logo.svg$/);
         (0, _chai.expect)($illustration.prop('alt')).to.equal('Illustration de l\'épreuve');
       });
 
@@ -3417,7 +3421,7 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render course picture if it is defined', function () {
         // given
-        var course = _ember.default.Object.create({ imageUrl: 'image_src' });
+        var course = _ember.default.Object.create({ imageUrl: '/images/pix-logo.svg' });
         this.set('course', course);
 
         // when
@@ -3609,7 +3613,7 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
     });
 
     var feature = {
-      icon: 'coucou',
+      icon: 'reference',
       title: 'title_value',
       description: 'description_value'
     };
@@ -3634,7 +3638,7 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
 
       var $icon = this.$('.feature-item__icon');
       (0, _chai.expect)($icon).to.exist;
-      (0, _chai.expect)($icon.attr('src')).to.equal('images/features/icon-coucou.svg');
+      (0, _chai.expect)($icon.attr('src')).to.equal('/images/features/icon-reference.svg');
     });
 
     (0, _mocha.it)('should render an title', function () {
