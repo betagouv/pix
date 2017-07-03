@@ -1001,6 +1001,25 @@ define('pix-live/components/comparison-window', ['exports', 'ember'], function (
     })
   });
 });
+define('pix-live/components/competence-area-list', ['exports', 'ember', 'ember-group-by'], function (exports, _ember, _emberGroupBy) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _ember.default.Component.extend({
+
+    classNames: ['competence-area-list'],
+
+    competences: null,
+
+    _sanitizedCompetences: _ember.default.computed('competences', function () {
+      var _competences = this.get('competences');
+      return _competences ? _competences : [];
+    }),
+    _competencesByArea: (0, _emberGroupBy.default)('_sanitizedCompetences', 'area')
+  });
+});
 define('pix-live/components/corner-ribbon', ['exports', 'ember'], function (exports, _ember) {
   'use strict';
 
@@ -1557,7 +1576,8 @@ define('pix-live/components/profile-panel', ['exports', 'ember'], function (expo
     value: true
   });
   exports.default = _ember.default.Component.extend({
-    classNames: ['profile-panel']
+    classNames: ['profile-panel'],
+    competences: null
   });
 });
 define('pix-live/components/progress-bar', ['exports', 'ember'], function (exports, _ember) {
@@ -6240,6 +6260,14 @@ define("pix-live/templates/components/comparison-window", ["exports"], function 
   });
   exports.default = Ember.HTMLBars.template({ "id": "IJXtRTHY", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"routable-modal--dialog comparison-window--dialog\"],[13],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"routable-modal--content comparison-window--content\"],[13],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"routable-modal--header comparison-window__header\"],[13],[0,\"\\n\\n\\n\"],[6,[\"routable-modal-close-button\"],null,[[\"class\"],[\"routable-modal--close-button\"]],{\"statements\":[[0,\"        \"],[11,\"div\",[]],[15,\"class\",\"close-button-container\"],[13],[0,\"\\n          \"],[11,\"div\",[]],[13],[0,\"fermer\"],[14],[0,\"\\n          \"],[11,\"div\",[]],[13],[0,\"\\n            \"],[11,\"img\",[]],[15,\"src\",\"/images/comparison-window/icon-close-modal.svg\"],[15,\"alt\",\"Fermer la fenêtre modale\"],[15,\"width\",\"24\"],[15,\"height\",\"24\"],[13],[14],[0,\"\\n          \"],[14],[0,\"\\n        \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__result-item-index\"],[13],[0,\"\\n        \"],[1,[26,[\"index\"]],false],[0,\"\\n      \"],[14],[0,\"\\n\\n      \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__result-item-line\"],[13],[0,\"\\n      \"],[14],[0,\"\\n\\n      \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__title\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[15,\"data-toggle\",\"tooltip\"],[15,\"data-placement\",\"top\"],[16,\"title\",[34,[[28,[\"resultItem\",\"tooltip\"]]]]],[13],[0,\"\\n          \"],[11,\"img\",[]],[16,\"class\",[34,[\"comparison-window__result-icon comparison-window__result-icon--\",[28,[\"resultItem\",\"status\"]]]]],[16,\"src\",[34,[\"/images/answer-validation/icon-\",[28,[\"resultItem\",\"status\"]],\".svg\"]]],[15,\"alt\",\"\"],[13],[14],[0,\"\\n        \"],[14],[0,\"\\n      \"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__title-text\"],[13],[1,[28,[\"resultItem\",\"title\"]],false],[14],[0,\"\\n    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"routable-modal--body comparison-window--body\"],[13],[0,\"\\n\\n      \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel comparison-window__instruction\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel__row \"],[13],[0,\"\\n          \"],[1,[33,[\"markdown-to-html\"],null,[[\"class\",\"markdown\"],[\"challenge-statement__instruction\",[28,[\"challenge\",\"instruction\"]]]]],false],[0,\"\\n        \"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"challenge\",\"illustrationUrl\"]]],null,{\"statements\":[[0,\"          \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel__row challenge-statement__illustration-section\"],[13],[0,\"\\n            \"],[11,\"img\",[]],[15,\"class\",\"challenge-statement__illustration\"],[16,\"src\",[34,[[28,[\"challenge\",\"illustrationUrl\"]]]]],[15,\"alt\",\"Illustration de l'épreuve\"],[13],[14],[0,\"\\n          \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"      \"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"isAssessmentChallengeTypeQcm\"]]],null,{\"statements\":[[0,\"        \"],[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"isAssessmentChallengeTypeQcu\"]]],null,{\"statements\":[[0,\"          \"],[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"isAssessmentChallengeTypeQroc\"]]],null,{\"statements\":[[0,\"        \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__corrected-answers comparison-window__corrected-answers--qroc\"],[13],[0,\"\\n          \"],[1,[33,[\"qroc-solution-panel\"],null,[[\"answer\",\"solution\"],[[28,[\"answer\"]],[28,[\"solution\"]]]]],false],[0,\"\\n        \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\"],[6,[\"if\"],[[28,[\"isAssessmentChallengeTypeQrocmInd\"]]],null,{\"statements\":[[0,\"        \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__corrected-answers comparison-window__corrected-answers--qrocm\"],[13],[0,\"\\n          \"],[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[28,[\"answer\"]],[28,[\"solution\"]],[28,[\"challenge\"]]]]],false],[0,\"\\n        \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"routable-modal--footer\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"comparison-window__feedback-panel\"],[13],[0,\"\\n        \"],[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\"],[[28,[\"answer\",\"assessment\"]],[28,[\"challenge\"]],false]]],false],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/comparison-window.hbs" } });
 });
+define("pix-live/templates/components/competence-area-list", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "YjzJ+lRk", "block": "{\"statements\":[[6,[\"each\"],[[28,[\"_competencesByArea\"]]],null,{\"statements\":[[0,\"  \"],[11,\"div\",[]],[15,\"class\",\"competence-area-list__item\"],[13],[0,\"\\n\\n  \"],[14],[0,\"\\n\"]],\"locals\":[\"competence\"]},null]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-area-list.hbs" } });
+});
 define("pix-live/templates/components/corner-ribbon", ["exports"], function (exports) {
   "use strict";
 
@@ -6470,7 +6498,7 @@ define("pix-live/templates/components/profile-panel", ["exports"], function (exp
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "CMF+GBD6", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"profile-panel__header\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"profile-header__title\"],[13],[0,\"\\n    Votre profil\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"],[11,\"div\",[]],[15,\"class\",\"profile-panel__competency-profile\"],[13],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/profile-panel.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "6byB2ygB", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"profile-panel__header\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"profile-header__title\"],[13],[0,\"\\n    Votre profil\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"],[11,\"div\",[]],[15,\"class\",\"profile-panel__competence-areas\"],[13],[0,\"\\n  \"],[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false],[0,\"\\n\"],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/profile-panel.hbs" } });
 });
 define("pix-live/templates/components/progress-bar", ["exports"], function (exports) {
   "use strict";
@@ -6654,7 +6682,7 @@ define("pix-live/templates/compte", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "WKhEjm0k", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"compte-page\"],[13],[0,\"\\n\\n  \"],[1,[33,[\"navbar-header\"],null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[11,\"h1\",[]],[13],[0,\"Bienvenue\"],[14],[0,\"\\n\\n  \"],[11,\"a\",[]],[15,\"href\",\"/deconnexion\"],[13],[0,\"Se déconnecter\"],[14],[0,\"\\n\\n  \"],[1,[26,[\"profil-panel\"]],false],[0,\"\\n\\n\"],[14],[0,\"\\n\\n\"],[1,[26,[\"app-footer\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/compte.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "4IoChI+6", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"compte-page\"],[13],[0,\"\\n\\n  \"],[1,[33,[\"navbar-header\"],null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[11,\"h1\",[]],[13],[0,\"Bienvenue\"],[14],[0,\"\\n\\n  \"],[11,\"a\",[]],[15,\"href\",\"/deconnexion\"],[13],[0,\"Se déconnecter\"],[14],[0,\"\\n\\n  \"],[1,[33,[\"profile-panel\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false],[0,\"\\n\\n\"],[14],[0,\"\\n\\n\"],[1,[26,[\"app-footer\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/compte.hbs" } });
 });
 define("pix-live/templates/connexion", ["exports"], function (exports) {
   "use strict";
@@ -7422,6 +7450,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.13.0+49d09692"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.13.0+cb922f6d"});
 }
 //# sourceMappingURL=pix-live.map

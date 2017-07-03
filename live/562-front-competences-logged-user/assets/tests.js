@@ -2334,6 +2334,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/competence-area-list.js', function () {
+      // test passed
+    });
+
     it('components/corner-ribbon.js', function () {
       // test passed
     });
@@ -3359,6 +3363,94 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           var $icon = this.$('.comparison-window__result-icon');
           (0, _chai.expect)(this.$('.comparison-window__result-icon--' + data.status)).to.have.lengthOf(1);
           (0, _chai.expect)($icon.attr('src')).to.equal('/images/answer-validation/icon-' + data.status + '.svg');
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/competence-area-list-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | competence area list', function () {
+    (0, _emberMocha.setupComponentTest)('competence-area-list', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('Component rendering', function () {
+      (0, _mocha.it)('renders', function () {
+        // when
+        this.render(_ember.default.HTMLBars.template({
+          "id": "1Zu65Rsf",
+          "block": "{\"statements\":[[1,[26,[\"competence-area-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render a wrapper', function () {
+        // when
+        this.render(_ember.default.HTMLBars.template({
+          "id": "1Zu65Rsf",
+          "block": "{\"statements\":[[1,[26,[\"competence-area-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        var WRAPPER_CLASS = '.competence-area-list';
+        (0, _chai.expect)(this.$(WRAPPER_CLASS)).to.have.length(1);
+      });
+
+      (0, _mocha.describe)('Rendering when different areas', function () {
+
+        (0, _mocha.it)('should render 5 competence areas, when there are 5 competences with different area for each one', function () {
+          // given
+          var competencesWithDifferentAreas = [_ember.default.Object.create({ id: 1, name: 'competence-name-1', area: 'area-id-1' }), _ember.default.Object.create({ id: 2, name: 'competence-name-2', area: 'area-id-2' }), _ember.default.Object.create({ id: 3, name: 'competence-name-3', area: 'area-id-3' }), _ember.default.Object.create({ id: 4, name: 'competence-name-4', area: 'area-id-4' }), _ember.default.Object.create({ id: 5, name: 'competence-name-5', area: 'area-id-5' })];
+          this.set('competences', competencesWithDifferentAreas);
+
+          // when
+          this.render(_ember.default.HTMLBars.template({
+            "id": "izE4TL0M",
+            "block": "{\"statements\":[[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$('.competence-area-list__item')).to.have.lengthOf(5);
+        });
+
+        (0, _mocha.it)('should render 2 competence areas, when there are 5 competences related to 2 different areas', function () {
+          // given
+          var competencesWithDifferentAreas = [_ember.default.Object.create({ id: 1, name: 'competence-name-1', area: 'area-id-A' }), _ember.default.Object.create({ id: 2, name: 'competence-name-2', area: 'area-id-A' }), _ember.default.Object.create({ id: 3, name: 'competence-name-3', area: 'area-id-A' }), _ember.default.Object.create({ id: 4, name: 'competence-name-4', area: 'area-id-B' }), _ember.default.Object.create({ id: 5, name: 'competence-name-5', area: 'area-id-B' })];
+          this.set('competences', competencesWithDifferentAreas);
+
+          // when
+          this.render(_ember.default.HTMLBars.template({
+            "id": "izE4TL0M",
+            "block": "{\"statements\":[[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$('.competence-area-list__item')).to.have.lengthOf(2);
+        });
+      });
+
+      (0, _mocha.describe)('Rendering when same area', function () {
+        (0, _mocha.it)('should render only 1 competence area, when there are 5 competences with the same area', function () {
+          // given
+          var competencesWithSameArea = [_ember.default.Object.create({ id: 1, name: 'competence-name-1', area: 'area-id-1' }), _ember.default.Object.create({ id: 2, name: 'competence-name-2', area: 'area-id-1' }), _ember.default.Object.create({ id: 3, name: 'competence-name-3', area: 'area-id-1' }), _ember.default.Object.create({ id: 4, name: 'competence-name-4', area: 'area-id-1' }), _ember.default.Object.create({ id: 5, name: 'competence-name-5', area: 'area-id-1' })];
+
+          // when
+          this.set('competences', competencesWithSameArea);
+          this.render(_ember.default.HTMLBars.template({
+            "id": "izE4TL0M",
+            "block": "{\"statements\":[[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+          // then
+          (0, _chai.expect)(this.$('.competence-area-list__item')).to.have.lengthOf(1);
         });
       });
     });
@@ -4470,25 +4562,39 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
 
     (0, _mocha.describe)('(Rendering behavior) Component: ', function () {
 
-      beforeEach(function () {
+      (0, _mocha.it)('should be rendered', function () {
+        // when
         this.render(Ember.HTMLBars.template({
           "id": "hj/2/1ZO",
           "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
-      });
 
-      (0, _mocha.it)('should be rendered', function () {
+        // then
         (0, _chai.expect)(this.$()).to.have.length(1);
       });
 
       (0, _mocha.it)('should render a wrapper', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "hj/2/1ZO",
+          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
         // then
         var WRAPPER_CLASS = '.profile-panel';
         (0, _chai.expect)(this.$(WRAPPER_CLASS)).to.have.length(1);
       });
 
       (0, _mocha.it)('should render a profile header', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "hj/2/1ZO",
+          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
         // Then
         var HEADER_CLASS = '.profile-panel__header';
         var HEADER_TITLE = '.profile-header__title';
@@ -4497,8 +4603,15 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
       });
 
       (0, _mocha.it)('should render a competency profile block', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "hj/2/1ZO",
+          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
         // Then
-        var COMPETENCY_BLOCK = '.profile-panel__competency-profile';
+        var COMPETENCY_BLOCK = '.profile-panel__competence-areas';
         (0, _chai.expect)(this.$(COMPETENCY_BLOCK)).to.have.length(1);
       });
     });
@@ -6898,6 +7011,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/comparison-window-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/competence-area-list-test.js', function () {
       // test passed
     });
 
