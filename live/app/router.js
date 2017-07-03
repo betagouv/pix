@@ -49,7 +49,6 @@ Router.map(function() {
   this.route('assessments.get-comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
   this.route('connexion');
   this.route('deconnexion');
-  this.route('profile');
 });
 
 export default Router;

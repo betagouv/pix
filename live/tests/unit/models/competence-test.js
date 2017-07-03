@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {describe, it} from 'mocha';
 import {setupModelTest} from 'ember-mocha';
 
-describe('Unit | Model | competence', function() {
+describe('Unit | Model | competence model', function() {
   setupModelTest('competence', {
     needs: ['model:area']
   });
