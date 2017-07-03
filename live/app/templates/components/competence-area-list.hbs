@@ -1,5 +1,5 @@
-{{#each _competencesByArea as |competence|}}
+{{#each _competencesByArea as |competenceArea|}}
   <div class="competence-area-list__item">
-
+    {{competence-area-item competenceArea=competenceArea}}
   </div>
 {{/each}}
