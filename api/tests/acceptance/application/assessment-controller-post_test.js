@@ -2,6 +2,9 @@ const {describe, it, after, afterEach, expect, knex} = require('../../test-helpe
 const server = require('../../../server');
 const Assessment = require('../../../lib/domain/models/data/assessment');
 
+const tokenService = require('../../../lib/domain/services/token-service');
+const User = require('../../../lib/domain/models/data/user');
+
 describe('Acceptance | API | Assessments POST', function () {
 
   after(function (done) {
@@ -14,27 +17,56 @@ describe('Acceptance | API | Assessments POST', function () {
       return knex('assessments').delete();
     });
 
-    const options = {
-      method: 'POST', url: '/api/assessments', payload: {
-        data: {
-          type: 'assessment',
-          attributes: {
-            'user-name': 'Jon Snow',
-            'user-email': 'jsnow@winterfell.got'
-          },
-          relationships: {
-            course: {
-              data: {
-                type: 'course',
-                id: 'non_adaptive_course_id'
+    let options;
+
+    beforeEach(() => {
+      options = {
+        method: 'POST', url: '/api/assessments', payload: {
+          data: {
+            type: 'assessment',
+            attributes: {
+              'user-name': 'Jon Snow',
+              'user-email': 'jsnow@winterfell.got'
+            },
+            relationships: {
+              course: {
+                data: {
+                  type: 'course',
+                  id: 'non_adaptive_course_id'
+                }
+              },
+              user: {
+                data: {
+                  type: 'users',
+                  id: 0
+                }
               }
             }
           }
         }
-      }
-    };
+      };
+    });
 
-    
+    describe('when the user is authenticated', () => {
+      it('should save user_id in the database', () => {
+        // Given
+        const user = new User({id : 436357});
+        const token = tokenService.createTokenFromUser(user);
+        options.headers = {};
+        options.headers['Authorization'] = `Bearer ${token}`;
+
+        // When
+        const promise = server.injectThen(options);
+
+        // Then
+        return promise.then(response => {
+          return new Assessment({id: response.result.data.id}).fetch()
+        })
+        .then(model => {
+          expect(model.get('userId')).to.equal(436357)
+        });
+      });
+    });
 
     describe('when the user is not authenticated', () => {
       it('should return 201 HTTP status code', function () {
@@ -71,7 +103,7 @@ describe('Acceptance | API | Assessments POST', function () {
           });
       });
 
-      it('should persist the given course ID and user ID', function () {
+      it('should persist the given course ID', function () {
         // when
         const promise = server.inject(options);
 
@@ -81,8 +113,6 @@ describe('Acceptance | API | Assessments POST', function () {
         })
         .then(function (model) {
           expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.data.id);
-          expect(model.get('userName')).to.equal(options.payload.data.attributes['user-name']);
-          expect(model.get('userEmail')).to.equal(options.payload.data.attributes['user-email']);
         });
       });
 
@@ -98,8 +128,6 @@ describe('Acceptance | API | Assessments POST', function () {
           // then
           expect(assessment.id).to.exist;
           expect(assessment.attributes['user-id']).to.equal(options.payload.data.attributes['user-id']);
-          expect(assessment.attributes['user-name']).to.equal(options.payload.data.attributes['user-name']);
-          expect(assessment.attributes['user-email']).to.equal(options.payload.data.attributes['user-email']);
           expect(assessment.relationships.course.data.id).to.equal(options.payload.data.relationships.course.data.id);
         });
       });

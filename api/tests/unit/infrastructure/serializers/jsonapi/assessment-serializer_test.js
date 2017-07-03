@@ -6,9 +6,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
   const modelObject = new Assessment({
     id: 'assessment_id',
-    courseId: 'course_id',
-    userName: 'Jon Snow',
-    userEmail: 'jsnow@winterfell.got'
+    courseId: 'course_id'
   });
 
   const jsonAssessment = {
@@ -19,9 +17,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
         'acquired-knowledge-tags': undefined,
         'estimated-level': undefined,
         'not-acquired-knowledge-tags': undefined,
-        'pix-score': undefined,
-        'user-name': 'Jon Snow',
-        'user-email': 'jsnow@winterfell.got'
+        'pix-score': undefined
       },
       relationships: {
         course: {
@@ -55,8 +51,6 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       // then
       expect(assessment.get('id')).to.equal(jsonAssessment.data.id);
       expect(assessment.get('courseId')).to.equal(jsonAssessment.data.relationships.course.data.id);
-      expect(assessment.get('userName')).to.equal(jsonAssessment.data.attributes['user-name']);
-      expect(assessment.get('userEmail')).to.equal(jsonAssessment.data.attributes['user-email']);
     });
 
   });
