@@ -196,9 +196,6 @@ input[type="checkbox"]:checked:focus:before {
   position: relative;
   cursor: pointer; }
 
-input[type=radio] {
-  width: 0; }
-
 input[type=radio]:before,
 input[type=radio]:checked:after {
   display: block;
@@ -209,14 +206,14 @@ input[type=radio]:checked:after {
 input[type=radio]:checked:after {
   height: 8.5px;
   width: 8.5px;
-  top: -15px;
+  top: -13px;
   left: 2px;
   background-color: #3D68FF; }
 
 input[type=radio]:before {
   height: 17px;
   width: 17px;
-  top: -2px;
+  top: 0px;
   left: -2px;
   border: solid 2px #7D808B;
   background-color: white; }
@@ -2384,24 +2381,14 @@ input.qcm-panel__proposal-checkbox {
     .signup-form__heading {
       font-size: 36px; } }
 
-.signup-form__temporary-msg {
+.signup-form__notification-message {
   max-width: 449px;
   width: 100%;
-  text-align: center; }
-
-.signup-form__temporary-msg h4 {
+  text-align: center;
   border-radius: 3px;
   color: #ffffff;
   font-size: 14px;
-  padding: 9px; }
-
-.signup-form__temporary-msg.signup-form__temporary-msg--error, .signup-form__temporary-msg.signup-form__temporary-msg--success {
-  margin-bottom: 10px; }
-
-.signup-form__temporary-msg.signup-form__temporary-msg--error h4 {
-  background: #f45c00; }
-
-.signup-form__temporary-msg.signup-form__temporary-msg--success h4 {
+  padding: 9px;
   background: #13c9a0; }
 
 .signup-form__input-container {
@@ -2462,6 +2449,15 @@ input.qcm-panel__proposal-checkbox {
   margin-bottom: 7px;
   text-align: center; }
 
+.signup-field__recaptcha-message--error {
+  color: #f45c00;
+  font-size: 12px;
+  margin-bottom: 7px;
+  text-align: center; }
+
+.signup-form__captcha-container {
+  padding: 20px; }
+
 .signup__submit-button {
   width: 150px;
   height: 40px;
@@ -2472,6 +2468,100 @@ input.qcm-panel__proposal-checkbox {
   background: #3d68ff;
   color: #ffffff;
   outline: none; }
+
+.signin-form-container {
+  text-align: right;
+  max-width: 609px;
+  margin: 30px auto auto; }
+  @media (min-width: 768px) {
+    .signin-form-container {
+      margin-top: 40px; } }
+
+.signin-form__home-link {
+  color: #ffffff;
+  margin-right: 20px; }
+  @media (min-width: 768px) {
+    .signin-form__home-link {
+      margin: 8px 0; } }
+
+.signin-form__home-link:hover,
+.signin-form__home-link:focus {
+  color: #ffffff; }
+
+.signin-form__home-link_close {
+  border: solid 2px #ffffff;
+  padding: 2px;
+  width: 20px;
+  border-radius: 20px;
+  margin-left: 5px; }
+
+.signin-form__panel {
+  background-color: #ffffff;
+  border-radius: 10px;
+  margin: 8px 20px;
+  padding-top: 16px;
+  text-align: center; }
+  @media (min-width: 768px) {
+    .signin-form__panel {
+      padding-top: 40px;
+      margin: 8px 0; } }
+
+.signin-form__panel-title {
+  font-family: "Raleway", Arial, sans-serif; }
+
+.signin-form__form {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 20px; }
+  @media (min-width: 768px) {
+    .signin-form__form {
+      padding: 40px 80px; } }
+
+.signin-form__form-field {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  margin-bottom: 20px; }
+
+.signin-form__form-field label,
+.signin-form__form-field input {
+  display: -ms-flexbox;
+  display: flex; }
+
+.signin-form__form-field label {
+  text-transform: uppercase; }
+
+.signin-form__form input {
+  border: solid 1px #D8D8D8;
+  border-radius: 3px;
+  outline: none;
+  padding: 5px; }
+
+.signin-form__form-field-button {
+  display: inline; }
+
+.signin-form__submit_button {
+  color: #ffffff;
+  font-size: 13px;
+  text-transform: uppercase;
+  border-radius: 23px;
+  border: solid 1px #3d68ff;
+  background-color: #3d68ff;
+  padding: 10px 30px; }
+
+.signin-form__errors {
+  color: #ffffff;
+  padding: 10px;
+  background-color: #f45c00; }
+  @media (min-width: 768px) {
+    .signin-form__errors {
+      margin: 40px 80px 0px 80px;
+      border-radius: 3px; } }
 
 .signup-textfield {
   position: relative; }
@@ -2650,7 +2740,8 @@ input.qcm-panel__proposal-checkbox {
   padding: 0; }
 
 .index-page-challenges {
-  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff); }
+  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+  padding-bottom: 20px; }
 
 .index-page-challenges__container {
   max-width: 1200px;
@@ -2658,13 +2749,13 @@ input.qcm-panel__proposal-checkbox {
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column;
-  padding: 80px 0 70px 0; }
+  padding: 80px 0 10px 0; }
   @media (min-width: 992px) {
     .index-page-challenges__container {
       margin: 0 auto;
       -ms-flex-direction: row;
       flex-direction: row;
-      padding: 70px 90px; } }
+      padding: 70px 90px 30px; } }
 
 .index-page-challenges__presentation {
   font-family: "Raleway", Arial, sans-serif;
@@ -2705,6 +2796,31 @@ input.qcm-panel__proposal-checkbox {
     .index-page-challenges__course-list {
       margin-right: 0;
       padding-top: 0; } }
+
+.index-page-challenges__div-link-old-courses-of-the-week {
+  border-radius: 23px;
+  border: solid 1px #ffffff;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  text-align: center;
+  width: 180px; }
+  @media (min-width: 992px) {
+    .index-page-challenges__div-link-old-courses-of-the-week {
+      margin-top: 0px; } }
+  .index-page-challenges__div-link-old-courses-of-the-week :hover {
+    color: #ffffff;
+    text-decoration: none; }
+
+.index-page-challenges__link-old-courses-of-the-week {
+  font-family: "Lato", Arial, sans-serif;
+  letter-spacing: 0.5px;
+  text-align: center;
+  background-color: transparent;
+  border: transparent;
+  outline: 0;
+  color: #ffffff; }
 
 /* Courses
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -3278,30 +3394,67 @@ hr.project-page__presentation-header-line {
       max-width: 880px; } }
 
 /*------------courseGroups----------*/
-.course-groups-page__series {
+.course-groups-page__course-group {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column; }
 
-.course-groups-page__series-item {
-  max-width: -webkit-max-content;
-  max-width: -moz-max-content;
-  max-width: max-content;
+.course-groups-page__course-group-item {
   margin: auto;
   margin-top: 35px;
-  margin-bottom: 35px; }
+  margin-bottom: 35px;
+  max-width: 300px; }
+  @media (min-width: 768px) {
+    .course-groups-page__course-group-item {
+      max-width: -webkit-max-content;
+      max-width: -moz-max-content;
+      max-width: max-content; } }
 
-.course-groups-page__series-name {
+.course-groups-page__course-group-name {
   font-family: "Raleway", Arial, sans-serif;
   font-size: 22px;
   font-weight: 600;
   color: #3d68ff; }
 
-.course-groups-page_series-line {
+.course-groups-page_course-group-line {
   margin-bottom: 10px;
   height: 2px;
-  border: solid 1px #d7d7d7; }
+  border: solid 1px #D8D8D8; }
+
+.signin-container {
+  background: url("/images/signup-bg.jpg") no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  height: 100vh; }
+  @media (min-width: 768px) {
+    .signin-container {
+      padding-top: 48px; } }
+
+.signin-no-account {
+  padding: 20px;
+  text-align: center; }
+
+.signin-no-account-text {
+  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 20px; }
+  @media (min-width: 768px) {
+    .signin-no-account-text {
+      display: inline;
+      margin-right: 10px; } }
+
+.signin-inscription-button {
+  border-radius: 20px;
+  border: solid 2px #ffffff;
+  color: #ffffff;
+  text-transform: uppercase;
+  padding: 10px 30px;
+  margin-top: 40px; }
+
+.signin-inscription-button:focus {
+  color: #3e4149;
+  background: #ffffff; }
 
 body {
   font-family: "Lato", Arial, sans-serif;
