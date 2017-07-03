@@ -2334,6 +2334,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/competence-area-item.js', function () {
+      // test passed
+    });
+
     it('components/competence-area-list.js', function () {
       // test passed
     });
@@ -3364,6 +3368,99 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           (0, _chai.expect)(this.$('.comparison-window__result-icon--' + data.status)).to.have.lengthOf(1);
           (0, _chai.expect)($icon.attr('src')).to.equal('/images/answer-validation/icon-' + data.status + '.svg');
         });
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/competence-area-item-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | competence area item', function () {
+    (0, _emberMocha.setupComponentTest)('competence-area-item', {
+      integration: true
+    });
+
+    (0, _mocha.it)('should render', function () {
+      // when
+      this.render(_ember.default.HTMLBars.template({
+        "id": "AJPIzT69",
+        "block": "{\"statements\":[[1,[26,[\"competence-area-item\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.competence-area-item')).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should render a title', function () {
+      // Given
+      var competence = _ember.default.Object.create({ name: 'competence-A' });
+      var areaWithOnlyOneCompetence = { property: 'area', value: 'Information et données', items: [competence] };
+      this.set('competenceArea', areaWithOnlyOneCompetence);
+      // when
+      this.render(_ember.default.HTMLBars.template({
+        "id": "ha1zDiIH",
+        "block": "{\"statements\":[[1,[33,[\"competence-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+      // then
+      (0, _chai.expect)(this.$('.area__name').text().trim()).to.equal('Information et données');
+    });
+
+    (0, _mocha.it)('should render as many competences as received', function () {
+      // given
+      var competencesWithSameArea = [_ember.default.Object.create({ id: 1, name: 'competence-name-1', area: 'area-id-1' }), _ember.default.Object.create({ id: 2, name: 'competence-name-2', area: 'area-id-1' }), _ember.default.Object.create({ id: 3, name: 'competence-name-3', area: 'area-id-1' }), _ember.default.Object.create({ id: 4, name: 'competence-name-4', area: 'area-id-1' }), _ember.default.Object.create({ id: 5, name: 'competence-name-5', area: 'area-id-1' })];
+      var areaWithManyCompetences = {
+        property: 'area',
+        value: 'Information et données',
+        items: competencesWithSameArea
+      };
+
+      this.set('competenceArea', areaWithManyCompetences);
+      // when
+      this.render(_ember.default.HTMLBars.template({
+        "id": "ha1zDiIH",
+        "block": "{\"statements\":[[1,[33,[\"competence-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.competence__name')).to.have.length(5);
+    });
+
+    (0, _mocha.describe)('Competence rendering', function () {
+      (0, _mocha.it)('should render its name', function () {
+        // given
+        var competence = _ember.default.Object.create({ name: 'Mener une recherche et une veille d’information' });
+        var areaWithOnlyOneCompetence = { property: 'area', value: 'Information et données', items: [competence] };
+        this.set('competenceArea', areaWithOnlyOneCompetence);
+
+        // when
+        this.render(_ember.default.HTMLBars.template({
+          "id": "ha1zDiIH",
+          "block": "{\"statements\":[[1,[33,[\"competence-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence__name').text().trim()).to.equal('Mener une recherche et une veille d’information');
+      });
+
+      (0, _mocha.it)('should render the relative level progress bar for user', function () {
+        // given
+        var competence = _ember.default.Object.create();
+        var areaWithOnlyOneCompetence = { property: 'area', value: 'Information et données', items: [competence] };
+        this.set('competenceArea', areaWithOnlyOneCompetence);
+
+        // when
+        this.render(_ember.default.HTMLBars.template({
+          "id": "ha1zDiIH",
+          "block": "{\"statements\":[[1,[33,[\"competence-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence__level')).to.have.lengthOf(1);
       });
     });
   });
@@ -7011,6 +7108,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/comparison-window-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/competence-area-item-test.js', function () {
       // test passed
     });
 
