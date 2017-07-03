@@ -1,0 +1,22 @@
+<div class="profile-page">
+  <h1>Profile</h1>
+  <p>{{model.firstName}} {{model.lastName}}</p>
+  <p>{{model.email}}</p>
+
+  {{#each model.competenceAreas as |area|}}
+    <div style="margin-bottom: 20px">
+      coucou
+      <h2>{{area.name}}</h2>
+      <ul>
+        {{#each area.competences as |competence|}}
+          <li>
+            {{competence.name}}
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  {{/each}}
+
+
+</div>
+
