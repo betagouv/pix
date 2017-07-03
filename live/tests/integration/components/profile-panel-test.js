@@ -4,14 +4,14 @@ import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | profile panel', function() {
-  setupComponentTest('profil-panel', {
+  setupComponentTest('profile-panel', {
     integration: true
   });
 
   describe('(Rendering behavior) Component: ', function() {
 
     beforeEach(function() {
-      this.render(hbs`{{profil-panel}}`);
+      this.render(hbs`{{profile-panel}}`);
     });
 
     it('should be rendered', function() {
