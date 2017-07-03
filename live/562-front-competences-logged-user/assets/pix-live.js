@@ -1550,6 +1550,16 @@ define('pix-live/components/pix-logo', ['exports', 'ember'], function (exports, 
 
   });
 });
+define('pix-live/components/profil-panel', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _ember.default.Component.extend({
+    classNames: ['profile-panel']
+  });
+});
 define('pix-live/components/progress-bar', ['exports', 'ember'], function (exports, _ember) {
   'use strict';
 
@@ -4513,6 +4523,33 @@ define('pix-live/mirage/data/users/index', ['exports'], function (exports) {
     }
   };
 });
+define('pix-live/mirage/factories/user', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberCliMirage.Factory.extend({
+    firstName: function firstName() {
+      return _emberCliMirage.faker.name.firstName();
+    },
+    lastName: function lastName() {
+      return _emberCliMirage.faker.name.lastName();
+    },
+    email: function email() {
+      return _emberCliMirage.faker.internet.email();
+    },
+    password: function password() {
+      return _emberCliMirage.faker.internet.password();
+    },
+    cgu: function cgu() {
+      return _emberCliMirage.faker.random.boolean();
+    },
+    recaptchaToken: function recaptchaToken() {
+      return _emberCliMirage.faker.random.uiid();
+    }
+  });
+});
 define('pix-live/mirage/routes/get-answer-by-challenge-and-assessment', ['exports', 'pix-live/utils/lodash-custom', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qru-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer', 'pix-live/mirage/data/answers/ref-timed-answer', 'pix-live/mirage/data/answers/ref-timed-answer-bis'], function (exports, _lodashCustom, _refQcmAnswer, _refQcuAnswer, _refQruAnswer, _refQrocAnswer, _refQrocmAnswer, _refTimedAnswer, _refTimedAnswerBis) {
   'use strict';
 
@@ -6427,6 +6464,14 @@ define("pix-live/templates/components/pix-logo", ["exports"], function (exports)
   });
   exports.default = Ember.HTMLBars.template({ "id": "NukAoSBt", "block": "{\"statements\":[[6,[\"link-to\"],[\"index\"],[[\"class\",\"title\"],[\"pix-logo__link\",\"Lien vers la page d'accueil de PIX\"]],{\"statements\":[[0,\"  \"],[11,\"img\",[]],[15,\"class\",\"pix-logo__image\"],[15,\"src\",\"/images/pix-logo.svg\"],[15,\"alt\",\"Logo officiel de PIX (version bêta)\"],[13],[14],[0,\"\\n  \"],[11,\"span\",[]],[15,\"class\",\"pix-logo__beta\"],[13],[0,\"Bêta\"],[14],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/pix-logo.hbs" } });
 });
+define("pix-live/templates/components/profil-panel", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "p6KEKFY3", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"profile-panel__header\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"profile-header__title\"],[13],[0,\"\\n    Votre profil\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"],[11,\"div\",[]],[15,\"class\",\"profile-panel__competency-profile\"],[13],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/profil-panel.hbs" } });
+});
 define("pix-live/templates/components/progress-bar", ["exports"], function (exports) {
   "use strict";
 
@@ -6609,7 +6654,7 @@ define("pix-live/templates/compte", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "5v+UEzde", "block": "{\"statements\":[[11,\"div\",[]],[13],[0,\"\\n  \"],[11,\"h1\",[]],[13],[0,\"Bienvenue sur l'espace compte\"],[14],[0,\"\\n\\n  \"],[11,\"a\",[]],[15,\"href\",\"/deconnexion\"],[13],[0,\"Se déconnecter\"],[14],[0,\"\\n\\n  \"],[1,[26,[\"outlet\"]],false],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/compte.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "WKhEjm0k", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"compte-page\"],[13],[0,\"\\n\\n  \"],[1,[33,[\"navbar-header\"],null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[11,\"h1\",[]],[13],[0,\"Bienvenue\"],[14],[0,\"\\n\\n  \"],[11,\"a\",[]],[15,\"href\",\"/deconnexion\"],[13],[0,\"Se déconnecter\"],[14],[0,\"\\n\\n  \"],[1,[26,[\"profil-panel\"]],false],[0,\"\\n\\n\"],[14],[0,\"\\n\\n\"],[1,[26,[\"app-footer\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/compte.hbs" } });
 });
 define("pix-live/templates/connexion", ["exports"], function (exports) {
   "use strict";
@@ -6797,6 +6842,10 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
     });
 
     it('mirage/data/users/index.js', function () {
+      // test passed
+    });
+
+    it('mirage/factories/user.js', function () {
       // test passed
     });
 
@@ -7373,6 +7422,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.13.0+45bd0c2e"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.13.0+06009ccb"});
 }
 //# sourceMappingURL=pix-live.map

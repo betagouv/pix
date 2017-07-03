@@ -3360,6 +3360,17 @@ hr.project-page__presentation-header-line {
   color: #3e4149;
   background: #ffffff; }
 
+.compte-page {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: column;
+  flex-flow: column;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #FAFAFA;
+  color: #3e4149;
+  text-rendering: optimizeLegibility; }
+
 body {
   font-family: "Lato", Arial, sans-serif;
   background-color: #f2f3f4; }

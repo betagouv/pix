@@ -2386,6 +2386,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/profil-panel.js', function () {
+      // test passed
+    });
+
     it('components/progress-bar.js', function () {
       // test passed
     });
@@ -4453,6 +4457,50 @@ define('pix-live/tests/integration/components/pix-logo-test', ['chai', 'mocha', 
 
     (0, _mocha.it)('should have a title in the link', function () {
       (0, _chai.expect)(this.$('.pix-logo__link').attr('title')).to.equal('Lien vers la page d\'accueil de PIX');
+    });
+  });
+});
+define('pix-live/tests/integration/components/profil-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | profile panel', function () {
+    (0, _emberMocha.setupComponentTest)('profil-panel', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('(Rendering behavior) Component: ', function () {
+
+      beforeEach(function () {
+        this.render(Ember.HTMLBars.template({
+          "id": "IhgA0mbX",
+          "block": "{\"statements\":[[1,[26,[\"profil-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+      });
+
+      (0, _mocha.it)('should be rendered', function () {
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render a wrapper', function () {
+        // then
+        var WRAPPER_CLASS = '.profile-panel';
+        (0, _chai.expect)(this.$(WRAPPER_CLASS)).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render a profile header', function () {
+        // Then
+        var HEADER_CLASS = '.profile-panel__header';
+        var HEADER_TITLE = '.profile-header__title';
+        (0, _chai.expect)(this.$(HEADER_CLASS)).to.have.length(1);
+        (0, _chai.expect)(this.$(HEADER_TITLE).text().trim()).to.be.equal('Votre profil');
+      });
+
+      (0, _mocha.it)('should render a competency profile block', function () {
+        // Then
+        var COMPETENCY_BLOCK = '.profile-panel__competency-profile';
+        (0, _chai.expect)(this.$(COMPETENCY_BLOCK)).to.have.length(1);
+      });
     });
   });
 });
@@ -6898,6 +6946,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/pix-logo-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/profil-panel-test.js', function () {
       // test passed
     });
 
