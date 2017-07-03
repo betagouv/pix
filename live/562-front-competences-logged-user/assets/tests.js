@@ -2386,7 +2386,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('components/profil-panel.js', function () {
+    it('components/profile-panel.js', function () {
       // test passed
     });
 
@@ -4460,11 +4460,11 @@ define('pix-live/tests/integration/components/pix-logo-test', ['chai', 'mocha', 
     });
   });
 });
-define('pix-live/tests/integration/components/profil-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | profile panel', function () {
-    (0, _emberMocha.setupComponentTest)('profil-panel', {
+    (0, _emberMocha.setupComponentTest)('profile-panel', {
       integration: true
     });
 
@@ -4472,8 +4472,8 @@ define('pix-live/tests/integration/components/profil-panel-test', ['chai', 'moch
 
       beforeEach(function () {
         this.render(Ember.HTMLBars.template({
-          "id": "IhgA0mbX",
-          "block": "{\"statements\":[[1,[26,[\"profil-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "hj/2/1ZO",
+          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
       });
@@ -6949,7 +6949,7 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('integration/components/profil-panel-test.js', function () {
+    it('integration/components/profile-panel-test.js', function () {
       // test passed
     });
 
