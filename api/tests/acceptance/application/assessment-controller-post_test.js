@@ -154,4 +154,4 @@ describe('Acceptance | API | Assessments POST', function() {
 
     });
   });
-})
+});
