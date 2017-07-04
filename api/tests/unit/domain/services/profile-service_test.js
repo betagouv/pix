@@ -12,6 +12,7 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const Assessment = require('../../../../lib/domain/models/data/assessment');
 const User = require('../../../../lib/domain/models/data/user');
 
+
 describe('Unit | Service | Profil User Service', function() {
 
   const fakeUserRecord = new User({
@@ -117,7 +118,6 @@ describe('Unit | Service | Profil User Service', function() {
       });
 
       it('should call course repository to get adaptive courses', function() {
-
         // When
         const promise = profileService.getByUserId('user-id');
 
