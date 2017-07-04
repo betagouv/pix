@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupModelTest } from 'ember-mocha';
+import {expect} from 'chai';
+import {describe, it} from 'mocha';
+import {setupModelTest} from 'ember-mocha';
 
 describe('Unit | Model | competence model', function() {
   setupModelTest('competence', {
@@ -35,7 +35,7 @@ describe('Unit | Model | competence model', function() {
         // given
         const store = this.store();
         const area = store.createRecord('area', {name: 'coucou'});
-        const competence = this.subject({ area });
+        const competence = this.subject({area});
 
         // when
         const areaName = competence.get('areaName');
