@@ -3,7 +3,6 @@ const Profile = require('../../../../lib/domain/models/data/profile');
 const faker = require('faker');
 
 const Assessment = require('../../../../lib/domain/models/data/assessment');
-
 describe('Unit | Domain | Models | Profile', () => {
 
   describe('#constructor', () => {
@@ -33,9 +32,9 @@ describe('Unit | Domain | Models | Profile', () => {
 
       courses = [
         {
-          id : 'courseId8',
-          nom : 'Test de positionnement 1.1',
-          competences : []
+          id: 'courseId8',
+          nom: 'Test de positionnement 1.1',
+          competences: []
         }
       ];
 
@@ -92,10 +91,10 @@ describe('Unit | Domain | Models | Profile', () => {
       // Given
       courses[0].competences = ['competenceId1'];
       assessments = [new Assessment({
-        id : 'assessmentId1',
+        id: 'assessmentId1',
         pixScore: 10,
         estimatedLevel: 1,
-        courseId : 'courseId8'
+        courseId: 'courseId8'
       })];
 
       const expectedCompetences = [
