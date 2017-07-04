@@ -42,7 +42,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
   const lastName = faker.name.lastName();
   const options = {
     method: 'GET',
-    url: '/api/users',
+    url: '/api/users/me',
     payload: {}
   };
   const expectedSerializedProfile = {
