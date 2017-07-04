@@ -37,21 +37,17 @@ function _selectNextInNormalMode(currentChallengeId, challenges) {
 
 }
 
-function _completeAssessmentWithScore(assessment, answers, knowledgeData) {
-
-  if (answers.length === 0) {
-    return assessment;
-  }
+function _getAssessmentResultDetails(answers, knowledgeData) {
 
   const performanceStats = scoringService.getPerformanceStats(answers, knowledgeData);
   const diagnosis = scoringService.computeDiagnosis(performanceStats, knowledgeData);
 
-  assessment.set('estimatedLevel', diagnosis.estimatedLevel);
-  assessment.set('pixScore', diagnosis.pixScore);
-  assessment.set('notAcquiredKnowledgeTags', performanceStats.notAcquiredKnowledgeTags);
-  assessment.set('acquiredKnowledgeTags', performanceStats.acquiredKnowledgeTags);
-
-  return assessment;
+  return {
+    'estimatedLevel': diagnosis.estimatedLevel,
+    'pixScore': diagnosis.pixScore,
+    'notAcquiredKnowledgeTags': performanceStats.notAcquiredKnowledgeTags,
+    'acquiredKnowledgeTags': performanceStats.acquiredKnowledgeTags
+  };
 }
 
 function selectNextChallengeId(course, currentChallengeId, assessment) {
@@ -101,10 +97,15 @@ function getScoredAssessment(assessmentId) {
         return Promise.all(challengePromises);
       })
       .then(challenges => {
+
         const knowledgeData = challengeService.getKnowledgeData(challenges);
 
-        const scoredAssessment = _completeAssessmentWithScore(assessment, answers, knowledgeData);
-        resolve(scoredAssessment);
+        const resultDetails = _getAssessmentResultDetails(answers, knowledgeData);
+
+        assessment.set('estimatedLevel', resultDetails.estimatedLevel);
+        assessment.set('pixScore', resultDetails.pixScore);
+
+        resolve(assessment);
       })
       .catch(reject);
   });
@@ -139,6 +140,6 @@ module.exports = {
   getAssessmentNextChallengeId,
   getScoredAssessment,
 
-  _completeAssessmentWithScore
+  _getAssessmentResultDetails
 
 };

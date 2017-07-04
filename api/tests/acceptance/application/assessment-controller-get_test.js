@@ -124,10 +124,8 @@ describe('Acceptance | API | Assessments GET', function() {
           'type': 'assessment',
           'id': inserted_assessment_id,
           'attributes': {
-            'estimated-level': undefined,
-            'pix-score': undefined,
-            'not-acquired-knowledge-tags': undefined,
-            'acquired-knowledge-tags': undefined
+            'estimated-level': 0,
+            'pix-score': 0,
           },
           'relationships': {
             'course': {'data': {'type': 'courses', 'id': 'anyFromAirTable'}},
@@ -229,9 +227,7 @@ describe('Acceptance | API | Assessments GET', function() {
           'id': inserted_assessment_id,
           'attributes': {
             'estimated-level': 3,
-            'pix-score': 16,
-            'not-acquired-knowledge-tags': ['@url1'],
-            'acquired-knowledge-tags': ['@web5', '@web4']
+            'pix-score': 16
           },
           'relationships': {
             'course': {'data': {'type': 'courses', 'id': 'anyFromAirTable'}},

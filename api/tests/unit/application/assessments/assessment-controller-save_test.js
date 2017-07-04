@@ -137,9 +137,9 @@ describe('Unit | Controller | assessment-controller', () => {
 
       it('should return a badImplementationError', () => {
         // Given
-        let badImplementationMessage = {message: 'Boom: Bad Implementation'};
+        const badImplementationMessage = {message: 'Boom: Bad Implementation'};
         badImplementationStub.returns(badImplementationMessage);
-        let rejectedError = new Error();
+        const rejectedError = new Error();
         saveAssessmentStub.rejects(rejectedError);
 
         // When

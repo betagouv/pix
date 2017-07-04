@@ -66,17 +66,19 @@ describe('Acceptance | API | Assessments GET (non adaptive)', function() {
       courseId: 'a_non_adaptive_course_id'
     };
 
-    beforeEach(function(done) {
-      knex('assessments').delete().then(() => {
-        knex('assessments').insert([insertedAssessment]).then((rows) => {
+    before(function() {
+      return knex('assessments')
+        .delete()
+        .then(() => {
+          return knex('assessments').insert([insertedAssessment]);
+        })
+        .then((rows) => {
           insertedAssessmentId = rows[0];
-          done();
         });
-      });
     });
 
-    afterEach(function(done) {
-      knex('assessments').delete().then(() => {done();});
+    after(function() {
+      return knex('assessments').delete();
     });
 
     it('should return 200 HTTP status code', function(done) {

@@ -14,9 +14,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       type: 'assessment',
       id: 'assessment_id',
       attributes: {
-        'acquired-knowledge-tags': undefined,
         'estimated-level': undefined,
-        'not-acquired-knowledge-tags': undefined,
         'pix-score': undefined
       },
       relationships: {
