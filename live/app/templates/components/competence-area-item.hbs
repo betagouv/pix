@@ -1,6 +1,8 @@
 <div class="area__name">{{competenceArea.value}}</div>
 
 {{#each competenceArea.items as |competence|}}
-  <div class="competence__name">{{competence.name}}</div>
-  <div class="competence__level"></div>
+  <div class="competence">
+    <div class="competence__name">{{competence.name}}</div>
+    <div class="competence__level">{{competence.level}}</div>
+  </div>
 {{/each}}

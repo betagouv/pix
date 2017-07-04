@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {describe, it} from 'mocha';
 import {setupModelTest} from 'ember-mocha';
 
-describe.only('Unit | Model | user model', function() {
+describe('Unit | Model | user model', function() {
   setupModelTest('user', {
     // Specify the other units that are required for this test.
     needs: ['model:competence']

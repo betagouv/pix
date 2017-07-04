@@ -1,7 +1,11 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 const {Model, attr, belongsTo} = DS;
 
 export default Model.extend({
   name: attr('string'),
-  area: belongsTo('area')
+  level: attr('number'),
+  area: belongsTo('area'),
+
+  areaName: Ember.computed.alias('area.name')
 });

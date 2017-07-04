@@ -11,5 +11,5 @@ export default Ember.Component.extend({
     const _competences = this.get('competences');
     return _competences ? _competences : [];
   }),
-  _competencesByArea: groupBy('_sanitizedCompetences', 'area'),
+  _competencesByArea: groupBy('_sanitizedCompetences', 'areaName'),
 });
