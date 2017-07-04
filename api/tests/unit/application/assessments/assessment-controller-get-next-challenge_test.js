@@ -38,7 +38,6 @@ describe('Unit | Controller | assessment-controller', () => {
     });
 
     describe('when the assessment is over', () => {
-
       beforeEach(() => {
         assessmentService.getAssessmentNextChallengeId.resolves(null);
       });
