@@ -1,9 +1,9 @@
 const {describe, it, expect, beforeEach} = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/airtable/course-serializer');
 
-describe('Unit | Serializer | course-serializer', function () {
+describe('Unit | Serializer | course-serializer', function() {
 
-  describe('#deserialize', function () {
+  describe('#deserialize', function() {
 
     let airtableRecord;
 
