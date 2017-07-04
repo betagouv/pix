@@ -84,9 +84,8 @@ describe('Unit | Controller | assessment-controller', () => {
 
         it('should return a badImplementation error when evaluating is an error', () => {
           // Given
-          let error = new Error('Unable to evaluate level');
+          const error = new Error('Unable to evaluate level');
           getScoredAssessmentStub.rejects(error);
-
 
           // When
           const promise = assessmentController.getNextChallenge({params: {id: 7531}}, replyStub);
