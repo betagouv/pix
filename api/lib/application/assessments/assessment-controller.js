@@ -14,7 +14,7 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
-const { NotFoundError, NotElligibleToScoringError } = require('../../domain/errors');
+const {NotFoundError, NotElligibleToScoringError} = require('../../domain/errors');
 
 module.exports = {
 
@@ -22,7 +22,7 @@ module.exports = {
 
     const assessment = assessmentSerializer.deserialize(request.payload);
 
-    if(request.headers.hasOwnProperty('authorization')) {
+    if (request.headers.hasOwnProperty('authorization')) {
       const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
       const userId = tokenService.extractUserId(token);
 
@@ -65,10 +65,26 @@ module.exports = {
 
   getNextChallenge(request, reply) {
 
-    assessmentRepository
+    return assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
         return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
+      })
+      .then((nextChallengeId) => {
+
+        if (nextChallengeId) {
+          return Promise.resolve(nextChallengeId);
+        }
+
+        return assessmentService
+          .getScoredAssessment(request.params.id)
+          .then((scoredAssessment) => {
+            return scoredAssessment.save()
+              .then(() => {
+                return nextChallengeId;
+              });
+          });
+
       })
       .then((nextChallengeId) => {
         return (nextChallengeId) ? challengeRepository.get(nextChallengeId) : null;
@@ -110,7 +126,7 @@ module.exports = {
               .then((testIsOver) => {
 
                 if (testIsOver) {
-                  const requestedAnswer = answers.filter(answer => answer.id === _.parseInt(request.params.answerId))[ 0 ];
+                  const requestedAnswer = answers.filter(answer => answer.id === _.parseInt(request.params.answerId))[0];
 
                   solutionRepository
                     .get(requestedAnswer.get('challengeId'))
