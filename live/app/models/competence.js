@@ -5,7 +5,7 @@ const {Model, attr, belongsTo} = DS;
 export default Model.extend({
   name: attr('string'),
   area: belongsTo('area', {inverse: null}),
-  user: belongsTo('user')
+  user: belongsTo('user'),
   level: attr('number'),
   areaName: Ember.computed.alias('area.name')
 });
