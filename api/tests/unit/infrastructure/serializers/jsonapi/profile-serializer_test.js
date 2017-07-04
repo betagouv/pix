@@ -92,7 +92,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             attributes: {
               name: 'competence-name-2',
               level: 8,
-              'pix-score' : 128
+              'pix-score': 128
             },
             relationships: {
               area: {
@@ -107,8 +107,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       const profile = new Profile(user, competences, areas, [new Assessment({
         courseId: 'courseID1',
         estimatedLevel: 8,
-        pixScore : 128
-      })], [{id: 'courseID1', competences: ['recCompB']}]);
+        pixScore: 128
+      })], [{ id: 'courseID1', competences: ['recCompB'] }]);
 
       // When
       const userSerialized = serializer.serialize(profile);

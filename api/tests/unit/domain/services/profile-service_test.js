@@ -40,16 +40,16 @@ describe('Unit | Service | Profil User Service', function() {
   ];
 
   const fakeAssessmentRecords = [new Assessment({
-    id : 'assessmentId1',
+    id: 'assessmentId1',
     pixScore: 10,
     estimatedLevel: 1,
-    courseId : 'courseId8'
+    courseId: 'courseId8'
   })];
 
   const fakeCoursesRecords = [{
-    id : 'courseId8',
-    nom : 'Test de positionnement 1.1',
-    competences : ['competenceId1']
+    id: 'courseId8',
+    nom: 'Test de positionnement 1.1',
+    competences: ['competenceId1']
   }];
 
   describe('#getUser', () => {

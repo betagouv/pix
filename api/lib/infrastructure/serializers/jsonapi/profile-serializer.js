@@ -19,7 +19,7 @@ class ProfileSerializer extends JSONAPISerializer {
   }
 
   serializeRelationships(model, modelName, data) {
-    if(model) {
+    if (model) {
       data.relationships = {};
       data.relationships[modelName] = {
         data: []
@@ -51,7 +51,7 @@ class ProfileSerializer extends JSONAPISerializer {
         }
       };
 
-      if(competence.level >= 0) {
+      if (competence.level >= 0) {
         competenceData.attributes['pix-score'] = competence.pixScore;
       }
 
@@ -72,7 +72,7 @@ class ProfileSerializer extends JSONAPISerializer {
   }
 
   serializeIncluded(model) {
-    if(!model.competences || !model.areas) {
+    if (!model.competences || !model.areas) {
       return null;
     }
 
@@ -83,7 +83,7 @@ class ProfileSerializer extends JSONAPISerializer {
   }
 
   serializeModelObject(modelObject) {
-    if(!modelObject) {
+    if (!modelObject) {
       return null;
     }
     const entity = modelObject.user.toJSON();
