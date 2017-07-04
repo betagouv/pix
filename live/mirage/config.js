@@ -16,9 +16,10 @@ import postFeedbacks from './routes/post-feedbacks';
 import postRefreshSolution from './routes/post-refresh-solution';
 import postUsers from './routes/post-users';
 import postAuthentications from './routes/post-authentications';
+import getAuthenticatedUser from './routes/get-user-me';
 
 export default function() {
-  this.logging = false;
+  this.logging = true;
   this.passthrough('/write-coverage');
   this.post('https://fonts.googleapis.com/**', () => {
   });
@@ -57,7 +58,7 @@ export default function() {
 
   this.post('/users', postUsers);
   this.post('/authentications', postAuthentications);
-  this.get('/users/:id');
+  this.get('/users/me', getAuthenticatedUser);
   this.get('/competences/:id');
   this.get('/areas/:id');
 
