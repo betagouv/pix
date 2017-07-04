@@ -58,17 +58,16 @@ describe('Unit | Repository | assessmentRepository', () => {
     it('should throw an error if something went wrong', () => {
       //Given
       const error = new Error('Unable to fetch');
-      const fetchAllStub = sinon.stub(Assessment, 'fetchAll').rejects(error);
+      const whereStub = sinon.stub(Assessment, 'where').returns({ fetchAll: () => {
+        return Promise.reject(error);
+      } });
 
       // When
       const promise = assessmentRepository.getByUserId(JOHN);
 
       // Then
-      fetchAllStub.restore();
+      whereStub.restore();
       return promise
-        .then(() => {
-          sinon.assert.fail();
-        })
         .catch((err) => {
           expect(err).to.equal(error);
         });
