@@ -5,7 +5,8 @@ const Profile = require('../../../../lib/domain/models/data/profile');
 const faker = require('faker');
 
 const Assessment = require('../../../../lib/domain/models/data/assessment');
-describe('Unit | Domain | Models | Profile', () => {
+
+describe('Unit | Domain | Class | Profile', () => {
 
   describe('#constructor', () => {
 
