@@ -7,7 +7,7 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const assessmentUtils = require('./assessment-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
-const { NotFoundError, NotElligibleToScoringError } = require('../../domain/errors');
+const {NotFoundError, NotElligibleToScoringError} = require('../../domain/errors');
 
 const scoringService = require('../../domain/services/scoring-service');
 
@@ -61,7 +61,7 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
     const challenges = course.challenges;
 
     if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
-      return resolve(challenges[ 0 ]);
+      return resolve(challenges[0]);
     }
 
     if (course.isAdaptive) {
@@ -89,6 +89,7 @@ function getScoredAssessment(assessmentId) {
         }
 
         assessment = retrievedAssessment;
+
         return answerRepository.findByAssessment(assessment.get('id'));
       })
       .then(retrievedAnswers => {

@@ -1,7 +1,5 @@
 const User = require('../../../lib/domain/models/data/user');
 
-const jsonwebtoken = require('jsonwebtoken');
-
 const encrypt = require('../../domain/services/encryption-service');
 const tokenService = require('../../domain/services/token-service');
 

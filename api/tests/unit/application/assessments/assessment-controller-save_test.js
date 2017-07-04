@@ -3,7 +3,7 @@ const Boom = require('boom');
 
 const controller = require('../../../../lib/application/assessments/assessment-controller');
 
-const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer')
+const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
 describe('Unit | Controller | assessment-controller', () => {
@@ -80,7 +80,7 @@ describe('Unit | Controller | assessment-controller', () => {
       controller.save(request, replyStub);
 
       // Then
-      sinon.assert.calledWith(assessmentDeserializeStub, request.payload)
+      sinon.assert.calledWith(assessmentDeserializeStub, request.payload);
     });
 
     it('should call a service that extract the id of user', () => {
@@ -97,7 +97,7 @@ describe('Unit | Controller | assessment-controller', () => {
       controller.save(request, replyStub);
 
       // Then
-      sinon.assert.calledOnce(saveAssessmentStub)
+      sinon.assert.calledOnce(saveAssessmentStub);
     });
 
     describe('when the assessment is successfully saved', () => {
@@ -107,7 +107,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
         // Then
         return promise.then(() => {
-          sinon.assert.calledWith(assessmentSerializerStub, persistedAssessment)
+          sinon.assert.calledWith(assessmentSerializerStub, persistedAssessment);
         });
       });
 

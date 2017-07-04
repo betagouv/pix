@@ -18,11 +18,13 @@ function extractTokenFromAuthChain(authChain) {
 }
 
 function extractUserId(token) {
-  let user_id = null;
+  let user_id;
 
   try {
     user_id = jsonwebtoken.verify(token, settings.authentication.secret).user_id;
-  } catch (e) {}
+  } catch (e) {
+    user_id = null;
+  }
 
   return user_id;
 }
