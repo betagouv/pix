@@ -3,37 +3,54 @@ const profileService = require('../../../../lib/domain/services/profile-service'
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
+const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
+const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const faker = require('faker');
+
+const Assessment = require('../../../../lib/domain/models/data/assessment');
 
 describe('Unit | Service | Profil User Service', function() {
 
   const fakeUserRecord = {
-    'firstName': faker.name.findName(),
-    'lastName': faker.name.findName(),
-    'email': faker.internet.email
+    'first-name': faker.name.findName(),
+    'last-name': faker.name.findName()
   };
+
   const fakeCompetenceRecords = [
     {
-      id: 'recsvLDFHShyfDXXXXX',
+      id: 'competenceId1',
       name: '1.1 Mener une recherche d’information',
-      areaId: 'recvoGdo0z0z0pXWZA'
+      areaId: 'areaId1',
     },
     {
-      id: 'recsvLDFHShyfDXXXXX',
-      name: '1.1 Mener une recherche d’information',
-      areaId: 'recvoGdo0z0z0pXWZ'
+      id: 'competenceId2',
+      name: '1.2 Gérer des données',
+      areaId: 'areaId2'
     }];
 
   const fakeAreaRecords = [
     {
-      id: 1,
+      id: 'areaId1',
       name: 'Domaine 1'
     },
     {
-      id: 2,
+      id: 'areaId2',
       name: 'Domaine 2'
     }
   ];
+
+  const fakeAssessmentRecords = [new Assessment({
+    id : 'assessmentId1',
+    pixScore: 10,
+    estimatedLevel: 1,
+    courseId : 'courseId8'
+  })];
+
+  const fakeCoursesRecords = [{
+    id : 'courseId8',
+    nom : 'Test de positionnement 1.1',
+    competences : ['competenceId1']
+  }];
 
   describe('#getUser', () => {
 
@@ -46,17 +63,23 @@ describe('Unit | Service | Profil User Service', function() {
       let userStub;
       let competencesStub;
       let areasStub;
+      let getAdaptiveCourseStub;
+      let getAssessmentsByUserId;
 
       beforeEach(() => {
         userStub = sinon.stub(userRepository, 'findUserById').resolves(fakeUserRecord);
         competencesStub = sinon.stub(competenceRepository, 'list').resolves(fakeCompetenceRecords);
         areasStub = sinon.stub(areaRepository, 'list').resolves(fakeAreaRecords);
+        getAdaptiveCourseStub = sinon.stub(courseRepository, 'getAdaptiveCourses').resolves(fakeCoursesRecords);
+        getAssessmentsByUserId = sinon.stub(assessmentRepository, 'getByUserId').resolves(fakeAssessmentRecords);
       });
 
       afterEach(() => {
         userStub.restore();
         competencesStub.restore();
         areasStub.restore();
+        getAdaptiveCourseStub.restore();
+        getAssessmentsByUserId.restore();
       });
 
       it('should return a resolved promise', () => {
@@ -72,15 +95,16 @@ describe('Unit | Service | Profil User Service', function() {
           user: fakeUserRecord,
           competences: [
             {
-              id: 'recsvLDFHShyfDXXXXX',
+              id: 'competenceId1',
               name: '1.1 Mener une recherche d’information',
-              areaId: 'recvoGdo0z0z0pXWZA',
-              level: -1
+              areaId: 'areaId1',
+              level: 1,
+              pixScore: 10
             },
             {
-              id: 'recsvLDFHShyfDXXXXX',
-              name: '1.1 Mener une recherche d’information',
-              areaId: 'recvoGdo0z0z0pXWZ',
+              id: 'competenceId2',
+              name: '1.2 Gérer des données',
+              areaId: 'areaId2',
               level: -1
             }],
           areas: fakeAreaRecords
@@ -91,6 +115,31 @@ describe('Unit | Service | Profil User Service', function() {
         // Then
         return promise.then((enhancedUser) => {
           expect(enhancedUser).to.deep.equal(expectedUser);
+        });
+      });
+
+      it('should call course repository to get adaptive courses', function() {
+        // given
+
+        // When
+        const promise = profileService.getByUserId('user-id');
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.called(getAdaptiveCourseStub);
+        });
+      });
+
+      it('should call assessment repository to get all assessments from the current user', function() {
+        // given
+
+        // When
+        const promise = profileService.getByUserId('user-id');
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.called(getAssessmentsByUserId);
+          sinon.assert.calledWith(getAssessmentsByUserId, 'user-id');
         });
       });
 
