@@ -19,6 +19,7 @@ describe('Unit | Controller | assessment-controller', () => {
           id: 256,
           attributes: {
             'estimated-level': 4,
+
             'pix-score': 4
           },
           relationships: {
@@ -83,9 +84,6 @@ describe('Unit | Controller | assessment-controller', () => {
     });
 
     it('should call a service that extract the id of user', () => {
-      //Given
-
-
       //When
       controller.save(request, replyStub);
 
