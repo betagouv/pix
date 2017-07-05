@@ -52,7 +52,7 @@ class ProfileSerializer extends JSONAPISerializer {
       };
 
       if(competence.level >= 0) {
-        competenceData.attributes['pixScore'] = competence.pixScore;
+        competenceData.attributes['pix-score'] = competence.pixScore;
       }
 
       included.push(competenceData);
