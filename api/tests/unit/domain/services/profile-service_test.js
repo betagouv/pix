@@ -119,7 +119,6 @@ describe('Unit | Service | Profil User Service', function() {
       });
 
       it('should call course repository to get adaptive courses', function() {
-        // given
 
         // When
         const promise = profileService.getByUserId('user-id');
@@ -128,10 +127,10 @@ describe('Unit | Service | Profil User Service', function() {
         return promise.then(() => {
           sinon.assert.called(getAdaptiveCourseStub);
         });
+
       });
 
       it('should call assessment repository to get all assessments from the current user', function() {
-        // given
 
         // When
         const promise = profileService.getByUserId('user-id');
@@ -141,6 +140,7 @@ describe('Unit | Service | Profil User Service', function() {
           sinon.assert.called(getAssessmentsByUserId);
           sinon.assert.calledWith(getAssessmentsByUserId, 'user-id');
         });
+        
       });
 
     });

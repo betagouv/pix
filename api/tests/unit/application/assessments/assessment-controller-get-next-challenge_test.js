@@ -97,7 +97,7 @@ describe('Unit | Controller | assessment-controller', () => {
           });
         });
 
-        it('should', () => {
+        it('should return an error when database returns an error', () => {
           // Given
           const error = new Error('Unable to save assessment');
           saveAssessmentStub.rejects(error);

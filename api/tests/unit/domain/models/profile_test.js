@@ -4,9 +4,9 @@ const faker = require('faker');
 
 const Assessment = require('../../../../lib/domain/models/data/assessment');
 
-describe('Unit | Domain | Class | Profile', () => {
+describe('Unit | Domain | Models | Profile', () => {
 
-  describe('Profile', () => {
+  describe('#constructor', () => {
 
     let user;
     let areas;
@@ -54,12 +54,12 @@ describe('Unit | Domain | Class | Profile', () => {
         }];
     });
 
-    it('should be exist', () => {
+    it('should exist', () => {
       expect(Profile).to.exist;
     });
 
     it('should be a class', () => {
-      expect(new Profile(null, null, null, [])).to.be.an.instanceof(Profile);
+      expect(new Profile(null, null, null, [], [])).to.be.an.instanceof(Profile);
     });
 
     it('should create an instance of Profile (with level -1 by default)', () => {
