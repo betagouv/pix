@@ -138,7 +138,6 @@ describe('Unit | Service | Profil User Service', function() {
           sinon.assert.called(assessmentRepository.getByUserId);
           sinon.assert.calledWith(assessmentRepository.getByUserId, 'user-id');
         });
-
       });
 
     });
