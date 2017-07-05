@@ -46,8 +46,8 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
     payload: {}
   };
   const expectedSerializedProfile = {
-    data: [{
-      type: 'user',
+    data: {
+      type: 'users',
       id: 'user_id',
       attributes: {
         'first-name': firstName,
@@ -61,7 +61,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
           ]
         }
       }
-    }],
+    },
     included: [
       {
         type: 'areas',
@@ -120,12 +120,12 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       areaId: 'recAreaA',
       level: -1
     },
-    {
-      id: 'recCompB',
-      name: 'competence-name-2',
-      areaId: 'recAreaB',
-      level: -1
-    }],
+      {
+        id: 'recCompB',
+        name: 'competence-name-2',
+        areaId: 'recAreaB',
+        level: -1
+      }],
     areas: [{id: 'recAreaA', name: 'domaine-name-1'}, {id: 'recAreaB', name: 'domaine-name-2'}]
   };
 

@@ -39,8 +39,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         }];
 
       const expectedJson = {
-        data: [{
-          type: 'user',
+        data: {
+          type: 'users',
           id: 'user_id',
           attributes: {
             'first-name': 'Luke',
@@ -55,7 +55,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             }
           },
 
-        }],
+        },
         included: [
           {
             type: 'areas',

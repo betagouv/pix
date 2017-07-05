@@ -84,14 +84,13 @@ class ProfileSerializer extends JSONAPISerializer {
     }
     const entity = modelObject.user.toJSON();
     const competencesEntity = modelObject.competences;
-    const dataWrapper = [{}];
-    const data = dataWrapper[0];
-    data.type = this.modelClassName;
+    const data = {};
+    data.type = 'users';
     data.id = entity.id;
     data.attributes = {};
     this.serializeAttributes(entity, data);
     this.serializeRelationships(competencesEntity, 'competences', data);
-    return dataWrapper;
+    return data;
   }
 }
 
