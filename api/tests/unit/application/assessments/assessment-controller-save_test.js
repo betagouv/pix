@@ -6,6 +6,8 @@ const controller = require('../../../../lib/application/assessments/assessment-c
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
+const Assessment = require('../../../../lib/domain/models/data/assessment');
+
 describe('Unit | Controller | assessment-controller', () => {
 
   describe('#save', () => {
@@ -40,35 +42,36 @@ describe('Unit | Controller | assessment-controller', () => {
 
     const persistedAssessment = {id: 42};
     const serializedAssessment = {
-      id: 42, attributes: {
+      id: 42,
+      attributes: {
         'estimated-level': 4
       }
     };
 
-    let assessmentSerializerStub;
-    let assessmentDeserializeStub;
-    let saveAssessmentStub;
-    let extractUserIdStub;
-    let replyStub;
+    let sandbox;
+
+    let assessment;
     let codeStub;
+    let replyStub;
 
     beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+
+      assessment = new Assessment({});
+
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({code: codeStub});
-      saveAssessmentStub = sinon.stub().resolves(persistedAssessment);
-      extractUserIdStub = sinon.stub(tokenService, 'extractUserId');
-      assessmentSerializerStub = sinon.stub(assessmentSerializer, 'serialize').returns(serializedAssessment);
-      assessmentDeserializeStub = sinon.stub(assessmentSerializer, 'deserialize')
-        .returns({
-          set: () => {},
-          save: saveAssessmentStub
-        });
+
+      sandbox.stub(assessment, 'save').resolves(persistedAssessment);
+      sandbox.stub(tokenService, 'extractUserId');
+      sandbox.stub(assessmentSerializer, 'serialize').returns(serializedAssessment);
+      sandbox.stub(assessmentSerializer, 'deserialize')
+        .returns(assessment);
     });
 
     afterEach(() => {
-      assessmentDeserializeStub.restore();
-      assessmentSerializerStub.restore();
-      extractUserIdStub.restore();
+      sandbox.restore();
+
     });
 
     it('should exists', () => {
@@ -80,7 +83,7 @@ describe('Unit | Controller | assessment-controller', () => {
       controller.save(request, replyStub);
 
       // Then
-      sinon.assert.calledWith(assessmentDeserializeStub, request.payload);
+      sinon.assert.calledWith(assessmentSerializer.deserialize, request.payload);
     });
 
     it('should call a service that extract the id of user', () => {
@@ -88,8 +91,8 @@ describe('Unit | Controller | assessment-controller', () => {
       controller.save(request, replyStub);
 
       //Then
-      sinon.assert.calledOnce(extractUserIdStub);
-      sinon.assert.calledWith(extractUserIdStub, 'my-token');
+      sinon.assert.calledOnce(tokenService.extractUserId);
+      sinon.assert.calledWith(tokenService.extractUserId, 'my-token');
     });
 
     it('should persist the assessment', () => {
@@ -97,7 +100,7 @@ describe('Unit | Controller | assessment-controller', () => {
       controller.save(request, replyStub);
 
       // Then
-      sinon.assert.calledOnce(saveAssessmentStub);
+      sinon.assert.calledOnce(assessment.save);
     });
 
     describe('when the assessment is successfully saved', () => {
@@ -107,7 +110,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
         // Then
         return promise.then(() => {
-          sinon.assert.calledWith(assessmentSerializerStub, persistedAssessment);
+          sinon.assert.calledWith(assessmentSerializer.serialize, persistedAssessment);
         });
       });
 
@@ -140,7 +143,7 @@ describe('Unit | Controller | assessment-controller', () => {
         const badImplementationMessage = {message: 'Boom: Bad Implementation'};
         badImplementationStub.returns(badImplementationMessage);
         const rejectedError = new Error();
-        saveAssessmentStub.rejects(rejectedError);
+        assessment.save.rejects(rejectedError);
 
         // When
         const promise = controller.save(request, replyStub);
