@@ -1,9 +1,9 @@
-import { describe, it, beforeEach, afterEach } from 'mocha';
-import { expect } from 'chai';
+import {afterEach, beforeEach, describe, it} from 'mocha';
+import {expect} from 'chai';
 import startApp from 'pix-live/tests/helpers/start-app';
 import destroyApp from 'pix-live/tests/helpers/destroy-app';
 
-describe.only('Acceptance | n1 - competence profile', function() {
+describe('Acceptance | n1 - competence profile', function() {
   let application;
 
   beforeEach(function() {
@@ -36,13 +36,13 @@ describe.only('Acceptance | n1 - competence profile', function() {
     click('.signin-form__submit_button');
   }
 
-  it('can visit /compte', function() {
+  it('can visit /compte', async function() {
     // given
     seedDatabase();
     authenticateUser();
 
     // when
-    visit('/compte');
+    await visit('/compte');
 
     // then
     return andThen(() => {

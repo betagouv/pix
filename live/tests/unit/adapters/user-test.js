@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import {expect} from 'chai';
-import {it, describe} from 'mocha';
+import {describe, it} from 'mocha';
 import sinon from 'sinon';
 import {setupTest} from 'ember-mocha';
 
@@ -9,10 +9,10 @@ describe('Unit | Route | subscribers', function() {
     needs: ['service:session']
   });
 
-  describe('#getAuthenticatedUserProfile', () => {
+  describe('#queryRecord', () => {
 
     beforeEach(() => {
-      sinon.stub(Ember.$, 'getJSON').callsArgWith(1, null);
+      sinon.stub(Ember.$, 'getJSON').resolves();
     });
 
     afterEach(() => {
@@ -23,14 +23,14 @@ describe('Unit | Route | subscribers', function() {
       // when
       const adapter = this.subject();
       // then
-      return expect(adapter.getAuthenticatedUserProfile).to.be.ok;
+      return expect(adapter.queryRecord()).to.be.ok;
     });
 
     it('should return a resolved promise', function(done) {
       // given
       const adapter = this.subject();
       // when
-      const promise = adapter.getAuthenticatedUserProfile();
+      const promise = adapter.queryRecord();
       // then
       promise.then(done);
     });
@@ -40,7 +40,7 @@ describe('Unit | Route | subscribers', function() {
       const adapter = this.subject();
 
       // when
-      adapter.getAuthenticatedUserProfile();
+      adapter.queryRecord();
 
       // then
       sinon.assert.calledWith(Ember.$.getJSON, 'http://localhost:3000/api/users/me');

@@ -19,7 +19,7 @@ import postAuthentications from './routes/post-authentications';
 import getAuthenticatedUser from './routes/get-user-me';
 
 export default function() {
-  this.logging = true;
+  this.logging = false;
   this.passthrough('/write-coverage');
   this.post('https://fonts.googleapis.com/**', () => {
   });

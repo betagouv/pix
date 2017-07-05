@@ -7,10 +7,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
   authenticationRoute: '/connexion',
   model() {
     const store = this.get('store');
-    const userAdapter = store.adapterFor('user');
-    return userAdapter.getAuthenticatedUserProfile().then(payload => {
-      return store.pushPayload(payload);
-    });
+    return store.queryRecord('user', {});
   },
 
 });

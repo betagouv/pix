@@ -1,9 +1,10 @@
 import ApplicationAdapter from './application';
+import Ember from 'ember';
 
 export default ApplicationAdapter.extend({
 
-  getAuthenticatedUserProfile() {
+  queryRecord() {
     const url = this.buildURL('user', 'me');
-    return this.ajax(url, 'GET');
+    return Ember.$.getJSON(url, 'GET');
   }
 });
