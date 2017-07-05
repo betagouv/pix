@@ -1862,14 +1862,20 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee4, this);
       })));
 
-      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+      (0, _mocha.afterEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
+                if (!(find('.close-button-container').length > 0)) {
+                  _context5.next = 3;
+                  break;
+                }
 
-              case 1:
+                _context5.next = 3;
+                return click('.close-button-container');
+
+              case 3:
               case 'end':
                 return _context5.stop();
             }
@@ -1877,12 +1883,12 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee5, this);
       })));
 
-      (0, _mocha.it)('contient un header', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
+                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
 
               case 1:
               case 'end':
@@ -1892,12 +1898,12 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee6, this);
       })));
 
-      (0, _mocha.it)('contient une instruction', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+      (0, _mocha.it)('contient un header', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
+                (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
 
               case 1:
               case 'end':
@@ -1907,12 +1913,12 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee7, this);
       })));
 
-      (0, _mocha.it)('contient une zone de correction', _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
+      (0, _mocha.it)('contient une instruction', _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
         return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                (0, _chai.expect)($(CORRECTION_BOX_QROC)).to.have.lengthOf(1);
+                (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
 
               case 1:
               case 'end':
@@ -1922,12 +1928,12 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee8, this);
       })));
 
-      (0, _mocha.it)('contient une zone reservé au feedback panel', _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
+      (0, _mocha.it)('contient une zone de correction', _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
         return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
-                (0, _chai.expect)($(FEEDBACK_PANEL)).to.have.lengthOf(1);
+                (0, _chai.expect)($(CORRECTION_BOX_QROC)).to.have.lengthOf(1);
 
               case 1:
               case 'end':
@@ -1937,12 +1943,27 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee9, this);
       })));
 
-      (0, _mocha.it)('on peut fermer la modale', _asyncToGenerator(regeneratorRuntime.mark(function _callee10() {
+      (0, _mocha.it)('contient une zone reservé au feedback panel', _asyncToGenerator(regeneratorRuntime.mark(function _callee10() {
         return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
-                _context10.next = 2;
+                (0, _chai.expect)($(FEEDBACK_PANEL)).to.have.lengthOf(1);
+
+              case 1:
+              case 'end':
+                return _context10.stop();
+            }
+          }
+        }, _callee10, this);
+      })));
+
+      (0, _mocha.it)('on peut fermer la modale', _asyncToGenerator(regeneratorRuntime.mark(function _callee11() {
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                _context11.next = 2;
                 return click('.close-button-container');
 
               case 2:
@@ -1950,10 +1971,10 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
 
               case 3:
               case 'end':
-                return _context10.stop();
+                return _context11.stop();
             }
           }
-        }, _callee10, this);
+        }, _callee11, this);
       })));
     });
   });
@@ -2051,16 +2072,16 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
       (0, _chai.expect)(find(FEEDBACK_FORM)).to.have.lengthOf(1);
     }
 
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _startApp.default)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _destroyApp.default)(application);
+    });
+
     (0, _mocha.describe)('l1.1 Depuis une epreuve', function () {
       var _this = this;
-
-      (0, _mocha.beforeEach)(function () {
-        application = (0, _startApp.default)();
-      });
-
-      (0, _mocha.afterEach)(function () {
-        (0, _destroyApp.default)(application);
-      });
 
       (0, _mocha.it)('Je peux signaler une épreuve directement', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -2147,14 +2168,6 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     (0, _mocha.describe)('l1.2 Depuis la fenêtre de comparaison', function () {
       var _this2 = this;
 
-      before(function () {
-        application = (0, _startApp.default)();
-      });
-
-      after(function () {
-        (0, _destroyApp.default)(application);
-      });
-
       (0, _mocha.it)('Je peux signaler une épreuve (page de résultat du test)', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
@@ -2165,8 +2178,11 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
 
               case 2:
                 assertThatFeedbackFormIsOpen();
+                // XXX test env needs the modal to be closed manually
+                _context4.next = 5;
+                return click('.close-button-container');
 
-              case 3:
+              case 5:
               case 'end':
                 return _context4.stop();
             }
@@ -2686,6 +2702,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('utils/result-icon-url.js', function () {
+      // test passed
+    });
+
     it('utils/solution-as-object.js', function () {
       // test passed
     });
@@ -2706,6 +2726,14 @@ define('pix-live/tests/helpers/destroy-app', ['exports', 'ember'], function (exp
     _ember.default.run(application, 'destroy');
     if (window.server) {
       window.server.shutdown();
+    }
+    // Sanity check
+    assertModalIsClosed();
+  }
+
+  function assertModalIsClosed() {
+    if (document.body.classList.contains('routable-modal--open')) {
+      throw new Error('The body element still has a `routable-modal--open` class, although the app just has been destroyed. ' + 'This probably means that an acceptance test finished while a modal window was still open. ' + 'It will cause subtle issues, like the scroll of the test runner window being blocked. ' + 'To fix this assertion, please close the modal window manually before the test finishes. ');
     }
   }
 });
@@ -2988,7 +3016,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['ember
       (0, _mocha.it)('should display challenge illustration (and alt) if it exists', function () {
         // given
         addChallengeToContext(this, {
-          illustrationUrl: 'http://challenge.illustration.url'
+          illustrationUrl: '/images/pix-logo.svg'
         });
 
         // when
@@ -2996,7 +3024,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['ember
 
         // then
         var $illustration = this.$('.challenge-statement__illustration');
-        (0, _chai.expect)($illustration.prop('src')).to.equal('http://challenge.illustration.url/');
+        (0, _chai.expect)($illustration.prop('src')).to.match(/\/images\/pix-logo.svg$/);
         (0, _chai.expect)($illustration.prop('alt')).to.equal('Illustration de l\'épreuve');
       });
 
@@ -3393,7 +3421,7 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render course picture if it is defined', function () {
         // given
-        var course = _ember.default.Object.create({ imageUrl: 'image_src' });
+        var course = _ember.default.Object.create({ imageUrl: '/images/pix-logo.svg' });
         this.set('course', course);
 
         // when
@@ -3585,7 +3613,7 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
     });
 
     var feature = {
-      icon: 'coucou',
+      icon: 'reference',
       title: 'title_value',
       description: 'description_value'
     };
@@ -3610,7 +3638,7 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
 
       var $icon = this.$('.feature-item__icon');
       (0, _chai.expect)($icon).to.exist;
-      (0, _chai.expect)($icon.attr('src')).to.equal('images/features/icon-coucou.svg');
+      (0, _chai.expect)($icon.attr('src')).to.equal('/images/features/icon-reference.svg');
     });
 
     (0, _mocha.it)('should render an title', function () {
@@ -6722,6 +6750,17 @@ define('pix-live/tests/test-helper', ['pix-live/tests/helpers/resolver', 'ember-
   'use strict';
 
   _mocha.mocha.setup({
+    // If a test is randomly killed by the timeout duration,
+    // consider this before increasing the timeout:
+    //
+    // - Computers are fast. 1,5s is a long time, even for an acceptance test.
+    //   Why is this test so slow?
+    //
+    // - Can you make the test faster, rather than increasing the timeout?
+    //
+    // - The acceptance test runner waits for all network requests, delayed actions,
+    //   run-loop delays and Promises to be revolved before continuing to the next step.
+    //   Is any code triggering an artifical delay in tests – like `setTimeout` or `Ember.run.later`?
     timeout: 1500,
     slow: 500
   });
