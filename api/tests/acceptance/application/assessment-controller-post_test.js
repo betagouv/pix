@@ -25,8 +25,6 @@ describe('Acceptance | API | Assessments POST', function() {
           data: {
             type: 'assessment',
             attributes: {
-              'user-name': 'Jon Snow',
-              'user-email': 'jsnow@winterfell.got'
             },
             relationships: {
               course: {

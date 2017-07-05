@@ -11,11 +11,8 @@ describe('Unit | Controller | assessment-controller', () => {
 
   describe('#getNextChallenge', () => {
 
-    let assessmentRepositoryGetStub;
-    let getAssessmentNextChallengeIdStub;
-    let getScoredAssessmentStub;
+    let sandbox;
     let assessmentWithScore;
-    let saveAssessmentStub;
 
     beforeEach(() => {
 
@@ -26,24 +23,24 @@ describe('Unit | Controller | assessment-controller', () => {
         pixScore: 0
       });
 
-      saveAssessmentStub = sinon.stub(assessmentWithScore, 'save');
-      getScoredAssessmentStub = sinon.stub(assessmentService, 'getScoredAssessment').resolves(assessmentWithScore);
-      assessmentRepositoryGetStub = sinon.stub(assessmentRepository, 'get').resolves({});
-      getAssessmentNextChallengeIdStub = sinon.stub(assessmentService, 'getAssessmentNextChallengeId');
+      sandbox = sinon.sandbox.create();
+
+      sandbox.stub(assessmentService, 'getScoredAssessment').resolves(assessmentWithScore);
+      sandbox.stub(assessmentWithScore, 'save');
+      sandbox.stub(assessmentRepository, 'get').resolves({});
+      sandbox.stub(assessmentService, 'getAssessmentNextChallengeId');
     });
 
     afterEach(() => {
-      saveAssessmentStub.restore();
-      getScoredAssessmentStub.restore();
-      assessmentRepositoryGetStub.restore();
-      getAssessmentNextChallengeIdStub.restore();
-      assessmentRepositoryGetStub.restore();
+
+      sandbox.restore();
+
     });
 
     describe('when the assessment is over', () => {
 
       beforeEach(() => {
-        getAssessmentNextChallengeIdStub.resolves(null);
+        assessmentService.getAssessmentNextChallengeId.resolves(null);
       });
 
       it('should call getScoredAssessment', () => {
@@ -53,7 +50,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
         // Then
         return promise.then(() => {
-          sinon.assert.calledWith(getScoredAssessmentStub, 7531);
+          sinon.assert.calledWith(assessmentService.getScoredAssessment, 7531);
         });
       });
 
@@ -64,7 +61,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
         // Then
         return promise.then(() => {
-          sinon.assert.called(saveAssessmentStub);
+          sinon.assert.called(assessmentWithScore.save);
         });
       });
 
@@ -85,7 +82,7 @@ describe('Unit | Controller | assessment-controller', () => {
         it('should return a badImplementation error when evaluating is an error', () => {
           // Given
           const error = new Error('Unable to evaluate level');
-          getScoredAssessmentStub.rejects(error);
+          assessmentService.getScoredAssessment.rejects(error);
 
           // When
           const promise = assessmentController.getNextChallenge({params: {id: 7531}}, replyStub);
@@ -100,7 +97,7 @@ describe('Unit | Controller | assessment-controller', () => {
         it('should return an error when database returns an error', () => {
           // Given
           const error = new Error('Unable to save assessment');
-          saveAssessmentStub.rejects(error);
+          assessmentWithScore.save.rejects(error);
 
           // When
           const promise = assessmentController.getNextChallenge({params: {id: 7531}}, replyStub);
@@ -120,7 +117,7 @@ describe('Unit | Controller | assessment-controller', () => {
     describe('when the assessment is not over yet', () => {
 
       beforeEach(() => {
-        getAssessmentNextChallengeIdStub.resolves({});
+        assessmentService.getAssessmentNextChallengeId.resolves({});
       });
 
       it('should not evaluate assessment score', () => {
@@ -130,7 +127,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
         // Then
         return promise.then(() => {
-          sinon.assert.notCalled(getScoredAssessmentStub);
+          sinon.assert.notCalled(assessmentService.getScoredAssessment);
         });
       });
 

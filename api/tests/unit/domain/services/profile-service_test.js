@@ -60,26 +60,21 @@ describe('Unit | Service | Profil User Service', function() {
 
     describe('Enhanced user', () => {
 
-      let userStub;
-      let competencesStub;
-      let areasStub;
-      let getAdaptiveCourseStub;
-      let getAssessmentsByUserId;
+      let sandbox;
 
       beforeEach(() => {
-        userStub = sinon.stub(userRepository, 'findUserById').resolves(fakeUserRecord);
-        competencesStub = sinon.stub(competenceRepository, 'list').resolves(fakeCompetenceRecords);
-        areasStub = sinon.stub(areaRepository, 'list').resolves(fakeAreaRecords);
-        getAdaptiveCourseStub = sinon.stub(courseRepository, 'getAdaptiveCourses').resolves(fakeCoursesRecords);
-        getAssessmentsByUserId = sinon.stub(assessmentRepository, 'getByUserId').resolves(fakeAssessmentRecords);
+
+        sandbox = sinon.sandbox.create();
+
+        sandbox.stub(userRepository, 'findUserById').resolves(fakeUserRecord);
+        sandbox.stub(competenceRepository, 'list').resolves(fakeCompetenceRecords);
+        sandbox.stub(areaRepository, 'list').resolves(fakeAreaRecords);
+        sandbox.stub(courseRepository, 'getAdaptiveCourses').resolves(fakeCoursesRecords);
+        sandbox.stub(assessmentRepository, 'getByUserId').resolves(fakeAssessmentRecords);
       });
 
       afterEach(() => {
-        userStub.restore();
-        competencesStub.restore();
-        areasStub.restore();
-        getAdaptiveCourseStub.restore();
-        getAssessmentsByUserId.restore();
+        sandbox.restore();
       });
 
       it('should return a resolved promise', () => {
@@ -125,7 +120,7 @@ describe('Unit | Service | Profil User Service', function() {
 
         // Then
         return promise.then(() => {
-          sinon.assert.called(getAdaptiveCourseStub);
+          sinon.assert.called(courseRepository.getAdaptiveCourses);
         });
 
       });
@@ -137,10 +132,10 @@ describe('Unit | Service | Profil User Service', function() {
 
         // Then
         return promise.then(() => {
-          sinon.assert.called(getAssessmentsByUserId);
-          sinon.assert.calledWith(getAssessmentsByUserId, 'user-id');
+          sinon.assert.called(assessmentRepository.getByUserId);
+          sinon.assert.calledWith(assessmentRepository.getByUserId, 'user-id');
         });
-        
+
       });
 
     });
