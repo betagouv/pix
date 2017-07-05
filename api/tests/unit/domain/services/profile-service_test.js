@@ -1,20 +1,23 @@
 const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
+
+const faker = require('faker');
+
 const profileService = require('../../../../lib/domain/services/profile-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const faker = require('faker');
 
 const Assessment = require('../../../../lib/domain/models/data/assessment');
+const User = require('../../../../lib/domain/models/data/user');
 
 describe('Unit | Service | Profil User Service', function() {
 
-  const fakeUserRecord = {
+  const fakeUserRecord = new User({
     'first-name': faker.name.findName(),
     'last-name': faker.name.findName()
-  };
+  });
 
   const fakeCompetenceRecords = [
     {
