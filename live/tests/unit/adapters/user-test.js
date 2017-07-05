@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import {expect} from 'chai';
 import {describe, it} from 'mocha';
 import sinon from 'sinon';
@@ -11,12 +10,11 @@ describe('Unit | Route | subscribers', function() {
 
   describe('#queryRecord', () => {
 
-    beforeEach(() => {
-      sinon.stub(Ember.$, 'getJSON').resolves();
-    });
+    let adapter;
 
-    afterEach(() => {
-      Ember.$.getJSON.restore();
+    beforeEach(function() {
+      adapter = this.subject();
+      adapter.ajax = sinon.stub().resolves();
     });
 
     it('should exist', function() {
@@ -27,8 +25,6 @@ describe('Unit | Route | subscribers', function() {
     });
 
     it('should return a resolved promise', function(done) {
-      // given
-      const adapter = this.subject();
       // when
       const promise = adapter.queryRecord();
       // then
@@ -36,14 +32,11 @@ describe('Unit | Route | subscribers', function() {
     });
 
     it('should called GET /api/users/me', function() {
-      // given
-      const adapter = this.subject();
-
       // when
       adapter.queryRecord();
 
       // then
-      sinon.assert.calledWith(Ember.$.getJSON, 'http://localhost:3000/api/users/me');
+      sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/me');
     });
 
   });
