@@ -12,7 +12,6 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const Assessment = require('../../../../lib/domain/models/data/assessment');
 const User = require('../../../../lib/domain/models/data/user');
 
-
 describe('Unit | Service | Profil User Service', function() {
 
   const fakeUserRecord = new User({
