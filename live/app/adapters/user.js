@@ -5,6 +5,6 @@ export default ApplicationAdapter.extend({
 
   queryRecord() {
     const url = this.buildURL('user', 'me');
-    return Ember.$.getJSON(url, 'GET');
+    return Ember.$.getJSON(url);
   }
 });
