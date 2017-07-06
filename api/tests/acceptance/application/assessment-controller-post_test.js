@@ -47,7 +47,7 @@ describe('Acceptance | API | Assessments POST', function() {
     describe('when the user is authenticated', () => {
       it('should save user_id in the database', () => {
         // Given
-        const user = new User({ id: 436357 });
+        const user = new User({ id : 436357 });
         const token = tokenService.createTokenFromUser(user);
         options.headers = {};
         options.headers['Authorization'] = `Bearer ${token}`;
