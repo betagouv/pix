@@ -3554,6 +3554,9 @@ define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember', 'ember-cli
   }
 
   function _shouldUseMirage(env, addonConfig) {
+    if (typeof FastBoot !== 'undefined') {
+      return false;
+    }
     var userDeclaredEnabled = typeof addonConfig.enabled !== 'undefined';
     var defaultEnabled = _defaultEnabled(env, addonConfig);
 
