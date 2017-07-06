@@ -3562,6 +3562,9 @@ define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember', 'ember-cli
   }
 
   function _shouldUseMirage(env, addonConfig) {
+    if (typeof FastBoot !== 'undefined') {
+      return false;
+    }
     var userDeclaredEnabled = typeof addonConfig.enabled !== 'undefined';
     var defaultEnabled = _defaultEnabled(env, addonConfig);
 
@@ -7369,6 +7372,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.13.0+7fd2ae27"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.13.0+ac672d3d"});
 }
 //# sourceMappingURL=pix-live.map
