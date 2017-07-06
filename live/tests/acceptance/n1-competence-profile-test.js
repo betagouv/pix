@@ -1,65 +1,65 @@
-import {aftereach, beforeeach, describe, it} from 'mocha';
+import {afterEach, beforeEach, describe, it} from 'mocha';
 import {expect} from 'chai';
-import startapp from '../helpers/start-app';
-import destroyapp from '../helpers/destroy-app';
+import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
 
-describe('acceptance | n1 - competence profile', function() {
+describe('Acceptance | n1 - competence profile', function() {
   let application;
 
-  beforeeach(function() {
-    application = startapp();
+  beforeEach(function() {
+    application = startApp();
   });
 
-  aftereach(function() {
-    destroyapp(application);
+  afterEach(function() {
+    destroyApp(application);
   });
 
-  function seeddatabase() {
-    server.loadfixtures('areas');
-    server.loadfixtures('competences');
+  function seedDatabase() {
+    server.loadFixtures('areas');
+    server.loadFixtures('competences');
     server.create('user', {
       id: 1,
-      firstname: 'samurai',
-      lastname: 'jack',
+      firstName: 'Samurai',
+      lastName: 'Jack',
       email: 'samurai.jack@aku.world',
-      password: 'b@ck2past',
+      password: 'B@ck2past',
       cgu: true,
-      recaptchatoken: 'recaptcha-token-xxxxxx',
-      competenceids: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+      recaptchaToken: 'recaptcha-token-xxxxxx',
+      competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     });
   }
 
-  function authenticateuser() {
+  function authenticateUser() {
     visit('/connexion');
-    fillin('#pix-email', 'samurai.jack@aku.world');
-    fillin('#pix-password', 'b@ck2past');
+    fillIn('#pix-email', 'samurai.jack@aku.world');
+    fillIn('#pix-password', 'B@ck2past');
     click('.signin-form__submit_button');
   }
 
   it('can visit /compte', async function() {
     // given
-    seeddatabase();
-    authenticateuser();
+    seedDatabase();
+    authenticateUser();
 
     // when
     await visit('/compte');
 
     // then
-    return andthen(() => {
-      expect(currenturl()).to.equal('/compte');
+    return andThen(() => {
+      expect(currentURL()).to.equal('/compte');
     });
   });
 
   it('should display user competences (with level) grouped by area', function() {
     // given
-    seeddatabase();
-    authenticateuser();
+    seedDatabase();
+    authenticateUser();
 
     // when
     visit('/compte');
 
     // then
-    return andthen(() => {
+    return andThen(() => {
       expect(find('.competence-area-item').length).to.equal(5);
       expect(find('.competence').length).to.equal(16);
     });
