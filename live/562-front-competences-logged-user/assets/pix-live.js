@@ -6961,14 +6961,6 @@ define("pix-live/templates/placement-tests", ["exports"], function (exports) {
   });
   exports.default = Ember.HTMLBars.template({ "id": "KVheE8CV", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"placement-tests-page-courses__course-list\"],[13],[0,\"\\n  \"],[1,[33,[\"course-list\"],null,[[\"courses\",\"startCourse\"],[[28,[\"model\"]],\"startCourse\"]]],false],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/placement-tests.hbs" } });
 });
-define("pix-live/templates/profile", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "WZhuqh70", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"profile-page\"],[13],[0,\"\\n  \"],[11,\"h1\",[]],[13],[0,\"Profile\"],[14],[0,\"\\n  \"],[11,\"p\",[]],[13],[1,[28,[\"model\",\"firstName\"]],false],[0,\" \"],[1,[28,[\"model\",\"lastName\"]],false],[14],[0,\"\\n  \"],[11,\"p\",[]],[13],[1,[28,[\"model\",\"email\"]],false],[14],[0,\"\\n\\n\"],[6,[\"each\"],[[28,[\"model\",\"competenceAreas\"]]],null,{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"style\",\"margin-bottom: 20px\"],[13],[0,\"\\n      coucou\\n      \"],[11,\"h2\",[]],[13],[1,[28,[\"area\",\"name\"]],false],[14],[0,\"\\n      \"],[11,\"ul\",[]],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"area\",\"competences\"]]],null,{\"statements\":[[0,\"          \"],[11,\"li\",[]],[13],[0,\"\\n            \"],[1,[28,[\"competence\",\"name\"]],false],[0,\"\\n          \"],[14],[0,\"\\n\"]],\"locals\":[\"competence\"]},null],[0,\"      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[\"area\"]},null],[0,\"\\n\\n\"],[14],[0,\"\\n\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/profile.hbs" } });
-});
 define("pix-live/templates/project", ["exports"], function (exports) {
   "use strict";
 
@@ -7725,6 +7717,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.13.0+a8312d49"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.13.0+00626f2b"});
 }
 //# sourceMappingURL=pix-live.map
