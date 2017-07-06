@@ -11,18 +11,20 @@ export default Model.extend({
   recaptchaToken: attr('string'),
   competences: hasMany('competence'),
 
-  competenceAreas: Ember.computed('competences', async function() {
-    const competences = await this.get('competences');
-    return competences.reduce(async (areas, competence) => {
-      const competenceArea = await competence.get('area');
-      if (!areas[competenceArea.get('id')]) {
-        areas[competenceArea.get('id')] = {
-          name: competenceArea.get('name'),
-          competences: []
-        };
-      }
-      areas[competenceArea.get('id')].competences.push(competence);
-      return areas;
-    }, []);
+  competenceAreas: Ember.computed('competences', function() {
+    return this.get('competences').then(competences => {
+      return competences.reduce((areas, competence) => {
+        competence.get('area').then(competenceArea => {
+          if (!areas[competenceArea.get('id')]) {
+            areas[competenceArea.get('id')] = {
+              name: competenceArea.get('name'),
+              competences: []
+            };
+          }
+          areas[competenceArea.get('id')].competences.push(competence);
+          return areas;
+        });
+      }, []);
+    });
   })
 });
