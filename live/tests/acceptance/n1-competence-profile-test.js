@@ -50,7 +50,7 @@ describe('Acceptance | n1 - competence profile', function() {
     });
   });
 
-  it('should display user competences (with level) grouped by area', () => {
+  it('should display user competences (with level) grouped by area', function() {
     // given
     seedDatabase();
     authenticateUser();
