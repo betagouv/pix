@@ -1862,14 +1862,20 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee4, this);
       })));
 
-      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+      (0, _mocha.afterEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
+                if (!(find('.close-button-container').length > 0)) {
+                  _context5.next = 3;
+                  break;
+                }
 
-              case 1:
+                _context5.next = 3;
+                return click('.close-button-container');
+
+              case 3:
               case 'end':
                 return _context5.stop();
             }
@@ -1877,12 +1883,12 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee5, this);
       })));
 
-      (0, _mocha.it)('contient un header', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
+                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
 
               case 1:
               case 'end':
@@ -1892,12 +1898,12 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee6, this);
       })));
 
-      (0, _mocha.it)('contient une instruction', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+      (0, _mocha.it)('contient un header', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
+                (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
 
               case 1:
               case 'end':
@@ -1907,12 +1913,12 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee7, this);
       })));
 
-      (0, _mocha.it)('contient une zone de correction', _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
+      (0, _mocha.it)('contient une instruction', _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
         return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                (0, _chai.expect)($(CORRECTION_BOX_QROC)).to.have.lengthOf(1);
+                (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
 
               case 1:
               case 'end':
@@ -1922,12 +1928,12 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee8, this);
       })));
 
-      (0, _mocha.it)('contient une zone reservé au feedback panel', _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
+      (0, _mocha.it)('contient une zone de correction', _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
         return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
-                (0, _chai.expect)($(FEEDBACK_PANEL)).to.have.lengthOf(1);
+                (0, _chai.expect)($(CORRECTION_BOX_QROC)).to.have.lengthOf(1);
 
               case 1:
               case 'end':
@@ -1937,12 +1943,27 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee9, this);
       })));
 
-      (0, _mocha.it)('on peut fermer la modale', _asyncToGenerator(regeneratorRuntime.mark(function _callee10() {
+      (0, _mocha.it)('contient une zone reservé au feedback panel', _asyncToGenerator(regeneratorRuntime.mark(function _callee10() {
         return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
-                _context10.next = 2;
+                (0, _chai.expect)($(FEEDBACK_PANEL)).to.have.lengthOf(1);
+
+              case 1:
+              case 'end':
+                return _context10.stop();
+            }
+          }
+        }, _callee10, this);
+      })));
+
+      (0, _mocha.it)('on peut fermer la modale', _asyncToGenerator(regeneratorRuntime.mark(function _callee11() {
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                _context11.next = 2;
                 return click('.close-button-container');
 
               case 2:
@@ -1950,10 +1971,10 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
 
               case 3:
               case 'end':
-                return _context10.stop();
+                return _context11.stop();
             }
           }
-        }, _callee10, this);
+        }, _callee11, this);
       })));
     });
   });
@@ -2051,16 +2072,16 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
       (0, _chai.expect)(find(FEEDBACK_FORM)).to.have.lengthOf(1);
     }
 
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _startApp.default)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _destroyApp.default)(application);
+    });
+
     (0, _mocha.describe)('l1.1 Depuis une epreuve', function () {
       var _this = this;
-
-      (0, _mocha.beforeEach)(function () {
-        application = (0, _startApp.default)();
-      });
-
-      (0, _mocha.afterEach)(function () {
-        (0, _destroyApp.default)(application);
-      });
 
       (0, _mocha.it)('Je peux signaler une épreuve directement', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -2147,14 +2168,6 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     (0, _mocha.describe)('l1.2 Depuis la fenêtre de comparaison', function () {
       var _this2 = this;
 
-      before(function () {
-        application = (0, _startApp.default)();
-      });
-
-      after(function () {
-        (0, _destroyApp.default)(application);
-      });
-
       (0, _mocha.it)('Je peux signaler une épreuve (page de résultat du test)', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
@@ -2165,8 +2178,11 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
 
               case 2:
                 assertThatFeedbackFormIsOpen();
+                // XXX test env needs the modal to be closed manually
+                _context4.next = 5;
+                return click('.close-button-container');
 
-              case 3:
+              case 5:
               case 'end':
                 return _context4.stop();
             }
@@ -2176,7 +2192,63 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     });
   });
 });
-define('pix-live/tests/acceptance/m1-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'ember-test-helpers/wait'], function (_mocha, _chai, _startApp, _destroyApp, _wait) {
+define('pix-live/tests/acceptance/m1-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Espace compte', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _startApp.default)();
+
+      server.create('user', {
+        id: 1,
+        firstName: 'François',
+        lastName: 'Hisquin',
+        email: 'fhi@octo.com',
+        password: 'FHI4EVER',
+        cgu: true,
+        recaptchaToken: 'recaptcha-token-xxxxxx',
+        competenceIds: []
+      });
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _destroyApp.default)(application);
+    });
+
+    (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
+      (0, _mocha.it)('should redirect to the connexion page', function () {
+        // when
+        visit('/compte');
+
+        // then
+        return andThen(function () {
+          (0, _chai.expect)(currentURL()).to.equal('/connexion');
+        });
+      });
+    });
+
+    (0, _mocha.describe)('m1.2 Log-in phase', function () {
+      (0, _mocha.it)('should redirect to the /compte after connexion', function () {
+        // given
+        visit('/connexion');
+        fillIn('#pix-email', 'fhi@octo.com');
+        fillIn('#pix-password', 'FHI4EVER');
+
+        // when
+        click('.signin-form__submit_button');
+
+        // then
+        return andThen(function () {
+          (0, _chai.expect)(currentURL()).to.equal('/compte');
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/n1-competence-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -2208,61 +2280,79 @@ define('pix-live/tests/acceptance/m1-authentication-and-profile-test', ['mocha',
     };
   }
 
-  (0, _mocha.describe)('Acceptance | Espace compte', function () {
-
+  (0, _mocha.describe)('Acceptance | n1 - competence profile', function () {
     var application = void 0;
 
-    (0, _mocha.before)(function () {
+    (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
     });
 
-    (0, _mocha.after)(function () {
+    (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
-    (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
-      (0, _mocha.it)('should redirect to the connexion page', function () {
-        visit('/compte');
+    function seedDatabase() {
+      server.loadFixtures('areas');
+      server.loadFixtures('competences');
+      server.create('user', {
+        id: 1,
+        firstName: 'Samurai',
+        lastName: 'Jack',
+        email: 'samurai.jack@aku.world',
+        password: 'B@ck2past',
+        cgu: true,
+        recaptchaToken: 'recaptcha-token-xxxxxx',
+        competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+      });
+    }
 
-        return andThen(function () {
-          (0, _chai.expect)(currentURL()).to.equal('/connexion');
-        });
+    function authenticateUser() {
+      visit('/connexion');
+      fillIn('#pix-email', 'samurai.jack@aku.world');
+      fillIn('#pix-password', 'B@ck2past');
+      click('.signin-form__submit_button');
+    }
+
+    (0, _mocha.it)('can visit /compte', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              // given
+              seedDatabase();
+              authenticateUser();
+
+              // when
+              _context.next = 4;
+              return visit('/compte');
+
+            case 4:
+              return _context.abrupt('return', andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/compte');
+              }));
+
+            case 5:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })));
+
+    (0, _mocha.it)('should display user competences (with level) grouped by area', function () {
+      // given
+      seedDatabase();
+      authenticateUser();
+
+      // when
+      visit('/compte');
+
+      // then
+      return andThen(function () {
+        (0, _chai.expect)(find('.competence-area-item').length).to.equal(5);
+        (0, _chai.expect)(find('.competence').length).to.equal(16);
       });
     });
-
-    (0, _mocha.describe)('m1.2 Log-in phase', function () {
-      var _this = this;
-
-      (0, _mocha.it)('should redirect to the /compte after connexion', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return visit('/connexion');
-
-              case 2:
-
-                _fillConnexionForm('pix@contact.com', 'PasswordPix#');
-                $('form').submit();
-
-                return _context.abrupt('return', (0, _wait.default)().then(function () {
-                  (0, _chai.expect)(currentURL()).to.equal('/compte');
-                }));
-
-              case 5:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, _this);
-      })));
-    });
-
-    function _fillConnexionForm(email, password) {
-      $('input[type=email]').val(email);
-      $('input[type=password]').val(password);
-    }
   });
 });
 define('pix-live/tests/app.lint-test', [], function () {
@@ -2279,6 +2369,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('adapters/solution.js', function () {
+      // test passed
+    });
+
+    it('adapters/user.js', function () {
       // test passed
     });
 
@@ -2590,10 +2684,6 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/connexion.js', function () {
-      // test passed
-    });
-
     it('routes/courses.js', function () {
       // test passed
     });
@@ -2614,15 +2704,19 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/deconnexion.js', function () {
-      // test passed
-    });
-
     it('routes/index.js', function () {
       // test passed
     });
 
     it('routes/inscription.js', function () {
+      // test passed
+    });
+
+    it('routes/login.js', function () {
+      // test passed
+    });
+
+    it('routes/logout.js', function () {
       // test passed
     });
 
@@ -2706,6 +2800,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('utils/result-icon-url.js', function () {
+      // test passed
+    });
+
     it('utils/solution-as-object.js', function () {
       // test passed
     });
@@ -2726,6 +2824,14 @@ define('pix-live/tests/helpers/destroy-app', ['exports', 'ember'], function (exp
     _ember.default.run(application, 'destroy');
     if (window.server) {
       window.server.shutdown();
+    }
+    // Sanity check
+    assertModalIsClosed();
+  }
+
+  function assertModalIsClosed() {
+    if (document.body.classList.contains('routable-modal--open')) {
+      throw new Error('The body element still has a `routable-modal--open` class, although the app just has been destroyed. ' + 'This probably means that an acceptance test finished while a modal window was still open. ' + 'It will cause subtle issues, like the scroll of the test runner window being blocked. ' + 'To fix this assertion, please close the modal window manually before the test finishes. ');
     }
   }
 });
@@ -3008,7 +3114,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['ember
       (0, _mocha.it)('should display challenge illustration (and alt) if it exists', function () {
         // given
         addChallengeToContext(this, {
-          illustrationUrl: 'http://challenge.illustration.url'
+          illustrationUrl: '/images/pix-logo.svg'
         });
 
         // when
@@ -3016,7 +3122,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['ember
 
         // then
         var $illustration = this.$('.challenge-statement__illustration');
-        (0, _chai.expect)($illustration.prop('src')).to.equal('http://challenge.illustration.url/');
+        (0, _chai.expect)($illustration.prop('src')).to.match(/\/images\/pix-logo.svg$/);
         (0, _chai.expect)($illustration.prop('alt')).to.equal('Illustration de l\'épreuve');
       });
 
@@ -3503,7 +3609,7 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
 
         (0, _mocha.it)('should render 5 competence areas, when there are 5 competences with different area for each one', function () {
           // given
-          var competencesWithDifferentAreas = [_ember.default.Object.create({ id: 1, name: 'competence-name-1', area: 'area-id-1' }), _ember.default.Object.create({ id: 2, name: 'competence-name-2', area: 'area-id-2' }), _ember.default.Object.create({ id: 3, name: 'competence-name-3', area: 'area-id-3' }), _ember.default.Object.create({ id: 4, name: 'competence-name-4', area: 'area-id-4' }), _ember.default.Object.create({ id: 5, name: 'competence-name-5', area: 'area-id-5' })];
+          var competencesWithDifferentAreas = [_ember.default.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }), _ember.default.Object.create({ id: 2, name: 'competence-2', areaName: 'area-B' }), _ember.default.Object.create({ id: 3, name: 'competence-3', areaName: 'area-C' }), _ember.default.Object.create({ id: 4, name: 'competence-4', areaName: 'area-D' }), _ember.default.Object.create({ id: 5, name: 'competence-5', areaName: 'area-E' })];
           this.set('competences', competencesWithDifferentAreas);
 
           // when
@@ -3519,7 +3625,7 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
 
         (0, _mocha.it)('should render 2 competence areas, when there are 5 competences related to 2 different areas', function () {
           // given
-          var competencesWithDifferentAreas = [_ember.default.Object.create({ id: 1, name: 'competence-name-1', area: 'area-id-A' }), _ember.default.Object.create({ id: 2, name: 'competence-name-2', area: 'area-id-A' }), _ember.default.Object.create({ id: 3, name: 'competence-name-3', area: 'area-id-A' }), _ember.default.Object.create({ id: 4, name: 'competence-name-4', area: 'area-id-B' }), _ember.default.Object.create({ id: 5, name: 'competence-name-5', area: 'area-id-B' })];
+          var competencesWithDifferentAreas = [_ember.default.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }), _ember.default.Object.create({ id: 2, name: 'competence-2', areaName: 'area-A' }), _ember.default.Object.create({ id: 3, name: 'competence-3', areaName: 'area-A' }), _ember.default.Object.create({ id: 4, name: 'competence-4', areaName: 'area-B' }), _ember.default.Object.create({ id: 5, name: 'competence-5', areaName: 'area-B' })];
           this.set('competences', competencesWithDifferentAreas);
 
           // when
@@ -3537,7 +3643,7 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
       (0, _mocha.describe)('Rendering when same area', function () {
         (0, _mocha.it)('should render only 1 competence area, when there are 5 competences with the same area', function () {
           // given
-          var competencesWithSameArea = [_ember.default.Object.create({ id: 1, name: 'competence-name-1', area: 'area-id-1' }), _ember.default.Object.create({ id: 2, name: 'competence-name-2', area: 'area-id-1' }), _ember.default.Object.create({ id: 3, name: 'competence-name-3', area: 'area-id-1' }), _ember.default.Object.create({ id: 4, name: 'competence-name-4', area: 'area-id-1' }), _ember.default.Object.create({ id: 5, name: 'competence-name-5', area: 'area-id-1' })];
+          var competencesWithSameArea = [_ember.default.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }), _ember.default.Object.create({ id: 2, name: 'competence-2', areaName: 'area-A' }), _ember.default.Object.create({ id: 3, name: 'competence-3', areaName: 'area-A' }), _ember.default.Object.create({ id: 4, name: 'competence-4', areaName: 'area-A' }), _ember.default.Object.create({ id: 5, name: 'competence-5', areaName: 'area-A' })];
 
           // when
           this.set('competences', competencesWithSameArea);
@@ -3594,7 +3700,7 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render course picture if it is defined', function () {
         // given
-        var course = _ember.default.Object.create({ imageUrl: 'image_src' });
+        var course = _ember.default.Object.create({ imageUrl: '/images/pix-logo.svg' });
         this.set('course', course);
 
         // when
@@ -3786,7 +3892,7 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
     });
 
     var feature = {
-      icon: 'coucou',
+      icon: 'reference',
       title: 'title_value',
       description: 'description_value'
     };
@@ -3811,7 +3917,7 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
 
       var $icon = this.$('.feature-item__icon');
       (0, _chai.expect)($icon).to.exist;
-      (0, _chai.expect)($icon.attr('src')).to.equal('images/features/icon-coucou.svg');
+      (0, _chai.expect)($icon.attr('src')).to.equal('/images/features/icon-reference.svg');
     });
 
     (0, _mocha.it)('should render an title', function () {
@@ -6988,6 +7094,17 @@ define('pix-live/tests/test-helper', ['pix-live/tests/helpers/resolver', 'ember-
   'use strict';
 
   _mocha.mocha.setup({
+    // If a test is randomly killed by the timeout duration,
+    // consider this before increasing the timeout:
+    //
+    // - Computers are fast. 1,5s is a long time, even for an acceptance test.
+    //   Why is this test so slow?
+    //
+    // - Can you make the test faster, rather than increasing the timeout?
+    //
+    // - The acceptance test runner waits for all network requests, delayed actions,
+    //   run-loop delays and Promises to be revolved before continuing to the next step.
+    //   Is any code triggering an artifical delay in tests – like `setTimeout` or `Ember.run.later`?
     timeout: 1500,
     slow: 500
   });
@@ -7076,6 +7193,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('acceptance/m1-authentication-and-profile-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/n1-competence-profile-test.js', function () {
       // test passed
     });
 
@@ -7247,6 +7368,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/adapters/user-test.js', function () {
+      // test passed
+    });
+
     it('unit/authenticators/simple-test.js', function () {
       // test passed
     });
@@ -7387,10 +7512,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/routes/connexion-test.js', function () {
-      // test passed
-    });
-
     it('unit/routes/courses-test.js', function () {
       // test passed
     });
@@ -7403,15 +7524,19 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/routes/deconnexion-test.js', function () {
-      // test passed
-    });
-
     it('unit/routes/index-test.js', function () {
       // test passed
     });
 
     it('unit/routes/inscription-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/login-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/logout-test.js', function () {
       // test passed
     });
 
@@ -7509,7 +7634,7 @@ define('pix-live/tests/unit/adapters/application-test', ['chai', 'mocha', 'ember
       applicationAdapter.set('session', { data: { authenticated: { token: expectedToken } } });
 
       (0, _chai.expect)(applicationAdapter.get('headers')).to.deep.equal({
-        'Authorization': 'bearer ' + expectedToken
+        'Authorization': 'Bearer ' + expectedToken
       });
     });
 
@@ -7536,6 +7661,47 @@ define('pix-live/tests/unit/adapters/solution-test', ['chai', 'mocha', 'ember-mo
     (0, _mocha.it)('exists', function () {
       var adapter = this.subject();
       (0, _chai.expect)(adapter).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/adapters/user-test', ['chai', 'mocha', 'sinon', 'ember-mocha'], function (_chai, _mocha, _sinon, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | subscribers', function () {
+    (0, _emberMocha.setupTest)('adapter:user', {
+      needs: ['service:session']
+    });
+
+    (0, _mocha.describe)('#queryRecord', function () {
+
+      var adapter = void 0;
+
+      beforeEach(function () {
+        adapter = this.subject();
+        adapter.ajax = _sinon.default.stub().resolves();
+      });
+
+      (0, _mocha.it)('should exist', function () {
+        // when
+        var adapter = this.subject();
+        // then
+        return (0, _chai.expect)(adapter.queryRecord()).to.be.ok;
+      });
+
+      (0, _mocha.it)('should return a resolved promise', function (done) {
+        // when
+        var promise = adapter.queryRecord();
+        // then
+        promise.then(done);
+      });
+
+      (0, _mocha.it)('should called GET /api/users/me', function () {
+        // when
+        adapter.queryRecord();
+
+        // then
+        _sinon.default.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/me');
+      });
     });
   });
 });
@@ -9378,10 +9544,10 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
     });
   });
 });
-define('pix-live/tests/unit/models/competence-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/models/competence-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
   'use strict';
 
-  (0, _mocha.describe)('Unit | Model | competence', function () {
+  (0, _mocha.describe)('Unit | Model | competence model', function () {
     (0, _emberMocha.setupModelTest)('competence', {
       needs: ['model:area']
     });
@@ -9389,6 +9555,41 @@ define('pix-live/tests/unit/models/competence-test', ['chai', 'mocha', 'ember-mo
     (0, _mocha.it)('exists', function () {
       var model = this.subject();
       (0, _chai.expect)(model).to.be.ok;
+    });
+
+    (0, _mocha.describe)('#area relationship', function () {
+
+      (0, _mocha.it)('should exist', function () {
+        // given
+        var Competence = this.store().modelFor('competence');
+
+        // when
+        var relationship = _ember.default.get(Competence, 'relationshipsByName').get('area');
+
+        // then
+        (0, _chai.expect)(relationship.key).to.equal('area');
+        (0, _chai.expect)(relationship.kind).to.equal('belongsTo');
+      });
+    });
+
+    (0, _mocha.describe)('#areaName computed property', function () {
+
+      (0, _mocha.it)('should be an alias for "area" relationship on "name" property', function () {
+        var _this = this;
+
+        _ember.default.run(function () {
+          // given
+          var store = _this.store();
+          var area = store.createRecord('area', { name: 'coucou' });
+          var competence = _this.subject({ area: area });
+
+          // when
+          var areaName = competence.get('areaName');
+
+          // then
+          (0, _chai.expect)(areaName).to.equal('coucou');
+        });
+      });
     });
   });
 });
@@ -9503,10 +9704,10 @@ define('pix-live/tests/unit/models/follower-test', ['chai', 'mocha', 'ember-moch
 define('pix-live/tests/unit/models/user-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
-  (0, _mocha.describe)('user', function () {
+  (0, _mocha.describe)('Unit | Model | user model', function () {
     (0, _emberMocha.setupModelTest)('user', {
       // Specify the other units that are required for this test.
-      needs: []
+      needs: ['model:competence']
     });
     // Replace this with your real tests.
     (0, _mocha.it)('exists', function () {
@@ -9626,74 +9827,6 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
     });
   });
 });
-define('pix-live/tests/unit/routes/connexion-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  var SessionStub = function () {
-    function SessionStub() {
-      _classCallCheck(this, SessionStub);
-    }
-
-    _createClass(SessionStub, [{
-      key: 'authenticate',
-      value: function authenticate() {
-        this.callArgs = Array.from(arguments);
-        return Promise.resolve();
-      }
-    }]);
-
-    return SessionStub;
-  }();
-
-  (0, _mocha.describe)('Unit | Route | connexion', function () {
-    (0, _emberMocha.setupTest)('route:connexion', {
-      needs: ['service:current-routed-modal', 'service:session']
-    });
-
-    var expectedEmail = 'email@example.net';
-    var expectedPassword = 'azerty';
-    var sessionStub = new SessionStub();
-
-    (0, _mocha.it)('should authenticate the user', function () {
-      // Given
-      var route = this.subject();
-      route.set('session', sessionStub);
-      route.transitionTo = function () {};
-
-      // When
-      var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
-
-      // Then
-      return promise.then(function () {
-        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
-      });
-    });
-  });
-});
 define('pix-live/tests/unit/routes/courses-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -9739,7 +9872,104 @@ define('pix-live/tests/unit/routes/courses/get-course-preview-test', ['chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/routes/deconnexion-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | index', function () {
+
+    (0, _emberMocha.setupTest)('route:index', {
+      needs: ['service:current-routed-modal', 'service:session']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | inscription', function () {
+    (0, _emberMocha.setupTest)('route:inscription', {
+      needs: ['service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/login-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
+  var SessionStub = function () {
+    function SessionStub() {
+      _classCallCheck(this, SessionStub);
+    }
+
+    _createClass(SessionStub, [{
+      key: 'authenticate',
+      value: function authenticate() {
+        this.callArgs = Array.from(arguments);
+        return Promise.resolve();
+      }
+    }]);
+
+    return SessionStub;
+  }();
+
+  (0, _mocha.describe)('Unit | Route | login page', function () {
+    (0, _emberMocha.setupTest)('route:login', {
+      needs: ['service:current-routed-modal', 'service:session']
+    });
+
+    var expectedEmail = 'email@example.net';
+    var expectedPassword = 'azerty';
+    var sessionStub = new SessionStub();
+
+    (0, _mocha.it)('should authenticate the user', function () {
+      // Given
+      var route = this.subject();
+      route.set('session', sessionStub);
+      route.transitionTo = function () {};
+
+      // When
+      var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+
+      // Then
+      return promise.then(function () {
+        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/routes/logout-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   function _classCallCheck(instance, Constructor) {
@@ -9783,8 +10013,8 @@ define('pix-live/tests/unit/routes/deconnexion-test', ['chai', 'mocha', 'ember-m
     return SessionStub;
   }();
 
-  (0, _mocha.describe)('Unit | Route | deconnexion', function () {
-    (0, _emberMocha.setupTest)('route:deconnexion', {
+  (0, _mocha.describe)('Unit | Route | logout', function () {
+    (0, _emberMocha.setupTest)('route:logout', {
       needs: ['service:current-routed-modal', 'service:session']
     });
 
@@ -9826,35 +10056,6 @@ define('pix-live/tests/unit/routes/deconnexion-test', ['chai', 'mocha', 'ember-m
       // Then
       (0, _chai.expect)(isTransitionToCalled).to.be.true;
       (0, _chai.expect)(isTransitionToArgs).to.deep.equal(['/']);
-    });
-  });
-});
-define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | index', function () {
-
-    (0, _emberMocha.setupTest)('route:index', {
-      needs: ['service:current-routed-modal', 'service:session']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | inscription', function () {
-    (0, _emberMocha.setupTest)('route:inscription', {
-      needs: ['service:current-routed-modal']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
     });
   });
 });
