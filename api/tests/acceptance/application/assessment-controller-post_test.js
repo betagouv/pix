@@ -44,10 +44,31 @@ describe('Acceptance | API | Assessments POST', function() {
       };
     });
 
+    it('should return 201 HTTP status code', function() {
+      const promise = server.inject(options);
+
+      // Then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(201);
+      });
+    });
+
+    it('should return application/json', function() {
+      // When
+      const promise = server.inject(options);
+
+      // Then
+      return promise.then((response) => {
+        const contentType = response.headers['content-type'];
+        expect(contentType).to.contain('application/json');
+      });
+    });
+
     describe('when the user is authenticated', () => {
+
       it('should save user_id in the database', () => {
         // Given
-        const user = new User({ id : 436357 });
+        const user = new User({ id: 436357 });
         const token = tokenService.createTokenFromUser(user);
         options.headers = {};
         options.headers['Authorization'] = `Bearer ${token}`;
@@ -64,17 +85,6 @@ describe('Acceptance | API | Assessments POST', function() {
           });
       });
 
-      it('should return application/json', function() {
-        // When
-        const promise = server.inject(options);
-
-        // Then
-        return promise.then((response) => {
-          const contentType = response.headers['content-type'];
-          expect(contentType).to.contain('application/json');
-        });
-      });
-
       it('should add a new assessment into the database', function() {
         // when
         const promise = server.inject(options);
@@ -89,25 +99,23 @@ describe('Acceptance | API | Assessments POST', function() {
           });
       });
 
-      describe('when the user is authenticated', () => {
-        it('should save user_id in the database', () => {
-          // Given
-          const user = new User({ id: 436357 });
-          const token = tokenService.createTokenFromUser(user);
-          options.headers = {};
-          options.headers['Authorization'] = `Bearer ${token}`;
+      it('should return persisted assessement', function() {
 
-          // When
-          const promise = server.injectThen(options);
+        // when
+        const promise = server.inject(options);
 
-          // Then
-          return promise.then(response => {
-            return new Assessment({ id: response.result.data.id }).fetch();
-          })
-            .then(model => {
-              expect(model.get('userId')).to.equal(436357);
-            });
+        // Then
+        return promise.then((response) => {
+          const assessment = response.result.data;
+
+          // then
+          expect(assessment.id).to.exist;
+          expect(assessment.attributes['user-id']).to.equal(options.payload.data.attributes['user-id']);
+          expect(assessment.relationships.course.data.id).to.equal(options.payload.data.relationships.course.data.id);
         });
+      });
+
+      describe('when the user is not authenticated', () => {
 
         it('should persist the given course ID', function() {
           // when
@@ -122,36 +130,9 @@ describe('Acceptance | API | Assessments POST', function() {
             });
         });
 
-        it('should return persisted assessement', function() {
-
-          // when
-          const promise = server.inject(options);
-
-          // Then
-          return promise.then((response) => {
-            const assessment = response.result.data;
-
-            // then
-            expect(assessment.id).to.exist;
-            expect(assessment.attributes['user-id']).to.equal(options.payload.data.attributes['user-id']);
-            expect(assessment.relationships.course.data.id).to.equal(options.payload.data.relationships.course.data.id);
-          });
-        });
-
-        describe('when the user is not authenticated', () => {
-          it('should return 201 HTTP status code', function() {
-            const promise = server.inject(options);
-
-            // Then
-            return promise.then((response) => {
-              expect(response.statusCode).to.equal(201);
-            });
-          });
-
-        });
-
       });
 
     });
+
   });
 });
