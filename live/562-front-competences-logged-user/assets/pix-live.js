@@ -31,12 +31,13 @@ define('pix-live/adapters/application', ['exports', 'ember', 'ember-data', 'pix-
 
   });
 });
-define('pix-live/adapters/challenge', ['exports', 'pix-live/adapters/application', 'rsvp'], function (exports, _application, _rsvp) {
+define('pix-live/adapters/challenge', ['exports', 'pix-live/adapters/application'], function (exports, _application) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var RSVP = Ember.RSVP;
   exports.default = _application.default.extend({
     queryNext: function queryNext(store, assessmentId) {
       return this.ajax(this.host + '/' + this.namespace + '/assessments/' + assessmentId + '/next', 'GET').then(function (payload) {
@@ -44,28 +45,29 @@ define('pix-live/adapters/challenge', ['exports', 'pix-live/adapters/application
         if (payload) {
           challenge = store.push(payload);
         }
-        return _rsvp.default.resolve(challenge);
+        return RSVP.resolve(challenge);
       });
     }
   });
 });
-define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application', 'ember', 'rsvp'], function (exports, _application, _ember, _rsvp) {
+define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application', 'ember'], function (exports, _application, _ember) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var RSVP = _ember.default.RSVP;
   exports.default = _application.default.extend({
     queryRecord: function queryRecord(modelName, clazz, query) {
       return _ember.default.$.getJSON(this.host + '/' + this.namespace + '/assessments/' + query.assessmentId + '/solutions/' + query.answerId, function (data) {
-        return _rsvp.default.resolve(data);
+        return RSVP.resolve(data);
       });
     },
 
     // refresh cache
     refreshRecord: function refreshRecord(modelName, clazz) {
       return _ember.default.$.post(this.host + '/' + this.namespace + '/challenges/' + clazz.challengeId + '/solution', function (data) {
-        return _rsvp.default.resolve(data);
+        return RSVP.resolve(data);
       });
     }
   });
@@ -101,18 +103,19 @@ define('pix-live/app', ['exports', 'ember', 'pix-live/resolver', 'ember-load-ini
 
   exports.default = App;
 });
-define('pix-live/authenticators/simple', ['exports', 'rsvp', 'ember-simple-auth/authenticators/base', 'ember'], function (exports, _rsvp, _base, _ember) {
+define('pix-live/authenticators/simple', ['exports', 'ember-simple-auth/authenticators/base', 'ember'], function (exports, _base, _ember) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var RSVP = _ember.default.RSVP;
   exports.default = _base.default.extend({
 
     ajax: _ember.default.inject.service(),
 
     restore: function restore(data) {
-      return _rsvp.default.resolve(data);
+      return RSVP.resolve(data);
     },
     authenticate: function authenticate(email, password) {
       return this.get('ajax').request('/api/authentications', {
@@ -126,7 +129,7 @@ define('pix-live/authenticators/simple', ['exports', 'rsvp', 'ember-simple-auth/
           }
         })
       }).then(function (payload) {
-        return _rsvp.default.Promise.resolve({
+        return RSVP.Promise.resolve({
           token: payload.data.attributes.token,
           userId: payload.data.attributes['user-id']
         });
@@ -602,12 +605,13 @@ define('pix-live/components/challenge-actions', ['exports', 'ember'], function (
 
   });
 });
-define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'rsvp', 'pix-live/utils/call-only-once', 'pix-live/utils/lodash-custom', 'pix-live/config/environment'], function (exports, _ember, _rsvp, _callOnlyOnce, _lodashCustom, _environment) {
+define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'pix-live/utils/call-only-once', 'pix-live/utils/lodash-custom', 'pix-live/config/environment'], function (exports, _ember, _callOnlyOnce, _lodashCustom, _environment) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var RSVP = _ember.default.RSVP;
 
 
   var ChallengeItemGeneric = _ember.default.Component.extend({
@@ -686,7 +690,7 @@ define('pix-live/components/challenge-item-generic', ['exports', 'ember', 'rsvp'
         if (this._hasError()) {
           var errorMessage = this._getErrorMessage();
           this.set('errorMessage', errorMessage);
-          return _rsvp.default.reject(errorMessage);
+          return RSVP.reject(errorMessage);
         }
         var answerValue = this._getAnswerValue();
         this.set('_isUserAwareThatChallengeIsTimed', false);
@@ -1027,10 +1031,14 @@ define('pix-live/components/competence-area-item', ['exports', 'ember'], functio
   exports.default = _ember.default.Component.extend({
 
     classNames: ['competence-area-item'],
-    competenceArea: null
+    competenceArea: null,
+    _competencesAreaName: _ember.default.computed('competenceArea.value', function () {
+      var competenceAreaName = this.get('competenceArea.value');
+      return competenceAreaName ? this.get('competenceArea.value').substr(3) : '';
+    })
   });
 });
-define('pix-live/components/competence-area-list', ['exports', 'ember', 'ember-group-by'], function (exports, _ember, _emberGroupBy) {
+define('pix-live/components/competence-area-list', ['exports', 'ember', 'ember-group-by', 'pix-live/utils/lodash-custom'], function (exports, _ember, _emberGroupBy, _lodashCustom) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -1046,7 +1054,15 @@ define('pix-live/components/competence-area-list', ['exports', 'ember', 'ember-g
       var _competences = this.get('competences');
       return _competences ? _competences : [];
     }),
-    _competencesByArea: (0, _emberGroupBy.default)('_sanitizedCompetences', 'areaName')
+
+    _competencesGroupedByArea: (0, _emberGroupBy.default)('_sanitizedCompetences', 'areaName'),
+
+    _competencesByAreaSorted: _ember.default.computed('_competencesGroupedByArea', function () {
+      var competencesByArea = this.get('_competencesGroupedByArea');
+      return _lodashCustom.default.sortBy(competencesByArea, [function (o) {
+        return o.value;
+      }]);
+    })
   });
 });
 define('pix-live/components/corner-ribbon', ['exports', 'ember'], function (exports, _ember) {
@@ -5421,12 +5437,13 @@ define('pix-live/routes/application', ['exports', 'ember'], function (exports, _
     }
   });
 });
-define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp', 'pix-live/routes/base-route'], function (exports, _ember, _rsvp, _baseRoute) {
+define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'pix-live/routes/base-route'], function (exports, _ember, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var RSVP = _ember.default.RSVP;
   exports.default = _baseRoute.default.extend({
 
     assessmentService: _ember.default.inject.service('assessment'),
@@ -5437,7 +5454,7 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp',
       var assessmentId = params.assessment_id;
       var challengeId = params.challenge_id;
 
-      return _rsvp.default.hash({
+      return RSVP.hash({
         assessment: store.findRecord('assessment', assessmentId),
         challenge: store.findRecord('challenge', challengeId),
         answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
@@ -5503,12 +5520,13 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'rsvp',
 
   });
 });
-define('pix-live/routes/assessments/get-comparison', ['exports', 'ember-routable-modal/mixins/route', 'rsvp', 'pix-live/routes/base-route'], function (exports, _route, _rsvp, _baseRoute) {
+define('pix-live/routes/assessments/get-comparison', ['exports', 'ember-routable-modal/mixins/route', 'pix-live/routes/base-route'], function (exports, _route, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var RSVP = Ember.RSVP;
   exports.default = _baseRoute.default.extend(_route.default, {
     model: function model(params) {
       var store = this.get('store');
@@ -5520,7 +5538,7 @@ define('pix-live/routes/assessments/get-comparison', ['exports', 'ember-routable
       return store.findRecord('answer', answerId).then(function (answer) {
         return store.findRecord('challenge', answer.get('challenge.id')).then(function (challenge) {
           return store.queryRecord('solution', { assessmentId: assessmentId, answerId: answerId }).then(function (solution) {
-            return _rsvp.default.hash({
+            return RSVP.hash({
               answer: answer,
               challenge: challenge,
               solution: solution,
@@ -5786,12 +5804,13 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'pix-live/routes
     }
   });
 });
-define('pix-live/routes/courses/get-challenge-preview', ['exports', 'ember', 'rsvp', 'pix-live/utils/get-challenge-type', 'pix-live/routes/base-route'], function (exports, _ember, _rsvp, _getChallengeType, _baseRoute) {
+define('pix-live/routes/courses/get-challenge-preview', ['exports', 'ember', 'pix-live/utils/get-challenge-type', 'pix-live/routes/base-route'], function (exports, _ember, _getChallengeType, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var RSVP = _ember.default.RSVP;
   exports.default = _baseRoute.default.extend({
 
     assessmentService: _ember.default.inject.service('assessment'),
@@ -5804,10 +5823,10 @@ define('pix-live/routes/courses/get-challenge-preview', ['exports', 'ember', 'rs
         challenge: store.findRecord('challenge', params.challenge_id)
       };
 
-      return _rsvp.default.hash(promises).then(function (results) {
+      return RSVP.hash(promises).then(function (results) {
 
         var challenge = results.challenge;
-        var course = _rsvp.default.resolve(results.course);
+        var course = RSVP.resolve(results.course);
 
         var assessment = _ember.default.Object.create({
           id: 'fake',
@@ -5846,16 +5865,17 @@ define('pix-live/routes/courses/get-challenge-preview', ['exports', 'ember', 'rs
     }
   });
 });
-define('pix-live/routes/courses/get-course-preview', ['exports', 'rsvp', 'pix-live/routes/base-route'], function (exports, _rsvp, _baseRoute) {
+define('pix-live/routes/courses/get-course-preview', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var RSVP = Ember.RSVP;
   exports.default = _baseRoute.default.extend({
     model: function model(params) {
       return this.get('store').findRecord('course', params.course_id).then(function (course) {
-        return _rsvp.default.hash({
+        return RSVP.hash({
           course: course,
           nextChallenge: course.get('challenges.firstObject')
         });
@@ -6092,23 +6112,24 @@ define('pix-live/services/current-routed-modal', ['exports', 'ember', 'ember-rou
         }
     });
 });
-define('pix-live/services/delay', ['exports', 'rsvp', 'ember', 'pix-live/config/environment'], function (exports, _rsvp, _ember, _environment) {
+define('pix-live/services/delay', ['exports', 'ember', 'pix-live/config/environment'], function (exports, _ember, _environment) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var RSVP = _ember.default.RSVP;
   exports.default = _ember.default.Service.extend({
     ms: function ms(_ms) {
       /* istanbul ignore if  */
       if (_environment.default.EmberENV.useDelay) {
         //unreachable by tests
-        return new _rsvp.default.Promise(function (resolve) {
+        return new RSVP.Promise(function (resolve) {
           setTimeout(resolve, _ms);
         });
       }
       // test-only, to avoid test to take too long
-      return new _rsvp.default.resolve();
+      return new RSVP.resolve();
     }
   });
 });
@@ -6126,16 +6147,18 @@ define('pix-live/services/dependency-checker', ['exports', 'ember', 'pix-live/co
 
   });
 });
-define('pix-live/services/google-recaptcha', ['exports', 'ember', 'jquery', 'rsvp', 'pix-live/config/environment'], function (exports, _ember, _jquery, _rsvp, _environment) {
+define('pix-live/services/google-recaptcha', ['exports', 'ember', 'pix-live/config/environment'], function (exports, _ember, _environment) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var jQuery = _ember.default.$;
+  var RSVP = _ember.default.RSVP;
   exports.default = _ember.default.Service.extend({
     loadScript: function loadScript() {
-      return new _rsvp.default.Promise(function (resolve) {
-        _jquery.default.getScript('https://www.google.com/recaptcha/api.js?onload=onGrecaptchaLoad&render=explicit', function () {
+      return new RSVP.Promise(function (resolve) {
+        jQuery.getScript('https://www.google.com/recaptcha/api.js?onload=onGrecaptchaLoad&render=explicit', function () {
           window.onGrecaptchaLoad = function () {
             resolve();
           };
@@ -6463,7 +6486,7 @@ define("pix-live/templates/components/competence-area-item", ["exports"], functi
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "Oq3zVO6E", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"area__name\"],[13],[1,[28,[\"competenceArea\",\"value\"]],false],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"competence-list\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"competenceArea\",\"items\"]]],null,{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"competence\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__name\"],[13],[1,[28,[\"competence\",\"name\"]],false],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__level\"],[16,\"data-level\",[34,[[28,[\"competence\",\"level\"]]]]],[13],[0,\" \"],[14],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[\"competence\"]},null],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-area-item.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "h6RYdhtF", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"area__name\"],[13],[1,[26,[\"_competencesAreaName\"]],false],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"competence-list\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"competenceArea\",\"items\"]]],null,{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"competence\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__name\"],[13],[1,[28,[\"competence\",\"name\"]],false],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__level\"],[16,\"data-level\",[34,[[28,[\"competence\",\"level\"]]]]],[13],[0,\" \"],[14],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[\"competence\"]},null],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-area-item.hbs" } });
 });
 define("pix-live/templates/components/competence-area-list", ["exports"], function (exports) {
   "use strict";
@@ -6471,7 +6494,7 @@ define("pix-live/templates/components/competence-area-list", ["exports"], functi
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "/NmY91vv", "block": "{\"statements\":[[6,[\"each\"],[[28,[\"_competencesByArea\"]]],null,{\"statements\":[[0,\"  \"],[11,\"div\",[]],[15,\"class\",\"competence-area-list__item\"],[13],[0,\"\\n    \"],[1,[33,[\"competence-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\"]],\"locals\":[\"competenceArea\"]},null]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-area-list.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "J7FLXc4L", "block": "{\"statements\":[[6,[\"each\"],[[28,[\"_competencesByAreaSorted\"]]],null,{\"statements\":[[0,\"  \"],[11,\"div\",[]],[15,\"class\",\"competence-area-list__item\"],[13],[0,\"\\n    \"],[1,[33,[\"competence-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\"]],\"locals\":[\"competenceArea\"]},null]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-area-list.hbs" } });
 });
 define("pix-live/templates/components/corner-ribbon", ["exports"], function (exports) {
   "use strict";
@@ -7717,6 +7740,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.13.0+00626f2b"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.13.0+64f24538"});
 }
 //# sourceMappingURL=pix-live.map

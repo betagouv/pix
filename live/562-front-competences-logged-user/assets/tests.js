@@ -2943,8 +2943,11 @@ define('pix-live/tests/helpers/start-app', ['exports', 'ember', 'pix-live/app', 
     });
   }
 });
-define('pix-live/tests/integration/components/challenge-actions-test', ['rsvp', 'chai', 'mocha', 'ember-mocha'], function (_rsvp, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
+
+  var RSVP = Ember.RSVP;
+
 
   var VALIDATE_BUTTON = '.challenge-actions__action-validate';
   var SKIP_BUTTON = '.challenge-actions__action-skip';
@@ -2981,7 +2984,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['rsvp', 
       (0, _mocha.it)('should be replaced by a (spinning) loader during treatment', function () {
         // given
         this.set('externalAction', function () {
-          return new _rsvp.default.Promise(function () {});
+          return new RSVP.Promise(function () {});
         });
         this.render(Ember.HTMLBars.template({
           "id": "3ec6dWM6",
@@ -3000,7 +3003,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['rsvp', 
       (0, _mocha.it)('should be enable again when the treatment succeeded', function () {
         // given
         this.set('externalAction', function () {
-          return _rsvp.default.resolve();
+          return RSVP.resolve();
         });
         this.render(Ember.HTMLBars.template({
           "id": "3ec6dWM6",
@@ -3019,7 +3022,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['rsvp', 
       (0, _mocha.it)('should be enable again when the treatment failed', function () {
         // given
         this.set('externalAction', function () {
-          return _rsvp.default.reject('Some error');
+          return RSVP.reject('Some error');
         });
         this.render(Ember.HTMLBars.template({
           "id": "3ec6dWM6",
@@ -3501,7 +3504,7 @@ define('pix-live/tests/integration/components/competence-area-item-test', ['chai
     (0, _mocha.it)('should render a title', function () {
       // Given
       var competence = _ember.default.Object.create({ name: 'competence-A' });
-      var areaWithOnlyOneCompetence = { property: 'area', value: 'Information et données', items: [competence] };
+      var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
       this.set('competenceArea', areaWithOnlyOneCompetence);
       // when
       this.render(_ember.default.HTMLBars.template({
@@ -3538,7 +3541,7 @@ define('pix-live/tests/integration/components/competence-area-item-test', ['chai
       (0, _mocha.it)('should render its name', function () {
         // given
         var competence = _ember.default.Object.create({ name: 'Mener une recherche et une veille d’information' });
-        var areaWithOnlyOneCompetence = { property: 'area', value: 'Information et données', items: [competence] };
+        var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
         this.set('competenceArea', areaWithOnlyOneCompetence);
 
         // when
@@ -3555,7 +3558,7 @@ define('pix-live/tests/integration/components/competence-area-item-test', ['chai
       (0, _mocha.it)('should render the relative level progress bar for user', function () {
         // given
         var competence = _ember.default.Object.create();
-        var areaWithOnlyOneCompetence = { property: 'area', value: 'Information et données', items: [competence] };
+        var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
         this.set('competenceArea', areaWithOnlyOneCompetence);
 
         // when
@@ -4538,12 +4541,15 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
     });
   });
 });
-define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'rsvp'], function (_chai, _mocha, _emberMocha, _ember, _rsvp) {
+define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
   'use strict';
+
+  var RSVP = _ember.default.RSVP;
+
 
   var StubGoogleRecaptchaService = _ember.default.Service.extend({
     loadScript: function loadScript() {
-      return _rsvp.default.resolve();
+      return RSVP.resolve();
     },
     render: function render(containerId /* , callback, expiredCallback  */) {
       this.set('calledWithContainerId', containerId);
@@ -7380,6 +7386,14 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/components/competence-area-item_test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/competence-area-list_test.js', function () {
+      // test passed
+    });
+
     it('unit/components/course-item-test.js', function () {
       // test passed
     });
@@ -8024,6 +8038,120 @@ define('pix-live/tests/unit/components/comparison-window-test', ['ember', 'chai'
     });
   });
 });
+define('pix-live/tests/unit/components/competence-area-item_test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | Competence area item Component', function () {
+
+    (0, _emberMocha.setupTest)('component:competence-area-item', {});
+
+    (0, _mocha.describe)('#Computed Properties behaviors: ', function () {
+
+      (0, _mocha.describe)('#_competencesAreaName', function () {
+        (0, _mocha.it)('should return Area name related to competences without index number', function () {
+          // given
+          var component = this.subject();
+
+          // when
+          component.set('competenceArea', {
+            property: 'areaName',
+            value: '2. area-A',
+            items: [{ id: 2, name: 'competence-2', areaName: '2. area-A' }]
+          });
+
+          // then
+          (0, _chai.expect)(component.get('_competencesAreaName')).to.equal('area-A');
+        });
+
+        (0, _mocha.it)('should return empty Area name related to competences when it does not exist', function () {
+          // given
+          var component = this.subject();
+
+          // when
+          component.set('competenceArea', {});
+
+          // then
+          (0, _chai.expect)(component.get('_competencesAreaName')).to.equal('');
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/competence-area-list_test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | Competence area list Component', function () {
+
+    (0, _emberMocha.setupTest)('component:competence-area-list', {});
+
+    (0, _mocha.describe)('Computed Properties behaviors: ', function () {
+
+      (0, _mocha.describe)('#_sanitizedCompetences', function () {
+        (0, _mocha.it)('should not return competences', function () {
+          // given
+          var component = this.subject();
+
+          // when
+          component.set('competences', []);
+
+          // then
+          (0, _chai.expect)(component.get('_sanitizedCompetences')).to.deep.equal([]);
+        });
+
+        (0, _mocha.it)('should return as many competences as provided', function () {
+          // given
+          var component = this.subject();
+
+          // when
+          component.set('competences', [{
+            id: 1,
+            name: 'competence-A'
+          }, {
+            id: 2,
+            name: 'competence-B'
+          }]);
+
+          // then
+          (0, _chai.expect)(component.get('_sanitizedCompetences')).to.have.lengthOf(2);
+        });
+      });
+
+      (0, _mocha.describe)('#_competencesGroupedByArea', function () {
+        (0, _mocha.it)('should return some competences grouped by areas', function () {
+          // given
+          var component = this.subject();
+          var expectedGroupedCompetences = [{
+            property: 'areaName',
+            value: 'area-A',
+            items: [{ id: 1, name: 'competence-1', areaName: 'area-A' }, {
+              id: 2,
+              name: 'competence-2',
+              areaName: 'area-A'
+            }]
+          }, { property: 'areaName', value: 'area-B', items: [{ id: 4, name: 'competence-4', areaName: 'area-B' }] }];
+          // when
+          component.set('competences', [{ id: 1, name: 'competence-1', areaName: 'area-A' }, { id: 2, name: 'competence-2', areaName: 'area-A' }, { id: 4, name: 'competence-4', areaName: 'area-B' }]);
+
+          // then
+          (0, _chai.expect)(component.get('_competencesGroupedByArea')).to.deep.equal(expectedGroupedCompetences);
+        });
+      });
+
+      (0, _mocha.describe)('#_competencesByAreaSorted', function () {
+        (0, _mocha.it)('should return some competences grouped by areas and asc sorted', function () {
+          // given
+          var component = this.subject();
+          var expectedGroupedCompetences = [{ property: 'areaName', value: '2. area-A', items: [{ id: 2, name: 'competence-2', areaName: '2. area-A' }] }, { property: 'areaName', value: '4. area-B', items: [{ id: 4, name: 'competence-4', areaName: '4. area-B' }] }, { property: 'areaName', value: '5. area-C', items: [{ id: 5, name: 'competence-5', areaName: '5. area-C' }] }];
+          // when
+          component.set('competences', [{ id: 4, name: 'competence-4', areaName: '4. area-B' }, { id: 5, name: 'competence-5', areaName: '5. area-C' }, { id: 2, name: 'competence-2', areaName: '2. area-A' }]);
+
+          // then
+          (0, _chai.expect)(component.get('_competencesByAreaSorted')).to.deep.equal(expectedGroupedCompetences);
+        });
+      });
+    });
+  });
+});
 define('pix-live/tests/unit/components/course-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -8330,8 +8458,11 @@ define('pix-live/tests/unit/components/follower-form-test', ['ember', 'chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'ember-mocha', 'rsvp', 'ember'], function (_mocha, _chai, _emberMocha, _rsvp, _ember) {
+define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'ember-mocha', 'ember'], function (_mocha, _chai, _emberMocha, _ember) {
   'use strict';
+
+  var RSVP = _ember.default.RSVP;
+
 
   (0, _mocha.describe)('Unit | Component | g-recaptcha', function () {
 
@@ -8345,7 +8476,7 @@ define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'emb
 
       this.register('service:googleRecaptcha', _ember.default.Service.extend({
         loadScript: function loadScript() {
-          return _rsvp.default.resolve();
+          return RSVP.resolve();
         },
         render: function render() {
           return true;
