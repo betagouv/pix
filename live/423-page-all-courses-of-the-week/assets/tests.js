@@ -2984,8 +2984,11 @@ define('pix-live/tests/helpers/start-app', ['exports', 'ember', 'pix-live/app', 
     });
   }
 });
-define('pix-live/tests/integration/components/challenge-actions-test', ['rsvp', 'chai', 'mocha', 'ember-mocha'], function (_rsvp, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
+
+  var RSVP = Ember.RSVP;
+
 
   var VALIDATE_BUTTON = '.challenge-actions__action-validate';
   var SKIP_BUTTON = '.challenge-actions__action-skip';
@@ -3022,7 +3025,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['rsvp', 
       (0, _mocha.it)('should be replaced by a (spinning) loader during treatment', function () {
         // given
         this.set('externalAction', function () {
-          return new _rsvp.default.Promise(function () {});
+          return new RSVP.Promise(function () {});
         });
         this.render(Ember.HTMLBars.template({
           "id": "3ec6dWM6",
@@ -3041,7 +3044,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['rsvp', 
       (0, _mocha.it)('should be enable again when the treatment succeeded', function () {
         // given
         this.set('externalAction', function () {
-          return _rsvp.default.resolve();
+          return RSVP.resolve();
         });
         this.render(Ember.HTMLBars.template({
           "id": "3ec6dWM6",
@@ -3060,7 +3063,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['rsvp', 
       (0, _mocha.it)('should be enable again when the treatment failed', function () {
         // given
         this.set('externalAction', function () {
-          return _rsvp.default.reject('Some error');
+          return RSVP.reject('Some error');
         });
         this.render(Ember.HTMLBars.template({
           "id": "3ec6dWM6",
@@ -4415,12 +4418,15 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
     });
   });
 });
-define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'rsvp'], function (_chai, _mocha, _emberMocha, _ember, _rsvp) {
+define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
   'use strict';
+
+  var RSVP = _ember.default.RSVP;
+
 
   var StubGoogleRecaptchaService = _ember.default.Service.extend({
     loadScript: function loadScript() {
-      return _rsvp.default.resolve();
+      return RSVP.resolve();
     },
     render: function render(containerId /* , callback, expiredCallback  */) {
       this.set('calledWithContainerId', containerId);
@@ -8074,8 +8080,11 @@ define('pix-live/tests/unit/components/follower-form-test', ['ember', 'chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'ember-mocha', 'rsvp', 'ember'], function (_mocha, _chai, _emberMocha, _rsvp, _ember) {
+define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'ember-mocha', 'ember'], function (_mocha, _chai, _emberMocha, _ember) {
   'use strict';
+
+  var RSVP = _ember.default.RSVP;
+
 
   (0, _mocha.describe)('Unit | Component | g-recaptcha', function () {
 
@@ -8089,7 +8098,7 @@ define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'emb
 
       this.register('service:googleRecaptcha', _ember.default.Service.extend({
         loadScript: function loadScript() {
-          return _rsvp.default.resolve();
+          return RSVP.resolve();
         },
         render: function render() {
           return true;
