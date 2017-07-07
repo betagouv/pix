@@ -80,8 +80,10 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             },
             relationships: {
               area: {
-                type: 'areas',
-                id: 'recAreaA'
+                data: {
+                  type: 'areas',
+                  id: 'recAreaA'
+                }
               }
             }
           },
@@ -94,8 +96,10 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             },
             relationships: {
               area: {
-                type: 'areas',
-                id: 'recAreaB'
+                data: {
+                  type: 'areas',
+                  id: 'recAreaB'
+                }
               }
             }
           }
