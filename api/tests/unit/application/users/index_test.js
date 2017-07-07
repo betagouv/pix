@@ -44,7 +44,7 @@ describe('Unit | Router | user-router', () => {
     });
 
     it('should exist', (done) => {
-      return expectRouteToExist({method: 'GET', url: '/api/users/me'}, done);
+      return expectRouteToExist({method: 'GET', url: '/api/users'}, done);
     });
   });
 

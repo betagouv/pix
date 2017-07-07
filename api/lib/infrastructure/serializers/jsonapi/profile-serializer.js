@@ -1,5 +1,7 @@
 const JSONAPISerializer = require('./jsonapi-serializer');
 
+const _ = require('lodash');
+
 class ProfileSerializer extends JSONAPISerializer {
 
   constructor() {
@@ -16,10 +18,13 @@ class ProfileSerializer extends JSONAPISerializer {
   serializeAttributes(model, data) {
     data.attributes['first-name'] = model.firstName;
     data.attributes['last-name'] = model.lastName;
+
+    if (!_.isUndefined(model['pix-score']))
+      data.attributes['total-pix-score'] = model['pix-score'];
   }
 
   serializeRelationships(model, modelName, data) {
-    if(model) {
+    if (model) {
       data.relationships = {};
       data.relationships[modelName] = {
         data: []
@@ -53,6 +58,10 @@ class ProfileSerializer extends JSONAPISerializer {
         }
       };
 
+      if (competence.level >= 0) {
+        competenceData.attributes['pix-score'] = competence.pixScore;
+      }
+
       included.push(competenceData);
     });
   }
@@ -70,7 +79,7 @@ class ProfileSerializer extends JSONAPISerializer {
   }
 
   serializeIncluded(model) {
-    if(!model.competences || !model.areas) {
+    if (!model.competences || !model.areas) {
       return null;
     }
 
@@ -81,7 +90,7 @@ class ProfileSerializer extends JSONAPISerializer {
   }
 
   serializeModelObject(modelObject) {
-    if(!modelObject) {
+    if (!modelObject) {
       return null;
     }
     const entity = modelObject.user.toJSON();
