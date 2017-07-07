@@ -1,4 +1,4 @@
-const {describe, it, expect} = require('../../../../test-helper');
+const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const Profile = require('../../../../../lib/domain/models/data/profile');
 const User = require('../../../../../lib/domain/models/data/user');
@@ -43,7 +43,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           areaId: 'recAreaB'
         }];
 
-      const expectedJson = {
+      expectedJson = {
         data: {
           type: 'users',
           id: 'user_id',
@@ -55,8 +55,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           relationships: {
             competences: {
               data: [
-                {type: 'competences', id: 'recCompA'},
-                {type: 'competences', id: 'recCompB'}
+                { type: 'competences', id: 'recCompA' },
+                { type: 'competences', id: 'recCompB' }
               ]
             }
           },
@@ -123,7 +123,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             estimatedLevel: 8,
             pixScore: 128
           })],
-        [{id: 'courseID1', competences: ['recCompB']}]);
+        [{ id: 'courseID1', competences: ['recCompB'] }]);
 
       // When
       const userSerialized = serializer.serialize(profile);
@@ -140,7 +140,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       const userSerialized = serializer.serialize(profile);
 
       // Then
-      expect(userSerialized.data[0].attributes).not.to.have.property('total-pix-score');
+      expect(userSerialized.data.attributes).not.to.have.property('total-pix-score');
     });
   });
 

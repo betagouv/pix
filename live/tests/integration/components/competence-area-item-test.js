@@ -1,6 +1,6 @@
-import {expect} from 'chai';
-import {describe, it} from 'mocha';
-import {setupComponentTest} from 'ember-mocha';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
+import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 
@@ -19,8 +19,8 @@ describe('Integration | Component | competence area item', function() {
 
   it('should render a title', function() {
     // Given
-    const competence = Ember.Object.create({name: 'competence-A',});
-    const areaWithOnlyOneCompetence = {property: 'area', value: '1. Information et données', items: [competence]};
+    const competence = Ember.Object.create({ name: 'competence-A', });
+    const areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
     this.set('competenceArea', areaWithOnlyOneCompetence);
     // when
     this.render(hbs`{{competence-area-item competenceArea=competenceArea}}`);
@@ -31,11 +31,11 @@ describe('Integration | Component | competence area item', function() {
   it('should render as many competences as received', function() {
     // given
     const competencesWithSameArea = [
-      Ember.Object.create({id: 1, name: 'competence-name-1', area: 'area-id-1'}),
-      Ember.Object.create({id: 2, name: 'competence-name-2', area: 'area-id-1'}),
-      Ember.Object.create({id: 3, name: 'competence-name-3', area: 'area-id-1'}),
-      Ember.Object.create({id: 4, name: 'competence-name-4', area: 'area-id-1'}),
-      Ember.Object.create({id: 5, name: 'competence-name-5', area: 'area-id-1'})
+      Ember.Object.create({ id: 1, name: 'competence-name-1', area: 'area-id-1' }),
+      Ember.Object.create({ id: 2, name: 'competence-name-2', area: 'area-id-1' }),
+      Ember.Object.create({ id: 3, name: 'competence-name-3', area: 'area-id-1' }),
+      Ember.Object.create({ id: 4, name: 'competence-name-4', area: 'area-id-1' }),
+      Ember.Object.create({ id: 5, name: 'competence-name-5', area: 'area-id-1' })
     ];
     const areaWithManyCompetences = {
       property: 'area',
@@ -54,8 +54,8 @@ describe('Integration | Component | competence area item', function() {
   describe('Competence rendering', function() {
     it('should render its name', function() {
       // given
-      const competence = Ember.Object.create({name: 'Mener une recherche et une veille d’information'});
-      const areaWithOnlyOneCompetence = {property: 'area', value: '1. Information et données', items: [competence]};
+      const competence = Ember.Object.create({ name: 'Mener une recherche et une veille d’information' });
+      const areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
       this.set('competenceArea', areaWithOnlyOneCompetence);
 
       // when
@@ -68,7 +68,7 @@ describe('Integration | Component | competence area item', function() {
     it('should render the relative level progress bar for user', function() {
       // given
       const competence = Ember.Object.create();
-      const areaWithOnlyOneCompetence = {property: 'area', value: '1. Information et données', items: [competence]};
+      const areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
       this.set('competenceArea', areaWithOnlyOneCompetence);
 
       // when

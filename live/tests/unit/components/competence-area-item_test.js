@@ -1,6 +1,6 @@
-import {expect} from 'chai';
-import {describe, it} from 'mocha';
-import {setupTest} from 'ember-mocha';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | Competence area item Component', function() {
 
@@ -17,7 +17,7 @@ describe('Unit | Component | Competence area item Component', function() {
         component.set('competenceArea', {
           property: 'areaName',
           value: '2. area-A',
-          items: [{id: 2, name: 'competence-2', areaName: '2. area-A'}]
+          items: [{ id: 2, name: 'competence-2', areaName: '2. area-A' }]
         });
 
         // then

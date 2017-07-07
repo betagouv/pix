@@ -1,7 +1,7 @@
-import {expect} from 'chai';
-import {describe, it} from 'mocha';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
 import sinon from 'sinon';
-import {setupTest} from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Route | subscribers', function() {
   setupTest('adapter:user', {

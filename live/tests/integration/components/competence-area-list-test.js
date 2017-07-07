@@ -1,6 +1,6 @@
-import {expect} from 'chai';
-import {describe, it} from 'mocha';
-import {setupComponentTest} from 'ember-mocha';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
+import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 
@@ -32,11 +32,11 @@ describe('Integration | Component | competence area list', function() {
       it('should render 5 competence areas, when there are 5 competences with different area for each one', function() {
         // given
         const competencesWithDifferentAreas = [
-          Ember.Object.create({id: 1, name: 'competence-1', areaName: 'area-A'}),
-          Ember.Object.create({id: 2, name: 'competence-2', areaName: 'area-B'}),
-          Ember.Object.create({id: 3, name: 'competence-3', areaName: 'area-C'}),
-          Ember.Object.create({id: 4, name: 'competence-4', areaName: 'area-D'}),
-          Ember.Object.create({id: 5, name: 'competence-5', areaName: 'area-E'})
+          Ember.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }),
+          Ember.Object.create({ id: 2, name: 'competence-2', areaName: 'area-B' }),
+          Ember.Object.create({ id: 3, name: 'competence-3', areaName: 'area-C' }),
+          Ember.Object.create({ id: 4, name: 'competence-4', areaName: 'area-D' }),
+          Ember.Object.create({ id: 5, name: 'competence-5', areaName: 'area-E' })
         ];
         this.set('competences', competencesWithDifferentAreas);
 
@@ -50,11 +50,11 @@ describe('Integration | Component | competence area list', function() {
       it('should render 2 competence areas, when there are 5 competences related to 2 different areas', function() {
         // given
         const competencesWithDifferentAreas = [
-          Ember.Object.create({id: 1, name: 'competence-1', areaName: 'area-A'}),
-          Ember.Object.create({id: 2, name: 'competence-2', areaName: 'area-A'}),
-          Ember.Object.create({id: 3, name: 'competence-3', areaName: 'area-A'}),
-          Ember.Object.create({id: 4, name: 'competence-4', areaName: 'area-B'}),
-          Ember.Object.create({id: 5, name: 'competence-5', areaName: 'area-B'})
+          Ember.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }),
+          Ember.Object.create({ id: 2, name: 'competence-2', areaName: 'area-A' }),
+          Ember.Object.create({ id: 3, name: 'competence-3', areaName: 'area-A' }),
+          Ember.Object.create({ id: 4, name: 'competence-4', areaName: 'area-B' }),
+          Ember.Object.create({ id: 5, name: 'competence-5', areaName: 'area-B' })
         ];
         this.set('competences', competencesWithDifferentAreas);
 
@@ -70,11 +70,11 @@ describe('Integration | Component | competence area list', function() {
       it('should render only 1 competence area, when there are 5 competences with the same area', function() {
         // given
         const competencesWithSameArea = [
-          Ember.Object.create({id: 1, name: 'competence-1', areaName: 'area-A'}),
-          Ember.Object.create({id: 2, name: 'competence-2', areaName: 'area-A'}),
-          Ember.Object.create({id: 3, name: 'competence-3', areaName: 'area-A'}),
-          Ember.Object.create({id: 4, name: 'competence-4', areaName: 'area-A'}),
-          Ember.Object.create({id: 5, name: 'competence-5', areaName: 'area-A'})
+          Ember.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }),
+          Ember.Object.create({ id: 2, name: 'competence-2', areaName: 'area-A' }),
+          Ember.Object.create({ id: 3, name: 'competence-3', areaName: 'area-A' }),
+          Ember.Object.create({ id: 4, name: 'competence-4', areaName: 'area-A' }),
+          Ember.Object.create({ id: 5, name: 'competence-5', areaName: 'area-A' })
         ];
 
         // when
