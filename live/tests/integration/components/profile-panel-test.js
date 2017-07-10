@@ -1,6 +1,6 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import {expect} from 'chai';
+import {describe, it} from 'mocha';
+import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | profile panel', function() {
@@ -38,7 +38,7 @@ describe('Integration | Component | profile panel', function() {
       expect(this.$(HEADER_TITLE).text().trim()).to.be.equal('Votre profil');
     });
 
-    it('should render a competency profile block', function() {
+    it('should render a competence profile block', function() {
       // when
       this.render(hbs`{{profile-panel}}`);
 
