@@ -2349,7 +2349,7 @@ define('pix-live/tests/acceptance/n1-competence-profile-test', ['mocha', 'chai',
 
       // then
       return andThen(function () {
-        (0, _chai.expect)(find('.competence-area-item').length).to.equal(5);
+        (0, _chai.expect)(find('.competence-by-area-item').length).to.equal(5);
         (0, _chai.expect)(find('.competence').length).to.equal(16);
       });
     });
@@ -2428,11 +2428,11 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('components/competence-area-item.js', function () {
+    it('components/competence-area-list.js', function () {
       // test passed
     });
 
-    it('components/competence-area-list.js', function () {
+    it('components/competence-by-area-item.js', function () {
       // test passed
     });
 
@@ -3481,99 +3481,6 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
     });
   });
 });
-define('pix-live/tests/integration/components/competence-area-item-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
-  'use strict';
-
-  (0, _mocha.describe)('Integration | Component | competence area item', function () {
-    (0, _emberMocha.setupComponentTest)('competence-area-item', {
-      integration: true
-    });
-
-    (0, _mocha.it)('should render', function () {
-      // when
-      this.render(_ember.default.HTMLBars.template({
-        "id": "AJPIzT69",
-        "block": "{\"statements\":[[1,[26,[\"competence-area-item\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-        "meta": {}
-      }));
-
-      // then
-      (0, _chai.expect)(this.$('.competence-area-item')).to.have.length(1);
-    });
-
-    (0, _mocha.it)('should render a title', function () {
-      // Given
-      var competence = _ember.default.Object.create({ name: 'competence-A' });
-      var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
-      this.set('competenceArea', areaWithOnlyOneCompetence);
-      // when
-      this.render(_ember.default.HTMLBars.template({
-        "id": "ha1zDiIH",
-        "block": "{\"statements\":[[1,[33,[\"competence-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-        "meta": {}
-      }));
-      // then
-      (0, _chai.expect)(this.$('.area__name').text().trim()).to.equal('Information et données');
-    });
-
-    (0, _mocha.it)('should render as many competences as received', function () {
-      // given
-      var competencesWithSameArea = [_ember.default.Object.create({ id: 1, name: 'competence-name-1', area: 'area-id-1' }), _ember.default.Object.create({ id: 2, name: 'competence-name-2', area: 'area-id-1' }), _ember.default.Object.create({ id: 3, name: 'competence-name-3', area: 'area-id-1' }), _ember.default.Object.create({ id: 4, name: 'competence-name-4', area: 'area-id-1' }), _ember.default.Object.create({ id: 5, name: 'competence-name-5', area: 'area-id-1' })];
-      var areaWithManyCompetences = {
-        property: 'area',
-        value: 'Information et données',
-        items: competencesWithSameArea
-      };
-
-      this.set('competenceArea', areaWithManyCompetences);
-      // when
-      this.render(_ember.default.HTMLBars.template({
-        "id": "ha1zDiIH",
-        "block": "{\"statements\":[[1,[33,[\"competence-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-        "meta": {}
-      }));
-
-      // then
-      (0, _chai.expect)(this.$('.competence__name')).to.have.length(5);
-    });
-
-    (0, _mocha.describe)('Competence rendering', function () {
-      (0, _mocha.it)('should render its name', function () {
-        // given
-        var competence = _ember.default.Object.create({ name: 'Mener une recherche et une veille d’information' });
-        var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
-        this.set('competenceArea', areaWithOnlyOneCompetence);
-
-        // when
-        this.render(_ember.default.HTMLBars.template({
-          "id": "ha1zDiIH",
-          "block": "{\"statements\":[[1,[33,[\"competence-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$('.competence__name').text().trim()).to.equal('Mener une recherche et une veille d’information');
-      });
-
-      (0, _mocha.it)('should render the relative level progress bar for user', function () {
-        // given
-        var competence = _ember.default.Object.create();
-        var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
-        this.set('competenceArea', areaWithOnlyOneCompetence);
-
-        // when
-        this.render(_ember.default.HTMLBars.template({
-          "id": "ha1zDiIH",
-          "block": "{\"statements\":[[1,[33,[\"competence-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$('.competence__level')).to.have.lengthOf(1);
-      });
-    });
-  });
-});
 define('pix-live/tests/integration/components/competence-area-list-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
   'use strict';
 
@@ -3658,6 +3565,99 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
           // then
           (0, _chai.expect)(this.$('.competence-area-list__item')).to.have.lengthOf(1);
         });
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/competence-by-area-item-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | competence area item', function () {
+    (0, _emberMocha.setupComponentTest)('competence-by-area-item', {
+      integration: true
+    });
+
+    (0, _mocha.it)('should render', function () {
+      // when
+      this.render(_ember.default.HTMLBars.template({
+        "id": "VrjYY9DC",
+        "block": "{\"statements\":[[1,[26,[\"competence-by-area-item\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.competence-by-area-item')).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should render a title', function () {
+      // Given
+      var competence = _ember.default.Object.create({ name: 'competence-A' });
+      var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
+      this.set('competenceArea', areaWithOnlyOneCompetence);
+      // when
+      this.render(_ember.default.HTMLBars.template({
+        "id": "7jLygV5q",
+        "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+      // then
+      (0, _chai.expect)(this.$('.area__name').text().trim()).to.equal('Information et données');
+    });
+
+    (0, _mocha.it)('should render as many competences as received', function () {
+      // given
+      var competencesWithSameArea = [_ember.default.Object.create({ id: 1, name: 'competence-name-1', area: 'area-id-1' }), _ember.default.Object.create({ id: 2, name: 'competence-name-2', area: 'area-id-1' }), _ember.default.Object.create({ id: 3, name: 'competence-name-3', area: 'area-id-1' }), _ember.default.Object.create({ id: 4, name: 'competence-name-4', area: 'area-id-1' }), _ember.default.Object.create({ id: 5, name: 'competence-name-5', area: 'area-id-1' })];
+      var areaWithManyCompetences = {
+        property: 'area',
+        value: 'Information et données',
+        items: competencesWithSameArea
+      };
+
+      this.set('competenceArea', areaWithManyCompetences);
+      // when
+      this.render(_ember.default.HTMLBars.template({
+        "id": "7jLygV5q",
+        "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.competence__name')).to.have.length(5);
+    });
+
+    (0, _mocha.describe)('Competence rendering', function () {
+      (0, _mocha.it)('should render its name', function () {
+        // given
+        var competence = _ember.default.Object.create({ name: 'Mener une recherche et une veille d’information' });
+        var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
+        this.set('competenceArea', areaWithOnlyOneCompetence);
+
+        // when
+        this.render(_ember.default.HTMLBars.template({
+          "id": "7jLygV5q",
+          "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence__name').text().trim()).to.equal('Mener une recherche et une veille d’information');
+      });
+
+      (0, _mocha.it)('should render the relative level progress bar for user', function () {
+        // given
+        var competence = _ember.default.Object.create();
+        var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
+        this.set('competenceArea', areaWithOnlyOneCompetence);
+
+        // when
+        this.render(_ember.default.HTMLBars.template({
+          "id": "7jLygV5q",
+          "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence__level')).to.have.lengthOf(1);
       });
     });
   });
@@ -4811,7 +4811,7 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
         (0, _chai.expect)(this.$(HEADER_TITLE).text().trim()).to.be.equal('Votre profil');
       });
 
-      (0, _mocha.it)('should render a competency profile block', function () {
+      (0, _mocha.it)('should render a competence profile block', function () {
         // when
         this.render(Ember.HTMLBars.template({
           "id": "hj/2/1ZO",
@@ -7238,11 +7238,11 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('integration/components/competence-area-item-test.js', function () {
+    it('integration/components/competence-area-list-test.js', function () {
       // test passed
     });
 
-    it('integration/components/competence-area-list-test.js', function () {
+    it('integration/components/competence-by-area-item-test.js', function () {
       // test passed
     });
 
@@ -7386,11 +7386,11 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/components/competence-area-item_test.js', function () {
+    it('unit/components/competence-area-list-test.js', function () {
       // test passed
     });
 
-    it('unit/components/competence-area-list_test.js', function () {
+    it('unit/components/competence-by-area-item-test.js', function () {
       // test passed
     });
 
@@ -8038,46 +8038,7 @@ define('pix-live/tests/unit/components/comparison-window-test', ['ember', 'chai'
     });
   });
 });
-define('pix-live/tests/unit/components/competence-area-item_test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Component | Competence area item Component', function () {
-
-    (0, _emberMocha.setupTest)('component:competence-area-item', {});
-
-    (0, _mocha.describe)('#Computed Properties behaviors: ', function () {
-
-      (0, _mocha.describe)('#_competencesAreaName', function () {
-        (0, _mocha.it)('should return Area name related to competences without index number', function () {
-          // given
-          var component = this.subject();
-
-          // when
-          component.set('competenceArea', {
-            property: 'areaName',
-            value: '2. area-A',
-            items: [{ id: 2, name: 'competence-2', areaName: '2. area-A' }]
-          });
-
-          // then
-          (0, _chai.expect)(component.get('_competencesAreaName')).to.equal('area-A');
-        });
-
-        (0, _mocha.it)('should return empty Area name related to competences when it does not exist', function () {
-          // given
-          var component = this.subject();
-
-          // when
-          component.set('competenceArea', {});
-
-          // then
-          (0, _chai.expect)(component.get('_competencesAreaName')).to.equal('');
-        });
-      });
-    });
-  });
-});
-define('pix-live/tests/unit/components/competence-area-list_test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/components/competence-area-list-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Component | Competence area list Component', function () {
@@ -8147,6 +8108,45 @@ define('pix-live/tests/unit/components/competence-area-list_test', ['chai', 'moc
 
           // then
           (0, _chai.expect)(component.get('_competencesByAreaSorted')).to.deep.equal(expectedGroupedCompetences);
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/competence-by-area-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | Competence area item Component', function () {
+
+    (0, _emberMocha.setupTest)('component:competence-by-area-item', {});
+
+    (0, _mocha.describe)('#Computed Properties behaviors: ', function () {
+
+      (0, _mocha.describe)('#_competencesAreaName', function () {
+        (0, _mocha.it)('should return Area name related to competences without index number', function () {
+          // given
+          var component = this.subject();
+
+          // when
+          component.set('competenceArea', {
+            property: 'areaName',
+            value: '2. area-A',
+            items: [{ id: 2, name: 'competence-2', areaName: '2. area-A' }]
+          });
+
+          // then
+          (0, _chai.expect)(component.get('_competencesAreaName')).to.equal('area-A');
+        });
+
+        (0, _mocha.it)('should return empty Area name related to competences when it does not exist', function () {
+          // given
+          var component = this.subject();
+
+          // when
+          component.set('competenceArea', {});
+
+          // then
+          (0, _chai.expect)(component.get('_competencesAreaName')).to.equal('');
         });
       });
     });
