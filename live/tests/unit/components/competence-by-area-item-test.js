@@ -4,7 +4,7 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | Competence area item Component', function() {
 
-  setupTest('component:competence-area-item', {});
+  setupTest('component:competence-by-area-item', {});
 
   describe('#Computed Properties behaviors: ', function() {
 

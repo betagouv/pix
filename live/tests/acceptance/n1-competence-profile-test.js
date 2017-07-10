@@ -60,7 +60,7 @@ describe('Acceptance | n1 - competence profile', function() {
 
     // then
     return andThen(() => {
-      expect(find('.competence-area-item').length).to.equal(5);
+      expect(find('.competence-by-area-item').length).to.equal(5);
       expect(find('.competence').length).to.equal(16);
     });
   });

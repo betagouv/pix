@@ -5,16 +5,16 @@ import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 
 describe('Integration | Component | competence area item', function() {
-  setupComponentTest('competence-area-item', {
+  setupComponentTest('competence-by-area-item', {
     integration: true
   });
 
   it('should render', function() {
     // when
-    this.render(hbs`{{competence-area-item}}`);
+    this.render(hbs`{{competence-by-area-item}}`);
 
     // then
-    expect(this.$('.competence-area-item')).to.have.length(1);
+    expect(this.$('.competence-by-area-item')).to.have.length(1);
   });
 
   it('should render a title', function() {
@@ -23,7 +23,7 @@ describe('Integration | Component | competence area item', function() {
     const areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
     this.set('competenceArea', areaWithOnlyOneCompetence);
     // when
-    this.render(hbs`{{competence-area-item competenceArea=competenceArea}}`);
+    this.render(hbs`{{competence-by-area-item competenceArea=competenceArea}}`);
     // then
     expect(this.$('.area__name').text().trim()).to.equal('Information et données');
   });
@@ -45,7 +45,7 @@ describe('Integration | Component | competence area item', function() {
 
     this.set('competenceArea', areaWithManyCompetences);
     // when
-    this.render(hbs`{{competence-area-item competenceArea=competenceArea}}`);
+    this.render(hbs`{{competence-by-area-item competenceArea=competenceArea}}`);
 
     // then
     expect(this.$('.competence__name')).to.have.length(5);
@@ -59,7 +59,7 @@ describe('Integration | Component | competence area item', function() {
       this.set('competenceArea', areaWithOnlyOneCompetence);
 
       // when
-      this.render(hbs`{{competence-area-item competenceArea=competenceArea}}`);
+      this.render(hbs`{{competence-by-area-item competenceArea=competenceArea}}`);
 
       // then
       expect(this.$('.competence__name').text().trim()).to.equal('Mener une recherche et une veille d’information');
@@ -72,7 +72,7 @@ describe('Integration | Component | competence area item', function() {
       this.set('competenceArea', areaWithOnlyOneCompetence);
 
       // when
-      this.render(hbs`{{competence-area-item competenceArea=competenceArea}}`);
+      this.render(hbs`{{competence-by-area-item competenceArea=competenceArea}}`);
 
       // then
       expect(this.$('.competence__level')).to.have.lengthOf(1);
