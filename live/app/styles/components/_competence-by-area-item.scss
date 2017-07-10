@@ -27,7 +27,7 @@
 .competence-list {
   background: $white;
   width: 100%;
-  padding: 0 100px 30px;
+  padding: 22px 100px 30px;
   margin-bottom: 10px;
 
   @include device-is('mobile') {
@@ -40,7 +40,6 @@
   font-size: 14px;
   letter-spacing: 0.2px;
   color: $charcoal-grey;
-  margin-top: 22px;
   margin-bottom: 3px;
 }
 
