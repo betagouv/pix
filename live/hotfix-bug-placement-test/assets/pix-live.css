@@ -1403,7 +1403,7 @@ h1.course-banner__name {
 
 .navbar-header {
   background-color: transparent;
-  padding: 20px 0;
+  padding: 20px 100px;
   float: none;
   color: #ffffff;
   width: 100%; }
