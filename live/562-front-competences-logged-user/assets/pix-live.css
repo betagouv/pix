@@ -2737,7 +2737,7 @@ input.qcm-panel__proposal-checkbox {
 .competence-list {
   background: #ffffff;
   width: 100%;
-  padding: 0 100px 30px;
+  padding: 22px 100px 30px;
   margin-bottom: 10px; }
   @media (max-width: 767px) {
     .competence-list {
@@ -2748,7 +2748,6 @@ input.qcm-panel__proposal-checkbox {
   font-size: 14px;
   letter-spacing: 0.2px;
   color: #3e4149;
-  margin-top: 22px;
   margin-bottom: 3px; }
 
 .competence__level {
