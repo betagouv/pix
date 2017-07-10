@@ -1,4 +1,4 @@
-import { Factory, faker } from 'ember-cli-mirage';
+import {Factory, faker} from 'ember-cli-mirage';
 
 export default Factory.extend({
   firstName() {
@@ -17,6 +17,6 @@ export default Factory.extend({
     return faker.random.boolean();
   },
   recaptchaToken() {
-    return faker.random.uiid();
+    return faker.random.uuid();
   }
 });
