@@ -31,7 +31,8 @@ module.exports = function(environment) {
       isTimerCountdownEnabled: true,
       isMessageStatusTogglingEnabled: true,
       LOAD_EXTERNAL_SCRIPT: true,
-      GOOGLE_RECAPTCHA_KEY: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO'
+      GOOGLE_RECAPTCHA_KEY: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO',
+      FEEDBACK_PANEL_SCROLL_DURATION: 800
     },
 
     googleFonts: [
@@ -83,6 +84,7 @@ module.exports = function(environment) {
     ENV.APP.isTimerCountdownEnabled = false;
     ENV.APP.isMessageStatusTogglingEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
+    ENV.APP.FEEDBACK_PANEL_SCROLL_DURATION = 1;
   }
 
   if(environment === 'integration') {
