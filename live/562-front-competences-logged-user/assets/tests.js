@@ -8113,7 +8113,7 @@ define('pix-live/tests/unit/components/competence-area-list-test', ['chai', 'moc
     });
   });
 });
-define('pix-live/tests/unit/components/competence-by-area-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/components/competence-by-area-item-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Component | Competence area item Component', function () {
@@ -8147,6 +8147,41 @@ define('pix-live/tests/unit/components/competence-by-area-item-test', ['chai', '
 
           // then
           (0, _chai.expect)(component.get('_competencesAreaName')).to.equal('');
+        });
+
+        (0, _mocha.it)('should display sorted competences', function () {
+          // given
+          var component = this.subject();
+
+          var competencesWithSameArea = [_ember.default.Object.create({ id: 2, name: 'competence-name-2', index: '1.2', area: 'area-id-1', level: -1 }), _ember.default.Object.create({ id: 3, name: 'competence-name-3', index: '1.3', area: 'area-id-1', level: -1 }), _ember.default.Object.create({ id: 1, name: 'competence-name-1', index: '1.1', area: 'area-id-1', level: -1 })];
+          var areaWithManyCompetences = {
+            property: 'area',
+            value: 'Information et données',
+            items: competencesWithSameArea
+          };
+
+          // when
+          component.set('competenceArea', areaWithManyCompetences);
+          // then
+          (0, _chai.expect)(component.get('_competencesSortedList')).to.deep.equal([_ember.default.Object.create({
+            id: 1,
+            name: 'competence-name-1',
+            index: '1.1',
+            area: 'area-id-1',
+            level: -1
+          }), _ember.default.Object.create({
+            id: 2,
+            name: 'competence-name-2',
+            index: '1.2',
+            area: 'area-id-1',
+            level: -1
+          }), _ember.default.Object.create({
+            id: 3,
+            name: 'competence-name-3',
+            index: '1.3',
+            area: 'area-id-1',
+            level: -1
+          })]);
         });
       });
     });

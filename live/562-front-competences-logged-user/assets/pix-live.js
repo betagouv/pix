@@ -1049,7 +1049,7 @@ define('pix-live/components/competence-area-list', ['exports', 'ember', 'ember-g
     })
   });
 });
-define('pix-live/components/competence-by-area-item', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/components/competence-by-area-item', ['exports', 'ember', 'pix-live/utils/lodash-custom'], function (exports, _ember, _lodashCustom) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -1062,6 +1062,13 @@ define('pix-live/components/competence-by-area-item', ['exports', 'ember'], func
     _competencesAreaName: _ember.default.computed('competenceArea.value', function () {
       var competenceAreaName = this.get('competenceArea.value');
       return competenceAreaName ? this.get('competenceArea.value').substr(3) : '';
+    }),
+    _competencesSortedList: _ember.default.computed('competenceArea.items', function () {
+      var competencesList = this.get('competenceArea.items');
+      var sortedList = _lodashCustom.default.sortBy(competencesList, [function (o) {
+        return o.get('index');
+      }]);
+      return sortedList;
     })
   });
 });
@@ -5232,6 +5239,7 @@ define('pix-live/models/competence', ['exports', 'ember', 'ember-data'], functio
     name: attr('string'),
     area: belongsTo('area', { inverse: null }),
     user: belongsTo('user'),
+    index: attr('number'),
     level: attr('number'),
     areaName: _ember.default.computed.alias('area.name')
   });
@@ -6488,7 +6496,7 @@ define("pix-live/templates/components/competence-by-area-item", ["exports"], fun
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "am7imoM1", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"area__name\"],[13],[1,[26,[\"_competencesAreaName\"]],false],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"competence-list\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"competenceArea\",\"items\"]]],null,{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"competence\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__name\"],[13],[1,[28,[\"competence\",\"name\"]],false],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__level\"],[16,\"data-level\",[34,[[28,[\"competence\",\"level\"]]]]],[13],[0,\" \"],[14],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[\"competence\"]},null],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-by-area-item.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Ea+BJOdP", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"area__name\"],[13],[1,[26,[\"_competencesAreaName\"]],false],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"competence-list\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"_competencesSortedList\"]]],null,{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"competence\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__name\"],[13],[1,[28,[\"competence\",\"name\"]],false],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__level\"],[16,\"data-level\",[34,[[28,[\"competence\",\"level\"]]]]],[13],[0,\" \"],[14],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[\"competence\"]},null],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-by-area-item.hbs" } });
 });
 define("pix-live/templates/components/corner-ribbon", ["exports"], function (exports) {
   "use strict";
@@ -7734,6 +7742,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.13.0+1111f7e1"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.13.0+16ad3ffb"});
 }
 //# sourceMappingURL=pix-live.map
