@@ -87,5 +87,6 @@ describe('Unit | Component | Competence area list Component', function() {
         expect(component.get('_competencesByAreaSorted')).to.deep.equal(expectedGroupedCompetences);
       });
     });
+
   });
 });
