@@ -84,7 +84,6 @@ module.exports = function(environment) {
     ENV.APP.isTimerCountdownEnabled = false;
     ENV.APP.isMessageStatusTogglingEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
-    ENV.APP.FEEDBACK_PANEL_SCROLL_DURATION = 0;
   }
 
   if(environment === 'integration') {
