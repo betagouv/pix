@@ -82,6 +82,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
         id: 'recCompA',
         attributes: {
           name: 'competence-name-1',
+          index: '1.1',
           level: -1
         },
         relationships: {
@@ -98,6 +99,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
         id: 'recCompB',
         attributes: {
           name: 'competence-name-2',
+          index: '1.2',
           level: -1
         },
         relationships: {
@@ -121,12 +123,14 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
     competences: [{
       id: 'recCompA',
       name: 'competence-name-1',
+      index: '1.1',
       areaId: 'recAreaA',
       level: -1
     },
     {
       id: 'recCompB',
       name: 'competence-name-2',
+      index: '1.2',
       areaId: 'recAreaB',
       level: -1
     }],

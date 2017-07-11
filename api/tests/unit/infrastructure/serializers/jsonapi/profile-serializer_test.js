@@ -35,11 +35,13 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         {
           id: 'recCompA',
           name: 'competence-name-1',
+          index: '1.1',
           areaId: 'recAreaA'
         },
         {
           id: 'recCompB',
           name: 'competence-name-2',
+          index: '1.2',
           areaId: 'recAreaB'
         }];
 
@@ -82,6 +84,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             id: 'recCompA',
             attributes: {
               name: 'competence-name-1',
+              index: '1.1',
               level: -1
             },
             relationships: {
@@ -98,6 +101,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             id: 'recCompB',
             attributes: {
               name: 'competence-name-2',
+              index: '1.2',
               level: 8,
               'pix-score': 128
             },
