@@ -28,7 +28,7 @@ describe('Acceptance | API | Assessments', function() {
       .reply(200, {
         'id': 'w_first_challenge',
         'fields': {
-          // a bunch of fields
+          'acquis': ['web1']
         },
       });
     nock('https://api.airtable.com')
@@ -37,7 +37,7 @@ describe('Acceptance | API | Assessments', function() {
       .reply(200, {
         'id': 'w_second_challenge',
         'fields': {
-          // a bunch of fields
+          'acquis': ['web2']
         },
       });
     nock('https://api.airtable.com')
@@ -46,7 +46,7 @@ describe('Acceptance | API | Assessments', function() {
       .reply(200, {
         'id': 'w_third_challenge',
         'fields': {
-          // a bunch of fields
+          'acquis': ['web3']
         },
       });
 
@@ -84,7 +84,7 @@ describe('Acceptance | API | Assessments', function() {
           const inserted_answer = {
             value: 'any good answer',
             result: 'ok',
-            challengeId: 'anyChallengeIdFromAirtable',
+            challengeId: 'w_first_challenge',
             assessmentId: insertedAssessmentId
           };
 
