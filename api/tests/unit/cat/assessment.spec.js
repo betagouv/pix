@@ -301,8 +301,6 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('a', [web1]);
       const ch2 = new Challenge('b', [web2]);
       const ch3 = new Challenge('c', [web3]);
-      const answerCh2 = new Answer(ch2, 'ok');
-      const answerCh3 = new Answer(ch3, 'ok');
       const challenges = [ch1, ch2, ch3];
       const course = new Course(challenges);
       const assessment = new Assessment(course, []);
@@ -320,7 +318,6 @@ describe('Unit | Model | Assessment', function() {
       const rechInfo5 = new Skill('rechInfo', 5);
       const url6 = new Skill('url', 6);
       const rechInfo7 = new Skill('rechInfo', 7);
-      const web8 = new Skill('web', 8);
       const ch1 = new Challenge('recEasy', [web1]);
       const ch2 = new Challenge('rec2', [web2]);
       const ch3 = new Challenge('rec3', [url3]);
