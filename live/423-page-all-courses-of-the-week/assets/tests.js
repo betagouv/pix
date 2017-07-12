@@ -960,9 +960,9 @@ define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-li
       (0, _destroyApp.default)(application);
     });
 
-    (0, _mocha.describe)('Accessibility', function () {
+    (0, _mocha.describe)('Access to the page', function () {
 
-      (0, _mocha.it)('I can access to the historic of the weekly courses courseGroups by the url /defis-pix', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('should display the historic of the weekly courses courseGroups by the url /defis-pix', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {

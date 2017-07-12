@@ -2797,7 +2797,7 @@ input.qcm-panel__proposal-checkbox {
       margin-right: 0;
       padding-top: 0; } }
 
-.index-page-challenges__div-link-old-courses-of-the-week {
+.index-page-challenges__courses-of-the-week {
   border-radius: 23px;
   border: solid 1px #ffffff;
   margin: auto;
@@ -2807,13 +2807,10 @@ input.qcm-panel__proposal-checkbox {
   text-align: center;
   width: 180px; }
   @media (min-width: 992px) {
-    .index-page-challenges__div-link-old-courses-of-the-week {
+    .index-page-challenges__courses-of-the-week {
       margin-top: 0px; } }
-  .index-page-challenges__div-link-old-courses-of-the-week :hover {
-    color: #ffffff;
-    text-decoration: none; }
 
-.index-page-challenges__link-old-courses-of-the-week {
+.index-page-challenges__courses-of-the-week-link {
   font-family: "Lato", Arial, sans-serif;
   letter-spacing: 0.5px;
   text-align: center;
@@ -2821,6 +2818,9 @@ input.qcm-panel__proposal-checkbox {
   border: transparent;
   outline: 0;
   color: #ffffff; }
+  .index-page-challenges__courses-of-the-week-link:hover {
+    color: #ffffff;
+    text-decoration: none; }
 
 /* Courses
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
