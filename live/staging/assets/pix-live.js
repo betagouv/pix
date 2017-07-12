@@ -3566,9 +3566,6 @@ define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember', 'ember-cli
   }
 
   function _shouldUseMirage(env, addonConfig) {
-    if (typeof FastBoot !== 'undefined') {
-      return false;
-    }
     var userDeclaredEnabled = typeof addonConfig.enabled !== 'undefined';
     var defaultEnabled = _defaultEnabled(env, addonConfig);
 
@@ -3843,7 +3840,6 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
   });
 
   exports.default = function () {
-    this.logging = false;
     this.passthrough('/write-coverage');
     this.post('https://fonts.googleapis.com/**', function () {});
     this.post('https://formspree.io/**', function () {});
@@ -3855,7 +3851,6 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
 
     this.get('/courses', _getCourses.default);
     this.get('/courses?isCourseOfTheWeek=true', _getCoursesOfTheWeek.default);
-    this.get('/courses/:id', _getCourse.default);
 
     this.get('/challenges', _getChallenges.default);
     this.get('/challenges/:id', _getChallenge.default);
@@ -3878,6 +3873,22 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
     this.post('/followers', _postFollowers.default);
 
     this.post('/users', _postUsers.default);
+
+    //Nouveau Mirage
+
+    //CourseGroups
+    this.get('/course-groups');
+
+    //Courses
+    this.get('/courses/:id', function (schema, request) {
+
+      var id = request.params.id;
+      if (['ref_course_id', 'highligthed_course_id', 'ref_timed_challenge_course_id'].includes(id)) {
+        return (0, _getCourse.default)(schema, request);
+      }
+      return schema.courses.find(id);
+    });
+
     this.post('/authentications', _postAuthentications.default);
   };
 });
@@ -4528,6 +4539,164 @@ define('pix-live/mirage/data/users/index', ['exports'], function (exports) {
     }
   };
 });
+define('pix-live/mirage/factories/course-group', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberCliMirage.Factory.extend({
+    name: function name() {
+      return _emberCliMirage.faker.name.lastName();
+    }
+  });
+});
+define('pix-live/mirage/factories/course', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberCliMirage.Factory.extend({
+    name: function name(i) {
+      return 'course ' + i;
+    }
+  });
+});
+define('pix-live/mirage/fixtures/answers', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{ id: 'ref_answer_qcm_id', value: '2, 4', result: 'ko', challengeId: 'ref_qcm_challenge_id', assessment: 'ref_assessment_id' }, { id: 'ref_answer_qcu_id', value: '2', result: 'ok', challengeId: 'ref_qcu_challenge_id', assessment: 'ref_assessment_id' }, { id: 'ref_answer_qroc_id', value: 'Bill', result: 'pending', challengeId: 'ref_qroc_challenge_id', assessment: 'ref_assessment_id' }, { id: 'ref_answer_qrocm_id', value: 'logiciel1: word\nlogiciel2: excel\nlogiciel3: powerpoint', result: 'partially', challengeId: 'ref_qrocm_challenge_id', assessment: 'ref_assessment_id' }, { id: 'ref_answer_qru_id', value: '', result: 'aband', challengeId: 'ref_qru_challenge_id', assessment: 'ref_assessment_id' }, { id: 'ref_timed_answer_id', value: '', result: 'aband', challengeId: 'ref_timed_challenge_id', assessment: 'ref_timed_challenge_assessment_id' }, { id: 'ref_timed_answer_bis_id', value: '', result: 'aband', challengeId: 'ref_timed_challenge_bis_id', assessment: 'ref_timed_challenge_assessment_id' }];
+});
+define('pix-live/mirage/fixtures/assessments', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{ id: 'ref_assessment_id', 'user-id': 'user_id', 'user-name': 'Jon Snow', 'user-email': 'jsnow@winterfell.got', course: 'ref_course_id', answers: ['ref_answer_qcm_id', 'ref_answer_qcu_id', 'ref_answer_qroc_id', 'ref_answer_qrocm_id', 'ref_answer_qru_id'] }, { id: 'ref_timed_challenge_assessment_id', 'user-id': 'user_id', 'user-name': 'Jon Snow', 'user-email': 'jsnow@winterfell.got', course: 'ref_timed_challenge_course_id', answers: ['ref_timed_answer_id', 'ref_timed_answer_bis_id'] }];
+});
+define('pix-live/mirage/fixtures/challenges', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{
+    id: 'ref_qcm_challenge_id',
+    type: 'QCM',
+    timer: 2,
+    instruction: 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)',
+    attachments: ['http://example_of_url'],
+    'illustration-url': 'http://fakeimg.pl/350x200/?text=PictureOfQCM',
+    proposals: '- possibilite 1, et/ou' + '\n - possibilite 2, et/ou' + '\n - possibilite 3, et/ou' + '\n - possibilite 4'
+  }, {
+    id: 'ref_qcu_challenge_id',
+    type: 'QCU',
+    timer: 2,
+    instruction: 'Un QCU propose plusieurs choix, l\'utilisateur peut en choisir [un seul](http://link.unseul.url)',
+    attachments: ['file.docx', 'file.odt'],
+    'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',
+    'hasnt-internet-allowed': true,
+    proposals: '- 1ere possibilite\n ' + '- 2eme possibilite\n ' + '- 3eme possibilite\n' + '- 4eme possibilite'
+  }, {
+    id: 'ref_qroc_challenge_id',
+    type: 'QROC',
+    instruction: 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre',
+    proposals: 'Entrez le prénom de B. Gates : ${firstname#prénom} (en toutes lettres)\nSVP'
+  }, {
+    id: 'ref_qrocm_challenge_id',
+    type: 'QROCM',
+    instruction: 'Un QROCM est une question [ouverte](http://link.ouverte.url) avec plusieurs champs texte libre pour repondre',
+    proposals: 'Trois logiciels libres : ${logiciel1#un} ${logiciel2#deux} ${logiciel3#trois}\nMerci'
+  }, {
+    id: 'ref_qru_challenge_id',
+    type: 'QRU',
+    'illustration-url': 'http://fakeimg.pl/350x200/?text=QRU',
+    attachments: ['http://example_of_url'],
+    instruction: 'Un QRU propose un seul choix, typiquement cocher si oui ou non il a effectué une action quelque [part](http://link.part.url) ',
+    proposals: '- Une seule possibilite '
+  }, {
+    id: 'ref_timed_challenge_id',
+    type: 'QRU',
+    timer: 5,
+    'illustration-url': 'http://fakeimg.pl/350x200/?text=QRU',
+    attachments: ['http://example_of_url'],
+    instruction: 'Une question timée contient un décompte en bas a droite qui se decremente à chaque seconde ',
+    proposals: '- Une seule possibilite '
+  }, {
+    id: 'ref_timed_challenge_bis_id',
+    type: 'QRU',
+    timer: 5,
+    'illustration-url': 'http://fakeimg.pl/350x200/?text=QRU',
+    attachments: ['http://example_of_url'],
+    instruction: 'Une question timée contient un décompte en bas a droite qui se decremente à chaque seconde ',
+    proposals: '- Une seule possibilite '
+  }];
+});
+define('pix-live/mirage/fixtures/courses', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{
+    id: 'highligthed_course_id',
+    name: 'Traiter des données',
+    description: 'Recherche d\'information, gestion et traitement de données.',
+    'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
+    challenges: ['ref_qcm_challenge_id']
+  }, {
+    id: 'ref_course_id',
+    name: 'First Course',
+    description: 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.',
+    duration: 10,
+    'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
+    challengeId: ['ref_qcm_challenge_id', 'ref_qcu_challenge_id', 'ref_qru_challenge_id', 'ref_qroc_challenge_id', 'ref_qrocm_challenge_id']
+  }, {
+    id: 'ref_timed_challenge_course_id',
+    name: 'Course with timed challenges',
+    description: 'Contient uniquement des épreuves timées',
+    duration: 10,
+    'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
+    challenges: ['ref_timed_challenge_id', 'ref_timed_challenge_bis_id']
+  }];
+});
+define('pix-live/mirage/fixtures/feedbacks', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{ id: 'ref_feedback_id', email: 'shi@fu.me', content: 'Some content', assessment: 'assessment_id', challenge: 'challenge_id' }];
+});
+define('pix-live/mirage/fixtures/followers', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{ id: 'follower_id', 'email': 'jsnow@winterfell.got' }];
+});
+define('pix-live/mirage/fixtures/solutions', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{ id: 'ref_solution_id', value: '2' }, { id: 'ref_solution_id2', value: '2,3' }];
+});
+define('pix-live/mirage/fixtures/users', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{ id: 'user_id' }];
+});
 define('pix-live/mirage/routes/get-answer-by-challenge-and-assessment', ['exports', 'pix-live/utils/lodash-custom', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qru-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer', 'pix-live/mirage/data/answers/ref-timed-answer', 'pix-live/mirage/data/answers/ref-timed-answer-bis'], function (exports, _lodashCustom, _refQcmAnswer, _refQcuAnswer, _refQruAnswer, _refQrocAnswer, _refQrocmAnswer, _refTimedAnswer, _refTimedAnswerBis) {
   'use strict';
 
@@ -4895,6 +5064,27 @@ define('pix-live/mirage/routes/post-users', ['exports', 'pix-live/mirage/data/us
     return _users.default;
   };
 });
+define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  exports.default = function (server) {
+
+    var courses = server.createList('course', 2, { name: 'course name' });
+    server.createList('courseGroup', 3, { courses: courses });
+  };
+});
+define('pix-live/mirage/serializers/application', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberCliMirage.JSONAPISerializer.extend({});
+});
 define('pix-live/models/answer', ['exports', 'ember-data', 'pix-live/models/answer/value-as-array-of-string-mixin'], function (exports, _emberData, _valueAsArrayOfStringMixin) {
   'use strict';
 
@@ -4983,6 +5173,20 @@ define('pix-live/models/challenge', ['exports', 'ember', 'ember-data'], function
     hasTimer: _ember.default.computed.notEmpty('timer')
   });
 });
+define('pix-live/models/course-group', ['exports', 'ember-data'], function (exports, _emberData) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var Model = _emberData.default.Model,
+      attr = _emberData.default.attr,
+      hasMany = _emberData.default.hasMany;
+  exports.default = Model.extend({
+    name: attr('string'),
+    courses: hasMany('course', { inverse: null })
+  });
+});
 define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
 
@@ -4999,14 +5203,11 @@ define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _
     duration: attr('number'),
     imageUrl: attr('string'),
     isAdaptive: attr('boolean'),
+    nbChallenges: attr('number'),
     challenges: hasMany('challenge', { inverse: null }),
 
     getProgress: function getProgress(challenge) {
       var challengeIndex = this.get('challenges').indexOf(challenge);
-
-      if (challengeIndex === -1) {
-        throw new RangeError('challenge ne fait pas partie de course');
-      }
 
       var currentStep = 1 + challengeIndex;
       var maxStep = this.get('challenges.length');
@@ -5139,6 +5340,7 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
     this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
     this.route('assessments.get-comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
+    this.route('course-groups', { path: '/defis-pix' });
     this.route('connexion');
     this.route('deconnexion');
   });
@@ -5171,6 +5373,7 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'ember', 'pix-li
     assessmentService: _ember.default.inject.service('assessment'),
 
     model: function model(params) {
+
       var store = this.get('store');
 
       var assessmentId = params.assessment_id;
@@ -5482,6 +5685,26 @@ define('pix-live/routes/connexion', ['exports', 'ember', 'ember-simple-auth/mixi
     }
   });
 });
+define('pix-live/routes/course-groups', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _baseRoute.default.extend({
+    model: function model() {
+      return this.get('store').findAll('courseGroup');
+    },
+
+
+    actions: {
+      startCourse: function startCourse(course) {
+        this.transitionTo('courses.create-assessment', course.get('id'));
+      }
+    }
+
+  });
+});
 define('pix-live/routes/courses', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
   'use strict';
 
@@ -5496,7 +5719,7 @@ define('pix-live/routes/courses', ['exports', 'pix-live/routes/base-route'], fun
 
     actions: {
       startCourse: function startCourse(course) {
-        this.transitionTo('courses.create-assessment', course);
+        this.transitionTo('courses.create-assessment', course.id);
       }
     }
 
@@ -5525,23 +5748,29 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'pix-live/routes
   });
   exports.default = _baseRoute.default.extend({
     model: function model(params) {
-      var store = this.get('store');
-      return store.findRecord('course', params.course_id);
+      return {
+        courseId: params.course_id
+      };
     },
-    afterModel: function afterModel(course) {
+    afterModel: function afterModel(model) {
       var _this = this;
 
       var store = this.get('store');
       var challengeAdapter = store.adapterFor('challenge');
-      var assessment = store.createRecord('assessment', { course: course });
-      assessment.save().then(function () {
-        challengeAdapter.queryNext(store, assessment.get('id')).then(function (challenge) {
-          if (challenge) {
-            _this.transitionTo('assessments.get-challenge', { assessment: assessment, challenge: challenge });
-          } else {
-            _this.transitionTo('assessments.get-results', { assessment: assessment });
-          }
-        });
+
+      var assessment = void 0;
+
+      return store.findRecord('course', model.courseId).then(function (course) {
+        return store.createRecord('assessment', { course: course }).save();
+      }).then(function (createdAssessment) {
+        assessment = createdAssessment;
+        return challengeAdapter.queryNext(store, assessment.get('id'));
+      }).then(function (challenge) {
+        if (challenge) {
+          _this.transitionTo('assessments.get-challenge', { assessment: assessment, challenge: challenge });
+        } else {
+          _this.transitionTo('assessments.get-results', { assessment: assessment });
+        }
       });
     }
   });
@@ -5661,7 +5890,7 @@ define('pix-live/routes/index', ['exports', 'ember', 'pix-live/routes/base-route
 
     actions: {
       startCourse: function startCourse(course) {
-        this.transitionTo('courses.create-assessment', course);
+        this.transitionTo('courses.create-assessment', course.get('id'));
       }
     }
 
@@ -5710,7 +5939,7 @@ define('pix-live/routes/placement-tests', ['exports', 'ember', 'pix-live/routes/
 
     actions: {
       startCourse: function startCourse(course) {
-        this.transitionTo('courses.create-assessment', course);
+        this.transitionTo('courses.create-assessment', course.get('id'));
       }
     }
 
@@ -6229,7 +6458,7 @@ define("pix-live/templates/components/course-item", ["exports"], function (expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "iMK2KOsB", "block": "{\"statements\":[[11,\"img\",[]],[15,\"class\",\"course-item__picture\"],[16,\"src\",[34,[[26,[\"imageUrl\"]]]]],[15,\"alt\",\"\"],[13],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"course-item__container\"],[13],[0,\"\\n  \"],[11,\"h3\",[]],[15,\"class\",\"course-item__name\"],[13],[1,[28,[\"course\",\"name\"]],false],[14],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"course-item__description\"],[13],[1,[28,[\"course\",\"description\"]],false],[14],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"course-item__challenges-number\"],[13],[1,[28,[\"course\",\"challenges\",\"length\"]],false],[0,\" épreuves\"],[14],[0,\"\\n\\n\"],[0,\"  \"],[11,\"a\",[]],[15,\"class\",\"course-item__begin-button\"],[15,\"href\",\"#\"],[15,\"style\",\"cursor: pointer;\"],[16,\"title\",[34,[\"Commencer le test \\\"\",[28,[\"course\",\"name\"]],\"\\\"\"]]],[5,[\"action\"],[[28,[null]],\"startCourse\",[28,[\"course\"]]]],[13],[0,\"\\n    Commencer\\n  \"],[14],[0,\"\\n\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/course-item.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "FRv/Vcj3", "block": "{\"statements\":[[11,\"img\",[]],[15,\"class\",\"course-item__picture\"],[16,\"src\",[34,[[26,[\"imageUrl\"]]]]],[15,\"alt\",\"\"],[13],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"course-item__container\"],[13],[0,\"\\n  \"],[11,\"h3\",[]],[15,\"class\",\"course-item__name\"],[13],[1,[28,[\"course\",\"name\"]],false],[14],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"course-item__description\"],[13],[1,[28,[\"course\",\"description\"]],false],[14],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"course-item__challenges-number\"],[13],[0,\"\\n    \"],[6,[\"if\"],[[28,[\"course\",\"challenges\",\"length\"]]],null,{\"statements\":[[0,\" \"],[1,[28,[\"course\",\"challenges\",\"length\"]],false]],\"locals\":[]},{\"statements\":[[0,\" \"],[1,[28,[\"course\",\"nbChallenges\"]],false]],\"locals\":[]}],[0,\" épreuves\\n  \"],[14],[0,\"\\n\\n\"],[0,\"  \"],[11,\"a\",[]],[15,\"class\",\"course-item__begin-button\"],[15,\"href\",\"#\"],[15,\"style\",\"cursor: pointer;\"],[16,\"title\",[34,[\"Commencer le test \\\"\",[28,[\"course\",\"name\"]],\"\\\"\"]]],[5,[\"action\"],[[28,[null]],\"startCourse\",[28,[\"course\"]]]],[13],[0,\"\\n    Commencer\\n  \"],[14],[0,\"\\n\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/course-item.hbs" } });
 });
 define("pix-live/templates/components/course-list", ["exports"], function (exports) {
   "use strict";
@@ -6615,6 +6844,14 @@ define("pix-live/templates/connexion", ["exports"], function (exports) {
   });
   exports.default = Ember.HTMLBars.template({ "id": "hXw9VW9l", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"signin-container\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"signin-no-account\"],[13],[0,\"\\n    \"],[11,\"p\",[]],[15,\"class\",\"signin-no-account-text\"],[15,\"title\",\"\"],[13],[0,\"Vous n'avez pas encore de compte Pix ?\"],[14],[0,\"\\n    \"],[11,\"a\",[]],[15,\"class\",\"signin-inscription-button\"],[15,\"href\",\"/inscription\"],[13],[0,\"S'inscrire \"],[11,\"span\",[]],[15,\"class\",\"sr-only\"],[13],[0,\" sur Pix\"],[14],[0,\" \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[1,[33,[\"signin-form\"],null,[[\"onSubmit\"],[[33,[\"route-action\"],[\"signin\"],null]]]],false],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/connexion.hbs" } });
 });
+define("pix-live/templates/course-groups", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "5g9Wgc3x", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"course-groups-page\"],[13],[0,\"\\n\\n  \"],[1,[33,[\"navbar-header\"],null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page__header\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page__header-title\"],[13],[0,\"Les défis \"],[11,\"span\",[]],[15,\"class\",\"course-groups-page__header-title__pix-span\"],[13],[0,\"pix\"],[14],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page__header-description\"],[13],[0,\"Chaque semaine, testez vos compétences numériques sur un nouveau\\n      sujet.\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page__course-groups\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"model\"]]],null,{\"statements\":[[0,\"      \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page__course-group-item\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page__course-group-name\"],[13],[1,[28,[\"courseGroup\",\"name\"]],false],[14],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page_course-group-line\"],[13],[14],[0,\"\\n\\n        \"],[11,\"div\",[]],[15,\"class\",\"course-groups-page__courses\"],[13],[1,[33,[\"course-list\"],null,[[\"courses\",\"startCourse\"],[[28,[\"courseGroup\",\"courses\"]],\"startCourse\"]]],false],[14],[0,\"\\n      \"],[14],[0,\"\\n\"]],\"locals\":[\"courseGroup\"]},null],[0,\"  \"],[14],[0,\"\\n\\n  \"],[1,[26,[\"app-footer\"]],false],[0,\"\\n\\n\"],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/course-groups.hbs" } });
+});
 define("pix-live/templates/courses-loading", ["exports"], function (exports) {
   "use strict";
 
@@ -6661,7 +6898,7 @@ define("pix-live/templates/index", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "TSdtzgmD", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"index-page\"],[13],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"index-page__background\"],[13],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--hero index-page-hero\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-hero__navbar-header\"],[13],[0,\"\\n      \"],[1,[26,[\"navbar-header\"]],false],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-hero__content\"],[13],[0,\"\\n      \"],[11,\"h1\",[]],[15,\"class\",\"index-page-hero__title\"],[13],[0,\"Développez vos compétences numériques\"],[14],[0,\"\\n      \"],[11,\"p\",[]],[15,\"class\",\"index-page-hero__description\"],[13],[0,\"PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.\"],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n\"],[0,\"    \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--challenges index-page-challenges\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"index-page-challenges__container\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"index-page-challenges__presentation\"],[13],[0,\"\\n          \"],[11,\"h2\",[]],[15,\"class\",\"index-page-challenges__presentation-title\"],[13],[0,\"Le défi \"],[11,\"span\",[]],[15,\"class\",\"text--marigold\"],[13],[0,\"Pix\"],[14],[0,\" de la semaine\"],[14],[0,\"\\n          \"],[11,\"p\",[]],[15,\"class\",\"index-page-challenges__presentation-text\"],[13],[0,\"Chaque semaine, testez vos compétences numériques sur un nouveau sujet.\"],[14],[0,\"\\n        \"],[14],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"index-page-challenges__course-list\"],[13],[0,\"\\n          \"],[1,[33,[\"course-list\"],null,[[\"courses\",\"startCourse\",\"limit\"],[[28,[\"model\",\"coursesOfTheWeek\"]],\"startCourse\",2]]],false],[0,\"\\n        \"],[14],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--courses index-page-courses\"],[13],[0,\"\\n    \"],[11,\"h2\",[]],[15,\"class\",\"index-page-courses__title\"],[13],[0,\"Découvrez nos épreuves et aidez‑nous à les améliorer !\"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-courses__course-list\"],[13],[0,\"\\n      \"],[1,[33,[\"course-list\"],null,[[\"courses\",\"startCourse\"],[[28,[\"model\",\"progressionCourses\"]],\"startCourse\"]]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--community index-page-community\"],[13],[0,\"\\n    \"],[11,\"h2\",[]],[15,\"class\",\"index-page-community__title\"],[13],[0,\"Rejoindre la communauté\"],[14],[0,\"\\n    \"],[11,\"p\",[]],[15,\"class\",\"index-page-community__description\"],[13],[0,\"Vous souhaitez devenir béta‑testeur\"],[11,\"br\",[]],[13],[14],[0,\"ou être informé(e) du développement de Pix ?\"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-community__form\"],[13],[0,\"\\n      \"],[1,[26,[\"follower-form\"]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--features index-page-features\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-features__list\"],[13],[0,\"\\n      \"],[1,[26,[\"feature-list\"]],false],[0,\"\\n    \"],[14],[0,\"\\n    \"],[6,[\"link-to\"],[\"project\"],[[\"class\"],[\"index-page-features__project-button\"]],{\"statements\":[[0,\"En savoir plus sur le projet\"]],\"locals\":[]},null],[0,\"\\n  \"],[14],[0,\"\\n\\n\"],[14],[0,\"\\n\\n\"],[1,[26,[\"app-footer\"]],false],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/index.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "ozfULHW8", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"index-page\"],[13],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"index-page__background\"],[13],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--hero index-page-hero\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-hero__navbar-header\"],[13],[0,\"\\n      \"],[1,[26,[\"navbar-header\"]],false],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-hero__content\"],[13],[0,\"\\n      \"],[11,\"h1\",[]],[15,\"class\",\"index-page-hero__title\"],[13],[0,\"Développez vos compétences numériques\"],[14],[0,\"\\n      \"],[11,\"p\",[]],[15,\"class\",\"index-page-hero__description\"],[13],[0,\"PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.\"],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--challenges index-page-challenges\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-challenges__container\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"index-page-challenges__presentation\"],[13],[0,\"\\n        \"],[11,\"h2\",[]],[15,\"class\",\"index-page-challenges__presentation-title\"],[13],[0,\"Les défis \"],[11,\"span\",[]],[15,\"class\",\"text--marigold\"],[13],[0,\"Pix\"],[14],[0,\" de la semaine\"],[14],[0,\"\\n        \"],[11,\"p\",[]],[15,\"class\",\"index-page-challenges__presentation-text\"],[13],[0,\"Chaque semaine, testez vos compétences numériques sur un nouveau sujet.\"],[14],[0,\"\\n      \"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"index-page-challenges__course-list\"],[13],[0,\"\\n        \"],[1,[33,[\"course-list\"],null,[[\"courses\",\"startCourse\",\"limit\"],[[28,[\"model\",\"coursesOfTheWeek\"]],\"startCourse\",2]]],false],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-challenges__courses-of-the-week\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"course-groups\"],[[\"class\"],[\"index-page-challenges__courses-of-the-week-link\"]],{\"statements\":[[0,\"        VOIR LES DÉFIS PRÉCÉDENTS\"]],\"locals\":[]},null],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--courses index-page-courses\"],[13],[0,\"\\n    \"],[11,\"h2\",[]],[15,\"class\",\"index-page-courses__title\"],[13],[0,\"Découvrez nos épreuves et aidez‑nous à les améliorer !\"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-courses__course-list\"],[13],[0,\"\\n      \"],[1,[33,[\"course-list\"],null,[[\"courses\",\"startCourse\"],[[28,[\"model\",\"progressionCourses\"]],\"startCourse\"]]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--community index-page-community\"],[13],[0,\"\\n    \"],[11,\"h2\",[]],[15,\"class\",\"index-page-community__title\"],[13],[0,\"Rejoindre la communauté\"],[14],[0,\"\\n    \"],[11,\"p\",[]],[15,\"class\",\"index-page-community__description\"],[13],[0,\"Vous souhaitez devenir béta‑testeur\"],[11,\"br\",[]],[13],[14],[0,\"ou être informé(e) du\\n      développement de Pix ?\"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-community__form\"],[13],[0,\"\\n      \"],[1,[26,[\"follower-form\"]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--features index-page-features\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-features__list\"],[13],[0,\"\\n      \"],[1,[26,[\"feature-list\"]],false],[0,\"\\n    \"],[14],[0,\"\\n    \"],[6,[\"link-to\"],[\"project\"],[[\"class\"],[\"index-page-features__project-button\"]],{\"statements\":[[0,\"En savoir plus sur le projet\"]],\"locals\":[]},null],[0,\"\\n  \"],[14],[0,\"\\n\\n\"],[14],[0,\"\\n\\n\"],[1,[26,[\"app-footer\"]],false],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/index.hbs" } });
 });
 define("pix-live/templates/inscription", ["exports"], function (exports) {
   "use strict";
@@ -6796,6 +7033,46 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
       // test passed
     });
 
+    it('mirage/factories/course-group.js', function () {
+      // test passed
+    });
+
+    it('mirage/factories/course.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/answers.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/assessments.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/challenges.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/courses.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/feedbacks.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/followers.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/solutions.js', function () {
+      // test passed
+    });
+
+    it('mirage/fixtures/users.js', function () {
+      // test passed
+    });
+
     it('mirage/routes/get-answer-by-challenge-and-assessment.js', function () {
       // test passed
     });
@@ -6865,6 +7142,14 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
     });
 
     it('mirage/routes/post-users.js', function () {
+      // test passed
+    });
+
+    it('mirage/scenarios/default.js', function () {
+      // test passed
+    });
+
+    it('mirage/serializers/application.js', function () {
       // test passed
     });
   });
@@ -7383,6 +7668,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.14.0+5ff351e0"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.14.0+b8fc64bb"});
 }
 //# sourceMappingURL=pix-live.map
