@@ -152,7 +152,6 @@ describe('Unit | Model | Assessment', function() {
     it('should return [web1, web3] if the user answered correctly a question that requires web3', function() {
       // given
       const web1 = new Skill('web', 1);
-      const web2 = new Skill('web', 2);
       const web3 = new Skill('web', 3);
       const url3 = new Skill('url', 3);
       const url4 = new Skill('url', 4);
