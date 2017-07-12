@@ -2824,7 +2824,8 @@ input.qcm-panel__proposal-checkbox {
   padding: 0; }
 
 .index-page-challenges {
-  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff); }
+  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+  padding-bottom: 20px; }
 
 .index-page-challenges__container {
   max-width: 1200px;
@@ -2832,13 +2833,13 @@ input.qcm-panel__proposal-checkbox {
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column;
-  padding: 80px 0 70px 0; }
+  padding: 80px 0 10px 0; }
   @media (min-width: 992px) {
     .index-page-challenges__container {
       margin: 0 auto;
       -ms-flex-direction: row;
       flex-direction: row;
-      padding: 70px 90px; } }
+      padding: 70px 90px 30px; } }
 
 .index-page-challenges__presentation {
   font-family: "Raleway", Arial, sans-serif;
@@ -2879,6 +2880,31 @@ input.qcm-panel__proposal-checkbox {
     .index-page-challenges__course-list {
       margin-right: 0;
       padding-top: 0; } }
+
+.index-page-challenges__courses-of-the-week {
+  border-radius: 23px;
+  border: solid 1px #ffffff;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  text-align: center;
+  width: 180px; }
+  @media (min-width: 992px) {
+    .index-page-challenges__courses-of-the-week {
+      margin-top: 0px; } }
+
+.index-page-challenges__courses-of-the-week-link {
+  font-family: "Lato", Arial, sans-serif;
+  letter-spacing: 0.5px;
+  text-align: center;
+  background-color: transparent;
+  border: transparent;
+  outline: 0;
+  color: #ffffff; }
+  .index-page-challenges__courses-of-the-week-link:hover {
+    color: #ffffff;
+    text-decoration: none; }
 
 /* Courses
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -3409,6 +3435,76 @@ hr.project-page__presentation-header-line {
   @media screen and (min-width: 767px) {
     .signup-container {
       height: 100%; } }
+
+/*------------header----------*/
+.course-groups-page__header {
+  background-image: linear-gradient(to bottom, #446eff, #001f8c), linear-gradient(#3d68ff, #3d68ff);
+  color: #ffffff;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px; }
+  @media (min-width: 768px) {
+    .course-groups-page__header {
+      padding-top: 40px;
+      padding-bottom: 40px; } }
+
+.course-groups-page__header-title {
+  font-family: "Raleway", Arial, sans-serif;
+  font-weight: 800;
+  text-align: center;
+  font-size: 40px; }
+  @media (min-width: 768px) {
+    .course-groups-page__header-title {
+      font-size: 60px; } }
+
+.course-groups-page__header-title__pix-span {
+  color: #ffbe00; }
+
+.course-groups-page__header-description {
+  font-family: "Raleway", Arial, sans-serif;
+  font-weight: 300;
+  text-align: center;
+  margin: auto;
+  max-width: 300px;
+  font-size: 20px; }
+  @media (min-width: 768px) {
+    .course-groups-page__header-description {
+      font-size: 37px;
+      max-width: 880px; } }
+
+/*------------courseGroups----------*/
+.course-groups-page__course-group {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column; }
+
+.course-groups-page__course-group-item {
+  margin: auto;
+  margin-top: 35px;
+  margin-bottom: 35px;
+  max-width: 300px; }
+  @media (min-width: 768px) {
+    .course-groups-page__course-group-item {
+      max-width: -webkit-max-content;
+      max-width: -moz-max-content;
+      max-width: max-content; } }
+
+.course-groups-page__course-group-name {
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #3d68ff; }
+
+.course-groups-page_course-group-line {
+  margin-bottom: 10px;
+  height: 2px;
+  border: solid 1px #D8D8D8; }
 
 .signin-container {
   background: url("/images/signup-bg.jpg") no-repeat;

@@ -49,7 +49,7 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['mocha', 'chai', 'pix-
 
       (0, _mocha.it)('a1.6 avec un titre', function () {
         var $title = findWithAssert('.index-page-challenges__presentation-title');
-        (0, _chai.expect)($title.text().trim()).to.equal('Le défi Pix de la semaine');
+        (0, _chai.expect)($title.text().trim()).to.equal('Les défis Pix de la semaine');
       });
 
       (0, _mocha.it)('a1.7 avec un texte descriptif', function () {
@@ -916,6 +916,154 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
     });
   });
 });
+define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+  'use strict';
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
+
+  (0, _mocha.describe)('Acceptance | courseGroups', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _startApp.default)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _destroyApp.default)(application);
+    });
+
+    (0, _mocha.describe)('Access to the page', function () {
+
+      (0, _mocha.it)('should display the historic of the weekly courses courseGroups by the url /defis-pix', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return visit('/defis-pix');
+
+              case 2:
+
+                // then
+                (0, _chai.expect)(currentURL()).to.equal('/defis-pix');
+
+              case 3:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      })));
+    });
+
+    (0, _mocha.describe)('Rendering', function () {
+
+      (0, _mocha.it)('should display a navbar and a footer', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return visit('/defis-pix');
+
+              case 2:
+
+                // then
+                (0, _chai.expect)(find('.navbar-header')).to.have.lengthOf(1);
+                (0, _chai.expect)(find('.app-footer')).to.have.lengthOf(1);
+
+              case 4:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      })));
+
+      (0, _mocha.it)('should display a header section', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return visit('/defis-pix');
+
+              case 2:
+
+                // then
+                (0, _chai.expect)(find('.course-groups-page__header')).to.have.lengthOf(1);
+
+              case 3:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      })));
+
+      (0, _mocha.it)('should display a list of (weekly courses) course-groups', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+        var courses;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                // given
+                courses = server.createList('course', 2, { name: 'course name' });
+
+                server.createList('courseGroup', 3, { courses: courses });
+
+                // when
+                _context4.next = 4;
+                return visit('/defis-pix');
+
+              case 4:
+
+                // then
+                (0, _chai.expect)(find('.course-item__name')[0].innerText).to.equal('course name');
+
+                (0, _chai.expect)(find('.course-groups-page__course-groups')).to.have.lengthOf(1);
+                (0, _chai.expect)(find('.course-groups-page__course-group-item')).to.have.lengthOf(3);
+                (0, _chai.expect)(find('.course-list')).to.have.lengthOf(3);
+                (0, _chai.expect)(find('.course-item')).to.have.lengthOf(6);
+
+              case 9:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      })));
+    });
+  });
+});
 define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
   'use strict';
 
@@ -982,6 +1130,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
   (0, _mocha.describe)('Acceptance | d1 - Valider une épreuve |', function () {
 
     var application = void 0;
+    var PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
 
     (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
@@ -1010,7 +1159,8 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
       }, _callee2, this);
     })));
 
-    (0, _mocha.it)('d1.0b La barre de progression commence à 1, si j\'accède au challenge depuis depuis le lien Airtable', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+    (0, _mocha.it)('d1.0b La barre de progression commence à 1, si j\'accède directement à un course', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      var $progressBar;
       return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
@@ -1019,9 +1169,13 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
               return visit('/courses/ref_course_id');
 
             case 2:
-              (0, _chai.expect)(progressBarText()).to.equal('1 / 5');
 
-            case 3:
+              // Then
+              $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
+
+              (0, _chai.expect)($progressBar.text().trim()).to.equal('1 / 5');
+
+            case 4:
             case 'end':
               return _context3.stop();
           }
@@ -1089,13 +1243,18 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
       })));
 
       (0, _mocha.it)('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+        var expectedText;
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                (0, _chai.expect)(progressBarText()).to.equal('2 / 5');
 
-              case 1:
+                // Then
+                expectedText = '2';
+
+                (0, _chai.expect)(findWithAssert('.pix-progress-bar').text()).to.contain(expectedText);
+
+              case 2:
               case 'end':
                 return _context7.stop();
             }
@@ -2624,6 +2783,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('models/course-group.js', function () {
+      // test passed
+    });
+
     it('models/course.js', function () {
       // test passed
     });
@@ -2681,6 +2844,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/compte.js', function () {
+      // test passed
+    });
+
+    it('routes/course-groups.js', function () {
       // test passed
     });
 
@@ -3784,6 +3951,23 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
         // then
         var $nbChallenges = this.$('.course-item__challenges-number');
         (0, _chai.expect)($nbChallenges.text().trim()).to.equal('4 épreuves');
+      });
+
+      (0, _mocha.it)('should render the number of challenges', function () {
+        // given
+        var course = _ember.default.Object.create({ challenges: [], nbChallenges: 2 });
+        this.set('course', course);
+
+        // when
+        this.render(_ember.default.HTMLBars.template({
+          "id": "Ig9hFQ2w",
+          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        var $nbChallenges = this.$('.course-item__challenges-number');
+        (0, _chai.expect)($nbChallenges.text().trim()).to.equal('2 épreuves');
       });
 
       (0, _mocha.it)('should render a link to begin the course', function () {
@@ -7162,6 +7346,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('acceptance/course-groups-test.js', function () {
+      // test passed
+    });
+
     it('acceptance/d1-epreuve-validation-test.js', function () {
       // test passed
     });
@@ -7486,6 +7674,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/models/course-group-test.js', function () {
+      // test passed
+    });
+
     it('unit/models/course-test.js', function () {
       // test passed
     });
@@ -7559,6 +7751,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/project-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/series-test.js', function () {
       // test passed
     });
 
@@ -9759,6 +9955,21 @@ define('pix-live/tests/unit/models/competence-test', ['ember', 'chai', 'mocha', 
     });
   });
 });
+define('pix-live/tests/unit/models/course-group-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Model | Course-group', function () {
+
+    (0, _emberMocha.setupModelTest)('course-group', {
+      needs: ['model:course']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var model = this.subject();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
 define('pix-live/tests/unit/models/course-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -9814,22 +10025,6 @@ define('pix-live/tests/unit/models/course-test', ['ember', 'chai', 'mocha', 'emb
           var course = _this3.subject({ challenges: [challenge1, challenge2] });
 
           (0, _chai.expect)(course.getProgress(challenge2)).to.have.property('currentStep', 2);
-        });
-      });
-
-      (0, _mocha.it)('throw an Error when challenge is not part of course', function () {
-        var _this4 = this;
-
-        _ember.default.run(function () {
-          // given
-          var store = _this4.store();
-          var challengeInCourse = store.createRecord('challenge', {});
-          var challengeOutsideCourse = store.createRecord('challenge', {});
-          var course = _this4.subject({ challenges: [challengeInCourse] });
-
-          (0, _chai.expect)(function () {
-            return course.getProgress(challengeOutsideCourse);
-          }).to.throw(RangeError);
         });
       });
     });
@@ -10246,6 +10441,21 @@ define('pix-live/tests/unit/routes/project-test', ['chai', 'mocha', 'ember-mocha
   (0, _mocha.describe)('Unit | Route | project', function () {
 
     (0, _emberMocha.setupTest)('route:project', {
+      needs: ['service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/series-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | courseGroups', function () {
+    (0, _emberMocha.setupTest)('route:courseGroups', {
+      // Specify the other units that are required for this test.
       needs: ['service:current-routed-modal']
     });
 
