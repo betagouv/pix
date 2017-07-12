@@ -28,7 +28,7 @@ class Assessment {
           skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
             validated.add(validatedSkill);
           });
-        })
+        });
       }
     });
     return validated;
@@ -77,12 +77,12 @@ class Assessment {
     challenge.skills.forEach(skill => {
       extraValidatedSkills = extraValidatedSkills.union(skill.getEasierWithin(this.course.tubes));
     });
-    return extraValidatedSkills.difference(this.validatedSkills);
+    return extraValidatedSkills.difference(this.validatedSkills).difference(this.failedSkills);
   }
 
   _extraFailedSkillsIfUnsolved(challenge) {
-    let extraFailedSkills = new Set(challenge.hardestSkill.getHarderWithin(this.course.tubes));
-    return extraFailedSkills.difference(this.failedSkills);
+    const extraFailedSkills = new Set(challenge.hardestSkill.getHarderWithin(this.course.tubes));
+    return extraFailedSkills.difference(this.validatedSkills).difference(this.failedSkills);
   }
 
   _computeReward(challenge) {
@@ -108,7 +108,11 @@ class Assessment {
         bestChallenge = challenge;
       }
     });
-    return bestChallenge;
+    if (maxReward == 0) { // We will not get extra information
+      return null;
+    } else {
+      return bestChallenge; // May be undefined, in which case the adaptive test should be ended
+    }
   }
 }
 

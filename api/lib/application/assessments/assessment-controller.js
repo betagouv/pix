@@ -115,6 +115,8 @@ module.exports = {
 
   getAssessmentSolutions(request, reply) {
 
+    let coursePix;
+
     assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
@@ -125,20 +127,23 @@ module.exports = {
         return answerRepository.findByAssessment(assessment.get('id'))
           .then((answers) => {
             const answersLength = _.get(answers, 'length', 0);
-            const courseId = assessment.get('courseId');
 
             courseRepository
               .get(assessment.get('courseId'))
               .then((course) => {
 
-                const challengesLength = _.get(course, 'challenges.length', 0);
+                coursePix = course;
+                const challengePromises = coursePix.challenges.map(challengeId => challengeRepository.get(challengeId));
+                return Promise.all(challengePromises);
+              }).then(challenges => {
+                const challengesLength = _.get(coursePix, 'challenges.length', 0);
 
-                if (!course.isAdaptive) {
+                if (!coursePix.isAdaptive) {
                   return challengesLength > 0 && _.isEqual(answersLength, challengesLength);
                 } else {
-                  const responsePattern = assessmentUtils.getResponsePattern(answers);
-                  return assessmentUtils.getNextChallengeFromScenarios(courseId, responsePattern)
-                    .then(nextChallengeId => nextChallengeId === null);
+                  const nextChallengeId = assessmentUtils.getNextChallengeInAdaptiveCourse(assessment, answers, challenges);
+
+                  return nextChallengeId === null;
                 }
               })
               .then((testIsOver) => {

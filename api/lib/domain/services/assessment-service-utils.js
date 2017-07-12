@@ -23,10 +23,14 @@ function getNextChallengeInAdaptiveCourse(assessmentPix, answersPix, challengesP
   const course = new Course(challenges);
   const answers = [];
   answersPix.forEach(answerPix => {
-    answers.push(new Answer(challengesById[answerPix.get('challengeId')], answerPix.result));
+    answers.push(new Answer(challengesById[answerPix.get('challengeId')], answerPix.get('result')));
   });
   const assessment = new Assessment(course, answers);
-  return assessment.nextChallenge.id;
+  if (assessment.nextChallenge) {
+    return assessment.nextChallenge.id;
+  } else {  // end of the test
+    return null;
+  }
 }
 
 module.exports = {
