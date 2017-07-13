@@ -8344,6 +8344,9 @@ define('pix-live/tests/unit/components/competence-by-area-item-test', ['ember', 
           // then
           (0, _chai.expect)(component.get('_competencesAreaName')).to.equal('');
         });
+      });
+
+      (0, _mocha.describe)('#_competencesSortedList', function () {
 
         (0, _mocha.it)('should display sorted competences', function () {
           // given

@@ -1049,7 +1049,7 @@ define('pix-live/components/competence-area-list', ['exports', 'ember', 'ember-g
     })
   });
 });
-define('pix-live/components/competence-by-area-item', ['exports', 'ember', 'pix-live/utils/lodash-custom'], function (exports, _ember, _lodashCustom) {
+define('pix-live/components/competence-by-area-item', ['exports', 'ember', 'lodash/sortBy'], function (exports, _ember, _sortBy2) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -1064,11 +1064,10 @@ define('pix-live/components/competence-by-area-item', ['exports', 'ember', 'pix-
       return competenceAreaName ? this.get('competenceArea.value').substr(3) : '';
     }),
     _competencesSortedList: _ember.default.computed('competenceArea.items', function () {
-      var competencesList = this.get('competenceArea.items');
-      var sortedList = _lodashCustom.default.sortBy(competencesList, [function (o) {
-        return o.get('index');
-      }]);
-      return sortedList;
+      var competences = this.get('competenceArea.items');
+      return (0, _sortBy2.default)(competences, function (competence) {
+        return competence.get('index');
+      });
     })
   });
 });
@@ -8002,6 +8001,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.14.0+29106f17"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","name":"pix-live","version":"1.14.0+aba4b79e"});
 }
 //# sourceMappingURL=pix-live.map
