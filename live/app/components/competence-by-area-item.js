@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import _ from 'pix-live/utils/lodash-custom';
+import _sortBy from 'lodash/sortBy';
 
 export default Ember.Component.extend({
 
@@ -10,10 +10,7 @@ export default Ember.Component.extend({
     return (competenceAreaName) ? this.get('competenceArea.value').substr(3) : '';
   }),
   _competencesSortedList: Ember.computed('competenceArea.items', function() {
-    const competencesList = this.get('competenceArea.items');
-    const sortedList = _.sortBy(competencesList, [function(o) {
-      return o.get('index');
-    }]);
-    return sortedList;
+    const competences = this.get('competenceArea.items');
+    return _sortBy(competences, (competence) => competence.get('index'));
   })
 });
