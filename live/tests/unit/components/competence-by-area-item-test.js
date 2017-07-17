@@ -36,6 +36,10 @@ describe('Unit | Component | Competence area item Component', function() {
         expect(component.get('_competencesAreaName')).to.equal('');
       });
 
+    });
+
+    describe('#_competencesSortedList', () => {
+
       it('should display sorted competences', function() {
         // given
         const component = this.subject();
@@ -79,7 +83,6 @@ describe('Unit | Component | Competence area item Component', function() {
         );
 
       });
-
     });
 
   });

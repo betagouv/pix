@@ -34,7 +34,6 @@
   text-transform: uppercase;
   text-align: left;
   height: 47px;
-
   @include device-is('mobile') {
     font-size: 30px;
   }

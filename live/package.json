@@ -1,6 +1,6 @@
 {
   "name": "pix-live",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "license": "AGPL-3.0",
   "author": "SGMAP",
@@ -44,7 +44,7 @@
     "ember-cli-htmlbars": "^1.1.1",
     "ember-cli-htmlbars-inline-precompile": "^0.4.0",
     "ember-cli-inject-live-reload": "^1.6.1",
-    "ember-cli-mirage": "^0.3.1",
+    "ember-cli-mirage": "0.3.2",
     "ember-cli-mocha": "^0.14.3",
     "ember-cli-release": "^1.0.0-beta.2",
     "ember-cli-sass": "^6.1.3",

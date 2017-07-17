@@ -22,7 +22,7 @@ describe('Unit | Router | user-router', () => {
   describe('POST /api/users', () => {
 
     before(() => {
-      sinon.stub(UserController, 'save', (request, reply) => reply('ok'));
+      sinon.stub(UserController, 'save').callsFake((request, reply) => reply('ok'));
     });
 
     after(() => {
@@ -36,7 +36,7 @@ describe('Unit | Router | user-router', () => {
 
   describe('GET /api/users/me', function() {
     before(() => {
-      sinon.stub(UserController, 'getAuthenticatedUserProfile', (request, reply) => reply('ok'));
+      sinon.stub(UserController, 'getAuthenticatedUserProfile').callsFake((request, reply) => reply('ok'));
     });
 
     after(() => {
