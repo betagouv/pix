@@ -1,6 +1,6 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import {expect} from 'chai';
+import {describe, it} from 'mocha';
+import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | profile panel', function() {
@@ -47,5 +47,29 @@ describe('Integration | Component | profile panel', function() {
       expect(this.$(COMPETENCY_BLOCK)).to.have.length(1);
     });
 
+    describe('behavior according to totalPixScore value', function() {
+      it('should not display total pix score, when user has’nt yet assessed on placement test', function() {
+        // given
+        const totalPixScore = '';
+
+        this.set('totalPixScore', totalPixScore);
+        // when
+        this.render(hbs`{{profile-panel totalPixScore=totalPixScore}}`);
+
+        // then
+        expect(this.$('.profile-header__score-pastille-wrapper')).to.have.length(0);
+      });
+
+      it('should display total pix score, when user has been assessed on placement test at least once time', function() {
+        const totalPixScore = 777;
+
+        this.set('totalPixScore', totalPixScore);
+        // when
+        this.render(hbs`{{profile-panel totalPixScore=totalPixScore}}`);
+
+        // then
+        expect(this.$('.profile-header__score-pastille-wrapper')).to.have.length(1);
+      });
+    });
   });
 });
