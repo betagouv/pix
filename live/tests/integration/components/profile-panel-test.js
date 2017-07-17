@@ -48,20 +48,9 @@ describe('Integration | Component | profile panel', function() {
     });
 
     describe('behavior according to totalPixScore value', function() {
-      it('should not display total pix score, when user has’nt yet assessed on placement test', function() {
+      it('should display two dashes instead of zero in total pix score, when user has’nt yet assessed on placement test', function() {
         // given
         const totalPixScore = '';
-
-        this.set('totalPixScore', totalPixScore);
-        // when
-        this.render(hbs`{{profile-panel totalPixScore=totalPixScore}}`);
-
-        // then
-        expect(this.$('.profile-header__score-pastille-wrapper')).to.have.length(0);
-      });
-
-      it('should display total pix score, when user has been assessed on placement test at least once time', function() {
-        const totalPixScore = 777;
 
         this.set('totalPixScore', totalPixScore);
         // when

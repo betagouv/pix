@@ -18,6 +18,17 @@ describe('Integration | Component | score pastille', function() {
       expect(this.$()).to.have.length(1);
     });
 
+    describe('Component dashes rendering instead of zero cases:', function() {
+
+      it('should display two dashes, when no pixScore provided', function() {
+        // when
+        this.render(hbs`{{score-pastille}}`);
+        // then
+        expect(this.$('.score-pastille__pix-score').text().trim()).to.equal('--');
+      });
+
+    });
+
     it('should display provided score in pastille', function() {
       // given
       const pixScore = '777';
