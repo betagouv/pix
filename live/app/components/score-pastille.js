@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   pixScore: null,
 
   score: Ember.computed('pixScore', function() {
-    return this.get('pixScore') || '--';
+    const pixScore = this.get('pixScore');
+    return Ember.isNone(pixScore) ? '--' : pixScore;
   })
 });
