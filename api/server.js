@@ -15,6 +15,10 @@ const server = new Hapi.Server({
     'routes': {
       'cors': true
     }
+  },
+  // Log ratify's validation errors
+  'debug': {
+    'request': ['error']
   }
 });
 

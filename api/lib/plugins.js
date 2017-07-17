@@ -1,4 +1,3 @@
-const HapiSwagger = require('hapi-swagger');
 const Pack = require('../package');
 
 const plugins = [
@@ -6,7 +5,7 @@ const plugins = [
   require('vision'),
   require('blipp'),
   {
-    register: HapiSwagger,
+    register: require('hapi-swagger'),
     options: {
       info: {
         'title': 'PIX API Documentation',
@@ -14,6 +13,9 @@ const plugins = [
       },
       documentationPath: '/api/documentation'
     }
+  },
+  {
+    register: require('ratify')
   },
   {
     register: require('good'),
