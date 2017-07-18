@@ -27,11 +27,11 @@
 .competence-list {
   background: $white;
   width: 100%;
-  padding: 22px 100px 30px;
+  padding: 10px 30px 10px;
   margin-bottom: 10px;
 
-  @include device-is('mobile') {
-    padding: 0 30px 30px;
+  @include device-is('tablet') {
+    padding: 22px 100px 30px;
   }
 }
 

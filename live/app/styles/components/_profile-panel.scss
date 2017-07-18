@@ -28,14 +28,15 @@
 
 .profile-header__title {
   font-family: $font-raleway;
-  font-size: 40px;
   font-weight: 800;
   color: $pix-blue;
   text-transform: uppercase;
   text-align: left;
   height: 47px;
-  @include device-is('mobile') {
-    font-size: 30px;
+  font-size: 30px;
+
+  @include device-is('tablet') {
+    font-size: 40px;
   }
 }
 
