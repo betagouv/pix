@@ -9,15 +9,6 @@ describe('Integration | Component | competence level progress bar', function() {
   });
 
   it('renders', function() {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
-    // Template block usage:
-    // this.render(hbs`
-    //   {{#competence-level-progress-bar}}
-    //     template content
-    //   {{/competence-level-progress-bar}}
-    // `);
-
     this.render(hbs`{{competence-level-progress-bar}}`);
     expect(this.$()).to.have.length(1);
   });
