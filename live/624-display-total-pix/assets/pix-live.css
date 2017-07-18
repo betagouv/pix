@@ -2705,15 +2705,15 @@ input.qcm-panel__proposal-checkbox {
 
 .profile-header__title {
   font-family: "Raleway", Arial, sans-serif;
-  font-size: 40px;
   font-weight: 800;
   color: #3d68ff;
   text-transform: uppercase;
   text-align: left;
-  height: 47px; }
-  @media (max-width: 767px) {
+  height: 47px;
+  font-size: 30px; }
+  @media (min-width: 768px) {
     .profile-header__title {
-      font-size: 30px; } }
+      font-size: 40px; } }
 
 .profile-header__details {
   font-family: "Lato", Arial, sans-serif;
@@ -2758,11 +2758,11 @@ input.qcm-panel__proposal-checkbox {
 .competence-list {
   background: #ffffff;
   width: 100%;
-  padding: 22px 100px 30px;
+  padding: 10px 30px 10px;
   margin-bottom: 10px; }
-  @media (max-width: 767px) {
+  @media (min-width: 768px) {
     .competence-list {
-      padding: 0 30px 30px; } }
+      padding: 22px 100px 30px; } }
 
 .competence {
   font-family: "Lato", Arial, sans-serif;
@@ -2814,7 +2814,7 @@ input.qcm-panel__proposal-checkbox {
   font-family: "Lato", Arial, sans-serif;
   font-size: 14px;
   height: 17px;
-  font-weight: bold;
+  font-weight: 800;
   text-align: center;
   line-height: normal;
   margin: -4px 25.9px 15.5px; }
