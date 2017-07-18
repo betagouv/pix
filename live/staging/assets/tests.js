@@ -2691,6 +2691,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/score-pastille.js', function () {
+      // test passed
+    });
+
     it('components/scoring-panel-tantpix.js', function () {
       // test passed
     });
@@ -5007,6 +5011,24 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
         var COMPETENCY_BLOCK = '.profile-panel__competence-areas';
         (0, _chai.expect)(this.$(COMPETENCY_BLOCK)).to.have.length(1);
       });
+
+      (0, _mocha.describe)('behavior according to totalPixScore value', function () {
+        (0, _mocha.it)('should display two dashes instead of zero in total pix score, when user has’nt yet assessed on placement test', function () {
+          // given
+          var totalPixScore = '';
+
+          this.set('totalPixScore', totalPixScore);
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "HTqT+ym1",
+            "block": "{\"statements\":[[1,[33,[\"profile-panel\"],null,[[\"totalPixScore\"],[[28,[\"totalPixScore\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$('.profile-header__score-pastille-wrapper')).to.have.length(1);
+        });
+      });
     });
   });
 });
@@ -6050,6 +6072,58 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
           (0, _chai.expect)(this.$('.result-item__icon-img--' + data.status)).to.have.lengthOf(1);
           (0, _chai.expect)($icon.attr('src')).to.equal('/images/answer-validation/icon-' + data.status + '.svg');
         });
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/score-pastille-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | score pastille', function () {
+    (0, _emberMocha.setupComponentTest)('score-pastille', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('Component rendering', function () {
+
+      (0, _mocha.it)('should render component', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "JpjlFNjP",
+          "block": "{\"statements\":[[1,[26,[\"score-pastille\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.describe)('Component dashes rendering instead of zero cases:', function () {
+
+        (0, _mocha.it)('should display two dashes, when no pixScore provided', function () {
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "JpjlFNjP",
+            "block": "{\"statements\":[[1,[26,[\"score-pastille\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+          // then
+          (0, _chai.expect)(this.$('.score-pastille__pix-score').text().trim()).to.equal('--');
+        });
+      });
+
+      (0, _mocha.it)('should display provided score in pastille', function () {
+        // given
+        var pixScore = '777';
+        this.set('pixScore', pixScore);
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "czvYLqz+",
+          "block": "{\"statements\":[[1,[33,[\"score-pastille\"],null,[[\"pixScore\"],[[28,[\"pixScore\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+        // then
+        (0, _chai.expect)(this.$('.score-pastille__pix-score').text().trim()).to.equal(pixScore);
       });
     });
   });
@@ -7522,6 +7596,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/score-pastille-test.js', function () {
+      // test passed
+    });
+
     it('integration/components/scoring-panel-tantpix-test.js', function () {
       // test passed
     });
@@ -7615,6 +7693,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/components/result-item-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/score-pastille-test.js', function () {
       // test passed
     });
 
@@ -9308,6 +9390,39 @@ define('pix-live/tests/unit/components/result-item-test', ['ember', 'chai', 'moc
 
           // then
           (0, _chai.expect)(component.get('validationImplementedForChallengeType')).to.equal(data.expected);
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/score-pastille-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | score-pastille-component ', function () {
+
+    (0, _emberMocha.setupTest)('component:score-pastille', {});
+
+    var component = void 0;
+
+    beforeEach(function () {
+      component = this.subject();
+    });
+
+    (0, _mocha.describe)('#Test computed Property', function () {
+
+      (0, _mocha.describe)('#score', function () {
+        [{ pixScore: undefined, expectedScore: '--' }, { pixScore: null, expectedScore: '--' }, { pixScore: 0, expectedScore: 0 }, { pixScore: 1, expectedScore: 1 }, { pixScore: 130, expectedScore: 130 }].forEach(function (data) {
+
+          (0, _mocha.it)('should return "' + data.expectedScore + '" when ' + data.pixScore + ' is provided', function () {
+            // given
+            component.set('pixScore', data.pixScore);
+
+            // when
+            var score = component.get('score');
+
+            // then
+            (0, _chai.expect)(score).to.equal(data.expectedScore);
+          });
         });
       });
     });
