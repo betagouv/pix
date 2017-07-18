@@ -1022,7 +1022,7 @@ define('pix-live/components/comparison-window', ['exports', 'ember', 'pix-live/u
     })
   });
 });
-define('pix-live/components/competence-area-list', ['exports', 'ember', 'ember-group-by', 'pix-live/utils/lodash-custom'], function (exports, _ember, _emberGroupBy, _lodashCustom) {
+define('pix-live/components/competence-area-list', ['exports', 'ember', 'ember-group-by', 'lodash/sortBy'], function (exports, _ember, _emberGroupBy, _sortBy2) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -1043,9 +1043,9 @@ define('pix-live/components/competence-area-list', ['exports', 'ember', 'ember-g
 
     _competencesByAreaSorted: _ember.default.computed('_competencesGroupedByArea', function () {
       var competencesByArea = this.get('_competencesGroupedByArea');
-      return _lodashCustom.default.sortBy(competencesByArea, [function (o) {
-        return o.value;
-      }]);
+      return (0, _sortBy2.default)(competencesByArea, function (competence) {
+        return competence.value;
+      });
     })
   });
 });
@@ -1653,7 +1653,8 @@ define('pix-live/components/profile-panel', ['exports', 'ember'], function (expo
   });
   exports.default = _ember.default.Component.extend({
     classNames: ['profile-panel'],
-    competences: null
+    competences: null,
+    totalPixScore: null
   });
 });
 define('pix-live/components/progress-bar', ['exports', 'ember'], function (exports, _ember) {
@@ -2088,6 +2089,22 @@ define('pix-live/components/routable-modal-outlet', ['exports', 'ember-routable-
     get: function () {
       return _outlet.default;
     }
+  });
+});
+define('pix-live/components/score-pastille', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _ember.default.Component.extend({
+    classNames: ['score-pastille'],
+    pixScore: null,
+
+    score: _ember.default.computed('pixScore', function () {
+      var pixScore = this.get('pixScore');
+      return _ember.default.isNone(pixScore) ? '--' : pixScore;
+    })
   });
 });
 define('pix-live/components/scoring-panel-tantpix', ['exports', 'ember'], function (exports, _ember) {
@@ -4703,6 +4720,9 @@ define('pix-live/mirage/factories/user', ['exports', 'ember-cli-mirage'], functi
     cgu: function cgu() {
       return _emberCliMirage.faker.random.boolean();
     },
+    totalPixScore: function totalPixScore() {
+      return _emberCliMirage.faker.random.number();
+    },
     recaptchaToken: function recaptchaToken() {
       return _emberCliMirage.faker.random.uuid();
     }
@@ -4796,7 +4816,7 @@ define('pix-live/mirage/fixtures/competences', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = [{ id: 1, name: 'Mener une recherche d\'information', level: -1, areaId: 1 }, { id: 2, name: 'Gérer des données', level: 0, areaId: 1 }, { id: 3, name: 'Traiter des données', level: 1, areaId: 1 }, { id: 4, name: 'Interagir', level: 2, areaId: 2 }, { id: 5, name: 'Partager et publier', level: 3, areaId: 2 }, { id: 6, name: 'Collaborer', level: 4, areaId: 2 }, { id: 7, name: 'Gérer sa présence en ligne', level: 5, areaId: 2 }, { id: 8, name: 'Développer des documents textuels', level: -1, areaId: 3 }, { id: 9, name: 'Développer des documents multimedia', level: -1, areaId: 3 }, { id: 10, name: 'Adapter les documents à leur finalité', level: -1, areaId: 3 }, { id: 11, name: 'Programmer', level: -1, areaId: 3 }, { id: 12, name: 'Sécurise environnement num', level: -1, areaId: 4 }, { id: 13, name: 'Protéger les données personnelles et la vie privée', level: -1, areaId: 4 }, { id: 14, name: 'Protéger la santé, le bien-être et l\'environnement', level: -1, areaId: 4 }, { id: 15, name: 'Résoudre problèmes techniques', level: -1, areaId: 5 }, { id: 16, name: 'Construire un environnement numérique', level: -1, areaId: 5 }];
+  exports.default = [{ id: 1, name: 'Mener une recherche d\'information', level: -1, index: '1.1', areaId: 1 }, { id: 2, name: 'Gérer des données', level: 0, index: '1.2', areaId: 1 }, { id: 3, name: 'Traiter des données', level: 1, index: '1.3', areaId: 1 }, { id: 4, name: 'Interagir', level: 2, index: '2.1', areaId: 2 }, { id: 5, name: 'Partager et publier', level: 3, index: '2.2', areaId: 2 }, { id: 6, name: 'Collaborer', level: 4, index: '2.3', areaId: 2 }, { id: 7, name: 'Gérer sa présence en ligne', level: 5, index: '2.4', areaId: 2 }, { id: 8, name: 'Développer des documents textuels', level: -1, index: '3.1', areaId: 3 }, { id: 9, name: 'Développer des documents multimedia', level: -1, index: '3.2', areaId: 3 }, { id: 10, name: 'Adapter les documents à leur finalité', level: -1, index: '3.3', areaId: 3 }, { id: 11, name: 'Programmer', level: -1, index: '3.4', areaId: 3 }, { id: 12, name: 'Sécurise environnement num', level: -1, index: '4.1', areaId: 4 }, { id: 13, name: 'Protéger les données personnelles et la vie privée', level: -1, index: '4.2', areaId: 4 }, { id: 14, name: 'Protéger la santé, le bien-être et l\'environnement', level: -1, index: '4.3', areaId: 4 }, { id: 15, name: 'Résoudre problèmes techniques', level: -1, index: '5.1', areaId: 5 }, { id: 16, name: 'Construire un environnement numérique', level: -1, index: '5.2', areaId: 5 }];
 });
 define('pix-live/mirage/fixtures/courses', ['exports'], function (exports) {
   'use strict';
@@ -5291,6 +5311,7 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
       password: 'FHI4EVER',
       cgu: true,
       recaptchaToken: 'recaptcha-token-xxxxxx',
+      totalPixScore: '--',
       competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     });
   };
@@ -5545,6 +5566,7 @@ define('pix-live/models/user', ['exports', 'ember', 'ember-data'], function (exp
     cgu: attr('boolean'),
     recaptchaToken: attr('string'),
     competences: hasMany('competence'),
+    totalPixScore: attr('number'),
 
     competenceAreas: _ember.default.computed('competences', function () {
       return this.get('competences').then(function (competences) {
@@ -6972,7 +6994,7 @@ define("pix-live/templates/components/profile-panel", ["exports"], function (exp
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "iyMZ8KW3", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"profile-panel__header\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"profile-header__title\"],[13],[0,\"\\n    Votre profil\\n  \"],[14],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"profile-header__details\"],[13],[0,\"\\n    5 domaines / 16 compétences\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"],[11,\"div\",[]],[15,\"class\",\"profile-panel__competence-areas\"],[13],[0,\"\\n  \"],[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false],[0,\"\\n\"],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/profile-panel.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "SbaNgFd4", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"profile-panel__header\"],[13],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"profile-header__left-bloc\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"profile-header__title\"],[13],[0,\"\\n      Votre profil\\n    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"profile-header__details\"],[13],[0,\"\\n      5 domaines / 16 compétences\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"profile-header__score-pastille-wrapper\"],[13],[0,\"\\n    \"],[1,[33,[\"score-pastille\"],null,[[\"pixScore\"],[[28,[\"totalPixScore\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"profile-panel__competence-areas\"],[13],[0,\"\\n  \"],[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false],[0,\"\\n\"],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/profile-panel.hbs" } });
 });
 define("pix-live/templates/components/progress-bar", ["exports"], function (exports) {
   "use strict";
@@ -7086,6 +7108,14 @@ define("pix-live/templates/components/routable-modal-outlet", ["exports"], funct
   });
   exports.default = Ember.HTMLBars.template({ "id": "WUY8+3Nq", "block": "{\"statements\":[[6,[\"if\"],[[28,[\"current\",\"routeName\"]]],null,{\"statements\":[[0,\"    \"],[1,[26,[\"routable-modal-hold\"]],false],[0,\"\\n    \"],[1,[26,[\"routable-modal-backdrop\"]],false],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/routable-modal-outlet.hbs" } });
 });
+define("pix-live/templates/components/score-pastille", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "HAoWC0hQ", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"score-pastille__pix-score-wrapper\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"score-pastille__pix-score\"],[13],[1,[26,[\"score\"]],false],[14],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"score-pastille__pix-score-unit\"],[13],[0,\"pix\"],[14],[0,\"\\n\"],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/score-pastille.hbs" } });
+});
 define("pix-live/templates/components/scoring-panel-tantpix", ["exports"], function (exports) {
   "use strict";
 
@@ -7156,7 +7186,7 @@ define("pix-live/templates/compte", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "dkxvpJr9", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"compte-page\"],[13],[0,\"\\n\\n  \"],[1,[33,[\"navbar-header\"],null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[11,\"h1\",[]],[13],[0,\"Bienvenue\"],[14],[0,\"\\n\\n  \"],[11,\"a\",[]],[15,\"href\",\"/logout\"],[13],[0,\"Se déconnecter\"],[14],[0,\"\\n\\n  \"],[1,[33,[\"profile-panel\"],null,[[\"competences\"],[[28,[\"model\",\"competences\"]]]]],false],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[1,[26,[\"app-footer\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/compte.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "MiK6kFt/", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"compte-page\"],[13],[0,\"\\n\\n  \"],[1,[33,[\"navbar-header\"],null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n  \"],[11,\"h1\",[]],[13],[0,\"Bienvenue\"],[14],[0,\"\\n\\n  \"],[11,\"a\",[]],[15,\"href\",\"/logout\"],[13],[0,\"Se déconnecter\"],[14],[0,\"\\n\\n  \"],[1,[33,[\"profile-panel\"],null,[[\"competences\",\"totalPixScore\"],[[28,[\"model\",\"competences\"]],[28,[\"model\",\"totalPixScore\"]]]]],false],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[1,[26,[\"app-footer\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/compte.hbs" } });
 });
 define("pix-live/templates/course-groups", ["exports"], function (exports) {
   "use strict";
@@ -8034,6 +8064,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.14.0+6a6546f2"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.14.0+9e286212"});
 }
 //# sourceMappingURL=pix-live.map

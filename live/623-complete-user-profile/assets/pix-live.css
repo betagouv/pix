@@ -837,11 +837,11 @@ button.routable-modal--close:active {
 .competence-list {
   background: #ffffff;
   width: 100%;
-  padding: 22px 100px 30px;
+  padding: 10px 30px 10px;
   margin-bottom: 10px; }
-  @media (max-width: 767px) {
+  @media (min-width: 768px) {
     .competence-list {
-      padding: 0 30px 30px; } }
+      padding: 22px 100px 30px; } }
 
 .competence {
   font-family: "Lato", Arial, sans-serif;
@@ -2826,30 +2826,51 @@ input.qcm-panel__proposal-checkbox {
   max-width: 1190px; }
 
 .profile-panel__header {
-  width: 100%;
-  padding-left: 100px; }
-  @media (max-width: 767px) {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 0 30px;
+  width: 100%; }
+  @media (min-width: 768px) {
     .profile-panel__header {
-      padding: 0 30px; } }
+      padding-left: 100px;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      -ms-flex-direction: row;
+      flex-direction: row; } }
+
+.profile-header__left-bloc {
+  margin: 20px auto 0; }
+  @media (min-width: 768px) {
+    .profile-header__left-bloc {
+      margin: 55px 0 0; } }
 
 .profile-header__title {
   font-family: "Raleway", Arial, sans-serif;
-  font-size: 40px;
   font-weight: 800;
   color: #3d68ff;
   text-transform: uppercase;
-  text-align: left; }
-  @media (max-width: 767px) {
+  text-align: left;
+  height: 47px;
+  font-size: 30px; }
+  @media (min-width: 768px) {
     .profile-header__title {
-      font-size: 30px; } }
+      font-size: 40px; } }
 
 .profile-header__details {
   font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
+  height: 19px;
   letter-spacing: 1.8px;
   color: #3e4149;
-  margin-bottom: 52px;
-  text-align: left; }
+  text-align: left;
+  margin-bottom: 10px; }
+  @media (min-width: 768px) {
+    .profile-header__details {
+      margin-bottom: 52px; } }
 
 .profile-panel__competence-areas {
   width: 100%; }
