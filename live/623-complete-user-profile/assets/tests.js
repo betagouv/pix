@@ -3876,15 +3876,6 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
     });
 
     (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#competence-level-progress-bar}}
-      //     template content
-      //   {{/competence-level-progress-bar}}
-      // `);
-
       this.render(Ember.HTMLBars.template({
         "id": "KsF1SyH6",
         "block": "{\"statements\":[[1,[26,[\"competence-level-progress-bar\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
