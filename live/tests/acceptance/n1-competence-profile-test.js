@@ -74,15 +74,15 @@ describe('Acceptance | n1 - competence profile', function() {
     await visit('/compte');
 
     return andThen(() => {
-      expect(find('.competence__progression-bar:first .competence__progression-bar__level').length).to.equal(0); //Premiere competence n'a pas de barre de progression
+      expect(find('.competence__progress-bar:first .competence-level-progress-bar__level').length).to.equal(0);
 
-      expect(find('.competence__progression-bar:eq(1) .competence__progression-bar__level').length).to.equal(1);
-      expect(find('.competence__progression-bar:eq(1) .competence__progression-bar__level .competence__level-progression-bar__level-bubble').length).to.equal(1);
-      expect(find('.competence__progression-bar:eq(1) .competence__progression-bar__level .competence__level-progression-bar__level-bubble').text()).to.contain(0);
+      expect(find('.competence__progress-bar:eq(1) .competence-level-progress-bar__level').length).to.equal(1);
+      expect(find('.competence__progress-bar:eq(1) .competence-level-progress-bar__level .competence-level-progress-bar__level-indicator').length).to.equal(1);
+      expect(find('.competence__progress-bar:eq(1) .competence-level-progress-bar__level .competence-level-progress-bar__level-indicator').text()).to.contain(0);
 
-      expect(find('.competence__progression-bar:eq(2) .competence__progression-bar__level').length).to.equal(1);
-      expect(find('.competence__progression-bar:eq(2) .competence__progression-bar__level .competence__level-progression-bar__level-bubble').length).to.equal(1);
-      expect(find('.competence__progression-bar:eq(2) .competence__progression-bar__level .competence__level-progression-bar__level-bubble').text()).to.contain(1);
+      expect(find('.competence__progress-bar:eq(2) .competence-level-progress-bar__level').length).to.equal(1);
+      expect(find('.competence__progress-bar:eq(2) .competence-level-progress-bar__level .competence-level-progress-bar__level-indicator').length).to.equal(1);
+      expect(find('.competence__progress-bar:eq(2) .competence-level-progress-bar__level .competence-level-progress-bar__level-indicator').text()).to.contain(1);
 
     });
   });

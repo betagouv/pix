@@ -4,28 +4,8 @@
   {{#each _competencesSortedList as |competence|}}
     <div class="competence">
       <div class="competence__name">{{competence.name}}</div>
-      <div class="competence__progression-bar">
-        {{#unless (eq competence.level -1)}}
-
-          <div class="competence_progression-bar_background">
-            <div class="competence__progression-bar__level-limit">
-              <div class="competence__level-progression-bar__level-limit-bubble">
-                5
-              </div>
-            </div>
-            <div class="competence__progression-bar__level-available-soon-text">Disponible Prochainement</div>
-            <div class="competence__level-progression-bar__level-limit-max-bubble">
-              8
-            </div>
-          </div>
-
-          <div class="competence__progression-bar__level" data-level="{{competence.level}}">
-            <div class="competence__level-progression-bar__level-bubble">
-              {{competence.level}}
-            </div>
-          </div>
-
-        {{/unless}}
+      <div class="competence__progress-bar">
+        {{competence-level-progress-bar level=competence.level}}
       </div>
     </div>
   {{/each}}

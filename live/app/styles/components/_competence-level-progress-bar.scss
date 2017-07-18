@@ -1,0 +1,107 @@
+
+/*-----Progression bar background-------*/
+
+.competence-level-progress-bar__background {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 2px;
+}
+
+/*--------Progression bar limit------------*/
+
+.competence-level-progress-bar__background-level-limit {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 24px;
+  width: 62.5%;
+  padding-right: 2px;
+  border-radius: 12px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(#f2f3f4, #f2f3f4);
+}
+
+.competence-level-progress-bar__background-level-limit-indicator {
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
+  background-color: $white;
+  color: $dusty-grey;
+  text-align: center;
+}
+
+.competence-level-progress-bar__background-available-soon-text {
+  max-width: 50px;
+  font-family: $font-lato;
+  font-size: 8px;
+  text-align: center;
+
+  @include device-is('tablet') {
+    max-width: none;
+    font-size: 14px;
+  }
+}
+
+/*--------Progression bar max------------*/
+
+.competence-level-progress-bar__background-level-limit-max-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  background-color: $white;
+  color: $dusty-grey;
+  text-align: center;
+}
+
+/*------Progression bar jauge------*/
+
+.competence-level-progress-bar__level {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 2px;
+  background-image: linear-gradient(to right, rgba(255, 190, 0, 0.0), #ff8800), linear-gradient(#ffbe00, #ffbe00);
+  border-radius: 12px;
+  height: 24px;
+
+  position: relative;
+  bottom: 24px;
+}
+
+.competence-level-progress-bar__level[data-level='0'] {
+  width: 24px;
+}
+
+.competence-level-progress-bar__level[data-level='1'] {
+  width: 12.5%;
+}
+
+.competence-level-progress-bar__level[data-level='2'] {
+  width: 25%;
+}
+
+.competence-level-progress-bar__level[data-level='3'] {
+  width: 37.5%;
+}
+
+.competence-level-progress-bar__level[data-level='4'] {
+  width: 50%;
+}
+
+.competence-level-progress-bar__level[data-level='5'] {
+  width: 62.5%;
+}
+
+.competence-level-progress-bar__level-indicator {
+  width: 20px;
+  height: 20px;
+  background-color: $white;
+  border-radius: 20px;
+  text-align: center;
+
+  font-family: $font-overpass;
+  font-weight: bold;
+  color: $pix-blue;
+}
+
