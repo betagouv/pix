@@ -922,24 +922,6 @@ button.routable-modal--close:active {
   position: relative;
   bottom: 24px; }
 
-.competence-level-progress-bar__level[data-level='0'] {
-  width: 24px; }
-
-.competence-level-progress-bar__level[data-level='1'] {
-  width: 12.5%; }
-
-.competence-level-progress-bar__level[data-level='2'] {
-  width: 25%; }
-
-.competence-level-progress-bar__level[data-level='3'] {
-  width: 37.5%; }
-
-.competence-level-progress-bar__level[data-level='4'] {
-  width: 50%; }
-
-.competence-level-progress-bar__level[data-level='5'] {
-  width: 62.5%; }
-
 .competence-level-progress-bar__level-indicator {
   width: 20px;
   height: 20px;
