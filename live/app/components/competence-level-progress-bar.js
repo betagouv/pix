@@ -4,8 +4,8 @@ export default Ember.Component.extend({
 
   classNames: ['competence-level-progress-bar'],
 
-  LIMIT_LEVEL: 5,
-  MAX_LEVEL: 8,
+  _LIMIT_LEVEL: 5,
+  _MAX_LEVEL: 8,
 
   level: null,
 
@@ -16,8 +16,8 @@ export default Ember.Component.extend({
   widthOfProgressBar: Ember.computed('level', function() {
 
     const level = this.get('level');
-    const maxLevel = this.get('MAX_LEVEL');
-    const limitLevel = this.get('LIMIT_LEVEL');
+    const maxLevel = this.get('_MAX_LEVEL');
+    const limitLevel = this.get('_LIMIT_LEVEL');
 
     if (level === 0) {
       return Ember.String.htmlSafe('width : 24px');

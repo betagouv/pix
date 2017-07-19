@@ -14,7 +14,7 @@
   width: 62.5%;
   padding-right: 2px;
   border-radius: 12px;
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(#f2f3f4, #f2f3f4);
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient($porcelain-grey, $porcelain-grey);
 }
 
 .competence-level-progress-bar__background-level-limit-indicator {
@@ -52,36 +52,12 @@
   justify-content: flex-end;
   align-items: center;
   padding-right: 2px;
-  background-image: linear-gradient(to right, rgba(255, 190, 0, 0.0), #ff8800), linear-gradient(#ffbe00, #ffbe00);
+  background-image: linear-gradient(to right, rgba(255, 190, 0, 0.0), $pizazz-orange), linear-gradient($amber-orange, $amber-orange);
   border-radius: 12px;
   height: 24px;
 
   position: relative;
   bottom: 24px;
-}
-
-.competence-level-progress-bar__level[data-level='0'] {
-  width: 24px;
-}
-
-.competence-level-progress-bar__level[data-level='1'] {
-  width: 12.5%;
-}
-
-.competence-level-progress-bar__level[data-level='2'] {
-  width: 25%;
-}
-
-.competence-level-progress-bar__level[data-level='3'] {
-  width: 37.5%;
-}
-
-.competence-level-progress-bar__level[data-level='4'] {
-  width: 50%;
-}
-
-.competence-level-progress-bar__level[data-level='5'] {
-  width: 62.5%;
 }
 
 .competence-level-progress-bar__level-indicator {
