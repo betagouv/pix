@@ -21,7 +21,8 @@ describe('Unit | Serializer | competence-serializer', function() {
           'Epreuves': [
             'recsvLz0W2ShyfD00',
             'recsvLz0W2ShyfD01'
-          ]
+          ],
+          'Tests': ['Test de positionnement 1.1']
         }
       };
 
@@ -34,6 +35,7 @@ describe('Unit | Serializer | competence-serializer', function() {
         expect(competences.name).to.be.equal(airtableCompetencesRecord.fields['Titre']);
         expect(competences.index).to.be.equal(airtableCompetencesRecord.fields['Sous-domaine']);
         expect(competences.areaId).to.be.equal(airtableCompetencesRecord.fields['Domaine']);
+        expect(competences.courseId).to.be.equal(airtableCompetencesRecord.fields['Tests']);
         expect(competences.Epreuves).to.not.exist;
       });
 
