@@ -10,28 +10,52 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
 
     describe('#hasLevel', function() {
 
-      it('should return true if the level of the competence is equal or more than 0', function() {
-        // given
-        const component = this.subject();
+      [
+        { level: 1, expectedValue: true },
+        { level: 0, expectedValue: true },
+        { level: -1, expectedValue: false },
+        { level: undefined, expectedValue: false }
+      ].forEach(({ level, expectedValue }) => {
 
-        // when
-        component.set('level', 1);
+        it(`should return ${expectedValue} when the level of the competence is ${level}`, function() {
+          // given
+          const component = this.subject();
 
-        // then
-        expect(component.get('hasLevel')).to.equal(true);
+          // when
+          component.set('level', level);
+
+          // then
+          expect(component.get('hasLevel')).to.equal(expectedValue);
+        });
+
       });
 
-      it('should return false if the level of the competence is equal to -1', function() {
-        // given
-        const component = this.subject();
+    });
 
-        // when
-        component.set('level', -1);
+    describe('#widthOfProgressBar', function() {
+      [
+        { level: 0, expectedValue: 'width : 24px' },
+        { level: 1, expectedValue: 'width : 12.5%' },
+        { level: 2, expectedValue: 'width : 25%' },
+        { level: 3, expectedValue: 'width : 37.5%' },
+        { level: 4, expectedValue: 'width : 50%' },
+        { level: 5, expectedValue: 'width : 62.5%' },
+        { level: -1, expectedValue: 'width : none' },
+        { level: undefined, expectedValue: 'width : none' }
+      ].forEach(({ level, expectedValue }) => {
 
-        // then
-        expect(component.get('hasLevel')).to.equal(false);
+        it(`should return ${expectedValue} when the level is ${level}`, function() {
+          // given
+          const component = this.subject();
+
+          // when
+          component.set('level', level);
+
+          // then
+          expect(component.get('widthOfProgressBar').string).to.equal(expectedValue);
+        });
+
       });
-
     });
 
   });
