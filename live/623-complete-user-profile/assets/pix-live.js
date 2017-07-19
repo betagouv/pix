@@ -1081,10 +1081,31 @@ define('pix-live/components/competence-level-progress-bar', ['exports', 'ember']
 
     classNames: ['competence-level-progress-bar'],
 
+    LIMIT_LEVEL: 5,
+    MAX_LEVEL: 8,
+
     level: null,
 
     hasLevel: _ember.default.computed('level', function () {
-      return this.get('level') !== -1;
+      return this.get('level') >= 0;
+    }),
+
+    widthOfProgressBar: _ember.default.computed('level', function () {
+
+      var level = this.get('level');
+      var maxLevel = this.get('MAX_LEVEL');
+      var limitLevel = this.get('LIMIT_LEVEL');
+
+      if (level === 0) {
+        return _ember.default.String.htmlSafe('width : 24px');
+      }
+
+      if (level > 0 && level <= limitLevel) {
+        var percentage = level * 100 / maxLevel;
+        return _ember.default.String.htmlSafe('width : ' + percentage + '%');
+      }
+
+      return _ember.default.String.htmlSafe('width : none');
     })
 
   });
@@ -6762,7 +6783,7 @@ define("pix-live/templates/components/competence-level-progress-bar", ["exports"
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "TaVyo6f8", "block": "{\"statements\":[[6,[\"if\"],[[28,[\"hasLevel\"]]],null,{\"statements\":[[0,\"  \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-level-limit\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-level-limit-indicator\"],[13],[0,\"\\n        5\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-available-soon-text\"],[13],[0,\"Disponible Prochainement\"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-level-limit-max-indicator\"],[13],[0,\"\\n      8\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__level\"],[16,\"data-level\",[34,[[26,[\"level\"]]]]],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__level-indicator\"],[13],[0,\"\\n      \"],[1,[26,[\"level\"]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-level-progress-bar.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "mk+rZkjj", "block": "{\"statements\":[[6,[\"if\"],[[28,[\"hasLevel\"]]],null,{\"statements\":[[0,\"  \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-level-limit\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-level-limit-indicator\"],[13],[0,\"\\n        \"],[1,[26,[\"LIMIT_LEVEL\"]],false],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-available-soon-text\"],[13],[0,\"Disponible Prochainement\"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-level-limit-max-indicator\"],[13],[0,\"\\n      \"],[1,[26,[\"MAX_LEVEL\"]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__level\"],[16,\"style\",[26,[\"widthOfProgressBar\"]],null],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__level-indicator\"],[13],[0,\"\\n      \"],[1,[26,[\"level\"]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-level-progress-bar.hbs" } });
 });
 define("pix-live/templates/components/corner-ribbon", ["exports"], function (exports) {
   "use strict";
@@ -8064,6 +8085,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.14.0+9e286212"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.14.0+565aba85"});
 }
 //# sourceMappingURL=pix-live.map

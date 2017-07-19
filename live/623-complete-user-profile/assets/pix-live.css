@@ -858,7 +858,6 @@ button.routable-modal--close:active {
   -ms-flex-align: center;
   align-items: center; }
 
-/*-----Progression bar background-------*/
 .competence-level-progress-bar__background {
   display: -ms-flexbox;
   display: flex;
@@ -870,7 +869,6 @@ button.routable-modal--close:active {
   justify-content: space-between;
   padding-right: 2px; }
 
-/*--------Progression bar limit------------*/
 .competence-level-progress-bar__background-level-limit {
   display: -ms-flexbox;
   display: flex;
@@ -902,7 +900,6 @@ button.routable-modal--close:active {
       max-width: none;
       font-size: 14px; } }
 
-/*--------Progression bar max------------*/
 .competence-level-progress-bar__background-level-limit-max-indicator {
   width: 20px;
   height: 20px;
@@ -911,7 +908,6 @@ button.routable-modal--close:active {
   color: #979797;
   text-align: center; }
 
-/*------Progression bar jauge------*/
 .competence-level-progress-bar__level {
   display: -ms-flexbox;
   display: flex;

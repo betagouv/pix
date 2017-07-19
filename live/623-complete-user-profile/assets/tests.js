@@ -2512,40 +2512,6 @@ define('pix-live/tests/acceptance/n1-competence-profile-test', ['mocha', 'chai',
         (0, _chai.expect)(find('.competence').length).to.equal(16);
       });
     });
-
-    (0, _mocha.it)('should display the level of the user if he has passed the associated course', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              // given
-              seedDatabase();
-              authenticateUser();
-
-              // when
-              _context2.next = 4;
-              return visit('/compte');
-
-            case 4:
-              return _context2.abrupt('return', andThen(function () {
-                (0, _chai.expect)(find('.competence__progress-bar:first .competence-level-progress-bar__level').length).to.equal(0);
-
-                (0, _chai.expect)(find('.competence__progress-bar:eq(1) .competence-level-progress-bar__level').length).to.equal(1);
-                (0, _chai.expect)(find('.competence__progress-bar:eq(1) .competence-level-progress-bar__level .competence-level-progress-bar__level-indicator').length).to.equal(1);
-                (0, _chai.expect)(find('.competence__progress-bar:eq(1) .competence-level-progress-bar__level .competence-level-progress-bar__level-indicator').text()).to.contain(0);
-
-                (0, _chai.expect)(find('.competence__progress-bar:eq(2) .competence-level-progress-bar__level').length).to.equal(1);
-                (0, _chai.expect)(find('.competence__progress-bar:eq(2) .competence-level-progress-bar__level .competence-level-progress-bar__level-indicator').length).to.equal(1);
-                (0, _chai.expect)(find('.competence__progress-bar:eq(2) .competence-level-progress-bar__level .competence-level-progress-bar__level-indicator').text()).to.contain(1);
-              }));
-
-            case 5:
-            case 'end':
-              return _context2.stop();
-          }
-        }
-      }, _callee2, this);
-    })));
   });
 });
 define('pix-live/tests/app.lint-test', [], function () {
@@ -3888,21 +3854,95 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
       (0, _chai.expect)(this.$()).to.have.length(1);
     });
 
-    (0, _mocha.it)('should indicate the level passed to the component at the end of the progress bar', function () {
-      // given
-      var level = 5;
-      this.set('level', level);
+    (0, _mocha.describe)('if the level is not defined', function () {
 
-      // when
-      this.render(Ember.HTMLBars.template({
-        "id": "CApsTCe7",
-        "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-        "meta": {}
-      }));
+      (0, _mocha.it)('should not display the background of progress bar which display limit and max level', function () {
+        //Given
+        var givenLevel = -1;
+        this.set('level', givenLevel);
 
-      // then
-      (0, _chai.expect)(this.$('.competence-level-progress-bar__level').data('level')).to.be.equal(level);
-      (0, _chai.expect)(this.$('.competence-level-progress-bar__level-indicator').text().trim()).to.be.equal(level.toString());
+        //When
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        //Then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background')).to.have.length(0);
+      });
+
+      (0, _mocha.it)('should not display a progress bar if level is not defined (-1)', function () {
+        //Given
+        var givenLevel = undefined;
+        this.set('level', givenLevel);
+
+        //When
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        //Then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.length(0);
+      });
+    });
+
+    (0, _mocha.describe)('if the level is defined', function () {
+
+      (0, _mocha.it)('should indicate the limit level and the max level reachable in the progress bar', function () {
+        // given
+        var MAX_LEVEL = 8;
+        var LIMIT_LEVEL = 5;
+        var level = 4;
+        this.set('level', level);
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator')).to.have.length(1);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator').text().trim()).to.equal(LIMIT_LEVEL.toString());
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator')).to.have.length(1);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator').text().trim()).to.equal(MAX_LEVEL.toString());
+      });
+
+      (0, _mocha.it)('should display a progress bar if level is defined (equal or more than 0)', function () {
+        //Given
+        var givenLevel = 1;
+        this.set('level', givenLevel);
+
+        //When
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        //Then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should indicate the level passed to the component at the end of the progress bar', function () {
+        // given
+        var level = 5;
+        this.set('level', level);
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__level-indicator').text().trim()).to.be.equal(level.toString());
+      });
     });
   });
 });
@@ -8560,26 +8600,40 @@ define('pix-live/tests/unit/components/competence-level-progress-bar-test', ['ch
 
       (0, _mocha.describe)('#hasLevel', function () {
 
-        (0, _mocha.it)('should return true if the level of the competence is equal or more than 0', function () {
-          // given
-          var component = this.subject();
+        [{ level: 1, expectedValue: true }, { level: 0, expectedValue: true }, { level: -1, expectedValue: false }, { level: undefined, expectedValue: false }].forEach(function (_ref) {
+          var level = _ref.level,
+              expectedValue = _ref.expectedValue;
 
-          // when
-          component.set('level', 1);
 
-          // then
-          (0, _chai.expect)(component.get('hasLevel')).to.equal(true);
+          (0, _mocha.it)('should return ' + expectedValue + ' when the level of the competence is ' + level, function () {
+            // given
+            var component = this.subject();
+
+            // when
+            component.set('level', level);
+
+            // then
+            (0, _chai.expect)(component.get('hasLevel')).to.equal(expectedValue);
+          });
         });
+      });
 
-        (0, _mocha.it)('should return false if the level of the competence is equal to -1', function () {
-          // given
-          var component = this.subject();
+      (0, _mocha.describe)('#widthOfProgressBar', function () {
+        [{ level: 0, expectedValue: 'width : 24px' }, { level: 1, expectedValue: 'width : 12.5%' }, { level: 2, expectedValue: 'width : 25%' }, { level: 3, expectedValue: 'width : 37.5%' }, { level: 4, expectedValue: 'width : 50%' }, { level: 5, expectedValue: 'width : 62.5%' }, { level: -1, expectedValue: 'width : none' }, { level: undefined, expectedValue: 'width : none' }].forEach(function (_ref2) {
+          var level = _ref2.level,
+              expectedValue = _ref2.expectedValue;
 
-          // when
-          component.set('level', -1);
 
-          // then
-          (0, _chai.expect)(component.get('hasLevel')).to.equal(false);
+          (0, _mocha.it)('should return ' + expectedValue + ' when the level is ' + level, function () {
+            // given
+            var component = this.subject();
+
+            // when
+            component.set('level', level);
+
+            // then
+            (0, _chai.expect)(component.get('widthOfProgressBar').string).to.equal(expectedValue);
+          });
         });
       });
     });
