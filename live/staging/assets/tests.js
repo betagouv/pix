@@ -2595,6 +2595,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/competence-level-progress-bar.js', function () {
+      // test passed
+    });
+
     it('components/corner-ribbon.js', function () {
       // test passed
     });
@@ -3762,7 +3766,7 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
 
     (0, _mocha.it)('should render a title', function () {
       // Given
-      var competence = _ember.default.Object.create({ name: 'competence-A' });
+      var competence = _ember.default.Object.create({ name: 'competence-A', level: 1 });
       var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
       this.set('competenceArea', areaWithOnlyOneCompetence);
       // when
@@ -3828,7 +3832,116 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
         }));
 
         // then
-        (0, _chai.expect)(this.$('.competence__level')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.competence__progress-bar')).to.have.lengthOf(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/competence-level-progress-bar-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | competence level progress bar', function () {
+    (0, _emberMocha.setupComponentTest)('competence-level-progress-bar', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      this.render(Ember.HTMLBars.template({
+        "id": "KsF1SyH6",
+        "block": "{\"statements\":[[1,[26,[\"competence-level-progress-bar\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.describe)('if the level is not defined', function () {
+
+      (0, _mocha.it)('should not display the background of progress bar which display limit and max level', function () {
+        //Given
+        var givenLevel = -1;
+        this.set('level', givenLevel);
+
+        //When
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        //Then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background')).to.have.length(0);
+      });
+
+      (0, _mocha.it)('should not display a progress bar if level is not defined (-1)', function () {
+        //Given
+        var givenLevel = undefined;
+        this.set('level', givenLevel);
+
+        //When
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        //Then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.length(0);
+      });
+    });
+
+    (0, _mocha.describe)('if the level is defined', function () {
+
+      (0, _mocha.it)('should indicate the limit level and the max level reachable in the progress bar', function () {
+        // given
+        var MAX_LEVEL = 8;
+        var LIMIT_LEVEL = 5;
+        var level = 4;
+        this.set('level', level);
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator')).to.have.length(1);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator').text().trim()).to.equal(LIMIT_LEVEL.toString());
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator')).to.have.length(1);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator').text().trim()).to.equal(MAX_LEVEL.toString());
+      });
+
+      (0, _mocha.it)('should display a progress bar if level is defined (equal or more than 0)', function () {
+        //Given
+        var givenLevel = 1;
+        this.set('level', givenLevel);
+
+        //When
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        //Then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should indicate the level passed to the component at the end of the progress bar', function () {
+        // given
+        var level = 5;
+        this.set('level', level);
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__level-indicator').text().trim()).to.be.equal(level.toString());
       });
     });
   });
@@ -7508,6 +7621,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/competence-level-progress-bar-test.js', function () {
+      // test passed
+    });
+
     it('integration/components/corner-ribbon-test.js', function () {
       // test passed
     });
@@ -7657,6 +7774,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/components/competence-by-area-item-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/competence-level-progress-bar-test.js', function () {
       // test passed
     });
 
@@ -8463,6 +8584,56 @@ define('pix-live/tests/unit/components/competence-by-area-item-test', ['ember', 
             area: 'area-id-1',
             level: -1
           })]);
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/competence-level-progress-bar-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | Competence-level-progress-bar ', function () {
+
+    (0, _emberMocha.setupTest)('component:competence-level-progress-bar', {});
+
+    (0, _mocha.describe)('#Computed Properties behaviors: ', function () {
+
+      (0, _mocha.describe)('#hasLevel', function () {
+
+        [{ level: 1, expectedValue: true }, { level: 0, expectedValue: true }, { level: -1, expectedValue: false }, { level: undefined, expectedValue: false }].forEach(function (_ref) {
+          var level = _ref.level,
+              expectedValue = _ref.expectedValue;
+
+
+          (0, _mocha.it)('should return ' + expectedValue + ' when the level of the competence is ' + level, function () {
+            // given
+            var component = this.subject();
+
+            // when
+            component.set('level', level);
+
+            // then
+            (0, _chai.expect)(component.get('hasLevel')).to.equal(expectedValue);
+          });
+        });
+      });
+
+      (0, _mocha.describe)('#widthOfProgressBar', function () {
+        [{ level: 0, expectedValue: 'width : 24px' }, { level: 1, expectedValue: 'width : 12.5%' }, { level: 2, expectedValue: 'width : 25%' }, { level: 3, expectedValue: 'width : 37.5%' }, { level: 4, expectedValue: 'width : 50%' }, { level: 5, expectedValue: 'width : 62.5%' }, { level: -1, expectedValue: 'width : none' }, { level: undefined, expectedValue: 'width : none' }].forEach(function (_ref2) {
+          var level = _ref2.level,
+              expectedValue = _ref2.expectedValue;
+
+
+          (0, _mocha.it)('should return ' + expectedValue + ' when the level is ' + level, function () {
+            // given
+            var component = this.subject();
+
+            // when
+            component.set('level', level);
+
+            // then
+            (0, _chai.expect)(component.get('widthOfProgressBar').string).to.equal(expectedValue);
+          });
         });
       });
     });

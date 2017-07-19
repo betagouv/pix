@@ -809,6 +809,129 @@ button.routable-modal--close:active {
   border-bottom-right-radius: 5px;
   padding: 20px 40px; }
 
+.competence-area-item {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%; }
+
+.area__name {
+  text-transform: uppercase;
+  height: 50px;
+  width: 100%;
+  padding-left: 100px;
+  box-sizing: border-box;
+  line-height: 50px;
+  color: #3e4149;
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  background: #f2f3f4; }
+  @media (max-width: 767px) {
+    .area__name {
+      padding-left: 30px;
+      font-size: 14px; } }
+
+.competence-list {
+  background: #ffffff;
+  width: 100%;
+  padding: 10px 30px 10px;
+  margin-bottom: 10px; }
+  @media (min-width: 768px) {
+    .competence-list {
+      padding: 22px 100px 30px; } }
+
+.competence {
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  color: #3e4149;
+  margin-bottom: 3px; }
+
+.competence__progress-bar {
+  border-radius: 12px;
+  width: 100%;
+  height: 24px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(200, 200, 200, 0.5)), linear-gradient(#f2f3f4, #f2f3f4);
+  -ms-flex-align: center;
+  align-items: center; }
+
+.competence-level-progress-bar__background {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding-right: 2px; }
+
+.competence-level-progress-bar__background-level-limit {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 24px;
+  width: 62.5%;
+  padding-right: 2px;
+  border-radius: 12px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(#f2f3f4, #f2f3f4); }
+
+.competence-level-progress-bar__background-level-limit-indicator {
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  color: #979797;
+  text-align: center; }
+
+.competence-level-progress-bar__background-available-soon-text {
+  max-width: 50px;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 8px;
+  text-align: center; }
+  @media (min-width: 768px) {
+    .competence-level-progress-bar__background-available-soon-text {
+      max-width: none;
+      font-size: 14px; } }
+
+.competence-level-progress-bar__background-level-limit-max-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  color: #979797;
+  text-align: center; }
+
+.competence-level-progress-bar__level {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-right: 2px;
+  background-image: linear-gradient(to right, rgba(255, 190, 0, 0), #ff8800), linear-gradient(#ffbe00, #ffbe00);
+  border-radius: 12px;
+  height: 24px;
+  position: relative;
+  bottom: 24px; }
+
+.competence-level-progress-bar__level-indicator {
+  width: 20px;
+  height: 20px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  text-align: center;
+  font-family: "Overpass", Arial, sans-serif;
+  font-weight: bold;
+  color: #3d68ff; }
+
 .course-banner {
   background-color: #3d68ff;
   color: white;
@@ -2729,95 +2852,6 @@ input.qcm-panel__proposal-checkbox {
 
 .profile-panel__competence-areas {
   width: 100%; }
-
-.competence-area-item {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  width: 100%; }
-
-.area__name {
-  text-transform: uppercase;
-  height: 50px;
-  width: 100%;
-  padding-left: 100px;
-  box-sizing: border-box;
-  line-height: 50px;
-  color: #3e4149;
-  font-family: "Raleway", Arial, sans-serif;
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  background: #f2f3f4; }
-  @media (max-width: 767px) {
-    .area__name {
-      padding-left: 30px;
-      font-size: 14px; } }
-
-.competence-list {
-  background: #ffffff;
-  width: 100%;
-  padding: 10px 30px 10px;
-  margin-bottom: 10px; }
-  @media (min-width: 768px) {
-    .competence-list {
-      padding: 22px 100px 30px; } }
-
-.competence {
-  font-family: "Lato", Arial, sans-serif;
-  font-size: 14px;
-  letter-spacing: 0.2px;
-  color: #3e4149;
-  margin-bottom: 3px; }
-
-.competence__name {
-  margin-bottom: 4px; }
-
-.competence__level {
-  border-radius: 12px;
-  width: 100%;
-  height: 24px;
-  background-color: #f2f3f4;
-  margin-bottom: 12px; }
-
-.profile-header__score-pastille-wrapper {
-  width: 94px;
-  height: 94px;
-  margin: 0 auto 12px;
-  display: block;
-  padding: 0; }
-  @media (min-width: 768px) {
-    .profile-header__score-pastille-wrapper {
-      margin: 36px 50px auto 45.5px; } }
-
-.score-pastille {
-  background: url("/images/hexa-pix.svg") no-repeat center center;
-  background-size: cover;
-  margin: 0 auto; }
-
-.score-pastille__pix-score-wrapper {
-  padding-top: 24px;
-  padding-bottom: 10px; }
-
-.score-pastille__pix-score {
-  font-family: "Overpass", Arial, sans-serif;
-  font-size: 32px;
-  font-weight: 800;
-  letter-spacing: -1px;
-  color: #3d68ff;
-  height: 40px;
-  text-align: center; }
-
-.score-pastille__pix-score-unit {
-  color: #3d68ff;
-  font-family: "Lato", Arial, sans-serif;
-  font-size: 14px;
-  height: 17px;
-  font-weight: 800;
-  text-align: center;
-  line-height: normal;
-  margin: -4px 25.9px 15.5px; }
 
 /* pages */
 /* Sections:

@@ -1071,6 +1071,45 @@ define('pix-live/components/competence-by-area-item', ['exports', 'ember', 'loda
     })
   });
 });
+define('pix-live/components/competence-level-progress-bar', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _ember.default.Component.extend({
+
+    classNames: ['competence-level-progress-bar'],
+
+    _LIMIT_LEVEL: 5,
+    _MAX_LEVEL: 8,
+
+    level: null,
+
+    hasLevel: _ember.default.computed('level', function () {
+      return this.get('level') >= 0;
+    }),
+
+    widthOfProgressBar: _ember.default.computed('level', function () {
+
+      var level = this.get('level');
+      var maxLevel = this.get('_MAX_LEVEL');
+      var limitLevel = this.get('_LIMIT_LEVEL');
+
+      if (level === 0) {
+        return _ember.default.String.htmlSafe('width : 24px');
+      }
+
+      if (level > 0 && level <= limitLevel) {
+        var percentage = level * 100 / maxLevel;
+        return _ember.default.String.htmlSafe('width : ' + percentage + '%');
+      }
+
+      return _ember.default.String.htmlSafe('width : none');
+    })
+
+  });
+});
 define('pix-live/components/corner-ribbon', ['exports', 'ember'], function (exports, _ember) {
   'use strict';
 
@@ -4798,7 +4837,7 @@ define('pix-live/mirage/fixtures/competences', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = [{ id: 1, name: 'Mener une recherche d\'information', level: -1, index: '1.1', areaId: 1 }, { id: 2, name: 'Gérer des données', level: -1, index: '1.2', areaId: 1 }, { id: 3, name: 'Traiter des données', level: -1, index: '1.3', areaId: 1 }, { id: 4, name: 'Interagir', level: -1, index: '2.1', areaId: 2 }, { id: 5, name: 'Partager et publier', level: -1, index: '2.2', areaId: 2 }, { id: 6, name: 'Collaborer', level: -1, index: '2.3', areaId: 2 }, { id: 7, name: 'Gérer sa présence en ligne', level: -1, index: '2.4', areaId: 2 }, { id: 8, name: 'Développer des documents textuels', level: -1, index: '3.1', areaId: 3 }, { id: 9, name: 'Développer des documents multimedia', level: -1, index: '3.2', areaId: 3 }, { id: 10, name: 'Adapter les documents à leur finalité', level: -1, index: '3.3', areaId: 3 }, { id: 11, name: 'Programmer', level: -1, index: '3.4', areaId: 3 }, { id: 12, name: 'Sécurise environnement num', level: -1, index: '4.1', areaId: 4 }, { id: 13, name: 'Protéger les données personnelles et la vie privée', level: -1, index: '4.2', areaId: 4 }, { id: 14, name: 'Protéger la santé, le bien-être et l\'environnement', level: -1, index: '4.3', areaId: 4 }, { id: 15, name: 'Résoudre problèmes techniques', level: -1, index: '5.1', areaId: 5 }, { id: 16, name: 'Construire un environnement numérique', level: -1, index: '5.2', areaId: 5 }];
+  exports.default = [{ id: 1, name: 'Mener une recherche d\'information', level: -1, index: '1.1', areaId: 1 }, { id: 2, name: 'Gérer des données', level: 0, index: '1.2', areaId: 1 }, { id: 3, name: 'Traiter des données', level: 1, index: '1.3', areaId: 1 }, { id: 4, name: 'Interagir', level: 2, index: '2.1', areaId: 2 }, { id: 5, name: 'Partager et publier', level: 3, index: '2.2', areaId: 2 }, { id: 6, name: 'Collaborer', level: 4, index: '2.3', areaId: 2 }, { id: 7, name: 'Gérer sa présence en ligne', level: 5, index: '2.4', areaId: 2 }, { id: 8, name: 'Développer des documents textuels', level: -1, index: '3.1', areaId: 3 }, { id: 9, name: 'Développer des documents multimedia', level: -1, index: '3.2', areaId: 3 }, { id: 10, name: 'Adapter les documents à leur finalité', level: -1, index: '3.3', areaId: 3 }, { id: 11, name: 'Programmer', level: -1, index: '3.4', areaId: 3 }, { id: 12, name: 'Sécurise environnement num', level: -1, index: '4.1', areaId: 4 }, { id: 13, name: 'Protéger les données personnelles et la vie privée', level: -1, index: '4.2', areaId: 4 }, { id: 14, name: 'Protéger la santé, le bien-être et l\'environnement', level: -1, index: '4.3', areaId: 4 }, { id: 15, name: 'Résoudre problèmes techniques', level: -1, index: '5.1', areaId: 5 }, { id: 16, name: 'Construire un environnement numérique', level: -1, index: '5.2', areaId: 5 }];
 });
 define('pix-live/mirage/fixtures/courses', ['exports'], function (exports) {
   'use strict';
@@ -6736,7 +6775,15 @@ define("pix-live/templates/components/competence-by-area-item", ["exports"], fun
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "Ea+BJOdP", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"area__name\"],[13],[1,[26,[\"_competencesAreaName\"]],false],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"competence-list\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"_competencesSortedList\"]]],null,{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"competence\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__name\"],[13],[1,[28,[\"competence\",\"name\"]],false],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__level\"],[16,\"data-level\",[34,[[28,[\"competence\",\"level\"]]]]],[13],[0,\" \"],[14],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[\"competence\"]},null],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-by-area-item.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "opsDDtRy", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"area__name\"],[13],[1,[26,[\"_competencesAreaName\"]],false],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"competence-list\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"_competencesSortedList\"]]],null,{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"competence\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__name\"],[13],[1,[28,[\"competence\",\"name\"]],false],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__progress-bar\"],[13],[0,\"\\n        \"],[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"competence\",\"level\"]]]]],false],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[\"competence\"]},null],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-by-area-item.hbs" } });
+});
+define("pix-live/templates/components/competence-level-progress-bar", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "KtYKIsxx", "block": "{\"statements\":[[6,[\"if\"],[[28,[\"hasLevel\"]]],null,{\"statements\":[[0,\"  \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-level-limit\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-level-limit-indicator\"],[13],[0,\"\\n        \"],[1,[26,[\"_LIMIT_LEVEL\"]],false],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-available-soon-text\"],[13],[0,\"Disponible Prochainement\"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-level-limit-max-indicator\"],[13],[0,\"\\n      \"],[1,[26,[\"_MAX_LEVEL\"]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__level\"],[16,\"style\",[26,[\"widthOfProgressBar\"]],null],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__level-indicator\"],[13],[0,\"\\n      \"],[1,[26,[\"level\"]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-level-progress-bar.hbs" } });
 });
 define("pix-live/templates/components/corner-ribbon", ["exports"], function (exports) {
   "use strict";
@@ -8038,6 +8085,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.14.0+7904151b"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.14.0+2a7e0ed6"});
 }
 //# sourceMappingURL=pix-live.map
