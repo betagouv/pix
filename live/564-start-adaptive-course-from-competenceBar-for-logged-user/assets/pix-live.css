@@ -932,6 +932,24 @@ button.routable-modal--close:active {
   font-weight: bold;
   color: #3d68ff; }
 
+.competence-level-progress-bar__start {
+  text-align: right;
+  padding: 2px 17px 3px 0;
+  height: 24px; }
+
+.competence-level-progress-bar__start-link {
+  width: 81px;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: normal;
+  letter-spacing: 0.5px;
+  color: #3d68ff;
+  text-decoration: none;
+  cursor: pointer; }
+  .competence-level-progress-bar__start-link:hover {
+    color: #3d68ff; }
+
 .course-banner {
   background-color: #3d68ff;
   color: white;
@@ -2832,24 +2850,6 @@ input.qcm-panel__proposal-checkbox {
   text-align: center;
   line-height: normal;
   margin: -4px 25.9px 15.5px; }
-
-.competence-level-progress-bar__start {
-  text-align: right;
-  padding: 4px 17px 3px 0;
-  height: 24px; }
-
-.competence-level-progress-bar__start-link {
-  width: 81px;
-  font-family: "Lato", Arial, sans-serif;
-  font-size: 14px;
-  font-weight: bold;
-  line-height: normal;
-  letter-spacing: 0.5px;
-  color: #3d68ff;
-  text-decoration: none;
-  cursor: pointer; }
-  .competence-level-progress-bar__start-link:hover {
-    color: #3d68ff; }
 
 .profile-panel {
   display: -ms-flexbox;

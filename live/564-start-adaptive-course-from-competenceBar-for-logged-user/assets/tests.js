@@ -3945,7 +3945,7 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
       });
     });
 
-    _mocha.describe.only('when there is an associated course', function () {
+    (0, _mocha.describe)('when there is an associated course', function () {
 
       (0, _mocha.it)('should display ’commencer’ in progress bar, when the level is not defined (-1)', function () {
         // given
@@ -8702,7 +8702,7 @@ define('pix-live/tests/unit/components/competence-level-progress-bar-test', ['ch
       });
 
       (0, _mocha.describe)('#canUserStartCourse', function () {
-        [{ level: -1, expected: true }, { level: 0, expected: false }].forEach(function (_ref3) {
+        [{ level: null, expected: true }, { level: undefined, expected: true }, { level: -1, expected: true }, { level: 1, expected: false }, { level: 0, expected: false }].forEach(function (_ref3) {
           var level = _ref3.level,
               expected = _ref3.expected;
 
