@@ -1,5 +1,5 @@
 export default [
-  { id: 1, name: 'Mener une recherche d\'information', level: -1, index: '1.1', areaId: 1, courseId: 'rec11' },
+  { id: 1, name: 'Mener une recherche d\'information', level: -1, index: '1.1', areaId: 1, courseId: 'ref_course_id' },
   { id: 2, name: 'Gérer des données', level: 0, index: '1.2', areaId: 1, courseId: 'rec12' },
   { id: 3, name: 'Traiter des données', level: 1, index: '1.3', areaId: 1 },
   { id: 4, name: 'Interagir', level: 2, index: '2.1', areaId: 2 },
