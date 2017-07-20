@@ -2512,6 +2512,20 @@ define('pix-live/tests/acceptance/n1-competence-profile-test', ['mocha', 'chai',
         (0, _chai.expect)(find('.competence').length).to.equal(16);
       });
     });
+
+    (0, _mocha.it)('should display a link ’commencer’ with the correct url to start an adaptive course, for the first competence', function () {
+      // given
+      seedDatabase();
+      authenticateUser();
+
+      // when
+      visit('/compte');
+
+      // then
+      return andThen(function () {
+        (0, _chai.expect)(find('.competence-level-progress-bar__start-link:first').attr('href')).to.be.equal('/courses/ref_course_id');
+      });
+    });
   });
 });
 define('pix-live/tests/app.lint-test', [], function () {
