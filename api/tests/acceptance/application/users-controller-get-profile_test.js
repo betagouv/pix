@@ -84,7 +84,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
           name: 'competence-name-1',
           index: '1.1',
           level: -1,
-          courseId: 'recBxPAuEPlTgt72q11'
+          'course-id': 'recBxPAuEPlTgt72q11'
         },
         relationships: {
           area: {
@@ -102,7 +102,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
           name: 'competence-name-2',
           index: '1.2',
           level: -1,
-          courseId: 'recBxPAuEPlTgt72q99'
+          'course-id': 'recBxPAuEPlTgt72q99'
         },
         relationships: {
           area: {

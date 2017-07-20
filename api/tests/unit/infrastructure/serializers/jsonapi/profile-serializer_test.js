@@ -88,7 +88,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               name: 'competence-name-1',
               index: '1.1',
               level: -1,
-              courseId: 'recBxPAuEPlTgt72q11'
+              'course-id': 'recBxPAuEPlTgt72q11'
             },
             relationships: {
               area: {
@@ -107,7 +107,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               index: '1.2',
               level: 8,
               'pix-score': 128,
-              courseId: 'recBxPAuEPlTgt72q99'
+              'course-id': 'recBxPAuEPlTgt72q99'
             },
             relationships: {
               area: {

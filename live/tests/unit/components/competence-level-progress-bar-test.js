@@ -58,5 +58,60 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
       });
     });
 
+    describe('#canUserStartCourse', function() {
+      [
+        { level: -1, expected: true },
+        { level: 0, expected: false },
+
+      ].forEach(({ level, expected }) => {
+        it(`should return ${expected}, when there is associated course and level is ${level}`, function() {
+          // given
+          const component = this.subject();
+          const courseId = 'REC123';
+          // when
+          component.set('level', level);
+          component.set('courseId', courseId);
+
+          // then
+          expect(component.get('canUserStartCourse')).to.be.equal(expected);
+        });
+      });
+
+      [
+        { courseId: null },
+        { courseId: undefined },
+        { courseId: '' },
+        { courseId: 0 },
+
+      ].forEach(({ courseId }) => {
+
+        it('should return false, when there is no associated course', function() {
+          // given
+          const component = this.subject();
+          const level = -1;
+          // when
+          component.set('level', level);
+          component.set('courseId', courseId);
+
+          // then
+          expect(component.get('canUserStartCourse')).to.be.false;
+        });
+      });
+
+      it('should return false, when there is associated course but have already level', function() {
+        // given
+        const component = this.subject();
+        const level = 777;
+        const courseId = 'REC123';
+        // when
+        component.set('level', level);
+        component.set('courseId', courseId);
+
+        // then
+        expect(component.get('canUserStartCourse')).to.be.false;
+      });
+
+    });
   });
+
 });

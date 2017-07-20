@@ -8,6 +8,7 @@ export default Ember.Component.extend({
   _MAX_LEVEL: 8,
 
   level: null,
+  courseId: null,
 
   hasLevel: Ember.computed('level', function() {
     return this.get('level') >= 0;
@@ -19,11 +20,11 @@ export default Ember.Component.extend({
     const maxLevel = this.get('_MAX_LEVEL');
     const limitLevel = this.get('_LIMIT_LEVEL');
 
-    if (level === 0) {
+    if(level === 0) {
       return Ember.String.htmlSafe('width : 24px');
     }
 
-    if (level > 0 && level <= limitLevel) {
+    if(level > 0 && level <= limitLevel) {
       const percentage = level * 100 / maxLevel;
       return Ember.String.htmlSafe('width : ' + percentage + '%');
     }
@@ -31,4 +32,16 @@ export default Ember.Component.extend({
     return Ember.String.htmlSafe('width : none');
   }),
 
+  _hasUserProvidedLevel(level) {
+    return Ember.isPresent(level) && level !== -1;
+  },
+
+  canUserStartCourse: Ember.computed('courseId', 'level', function() {
+    const courseId = this.get('courseId');
+    const level = this.get('level');
+    if(!courseId || this._hasUserProvidedLevel(level)) {
+      return false;
+    }
+    return true;
+  }),
 });
