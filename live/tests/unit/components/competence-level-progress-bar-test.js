@@ -60,7 +60,10 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
 
     describe('#canUserStartCourse', function() {
       [
+        { level: null, expected: true },
+        { level: undefined, expected: true },
         { level: -1, expected: true },
+        { level: 1, expected: false },
         { level: 0, expected: false },
 
       ].forEach(({ level, expected }) => {

@@ -85,7 +85,7 @@ describe('Integration | Component | competence level progress bar', function() {
     });
   });
 
-  describe.only('when there is an associated course', function() {
+  describe('when there is an associated course', function() {
 
     it('should display ’commencer’ in progress bar, when the level is not defined (-1)', function() {
       // given

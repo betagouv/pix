@@ -11,7 +11,8 @@ export default Ember.Component.extend({
   courseId: null,
 
   hasLevel: Ember.computed('level', function() {
-    return this.get('level') >= 0;
+    const level = this.get('level');
+    return Ember.isPresent(this.get('level')) && level !== -1;
   }),
 
   widthOfProgressBar: Ember.computed('level', function() {
@@ -32,14 +33,10 @@ export default Ember.Component.extend({
     return Ember.String.htmlSafe('width : none');
   }),
 
-  _hasUserProvidedLevel(level) {
-    return Ember.isPresent(level) && level !== -1;
-  },
-
-  canUserStartCourse: Ember.computed('courseId', 'level', function() {
+  canUserStartCourse: Ember.computed('courseId', 'hasLevel', function() {
     const courseId = this.get('courseId');
-    const level = this.get('level');
-    if(!courseId || this._hasUserProvidedLevel(level)) {
+    const hasLevel = this.get('hasLevel');
+    if(!courseId || hasLevel) {
       return false;
     }
     return true;
