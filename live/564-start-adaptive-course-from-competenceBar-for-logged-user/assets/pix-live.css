@@ -2795,6 +2795,62 @@ input.qcm-panel__proposal-checkbox {
   background: none;
   letter-spacing: 0.5px; }
 
+.profile-header__score-pastille-wrapper {
+  width: 94px;
+  height: 94px;
+  margin: 0 auto 12px;
+  display: block;
+  padding: 0; }
+  @media (min-width: 768px) {
+    .profile-header__score-pastille-wrapper {
+      margin: 36px 50px auto 45.5px; } }
+
+.score-pastille {
+  background: url("/images/hexa-pix.svg") no-repeat center center;
+  background-size: cover;
+  margin: 0 auto; }
+
+.score-pastille__pix-score-wrapper {
+  padding-top: 24px;
+  padding-bottom: 10px; }
+
+.score-pastille__pix-score {
+  font-family: "Overpass", Arial, sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: #3d68ff;
+  height: 40px;
+  text-align: center; }
+
+.score-pastille__pix-score-unit {
+  color: #3d68ff;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+  height: 17px;
+  font-weight: 800;
+  text-align: center;
+  line-height: normal;
+  margin: -4px 25.9px 15.5px; }
+
+.competence-level-progress-bar__start {
+  text-align: right;
+  padding: 4px 17px 3px 0;
+  height: 24px; }
+
+.competence-level-progress-bar__start-link {
+  width: 81px;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: normal;
+  letter-spacing: 0.5px;
+  color: #3d68ff;
+  text-decoration: none;
+  cursor: pointer; }
+  .competence-level-progress-bar__start-link:hover {
+    color: #3d68ff; }
+
 .profile-panel {
   display: -ms-flexbox;
   display: flex;

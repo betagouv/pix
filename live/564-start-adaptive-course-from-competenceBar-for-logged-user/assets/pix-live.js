@@ -1085,6 +1085,7 @@ define('pix-live/components/competence-level-progress-bar', ['exports', 'ember']
     _MAX_LEVEL: 8,
 
     level: null,
+    courseId: null,
 
     hasLevel: _ember.default.computed('level', function () {
       return this.get('level') >= 0;
@@ -1106,8 +1107,21 @@ define('pix-live/components/competence-level-progress-bar', ['exports', 'ember']
       }
 
       return _ember.default.String.htmlSafe('width : none');
-    })
+    }),
 
+    _hasUserProvidedLevel: function _hasUserProvidedLevel(level) {
+      return _ember.default.isPresent(level) && level !== -1;
+    },
+
+
+    canUserStartCourse: _ember.default.computed('courseId', 'level', function () {
+      var courseId = this.get('courseId');
+      var level = this.get('level');
+      if (!courseId || this._hasUserProvidedLevel(level)) {
+        return false;
+      }
+      return true;
+    })
   });
 });
 define('pix-live/components/corner-ribbon', ['exports', 'ember'], function (exports, _ember) {
@@ -5493,7 +5507,8 @@ define('pix-live/models/competence', ['exports', 'ember', 'ember-data'], functio
     user: belongsTo('user'),
     index: attr('number'),
     level: attr('number'),
-    areaName: _ember.default.computed.alias('area.name')
+    areaName: _ember.default.computed.alias('area.name'),
+    courseId: attr('string')
   });
 });
 define('pix-live/models/course-group', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -6788,7 +6803,7 @@ define("pix-live/templates/components/competence-by-area-item", ["exports"], fun
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "opsDDtRy", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"area__name\"],[13],[1,[26,[\"_competencesAreaName\"]],false],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"competence-list\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"_competencesSortedList\"]]],null,{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"competence\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__name\"],[13],[1,[28,[\"competence\",\"name\"]],false],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__progress-bar\"],[13],[0,\"\\n        \"],[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"competence\",\"level\"]]]]],false],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[\"competence\"]},null],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-by-area-item.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "LBLs8L5u", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"area__name\"],[13],[1,[26,[\"_competencesAreaName\"]],false],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"competence-list\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"_competencesSortedList\"]]],null,{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"competence\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__name\"],[13],[1,[28,[\"competence\",\"name\"]],false],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence__progress-bar\"],[13],[0,\"\\n        \"],[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\",\"courseId\"],[[28,[\"competence\",\"level\"]],[28,[\"competence\",\"courseId\"]]]]],false],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[\"competence\"]},null],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-by-area-item.hbs" } });
 });
 define("pix-live/templates/components/competence-level-progress-bar", ["exports"], function (exports) {
   "use strict";
@@ -6796,7 +6811,7 @@ define("pix-live/templates/components/competence-level-progress-bar", ["exports"
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "KtYKIsxx", "block": "{\"statements\":[[6,[\"if\"],[[28,[\"hasLevel\"]]],null,{\"statements\":[[0,\"  \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-level-limit\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-level-limit-indicator\"],[13],[0,\"\\n        \"],[1,[26,[\"_LIMIT_LEVEL\"]],false],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-available-soon-text\"],[13],[0,\"Disponible Prochainement\"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-level-limit-max-indicator\"],[13],[0,\"\\n      \"],[1,[26,[\"_MAX_LEVEL\"]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__level\"],[16,\"style\",[26,[\"widthOfProgressBar\"]],null],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__level-indicator\"],[13],[0,\"\\n      \"],[1,[26,[\"level\"]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-level-progress-bar.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "lUgfbiIG", "block": "{\"statements\":[[6,[\"if\"],[[28,[\"hasLevel\"]]],null,{\"statements\":[[0,\"  \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-level-limit\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-level-limit-indicator\"],[13],[0,\"\\n        \"],[1,[26,[\"_LIMIT_LEVEL\"]],false],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-available-soon-text\"],[13],[0,\"Disponible Prochainement\"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__background-level-limit-max-indicator\"],[13],[0,\"\\n      \"],[1,[26,[\"_MAX_LEVEL\"]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__level\"],[16,\"style\",[26,[\"widthOfProgressBar\"]],null],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__level-indicator\"],[13],[0,\"\\n      \"],[1,[26,[\"level\"]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[6,[\"if\"],[[28,[\"canUserStartCourse\"]]],null,{\"statements\":[[0,\"  \"],[11,\"div\",[]],[15,\"class\",\"competence-level-progress-bar__start\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"courses.create-assessment\",[28,[\"courseId\"]]],[[\"class\"],[\"competence-level-progress-bar__start-link\"]],{\"statements\":[[0,\"      Commencer\"]],\"locals\":[]},null],[0,\"\\n  \"],[14],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-level-progress-bar.hbs" } });
 });
 define("pix-live/templates/components/corner-ribbon", ["exports"], function (exports) {
   "use strict";
@@ -8098,6 +8113,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.14.0+2e155cbc"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.14.0+6405101c"});
 }
 //# sourceMappingURL=pix-live.map
