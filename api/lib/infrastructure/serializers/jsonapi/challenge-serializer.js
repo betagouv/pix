@@ -7,7 +7,7 @@ class ChallengeSerializer extends JSONAPISerializer {
   }
 
   serializeAttributes(model, data) {
-    data.attributes['type'] = model.type;
+    data.attributes['challenge-type'] = model.type;
     data.attributes['instruction'] = model.instruction;
     data.attributes['proposals'] = model.proposals;
     data.attributes['hasnt-internet-allowed'] = model.hasntInternetAllowed;

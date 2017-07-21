@@ -1,4 +1,5 @@
 const CourseController = require('./course-controller');
+const JSONAPISchema = require('../../infrastructure/schemas/jsonapi');
 
 exports.register = function(server, options, next) {
 
@@ -6,7 +7,19 @@ exports.register = function(server, options, next) {
     {
       method: 'GET',
       path: '/api/courses',
-      config: { handler: CourseController.list, tags: ['api'] }
+      config: {
+        handler: CourseController.list,
+        tags: ['api'],
+        plugins: {
+          ratify: {
+            response: {
+              schema: JSONAPISchema,
+              sample: 100,        // TODO: disable in production
+              failAction: 'error' // Valid choices: 'log' or 'error'
+            }
+          }
+        }
+      }
     },
     {
       method: 'PUT',
