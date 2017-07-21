@@ -40,8 +40,6 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
         { level: 3, expectedValue: 'width : 37.5%' },
         { level: 4, expectedValue: 'width : 50%' },
         { level: 5, expectedValue: 'width : 62.5%' },
-        { level: -1, expectedValue: 'width : none' },
-        { level: undefined, expectedValue: 'width : none' }
       ].forEach(({ level, expectedValue }) => {
 
         it(`should return ${expectedValue} when the level is ${level}`, function() {
@@ -65,7 +63,6 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
         { level: -1, expected: true },
         { level: 1, expected: false },
         { level: 0, expected: false },
-
       ].forEach(({ level, expected }) => {
         it(`should return ${expected}, when there is associated course and level is ${level}`, function() {
           // given
@@ -85,7 +82,6 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
         { courseId: undefined },
         { courseId: '' },
         { courseId: 0 },
-
       ].forEach(({ courseId }) => {
 
         it('should return false, when there is no associated course', function() {

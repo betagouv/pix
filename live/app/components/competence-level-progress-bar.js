@@ -19,24 +19,21 @@ export default Ember.Component.extend({
 
     const level = this.get('level');
     const maxLevel = this.get('_MAX_LEVEL');
-    const limitLevel = this.get('_LIMIT_LEVEL');
+    let progressBarWidth;
 
-    if(level === 0) {
-      return Ember.String.htmlSafe('width : 24px');
+    if (level === 0) {
+      progressBarWidth = '24px';
+    } else {
+      progressBarWidth = (level * 100 / maxLevel) + '%';
     }
 
-    if(level > 0 && level <= limitLevel) {
-      const widthOfProgressBar = level * 100 / maxLevel;
-      return Ember.String.htmlSafe('width : ' + widthOfProgressBar + '%');
-    }
-
-    return Ember.String.htmlSafe('width : none');
+    return Ember.String.htmlSafe('width : ' + progressBarWidth);
   }),
 
   canUserStartCourse: Ember.computed('courseId', 'hasLevel', function() {
     const courseId = this.get('courseId');
     const hasLevel = this.get('hasLevel');
-    if(!courseId || hasLevel) {
+    if (!courseId || hasLevel) {
       return false;
     }
     return true;
