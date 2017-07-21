@@ -2512,6 +2512,20 @@ define('pix-live/tests/acceptance/n1-competence-profile-test', ['mocha', 'chai',
         (0, _chai.expect)(find('.competence').length).to.equal(16);
       });
     });
+
+    (0, _mocha.it)('should display a link ’commencer’ with the correct url to start an adaptive course, for the first competence', function () {
+      // given
+      seedDatabase();
+      authenticateUser();
+
+      // when
+      visit('/compte');
+
+      // then
+      return andThen(function () {
+        (0, _chai.expect)(find('.competence-level-progress-bar__start-link:first').attr('href')).to.be.equal('/courses/ref_course_id');
+      });
+    });
   });
 });
 define('pix-live/tests/app.lint-test', [], function () {
@@ -3942,6 +3956,70 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
 
         // then
         (0, _chai.expect)(this.$('.competence-level-progress-bar__level-indicator').text().trim()).to.be.equal(level.toString());
+      });
+    });
+
+    (0, _mocha.describe)('when there is an associated course', function () {
+
+      (0, _mocha.it)('should display ’commencer’ in progress bar, when the level is not defined (-1)', function () {
+        // given
+        var courseId = 'rec123';
+        var level = -1;
+
+        this.set('courseId', courseId);
+        this.set('level', level);
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "VkVD5c38",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\",\"courseId\"],[[28,[\"level\"]],[28,[\"courseId\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(1);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(1);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link').text().trim()).to.be.equal('Commencer');
+      });
+
+      (0, _mocha.it)('should not display ’commencer’ in progress bar, when the level is already defined', function () {
+        // given
+        var courseId = 'rec123';
+        var level = 3;
+
+        this.set('courseId', courseId);
+        this.set('level', level);
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "VkVD5c38",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\",\"courseId\"],[[28,[\"level\"]],[28,[\"courseId\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(0);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(0);
+      });
+    });
+
+    (0, _mocha.describe)('when there is no associated course', function () {
+
+      (0, _mocha.it)('should not display ’commencer’ in progress bar', function () {
+        // given
+        var level = 3;
+        this.set('level', level);
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(0);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(0);
       });
     });
   });
@@ -8619,7 +8697,7 @@ define('pix-live/tests/unit/components/competence-level-progress-bar-test', ['ch
       });
 
       (0, _mocha.describe)('#widthOfProgressBar', function () {
-        [{ level: 0, expectedValue: 'width : 24px' }, { level: 1, expectedValue: 'width : 12.5%' }, { level: 2, expectedValue: 'width : 25%' }, { level: 3, expectedValue: 'width : 37.5%' }, { level: 4, expectedValue: 'width : 50%' }, { level: 5, expectedValue: 'width : 62.5%' }, { level: -1, expectedValue: 'width : none' }, { level: undefined, expectedValue: 'width : none' }].forEach(function (_ref2) {
+        [{ level: 0, expectedValue: 'width : 24px' }, { level: 1, expectedValue: 'width : 12.5%' }, { level: 2, expectedValue: 'width : 25%' }, { level: 3, expectedValue: 'width : 37.5%' }, { level: 4, expectedValue: 'width : 50%' }, { level: 5, expectedValue: 'width : 62.5%' }].forEach(function (_ref2) {
           var level = _ref2.level,
               expectedValue = _ref2.expectedValue;
 
@@ -8634,6 +8712,55 @@ define('pix-live/tests/unit/components/competence-level-progress-bar-test', ['ch
             // then
             (0, _chai.expect)(component.get('widthOfProgressBar').string).to.equal(expectedValue);
           });
+        });
+      });
+
+      (0, _mocha.describe)('#canUserStartCourse', function () {
+        [{ level: null, expected: true }, { level: undefined, expected: true }, { level: -1, expected: true }, { level: 1, expected: false }, { level: 0, expected: false }].forEach(function (_ref3) {
+          var level = _ref3.level,
+              expected = _ref3.expected;
+
+          (0, _mocha.it)('should return ' + expected + ', when there is associated course and level is ' + level, function () {
+            // given
+            var component = this.subject();
+            var courseId = 'REC123';
+            // when
+            component.set('level', level);
+            component.set('courseId', courseId);
+
+            // then
+            (0, _chai.expect)(component.get('canUserStartCourse')).to.be.equal(expected);
+          });
+        });
+
+        [{ courseId: null }, { courseId: undefined }, { courseId: '' }, { courseId: 0 }].forEach(function (_ref4) {
+          var courseId = _ref4.courseId;
+
+
+          (0, _mocha.it)('should return false, when there is no associated course', function () {
+            // given
+            var component = this.subject();
+            var level = -1;
+            // when
+            component.set('level', level);
+            component.set('courseId', courseId);
+
+            // then
+            (0, _chai.expect)(component.get('canUserStartCourse')).to.be.false;
+          });
+        });
+
+        (0, _mocha.it)('should return false, when there is associated course but have already level', function () {
+          // given
+          var component = this.subject();
+          var level = 777;
+          var courseId = 'REC123';
+          // when
+          component.set('level', level);
+          component.set('courseId', courseId);
+
+          // then
+          (0, _chai.expect)(component.get('canUserStartCourse')).to.be.false;
         });
       });
     });
