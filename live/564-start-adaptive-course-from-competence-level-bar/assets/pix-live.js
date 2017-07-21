@@ -1096,18 +1096,15 @@ define('pix-live/components/competence-level-progress-bar', ['exports', 'ember']
 
       var level = this.get('level');
       var maxLevel = this.get('_MAX_LEVEL');
-      var limitLevel = this.get('_LIMIT_LEVEL');
+      var progressBarWidth = void 0;
 
       if (level === 0) {
-        return _ember.default.String.htmlSafe('width : 24px');
+        progressBarWidth = '24px';
+      } else {
+        progressBarWidth = level * 100 / maxLevel + '%';
       }
 
-      if (level > 0 && level <= limitLevel) {
-        var percentage = level * 100 / maxLevel;
-        return _ember.default.String.htmlSafe('width : ' + percentage + '%');
-      }
-
-      return _ember.default.String.htmlSafe('width : none');
+      return _ember.default.String.htmlSafe('width : ' + progressBarWidth);
     }),
 
     canUserStartCourse: _ember.default.computed('courseId', 'hasLevel', function () {
@@ -8109,6 +8106,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.14.0+e2b9175f"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.14.0+5a56c63d"});
 }
 //# sourceMappingURL=pix-live.map

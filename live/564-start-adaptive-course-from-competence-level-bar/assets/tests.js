@@ -8697,7 +8697,7 @@ define('pix-live/tests/unit/components/competence-level-progress-bar-test', ['ch
       });
 
       (0, _mocha.describe)('#widthOfProgressBar', function () {
-        [{ level: 0, expectedValue: 'width : 24px' }, { level: 1, expectedValue: 'width : 12.5%' }, { level: 2, expectedValue: 'width : 25%' }, { level: 3, expectedValue: 'width : 37.5%' }, { level: 4, expectedValue: 'width : 50%' }, { level: 5, expectedValue: 'width : 62.5%' }, { level: -1, expectedValue: 'width : none' }, { level: undefined, expectedValue: 'width : none' }].forEach(function (_ref2) {
+        [{ level: 0, expectedValue: 'width : 24px' }, { level: 1, expectedValue: 'width : 12.5%' }, { level: 2, expectedValue: 'width : 25%' }, { level: 3, expectedValue: 'width : 37.5%' }, { level: 4, expectedValue: 'width : 50%' }, { level: 5, expectedValue: 'width : 62.5%' }].forEach(function (_ref2) {
           var level = _ref2.level,
               expectedValue = _ref2.expectedValue;
 
