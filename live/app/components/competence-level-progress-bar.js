@@ -26,8 +26,8 @@ export default Ember.Component.extend({
     }
 
     if(level > 0 && level <= limitLevel) {
-      const percentage = level * 100 / maxLevel;
-      return Ember.String.htmlSafe('width : ' + percentage + '%');
+      const widthOfProgressBar = level * 100 / maxLevel;
+      return Ember.String.htmlSafe('width : ' + widthOfProgressBar + '%');
     }
 
     return Ember.String.htmlSafe('width : none');
