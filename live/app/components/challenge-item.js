@@ -37,6 +37,22 @@ export default Ember.Component.extend({
     Ember.run.cancel(timer);
   },
 
+  proposalsComponentClass: Ember.computed('challenge.type', function() {
+    const challengeType = this.get('challenge.type').toUpperCase();
+    const proposalComponentClasses = {
+      'QCUIMG':    'qcu-proposals',
+      'QCU':       'qcu-proposals',
+      'QRU':       'qcu-proposals',
+      'QCMIMG':    'qcm-proposals',
+      'QCM':       'qcm-proposals',
+      'QROC':      'qroc-proposal',
+      'QROCM':     'qrocm-proposal',
+      'QROCM-IND': 'qrocm-proposal',
+      'QROCM-DEP': 'qrocm-proposal'
+    };
+    return proposalComponentClasses[challengeType];
+  }),
+
   hasUserConfirmWarning: Ember.computed('challenge', function() {
     return false;
   }),
