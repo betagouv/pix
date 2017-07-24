@@ -13,7 +13,7 @@ describe('Unit | Component | Navar Header Component', function() {
       { given: undefined, expected: false },
       { given: { firstName: 'FHI' }, expected: true }
     ].forEach(({ given, expected }) => {
-      it(`should return ${expected}, when ${given} provided`, function() {
+      it(`should return ${expected}, when "${given}" provided`, function() {
         // given
         const component = this.subject();
         // when

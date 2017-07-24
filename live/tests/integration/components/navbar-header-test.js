@@ -40,6 +40,7 @@ describe('Integration | Component | navbar-header', function() {
         this.set('user', { firstName: 'FHI', lastName: '4EVER' });
         // when
         this.render(hbs`{{navbar-header user=user}}`);
+        // then
         expect(this.$('.logged-user-details')).to.have.length(1);
         expect(this.$('.logged-user-name').text().trim()).to.be.equal('FHI 4EVER');
       });
@@ -49,6 +50,7 @@ describe('Integration | Component | navbar-header', function() {
         this.set('user', { firstName: 'FHI', lastName: '4EVER' });
         // when
         this.render(hbs`{{navbar-header user=user}}`);
+        // then
         expect(this.$('.navbar-header-links--user-logged')).to.have.length(1);
       });
     });
