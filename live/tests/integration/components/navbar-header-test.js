@@ -1,6 +1,6 @@
-import {expect} from 'chai';
-import {beforeEach, describe, it} from 'mocha';
-import {setupComponentTest} from 'ember-mocha';
+import { expect } from 'chai';
+import { beforeEach, describe, it } from 'mocha';
+import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
 
@@ -37,7 +37,7 @@ describe('Integration | Component | navbar-header', function() {
     describe('When user is logged', function() {
 
       beforeEach(function() {
-        this.set('user', {firstName: 'FHI', lastName: '4EVER'});
+        this.set('user', { firstName: 'FHI', lastName: '4EVER' });
       });
 
       it('should display user information, when user is logged', function() {
