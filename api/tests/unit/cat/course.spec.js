@@ -31,7 +31,7 @@ describe('Unit | Model | Course', function() {
       const tubes = course.tubes;
 
       // then
-      const expectedTubes = {'web': [web4, web5], 'url': [url1]};
+      const expectedTubes = { 'web': [web4, web5], 'url': [url1] };
       expect(tubes).to.deep.equal(expectedTubes);
     });
 
@@ -51,7 +51,7 @@ describe('Unit | Model | Course', function() {
       const tubes = course.tubes;
 
       // then
-      const expectedTubes = {'web': [web4, web5], 'url': [url1, url2]};
+      const expectedTubes = { 'web': [web4, web5], 'url': [url1, url2] };
       expect(tubes).to.deep.equal(expectedTubes);
     });
 
@@ -71,7 +71,7 @@ describe('Unit | Model | Course', function() {
       const tubes = course.tubes;
 
       // then
-      const expectedTubes = {'web': [web1, web4, web5], 'url': [url1, url2]};
+      const expectedTubes = { 'web': [web1, web4, web5], 'url': [url1, url2] };
       expect(tubes).to.deep.equal(expectedTubes);
     });
   });

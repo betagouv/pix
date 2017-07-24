@@ -1,18 +1,18 @@
 Set.prototype.union = function(setB) {
-  var union = new Set(this);
-  for (var elem of setB) {
+  const union = new Set(this);
+  for (const elem of setB) {
     union.add(elem);
   }
   return union;
-}
+};
 
 Set.prototype.difference = function(setB) {
-  var difference = new Set(this);
-  for (var elem of setB) {
+  const difference = new Set(this);
+  for (const elem of setB) {
     difference.delete(elem);
   }
   return difference;
-}
+};
 
 class Assessment {
   constructor(course, answers) {
