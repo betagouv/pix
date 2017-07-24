@@ -1637,7 +1637,8 @@ h1.course-banner__name {
     text-decoration: none; }
 
 .logged-user-details {
-  margin-top: 0px; }
+  margin-top: 0px;
+  cursor: pointer; }
 
 .logged-user-name {
   font-family: "Lato", Arial, sans-serif;
@@ -1645,7 +1646,15 @@ h1.course-banner__name {
   font-weight: 700;
   letter-spacing: 0.5px;
   text-align: right;
-  color: #3e4149; }
+  color: #3e4149;
+  text-transform: capitalize; }
+
+.caret {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 4px 0 4px;
+  border-color: #3e4149 transparent transparent transparent; }
 
 .pix-logo {
   display: inline-block;
