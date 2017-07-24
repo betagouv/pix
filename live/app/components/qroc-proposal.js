@@ -5,16 +5,19 @@ export default Ember.Component.extend({
 
   classNames: ['qroc-proposal'],
 
+  // Input
   proposals: null,
-  answerValue: null,
-  answerChanged: null, // action
+  answer:    null,
+
+  // Action
+  answerChanged: null,
 
   _blocks: Ember.computed('proposals', function() {
     return proposalsAsBlocks(this.get('proposals'));
   }),
 
-  userAnswer : Ember.computed('answerValue', function() {
-    const answer = this.get('answerValue') || '';
+  userAnswer : Ember.computed('answer.value', function() {
+    const answer = this.get('answer.value') || '';
     return answer.indexOf('#ABAND#') > -1? '' : answer;
   }),
 

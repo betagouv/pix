@@ -20,9 +20,9 @@ describe('Integration | Component | QROC proposal', function() {
       // given
       const proposals = '${myInput}';
       this.set('proposals', proposals);
-      this.set('answerValue', 'myValue');
+      this.set('answer', { value: 'myValue'});
       // when
-      this.render(hbs`{{qroc-proposal proposals=proposals answerValue=answerValue}}`);
+      this.render(hbs`{{qroc-proposal proposals=proposals answer=answer}}`);
       // then
       expect(this.$('.challenge-response__proposal-input').val()).to.equal('myValue');
     });
@@ -46,9 +46,9 @@ describe('Integration | Component | QROC proposal', function() {
       it(`should display '' value ${input} is providing to component`, function() {
         // given
         this.set('proposals', '${myLabel}');
-        this.set('answerValue', input);
+        this.set('answer', { value: input });
         // when
-        this.render(hbs`{{qroc-proposal proposals=proposals answerValue=answerValue}}`);
+        this.render(hbs`{{qroc-proposal proposals=proposals answer=answer}}`);
         // then
         expect(this.$('.challenge-response__proposal-input').val()).to.be.equal(output);
       });

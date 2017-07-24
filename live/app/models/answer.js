@@ -1,9 +1,8 @@
 import DS from 'ember-data';
-import ValueAsArrayOfString from './answer/value-as-array-of-string-mixin';
 
 const { Model, attr, belongsTo } = DS;
 
-export default Model.extend(ValueAsArrayOfString, {
+export default Model.extend({
 
   value: attr('string'),
   result: attr('string'),

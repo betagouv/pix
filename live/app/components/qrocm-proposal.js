@@ -6,9 +6,20 @@ export default Component.extend({
 
   classNames: ['qrocm-proposal'],
 
+  // Input
   proposals: null,
-  answersValue: null,
-  answerChanged: null, // action
+  answer:    null,
+
+  // Action
+  answerChanged: null,
+
+  _parsedAnswerValue: Ember.computed('answer.value', function() {
+    try {
+      return jsyaml.load(this.get('answer.value'));
+    } catch (e) {
+      return undefined;
+    }
+  }),
 
   _blocks: computed('proposals', function() {
     return proposalsAsBlocks(this.get('proposals'));

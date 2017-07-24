@@ -4,14 +4,16 @@ import proposalsAsArray from 'pix-live/utils/proposals-as-array';
 import valueAsArrayOfBoolean from 'pix-live/utils/value-as-array-of-boolean';
 
 export default Ember.Component.extend({
-
-  answersValue: null,
+  // Input
   proposals: null,
+  answer:    null,
+
+  // Action
   answerChanged: null,
 
-  labeledCheckboxes: Ember.computed('proposals', 'answersValue', function() {
+  labeledCheckboxes: Ember.computed('proposals', 'answer.value', function() {
     const arrayOfProposals = proposalsAsArray(this.get('proposals'));
-    const arrayOfBoolean = valueAsArrayOfBoolean(this.get('answersValue'));
+    const arrayOfBoolean = valueAsArrayOfBoolean(this.get('answer.value'));
 
     return createProposalAnswerTuples(arrayOfProposals, arrayOfBoolean);
   }),
