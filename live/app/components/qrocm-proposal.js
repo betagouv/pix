@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import proposalsAsBlocks from 'pix-live/utils/proposals-as-blocks';
+import $ from 'jquery';
 
 export default Component.extend({
 

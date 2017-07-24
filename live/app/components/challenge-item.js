@@ -81,7 +81,7 @@ export default Ember.Component.extend({
   },
 
   _getTimeout() {
-    return $('.timeout-jauge-remaining').attr('data-spent');
+    return this.$('.timeout-jauge-remaining').attr('data-spent');
   },
 
   _getElapsedTime() {
