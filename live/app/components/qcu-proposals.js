@@ -16,19 +16,17 @@ export default Ember.Component.extend({
     return labeledCheckboxes(arrayOfProposals, valueAsArrayOfBoolean(this.get('answer.value')));
   }),
 
-  _uncheckAllRadioButtons() {
-    this.$(':radio').prop('checked', false);
-  },
-
-  _checkAgainTheSelectedOption(index) {
-    this.$(`:radio:nth(${index})`).prop('checked', true);
+  // TODO: use bound properties instead of inspecting the DOM
+  getAnswerValueFromInputsState() {
+    return this.$('input:radio:checked').map(function() {
+      return this.value;
+    }).get().join('');
   },
 
   actions: {
-    radioClicked(index) {
-      this._uncheckAllRadioButtons();
-      this._checkAgainTheSelectedOption(index);
-      this.get('answerChanged')();
+    inputChanged() {
+      const answerValue = this.getAnswerValueFromInputsState();
+      this.get('answerChanged')(answerValue);
     }
   }
 
