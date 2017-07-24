@@ -14,5 +14,17 @@ export default Ember.Component.extend({
     const arrayOfBoolean = valueAsArrayOfBoolean(this.get('answersValue'));
 
     return createProposalAnswerTuples(arrayOfProposals, arrayOfBoolean);
-  })
+  }),
+
+  // TODO: use bound properties instead of inspecting the DOM
+  getAnswerValueFromInputsState() {
+    return this.$('input[type=checkbox][id^=checkbox_]:checked').map(function() {return this.name; }).get().join(',');
+  },
+
+  actions: {
+    inputChanged() {
+      const answerValue = this.getAnswerValueFromInputsState();
+      this.get('answerChanged')(answerValue);
+    }
+  }
 });
