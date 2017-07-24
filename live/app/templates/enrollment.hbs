@@ -1,1 +1,76 @@
-{{outlet}}
+<div class="enrollment-page">
+
+  {{navbar-header class="navbar-header--white"}}
+
+  <div class="enrollment-page__header">
+    <div>Collèges, lycées, établissements d'enseignement supérieur : Rejoigner l'aventure Pix dès l'année 2017-2018
+      !
+    </div>
+    <div>Je veux que mon établissement propose la certification Pix dès cette année.</div>
+    <a href="https://github.com/sgmap/pix" target="_blank">
+      <div>Inscrire mon établissement</div>
+    </a>
+  </div>
+
+  <div class="enrollment-page__body">
+
+    <div class="enrollment-page__pix-description">
+      <div class="enrollment-page__pix-description-image"></div>
+      <div class="enrollment-page__pix-description-title">Pix, un outil d'évaluation au service des équipes pédagogiques
+      </div>
+      <div></div>
+      <ul class="enrollment-page__pix-description-goals-list">
+        {{#each model.pixDescriptionGoals as |goal|}}
+          <li class="enrollment-page__pix-description-goals-list_goal">{{goal}}</li>
+        {{/each}}
+      </ul>
+    </div>
+
+    <h2 class="enrollment-page__steps-title">
+      Les grandes étapes de l'année Pix
+      <span class="enrollment-page__steps-title__note">Pour les établissement pionniers</span>
+    </h2>
+
+    {{#each model.stepsForPioneersInstitutions as |institution|}}
+      <div class="enrollment-page__steps-establishment">
+        <h3 class="enrollment-page__steps-establishment__title">{{institution.title}}</h3>
+        <div class="enrollment-page__steps-establishment__steps-list">
+          {{#each institution.steps as |step|}}
+            {{#if step.date}}
+              <div class="enrollment-page__steps-establishment__steps-list__step-date">{{step.date}}</div>
+            {{/if}}
+            <div class="enrollment-page__steps-establishment__steps-list__step-description">{{step.description}}</div>
+          {{/each}}
+        </div>
+        <div>1ères certifications Pix délivrés aux {{institution.destinataires}}</div>
+      </div>
+    {{/each}}
+
+    <div class="enrollment-page__description">
+      <h3 class="enrollment-page__description-title">S'engager dans Pix dès cette année</h3>
+      <div class="enrollment-page__description-body">
+        <div class="enrollment-page__description-commitments">
+          <div class="enrollment-page__description-commitments-title">C'est</div>
+          {{#each model.pixCommitments as |commitment|}}
+            <div class="enrollment-page__description-commitments__commitment">
+              {{commitment}}
+            </div>
+          {{/each}}
+        </div>
+        <div class="enrollment-page__description-commitments">
+          <div class="enrollment-page__description-commitments-title">Ce n'est pas</div>
+          {{#each model.pixUncommitments as |uncommitment|}}
+            <div class="enrollment-page__description-commitments__commitment">
+              {{uncommitment}}
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  {{app-footer}}
+
+</div>
