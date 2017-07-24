@@ -1642,7 +1642,7 @@ h1.course-banner__name {
 .logged-user-name {
   font-family: "Lato", Arial, sans-serif;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 700;
   letter-spacing: 0.5px;
   text-align: right;
   color: #3e4149; }

@@ -5115,6 +5115,7 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
             "block": "{\"statements\":[[1,[33,[\"navbar-header\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
+          // then
           (0, _chai.expect)(this.$('.logged-user-details')).to.have.length(1);
           (0, _chai.expect)(this.$('.logged-user-name').text().trim()).to.be.equal('FHI 4EVER');
         });
@@ -5128,6 +5129,7 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
             "block": "{\"statements\":[[1,[33,[\"navbar-header\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
           }));
+          // then
           (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.length(1);
         });
       });
@@ -9224,7 +9226,7 @@ define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'e
         var given = _ref.given,
             expected = _ref.expected;
 
-        (0, _mocha.it)('should return ' + expected + ', when ' + given + ' provided', function () {
+        (0, _mocha.it)('should return ' + expected + ', when "' + given + '" provided', function () {
           // given
           var component = this.subject();
           // when
