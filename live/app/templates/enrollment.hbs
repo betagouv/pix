@@ -15,7 +15,7 @@
   <div class="enrollment-page__body">
 
     <div class="enrollment-page__pix-description">
-      <div class="enrollment-page__pix-description-image"></div>
+      <div class="enrollment-page__pix-description-image">IMAGE</div>
       <div class="enrollment-page__pix-description-title">Pix, un outil d'évaluation au service des équipes pédagogiques
       </div>
       <div></div>
@@ -33,7 +33,10 @@
 
     {{#each model.stepsForPioneersInstitutions as |institution|}}
       <div class="enrollment-page__steps-establishment">
-        <h3 class="enrollment-page__steps-establishment__title">{{institution.title}}</h3>
+        <h3 class="enrollment-page__steps-establishment__title">
+          <div>IMAGE</div>
+          {{institution.title}}
+        </h3>
         <div class="enrollment-page__steps-establishment__steps-list">
           {{#each institution.steps as |step|}}
             {{#if step.date}}
@@ -42,7 +45,10 @@
             <div class="enrollment-page__steps-establishment__steps-list__step-description">{{step.description}}</div>
           {{/each}}
         </div>
-        <div>1ères certifications Pix délivrés aux {{institution.destinataires}}</div>
+        <div>
+          <div>IMAGE</div>
+          <div>1ères certifications Pix délivrés aux {{institution.destinataires}}</div>
+        </div>
       </div>
     {{/each}}
 
@@ -53,7 +59,8 @@
           <div class="enrollment-page__description-commitments-title">C'est</div>
           {{#each model.pixCommitments as |commitment|}}
             <div class="enrollment-page__description-commitments__commitment">
-              {{commitment}}
+              <div>IMAGE</div>
+              <div>{{commitment}}</div>
             </div>
           {{/each}}
         </div>
@@ -61,7 +68,8 @@
           <div class="enrollment-page__description-commitments-title">Ce n'est pas</div>
           {{#each model.pixUncommitments as |uncommitment|}}
             <div class="enrollment-page__description-commitments__commitment">
-              {{uncommitment}}
+              <div>IMAGE</div>
+              <div>{{uncommitment}}</div>
             </div>
           {{/each}}
         </div>
