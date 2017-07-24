@@ -29,5 +29,4 @@ export default Ember.Component.extend({
       this.get('answerChanged')(answerValue);
     }
   }
-
 });

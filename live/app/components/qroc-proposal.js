@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import  proposalsAsBlocks from 'pix-live/utils/proposals-as-blocks';
+import proposalsAsBlocks from 'pix-live/utils/proposals-as-blocks';
 
 export default Ember.Component.extend({
 

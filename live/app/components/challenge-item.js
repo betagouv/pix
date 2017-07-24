@@ -3,6 +3,7 @@ import RSVP from 'rsvp';
 import callOnlyOnce from '../utils/call-only-once';
 import _ from 'pix-live/utils/lodash-custom';
 import ENV from 'pix-live/config/environment';
+import AnswerValidator from 'pix-live/utils/answer-validators';
 
 export default Ember.Component.extend({
 
@@ -20,6 +21,16 @@ export default Ember.Component.extend({
     this._super(...arguments);
     if (!_.isInteger(this.get('challenge.timer'))) {
       this._start();
+    }
+  },
+
+  didReceiveAttrs() {
+    this._super(...arguments);
+    const answerValue = this.get('answer.value');
+    const previousAnswerValue = this.get('previousAnswerValue');
+    if (answerValue !== previousAnswerValue) {
+      this.set('answerProposal', answerValue);
+      this.set('previousAnswerValue', answerValue);
     }
   },
 
@@ -96,21 +107,20 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    updateAnswerValue(answerValue) {
-      this.set('proposalAnswerValue',  answerValue);
+    updateAnswerValue(answerProposal) {
+      this.set('answerProposal', answerProposal);
       this.set('errorMessage', null);
     },
 
     validateAnswer() {
-      const proposalAnswerValue = this.get('proposalAnswerValue');
-      // FIXME: handle local validation of errors
-      const proposalError = null;
-      if (proposalError) {
-        this.set('errorMessage', proposalError);
-        return RSVP.reject(proposalError);
-      } else{
+      const validator = AnswerValidator.validatorForChallenge(this.get('challenge.type'), this.get('answerProposal'));
+      if (validator.isValid()) {
         this.set('_isUserAwareThatChallengeIsTimed', false);
-        return this.get('answerValidated')(this.get('challenge'), this.get('assessment'), proposalAnswerValue, this._getTimeout(), this._getElapsedTime());
+        return this.get('answerValidated')(this.get('challenge'), this.get('assessment'), this.get('answerProposal'), this._getTimeout(), this._getElapsedTime());
+
+      } else {
+        this.set('errorMessage', validator.errorMessage);
+        return RSVP.reject(validator.errorMessage);
       }
     },
 
