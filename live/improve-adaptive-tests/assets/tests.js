@@ -49,7 +49,7 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['mocha', 'chai', 'pix-
 
       (0, _mocha.it)('a1.6 avec un titre', function () {
         var $title = findWithAssert('.index-page-challenges__presentation-title');
-        (0, _chai.expect)($title.text().trim()).to.equal('Les défis Pix de la semaine');
+        (0, _chai.expect)($title.text().trim()).to.equal('Le défi Pix de la semaine');
       });
 
       (0, _mocha.it)('a1.7 avec un texte descriptif', function () {
@@ -916,154 +916,6 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
     });
   });
 });
-define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
-  'use strict';
-
-  function _asyncToGenerator(fn) {
-    return function () {
-      var gen = fn.apply(this, arguments);
-      return new Promise(function (resolve, reject) {
-        function step(key, arg) {
-          try {
-            var info = gen[key](arg);
-            var value = info.value;
-          } catch (error) {
-            reject(error);
-            return;
-          }
-
-          if (info.done) {
-            resolve(value);
-          } else {
-            return Promise.resolve(value).then(function (value) {
-              step("next", value);
-            }, function (err) {
-              step("throw", err);
-            });
-          }
-        }
-
-        return step("next");
-      });
-    };
-  }
-
-  (0, _mocha.describe)('Acceptance | courseGroups', function () {
-
-    var application = void 0;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
-    });
-
-    (0, _mocha.describe)('Access to the page', function () {
-
-      (0, _mocha.it)('should display the historic of the weekly courses courseGroups by the url /defis-pix', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return visit('/defis-pix');
-
-              case 2:
-
-                // then
-                (0, _chai.expect)(currentURL()).to.equal('/defis-pix');
-
-              case 3:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      })));
-    });
-
-    (0, _mocha.describe)('Rendering', function () {
-
-      (0, _mocha.it)('should display a navbar and a footer', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return visit('/defis-pix');
-
-              case 2:
-
-                // then
-                (0, _chai.expect)(find('.navbar-header')).to.have.lengthOf(1);
-                (0, _chai.expect)(find('.app-footer')).to.have.lengthOf(1);
-
-              case 4:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      })));
-
-      (0, _mocha.it)('should display a header section', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return visit('/defis-pix');
-
-              case 2:
-
-                // then
-                (0, _chai.expect)(find('.course-groups-page__header')).to.have.lengthOf(1);
-
-              case 3:
-              case 'end':
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this);
-      })));
-
-      (0, _mocha.it)('should display a list of (weekly courses) course-groups', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
-        var courses;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                // given
-                courses = server.createList('course', 2, { name: 'course name' });
-
-                server.createList('courseGroup', 3, { courses: courses });
-
-                // when
-                _context4.next = 4;
-                return visit('/defis-pix');
-
-              case 4:
-
-                // then
-                (0, _chai.expect)(find('.course-item__name')[0].innerText).to.equal('course name');
-
-                (0, _chai.expect)(find('.course-groups-page__course-groups')).to.have.lengthOf(1);
-                (0, _chai.expect)(find('.course-groups-page__course-group-item')).to.have.lengthOf(3);
-                (0, _chai.expect)(find('.course-list')).to.have.lengthOf(3);
-                (0, _chai.expect)(find('.course-item')).to.have.lengthOf(6);
-
-              case 9:
-              case 'end':
-                return _context4.stop();
-            }
-          }
-        }, _callee4, this);
-      })));
-    });
-  });
-});
 define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
   'use strict';
 
@@ -1130,7 +982,6 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
   (0, _mocha.describe)('Acceptance | d1 - Valider une épreuve |', function () {
 
     var application = void 0;
-    var PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
 
     (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
@@ -1159,8 +1010,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
       }, _callee2, this);
     })));
 
-    (0, _mocha.it)('d1.0b La barre de progression commence à 1, si j\'accède directement à un course', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
-      var $progressBar;
+    (0, _mocha.it)('d1.0b La barre de progression commence à 1, si j\'accède au challenge depuis depuis le lien Airtable', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
       return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
@@ -1169,13 +1019,9 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
               return visit('/courses/ref_course_id');
 
             case 2:
+              (0, _chai.expect)(progressBarText()).to.equal('1 / 5');
 
-              // Then
-              $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
-
-              (0, _chai.expect)($progressBar.text().trim()).to.equal('1 / 5');
-
-            case 4:
+            case 3:
             case 'end':
               return _context3.stop();
           }
@@ -1243,18 +1089,13 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
       })));
 
       (0, _mocha.it)('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
-        var expectedText;
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
+                (0, _chai.expect)(progressBarText()).to.equal('2 / 5');
 
-                // Then
-                expectedText = '2';
-
-                (0, _chai.expect)(findWithAssert('.pix-progress-bar').text()).to.contain(expectedText);
-
-              case 2:
+              case 1:
               case 'end':
                 return _context7.stop();
             }
@@ -2351,63 +2192,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     });
   });
 });
-define('pix-live/tests/acceptance/m1-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
-  'use strict';
-
-  (0, _mocha.describe)('Acceptance | Espace compte', function () {
-
-    var application = void 0;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
-
-      server.create('user', {
-        id: 1,
-        firstName: 'François',
-        lastName: 'Hisquin',
-        email: 'fhi@octo.com',
-        password: 'FHI4EVER',
-        cgu: true,
-        recaptchaToken: 'recaptcha-token-xxxxxx',
-        competenceIds: []
-      });
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
-    });
-
-    (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
-      (0, _mocha.it)('should redirect to the connexion page', function () {
-        // when
-        visit('/compte');
-
-        // then
-        return andThen(function () {
-          (0, _chai.expect)(currentURL()).to.equal('/connexion');
-        });
-      });
-    });
-
-    (0, _mocha.describe)('m1.2 Log-in phase', function () {
-      (0, _mocha.it)('should redirect to the /compte after connexion', function () {
-        // given
-        visit('/connexion');
-        fillIn('#pix-email', 'fhi@octo.com');
-        fillIn('#pix-password', 'FHI4EVER');
-
-        // when
-        click('.signin-form__submit_button');
-
-        // then
-        return andThen(function () {
-          (0, _chai.expect)(currentURL()).to.equal('/compte');
-        });
-      });
-    });
-  });
-});
-define('pix-live/tests/acceptance/n1-competence-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/m1-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'ember-test-helpers/wait'], function (_mocha, _chai, _startApp, _destroyApp, _wait) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -2439,93 +2224,61 @@ define('pix-live/tests/acceptance/n1-competence-profile-test', ['mocha', 'chai',
     };
   }
 
-  (0, _mocha.describe)('Acceptance | n1 - competence profile', function () {
+  (0, _mocha.describe)('Acceptance | Espace compte', function () {
+
     var application = void 0;
 
-    (0, _mocha.beforeEach)(function () {
+    (0, _mocha.before)(function () {
       application = (0, _startApp.default)();
     });
 
-    (0, _mocha.afterEach)(function () {
+    (0, _mocha.after)(function () {
       (0, _destroyApp.default)(application);
     });
 
-    function seedDatabase() {
-      server.loadFixtures('areas');
-      server.loadFixtures('competences');
-      server.create('user', {
-        id: 1,
-        firstName: 'Samurai',
-        lastName: 'Jack',
-        email: 'samurai.jack@aku.world',
-        password: 'B@ck2past',
-        cgu: true,
-        recaptchaToken: 'recaptcha-token-xxxxxx',
-        competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+    (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
+      (0, _mocha.it)('should redirect to the connexion page', function () {
+        visit('/compte');
+
+        return andThen(function () {
+          (0, _chai.expect)(currentURL()).to.equal('/connexion');
+        });
       });
-    }
+    });
 
-    function authenticateUser() {
-      visit('/connexion');
-      fillIn('#pix-email', 'samurai.jack@aku.world');
-      fillIn('#pix-password', 'B@ck2past');
-      click('.signin-form__submit_button');
-    }
+    (0, _mocha.describe)('m1.2 Log-in phase', function () {
+      var _this = this;
 
-    (0, _mocha.it)('can visit /compte', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              // given
-              seedDatabase();
-              authenticateUser();
+      (0, _mocha.it)('should redirect to the /compte after connexion', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return visit('/connexion');
 
-              // when
-              _context.next = 4;
-              return visit('/compte');
+              case 2:
 
-            case 4:
-              return _context.abrupt('return', andThen(function () {
-                (0, _chai.expect)(currentURL()).to.equal('/compte');
-              }));
+                _fillConnexionForm('pix@contact.com', 'PasswordPix#');
+                $('form').submit();
 
-            case 5:
-            case 'end':
-              return _context.stop();
+                return _context.abrupt('return', (0, _wait.default)().then(function () {
+                  (0, _chai.expect)(currentURL()).to.equal('/compte');
+                }));
+
+              case 5:
+              case 'end':
+                return _context.stop();
+            }
           }
-        }
-      }, _callee, this);
-    })));
-
-    (0, _mocha.it)('should display user competences (with level) grouped by area', function () {
-      // given
-      seedDatabase();
-      authenticateUser();
-
-      // when
-      visit('/compte');
-
-      // then
-      return andThen(function () {
-        (0, _chai.expect)(find('.competence-by-area-item').length).to.equal(5);
-        (0, _chai.expect)(find('.competence').length).to.equal(16);
-      });
+        }, _callee, _this);
+      })));
     });
 
-    (0, _mocha.it)('should display a link ’commencer’ with the correct url to start an adaptive course, for the first competence', function () {
-      // given
-      seedDatabase();
-      authenticateUser();
-
-      // when
-      visit('/compte');
-
-      // then
-      return andThen(function () {
-        (0, _chai.expect)(find('.competence-level-progress-bar__start-link:first').attr('href')).to.be.equal('/courses/ref_course_id');
-      });
-    });
+    function _fillConnexionForm(email, password) {
+      $('input[type=email]').val(email);
+      $('input[type=password]').val(password);
+    }
   });
 });
 define('pix-live/tests/app.lint-test', [], function () {
@@ -2542,10 +2295,6 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('adapters/solution.js', function () {
-      // test passed
-    });
-
-    it('adapters/user.js', function () {
       // test passed
     });
 
@@ -2601,18 +2350,6 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('components/competence-area-list.js', function () {
-      // test passed
-    });
-
-    it('components/competence-by-area-item.js', function () {
-      // test passed
-    });
-
-    it('components/competence-level-progress-bar.js', function () {
-      // test passed
-    });
-
     it('components/corner-ribbon.js', function () {
       // test passed
     });
@@ -2665,10 +2402,6 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('components/profile-panel.js', function () {
-      // test passed
-    });
-
     it('components/progress-bar.js', function () {
       // test passed
     });
@@ -2706,10 +2439,6 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('components/result-item.js', function () {
-      // test passed
-    });
-
-    it('components/score-pastille.js', function () {
       // test passed
     });
 
@@ -2789,23 +2518,11 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('models/area.js', function () {
-      // test passed
-    });
-
     it('models/assessment.js', function () {
       // test passed
     });
 
     it('models/challenge.js', function () {
-      // test passed
-    });
-
-    it('models/competence.js', function () {
-      // test passed
-    });
-
-    it('models/course-group.js', function () {
       // test passed
     });
 
@@ -2869,7 +2586,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/course-groups.js', function () {
+    it('routes/connexion.js', function () {
       // test passed
     });
 
@@ -2893,19 +2610,15 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('routes/deconnexion.js', function () {
+      // test passed
+    });
+
     it('routes/index.js', function () {
       // test passed
     });
 
     it('routes/inscription.js', function () {
-      // test passed
-    });
-
-    it('routes/login.js', function () {
-      // test passed
-    });
-
-    it('routes/logout.js', function () {
       // test passed
     });
 
@@ -3670,360 +3383,6 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
     });
   });
 });
-define('pix-live/tests/integration/components/competence-area-list-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
-  'use strict';
-
-  (0, _mocha.describe)('Integration | Component | competence area list', function () {
-    (0, _emberMocha.setupComponentTest)('competence-area-list', {
-      integration: true
-    });
-
-    (0, _mocha.describe)('Component rendering', function () {
-      (0, _mocha.it)('renders', function () {
-        // when
-        this.render(_ember.default.HTMLBars.template({
-          "id": "1Zu65Rsf",
-          "block": "{\"statements\":[[1,[26,[\"competence-area-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
-      });
-
-      (0, _mocha.it)('should render a wrapper', function () {
-        // when
-        this.render(_ember.default.HTMLBars.template({
-          "id": "1Zu65Rsf",
-          "block": "{\"statements\":[[1,[26,[\"competence-area-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // then
-        var WRAPPER_CLASS = '.competence-area-list';
-        (0, _chai.expect)(this.$(WRAPPER_CLASS)).to.have.length(1);
-      });
-
-      (0, _mocha.describe)('Rendering when different areas', function () {
-
-        (0, _mocha.it)('should render 5 competence areas, when there are 5 competences with different area for each one', function () {
-          // given
-          var competencesWithDifferentAreas = [_ember.default.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }), _ember.default.Object.create({ id: 2, name: 'competence-2', areaName: 'area-B' }), _ember.default.Object.create({ id: 3, name: 'competence-3', areaName: 'area-C' }), _ember.default.Object.create({ id: 4, name: 'competence-4', areaName: 'area-D' }), _ember.default.Object.create({ id: 5, name: 'competence-5', areaName: 'area-E' })];
-          this.set('competences', competencesWithDifferentAreas);
-
-          // when
-          this.render(_ember.default.HTMLBars.template({
-            "id": "izE4TL0M",
-            "block": "{\"statements\":[[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-            "meta": {}
-          }));
-
-          // then
-          (0, _chai.expect)(this.$('.competence-area-list__item')).to.have.lengthOf(5);
-        });
-
-        (0, _mocha.it)('should render 2 competence areas, when there are 5 competences related to 2 different areas', function () {
-          // given
-          var competencesWithDifferentAreas = [_ember.default.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }), _ember.default.Object.create({ id: 2, name: 'competence-2', areaName: 'area-A' }), _ember.default.Object.create({ id: 3, name: 'competence-3', areaName: 'area-A' }), _ember.default.Object.create({ id: 4, name: 'competence-4', areaName: 'area-B' }), _ember.default.Object.create({ id: 5, name: 'competence-5', areaName: 'area-B' })];
-          this.set('competences', competencesWithDifferentAreas);
-
-          // when
-          this.render(_ember.default.HTMLBars.template({
-            "id": "izE4TL0M",
-            "block": "{\"statements\":[[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-            "meta": {}
-          }));
-
-          // then
-          (0, _chai.expect)(this.$('.competence-area-list__item')).to.have.lengthOf(2);
-        });
-      });
-
-      (0, _mocha.describe)('Rendering when same area', function () {
-        (0, _mocha.it)('should render only 1 competence area, when there are 5 competences with the same area', function () {
-          // given
-          var competencesWithSameArea = [_ember.default.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }), _ember.default.Object.create({ id: 2, name: 'competence-2', areaName: 'area-A' }), _ember.default.Object.create({ id: 3, name: 'competence-3', areaName: 'area-A' }), _ember.default.Object.create({ id: 4, name: 'competence-4', areaName: 'area-A' }), _ember.default.Object.create({ id: 5, name: 'competence-5', areaName: 'area-A' })];
-
-          // when
-          this.set('competences', competencesWithSameArea);
-          this.render(_ember.default.HTMLBars.template({
-            "id": "izE4TL0M",
-            "block": "{\"statements\":[[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-            "meta": {}
-          }));
-          // then
-          (0, _chai.expect)(this.$('.competence-area-list__item')).to.have.lengthOf(1);
-        });
-      });
-    });
-  });
-});
-define('pix-live/tests/integration/components/competence-by-area-item-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
-  'use strict';
-
-  (0, _mocha.describe)('Integration | Component | competence area item', function () {
-    (0, _emberMocha.setupComponentTest)('competence-by-area-item', {
-      integration: true
-    });
-
-    (0, _mocha.it)('should render', function () {
-      // when
-      this.render(_ember.default.HTMLBars.template({
-        "id": "VrjYY9DC",
-        "block": "{\"statements\":[[1,[26,[\"competence-by-area-item\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-        "meta": {}
-      }));
-
-      // then
-      (0, _chai.expect)(this.$('.competence-by-area-item')).to.have.length(1);
-    });
-
-    (0, _mocha.it)('should render a title', function () {
-      // Given
-      var competence = _ember.default.Object.create({ name: 'competence-A', level: 1 });
-      var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
-      this.set('competenceArea', areaWithOnlyOneCompetence);
-      // when
-      this.render(_ember.default.HTMLBars.template({
-        "id": "7jLygV5q",
-        "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-        "meta": {}
-      }));
-      // then
-      (0, _chai.expect)(this.$('.area__name').text().trim()).to.equal('Information et données');
-    });
-
-    (0, _mocha.it)('should render as many competences as received', function () {
-      // given
-      var competencesWithSameArea = [_ember.default.Object.create({ id: 1, name: 'competence-name-1', area: 'area-id-1' }), _ember.default.Object.create({ id: 2, name: 'competence-name-2', area: 'area-id-1' }), _ember.default.Object.create({ id: 3, name: 'competence-name-3', area: 'area-id-1' }), _ember.default.Object.create({ id: 4, name: 'competence-name-4', area: 'area-id-1' }), _ember.default.Object.create({ id: 5, name: 'competence-name-5', area: 'area-id-1' })];
-      var areaWithManyCompetences = {
-        property: 'area',
-        value: 'Information et données',
-        items: competencesWithSameArea
-      };
-
-      this.set('competenceArea', areaWithManyCompetences);
-      // when
-      this.render(_ember.default.HTMLBars.template({
-        "id": "7jLygV5q",
-        "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-        "meta": {}
-      }));
-
-      // then
-      (0, _chai.expect)(this.$('.competence__name')).to.have.length(5);
-    });
-
-    (0, _mocha.describe)('Competence rendering', function () {
-      (0, _mocha.it)('should render its name', function () {
-        // given
-        var competence = _ember.default.Object.create({ name: 'Mener une recherche et une veille d’information' });
-        var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
-        this.set('competenceArea', areaWithOnlyOneCompetence);
-
-        // when
-        this.render(_ember.default.HTMLBars.template({
-          "id": "7jLygV5q",
-          "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$('.competence__name').text().trim()).to.equal('Mener une recherche et une veille d’information');
-      });
-
-      (0, _mocha.it)('should render the relative level progress bar for user', function () {
-        // given
-        var competence = _ember.default.Object.create();
-        var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
-        this.set('competenceArea', areaWithOnlyOneCompetence);
-
-        // when
-        this.render(_ember.default.HTMLBars.template({
-          "id": "7jLygV5q",
-          "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$('.competence__progress-bar')).to.have.lengthOf(1);
-      });
-    });
-  });
-});
-define('pix-live/tests/integration/components/competence-level-progress-bar-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Integration | Component | competence level progress bar', function () {
-    (0, _emberMocha.setupComponentTest)('competence-level-progress-bar', {
-      integration: true
-    });
-
-    (0, _mocha.it)('renders', function () {
-      this.render(Ember.HTMLBars.template({
-        "id": "KsF1SyH6",
-        "block": "{\"statements\":[[1,[26,[\"competence-level-progress-bar\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-        "meta": {}
-      }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
-    });
-
-    (0, _mocha.describe)('if the level is not defined', function () {
-
-      (0, _mocha.it)('should not display the background of progress bar which display limit and max level', function () {
-        //Given
-        var givenLevel = -1;
-        this.set('level', givenLevel);
-
-        //When
-        this.render(Ember.HTMLBars.template({
-          "id": "CApsTCe7",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        //Then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background')).to.have.length(0);
-      });
-
-      (0, _mocha.it)('should not display a progress bar if level is not defined (-1)', function () {
-        //Given
-        var givenLevel = undefined;
-        this.set('level', givenLevel);
-
-        //When
-        this.render(Ember.HTMLBars.template({
-          "id": "CApsTCe7",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        //Then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.length(0);
-      });
-    });
-
-    (0, _mocha.describe)('if the level is defined', function () {
-
-      (0, _mocha.it)('should indicate the limit level and the max level reachable in the progress bar', function () {
-        // given
-        var MAX_LEVEL = 8;
-        var LIMIT_LEVEL = 5;
-        var level = 4;
-        this.set('level', level);
-
-        // when
-        this.render(Ember.HTMLBars.template({
-          "id": "CApsTCe7",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator')).to.have.length(1);
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator').text().trim()).to.equal(LIMIT_LEVEL.toString());
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator')).to.have.length(1);
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator').text().trim()).to.equal(MAX_LEVEL.toString());
-      });
-
-      (0, _mocha.it)('should display a progress bar if level is defined (equal or more than 0)', function () {
-        //Given
-        var givenLevel = 1;
-        this.set('level', givenLevel);
-
-        //When
-        this.render(Ember.HTMLBars.template({
-          "id": "CApsTCe7",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        //Then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.length(1);
-      });
-
-      (0, _mocha.it)('should indicate the level passed to the component at the end of the progress bar', function () {
-        // given
-        var level = 5;
-        this.set('level', level);
-
-        // when
-        this.render(Ember.HTMLBars.template({
-          "id": "CApsTCe7",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__level-indicator').text().trim()).to.be.equal(level.toString());
-      });
-    });
-
-    (0, _mocha.describe)('when there is an associated course', function () {
-
-      (0, _mocha.it)('should display ’commencer’ in progress bar, when the level is not defined (-1)', function () {
-        // given
-        var courseId = 'rec123';
-        var level = -1;
-
-        this.set('courseId', courseId);
-        this.set('level', level);
-
-        // when
-        this.render(Ember.HTMLBars.template({
-          "id": "VkVD5c38",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\",\"courseId\"],[[28,[\"level\"]],[28,[\"courseId\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(1);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(1);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link').text().trim()).to.be.equal('Commencer');
-      });
-
-      (0, _mocha.it)('should not display ’commencer’ in progress bar, when the level is already defined', function () {
-        // given
-        var courseId = 'rec123';
-        var level = 3;
-
-        this.set('courseId', courseId);
-        this.set('level', level);
-
-        // when
-        this.render(Ember.HTMLBars.template({
-          "id": "VkVD5c38",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\",\"courseId\"],[[28,[\"level\"]],[28,[\"courseId\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(0);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(0);
-      });
-    });
-
-    (0, _mocha.describe)('when there is no associated course', function () {
-
-      (0, _mocha.it)('should not display ’commencer’ in progress bar', function () {
-        // given
-        var level = 3;
-        this.set('level', level);
-
-        // when
-        this.render(Ember.HTMLBars.template({
-          "id": "CApsTCe7",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(0);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(0);
-      });
-    });
-  });
-});
 define('pix-live/tests/integration/components/corner-ribbon-test', ['chai', 'ember-mocha'], function (_chai, _emberMocha) {
   'use strict';
 
@@ -4146,23 +3505,6 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
         // then
         var $nbChallenges = this.$('.course-item__challenges-number');
         (0, _chai.expect)($nbChallenges.text().trim()).to.equal('4 épreuves');
-      });
-
-      (0, _mocha.it)('should render the number of challenges', function () {
-        // given
-        var course = _ember.default.Object.create({ challenges: [], nbChallenges: 2 });
-        this.set('course', course);
-
-        // when
-        this.render(_ember.default.HTMLBars.template({
-          "id": "Ig9hFQ2w",
-          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // then
-        var $nbChallenges = this.$('.course-item__challenges-number');
-        (0, _chai.expect)($nbChallenges.text().trim()).to.equal('2 épreuves');
       });
 
       (0, _mocha.it)('should render a link to begin the course', function () {
@@ -5137,89 +4479,6 @@ define('pix-live/tests/integration/components/pix-logo-test', ['chai', 'mocha', 
 
     (0, _mocha.it)('should have a title in the link', function () {
       (0, _chai.expect)(this.$('.pix-logo__link').attr('title')).to.equal('Lien vers la page d\'accueil de PIX');
-    });
-  });
-});
-define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Integration | Component | profile panel', function () {
-    (0, _emberMocha.setupComponentTest)('profile-panel', {
-      integration: true
-    });
-
-    (0, _mocha.describe)('(Rendering behavior) Component: ', function () {
-
-      (0, _mocha.it)('should be rendered', function () {
-        // when
-        this.render(Ember.HTMLBars.template({
-          "id": "hj/2/1ZO",
-          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
-      });
-
-      (0, _mocha.it)('should render a wrapper', function () {
-        // when
-        this.render(Ember.HTMLBars.template({
-          "id": "hj/2/1ZO",
-          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // then
-        var WRAPPER_CLASS = '.profile-panel';
-        (0, _chai.expect)(this.$(WRAPPER_CLASS)).to.have.length(1);
-      });
-
-      (0, _mocha.it)('should render a profile header', function () {
-        // when
-        this.render(Ember.HTMLBars.template({
-          "id": "hj/2/1ZO",
-          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // Then
-        var HEADER_CLASS = '.profile-panel__header';
-        var HEADER_TITLE = '.profile-header__title';
-        (0, _chai.expect)(this.$(HEADER_CLASS)).to.have.length(1);
-        (0, _chai.expect)(this.$(HEADER_TITLE).text().trim()).to.be.equal('Votre profil');
-      });
-
-      (0, _mocha.it)('should render a competence profile block', function () {
-        // when
-        this.render(Ember.HTMLBars.template({
-          "id": "hj/2/1ZO",
-          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // Then
-        var COMPETENCY_BLOCK = '.profile-panel__competence-areas';
-        (0, _chai.expect)(this.$(COMPETENCY_BLOCK)).to.have.length(1);
-      });
-
-      (0, _mocha.describe)('behavior according to totalPixScore value', function () {
-        (0, _mocha.it)('should display two dashes instead of zero in total pix score, when user has’nt yet assessed on placement test', function () {
-          // given
-          var totalPixScore = '';
-
-          this.set('totalPixScore', totalPixScore);
-          // when
-          this.render(Ember.HTMLBars.template({
-            "id": "HTqT+ym1",
-            "block": "{\"statements\":[[1,[33,[\"profile-panel\"],null,[[\"totalPixScore\"],[[28,[\"totalPixScore\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-            "meta": {}
-          }));
-
-          // then
-          (0, _chai.expect)(this.$('.profile-header__score-pastille-wrapper')).to.have.length(1);
-        });
-      });
     });
   });
 });
@@ -6263,58 +5522,6 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
           (0, _chai.expect)(this.$('.result-item__icon-img--' + data.status)).to.have.lengthOf(1);
           (0, _chai.expect)($icon.attr('src')).to.equal('/images/answer-validation/icon-' + data.status + '.svg');
         });
-      });
-    });
-  });
-});
-define('pix-live/tests/integration/components/score-pastille-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Integration | Component | score pastille', function () {
-    (0, _emberMocha.setupComponentTest)('score-pastille', {
-      integration: true
-    });
-
-    (0, _mocha.describe)('Component rendering', function () {
-
-      (0, _mocha.it)('should render component', function () {
-        // when
-        this.render(Ember.HTMLBars.template({
-          "id": "JpjlFNjP",
-          "block": "{\"statements\":[[1,[26,[\"score-pastille\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
-      });
-
-      (0, _mocha.describe)('Component dashes rendering instead of zero cases:', function () {
-
-        (0, _mocha.it)('should display two dashes, when no pixScore provided', function () {
-          // when
-          this.render(Ember.HTMLBars.template({
-            "id": "JpjlFNjP",
-            "block": "{\"statements\":[[1,[26,[\"score-pastille\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-            "meta": {}
-          }));
-          // then
-          (0, _chai.expect)(this.$('.score-pastille__pix-score').text().trim()).to.equal('--');
-        });
-      });
-
-      (0, _mocha.it)('should display provided score in pastille', function () {
-        // given
-        var pixScore = '777';
-        this.set('pixScore', pixScore);
-        // when
-        this.render(Ember.HTMLBars.template({
-          "id": "czvYLqz+",
-          "block": "{\"statements\":[[1,[33,[\"score-pastille\"],null,[[\"pixScore\"],[[28,[\"pixScore\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-        // then
-        (0, _chai.expect)(this.$('.score-pastille__pix-score').text().trim()).to.equal(pixScore);
       });
     });
   });
@@ -7611,10 +6818,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('acceptance/course-groups-test.js', function () {
-      // test passed
-    });
-
     it('acceptance/d1-epreuve-validation-test.js', function () {
       // test passed
     });
@@ -7655,10 +6858,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('acceptance/n1-competence-profile-test.js', function () {
-      // test passed
-    });
-
     it('helpers/destroy-app.js', function () {
       // test passed
     });
@@ -7688,18 +6887,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/comparison-window-test.js', function () {
-      // test passed
-    });
-
-    it('integration/components/competence-area-list-test.js', function () {
-      // test passed
-    });
-
-    it('integration/components/competence-by-area-item-test.js', function () {
-      // test passed
-    });
-
-    it('integration/components/competence-level-progress-bar-test.js', function () {
       // test passed
     });
 
@@ -7751,10 +6938,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('integration/components/profile-panel-test.js', function () {
-      // test passed
-    });
-
     it('integration/components/qcm-proposals-test.js', function () {
       // test passed
     });
@@ -7788,10 +6971,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/result-item-test.js', function () {
-      // test passed
-    });
-
-    it('integration/components/score-pastille-test.js', function () {
       // test passed
     });
 
@@ -7835,27 +7014,11 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/adapters/user-test.js', function () {
-      // test passed
-    });
-
     it('unit/authenticators/simple-test.js', function () {
       // test passed
     });
 
     it('unit/components/comparison-window-test.js', function () {
-      // test passed
-    });
-
-    it('unit/components/competence-area-list-test.js', function () {
-      // test passed
-    });
-
-    it('unit/components/competence-by-area-item-test.js', function () {
-      // test passed
-    });
-
-    it('unit/components/competence-level-progress-bar-test.js', function () {
       // test passed
     });
 
@@ -7892,10 +7055,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/components/result-item-test.js', function () {
-      // test passed
-    });
-
-    it('unit/components/score-pastille-test.js', function () {
       // test passed
     });
 
@@ -7943,19 +7102,7 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/models/area-test.js', function () {
-      // test passed
-    });
-
     it('unit/models/challenge-test.js', function () {
-      // test passed
-    });
-
-    it('unit/models/competence-test.js', function () {
-      // test passed
-    });
-
-    it('unit/models/course-group-test.js', function () {
       // test passed
     });
 
@@ -7999,6 +7146,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/routes/connexion-test.js', function () {
+      // test passed
+    });
+
     it('unit/routes/courses-test.js', function () {
       // test passed
     });
@@ -8011,6 +7162,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/routes/deconnexion-test.js', function () {
+      // test passed
+    });
+
     it('unit/routes/index-test.js', function () {
       // test passed
     });
@@ -8019,23 +7174,11 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/routes/login-test.js', function () {
-      // test passed
-    });
-
-    it('unit/routes/logout-test.js', function () {
-      // test passed
-    });
-
     it('unit/routes/placement-tests-test.js', function () {
       // test passed
     });
 
     it('unit/routes/project-test.js', function () {
-      // test passed
-    });
-
-    it('unit/routes/series-test.js', function () {
       // test passed
     });
 
@@ -8152,47 +7295,6 @@ define('pix-live/tests/unit/adapters/solution-test', ['chai', 'mocha', 'ember-mo
     (0, _mocha.it)('exists', function () {
       var adapter = this.subject();
       (0, _chai.expect)(adapter).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/adapters/user-test', ['chai', 'mocha', 'sinon', 'ember-mocha'], function (_chai, _mocha, _sinon, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | subscribers', function () {
-    (0, _emberMocha.setupTest)('adapter:user', {
-      needs: ['service:session']
-    });
-
-    (0, _mocha.describe)('#queryRecord', function () {
-
-      var adapter = void 0;
-
-      beforeEach(function () {
-        adapter = this.subject();
-        adapter.ajax = _sinon.default.stub().resolves();
-      });
-
-      (0, _mocha.it)('should exist', function () {
-        // when
-        var adapter = this.subject();
-        // then
-        return (0, _chai.expect)(adapter.queryRecord()).to.be.ok;
-      });
-
-      (0, _mocha.it)('should return a resolved promise', function (done) {
-        // when
-        var promise = adapter.queryRecord();
-        // then
-        promise.then(done);
-      });
-
-      (0, _mocha.it)('should called GET /api/users/me', function () {
-        // when
-        adapter.queryRecord();
-
-        // then
-        _sinon.default.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/me');
-      });
     });
   });
 });
@@ -8511,257 +7613,6 @@ define('pix-live/tests/unit/components/comparison-window-test', ['ember', 'chai'
         // then
         _assertResultItemTitle(resultItem, 'Vous avez dépassé le temps imparti');
         _assertResultItemTooltip(resultItem, 'Temps dépassé');
-      });
-    });
-  });
-});
-define('pix-live/tests/unit/components/competence-area-list-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Component | Competence area list Component', function () {
-
-    (0, _emberMocha.setupTest)('component:competence-area-list', {});
-
-    (0, _mocha.describe)('Computed Properties behaviors: ', function () {
-
-      (0, _mocha.describe)('#_sanitizedCompetences', function () {
-        (0, _mocha.it)('should not return competences', function () {
-          // given
-          var component = this.subject();
-
-          // when
-          component.set('competences', []);
-
-          // then
-          (0, _chai.expect)(component.get('_sanitizedCompetences')).to.deep.equal([]);
-        });
-
-        (0, _mocha.it)('should return as many competences as provided', function () {
-          // given
-          var component = this.subject();
-
-          // when
-          component.set('competences', [{
-            id: 1,
-            name: 'competence-A'
-          }, {
-            id: 2,
-            name: 'competence-B'
-          }]);
-
-          // then
-          (0, _chai.expect)(component.get('_sanitizedCompetences')).to.have.lengthOf(2);
-        });
-      });
-
-      (0, _mocha.describe)('#_competencesGroupedByArea', function () {
-        (0, _mocha.it)('should return some competences grouped by areas', function () {
-          // given
-          var component = this.subject();
-          var expectedGroupedCompetences = [{
-            property: 'areaName',
-            value: 'area-A',
-            items: [{ id: 1, name: 'competence-1', areaName: 'area-A' }, {
-              id: 2,
-              name: 'competence-2',
-              areaName: 'area-A'
-            }]
-          }, { property: 'areaName', value: 'area-B', items: [{ id: 4, name: 'competence-4', areaName: 'area-B' }] }];
-          // when
-          component.set('competences', [{ id: 1, name: 'competence-1', areaName: 'area-A' }, { id: 2, name: 'competence-2', areaName: 'area-A' }, { id: 4, name: 'competence-4', areaName: 'area-B' }]);
-
-          // then
-          (0, _chai.expect)(component.get('_competencesGroupedByArea')).to.deep.equal(expectedGroupedCompetences);
-        });
-      });
-
-      (0, _mocha.describe)('#_competencesByAreaSorted', function () {
-        (0, _mocha.it)('should return some competences grouped by areas and asc sorted', function () {
-          // given
-          var component = this.subject();
-          var expectedGroupedCompetences = [{ property: 'areaName', value: '2. area-A', items: [{ id: 2, name: 'competence-2', areaName: '2. area-A' }] }, { property: 'areaName', value: '4. area-B', items: [{ id: 4, name: 'competence-4', areaName: '4. area-B' }] }, { property: 'areaName', value: '5. area-C', items: [{ id: 5, name: 'competence-5', areaName: '5. area-C' }] }];
-          // when
-          component.set('competences', [{ id: 4, name: 'competence-4', areaName: '4. area-B' }, { id: 5, name: 'competence-5', areaName: '5. area-C' }, { id: 2, name: 'competence-2', areaName: '2. area-A' }]);
-
-          // then
-          (0, _chai.expect)(component.get('_competencesByAreaSorted')).to.deep.equal(expectedGroupedCompetences);
-        });
-      });
-    });
-  });
-});
-define('pix-live/tests/unit/components/competence-by-area-item-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Component | Competence area item Component', function () {
-
-    (0, _emberMocha.setupTest)('component:competence-by-area-item', {});
-
-    (0, _mocha.describe)('#Computed Properties behaviors: ', function () {
-
-      (0, _mocha.describe)('#_competencesAreaName', function () {
-        (0, _mocha.it)('should return Area name related to competences without index number', function () {
-          // given
-          var component = this.subject();
-
-          // when
-          component.set('competenceArea', {
-            property: 'areaName',
-            value: '2. area-A',
-            items: [{ id: 2, name: 'competence-2', areaName: '2. area-A' }]
-          });
-
-          // then
-          (0, _chai.expect)(component.get('_competencesAreaName')).to.equal('area-A');
-        });
-
-        (0, _mocha.it)('should return empty Area name related to competences when it does not exist', function () {
-          // given
-          var component = this.subject();
-
-          // when
-          component.set('competenceArea', {});
-
-          // then
-          (0, _chai.expect)(component.get('_competencesAreaName')).to.equal('');
-        });
-      });
-
-      (0, _mocha.describe)('#_competencesSortedList', function () {
-
-        (0, _mocha.it)('should display sorted competences', function () {
-          // given
-          var component = this.subject();
-
-          var competencesWithSameArea = [_ember.default.Object.create({ id: 2, name: 'competence-name-2', index: '1.2', area: 'area-id-1', level: -1 }), _ember.default.Object.create({ id: 3, name: 'competence-name-3', index: '1.3', area: 'area-id-1', level: -1 }), _ember.default.Object.create({ id: 1, name: 'competence-name-1', index: '1.1', area: 'area-id-1', level: -1 })];
-          var areaWithManyCompetences = {
-            property: 'area',
-            value: 'Information et données',
-            items: competencesWithSameArea
-          };
-
-          // when
-          component.set('competenceArea', areaWithManyCompetences);
-          // then
-          (0, _chai.expect)(component.get('_competencesSortedList')).to.deep.equal([_ember.default.Object.create({
-            id: 1,
-            name: 'competence-name-1',
-            index: '1.1',
-            area: 'area-id-1',
-            level: -1
-          }), _ember.default.Object.create({
-            id: 2,
-            name: 'competence-name-2',
-            index: '1.2',
-            area: 'area-id-1',
-            level: -1
-          }), _ember.default.Object.create({
-            id: 3,
-            name: 'competence-name-3',
-            index: '1.3',
-            area: 'area-id-1',
-            level: -1
-          })]);
-        });
-      });
-    });
-  });
-});
-define('pix-live/tests/unit/components/competence-level-progress-bar-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Component | Competence-level-progress-bar ', function () {
-
-    (0, _emberMocha.setupTest)('component:competence-level-progress-bar', {});
-
-    (0, _mocha.describe)('#Computed Properties behaviors: ', function () {
-
-      (0, _mocha.describe)('#hasLevel', function () {
-
-        [{ level: 1, expectedValue: true }, { level: 0, expectedValue: true }, { level: -1, expectedValue: false }, { level: undefined, expectedValue: false }].forEach(function (_ref) {
-          var level = _ref.level,
-              expectedValue = _ref.expectedValue;
-
-
-          (0, _mocha.it)('should return ' + expectedValue + ' when the level of the competence is ' + level, function () {
-            // given
-            var component = this.subject();
-
-            // when
-            component.set('level', level);
-
-            // then
-            (0, _chai.expect)(component.get('hasLevel')).to.equal(expectedValue);
-          });
-        });
-      });
-
-      (0, _mocha.describe)('#widthOfProgressBar', function () {
-        [{ level: 0, expectedValue: 'width : 24px' }, { level: 1, expectedValue: 'width : 12.5%' }, { level: 2, expectedValue: 'width : 25%' }, { level: 3, expectedValue: 'width : 37.5%' }, { level: 4, expectedValue: 'width : 50%' }, { level: 5, expectedValue: 'width : 62.5%' }].forEach(function (_ref2) {
-          var level = _ref2.level,
-              expectedValue = _ref2.expectedValue;
-
-
-          (0, _mocha.it)('should return ' + expectedValue + ' when the level is ' + level, function () {
-            // given
-            var component = this.subject();
-
-            // when
-            component.set('level', level);
-
-            // then
-            (0, _chai.expect)(component.get('widthOfProgressBar').string).to.equal(expectedValue);
-          });
-        });
-      });
-
-      (0, _mocha.describe)('#canUserStartCourse', function () {
-        [{ level: null, expected: true }, { level: undefined, expected: true }, { level: -1, expected: true }, { level: 1, expected: false }, { level: 0, expected: false }].forEach(function (_ref3) {
-          var level = _ref3.level,
-              expected = _ref3.expected;
-
-          (0, _mocha.it)('should return ' + expected + ', when there is associated course and level is ' + level, function () {
-            // given
-            var component = this.subject();
-            var courseId = 'REC123';
-            // when
-            component.set('level', level);
-            component.set('courseId', courseId);
-
-            // then
-            (0, _chai.expect)(component.get('canUserStartCourse')).to.be.equal(expected);
-          });
-        });
-
-        [{ courseId: null }, { courseId: undefined }, { courseId: '' }, { courseId: 0 }].forEach(function (_ref4) {
-          var courseId = _ref4.courseId;
-
-
-          (0, _mocha.it)('should return false, when there is no associated course', function () {
-            // given
-            var component = this.subject();
-            var level = -1;
-            // when
-            component.set('level', level);
-            component.set('courseId', courseId);
-
-            // then
-            (0, _chai.expect)(component.get('canUserStartCourse')).to.be.false;
-          });
-        });
-
-        (0, _mocha.it)('should return false, when there is associated course but have already level', function () {
-          // given
-          var component = this.subject();
-          var level = 777;
-          var courseId = 'REC123';
-          // when
-          component.set('level', level);
-          component.set('courseId', courseId);
-
-          // then
-          (0, _chai.expect)(component.get('canUserStartCourse')).to.be.false;
-        });
       });
     });
   });
@@ -9693,39 +8544,6 @@ define('pix-live/tests/unit/components/result-item-test', ['ember', 'chai', 'moc
     });
   });
 });
-define('pix-live/tests/unit/components/score-pastille-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Component | score-pastille-component ', function () {
-
-    (0, _emberMocha.setupTest)('component:score-pastille', {});
-
-    var component = void 0;
-
-    beforeEach(function () {
-      component = this.subject();
-    });
-
-    (0, _mocha.describe)('#Test computed Property', function () {
-
-      (0, _mocha.describe)('#score', function () {
-        [{ pixScore: undefined, expectedScore: '--' }, { pixScore: null, expectedScore: '--' }, { pixScore: 0, expectedScore: 0 }, { pixScore: 1, expectedScore: 1 }, { pixScore: 130, expectedScore: 130 }].forEach(function (data) {
-
-          (0, _mocha.it)('should return "' + data.expectedScore + '" when ' + data.pixScore + ' is provided', function () {
-            // given
-            component.set('pixScore', data.pixScore);
-
-            // when
-            var score = component.get('score');
-
-            // then
-            (0, _chai.expect)(score).to.equal(data.expectedScore);
-          });
-        });
-      });
-    });
-  });
-});
 define('pix-live/tests/unit/components/scoring-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -10172,20 +8990,6 @@ define('pix-live/tests/unit/models/answer-test', ['ember', 'chai', 'mocha', 'emb
     });
   });
 });
-define('pix-live/tests/unit/models/area-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Model | area', function () {
-    (0, _emberMocha.setupModelTest)('area', {
-      needs: []
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var model = this.subject();
-      (0, _chai.expect)(model).to.be.ok;
-    });
-  });
-});
 define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -10322,70 +9126,6 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
     });
   });
 });
-define('pix-live/tests/unit/models/competence-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Model | competence model', function () {
-    (0, _emberMocha.setupModelTest)('competence', {
-      needs: ['model:area']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var model = this.subject();
-      (0, _chai.expect)(model).to.be.ok;
-    });
-
-    (0, _mocha.describe)('#area relationship', function () {
-
-      (0, _mocha.it)('should exist', function () {
-        // given
-        var Competence = this.store().modelFor('competence');
-
-        // when
-        var relationship = _ember.default.get(Competence, 'relationshipsByName').get('area');
-
-        // then
-        (0, _chai.expect)(relationship.key).to.equal('area');
-        (0, _chai.expect)(relationship.kind).to.equal('belongsTo');
-      });
-    });
-
-    (0, _mocha.describe)('#areaName computed property', function () {
-
-      (0, _mocha.it)('should be an alias for "area" relationship on "name" property', function () {
-        var _this = this;
-
-        _ember.default.run(function () {
-          // given
-          var store = _this.store();
-          var area = store.createRecord('area', { name: 'coucou' });
-          var competence = _this.subject({ area: area });
-
-          // when
-          var areaName = competence.get('areaName');
-
-          // then
-          (0, _chai.expect)(areaName).to.equal('coucou');
-        });
-      });
-    });
-  });
-});
-define('pix-live/tests/unit/models/course-group-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Model | Course-group', function () {
-
-    (0, _emberMocha.setupModelTest)('course-group', {
-      needs: ['model:course']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var model = this.subject();
-      (0, _chai.expect)(model).to.be.ok;
-    });
-  });
-});
 define('pix-live/tests/unit/models/course-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -10443,6 +9183,22 @@ define('pix-live/tests/unit/models/course-test', ['ember', 'chai', 'mocha', 'emb
           (0, _chai.expect)(course.getProgress(challenge2)).to.have.property('currentStep', 2);
         });
       });
+
+      (0, _mocha.it)('throw an Error when challenge is not part of course', function () {
+        var _this4 = this;
+
+        _ember.default.run(function () {
+          // given
+          var store = _this4.store();
+          var challengeInCourse = store.createRecord('challenge', {});
+          var challengeOutsideCourse = store.createRecord('challenge', {});
+          var course = _this4.subject({ challenges: [challengeInCourse] });
+
+          (0, _chai.expect)(function () {
+            return course.getProgress(challengeOutsideCourse);
+          }).to.throw(RangeError);
+        });
+      });
     });
   });
 });
@@ -10481,10 +9237,10 @@ define('pix-live/tests/unit/models/follower-test', ['chai', 'mocha', 'ember-moch
 define('pix-live/tests/unit/models/user-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
-  (0, _mocha.describe)('Unit | Model | user model', function () {
+  (0, _mocha.describe)('user', function () {
     (0, _emberMocha.setupModelTest)('user', {
       // Specify the other units that are required for this test.
-      needs: ['model:competence']
+      needs: []
     });
     // Replace this with your real tests.
     (0, _mocha.it)('exists', function () {
@@ -10604,6 +9360,74 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
     });
   });
 });
+define('pix-live/tests/unit/routes/connexion-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
+  var SessionStub = function () {
+    function SessionStub() {
+      _classCallCheck(this, SessionStub);
+    }
+
+    _createClass(SessionStub, [{
+      key: 'authenticate',
+      value: function authenticate() {
+        this.callArgs = Array.from(arguments);
+        return Promise.resolve();
+      }
+    }]);
+
+    return SessionStub;
+  }();
+
+  (0, _mocha.describe)('Unit | Route | connexion', function () {
+    (0, _emberMocha.setupTest)('route:connexion', {
+      needs: ['service:current-routed-modal', 'service:session']
+    });
+
+    var expectedEmail = 'email@example.net';
+    var expectedPassword = 'azerty';
+    var sessionStub = new SessionStub();
+
+    (0, _mocha.it)('should authenticate the user', function () {
+      // Given
+      var route = this.subject();
+      route.set('session', sessionStub);
+      route.transitionTo = function () {};
+
+      // When
+      var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+
+      // Then
+      return promise.then(function () {
+        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
+      });
+    });
+  });
+});
 define('pix-live/tests/unit/routes/courses-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -10649,104 +9473,7 @@ define('pix-live/tests/unit/routes/courses/get-course-preview-test', ['chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | index', function () {
-
-    (0, _emberMocha.setupTest)('route:index', {
-      needs: ['service:current-routed-modal', 'service:session']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | inscription', function () {
-    (0, _emberMocha.setupTest)('route:inscription', {
-      needs: ['service:current-routed-modal']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/login-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  var SessionStub = function () {
-    function SessionStub() {
-      _classCallCheck(this, SessionStub);
-    }
-
-    _createClass(SessionStub, [{
-      key: 'authenticate',
-      value: function authenticate() {
-        this.callArgs = Array.from(arguments);
-        return Promise.resolve();
-      }
-    }]);
-
-    return SessionStub;
-  }();
-
-  (0, _mocha.describe)('Unit | Route | login page', function () {
-    (0, _emberMocha.setupTest)('route:login', {
-      needs: ['service:current-routed-modal', 'service:session']
-    });
-
-    var expectedEmail = 'email@example.net';
-    var expectedPassword = 'azerty';
-    var sessionStub = new SessionStub();
-
-    (0, _mocha.it)('should authenticate the user', function () {
-      // Given
-      var route = this.subject();
-      route.set('session', sessionStub);
-      route.transitionTo = function () {};
-
-      // When
-      var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
-
-      // Then
-      return promise.then(function () {
-        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
-      });
-    });
-  });
-});
-define('pix-live/tests/unit/routes/logout-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/deconnexion-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   function _classCallCheck(instance, Constructor) {
@@ -10790,8 +9517,8 @@ define('pix-live/tests/unit/routes/logout-test', ['chai', 'mocha', 'ember-mocha'
     return SessionStub;
   }();
 
-  (0, _mocha.describe)('Unit | Route | logout', function () {
-    (0, _emberMocha.setupTest)('route:logout', {
+  (0, _mocha.describe)('Unit | Route | deconnexion', function () {
+    (0, _emberMocha.setupTest)('route:deconnexion', {
       needs: ['service:current-routed-modal', 'service:session']
     });
 
@@ -10836,6 +9563,35 @@ define('pix-live/tests/unit/routes/logout-test', ['chai', 'mocha', 'ember-mocha'
     });
   });
 });
+define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | index', function () {
+
+    (0, _emberMocha.setupTest)('route:index', {
+      needs: ['service:current-routed-modal', 'service:session']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | inscription', function () {
+    (0, _emberMocha.setupTest)('route:inscription', {
+      needs: ['service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
 define('pix-live/tests/unit/routes/placement-tests-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -10857,21 +9613,6 @@ define('pix-live/tests/unit/routes/project-test', ['chai', 'mocha', 'ember-mocha
   (0, _mocha.describe)('Unit | Route | project', function () {
 
     (0, _emberMocha.setupTest)('route:project', {
-      needs: ['service:current-routed-modal']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/series-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | courseGroups', function () {
-    (0, _emberMocha.setupTest)('route:courseGroups', {
-      // Specify the other units that are required for this test.
       needs: ['service:current-routed-modal']
     });
 
