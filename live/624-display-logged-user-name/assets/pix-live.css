@@ -1645,7 +1645,8 @@ h1.course-banner__name {
   font-weight: 700;
   letter-spacing: 0.5px;
   text-align: right;
-  color: #3e4149; }
+  color: #3e4149;
+  text-transform: capitalize; }
 
 .pix-logo {
   display: inline-block;
