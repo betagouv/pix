@@ -16,7 +16,7 @@
     <div class="rounded-panel__row challenge-proposals">
       {{qrocm-proposal
         proposals=challenge.proposals
-        answersValue=answers._valuesAsMap
+        answersValue=answer._valuesAsMap
         answerChanged=(action 'answerChanged') }}
     </div>
     {{#if challenge.timer}}
