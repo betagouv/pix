@@ -1,6 +1,6 @@
-import {expect} from 'chai';
-import {beforeEach, describe, it} from 'mocha';
-import {setupComponentTest} from 'ember-mocha';
+import { expect } from 'chai';
+import { beforeEach, describe, it } from 'mocha';
+import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | navbar-header', function() {
@@ -37,7 +37,7 @@ describe('Integration | Component | navbar-header', function() {
 
       it('should display user information, when user is logged', function() {
         // given
-        this.set('user', {firstName: 'FHI', lastName: '4EVER'});
+        this.set('user', { firstName: 'FHI', lastName: '4EVER' });
         // when
         this.render(hbs`{{navbar-header user=user}}`);
         // then
@@ -47,7 +47,7 @@ describe('Integration | Component | navbar-header', function() {
 
       it('should move navbar to top', function() {
         // given
-        this.set('user', {firstName: 'FHI', lastName: '4EVER'});
+        this.set('user', { firstName: 'FHI', lastName: '4EVER' });
         // when
         this.render(hbs`{{navbar-header user=user}}`);
         // then
