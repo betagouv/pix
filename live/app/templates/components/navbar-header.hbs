@@ -22,7 +22,7 @@
     {{#if isUserLogged}}
       <div class="logged-user-details">
         <div class="logged-user-name">
-          {{user.firstName}} {{user.lastName}}
+          {{concat  user.firstName ' '  user.lastName}}
         </div>
       </div>
     {{/if}}
