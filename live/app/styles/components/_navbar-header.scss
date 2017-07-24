@@ -110,6 +110,7 @@
 
 .logged-user-details {
   margin-top: 0px;
+  cursor: pointer;
 }
 
 .logged-user-name {
@@ -120,4 +121,12 @@
   text-align: right;
   color: $charcoal-grey;
   text-transform: capitalize;
+}
+
+.caret {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 4px 0 4px;
+  border-color: $charcoal-grey transparent transparent transparent;
 }

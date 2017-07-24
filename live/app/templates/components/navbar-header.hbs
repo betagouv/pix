@@ -23,6 +23,16 @@
       <div class="logged-user-details">
         <div class="logged-user-name">
           {{concat  user.firstName ' '  user.lastName}}
+          <span class="caret"></span>
+        </div>
+        <div class="logged-user-menu">
+          <ul>
+            <li>
+              <span> {{user.firstName}}</span>
+              <span>{{user.email}}</span>
+            </li>
+            <li>{{#link-to 'logout' class="logged-user-menu logout-link"}}Déconnexion{{/link-to}}</li>
+          </ul>
         </div>
       </div>
     {{/if}}
