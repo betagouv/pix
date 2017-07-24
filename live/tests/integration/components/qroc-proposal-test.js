@@ -20,7 +20,7 @@ describe('Integration | Component | QROC proposal', function() {
       // given
       const proposals = '${myInput}';
       this.set('proposals', proposals);
-      this.set('answer', { value: 'myValue'});
+      this.set('answer', { value: 'myValue' });
       // when
       this.render(hbs`{{qroc-proposal proposals=proposals answer=answer}}`);
       // then
@@ -56,4 +56,25 @@ describe('Integration | Component | QROC proposal', function() {
     });
   });
 
+  it('should send an action when the input value changes', function() {
+    // given
+    let didReceiveAction = false;
+    let actionAnswerValue = null;
+    const proposals = '${myInput}';
+    this.set('proposals', proposals);
+    this.set('answer', { value: '' });
+    this.set('externalAction', (answerValue) => {
+      didReceiveAction = true;
+      actionAnswerValue = answerValue;
+    });
+    this.render(hbs`{{qroc-proposal proposals=proposals answer=answer answerChanged=(action externalAction)}}`);
+    // when
+    const inputElement = this.$('.challenge-response__proposal-input');
+    inputElement.val('My answer');
+    inputElement.change();
+    // then
+    expect(inputElement.val()).to.equal('My answer');
+    expect(didReceiveAction).to.be.true;
+    expect(actionAnswerValue).to.equal('My answer');
+  });
 });

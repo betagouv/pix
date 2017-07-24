@@ -11,7 +11,8 @@
            name={{block.input}}
            placeholder={{block.placeholder}}
            value="{{userAnswer}}"
-           data-uid="qroc-proposal-uid">
+           data-uid="qroc-proposal-uid"
+           onchange={{action 'inputChanged'}}>
   {{/if}}
 
   {{#if block.breakline}}

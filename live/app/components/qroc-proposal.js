@@ -16,15 +16,20 @@ export default Ember.Component.extend({
     return proposalsAsBlocks(this.get('proposals'));
   }),
 
-  userAnswer : Ember.computed('answer.value', function() {
+  userAnswer: Ember.computed('answer.value', function() {
     const answer = this.get('answer.value') || '';
     return answer.indexOf('#ABAND#') > -1? '' : answer;
   }),
 
-  didInsertElement: function() {
+  // TODO: use bound properties instead of inspecting the DOM
+  getAnswerValueFromInputsState() {
+    return this.$('input[data-uid="qroc-proposal-uid"]').val();
+  },
 
-    this.$('input').keydown(() => {
-      this.get('answerChanged')();
-    });
+  actions: {
+    inputChanged() {
+      const answerValue = this.getAnswerValueFromInputsState();
+      this.get('answerChanged')(answerValue);
+    }
   }
 });
