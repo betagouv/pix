@@ -1,18 +1,9 @@
-<<<<<<<
-HEAD
 import {expect} from 'chai';
 import {beforeEach, describe, it} from 'mocha';
 import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-======
-=
-
->>>>>>>
-In
-progress
-
-describe.only('Integration | Component | navbar-header', function() {
+describe('Integration | Component | navbar-header', function() {
 
   setupComponentTest('header-navbar', {
     integration: true
