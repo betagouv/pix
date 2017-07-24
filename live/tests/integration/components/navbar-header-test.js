@@ -1,9 +1,9 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import {expect} from 'chai';
+import {beforeEach, describe, it} from 'mocha';
+import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | navbar-header', function() {
+describe.only('Integration | Component | navbar-header', function() {
 
   setupComponentTest('header-navbar', {
     integration: true
@@ -30,4 +30,11 @@ describe('Integration | Component | navbar-header', function() {
     expect(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
   });
 
+  describe('Display user details', function() {
+
+    it('should display user information, when user is logged', function() {
+      // when
+      this.render(hbs`{{navbar-header }}`);
+    });
+  });
 });
