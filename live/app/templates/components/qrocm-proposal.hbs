@@ -9,7 +9,8 @@
            type="text"
            name={{block.input}}
            placeholder={{block.placeholder}}
-           value={{property-of _parsedAnswerValue block.input}}>
+           value={{property-of _parsedAnswerValue block.input}}
+           onchange={{action 'inputChanged'}}>
   {{/if}}
 
   {{#if block.breakline}}

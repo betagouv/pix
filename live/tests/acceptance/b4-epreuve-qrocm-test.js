@@ -29,6 +29,8 @@ describe('Acceptance | b4 - Afficher un QROCM | ', function() {
   it('b4.3 Error alert box should be displayed if user validate without checking a checkbox', async function() {
     // 1st make sure all inputs are cleared
     $(':input').val('');
+    $(':input').change();
+
     // Then try to validate sth
     await click($('.challenge-actions__action-validate'));
 
