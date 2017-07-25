@@ -3703,6 +3703,309 @@ hr.project-page__presentation-header-line {
   color: #3e4149;
   text-rendering: optimizeLegibility; }
 
+/*-----------header------------------*/
+.enrollment-page__header {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 40px;
+  color: #ffffff;
+  background-image: linear-gradient(to bottom, #446eff, #133dd2); }
+
+.enrollment-page__header-title {
+  margin-bottom: 20px;
+  max-width: 950px;
+  text-align: center;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 25px;
+  font-style: italic;
+  font-weight: 700; }
+  @media (min-width: 992px) {
+    .enrollment-page__header-title {
+      font-size: 35px; } }
+
+.enrollment-page__header-description {
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 16px; }
+  @media (min-width: 992px) {
+    .enrollment-page__header-description {
+      font-size: 18px; } }
+
+.enrollment-page__header-link {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  vertical-align: center;
+  width: 282px;
+  height: 40px;
+  border-radius: 20px;
+  background: #ffffff;
+  letter-spacing: 1.2px;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  color: #3d68ff;
+  text-transform: uppercase; }
+  .enrollment-page__header-link:hover {
+    color: #446eff;
+    text-decoration: none; }
+
+/*-----------body------------------*/
+/*-----------body-description-pix-----------*/
+.enrollment-page__pix-description {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 20px 10px 40px;
+  padding: 5px;
+  background: #ffffff; }
+  @media (min-width: 992px) {
+    .enrollment-page__pix-description {
+      margin: 30px auto 90px;
+      padding: 30px;
+      max-width: 940px; } }
+
+.enrollment-page__pix-description-image {
+  margin: 10px; }
+
+.enrollment-page__pix-description-title {
+  margin: 10px;
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center; }
+  @media (min-width: 768px) {
+    .enrollment-page__pix-description-title {
+      font-size: 24px; } }
+  @media (min-width: 992px) {
+    .enrollment-page__pix-description-title {
+      font-size: 28px; } }
+
+.enrollment-page__pix-description-line {
+  margin: 10px;
+  width: 50px;
+  height: 4px;
+  border: solid 2px #3d68ff;
+  border-radius: 2px; }
+
+.enrollment-page__pix-description-goals-list {
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+  color: #3d68ff; }
+  @media (min-width: 768px) {
+    .enrollment-page__pix-description-goals-list {
+      font-size: 18px; } }
+  @media (min-width: 992px) {
+    .enrollment-page__pix-description-goals-list {
+      font-size: 20px; } }
+
+.enrollment-page__pix-description-goals-list_goal {
+  color: black;
+  margin-bottom: 10px; }
+
+/*-------------Titre grandes etapes-----------------*/
+.enrollment-page__steps-title {
+  margin-bottom: 5px;
+  text-align: center;
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 800; }
+  @media (min-width: 768px) {
+    .enrollment-page__steps-title {
+      font-size: 30px; } }
+  @media (min-width: 992px) {
+    .enrollment-page__steps-title {
+      font-size: 50px; } }
+
+.enrollment-page__steps-title__principal {
+  margin-bottom: 5px; }
+
+.enrollment-page__steps-title__note {
+  font-weight: 400;
+  font-size: 15px; }
+  @media (min-width: 768px) {
+    .enrollment-page__steps-title__note {
+      font-size: 22px; } }
+
+/*-----------etablissement------------------------------*/
+.enrollment-page__steps-establishment {
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 10px;
+  text-align: center;
+  background: #ffffff; }
+  @media (min-width: 992px) {
+    .enrollment-page__steps-establishment {
+      margin: 10px auto 50px;
+      max-width: 940px; } }
+
+.enrollment-page__steps-establishment__title {
+  margin-bottom: 15px;
+  width: 100%;
+  padding: 20px 10px 20px;
+  color: #3d68ff;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3); }
+  @media (min-width: 768px) {
+    .enrollment-page__steps-establishment__title {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      -ms-flex-align: center;
+      align-items: center;
+      font-size: 34px; } }
+
+.enrollment-page__steps-establishment__title-image {
+  margin-bottom: 15px; }
+  @media (min-width: 768px) {
+    .enrollment-page__steps-establishment__title-image {
+      margin: 0 40px 0; } }
+
+.enrollment-page__steps-establishment__steps-list__step {
+  padding: 0px 7px 20px; }
+
+.enrollment-page__steps-establishment__steps-list__step-date {
+  text-align: center;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  font-style: italic;
+  color: #3d68ff; }
+  @media (min-width: 768px) {
+    .enrollment-page__steps-establishment__steps-list__step-date {
+      font-size: 22px; } }
+
+@media (min-width: 768px) {
+  .enrollment-page__steps-establishment__steps-list__step-description {
+    font-size: 20px; } }
+
+.enrollment-page__steps-establishment__steps-list__step-note {
+  font-size: 10px; }
+  @media (min-width: 768px) {
+    .enrollment-page__steps-establishment__steps-list__step-note {
+      font-size: 12px; } }
+
+.enrollment-page__steps-establishment__steps-list__step-line {
+  margin: auto;
+  height: 2px;
+  width: 90%;
+  border: solid 1px #d7d7d7; }
+
+.enrollment-page__steps-establishment__steps-list__step-circle {
+  margin: auto;
+  width: 40px;
+  height: 30px;
+  border-radius: 20px;
+  background: #ffffff;
+  vertical-align: center;
+  position: relative;
+  bottom: 17px; }
+
+.enrollment-page__steps-establishment__steps-list__step-icon {
+  margin: auto;
+  width: 20px;
+  height: 20px;
+  transform: rotate(-315deg);
+  border: solid 2px #3d68ff;
+  border-top: none;
+  border-left: none;
+  background: #ffffff; }
+
+.enrollment-page__steps-establishment__certification {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 10px;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 20px;
+  color: #3d68ff; }
+
+.enrollment-page__steps-establishment__certification-text {
+  max-width: 220px; }
+
+/*-----------------engagement Pix----------------*/
+.enrollment-page__description {
+  margin: 10px;
+  padding: 5px;
+  text-align: center;
+  background: #ffffff; }
+  @media (min-width: 768px) {
+    .enrollment-page__description {
+      padding: 20px; } }
+  @media (min-width: 992px) {
+    .enrollment-page__description {
+      margin: 20px auto;
+      max-width: 940px; } }
+
+.enrollment-page__description-title {
+  color: #3d68ff; }
+  @media (min-width: 768px) {
+    .enrollment-page__description-title {
+      margin-bottom: 30px;
+      font-size: 32px; } }
+  @media (min-width: 992px) {
+    .enrollment-page__description-title {
+      font-size: 40px; } }
+
+.enrollment-page__description-line {
+  margin: auto;
+  height: 2px;
+  width: 80%;
+  border: solid 1px #d7d7d7; }
+
+.enrollment-page__description-commitments-title {
+  margin-top: 25px;
+  font-family: "Raleway", Arial, sans-serif;
+  font-weight: 900; }
+  @media (min-width: 768px) {
+    .enrollment-page__description-commitments-title {
+      font-size: 32px; } }
+  @media (min-width: 992px) {
+    .enrollment-page__description-commitments-title {
+      font-size: 40px; } }
+
+@media (min-width: 992px) {
+  .enrollment-page__description-body {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center; } }
+
+@media (min-width: 992px) {
+  .enrollment-page__description-commitments__commitment {
+    max-width: 400px; } }
+
+.enrollment-page__description-commitments__commitment-separator {
+  margin-top: 25px; }
+
+.enrollment-page__description-commitments__commitment-puce {
+  position: relative;
+  bottom: 13px;
+  background: #ffffff; }
+
+@media (min-width: 768px) {
+  .enrollment-page__description-commitments__commitment-text {
+    font-size: 18px; } }
+
 body {
   font-family: "Lato", Arial, sans-serif;
   background-color: #f2f3f4; }
