@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
+import wait from 'ember-test-helpers/wait';
 
 describe('Integration | Component | navbar-header', function() {
 
@@ -35,9 +36,11 @@ describe('Integration | Component | navbar-header', function() {
 
     describe('When user is logged', function() {
 
-      it('should display user information, when user is logged', function() {
-        // given
+      beforeEach(function() {
         this.set('user', { firstName: 'FHI', lastName: '4EVER' });
+      });
+
+      it('should display user information, when user is logged', function() {
         // when
         this.render(hbs`{{navbar-header user=user}}`);
         // then
@@ -46,19 +49,48 @@ describe('Integration | Component | navbar-header', function() {
       });
 
       it('should move navbar to top', function() {
-        // given
-        this.set('user', { firstName: 'FHI', lastName: '4EVER' });
         // when
         this.render(hbs`{{navbar-header user=user}}`);
         // then
         expect(this.$('.navbar-header-links--user-logged')).to.have.length(1);
       });
+
+      it('should hide user menu, when no action on user-name', function() {
+        // when
+        this.render(hbs`{{navbar-header user=user}}`);
+        // then
+        expect(this.$('.logged-user-menu')).to.have.length(0);
+      });
+
+      it('should display a user menu, when user-name is clicked', function() {
+        // when
+        this.render(hbs`{{navbar-header user=user}}`);
+        this.$('.logged-user-name').click();
+        // then
+        return wait().then(() => {
+          expect(this.$('.logged-user-menu')).to.have.length(1);
+        });
+      });
+
+      it('should hide user menu, when it was previously open and user-name is clicked one more time', function() {
+        // when
+        this.render(hbs`{{navbar-header user=user}}`);
+        this.$('.logged-user-name').click();
+        this.$('.logged-user-name').click();
+        // then
+        return wait().then(() => {
+          expect(this.$('.logged-user-menu')).to.have.length(0);
+        });
+      });
     });
 
-    it('should not display user information, for unlogged', function() {
-      // when
-      this.render(hbs`{{navbar-header}}`);
-      expect(this.$('.logged-user-details')).to.have.length(0);
+    describe('when user is unlogged', function() {
+      it('should not display user information, for unlogged', function() {
+        // when
+        this.render(hbs`{{navbar-header}}`);
+        expect(this.$('.logged-user-details')).to.have.length(0);
+      });
     });
+
   });
 });

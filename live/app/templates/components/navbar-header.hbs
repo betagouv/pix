@@ -21,19 +21,31 @@
 
     {{#if isUserLogged}}
       <div class="logged-user-details">
-        <div class="logged-user-name">
-          {{concat  user.firstName ' '  user.lastName}}
-          <span class="caret"></span>
+        <div class="logged-user-name" {{action 'toggleUserMenu'}} role="button" aria-haspopup="true"
+             aria-expanded="{{_canDisplayMenu}}">
+          <a href="#" role="button" class="logged-user-name__link">
+            {{concat  user.firstName ' '  user.lastName}}
+            <span class="caret"></span>
+          </a>
         </div>
-        <div class="logged-user-menu">
-          <ul>
-            <li>
-              <span> {{user.firstName}}</span>
-              <span>{{user.email}}</span>
-            </li>
-            <li>{{#link-to 'logout' class="logged-user-menu logout-link"}}Déconnexion{{/link-to}}</li>
-          </ul>
-        </div>
+        {{#if _canDisplayMenu}}
+          <div class="logged-user-menu">
+            <ul class="logged-user-menu__list">
+              <li class="logged-user-menu__item user-menu-item">
+                <div class="user-menu-item__details">
+                  <span class="user-menu-item__details-firstname"> {{user.firstName}}</span>
+                  <span class="user-menu-item__details-email">{{user.email}}</span>
+                </div>
+                <div class="user-menu-item__account-link">
+                  <button>Mon compte</button>
+                </div>
+              </li>
+              <li class="logged-user-menu__item">
+                {{#link-to 'logout' class="logged-user-menu__item-logout"}}Se déconnecter{{/link-to}}</li>
+            </ul>
+          </div>
+        {{/if}}
+
       </div>
     {{/if}}
   </div>
