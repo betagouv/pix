@@ -2384,7 +2384,7 @@ define('pix-live/tests/acceptance/m1-authentication-and-profile-test', ['mocha',
 
         // then
         return andThen(function () {
-          (0, _chai.expect)(currentURL()).to.equal('/connexion');
+          (0, _chai.expect)(currentURL()).to.equal('/');
         });
       });
     });
@@ -10744,12 +10744,12 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
       (0, _chai.expect)(route).to.be.ok;
     });
 
-    (0, _mocha.it)('should redirect to /connexion', function () {
+    (0, _mocha.it)('should redirect to / (Home)', function () {
       // Given
       var route = this.subject();
 
       // Then
-      (0, _chai.expect)(route.authenticationRoute).to.equal('/connexion');
+      (0, _chai.expect)(route.authenticationRoute).to.equal('/');
     });
   });
 });

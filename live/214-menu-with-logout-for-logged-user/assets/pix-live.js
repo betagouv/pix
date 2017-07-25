@@ -6022,10 +6022,14 @@ define('pix-live/routes/compte', ['exports', 'ember', 'ember-simple-auth/mixins/
   });
   exports.default = _ember.default.Route.extend(_authenticatedRouteMixin.default, {
 
-    authenticationRoute: '/connexion',
+    authenticationRoute: '/',
     model: function model() {
+      var _this = this;
+
       var store = this.get('store');
-      return store.queryRecord('user', {});
+      return store.queryRecord('user', {}).catch(function (_) {
+        _this.transitionTo('logout');
+      });
     }
   });
 });
@@ -8119,6 +8123,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.15.0+eb5a39ff"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.15.0+4643f05b"});
 }
 //# sourceMappingURL=pix-live.map

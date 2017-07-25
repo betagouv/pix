@@ -1570,7 +1570,11 @@ h1.course-banner__name {
 
 .navbar-header-right {
   width: 75%;
-  margin: 5px auto; }
+  margin: 30px auto 5px; }
+  @media (min-width: 768px) {
+    .navbar-header-right {
+      width: 15%;
+      margin: 0; } }
 
 /* Logo
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
