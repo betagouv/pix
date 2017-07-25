@@ -24,4 +24,36 @@ describe('Unit | Component | Navar Header Component', function() {
 
     });
   });
+
+  describe('#showMenu', function() {
+    it('should return true, when user details is clicked', function() {
+      // given
+      const component = this.subject();
+      // when
+      component.set('user', {});
+      component.send('toggleUserMenu');
+      // then
+      expect(component.get('_canDisplayMenu')).to.equal(true);
+    });
+
+    it('should return false as default value', function() {
+      // given
+      const component = this.subject();
+      // when
+      component.set('user', {});
+      // then
+      expect(component.get('_canDisplayMenu')).to.equal(false);
+    });
+
+    it('should return false, when _canDisplayMenu was previously true', function() {
+      // given
+      const component = this.subject();
+      // when
+      component.set('user', {});
+      component.send('toggleUserMenu');
+      component.send('toggleUserMenu');
+      // then
+      expect(component.get('_canDisplayMenu')).to.equal(false);
+    });
+  });
 });
