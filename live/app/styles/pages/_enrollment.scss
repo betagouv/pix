@@ -4,42 +4,51 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: $white;
-  background-image: linear-gradient(to bottom, $dogder-blue, #133dd2);
   padding: 40px;
+  color: $white;
+  background-image: linear-gradient(to bottom, $dogder-blue, $strong-blue);
 }
 
 .enrollment-page__header-title {
-  font-family: $font-lato;
-  font-size: 25px;
-  font-weight: $font-bold;
-  font-style: italic;
+  margin-bottom: 20px;
   max-width: 950px;
   text-align: center;
-  margin-bottom: 20px;
+  font-family: $font-lato;
+  font-size: 25px;
+  font-style: italic;
+  font-weight: $font-bold;
+
+  @include device-is('desktop') {
+    font-size: 35px;
+  }
 }
 
 .enrollment-page__header-description {
+  margin-bottom: 20px;
+  text-align: center;
   font-family: $font-lato;
   font-size: 16px;
-  text-align: center;
-  margin-bottom: 20px;
+
+  @include device-is('desktop') {
+    font-size: 18px;
+  }
 }
 
 .enrollment-page__header-link {
   display: flex;
   align-items: center;
   justify-content: center;
+  vertical-align: center;
   width: 282px;
   height: 40px;
   border-radius: 20px;
   background: $white;
+  letter-spacing: 1.2px;
   font-family: $font-lato;
   font-size: 13px;
   font-weight: $font-bold;
   text-align: center;
   color: $pix-blue;
-  vertical-align: center;
   text-transform: uppercase;
 
   &:hover {
@@ -53,13 +62,20 @@
 /*-----------body-description-pix-----------*/
 
 .enrollment-page__pix-description {
-  background: $white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 10px;
+  margin: 20px 10px 40px;
   padding: 5px;
+  background: $white;
+
+  @include device-is('desktop') {
+    margin: 30px auto 90px;
+    padding: 30px;
+    max-width: 940px;
+  }
+
 }
 
 .enrollment-page__pix-description-image {
@@ -67,26 +83,42 @@
 }
 
 .enrollment-page__pix-description-title {
+  margin: 10px;
   font-family: $font-raleway;
   font-size: 18px;
   font-weight: $font-medium;
   text-align: center;
-  margin: 10px;
+
+  @include device-is('tablet') {
+    font-size: 24px;
+  }
+
+  @include device-is('desktop') {
+    font-size: 28px;
+  }
+
 }
 
 .enrollment-page__pix-description-line {
+  margin: 10px;
   width: 50px;
   height: 4px;
   border: solid 2px $pix-blue;
   border-radius: 2px;
-  margin: 10px;
-
 }
 
 .enrollment-page__pix-description-goals-list {
   font-family: $font-lato;
   font-size: 14px;
   color: $pix-blue;
+
+  @include device-is('tablet') {
+    font-size: 18px;
+  }
+
+  @include device-is('desktop') {
+    font-size: 20px;
+  }
 }
 
 .enrollment-page__pix-description-goals-list_goal {
@@ -97,11 +129,19 @@
 /*-------------Titre grandes etapes-----------------*/
 
 .enrollment-page__steps-title {
+  margin-bottom: 5px;
+  text-align: center;
   font-family: $font-raleway;
   font-size: 18px;
   font-weight: $font-extra-bold;
-  text-align: center;
-  margin-bottom: 5px;
+
+  @include device-is('tablet') {
+    font-size: 30px;
+  }
+
+  @include device-is('desktop') {
+    font-size: 50px;
+  }
 }
 
 .enrollment-page__steps-title__principal {
@@ -112,84 +152,192 @@
   font-weight: $font-normal;
   font-size: 15px;
 
+  @include device-is('tablet') {
+    font-size: 22px;
+  }
 }
 
 /*-----------etablissement------------------------------*/
 
-.enrollment-page__steps-establishment{
-  background: $white;
+.enrollment-page__steps-establishment {
   align-items: center;
   margin: 10px;
   text-align: center;
+  background: $white;
+
+  @include device-is('desktop') {
+    margin: 10px auto 50px;
+    max-width: 940px;
+  }
 }
 
 .enrollment-page__steps-establishment__title {
   margin-bottom: 15px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   width: 100%;
-  padding: 10px;
+  padding: 20px 10px 20px;
   color: $pix-blue;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+
+  @include device-is('tablet') {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 34px;
+  }
+
 }
 
 .enrollment-page__steps-establishment__title-image {
   margin-bottom: 15px;
+
+  @include device-is('tablet') {
+    margin: 0 40px 0;
+  }
+
 }
 
 .enrollment-page__steps-establishment__steps-list__step {
-  padding:7px;
+  padding: 0px 7px 20px;
 }
 
 .enrollment-page__steps-establishment__steps-list__step-date {
+  text-align: center;
   font-family: $font-lato;
   font-size: 15px;
   font-weight: $font-extra-bold;
   font-style: italic;
-  text-align: center;
   color: $pix-blue;
+
+  @include device-is('tablet') {
+    font-size: 22px;
+  }
+}
+
+.enrollment-page__steps-establishment__steps-list__step-description {
+
+  @include device-is('tablet') {
+    font-size: 20px;
+  }
 }
 
 .enrollment-page__steps-establishment__steps-list__step-note {
   font-size: 10px;
+
+  @include device-is('tablet') {
+    font-size: 12px;
+  }
 }
 
 .enrollment-page__steps-establishment__steps-list__step-line {
+  margin: auto;
   height: 2px;
-  width: 80%;
-  border: solid 1px #d7d7d7;
-  margin:auto;
+  width: 90%;
+  border: solid 1px $light-grey;
+}
+
+.enrollment-page__steps-establishment__steps-list__step-circle{
+  margin: auto;
+  width: 40px;
+  height: 30px;
+  border-radius: 20px;
+  background: $white;
+  vertical-align: center;
+  position: relative;
+  bottom: 17px;
+}
+
+.enrollment-page__steps-establishment__steps-list__step-icon{
+  margin: auto;
+  width: 20px;
+  height: 20px;
+  -webkit-transform: rotate(-315deg);
+  transform: rotate(-315deg);
+  border: solid 2px $pix-blue;
+  border-top: none;
+  border-left: none;
+  background: $white;
 }
 
 .enrollment-page__steps-establishment__certification {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   padding: 10px;
-  font-family: Lato;
+  font-family: $font-lato;
   font-size: 20px;
   color: $pix-blue;
+}
+
+.enrollment-page__steps-establishment__certification-text {
+  max-width: 220px;
 }
 
 /*-----------------engagement Pix----------------*/
 
 .enrollment-page__description {
-  background: $white;
-  text-align: center;
   margin: 10px;
   padding: 5px;
+  text-align: center;
+  background: $white;
+
+  @include device-is('tablet') {
+    padding: 20px;
+  }
+
+  @include device-is('desktop') {
+    margin: 20px auto;
+    max-width: 940px;
+  }
 }
 
 .enrollment-page__description-title {
   color: $pix-blue;
+
+  @include device-is('tablet') {
+    margin-bottom: 30px;
+    font-size: 32px;
+  }
+
+  @include device-is('desktop') {
+    font-size: 40px;
+  }
 }
 
 .enrollment-page__description-line {
+  margin: auto;
   height: 2px;
   width: 80%;
   border: solid 1px #d7d7d7;
-  margin:auto;
 }
 
-.enrollment-page__description-commitments-title{
+.enrollment-page__description-commitments-title {
+  margin-top: 25px;
   font-family: $font-raleway;
   font-weight: $font-heavy;
-  margin-top: 25px;
+
+  @include device-is('tablet') {
+    font-size: 32px;
+  }
+
+  @include device-is('desktop') {
+    font-size: 40px;
+  }
+}
+
+.enrollment-page__description-body {
+
+  @include device-is('desktop') {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.enrollment-page__description-commitments__commitment {
+
+  @include device-is('desktop') {
+    max-width: 400px;
+  }
 }
 
 .enrollment-page__description-commitments__commitment-separator {
@@ -197,6 +345,13 @@
 }
 
 .enrollment-page__description-commitments__commitment-puce {
-  position:relative;
-  bottom:13px;
+  position: relative;
+  bottom: 13px;
+  background: $white;
+}
+
+.enrollment-page__description-commitments__commitment-text {
+  @include device-is('tablet') {
+    font-size: 18px;
+  }
 }

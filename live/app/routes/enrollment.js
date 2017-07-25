@@ -17,7 +17,7 @@ const stepsForPioneersInstitutions = [
     steps: [
       {
         date: 'Jusqu\'a fin septembre 2017',
-        description: 'Inscription des établissements auprès de Pix.'
+        description: 'Les collèges et lycées qui souhaitent proposer la certification Pix à leurs élèves s\'inscrivent auprès de Pix.'
       }, {
         description: 'Découverte des fonctionnalités de Pix par les équipes (formations courtes)'
       }, {

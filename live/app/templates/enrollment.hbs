@@ -3,7 +3,8 @@
   {{navbar-header class="navbar-header--white"}}
 
   <div class="enrollment-page__header">
-    <div class="enrollment-page__header-title">Collèges, lycées, établissements d'enseignement supérieur : Rejoigner
+    <div class="enrollment-page__header-title">Collèges, lycées, établissements d'enseignement supérieur&nbsp;:
+      Rejoigner
       l'aventure Pix dès l'année 2017-2018
       !
     </div>
@@ -57,7 +58,12 @@
                 <div class="enrollment-page__steps-establishment__steps-list__step-note">{{step.note}}</div>
               {{/if}}
             </div>
-            <div class="enrollment-page__steps-establishment__steps-list__step-line"></div>
+            <div class="enrollment-page__steps-establishment__steps-list__step-separator">
+              <div class="enrollment-page__steps-establishment__steps-list__step-line"></div>
+              <div class="enrollment-page__steps-establishment__steps-list__step-circle">
+                <div class="enrollment-page__steps-establishment__steps-list__step-icon"></div>
+              </div>
+            </div>
           {{/each}}
         </div>
         <div class="enrollment-page__steps-establishment__certification">
@@ -73,28 +79,34 @@
       <div class="enrollment-page__description-line"></div>
       <div class="enrollment-page__description-body">
         <div class="enrollment-page__description-commitments">
-          <h4 class="enrollment-page__description-commitments-title">C'est</h4>
-          {{#each model.pixCommitments as |commitment|}}
-            <div class="enrollment-page__description-commitments__commitment">
-              <div class="enrollment-page__description-commitments__commitment-separator">
-                <div class="enrollment-page__description-line"></div>
-                <img src="{{rootURL}}/images/puce-verte.svg" alt="puce verte" class="enrollment-page__description-commitments__commitment-puce">
+          <div>
+            <h4 class="enrollment-page__description-commitments-title">C'est...</h4>
+            {{#each model.pixCommitments as |commitment|}}
+              <div class="enrollment-page__description-commitments__commitment">
+                <div class="enrollment-page__description-commitments__commitment-separator">
+                  <div class="enrollment-page__description-line"></div>
+                  <img src="{{rootURL}}/images/puce-verte.svg" alt="puce verte"
+                       class="enrollment-page__description-commitments__commitment-puce">
+                </div>
+                <div class="enrollment-page__description-commitments__commitment-text">{{commitment}}</div>
               </div>
-              <div>{{commitment}}</div>
-            </div>
-          {{/each}}
+            {{/each}}
+          </div>
         </div>
         <div class="enrollment-page__description-commitments">
-          <h4 class="enrollment-page__description-commitments-title">Ce n'est pas</h4>
-          {{#each model.pixUncommitments as |uncommitment|}}
-            <div class="enrollment-page__description-commitments__commitment">
-              <div class="enrollment-page__description-commitments__commitment-separator">
-                <div class="enrollment-page__description-line"></div>
-                <img src="{{rootURL}}/images/puce-rouge.svg" alt="puce rouge" class="enrollment-page__description-commitments__commitment-puce">
+          <div>
+            <h4 class="enrollment-page__description-commitments-title">Ce n'est pas...</h4>
+            {{#each model.pixUncommitments as |uncommitment|}}
+              <div class="enrollment-page__description-commitments__commitment">
+                <div class="enrollment-page__description-commitments__commitment-separator">
+                  <div class="enrollment-page__description-line"></div>
+                  <img src="{{rootURL}}/images/puce-rouge.svg" alt="puce rouge"
+                       class="enrollment-page__description-commitments__commitment-puce">
+                </div>
+                <div class="enrollment-page__description-commitments__commitment-text">{{uncommitment}}</div>
               </div>
-              <div>{{uncommitment}}</div>
-            </div>
-          {{/each}}
+            {{/each}}
+          </div>
         </div>
       </div>
     </div>
