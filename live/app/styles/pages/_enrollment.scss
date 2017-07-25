@@ -1,0 +1,202 @@
+/*-----------header------------------*/
+
+.enrollment-page__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: $white;
+  background-image: linear-gradient(to bottom, $dogder-blue, #133dd2);
+  padding: 40px;
+}
+
+.enrollment-page__header-title {
+  font-family: $font-lato;
+  font-size: 25px;
+  font-weight: $font-bold;
+  font-style: italic;
+  max-width: 950px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.enrollment-page__header-description {
+  font-family: $font-lato;
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.enrollment-page__header-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 282px;
+  height: 40px;
+  border-radius: 20px;
+  background: $white;
+  font-family: $font-lato;
+  font-size: 13px;
+  font-weight: $font-bold;
+  text-align: center;
+  color: $pix-blue;
+  vertical-align: center;
+  text-transform: uppercase;
+
+  &:hover {
+    color: $dogder-blue;
+    text-decoration: none;
+  }
+}
+
+/*-----------body------------------*/
+
+/*-----------body-description-pix-----------*/
+
+.enrollment-page__pix-description {
+  background: $white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  padding: 5px;
+}
+
+.enrollment-page__pix-description-image {
+  margin: 10px;
+}
+
+.enrollment-page__pix-description-title {
+  font-family: $font-raleway;
+  font-size: 18px;
+  font-weight: $font-medium;
+  text-align: center;
+  margin: 10px;
+}
+
+.enrollment-page__pix-description-line {
+  width: 50px;
+  height: 4px;
+  border: solid 2px $pix-blue;
+  border-radius: 2px;
+  margin: 10px;
+
+}
+
+.enrollment-page__pix-description-goals-list {
+  font-family: $font-lato;
+  font-size: 14px;
+  color: $pix-blue;
+}
+
+.enrollment-page__pix-description-goals-list_goal {
+  color: black;
+  margin-bottom: 10px;
+}
+
+/*-------------Titre grandes etapes-----------------*/
+
+.enrollment-page__steps-title {
+  font-family: $font-raleway;
+  font-size: 18px;
+  font-weight: $font-extra-bold;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.enrollment-page__steps-title__principal {
+  margin-bottom: 5px;
+}
+
+.enrollment-page__steps-title__note {
+  font-weight: $font-normal;
+  font-size: 15px;
+
+}
+
+/*-----------etablissement------------------------------*/
+
+.enrollment-page__steps-establishment{
+  background: $white;
+  align-items: center;
+  margin: 10px;
+  text-align: center;
+}
+
+.enrollment-page__steps-establishment__title {
+  margin-bottom: 15px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  width: 100%;
+  padding: 10px;
+  color: $pix-blue;
+}
+
+.enrollment-page__steps-establishment__title-image {
+  margin-bottom: 15px;
+}
+
+.enrollment-page__steps-establishment__steps-list__step {
+  padding:7px;
+}
+
+.enrollment-page__steps-establishment__steps-list__step-date {
+  font-family: $font-lato;
+  font-size: 15px;
+  font-weight: $font-extra-bold;
+  font-style: italic;
+  text-align: center;
+  color: $pix-blue;
+}
+
+.enrollment-page__steps-establishment__steps-list__step-note {
+  font-size: 10px;
+}
+
+.enrollment-page__steps-establishment__steps-list__step-line {
+  height: 2px;
+  width: 80%;
+  border: solid 1px #d7d7d7;
+  margin:auto;
+}
+
+.enrollment-page__steps-establishment__certification {
+  padding: 10px;
+  font-family: Lato;
+  font-size: 20px;
+  color: $pix-blue;
+}
+
+/*-----------------engagement Pix----------------*/
+
+.enrollment-page__description {
+  background: $white;
+  text-align: center;
+  margin: 10px;
+  padding: 5px;
+}
+
+.enrollment-page__description-title {
+  color: $pix-blue;
+}
+
+.enrollment-page__description-line {
+  height: 2px;
+  width: 80%;
+  border: solid 1px #d7d7d7;
+  margin:auto;
+}
+
+.enrollment-page__description-commitments-title{
+  font-family: $font-raleway;
+  font-weight: $font-heavy;
+  margin-top: 25px;
+}
+
+.enrollment-page__description-commitments__commitment-separator {
+  margin-top: 25px;
+}
+
+.enrollment-page__description-commitments__commitment-puce {
+  position:relative;
+  bottom:13px;
+}

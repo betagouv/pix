@@ -13,6 +13,7 @@ const stepsForPioneersInstitutions = [
   {
     title: 'Pour les collèges et lycées',
     destinataires: 'élèves',
+    image: 'icon-college.svg',
     steps: [
       {
         date: 'Jusqu\'a fin septembre 2017',
@@ -34,10 +35,12 @@ const stepsForPioneersInstitutions = [
   {
     title: 'Pour l\'Enseignement supérieur',
     destinataires: 'étudiants',
+    image: 'icon-etudiants.svg',
     steps: [
       {
         date: 'Jusqu\'à fin septembre 2017',
-        description: 'Inscription des établissements pour le 1er semestre et/ou le 2nd semestre. Les établissements qui souhaiteront s\'inscrire pour un démarrage au second semestre pourront le faire jusqu\'à la fin octobre 2017'
+        description: 'Inscription des établissements pour le 1er semestre et/ou le 2nd semestre.',
+        note: 'Les établissements qui souhaiteront s\'inscrire pour un démarrage au second semestre pourront le faire jusqu\'à la fin octobre 2017'
       }, {
         description: 'Possibilité d\'organiser une pré-campagne d\'évaluation des étudiants en cycle d\'accueil (limitée à certaines compétences)'
       }, {
