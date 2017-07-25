@@ -27,8 +27,11 @@
 
 .navbar-header-right {
   width: 75%;
-  margin: 5px auto;
-  
+  margin: 30px auto 5px;
+  @include device-is('tablet') {
+    width: 15%;
+    margin: 0;
+  }
 }
 
 /* Logo
