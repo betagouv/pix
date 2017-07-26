@@ -1563,10 +1563,11 @@ h1.course-banner__name {
   align-items: center; }
   @media (min-width: 992px) {
     .navbar-header__container {
-      -ms-flex-pack: distribute;
-      justify-content: space-around;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
       -ms-flex-direction: row;
-      flex-direction: row; } }
+      flex-direction: row;
+      padding: 0 30px; } }
 
 /* Logo
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -3805,7 +3806,8 @@ hr.project-page__presentation-header-line {
 .enrollment-page__pix-description-goals-list {
   font-family: "Lato", Arial, sans-serif;
   font-size: 14px;
-  color: #3d68ff; }
+  color: #3d68ff;
+  list-style-type: none; }
   @media (min-width: 768px) {
     .enrollment-page__pix-description-goals-list {
       font-size: 18px; } }
