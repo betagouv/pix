@@ -215,9 +215,13 @@
   width: 89px;
   height: 17px;
   font-family: $font-lato;
-  font-size: 14px;
   letter-spacing: 0.3px;
   color: $slate-grey;
+  font-size: 12px;
+  
+  @include device-is('tablet') {
+    font-size: 14px;
+  }
 }
 
 .user-menu-item__account-link button {
