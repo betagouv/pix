@@ -7,6 +7,8 @@
 # dependencies
 /node_modules
 /bower_components
+/api/node_modules/
+/scripts/
 
 # misc
 /.sass-cache
