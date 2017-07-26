@@ -19,7 +19,7 @@
   align-items: center;
 
   @include device-is('desktop') {
-    justify-content: space-between;
+    justify-content: space-around;
     flex-direction: row;
   }
 
