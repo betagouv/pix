@@ -159,12 +159,13 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       });
 
       it('should response with 401 HTTP status code, when authorization token is not valid', (done) => {
-        // Then
+        // given
         authorizationToken.verify.returns(Promise.reject(new InvalidTokenError()));
         options['headers'] = { authorization: 'INVALID_TOKEN' };
-        // When
+
+        // when
         server.injectThen(options).then(response => {
-          // Then
+          // then
           expect(response.statusCode).to.equal(401);
           expect(response.result).to.be.deep.equal(expectedResultWhenInvalidToken);
           done();
@@ -172,10 +173,12 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       });
 
       it('should return 404  HTTP status code, when authorization is valid but user not found', () => {
+        // given
         authorizationToken.verify.resolves(4);
         UserRepository.findUserById.returns(Promise.reject(User.NotFoundError));
         options['headers'] = { authorization: 'Bearer VALID_TOKEN' };
-        // When
+
+        // when
         return server.injectThen(options).then(response => {
           // Then
           expect(response.statusCode).to.equal(404);
@@ -184,12 +187,14 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       });
 
       it('should return 500  HTTP status code, when authorization is valid but error occurred', () => {
+        // given
         authorizationToken.verify.resolves(4);
         UserRepository.findUserById.returns(Promise.reject(new Error()));
         options['headers'] = { authorization: 'Bearer VALID_TOKEN' };
-        // When
+
+        // when
         return server.injectThen(options).then(response => {
-          // Then
+          // then
           expect(response.statusCode).to.equal(500);
           expect(response.result).to.deep.equal(expectedResultWhenErrorOccured);
         });
@@ -226,8 +231,8 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       it('should response with 201 HTTP status code, when authorization is valid and user is found', () => {
         // Given
         profileServiceStub.resolves(fakeBuildedProfile);
-
         options['headers'] = { authorization: 'Bearer VALID_TOKEN' };
+
         // When
         return server.injectThen(options).then(response => {
           // Then
