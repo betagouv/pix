@@ -73,6 +73,8 @@ const pixUncommitments = [
 
 export default Ember.Route.extend({
 
+  panelActions: Ember.inject.service(),
+
   model() {
     return Ember.RSVP.hash({
       pixDescriptionGoals: pixDescriptionGoals,

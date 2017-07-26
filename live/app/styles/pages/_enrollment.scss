@@ -121,6 +121,13 @@
   }
 }
 
+.enrollment-page__pix-description-goals-list_goal::before {
+  content: "•";
+  color: $pix-blue;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1.1em}
+
 .enrollment-page__pix-description-goals-list_goal {
   color: black;
   margin-bottom: 10px;
@@ -171,6 +178,14 @@
   }
 }
 
+.enrollment-page__steps-establishment__header {
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: none;
+  }
+}
+
 .enrollment-page__steps-establishment__title {
   margin-bottom: 15px;
   width: 100%;
@@ -178,8 +193,12 @@
   color: $pix-blue;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   @include device-is('tablet') {
-    display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
     font-size: 34px;
@@ -187,12 +206,49 @@
 
 }
 
+.enrollment-page__steps-establishment__title-image img {
+  width: 80px;
+}
 .enrollment-page__steps-establishment__title-image {
   margin-bottom: 15px;
 
   @include device-is('tablet') {
-    margin: 0 40px 0;
+    padding: 0 40px 0;
   }
+
+  flex-basis: 40px;
+}
+
+.enrollment-page__steps-establishment__title-text{
+
+  @include device-is('tablet') {
+    flex-grow: 5;
+    padding-left: 20px;
+    text-align: left;
+  }
+}
+
+.enrollment-page__steps-establishment__title-icon-container {
+  flex-basis: 40px;
+}
+
+.enrollment-page__steps-establishment__title-icon {
+  width: 20px;
+  height: 20px;
+  -webkit-transform: rotate(-315deg);
+  transform: rotate(-315deg);
+  border: solid 2px $pix-blue;
+  border-top: none;
+  border-left: none;
+  background: $white;
+}
+
+.cp-is-open .enrollment-page__steps-establishment__title-icon {
+  position:relative;
+  top: 10px;
+  border: solid 2px $pix-blue;
+  border-bottom: none;
+  border-right: none;
 
 }
 
@@ -235,7 +291,7 @@
   border: solid 1px $light-grey;
 }
 
-.enrollment-page__steps-establishment__steps-list__step-circle{
+.enrollment-page__steps-establishment__steps-list__step-circle {
   margin: auto;
   width: 40px;
   height: 30px;
@@ -246,7 +302,7 @@
   bottom: 17px;
 }
 
-.enrollment-page__steps-establishment__steps-list__step-icon{
+.enrollment-page__steps-establishment__steps-list__step-icon {
   margin: auto;
   width: 20px;
   height: 20px;

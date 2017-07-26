@@ -38,40 +38,52 @@
     </h2>
 
     {{#each model.stepsForPioneersInstitutions as |institution|}}
-      <div class="enrollment-page__steps-establishment">
-        <h3 class="enrollment-page__steps-establishment__title">
-          <div class="enrollment-page__steps-establishment__title-image">
-            <img src="{{rootURL}}/images/{{institution.image}}" alt="icon etablissement" class="">
-          </div>
-          <div class="enrollment-page__steps-establishment__title-text">
-            {{institution.title}}
-          </div>
-        </h3>
-        <div class="enrollment-page__steps-establishment__steps-list">
-          {{#each institution.steps as |step|}}
-            <div class="enrollment-page__steps-establishment__steps-list__step">
-              {{#if step.date}}
-                <div class="enrollment-page__steps-establishment__steps-list__step-date">{{step.date}}</div>
-              {{/if}}
-              <div class="enrollment-page__steps-establishment__steps-list__step-description">{{step.description}}</div>
-              {{#if step.note}}
-                <div class="enrollment-page__steps-establishment__steps-list__step-note">{{step.note}}</div>
-              {{/if}}
-            </div>
-            <div class="enrollment-page__steps-establishment__steps-list__step-separator">
-              <div class="enrollment-page__steps-establishment__steps-list__step-line"></div>
-              <div class="enrollment-page__steps-establishment__steps-list__step-circle">
-                <div class="enrollment-page__steps-establishment__steps-list__step-icon"></div>
+      {{#cp-panel as |panel|}}
+        <div class="enrollment-page__steps-establishment">
+
+          {{#panel.toggle class="enrollment-page__steps-establishment__header"}}
+            <h3 class="enrollment-page__steps-establishment__title">
+              <div class="enrollment-page__steps-establishment__title-image">
+                <img src="{{rootURL}}/images/{{institution.image}}" alt="icon etablissement" class="">
               </div>
+              <div class="enrollment-page__steps-establishment__title-text">
+                {{institution.title}}
+              </div>
+              <div class="enrollment-page__steps-establishment__title-icon-container">
+                <div class="enrollment-page__steps-establishment__title-icon"></div>
+              </div>
+            </h3>
+          {{/panel.toggle}}
+
+          {{#panel.body}}
+            <div class="enrollment-page__steps-establishment__steps-list">
+              {{#each institution.steps as |step|}}
+                <div class="enrollment-page__steps-establishment__steps-list__step">
+                  {{#if step.date}}
+                    <div class="enrollment-page__steps-establishment__steps-list__step-date">{{step.date}}</div>
+                  {{/if}}
+                  <div
+                    class="enrollment-page__steps-establishment__steps-list__step-description">{{step.description}}</div>
+                  {{#if step.note}}
+                    <div class="enrollment-page__steps-establishment__steps-list__step-note">{{step.note}}</div>
+                  {{/if}}
+                </div>
+                <div class="enrollment-page__steps-establishment__steps-list__step-separator">
+                  <div class="enrollment-page__steps-establishment__steps-list__step-line"></div>
+                  <div class="enrollment-page__steps-establishment__steps-list__step-circle">
+                    <div class="enrollment-page__steps-establishment__steps-list__step-icon"></div>
+                  </div>
+                </div>
+              {{/each}}
             </div>
-          {{/each}}
+            <div class="enrollment-page__steps-establishment__certification">
+              <img src="{{rootURL}}/images/icon-diplome.svg" alt="diplôme" class="">
+              <div class="enrollment-page__steps-establishment__certification-text">1ères certifications Pix délivrées
+                aux {{institution.destinataires}}</div>
+            </div>
+          {{/panel.body}}
         </div>
-        <div class="enrollment-page__steps-establishment__certification">
-          <img src="{{rootURL}}/images/icon-diplome.svg" alt="diplôme" class="">
-          <div class="enrollment-page__steps-establishment__certification-text">1ères certifications Pix délivrées
-            aux {{institution.destinataires}}</div>
-        </div>
-      </div>
+      {{/cp-panel}}
     {{/each}}
 
     <div class="enrollment-page__description">
