@@ -111,6 +111,7 @@
   font-family: $font-lato;
   font-size: 14px;
   color: $pix-blue;
+  list-style-type: none;
 
   @include device-is('tablet') {
     font-size: 18px;
@@ -126,7 +127,8 @@
   color: $pix-blue;
   display: inline-block;
   width: 1em;
-  margin-left: -1.1em}
+  margin-left: -1.1em
+}
 
 .enrollment-page__pix-description-goals-list_goal {
   color: black;

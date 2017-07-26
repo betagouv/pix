@@ -3,10 +3,10 @@ import Ember from 'ember';
 const pixDescriptionGoals = [
   'Faciliter l\'évaluation des compétences et connaissances numériques des élèves (à partir de la 4ème) et des étudiants',
   'Identifier le niveau collectif d\'une classe ou d\'une cohorte d\'étudiants pour mieux cibler les contenus de vos enseignements',
-  'Identifier le niveau de chacun pour adapter et différencier vos pratiques pédagogiques',
+  'Connaître le niveau de chacun pour adapter et différencier vos pratiques pédagogiques',
   'Suivre les progrès des élèves et des étudiants tout au long de leur parcours',
   'Motiver les élèves et les étudiants par des défis',
-  'Permettre aux élèves et aux étudiants d\'obtenir un profil de compétences certifié, reconnu par l\'etat et le monde professionnel.'
+  'Permettre aux élèves et aux étudiants d\'obtenir un profil de compétences certifié, reconnu par l\'État et le monde professionnel.'
 ];
 
 const stepsForPioneersInstitutions = [
