@@ -40,6 +40,7 @@ const expectedResultWhenErrorOccured = {
 describe('Acceptance | Controller | users-controller-get-profile', function() {
   const firstName = faker.name.firstName();
   const lastName = faker.name.lastName();
+  const email = faker.internet.email();
   const options = {
     method: 'GET',
     url: '/api/users/me',
@@ -52,6 +53,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       attributes: {
         'first-name': firstName,
         'last-name': lastName,
+        'email': email
       },
       relationships: {
         competences: {
@@ -119,6 +121,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
     id: 'user_id',
     'firstName': firstName,
     'lastName': lastName,
+    'email': email
   });
   const fakeBuildedProfile = {
     user: fakeUser,
