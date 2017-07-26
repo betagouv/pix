@@ -217,11 +217,7 @@
   font-family: $font-lato;
   letter-spacing: 0.3px;
   color: $slate-grey;
-  font-size: 12px;
-  
-  @include device-is('tablet') {
-    font-size: 14px;
-  }
+  font-size: 14px;
 }
 
 .user-menu-item__account-link button {
@@ -231,8 +227,12 @@
   border: none;
   background-color: $pix-blue;
   font-family: $font-lato;
-  font-size: 14px;
   color: $white;
   text-transform: capitalize;
   margin-left: 46px;
+  font-size: 12px;
+
+  @include device-is('tablet') {
+    font-size: 14px;
+  }
 }
