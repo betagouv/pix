@@ -1563,8 +1563,8 @@ h1.course-banner__name {
   align-items: center; }
   @media (min-width: 992px) {
     .navbar-header__container {
-      -ms-flex-pack: justify;
-      justify-content: space-between;
+      -ms-flex-pack: distribute;
+      justify-content: space-around;
       -ms-flex-direction: row;
       flex-direction: row; } }
 
@@ -3813,6 +3813,13 @@ hr.project-page__presentation-header-line {
     .enrollment-page__pix-description-goals-list {
       font-size: 20px; } }
 
+.enrollment-page__pix-description-goals-list_goal::before {
+  content: "•";
+  color: #3d68ff;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1.1em; }
+
 .enrollment-page__pix-description-goals-list_goal {
   color: black;
   margin-bottom: 10px; }
@@ -3853,27 +3860,68 @@ hr.project-page__presentation-header-line {
       margin: 10px auto 50px;
       max-width: 940px; } }
 
+.enrollment-page__steps-establishment__header:hover, .enrollment-page__steps-establishment__header:focus, .enrollment-page__steps-establishment__header:active {
+  text-decoration: none; }
+
 .enrollment-page__steps-establishment__title {
   margin-bottom: 15px;
   width: 100%;
   padding: 20px 10px 20px;
   color: #3d68ff;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3); }
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-align: center;
+  align-items: center; }
   @media (min-width: 768px) {
     .enrollment-page__steps-establishment__title {
-      display: -ms-flexbox;
-      display: flex;
+      -ms-flex-direction: row;
+      flex-direction: row;
       -ms-flex-wrap: wrap;
       flex-wrap: wrap;
       -ms-flex-align: center;
       align-items: center;
       font-size: 34px; } }
 
+.enrollment-page__steps-establishment__title-image img {
+  width: 80px; }
+
 .enrollment-page__steps-establishment__title-image {
-  margin-bottom: 15px; }
+  margin-bottom: 15px;
+  -ms-flex-preferred-size: 40px;
+  flex-basis: 40px; }
   @media (min-width: 768px) {
     .enrollment-page__steps-establishment__title-image {
-      margin: 0 40px 0; } }
+      padding: 0 40px 0; } }
+
+@media (min-width: 768px) {
+  .enrollment-page__steps-establishment__title-text {
+    -ms-flex-positive: 5;
+    flex-grow: 5;
+    padding-left: 20px;
+    text-align: left; } }
+
+.enrollment-page__steps-establishment__title-icon-container {
+  -ms-flex-preferred-size: 40px;
+  flex-basis: 40px; }
+
+.enrollment-page__steps-establishment__title-icon {
+  width: 20px;
+  height: 20px;
+  transform: rotate(-315deg);
+  border: solid 2px #3d68ff;
+  border-top: none;
+  border-left: none;
+  background: #ffffff; }
+
+.cp-is-open .enrollment-page__steps-establishment__title-icon {
+  position: relative;
+  top: 10px;
+  border: solid 2px #3d68ff;
+  border-bottom: none;
+  border-right: none; }
 
 .enrollment-page__steps-establishment__steps-list__step {
   padding: 0px 7px 20px; }

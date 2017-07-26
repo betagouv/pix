@@ -10662,7 +10662,7 @@ define('pix-live/tests/unit/routes/enrollment-test', ['chai', 'mocha', 'ember-mo
 
   (0, _mocha.describe)('Unit | Route | enrollment', function () {
     (0, _emberMocha.setupTest)('route:enrollment', {
-      needs: ['service:current-routed-modal']
+      needs: ['service:panelActions', 'service:current-routed-modal']
     });
 
     (0, _mocha.it)('exists', function () {
