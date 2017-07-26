@@ -1728,10 +1728,7 @@ h1.course-banner__name {
   font-family: "Lato", Arial, sans-serif;
   letter-spacing: 0.3px;
   color: #6a6d76;
-  font-size: 12px; }
-  @media (min-width: 768px) {
-    .user-menu-item__details-email {
-      font-size: 14px; } }
+  font-size: 14px; }
 
 .user-menu-item__account-link button {
   width: 103px;
@@ -1740,10 +1737,13 @@ h1.course-banner__name {
   border: none;
   background-color: #3d68ff;
   font-family: "Lato", Arial, sans-serif;
-  font-size: 14px;
   color: #ffffff;
   text-transform: capitalize;
-  margin-left: 46px; }
+  margin-left: 46px;
+  font-size: 12px; }
+  @media (min-width: 768px) {
+    .user-menu-item__account-link button {
+      font-size: 14px; } }
 
 .pix-logo {
   display: inline-block;
