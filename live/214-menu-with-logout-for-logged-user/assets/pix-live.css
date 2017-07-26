@@ -1726,9 +1726,12 @@ h1.course-banner__name {
   width: 89px;
   height: 17px;
   font-family: "Lato", Arial, sans-serif;
-  font-size: 14px;
   letter-spacing: 0.3px;
-  color: #6a6d76; }
+  color: #6a6d76;
+  font-size: 12px; }
+  @media (min-width: 768px) {
+    .user-menu-item__details-email {
+      font-size: 14px; } }
 
 .user-menu-item__account-link button {
   width: 103px;
