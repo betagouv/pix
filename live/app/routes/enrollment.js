@@ -11,6 +11,7 @@ const pixDescriptionGoals = [
 
 const stepsForPioneersInstitutions = [
   {
+    id: 'scolaire',
     title: 'Pour les collèges et lycées',
     destinataires: 'élèves',
     image: 'icon-college.svg',
@@ -33,6 +34,7 @@ const stepsForPioneersInstitutions = [
     ]
   },
   {
+    id: 'superieur',
     title: 'Pour l\'Enseignement supérieur',
     destinataires: 'étudiants',
     image: 'icon-etudiants.svg',

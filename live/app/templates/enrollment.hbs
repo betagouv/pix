@@ -11,7 +11,7 @@
     <div class="enrollment-page__header-description">Je veux que mon établissement propose la certification Pix dès
       cette année.
     </div>
-    <a class="enrollment-page__header-link" href="https://github.com/sgmap/pix" target="_blank">
+    <a class="enrollment-page__header-link" href="" target="_blank">
       <div class="enrollment-page__header-link-div">Inscrire mon établissement</div>
     </a>
   </div>
@@ -39,10 +39,11 @@
 
     {{#each model.stepsForPioneersInstitutions as |institution|}}
       {{#cp-panel as |panel|}}
+        {{log panel}}
         <div class="enrollment-page__steps-establishment">
 
           {{#panel.toggle class="enrollment-page__steps-establishment__header"}}
-            <h3 class="enrollment-page__steps-establishment__title">
+            <h3 class="enrollment-page__steps-establishment__title" aria-expanded="{{panel.isOpen}}" aria-controls="{{institution.id}}">
               <div class="enrollment-page__steps-establishment__title-image">
                 <img src="{{rootURL}}/images/{{institution.image}}" alt="icon etablissement" class="">
               </div>
@@ -56,7 +57,7 @@
           {{/panel.toggle}}
 
           {{#panel.body}}
-            <div class="enrollment-page__steps-establishment__steps-list">
+            <div id="{{institution.id}}" class="enrollment-page__steps-establishment__steps-list" aria-hidden="{{if panel.isOpen false true}}">
               {{#each institution.steps as |step|}}
                 <div class="enrollment-page__steps-establishment__steps-list__step">
                   {{#if step.date}}
