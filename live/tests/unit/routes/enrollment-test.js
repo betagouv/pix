@@ -4,7 +4,7 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Route | enrollment', function() {
   setupTest('route:enrollment', {
-    needs: ['service:current-routed-modal']
+    needs: ['service:panelActions', 'service:current-routed-modal']
   });
 
   it('exists', function() {
