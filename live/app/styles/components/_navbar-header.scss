@@ -170,44 +170,32 @@
 }
 
 .logged-user-menu__item {
-  display: flex;
-  margin: 1px auto;
+  margin: 2px auto;
   width: 288px;
-  height: 70px;
   list-style: none;
-  flex-direction: column;
-  text-align: left;
   padding-left: 10px;
-  padding-right: 10px;
-  justify-content: center;
 
-  &:hover {
-    background-color: $porcelain-grey;
-  }
-  
   @include device-is('tablet') {
     padding-left: 26px;
-    padding-right: 21px;
   }
 }
 
 .user-menu-item {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.user-menu-item__details {
-  flex-grow: 1;
-  display: flex;
-  flex-wrap: wrap;
-  flex-basis: auto;
   flex-direction: column;
+  justify-content: center;
+  height: 110px;
+  background-color: $porcelain-grey;
+
+  @include device-is('tablet') {
+    height: 120px;
+  }
 }
 
 .user-menu-item__details-firstname {
   font-family: $font-lato;
   font-size: 18px;
+  height: 22px;
   letter-spacing: 1px;
   color: $charcoal-grey;
   text-transform: capitalize;
@@ -218,7 +206,11 @@
   letter-spacing: 0.3px;
   color: $slate-grey;
   font-size: 14px;
-  margin-top: 3px;
+  height: 17px;
+}
+
+.user-menu-item__account-link {
+  margin-top: 14px;
 }
 
 .user-menu-item__account-link button {
@@ -231,6 +223,15 @@
   color: $white;
   text-transform: capitalize;
   font-size: 14px;
+}
+
+.user-menu__item--logout {
+  display: flex;
+  align-items: center;
+  height: 65px;
+  @include device-is('tablet') {
+    height: 95.5px;
+  }
 }
 
 .logged-user-menu__item-logout {
