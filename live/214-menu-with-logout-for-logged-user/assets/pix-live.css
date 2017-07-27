@@ -1725,7 +1725,8 @@ h1.course-banner__name {
   margin-top: 14px; }
 
 .user-menu-item__account-link button {
-  width: 103px;
+  min-width: 103px;
+  max-width: 105px;
   height: 32px;
   border-radius: 4px;
   border: none;
