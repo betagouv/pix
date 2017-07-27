@@ -5099,50 +5099,6 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
 
     (0, _mocha.it)('should display a link to "referential" page', function () {
       (0, _chai.expect)(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
-      (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.length(0);
-    });
-
-    (0, _mocha.describe)('Display user details', function () {
-
-      (0, _mocha.describe)('When user is logged', function () {
-
-        (0, _mocha.it)('should display user information, when user is logged', function () {
-          // given
-          this.set('user', { firstName: 'FHI', lastName: '4EVER' });
-          // when
-          this.render(Ember.HTMLBars.template({
-            "id": "GjQfsZ3F",
-            "block": "{\"statements\":[[1,[33,[\"navbar-header\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-            "meta": {}
-          }));
-          // then
-          (0, _chai.expect)(this.$('.logged-user-details')).to.have.length(1);
-          (0, _chai.expect)(this.$('.logged-user-name').text().trim()).to.be.equal('FHI 4EVER');
-        });
-
-        (0, _mocha.it)('should move navbar to top', function () {
-          // given
-          this.set('user', { firstName: 'FHI', lastName: '4EVER' });
-          // when
-          this.render(Ember.HTMLBars.template({
-            "id": "GjQfsZ3F",
-            "block": "{\"statements\":[[1,[33,[\"navbar-header\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-            "meta": {}
-          }));
-          // then
-          (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.length(1);
-        });
-      });
-
-      (0, _mocha.it)('should not display user information, for unlogged', function () {
-        // when
-        this.render(Ember.HTMLBars.template({
-          "id": "Jj0Mqu5s",
-          "block": "{\"statements\":[[1,[26,[\"navbar-header\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
-        (0, _chai.expect)(this.$('.logged-user-details')).to.have.length(0);
-      });
     });
   });
 });
@@ -7923,10 +7879,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/components/navbar-header-test.js', function () {
-      // test passed
-    });
-
     it('unit/components/qcu-proposals-test.js', function () {
       // test passed
     });
@@ -9211,29 +9163,6 @@ define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'emb
         // then
         (0, _chai.expect)(component.get('recaptchaToken')).to.be.null;
         (0, _chai.expect)(component.get('tokenHasBeenUsed')).to.be.false;
-      });
-    });
-  });
-});
-define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Component | Navar Header Component', function () {
-    (0, _emberMocha.setupTest)('component:navbar-header', {});
-
-    (0, _mocha.describe)('#isUserLogged', function () {
-      [{ given: '', expected: false }, { given: ' ', expected: false }, { given: null, expected: false }, { given: undefined, expected: false }, { given: { firstName: 'FHI' }, expected: true }].forEach(function (_ref) {
-        var given = _ref.given,
-            expected = _ref.expected;
-
-        (0, _mocha.it)('should return ' + expected + ', when "' + given + '" provided', function () {
-          // given
-          var component = this.subject();
-          // when
-          component.set('user', given);
-          // then
-          (0, _chai.expect)(component.get('isUserLogged')).to.equal(expected);
-        });
       });
     });
   });
