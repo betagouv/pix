@@ -22118,7 +22118,7 @@ self.expect = self.chai.expect;
   define('chai', [], vendorModule);
 })();
 
-/* Sinon.JS 2.3.8, 2017-07-13, @license BSD-3 */(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.sinon = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/* Sinon.JS 2.4.1, 2017-07-26, @license BSD-3 */(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.sinon = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
 var match = require("./sinon/match");
@@ -23894,8 +23894,8 @@ var wrapMethod = require("./util/core/wrap-method");
 var push = Array.prototype.push;
 
 function mock(object) {
-    if (!object) {
-        return mockExpectation.create("Anonymous mock");
+    if (!object || typeof object === "string") {
+        return mockExpectation.create(object ? object : "Anonymous mock");
     }
 
     return mock.create(object);
@@ -24371,6 +24371,7 @@ module.exports = {
 },{"./color":8,"./match":10,"./util/core/format":28,"./util/core/times-in-words":38,"diff":48}],16:[function(require,module,exports){
 "use strict";
 
+var createBehavior = require("./behavior").create;
 var extend = require("./util/core/extend");
 var functionName = require("./util/core/function-name");
 var functionToString = require("./util/core/function-to-string");
@@ -24679,6 +24680,11 @@ var spyApi = {
         fake.parent = this;
         push.call(this.fakes, fake);
 
+        if (original.defaultBehavior && original.defaultBehavior.promiseLibrary) {
+            fake.defaultBehavior = fake.defaultBehavior || createBehavior(fake);
+            fake.defaultBehavior.promiseLibrary = original.defaultBehavior.promiseLibrary;
+        }
+
         fake.withArgs = function () {
             return original.withArgs.apply(original, arguments);
         };
@@ -24817,7 +24823,7 @@ extend(spy, spyApi);
 spy.spyCall = spyCall;
 module.exports = spy;
 
-},{"./call":5,"./match":10,"./spy-formatters":15,"./util/core/deep-equal":23,"./util/core/extend":27,"./util/core/format":28,"./util/core/function-name":29,"./util/core/function-to-string":30,"./util/core/get-property-descriptor":32,"./util/core/value-to-string":40,"./util/core/wrap-method":42}],17:[function(require,module,exports){
+},{"./behavior":3,"./call":5,"./match":10,"./spy-formatters":15,"./util/core/deep-equal":23,"./util/core/extend":27,"./util/core/format":28,"./util/core/function-name":29,"./util/core/function-to-string":30,"./util/core/get-property-descriptor":32,"./util/core/value-to-string":40,"./util/core/wrap-method":42}],17:[function(require,module,exports){
 "use strict";
 
 var deprecated = require("./util/core/deprecated");
