@@ -31,19 +31,15 @@
         {{#if _canDisplayMenu}}
           <div class="logged-user-menu">
             <ul class="logged-user-menu__list">
-              <li class="logged-user-menu__item">
-                <div class="user-menu-item">
-                  <div class="user-menu-item__details">
-                    <div class="user-menu-item__details-firstname"> {{user.firstName}}</div>
-                  </div>
-                  <div class="user-menu-item__account-link">
-                    <button>Mon compte</button>
-                  </div>
-                </div>
-                
+              <li class="logged-user-menu__item user-menu-item">
+                <div class="user-menu-item__details-firstname"> {{user.firstName}}</div>
                 <div class="user-menu-item__details-email">{{user.email}}</div>
+                <div class="user-menu-item__account-link">
+                  <button>Mon compte</button>
+                </div>
+
               </li>
-              <li class="logged-user-menu__item">
+              <li class="logged-user-menu__item user-menu__item--logout">
                 {{#link-to 'logout' class="logged-user-menu__item-logout"}}se déconnecter{{/link-to}}</li>
             </ul>
           </div>
