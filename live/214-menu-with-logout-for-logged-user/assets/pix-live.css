@@ -1685,49 +1685,31 @@ h1.course-banner__name {
   box-shadow: 0 4px 7px 0 rgba(0, 0, 0, 0.3); }
 
 .logged-user-menu__item {
-  display: -ms-flexbox;
-  display: flex;
-  margin: 1px auto;
+  margin: 2px auto;
   width: 288px;
-  height: 70px;
   list-style: none;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  text-align: left;
-  padding-left: 10px;
-  padding-right: 10px;
-  -ms-flex-pack: center;
-  justify-content: center; }
-  .logged-user-menu__item:hover {
-    background-color: #f2f3f4; }
+  padding-left: 10px; }
   @media (min-width: 768px) {
     .logged-user-menu__item {
-      padding-left: 26px;
-      padding-right: 21px; } }
+      padding-left: 26px; } }
 
 .user-menu-item {
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -ms-flex-align: center;
-  align-items: center; }
-
-.user-menu-item__details {
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -ms-flex-preferred-size: auto;
-  flex-basis: auto;
   -ms-flex-direction: column;
-  flex-direction: column; }
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 110px;
+  background-color: #f2f3f4; }
+  @media (min-width: 768px) {
+    .user-menu-item {
+      height: 120px; } }
 
 .user-menu-item__details-firstname {
   font-family: "Lato", Arial, sans-serif;
   font-size: 18px;
+  height: 22px;
   letter-spacing: 1px;
   color: #3e4149;
   text-transform: capitalize; }
@@ -1737,7 +1719,10 @@ h1.course-banner__name {
   letter-spacing: 0.3px;
   color: #6a6d76;
   font-size: 14px;
-  margin-top: 3px; }
+  height: 17px; }
+
+.user-menu-item__account-link {
+  margin-top: 14px; }
 
 .user-menu-item__account-link button {
   width: 103px;
@@ -1749,6 +1734,16 @@ h1.course-banner__name {
   color: #ffffff;
   text-transform: capitalize;
   font-size: 14px; }
+
+.user-menu__item--logout {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 65px; }
+  @media (min-width: 768px) {
+    .user-menu__item--logout {
+      height: 95.5px; } }
 
 .logged-user-menu__item-logout {
   height: 16px;
