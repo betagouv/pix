@@ -17,14 +17,14 @@ const stepsForPioneersInstitutions = [
     image: 'icon-college.svg',
     steps: [
       {
-        date: 'Jusqu\'a fin septembre 2017',
+        date: 'Jusqu\'à fin septembre 2017',
         description: 'Les collèges et lycées qui souhaitent proposer la certification Pix à leurs élèves s\'inscrivent auprès de Pix.'
       }, {
-        description: 'Découverte des fonctionnalités de Pix par les équipes (formations courtes)'
+        description: 'Les équipes pédagogiques découvrent les fonctionnalités de Pix (formations courtes en ligne).'
       }, {
-        description: 'Campagne d\'évaluation au près des collégiens (à partir de la 4ème) et des lycéens'
+        description: 'Les collégiens (à partir de la 4ème) et les lycéens se créent un compte Pix et s\'évaluent, compétence après compétence, sur la plateforme.'
       }, {
-        description: 'Remontée des profils des compétences Pix des élèves aux enseignants'
+        description: 'Les élèves font remonter leurs profils de compétence Pix à leurs enseignants.'
       }, {
         description: 'Les établissements peuvent identifier les besoins de leurs élèves, organiser un accompagnement ciblé et mesurer les progrès au long de l\'année.'
       }, {
@@ -42,9 +42,9 @@ const stepsForPioneersInstitutions = [
       {
         date: 'Jusqu\'à fin septembre 2017',
         description: 'Inscription des établissements pour le 1er semestre et/ou le 2nd semestre.',
-        note: 'Les établissements qui souhaiteront s\'inscrire pour un démarrage au second semestre pourront le faire jusqu\'à la fin octobre 2017'
+        note: 'Les établissements qui souhaiteront s\'inscrire pour un démarrage au second semestre pourront le faire jusqu\'à la fin octobre 2017.'
       }, {
-        description: 'Possibilité d\'organiser une pré-campagne d\'évaluation des étudiants en cycle d\'accueil (limitée à certaines compétences)'
+        description: 'Possibilité d\'organiser une pré-campagne d\'évaluation des étudiants en cycle d\'accueil (limitée à certaines compétences).'
       }, {
         description: 'Les universités et les écoles peuvent proposer des modules d\'enseignement ciblé sur les compétences et la culture numérique (ex modules C2i).'
       }, {
