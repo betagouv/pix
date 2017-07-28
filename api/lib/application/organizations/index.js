@@ -7,6 +7,11 @@ exports.register = function(server, options, next) {
       path: '/api/organizations',
       config: { handler: organisationController.create, tags: ['api'] }
     },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}',
+      config: { handler: organisationController.get, tags: ['api'] }
+    }
   ]);
 
   return next();
