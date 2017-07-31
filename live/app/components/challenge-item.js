@@ -17,6 +17,7 @@ export default Ember.Component.extend({
   answerProposal: null,
   previousAnswerValue: null,
   errorMessage: null,
+  hasUserConfirmWarning: false,
   _elapsedTime: null,
   _timer: null,
   _isUserAwareThatChallengeIsTimed: false,
@@ -66,10 +67,6 @@ export default Ember.Component.extend({
       'QROCM-DEP': 'qrocm-proposal'
     };
     return proposalComponentClasses[challengeType];
-  }),
-
-  hasUserConfirmWarning: Ember.computed('challenge', function() {
-    return false;
   }),
 
   hasChallengeTimer: Ember.computed('challenge', function() {
