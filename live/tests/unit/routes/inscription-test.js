@@ -19,7 +19,7 @@ describe('Unit | Route | inscription', function() {
     expect(route).to.be.ok;
   });
 
-  it('should redirect to /compte authenticated user', function() {
+  it('should automatically redirect authenticated user to /compte', function() {
     // Given
     const expectedEmail = 'email@example.net';
     const expectedPassword = 'Azertya1!';
@@ -27,15 +27,21 @@ describe('Unit | Route | inscription', function() {
 
     const route = this.subject();
     route.set('session', sessionStub);
-    route.transitionTo = () => {
+    let transitionToArg;
+    route.transitionTo = function() {
+      transitionToArg = Array.from(arguments);
     };
 
     // When
-    const promise = route.actions.redirectToCompte.call(route, { email: expectedEmail, password: expectedPassword });
+    const promise = route.actions.redirectToProfileRoute.call(route, {
+      email: expectedEmail,
+      password: expectedPassword
+    });
 
     // Then
     return promise.then(() => {
       expect(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
+      expect(transitionToArg).to.deep.equal(['compte']);
     });
   });
 });

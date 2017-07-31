@@ -174,7 +174,7 @@ describe('Integration | Component | signup form', function() {
         let hasRedirectionBeenCalled = false;
         let credentials;
 
-        this.set('redirectToCompte', (providedCredentials) => {
+        this.set('redirectToProfileRoute', (providedCredentials) => {
           hasRedirectionBeenCalled = true;
           credentials = providedCredentials;
         });
@@ -191,7 +191,7 @@ describe('Integration | Component | signup form', function() {
           }
         });
         this.set('user', user);
-        this.render(hbs`{{signup-form user=user signup="signup" redirectToCompte=(action redirectToCompte)}}`);
+        this.render(hbs`{{signup-form user=user signup="signup" redirectToProfileRoute=(action redirectToProfileRoute)}}`);
 
         // when
         $(SUBMIT_BUTTON).click();

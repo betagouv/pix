@@ -21,7 +21,7 @@ export default Ember.Route.extend(UnauthenticatedRouteMixin, {
       this.refresh();
     },
 
-    redirectToCompte({ email, password }) {
+    redirectToProfileRoute({ email, password }) {
       return this.get('session')
         .authenticate('authenticator:simple', email, password)
         .then(() => {
