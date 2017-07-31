@@ -19,19 +19,19 @@ describe('Unit | Route | inscription', function() {
     expect(route).to.be.ok;
   });
 
-  const expectedEmail = 'email@example.net';
-  const expectedPassword = 'azerty';
-  const sessionStub = new SessionStub();
-
   it('should redirect to /compte authenticated user', function() {
     // Given
+    const expectedEmail = 'email@example.net';
+    const expectedPassword = 'Azertya1!';
+    const sessionStub = new SessionStub();
+
     const route = this.subject();
     route.set('session', sessionStub);
     route.transitionTo = () => {
     };
 
     // When
-    const promise = route.actions.redirectToCompte.call(route, expectedEmail, expectedPassword);
+    const promise = route.actions.redirectToCompte.call(route, { email: expectedEmail, password: expectedPassword });
 
     // Then
     return promise.then(() => {
