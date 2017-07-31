@@ -21,16 +21,20 @@
   @include device-is('desktop') {
     justify-content: space-between;
     flex-direction: row;
-    padding:0 30px;
+    padding: 0 100px;
   }
 
+  @include device-is('large-screen') {
+    padding: 0;
+  }
 }
 
 .navbar-header-right {
   width: 90%;
   margin: 30px auto 5px;
-  @include device-is('tablet') {
-    width: 15%;
+
+  @include device-is('desktop') {
+    padding: 0;
     margin: 0;
   }
 }
@@ -93,6 +97,7 @@
   margin: 0;
   list-style-type: none;
   display: flex;
+  justify-content: flex-end;
 }
 
 .navbar-header-links__item {
