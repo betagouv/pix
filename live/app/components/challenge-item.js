@@ -13,6 +13,10 @@ export default Ember.Component.extend({
 
   answerValidated: null, // action
 
+  // Private
+  answerProposal: null,
+  previousAnswerValue: null,
+  errorMessage: null,
   _elapsedTime: null,
   _timer: null,
   _isUserAwareThatChallengeIsTimed: false,
