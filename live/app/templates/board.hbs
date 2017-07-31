@@ -2,16 +2,43 @@
 
   {{navbar-header class="navbar-header--white"}}
 
-  <div class="board-page__header"></div>
-  <div class="board-page__body"></div>
+  <div class="board-page__header">
+    <div class="board-page__header-organisation">
+      <div class="board-page__header-organisation__text">Votre Organisation</div>
+      <div class="board-page__header-organisation__name">{{model.name}}</div>
+    </div>
+    <div class="board-page__header-code">
+      <div class="board-page__header-code__title">Code Organisation</div>
+      <div class="board-page__header-code__text">{{model.code}}</div>
+      <div class="board-page__header-code__comment">Communiquez ce code à vos élèves, étudiants ou collaborateurs et ils
+        pourront partager leurs profils Pix avec vous.
+      </div>
+    </div>
+  </div>
+
+  <div class="board-page__body">
+    <div class="board-page__body-profiles">
+      <div class="board-page__body-profiles__header">
+        <h2 class="board-page__body-profiles__header-title">Profils Partagés</h2>
+        <a class="board-page__body-profiles__header-export">
+          <div class="board-page__body-profiles__header-export">Exporter (.csv)</div>
+        </a>
+      </div>
+      <div class="board-page__body-table">
+        <div class="board-page__body-table__header">
+          <div>Nom</div>
+          <div>Prénom</div>
+          <div>Score Pix</div>
+          <div>% d'avancement</div>
+        </div>
+        <div class="board-page__body-table__body">
+          Aucun Profil Partagé pour le moment
+        </div>
+      </div>
+    </div>
+  </div>
 
   {{app-footer}}
 
 
 </div>
-
-{{model.id}}
-<br>
-{{model.name}}
-<br>
-salut
