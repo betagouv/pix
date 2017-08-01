@@ -11,7 +11,7 @@ export default Ember.Component.extend({
 
   init() {
     this._super(...arguments);
-    this.set('_user', this.get('store').queryRecord('user', {}).then((user) => user));
+    this.get('store').queryRecord('user', {}).then((user) => this.set('_user', user));
   },
 
   actions: {

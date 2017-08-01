@@ -3,7 +3,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import Ember from 'ember';
 
-describe.only('Unit | Component | User logged Menu', function() {
+describe('Unit | Component | User logged Menu', function() {
   setupTest('component:user-logged-menu', {});
 
   describe('action#toggleUserMenu', function() {
@@ -64,19 +64,12 @@ describe.only('Unit | Component | User logged Menu', function() {
         this.inject.service('store', { as: 'store' });
       });
 
-      it('should return user info details', function() {
+      it('should correctly call store', function() {
         // when
-        const component = this.subject();
+        this.subject();
 
         // then
-        return component.get('_user').then((user) => {
-          expect(user).to.deep.equal({
-            firstName: 'FHI',
-            lastName: '4EVER',
-            email: 'FHI@4EVER.fr'
-          });
-          expect(queryRecordArgs).to.deep.equal(['user', {}]);
-        });
+        expect(queryRecordArgs).to.deep.equal(['user', {}]);
       });
 
     });
