@@ -91,6 +91,61 @@ describe('Unit | Repository | OrganizationRepository', function() {
           expect(promise).to.be.rejected;
         });
     });
+  });
 
+  describe('#get', () => {
+
+    const existingId = 1;
+    const inserted_organization = {
+      email: 'test@email.com',
+      type: 'PRO',
+      name: 'The name of the organization',
+      userId: 294,
+      id: existingId
+    };
+
+    before(() => {
+      return knex('organizations')
+        .delete()
+        .then(() => {
+          return knex('organizations').insert(inserted_organization);
+        });
+    });
+
+    after(() => {
+      return knex('organizations').delete();
+    });
+
+    it('should be a function', function() {
+      // then
+      expect(OrganizationRepository.get).to.be.a('function');
+    });
+
+    describe('success management', function() {
+
+      it('should return a organization by provided id', function() {
+        // then
+        OrganizationRepository.get(existingId)
+          .then((foundOrganization) => {
+            expect(foundOrganization).to.exist;
+            expect(foundOrganization).to.be.an('object');
+            expect(foundOrganization.attributes.email).to.equal(inserted_organization.email);
+            expect(foundOrganization.attributes.type).to.equal(inserted_organization.type);
+            expect(foundOrganization.attributes.name).to.equal(inserted_organization.name);
+            expect(foundOrganization.attributes.userId).to.equal(inserted_organization.userId);
+            expect(foundOrganization.attributes.id).to.equal(inserted_organization.id);
+          });
+      });
+
+
+      it('should return a rejection when organization id is not found', function() {
+        const inexistenteId = 10083;
+        return OrganizationRepository.get(inexistenteId)
+          .catch((err) => {
+            expect(err.message).to.equal('EmptyResponse');
+          });
+      });
+
+    });
   });
 });

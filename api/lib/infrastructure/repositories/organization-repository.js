@@ -20,6 +20,10 @@ module.exports = {
       });
   },
 
-  get(id){}
+  get(id){
+    return Organization
+      .where({id : id})
+      .fetch({require : true});
+  }
 
 };

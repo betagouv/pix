@@ -63,19 +63,23 @@ module.exports = {
       });
   },
 
-  //Idées refacto fonction
+  //idées refacto : faire une fontion qui retourne une promesse après verification que l'user demandeur est bien dans l'orga
   get: (request, reply) => {
     const organizationId = request.params.id;
     const token = request.headers.authorization;
 
     return jsonWebToken
       .verify(token)
-      .then((userId) => {
+      .then((connectedUserId) => {
         return organisationRepository
           .get(organizationId)
           .then((organization) => {
-            //verifier que le user fait partie de l'organisation
-            return reply(organizationSerializer.serialize(organization)).code(200);
+            const associatedUser = organization.get('userId');
+            if (associatedUser === connectedUserId) {
+              return reply(organizationSerializer.serialize(organization)).code(200);
+            } else {
+              return reply().code(403);
+            }
           })
           .catch(err => {
             return reply().code(404);
@@ -84,7 +88,6 @@ module.exports = {
       .catch(() => {
         return Promise.resolve(reply().code(401));
       });
-
   }
 };
 

@@ -7,6 +7,8 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const organizationService = require('../../../../lib/domain/services/organization-service');
+const jsonWebToken = require('../../../../lib/infrastructure/validators/jsonwebtoken-verify');
+
 const logger = require('../../../../lib/infrastructure/logger');
 const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
 
@@ -281,7 +283,7 @@ describe('Unit | Controller | organizationController', () => {
     });
   });
 
-  describe.only('#get', function() {
+  describe('#get', function() {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
@@ -341,6 +343,15 @@ describe('Unit | Controller | organizationController', () => {
 
       it('should return 403(FORBIDDEN) when provided token is valid but the user is not owner of the organization', function() {
         // Given
+        const retrievedOrganization = new Organisation({
+          email: 'organization-email@example.net',
+          type: 'PRO',
+          user: 1
+        });
+        const retrievedUserId = 12;
+        sandbox.stub(organisationRepository, 'get').resolves(retrievedOrganization);
+        sandbox.stub(jsonWebToken, 'verify').resolves(retrievedUserId);
+
         const request = {
           headers: {
             authorization: 'valid token'
@@ -362,23 +373,23 @@ describe('Unit | Controller | organizationController', () => {
       });
     });
 
-    describe('When the user is authenticated and part of the organization', function() {
-
-      request = {
-        headers: {
-          authorization: 'valid token'
-        },
-        params: {
-          id: 'id_orga'
-        },
-      };
-
-      //stubber le verify pour renvoyer un utilisateur connecté
+    describe('Repository call', function() {
 
       it('should call the organization repository', function() {
         // Given
-        sandbox.stub(organisationRepository, 'get').resolves();
+        const connectedUserId = 12;
+        retrievedOrganization = new Organisation({ email: 'organization-email@example.net', type: 'PRO' });
+        sandbox.stub(jsonWebToken, 'verify').resolves(connectedUserId);
+        sandbox.stub(organisationRepository, 'get').resolves(retrievedOrganization);
         sandbox.stub(organizationSerializer, 'serialize').resolves();
+        request = {
+          headers: {
+            authorization: 'valid token'
+          },
+          params: {
+            id: 'id_orga'
+          },
+        };
 
         // When
         const promise = controller.get(request, replyStub);
@@ -390,12 +401,52 @@ describe('Unit | Controller | organizationController', () => {
         });
       });
 
+    });
+
+    describe('when there is no organization retrieved', function() {
+
+      it('should reply 404', function() {
+        // Given
+        const userId = 12;
+        sandbox.stub(jsonWebToken, 'verify').resolves(userId);
+        const error = new Error();
+        sandbox.stub(organisationRepository, 'get').rejects(error);
+
+        // When
+        const promise = controller.get(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledWith(codeStub, 404);
+          sinon.assert.calledOnce(replyStub);
+        });
+      });
+    });
+
+    describe('When the user is authenticated and part of the organization', function() {
+
+      let retrievedOrganization;
+      let connectedUserId;
+
+      beforeEach(() => {
+        connectedUserId = 12;
+        retrievedOrganization = new Organisation({ email: 'organization-email@example.net', type: 'PRO', userId: connectedUserId });
+        sandbox.stub(organisationRepository, 'get').resolves(retrievedOrganization);
+        sandbox.stub(jsonWebToken, 'verify').resolves(connectedUserId);
+      });
+
+      request = {
+        headers: {
+          authorization: 'valid token'
+        },
+        params: {
+          id: 'id_orga'
+        },
+      };
+
       describe('when there is an organization retrieved', function() {
 
-        const retrievedOrganization = { name: 'Best corp' };
-
         beforeEach(() => {
-          sandbox.stub(organisationRepository, 'get').resolves(retrievedOrganization);
           sandbox.stub(organizationSerializer, 'serialize').resolves();
         });
 
@@ -423,23 +474,7 @@ describe('Unit | Controller | organizationController', () => {
 
       });
 
-      describe('when there is no organization retrieved', function() {
 
-        it('should reply 404', function() {
-          // Given
-          const error = new Error();
-          sandbox.stub(organisationRepository, 'get').rejects(error);
-
-          // When
-          const promise = controller.get(request, replyStub);
-
-          // Then
-          return promise.then(() => {
-            sinon.assert.calledWith(codeStub, 404);
-            sinon.assert.calledOnce(replyStub);
-          });
-        });
-      });
 
     });
 
