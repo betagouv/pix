@@ -19,7 +19,7 @@ describe('Unit | Route | inscription', function() {
     expect(route).to.be.ok;
   });
 
-  it('should automatically redirect authenticated user to /compte', function() {
+  it('should automatically redirect authenticated user to compte page', function() {
     // Given
     const expectedEmail = 'email@example.net';
     const expectedPassword = 'Azertya1!';
@@ -38,8 +38,8 @@ describe('Unit | Route | inscription', function() {
       password: expectedPassword
     });
 
-    // Then
     return promise.then(() => {
+      // Then
       expect(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
       expect(transitionToArg).to.deep.equal(['compte']);
     });
