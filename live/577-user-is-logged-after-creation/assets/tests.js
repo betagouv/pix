@@ -10858,7 +10858,7 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
       (0, _chai.expect)(route).to.be.ok;
     });
 
-    (0, _mocha.it)('should automatically redirect authenticated user to /compte', function () {
+    (0, _mocha.it)('should automatically redirect authenticated user to compte page', function () {
       // Given
       var expectedEmail = 'email@example.net';
       var expectedPassword = 'Azertya1!';
@@ -10877,8 +10877,8 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
         password: expectedPassword
       });
 
-      // Then
       return promise.then(function () {
+        // Then
         (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
         (0, _chai.expect)(transitionToArg).to.deep.equal(['compte']);
       });
