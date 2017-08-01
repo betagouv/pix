@@ -12,7 +12,6 @@ describe('Unit | Component | Navbar Header Component', function() {
 
     beforeEach(function() {
       this.register('service:session', sessionStubResolve);
-
       this.inject.service('session', { as: 'session' });
     });
 
@@ -30,7 +29,6 @@ describe('Unit | Component | Navbar Header Component', function() {
 
     beforeEach(function() {
       this.register('service:session', sessionStubReject);
-
       this.inject.service('session', { as: 'session' });
     });
 
@@ -40,44 +38,6 @@ describe('Unit | Component | Navbar Header Component', function() {
 
       // then
       expect(component.get('isUserLogged')).to.equal(false);
-    });
-  });
-
-  describe('#showMenu', function() {
-    beforeEach(function() {
-      this.register('service:session', sessionStubResolve);
-
-      this.inject.service('session', { as: 'session' });
-    });
-
-    it('should return true, when user details is clicked', function() {
-      // given
-      const component = this.subject();
-      // when
-      component.set('user', {});
-      component.send('toggleUserMenu');
-      // then
-      expect(component.get('_canDisplayMenu')).to.equal(true);
-    });
-
-    it('should return false as default value', function() {
-      // given
-      const component = this.subject();
-      // when
-      component.set('user', {});
-      // then
-      expect(component.get('_canDisplayMenu')).to.equal(false);
-    });
-
-    it('should return false, when _canDisplayMenu was previously true', function() {
-      // given
-      const component = this.subject();
-      // when
-      component.set('user', {});
-      component.send('toggleUserMenu');
-      component.send('toggleUserMenu');
-      // then
-      expect(component.get('_canDisplayMenu')).to.equal(false);
     });
   });
 });
