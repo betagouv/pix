@@ -148,4 +148,96 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
     });
   });
+
+
+  describe('#getByUserId', () => {
+
+    const first_inserted_organization = {
+      email: 'entreprise1@email.com',
+      type: 'PRO',
+      name: 'organization 1',
+      userId: 1,
+      id: 1
+    };
+
+    const second_inserted_organization = {
+      email: 'entreprise2@email.com',
+      type: 'SCO',
+      name: 'organization 2',
+      userId: 2,
+      id: 2
+    };
+
+    const third_inserted_organization = {
+      email: 'entreprise3@email.com',
+      type: 'SUP',
+      name: 'organization 3',
+      userId: 1,
+      id: 3
+    };
+
+    const organizations = [first_inserted_organization, second_inserted_organization, third_inserted_organization];
+
+    before(() => {
+      return knex('organizations')
+        .delete()
+        .then(() => {
+          return knex('organizations').insert(organizations);
+        });
+    });
+
+    after(() => {
+      return knex('organizations').delete();
+    });
+
+    it('should be a function', function() {
+      // then
+      expect(OrganizationRepository.getByUserId).to.be.a('function');
+    });
+
+    describe('success management', function() {
+
+      it('should return an organization by provided userId', function() {
+        // Given
+        const userId = 2;
+
+        // then
+        OrganizationRepository.getByUserId(userId)
+          .then((foundOrganization) => {
+            expect(foundOrganization).to.exist;
+            expect(foundOrganization).to.be.an('array');
+            expect(foundOrganization[0].attributes.email).to.equal(second_inserted_organization.email);
+            expect(foundOrganization[0].attributes.type).to.equal(second_inserted_organization.type);
+            expect(foundOrganization[0].attributes.name).to.equal(second_inserted_organization.name);
+            expect(foundOrganization[0].attributes.userId).to.equal(second_inserted_organization.userId);
+            expect(foundOrganization[0].attributes.id).to.equal(second_inserted_organization.id);
+          });
+      });
+
+      //Il faut rajouter un done pour que le test soit rouge ? sinon il ecrit juste une erreur avec un test vert
+      //Test vert avec erreur sans done ou test rouge avec done ? lequel est le meilleur
+      it('should return multiple organizations when provided userId has multiple organizations', function() {
+        // Given
+        const userId = 1;
+
+        // then
+        OrganizationRepository.getByUserId(userId)
+          .then((foundOrganizations) => {
+            expect(foundOrganizations).to.exist;
+            expect(foundOrganizations).to.be.an('array');
+            expect(foundOrganizations).to.have.lengthOf(2);
+          });
+      });
+
+
+      it('should return a rejection when organization id is not found', function() {
+        const userId = 10083;
+        return OrganizationRepository.get(userId)
+          .catch((err) => {
+            expect(err.message).to.equal('EmptyResponse');
+          });
+      });
+
+    });
+  });
 });
