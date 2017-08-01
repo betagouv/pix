@@ -3756,7 +3756,7 @@ hr.project-page__presentation-header-line {
   text-align: center;
   color: #3d68ff;
   text-transform: uppercase; }
-  .enrollment-page__header-link:hover {
+  .enrollment-page__header-link:hover, .enrollment-page__header-link:focus, .enrollment-page__header-link:active, .enrollment-page__header-link:visited {
     color: #446eff;
     text-decoration: none; }
 
