@@ -51,7 +51,10 @@
   color: $pix-blue;
   text-transform: uppercase;
 
-  &:hover {
+  &:hover,
+  &:focus,
+  &:active,
+  &:visited {
     color: $dogder-blue;
     text-decoration: none;
   }
