@@ -1,0 +1,7 @@
+<div class="logged-user-name" {{action 'toggleUserMenu'}} role="button" aria-haspopup="true"
+     aria-expanded="{{_canDisplayMenu}}">
+  <a href="#" role="button" class="logged-user-name__link">
+    {{concat  user.firstName ' '  user.lastName}}
+    <span class="caret"></span>
+  </a>
+</div>

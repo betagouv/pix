@@ -47,7 +47,7 @@ describe('Integration | Component | navbar-header', function() {
 
     it('should display logged user details informations', function() {
       // then
-      expect(this.$('.logged-user-menu')).to.have.lengthOf(1);
+      expect(this.$('.logged-user-details')).to.have.lengthOf(1);
     });
   });
 });
