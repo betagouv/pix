@@ -18,6 +18,8 @@ module.exports = {
 
         return Promise.resolve(code);
       });
-  }
+  },
+
+  get(id){}
 
 };

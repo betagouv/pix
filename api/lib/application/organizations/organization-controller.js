@@ -8,6 +8,7 @@ const validationErrorSerializer = require('../../infrastructure/serializers/json
 
 const _ = require('lodash');
 const logger = require('../../infrastructure/logger');
+const jsonWebToken = require('../../infrastructure/validators/jsonwebtoken-verify');
 
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
 
@@ -60,6 +61,30 @@ module.exports = {
         logger.error(err);
         reply().code(500);
       });
+  },
+
+  //Idées refacto fonction
+  get: (request, reply) => {
+    const organizationId = request.params.id;
+    const token = request.headers.authorization;
+
+    return jsonWebToken
+      .verify(token)
+      .then((userId) => {
+        return organisationRepository
+          .get(organizationId)
+          .then((organization) => {
+            //verifier que le user fait partie de l'organisation
+            return reply(organizationSerializer.serialize(organization)).code(200);
+          })
+          .catch(err => {
+            return reply().code(404);
+          });
+      })
+      .catch(() => {
+        return Promise.resolve(reply().code(401));
+      });
+
   }
 };
 
