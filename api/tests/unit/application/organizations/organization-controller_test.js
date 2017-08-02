@@ -378,7 +378,7 @@ describe('Unit | Controller | organizationController', () => {
       it('should call the organization repository', function() {
         // Given
         const connectedUserId = 12;
-        retrievedOrganization = new Organisation({ email: 'organization-email@example.net', type: 'PRO' });
+        const retrievedOrganization = new Organisation({ email: 'organization-email@example.net', type: 'PRO' });
         sandbox.stub(jsonWebToken, 'verify').resolves(connectedUserId);
         sandbox.stub(organisationRepository, 'get').resolves(retrievedOrganization);
         sandbox.stub(organizationSerializer, 'serialize').resolves();
@@ -473,8 +473,6 @@ describe('Unit | Controller | organizationController', () => {
         });
 
       });
-
-
 
     });
 

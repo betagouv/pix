@@ -137,7 +137,6 @@ describe('Unit | Repository | OrganizationRepository', function() {
           });
       });
 
-
       it('should return a rejection when organization id is not found', function() {
         const inexistenteId = 10083;
         return OrganizationRepository.get(inexistenteId)
@@ -149,7 +148,6 @@ describe('Unit | Repository | OrganizationRepository', function() {
     });
   });
 
-
   describe('#getByUserId', () => {
 
     const first_inserted_organization = {
@@ -157,7 +155,8 @@ describe('Unit | Repository | OrganizationRepository', function() {
       type: 'PRO',
       name: 'organization 1',
       userId: 1,
-      id: 1
+      id: 1,
+      code: 'ABCD12'
     };
 
     const second_inserted_organization = {
@@ -165,7 +164,8 @@ describe('Unit | Repository | OrganizationRepository', function() {
       type: 'SCO',
       name: 'organization 2',
       userId: 2,
-      id: 2
+      id: 2,
+      code: 'EFGH34'
     };
 
     const third_inserted_organization = {
@@ -173,7 +173,8 @@ describe('Unit | Repository | OrganizationRepository', function() {
       type: 'SUP',
       name: 'organization 3',
       userId: 1,
-      id: 3
+      id: 3,
+      code: 'IJKL56'
     };
 
     const organizations = [first_inserted_organization, second_inserted_organization, third_inserted_organization];
@@ -228,7 +229,6 @@ describe('Unit | Repository | OrganizationRepository', function() {
             expect(foundOrganizations).to.have.lengthOf(2);
           });
       });
-
 
       it('should return a rejection when organization id is not found', function() {
         const userId = 10083;

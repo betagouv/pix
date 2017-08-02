@@ -81,7 +81,7 @@ module.exports = {
               return reply().code(403);
             }
           })
-          .catch(err => {
+          .catch(_ => {
             return reply().code(404);
           });
       })
