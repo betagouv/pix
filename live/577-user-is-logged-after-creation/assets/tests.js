@@ -6711,7 +6711,7 @@ define('pix-live/tests/integration/components/signin-form-test', ['chai', 'mocha
     }
   });
 });
-define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _ember, _wait) {
+define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait', 'sinon'], function (_chai, _mocha, _emberMocha, _ember, _wait, _sinon) {
   'use strict';
 
   var FORM_CONTAINER = '.signup-form-container';
@@ -6885,13 +6885,9 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
         (0, _mocha.it)('should redirect automatically to user compte', function () {
           // given
-          var hasRedirectionBeenCalled = false;
-          var credentials = void 0;
+          var redirectToProfileRouteStub = _sinon.default.stub();
 
-          this.set('redirectToProfileRoute', function (providedCredentials) {
-            hasRedirectionBeenCalled = true;
-            credentials = providedCredentials;
-          });
+          this.set('redirectToProfileRoute', redirectToProfileRouteStub);
 
           var user = _ember.default.Object.create({
             email: 'toto@pix.fr',
@@ -6915,8 +6911,10 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           $(SUBMIT_BUTTON).click();
 
           // then
-          (0, _chai.expect)(hasRedirectionBeenCalled).to.be.true;
-          (0, _chai.expect)(credentials).to.deep.equal({ email: 'toto@pix.fr', password: 'gipix2017' });
+          return (0, _wait.default)().then(function () {
+            _sinon.default.assert.calledOnce(redirectToProfileRouteStub);
+            _sinon.default.assert.calledWith(redirectToProfileRouteStub, { email: 'toto@pix.fr', password: 'gipix2017' });
+          });
         });
       });
 
