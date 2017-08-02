@@ -4,6 +4,7 @@ import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import wait from 'ember-test-helpers/wait';
+import sinon from 'sinon';
 
 const FORM_CONTAINER = '.signup-form-container';
 const FORM_HEADING_CONTAINER = '.signup-form__heading-container';
@@ -171,13 +172,9 @@ describe('Integration | Component | signup form', function() {
 
       it('should redirect automatically to user compte', function() {
         // given
-        let hasRedirectionBeenCalled = false;
-        let credentials;
+        const redirectToProfileRouteStub = sinon.stub();
 
-        this.set('redirectToProfileRoute', (providedCredentials) => {
-          hasRedirectionBeenCalled = true;
-          credentials = providedCredentials;
-        });
+        this.set('redirectToProfileRoute', redirectToProfileRouteStub);
 
         const user = Ember.Object.create({
           email: 'toto@pix.fr',
@@ -197,8 +194,10 @@ describe('Integration | Component | signup form', function() {
         $(SUBMIT_BUTTON).click();
 
         // then
-        expect(hasRedirectionBeenCalled).to.be.true;
-        expect(credentials).to.deep.equal({ email: 'toto@pix.fr', password: 'gipix2017' });
+        return wait().then(() => {
+          sinon.assert.calledOnce(redirectToProfileRouteStub);
+          sinon.assert.calledWith(redirectToProfileRouteStub, { email: 'toto@pix.fr', password: 'gipix2017' });
+        });
       });
     });
 
