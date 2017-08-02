@@ -16,8 +16,7 @@ export default Ember.Component.extend({
 
   actions: {
     toggleUserMenu() {
-      const canShowMenu = !this.get('_canDisplayMenu');
-      this.set('_canDisplayMenu', canShowMenu);
+      this.toggleProperty('_canDisplayMenu');
     }
   }
 });
