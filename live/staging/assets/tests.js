@@ -2893,6 +2893,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('routes/enrollment.js', function () {
+      // test passed
+    });
+
     it('routes/index.js', function () {
       // test passed
     });
@@ -6711,7 +6715,7 @@ define('pix-live/tests/integration/components/signin-form-test', ['chai', 'mocha
     }
   });
 });
-define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _ember, _wait) {
+define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait', 'sinon'], function (_chai, _mocha, _emberMocha, _ember, _wait, _sinon) {
   'use strict';
 
   var FORM_CONTAINER = '.signup-form-container';
@@ -6818,35 +6822,103 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
         this.register('component:g-recaptcha', _ember.default.Component.extend());
       });
 
-      (0, _mocha.it)('should return true if action <Signup> is handled', function () {
-        // given
-        var isFormSubmitted = false;
-        var user = _ember.default.Object.create({
-          email: 'toto@pix.fr',
-          firstName: 'Marion',
-          lastName: 'Yade',
-          password: 'gipix2017',
-          cgu: true,
+      (0, _mocha.describe)('behavior when signup successful (test external calls)', function () {
+        (0, _mocha.it)('should return true if action <Signup> is handled', function () {
+          // given
+          var isFormSubmitted = false;
+          var user = _ember.default.Object.create({
+            email: 'toto@pix.fr',
+            firstName: 'Marion',
+            lastName: 'Yade',
+            password: 'gipix2017',
+            cgu: true,
 
-          save: function save() {
-            isFormSubmitted = true;
-            return _ember.default.RSVP.resolve();
-          }
+            save: function save() {
+              isFormSubmitted = true;
+              return _ember.default.RSVP.resolve();
+            }
+          });
+
+          this.set('user', user);
+          this.render(_ember.default.HTMLBars.template({
+            "id": "IuLTjz0W",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // when
+          $(SUBMIT_BUTTON).click();
+
+          // then
+          return (0, _wait.default)().then(function () {
+            (0, _chai.expect)(isFormSubmitted).to.be.true;
+          });
         });
 
-        this.set('user', user);
-        this.render(_ember.default.HTMLBars.template({
-          "id": "IuLTjz0W",
-          "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
+        (0, _mocha.it)('should refresh all fields on form', function () {
+          // given
+          var hasRefreshBeenCalled = false;
+          this.set('refresh', function () {
+            hasRefreshBeenCalled = true;
+          });
 
-        // when
-        $(SUBMIT_BUTTON).click();
+          var user = _ember.default.Object.create({
+            email: 'toto@pix.fr',
+            firstName: 'Marion',
+            lastName: 'Yade',
+            password: 'gipix2017',
+            cgu: true,
 
-        // then
-        return (0, _wait.default)().then(function () {
-          (0, _chai.expect)(isFormSubmitted).to.be.true;
+            save: function save() {
+              return _ember.default.RSVP.resolve();
+            }
+          });
+          this.set('user', user);
+          this.render(_ember.default.HTMLBars.template({
+            "id": "wzHVeIzf",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\",\"refresh\"],[[28,[\"user\"]],\"signup\",[33,[\"action\"],[[28,[null]],[28,[\"refresh\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // when
+          $(SUBMIT_BUTTON).click();
+
+          // then
+          (0, _chai.expect)(hasRefreshBeenCalled).to.be.true;
+        });
+
+        (0, _mocha.it)('should redirect automatically to user compte', function () {
+          // given
+          var redirectToProfileRouteStub = _sinon.default.stub();
+
+          this.set('redirectToProfileRoute', redirectToProfileRouteStub);
+
+          var user = _ember.default.Object.create({
+            email: 'toto@pix.fr',
+            firstName: 'Marion',
+            lastName: 'Yade',
+            password: 'gipix2017',
+            cgu: true,
+
+            save: function save() {
+              return _ember.default.RSVP.resolve();
+            }
+          });
+          this.set('user', user);
+          this.render(_ember.default.HTMLBars.template({
+            "id": "oROc76vC",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\",\"redirectToProfileRoute\"],[[28,[\"user\"]],\"signup\",[33,[\"action\"],[[28,[null]],[28,[\"redirectToProfileRoute\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // when
+          $(SUBMIT_BUTTON).click();
+
+          // then
+          return (0, _wait.default)().then(function () {
+            _sinon.default.assert.calledOnce(redirectToProfileRouteStub);
+            _sinon.default.assert.calledWith(redirectToProfileRouteStub, { email: 'toto@pix.fr', password: 'gipix2017' });
+          });
         });
       });
 
@@ -8056,6 +8128,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/courses/get-course-preview-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/enrollment-test.js', function () {
       // test passed
     });
 
@@ -10720,6 +10796,20 @@ define('pix-live/tests/unit/routes/courses/get-course-preview-test', ['chai', 'm
     });
   });
 });
+define('pix-live/tests/unit/routes/enrollment-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | enrollment', function () {
+    (0, _emberMocha.setupTest)('route:enrollment', {
+      needs: ['service:panelActions', 'service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
 define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -10738,14 +10828,80 @@ define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha']
 define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
+  var SessionStub = function () {
+    function SessionStub() {
+      _classCallCheck(this, SessionStub);
+    }
+
+    _createClass(SessionStub, [{
+      key: 'authenticate',
+      value: function authenticate() {
+        this.callArgs = Array.from(arguments);
+        return Promise.resolve();
+      }
+    }]);
+
+    return SessionStub;
+  }();
+
   (0, _mocha.describe)('Unit | Route | inscription', function () {
     (0, _emberMocha.setupTest)('route:inscription', {
-      needs: ['service:current-routed-modal']
+      needs: ['service:current-routed-modal', 'service:session']
     });
 
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.it)('should automatically redirect authenticated user to compte page', function () {
+      // Given
+      var expectedEmail = 'email@example.net';
+      var expectedPassword = 'Azertya1!';
+      var sessionStub = new SessionStub();
+
+      var route = this.subject();
+      route.set('session', sessionStub);
+      var transitionToArg = void 0;
+      route.transitionTo = function () {
+        transitionToArg = Array.from(arguments);
+      };
+
+      // When
+      var promise = route.actions.redirectToProfileRoute.call(route, {
+        email: expectedEmail,
+        password: expectedPassword
+      });
+
+      return promise.then(function () {
+        // Then
+        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
+        (0, _chai.expect)(transitionToArg).to.deep.equal(['compte']);
+      });
     });
   });
 });
