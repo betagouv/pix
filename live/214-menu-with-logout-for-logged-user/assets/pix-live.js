@@ -2325,6 +2325,8 @@ define('pix-live/components/signup-form', ['exports', 'ember', 'pix-live/utils/e
 
         this.set('_notificationMessage', null);
         this.get('user').save().then(function () {
+          var credentials = { email: _this3.get('user.email'), password: _this3.get('user.password') };
+          _this3.sendAction('redirectToProfileRoute', credentials);
           _this3.set('_notificationMessage', 'Votre compte a bien été créé !');
           _this3._resetValidationFields();
           _this3.sendAction('refresh');
@@ -5718,6 +5720,7 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('competences');
     this.route('inscription');
     this.route('compte');
+    this.route('enrollment', { path: 'rejoindre' });
 
     this.route('challenges.get-preview', { path: '/challenges/:challenge_id/preview' });
 
@@ -6227,6 +6230,75 @@ define('pix-live/routes/courses/get-course-preview', ['exports', 'pix-live/route
     }
   });
 });
+define('pix-live/routes/enrollment', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+
+  var pixDescriptionGoals = ['Faciliter l\'évaluation des compétences et connaissances numériques des élèves (à partir de la 4ème) et des étudiants', 'Identifier le niveau collectif d\'une classe ou d\'une cohorte d\'étudiants pour mieux cibler les contenus de vos enseignements', 'Connaître le niveau de chacun pour adapter et différencier vos pratiques pédagogiques', 'Suivre les progrès des élèves et des étudiants tout au long de leur parcours', 'Motiver les élèves et les étudiants par des défis', 'Permettre aux élèves et aux étudiants d\'obtenir un profil de compétences certifié, reconnu par l\'État et le monde professionnel.'];
+
+  var stepsForPioneersInstitutions = [{
+    id: 'scolaire',
+    title: 'Pour les collèges et lycées',
+    destinataires: 'élèves',
+    image: 'icon-college.svg',
+    steps: [{
+      date: 'Jusqu\'à fin septembre 2017',
+      description: 'Les collèges et lycées qui souhaitent proposer la certification Pix à leurs élèves s\'inscrivent auprès de Pix.'
+    }, {
+      description: 'Les équipes pédagogiques découvrent les fonctionnalités de Pix (formations courtes en ligne).'
+    }, {
+      description: 'Les collégiens (à partir de la 4ème) et les lycéens se créent un compte Pix et s\'évaluent, compétence après compétence, sur la plateforme.'
+    }, {
+      description: 'Les élèves font remonter leurs profils de compétence Pix à leurs enseignants.'
+    }, {
+      description: 'Les établissements peuvent identifier les besoins de leurs élèves, organiser un accompagnement ciblé et mesurer les progrès au long de l\'année.'
+    }, {
+      date: 'De mai à Juin 2018',
+      description: 'Les collèges et lycées organisent des sessions de certification (1h) pour les élèves.'
+    }]
+  }, {
+    id: 'superieur',
+    title: 'Pour l\'Enseignement supérieur',
+    destinataires: 'étudiants',
+    image: 'icon-etudiants.svg',
+    steps: [{
+      date: 'Jusqu\'à fin septembre 2017',
+      description: 'Inscription des établissements pour le 1er semestre et/ou le 2nd semestre.',
+      note: 'Les établissements qui souhaiteront s\'inscrire pour un démarrage au second semestre pourront le faire jusqu\'à la fin octobre 2017.'
+    }, {
+      description: 'Possibilité d\'organiser une pré-campagne d\'évaluation des étudiants en cycle d\'accueil (limitée à certaines compétences).'
+    }, {
+      description: 'Les universités et les écoles peuvent proposer des modules d\'enseignement ciblé sur les compétences et la culture numérique (ex modules C2i).'
+    }, {
+      description: 'Les étudiants testent leurs compétences sur la plateforme et constituent leurs profils.'
+    }, {
+      date: 'De mi-décembre 2017 à février 2018 ',
+      description: 'Les établissements organisent en présentiel des sessions de certification (1h).'
+    }]
+  }];
+
+  var pixCommitments = ['Pouvoir mesurer avec précision les compétences numériques des élèves et étudiants à l\'aide d\'un outil innovant, original, intuitif ... et modeste ;)', 'Faire profiter les élèves et les étudiants de la nouvelle certification prenant la relève du B2i et du C2i', 'Créer dans son établissement une dynamique pédagogique autour des compétences numériques', 'Préparer son établissement pour la généralisation prévue pour 2018-2019', 'Influencer par vos retours les futurs développements de la plateforme'];
+
+  var pixUncommitments = ['Bénéficier de toutes les fonctionnalités de la plateforme dès la rentrée #versionbeta', 'Croire que Pix va permettre à tous de se former sans l\'implication des équipes pédagogiques', 'Penser qu\'un outil numérique permet se passer de l\'humain', 'Réservé aux experts de l\'informatique', 'Une obligation ministérielle !'];
+
+  exports.default = _ember.default.Route.extend({
+
+    panelActions: _ember.default.inject.service(),
+
+    model: function model() {
+      return _ember.default.RSVP.hash({
+        pixDescriptionGoals: pixDescriptionGoals,
+        stepsForPioneersInstitutions: stepsForPioneersInstitutions,
+        pixCommitments: pixCommitments,
+        pixUncommitments: pixUncommitments
+      });
+    }
+  });
+});
 define('pix-live/routes/index', ['exports', 'ember', 'pix-live/routes/base-route'], function (exports, _ember, _baseRoute) {
   'use strict';
 
@@ -6253,13 +6325,16 @@ define('pix-live/routes/index', ['exports', 'ember', 'pix-live/routes/base-route
 
   });
 });
-define('pix-live/routes/inscription', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/routes/inscription', ['exports', 'ember', 'ember-simple-auth/mixins/unauthenticated-route-mixin'], function (exports, _ember, _unauthenticatedRouteMixin) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = _ember.default.Route.extend({
+  exports.default = _ember.default.Route.extend(_unauthenticatedRouteMixin.default, {
+
+    session: _ember.default.inject.service(),
+
     model: function model() {
       // XXX: Model needs to be initialize with empty to handle validations on all fields from Api
       return this.store.createRecord('user', {
@@ -6275,6 +6350,16 @@ define('pix-live/routes/inscription', ['exports', 'ember'], function (exports, _
     actions: {
       refresh: function refresh() {
         this.refresh();
+      },
+      redirectToProfileRoute: function redirectToProfileRoute(_ref) {
+        var _this = this;
+
+        var email = _ref.email,
+            password = _ref.password;
+
+        return this.get('session').authenticate('authenticator:simple', email, password).then(function () {
+          _this.transitionTo('compte');
+        });
       }
     }
   });
@@ -7320,6 +7405,14 @@ define("pix-live/templates/courses/get-course-preview", ["exports"], function (e
   });
   exports.default = Ember.HTMLBars.template({ "id": "HlfQvj4e", "block": "{\"statements\":[[11,\"div\",[]],[15,\"id\",\"course-preview\"],[16,\"data-id\",[34,[[28,[\"model\",\"course\",\"id\"]]]]],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"container\"],[13],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"title\"],[13],[0,\"\\n      Prévisualisation du test #\"],[1,[28,[\"model\",\"course\",\"id\"]],false],[0,\"\\n    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"rounded-panel course-information\"],[13],[0,\"\\n      \"],[11,\"h3\",[]],[15,\"class\",\"course-name\"],[13],[1,[28,[\"model\",\"course\",\"name\"]],false],[14],[0,\"\\n      \"],[11,\"p\",[]],[15,\"class\",\"course-description\"],[13],[1,[28,[\"model\",\"course\",\"description\"]],false],[14],[0,\"\\n      \"],[11,\"hr\",[]],[13],[14],[0,\"\\n      \"],[6,[\"link-to\"],[\"courses.get-challenge-preview\",[28,[\"model\",\"course\",\"id\"]],[28,[\"model\",\"nextChallenge\",\"id\"]]],[[\"class\"],[\"pull-right button button-primary simulate-button\"]],{\"statements\":[[0,\"Simuler le test\"]],\"locals\":[]},null],[0,\"\\n\\n    \"],[14],[0,\"\\n\\n  \"],[14],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/courses/get-course-preview.hbs" } });
 });
+define("pix-live/templates/enrollment", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "YTvFBRgr", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"enrollment-page\"],[13],[0,\"\\n\\n  \"],[1,[33,[\"navbar-header\"],null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__header\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__header-title\"],[13],[0,\"Collèges, lycées, établissements d'enseignement supérieur :\\n      Rejoignez\\n      l'aventure Pix dès l'année 2017-2018\\n      !\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__header-description\"],[13],[0,\"Je veux que mon établissement propose la certification Pix dès\\n      cette année.\\n    \"],[14],[0,\"\\n    \"],[11,\"a\",[]],[15,\"class\",\"enrollment-page__header-link\"],[15,\"href\",\"https://framaforms.org/inscrire-mon-etablissement-1501478615\"],[15,\"target\",\"_blank\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__header-link-div\"],[13],[0,\"Inscrire mon établissement\"],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__body\"],[13],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__pix-description\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__pix-description-image\"],[13],[0,\"\\n        \"],[11,\"img\",[]],[16,\"src\",[34,[[26,[\"rootURL\"]],\"/images/icon-enseignants.svg\"]]],[15,\"alt\",\"Enseignant\"],[15,\"class\",\"\"],[13],[14],[0,\"\\n      \"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__pix-description-title\"],[13],[0,\"Pix, un outil d'évaluation au service des équipes pédagogiques\\n      \"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__pix-description-line\"],[13],[14],[0,\"\\n      \"],[11,\"ul\",[]],[15,\"class\",\"enrollment-page__pix-description-goals-list\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"model\",\"pixDescriptionGoals\"]]],null,{\"statements\":[[0,\"          \"],[11,\"li\",[]],[15,\"class\",\"enrollment-page__pix-description-goals-list_goal\"],[13],[1,[28,[\"goal\"]],false],[14],[0,\"\\n\"]],\"locals\":[\"goal\"]},null],[0,\"      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n\\n    \"],[11,\"h2\",[]],[15,\"class\",\"enrollment-page__steps-title\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-title__principal\"],[13],[0,\"Les grandes étapes de l'année Pix\"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-title__note\"],[13],[0,\"Pour les établissement pionniers\"],[14],[0,\"\\n    \"],[14],[0,\"\\n\\n\"],[6,[\"each\"],[[28,[\"model\",\"stepsForPioneersInstitutions\"]]],null,{\"statements\":[[6,[\"cp-panel\"],null,null,{\"statements\":[[0,\"        \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-establishment\"],[13],[0,\"\\n\\n\"],[6,[\"component\"],[[28,[\"panel\",\"toggle\"]]],[[\"class\"],[\"enrollment-page__steps-establishment__header\"]],{\"statements\":[[0,\"            \"],[11,\"h3\",[]],[15,\"class\",\"enrollment-page__steps-establishment__title\"],[16,\"aria-expanded\",[34,[[28,[\"panel\",\"isOpen\"]]]]],[16,\"aria-controls\",[34,[[28,[\"institution\",\"id\"]]]]],[13],[0,\"\\n              \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-establishment__title-image\"],[13],[0,\"\\n                \"],[11,\"img\",[]],[16,\"src\",[34,[[26,[\"rootURL\"]],\"/images/\",[28,[\"institution\",\"image\"]]]]],[15,\"alt\",\"icon etablissement\"],[15,\"class\",\"\"],[13],[14],[0,\"\\n              \"],[14],[0,\"\\n              \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-establishment__title-text\"],[13],[0,\"\\n                \"],[1,[28,[\"institution\",\"title\"]],false],[0,\"\\n              \"],[14],[0,\"\\n              \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-establishment__title-icon-container\"],[13],[0,\"\\n                \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-establishment__title-icon\"],[13],[14],[0,\"\\n              \"],[14],[0,\"\\n            \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n\"],[6,[\"component\"],[[28,[\"panel\",\"body\"]]],null,{\"statements\":[[0,\"            \"],[11,\"div\",[]],[16,\"id\",[34,[[28,[\"institution\",\"id\"]]]]],[15,\"class\",\"enrollment-page__steps-establishment__steps-list\"],[16,\"aria-hidden\",[34,[[33,[\"if\"],[[28,[\"panel\",\"isOpen\"]],false,true],null]]]],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"institution\",\"steps\"]]],null,{\"statements\":[[0,\"                \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-establishment__steps-list__step\"],[13],[0,\"\\n\"],[6,[\"if\"],[[28,[\"step\",\"date\"]]],null,{\"statements\":[[0,\"                    \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-establishment__steps-list__step-date\"],[13],[1,[28,[\"step\",\"date\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"                  \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-establishment__steps-list__step-description\"],[13],[1,[28,[\"step\",\"description\"]],false],[14],[0,\"\\n\"],[6,[\"if\"],[[28,[\"step\",\"note\"]]],null,{\"statements\":[[0,\"                    \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-establishment__steps-list__step-note\"],[13],[1,[28,[\"step\",\"note\"]],false],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"                \"],[14],[0,\"\\n                \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-establishment__steps-list__step-separator\"],[13],[0,\"\\n                  \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-establishment__steps-list__step-line\"],[13],[14],[0,\"\\n                  \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-establishment__steps-list__step-circle\"],[13],[0,\"\\n                    \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-establishment__steps-list__step-icon\"],[13],[14],[0,\"\\n                  \"],[14],[0,\"\\n                \"],[14],[0,\"\\n\"]],\"locals\":[\"step\"]},null],[0,\"            \"],[14],[0,\"\\n            \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-establishment__certification\"],[13],[0,\"\\n              \"],[11,\"img\",[]],[16,\"src\",[34,[[26,[\"rootURL\"]],\"/images/icon-diplome.svg\"]]],[15,\"alt\",\"diplôme\"],[15,\"class\",\"\"],[13],[14],[0,\"\\n              \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__steps-establishment__certification-text\"],[13],[0,\"1ères certifications Pix délivrées\\n                aux \"],[1,[28,[\"institution\",\"destinataires\"]],false],[14],[0,\"\\n            \"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"        \"],[14],[0,\"\\n\"]],\"locals\":[\"panel\"]},null]],\"locals\":[\"institution\"]},null],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__description\"],[13],[0,\"\\n      \"],[11,\"h3\",[]],[15,\"class\",\"enrollment-page__description-title\"],[13],[0,\"S'engager dans Pix dès cette année\"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__description-line\"],[13],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__description-body\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__description-commitments\"],[13],[0,\"\\n          \"],[11,\"div\",[]],[13],[0,\"\\n            \"],[11,\"h4\",[]],[15,\"class\",\"enrollment-page__description-commitments-title\"],[13],[0,\"C'est...\"],[14],[0,\"\\n\"],[6,[\"each\"],[[28,[\"model\",\"pixCommitments\"]]],null,{\"statements\":[[0,\"              \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__description-commitments__commitment\"],[13],[0,\"\\n                \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__description-commitments__commitment-separator\"],[13],[0,\"\\n                  \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__description-line\"],[13],[14],[0,\"\\n                  \"],[11,\"img\",[]],[16,\"src\",[34,[[26,[\"rootURL\"]],\"/images/puce-verte.svg\"]]],[15,\"alt\",\"puce verte\"],[15,\"class\",\"enrollment-page__description-commitments__commitment-puce\"],[13],[14],[0,\"\\n                \"],[14],[0,\"\\n                \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__description-commitments__commitment-text\"],[13],[1,[28,[\"commitment\"]],false],[14],[0,\"\\n              \"],[14],[0,\"\\n\"]],\"locals\":[\"commitment\"]},null],[0,\"          \"],[14],[0,\"\\n        \"],[14],[0,\"\\n        \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__description-commitments\"],[13],[0,\"\\n          \"],[11,\"div\",[]],[13],[0,\"\\n            \"],[11,\"h4\",[]],[15,\"class\",\"enrollment-page__description-commitments-title\"],[13],[0,\"Ce n'est pas...\"],[14],[0,\"\\n\"],[6,[\"each\"],[[28,[\"model\",\"pixUncommitments\"]]],null,{\"statements\":[[0,\"              \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__description-commitments__commitment\"],[13],[0,\"\\n                \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__description-commitments__commitment-separator\"],[13],[0,\"\\n                  \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__description-line\"],[13],[14],[0,\"\\n                  \"],[11,\"img\",[]],[16,\"src\",[34,[[26,[\"rootURL\"]],\"/images/puce-rouge.svg\"]]],[15,\"alt\",\"puce rouge\"],[15,\"class\",\"enrollment-page__description-commitments__commitment-puce\"],[13],[14],[0,\"\\n                \"],[14],[0,\"\\n                \"],[11,\"div\",[]],[15,\"class\",\"enrollment-page__description-commitments__commitment-text\"],[13],[1,[28,[\"uncommitment\"]],false],[14],[0,\"\\n              \"],[14],[0,\"\\n\"]],\"locals\":[\"uncommitment\"]},null],[0,\"          \"],[14],[0,\"\\n        \"],[14],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n\\n  \"],[14],[0,\"\\n\\n  \"],[1,[26,[\"app-footer\"]],false],[0,\"\\n\\n\"],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/enrollment.hbs" } });
+});
 define("pix-live/templates/index", ["exports"], function (exports) {
   "use strict";
 
@@ -7334,7 +7427,7 @@ define("pix-live/templates/inscription", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "eYDErBTu", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"inscription-page\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-container\"],[13],[0,\"\\n    \"],[1,[33,[\"signup-form\"],null,[[\"user\",\"refresh\"],[[28,[\"model\"]],\"refresh\"]]],false],[0,\"\\n  \"],[14],[0,\"\\n\"],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/inscription.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "W6JLyTaL", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"inscription-page\"],[13],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"signup-container\"],[13],[0,\"\\n    \"],[1,[33,[\"signup-form\"],null,[[\"user\",\"refresh\",\"redirectToProfileRoute\"],[[28,[\"model\"]],\"refresh\",\"redirectToProfileRoute\"]]],false],[0,\"\\n  \"],[14],[0,\"\\n\"],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/inscription.hbs" } });
 });
 define("pix-live/templates/login", ["exports"], function (exports) {
   "use strict";
@@ -8156,6 +8249,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.15.1+609d0108"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.15.1+18a47af8"});
 }
 //# sourceMappingURL=pix-live.map
