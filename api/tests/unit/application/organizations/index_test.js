@@ -49,4 +49,22 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
+  describe('GET /api/organizations/me', _ => {
+
+    before(() => {
+      sinon.stub(organisationController, 'getAuthenticatedUserOrganizations').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(() => {
+      organisationController.getAuthenticatedUserOrganizations.restore();
+    });
+
+    it('should exist', (done) => {
+      return server.inject({ method: 'GET', url: '/api/organizations/me' }, res => {
+        expect(res.statusCode).to.equal(200);
+        done();
+      });
+    });
+  });
+
 });

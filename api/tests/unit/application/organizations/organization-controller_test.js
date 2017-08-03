@@ -10,7 +10,7 @@ const organizationService = require('../../../../lib/domain/services/organizatio
 const jsonWebToken = require('../../../../lib/infrastructure/validators/jsonwebtoken-verify');
 
 const logger = require('../../../../lib/infrastructure/logger');
-const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
+const { AlreadyRegisteredEmailError, InvalidTokenError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | organizationController', () => {
 
@@ -475,6 +475,164 @@ describe('Unit | Controller | organizationController', () => {
       });
 
     });
+
+  });
+
+  describe('#getAuthenticatedUserOrganizations', function() {
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      codeStub = sinon.stub();
+      replyStub = sinon.stub().returns({ code: codeStub });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should verify that the token is valid', function() {
+      // Given
+      const request = {
+        headers: {
+          authorization: 'token'
+        }
+      };
+      sandbox.stub(jsonWebToken, 'verify').resolves();
+
+      // When
+      const promise = controller.getAuthenticatedUserOrganizations(request, replyStub);
+
+      // Then
+      return promise.then(() => {
+        sinon.assert.calledOnce(jsonWebToken.verify);
+        sinon.assert.calledWith(jsonWebToken.verify, 'token');
+      });
+    });
+
+
+    it('should return 401 when the token is invalid', function() {
+      // Given
+      const request = {
+        headers: {
+          authorization: 'invalid token'
+        }
+      };
+      const invalidTokenError = new InvalidTokenError();
+      sandbox.stub(jsonWebToken, 'verify').rejects(invalidTokenError);
+
+      // When
+      const promise = controller.getAuthenticatedUserOrganizations(request, replyStub);
+
+      // Then
+      return promise.then(() => {
+        sinon.assert.calledWith(codeStub, 401);
+        sinon.assert.calledOnce(replyStub);
+      });
+    });
+
+    it('should call the organisation repository when the token is valid', function() {
+      // Given
+      const request = {
+        headers: {
+          authorization: 'valid token'
+        }
+      };
+      const connectedUserId = 'userId';
+      sandbox.stub(jsonWebToken, 'verify').resolves(connectedUserId);
+      sandbox.stub(organisationRepository, 'getByUserId').resolves();
+
+      // When
+      const promise = controller.getAuthenticatedUserOrganizations(request, replyStub);
+
+      // Then
+      return promise.then(() => {
+        sinon.assert.calledOnce(organisationRepository.getByUserId);
+        sinon.assert.calledWith(organisationRepository.getByUserId, 'userId');
+      });
+    });
+
+    describe('when there is no organization associated', function() {
+
+      it('should return a 404', function() {
+        // Given
+        const request = {
+          headers: {
+            authorization: 'valid token'
+          }
+        };
+        const connectedUserId = 'userId';
+        sandbox.stub(jsonWebToken, 'verify').resolves(connectedUserId);
+        sandbox.stub(organisationRepository, 'getByUserId').rejects();
+
+        // When
+        const promise = controller.getAuthenticatedUserOrganizations(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledWith(codeStub, 404);
+          sinon.assert.calledOnce(replyStub);
+        });
+      });
+    });
+
+    describe('when there is an associated organization', function() {
+
+      let connectedUser;
+      let retrievedOrganization;
+      let user;
+
+      beforeEach(() => {
+        // Given
+        const request = {
+          headers: {
+            authorization: 'valid token'
+          }
+        };
+        connectedUser = 'userId';
+        retrievedOrganization = [{id : 'organizationId'}];
+        user = new User();
+        sandbox.stub(jsonWebToken, 'verify').resolves(connectedUser);
+        sandbox.stub(organisationRepository, 'getByUserId').resolves(retrievedOrganization);
+        sandbox.stub(userRepository, 'findUserById').resolves(user);
+        sandbox.stub(organizationSerializer, 'serialize').resolves();
+      });
+
+      it('should call the user repository to get informations on connected user', function() {
+        // When
+        const promise = controller.getAuthenticatedUserOrganizations(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledOnce(userRepository.findUserById);
+          sinon.assert.calledWith(userRepository.findUserById, connectedUser);
+        });
+      });
+
+      it('should return 200', function() {
+        // When
+        const promise = controller.getAuthenticatedUserOrganizations(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledWith(codeStub, 200);
+          sinon.assert.calledOnce(replyStub);
+        });
+
+      });
+
+      it('should call the organization serializer', function() {
+
+        // When
+        const promise = controller.getAuthenticatedUserOrganizations(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledOnce(organizationSerializer.serialize);
+          sinon.assert.calledWith(organizationSerializer.serialize, retrievedOrganization);
+        });
+      });
+    });
+
 
   });
 

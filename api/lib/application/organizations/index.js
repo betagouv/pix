@@ -11,6 +11,11 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/organizations/{id}',
       config: { handler: organisationController.get, tags: ['api'] }
+    },
+    {
+      method: 'GET',
+      path: '/api/organizations/me',
+      config: { handler: organisationController.getAuthenticatedUserOrganizations, tags: ['api'] }
     }
   ]);
 
