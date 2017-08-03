@@ -1,4 +1,4 @@
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -59,6 +59,25 @@ describe('Acceptance | a1 - La page d\'accueil', function() {
 
     it('a1.8 qui affiche 2 tests maximum', function() {
       // FIXME find a way to test this correctly
+    });
+  });
+
+  describe('contient une section avec un call to action pour enregistrer de nouveaux partenaires', function() {
+
+    it('a1.16 avec un titre', function() {
+      const $title = findWithAssert('.partners-enrollment__title');
+      expect($title.text().trim()).to.equal('Collèges, lycées, établissements d’enseignement supérieur : rejoignez l’aventure Pix dès l’année 2017-2018 !');
+    });
+
+    it('a1.17 avec une description', function() {
+      const $title = findWithAssert('.partners-enrollment__description');
+      expect($title.text().trim()).to.equal('Je veux que mon établissement propose la certification Pix dès cette année');
+    });
+
+    it('a1.17 avec un lien vers la page d’engagement', function() {
+      const $title = findWithAssert('.partners-enrollment__link');
+      findWithAssert('.partners-enrollment__link-container');
+      expect($title.attr('href').trim()).to.equal('/rejoindre');
     });
   });
 
