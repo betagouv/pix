@@ -1,15 +1,14 @@
 .board-page__header {
   background-color: $porcelain-grey;
-  display: flex;
   font-family: $font-lato;
-  justify-content: space-around;
-  align-items: baseline;
-  height: 160px;
-  padding-top: 40px;
   color: $charcoal-grey;
-}
 
-.board-page__header-organisation {
+  @include device-is('tablet') {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 40px;
+    align-items: baseline;
+  }
 }
 
 .board-page__header-organisation__text {
@@ -25,7 +24,9 @@
 }
 
 .board-page__header-code {
-  width: 400px;
+  @include device-is('tablet') {
+    width: 400px;
+  }
 }
 
 .board-page__header-code__title {
@@ -57,45 +58,48 @@
 }
 
 .board-page__body-profiles__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+  margin-bottom: 20px;
+
+  @include device-is('tablet') {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
 }
 
 .board-page__body-profiles__header-title {
   font-family: $font-raleway;
-  font-size: 40px;
   font-weight: $font-extra-bold;
   color: $pix-blue;
   text-transform: uppercase;
   align-items: center;
-}
+  font-size: 24px;
 
-.board-page__body-profiles__header-export {
-  width: 198.2px;
-  height: 35px;
-  padding-top: 5px;
-  border-radius: 5px;
-  background-color: #7c808a;
-  color: $white;
-  font:$font-lato;
-  letter-spacing: 1px;
-  text-align: center;
+  @include device-is('tablet') {
+    font-size: 40px;
+  }
 }
 
 .board-page__body-table__header {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 50px;
-  background-color: $porcelain-grey;
-  margin-bottom: 10px;
 
-  font-family: $font-lato;
-  font-size: 12px;
-  font-weight: $font-bold;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+  display: none;
+
+  @include device-is('tablet') {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 50px;
+    background-color: $porcelain-grey;
+    margin-bottom: 10px;
+
+    font-family: $font-lato;
+    font-size: 12px;
+    font-weight: $font-bold;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
 }
 
 .board-page__body-table__body {
