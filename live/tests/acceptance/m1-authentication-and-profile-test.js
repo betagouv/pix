@@ -40,7 +40,7 @@ describe('Acceptance | Espace compte', function() {
   });
 
   describe('m1.2 Log-in phase', function() {
-    it('should redirect to the /compte after connexion', function() {
+    it('should redirect to the /compte after connexion for usual users', function() {
       // given
       visit('/connexion');
       fillIn('#pix-email', 'fhi@octo.com');
@@ -52,6 +52,21 @@ describe('Acceptance | Espace compte', function() {
       // then
       return andThen(function() {
         expect(currentURL()).to.equal('/compte');
+      });
+    });
+
+    it.skip('should redirect to the /compte after connexion for usual users', function() {
+      // given
+      visit('/connexion');
+      fillIn('#pix-email', 'fhi@octo.com');
+      fillIn('#pix-password', 'FHI4EVER');
+
+      // when
+      click('.signin-form__submit_button');
+
+      // then
+      return andThen(function() {
+        expect(currentURL()).to.equal('/board');
       });
     });
   });
