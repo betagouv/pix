@@ -2956,6 +2956,9 @@ input.qcm-panel__proposal-checkbox {
   border-width: 4px 4px 0 4px;
   border-color: #3e4149 transparent transparent transparent; }
 
+.index-page-hero__navbar-header .caret {
+  border-color: #ffffff transparent transparent transparent; }
+
 .logged-user-menu {
   position: absolute;
   right: 0;
@@ -3042,7 +3045,6 @@ input.qcm-panel__proposal-checkbox {
     color: #3e4149; }
 
 .index-page-patners-enrollment {
-  max-width: 1440px;
   background-image: linear-gradient(to bottom, #446eff, #133dd2); }
 
 .partners-enrollment-panel {

@@ -6249,7 +6249,7 @@ define('pix-live/routes/courses/get-course-preview', ['exports', 'pix-live/route
     }
   });
 });
-define('pix-live/routes/enrollment', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/routes/enrollment', ['exports', 'ember', 'pix-live/routes/base-route'], function (exports, _ember, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -6304,7 +6304,7 @@ define('pix-live/routes/enrollment', ['exports', 'ember'], function (exports, _e
 
   var pixUncommitments = ['Bénéficier de toutes les fonctionnalités de la plateforme dès la rentrée #versionbeta', 'Croire que Pix va permettre à tous de se former sans l\'implication des équipes pédagogiques', 'Penser qu\'un outil numérique permet se passer de l\'humain', 'Réservé aux experts de l\'informatique', 'Une obligation ministérielle !'];
 
-  exports.default = _ember.default.Route.extend({
+  exports.default = _baseRoute.default.extend({
 
     panelActions: _ember.default.inject.service(),
 
@@ -8276,6 +8276,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.15.1+efda21a9"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.15.1+2b397f7b"});
 }
 //# sourceMappingURL=pix-live.map
