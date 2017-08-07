@@ -30,8 +30,8 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Organization
         .where({ userId: userId })
-        .fetch({ require: true })
-        .then(organization => resolve(organization))
+        .fetchAll({ require: true })
+        .then(organizations => resolve(organizations.models))
         .catch(reject);
     });
   }

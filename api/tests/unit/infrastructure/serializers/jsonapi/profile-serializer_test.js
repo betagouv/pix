@@ -3,6 +3,7 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const Profile = require('../../../../../lib/domain/models/data/profile');
 const User = require('../../../../../lib/domain/models/data/user');
 const Assessment = require('../../../../../lib/domain/models/data/assessment');
+const Organization = require('../../../../../lib/domain/models/data/organization');
 
 describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
 
@@ -64,6 +65,12 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
                 { type: 'competences', id: 'recCompA' },
                 { type: 'competences', id: 'recCompB' }
               ]
+            },
+            organizations: {
+              data: [
+                { type: 'organizations', id: 'organizationId1' },
+                { type: 'organizations', id: 'organizationId2' }
+              ]
             }
           },
 
@@ -119,6 +126,24 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
                 }
               }
             }
+          },
+          {
+            type: 'organizations',
+            id: 'organizationId1',
+            attributes: {
+              name: 'etablissement 1',
+              email: 'best.etablishment@company.com',
+              type: 'SCO'
+            }
+          },
+          {
+            type: 'organizations',
+            id: 'organizationId2',
+            attributes: {
+              name: 'etablissement 2',
+              email: 'best.enterprise@company.com',
+              type: 'PRO'
+            }
           }
         ]
       };
@@ -133,7 +158,9 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             estimatedLevel: 8,
             pixScore: 128
           })],
-        [{ id: 'courseID1', competences: ['recCompB'] }]);
+        [{ id: 'courseID1', competences: ['recCompB'] }],
+        [{ id: 'organizationId1', name: 'etablissement 1', email: 'best.etablishment@company.com', type: 'SCO'},
+          { id: 'organizationId2', name: 'etablissement 2', email: 'best.enterprise@company.com', type: 'PRO' }]);
 
       // When
       const userSerialized = serializer.serialize(profile);
@@ -144,7 +171,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
 
     it('should not serialize "total-pix-score" user attribute when no assessment', function() {
       // Given
-      const profile = new Profile(user, competences, areas, [], []);
+      const profile = new Profile(user, competences, areas, [], [], []);
 
       // When
       const userSerialized = serializer.serialize(profile);

@@ -206,32 +206,28 @@ describe('Unit | Repository | OrganizationRepository', function() {
         OrganizationRepository.getByUserId(userId)
           .then((foundOrganization) => {
             expect(foundOrganization).to.exist;
-            expect(foundOrganization).to.be.an('object');
-            expect(foundOrganization.attributes.email).to.equal(second_inserted_organization.email);
-            expect(foundOrganization.attributes.type).to.equal(second_inserted_organization.type);
-            expect(foundOrganization.attributes.name).to.equal(second_inserted_organization.name);
-            expect(foundOrganization.attributes.userId).to.equal(second_inserted_organization.userId);
-            expect(foundOrganization.attributes.id).to.equal(second_inserted_organization.id);
+            expect(foundOrganization).to.be.an('array');
+            expect(foundOrganization[0].attributes.email).to.equal(second_inserted_organization.email);
+            expect(foundOrganization[0].attributes.type).to.equal(second_inserted_organization.type);
+            expect(foundOrganization[0].attributes.name).to.equal(second_inserted_organization.name);
+            expect(foundOrganization[0].attributes.userId).to.equal(second_inserted_organization.userId);
+            expect(foundOrganization[0].attributes.id).to.equal(second_inserted_organization.id);
             done()
           });
       });
 
       //Il faut rajouter un done pour que le test soit rouge ? sinon il ecrit juste une erreur avec un test vert
       //Test vert avec erreur sans done ou test rouge avec done ? lequel est le meilleur
-      it('should return the first organization when provided userId has multiple organizations', function(done) {
+      it('should return all organizations when provided userId has multiple organizations', function(done) {
         // Given
         const userId = 1;
 
         // then
         OrganizationRepository.getByUserId(userId)
-          .then((foundOrganization) => {
-            expect(foundOrganization).to.exist;
-            expect(foundOrganization).to.be.an('object');
-            expect(foundOrganization.attributes.email).to.equal(first_inserted_organization.email);
-            expect(foundOrganization.attributes.type).to.equal(first_inserted_organization.type);
-            expect(foundOrganization.attributes.name).to.equal(first_inserted_organization.name);
-            expect(foundOrganization.attributes.userId).to.equal(first_inserted_organization.userId);
-            expect(foundOrganization.attributes.id).to.equal(first_inserted_organization.id);
+          .then((foundOrganizations) => {
+            expect(foundOrganizations).to.exist;
+            expect(foundOrganizations).to.be.an('array');
+            expect(foundOrganizations).to.have.lengthOf(2);
             done()
           });
       });

@@ -15,19 +15,51 @@ class ProfileSerializer extends JSONAPISerializer {
     return response;
   }
 
+  serializeModelObject(modelObject) {
+    if (!modelObject) {
+      return null;
+    }
+    const entity = modelObject.user.toJSON();
+    const competencesEntity = modelObject.competences;
+    const organizationsEntity = modelObject.organizations;
+    const data = {};
+    data.type = 'users';
+    data.id = entity.id;
+    data.attributes = {};
+    this.serializeAttributes(entity, data);
+    this.serializeRelationships(competencesEntity, 'competences', data);
+    this.serializeRelationships(organizationsEntity, 'organizations', data);
+    return data;
+  }
+
+  serializeIncluded(model) {
+    if (!model.competences || !model.areas) {
+      return null;
+    }
+
+    const included = [];
+    this._serializeAreaIncluded(model, included);
+    this._serializeCompetenceIncluded(model, included);
+    this._serializeOrganizationIncluded(model, included);
+    return included;
+  }
+
   serializeAttributes(model, data) {
     data.attributes['first-name'] = model.firstName;
     data.attributes['last-name'] = model.lastName;
     data.attributes['email'] = model.email;
 
-    if(!_.isUndefined(model['pix-score'])) {
+    if (!_.isUndefined(model['pix-score'])) {
       data.attributes['total-pix-score'] = model['pix-score'];
     }
   }
 
   serializeRelationships(model, modelName, data) {
-    if(model) {
+    if (!data.relationships) {
       data.relationships = {};
+    }
+
+    if (model && !_.isEmpty(model)) {
       data.relationships[modelName] = {
         data: []
       };
@@ -62,7 +94,7 @@ class ProfileSerializer extends JSONAPISerializer {
         }
       };
 
-      if(competence.level >= 0) {
+      if (competence.level >= 0) {
         competenceData.attributes['pix-score'] = competence.pixScore;
       }
 
@@ -82,31 +114,20 @@ class ProfileSerializer extends JSONAPISerializer {
     }
   }
 
-  serializeIncluded(model) {
-    if(!model.competences || !model.areas) {
-      return null;
+  _serializeOrganizationIncluded(model, included) {
+    for (const organization of model.organizations) {
+      included.push({
+        'id': organization.id,
+        'type': 'organizations',
+        attributes: {
+          'name': organization.name,
+          'email': organization.email,
+          'type': organization.type
+        }
+      });
     }
-
-    const included = [];
-    this._serializeAreaIncluded(model, included);
-    this._serializeCompetenceIncluded(model, included);
-    return included;
   }
 
-  serializeModelObject(modelObject) {
-    if(!modelObject) {
-      return null;
-    }
-    const entity = modelObject.user.toJSON();
-    const competencesEntity = modelObject.competences;
-    const data = {};
-    data.type = 'users';
-    data.id = entity.id;
-    data.attributes = {};
-    this.serializeAttributes(entity, data);
-    this.serializeRelationships(competencesEntity, 'competences', data);
-    return data;
-  }
 }
 
 module.exports = new ProfileSerializer();
