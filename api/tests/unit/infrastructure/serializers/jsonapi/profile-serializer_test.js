@@ -2,8 +2,8 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const Profile = require('../../../../../lib/domain/models/data/profile');
 const User = require('../../../../../lib/domain/models/data/user');
-const Assessment = require('../../../../../lib/domain/models/data/assessment');
 const Organization = require('../../../../../lib/domain/models/data/organization');
+const Assessment = require('../../../../../lib/domain/models/data/assessment');
 
 describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
 
@@ -13,6 +13,9 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
     let areas;
     let competences;
     let expectedJson;
+    let organizations;
+    let assessments;
+    let courses;
 
     beforeEach(() => {
       user = new User({
@@ -48,6 +51,20 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           areaId: 'recAreaB',
           courseId: 'recBxPAuEPlTgt72q99'
         }];
+
+      assessments = [new Assessment(
+        {
+          courseId: 'courseID1',
+          estimatedLevel: 8,
+          pixScore: 128
+        })];
+
+      organizations = [
+        new Organization({ id: 'organizationId1', name: 'etablissement 1', email: 'best.etablishment@company.com', type: 'SCO' }),
+        new Organization({ id: 'organizationId2', name: 'etablissement 2', email: 'best.enterprise@company.com', type: 'PRO' })
+      ];
+
+      courses = [{ id: 'courseID1', competences: ['recCompB'] }];
 
       expectedJson = {
         data: {
@@ -151,16 +168,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
 
     it('should serialize a Profile into JSON:API data of type "users"', function() {
       // Given
-      const profile = new Profile(user, competences, areas,
-        [new Assessment(
-          {
-            courseId: 'courseID1',
-            estimatedLevel: 8,
-            pixScore: 128
-          })],
-        [{ id: 'courseID1', competences: ['recCompB'] }],
-        [{ id: 'organizationId1', name: 'etablissement 1', email: 'best.etablishment@company.com', type: 'SCO'},
-          { id: 'organizationId2', name: 'etablissement 2', email: 'best.enterprise@company.com', type: 'PRO' }]);
+      const profile = new Profile(user, competences, areas, assessments, courses, organizations);
 
       // When
       const userSerialized = serializer.serialize(profile);
@@ -169,7 +177,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       expect(userSerialized).to.be.deep.equal(expectedJson);
     });
 
-    it('should not serialize "total-pix-score" user attribute when no assessment', function() {
+    it('should not serialize "total-pix-score" user attribute when no assessments', function() {
       // Given
       const profile = new Profile(user, competences, areas, [], [], []);
 

@@ -11,7 +11,6 @@ const logger = require('../../infrastructure/logger');
 const jsonWebToken = require('../../infrastructure/validators/jsonwebtoken-verify');
 const { InvalidTokenError } = require('../../../lib/domain/errors');
 
-
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
 
 function _generateUniqueOrganizationCode() {

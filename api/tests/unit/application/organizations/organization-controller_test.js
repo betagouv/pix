@@ -509,7 +509,6 @@ describe('Unit | Controller | organizationController', () => {
       });
     });
 
-
     it('should return 401 when the token is invalid', function() {
       // Given
       const request = {
@@ -580,16 +579,17 @@ describe('Unit | Controller | organizationController', () => {
       let connectedUser;
       let retrievedOrganization;
       let user;
+      let request;
 
       beforeEach(() => {
         // Given
-        const request = {
+        request = {
           headers: {
             authorization: 'valid token'
           }
         };
         connectedUser = 'userId';
-        retrievedOrganization = [{id : 'organizationId'}];
+        retrievedOrganization = [{ id : 'organizationId' }];
         user = new User();
         sandbox.stub(jsonWebToken, 'verify').resolves(connectedUser);
         sandbox.stub(organisationRepository, 'getByUserId').resolves(retrievedOrganization);
@@ -632,7 +632,6 @@ describe('Unit | Controller | organizationController', () => {
         });
       });
     });
-
 
   });
 

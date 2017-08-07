@@ -212,7 +212,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
             expect(foundOrganization[0].attributes.name).to.equal(second_inserted_organization.name);
             expect(foundOrganization[0].attributes.userId).to.equal(second_inserted_organization.userId);
             expect(foundOrganization[0].attributes.id).to.equal(second_inserted_organization.id);
-            done()
+            done();
           });
       });
 
@@ -228,7 +228,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
             expect(foundOrganizations).to.exist;
             expect(foundOrganizations).to.be.an('array');
             expect(foundOrganizations).to.have.lengthOf(2);
-            done()
+            done();
           });
       });
 

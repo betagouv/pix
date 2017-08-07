@@ -116,13 +116,14 @@ class ProfileSerializer extends JSONAPISerializer {
 
   _serializeOrganizationIncluded(model, included) {
     for (const organization of model.organizations) {
+      const organizationJson = organization.toJSON();
       included.push({
-        'id': organization.id,
+        'id': organizationJson.id,
         'type': 'organizations',
         attributes: {
-          'name': organization.name,
-          'email': organization.email,
-          'type': organization.type
+          'name': organizationJson.name,
+          'email': organizationJson.email,
+          'type': organizationJson.type
         }
       });
     }
