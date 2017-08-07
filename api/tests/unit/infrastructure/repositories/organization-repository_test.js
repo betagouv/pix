@@ -212,6 +212,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
             expect(foundOrganization[0].attributes.name).to.equal(second_inserted_organization.name);
             expect(foundOrganization[0].attributes.userId).to.equal(second_inserted_organization.userId);
             expect(foundOrganization[0].attributes.id).to.equal(second_inserted_organization.id);
+            expect(foundOrganization[0].attributes.code).to.equal(second_inserted_organization.code);
             done();
           });
       });

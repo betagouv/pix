@@ -123,7 +123,8 @@ class ProfileSerializer extends JSONAPISerializer {
         attributes: {
           'name': organizationJson.name,
           'email': organizationJson.email,
-          'type': organizationJson.type
+          'type': organizationJson.type,
+          'code': organizationJson.code
         }
       });
     }

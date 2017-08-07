@@ -60,8 +60,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         })];
 
       organizations = [
-        new Organization({ id: 'organizationId1', name: 'etablissement 1', email: 'best.etablishment@company.com', type: 'SCO' }),
-        new Organization({ id: 'organizationId2', name: 'etablissement 2', email: 'best.enterprise@company.com', type: 'PRO' })
+        new Organization({ id: 'organizationId1', name: 'etablissement 1', email: 'best.etablishment@company.com', type: 'SCO', code: 'ABCD12' }),
+        new Organization({ id: 'organizationId2', name: 'etablissement 2', email: 'best.enterprise@company.com', type: 'PRO', code: 'EFGH34' })
       ];
 
       courses = [{ id: 'courseID1', competences: ['recCompB'] }];
@@ -150,7 +150,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             attributes: {
               name: 'etablissement 1',
               email: 'best.etablishment@company.com',
-              type: 'SCO'
+              type: 'SCO',
+              code : 'ABCD12'
             }
           },
           {
@@ -159,7 +160,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             attributes: {
               name: 'etablissement 2',
               email: 'best.enterprise@company.com',
-              type: 'PRO'
+              type: 'PRO',
+              code : 'EFGH34'
             }
           }
         ]
