@@ -4185,81 +4185,97 @@ hr.project-page__presentation-header-line {
   .enrollment-page__description-commitments__commitment-text {
     font-size: 18px; } }
 
+.board-page {
+  background: #FAFAFA; }
+
 .board-page__header {
+  padding: 25px;
   background-color: #f2f3f4;
   font-family: "Lato", Arial, sans-serif;
-  color: #3e4149; }
+  color: #3e4149;
+  font-size: 12px;
+  letter-spacing: 0.5px; }
   @media (min-width: 768px) {
     .board-page__header {
       display: -ms-flexbox;
       display: flex;
       -ms-flex-pack: distribute;
       justify-content: space-around;
-      padding-top: 40px;
       -ms-flex-align: baseline;
-      align-items: baseline; } }
+      align-items: baseline;
+      margin-bottom: 20px;
+      padding-top: 40px; } }
+
+.board-page__header-organisation {
+  margin-bottom: 36px;
+  letter-spacing: 0.5px; }
+  @media (min-width: 768px) {
+    .board-page__header-organisation {
+      margin-bottom: 0px; } }
 
 .board-page__header-organisation__text {
   font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
+  font-weight: 700;
   text-transform: uppercase; }
 
 .board-page__header-organisation__name {
-  font-size: 24px;
-  letter-spacing: 0.4px; }
+  font-size: 24px; }
 
-@media (min-width: 768px) {
-  .board-page__header-code {
-    width: 400px; } }
+.board-page__header-code {
+  letter-spacing: 0.5px; }
+  @media (min-width: 768px) {
+    .board-page__header-code {
+      width: 400px; } }
 
 .board-page__header-code__title {
   font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
+  font-weight: 700;
   text-transform: uppercase; }
 
 .board-page__header-code__text {
-  font-size: 24px;
-  letter-spacing: 0.5px; }
+  font-size: 24px; }
 
 .board-page__header-code__comment {
   font-size: 15px;
   color: #7e8086; }
 
-.board-page__body {
-  display: -ms-flexbox;
-  display: flex;
-  background: #FAFAFA;
-  -ms-flex-pack: center;
-  justify-content: center;
-  padding: 0 30px; }
-
-.board-page__body-profiles {
-  width: 1190px; }
-
-.board-page__body-profiles__header {
-  margin-bottom: 20px; }
-  @media (min-width: 768px) {
-    .board-page__body-profiles__header {
-      display: -ms-flexbox;
-      display: flex;
-      -ms-flex-pack: justify;
-      justify-content: space-between;
-      -ms-flex-align: center;
-      align-items: center; } }
-
-.board-page__body-profiles__header-title {
+/*---------------------------------------------*/
+.board-page__profiles-title {
+  padding-left: 22px;
+  padding-bottom: 10px;
+  background-color: #f2f3f4;
   font-family: "Raleway", Arial, sans-serif;
   font-weight: 800;
   color: #3d68ff;
   text-transform: uppercase;
-  -ms-flex-align: center;
-  align-items: center;
   font-size: 24px; }
   @media (min-width: 768px) {
-    .board-page__body-profiles__header-title {
-      font-size: 40px; } }
+    .board-page__profiles-title {
+      max-width: 750px;
+      margin: auto;
+      margin-bottom: 20px;
+      padding-left: 0px;
+      font-size: 40px;
+      background: #FAFAFA; } }
+  @media (min-width: 980px) {
+    .board-page__profiles-title {
+      margin: auto;
+      margin-bottom: 20px;
+      max-width: 970px; } }
+
+/*-----------------------------------*/
+.board-page__body {
+  background: #FAFAFA; }
+  @media (min-width: 768px) {
+    .board-page__body {
+      max-width: 750px;
+      margin: auto;
+      margin-bottom: 40px; } }
+  @media (min-width: 980px) {
+    .board-page__body {
+      max-width: 970px;
+      margin: auto;
+      margin-bottom: 40px; } }
 
 .board-page__body-table__header {
   display: none; }
@@ -4271,9 +4287,9 @@ hr.project-page__presentation-header-line {
       justify-content: space-around;
       -ms-flex-align: center;
       align-items: center;
+      margin-bottom: 10px;
       height: 50px;
       background-color: #f2f3f4;
-      margin-bottom: 10px;
       font-family: "Lato", Arial, sans-serif;
       font-size: 12px;
       font-weight: 700;
@@ -4281,21 +4297,23 @@ hr.project-page__presentation-header-line {
       text-transform: uppercase; } }
 
 .board-page__body-table__body {
-  background: #ffffff;
-  margin-bottom: 50px;
-  height: 200px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: center;
   justify-content: center;
   -ms-flex-align: center;
   align-items: center;
+  padding: 0 30px;
+  height: 200px;
+  background: #ffffff;
   font-family: "Lato", Arial, sans-serif;
   font-size: 32px;
   font-weight: 300;
   letter-spacing: 0.7px;
   text-align: center; }
+  @media (min-width: 768px) {
+    .board-page__body-table__body {
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3); } }
 
 body {
   font-family: "Lato", Arial, sans-serif;
