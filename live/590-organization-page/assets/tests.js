@@ -2384,7 +2384,7 @@ define('pix-live/tests/acceptance/m1-authentication-and-profile-test', ['mocha',
 
         // then
         return andThen(function () {
-          (0, _chai.expect)(currentURL()).to.equal('/connexion');
+          (0, _chai.expect)(currentURL()).to.equal('/');
         });
       });
     });
@@ -2498,6 +2498,27 @@ define('pix-live/tests/acceptance/n1-competence-profile-test', ['mocha', 'chai',
       }, _callee, this);
     })));
 
+    (0, _mocha.it)('should redirect to home, when user is not found', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return visit('/compte');
+
+            case 2:
+              return _context2.abrupt('return', andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/');
+              }));
+
+            case 3:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
+
     (0, _mocha.it)('should display user competences (with level) grouped by area', function () {
       // given
       seedDatabase();
@@ -2574,36 +2595,82 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
     function seedDatabase() {
       server.create('organization', {
         id: 1,
-        name: 'LexCorp',
-        email: 'lex@lexcorp.com',
+        name: 'PIX',
+        email: 'pix@pixcorp.com',
         type: 'PRO',
-        code: 'ABCD66'
+        code: 'ABCD66',
+        user: 1
+      });
+      server.create('user', {
+        id: 1,
+        firstName: 'Benjamin',
+        lastName: 'Marteau',
+        email: 'benjamin.marteau@pix.com',
+        password: '1024pix!',
+        organizationIds: [1]
       });
     }
 
-    (0, _mocha.it)('can visit /board', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    function authenticateUser() {
+      visit('/connexion');
+      fillIn('#pix-email', 'benjamin.marteau@pix.com');
+      fillIn('#pix-password', '1024pix!');
+      click('.signin-form__submit_button');
+    }
+
+    (0, _mocha.it)('can visit /board ', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               // given
               seedDatabase();
+              authenticateUser();
 
               // when
-              _context.next = 3;
+              _context.next = 4;
               return visit('/board');
 
-            case 3:
+            case 4:
               return _context.abrupt('return', andThen(function () {
                 (0, _chai.expect)(currentURL()).to.equal('/board');
               }));
 
-            case 4:
+            case 5:
             case 'end':
               return _context.stop();
           }
         }
       }, _callee, this);
+    })));
+
+    (0, _mocha.it)('should display the name and the code of my organization', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              // given
+              seedDatabase();
+              authenticateUser();
+
+              // when
+              _context2.next = 4;
+              return visit('/board');
+
+            case 4:
+
+              // then
+              (0, _chai.expect)(find('.board-page__header-organisation__name').length).to.equal(1);
+              (0, _chai.expect)(find('.board-page__header-organisation__name').text()).to.equal('PIX');
+              (0, _chai.expect)(find('.board-page__header-code__text').length).to.equal(1);
+              (0, _chai.expect)(find('.board-page__header-code__text').text()).to.equal('ABCD66');
+
+            case 8:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
     })));
   });
 });
@@ -2817,6 +2884,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('components/trophy-item.js', function () {
+      // test passed
+    });
+
+    it('components/user-logged-menu.js', function () {
       // test passed
     });
 
@@ -5158,7 +5229,7 @@ define('pix-live/tests/integration/components/modal-mobile-test', ['chai', 'moch
     });
   });
 });
-define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | navbar-header', function () {
@@ -5167,72 +5238,52 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
       integration: true
     });
 
-    (0, _mocha.beforeEach)(function () {
-      this.render(Ember.HTMLBars.template({
-        "id": "Jj0Mqu5s",
-        "block": "{\"statements\":[[1,[26,[\"navbar-header\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-        "meta": {}
-      }));
-    });
+    (0, _mocha.describe)('Rendering when user is not logged', function () {
+      (0, _mocha.beforeEach)(function () {
+        this.register('service:session', _ember.default.Service.extend({ isAuthenticated: false }));
+        this.inject.service('session', { as: 'session' });
 
-    (0, _mocha.it)('renders', function () {
-      (0, _chai.expect)(this.$()).to.have.length(1);
-    });
-
-    (0, _mocha.it)('should display the Pix logo', function () {
-      (0, _chai.expect)(this.$('.navbar-header-logo')).to.have.lengthOf(1);
-      (0, _chai.expect)(this.$('.pix-logo')).to.have.lengthOf(1);
-    });
-
-    (0, _mocha.it)('should display a link to "project" page', function () {
-      (0, _chai.expect)(this.$('.navbar-header-links__link--project')).to.have.lengthOf(1);
-    });
-
-    (0, _mocha.it)('should display a link to "referential" page', function () {
-      (0, _chai.expect)(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
-      (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.length(0);
-    });
-
-    (0, _mocha.describe)('Display user details', function () {
-
-      (0, _mocha.describe)('When user is logged', function () {
-
-        (0, _mocha.it)('should display user information, when user is logged', function () {
-          // given
-          this.set('user', { firstName: 'FHI', lastName: '4EVER' });
-          // when
-          this.render(Ember.HTMLBars.template({
-            "id": "GjQfsZ3F",
-            "block": "{\"statements\":[[1,[33,[\"navbar-header\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-            "meta": {}
-          }));
-          // then
-          (0, _chai.expect)(this.$('.logged-user-details')).to.have.length(1);
-          (0, _chai.expect)(this.$('.logged-user-name').text().trim()).to.be.equal('FHI 4EVER');
-        });
-
-        (0, _mocha.it)('should move navbar to top', function () {
-          // given
-          this.set('user', { firstName: 'FHI', lastName: '4EVER' });
-          // when
-          this.render(Ember.HTMLBars.template({
-            "id": "GjQfsZ3F",
-            "block": "{\"statements\":[[1,[33,[\"navbar-header\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-            "meta": {}
-          }));
-          // then
-          (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.length(1);
-        });
-      });
-
-      (0, _mocha.it)('should not display user information, for unlogged', function () {
-        // when
-        this.render(Ember.HTMLBars.template({
+        this.render(_ember.default.HTMLBars.template({
           "id": "Jj0Mqu5s",
           "block": "{\"statements\":[[1,[26,[\"navbar-header\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
-        (0, _chai.expect)(this.$('.logged-user-details')).to.have.length(0);
+      });
+
+      (0, _mocha.it)('renders', function () {
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should display the Pix logo', function () {
+        (0, _chai.expect)(this.$('.navbar-header-logo')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.pix-logo')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should display a link to "project" page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--project')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should display a link to "referential" page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.length(0);
+      });
+    });
+    (0, _mocha.describe)('Rendering for logged user', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        this.register('service:session', _ember.default.Service.extend({ isAuthenticated: true }));
+        this.inject.service('session', { as: 'session' });
+
+        this.render(_ember.default.HTMLBars.template({
+          "id": "Jj0Mqu5s",
+          "block": "{\"statements\":[[1,[26,[\"navbar-header\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+      });
+
+      (0, _mocha.it)('should display logged user details informations', function () {
+        // then
+        (0, _chai.expect)(this.$('.logged-user-details')).to.have.lengthOf(1);
       });
     });
   });
@@ -6802,7 +6853,7 @@ define('pix-live/tests/integration/components/signin-form-test', ['chai', 'mocha
     }
   });
 });
-define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _ember, _wait) {
+define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait', 'sinon'], function (_chai, _mocha, _emberMocha, _ember, _wait, _sinon) {
   'use strict';
 
   var FORM_CONTAINER = '.signup-form-container';
@@ -6909,35 +6960,103 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
         this.register('component:g-recaptcha', _ember.default.Component.extend());
       });
 
-      (0, _mocha.it)('should return true if action <Signup> is handled', function () {
-        // given
-        var isFormSubmitted = false;
-        var user = _ember.default.Object.create({
-          email: 'toto@pix.fr',
-          firstName: 'Marion',
-          lastName: 'Yade',
-          password: 'gipix2017',
-          cgu: true,
+      (0, _mocha.describe)('behavior when signup successful (test external calls)', function () {
+        (0, _mocha.it)('should return true if action <Signup> is handled', function () {
+          // given
+          var isFormSubmitted = false;
+          var user = _ember.default.Object.create({
+            email: 'toto@pix.fr',
+            firstName: 'Marion',
+            lastName: 'Yade',
+            password: 'gipix2017',
+            cgu: true,
 
-          save: function save() {
-            isFormSubmitted = true;
-            return _ember.default.RSVP.resolve();
-          }
+            save: function save() {
+              isFormSubmitted = true;
+              return _ember.default.RSVP.resolve();
+            }
+          });
+
+          this.set('user', user);
+          this.render(_ember.default.HTMLBars.template({
+            "id": "IuLTjz0W",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // when
+          $(SUBMIT_BUTTON).click();
+
+          // then
+          return (0, _wait.default)().then(function () {
+            (0, _chai.expect)(isFormSubmitted).to.be.true;
+          });
         });
 
-        this.set('user', user);
-        this.render(_ember.default.HTMLBars.template({
-          "id": "IuLTjz0W",
-          "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
+        (0, _mocha.it)('should refresh all fields on form', function () {
+          // given
+          var hasRefreshBeenCalled = false;
+          this.set('refresh', function () {
+            hasRefreshBeenCalled = true;
+          });
 
-        // when
-        $(SUBMIT_BUTTON).click();
+          var user = _ember.default.Object.create({
+            email: 'toto@pix.fr',
+            firstName: 'Marion',
+            lastName: 'Yade',
+            password: 'gipix2017',
+            cgu: true,
 
-        // then
-        return (0, _wait.default)().then(function () {
-          (0, _chai.expect)(isFormSubmitted).to.be.true;
+            save: function save() {
+              return _ember.default.RSVP.resolve();
+            }
+          });
+          this.set('user', user);
+          this.render(_ember.default.HTMLBars.template({
+            "id": "wzHVeIzf",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\",\"refresh\"],[[28,[\"user\"]],\"signup\",[33,[\"action\"],[[28,[null]],[28,[\"refresh\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // when
+          $(SUBMIT_BUTTON).click();
+
+          // then
+          (0, _chai.expect)(hasRefreshBeenCalled).to.be.true;
+        });
+
+        (0, _mocha.it)('should redirect automatically to user compte', function () {
+          // given
+          var redirectToProfileRouteStub = _sinon.default.stub();
+
+          this.set('redirectToProfileRoute', redirectToProfileRouteStub);
+
+          var user = _ember.default.Object.create({
+            email: 'toto@pix.fr',
+            firstName: 'Marion',
+            lastName: 'Yade',
+            password: 'gipix2017',
+            cgu: true,
+
+            save: function save() {
+              return _ember.default.RSVP.resolve();
+            }
+          });
+          this.set('user', user);
+          this.render(_ember.default.HTMLBars.template({
+            "id": "oROc76vC",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\",\"redirectToProfileRoute\"],[[28,[\"user\"]],\"signup\",[33,[\"action\"],[[28,[null]],[28,[\"redirectToProfileRoute\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // when
+          $(SUBMIT_BUTTON).click();
+
+          // then
+          return (0, _wait.default)().then(function () {
+            _sinon.default.assert.calledOnce(redirectToProfileRouteStub);
+            _sinon.default.assert.calledWith(redirectToProfileRouteStub, { email: 'toto@pix.fr', password: 'gipix2017' });
+          });
         });
       });
 
@@ -7680,6 +7799,146 @@ define('pix-live/tests/integration/components/trophy-item-test', ['chai', 'mocha
     });
   });
 });
+define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _ember, _wait) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | user logged menu', function () {
+    (0, _emberMocha.setupComponentTest)('user-logged-menu', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('Default rendering for logged user', function () {
+
+      beforeEach(function () {
+        // given
+        this.register('service:store', _ember.default.Service.extend({
+          queryRecord: function queryRecord() {
+            return _ember.default.RSVP.resolve({
+              firstName: 'FHI',
+              lastName: '4EVER',
+              email: 'FHI@4EVER.fr'
+            });
+          }
+        }));
+        this.inject.service('store', { as: 'store' });
+
+        // when
+        this.render(_ember.default.HTMLBars.template({
+          "id": "uJXA+F5m",
+          "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+      });
+
+      (0, _mocha.it)('should render component', function () {
+        // then
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should display logged user name ', function () {
+        // then
+        (0, _chai.expect)(this.$('.logged-user-name')).to.have.length(1);
+        (0, _chai.expect)(this.$('.logged-user-name__link')).to.have.length(1);
+        (0, _chai.expect)(this.$('.logged-user-name__link').text().trim()).to.be.equal('FHI 4EVER');
+      });
+    });
+
+    (0, _mocha.describe)('behavior on user menu', function () {
+
+      (0, _mocha.it)('should hide user menu, when no action on user-name', function () {
+        // when
+        this.render(_ember.default.HTMLBars.template({
+          "id": "uJXA+F5m",
+          "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.logged-user-menu')).to.have.length(0);
+      });
+
+      beforeEach(function () {
+        this.register('service:store', _ember.default.Service.extend({
+          queryRecord: function queryRecord() {
+            return _ember.default.RSVP.resolve({
+              firstName: 'FHI',
+              lastName: '4EVER',
+              email: 'FHI@4EVER.fr'
+            });
+          }
+        }));
+        this.inject.service('store', { as: 'store' });
+      });
+
+      (0, _mocha.it)('should display a user menu, when user-name is clicked', function () {
+        var _this = this;
+
+        // given
+        this.render(_ember.default.HTMLBars.template({
+          "id": "uJXA+F5m",
+          "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        this.$('.logged-user-name').click();
+
+        return (0, _wait.default)().then(function () {
+          // then
+          (0, _chai.expect)(_this.$('.logged-user-menu')).to.have.length(1);
+          (0, _chai.expect)(_this.$('.user-menu-item__details-firstname').text().trim()).to.equal('FHI');
+          (0, _chai.expect)(_this.$('.user-menu-item__details-email').text().trim()).to.equal('FHI@4EVER.fr');
+        });
+      });
+
+      (0, _mocha.it)('should hide user menu, when it was previously open and user-name is clicked one more time', function () {
+        var _this2 = this;
+
+        // when
+        this.render(_ember.default.HTMLBars.template({
+          "id": "uJXA+F5m",
+          "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+        this.$('.logged-user-name').click();
+        this.$('.logged-user-name').click();
+
+        return (0, _wait.default)().then(function () {
+          // then
+          (0, _chai.expect)(_this2.$('.logged-user-menu')).to.have.length(0);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('behavior when user is unlogged or not found', function () {
+
+      beforeEach(function () {
+        this.register('service:store', _ember.default.Service.extend({
+          queryRecord: function queryRecord() {
+            return _ember.default.RSVP.reject();
+          }
+        }));
+        this.inject.service('store', { as: 'store' });
+      });
+
+      (0, _mocha.it)('should not display user information, for unlogged', function () {
+        var _this3 = this;
+
+        // when
+        this.render(_ember.default.HTMLBars.template({
+          "id": "uJXA+F5m",
+          "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        return (0, _wait.default)().then(function () {
+          (0, _chai.expect)(_this3.$('.logged-user-name')).to.have.length(0);
+        });
+      });
+    });
+  });
+});
 define('pix-live/tests/test-helper', ['pix-live/tests/helpers/resolver', 'ember-mocha', 'mocha'], function (_resolver, _emberMocha, _mocha) {
   'use strict';
 
@@ -7962,6 +8221,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/user-logged-menu-test.js', function () {
+      // test passed
+    });
+
     it('test-helper.js', function () {
       // test passed
     });
@@ -8051,6 +8314,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/components/timeout-jauge-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/user-logged-menu-test.js', function () {
       // test passed
     });
 
@@ -9322,25 +9589,43 @@ define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'emb
     });
   });
 });
-define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
   'use strict';
 
-  (0, _mocha.describe)('Unit | Component | Navar Header Component', function () {
+  (0, _mocha.describe)('Unit | Component | Navbar Header Component', function () {
     (0, _emberMocha.setupTest)('component:navbar-header', {});
+    var sessionStubResolve = _ember.default.Service.extend({ isAuthenticated: true });
+    var sessionStubReject = _ember.default.Service.extend({ isAuthenticated: false });
 
-    (0, _mocha.describe)('#isUserLogged', function () {
-      [{ given: '', expected: false }, { given: ' ', expected: false }, { given: null, expected: false }, { given: undefined, expected: false }, { given: { firstName: 'FHI' }, expected: true }].forEach(function (_ref) {
-        var given = _ref.given,
-            expected = _ref.expected;
+    (0, _mocha.describe)('#isUserLogged true case', function () {
 
-        (0, _mocha.it)('should return ' + expected + ', when "' + given + '" provided', function () {
-          // given
-          var component = this.subject();
-          // when
-          component.set('user', given);
-          // then
-          (0, _chai.expect)(component.get('isUserLogged')).to.equal(expected);
-        });
+      (0, _mocha.beforeEach)(function () {
+        this.register('service:session', sessionStubResolve);
+        this.inject.service('session', { as: 'session' });
+      });
+
+      (0, _mocha.it)('should return true, when user is authenticated', function () {
+        // when
+        var component = this.subject();
+
+        // then
+        (0, _chai.expect)(component.get('isUserLogged')).to.equal(true);
+      });
+    });
+
+    (0, _mocha.describe)('#isUserLogged false case', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        this.register('service:session', sessionStubReject);
+        this.inject.service('session', { as: 'session' });
+      });
+
+      (0, _mocha.it)('should return false, when user is unauthenticated', function () {
+        // when
+        var component = this.subject();
+
+        // then
+        (0, _chai.expect)(component.get('isUserLogged')).to.equal(false);
       });
     });
   });
@@ -10177,6 +10462,81 @@ define('pix-live/tests/unit/components/timeout-jauge-test', ['chai', 'mocha', 'e
     });
   });
 });
+define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | User logged Menu', function () {
+    (0, _emberMocha.setupTest)('component:user-logged-menu', {});
+
+    (0, _mocha.describe)('action#toggleUserMenu', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        this.register('service:store', _ember.default.Service.extend({
+          queryRecord: function queryRecord() {
+            return _ember.default.RSVP.resolve({});
+          }
+        }));
+        this.inject.service('store', { as: 'store' });
+      });
+
+      (0, _mocha.it)('should return true, when user details is clicked', function () {
+        // given
+        var component = this.subject();
+        // when
+        component.send('toggleUserMenu');
+        // then
+        (0, _chai.expect)(component.get('_canDisplayMenu')).to.equal(true);
+      });
+
+      (0, _mocha.it)('should return false as default value', function () {
+        // when
+        var component = this.subject();
+
+        // then
+        (0, _chai.expect)(component.get('_canDisplayMenu')).to.equal(false);
+      });
+
+      (0, _mocha.it)('should return false, when _canDisplayMenu was previously true', function () {
+        // given
+        var component = this.subject();
+        // when
+        component.send('toggleUserMenu');
+        component.send('toggleUserMenu');
+        // then
+        (0, _chai.expect)(component.get('_canDisplayMenu')).to.equal(false);
+      });
+    });
+
+    (0, _mocha.describe)('Display user details', function () {
+      var queryRecordArgs = void 0;
+
+      (0, _mocha.describe)('When user is logged', function () {
+
+        (0, _mocha.beforeEach)(function () {
+          this.register('service:store', _ember.default.Service.extend({
+            queryRecord: function queryRecord() {
+              queryRecordArgs = Array.from(arguments);
+              return _ember.default.RSVP.resolve({
+                firstName: 'FHI',
+                lastName: '4EVER',
+                email: 'FHI@4EVER.fr'
+              });
+            }
+          }));
+          this.inject.service('store', { as: 'store' });
+        });
+
+        (0, _mocha.it)('should correctly call store', function () {
+          // when
+          this.subject();
+
+          // then
+          (0, _chai.expect)(queryRecordArgs).to.deep.equal(['user', {}]);
+        });
+      });
+    });
+  });
+});
 define('pix-live/tests/unit/components/warning-time-page-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -10747,7 +11107,7 @@ define('pix-live/tests/unit/routes/assessments/get-results-test', ['chai', 'moch
     });
   });
 });
-define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'sinon'], function (_chai, _mocha, _emberMocha, _ember, _sinon) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | board', function () {
@@ -10759,6 +11119,65 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha']
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
+    });
+
+    var queryRecordStub = _sinon.default.stub();
+
+    beforeEach(function () {
+      this.register('service:store', _ember.default.Service.extend({
+        queryRecord: queryRecordStub
+      }));
+      this.inject.service('store', { as: 'store' });
+    });
+
+    (0, _mocha.it)('should correctly call the store', function () {
+      // given
+      var route = this.subject();
+      route.transitionTo = function () {};
+
+      queryRecordStub.resolves();
+
+      // when
+      route.model();
+
+      // then
+      _sinon.default.assert.calledOnce(queryRecordStub);
+      _sinon.default.assert.calledWith(queryRecordStub, 'user', {});
+    });
+
+    (0, _mocha.it)('should return user first organization informations', function () {
+      // given
+      var user = _ember.default.Object.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
+
+      var route = this.subject();
+      route.transitionTo = function () {};
+
+      queryRecordStub.resolves(user);
+
+      // when
+      var promise = route.model();
+
+      // then
+      return promise.then(function (organization) {
+        (0, _chai.expect)(organization.id).to.equal(1);
+      });
+    });
+
+    (0, _mocha.it)('should return to home page if no user was found', function () {
+      // given
+      var route = this.subject();
+      route.transitionTo = _sinon.default.spy();
+
+      queryRecordStub.rejects();
+
+      // when
+      var promise = route.model();
+
+      // then
+      return promise.then(function (_) {
+        _sinon.default.assert.calledOnce(route.transitionTo);
+        _sinon.default.assert.calledWith(route.transitionTo, 'index');
+      });
     });
   });
 });
@@ -10805,12 +11224,12 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
       (0, _chai.expect)(route).to.be.ok;
     });
 
-    (0, _mocha.it)('should redirect to /connexion', function () {
+    (0, _mocha.it)('should redirect to / (Home)', function () {
       // Given
       var route = this.subject();
 
       // Then
-      (0, _chai.expect)(route.authenticationRoute).to.equal('/connexion');
+      (0, _chai.expect)(route.authenticationRoute).to.equal('/');
     });
   });
 });
@@ -10891,14 +11310,80 @@ define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha']
 define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
+  var SessionStub = function () {
+    function SessionStub() {
+      _classCallCheck(this, SessionStub);
+    }
+
+    _createClass(SessionStub, [{
+      key: 'authenticate',
+      value: function authenticate() {
+        this.callArgs = Array.from(arguments);
+        return Promise.resolve();
+      }
+    }]);
+
+    return SessionStub;
+  }();
+
   (0, _mocha.describe)('Unit | Route | inscription', function () {
     (0, _emberMocha.setupTest)('route:inscription', {
-      needs: ['service:current-routed-modal']
+      needs: ['service:current-routed-modal', 'service:session']
     });
 
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.it)('should automatically redirect authenticated user to compte page', function () {
+      // Given
+      var expectedEmail = 'email@example.net';
+      var expectedPassword = 'Azertya1!';
+      var sessionStub = new SessionStub();
+
+      var route = this.subject();
+      route.set('session', sessionStub);
+      var transitionToArg = void 0;
+      route.transitionTo = function () {
+        transitionToArg = Array.from(arguments);
+      };
+
+      // When
+      var promise = route.actions.redirectToProfileRoute.call(route, {
+        email: expectedEmail,
+        password: expectedPassword
+      });
+
+      return promise.then(function () {
+        // Then
+        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
+        (0, _chai.expect)(transitionToArg).to.deep.equal(['compte']);
+      });
     });
   });
 });
