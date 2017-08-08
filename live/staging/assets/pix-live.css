@@ -2946,12 +2946,18 @@ input.qcm-panel__proposal-checkbox {
   color: #3e4149;
   text-transform: capitalize; }
 
+.index-page-hero__navbar-header .logged-user-name__link {
+  color: #ffffff; }
+
 .caret {
   width: 0;
   height: 0;
   border-style: solid;
   border-width: 4px 4px 0 4px;
   border-color: #3e4149 transparent transparent transparent; }
+
+.index-page-hero__navbar-header .caret {
+  border-color: #ffffff transparent transparent transparent; }
 
 .logged-user-menu {
   position: absolute;
@@ -3038,6 +3044,60 @@ input.qcm-panel__proposal-checkbox {
   .logged-user-menu__item-logout:hover {
     color: #3e4149; }
 
+.index-page-patners-enrollment {
+  background-image: linear-gradient(to bottom, #446eff, #133dd2); }
+
+.partners-enrollment-panel {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-align: center;
+  align-items: center; }
+
+.partners-enrollment__title {
+  max-width: 1117.4px;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 25px;
+  font-weight: bold;
+  font-style: italic;
+  text-align: center;
+  color: #ffffff; }
+  @media (min-width: 768px) {
+    .partners-enrollment__title {
+      font-size: 42px; } }
+
+.partners-enrollment__description {
+  max-width: 777px;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 17px;
+  text-align: center;
+  margin-top: 12px;
+  color: #ffffff; }
+  @media (min-width: 768px) {
+    .partners-enrollment__description {
+      font-size: 24px; } }
+
+.partners-enrollment__link-container {
+  text-align: center;
+  margin-top: 38px; }
+
+.partners-enrollment__link {
+  max-width: 174.3px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-align: center;
+  color: #2549FF;
+  padding: 12px 30px;
+  text-decoration: none;
+  text-transform: uppercase; }
+  .partners-enrollment__link:hover {
+    color: #2549FF; }
+
 /* pages */
 /* Sections:
 
@@ -3106,7 +3166,7 @@ input.qcm-panel__proposal-checkbox {
   padding: 0; }
 
 .index-page-challenges {
-  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+  background: #f2f3f4;
   padding-bottom: 20px; }
 
 .index-page-challenges__container {
@@ -3125,7 +3185,7 @@ input.qcm-panel__proposal-checkbox {
 
 .index-page-challenges__presentation {
   font-family: "Raleway", Arial, sans-serif;
-  color: #ffffff;
+  color: #3d68ff;
   text-align: center;
   padding: 0 20px; }
   @media (min-width: 980px) {
@@ -3148,7 +3208,8 @@ input.qcm-panel__proposal-checkbox {
 .index-page-challenges__presentation-text {
   font-size: 24px;
   font-weight: 300;
-  line-height: 1.2; }
+  line-height: 1.2;
+  color: #3e4149; }
   @media (min-width: 980px) {
     .index-page-challenges__presentation-text {
       font-size: 37px; } }
@@ -3171,7 +3232,8 @@ input.qcm-panel__proposal-checkbox {
   margin-bottom: 15px;
   padding: 5px 10px;
   text-align: center;
-  width: 180px; }
+  width: 180px;
+  background: #3d68ff; }
   @media (min-width: 980px) {
     .index-page-challenges__courses-of-the-week {
       margin-top: 0px; } }

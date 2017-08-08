@@ -1667,6 +1667,25 @@ define('pix-live/components/navbar-header', ['exports', 'ember'], function (expo
 
   });
 });
+define('pix-live/components/partners-enrollment-panel', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _ember.default.Component.extend({
+    classNames: ['partners-enrollment-panel'],
+    _enrollment: null,
+
+    init: function init() {
+      this._super.apply(this, arguments);
+      this.set('_enrollment', {
+        title: 'Collèges, lycées, établissements d’enseignement supérieur : rejoignez l’aventure Pix dès l’année 2017-2018 !',
+        description: 'Je veux que mon établissement propose la certification Pix dès cette année'
+      });
+    }
+  });
+});
 define('pix-live/components/pix-logo', ['exports', 'ember'], function (exports, _ember) {
   'use strict';
 
@@ -6230,7 +6249,7 @@ define('pix-live/routes/courses/get-course-preview', ['exports', 'pix-live/route
     }
   });
 });
-define('pix-live/routes/enrollment', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/routes/enrollment', ['exports', 'ember', 'pix-live/routes/base-route'], function (exports, _ember, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -6285,7 +6304,7 @@ define('pix-live/routes/enrollment', ['exports', 'ember'], function (exports, _e
 
   var pixUncommitments = ['Bénéficier de toutes les fonctionnalités de la plateforme dès la rentrée #versionbeta', 'Croire que Pix va permettre à tous de se former sans l\'implication des équipes pédagogiques', 'Penser qu\'un outil numérique permet se passer de l\'humain', 'Réservé aux experts de l\'informatique', 'Une obligation ministérielle !'];
 
-  exports.default = _ember.default.Route.extend({
+  exports.default = _baseRoute.default.extend({
 
     panelActions: _ember.default.inject.service(),
 
@@ -7149,6 +7168,14 @@ define("pix-live/templates/components/navbar-header", ["exports"], function (exp
   });
   exports.default = Ember.HTMLBars.template({ "id": "Du9ZP2f4", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"navbar-header__container\"],[13],[0,\"\\n\\n  \"],[4,\" Logo (left) \"],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"navbar-header-logo\"],[13],[0,\"\\n    \"],[1,[26,[\"pix-logo\"]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[4,\" Links (right) \"],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"navbar-header-right\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[16,\"class\",[34,[\"navbar-header-links \",[33,[\"if\"],[[28,[\"isUserLogged\"]],\"navbar-header-links--user-logged\",\"\"],null]]]],[13],[0,\"\\n      \"],[11,\"ul\",[]],[15,\"class\",\"navbar-header-links__list\"],[13],[0,\"\\n        \"],[11,\"li\",[]],[15,\"class\",\"navbar-header-links__item\"],[13],[0,\"\\n          \"],[6,[\"link-to\"],[\"project\"],[[\"class\"],[\"navbar-header-links__link navbar-header-links__link--project\"]],{\"statements\":[[0,\"Projet\"]],\"locals\":[]},null],[0,\"\\n        \"],[14],[0,\"\\n        \"],[11,\"li\",[]],[15,\"class\",\"navbar-header-links__item\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"competences\"],[[\"class\"],[\"navbar-header-links__link navbar-header-links__link--competences\"]],{\"statements\":[[0,\"            Compétences\"]],\"locals\":[]},null],[0,\"\\n        \"],[14],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"isUserLogged\"]]],null,{\"statements\":[[0,\"      \"],[1,[26,[\"user-logged-menu\"]],false],[0,\"\\n\"]],\"locals\":[]},null],[0,\"  \"],[14],[0,\"\\n\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/navbar-header.hbs" } });
 });
+define("pix-live/templates/components/partners-enrollment-panel", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "/klHJ7WF", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"partners-enrollment__title\"],[13],[1,[28,[\"_enrollment\",\"title\"]],false],[14],[0,\"\\n\"],[11,\"div\",[]],[15,\"class\",\"partners-enrollment__description\"],[13],[1,[28,[\"_enrollment\",\"description\"]],false],[14],[0,\"\\n\"],[11,\"div\",[]],[15,\"class\",\"partners-enrollment__link-container\"],[13],[0,\"\\n  \"],[6,[\"link-to\"],[\"enrollment\"],[[\"class\"],[\"partners-enrollment__link\"]],{\"statements\":[[0,\"En savoir plus\"]],\"locals\":[]},null],[0,\"\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/partners-enrollment-panel.hbs" } });
+});
 define("pix-live/templates/components/pix-logo", ["exports"], function (exports) {
   "use strict";
 
@@ -7419,7 +7446,7 @@ define("pix-live/templates/index", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "ozfULHW8", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"index-page\"],[13],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"index-page__background\"],[13],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--hero index-page-hero\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-hero__navbar-header\"],[13],[0,\"\\n      \"],[1,[26,[\"navbar-header\"]],false],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-hero__content\"],[13],[0,\"\\n      \"],[11,\"h1\",[]],[15,\"class\",\"index-page-hero__title\"],[13],[0,\"Développez vos compétences numériques\"],[14],[0,\"\\n      \"],[11,\"p\",[]],[15,\"class\",\"index-page-hero__description\"],[13],[0,\"PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.\"],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--challenges index-page-challenges\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-challenges__container\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"index-page-challenges__presentation\"],[13],[0,\"\\n        \"],[11,\"h2\",[]],[15,\"class\",\"index-page-challenges__presentation-title\"],[13],[0,\"Les défis \"],[11,\"span\",[]],[15,\"class\",\"text--marigold\"],[13],[0,\"Pix\"],[14],[0,\" de la semaine\"],[14],[0,\"\\n        \"],[11,\"p\",[]],[15,\"class\",\"index-page-challenges__presentation-text\"],[13],[0,\"Chaque semaine, testez vos compétences numériques sur un nouveau sujet.\"],[14],[0,\"\\n      \"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"index-page-challenges__course-list\"],[13],[0,\"\\n        \"],[1,[33,[\"course-list\"],null,[[\"courses\",\"startCourse\",\"limit\"],[[28,[\"model\",\"coursesOfTheWeek\"]],\"startCourse\",2]]],false],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-challenges__courses-of-the-week\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"course-groups\"],[[\"class\"],[\"index-page-challenges__courses-of-the-week-link\"]],{\"statements\":[[0,\"        VOIR LES DÉFIS PRÉCÉDENTS\"]],\"locals\":[]},null],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--courses index-page-courses\"],[13],[0,\"\\n    \"],[11,\"h2\",[]],[15,\"class\",\"index-page-courses__title\"],[13],[0,\"Découvrez nos épreuves et aidez‑nous à les améliorer !\"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-courses__course-list\"],[13],[0,\"\\n      \"],[1,[33,[\"course-list\"],null,[[\"courses\",\"startCourse\"],[[28,[\"model\",\"progressionCourses\"]],\"startCourse\"]]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--community index-page-community\"],[13],[0,\"\\n    \"],[11,\"h2\",[]],[15,\"class\",\"index-page-community__title\"],[13],[0,\"Rejoindre la communauté\"],[14],[0,\"\\n    \"],[11,\"p\",[]],[15,\"class\",\"index-page-community__description\"],[13],[0,\"Vous souhaitez devenir béta‑testeur\"],[11,\"br\",[]],[13],[14],[0,\"ou être informé(e) du\\n      développement de Pix ?\"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-community__form\"],[13],[0,\"\\n      \"],[1,[26,[\"follower-form\"]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--features index-page-features\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-features__list\"],[13],[0,\"\\n      \"],[1,[26,[\"feature-list\"]],false],[0,\"\\n    \"],[14],[0,\"\\n    \"],[6,[\"link-to\"],[\"project\"],[[\"class\"],[\"index-page-features__project-button\"]],{\"statements\":[[0,\"En savoir plus sur le projet\"]],\"locals\":[]},null],[0,\"\\n  \"],[14],[0,\"\\n\\n\"],[14],[0,\"\\n\\n\"],[1,[26,[\"app-footer\"]],false],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/index.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "8kSH0/tc", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"index-page\"],[13],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"index-page__background\"],[13],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--hero index-page-hero\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-hero__navbar-header\"],[13],[0,\"\\n      \"],[1,[26,[\"navbar-header\"]],false],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-hero__content\"],[13],[0,\"\\n      \"],[11,\"h1\",[]],[15,\"class\",\"index-page-hero__title\"],[13],[0,\"Développez vos compétences numériques\"],[14],[0,\"\\n      \"],[11,\"p\",[]],[15,\"class\",\"index-page-hero__description\"],[13],[0,\"PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.\"],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--challenges index-page-challenges\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-challenges__container\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"index-page-challenges__presentation\"],[13],[0,\"\\n        \"],[11,\"h2\",[]],[15,\"class\",\"index-page-challenges__presentation-title\"],[13],[0,\"Les défis \"],[11,\"span\",[]],[15,\"class\",\"text--marigold\"],[13],[0,\"Pix\"],[14],[0,\" de la semaine\"],[14],[0,\"\\n        \"],[11,\"p\",[]],[15,\"class\",\"index-page-challenges__presentation-text\"],[13],[0,\"Chaque semaine, testez vos compétences numériques sur un nouveau sujet.\"],[14],[0,\"\\n      \"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"index-page-challenges__course-list\"],[13],[0,\"\\n        \"],[1,[33,[\"course-list\"],null,[[\"courses\",\"startCourse\",\"limit\"],[[28,[\"model\",\"coursesOfTheWeek\"]],\"startCourse\",2]]],false],[0,\"\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-challenges__courses-of-the-week\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"course-groups\"],[[\"class\"],[\"index-page-challenges__courses-of-the-week-link\"]],{\"statements\":[[0,\"        VOIR LES DÉFIS PRÉCÉDENTS\"]],\"locals\":[]},null],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--partners index-page-patners-enrollment\"],[13],[0,\"\\n    \"],[1,[26,[\"partners-enrollment-panel\"]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--courses index-page-courses\"],[13],[0,\"\\n    \"],[11,\"h2\",[]],[15,\"class\",\"index-page-courses__title\"],[13],[0,\"Découvrez nos épreuves et aidez‑nous à les améliorer !\"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-courses__course-list\"],[13],[0,\"\\n      \"],[1,[33,[\"course-list\"],null,[[\"courses\",\"startCourse\"],[[28,[\"model\",\"progressionCourses\"]],\"startCourse\"]]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--community index-page-community\"],[13],[0,\"\\n    \"],[11,\"h2\",[]],[15,\"class\",\"index-page-community__title\"],[13],[0,\"Rejoindre la communauté\"],[14],[0,\"\\n    \"],[11,\"p\",[]],[15,\"class\",\"index-page-community__description\"],[13],[0,\"Vous souhaitez devenir béta‑testeur\"],[11,\"br\",[]],[13],[14],[0,\"ou être informé(e) du développement de Pix ?\"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-community__form\"],[13],[0,\"\\n      \"],[1,[26,[\"follower-form\"]],false],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"section\",[]],[15,\"class\",\"index-page__section index-page__section--features index-page-features\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"index-page-features__list\"],[13],[0,\"\\n      \"],[1,[26,[\"feature-list\"]],false],[0,\"\\n    \"],[14],[0,\"\\n    \"],[6,[\"link-to\"],[\"project\"],[[\"class\"],[\"index-page-features__project-button\"]],{\"statements\":[[0,\"En savoir plus sur le projet\"]],\"locals\":[]},null],[0,\"\\n  \"],[14],[0,\"\\n\\n\"],[14],[0,\"\\n\\n\"],[1,[26,[\"app-footer\"]],false],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/index.hbs" } });
 });
 define("pix-live/templates/inscription", ["exports"], function (exports) {
   "use strict";
@@ -8249,6 +8276,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.16.0+c8171e56"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.16.0+95cbfd42"});
 }
 //# sourceMappingURL=pix-live.map

@@ -16,86 +16,105 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['mocha', 'chai', 'pix-
       (0, _destroyApp.default)(application);
     });
 
-    (0, _mocha.it)('a1.0 est accessible depuis "/"', function () {
+    (0, _mocha.it)('a1.0 Accessing to "/"', function () {
       (0, _chai.expect)(currentURL()).to.equal('/');
     });
 
-    (0, _mocha.describe)('contient une section "Hero"', function () {
+    (0, _mocha.describe)('contains an "Hero" section', function () {
 
-      (0, _mocha.it)('a1.0 avec la barre de navigation', function () {
+      (0, _mocha.it)('a1.0 with a navbar', function () {
         findWithAssert('.index-page-hero__navbar-header');
       });
 
-      (0, _mocha.it)('a1.1 avec un titre', function () {
+      (0, _mocha.it)('a1.1 with a title', function () {
         var $title = findWithAssert('.index-page-hero__title');
         (0, _chai.expect)($title.text().trim()).to.equal('Développez vos compétences numériques');
       });
 
-      (0, _mocha.it)('a1.2 avec un descriptif', function () {
+      (0, _mocha.it)('a1.2 with a description', function () {
         var $description = findWithAssert('.index-page-hero__description');
         (0, _chai.expect)($description.text().trim()).to.equal('PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.');
       });
     });
 
-    (0, _mocha.describe)('contient une section "Challenges"', function () {
+    (0, _mocha.describe)('contains a "Challenges section"', function () {
 
-      (0, _mocha.it)('a1.3 cachée si aucun test n\'est remonté', function () {
+      (0, _mocha.it)('a1.3 hided when no test', function () {
         // FIXME find a way to test this correctly
       });
 
-      (0, _mocha.it)('a1.4 visible si au moins 1 test est remonté', function () {
+      (0, _mocha.it)('a1.4 displayed when at least one test', function () {
         // FIXME find a way to test this correctly
       });
 
-      (0, _mocha.it)('a1.6 avec un titre', function () {
+      (0, _mocha.it)('a1.6 with a title', function () {
         var $title = findWithAssert('.index-page-challenges__presentation-title');
         (0, _chai.expect)($title.text().trim()).to.equal('Les défis Pix de la semaine');
       });
 
-      (0, _mocha.it)('a1.7 avec un texte descriptif', function () {
+      (0, _mocha.it)('a1.7 with a description', function () {
         var $description = findWithAssert('.index-page-challenges__presentation-text');
         (0, _chai.expect)($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
       });
 
-      (0, _mocha.it)('a1.8 qui affiche 2 tests maximum', function () {
+      (0, _mocha.it)('a1.8 display only two tests', function () {
         // FIXME find a way to test this correctly
       });
     });
 
-    (0, _mocha.describe)('contient une section "Courses"', function () {
+    (0, _mocha.describe)('contains a section with a bbutton to save new partners', function () {
 
-      (0, _mocha.it)('a1.9 avec un titre', function () {
+      (0, _mocha.it)('a1.16 with a title', function () {
+        var $title = findWithAssert('.partners-enrollment__title');
+        (0, _chai.expect)($title.text().trim()).to.equal('Collèges, lycées, établissements d’enseignement supérieur : rejoignez l’aventure Pix dès l’année 2017-2018 !');
+      });
+
+      (0, _mocha.it)('a1.17 with a description', function () {
+        var $title = findWithAssert('.partners-enrollment__description');
+        (0, _chai.expect)($title.text().trim()).to.equal('Je veux que mon établissement propose la certification Pix dès cette année');
+      });
+
+      (0, _mocha.it)('a1.17 with a link to registering page', function () {
+        var $title = findWithAssert('.partners-enrollment__link');
+        findWithAssert('.partners-enrollment__link-container');
+        (0, _chai.expect)($title.attr('href').trim()).to.equal('/rejoindre');
+      });
+    });
+
+    (0, _mocha.describe)('contains a "Courses" section', function () {
+
+      (0, _mocha.it)('a1.9 with a title', function () {
         var $title = findWithAssert('.index-page-courses__title');
         (0, _chai.expect)($title.text().trim()).to.equal('Découvrez nos épreuves et aidez‑nous à les améliorer !');
       });
 
-      (0, _mocha.it)('a1.10 avec la liste des challenges', function () {
+      (0, _mocha.it)('a1.10 with a challenges list', function () {
         findWithAssert('.index-page-courses__course-list');
       });
     });
 
-    (0, _mocha.describe)('contient une section "Community"', function () {
+    (0, _mocha.describe)('contains a "Community" section', function () {
 
-      (0, _mocha.it)('a1.11 avec un titre', function () {
+      (0, _mocha.it)('a1.11 with a title', function () {
         findWithAssert('.index-page-community__title');
       });
 
-      (0, _mocha.it)('a1.12 avec une description', function () {
+      (0, _mocha.it)('a1.12 with a description', function () {
         findWithAssert('.index-page-community__description');
       });
 
-      (0, _mocha.it)('a1.13 avec le formulaire d\'inscription en tant que béta-testeur', function () {
+      (0, _mocha.it)('a1.13 with a form subscription to beta tester', function () {
         findWithAssert('.index-page-community__form');
       });
     });
 
-    (0, _mocha.describe)('contient une section "Features"', function () {
+    (0, _mocha.describe)('contains a "Features" section', function () {
 
-      (0, _mocha.it)('a1.14 avec la liste des featurettes', function () {
+      (0, _mocha.it)('a1.14 with a feature list', function () {
         findWithAssert('.index-page-features__list');
       });
 
-      (0, _mocha.it)('a1.15 avec un lien vers la page "projet"', function () {
+      (0, _mocha.it)('a1.15 with a link to "projet"', function () {
         findWithAssert('.index-page-features__project-button[href="/projet"]');
       });
     });
@@ -2682,6 +2701,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/partners-enrollment-panel.js', function () {
+      // test passed
+    });
+
     it('components/pix-logo.js', function () {
       // test passed
     });
@@ -5151,6 +5174,62 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
       (0, _mocha.it)('should display logged user details informations', function () {
         // then
         (0, _chai.expect)(this.$('.logged-user-details')).to.have.lengthOf(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/partners-enrollment-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | partners enrollment panel', function () {
+    (0, _emberMocha.setupComponentTest)('partners-enrollment-panel', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('Component rendering', function () {
+
+      (0, _mocha.it)('should render', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "T/2+/GR4",
+          "block": "{\"statements\":[[1,[26,[\"partners-enrollment-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$('.partners-enrollment-panel')).to.have.length(1);
+      });
+
+      [{ itemClass: '.partners-enrollment__title', type: 'title' }, { itemClass: '.partners-enrollment__description', type: 'description' }, { itemClass: '.partners-enrollment__link-container', type: 'link container' }].forEach(function (_ref2) {
+        var itemClass = _ref2.itemClass,
+            type = _ref2.type;
+
+        (0, _mocha.it)('should display a ' + type, function () {
+          // given
+          this.render(Ember.HTMLBars.template({
+            "id": "T/2+/GR4",
+            "block": "{\"statements\":[[1,[26,[\"partners-enrollment-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$(itemClass)).to.have.length(1);
+        });
+      });
+
+      (0, _mocha.it)('should contain a link to enrollment', function () {
+        // given
+        this.set('_enrollment', { title: 'toto' });
+        this.render(Ember.HTMLBars.template({
+          "id": "T/2+/GR4",
+          "block": "{\"statements\":[[1,[26,[\"partners-enrollment-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.partners-enrollment__link')).to.have.length(1);
+        (0, _chai.expect)(this.$('.partners-enrollment__link').text().trim()).to.equal('En savoir plus');
       });
     });
   });
@@ -8005,6 +8084,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/navbar-header-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/partners-enrollment-panel-test.js', function () {
       // test passed
     });
 
