@@ -8,8 +8,6 @@ const validationErrorSerializer = require('../../infrastructure/serializers/json
 
 const _ = require('lodash');
 const logger = require('../../infrastructure/logger');
-const jsonWebToken = require('../../infrastructure/validators/jsonwebtoken-verify');
-const { InvalidTokenError } = require('../../../lib/domain/errors');
 
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
 
@@ -64,63 +62,6 @@ module.exports = {
       });
   },
 
-  //idées refacto : faire une fontion qui retourne une promesse après verification que l'user demandeur est bien dans l'orga
-  //Ajouter l'envoi de message d'erreur
-  get: (request, reply) => {
-    const organizationId = request.params.id;
-    const token = request.headers.authorization;
-
-    return jsonWebToken
-      .verify(token)
-      .then((connectedUserId) => {
-        return organisationRepository
-          .get(organizationId)
-          .then((organization) => {
-            const associatedUser = organization.get('userId');
-            if (associatedUser === connectedUserId) {
-              return reply(organizationSerializer.serialize(organization)).code(200);
-            } else {
-              return reply().code(403);
-            }
-          })
-          .catch(_ => {
-            return reply().code(404);
-          });
-      })
-      .catch(() => {
-        return Promise.resolve(reply().code(401));
-      });
-  },
-
-  getAuthenticatedUserOrganizations: (request, reply) => {
-    const token = request.headers.authorization;
-    let connectedUserId;
-    let organization;
-
-    return jsonWebToken
-      .verify(token)
-      .then(connectedUserIdFromVerify => {
-        connectedUserId = connectedUserIdFromVerify;
-        return organisationRepository.getByUserId(connectedUserId);
-      })
-      .then((organizationFromRepo) => {
-        organization = organizationFromRepo;
-        return userRepository.findUserById(connectedUserId);
-      })
-      .then((user) => {
-        organization.user = user;
-        return reply(organizationSerializer.serialize(organization)).code(200);
-      })
-      .catch((err) => {
-
-        if (err instanceof InvalidTokenError) {
-          return Promise.resolve(reply().code(401));
-        } else {
-          return Promise.resolve(reply().code(404));
-        }
-
-      });
-  }
 };
 
 function _buildAlreadyExistingEmailError(email) {

@@ -26,7 +26,6 @@
   @include device-is('tablet') {
     margin-bottom: 0px;
   }
-
 }
 
 .board-page__header-organisation__text {
@@ -62,8 +61,6 @@
   color: $jumbo-grey;
 }
 
-/*---------------------------------------------*/
-
 .board-page__profiles-title {
   padding-left: 22px;
   padding-bottom: 10px;
@@ -90,8 +87,6 @@
   }
 
 }
-
-/*-----------------------------------*/
 
 .board-page__body {
   background: $alabaster-grey;

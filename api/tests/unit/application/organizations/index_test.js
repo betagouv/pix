@@ -31,40 +31,4 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
-  describe('GET /api/organizations/:id', _ => {
-
-    before(() => {
-      sinon.stub(organisationController, 'get').callsFake((request, reply) => reply('ok'));
-    });
-
-    after(() => {
-      organisationController.get.restore();
-    });
-
-    it('should exist', (done) => {
-      return server.inject({ method: 'GET', url: '/api/organizations/{id}' }, res => {
-        expect(res.statusCode).to.equal(200);
-        done();
-      });
-    });
-  });
-
-  describe('GET /api/organizations/me', _ => {
-
-    before(() => {
-      sinon.stub(organisationController, 'getAuthenticatedUserOrganizations').callsFake((request, reply) => reply('ok'));
-    });
-
-    after(() => {
-      organisationController.getAuthenticatedUserOrganizations.restore();
-    });
-
-    it('should exist', (done) => {
-      return server.inject({ method: 'GET', url: '/api/organizations/me' }, res => {
-        expect(res.statusCode).to.equal(200);
-        done();
-      });
-    });
-  });
-
 });

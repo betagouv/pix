@@ -217,20 +217,20 @@ describe('Unit | Repository | OrganizationRepository', function() {
           });
       });
 
-      //Il faut rajouter un done pour que le test soit rouge ? sinon il ecrit juste une erreur avec un test vert
-      //Test vert avec erreur sans done ou test rouge avec done ? lequel est le meilleur
-      it('should return all organizations when provided userId has multiple organizations', function(done) {
+      it('should return all organizations when provided userId has multiple organizations', function() {
         // Given
         const userId = 1;
 
-        // then
-        OrganizationRepository.getByUserId(userId)
-          .then((foundOrganizations) => {
-            expect(foundOrganizations).to.exist;
-            expect(foundOrganizations).to.be.an('array');
-            expect(foundOrganizations).to.have.lengthOf(2);
-            done();
-          });
+        // When
+        const promise = OrganizationRepository.getByUserId(userId);
+
+        // Then
+        return promise.then(foundOrganizations=>{
+          expect(foundOrganizations).to.exist;
+          expect(foundOrganizations).to.be.an('array');
+          expect(foundOrganizations).to.have.lengthOf(2);
+        });
+
       });
 
       it('should return a rejection when organization id is not found', function() {

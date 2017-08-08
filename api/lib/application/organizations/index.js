@@ -6,16 +6,6 @@ exports.register = function(server, options, next) {
       method: 'POST',
       path: '/api/organizations',
       config: { handler: organisationController.create, tags: ['api'] }
-    },
-    {
-      method: 'GET',
-      path: '/api/organizations/{id}',
-      config: { handler: organisationController.get, tags: ['api'] }
-    },
-    {
-      method: 'GET',
-      path: '/api/organizations/me',
-      config: { handler: organisationController.getAuthenticatedUserOrganizations, tags: ['api'] }
     }
   ]);
 

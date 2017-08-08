@@ -40,7 +40,7 @@ describe('Acceptance | o1 - board organization', function() {
     click('.signin-form__submit_button');
   }
 
-  it('can visit /board ', async function() {
+  it('can visit /board', async function() {
     // given
     seedDatabase();
     authenticateUser();
