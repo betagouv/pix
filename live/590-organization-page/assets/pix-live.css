@@ -4239,7 +4239,6 @@ hr.project-page__presentation-header-line {
   font-size: 15px;
   color: #7e8086; }
 
-/*---------------------------------------------*/
 .board-page__profiles-title {
   padding-left: 22px;
   padding-bottom: 10px;
@@ -4263,7 +4262,6 @@ hr.project-page__presentation-header-line {
       margin-bottom: 20px;
       max-width: 970px; } }
 
-/*-----------------------------------*/
 .board-page__body {
   background: #FAFAFA; }
   @media (min-width: 768px) {

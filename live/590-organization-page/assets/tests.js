@@ -2618,7 +2618,7 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
       click('.signin-form__submit_button');
     }
 
-    (0, _mocha.it)('can visit /board ', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('can visit /board', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
