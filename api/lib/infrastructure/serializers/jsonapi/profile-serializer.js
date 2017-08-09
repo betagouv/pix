@@ -33,10 +33,6 @@ class ProfileSerializer extends JSONAPISerializer {
   }
 
   serializeIncluded(model) {
-    if (!model.competences || !model.areas) {
-      return null;
-    }
-
     const included = [];
     this._serializeAreaIncluded(model, included);
     this._serializeCompetenceIncluded(model, included);

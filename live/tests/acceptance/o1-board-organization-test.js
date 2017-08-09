@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | o1 - board organization', function() {
+describe.only('Acceptance | o1 - board organization', function() {
   let application;
 
   beforeEach(function() {
@@ -15,7 +15,7 @@ describe('Acceptance | o1 - board organization', function() {
   });
 
   function seedDatabase() {
-    server.create('organization', {
+    const organizations = server.create('organization', {
       id: 1,
       name: 'PIX',
       email: 'pix@pixcorp.com',
@@ -29,7 +29,7 @@ describe('Acceptance | o1 - board organization', function() {
       lastName: 'Marteau',
       email: 'benjamin.marteau@pix.com',
       password: '1024pix!',
-      organizationIds: [1]
+      organizations: organizations
     });
   }
 

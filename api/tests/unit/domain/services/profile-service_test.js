@@ -127,7 +127,7 @@ describe('Unit | Service | Profil User Service', function() {
         });
       });
 
-      it('should call course repository to get adaptive courses', function() {
+      it('should call course repository to get adaptive courses', () => {
         // When
         const promise = profileService.getByUserId('user-id');
 
@@ -138,7 +138,7 @@ describe('Unit | Service | Profil User Service', function() {
 
       });
 
-      it('should call assessment repository to get all assessments from the current user', function() {
+      it('should call assessment repository to get all assessments from the current user', () => {
 
         // When
         const promise = profileService.getByUserId('user-id');
@@ -150,7 +150,7 @@ describe('Unit | Service | Profil User Service', function() {
         });
       });
 
-      it('should call organization repository to get all organizations from the current user', function() {
+      it('should call organization repository to get all organizations from the current user', () => {
 
         // When
         const promise = profileService.getByUserId('user-id');

@@ -96,7 +96,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
   describe('#get', () => {
 
     const existingId = 1;
-    const inserted_organization = {
+    const insertedOrganization = {
       email: 'test@email.com',
       type: 'PRO',
       name: 'The name of the organization',
@@ -106,9 +106,8 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
     before(() => {
       return knex('organizations')
-        .delete()
         .then(() => {
-          return knex('organizations').insert(inserted_organization);
+          return knex('organizations').insert(insertedOrganization);
         });
     });
 
@@ -125,15 +124,15 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
       it('should return a organization by provided id', function() {
         // then
-        OrganizationRepository.get(existingId)
+        return OrganizationRepository.get(existingId)
           .then((foundOrganization) => {
             expect(foundOrganization).to.exist;
             expect(foundOrganization).to.be.an('object');
-            expect(foundOrganization.attributes.email).to.equal(inserted_organization.email);
-            expect(foundOrganization.attributes.type).to.equal(inserted_organization.type);
-            expect(foundOrganization.attributes.name).to.equal(inserted_organization.name);
-            expect(foundOrganization.attributes.userId).to.equal(inserted_organization.userId);
-            expect(foundOrganization.attributes.id).to.equal(inserted_organization.id);
+            expect(foundOrganization.attributes.email).to.equal(insertedOrganization.email);
+            expect(foundOrganization.attributes.type).to.equal(insertedOrganization.type);
+            expect(foundOrganization.attributes.name).to.equal(insertedOrganization.name);
+            expect(foundOrganization.attributes.userId).to.equal(insertedOrganization.userId);
+            expect(foundOrganization.attributes.id).to.equal(insertedOrganization.id);
           });
       });
 
@@ -150,7 +149,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
   describe('#getByUserId', () => {
 
-    const first_inserted_organization = {
+    const firstInsertedOrganization = {
       email: 'entreprise1@email.com',
       type: 'PRO',
       name: 'organization 1',
@@ -159,7 +158,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
       code: 'ABCD12'
     };
 
-    const second_inserted_organization = {
+    const secondInsertedOrganization = {
       email: 'entreprise2@email.com',
       type: 'SCO',
       name: 'organization 2',
@@ -168,7 +167,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
       code: 'EFGH34'
     };
 
-    const third_inserted_organization = {
+    const thirdInsertedOrganization = {
       email: 'entreprise3@email.com',
       type: 'SUP',
       name: 'organization 3',
@@ -177,11 +176,10 @@ describe('Unit | Repository | OrganizationRepository', function() {
       code: 'IJKL56'
     };
 
-    const organizations = [first_inserted_organization, second_inserted_organization, third_inserted_organization];
+    const organizations = [firstInsertedOrganization, secondInsertedOrganization, thirdInsertedOrganization];
 
     before(() => {
       return knex('organizations')
-        .delete()
         .then(() => {
           return knex('organizations').insert(organizations);
         });
@@ -198,22 +196,21 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
     describe('success management', function() {
 
-      it('should return an organization by provided userId', function(done) {
+      it('should return an organization by provided userId', function() {
         // Given
         const userId = 2;
 
         // then
-        OrganizationRepository.getByUserId(userId)
+        return OrganizationRepository.getByUserId(userId)
           .then((foundOrganization) => {
             expect(foundOrganization).to.exist;
             expect(foundOrganization).to.be.an('array');
-            expect(foundOrganization[0].attributes.email).to.equal(second_inserted_organization.email);
-            expect(foundOrganization[0].attributes.type).to.equal(second_inserted_organization.type);
-            expect(foundOrganization[0].attributes.name).to.equal(second_inserted_organization.name);
-            expect(foundOrganization[0].attributes.userId).to.equal(second_inserted_organization.userId);
-            expect(foundOrganization[0].attributes.id).to.equal(second_inserted_organization.id);
-            expect(foundOrganization[0].attributes.code).to.equal(second_inserted_organization.code);
-            done();
+            expect(foundOrganization[0].attributes.email).to.equal(secondInsertedOrganization.email);
+            expect(foundOrganization[0].attributes.type).to.equal(secondInsertedOrganization.type);
+            expect(foundOrganization[0].attributes.name).to.equal(secondInsertedOrganization.name);
+            expect(foundOrganization[0].attributes.userId).to.equal(secondInsertedOrganization.userId);
+            expect(foundOrganization[0].attributes.id).to.equal(secondInsertedOrganization.id);
+            expect(foundOrganization[0].attributes.code).to.equal(secondInsertedOrganization.code);
           });
       });
 

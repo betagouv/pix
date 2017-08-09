@@ -106,7 +106,6 @@
 }
 
 .board-page__body-table__header {
-
   display: none;
 
   @include device-is('tablet') {
@@ -132,7 +131,6 @@
   padding: 0 30px;
   height: 200px;
   background: $white;
-
   font-family: $font-lato;
   font-size: 32px;
   font-weight: $font-light;
