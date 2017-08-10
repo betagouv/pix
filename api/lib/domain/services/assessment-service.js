@@ -25,7 +25,7 @@ function _selectNextInAdaptiveMode(assessmentPix, coursePix) {
       }).then(challenges => {
         challengesPix = challenges;
 
-        return assessmentUtils.getNextChallengeInAdaptiveCourse(assessmentPix, answersPix, challengesPix);
+        return assessmentUtils.getNextChallengeInAdaptiveCourse(answersPix, challengesPix);
       })
       .then(resolve)
       .catch(reject);

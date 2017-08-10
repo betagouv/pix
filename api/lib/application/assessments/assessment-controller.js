@@ -131,23 +131,23 @@ module.exports = {
         return Promise.all([answers, course]).then(values => {
           const answers = values[0];
           const course = values[1];
-          return { assessment, answers, course };
+          return { answers, course };
         });
       })
-      .then(({ assessment, answers, course }) => {
+      .then(({ answers, course }) => {
 
         // fetch challenges (requires course)
         const challenges = course.challenges.map(challengeId => challengeRepository.get(challengeId));
         return Promise.all(challenges).then(challenges => {
-          return { assessment, answers, course, challenges };
+          return { answers, course, challenges };
         });
       })
-      .then(({ assessment, answers, course, challenges }) => {
+      .then(({ answers, course, challenges }) => {
 
         // verify if test is over
         let testIsOver;
         if (course.isAdaptive) {
-          const nextChallengeId = assessmentUtils.getNextChallengeInAdaptiveCourse(assessment, answers, challenges);
+          const nextChallengeId = assessmentUtils.getNextChallengeInAdaptiveCourse(answers, challenges);
           testIsOver = _.isEmpty(nextChallengeId);
         }else {
           const answersLength = answers.length || 0;

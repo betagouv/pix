@@ -4,7 +4,7 @@ const Course = require('../../cat/course');
 const Answer = require('../../cat/answer');
 const Assessment = require('../../cat/assessment');
 
-function getAdaptedAssessment(assessmentPix, answersPix, challengesPix) {
+function getAdaptedAssessment(answersPix, challengesPix) {
   const challenges = [];
   const challengesById = {};
   challengesPix.forEach(challengePix => {
@@ -25,8 +25,7 @@ function getAdaptedAssessment(assessmentPix, answersPix, challengesPix) {
   answersPix.forEach(answerPix => {
     answers.push(new Answer(challengesById[answerPix.get('challengeId')], answerPix.get('result')));
   });
-  const assessment = new Assessment(course, answers);
-  return assessment;
+  return new Assessment(course, answers);
 }
 
 module.exports = {

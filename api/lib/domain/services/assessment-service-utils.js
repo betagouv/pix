@@ -1,12 +1,8 @@
 const AssessmentAdapter = require('../../infrastructure/adapters/assessment-adapter');
 
-function getNextChallengeInAdaptiveCourse(assessmentPix, answersPix, challengesPix) {
-  const assessment = AssessmentAdapter.getAdaptedAssessment(assessmentPix, answersPix, challengesPix);
-  if (assessment.nextChallenge) {
-    return assessment.nextChallenge.id;
-  } else {  // end of the test
-    return null;
-  }
+function getNextChallengeInAdaptiveCourse(answersPix, challengesPix) {
+  const assessment = AssessmentAdapter.getAdaptedAssessment(answersPix, challengesPix);
+  return assessment.nextChallenge ? assessment.nextChallenge.id : null;
 }
 
 module.exports = {
