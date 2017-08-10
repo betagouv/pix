@@ -8,8 +8,6 @@ describe('Unit | Model | Course', function() {
   describe('#tubes', function() {
     it('should exist', function() {
       // given
-      /* const url1 = new Skill('url', 1);
-      const challenge = new Challenge('recXXX', [url1]); */
       const course = new Course([]);
 
       // then

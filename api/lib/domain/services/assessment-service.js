@@ -58,7 +58,7 @@ function _getAssessmentResultDetails(answers, knowledgeData) {
   };
 }
 
-function selectNextChallengeId(course, currentChallengeId, assessment) {
+function _selectNextChallengeId(course, currentChallengeId, assessment) {
 
   return new Promise((resolve) => {
 
@@ -138,7 +138,7 @@ function getAssessmentNextChallengeId(assessment, currentChallengeId) {
     const courseId = assessment.get('courseId');
     courseRepository
       .get(courseId)
-      .then((course) => resolve(selectNextChallengeId(course, currentChallengeId, assessment)))
+      .then((course) => resolve(_selectNextChallengeId(course, currentChallengeId, assessment)))
       .catch((error) => reject(error));
   });
 }

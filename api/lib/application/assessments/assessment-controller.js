@@ -76,7 +76,7 @@ module.exports = {
       .get(request.params.id)
       .then((assessment) => {
 
-        if(assessmentService.isPreviewAssessment(assessment)) {
+        if (assessmentService.isPreviewAssessment(assessment)) {
           return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${request.params.id} is a preview Challenge`));
         }
 
@@ -105,7 +105,7 @@ module.exports = {
         return (challenge) ? reply(challengeSerializer.serialize(challenge)) : reply('null');
       })
       .catch((err) => {
-        if(err instanceof NotElligibleToScoringError)
+        if (err instanceof NotElligibleToScoringError)
           return reply('null');
 
         logger.error(err);
@@ -115,55 +115,62 @@ module.exports = {
 
   getAssessmentSolutions(request, reply) {
 
-    let coursePix;
-
     assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
         if (_.isEmpty(assessment)) {
           return reply('null');
         }
+        return assessment;
+      })
+      .then((assessment) => {
 
-        return answerRepository.findByAssessment(assessment.get('id'))
-          .then((answers) => {
-            const answersLength = _.get(answers, 'length', 0);
+        // fetch course & answers
+        const answers = answerRepository.findByAssessment(assessment.get('id'));
+        const course = courseRepository.get(assessment.get('courseId'));
+        return Promise.all([answers, course]).then(values => {
+          const answers = values[0];
+          const course = values[1];
+          return { assessment, answers, course };
+        });
+      })
+      .then(({ assessment, answers, course }) => {
 
-            courseRepository
-              .get(assessment.get('courseId'))
-              .then((course) => {
+        // fetch challenges (requires course)
+        const challenges = course.challenges.map(challengeId => challengeRepository.get(challengeId));
+        return Promise.all(challenges).then(challenges => {
+          return { assessment, answers, course, challenges };
+        });
+      })
+      .then(({ assessment, answers, course, challenges }) => {
 
-                coursePix = course;
-                const challengePromises = coursePix.challenges.map(challengeId => challengeRepository.get(challengeId));
-                return Promise.all(challengePromises);
-              }).then(challenges => {
-                const challengesLength = _.get(coursePix, 'challenges.length', 0);
+        // verify if test is over
+        let testIsOver;
+        if (course.isAdaptive) {
+          const nextChallengeId = assessmentUtils.getNextChallengeInAdaptiveCourse(assessment, answers, challenges);
+          testIsOver = _.isEmpty(nextChallengeId);
+        }else {
+          const answersLength = answers.length || 0;
+          const challengesLength = challenges.length || 0;
+          testIsOver = _.isEqual(answersLength, challengesLength);
+        }
+        return { answers, testIsOver };
+      })
+      .then(({ answers, testIsOver }) => {
 
-                if (!coursePix.isAdaptive) {
-                  return challengesLength > 0 && _.isEqual(answersLength, challengesLength);
-                } else {
-                  const nextChallengeId = assessmentUtils.getNextChallengeInAdaptiveCourse(assessment, answers, challenges);
+        if (testIsOver) {
+          const requestedAnswer = answers.filter(answer => answer.id === _.parseInt(request.params.answerId))[0];
 
-                  return nextChallengeId === null;
-                }
-              })
-              .then((testIsOver) => {
+          solutionRepository
+            .get(requestedAnswer.get('challengeId'))
+            .then((solution) => {
+              return reply(solutionSerializer.serialize(solution));
+            });
+        }else {
+          return reply('null');
+        }
 
-                if (testIsOver) {
-                  const requestedAnswer = answers.filter(answer => answer.id === _.parseInt(request.params.answerId))[0];
-
-                  solutionRepository
-                    .get(requestedAnswer.get('challengeId'))
-                    .then((solution) => {
-                      return reply(solutionSerializer.serialize(solution));
-                    });
-                } else {
-                  return reply('null');
-                }
-
-              })
-              .catch((err) => reply(Boom.badImplementation(err)));
-          });
-      });
+      })
+      .catch((err) => reply(Boom.badImplementation(err)));
   }
-
 };
