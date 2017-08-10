@@ -57,9 +57,9 @@ describe('Acceptance | o1 - board organization', function() {
 
     // then
     expect(find('.board-page__header-organisation__name').length).to.equal(1);
-    expect(find('.board-page__header-organisation__name').text()).to.equal('LexCorp');
+    expect(find('.board-page__header-organisation__name').text().trim()).to.equal('LexCorp');
     expect(find('.board-page__header-code__text').length).to.equal(1);
-    expect(find('.board-page__header-code__text').text()).to.equal('ABCD66');
+    expect(find('.board-page__header-code__text').text().trim()).to.equal('ABCD66');
   });
 
 });

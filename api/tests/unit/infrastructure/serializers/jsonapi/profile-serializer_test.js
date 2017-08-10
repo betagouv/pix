@@ -79,7 +79,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
 
     });
 
-    it('should serialize a Profile into JSON:API data of type   "users"', function() {
+    it('should serialize a Profile into JSON:API data of type "users"', function() {
       // Given
       const profile = new Profile(user, competences, areas, assessments, courses, emptyOrganizations);
       const expectedJson = {
