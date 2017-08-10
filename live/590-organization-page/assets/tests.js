@@ -2593,14 +2593,7 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
     });
 
     function seedDatabase() {
-      server.create('organization', {
-        id: 1,
-        name: 'PIX',
-        email: 'pix@pixcorp.com',
-        type: 'PRO',
-        code: 'ABCD66',
-        user: 1
-      });
+      server.loadFixtures('organizations');
       server.create('user', {
         id: 1,
         firstName: 'Benjamin',
@@ -2661,7 +2654,7 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
 
               // then
               (0, _chai.expect)(find('.board-page__header-organisation__name').length).to.equal(1);
-              (0, _chai.expect)(find('.board-page__header-organisation__name').text()).to.equal('PIX');
+              (0, _chai.expect)(find('.board-page__header-organisation__name').text()).to.equal('LexCorp');
               (0, _chai.expect)(find('.board-page__header-code__text').length).to.equal(1);
               (0, _chai.expect)(find('.board-page__header-code__text').text()).to.equal('ABCD66');
 
@@ -11021,14 +11014,11 @@ define('pix-live/tests/unit/models/organization-test', ['chai', 'mocha', 'ember-
 
   (0, _mocha.describe)('Unit | Model | organization', function () {
     (0, _emberMocha.setupModelTest)('organization', {
-      // Specify the other units that are required for this test.
       needs: []
     });
 
-    // Replace this with your real tests.
     (0, _mocha.it)('exists', function () {
       var model = this.subject();
-      // var store = this.store();
       (0, _chai.expect)(model).to.be.ok;
     });
   });
