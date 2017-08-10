@@ -2654,9 +2654,9 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
 
               // then
               (0, _chai.expect)(find('.board-page__header-organisation__name').length).to.equal(1);
-              (0, _chai.expect)(find('.board-page__header-organisation__name').text()).to.equal('LexCorp');
+              (0, _chai.expect)(find('.board-page__header-organisation__name').text().trim()).to.equal('LexCorp');
               (0, _chai.expect)(find('.board-page__header-code__text').length).to.equal(1);
-              (0, _chai.expect)(find('.board-page__header-code__text').text()).to.equal('ABCD66');
+              (0, _chai.expect)(find('.board-page__header-code__text').text().trim()).to.equal('ABCD66');
 
             case 8:
             case 'end':
