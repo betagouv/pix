@@ -21,29 +21,27 @@ class Assessment {
   }
 
   get validatedSkills() {
-    const validated = new Set();
-    this.answers.forEach(answer => {
-      if (answer.result === 'ok') {
+    return this.answers
+      .filter(answer => answer.result === 'ok')
+      .reduce((skills, answer) => {
         answer.challenge.skills.forEach(skill => {
           skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
-            validated.add(validatedSkill);
+            skills.add(validatedSkill);
           });
         });
-      }
-    });
-    return validated;
+        return skills;
+      }, new Set());
   }
 
   get failedSkills() {
-    const failed = new Set();
-    this.answers.forEach(answer => {
-      if (answer.result !== 'ok') {
-        answer.challenge.hardestSkill.getHarderWithin(this.course.tubes).forEach(validatedSkill => {
-          failed.add(validatedSkill);
+    return this.answers
+      .filter(answer => answer.result !== 'ok')
+      .reduce((failedSkills, answer) => {
+        answer.challenge.hardestSkill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
+          failedSkills.add(failedSkill);
         });
-      }
-    });
-    return failed;
+        return failedSkills;
+      }, new Set());
   }
 
   _probaOfCorrectAnswer(level, difficulty) {

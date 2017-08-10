@@ -48,7 +48,7 @@ describe('Unit | Model | Assessment', function() {
       const course = new Course([]);
       const assessment = new Assessment(course, []);
 
-      // then      
+      // then
       expect(assessment._computeLikelihood).to.exist;
     });
 
@@ -68,7 +68,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, answers);
 
       // when
-      const likelihoodValues = [3.5, 4.5, 5.5].map(level => assessment._computeLikelihood(level, assessment.answers));      
+      const likelihoodValues = [3.5, 4.5, 5.5].map(level => assessment._computeLikelihood(level, assessment.answers));
 
       // then
       expect(likelihoodValues).to.deep.equal([-0.44003380739549824, -0, -0.44003380739549824]);
@@ -103,7 +103,7 @@ describe('Unit | Model | Assessment', function() {
       const course = new Course([]);
       const assessment = new Assessment(course, []);
 
-      // then      
+      // then
       expect(assessment.estimatedLevel).to.exist;
     });
 
@@ -112,7 +112,7 @@ describe('Unit | Model | Assessment', function() {
       const course = new Course([]);
       const assessment = new Assessment(course, []);
 
-      // then      
+      // then
       expect(assessment.estimatedLevel).to.be.equal(2);
     });
 
@@ -145,7 +145,7 @@ describe('Unit | Model | Assessment', function() {
       const course = new Course([]);
       const assessment = new Assessment(course, []);
 
-      // then      
+      // then
       expect(assessment.validatedSkills).to.exist;
     });
 
@@ -163,7 +163,7 @@ describe('Unit | Model | Assessment', function() {
       const answer = new Answer(ch1, 'ok');
       const assessment = new Assessment(course, [answer]);
 
-      // then      
+      // then
       expect([...assessment.validatedSkills]).to.be.deep.equal([web1, web3]);
     });
   });
@@ -174,7 +174,7 @@ describe('Unit | Model | Assessment', function() {
       const course = new Course([]);
       const assessment = new Assessment(course, []);
 
-      // then      
+      // then
       expect(assessment.failedSkills).to.exist;
     });
 
@@ -194,7 +194,7 @@ describe('Unit | Model | Assessment', function() {
       const answer = new Answer(ch1, 'ko');
       const assessment = new Assessment(course, [answer]);
 
-      // then      
+      // then
       expect([...assessment.failedSkills]).to.be.deep.equal([url5, url6, url8]);
     });
   });
@@ -334,4 +334,41 @@ describe('Unit | Model | Assessment', function() {
       expect(assessment.nextChallenge).to.equal(ch5);
     });
   });
+
+  describe('Set', () => {
+
+    describe('#union', () => {
+
+      it('should concatenate two Set objects', () => {
+        // given
+        const setA = new Set([1, 2, 3]);
+        const setB = new Set([4, 5, 6]);
+
+        // when
+        const setC = setA.union(setB);
+
+        // then
+        const expectedSet = new Set([1, 2, 3, 4, 5, 6]);
+        expect(setC).to.deep.equal(expectedSet);
+      });
+    });
+
+    describe('#difference', () => {
+
+      it('should remove the Set values from another one', () => {
+        // given
+        const setA = new Set([1, 2, 3, 4, 5, 6]);
+        const setB = new Set([1, 3, 5, 7]);
+
+        // when
+        const setC = setA.difference(setB);
+
+        // then
+        const expectedSet = new Set([2, 4, 6]);
+        expect(setC).to.deep.equal(expectedSet);
+      });
+    });
+
+  });
+
 });
