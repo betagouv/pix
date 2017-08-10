@@ -6456,18 +6456,33 @@ define('pix-live/routes/login', ['exports', 'ember', 'ember-simple-auth/mixins/u
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+
+
+  function isUserLinkedToOrganization(user) {
+    if (!user.get('organizations')) {
+      return false;
+    }
+    return user.get('organizations').length > 0;
+  }
   exports.default = _ember.default.Route.extend(_unauthenticatedRouteMixin.default, {
 
     session: _ember.default.inject.service(),
 
-    routeIfAlreadyAuthenticated: '/compte',
+    routeIfNotAuthenticated: 'connexion',
+    routeIfAlreadyAuthenticated: 'compte',
+    routeIfAlreadyAuthenticatedAndLinkedToOrganization: 'board',
 
     actions: {
       signin: function signin(email, password) {
         var _this = this;
 
-        return this.get('session').authenticate('authenticator:simple', email, password).then(function () {
-          _this.transitionTo(_this.routeIfAlreadyAuthenticated);
+        return this.get('session').authenticate('authenticator:simple', email, password).then(function (_) {
+          return _this.get('store').queryRecord('user', {});
+        }).then(function (user) {
+          var routeToRedirect = isUserLinkedToOrganization(user) ? _this.routeIfAlreadyAuthenticatedAndLinkedToOrganization : _this.routeIfAlreadyAuthenticated;
+          _this.transitionTo(routeToRedirect);
+        }).catch(function (_) {
+          _this.transitionTo(_this.routeIfNotAuthenticated);
         });
       }
     }
@@ -8359,6 +8374,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.16.0+705ea3f0"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.16.0+a7b61dff"});
 }
 //# sourceMappingURL=pix-live.map

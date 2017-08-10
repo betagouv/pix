@@ -2409,14 +2409,36 @@ define('pix-live/tests/acceptance/m1-authentication-and-profile-test', ['mocha',
     });
 
     (0, _mocha.describe)('m1.2 Log-in phase', function () {
-      (0, _mocha.it)('should redirect to the /compte after connexion', function () {
+
+      function seedDatabaseForUsualUser() {
+        server.loadFixtures('areas');
+        server.loadFixtures('competences');
+        server.create('user', {
+          id: 1,
+          firstName: 'Samurai',
+          lastName: 'Jack',
+          email: 'samurai.jack@aku.world',
+          password: 'B@ck2past',
+          cgu: true,
+          recaptchaToken: 'recaptcha-token-xxxxxx',
+          competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+        });
+      }
+
+      function authenticateUser() {
         // given
         visit('/connexion');
-        fillIn('#pix-email', 'fhi@octo.com');
-        fillIn('#pix-password', 'FHI4EVER');
+        fillIn('#pix-email', 'samurai.jack@aku.world');
+        fillIn('#pix-password', 'B@ck2past');
 
         // when
         click('.signin-form__submit_button');
+      }
+
+      (0, _mocha.it)('should redirect to the /compte after connexion for usual users', function () {
+        // given
+        seedDatabaseForUsualUser();
+        authenticateUser();
 
         // then
         return andThen(function () {
@@ -8694,7 +8716,7 @@ define('pix-live/tests/unit/adapters/user-test', ['chai', 'mocha', 'sinon', 'emb
     });
   });
 });
-define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'ember-mocha'], function (_mocha, _chai, _emberMocha) {
+define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'ember-mocha', 'sinon', 'ember'], function (_mocha, _chai, _emberMocha, _sinon, _ember) {
   'use strict';
 
   function _classCallCheck(instance, Constructor) {
@@ -8754,6 +8776,26 @@ define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'embe
 
     (0, _emberMocha.setupTest)('authenticator:simple', {
       needs: ['service:ajax']
+    });
+
+    var requestStub = _sinon.default.stub().resolves({
+      'data': {
+        'type': 'authentication',
+        'attributes': {
+          'user-id': expectedUserId,
+          'token': expectedToken,
+          'has-organization': false,
+          'password': ''
+        },
+        'id': expectedUserId
+      }
+    });
+
+    beforeEach(function () {
+      this.register('service:ajax', _ember.default.Service.extend({
+        request: requestStub
+      }));
+      this.inject.service('ajax', { as: 'ajax' });
     });
 
     (0, _mocha.it)('should post a request to retrieve token', function () {
@@ -11460,62 +11502,29 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
     });
   });
 });
-define('pix-live/tests/unit/routes/login-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/login-test', ['mocha', 'ember-mocha', 'sinon', 'ember'], function (_mocha, _emberMocha, _sinon, _ember) {
   'use strict';
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  var SessionStub = function () {
-    function SessionStub() {
-      _classCallCheck(this, SessionStub);
-    }
-
-    _createClass(SessionStub, [{
-      key: 'authenticate',
-      value: function authenticate() {
-        this.callArgs = Array.from(arguments);
-        return Promise.resolve();
-      }
-    }]);
-
-    return SessionStub;
-  }();
 
   (0, _mocha.describe)('Unit | Route | login page', function () {
     (0, _emberMocha.setupTest)('route:login', {
       needs: ['service:current-routed-modal', 'service:session']
     });
 
+    var authenticatedStub = _sinon.default.stub();
     var expectedEmail = 'email@example.net';
     var expectedPassword = 'azerty';
-    var sessionStub = new SessionStub();
+
+    (0, _mocha.beforeEach)(function () {
+      this.register('service:session', _ember.default.Service.extend({
+        authenticate: authenticatedStub
+      }));
+      this.inject.service('session', { as: 'session' });
+    });
 
     (0, _mocha.it)('should authenticate the user', function () {
       // Given
+      authenticatedStub.resolves();
       var route = this.subject();
-      route.set('session', sessionStub);
       route.transitionTo = function () {};
 
       // When
@@ -11523,7 +11532,94 @@ define('pix-live/tests/unit/routes/login-test', ['chai', 'mocha', 'ember-mocha']
 
       // Then
       return promise.then(function () {
-        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
+        _sinon.default.assert.calledWith(authenticatedStub, 'authenticator:simple', expectedEmail, expectedPassword);
+      });
+    });
+
+    (0, _mocha.describe)('Behavior when error occured', function () {
+
+      (0, _mocha.it)('should redirect to /connexion, when authenticated fails', function () {
+        // given
+        authenticatedStub.rejects();
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+        // when
+        var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+        // then
+        return promise.then(function (_) {
+          _sinon.default.assert.calledWith(route.transitionTo, 'connexion');
+        });
+      });
+
+      var queryRecordStub = _sinon.default.stub().rejects();
+      (0, _mocha.beforeEach)(function () {
+        this.register('service:store', _ember.default.Service.extend({
+          queryRecord: queryRecordStub
+        }));
+        this.inject.service('store', { as: 'store' });
+      });
+
+      (0, _mocha.it)('should redirect to /connexion , when we’re unable to fetch user profile', function () {
+        // given
+        authenticatedStub.resolves();
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+        // when
+        var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+        // then
+        return promise.then(function (_) {
+          _sinon.default.assert.calledWith(route.transitionTo, 'connexion');
+        });
+      });
+    });
+
+    (0, _mocha.describe)('Route behavior according to organization belong status (authenticated user)', function () {
+
+      var queryRecordStub = _sinon.default.stub();
+      (0, _mocha.beforeEach)(function () {
+        this.register('service:store', _ember.default.Service.extend({
+          queryRecord: queryRecordStub
+        }));
+        this.inject.service('store', { as: 'store' });
+      });
+
+      (0, _mocha.it)('should redirect to /compte, when user is not linked to an Organization', function () {
+        //Given
+        var route = this.subject();
+        authenticatedStub.resolves();
+
+        var foundUser = _ember.default.Object.create({ id: 12 });
+        queryRecordStub.resolves(foundUser);
+
+        route.transitionTo = _sinon.default.stub();
+
+        //When
+        var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+
+        return promise.then(function () {
+          //Then
+          _sinon.default.assert.calledWith(route.transitionTo, 'compte');
+        });
+      });
+
+      (0, _mocha.it)('should redirect to /board, when user is linked to an Organization', function () {
+        //Given
+        var route = this.subject();
+        authenticatedStub.resolves();
+
+        var linkedOrganization = _ember.default.Object.create({ id: 1 });
+        var foundUser = _ember.default.Object.create({ organizations: [linkedOrganization] });
+        queryRecordStub.resolves(foundUser);
+
+        route.transitionTo = _sinon.default.stub();
+
+        //When
+        var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+
+        return promise.then(function () {
+          //Then
+          _sinon.default.assert.calledWith(route.transitionTo, 'board');
+        });
       });
     });
   });
