@@ -77,7 +77,6 @@ describe('Unit | Authenticator | simple', function() {
     const password = 'Hx523è9#';
     const ajaxStub = new AjaxStub();
     const authenticator = this.subject();
-    const expectedOrganizationBelongStatus = {};
     authenticator.set('ajax', ajaxStub);
 
     // When
@@ -87,7 +86,6 @@ describe('Unit | Authenticator | simple', function() {
     return promise.then(data => {
       expect(data.userId).to.equal(expectedUserId);
       expect(data.token).to.equal(expectedToken);
-      expect(data.hasOrganization).to.equal(expectedOrganizationBelongStatus);
     });
   });
 });
