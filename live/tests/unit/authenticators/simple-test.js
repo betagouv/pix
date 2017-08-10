@@ -1,6 +1,8 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupTest } from 'ember-mocha';
+import sinon from 'sinon';
+import Ember from 'ember';
 
 const expectedUserId = 1;
 const expectedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6InBpeEBjb250YWN0LmNvbSIsImlhdCI6MTQ5Njg0NTY3OSwiZXhwIjoxNDk3NDUwNDc5fQ.6Mkkstj-9SjXX4lsXrsZ2KL91Ol3kbxn6tlus2apGVY';
@@ -25,7 +27,27 @@ class AjaxStub {
 describe('Unit | Authenticator | simple', function() {
 
   setupTest('authenticator:simple', {
-    needs: [ 'service:ajax' ]
+    needs: ['service:ajax']
+  });
+
+  const requestStub = sinon.stub().resolves({
+    'data': {
+      'type': 'authentication',
+      'attributes': {
+        'user-id': expectedUserId,
+        'token': expectedToken,
+        'has-organization': false,
+        'password': ''
+      },
+      'id': expectedUserId
+    }
+  });
+
+  beforeEach(function() {
+    this.register('service:ajax', Ember.Service.extend({
+      request: requestStub
+    }));
+    this.inject.service('ajax', { as: 'ajax' });
   });
 
   it('should post a request to retrieve token', function() {
@@ -55,6 +77,7 @@ describe('Unit | Authenticator | simple', function() {
     const password = 'Hx523è9#';
     const ajaxStub = new AjaxStub();
     const authenticator = this.subject();
+    const expectedOrganizationBelongStatus = {};
     authenticator.set('ajax', ajaxStub);
 
     // When
@@ -64,6 +87,7 @@ describe('Unit | Authenticator | simple', function() {
     return promise.then(data => {
       expect(data.userId).to.equal(expectedUserId);
       expect(data.token).to.equal(expectedToken);
+      expect(data.hasOrganization).to.equal(expectedOrganizationBelongStatus);
     });
   });
 });

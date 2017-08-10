@@ -11,8 +11,9 @@ export default Ember.Route.extend(UnauthenticatedRouteMixin, {
     signin(email, password) {
       return this.get('session')
         .authenticate('authenticator:simple', email, password)
-        .then(() => {
-          this.transitionTo(this.routeIfAlreadyAuthenticated);
+        .then((data) => {
+          const route = (data && data.hasOrganization) ? this.routeIfAlreadyAuthenticatedAndLinkedToOrganization : this.routeIfAlreadyAuthenticated;
+          this.transitionTo(route);
         });
     }
   }

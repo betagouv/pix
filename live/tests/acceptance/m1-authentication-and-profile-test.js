@@ -40,14 +40,36 @@ describe('Acceptance | Espace compte', function() {
   });
 
   describe('m1.2 Log-in phase', function() {
-    it('should redirect to the /compte after connexion', function() {
+
+    function seedDatabaseForUsualUser() {
+      server.loadFixtures('areas');
+      server.loadFixtures('competences');
+      server.create('user', {
+        id: 1,
+        firstName: 'Samurai',
+        lastName: 'Jack',
+        email: 'samurai.jack@aku.world',
+        password: 'B@ck2past',
+        cgu: true,
+        recaptchaToken: 'recaptcha-token-xxxxxx',
+        competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+      });
+    }
+
+    function authenticateUser() {
       // given
       visit('/connexion');
-      fillIn('#pix-email', 'fhi@octo.com');
-      fillIn('#pix-password', 'FHI4EVER');
+      fillIn('#pix-email', 'samurai.jack@aku.world');
+      fillIn('#pix-password', 'B@ck2past');
 
       // when
       click('.signin-form__submit_button');
+    }
+
+    it('should redirect to the /compte after connexion for usual users', function() {
+      // given
+      seedDatabaseForUsualUser();
+      authenticateUser();
 
       // then
       return andThen(function() {
