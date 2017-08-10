@@ -65,4 +65,41 @@ describe('Unit | Model | Answer', function() {
       expect(maxDifficulty).to.equal(0);
     });
   });
+
+  describe('Set', () => {
+
+    describe('#union', () => {
+
+      it('should concatenate two Set objects', () => {
+        // given
+        const setA = new Set([1, 2, 3]);
+        const setB = new Set([4, 5, 6]);
+
+        // when
+        const setC = setA.union(setB);
+
+        // then
+        const expectedSet = new Set([1, 2, 3, 4, 5, 6]);
+        expect(setC).to.deep.equal(expectedSet);
+      });
+    });
+
+    describe('#difference', () => {
+
+      it('should remove the Set values from another one', () => {
+        // given
+        const setA = new Set([1, 2, 3, 4, 5, 6]);
+        const setB = new Set([1, 3, 5, 7]);
+
+        // when
+        const setC = setA.difference(setB);
+
+        // then
+        const expectedSet = new Set([2, 4, 6]);
+        expect(setC).to.deep.equal(expectedSet);
+      });
+    });
+
+  });
+
 });

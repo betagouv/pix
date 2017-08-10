@@ -5,11 +5,7 @@ class Answer {
   }
 
   get binaryOutcome() {
-    if(this.result === 'ok') {
-      return 1;
-    } else {
-      return 0;
-    }
+    return this.result === 'ok' ? 1 : 0;
   }
 
   get maxDifficulty() {
