@@ -2568,6 +2568,124 @@ define('pix-live/tests/acceptance/n1-competence-profile-test', ['mocha', 'chai',
     });
   });
 });
+define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+  'use strict';
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
+
+  (0, _mocha.describe)('Acceptance | o1 - board organization', function () {
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _startApp.default)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _destroyApp.default)(application);
+    });
+
+    function seedDatabase() {
+      server.loadFixtures('organizations');
+      server.create('user', {
+        id: 1,
+        firstName: 'Benjamin',
+        lastName: 'Marteau',
+        email: 'benjamin.marteau@pix.com',
+        password: '1024pix!',
+        organizationIds: [1]
+      });
+    }
+
+    function authenticateUser() {
+      visit('/connexion');
+      fillIn('#pix-email', 'benjamin.marteau@pix.com');
+      fillIn('#pix-password', '1024pix!');
+      click('.signin-form__submit_button');
+    }
+
+    (0, _mocha.it)('can visit /board', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              // given
+              seedDatabase();
+              authenticateUser();
+
+              // when
+              _context.next = 4;
+              return visit('/board');
+
+            case 4:
+              return _context.abrupt('return', andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/board');
+              }));
+
+            case 5:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })));
+
+    (0, _mocha.it)('should display the name and the code of my organization', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              // given
+              seedDatabase();
+              authenticateUser();
+
+              // when
+              _context2.next = 4;
+              return visit('/board');
+
+            case 4:
+
+              // then
+              (0, _chai.expect)(find('.board-page__header-organisation__name').length).to.equal(1);
+              (0, _chai.expect)(find('.board-page__header-organisation__name').text().trim()).to.equal('LexCorp');
+              (0, _chai.expect)(find('.board-page__header-code__text').length).to.equal(1);
+              (0, _chai.expect)(find('.board-page__header-code__text').text().trim()).to.equal('ABCD66');
+
+            case 8:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
+  });
+});
 define('pix-live/tests/app.lint-test', [], function () {
   'use strict';
 
@@ -2869,6 +2987,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('models/organization.js', function () {
+      // test passed
+    });
+
     it('models/solution.js', function () {
       // test passed
     });
@@ -2902,6 +3024,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/base-route.js', function () {
+      // test passed
+    });
+
+    it('routes/board.js', function () {
       // test passed
     });
 
@@ -7999,6 +8125,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('acceptance/o1-board-organization-test.js', function () {
+      // test passed
+    });
+
     it('helpers/destroy-app.js', function () {
       // test passed
     });
@@ -8327,6 +8457,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/models/organization-test.js', function () {
+      // test passed
+    });
+
     it('unit/models/user-test.js', function () {
       // test passed
     });
@@ -8340,6 +8474,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/assessments/get-results-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/board-test.js', function () {
       // test passed
     });
 
@@ -10954,13 +11092,27 @@ define('pix-live/tests/unit/models/follower-test', ['chai', 'mocha', 'ember-moch
     });
   });
 });
+define('pix-live/tests/unit/models/organization-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Model | organization', function () {
+    (0, _emberMocha.setupModelTest)('organization', {
+      needs: []
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var model = this.subject();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
 define('pix-live/tests/unit/models/user-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Model | user model', function () {
     (0, _emberMocha.setupModelTest)('user', {
       // Specify the other units that are required for this test.
-      needs: ['model:competence']
+      needs: ['model:competence', 'model:organization']
     });
     // Replace this with your real tests.
     (0, _mocha.it)('exists', function () {
@@ -11025,6 +11177,80 @@ define('pix-live/tests/unit/routes/assessments/get-results-test', ['chai', 'moch
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'sinon'], function (_chai, _mocha, _emberMocha, _ember, _sinon) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | board', function () {
+    (0, _emberMocha.setupTest)('route:board', {
+      // Specify the other units that are required for this test.
+      needs: ['service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+
+    var queryRecordStub = _sinon.default.stub();
+
+    beforeEach(function () {
+      this.register('service:store', _ember.default.Service.extend({
+        queryRecord: queryRecordStub
+      }));
+      this.inject.service('store', { as: 'store' });
+    });
+
+    (0, _mocha.it)('should correctly call the store', function () {
+      // given
+      var route = this.subject();
+      route.transitionTo = function () {};
+
+      queryRecordStub.resolves();
+
+      // when
+      route.model();
+
+      // then
+      _sinon.default.assert.calledOnce(queryRecordStub);
+      _sinon.default.assert.calledWith(queryRecordStub, 'user', {});
+    });
+
+    (0, _mocha.it)('should return user first organization informations', function () {
+      // given
+      var user = _ember.default.Object.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
+
+      var route = this.subject();
+      route.transitionTo = function () {};
+
+      queryRecordStub.resolves(user);
+
+      // when
+      var promise = route.model();
+
+      // then
+      return promise.then(function (organization) {
+        (0, _chai.expect)(organization.id).to.equal(1);
+      });
+    });
+
+    (0, _mocha.it)('should return to home page if no user was found', function () {
+      // given
+      var route = this.subject();
+      route.transitionTo = _sinon.default.spy();
+
+      queryRecordStub.rejects();
+
+      // when
+      var promise = route.model();
+
+      // then
+      return promise.then(function (_) {
+        _sinon.default.assert.calledOnce(route.transitionTo);
+        _sinon.default.assert.calledWith(route.transitionTo, 'index');
+      });
     });
   });
 });
