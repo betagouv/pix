@@ -7,6 +7,7 @@ const Assessment = require('../../cat/assessment');
 function getAdaptedAssessment(answersPix, challengesPix) {
   const challenges = [];
   const challengesById = {};
+
   challengesPix.forEach(challengePix => {
     const skills = [];
     if (challengePix.knowledgeTags) {
@@ -20,11 +21,14 @@ function getAdaptedAssessment(answersPix, challengesPix) {
       challengesById[challengePix.id] = challenge;
     }
   });
+
   const course = new Course(challenges);
-  const answers = [];
-  answersPix.forEach(answerPix => {
-    answers.push(new Answer(challengesById[answerPix.get('challengeId')], answerPix.get('result')));
-  });
+
+  const answers = answersPix.reduce((accu, answer) => {
+    accu.push(new Answer(challengesById[answer.get('challengeId')], answer.get('result')));
+    return accu;
+  }, []);
+
   return new Assessment(course, answers);
 }
 
