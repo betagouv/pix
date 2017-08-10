@@ -4096,6 +4096,7 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
     this.get('/users/me', _getUserMe.default);
     this.get('/competences/:id');
     this.get('/areas/:id');
+    this.get('/organizations/:id');
   };
 });
 define('pix-live/mirage/data/answers/ref-qcm-answer', ['exports', 'pix-live/mirage/data/challenges/ref-qcm-challenge'], function (exports, _refQcmChallenge) {
@@ -4949,6 +4950,21 @@ define('pix-live/mirage/fixtures/followers', ['exports'], function (exports) {
   });
   exports.default = [{ id: 'follower_id', 'email': 'jsnow@winterfell.got' }];
 });
+define('pix-live/mirage/fixtures/organizations', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{
+    id: 1,
+    name: 'LexCorp',
+    email: 'lex@lexcorp.com',
+    type: 'PRO',
+    code: 'ABCD66',
+    user: 1
+  }];
+});
 define('pix-live/mirage/fixtures/solutions', ['exports'], function (exports) {
   'use strict';
 
@@ -4984,6 +5000,16 @@ define('pix-live/mirage/models/competence', ['exports', 'ember-cli-mirage'], fun
     user: (0, _emberCliMirage.belongsTo)('user')
   });
 });
+define('pix-live/mirage/models/organization', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberCliMirage.Model.extend({
+    user: (0, _emberCliMirage.belongsTo)('user', { inverse: null })
+  });
+});
 define('pix-live/mirage/models/user', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
   'use strict';
 
@@ -4991,7 +5017,8 @@ define('pix-live/mirage/models/user', ['exports', 'ember-cli-mirage'], function 
     value: true
   });
   exports.default = _emberCliMirage.Model.extend({
-    competences: (0, _emberCliMirage.hasMany)('competence')
+    competences: (0, _emberCliMirage.hasMany)('competence'),
+    organizations: (0, _emberCliMirage.hasMany)('organization')
   });
 });
 define('pix-live/mirage/routes/get-answer-by-challenge-and-assessment', ['exports', 'pix-live/utils/lodash-custom', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qru-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer', 'pix-live/mirage/data/answers/ref-timed-answer', 'pix-live/mirage/data/answers/ref-timed-answer-bis'], function (exports, _lodashCustom, _refQcmAnswer, _refQcuAnswer, _refQruAnswer, _refQrocAnswer, _refQrocmAnswer, _refTimedAnswer, _refTimedAnswerBis) {
@@ -5389,6 +5416,7 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
 
     server.loadFixtures('areas');
     server.loadFixtures('competences');
+    server.loadFixtures('organizations');
 
     server.create('user', {
       id: 1,
@@ -5399,7 +5427,8 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
       cgu: true,
       recaptchaToken: 'recaptcha-token-xxxxxx',
       totalPixScore: '777',
-      competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+      competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+      organizationIds: [1]
     });
   };
 });
@@ -5636,6 +5665,24 @@ define('pix-live/models/follower', ['exports', 'ember-data'], function (exports,
     email: _emberData.default.attr('string')
   });
 });
+define('pix-live/models/organization', ['exports', 'ember-data'], function (exports, _emberData) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var Model = _emberData.default.Model,
+      attr = _emberData.default.attr,
+      belongsTo = _emberData.default.belongsTo;
+  exports.default = Model.extend({
+
+    name: attr('string'),
+    email: attr('string'),
+    type: attr('string'),
+    code: attr('string'),
+    user: belongsTo('user')
+  });
+});
 define('pix-live/models/solution', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
 
@@ -5668,6 +5715,7 @@ define('pix-live/models/user', ['exports', 'ember', 'ember-data'], function (exp
     recaptchaToken: attr('string'),
     competences: hasMany('competence'),
     totalPixScore: attr('number'),
+    organizations: hasMany('organization'),
 
     competenceAreas: _ember.default.computed('competences', function () {
       return this.get('competences').then(function (competences) {
@@ -5754,6 +5802,7 @@ define('pix-live/router', ['exports', 'ember', 'pix-live/config/environment'], f
     this.route('login', { path: '/connexion' });
     this.route('logout', { path: '/deconnexion' });
     this.route('course-groups', { path: '/defis-pix' });
+    this.route('board');
   });
 
   exports.default = Router;
@@ -5929,6 +5978,24 @@ define('pix-live/routes/base-route', ['exports', 'ember'], function (exports, _e
       if (this.get('scrollsToTop')) {
         window.scrollTo(0, 0);
       }
+    }
+  });
+});
+define('pix-live/routes/board', ['exports', 'ember'], function (exports, _ember) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _ember.default.Route.extend({
+    model: function model() {
+      var _this = this;
+
+      return this.get('store').queryRecord('user', {}).then(function (user) {
+        return user.get('organizations.firstObject');
+      }).catch(function (_) {
+        _this.transitionTo('index');
+      });
     }
   });
 });
@@ -6719,6 +6786,14 @@ define("pix-live/templates/assessments/get-results", ["exports"], function (expo
     value: true
   });
   exports.default = Ember.HTMLBars.template({ "id": "8SdWK64n", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"assessment-results\"],[13],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"model\",\"assessment\",\"course\",\"isAdaptive\"]]],null,{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__logo-banner\"],[13],[0,\"\\n      \"],[1,[26,[\"pix-logo\"]],false],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__scoring\"],[13],[0,\"\\n      \"],[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"model\",\"assessment\"]]]]],false],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[]},{\"statements\":[[0,\"    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__course-banner\"],[13],[0,\"\\n      \"],[1,[33,[\"course-banner\"],null,[[\"course\"],[[28,[\"model\",\"assessment\",\"course\"]]]]],false],[0,\"\\n    \"],[14],[0,\"\\n\"]],\"locals\":[]}],[0,\"\\n  \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__content\"],[13],[0,\"\\n    \"],[11,\"h2\",[]],[15,\"class\",\"assessment-results__title\"],[13],[0,\"\\n      Vos résultats\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__list\"],[13],[0,\"\\n\"],[6,[\"each\"],[[28,[\"model\",\"assessment\",\"answers\"]]],null,{\"statements\":[[0,\"        \"],[1,[33,[\"result-item\"],null,[[\"answer\",\"index\",\"openComparison\",\"a11y-focus-id\"],[[28,[\"answer\"]],[28,[\"index\"]],\"openComparison\",[33,[\"concat\"],[\"open-comparison_\",[33,[\"add\"],[[28,[\"index\"]],1],null]],null]]]],false],[0,\"\\n\"]],\"locals\":[\"answer\",\"index\"]},null],[0,\"    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"assessment-results__index-link-container\"],[13],[0,\"\\n\"],[6,[\"link-to\"],[\"index\"],[[\"class\",\"tagName\"],[\"assessment-results__index-link__element\",\"button\"]],{\"statements\":[[0,\"        \"],[11,\"span\",[]],[15,\"class\",\"assessment-results__link-back\"],[13],[0,\"Revenir à la liste des tests\"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/assessments/get-results.hbs" } });
+});
+define("pix-live/templates/board", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "B3TAZ5HW", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"board-page\"],[13],[0,\"\\n\\n  \"],[1,[33,[\"navbar-header\"],null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"board-page__header\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"board-page__header-organisation\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"board-page__header-organisation__text\"],[13],[0,\"Votre Organisation\"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"board-page__header-organisation__name\"],[13],[1,[28,[\"model\",\"name\"]],false],[14],[0,\"\\n    \"],[14],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"board-page__header-code\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"board-page__header-code__title\"],[13],[0,\"Code Organisation\"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"board-page__header-code__text\"],[13],[1,[28,[\"model\",\"code\"]],false],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"board-page__header-code__comment\"],[13],[0,\"Communiquez ce code à vos élèves, étudiants ou collaborateurs et ils\\n        pourront partager leurs profils Pix avec vous.\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"board-page__profiles-title\"],[13],[0,\"Profils Partagés\"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"board-page__body\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"board-page__body-table\"],[13],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"board-page__body-table__header\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[13],[0,\"Nom\"],[14],[0,\"\\n        \"],[11,\"div\",[]],[13],[0,\"Prénom\"],[14],[0,\"\\n        \"],[11,\"div\",[]],[13],[0,\"Score Pix\"],[14],[0,\"\\n        \"],[11,\"div\",[]],[13],[0,\"% d'avancement\"],[14],[0,\"\\n      \"],[14],[0,\"\\n      \"],[11,\"div\",[]],[15,\"class\",\"board-page__body-table__body\"],[13],[0,\"\\n        Aucun profil partagé pour le moment\\n      \"],[14],[0,\"\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[1,[26,[\"app-footer\"]],false],[0,\"\\n\\n\"],[14],[0,\"\\n\"]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/board.hbs" } });
 });
 define("pix-live/templates/challenges/get-preview", ["exports"], function (exports) {
   "use strict";
@@ -7649,6 +7724,10 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
       // test passed
     });
 
+    it('mirage/fixtures/organizations.js', function () {
+      // test passed
+    });
+
     it('mirage/fixtures/solutions.js', function () {
       // test passed
     });
@@ -7662,6 +7741,10 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
     });
 
     it('mirage/models/competence.js', function () {
+      // test passed
+    });
+
+    it('mirage/models/organization.js', function () {
       // test passed
     });
 
@@ -8276,6 +8359,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.16.0+e78705f3"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.16.0+705ea3f0"});
 }
 //# sourceMappingURL=pix-live.map
