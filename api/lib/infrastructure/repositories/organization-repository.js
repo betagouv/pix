@@ -28,8 +28,8 @@ module.exports = {
 
   getByUserId(userId) {
     return Organization
-      .where({ userId: userId })
-      .fetchAll({ require: false })
+      .where({ userId })
+      .fetchAll()
       .then((organizations) => {
         return (organizations) ? organizations.models : [];
       });
