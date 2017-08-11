@@ -5,15 +5,16 @@ function isUserLinkedToOrganization(user) {
   if(!user.get('organizations')) {
     return false;
   }
-  return user.get('organizations').length > 0;
+  return user.get('organizations.length') > 0;
 }
+
 export default Ember.Route.extend(UnauthenticatedRouteMixin, {
 
   session: Ember.inject.service(),
 
   routeIfNotAuthenticated: 'connexion',
   routeIfAlreadyAuthenticated: 'compte',
-  routeIfAlreadyAuthenticatedAndLinkedToOrganization: 'board',
+  routeForLoggedUserLinkedToOrganization: 'board',
 
   actions: {
     signin(email, password) {
@@ -23,7 +24,7 @@ export default Ember.Route.extend(UnauthenticatedRouteMixin, {
           return this.get('store').queryRecord('user', {});
         })
         .then((user) => {
-          const routeToRedirect = (isUserLinkedToOrganization(user)) ? this.routeIfAlreadyAuthenticatedAndLinkedToOrganization : this.routeIfAlreadyAuthenticated;
+          const routeToRedirect = (isUserLinkedToOrganization(user)) ? this.routeForLoggedUserLinkedToOrganization : this.routeIfAlreadyAuthenticated;
           this.transitionTo(routeToRedirect);
         }).catch(_ => {
           this.transitionTo(this.routeIfNotAuthenticated);
