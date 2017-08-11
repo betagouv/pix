@@ -5,7 +5,6 @@ import sinon from 'sinon';
 import Ember from 'ember';
 
 const expectedUserId = 1;
-const expectedOrganizationBelongStatus = false;
 const expectedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6InBpeEBjb250YWN0LmNvbSIsImlhdCI6MTQ5Njg0NTY3OSwiZXhwIjoxNDk3NDUwNDc5fQ.6Mkkstj-9SjXX4lsXrsZ2KL91Ol3kbxn6tlus2apGVY';
 
 describe('Unit | Authenticator | simple', function() {
@@ -67,7 +66,6 @@ describe('Unit | Authenticator | simple', function() {
     return promise.then(data => {
       expect(data.userId).to.equal(expectedUserId);
       expect(data.token).to.equal(expectedToken);
-      expect(data.isOrganization).to.equal(expectedOrganizationBelongStatus);
     });
   });
 });
