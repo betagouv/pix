@@ -56,6 +56,20 @@ describe('Acceptance | Espace compte', function() {
       });
     }
 
+    function seedDatabaseForUserWithOrganization() {
+      server.loadFixtures('organizations');
+      server.create('user', {
+        id: 1,
+        firstName: 'Samurai',
+        lastName: 'Jack',
+        email: 'samurai.jack@aku.world',
+        password: 'B@ck2past',
+        cgu: true,
+        recaptchaToken: 'recaptcha-token-xxxxxx',
+        organizationIds: [1]
+      });
+    }
+
     function authenticateUser() {
       // given
       visit('/connexion');
@@ -76,6 +90,18 @@ describe('Acceptance | Espace compte', function() {
         expect(currentURL()).to.equal('/compte');
       });
     });
+
+    it('should redirect to the /board after connexion for users with organization', function() {
+      // given
+      seedDatabaseForUserWithOrganization();
+      authenticateUser();
+
+      // then
+      return andThen(function() {
+        expect(currentURL()).to.equal('/board');
+      });
+    });
+
   });
 
 });
