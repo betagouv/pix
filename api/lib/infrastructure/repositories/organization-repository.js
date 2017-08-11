@@ -12,7 +12,7 @@ module.exports = {
       .fetch()
       .then(organizations => {
 
-        if (organizations) {
+        if(organizations) {
           return Promise.reject();
         }
 
@@ -29,9 +29,9 @@ module.exports = {
   getByUserId(userId) {
     return Organization
       .where({ userId: userId })
-      .fetchAll({ require: true })
-      .then((organizations)=>{
-        return organizations.models;
+      .fetchAll({ require: false })
+      .then((organizations) => {
+        return (organizations) ? organizations.models : [];
       });
   }
 };
