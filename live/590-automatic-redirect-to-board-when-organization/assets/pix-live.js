@@ -131,8 +131,7 @@ define('pix-live/authenticators/simple', ['exports', 'ember-simple-auth/authenti
       }).then(function (payload) {
         return RSVP.Promise.resolve({
           token: payload.data.attributes.token,
-          userId: payload.data.attributes['user-id'],
-          isOrganization: payload.data.attributes['is-organization']
+          userId: payload.data.attributes['user-id']
         });
       });
     }
@@ -5428,8 +5427,8 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
       cgu: true,
       recaptchaToken: 'recaptcha-token-xxxxxx',
       totalPixScore: '777',
-      competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
-      organizationIds: [1]
+      competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+      //organizationIds: [1]
     });
 
     server.create('organization', {
@@ -8384,6 +8383,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.16.0+ee6d6f04"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.16.0+600f8335"});
 }
 //# sourceMappingURL=pix-live.map
