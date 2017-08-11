@@ -1,43 +1,59 @@
+.board-page {
+  background: $alabaster-grey;
+}
+
 .board-page__header {
+  padding: 25px;
   background-color: $porcelain-grey;
-  display: flex;
   font-family: $font-lato;
-  justify-content: space-around;
-  align-items: baseline;
-  height: 160px;
-  padding-top: 40px;
   color: $charcoal-grey;
+  font-size: 12px;
+  letter-spacing: 0.5px;;
+
+  @include device-is('tablet') {
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+    margin-bottom: 20px;
+    padding-top: 40px;
+  }
 }
 
 .board-page__header-organisation {
+  margin-bottom: 36px;
+  letter-spacing: 0.5px;
+
+  @include device-is('tablet') {
+    margin-bottom: 0px;
+  }
 }
 
 .board-page__header-organisation__text {
   font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
+  font-weight: $font-bold;
   text-transform: uppercase;
 }
 
 .board-page__header-organisation__name {
   font-size: 24px;
-  letter-spacing: 0.4px;
 }
 
 .board-page__header-code {
-  width: 400px;
+  letter-spacing: 0.5px;
+
+  @include device-is('tablet') {
+    width: 400px;
+  }
 }
 
 .board-page__header-code__title {
   font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
+  font-weight: $font-bold;
   text-transform: uppercase;
 }
 
 .board-page__header-code__text {
   font-size: 24px;
-  letter-spacing: 0.5px;
 }
 
 .board-page__header-code__comment {
@@ -45,71 +61,84 @@
   color: $jumbo-grey;
 }
 
-.board-page__body {
-  display: flex;
-  background: $alabaster-grey;
-  justify-content: center;
-  padding: 0 30px;
-}
-
-.board-page__body-profiles {
-  width: 1190px;
-}
-
-.board-page__body-profiles__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.board-page__body-profiles__header-title {
+.board-page__profiles-title {
+  padding-left: 22px;
+  padding-bottom: 10px;
+  background-color: $porcelain-grey;
   font-family: $font-raleway;
-  font-size: 40px;
   font-weight: $font-extra-bold;
   color: $pix-blue;
   text-transform: uppercase;
-  align-items: center;
+  font-size: 24px;
+
+  @include device-is('tablet') {
+    max-width: 750px;
+    margin: auto;
+    margin-bottom: 20px;
+    padding-left: 0px;
+    font-size: 40px;
+    background: $alabaster-grey;
+  }
+
+  @include device-is('desktop') {
+    margin: auto;
+    margin-bottom: 20px;
+    max-width: 970px;
+  }
+
 }
 
-.board-page__body-profiles__header-export {
-  width: 198.2px;
-  height: 35px;
-  padding-top: 5px;
-  border-radius: 5px;
-  background-color: #7c808a;
-  color: $white;
-  font:$font-lato;
-  letter-spacing: 1px;
-  text-align: center;
+.board-page__body {
+  background: $alabaster-grey;
+
+  @include device-is('tablet') {
+    max-width: 750px;
+    margin: auto;
+    margin-bottom: 40px;
+  }
+
+  @include device-is('desktop') {
+    max-width: 970px;
+    margin: auto;
+    margin-bottom: 40px;
+  }
+
 }
 
 .board-page__body-table__header {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 50px;
-  background-color: $porcelain-grey;
-  margin-bottom: 10px;
+  display: none;
 
-  font-family: $font-lato;
-  font-size: 12px;
-  font-weight: $font-bold;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+  @include device-is('tablet') {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 10px;
+    height: 50px;
+    background-color: $porcelain-grey;
+
+    font-family: $font-lato;
+    font-size: 12px;
+    font-weight: $font-bold;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
 }
 
 .board-page__body-table__body {
-  background: $white;
-  margin-bottom: 50px;
-  height: 200px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
-
+  padding: 0 30px;
+  height: 200px;
+  background: $white;
   font-family: $font-lato;
   font-size: 32px;
   font-weight: $font-light;
   letter-spacing: 0.7px;
   text-align: center;
+
+  @include device-is('tablet') {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  }
+
 }

@@ -1,8 +1,8 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupTest } from 'ember-mocha';
-import Ember from 'ember';
 import sinon from 'sinon';
+import Ember from 'ember';
 
 const expectedUserId = 1;
 const expectedOrganizationBelongStatus = false;
@@ -20,7 +20,7 @@ describe('Unit | Authenticator | simple', function() {
       'attributes': {
         'user-id': expectedUserId,
         'token': expectedToken,
-        'is-organization': false,
+        'has-organization': false,
         'password': ''
       },
       'id': expectedUserId

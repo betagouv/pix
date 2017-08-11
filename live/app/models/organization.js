@@ -1,9 +1,11 @@
 import DS from 'ember-data';
+const { Model, attr, belongsTo } = DS;
 
-export default DS.Model.extend({
+export default Model.extend({
 
-  name: DS.attr('string'),
-  email: DS.attr('string'),
-  type: DS.attr('string'),
-  code: DS.attr('string')
+  name: attr('string'),
+  email: attr('string'),
+  type: attr('string'),
+  code: attr('string'),
+  user: belongsTo('user')
 });
