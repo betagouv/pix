@@ -50,7 +50,7 @@ describe('Unit | Route | login page', function() {
       });
     });
 
-    const queryRecordStub = sinon.stub().rejects();
+    const queryRecordStub = sinon.stub();
     beforeEach(function() {
       this.register('service:store', Ember.Service.extend({
         queryRecord: queryRecordStub
@@ -61,6 +61,7 @@ describe('Unit | Route | login page', function() {
     it('should redirect to /connexion , when we’re unable to fetch user profile', function() {
       // given
       authenticatedStub.resolves();
+      queryRecordStub.rejects();
       const route = this.subject();
       route.transitionTo = sinon.stub();
       // when
