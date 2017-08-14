@@ -3246,9 +3246,8 @@ input.qcm-panel__proposal-checkbox {
   padding: 20px;
   text-align: center; }
 
-@media (min-width: 768px) {
-  .share-profile__modal-transmission {
-    font-size: 18px; } }
+.share-profile__modal-transmission {
+  font-size: 18px; }
 
 .share-profile__modal-organization-name {
   font-weight: 700;
@@ -3262,6 +3261,7 @@ p.share-profile__modal-informations-shared {
   font-size: 16px; }
 
 ul.share-profile__modal-informations-shared {
+  font-size: 16px;
   display: inline-block;
   text-align: left;
   list-style: none; }

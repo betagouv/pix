@@ -1069,7 +1069,7 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
                 (0, _chai.expect)(find('.ember-modal-dialog h1').text()).to.equal('Partage de votre profil');
                 (0, _chai.expect)(find('.ember-modal-dialog #code').val()).to.equal('ABCD01');
                 (0, _chai.expect)(find('.share-profile__modal-form > .share-profile__form-error').length).to.equal(1);
-                (0, _chai.expect)(find('.share-profile__modal-form > .share-profile__form-error').text()).to.equal('Ce code ne correspond à aucune organization.');
+                (0, _chai.expect)(find('.share-profile__modal-form > .share-profile__form-error').text()).to.equal('Ce code ne correspond à aucune organisation.');
               }));
 
             case 8:
@@ -10614,6 +10614,14 @@ define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'e
         // then
         (0, _chai.expect)(component.get('isShowingModal')).to.be.equal(false);
       });
+
+      (0, _mocha.it)('should set the organizationExists as true', function () {
+        // Given
+        var component = this.subject();
+
+        // then
+        (0, _chai.expect)(component.get('organizationExists')).to.be.equal(true);
+      });
     });
 
     (0, _mocha.describe)('#toggleSharingModal', function () {
@@ -10626,6 +10634,42 @@ define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'e
 
         // then
         (0, _chai.expect)(component.get('isShowingModal')).to.equal(true);
+      });
+
+      (0, _mocha.it)('should reset the code to default value', function () {
+        // Given
+        var component = this.subject();
+        component.set('code', 'ABCD01');
+
+        // when
+        component.send('toggleSharingModal');
+
+        // then
+        (0, _chai.expect)(component.get('code')).to.equal('');
+      });
+
+      (0, _mocha.it)('should the organizationExists to true', function () {
+        // Given
+        var component = this.subject();
+        component.set('organizationExists', false);
+
+        // when
+        component.send('toggleSharingModal');
+
+        // then
+        (0, _chai.expect)(component.get('organizationExists')).to.equal(true);
+      });
+
+      (0, _mocha.it)('should reset the organization to default value', function () {
+        // Given
+        var component = this.subject();
+        component.set('organization', {});
+
+        // when
+        component.send('toggleSharingModal');
+
+        // then
+        (0, _chai.expect)(component.get('organization')).to.equal(null);
       });
     });
   });
