@@ -2946,12 +2946,18 @@ input.qcm-panel__proposal-checkbox {
   color: #3e4149;
   text-transform: capitalize; }
 
+.index-page-hero__navbar-header .logged-user-name__link {
+  color: #ffffff; }
+
 .caret {
   width: 0;
   height: 0;
   border-style: solid;
   border-width: 4px 4px 0 4px;
   border-color: #3e4149 transparent transparent transparent; }
+
+.index-page-hero__navbar-header .caret {
+  border-color: #ffffff transparent transparent transparent; }
 
 .logged-user-menu {
   position: absolute;
@@ -3038,6 +3044,60 @@ input.qcm-panel__proposal-checkbox {
   .logged-user-menu__item-logout:hover {
     color: #3e4149; }
 
+.index-page-patners-enrollment {
+  background-image: linear-gradient(to bottom, #446eff, #133dd2); }
+
+.partners-enrollment-panel {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-align: center;
+  align-items: center; }
+
+.partners-enrollment__title {
+  max-width: 1117.4px;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 25px;
+  font-weight: bold;
+  font-style: italic;
+  text-align: center;
+  color: #ffffff; }
+  @media (min-width: 768px) {
+    .partners-enrollment__title {
+      font-size: 42px; } }
+
+.partners-enrollment__description {
+  max-width: 777px;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 17px;
+  text-align: center;
+  margin-top: 12px;
+  color: #ffffff; }
+  @media (min-width: 768px) {
+    .partners-enrollment__description {
+      font-size: 24px; } }
+
+.partners-enrollment__link-container {
+  text-align: center;
+  margin-top: 38px; }
+
+.partners-enrollment__link {
+  max-width: 174.3px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-align: center;
+  color: #2549FF;
+  padding: 12px 30px;
+  text-decoration: none;
+  text-transform: uppercase; }
+  .partners-enrollment__link:hover {
+    color: #2549FF; }
+
 /* pages */
 /* Sections:
 
@@ -3106,7 +3166,7 @@ input.qcm-panel__proposal-checkbox {
   padding: 0; }
 
 .index-page-challenges {
-  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+  background: #f2f3f4;
   padding-bottom: 20px; }
 
 .index-page-challenges__container {
@@ -3125,7 +3185,7 @@ input.qcm-panel__proposal-checkbox {
 
 .index-page-challenges__presentation {
   font-family: "Raleway", Arial, sans-serif;
-  color: #ffffff;
+  color: #3d68ff;
   text-align: center;
   padding: 0 20px; }
   @media (min-width: 980px) {
@@ -3148,7 +3208,8 @@ input.qcm-panel__proposal-checkbox {
 .index-page-challenges__presentation-text {
   font-size: 24px;
   font-weight: 300;
-  line-height: 1.2; }
+  line-height: 1.2;
+  color: #3e4149; }
   @media (min-width: 980px) {
     .index-page-challenges__presentation-text {
       font-size: 37px; } }
@@ -3171,7 +3232,8 @@ input.qcm-panel__proposal-checkbox {
   margin-bottom: 15px;
   padding: 5px 10px;
   text-align: center;
-  width: 180px; }
+  width: 180px;
+  background: #3d68ff; }
   @media (min-width: 980px) {
     .index-page-challenges__courses-of-the-week {
       margin-top: 0px; } }
@@ -4184,6 +4246,134 @@ hr.project-page__presentation-header-line {
 @media (min-width: 768px) {
   .enrollment-page__description-commitments__commitment-text {
     font-size: 18px; } }
+
+.board-page {
+  background: #FAFAFA; }
+
+.board-page__header {
+  padding: 25px;
+  background-color: #f2f3f4;
+  font-family: "Lato", Arial, sans-serif;
+  color: #3e4149;
+  font-size: 12px;
+  letter-spacing: 0.5px; }
+  @media (min-width: 768px) {
+    .board-page__header {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-pack: distribute;
+      justify-content: space-around;
+      -ms-flex-align: baseline;
+      align-items: baseline;
+      margin-bottom: 20px;
+      padding-top: 40px; } }
+
+.board-page__header-organisation {
+  margin-bottom: 36px;
+  letter-spacing: 0.5px; }
+  @media (min-width: 768px) {
+    .board-page__header-organisation {
+      margin-bottom: 0px; } }
+
+.board-page__header-organisation__text {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase; }
+
+.board-page__header-organisation__name {
+  font-size: 24px; }
+
+.board-page__header-code {
+  letter-spacing: 0.5px; }
+  @media (min-width: 768px) {
+    .board-page__header-code {
+      width: 400px; } }
+
+.board-page__header-code__title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase; }
+
+.board-page__header-code__text {
+  font-size: 24px; }
+
+.board-page__header-code__comment {
+  font-size: 15px;
+  color: #7e8086; }
+
+.board-page__profiles-title {
+  padding-left: 22px;
+  padding-bottom: 10px;
+  background-color: #f2f3f4;
+  font-family: "Raleway", Arial, sans-serif;
+  font-weight: 800;
+  color: #3d68ff;
+  text-transform: uppercase;
+  font-size: 24px; }
+  @media (min-width: 768px) {
+    .board-page__profiles-title {
+      max-width: 750px;
+      margin: auto;
+      margin-bottom: 20px;
+      padding-left: 0px;
+      font-size: 40px;
+      background: #FAFAFA; } }
+  @media (min-width: 980px) {
+    .board-page__profiles-title {
+      margin: auto;
+      margin-bottom: 20px;
+      max-width: 970px; } }
+
+.board-page__body {
+  background: #FAFAFA; }
+  @media (min-width: 768px) {
+    .board-page__body {
+      max-width: 750px;
+      margin: auto;
+      margin-bottom: 40px; } }
+  @media (min-width: 980px) {
+    .board-page__body {
+      max-width: 970px;
+      margin: auto;
+      margin-bottom: 40px; } }
+
+.board-page__body-table__header {
+  display: none; }
+  @media (min-width: 768px) {
+    .board-page__body-table__header {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-pack: distribute;
+      justify-content: space-around;
+      -ms-flex-align: center;
+      align-items: center;
+      margin-bottom: 10px;
+      height: 50px;
+      background-color: #f2f3f4;
+      font-family: "Lato", Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase; } }
+
+.board-page__body-table__body {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0 30px;
+  height: 200px;
+  background: #ffffff;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 32px;
+  font-weight: 300;
+  letter-spacing: 0.7px;
+  text-align: center; }
+  @media (min-width: 768px) {
+    .board-page__body-table__body {
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3); } }
 
 body {
   font-family: "Lato", Arial, sans-serif;
