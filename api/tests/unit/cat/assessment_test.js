@@ -333,6 +333,38 @@ describe('Unit | Model | Assessment', function() {
       // then
       expect(assessment.nextChallenge).to.equal(ch5);
     });
+
+    it('should return null if remaining challenges do not provide extra validated or failed skills', function() {
+      // given
+      const web1 = new Skill('web', 1);
+      const web2 = new Skill('web', 2);
+      const ch1 = new Challenge('rec1', [web1]);
+      const ch2 = new Challenge('rec2', [web2]);
+      const course = new Course([ch1, ch2]);
+      const answer = new Answer(ch2, 'ok');
+      const assessment = new Assessment(course, [answer]);
+
+      // then
+      expect(assessment.nextChallenge).to.equal(null);
+    });
+
+    it('should return null if 20 challenges have been answered so far', function() {
+      // given
+      const web1 = new Skill('web', 1);
+      const web2 = new Skill('web', 2);
+      const challenges = [];
+      const answers = [];
+      for (let i = 0; i < 20; i++) {
+        challenges.push(new Challenge('rec' + i, [web1]));
+        answers.push(new Answer(challenges[i], 'ok'));
+      }
+      challenges.push(new Challenge('rec20', [web2]));
+      const course = new Course(challenges);
+      const assessment = new Assessment(course, answers);
+
+      // then
+      expect(assessment.nextChallenge).to.equal(null);
+    });
   });
 
   describe('Set', () => {

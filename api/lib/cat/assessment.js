@@ -96,6 +96,9 @@ class Assessment {
   }
 
   get nextChallenge() {
+    if (this.answers.length == 20) {
+      return null;
+    }
     const filteredChallenges = this.filteredChallenges;
     let bestChallenge = filteredChallenges[0];
     let maxReward = 0;
