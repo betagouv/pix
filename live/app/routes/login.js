@@ -19,8 +19,6 @@ export default Ember.Route.extend(UnauthenticatedRouteMixin, {
         .then((user) => {
           const routeToRedirect = (_isUserLinkedToOrganization(user)) ? this.routeForLoggedUserLinkedToOrganization : this.routeIfAlreadyAuthenticated;
           this.transitionTo(routeToRedirect);
-        }).catch(_ => {
-          this.transitionTo(this.routeIfNotAuthenticated);
         });
     }
   }
