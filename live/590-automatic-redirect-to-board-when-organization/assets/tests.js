@@ -120,7 +120,7 @@ define('pix-live/tests/acceptance/a1-page-accueil-test', ['mocha', 'chai', 'pix-
     });
   });
 });
-define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['ember', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (_ember, _mocha, _chai, _startApp, _destroyApp, _lodashCustom) {
+define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (_mocha, _chai, _startApp, _destroyApp, _lodashCustom) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -169,7 +169,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['ember', 'mocha', 
       (0, _destroyApp.default)(application);
     });
 
-    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -188,7 +188,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['ember', 'mocha', 
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis l\'ancienne url "courses/:course_id/assessment"', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis l\'ancienne url "courses/:course_id/assessment"', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -237,7 +237,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['ember', 'mocha', 
       // blocked by modal
       andThen(function () {
         // XXX : ickiest hack : wait 500ms for bootstrap transition to complete
-        _ember.default.run.later(function () {
+        Ember.run.later(function () {
           (0, _chai.expect)($(MODAL_SELECTOR)).to.have.lengthOf(1);
           (0, _chai.expect)(currentURL()).to.equals('/');
           $('a[data-dismiss]').click();
@@ -255,7 +255,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['ember', 'mocha', 
       triggerEvent('.index-page', 'simulateMobileScreen');
 
       andThen(function () {
-        _ember.default.run.later(function () {
+        Ember.run.later(function () {
           (0, _chai.expect)(currentURL()).to.equals('/');
           (0, _chai.expect)($(MODAL_SELECTOR)).to.have.lengthOf(0);
         }, 500);
@@ -340,7 +340,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       (0, _destroyApp.default)(application);
     });
 
-    (0, _mocha.it)('b1.1 Une liste de radiobuttons doit s\'afficher', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('b1.1 Une liste de radiobuttons doit s\'afficher', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       var $proposals;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
@@ -364,7 +364,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -385,7 +385,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee2, this);
     })));
 
-    (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+    (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
       return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
@@ -409,7 +409,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee3, this);
     })));
 
-    (0, _mocha.it)('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+    (0, _mocha.it)('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
       var $alert;
       return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
@@ -442,7 +442,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee4, this);
     })));
 
-    (0, _mocha.it)('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+    (0, _mocha.it)('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
       return regeneratorRuntime.wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
@@ -478,7 +478,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee5, this);
     })));
 
-    (0, _mocha.it)('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+    (0, _mocha.it)('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
       return regeneratorRuntime.wrap(function _callee6$(_context6) {
         while (1) {
           switch (_context6.prev = _context6.next) {
@@ -729,7 +729,7 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix
       (0, _chai.expect)($('.challenge-response__proposal-input')).to.have.lengthOf(3);
     });
 
-    (0, _mocha.it)('b4.3 Error alert box should be displayed if user validate without checking a checkbox', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('b4.3 Error alert box should be displayed if user validate without checking a checkbox', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -981,7 +981,7 @@ define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-li
 
     (0, _mocha.describe)('Access to the page', function () {
 
-      (0, _mocha.it)('should display the historic of the weekly courses courseGroups by the url /defis-pix', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('should display the historic of the weekly courses courseGroups by the url /defis-pix', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1005,7 +1005,7 @@ define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-li
 
     (0, _mocha.describe)('Rendering', function () {
 
-      (0, _mocha.it)('should display a navbar and a footer', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('should display a navbar and a footer', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -1027,7 +1027,7 @@ define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-li
         }, _callee2, this);
       })));
 
-      (0, _mocha.it)('should display a header section', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      (0, _mocha.it)('should display a header section', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -1048,7 +1048,7 @@ define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-li
         }, _callee3, this);
       })));
 
-      (0, _mocha.it)('should display a list of (weekly courses) course-groups', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+      (0, _mocha.it)('should display a list of (weekly courses) course-groups', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         var courses;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
@@ -1116,7 +1116,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
   }
 
   var visitTimedChallenge = function () {
-    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -1159,7 +1159,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
       (0, _destroyApp.default)(application);
     });
 
-    (0, _mocha.it)('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -1178,7 +1178,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
       }, _callee2, this);
     })));
 
-    (0, _mocha.it)('d1.0b La barre de progression commence à 1, si j\'accède directement à un course', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+    (0, _mocha.it)('d1.0b La barre de progression commence à 1, si j\'accède directement à un course', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
       var $progressBar;
       return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
@@ -1202,7 +1202,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
       }, _callee3, this);
     })));
 
-    (0, _mocha.it)('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+    (0, _mocha.it)('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
       return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
@@ -1222,7 +1222,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
     })));
 
     (0, _mocha.describe)('quand je valide ma réponse à une épreuve', function () {
-      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -1246,7 +1246,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
         }, _callee5, this);
       })));
 
-      (0, _mocha.it)('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+      (0, _mocha.it)('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -1261,7 +1261,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
         }, _callee6, this);
       })));
 
-      (0, _mocha.it)('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+      (0, _mocha.it)('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
         var expectedText;
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
@@ -1281,7 +1281,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
         }, _callee7, this);
       })));
 
-      (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
+      (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
         return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
@@ -1392,7 +1392,7 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'cha
 
     (0, _mocha.describe)('Prévisualiser une épreuve dans le cadre d\'un test |', function () {
 
-      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1476,7 +1476,7 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['moch
       (0, _destroyApp.default)(application);
     });
 
-    (0, _mocha.it)('g1.1 le bandeau doit être affiché si l\'usage d\'Internet ou d\'outils est interdit dans le cadre de l\'épreuve', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('g1.1 le bandeau doit être affiché si l\'usage d\'Internet ou d\'outils est interdit dans le cadre de l\'épreuve', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -1597,7 +1597,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
       });
 
       //XXX: Deux cas car on test aussi une absence d'affichage
-      (0, _mocha.it)('h2.1- doit cacher le contenu du challenge si l\'épreuve est timée mais l\'afficher dans le cas contraire ', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('h2.1- doit cacher le contenu du challenge si l\'épreuve est timée mais l\'afficher dans le cas contraire ', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1617,7 +1617,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
         }, _callee, this);
       })));
 
-      (0, _mocha.it)('h2.2- doit afficher le warning si l\'épreuve est timée mais ne pas l\'afficher dans le cas contraire ', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('h2.2- doit afficher le warning si l\'épreuve est timée mais ne pas l\'afficher dans le cas contraire ', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -1675,7 +1675,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
       var ASSESSMENT_WITH_TWO_TIMED_CHALLENGE = '/assessments/ref_timed_challenge_assessment_id/challenges/ref_timed_challenge_id';
       var PASS_BUTTON = '.challenge-actions__action-skip';
 
-      (0, _mocha.it)('doit afficher la \'warning page\' même si deux epreuves du même type et timées s\'enchaînent', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      (0, _mocha.it)('doit afficher la \'warning page\' même si deux epreuves du même type et timées s\'enchaînent', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -1765,7 +1765,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
     });
 
     (0, _mocha.describe)('j1.1 Affiche sur la ligne de l\'épreuve le mot REPONSE pour un QCM sur l\'écran des résultats', function () {
-      (0, _mocha.it)('j1.1.1 il l\'affiche pour un QCM, un QCU mais pas pour les autres types d\'épreuves', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('j1.1.1 il l\'affiche pour un QCM, un QCU mais pas pour les autres types d\'épreuves', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1791,7 +1791,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
 
     (0, _mocha.describe)('j1.2 Accès à la modale', function () {
 
-      (0, _mocha.it)('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -1821,7 +1821,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
         }, _callee2, this);
       })));
 
-      (0, _mocha.it)('j1.2.2 On peut accèder directement à la modale via URL et fermer la modale', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      (0, _mocha.it)('j1.2.2 On peut accèder directement à la modale via URL et fermer la modale', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -1849,7 +1849,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
 
     (0, _mocha.describe)('j1.3 Contenu de la modale : résultat & instruction', function () {
 
-      (0, _mocha.it)('j1.3.1 Vérification de l\'index, ainsi que l\'image et le texte du résultat dans le header', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+      (0, _mocha.it)('j1.3.1 Vérification de l\'index, ainsi que l\'image et le texte du résultat dans le header', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -1882,7 +1882,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
         }, _callee4, this);
       })));
 
-      (0, _mocha.it)('j1.3.2 Vérification de la présence de l\'instruction, texte et image', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+      (0, _mocha.it)('j1.3.2 Vérification de la présence de l\'instruction, texte et image', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -1973,7 +1973,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
 
     (0, _mocha.describe)('j2.1 Depuis la page résultat', function () {
 
-      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1989,7 +1989,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee, this);
       })));
 
-      (0, _mocha.it)('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -2004,7 +2004,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee2, this);
       })));
 
-      (0, _mocha.it)('On n\'affiche pas encore la modale, ni son contenu', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      (0, _mocha.it)('On n\'affiche pas encore la modale, ni son contenu', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -2024,7 +2024,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
 
     (0, _mocha.describe)('j2.2 Contenu de la modale de correction pour un QROC', function () {
 
-      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -2040,7 +2040,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee4, this);
       })));
 
-      (0, _mocha.afterEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+      (0, _mocha.afterEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -2061,7 +2061,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee5, this);
       })));
 
-      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -2076,7 +2076,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee6, this);
       })));
 
-      (0, _mocha.it)('contient un header', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+      (0, _mocha.it)('contient un header', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
@@ -2091,7 +2091,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee7, this);
       })));
 
-      (0, _mocha.it)('contient une instruction', _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
+      (0, _mocha.it)('contient une instruction', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
         return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
@@ -2106,7 +2106,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee8, this);
       })));
 
-      (0, _mocha.it)('contient une zone de correction', _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
+      (0, _mocha.it)('contient une zone de correction', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
         return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
@@ -2121,7 +2121,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee9, this);
       })));
 
-      (0, _mocha.it)('contient une zone reservé au feedback panel', _asyncToGenerator(regeneratorRuntime.mark(function _callee10() {
+      (0, _mocha.it)('contient une zone reservé au feedback panel', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
         return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
@@ -2136,7 +2136,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee10, this);
       })));
 
-      (0, _mocha.it)('on peut fermer la modale', _asyncToGenerator(regeneratorRuntime.mark(function _callee11() {
+      (0, _mocha.it)('on peut fermer la modale', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
         return regeneratorRuntime.wrap(function _callee11$(_context11) {
           while (1) {
             switch (_context11.prev = _context11.next) {
@@ -2261,7 +2261,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     (0, _mocha.describe)('l1.1 Depuis une epreuve', function () {
       var _this = this;
 
-      (0, _mocha.it)('Je peux signaler une épreuve directement', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('Je peux signaler une épreuve directement', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2280,7 +2280,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
         }, _callee, _this);
       })));
 
-      (0, _mocha.it)('Le formulaire de signalement d\'une épreuve est remis à zéro dès que je change d\'épreuve', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('Le formulaire de signalement d\'une épreuve est remis à zéro dès que je change d\'épreuve', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -2311,7 +2311,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
         }, _callee2, _this);
       })));
 
-      (0, _mocha.it)('Le formulaire de signalement est remis à zéro même quand les 2 épreuves qui s\'enchaînent utilisent le même composant challenge-item-* (ex : q1 est de type "QCU" et q2 "QRU" ; toutes deux utilisent le composant challenge-item-qcu)', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      (0, _mocha.it)('Le formulaire de signalement est remis à zéro même quand les 2 épreuves qui s\'enchaînent utilisent le même composant challenge-item-* (ex : q1 est de type "QCU" et q2 "QRU" ; toutes deux utilisent le composant challenge-item-qcu)', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -2346,7 +2346,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     (0, _mocha.describe)('l1.2 Depuis la fenêtre de comparaison', function () {
       var _this2 = this;
 
-      (0, _mocha.it)('Je peux signaler une épreuve (page de résultat du test)', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+      (0, _mocha.it)('Je peux signaler une épreuve (page de résultat du test)', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -2379,95 +2379,121 @@ define('pix-live/tests/acceptance/m1-authentication-and-profile-test', ['mocha',
 
     (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
-
-      server.create('user', {
-        id: 1,
-        firstName: 'François',
-        lastName: 'Hisquin',
-        email: 'fhi@octo.com',
-        password: 'FHI4EVER',
-        cgu: true,
-        recaptchaToken: 'recaptcha-token-xxxxxx',
-        competenceIds: []
-      });
     });
 
     (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
-    (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
-      (0, _mocha.it)('should redirect to the connexion page', function () {
-        // when
-        visit('/compte');
+    (0, _mocha.describe)('Success cases', function () {
+      (0, _mocha.beforeEach)(function () {
+        server.create('user', {
+          id: 1,
+          firstName: 'François',
+          lastName: 'Hisquin',
+          email: 'fhi@octo.com',
+          password: 'FHI4EVER',
+          cgu: true,
+          recaptchaToken: 'recaptcha-token-xxxxxx',
+          competenceIds: []
+        });
+      });
 
-        // then
-        return andThen(function () {
-          (0, _chai.expect)(currentURL()).to.equal('/');
+      (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
+        (0, _mocha.it)('should redirect to the connexion page', function () {
+          // when
+          visit('/compte');
+
+          // then
+          return andThen(function () {
+            (0, _chai.expect)(currentURL()).to.equal('/');
+          });
+        });
+      });
+
+      (0, _mocha.describe)('m1.2 Log-in phase', function () {
+
+        function seedDatabaseForUsualUser() {
+          server.loadFixtures('areas');
+          server.loadFixtures('competences');
+          server.create('user', {
+            id: 1,
+            firstName: 'Samurai',
+            lastName: 'Jack',
+            email: 'samurai.jack@aku.world',
+            password: 'B@ck2past',
+            cgu: true,
+            recaptchaToken: 'recaptcha-token-xxxxxx',
+            competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+          });
+        }
+
+        function seedDatabaseForUserWithOrganization() {
+          server.loadFixtures('organizations');
+          server.create('user', {
+            id: 1,
+            firstName: 'Samurai',
+            lastName: 'Jack',
+            email: 'samurai.jack@aku.world',
+            password: 'B@ck2past',
+            cgu: true,
+            recaptchaToken: 'recaptcha-token-xxxxxx',
+            organizationIds: [1]
+          });
+        }
+
+        function authenticateUser() {
+          // given
+          visit('/connexion');
+          fillIn('#pix-email', 'samurai.jack@aku.world');
+          fillIn('#pix-password', 'B@ck2past');
+
+          // when
+          click('.signin-form__submit_button');
+        }
+
+        (0, _mocha.it)('should redirect to the /compte after connexion for usual users', function () {
+          // given
+          seedDatabaseForUsualUser();
+          authenticateUser();
+
+          // then
+          return andThen(function () {
+            (0, _chai.expect)(currentURL()).to.equal('/compte');
+          });
+        });
+
+        (0, _mocha.it)('should redirect to the /board after connexion for users with organization', function () {
+          // given
+          seedDatabaseForUserWithOrganization();
+          authenticateUser();
+
+          // then
+          return andThen(function () {
+            (0, _chai.expect)(currentURL()).to.equal('/board');
+          });
         });
       });
     });
 
-    (0, _mocha.describe)('m1.2 Log-in phase', function () {
+    (0, _mocha.describe)('Error case', function () {
 
-      function seedDatabaseForUsualUser() {
-        server.loadFixtures('areas');
-        server.loadFixtures('competences');
-        server.create('user', {
-          id: 1,
-          firstName: 'Samurai',
-          lastName: 'Jack',
-          email: 'samurai.jack@aku.world',
-          password: 'B@ck2past',
-          cgu: true,
-          recaptchaToken: 'recaptcha-token-xxxxxx',
-          competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-        });
-      }
-
-      function seedDatabaseForUserWithOrganization() {
-        server.loadFixtures('organizations');
-        server.create('user', {
-          id: 1,
-          firstName: 'Samurai',
-          lastName: 'Jack',
-          email: 'samurai.jack@aku.world',
-          password: 'B@ck2past',
-          cgu: true,
-          recaptchaToken: 'recaptcha-token-xxxxxx',
-          organizationIds: [1]
-        });
-      }
-
-      function authenticateUser() {
+      function authenticateUnknownUser() {
         // given
         visit('/connexion');
-        fillIn('#pix-email', 'samurai.jack@aku.world');
-        fillIn('#pix-password', 'B@ck2past');
+        fillIn('#pix-email', 'anyone@pix.world');
+        fillIn('#pix-password', 'Pix20!!');
 
         // when
         click('.signin-form__submit_button');
       }
 
-      (0, _mocha.it)('should redirect to the /compte after connexion for usual users', function () {
+      (0, _mocha.it)('should stay in /connexion , when authentication failed', function () {
         // given
-        seedDatabaseForUsualUser();
-        authenticateUser();
+        authenticateUnknownUser();
 
-        // then
         return andThen(function () {
-          (0, _chai.expect)(currentURL()).to.equal('/compte');
-        });
-      });
-
-      (0, _mocha.it)('should redirect to the /board after connexion for users with organization', function () {
-        // given
-        seedDatabaseForUserWithOrganization();
-        authenticateUser();
-
-        // then
-        return andThen(function () {
-          (0, _chai.expect)(currentURL()).to.equal('/board');
+          (0, _chai.expect)(currentURL()).to.equal('/connexion');
         });
       });
     });
@@ -2538,7 +2564,7 @@ define('pix-live/tests/acceptance/n1-competence-profile-test', ['mocha', 'chai',
       click('.signin-form__submit_button');
     }
 
-    (0, _mocha.it)('can visit /compte', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('can visit /compte', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -2564,7 +2590,7 @@ define('pix-live/tests/acceptance/n1-competence-profile-test', ['mocha', 'chai',
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('should redirect to home, when user is not found', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('should redirect to home, when user is not found', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -2677,7 +2703,7 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
       click('.signin-form__submit_button');
     }
 
-    (0, _mocha.it)('can visit /board', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('can visit /board', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -2703,7 +2729,7 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('should display the name and the code of my organization', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('should display the name and the code of my organization', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -3227,7 +3253,7 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
   });
 });
-define('pix-live/tests/helpers/destroy-app', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/tests/helpers/destroy-app', ['exports'], function (exports) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -3235,7 +3261,7 @@ define('pix-live/tests/helpers/destroy-app', ['exports', 'ember'], function (exp
   });
   exports.default = destroyApp;
   function destroyApp(application) {
-    _ember.default.run(application, 'destroy');
+    Ember.run(application, 'destroy');
     if (window.server) {
       window.server.shutdown();
     }
@@ -3290,7 +3316,7 @@ define('pix-live/tests/helpers/ember-simple-auth', ['exports', 'ember-simple-aut
     return wait();
   }
 });
-define('pix-live/tests/helpers/module-for-acceptance', ['exports', 'qunit', 'ember', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _qunit, _ember, _startApp, _destroyApp) {
+define('pix-live/tests/helpers/module-for-acceptance', ['exports', 'qunit', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _qunit, _startApp, _destroyApp) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -3319,7 +3345,7 @@ define('pix-live/tests/helpers/module-for-acceptance', ['exports', 'qunit', 'emb
     });
   };
 
-  var Promise = _ember.default.RSVP.Promise;
+  var Promise = Ember.RSVP.Promise;
 });
 define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-live/config/environment'], function (exports, _resolver, _environment) {
   'use strict';
@@ -3338,7 +3364,7 @@ define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-
 
   exports.default = resolver;
 });
-define('pix-live/tests/helpers/start-app', ['exports', 'ember', 'pix-live/app', 'pix-live/config/environment'], function (exports, _ember, _app, _environment) {
+define('pix-live/tests/helpers/start-app', ['exports', 'pix-live/app', 'pix-live/config/environment'], function (exports, _app, _environment) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -3346,10 +3372,10 @@ define('pix-live/tests/helpers/start-app', ['exports', 'ember', 'pix-live/app', 
   });
   exports.default = startApp;
   function startApp(attrs) {
-    var attributes = _ember.default.merge({}, _environment.default.APP);
-    attributes = _ember.default.merge(attributes, attrs); // use defaults, but you can override;
+    var attributes = Ember.merge({}, _environment.default.APP);
+    attributes = Ember.merge(attributes, attrs); // use defaults, but you can override;
 
-    return _ember.default.run(function () {
+    return Ember.run(function () {
       var application = _app.default.create(attributes);
       application.setupForTesting();
       application.injectTestHelpers();
@@ -3468,7 +3494,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
     });
   });
 });
-define('pix-live/tests/integration/components/challenge-statement-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/challenge-statement-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | ChallengeStatement', function () {
@@ -3482,7 +3508,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['ember
     }
 
     function renderChallengeStatement(component) {
-      component.render(_ember.default.HTMLBars.template({
+      component.render(Ember.HTMLBars.template({
         "id": "ucxCcrbv",
         "block": "{\"statements\":[[1,[33,[\"challenge-statement\"],null,[[\"challenge\"],[[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -3507,7 +3533,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['ember
         renderChallengeStatement(this);
 
         // then
-        (0, _chai.expect)(_ember.default.$.trim(this.$('.challenge-statement__instruction').text())).to.equal('La consigne de mon test');
+        (0, _chai.expect)(Ember.$.trim(this.$('.challenge-statement__instruction').text())).to.equal('La consigne de mon test');
       });
 
       (0, _mocha.it)('should not render challenge instruction if it does not exist', function () {
@@ -3729,7 +3755,7 @@ define('pix-live/tests/integration/components/challenge-stay-test', ['chai', 'mo
     });
   });
 });
-define('pix-live/tests/integration/components/comparison-window-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+define('pix-live/tests/integration/components/comparison-window-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   var FEEDBACK_FORM = '.feedback-panel__view--form';
@@ -3748,12 +3774,12 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
       var solution = void 0;
 
       (0, _mocha.beforeEach)(function () {
-        answer = _ember.default.Object.create({ value: '1,2', result: 'ko' });
-        challenge = _ember.default.Object.create({
+        answer = Ember.Object.create({ value: '1,2', result: 'ko' });
+        challenge = Ember.Object.create({
           instruction: 'This is the instruction',
           proposals: '' + '- 1ere possibilite\n ' + '- 2eme possibilite\n ' + '- 3eme possibilite\n' + '- 4eme possibilite'
         });
-        solution = _ember.default.Object.create({ value: '2,3' });
+        solution = Ember.Object.create({ value: '2,3' });
 
         this.set('answer', answer);
         this.set('challenge', challenge);
@@ -3763,7 +3789,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('renders', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3774,7 +3800,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should render challenge result in the header', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3785,7 +3811,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should render challenge instruction', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3796,7 +3822,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should not render corrected answers when challenge has no type', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3807,10 +3833,10 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should render corrected answers when challenge type is QROC', function () {
         // given
-        challenge = _ember.default.Object.create({ type: 'QROC' });
+        challenge = Ember.Object.create({ type: 'QROC' });
         this.set('challenge', challenge);
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3821,12 +3847,12 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should render corrected answers when challenge type is QROCM-ind', function () {
         // given
-        challenge = _ember.default.Object.create({ type: 'QROCM-ind', proposals: '' });
-        solution = _ember.default.Object.create({ value: '' });
+        challenge = Ember.Object.create({ type: 'QROCM-ind', proposals: '' });
+        solution = Ember.Object.create({ value: '' });
         this.set('challenge', challenge);
         this.set('solution', solution);
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3837,10 +3863,10 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should render corrected answers when challenge type is QCM', function () {
         // given
-        challenge = _ember.default.Object.create({ type: 'QCM' });
+        challenge = Ember.Object.create({ type: 'QCM' });
         this.set('challenge', challenge);
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3851,7 +3877,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should render a feedback panel already opened', function () {
         //when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3864,7 +3890,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should have a max width of 900px and a margin auto in order to quit by clicking beside', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "XPYTajZT",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]],null],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3880,7 +3906,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           answer.set('result', data.status);
 
           // when
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "tusRoHTL",
             "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -3895,7 +3921,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
     });
   });
 });
-define('pix-live/tests/integration/components/competence-area-list-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+define('pix-live/tests/integration/components/competence-area-list-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | competence area list', function () {
@@ -3906,7 +3932,7 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
     (0, _mocha.describe)('Component rendering', function () {
       (0, _mocha.it)('renders', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "1Zu65Rsf",
           "block": "{\"statements\":[[1,[26,[\"competence-area-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3918,7 +3944,7 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
 
       (0, _mocha.it)('should render a wrapper', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "1Zu65Rsf",
           "block": "{\"statements\":[[1,[26,[\"competence-area-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3933,11 +3959,11 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
 
         (0, _mocha.it)('should render 5 competence areas, when there are 5 competences with different area for each one', function () {
           // given
-          var competencesWithDifferentAreas = [_ember.default.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }), _ember.default.Object.create({ id: 2, name: 'competence-2', areaName: 'area-B' }), _ember.default.Object.create({ id: 3, name: 'competence-3', areaName: 'area-C' }), _ember.default.Object.create({ id: 4, name: 'competence-4', areaName: 'area-D' }), _ember.default.Object.create({ id: 5, name: 'competence-5', areaName: 'area-E' })];
+          var competencesWithDifferentAreas = [Ember.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }), Ember.Object.create({ id: 2, name: 'competence-2', areaName: 'area-B' }), Ember.Object.create({ id: 3, name: 'competence-3', areaName: 'area-C' }), Ember.Object.create({ id: 4, name: 'competence-4', areaName: 'area-D' }), Ember.Object.create({ id: 5, name: 'competence-5', areaName: 'area-E' })];
           this.set('competences', competencesWithDifferentAreas);
 
           // when
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "izE4TL0M",
             "block": "{\"statements\":[[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -3949,11 +3975,11 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
 
         (0, _mocha.it)('should render 2 competence areas, when there are 5 competences related to 2 different areas', function () {
           // given
-          var competencesWithDifferentAreas = [_ember.default.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }), _ember.default.Object.create({ id: 2, name: 'competence-2', areaName: 'area-A' }), _ember.default.Object.create({ id: 3, name: 'competence-3', areaName: 'area-A' }), _ember.default.Object.create({ id: 4, name: 'competence-4', areaName: 'area-B' }), _ember.default.Object.create({ id: 5, name: 'competence-5', areaName: 'area-B' })];
+          var competencesWithDifferentAreas = [Ember.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }), Ember.Object.create({ id: 2, name: 'competence-2', areaName: 'area-A' }), Ember.Object.create({ id: 3, name: 'competence-3', areaName: 'area-A' }), Ember.Object.create({ id: 4, name: 'competence-4', areaName: 'area-B' }), Ember.Object.create({ id: 5, name: 'competence-5', areaName: 'area-B' })];
           this.set('competences', competencesWithDifferentAreas);
 
           // when
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "izE4TL0M",
             "block": "{\"statements\":[[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -3967,11 +3993,11 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
       (0, _mocha.describe)('Rendering when same area', function () {
         (0, _mocha.it)('should render only 1 competence area, when there are 5 competences with the same area', function () {
           // given
-          var competencesWithSameArea = [_ember.default.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }), _ember.default.Object.create({ id: 2, name: 'competence-2', areaName: 'area-A' }), _ember.default.Object.create({ id: 3, name: 'competence-3', areaName: 'area-A' }), _ember.default.Object.create({ id: 4, name: 'competence-4', areaName: 'area-A' }), _ember.default.Object.create({ id: 5, name: 'competence-5', areaName: 'area-A' })];
+          var competencesWithSameArea = [Ember.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }), Ember.Object.create({ id: 2, name: 'competence-2', areaName: 'area-A' }), Ember.Object.create({ id: 3, name: 'competence-3', areaName: 'area-A' }), Ember.Object.create({ id: 4, name: 'competence-4', areaName: 'area-A' }), Ember.Object.create({ id: 5, name: 'competence-5', areaName: 'area-A' })];
 
           // when
           this.set('competences', competencesWithSameArea);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "izE4TL0M",
             "block": "{\"statements\":[[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -3983,7 +4009,7 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
     });
   });
 });
-define('pix-live/tests/integration/components/competence-by-area-item-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+define('pix-live/tests/integration/components/competence-by-area-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | competence area item', function () {
@@ -3993,7 +4019,7 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
 
     (0, _mocha.it)('should render', function () {
       // when
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "VrjYY9DC",
         "block": "{\"statements\":[[1,[26,[\"competence-by-area-item\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -4005,11 +4031,11 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
 
     (0, _mocha.it)('should render a title', function () {
       // Given
-      var competence = _ember.default.Object.create({ name: 'competence-A', level: 1 });
+      var competence = Ember.Object.create({ name: 'competence-A', level: 1 });
       var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
       this.set('competenceArea', areaWithOnlyOneCompetence);
       // when
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "7jLygV5q",
         "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -4020,7 +4046,7 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
 
     (0, _mocha.it)('should render as many competences as received', function () {
       // given
-      var competencesWithSameArea = [_ember.default.Object.create({ id: 1, name: 'competence-name-1', area: 'area-id-1' }), _ember.default.Object.create({ id: 2, name: 'competence-name-2', area: 'area-id-1' }), _ember.default.Object.create({ id: 3, name: 'competence-name-3', area: 'area-id-1' }), _ember.default.Object.create({ id: 4, name: 'competence-name-4', area: 'area-id-1' }), _ember.default.Object.create({ id: 5, name: 'competence-name-5', area: 'area-id-1' })];
+      var competencesWithSameArea = [Ember.Object.create({ id: 1, name: 'competence-name-1', area: 'area-id-1' }), Ember.Object.create({ id: 2, name: 'competence-name-2', area: 'area-id-1' }), Ember.Object.create({ id: 3, name: 'competence-name-3', area: 'area-id-1' }), Ember.Object.create({ id: 4, name: 'competence-name-4', area: 'area-id-1' }), Ember.Object.create({ id: 5, name: 'competence-name-5', area: 'area-id-1' })];
       var areaWithManyCompetences = {
         property: 'area',
         value: 'Information et données',
@@ -4029,7 +4055,7 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
 
       this.set('competenceArea', areaWithManyCompetences);
       // when
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "7jLygV5q",
         "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -4042,12 +4068,12 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
     (0, _mocha.describe)('Competence rendering', function () {
       (0, _mocha.it)('should render its name', function () {
         // given
-        var competence = _ember.default.Object.create({ name: 'Mener une recherche et une veille d’information' });
+        var competence = Ember.Object.create({ name: 'Mener une recherche et une veille d’information' });
         var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
         this.set('competenceArea', areaWithOnlyOneCompetence);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "7jLygV5q",
           "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4059,12 +4085,12 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
 
       (0, _mocha.it)('should render the relative level progress bar for user', function () {
         // given
-        var competence = _ember.default.Object.create();
+        var competence = Ember.Object.create();
         var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
         this.set('competenceArea', areaWithOnlyOneCompetence);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "7jLygV5q",
           "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4268,7 +4294,7 @@ define('pix-live/tests/integration/components/corner-ribbon-test', ['chai', 'emb
     });
   });
 });
-define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | course item', function () {
@@ -4280,7 +4306,7 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
     (0, _mocha.describe)('rendering:', function () {
 
       (0, _mocha.it)('renders', function () {
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "IlH0PQOd",
           "block": "{\"statements\":[[1,[26,[\"course-item\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4290,11 +4316,11 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render course picture if it is defined', function () {
         // given
-        var course = _ember.default.Object.create({ imageUrl: '/images/pix-logo.svg' });
+        var course = Ember.Object.create({ imageUrl: '/images/pix-logo.svg' });
         this.set('course', course);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Ig9hFQ2w",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4307,11 +4333,11 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render default picture if course picture is not defined', function () {
         // given
-        var course = _ember.default.Object.create();
+        var course = Ember.Object.create();
         this.set('course', course);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Ig9hFQ2w",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4324,11 +4350,11 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render course name', function () {
         // given
-        var course = _ember.default.Object.create({ name: 'name_value' });
+        var course = Ember.Object.create({ name: 'name_value' });
         this.set('course', course);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Ig9hFQ2w",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4341,11 +4367,11 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render course description', function () {
         // given
-        var course = _ember.default.Object.create({ description: 'description_value' });
+        var course = Ember.Object.create({ description: 'description_value' });
         this.set('course', course);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Ig9hFQ2w",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4358,11 +4384,11 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render the number of challenges', function () {
         // given
-        var course = _ember.default.Object.create({ challenges: ['c1', 'c2', 'c3', 'c4'] });
+        var course = Ember.Object.create({ challenges: ['c1', 'c2', 'c3', 'c4'] });
         this.set('course', course);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Ig9hFQ2w",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4375,11 +4401,11 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render the number of challenges', function () {
         // given
-        var course = _ember.default.Object.create({ challenges: [], nbChallenges: 2 });
+        var course = Ember.Object.create({ challenges: [], nbChallenges: 2 });
         this.set('course', course);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Ig9hFQ2w",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4392,11 +4418,11 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render a link to begin the course', function () {
         // given
-        var course = _ember.default.Object.create();
+        var course = Ember.Object.create();
         this.set('course', course);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Ig9hFQ2w",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4409,11 +4435,11 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render a link containing the course name in title', function () {
         // given
-        var course = _ember.default.Object.create({ name: 'My course' });
+        var course = Ember.Object.create({ name: 'My course' });
         this.set('course', course);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Ig9hFQ2w",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4429,7 +4455,7 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should send action "startCourse" with course in argument when clicking on "start" button', function () {
         // given
-        var course = _ember.default.Object.create({ id: 'course_id' });
+        var course = Ember.Object.create({ id: 'course_id' });
         this.set('course', course);
         var actualCourse = void 0;
         this.on('actionHandler', function (receivedCourse) {
@@ -4437,7 +4463,7 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
         });
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "1Ht5d7Cr",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\",\"startCourse\"],[[28,[\"course\"]],\"actionHandler\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4451,7 +4477,7 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
     });
   });
 });
-define('pix-live/tests/integration/components/course-list-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/course-list-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | course list', function () {
@@ -4463,7 +4489,7 @@ define('pix-live/tests/integration/components/course-list-test', ['ember', 'chai
     (0, _mocha.describe)('rendering:', function () {
 
       (0, _mocha.it)('renders', function () {
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "ZbjKlqif",
           "block": "{\"statements\":[[1,[26,[\"course-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4473,11 +4499,11 @@ define('pix-live/tests/integration/components/course-list-test', ['ember', 'chai
 
       (0, _mocha.it)('should render as many course-item as courses elements', function () {
         // given
-        var courses = [_ember.default.Object.create({ id: '1' }), _ember.default.Object.create({ id: '2' }), _ember.default.Object.create({ id: '3' })];
+        var courses = [Ember.Object.create({ id: '1' }), Ember.Object.create({ id: '2' }), Ember.Object.create({ id: '3' })];
         this.set('courses', courses);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "LDBKp7if",
           "block": "{\"statements\":[[1,[33,[\"course-list\"],null,[[\"courses\"],[[28,[\"courses\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4586,7 +4612,7 @@ define('pix-live/tests/integration/components/feature-list-test', ['chai', 'moch
     });
   });
 });
-define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait', 'pix-live/utils/lodash-custom'], function (_ember, _chai, _mocha, _emberMocha, _wait, _lodashCustom) {
+define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait', 'pix-live/utils/lodash-custom'], function (_chai, _mocha, _emberMocha, _wait, _lodashCustom) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -4665,7 +4691,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should display the feedback Panel', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "vYG6y2lL",
           "block": "{\"statements\":[[1,[26,[\"feedback-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4679,7 +4705,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
     (0, _mocha.describe)('Link view (available only when form is closed by default)', function () {
 
       beforeEach(function () {
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "vYG6y2lL",
           "block": "{\"statements\":[[1,[26,[\"feedback-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4704,7 +4730,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
     (0, _mocha.describe)('Form view', function () {
 
-      var storeStub = _ember.default.Service.extend({
+      var storeStub = Ember.Service.extend({
         createRecord: function createRecord() {
           var createRecordArgs = arguments;
           return Object.create({
@@ -4712,7 +4738,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
               isSaveMethodCalled = true;
               saveMethodUrl = createRecordArgs[0];
               saveMethodBody = createRecordArgs[1];
-              return _ember.default.RSVP.resolve();
+              return Ember.RSVP.resolve();
             }
           });
         }
@@ -4724,8 +4750,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       beforeEach(function () {
         // configure answer & cie. model object
-        var assessment = _ember.default.Object.extend({ id: 'assessment_id' }).create();
-        var challenge = _ember.default.Object.extend({ id: 'challenge_id' }).create();
+        var assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
+        var challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
 
         // render component
         this.set('assessment', assessment);
@@ -4739,7 +4765,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
         this.register('service:store', storeStub);
         this.inject.service('store', { as: 'store' });
 
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "qFA+EGeX",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\"],[[28,[\"assessment\"]],[28,[\"challenge\"]],false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4805,8 +4831,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       beforeEach(function () {
         // configure answer & cie. model object
-        var assessment = _ember.default.Object.extend({ id: 'assessment_id' }).create();
-        var challenge = _ember.default.Object.extend({ id: 'challenge_id' }).create();
+        var assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
+        var challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
 
         // render component
         this.set('assessment', assessment);
@@ -4815,7 +4841,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should not be visible if feedback-panel is not collapsible', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "qFA+EGeX",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\"],[[28,[\"assessment\"]],[28,[\"challenge\"]],false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4827,7 +4853,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should not be visible if status is not FORM_OPENED', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "LwVlgJUd",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\",\"_status\"],[[28,[\"assessment\"]],[28,[\"challenge\"]],true,\"FORM_CLOSED\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4837,13 +4863,13 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
         (0, _chai.expect)(this.$(BUTTON_CANCEL)).to.have.lengthOf(0);
       });
 
-      (0, _mocha.it)('should be visible only if component is collapsible and form is opened', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('should be visible only if component is collapsible and form is opened', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 // given
-                this.render(_ember.default.HTMLBars.template({
+                this.render(Ember.HTMLBars.template({
                   "id": "5kGcVXmC",
                   "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\"],[[28,[\"assessment\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
                   "meta": {}
@@ -4865,7 +4891,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should contain "cancel" button with label "Annuler" and placeholder "Votre message"', function () {
         // given
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "5kGcVXmC",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\"],[[28,[\"assessment\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4882,7 +4908,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('clicking on "cancel" button should close the "form" view and and display the "link" view', function () {
         // given
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "5kGcVXmC",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\"],[[28,[\"assessment\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4900,7 +4926,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should display error if "content" is empty', function () {
         // given
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "hpJwRXcm",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4916,7 +4942,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should display error if "content" is blank', function () {
         // given
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "hpJwRXcm",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4933,7 +4959,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should display error if "email" is set but invalid', function () {
         // given
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "hpJwRXcm",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4950,7 +4976,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should not display error if "form" view (with error) was closed and re-opened', function () {
         // given
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "vYG6y2lL",
           "block": "{\"statements\":[[1,[26,[\"feedback-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4972,7 +4998,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should display an error even if the user did not focus on email or content', function () {
         // given
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "hpJwRXcm",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4987,7 +5013,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
     });
   });
 });
-define('pix-live/tests/integration/components/follower-form-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _ember, _wait) {
+define('pix-live/tests/integration/components/follower-form-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _wait) {
   'use strict';
 
   var BUTTON_SEND = '.follower-form__button';
@@ -5000,7 +5026,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
     });
 
     (0, _mocha.it)('renders', function () {
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "3KqB2opg",
         "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -5011,7 +5037,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
     (0, _mocha.describe)('Test Component form', function () {
       (0, _mocha.it)('should render submit button', function () {
         //When
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "3KqB2opg",
           "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5022,7 +5048,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
 
       (0, _mocha.it)('should return true if input exist', function () {
         //When
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "3KqB2opg",
           "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5042,7 +5068,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
       var saveMethodBody = void 0;
       var saveMethodUrl = void 0;
 
-      var storeStub = _ember.default.Service.extend({
+      var storeStub = Ember.Service.extend({
         createRecord: function createRecord() {
           var createRecordArgs = arguments;
           return Object.create({
@@ -5050,19 +5076,19 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
               isSaveMethodCalled = true;
               saveMethodUrl = createRecordArgs[0];
               saveMethodBody = createRecordArgs[1];
-              return _ember.default.RSVP.resolve();
+              return Ember.RSVP.resolve();
             }
           });
         }
       });
 
-      var errorObject = _ember.default.Object.create({
+      var errorObject = Ember.Object.create({
         errors: [{
           status: 409
         }]
       });
 
-      var storeStubRejection = _ember.default.Service.extend({
+      var storeStubRejection = Ember.Service.extend({
         createRecord: function createRecord() {
           var createRecordArgs = arguments;
           return Object.create({
@@ -5070,7 +5096,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
               isSaveMethodCalled = true;
               saveMethodUrl = createRecordArgs[0];
               saveMethodBody = createRecordArgs[1];
-              return _ember.default.RSVP.reject(errorObject);
+              return Ember.RSVP.reject(errorObject);
             }
           });
         }
@@ -5088,7 +5114,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
         this.register('service:store', storeStub);
         this.inject.service('store', { as: 'store' });
 
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "3KqB2opg",
           "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5118,7 +5144,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
         // given
         this.register('service:store', storeStubRejection);
 
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "3KqB2opg",
           "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5145,13 +5171,13 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
     });
   });
 });
-define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
-  var RSVP = _ember.default.RSVP;
+  var RSVP = Ember.RSVP;
 
 
-  var StubGoogleRecaptchaService = _ember.default.Service.extend({
+  var StubGoogleRecaptchaService = Ember.Service.extend({
     loadScript: function loadScript() {
       return RSVP.resolve();
     },
@@ -5178,7 +5204,7 @@ define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha
     });
 
     (0, _mocha.it)('renders', function () {
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "BuJ6Tpul",
         "block": "{\"statements\":[[1,[26,[\"g-recaptcha\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -5189,7 +5215,7 @@ define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha
     // XXX Inspired of https://guides.emberjs.com/v2.13.0/tutorial/service/#toc_integration-testing-the-map-component
     (0, _mocha.it)('should append recaptcha element to container element', function () {
       // when
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "BuJ6Tpul",
         "block": "{\"statements\":[[1,[26,[\"g-recaptcha\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -5292,7 +5318,7 @@ define('pix-live/tests/integration/components/modal-mobile-test', ['chai', 'moch
     });
   });
 });
-define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | navbar-header', function () {
@@ -5303,10 +5329,10 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
 
     (0, _mocha.describe)('Rendering when user is not logged', function () {
       (0, _mocha.beforeEach)(function () {
-        this.register('service:session', _ember.default.Service.extend({ isAuthenticated: false }));
+        this.register('service:session', Ember.Service.extend({ isAuthenticated: false }));
         this.inject.service('session', { as: 'session' });
 
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Jj0Mqu5s",
           "block": "{\"statements\":[[1,[26,[\"navbar-header\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5334,10 +5360,10 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
     (0, _mocha.describe)('Rendering for logged user', function () {
 
       (0, _mocha.beforeEach)(function () {
-        this.register('service:session', _ember.default.Service.extend({ isAuthenticated: true }));
+        this.register('service:session', Ember.Service.extend({ isAuthenticated: true }));
         this.inject.service('session', { as: 'session' });
 
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Jj0Mqu5s",
           "block": "{\"statements\":[[1,[26,[\"navbar-header\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5547,7 +5573,7 @@ define('pix-live/tests/integration/components/qcm-proposals-test', ['chai', 'moc
     });
   });
 });
-define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'pix-live/utils/lodash-custom'], function (_chai, _mocha, _emberMocha, _ember, _lodashCustom) {
+define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai', 'mocha', 'ember-mocha', 'pix-live/utils/lodash-custom'], function (_chai, _mocha, _emberMocha, _lodashCustom) {
   'use strict';
 
   var CHECKBOX_CORRECT_AND_CHECKED = 'input[type=checkbox]:eq(1)';
@@ -5586,7 +5612,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
     (0, _mocha.describe)('#Component should renders: ', function () {
 
       (0, _mocha.it)('Should renders', function () {
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "lMfyMGVi",
           "block": "{\"statements\":[[1,[26,[\"qcm-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5605,17 +5631,17 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
         };
 
         (0, _mocha.before)(function () {
-          challenge = _ember.default.Object.create({
+          challenge = Ember.Object.create({
             id: 'challenge_id',
             proposals: '-foo\n- bar\n- qix\n- yon',
             type: 'QCM'
           });
 
-          solution = _ember.default.Object.create({
+          solution = Ember.Object.create({
             id: 'solution_id', value: '2,3'
           });
 
-          answer = _ember.default.Object.create(correctAnswer);
+          answer = Ember.Object.create(correctAnswer);
         });
 
         (0, _mocha.it)('QCM, la réponse correcte est cochée', function () {
@@ -5625,7 +5651,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "6bxZetM3",
             "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5649,7 +5675,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "6bxZetM3",
             "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5664,14 +5690,14 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
         (0, _mocha.it)('QCM, Au moins l\'une des réponse correcte n\'est pas cochée', function () {
           //Given
-          answer = _ember.default.Object.create(unCorrectAnswer);
+          answer = Ember.Object.create(unCorrectAnswer);
 
           this.set('answer', answer);
           this.set('solution', solution);
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "6bxZetM3",
             "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5686,14 +5712,14 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
         (0, _mocha.it)('QCM, au moins l\'une des réponse incorrecte est cochée', function () {
           //Given
-          answer = _ember.default.Object.create(unCorrectAnswer);
+          answer = Ember.Object.create(unCorrectAnswer);
 
           this.set('answer', answer);
           this.set('solution', solution);
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "6bxZetM3",
             "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5714,7 +5740,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "6bxZetM3",
             "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5779,7 +5805,7 @@ define('pix-live/tests/integration/components/qcu-proposals-test', ['chai', 'moc
     });
   });
 });
-define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'pix-live/utils/lodash-custom'], function (_chai, _mocha, _emberMocha, _ember, _lodashCustom) {
+define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai', 'mocha', 'ember-mocha', 'pix-live/utils/lodash-custom'], function (_chai, _mocha, _emberMocha, _lodashCustom) {
   'use strict';
 
   var RADIO_CORRECT_AND_CHECKED = '.picture-radio-proposal--qcu:eq(1)';
@@ -5827,7 +5853,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
     (0, _mocha.describe)('#Component should renders: ', function () {
 
       (0, _mocha.it)('Should renders', function () {
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "ImJDD4J6",
           "block": "{\"statements\":[[1,[26,[\"qcu-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5839,17 +5865,17 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
       (0, _mocha.describe)('Radio state', function () {
 
         before(function () {
-          challenge = _ember.default.Object.create({
+          challenge = Ember.Object.create({
             id: 'challenge_id',
             proposals: '-foo\n- bar\n- qix\n- yon',
             type: 'QCM'
           });
 
-          solution = _ember.default.Object.create({
+          solution = Ember.Object.create({
             id: 'solution_id', value: '2'
           });
 
-          answer = _ember.default.Object.create(correctAnswer);
+          answer = Ember.Object.create(correctAnswer);
         });
 
         (0, _mocha.it)('QCU,la réponse correcte est cochée', function () {
@@ -5858,7 +5884,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           this.set('solution', solution);
           this.set('challenge', challenge);
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "YHeVDTOT",
             "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5877,14 +5903,14 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
 
         (0, _mocha.it)('QCU, la réponse correcte n\'est pas cochée', function () {
           //Given
-          answer = _ember.default.Object.create(unCorrectAnswer);
+          answer = Ember.Object.create(unCorrectAnswer);
 
           this.set('answer', answer);
           this.set('solution', solution);
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "YHeVDTOT",
             "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5906,7 +5932,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "YHeVDTOT",
             "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5922,14 +5948,14 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
 
         (0, _mocha.it)('QCU,la réponse incorrecte est cochée', function () {
           //Given
-          answer = _ember.default.Object.create(unCorrectAnswer);
+          answer = Ember.Object.create(unCorrectAnswer);
 
           this.set('answer', answer);
           this.set('solution', solution);
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "YHeVDTOT",
             "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5950,7 +5976,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "YHeVDTOT",
             "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6028,7 +6054,7 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['chai', 'moc
     });
   });
 });
-define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   var ANSWER_BLOCK = '.correction-qroc-box__answer';
@@ -6046,7 +6072,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
     });
 
     (0, _mocha.it)('renders', function () {
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "NpKj63LV",
         "block": "{\"statements\":[[1,[26,[\"qroc-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -6056,7 +6082,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
 
     (0, _mocha.it)('should disabled all inputs', function () {
       // given
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "NpKj63LV",
         "block": "{\"statements\":[[1,[26,[\"qroc-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -6068,14 +6094,14 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
 
     (0, _mocha.describe)('comparison when the answer is right', function () {
 
-      var assessment = _ember.default.Object.create({ id: 'assessment_id' });
-      var challenge = _ember.default.Object.create({ id: 'challenge_id' });
-      var answer = _ember.default.Object.create({ id: 'answer_id', result: 'ok', assessment: assessment, challenge: challenge });
+      var assessment = Ember.Object.create({ id: 'assessment_id' });
+      var challenge = Ember.Object.create({ id: 'challenge_id' });
+      var answer = Ember.Object.create({ id: 'answer_id', result: 'ok', assessment: assessment, challenge: challenge });
 
       (0, _mocha.it)('should diplay the answer in bold green and not the solution', function () {
         // given
         this.set('answer', answer);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "MvdjYNn/",
           "block": "{\"statements\":[[1,[33,[\"qroc-solution-panel\"],null,[[\"answer\"],[[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -6097,12 +6123,12 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
     (0, _mocha.describe)('comparison when the answer is false', function () {
 
       (0, _mocha.beforeEach)(function () {
-        var assessment = _ember.default.Object.create({ id: 'assessment_id' });
-        var challenge = _ember.default.Object.create({ id: 'challenge_id' });
-        var answer = _ember.default.Object.create({ id: 'answer_id', result: 'ko', assessment: assessment, challenge: challenge });
+        var assessment = Ember.Object.create({ id: 'assessment_id' });
+        var challenge = Ember.Object.create({ id: 'challenge_id' });
+        var answer = Ember.Object.create({ id: 'answer_id', result: 'ko', assessment: assessment, challenge: challenge });
 
         this.set('answer', answer);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "MvdjYNn/",
           "block": "{\"statements\":[[1,[33,[\"qroc-solution-panel\"],null,[[\"answer\"],[[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -6134,13 +6160,13 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
       (0, _mocha.describe)('comparison when the answer was not given', function () {
 
         (0, _mocha.beforeEach)(function () {
-          var assessment = _ember.default.Object.create({ id: 'assessment_id' });
-          var challenge = _ember.default.Object.create({ id: 'challenge_id' });
-          var answer = _ember.default.Object.create({ id: 'answer_id', result: 'aband', assessment: assessment, challenge: challenge });
+          var assessment = Ember.Object.create({ id: 'assessment_id' });
+          var challenge = Ember.Object.create({ id: 'challenge_id' });
+          var answer = Ember.Object.create({ id: 'answer_id', result: 'aband', assessment: assessment, challenge: challenge });
 
           this.set('answer', answer);
           this.set('isResultWithoutAnswer', true);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "MvdjYNn/",
             "block": "{\"statements\":[[1,[33,[\"qroc-solution-panel\"],null,[[\"answer\"],[[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6160,7 +6186,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
     });
   });
 });
-define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   var FIRST_CORRECTION_BLOCK = '.correction-qrocm:nth-child(1)';
@@ -6180,16 +6206,16 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
       integration: true
     });
 
-    var assessment = _ember.default.Object.create({ id: 'assessment_id' });
-    var challenge = _ember.default.Object.create({ id: 'challenge_id', proposals: 'answer1 : ${key1}\nCarte mémoire (SD) : ${key2}\nblabla : ${key3}' });
-    var answer = _ember.default.Object.create({
+    var assessment = Ember.Object.create({ id: 'assessment_id' });
+    var challenge = Ember.Object.create({ id: 'challenge_id', proposals: 'answer1 : ${key1}\nCarte mémoire (SD) : ${key2}\nblabla : ${key3}' });
+    var answer = Ember.Object.create({
       id: 'answer_id',
       value: 'key1: \'rightAnswer1\' key2: \'wrongAnswer2\' key3: \'\'',
       resultDetails: 'key1: true\nkey2: false\nkey3: false',
       assessment: assessment,
       challenge: challenge
     });
-    var solution = _ember.default.Object.create({ value: 'key1:\n- rightAnswer1\nkey2:\n- rightAnswer20\n- rightAnswer21\nkey3 :\n- rightAnswer3' });
+    var solution = Ember.Object.create({ value: 'key1:\n- rightAnswer1\nkey2:\n- rightAnswer20\n- rightAnswer21\nkey3 :\n- rightAnswer3' });
 
     (0, _mocha.beforeEach)(function () {
       this.set('answer', answer);
@@ -6198,7 +6224,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
     });
 
     (0, _mocha.it)('renders', function () {
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "AQ8byhGY",
         "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[28,[\"answer\"]],[28,[\"solution\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -6208,7 +6234,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
     (0, _mocha.it)('should disabled all inputs', function () {
       // given
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "AQ8byhGY",
         "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[28,[\"answer\"]],[28,[\"solution\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -6220,7 +6246,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
     (0, _mocha.it)('should contains three labels', function () {
       // given
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "AQ8byhGY",
         "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[28,[\"answer\"]],[28,[\"solution\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -6236,7 +6262,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
         (0, _mocha.it)('should display the right answer in green bold', function () {
           // given
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "18Tupy2D",
             "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6259,7 +6285,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
         (0, _mocha.it)('should not display the solution', function () {
           // given
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "18Tupy2D",
             "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6275,7 +6301,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
         (0, _mocha.it)('should display the wrong answer in the second div line-throughed bold', function () {
           // given
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "18Tupy2D",
             "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6296,7 +6322,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
         (0, _mocha.it)('should display one solution in bold green below the input', function () {
           // given
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "18Tupy2D",
             "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6318,7 +6344,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
         (0, _mocha.it)('should display the empty answer in the third div with "pas de réponse" in italic', function () {
           // given
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "18Tupy2D",
             "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6339,7 +6365,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
         (0, _mocha.it)('should display one solution in bold green below the input', function () {
           // given
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "18Tupy2D",
             "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6379,7 +6405,7 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['chai', 'mo
     });
   });
 });
-define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember', 'mocha', 'ember-mocha'], function (_chai, _ember, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/result-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | result item', function () {
@@ -6392,13 +6418,13 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
 
       var providedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)';
 
-      var emberChallengeObject = _ember.default.Object.create({
+      var emberChallengeObject = Ember.Object.create({
         type: 'QCM',
         instruction: providedChallengeInstruction,
         proposals: '- soit possibilite A, et/ou' + '\n - soit possibilite B, et/ou' + '\n - soit possibilite C, et/ou' + '\n - soit possibilite D'
       });
 
-      var answer = _ember.default.Object.create({
+      var answer = Ember.Object.create({
         value: '2,4',
         result: 'ko',
         id: 1,
@@ -6417,7 +6443,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         this.set('answer', '');
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -6432,7 +6458,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         this.set('answer', '');
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -6448,7 +6474,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         this.set('answer', '');
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -6464,7 +6490,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         this.set('answer', answer);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -6479,7 +6505,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         // given
         this.set('answer', answer);
 
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -6493,7 +6519,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         this.set('answer', answer);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -6508,7 +6534,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         this.set('answer', null);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -6521,7 +6547,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
       (0, _mocha.it)('should update the tooltip when the answer is eventually retrieved', function () {
         // given
         this.set('answer', null);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -6539,7 +6565,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         this.set('answer', answer);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -6557,7 +6583,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
           this.set('answer', answer);
 
           // when
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "f8lT9MrH",
             "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6744,7 +6770,7 @@ define('pix-live/tests/integration/components/scoring-panel-tantpix-test', ['cha
     });
   });
 });
-define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/scoring-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   var TANTPIX_CONTAINER_CLASS = '.scoring-panel-tantpix';
@@ -6755,12 +6781,12 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'ch
       integration: true
     });
 
-    var assessmentWithTrophy = _ember.default.Object.create({ estimatedLevel: 1, pixScore: 67, course: { isAdaptive: true } });
-    var assessmentWithNoTrophyAndSomePix = _ember.default.Object.create({ estimatedLevel: 0, pixScore: 20, course: { isAdaptive: true } });
-    var assessmentWithNoTrophyAndNoPix = _ember.default.Object.create({ estimatedLevel: 0, pixScore: 0, course: { isAdaptive: true } });
+    var assessmentWithTrophy = Ember.Object.create({ estimatedLevel: 1, pixScore: 67, course: { isAdaptive: true } });
+    var assessmentWithNoTrophyAndSomePix = Ember.Object.create({ estimatedLevel: 0, pixScore: 20, course: { isAdaptive: true } });
+    var assessmentWithNoTrophyAndNoPix = Ember.Object.create({ estimatedLevel: 0, pixScore: 0, course: { isAdaptive: true } });
 
     (0, _mocha.it)('renders', function () {
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "WOCk/+rI",
         "block": "{\"statements\":[[1,[26,[\"scoring-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -6772,7 +6798,7 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'ch
 
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithNoTrophyAndNoPix);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "2eDn5awa",
           "block": "{\"statements\":[[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -6795,7 +6821,7 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'ch
 
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithTrophy);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "2eDn5awa",
           "block": "{\"statements\":[[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -6827,7 +6853,7 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'ch
 
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithNoTrophyAndSomePix);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "2eDn5awa",
           "block": "{\"statements\":[[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -6854,7 +6880,7 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'ch
 
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithTrophy);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "2eDn5awa",
           "block": "{\"statements\":[[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -6972,7 +6998,7 @@ define('pix-live/tests/integration/components/signin-form-test', ['chai', 'mocha
     }
   });
 });
-define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait', 'sinon'], function (_chai, _mocha, _emberMocha, _ember, _wait, _sinon) {
+define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait', 'sinon'], function (_chai, _mocha, _emberMocha, _wait, _sinon) {
   'use strict';
 
   var FORM_CONTAINER = '.signup-form-container';
@@ -7006,7 +7032,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var ICON_ERROR_CLASS = 'signup-textfield__icon--error';
   var ICON_SUCCESS_CLASS = 'signup-textfield__icon--success';
 
-  var userEmpty = _ember.default.Object.create({});
+  var userEmpty = Ember.Object.create({});
   var CAPTCHA_CONTAINER = '.signup-form__captcha-container';
 
   (0, _mocha.describe)('Integration | Component | signup form', function () {
@@ -7019,7 +7045,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
       beforeEach(function () {
         this.set('user', userEmpty);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "1MFHuc1Q",
           "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -7076,14 +7102,14 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
     (0, _mocha.describe)('Behaviors', function () {
 
       beforeEach(function () {
-        this.register('component:g-recaptcha', _ember.default.Component.extend());
+        this.register('component:g-recaptcha', Ember.Component.extend());
       });
 
       (0, _mocha.describe)('behavior when signup successful (test external calls)', function () {
         (0, _mocha.it)('should return true if action <Signup> is handled', function () {
           // given
           var isFormSubmitted = false;
-          var user = _ember.default.Object.create({
+          var user = Ember.Object.create({
             email: 'toto@pix.fr',
             firstName: 'Marion',
             lastName: 'Yade',
@@ -7092,12 +7118,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
             save: function save() {
               isFormSubmitted = true;
-              return _ember.default.RSVP.resolve();
+              return Ember.RSVP.resolve();
             }
           });
 
           this.set('user', user);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "IuLTjz0W",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7119,7 +7145,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             hasRefreshBeenCalled = true;
           });
 
-          var user = _ember.default.Object.create({
+          var user = Ember.Object.create({
             email: 'toto@pix.fr',
             firstName: 'Marion',
             lastName: 'Yade',
@@ -7127,11 +7153,11 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             cgu: true,
 
             save: function save() {
-              return _ember.default.RSVP.resolve();
+              return Ember.RSVP.resolve();
             }
           });
           this.set('user', user);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "wzHVeIzf",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\",\"refresh\"],[[28,[\"user\"]],\"signup\",[33,[\"action\"],[[28,[null]],[28,[\"refresh\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7150,7 +7176,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           this.set('redirectToProfileRoute', redirectToProfileRouteStub);
 
-          var user = _ember.default.Object.create({
+          var user = Ember.Object.create({
             email: 'toto@pix.fr',
             firstName: 'Marion',
             lastName: 'Yade',
@@ -7158,11 +7184,11 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             cgu: true,
 
             save: function save() {
-              return _ember.default.RSVP.resolve();
+              return Ember.RSVP.resolve();
             }
           });
           this.set('user', user);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "oROc76vC",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\",\"redirectToProfileRoute\"],[[28,[\"user\"]],\"signup\",[33,[\"action\"],[[28,[null]],[28,[\"redirectToProfileRoute\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7186,7 +7212,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7212,7 +7238,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7238,7 +7264,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7264,7 +7290,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7289,7 +7315,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           var _this5 = this;
 
           // given
-          var userWithCguNotAccepted = _ember.default.Object.create({
+          var userWithCguNotAccepted = Ember.Object.create({
             cgu: false,
             errors: {
               content: [{
@@ -7301,12 +7327,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
               }]
             },
             save: function save() {
-              return new _ember.default.RSVP.reject();
+              return new Ember.RSVP.reject();
             }
           });
 
           this.set('user', userWithCguNotAccepted);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7324,7 +7350,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
         (0, _mocha.it)('should not display success notification message when an error occurred during the form submission', function () {
           var _this6 = this;
 
-          var userThatThrowAnErrorDuringSaving = _ember.default.Object.create({
+          var userThatThrowAnErrorDuringSaving = Ember.Object.create({
             errors: {
               content: [{
                 attribute: 'email',
@@ -7332,12 +7358,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
               }]
             },
             save: function save() {
-              return new _ember.default.RSVP.reject();
+              return new Ember.RSVP.reject();
             }
           });
 
           this.set('user', userThatThrowAnErrorDuringSaving);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7356,7 +7382,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           var UNCHECKED_CHECKBOX_RECAPTCHA_ERROR = 'Veuillez cocher le recaptcha.';
-          var userWithCaptchaNotValid = _ember.default.Object.create({
+          var userWithCaptchaNotValid = Ember.Object.create({
             cgu: true,
             recaptchaToken: null,
             errors: {
@@ -7369,12 +7395,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
               }]
             },
             save: function save() {
-              return new _ember.default.RSVP.reject();
+              return new Ember.RSVP.reject();
             }
           });
 
           this.set('user', userWithCaptchaNotValid);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7396,7 +7422,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7422,7 +7448,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7448,7 +7474,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7474,7 +7500,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7499,16 +7525,16 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           var _this12 = this;
 
           // given
-          var userWithCguAccepted = _ember.default.Object.create({
+          var userWithCguAccepted = Ember.Object.create({
             cgu: true,
 
             save: function save() {
-              return new _ember.default.RSVP.resolve();
+              return new Ember.RSVP.resolve();
             }
           });
 
           this.set('user', userWithCguAccepted);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7527,7 +7553,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           var _this13 = this;
 
           // given
-          var validUser = _ember.default.Object.create({
+          var validUser = Ember.Object.create({
             email: 'toto@pix.fr',
             firstName: 'Marion',
             lastName: 'Yade',
@@ -7535,12 +7561,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             cgu: true,
 
             save: function save() {
-              return new _ember.default.RSVP.resolve();
+              return new Ember.RSVP.resolve();
             }
           });
 
           this.set('user', validUser);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7559,7 +7585,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           var _this14 = this;
 
           // given
-          var validUser = _ember.default.Object.create({
+          var validUser = Ember.Object.create({
             email: 'toto@pix.fr',
             firstName: 'Marion',
             lastName: 'Yade',
@@ -7567,12 +7593,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             cgu: true,
 
             save: function save() {
-              return new _ember.default.RSVP.resolve();
+              return new Ember.RSVP.resolve();
             }
           });
 
           this.set('user', validUser);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7595,14 +7621,14 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           var _this15 = this;
 
           // given
-          var user = _ember.default.Object.create({
+          var user = Ember.Object.create({
             save: function save() {
-              return _ember.default.RSVP.resolve();
+              return Ember.RSVP.resolve();
             }
           });
 
           this.set('user', user);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "IuLTjz0W",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -7918,7 +7944,7 @@ define('pix-live/tests/integration/components/trophy-item-test', ['chai', 'mocha
     });
   });
 });
-define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _ember, _wait) {
+define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _wait) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | user logged menu', function () {
@@ -7930,9 +7956,9 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
       beforeEach(function () {
         // given
-        this.register('service:store', _ember.default.Service.extend({
+        this.register('service:store', Ember.Service.extend({
           queryRecord: function queryRecord() {
-            return _ember.default.RSVP.resolve({
+            return Ember.RSVP.resolve({
               firstName: 'FHI',
               lastName: '4EVER',
               email: 'FHI@4EVER.fr'
@@ -7942,7 +7968,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         this.inject.service('store', { as: 'store' });
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "uJXA+F5m",
           "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -7966,7 +7992,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
       (0, _mocha.it)('should hide user menu, when no action on user-name', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "uJXA+F5m",
           "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -7977,9 +8003,9 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
       });
 
       beforeEach(function () {
-        this.register('service:store', _ember.default.Service.extend({
+        this.register('service:store', Ember.Service.extend({
           queryRecord: function queryRecord() {
-            return _ember.default.RSVP.resolve({
+            return Ember.RSVP.resolve({
               firstName: 'FHI',
               lastName: '4EVER',
               email: 'FHI@4EVER.fr'
@@ -7993,7 +8019,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         var _this = this;
 
         // given
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "uJXA+F5m",
           "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -8014,7 +8040,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         var _this2 = this;
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "uJXA+F5m",
           "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -8032,9 +8058,9 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
     (0, _mocha.describe)('behavior when user is unlogged or not found', function () {
 
       beforeEach(function () {
-        this.register('service:store', _ember.default.Service.extend({
+        this.register('service:store', Ember.Service.extend({
           queryRecord: function queryRecord() {
-            return _ember.default.RSVP.reject();
+            return Ember.RSVP.reject();
           }
         }));
         this.inject.service('store', { as: 'store' });
@@ -8044,7 +8070,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         var _this3 = this;
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "uJXA+F5m",
           "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -8741,7 +8767,7 @@ define('pix-live/tests/unit/adapters/user-test', ['chai', 'mocha', 'sinon', 'emb
     });
   });
 });
-define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'ember-mocha', 'sinon', 'ember'], function (_mocha, _chai, _emberMocha, _sinon, _ember) {
+define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'ember-mocha', 'sinon'], function (_mocha, _chai, _emberMocha, _sinon) {
   'use strict';
 
   var expectedUserId = 1;
@@ -8759,7 +8785,6 @@ define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'embe
         'attributes': {
           'user-id': expectedUserId,
           'token': expectedToken,
-          'has-organization': false,
           'password': ''
         },
         'id': expectedUserId
@@ -8767,7 +8792,7 @@ define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'embe
     });
 
     beforeEach(function () {
-      this.register('service:ajax', _ember.default.Service.extend({
+      this.register('service:ajax', Ember.Service.extend({
         request: requestStub
       }));
       this.inject.service('ajax', { as: 'ajax' });
@@ -8810,7 +8835,7 @@ define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'embe
     });
   });
 });
-define('pix-live/tests/unit/components/comparison-window-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/components/comparison-window-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   function _assertResultItemTitle(resultItem, expected) {
@@ -8838,7 +8863,7 @@ define('pix-live/tests/unit/components/comparison-window-test', ['ember', 'chai'
 
     (0, _mocha.beforeEach)(function () {
       component = this.subject();
-      answer = _ember.default.Object.create();
+      answer = Ember.Object.create();
       component.set('answer', answer);
     });
 
@@ -9102,7 +9127,7 @@ define('pix-live/tests/unit/components/competence-area-list-test', ['chai', 'moc
     });
   });
 });
-define('pix-live/tests/unit/components/competence-by-area-item-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/components/competence-by-area-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Component | Competence area item Component', function () {
@@ -9145,7 +9170,7 @@ define('pix-live/tests/unit/components/competence-by-area-item-test', ['ember', 
           // given
           var component = this.subject();
 
-          var competencesWithSameArea = [_ember.default.Object.create({ id: 2, name: 'competence-name-2', index: '1.2', area: 'area-id-1', level: -1 }), _ember.default.Object.create({ id: 3, name: 'competence-name-3', index: '1.3', area: 'area-id-1', level: -1 }), _ember.default.Object.create({ id: 1, name: 'competence-name-1', index: '1.1', area: 'area-id-1', level: -1 })];
+          var competencesWithSameArea = [Ember.Object.create({ id: 2, name: 'competence-name-2', index: '1.2', area: 'area-id-1', level: -1 }), Ember.Object.create({ id: 3, name: 'competence-name-3', index: '1.3', area: 'area-id-1', level: -1 }), Ember.Object.create({ id: 1, name: 'competence-name-1', index: '1.1', area: 'area-id-1', level: -1 })];
           var areaWithManyCompetences = {
             property: 'area',
             value: 'Information et données',
@@ -9155,19 +9180,19 @@ define('pix-live/tests/unit/components/competence-by-area-item-test', ['ember', 
           // when
           component.set('competenceArea', areaWithManyCompetences);
           // then
-          (0, _chai.expect)(component.get('_competencesSortedList')).to.deep.equal([_ember.default.Object.create({
+          (0, _chai.expect)(component.get('_competencesSortedList')).to.deep.equal([Ember.Object.create({
             id: 1,
             name: 'competence-name-1',
             index: '1.1',
             area: 'area-id-1',
             level: -1
-          }), _ember.default.Object.create({
+          }), Ember.Object.create({
             id: 2,
             name: 'competence-name-2',
             index: '1.2',
             area: 'area-id-1',
             level: -1
-          }), _ember.default.Object.create({
+          }), Ember.Object.create({
             id: 3,
             name: 'competence-name-3',
             index: '1.3',
@@ -9532,7 +9557,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['chai', 'mocha', '
     });
   });
 });
-define('pix-live/tests/unit/components/follower-form-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/components/follower-form-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   var errorMessages = {
@@ -9558,7 +9583,7 @@ define('pix-live/tests/unit/components/follower-form-test', ['ember', 'chai', 'm
             var component = this.subject();
             // when
             component.set('status', 'error');
-            component.set('follower', _ember.default.Object.create());
+            component.set('follower', Ember.Object.create());
             // then
             (0, _chai.expect)(component.get(attribute)).to.equal(expected);
           });
@@ -9575,7 +9600,7 @@ define('pix-live/tests/unit/components/follower-form-test', ['ember', 'chai', 'm
             var component = this.subject();
             // when
             component.set('status', 'success');
-            component.set('follower', _ember.default.Object.create());
+            component.set('follower', Ember.Object.create());
             // then
             (0, _chai.expect)(component.get(attribute)).to.equal(expected);
           });
@@ -9584,10 +9609,10 @@ define('pix-live/tests/unit/components/follower-form-test', ['ember', 'chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'ember-mocha', 'ember'], function (_mocha, _chai, _emberMocha, _ember) {
+define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'ember-mocha'], function (_mocha, _chai, _emberMocha) {
   'use strict';
 
-  var RSVP = _ember.default.RSVP;
+  var RSVP = Ember.RSVP;
 
 
   (0, _mocha.describe)('Unit | Component | g-recaptcha', function () {
@@ -9600,7 +9625,7 @@ define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'emb
 
       serviceResetCalled = false;
 
-      this.register('service:googleRecaptcha', _ember.default.Service.extend({
+      this.register('service:googleRecaptcha', Ember.Service.extend({
         loadScript: function loadScript() {
           return RSVP.resolve();
         },
@@ -9679,13 +9704,13 @@ define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'emb
     });
   });
 });
-define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Component | Navbar Header Component', function () {
     (0, _emberMocha.setupTest)('component:navbar-header', {});
-    var sessionStubResolve = _ember.default.Service.extend({ isAuthenticated: true });
-    var sessionStubReject = _ember.default.Service.extend({ isAuthenticated: false });
+    var sessionStubResolve = Ember.Service.extend({ isAuthenticated: true });
+    var sessionStubReject = Ember.Service.extend({ isAuthenticated: false });
 
     (0, _mocha.describe)('#isUserLogged true case', function () {
 
@@ -10162,7 +10187,7 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['chai', 
     });
   });
 });
-define('pix-live/tests/unit/components/result-item-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/components/result-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   var undefinedAnswer = 'undefined';
@@ -10233,8 +10258,8 @@ define('pix-live/tests/unit/components/result-item-test', ['ember', 'chai', 'moc
 
         (0, _mocha.it)('should return ' + data.expected + ' when challenge type is ' + data.challengeType, function () {
           // given
-          var challenge = _ember.default.Object.create({ type: data.challengeType });
-          var answer = _ember.default.Object.create({ challenge: challenge });
+          var challenge = Ember.Object.create({ type: data.challengeType });
+          var answer = Ember.Object.create({ challenge: challenge });
 
           // when
           component.set('answer', answer);
@@ -10552,7 +10577,7 @@ define('pix-live/tests/unit/components/timeout-jauge-test', ['chai', 'mocha', 'e
     });
   });
 });
-define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Component | User logged Menu', function () {
@@ -10561,9 +10586,9 @@ define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha',
     (0, _mocha.describe)('action#toggleUserMenu', function () {
 
       (0, _mocha.beforeEach)(function () {
-        this.register('service:store', _ember.default.Service.extend({
+        this.register('service:store', Ember.Service.extend({
           queryRecord: function queryRecord() {
-            return _ember.default.RSVP.resolve({});
+            return Ember.RSVP.resolve({});
           }
         }));
         this.inject.service('store', { as: 'store' });
@@ -10603,10 +10628,10 @@ define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha',
       (0, _mocha.describe)('When user is logged', function () {
 
         (0, _mocha.beforeEach)(function () {
-          this.register('service:store', _ember.default.Service.extend({
+          this.register('service:store', Ember.Service.extend({
             queryRecord: function queryRecord() {
               queryRecordArgs = Array.from(arguments);
-              return _ember.default.RSVP.resolve({
+              return Ember.RSVP.resolve({
                 firstName: 'FHI',
                 lastName: '4EVER',
                 email: 'FHI@4EVER.fr'
@@ -10719,7 +10744,7 @@ define('pix-live/tests/unit/helpers/extract-extension-test', ['chai', 'mocha', '
     });
   });
 });
-define('pix-live/tests/unit/helpers/get-challenge-component-class-test', ['ember', 'chai', 'mocha', 'pix-live/helpers/get-challenge-component-class'], function (_ember, _chai, _mocha, _getChallengeComponentClass) {
+define('pix-live/tests/unit/helpers/get-challenge-component-class-test', ['chai', 'mocha', 'pix-live/helpers/get-challenge-component-class'], function (_chai, _mocha, _getChallengeComponentClass) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Helper | get challenge component class', function () {
@@ -10728,7 +10753,7 @@ define('pix-live/tests/unit/helpers/get-challenge-component-class-test', ['ember
 
       (0, _mocha.it)('should return component class "' + useCase.expectedClass + '" when challenge type is "' + useCase.challengeType + '"', function () {
         // given
-        var challenge = _ember.default.Object.create({ type: useCase.challengeType });
+        var challenge = Ember.Object.create({ type: useCase.challengeType });
         var params = [challenge];
 
         // when
@@ -10769,7 +10794,7 @@ define('pix-live/tests/unit/helpers/strip-instruction-test', ['chai', 'mocha', '
     });
   });
 });
-define('pix-live/tests/unit/models/answer-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/models/answer-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Model | Answer', function () {
@@ -10789,7 +10814,7 @@ define('pix-live/tests/unit/models/answer-test', ['ember', 'chai', 'mocha', 'emb
       (0, _mocha.it)('should return bool', function () {
         var _this = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this.store();
           var answer = store.createRecord('answer', { 'result': 'ok' });
@@ -10814,7 +10839,7 @@ define('pix-live/tests/unit/models/area-test', ['chai', 'mocha', 'ember-mocha'],
     });
   });
 });
-define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/models/challenge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Model | Challenge', function () {
@@ -10833,7 +10858,7 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
       (0, _mocha.it)('Should be true when challenge has at least one attachment file', function () {
         var _this = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this.store();
           var challenge = store.createRecord('challenge', { attachments: ['file.url'] });
@@ -10849,7 +10874,7 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
       (0, _mocha.it)('Should be false when challenge has multiple attachment files', function () {
         var _this2 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this2.store();
           var challenge = store.createRecord('challenge', { attachments: [] });
@@ -10868,7 +10893,7 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
       (0, _mocha.it)('Should be true when challenge has only one attachment file', function () {
         var _this3 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this3.store();
           var challenge = store.createRecord('challenge', { attachments: ['file.url'] });
@@ -10884,7 +10909,7 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
       (0, _mocha.it)('Should be false when challenge has multiple attachment files', function () {
         var _this4 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this4.store();
           var challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
@@ -10903,7 +10928,7 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
       (0, _mocha.it)('Should be false when challenge has no attachment file', function () {
         var _this5 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this5.store();
           var challenge = store.createRecord('challenge', { attachments: [] });
@@ -10919,7 +10944,7 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
       (0, _mocha.it)('Should be false when challenge has only one attachment file', function () {
         var _this6 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this6.store();
           var challenge = store.createRecord('challenge', { attachments: ['file.url'] });
@@ -10935,7 +10960,7 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
       (0, _mocha.it)('Should be true when challenge has multiple attachments files', function () {
         var _this7 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this7.store();
           var challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
@@ -10950,7 +10975,7 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
     });
   });
 });
-define('pix-live/tests/unit/models/competence-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/models/competence-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Model | competence model', function () {
@@ -10970,7 +10995,7 @@ define('pix-live/tests/unit/models/competence-test', ['ember', 'chai', 'mocha', 
         var Competence = this.store().modelFor('competence');
 
         // when
-        var relationship = _ember.default.get(Competence, 'relationshipsByName').get('area');
+        var relationship = Ember.get(Competence, 'relationshipsByName').get('area');
 
         // then
         (0, _chai.expect)(relationship.key).to.equal('area');
@@ -10983,7 +11008,7 @@ define('pix-live/tests/unit/models/competence-test', ['ember', 'chai', 'mocha', 
       (0, _mocha.it)('should be an alias for "area" relationship on "name" property', function () {
         var _this = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this.store();
           var area = store.createRecord('area', { name: 'coucou' });
@@ -11014,7 +11039,7 @@ define('pix-live/tests/unit/models/course-group-test', ['chai', 'mocha', 'ember-
     });
   });
 });
-define('pix-live/tests/unit/models/course-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/models/course-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Model | Course', function () {
@@ -11033,7 +11058,7 @@ define('pix-live/tests/unit/models/course-test', ['ember', 'chai', 'mocha', 'emb
       (0, _mocha.it)('currentStep start at 1', function () {
         var _this = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this.store();
           var challenge = store.createRecord('challenge', {});
@@ -11046,7 +11071,7 @@ define('pix-live/tests/unit/models/course-test', ['ember', 'chai', 'mocha', 'emb
       (0, _mocha.it)('maxStep is 2 when there is 2 challenges in the course', function () {
         var _this2 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this2.store();
           var challenge1 = store.createRecord('challenge', {});
@@ -11061,7 +11086,7 @@ define('pix-live/tests/unit/models/course-test', ['ember', 'chai', 'mocha', 'emb
       (0, _mocha.it)('currentStep is 2 when there is 2 challenges in the course and called with 2nd test', function () {
         var _this3 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this3.store();
           var challenge1 = store.createRecord('challenge', {});
@@ -11136,10 +11161,10 @@ define('pix-live/tests/unit/models/user-test', ['chai', 'mocha', 'ember-mocha'],
     });
   });
 });
-define('pix-live/tests/unit/routes/application-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/application-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
-  var SplashServiceStub = _ember.default.Object.extend({
+  var SplashServiceStub = Ember.Object.extend({
     hideCount: 0,
     hide: function hide() {
       this.hideCount++;
@@ -11194,7 +11219,7 @@ define('pix-live/tests/unit/routes/assessments/get-results-test', ['chai', 'moch
     });
   });
 });
-define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'sinon'], function (_chai, _mocha, _emberMocha, _ember, _sinon) {
+define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | board', function () {
@@ -11211,7 +11236,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
     var queryRecordStub = _sinon.default.stub();
 
     beforeEach(function () {
-      this.register('service:store', _ember.default.Service.extend({
+      this.register('service:store', Ember.Service.extend({
         queryRecord: queryRecordStub
       }));
       this.inject.service('store', { as: 'store' });
@@ -11234,7 +11259,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
 
     (0, _mocha.it)('should return user first organization informations', function () {
       // given
-      var user = _ember.default.Object.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
+      var user = Ember.Object.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
 
       var route = this.subject();
       route.transitionTo = function () {};
@@ -11474,7 +11499,7 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
     });
   });
 });
-define('pix-live/tests/unit/routes/login-test', ['mocha', 'ember-mocha', 'sinon', 'ember'], function (_mocha, _emberMocha, _sinon, _ember) {
+define('pix-live/tests/unit/routes/login-test', ['mocha', 'ember-mocha', 'sinon'], function (_mocha, _emberMocha, _sinon) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | login page', function () {
@@ -11483,19 +11508,28 @@ define('pix-live/tests/unit/routes/login-test', ['mocha', 'ember-mocha', 'sinon'
     });
 
     var authenticatedStub = _sinon.default.stub();
+    var queryRecordStub = _sinon.default.stub();
     var expectedEmail = 'email@example.net';
     var expectedPassword = 'azerty';
 
     (0, _mocha.beforeEach)(function () {
-      this.register('service:session', _ember.default.Service.extend({
+      this.register('service:session', Ember.Service.extend({
         authenticate: authenticatedStub
       }));
       this.inject.service('session', { as: 'session' });
+
+      this.register('service:store', Ember.Service.extend({
+        queryRecord: queryRecordStub
+      }));
+      this.inject.service('store', { as: 'store' });
     });
 
     (0, _mocha.it)('should authenticate the user', function () {
       // Given
       authenticatedStub.resolves();
+
+      var foundUser = Ember.Object.create({ id: 12 });
+      queryRecordStub.resolves(foundUser);
       var route = this.subject();
       route.transitionTo = function () {};
 
@@ -11508,60 +11542,14 @@ define('pix-live/tests/unit/routes/login-test', ['mocha', 'ember-mocha', 'sinon'
       });
     });
 
-    (0, _mocha.describe)('Behavior when error occured', function () {
-
-      (0, _mocha.it)('should redirect to /connexion, when authenticated fails', function () {
-        // given
-        authenticatedStub.rejects();
-        var route = this.subject();
-        route.transitionTo = _sinon.default.stub();
-        // when
-        var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
-        // then
-        return promise.then(function (_) {
-          _sinon.default.assert.calledWith(route.transitionTo, 'connexion');
-        });
-      });
-
-      var queryRecordStub = _sinon.default.stub();
-      (0, _mocha.beforeEach)(function () {
-        this.register('service:store', _ember.default.Service.extend({
-          queryRecord: queryRecordStub
-        }));
-        this.inject.service('store', { as: 'store' });
-      });
-
-      (0, _mocha.it)('should redirect to /connexion , when we’re unable to fetch user profile', function () {
-        // given
-        authenticatedStub.resolves();
-        queryRecordStub.rejects();
-        var route = this.subject();
-        route.transitionTo = _sinon.default.stub();
-        // when
-        var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
-        // then
-        return promise.then(function (_) {
-          _sinon.default.assert.calledWith(route.transitionTo, 'connexion');
-        });
-      });
-    });
-
     (0, _mocha.describe)('Route behavior according to organization belong status (authenticated user)', function () {
-
-      var queryRecordStub = _sinon.default.stub();
-      (0, _mocha.beforeEach)(function () {
-        this.register('service:store', _ember.default.Service.extend({
-          queryRecord: queryRecordStub
-        }));
-        this.inject.service('store', { as: 'store' });
-      });
 
       (0, _mocha.it)('should redirect to /compte, when user is not linked to an Organization', function () {
         //Given
         var route = this.subject();
         authenticatedStub.resolves();
 
-        var foundUser = _ember.default.Object.create({ id: 12 });
+        var foundUser = Ember.Object.create({ id: 12 });
         queryRecordStub.resolves(foundUser);
 
         route.transitionTo = _sinon.default.stub();
@@ -11580,8 +11568,8 @@ define('pix-live/tests/unit/routes/login-test', ['mocha', 'ember-mocha', 'sinon'
         var route = this.subject();
         authenticatedStub.resolves();
 
-        var linkedOrganization = _ember.default.Object.create({ id: 1 });
-        var foundUser = _ember.default.Object.create({ organizations: [linkedOrganization] });
+        var linkedOrganization = Ember.Object.create({ id: 1 });
+        var foundUser = Ember.Object.create({ organizations: [linkedOrganization] });
         queryRecordStub.resolves(foundUser);
 
         route.transitionTo = _sinon.default.stub();
@@ -11732,7 +11720,7 @@ define('pix-live/tests/unit/routes/series-test', ['chai', 'mocha', 'ember-mocha'
     });
   });
 });
-define('pix-live/tests/unit/services/assessment-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/services/assessment-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Service | AssessmentService', function () {
@@ -11757,7 +11745,7 @@ define('pix-live/tests/unit/services/assessment-test', ['ember', 'chai', 'mocha'
       (0, _mocha.it)('returns a promise', function () {
         var _this = this;
 
-        return _ember.default.run(function () {
+        return Ember.run(function () {
           var store = _this.container.lookup('service:store');
 
           var _instantiateModels = instantiateModels(store, [{ id: 1 }, { id: 2 }]),
@@ -11771,7 +11759,7 @@ define('pix-live/tests/unit/services/assessment-test', ['ember', 'chai', 'mocha'
       (0, _mocha.it)('return the next challenge when current challenge is not the assessment\'s last one', function () {
         var _this2 = this;
 
-        return _ember.default.run(function () {
+        return Ember.run(function () {
           // given
           var store = _this2.container.lookup('service:store');
 
@@ -11790,7 +11778,7 @@ define('pix-live/tests/unit/services/assessment-test', ['ember', 'chai', 'mocha'
       (0, _mocha.it)('return the next challenge when current challenge is the assessment\'s latest', function () {
         var _this3 = this;
 
-        return _ember.default.run(function () {
+        return Ember.run(function () {
           // given
           var store = _this3.container.lookup('service:store');
 
@@ -11809,7 +11797,7 @@ define('pix-live/tests/unit/services/assessment-test', ['ember', 'chai', 'mocha'
       (0, _mocha.it)('return challenge model objects well formed', function () {
         var _this4 = this;
 
-        return _ember.default.run(function () {
+        return Ember.run(function () {
           // given
           var store = _this4.container.lookup('service:store');
 
