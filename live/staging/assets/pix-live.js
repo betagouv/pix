@@ -5426,8 +5426,16 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
       cgu: true,
       recaptchaToken: 'recaptcha-token-xxxxxx',
       totalPixScore: '777',
-      competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
-      organizationIds: [1]
+      competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+      //organizationIds: [1]
+    });
+
+    server.create('organization', {
+      id: 1,
+      name: 'LexCorp',
+      email: 'lex@lexcorp.com',
+      type: 'PRO',
+      code: 'ABCD66'
     });
   };
 });
@@ -6459,18 +6467,31 @@ define('pix-live/routes/login', ['exports', 'ember-simple-auth/mixins/unauthenti
 
     session: Ember.inject.service(),
 
-    routeIfAlreadyAuthenticated: '/compte',
+    routeIfNotAuthenticated: 'connexion',
+    routeIfAlreadyAuthenticated: 'compte',
+    routeForLoggedUserLinkedToOrganization: 'board',
 
     actions: {
       signin: function signin(email, password) {
         var _this = this;
 
-        return this.get('session').authenticate('authenticator:simple', email, password).then(function () {
-          _this.transitionTo(_this.routeIfAlreadyAuthenticated);
+        return this.get('session').authenticate('authenticator:simple', email, password).then(function (_) {
+          return _this.get('store').queryRecord('user', {});
+        }).then(function (user) {
+          var routeToRedirect = _isUserLinkedToOrganization(user) ? _this.routeForLoggedUserLinkedToOrganization : _this.routeIfAlreadyAuthenticated;
+          _this.transitionTo(routeToRedirect);
         });
       }
     }
   });
+
+
+  function _isUserLinkedToOrganization(user) {
+    if (!user.get('organizations')) {
+      return false;
+    }
+    return user.get('organizations.length') > 0;
+  }
 });
 define('pix-live/routes/logout', ['exports'], function (exports) {
   'use strict';
@@ -8358,6 +8379,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.17.0+d01e278c"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.17.0+fbe8b92e"});
 }
 //# sourceMappingURL=pix-live.map

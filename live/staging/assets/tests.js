@@ -169,7 +169,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
       (0, _destroyApp.default)(application);
     });
 
-    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -188,7 +188,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis l\'ancienne url "courses/:course_id/assessment"', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis l\'ancienne url "courses/:course_id/assessment"', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -340,7 +340,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       (0, _destroyApp.default)(application);
     });
 
-    (0, _mocha.it)('b1.1 Une liste de radiobuttons doit s\'afficher', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('b1.1 Une liste de radiobuttons doit s\'afficher', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       var $proposals;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
@@ -364,7 +364,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -385,7 +385,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee2, this);
     })));
 
-    (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+    (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
       return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
@@ -409,7 +409,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee3, this);
     })));
 
-    (0, _mocha.it)('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+    (0, _mocha.it)('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
       var $alert;
       return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
@@ -442,7 +442,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee4, this);
     })));
 
-    (0, _mocha.it)('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+    (0, _mocha.it)('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
       return regeneratorRuntime.wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
@@ -478,7 +478,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee5, this);
     })));
 
-    (0, _mocha.it)('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+    (0, _mocha.it)('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
       return regeneratorRuntime.wrap(function _callee6$(_context6) {
         while (1) {
           switch (_context6.prev = _context6.next) {
@@ -729,7 +729,7 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix
       (0, _chai.expect)($('.challenge-response__proposal-input')).to.have.lengthOf(3);
     });
 
-    (0, _mocha.it)('b4.3 Error alert box should be displayed if user validate without checking a checkbox', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('b4.3 Error alert box should be displayed if user validate without checking a checkbox', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -981,7 +981,7 @@ define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-li
 
     (0, _mocha.describe)('Access to the page', function () {
 
-      (0, _mocha.it)('should display the historic of the weekly courses courseGroups by the url /defis-pix', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('should display the historic of the weekly courses courseGroups by the url /defis-pix', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1005,7 +1005,7 @@ define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-li
 
     (0, _mocha.describe)('Rendering', function () {
 
-      (0, _mocha.it)('should display a navbar and a footer', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('should display a navbar and a footer', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -1027,7 +1027,7 @@ define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-li
         }, _callee2, this);
       })));
 
-      (0, _mocha.it)('should display a header section', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      (0, _mocha.it)('should display a header section', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -1048,7 +1048,7 @@ define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-li
         }, _callee3, this);
       })));
 
-      (0, _mocha.it)('should display a list of (weekly courses) course-groups', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+      (0, _mocha.it)('should display a list of (weekly courses) course-groups', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         var courses;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
@@ -1116,7 +1116,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
   }
 
   var visitTimedChallenge = function () {
-    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -1159,7 +1159,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
       (0, _destroyApp.default)(application);
     });
 
-    (0, _mocha.it)('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -1178,7 +1178,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
       }, _callee2, this);
     })));
 
-    (0, _mocha.it)('d1.0b La barre de progression commence à 1, si j\'accède directement à un course', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+    (0, _mocha.it)('d1.0b La barre de progression commence à 1, si j\'accède directement à un course', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
       var $progressBar;
       return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
@@ -1202,7 +1202,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
       }, _callee3, this);
     })));
 
-    (0, _mocha.it)('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+    (0, _mocha.it)('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
       return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
@@ -1222,7 +1222,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
     })));
 
     (0, _mocha.describe)('quand je valide ma réponse à une épreuve', function () {
-      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -1246,7 +1246,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
         }, _callee5, this);
       })));
 
-      (0, _mocha.it)('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+      (0, _mocha.it)('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -1261,7 +1261,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
         }, _callee6, this);
       })));
 
-      (0, _mocha.it)('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+      (0, _mocha.it)('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
         var expectedText;
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
@@ -1281,7 +1281,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
         }, _callee7, this);
       })));
 
-      (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
+      (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
         return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
@@ -1392,7 +1392,7 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'cha
 
     (0, _mocha.describe)('Prévisualiser une épreuve dans le cadre d\'un test |', function () {
 
-      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1476,7 +1476,7 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['moch
       (0, _destroyApp.default)(application);
     });
 
-    (0, _mocha.it)('g1.1 le bandeau doit être affiché si l\'usage d\'Internet ou d\'outils est interdit dans le cadre de l\'épreuve', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('g1.1 le bandeau doit être affiché si l\'usage d\'Internet ou d\'outils est interdit dans le cadre de l\'épreuve', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -1597,7 +1597,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
       });
 
       //XXX: Deux cas car on test aussi une absence d'affichage
-      (0, _mocha.it)('h2.1- doit cacher le contenu du challenge si l\'épreuve est timée mais l\'afficher dans le cas contraire ', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('h2.1- doit cacher le contenu du challenge si l\'épreuve est timée mais l\'afficher dans le cas contraire ', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1617,7 +1617,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
         }, _callee, this);
       })));
 
-      (0, _mocha.it)('h2.2- doit afficher le warning si l\'épreuve est timée mais ne pas l\'afficher dans le cas contraire ', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('h2.2- doit afficher le warning si l\'épreuve est timée mais ne pas l\'afficher dans le cas contraire ', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -1675,7 +1675,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
       var ASSESSMENT_WITH_TWO_TIMED_CHALLENGE = '/assessments/ref_timed_challenge_assessment_id/challenges/ref_timed_challenge_id';
       var PASS_BUTTON = '.challenge-actions__action-skip';
 
-      (0, _mocha.it)('doit afficher la \'warning page\' même si deux epreuves du même type et timées s\'enchaînent', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      (0, _mocha.it)('doit afficher la \'warning page\' même si deux epreuves du même type et timées s\'enchaînent', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -1765,7 +1765,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
     });
 
     (0, _mocha.describe)('j1.1 Affiche sur la ligne de l\'épreuve le mot REPONSE pour un QCM sur l\'écran des résultats', function () {
-      (0, _mocha.it)('j1.1.1 il l\'affiche pour un QCM, un QCU mais pas pour les autres types d\'épreuves', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('j1.1.1 il l\'affiche pour un QCM, un QCU mais pas pour les autres types d\'épreuves', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1791,7 +1791,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
 
     (0, _mocha.describe)('j1.2 Accès à la modale', function () {
 
-      (0, _mocha.it)('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -1821,7 +1821,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
         }, _callee2, this);
       })));
 
-      (0, _mocha.it)('j1.2.2 On peut accèder directement à la modale via URL et fermer la modale', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      (0, _mocha.it)('j1.2.2 On peut accèder directement à la modale via URL et fermer la modale', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -1849,7 +1849,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
 
     (0, _mocha.describe)('j1.3 Contenu de la modale : résultat & instruction', function () {
 
-      (0, _mocha.it)('j1.3.1 Vérification de l\'index, ainsi que l\'image et le texte du résultat dans le header', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+      (0, _mocha.it)('j1.3.1 Vérification de l\'index, ainsi que l\'image et le texte du résultat dans le header', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -1882,7 +1882,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
         }, _callee4, this);
       })));
 
-      (0, _mocha.it)('j1.3.2 Vérification de la présence de l\'instruction, texte et image', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+      (0, _mocha.it)('j1.3.2 Vérification de la présence de l\'instruction, texte et image', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -1973,7 +1973,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
 
     (0, _mocha.describe)('j2.1 Depuis la page résultat', function () {
 
-      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1989,7 +1989,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee, this);
       })));
 
-      (0, _mocha.it)('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -2004,7 +2004,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee2, this);
       })));
 
-      (0, _mocha.it)('On n\'affiche pas encore la modale, ni son contenu', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      (0, _mocha.it)('On n\'affiche pas encore la modale, ni son contenu', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -2024,7 +2024,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
 
     (0, _mocha.describe)('j2.2 Contenu de la modale de correction pour un QROC', function () {
 
-      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -2040,7 +2040,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee4, this);
       })));
 
-      (0, _mocha.afterEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+      (0, _mocha.afterEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -2061,7 +2061,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee5, this);
       })));
 
-      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -2076,7 +2076,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee6, this);
       })));
 
-      (0, _mocha.it)('contient un header', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+      (0, _mocha.it)('contient un header', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
@@ -2091,7 +2091,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee7, this);
       })));
 
-      (0, _mocha.it)('contient une instruction', _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
+      (0, _mocha.it)('contient une instruction', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
         return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
@@ -2106,7 +2106,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee8, this);
       })));
 
-      (0, _mocha.it)('contient une zone de correction', _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
+      (0, _mocha.it)('contient une zone de correction', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
         return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
@@ -2121,7 +2121,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee9, this);
       })));
 
-      (0, _mocha.it)('contient une zone reservé au feedback panel', _asyncToGenerator(regeneratorRuntime.mark(function _callee10() {
+      (0, _mocha.it)('contient une zone reservé au feedback panel', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
         return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
@@ -2136,7 +2136,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee10, this);
       })));
 
-      (0, _mocha.it)('on peut fermer la modale', _asyncToGenerator(regeneratorRuntime.mark(function _callee11() {
+      (0, _mocha.it)('on peut fermer la modale', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
         return regeneratorRuntime.wrap(function _callee11$(_context11) {
           while (1) {
             switch (_context11.prev = _context11.next) {
@@ -2261,7 +2261,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     (0, _mocha.describe)('l1.1 Depuis une epreuve', function () {
       var _this = this;
 
-      (0, _mocha.it)('Je peux signaler une épreuve directement', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('Je peux signaler une épreuve directement', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2280,7 +2280,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
         }, _callee, _this);
       })));
 
-      (0, _mocha.it)('Le formulaire de signalement d\'une épreuve est remis à zéro dès que je change d\'épreuve', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('Le formulaire de signalement d\'une épreuve est remis à zéro dès que je change d\'épreuve', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -2311,7 +2311,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
         }, _callee2, _this);
       })));
 
-      (0, _mocha.it)('Le formulaire de signalement est remis à zéro même quand les 2 épreuves qui s\'enchaînent utilisent le même composant challenge-item-* (ex : q1 est de type "QCU" et q2 "QRU" ; toutes deux utilisent le composant challenge-item-qcu)', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      (0, _mocha.it)('Le formulaire de signalement est remis à zéro même quand les 2 épreuves qui s\'enchaînent utilisent le même composant challenge-item-* (ex : q1 est de type "QCU" et q2 "QRU" ; toutes deux utilisent le composant challenge-item-qcu)', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -2346,7 +2346,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     (0, _mocha.describe)('l1.2 Depuis la fenêtre de comparaison', function () {
       var _this2 = this;
 
-      (0, _mocha.it)('Je peux signaler une épreuve (page de résultat du test)', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+      (0, _mocha.it)('Je peux signaler une épreuve (page de résultat du test)', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -2379,48 +2379,121 @@ define('pix-live/tests/acceptance/m1-authentication-and-profile-test', ['mocha',
 
     (0, _mocha.beforeEach)(function () {
       application = (0, _startApp.default)();
-
-      server.create('user', {
-        id: 1,
-        firstName: 'François',
-        lastName: 'Hisquin',
-        email: 'fhi@octo.com',
-        password: 'FHI4EVER',
-        cgu: true,
-        recaptchaToken: 'recaptcha-token-xxxxxx',
-        competenceIds: []
-      });
     });
 
     (0, _mocha.afterEach)(function () {
       (0, _destroyApp.default)(application);
     });
 
-    (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
-      (0, _mocha.it)('should redirect to the connexion page', function () {
-        // when
-        visit('/compte');
+    (0, _mocha.describe)('Success cases', function () {
+      (0, _mocha.beforeEach)(function () {
+        server.create('user', {
+          id: 1,
+          firstName: 'François',
+          lastName: 'Hisquin',
+          email: 'fhi@octo.com',
+          password: 'FHI4EVER',
+          cgu: true,
+          recaptchaToken: 'recaptcha-token-xxxxxx',
+          competenceIds: []
+        });
+      });
 
-        // then
-        return andThen(function () {
-          (0, _chai.expect)(currentURL()).to.equal('/');
+      (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
+        (0, _mocha.it)('should redirect to the connexion page', function () {
+          // when
+          visit('/compte');
+
+          // then
+          return andThen(function () {
+            (0, _chai.expect)(currentURL()).to.equal('/');
+          });
+        });
+      });
+
+      (0, _mocha.describe)('m1.2 Log-in phase', function () {
+
+        function seedDatabaseForUsualUser() {
+          server.loadFixtures('areas');
+          server.loadFixtures('competences');
+          server.create('user', {
+            id: 1,
+            firstName: 'Samurai',
+            lastName: 'Jack',
+            email: 'samurai.jack@aku.world',
+            password: 'B@ck2past',
+            cgu: true,
+            recaptchaToken: 'recaptcha-token-xxxxxx',
+            competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+          });
+        }
+
+        function seedDatabaseForUserWithOrganization() {
+          server.loadFixtures('organizations');
+          server.create('user', {
+            id: 1,
+            firstName: 'Samurai',
+            lastName: 'Jack',
+            email: 'samurai.jack@aku.world',
+            password: 'B@ck2past',
+            cgu: true,
+            recaptchaToken: 'recaptcha-token-xxxxxx',
+            organizationIds: [1]
+          });
+        }
+
+        function authenticateUser() {
+          // given
+          visit('/connexion');
+          fillIn('#pix-email', 'samurai.jack@aku.world');
+          fillIn('#pix-password', 'B@ck2past');
+
+          // when
+          click('.signin-form__submit_button');
+        }
+
+        (0, _mocha.it)('should redirect to the /compte after connexion for usual users', function () {
+          // given
+          seedDatabaseForUsualUser();
+          authenticateUser();
+
+          // then
+          return andThen(function () {
+            (0, _chai.expect)(currentURL()).to.equal('/compte');
+          });
+        });
+
+        (0, _mocha.it)('should redirect to the /board after connexion for users with organization', function () {
+          // given
+          seedDatabaseForUserWithOrganization();
+          authenticateUser();
+
+          // then
+          return andThen(function () {
+            (0, _chai.expect)(currentURL()).to.equal('/board');
+          });
         });
       });
     });
 
-    (0, _mocha.describe)('m1.2 Log-in phase', function () {
-      (0, _mocha.it)('should redirect to the /compte after connexion', function () {
+    (0, _mocha.describe)('Error case', function () {
+
+      function authenticateUnknownUser() {
         // given
         visit('/connexion');
-        fillIn('#pix-email', 'fhi@octo.com');
-        fillIn('#pix-password', 'FHI4EVER');
+        fillIn('#pix-email', 'anyone@pix.world');
+        fillIn('#pix-password', 'Pix20!!');
 
         // when
         click('.signin-form__submit_button');
+      }
 
-        // then
+      (0, _mocha.it)('should stay in /connexion , when authentication failed', function () {
+        // given
+        authenticateUnknownUser();
+
         return andThen(function () {
-          (0, _chai.expect)(currentURL()).to.equal('/compte');
+          (0, _chai.expect)(currentURL()).to.equal('/connexion');
         });
       });
     });
@@ -2491,7 +2564,7 @@ define('pix-live/tests/acceptance/n1-competence-profile-test', ['mocha', 'chai',
       click('.signin-form__submit_button');
     }
 
-    (0, _mocha.it)('can visit /compte', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('can visit /compte', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -2517,7 +2590,7 @@ define('pix-live/tests/acceptance/n1-competence-profile-test', ['mocha', 'chai',
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('should redirect to home, when user is not found', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('should redirect to home, when user is not found', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -2630,7 +2703,7 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
       click('.signin-form__submit_button');
     }
 
-    (0, _mocha.it)('can visit /board', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('can visit /board', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -2656,7 +2729,7 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('should display the name and the code of my organization', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('should display the name and the code of my organization', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -4790,7 +4863,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
         (0, _chai.expect)(this.$(BUTTON_CANCEL)).to.have.lengthOf(0);
       });
 
-      (0, _mocha.it)('should be visible only if component is collapsible and form is opened', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('should be visible only if component is collapsible and form is opened', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -8694,61 +8767,11 @@ define('pix-live/tests/unit/adapters/user-test', ['chai', 'mocha', 'sinon', 'emb
     });
   });
 });
-define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'ember-mocha'], function (_mocha, _chai, _emberMocha) {
+define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'ember-mocha', 'sinon'], function (_mocha, _chai, _emberMocha, _sinon) {
   'use strict';
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
 
   var expectedUserId = 1;
   var expectedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6InBpeEBjb250YWN0LmNvbSIsImlhdCI6MTQ5Njg0NTY3OSwiZXhwIjoxNDk3NDUwNDc5fQ.6Mkkstj-9SjXX4lsXrsZ2KL91Ol3kbxn6tlus2apGVY';
-
-  var AjaxStub = function () {
-    function AjaxStub() {
-      _classCallCheck(this, AjaxStub);
-    }
-
-    _createClass(AjaxStub, [{
-      key: 'request',
-      value: function request() {
-        this.callArgs = Array.from(arguments);
-        return Promise.resolve({
-          'data': {
-            'type': 'authentication',
-            'attributes': {
-              'user-id': expectedUserId,
-              'token': expectedToken,
-              'password': ''
-            },
-            'id': expectedUserId
-          }
-        });
-      }
-    }]);
-
-    return AjaxStub;
-  }();
 
   (0, _mocha.describe)('Unit | Authenticator | simple', function () {
 
@@ -8756,21 +8779,39 @@ define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'embe
       needs: ['service:ajax']
     });
 
+    var requestStub = _sinon.default.stub().resolves({
+      'data': {
+        'type': 'authentication',
+        'attributes': {
+          'user-id': expectedUserId,
+          'token': expectedToken,
+          'password': ''
+        },
+        'id': expectedUserId
+      }
+    });
+
+    beforeEach(function () {
+      this.register('service:ajax', Ember.Service.extend({
+        request: requestStub
+      }));
+      this.inject.service('ajax', { as: 'ajax' });
+    });
+
     (0, _mocha.it)('should post a request to retrieve token', function () {
       // Given
       var email = 'test@example.net';
       var password = 'Hx523è9#';
-      var ajaxStub = new AjaxStub();
       var authenticator = this.subject();
-      authenticator.set('ajax', ajaxStub);
 
       // When
       var promise = authenticator.authenticate(email, password);
 
       // Then
       return promise.then(function (_) {
-        (0, _chai.expect)(ajaxStub.callArgs[0]).to.deep.equal('/api/authentications');
-        (0, _chai.expect)(ajaxStub.callArgs[1]).to.deep.equal({
+
+        _sinon.default.assert.calledWith(requestStub, '/api/authentications');
+        (0, _chai.expect)(requestStub.getCall(0).args[1]).to.deep.equal({
           method: 'POST',
           data: '{"data":{"attributes":{"password":"Hx523è9#","email":"test@example.net"}}}'
         });
@@ -8781,9 +8822,7 @@ define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'embe
       // Given
       var email = 'test@example.net';
       var password = 'Hx523è9#';
-      var ajaxStub = new AjaxStub();
       var authenticator = this.subject();
-      authenticator.set('ajax', ajaxStub);
 
       // When
       var promise = authenticator.authenticate(email, password);
@@ -11460,62 +11499,38 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
     });
   });
 });
-define('pix-live/tests/unit/routes/login-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/login-test', ['mocha', 'ember-mocha', 'sinon'], function (_mocha, _emberMocha, _sinon) {
   'use strict';
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  var SessionStub = function () {
-    function SessionStub() {
-      _classCallCheck(this, SessionStub);
-    }
-
-    _createClass(SessionStub, [{
-      key: 'authenticate',
-      value: function authenticate() {
-        this.callArgs = Array.from(arguments);
-        return Promise.resolve();
-      }
-    }]);
-
-    return SessionStub;
-  }();
 
   (0, _mocha.describe)('Unit | Route | login page', function () {
     (0, _emberMocha.setupTest)('route:login', {
       needs: ['service:current-routed-modal', 'service:session']
     });
 
+    var authenticatedStub = _sinon.default.stub();
+    var queryRecordStub = _sinon.default.stub();
     var expectedEmail = 'email@example.net';
     var expectedPassword = 'azerty';
-    var sessionStub = new SessionStub();
+
+    (0, _mocha.beforeEach)(function () {
+      this.register('service:session', Ember.Service.extend({
+        authenticate: authenticatedStub
+      }));
+      this.inject.service('session', { as: 'session' });
+
+      this.register('service:store', Ember.Service.extend({
+        queryRecord: queryRecordStub
+      }));
+      this.inject.service('store', { as: 'store' });
+    });
 
     (0, _mocha.it)('should authenticate the user', function () {
       // Given
+      authenticatedStub.resolves();
+
+      var foundUser = Ember.Object.create({ id: 12 });
+      queryRecordStub.resolves(foundUser);
       var route = this.subject();
-      route.set('session', sessionStub);
       route.transitionTo = function () {};
 
       // When
@@ -11523,7 +11538,49 @@ define('pix-live/tests/unit/routes/login-test', ['chai', 'mocha', 'ember-mocha']
 
       // Then
       return promise.then(function () {
-        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
+        _sinon.default.assert.calledWith(authenticatedStub, 'authenticator:simple', expectedEmail, expectedPassword);
+      });
+    });
+
+    (0, _mocha.describe)('Route behavior according to organization belong status (authenticated user)', function () {
+
+      (0, _mocha.it)('should redirect to /compte, when user is not linked to an Organization', function () {
+        //Given
+        var route = this.subject();
+        authenticatedStub.resolves();
+
+        var foundUser = Ember.Object.create({ id: 12 });
+        queryRecordStub.resolves(foundUser);
+
+        route.transitionTo = _sinon.default.stub();
+
+        //When
+        var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+
+        return promise.then(function () {
+          //Then
+          _sinon.default.assert.calledWith(route.transitionTo, 'compte');
+        });
+      });
+
+      (0, _mocha.it)('should redirect to /board, when user is linked to an Organization', function () {
+        //Given
+        var route = this.subject();
+        authenticatedStub.resolves();
+
+        var linkedOrganization = Ember.Object.create({ id: 1 });
+        var foundUser = Ember.Object.create({ organizations: [linkedOrganization] });
+        queryRecordStub.resolves(foundUser);
+
+        route.transitionTo = _sinon.default.stub();
+
+        //When
+        var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+
+        return promise.then(function () {
+          //Then
+          _sinon.default.assert.calledWith(route.transitionTo, 'board');
+        });
       });
     });
   });
