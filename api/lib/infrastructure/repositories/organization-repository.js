@@ -31,7 +31,7 @@ module.exports = {
       .where({ userId })
       .fetchAll()
       .then((organizations) => {
-        return (organizations) ? organizations.models : [];
+        return organizations.models;
       });
   }
 };
