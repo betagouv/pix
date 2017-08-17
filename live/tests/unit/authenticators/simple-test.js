@@ -19,7 +19,6 @@ describe('Unit | Authenticator | simple', function() {
       'attributes': {
         'user-id': expectedUserId,
         'token': expectedToken,
-        'has-organization': false,
         'password': ''
       },
       'id': expectedUserId
