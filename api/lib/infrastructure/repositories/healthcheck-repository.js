@@ -1,6 +1,6 @@
-const settings = require('../../../lib/settings')
-const knexConfig = require('../../../db/knexfile')
-const knex = require('knex')(knexConfig[settings.environment])
+const settings = require('../../../lib/settings');
+const knexConfig = require('../../../db/knexfile');
+const knex = require('knex')(knexConfig[settings.environment]);
 
 module.exports = {
 

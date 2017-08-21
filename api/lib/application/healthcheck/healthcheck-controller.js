@@ -12,15 +12,15 @@ module.exports = {
       'version': packageJSON.version,
       'description': packageJSON.description,
       'environment': settings.environment
-    })
+    });
   },
 
   getDbStatus(request, reply) {
     return healthcheckRepository.check()
-      .then(result => reply({ message: 'Connection to database ok' }))
+      .then(() => reply({ message: 'Connection to database ok' }))
       .catch(() => {
-        reply(Boom.serverUnavailable('Connection to database failed'))
-      })
+        reply(Boom.serverUnavailable('Connection to database failed'));
+      });
   }
 
-}
+};

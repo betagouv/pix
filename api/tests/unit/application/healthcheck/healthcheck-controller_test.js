@@ -46,7 +46,7 @@ describe('Unit | Controller | healthcheckController', () => {
         expect(callArguments).to.include.keys('message');
         expect(callArguments['message']).to.equal('Connection to database ok');
       });
-    })
+    });
 
     it('should reply with a 503 error when the connection with the database is KO', () => {
       // given
@@ -61,7 +61,7 @@ describe('Unit | Controller | healthcheckController', () => {
         const callArguments = replySpy.firstCall.args[0];
         expect(callArguments['message']).to.equal('Connection to database failed');
       });
-    })
-  })
+    });
+  });
 
 });
