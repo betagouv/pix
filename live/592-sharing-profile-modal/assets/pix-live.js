@@ -6447,11 +6447,9 @@ define('pix-live/routes/compte', ['exports', 'ember-simple-auth/mixins/authentic
             code: code
           }
         }).then(function (organisations) {
-          if (organisations.content.length === 1) {
-            return organisations.get('firstObject');
-          } else {
-            return null;
-          }
+          var isOrganizationFound = organisations.content.length === 1;
+
+          return isOrganizationFound ? organisations.get('firstObject') : null;
         });
       }
     }
@@ -8767,6 +8765,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.17.0+9067f896"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.17.0+f7748318"});
 }
 //# sourceMappingURL=pix-live.map
