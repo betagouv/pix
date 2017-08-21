@@ -10663,6 +10663,31 @@ define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'e
       });
     });
 
+    (0, _mocha.describe)('#placeholder', function () {
+      (0, _mocha.it)('should leave the placeholder empty with "focusIn"', function () {
+        // Given
+        var component = this.subject();
+
+        // Then
+        component.send('focusIn');
+
+        // When
+        (0, _chai.expect)(component.get('placeholder')).to.be.equal('');
+      });
+
+      (0, _mocha.it)('should reset the placeholder to its default value with "focusOut"', function () {
+        // Given
+        var component = this.subject();
+        component.set('placeholder', 'Ex: EFGH89');
+
+        // Then
+        component.send('focusOut');
+
+        // When
+        (0, _chai.expect)(component.get('placeholder')).to.be.equal('Ex: ABCD12');
+      });
+    });
+
     (0, _mocha.describe)('#toggleSharingModal', function () {
       (0, _mocha.it)('should use the "close" action', function () {
         // Given
