@@ -1,126 +1,6 @@
 'use strict';
 
-define('pix-live/tests/acceptance/a1-page-accueil-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
-  'use strict';
-
-  (0, _mocha.describe)('Acceptance | a1 - La page d\'accueil', function () {
-
-    var application = void 0;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
-      visit('/');
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
-    });
-
-    (0, _mocha.it)('a1.0 Accessing to "/"', function () {
-      (0, _chai.expect)(currentURL()).to.equal('/');
-    });
-
-    (0, _mocha.describe)('contains an "Hero" section', function () {
-
-      (0, _mocha.it)('a1.0 with a navbar', function () {
-        findWithAssert('.index-page-hero__navbar-header');
-      });
-
-      (0, _mocha.it)('a1.1 with a title', function () {
-        var $title = findWithAssert('.index-page-hero__title');
-        (0, _chai.expect)($title.text().trim()).to.equal('Développez vos compétences numériques');
-      });
-
-      (0, _mocha.it)('a1.2 with a description', function () {
-        var $description = findWithAssert('.index-page-hero__description');
-        (0, _chai.expect)($description.text().trim()).to.equal('PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.');
-      });
-    });
-
-    (0, _mocha.describe)('contains a "Challenges section"', function () {
-
-      (0, _mocha.it)('a1.3 hided when no test', function () {
-        // FIXME find a way to test this correctly
-      });
-
-      (0, _mocha.it)('a1.4 displayed when at least one test', function () {
-        // FIXME find a way to test this correctly
-      });
-
-      (0, _mocha.it)('a1.6 with a title', function () {
-        var $title = findWithAssert('.index-page-challenges__presentation-title');
-        (0, _chai.expect)($title.text().trim()).to.equal('Les défis Pix de la semaine');
-      });
-
-      (0, _mocha.it)('a1.7 with a description', function () {
-        var $description = findWithAssert('.index-page-challenges__presentation-text');
-        (0, _chai.expect)($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
-      });
-
-      (0, _mocha.it)('a1.8 display only two tests', function () {
-        // FIXME find a way to test this correctly
-      });
-    });
-
-    (0, _mocha.describe)('contains a section with a bbutton to save new partners', function () {
-
-      (0, _mocha.it)('a1.16 with a title', function () {
-        var $title = findWithAssert('.partners-enrollment__title');
-        (0, _chai.expect)($title.text().trim()).to.equal('Collèges, lycées, établissements d’enseignement supérieur : rejoignez l’aventure Pix dès l’année 2017-2018 !');
-      });
-
-      (0, _mocha.it)('a1.17 with a description', function () {
-        var $title = findWithAssert('.partners-enrollment__description');
-        (0, _chai.expect)($title.text().trim()).to.equal('Je veux que mon établissement propose la certification Pix dès cette année');
-      });
-
-      (0, _mocha.it)('a1.17 with a link to registering page', function () {
-        var $title = findWithAssert('.partners-enrollment__link');
-        findWithAssert('.partners-enrollment__link-container');
-        (0, _chai.expect)($title.attr('href').trim()).to.equal('/rejoindre');
-      });
-    });
-
-    (0, _mocha.describe)('contains a "Courses" section', function () {
-
-      (0, _mocha.it)('a1.9 with a title', function () {
-        var $title = findWithAssert('.index-page-courses__title');
-        (0, _chai.expect)($title.text().trim()).to.equal('Découvrez nos épreuves et aidez‑nous à les améliorer !');
-      });
-
-      (0, _mocha.it)('a1.10 with a challenges list', function () {
-        findWithAssert('.index-page-courses__course-list');
-      });
-    });
-
-    (0, _mocha.describe)('contains a "Community" section', function () {
-
-      (0, _mocha.it)('a1.11 with a title', function () {
-        findWithAssert('.index-page-community__title');
-      });
-
-      (0, _mocha.it)('a1.12 with a description', function () {
-        findWithAssert('.index-page-community__description');
-      });
-
-      (0, _mocha.it)('a1.13 with a form subscription to beta tester', function () {
-        findWithAssert('.index-page-community__form');
-      });
-    });
-
-    (0, _mocha.describe)('contains a "Features" section', function () {
-
-      (0, _mocha.it)('a1.14 with a feature list', function () {
-        findWithAssert('.index-page-features__list');
-      });
-
-      (0, _mocha.it)('a1.15 with a link to "projet"', function () {
-        findWithAssert('.index-page-features__project-button[href="/projet"]');
-      });
-    });
-  });
-});
-define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (_mocha, _chai, _startApp, _destroyApp, _lodashCustom) {
+define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/utils/lodash-custom'], function (_mocha, _chai, _application, _lodashCustom) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -161,12 +41,12 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visit('/');
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
@@ -268,7 +148,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
     });
   });
 });
-define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   (0, _mocha.describe)('Acceptance | a5 - La page des tests adaptatifs', function () {
@@ -276,12 +156,12 @@ define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['mocha'
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visit('/placement-tests');
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('a5.0 est accessible depuis "/placement-tests"', function () {
@@ -296,7 +176,7 @@ define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['mocha'
     });
   });
 });
-define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -333,11 +213,11 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('b1.1 Une liste de radiobuttons doit s\'afficher', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
@@ -531,7 +411,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
     );
   });
 });
-define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function visitTimedChallenge() {
@@ -544,12 +424,12 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visitTimedChallenge();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('b2.1 It should render challenge instruction', function () {
@@ -636,7 +516,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
     });
   });
 });
-define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   (0, _mocha.describe)('Acceptance | b3 - Afficher un QROC | ', function () {
@@ -644,12 +524,12 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['mocha', 'chai', 'pix-
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visit('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_id');
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('b3.1 It should render challenge instruction', function () {
@@ -674,7 +554,7 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['mocha', 'chai', 'pix-
     });
   });
 });
-define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -711,12 +591,12 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('b4.1 It should render challenge instruction', function () {
@@ -754,7 +634,7 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix
     })));
   });
 });
-define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function visitTimedChallenge() {
@@ -769,11 +649,11 @@ define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['mocha', 'chai', 'pix-li
     var $ATTACHMENT_LINK = $('.challenge-statement__action-link');
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.describe)('Quand l\'épreuve contient une pièce jointe en consigne', function () {
@@ -815,7 +695,7 @@ define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['mocha', 'chai', 'pix-li
     });
   });
 });
-define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   (0, _mocha.describe)('Acceptance | b7 - Points communs a toutes les épreuves | ', function () {
@@ -823,12 +703,12 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'ch
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('b7.0 Le nom du test est affiché', function () {
@@ -881,7 +761,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'ch
     });
   });
 });
-define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   (0, _mocha.describe)('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function () {
@@ -889,12 +769,12 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visit('/assessments/ref_assessment_id/results');
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('c1.0 se fait en accédant à l\'URL /assessments/:assessment_id/results', function () {
@@ -935,7 +815,384 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
     });
   });
 });
-define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Espace compte', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.describe)('Success cases', function () {
+      (0, _mocha.beforeEach)(function () {
+        server.create('user', {
+          id: 1,
+          firstName: 'François',
+          lastName: 'Hisquin',
+          email: 'fhi@octo.com',
+          password: 'FHI4EVER',
+          cgu: true,
+          recaptchaToken: 'recaptcha-token-xxxxxx',
+          competenceIds: []
+        });
+      });
+
+      (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
+        (0, _mocha.it)('should redirect to the connexion page', function () {
+          // when
+          visit('/compte');
+
+          // then
+          return andThen(function () {
+            (0, _chai.expect)(currentURL()).to.equal('/');
+          });
+        });
+      });
+
+      (0, _mocha.describe)('m1.2 Log-in phase', function () {
+
+        function seedDatabaseForUsualUser() {
+          server.loadFixtures('areas');
+          server.loadFixtures('competences');
+          server.create('user', {
+            id: 1,
+            firstName: 'Samurai',
+            lastName: 'Jack',
+            email: 'samurai.jack@aku.world',
+            password: 'B@ck2past',
+            cgu: true,
+            recaptchaToken: 'recaptcha-token-xxxxxx',
+            competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+          });
+        }
+
+        function seedDatabaseForUserWithOrganization() {
+          server.loadFixtures('organizations');
+          server.create('user', {
+            id: 1,
+            firstName: 'Samurai',
+            lastName: 'Jack',
+            email: 'samurai.jack@aku.world',
+            password: 'B@ck2past',
+            cgu: true,
+            recaptchaToken: 'recaptcha-token-xxxxxx',
+            organizationIds: [1]
+          });
+        }
+
+        function authenticateUser() {
+          // given
+          visit('/connexion');
+          fillIn('#pix-email', 'samurai.jack@aku.world');
+          fillIn('#pix-password', 'B@ck2past');
+
+          // when
+          click('.signin-form__submit_button');
+        }
+
+        (0, _mocha.it)('should redirect to the /compte after connexion for usual users', function () {
+          // given
+          seedDatabaseForUsualUser();
+          authenticateUser();
+
+          // then
+          return andThen(function () {
+            (0, _chai.expect)(currentURL()).to.equal('/compte');
+          });
+        });
+
+        (0, _mocha.it)('should redirect to the /board after connexion for users with organization', function () {
+          // given
+          seedDatabaseForUserWithOrganization();
+          authenticateUser();
+
+          // then
+          return andThen(function () {
+            (0, _chai.expect)(currentURL()).to.equal('/board');
+          });
+        });
+      });
+    });
+
+    (0, _mocha.describe)('Error case', function () {
+
+      function authenticateUnknownUser() {
+        // given
+        visit('/connexion');
+        fillIn('#pix-email', 'anyone@pix.world');
+        fillIn('#pix-password', 'Pix20!!');
+
+        // when
+        click('.signin-form__submit_button');
+      }
+
+      (0, _mocha.it)('should stay in /connexion , when authentication failed', function () {
+        // given
+        authenticateUnknownUser();
+
+        return andThen(function () {
+          (0, _chai.expect)(currentURL()).to.equal('/connexion');
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'chai', 'pix-live/tests/helpers/seeds', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _seeds, _application) {
+  'use strict';
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
+
+  (0, _mocha.describe)('Acceptance | Compte | competence profile', function () {
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    function seedDatabase() {
+      _seeds.default.injectUserAccount();
+    }
+
+    function authenticateUser() {
+      visit('/connexion');
+      fillIn('#pix-email', 'samurai.jack@aku.world');
+      fillIn('#pix-password', 'B@ck2past');
+      click('.signin-form__submit_button');
+    }
+
+    (0, _mocha.it)('can visit /compte', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              // given
+              seedDatabase();
+              authenticateUser();
+
+              // when
+              _context.next = 4;
+              return visit('/compte');
+
+            case 4:
+              return _context.abrupt('return', andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/compte');
+              }));
+
+            case 5:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })));
+
+    (0, _mocha.it)('should redirect to home, when user is not found', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return visit('/compte');
+
+            case 2:
+              return _context2.abrupt('return', andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/');
+              }));
+
+            case 3:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
+
+    (0, _mocha.it)('should display user competences (with level) grouped by area', function () {
+      // given
+      seedDatabase();
+      authenticateUser();
+
+      // when
+      visit('/compte');
+
+      // then
+      return andThen(function () {
+        (0, _chai.expect)(find('.competence-by-area-item').length).to.equal(5);
+        (0, _chai.expect)(find('.competence').length).to.equal(16);
+      });
+    });
+
+    (0, _mocha.it)('should display a link ’commencer’ with the correct url to start an adaptive course, for the first competence', function () {
+      // given
+      seedDatabase();
+      authenticateUser();
+
+      // when
+      visit('/compte');
+
+      // then
+      return andThen(function () {
+        (0, _chai.expect)(find('.competence-level-progress-bar__start-link:first').attr('href')).to.be.equal('/courses/ref_course_id');
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/seeds', 'pix-live/tests/helpers/testing'], function (_mocha, _chai, _application, _seeds, _testing) {
+  'use strict';
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
+
+  (0, _mocha.describe)('Acceptance | Compte | share profile', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('display an error when the organization does not exists', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              // given
+              _seeds.default.injectUserAccount();
+              _testing.default.authenticateUser();
+
+              // when
+              _context.next = 4;
+              return visit('/compte');
+
+            case 4:
+
+              click('.share-profile__share-button');
+              fillIn('.ember-modal-dialog #code', 'ABCD01');
+              click('.pix-modal__button--primary');
+
+              return _context.abrupt('return', andThen(function () {
+                (0, _chai.expect)(find('.ember-modal-dialog h1').text()).to.equal('Partage de votre profil');
+                (0, _chai.expect)(find('.ember-modal-dialog #code').val()).to.equal('ABCD01');
+                (0, _chai.expect)(find('.share-profile__modal-form > .share-profile__form-error').length).to.equal(1);
+                (0, _chai.expect)(find('.share-profile__modal-form > .share-profile__form-error').text()).to.equal('Ce code ne correspond à aucune organisation.');
+              }));
+
+            case 8:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })));
+
+    (0, _mocha.it)('should switch to another display', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var organization;
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              // given
+              _seeds.default.injectUserAccount();
+              organization = _seeds.default.injectOrganization('ABCD00');
+
+              _testing.default.authenticateUser();
+
+              // when
+              _context2.next = 5;
+              return visit('/compte');
+
+            case 5:
+
+              click('.share-profile__share-button');
+              fillIn('.ember-modal-dialog #code', 'ABCD00');
+              click('.pix-modal__button--primary');
+
+              return _context2.abrupt('return', andThen(function () {
+                var MODAL_CONTENT = find('.share-profile__modal-content-organization-details');
+
+                (0, _chai.expect)(find('.ember-modal-dialog h1').text()).to.equal('Partage de votre profil');
+                (0, _chai.expect)(find('.ember-modal-dialog #code')).to.have.length(0);
+                (0, _chai.expect)(MODAL_CONTENT.find('.share-profile__modal-organization-name').text()).to.equal(organization.name);
+              }));
+
+            case 9:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
+  });
+});
+define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -972,11 +1229,11 @@ define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-li
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.describe)('Access to the page', function () {
@@ -1083,7 +1340,7 @@ define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-li
     });
   });
 });
-define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -1152,11 +1409,11 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
     var PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
@@ -1310,7 +1567,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
     });
   });
 });
-define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -1347,11 +1604,11 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'cha
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.describe)('Prévisualiser la première page d\'un test |', function () {
@@ -1429,7 +1686,7 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'cha
     });
   });
 });
-define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -1469,11 +1726,11 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['moch
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('g1.1 le bandeau doit être affiché si l\'usage d\'Internet ou d\'outils est interdit dans le cadre de l\'épreuve', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
@@ -1501,7 +1758,7 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['moch
     });
   });
 });
-define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function visitTimedChallenge() {
@@ -1520,11 +1777,11 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['mocha', 'chai', 'pix
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.describe)('Test affichage ou non de la jauge', function () {
@@ -1542,7 +1799,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['mocha', 'chai', 'pix
     });
   });
 });
-define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -1583,11 +1840,11 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.describe)('h2- Test affichage ou non de la page avec le warning', function () {
@@ -1706,7 +1963,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
     });
   });
 });
-define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -1757,11 +2014,11 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.describe)('j1.1 Affiche sur la ligne de l\'épreuve le mot REPONSE pour un QCM sur l\'écran des résultats', function () {
@@ -1918,7 +2175,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
     });
   });
 });
-define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -1964,11 +2221,11 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.describe)('j2.1 Depuis la page résultat', function () {
@@ -2157,7 +2414,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
     });
   });
 });
-define('pix-live/tests/acceptance/k1-competences-page-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/k1-competences-page-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   (0, _mocha.describe)('Acceptance | competences page', function () {
@@ -2165,12 +2422,12 @@ define('pix-live/tests/acceptance/k1-competences-page-test', ['mocha', 'chai', '
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visit('/competences');
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('can visit /competences', function () {
@@ -2198,7 +2455,7 @@ define('pix-live/tests/acceptance/k1-competences-page-test', ['mocha', 'chai', '
     });
   });
 });
-define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -2251,11 +2508,11 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     }
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.describe)('l1.1 Depuis une epreuve', function () {
@@ -2370,278 +2627,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     });
   });
 });
-define('pix-live/tests/acceptance/m1-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
-  'use strict';
-
-  (0, _mocha.describe)('Acceptance | Espace compte', function () {
-
-    var application = void 0;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
-    });
-
-    (0, _mocha.describe)('Success cases', function () {
-      (0, _mocha.beforeEach)(function () {
-        server.create('user', {
-          id: 1,
-          firstName: 'François',
-          lastName: 'Hisquin',
-          email: 'fhi@octo.com',
-          password: 'FHI4EVER',
-          cgu: true,
-          recaptchaToken: 'recaptcha-token-xxxxxx',
-          competenceIds: []
-        });
-      });
-
-      (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
-        (0, _mocha.it)('should redirect to the connexion page', function () {
-          // when
-          visit('/compte');
-
-          // then
-          return andThen(function () {
-            (0, _chai.expect)(currentURL()).to.equal('/');
-          });
-        });
-      });
-
-      (0, _mocha.describe)('m1.2 Log-in phase', function () {
-
-        function seedDatabaseForUsualUser() {
-          server.loadFixtures('areas');
-          server.loadFixtures('competences');
-          server.create('user', {
-            id: 1,
-            firstName: 'Samurai',
-            lastName: 'Jack',
-            email: 'samurai.jack@aku.world',
-            password: 'B@ck2past',
-            cgu: true,
-            recaptchaToken: 'recaptcha-token-xxxxxx',
-            competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-          });
-        }
-
-        function seedDatabaseForUserWithOrganization() {
-          server.loadFixtures('organizations');
-          server.create('user', {
-            id: 1,
-            firstName: 'Samurai',
-            lastName: 'Jack',
-            email: 'samurai.jack@aku.world',
-            password: 'B@ck2past',
-            cgu: true,
-            recaptchaToken: 'recaptcha-token-xxxxxx',
-            organizationIds: [1]
-          });
-        }
-
-        function authenticateUser() {
-          // given
-          visit('/connexion');
-          fillIn('#pix-email', 'samurai.jack@aku.world');
-          fillIn('#pix-password', 'B@ck2past');
-
-          // when
-          click('.signin-form__submit_button');
-        }
-
-        (0, _mocha.it)('should redirect to the /compte after connexion for usual users', function () {
-          // given
-          seedDatabaseForUsualUser();
-          authenticateUser();
-
-          // then
-          return andThen(function () {
-            (0, _chai.expect)(currentURL()).to.equal('/compte');
-          });
-        });
-
-        (0, _mocha.it)('should redirect to the /board after connexion for users with organization', function () {
-          // given
-          seedDatabaseForUserWithOrganization();
-          authenticateUser();
-
-          // then
-          return andThen(function () {
-            (0, _chai.expect)(currentURL()).to.equal('/board');
-          });
-        });
-      });
-    });
-
-    (0, _mocha.describe)('Error case', function () {
-
-      function authenticateUnknownUser() {
-        // given
-        visit('/connexion');
-        fillIn('#pix-email', 'anyone@pix.world');
-        fillIn('#pix-password', 'Pix20!!');
-
-        // when
-        click('.signin-form__submit_button');
-      }
-
-      (0, _mocha.it)('should stay in /connexion , when authentication failed', function () {
-        // given
-        authenticateUnknownUser();
-
-        return andThen(function () {
-          (0, _chai.expect)(currentURL()).to.equal('/connexion');
-        });
-      });
-    });
-  });
-});
-define('pix-live/tests/acceptance/n1-competence-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
-  'use strict';
-
-  function _asyncToGenerator(fn) {
-    return function () {
-      var gen = fn.apply(this, arguments);
-      return new Promise(function (resolve, reject) {
-        function step(key, arg) {
-          try {
-            var info = gen[key](arg);
-            var value = info.value;
-          } catch (error) {
-            reject(error);
-            return;
-          }
-
-          if (info.done) {
-            resolve(value);
-          } else {
-            return Promise.resolve(value).then(function (value) {
-              step("next", value);
-            }, function (err) {
-              step("throw", err);
-            });
-          }
-        }
-
-        return step("next");
-      });
-    };
-  }
-
-  (0, _mocha.describe)('Acceptance | n1 - competence profile', function () {
-    var application = void 0;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
-    });
-
-    function seedDatabase() {
-      server.loadFixtures('areas');
-      server.loadFixtures('competences');
-      server.create('user', {
-        id: 1,
-        firstName: 'Samurai',
-        lastName: 'Jack',
-        email: 'samurai.jack@aku.world',
-        password: 'B@ck2past',
-        cgu: true,
-        recaptchaToken: 'recaptcha-token-xxxxxx',
-        competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-      });
-    }
-
-    function authenticateUser() {
-      visit('/connexion');
-      fillIn('#pix-email', 'samurai.jack@aku.world');
-      fillIn('#pix-password', 'B@ck2past');
-      click('.signin-form__submit_button');
-    }
-
-    (0, _mocha.it)('can visit /compte', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              // given
-              seedDatabase();
-              authenticateUser();
-
-              // when
-              _context.next = 4;
-              return visit('/compte');
-
-            case 4:
-              return _context.abrupt('return', andThen(function () {
-                (0, _chai.expect)(currentURL()).to.equal('/compte');
-              }));
-
-            case 5:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, this);
-    })));
-
-    (0, _mocha.it)('should redirect to home, when user is not found', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return visit('/compte');
-
-            case 2:
-              return _context2.abrupt('return', andThen(function () {
-                (0, _chai.expect)(currentURL()).to.equal('/');
-              }));
-
-            case 3:
-            case 'end':
-              return _context2.stop();
-          }
-        }
-      }, _callee2, this);
-    })));
-
-    (0, _mocha.it)('should display user competences (with level) grouped by area', function () {
-      // given
-      seedDatabase();
-      authenticateUser();
-
-      // when
-      visit('/compte');
-
-      // then
-      return andThen(function () {
-        (0, _chai.expect)(find('.competence-by-area-item').length).to.equal(5);
-        (0, _chai.expect)(find('.competence').length).to.equal(16);
-      });
-    });
-
-    (0, _mocha.it)('should display a link ’commencer’ with the correct url to start an adaptive course, for the first competence', function () {
-      // given
-      seedDatabase();
-      authenticateUser();
-
-      // when
-      visit('/compte');
-
-      // then
-      return andThen(function () {
-        (0, _chai.expect)(find('.competence-level-progress-bar__start-link:first').attr('href')).to.be.equal('/courses/ref_course_id');
-      });
-    });
-  });
-});
-define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -2677,11 +2663,11 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     function seedDatabase() {
@@ -2757,6 +2743,114 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
         }
       }, _callee2, this);
     })));
+  });
+});
+define('pix-live/tests/acceptance/page-accueil-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | La page d\'accueil', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+      visit('/');
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('should be accessible from "/"', function () {
+      (0, _chai.expect)(currentURL()).to.equal('/');
+    });
+
+    (0, _mocha.describe)('the "Hero" section', function () {
+
+      (0, _mocha.it)('should have a navigation bar', function () {
+        findWithAssert('.index-page-hero__navbar-header');
+      });
+
+      (0, _mocha.it)('should have a title', function () {
+        var $title = findWithAssert('.index-page-hero__title');
+        (0, _chai.expect)($title.text().trim()).to.equal('Développez vos compétences numériques');
+      });
+
+      (0, _mocha.it)('should have a description', function () {
+        var $description = findWithAssert('.index-page-hero__description');
+        (0, _chai.expect)($description.text().trim()).to.equal('PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.');
+      });
+    });
+
+    (0, _mocha.describe)('the "Challenges" section', function () {
+
+      (0, _mocha.it)('should have a title', function () {
+        var $title = findWithAssert('.index-page-challenges__presentation-title');
+        (0, _chai.expect)($title.text().trim()).to.equal('Les défis Pix de la semaine');
+      });
+
+      (0, _mocha.it)('should have a description', function () {
+        var $description = findWithAssert('.index-page-challenges__presentation-text');
+        (0, _chai.expect)($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
+      });
+    });
+
+    (0, _mocha.describe)('contains a section with a bbutton to save new partners', function () {
+
+      (0, _mocha.it)('a1.16 with a title', function () {
+        var $title = findWithAssert('.partners-enrollment__title');
+        (0, _chai.expect)($title.text().trim()).to.equal('Collèges, lycées, établissements d’enseignement supérieur : rejoignez l’aventure Pix dès l’année 2017-2018 !');
+      });
+
+      (0, _mocha.it)('a1.17 with a description', function () {
+        var $title = findWithAssert('.partners-enrollment__description');
+        (0, _chai.expect)($title.text().trim()).to.equal('Je veux que mon établissement propose la certification Pix dès cette année');
+      });
+
+      (0, _mocha.it)('a1.17 with a link to registering page', function () {
+        var $title = findWithAssert('.partners-enrollment__link');
+        findWithAssert('.partners-enrollment__link-container');
+        (0, _chai.expect)($title.attr('href').trim()).to.equal('/rejoindre');
+      });
+    });
+
+    (0, _mocha.describe)('the "Courses" section', function () {
+
+      (0, _mocha.it)('should have a title', function () {
+        var $title = findWithAssert('.index-page-courses__title');
+        (0, _chai.expect)($title.text().trim()).to.equal('Découvrez nos épreuves et aidez‑nous à les améliorer !');
+      });
+
+      (0, _mocha.it)('should have a list of challenge', function () {
+        findWithAssert('.index-page-courses__course-list');
+      });
+    });
+
+    (0, _mocha.describe)('The "Community" section', function () {
+
+      (0, _mocha.it)('should have a title', function () {
+        findWithAssert('.index-page-community__title');
+      });
+
+      (0, _mocha.it)('should have a description', function () {
+        findWithAssert('.index-page-community__description');
+      });
+
+      (0, _mocha.it)('should a "beta" user inscription form', function () {
+        findWithAssert('.index-page-community__form');
+      });
+    });
+
+    (0, _mocha.describe)('the "Features" section', function () {
+
+      (0, _mocha.it)('should contain a list of features', function () {
+        findWithAssert('.index-page-features__list');
+      });
+
+      (0, _mocha.it)('should have a link to the "projet" page', function () {
+        findWithAssert('.index-page-features__project-button[href="/projet"]');
+      });
+    });
   });
 });
 define('pix-live/tests/app.lint-test', [], function () {
@@ -2900,6 +2994,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/pix-modale.js', function () {
+      // test passed
+    });
+
     it('components/profile-panel.js', function () {
       // test passed
     });
@@ -2953,6 +3051,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('components/scoring-panel.js', function () {
+      // test passed
+    });
+
+    it('components/share-profile.js', function () {
       // test passed
     });
 
@@ -3253,27 +3355,76 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
   });
 });
-define('pix-live/tests/helpers/destroy-app', ['exports'], function (exports) {
+define('pix-live/tests/helpers/application', ['exports', 'pix-live/app', 'pix-live/config/environment'], function (exports, _app, _environment) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = destroyApp;
+  exports.startApp = startApp;
+  exports.destroyApp = destroyApp;
+  function startApp(attrs) {
+    var attributes = Ember.merge({}, _environment.default.APP);
+    attributes = Ember.merge(attributes, attrs); // use defaults, but you can override;
+
+    return Ember.run(function () {
+      var application = _app.default.create(attributes);
+      application.setupForTesting();
+      application.injectTestHelpers();
+      return application;
+    });
+  }
+
   function destroyApp(application) {
     Ember.run(application, 'destroy');
     if (window.server) {
       window.server.shutdown();
     }
     // Sanity check
-    assertModalIsClosed();
+    _assertModalIsClosed();
   }
 
-  function assertModalIsClosed() {
+  function _assertModalIsClosed() {
     if (document.body.classList.contains('routable-modal--open')) {
       throw new Error('The body element still has a `routable-modal--open` class, although the app just has been destroyed. ' + 'This probably means that an acceptance test finished while a modal window was still open. ' + 'It will cause subtle issues, like the scroll of the test runner window being blocked. ' + 'To fix this assertion, please close the modal window manually before the test finishes. ');
     }
   }
+});
+define('pix-live/tests/helpers/ember-keyboard/register-test-helpers', ['exports', 'ember-keyboard', 'ember-keyboard/fixtures/modifiers-array', 'ember-keyboard/utils/get-cmd-key'], function (exports, _emberKeyboard, _modifiersArray, _getCmdKey) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  exports.default = function () {
+    Ember.Test.registerAsyncHelper('keyDown', function (app, attributes, element) {
+      return keyEvent(app, attributes, 'keydown', element);
+    });
+
+    Ember.Test.registerAsyncHelper('keyUp', function (app, attributes, element) {
+      return keyEvent(app, attributes, 'keyup', element);
+    });
+
+    Ember.Test.registerAsyncHelper('keyPress', function (app, attributes, element) {
+      return keyEvent(app, attributes, 'keypress', element);
+    });
+  };
+
+  var keyEvent = function keyEvent(app, attributes, type, element) {
+    var event = attributes.split('+').reduce(function (event, attribute) {
+      if (_modifiersArray.default.indexOf(attribute) > -1) {
+        attribute = attribute === 'cmd' ? (0, _getCmdKey.default)() : attribute;
+        event[attribute + 'Key'] = true;
+      } else {
+        event.keyCode = (0, _emberKeyboard.getKeyCode)(attribute);
+      }
+
+      return event;
+    }, {});
+
+    return app.testHelpers.triggerEvent(element || document, type, event);
+  };
 });
 define('pix-live/tests/helpers/ember-simple-auth', ['exports', 'ember-simple-auth/authenticators/test'], function (exports, _test) {
   'use strict';
@@ -3316,37 +3467,6 @@ define('pix-live/tests/helpers/ember-simple-auth', ['exports', 'ember-simple-aut
     return wait();
   }
 });
-define('pix-live/tests/helpers/module-for-acceptance', ['exports', 'qunit', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _qunit, _startApp, _destroyApp) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-
-  exports.default = function (name) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    (0, _qunit.module)(name, {
-      beforeEach: function beforeEach() {
-        this.application = (0, _startApp.default)();
-
-        if (options.beforeEach) {
-          return options.beforeEach.apply(this, arguments);
-        }
-      },
-      afterEach: function afterEach() {
-        var _this = this;
-
-        var afterEach = options.afterEach && options.afterEach.apply(this, arguments);
-        return Promise.resolve(afterEach).then(function () {
-          return (0, _destroyApp.default)(_this.application);
-        });
-      }
-    });
-  };
-
-  var Promise = Ember.RSVP.Promise;
-});
 define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-live/config/environment'], function (exports, _resolver, _environment) {
   'use strict';
 
@@ -3364,23 +3484,46 @@ define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-
 
   exports.default = resolver;
 });
-define('pix-live/tests/helpers/start-app', ['exports', 'pix-live/app', 'pix-live/config/environment'], function (exports, _app, _environment) {
+define('pix-live/tests/helpers/seeds', ['exports'], function (exports) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = startApp;
-  function startApp(attrs) {
-    var attributes = Ember.merge({}, _environment.default.APP);
-    attributes = Ember.merge(attributes, attrs); // use defaults, but you can override;
+  exports.injectUserAccount = injectUserAccount;
+  exports.injectOrganization = injectOrganization;
+  function injectUserAccount() {
+    server.loadFixtures('areas');
+    server.loadFixtures('competences');
 
-    return Ember.run(function () {
-      var application = _app.default.create(attributes);
-      application.setupForTesting();
-      application.injectTestHelpers();
-      return application;
+    return server.create('user', {
+      id: 1,
+      firstName: 'Samurai',
+      lastName: 'Jack',
+      email: 'samurai.jack@aku.world',
+      password: 'B@ck2past',
+      cgu: true,
+      recaptchaToken: 'recaptcha-token-xxxxxx',
+      competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     });
+  }
+
+  function injectOrganization(code) {
+    return server.create('organization', { code: code });
+  }
+});
+define('pix-live/tests/helpers/testing', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.authenticateUser = authenticateUser;
+  function authenticateUser() {
+    visit('/connexion');
+    fillIn('#pix-email', 'samurai.jack@aku.world');
+    fillIn('#pix-password', 'B@ck2past');
+    click('.signin-form__submit_button');
   }
 });
 define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
@@ -4219,18 +4362,19 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
 
         this.set('courseId', courseId);
         this.set('level', level);
+        this.set('name', 'Premier test de positionnement');
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "VkVD5c38",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\",\"courseId\"],[[28,[\"level\"]],[28,[\"courseId\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "JPWaav0d",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"name\",\"level\",\"courseId\"],[[28,[\"name\"]],[28,[\"level\"]],[28,[\"courseId\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
         // then
         (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(1);
         (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(1);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link').text().trim()).to.be.equal('Commencer');
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link').text().trim()).to.be.equal('Commencer le test "Premier test de positionnement"');
       });
 
       (0, _mocha.it)('should not display ’commencer’ in progress bar, when the level is already defined', function () {
@@ -4240,11 +4384,12 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
 
         this.set('courseId', courseId);
         this.set('level', level);
+        this.set('name', 'Premier test de positionnement');
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "VkVD5c38",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\",\"courseId\"],[[28,[\"level\"]],[28,[\"courseId\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "ho6d9bbw",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\",\"courseId\",\"name\"],[[28,[\"level\"]],[28,[\"courseId\"]],[28,[\"name\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -4260,11 +4405,12 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         // given
         var level = 3;
         this.set('level', level);
+        this.set('name', 'Premier test de positionnement');
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "CApsTCe7",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "PLyX0nTE",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\",\"name\"],[[28,[\"level\"]],[28,[\"name\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -6894,6 +7040,35 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['chai', 'moc
     });
   });
 });
+define('pix-live/tests/integration/components/share-profile-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | share profile', function () {
+    (0, _emberMocha.setupComponentTest)('share-profile', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('when the organization is found', function () {
+
+      (0, _mocha.it)('should render a wrapper', function () {
+        // given
+        var organization = Ember.Object.create({ name: 'Université de la côte d\'Opale' });
+        this.set('organization', organization);
+        this.set('isShowingModal', true);
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "BOAdfkfF",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"isShowingModal\",\"organization\"],[true,[28,[\"organization\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$.find('.share-profile__modal-organization-name')[0].innerText).to.equal('Université de la côte d\'Opale');
+      });
+    });
+  });
+});
 define('pix-live/tests/integration/components/signin-form-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -8110,10 +8285,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
 
   describe('ESLint | tests', function () {
 
-    it('acceptance/a1-page-accueil-test.js', function () {
-      // test passed
-    });
-
     it('acceptance/a4-demarrer-un-test-test.js', function () {
       // test passed
     });
@@ -8147,6 +8318,18 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('acceptance/c1-recapitulatif-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/compte-authentication-and-profile-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/compte-display-competence-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/compte-share-profile-test.js', function () {
       // test passed
     });
 
@@ -8190,23 +8373,15 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('acceptance/m1-authentication-and-profile-test.js', function () {
-      // test passed
-    });
-
-    it('acceptance/n1-competence-profile-test.js', function () {
-      // test passed
-    });
-
     it('acceptance/o1-board-organization-test.js', function () {
       // test passed
     });
 
-    it('helpers/destroy-app.js', function () {
+    it('acceptance/page-accueil-test.js', function () {
       // test passed
     });
 
-    it('helpers/module-for-acceptance.js', function () {
+    it('helpers/application.js', function () {
       // test passed
     });
 
@@ -8214,7 +8389,11 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('helpers/start-app.js', function () {
+    it('helpers/seeds.js', function () {
+      // test passed
+    });
+
+    it('helpers/testing.js', function () {
       // test passed
     });
 
@@ -8350,6 +8529,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/share-profile-test.js', function () {
+      // test passed
+    });
+
     it('integration/components/signin-form-test.js', function () {
       // test passed
     });
@@ -8434,6 +8617,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/components/pix-modal-test.js', function () {
+      // test passed
+    });
+
     it('unit/components/qcu-proposals-test.js', function () {
       // test passed
     });
@@ -8455,6 +8642,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/components/scoring-panel-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/share-profile-test.js', function () {
       // test passed
     });
 
@@ -9745,6 +9936,48 @@ define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'e
     });
   });
 });
+define('pix-live/tests/unit/components/pix-modal-test', ['chai', 'mocha', 'ember-mocha', 'sinon', 'ember-keyboard'], function (_chai, _mocha, _emberMocha, _sinon, _emberKeyboard) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | pix-modal', function () {
+
+    (0, _emberMocha.setupTest)('component:pix-modale', {
+      needs: ['service:keyboard', 'service:modal-dialog']
+    });
+
+    (0, _mocha.describe)('#init', function () {
+      (0, _mocha.it)('should set the overlay as translucent', function () {
+        // Given
+        var component = this.subject();
+
+        // then
+        (0, _chai.expect)(component.get('translucentOverlay')).to.be.equal(true);
+      });
+
+      (0, _mocha.it)('should activate keyboard events', function () {
+        // Given
+        var component = this.subject();
+
+        // then
+        (0, _chai.expect)(component.get('keyboardActivated')).to.be.equal(true);
+      });
+    });
+
+    (0, _mocha.describe)('#closeOnEsc', function () {
+      (0, _mocha.it)('should use the "close" action', function () {
+        // Given
+        var sendActionStub = _sinon.default.stub();
+
+        var component = this.subject();
+        component.sendAction = sendActionStub;
+        component.trigger((0, _emberKeyboard.keyDown)('Escape'));
+
+        // then
+        _sinon.default.assert.calledWith(sendActionStub, 'close');
+      });
+    });
+  });
+});
 define('pix-live/tests/unit/components/qcu-proposals-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -10366,6 +10599,106 @@ define('pix-live/tests/unit/components/scoring-panel-test', ['chai', 'mocha', 'e
 
         // then
         (0, _chai.expect)(hasSomePix).to.be.equal(false);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | share-profile', function () {
+
+    (0, _emberMocha.setupTest)('component:share-profile', {});
+
+    (0, _mocha.describe)('#init', function () {
+      (0, _mocha.it)('should set the overlay as translucent', function () {
+        // Given
+        var component = this.subject();
+
+        // then
+        (0, _chai.expect)(component.get('isShowingModal')).to.be.equal(false);
+      });
+
+      (0, _mocha.it)('should set the organizationExists as true', function () {
+        // Given
+        var component = this.subject();
+
+        // then
+        (0, _chai.expect)(component.get('organizationExists')).to.be.equal(true);
+      });
+    });
+
+    (0, _mocha.describe)('#placeholder', function () {
+      (0, _mocha.it)('should leave the placeholder empty with "focusIn"', function () {
+        // Given
+        var component = this.subject();
+
+        // Then
+        component.send('focusIn');
+
+        // When
+        (0, _chai.expect)(component.get('placeholder')).to.be.equal('');
+      });
+
+      (0, _mocha.it)('should reset the placeholder to its default value with "focusOut"', function () {
+        // Given
+        var component = this.subject();
+        component.set('placeholder', 'Ex: EFGH89');
+
+        // Then
+        component.send('focusOut');
+
+        // When
+        (0, _chai.expect)(component.get('placeholder')).to.be.equal('Ex: ABCD12');
+      });
+    });
+
+    (0, _mocha.describe)('#toggleSharingModal', function () {
+      (0, _mocha.it)('should use the "close" action', function () {
+        // Given
+        var component = this.subject();
+
+        // when
+        component.send('toggleSharingModal');
+
+        // then
+        (0, _chai.expect)(component.get('isShowingModal')).to.equal(true);
+      });
+
+      (0, _mocha.it)('should reset the code to default value', function () {
+        // Given
+        var component = this.subject();
+        component.set('code', 'ABCD01');
+
+        // when
+        component.send('toggleSharingModal');
+
+        // then
+        (0, _chai.expect)(component.get('code')).to.equal('');
+      });
+
+      (0, _mocha.it)('should the organizationExists to true', function () {
+        // Given
+        var component = this.subject();
+        component.set('organizationExists', false);
+
+        // when
+        component.send('toggleSharingModal');
+
+        // then
+        (0, _chai.expect)(component.get('organizationExists')).to.equal(true);
+      });
+
+      (0, _mocha.it)('should reset the organization to default value', function () {
+        // Given
+        var component = this.subject();
+        component.set('organization', {});
+
+        // when
+        component.send('toggleSharingModal');
+
+        // then
+        (0, _chai.expect)(component.get('organization')).to.equal(null);
       });
     });
   });
@@ -11323,7 +11656,7 @@ define('pix-live/tests/unit/routes/competences-test', ['chai', 'mocha', 'ember-m
     });
   });
 });
-define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | compte', function () {
@@ -11342,6 +11675,80 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
 
       // Then
       (0, _chai.expect)(route.authenticationRoute).to.equal('/');
+    });
+
+    (0, _mocha.describe)('searchForOrganization', function () {
+
+      var storeQueryStub = void 0;
+      var storyStub = void 0;
+      var organizations = void 0;
+      var organizationCollectionStub = void 0;
+
+      beforeEach(function () {
+        organizationCollectionStub = _sinon.default.stub();
+        organizations = { get: organizationCollectionStub, content: [{}] };
+
+        storeQueryStub = _sinon.default.stub().resolves(organizations);
+        storyStub = Ember.Service.extend({
+          query: storeQueryStub
+        });
+      });
+
+      (0, _mocha.it)('should search for an organization', function () {
+        // Given
+        this.register('service:store', storyStub);
+        this.inject.service('store', { as: 'store' });
+
+        var route = this.subject();
+
+        // When
+        route.actions.searchForOrganization.call(route, 'RVSG44');
+
+        // Then
+        _sinon.default.assert.calledOnce(storeQueryStub);
+        _sinon.default.assert.calledWith(storeQueryStub, 'organization', {
+          filter: {
+            code: 'RVSG44'
+          }
+        });
+      });
+
+      (0, _mocha.describe)('when there is only one result', function () {
+        (0, _mocha.it)('should return the organization', function () {
+          // Given
+          organizationCollectionStub.returns('THE FIRST OBJECT');
+
+          this.register('service:store', storyStub);
+          this.inject.service('store', { as: 'store' });
+          var route = this.subject();
+
+          // When
+          var routeActionResult = route.actions.searchForOrganization.call(route, 'RVSG44');
+
+          return routeActionResult.then(function (organization) {
+            (0, _chai.expect)(organization).to.equal('THE FIRST OBJECT');
+          });
+        });
+      });
+
+      (0, _mocha.describe)('when there is no organization found', function () {
+        (0, _mocha.it)('should null', function () {
+          // Given
+          organizations.content = [];
+          organizationCollectionStub.returns('THE FIRST OBJECT');
+
+          this.register('service:store', storyStub);
+          this.inject.service('store', { as: 'store' });
+          var route = this.subject();
+
+          // When
+          var routeActionResult = route.actions.searchForOrganization.call(route, 'RVSG44');
+
+          return routeActionResult.then(function (organization) {
+            (0, _chai.expect)(organization).to.equal(null);
+          });
+        });
+      });
     });
   });
 });
