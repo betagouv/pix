@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import RSVP from 'rsvp';
 
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
@@ -21,10 +22,14 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
         }
       }).then((organisations) => {
         const isOrganizationFound = organisations.content.length === 1;
-
         return isOrganizationFound ? organisations.get('firstObject') : null;
       });
+    },
+
+    shareProfileSnapshot(organization) {
+      return RSVP.resolve(organization);
     }
+
   }
 
 });

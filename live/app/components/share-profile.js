@@ -46,7 +46,8 @@ export default Ember.Component.extend({
     },
 
     findOrganizationAndGoToSharingConfirmationView() {
-      this.get('searchForOrganization')(this.get('_code'))
+      this
+        .get('searchForOrganization')(this.get('_code'))
         .then((organization) => {
           if (organization) {
             this.set('_view', STEP_2_SHARING_CONFIRMATION);
@@ -60,8 +61,10 @@ export default Ember.Component.extend({
 
     shareSnapshotAndGoToSuccessNotificationView() {
       this
-        .get('shareProfileSnapshot')()
-        .then(() => this.set('_view', STEP_3_SUCCESS_NOTIFICATION));
+        .get('shareProfileSnapshot')(this.get('_organization'))
+        .then(() => {
+          this.set('_view', STEP_3_SUCCESS_NOTIFICATION);
+        });
     },
 
     focusInOrganizationCodeInput() {
