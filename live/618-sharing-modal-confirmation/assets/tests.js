@@ -1107,7 +1107,134 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
     };
   }
 
-  (0, _mocha.describe)('Acceptance | Compte | share profile', function () {
+  (0, _mocha.describe)('Acceptance | Sharing a Profile Snapshot with a given Organization', function () {
+    var visitAccountPage = function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return visit('/compte');
+
+              case 2:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      return function visitAccountPage() {
+        return _ref.apply(this, arguments);
+      };
+    }();
+
+    var openShareProfileModal = function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return click('.share-profile__share-button');
+
+              case 2:
+                findWithAssert('.pix-modal');
+                findWithAssert('.share-profile__section--organization-code-entry');
+
+              case 4:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      return function openShareProfileModal() {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+
+    var fillInAndSubmitOrganizationCode = function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return fillIn('.share-profile__organization-code-input', 'ABCD00');
+
+              case 2:
+                _context3.next = 4;
+                return click('.share-profile__continue-button');
+
+              case 4:
+                findWithAssert('.share-profile__section--sharing-confirmation');
+
+              case 5:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      return function fillInAndSubmitOrganizationCode() {
+        return _ref3.apply(this, arguments);
+      };
+    }();
+
+    var confirmProfileSnapshotSharing = function () {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                (0, _chai.expect)(find('.share-profile__organization-name').text().trim()).to.equal('Organization 0');
+                _context4.next = 3;
+                return click('.share-profile__confirm-button');
+
+              case 3:
+                findWithAssert('.share-profile__section--success-notification');
+
+              case 4:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      return function confirmProfileSnapshotSharing() {
+        return _ref4.apply(this, arguments);
+      };
+    }();
+
+    var closeModal = function () {
+      var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return click('.share-profile__close-button');
+
+              case 2:
+                (0, _chai.expect)(find('.pix-modal')).to.have.length(0);
+
+              case 3:
+              case 'end':
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      return function closeModal() {
+        return _ref5.apply(this, arguments);
+      };
+    }();
 
     var application = void 0;
 
@@ -1119,76 +1246,43 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
       (0, _application.destroyApp)(application);
     });
 
-    (0, _mocha.it)('display an error when the organization does not exists', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              // given
-              _seeds.default.injectUserAccount();
-              _testing.default.authenticateUser();
+    function populateDatabaseWithAUserAndAnOrganization() {
+      _seeds.default.injectUserAccount();
+      _seeds.default.injectOrganization('ABCD00');
+    }
 
-              // when
-              _context.next = 4;
-              return visit('/compte');
+    (0, _mocha.it)('should be possible to share a snapshot of her own profile to a given organization', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+      return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              populateDatabaseWithAUserAndAnOrganization();
+              (0, _testing.authenticateUser)();
+              _context6.next = 4;
+              return visitAccountPage();
 
             case 4:
+              _context6.next = 6;
+              return openShareProfileModal();
 
-              click('.share-profile__share-button');
-              fillIn('.ember-modal-dialog #code', 'ABCD01');
-              click('.pix-modal__button--primary');
-
-              return _context.abrupt('return', andThen(function () {
-                (0, _chai.expect)(find('.ember-modal-dialog h1').text()).to.equal('Partage de votre profil');
-                (0, _chai.expect)(find('.ember-modal-dialog #code').val()).to.equal('ABCD01');
-                (0, _chai.expect)(find('.share-profile__modal-form > .share-profile__form-error').length).to.equal(1);
-                (0, _chai.expect)(find('.share-profile__modal-form > .share-profile__form-error').text()).to.equal('Ce code ne correspond à aucune organisation.');
-              }));
+            case 6:
+              _context6.next = 8;
+              return fillInAndSubmitOrganizationCode();
 
             case 8:
+              _context6.next = 10;
+              return confirmProfileSnapshotSharing();
+
+            case 10:
+              _context6.next = 12;
+              return closeModal();
+
+            case 12:
             case 'end':
-              return _context.stop();
+              return _context6.stop();
           }
         }
-      }, _callee, this);
-    })));
-
-    (0, _mocha.it)('should switch to another display', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-      var organization;
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              // given
-              _seeds.default.injectUserAccount();
-              organization = _seeds.default.injectOrganization('ABCD00');
-
-              _testing.default.authenticateUser();
-
-              // when
-              _context2.next = 5;
-              return visit('/compte');
-
-            case 5:
-
-              click('.share-profile__share-button');
-              fillIn('.ember-modal-dialog #code', 'ABCD00');
-              click('.pix-modal__button--primary');
-
-              return _context2.abrupt('return', andThen(function () {
-                var MODAL_CONTENT = find('.share-profile__modal-content-organization-details');
-
-                (0, _chai.expect)(find('.ember-modal-dialog h1').text()).to.equal('Partage de votre profil');
-                (0, _chai.expect)(find('.ember-modal-dialog #code')).to.have.length(0);
-                (0, _chai.expect)(MODAL_CONTENT.find('.share-profile__modal-organization-name').text()).to.equal(organization.name);
-              }));
-
-            case 9:
-            case 'end':
-              return _context2.stop();
-          }
-        }
-      }, _callee2, this);
+      }, _callee6, this);
     })));
   });
 });
@@ -4958,8 +5052,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
           (0, _chai.expect)(isSaveMethodCalled).to.be.true;
           (0, _chai.expect)(saveMethodUrl).to.equal('feedback');
           (0, _chai.expect)(_lodashCustom.default.isObject(saveMethodBody)).to.equal(true);
-          (0, _chai.expect)(saveMethodBody.assessement).to.exist;
-          (0, _chai.expect)(saveMethodBody.challenge).to.exist;
+          (0, _chai.expect)(saveMethodBody.assessement).to.exists;
+          (0, _chai.expect)(saveMethodBody.challenge).to.exists;
           (0, _chai.expect)(saveMethodBody.content).to.equal(CONTENT_VALUE);
           (0, _chai.expect)(saveMethodBody.email).to.equal(EMAIL_VALUE);
           expectMercixViewToBeVisible(_this);
@@ -7046,7 +7140,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
   var RSVP = Ember.RSVP;
 
 
-  _mocha.describe.only('Integration | Component | share profile', function () {
+  (0, _mocha.describe)('Integration | Component | share profile', function () {
 
     (0, _emberMocha.setupComponentTest)('share-profile', {
       integration: true,
@@ -7231,7 +7325,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         (0, _chai.expect)(Ember.$('.share-profile__organization-name').text().trim()).to.equal('Pix');
       });
 
-      (0, _mocha.it)('should contain a "Continue" button to valid the profile sharing', function () {
+      (0, _mocha.it)('should contain a "Confirm" button to valid the profile sharing', function () {
         // when
         this.render(Ember.HTMLBars.template({
           "id": "vuOGWQQH",
@@ -7240,7 +7334,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(Ember.$('.share-profile__continue-button')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__confirm-button')).to.have.length(1);
       });
 
       (0, _mocha.it)('should contain a "Cancel" button to cancel the profile sharing for the given organization', function () {
@@ -7286,7 +7380,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
 
         // when
         Ember.run(function () {
-          return document.querySelector('.share-profile__continue-button').click();
+          return document.querySelector('.share-profile__confirm-button').click();
         });
 
         // then
