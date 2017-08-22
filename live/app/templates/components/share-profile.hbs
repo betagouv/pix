@@ -1,56 +1,67 @@
-<button class="share-profile__share-button" {{action "toggleSharingModal"}}>
+<button class="share-profile__share-button" {{action "openModal"}}>
   Partager <span class="sr-only">mon profile</span>
   <img class="share-profile__share-button-image" src="/images/icon-partager.svg" alt="">
 </button>
 
-{{#if isShowingModal}}
-  {{#pix-modale onClose="toggleSharingModal"}}
-    <a href="#" class="pix-modale__close-button" {{action "toggleSharingModal"}}>Fermer
+{{#if _showingModal}}
+  {{#pix-modale onClose="closeModal"}}
+
+    <a href="#" class="pix-modale__close-button" {{action "closeModal"}}>Fermer
       <img src="/images/comparison-window/icon-close-modal.svg" alt="Fermer la fenêtre modale" width="24" height="24">
     </a>
 
     <h1>Partage de votre profil</h1>
 
-    {{#if organization}}
-      <section class="pix-modale__content share-profile__modal-content-organization-details">
-        <p class="share-profile__modal-transmission">Vous vous apprêtez à transmettre une copie de votre profil Pix à
-          l'organisation:</p>
-        <p class="share-profile__modal-organization-name">{{organization.name}}</p>
-        <p class="share-profile__modal-informations-shared">En cliquant sur le bouton «Envoyer», elle recevra les
-          informations suivantes:</p>
-        <ul class="share-profile__modal-informations-shared">
-          <li>› votre nom et prénom</li>
-          <li>› l'état actuel de votre profil</li>
-        </ul>
-        <p class="share-profile__modal-informations-evolutions">Elle ne recevra pas les évolutions futures de votre
-          profil.</p>
-      </section>
-    {{else}}
+    {{#if stepOrganizationCodeEntry}}
 
-      <section class="pix-modale__content share-profile__modal-content-organization-form">
-        <div>Veuillez saisir le code correspondant à votre organisation (collège, lycée, université, école,
-          entreprise).
-        </div>
+      <section class="pix-modale__content share-profile__section share-profile__section--organization-code-entry">
+        <div>Veuillez saisir le code correspondant à votre organisation (collège, lycée, université, école, entreprise).</div>
 
         <div class="share-profile__modal-form">
           {{input id="code"
-                  placeholder=placeholder
-                  focus-in="focusIn"
-                  focus-out="focusOut"
-                  value=code
-                  class="share-profile__modal-input"
-                  enter="searchFromCode"}}
+                  placeholder=_placeholder
+                  focus-in="focusInOrganizationCodeInput"
+                  focus-out="focusOutOrganizationCodeInput"
+                  value=_code
+                  class="share-profile__organization-code-input"
+                  enter="findOrganizationAndGoToSharingConfirmationView"}}
 
-          {{#unless organizationExists}}
+          {{#if _organizationNotFound}}
             <div class="share-profile__form-error">Ce code ne correspond à aucune organisation.</div>
-          {{/unless}}
+          {{/if}}
 
           <div class="share-profile__share-modal-buttons">
-            <button class="pix-modal__button pix-modal__button--primary" {{action "searchFromCode"}}>Continuer
-            </button>
-            <button class="pix-modal__button" {{action "toggleSharingModal"}}>Annuler</button>
+            <button class="pix-modal__button pix-modal__button--primary share-profile__continue-button" {{action "findOrganizationAndGoToSharingConfirmationView"}}>Continuer</button>
+            <button class="pix-modal__button share-profile__cancel-button" {{action "closeModal"}}>Annuler</button>
           </div>
         </div>
+
+      </section>
+
+    {{else if stepProfileSharingConfirmation}}
+
+      <section class="pix-modale__content share-profile__section--sharing-confirmation">
+        <p class="share-profile__transmission">Vous vous apprêtez à transmettre une copie de votre profil Pix à l'organisation:</p>
+        <p class="share-profile__organization-name">{{_organization.name}}</p>
+        <p class="share-profile__informations-shared">En cliquant sur le bouton «Envoyer», elle recevra les informations suivantes:</p>
+        <ul class="share-profile__informations-shared">
+          <li>› votre nom et prénom</li>
+          <li>› l'état actuel de votre profil</li>
+        </ul>
+        <p class="share-profile__informations-evolutions">Elle ne recevra pas les évolutions futures de votre profil.</p>
+
+        <div class="share-profile__share-modal-buttons">
+          <button class="pix-modal__button pix-modal__button--primary share-profile__continue-button" {{action "shareSnapshotAndGoToSuccessNotificationView"}}>Continuer</button>
+          <button class="pix-modal__button pix-modal__button--cancel share-profile__cancel-button" {{action "cancelSharingAndGoBackToOrganizationCodeEntryView"}}>Annuler</button>
+        </div>
+
+      </section>
+
+    {{else}}
+
+      <section class="pix-modale__content share-profile__section share-profile__section--success-notification">
+        <div>Votre profil a été envoyé avec succès.</div>
+        <button class="pix-modal__button pix-modal__button--primary share-profile__close-button" {{action "closeModal"}}>Fermer</button>
       </section>
 
     {{/if}}
