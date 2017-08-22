@@ -1,107 +1,6 @@
 'use strict';
 
-define('pix-live/tests/acceptance/a1-page-accueil-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
-  'use strict';
-
-  (0, _mocha.describe)('Acceptance | a1 - La page d\'accueil', function () {
-
-    var application = void 0;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
-      visit('/');
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
-    });
-
-    (0, _mocha.it)('a1.0 est accessible depuis "/"', function () {
-      (0, _chai.expect)(currentURL()).to.equal('/');
-    });
-
-    (0, _mocha.describe)('contient une section "Hero"', function () {
-
-      (0, _mocha.it)('a1.0 avec la barre de navigation', function () {
-        findWithAssert('.index-page-hero__navbar-header');
-      });
-
-      (0, _mocha.it)('a1.1 avec un titre', function () {
-        var $title = findWithAssert('.index-page-hero__title');
-        (0, _chai.expect)($title.text().trim()).to.equal('Développez vos compétences numériques');
-      });
-
-      (0, _mocha.it)('a1.2 avec un descriptif', function () {
-        var $description = findWithAssert('.index-page-hero__description');
-        (0, _chai.expect)($description.text().trim()).to.equal('PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.');
-      });
-    });
-
-    (0, _mocha.describe)('contient une section "Challenges"', function () {
-
-      (0, _mocha.it)('a1.3 cachée si aucun test n\'est remonté', function () {
-        // FIXME find a way to test this correctly
-      });
-
-      (0, _mocha.it)('a1.4 visible si au moins 1 test est remonté', function () {
-        // FIXME find a way to test this correctly
-      });
-
-      (0, _mocha.it)('a1.6 avec un titre', function () {
-        var $title = findWithAssert('.index-page-challenges__presentation-title');
-        (0, _chai.expect)($title.text().trim()).to.equal('Le défi Pix de la semaine');
-      });
-
-      (0, _mocha.it)('a1.7 avec un texte descriptif', function () {
-        var $description = findWithAssert('.index-page-challenges__presentation-text');
-        (0, _chai.expect)($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
-      });
-
-      (0, _mocha.it)('a1.8 qui affiche 2 tests maximum', function () {
-        // FIXME find a way to test this correctly
-      });
-    });
-
-    (0, _mocha.describe)('contient une section "Courses"', function () {
-
-      (0, _mocha.it)('a1.9 avec un titre', function () {
-        var $title = findWithAssert('.index-page-courses__title');
-        (0, _chai.expect)($title.text().trim()).to.equal('Découvrez nos épreuves et aidez‑nous à les améliorer !');
-      });
-
-      (0, _mocha.it)('a1.10 avec la liste des challenges', function () {
-        findWithAssert('.index-page-courses__course-list');
-      });
-    });
-
-    (0, _mocha.describe)('contient une section "Community"', function () {
-
-      (0, _mocha.it)('a1.11 avec un titre', function () {
-        findWithAssert('.index-page-community__title');
-      });
-
-      (0, _mocha.it)('a1.12 avec une description', function () {
-        findWithAssert('.index-page-community__description');
-      });
-
-      (0, _mocha.it)('a1.13 avec le formulaire d\'inscription en tant que béta-testeur', function () {
-        findWithAssert('.index-page-community__form');
-      });
-    });
-
-    (0, _mocha.describe)('contient une section "Features"', function () {
-
-      (0, _mocha.it)('a1.14 avec la liste des featurettes', function () {
-        findWithAssert('.index-page-features__list');
-      });
-
-      (0, _mocha.it)('a1.15 avec un lien vers la page "projet"', function () {
-        findWithAssert('.index-page-features__project-button[href="/projet"]');
-      });
-    });
-  });
-});
-define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['ember', 'mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'pix-live/utils/lodash-custom'], function (_ember, _mocha, _chai, _startApp, _destroyApp, _lodashCustom) {
+define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/utils/lodash-custom'], function (_mocha, _chai, _application, _lodashCustom) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -142,15 +41,15 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['ember', 'mocha', 
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visit('/');
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
-    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -169,7 +68,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['ember', 'mocha', 
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis l\'ancienne url "courses/:course_id/assessment"', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis l\'ancienne url "courses/:course_id/assessment"', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -218,7 +117,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['ember', 'mocha', 
       // blocked by modal
       andThen(function () {
         // XXX : ickiest hack : wait 500ms for bootstrap transition to complete
-        _ember.default.run.later(function () {
+        Ember.run.later(function () {
           (0, _chai.expect)($(MODAL_SELECTOR)).to.have.lengthOf(1);
           (0, _chai.expect)(currentURL()).to.equals('/');
           $('a[data-dismiss]').click();
@@ -236,7 +135,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['ember', 'mocha', 
       triggerEvent('.index-page', 'simulateMobileScreen');
 
       andThen(function () {
-        _ember.default.run.later(function () {
+        Ember.run.later(function () {
           (0, _chai.expect)(currentURL()).to.equals('/');
           (0, _chai.expect)($(MODAL_SELECTOR)).to.have.lengthOf(0);
         }, 500);
@@ -249,7 +148,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['ember', 'mocha', 
     });
   });
 });
-define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   (0, _mocha.describe)('Acceptance | a5 - La page des tests adaptatifs', function () {
@@ -257,12 +156,12 @@ define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['mocha'
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visit('/placement-tests');
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('a5.0 est accessible depuis "/placement-tests"', function () {
@@ -277,7 +176,7 @@ define('pix-live/tests/acceptance/a5-voir-liste-tests-adaptatifs-test', ['mocha'
     });
   });
 });
-define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -314,14 +213,14 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
-    (0, _mocha.it)('b1.1 Une liste de radiobuttons doit s\'afficher', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('b1.1 Une liste de radiobuttons doit s\'afficher', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       var $proposals;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
@@ -345,7 +244,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -366,7 +265,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee2, this);
     })));
 
-    (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+    (0, _mocha.it)('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
       return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
@@ -390,7 +289,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee3, this);
     })));
 
-    (0, _mocha.it)('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+    (0, _mocha.it)('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
       var $alert;
       return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
@@ -423,7 +322,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee4, this);
     })));
 
-    (0, _mocha.it)('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+    (0, _mocha.it)('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
       return regeneratorRuntime.wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
@@ -459,7 +358,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
       }, _callee5, this);
     })));
 
-    (0, _mocha.it)('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+    (0, _mocha.it)('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
       return regeneratorRuntime.wrap(function _callee6$(_context6) {
         while (1) {
           switch (_context6.prev = _context6.next) {
@@ -512,7 +411,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
     );
   });
 });
-define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function visitTimedChallenge() {
@@ -525,12 +424,12 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visitTimedChallenge();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('b2.1 It should render challenge instruction', function () {
@@ -617,7 +516,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
     });
   });
 });
-define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   (0, _mocha.describe)('Acceptance | b3 - Afficher un QROC | ', function () {
@@ -625,12 +524,12 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['mocha', 'chai', 'pix-
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visit('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_id');
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('b3.1 It should render challenge instruction', function () {
@@ -655,7 +554,7 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['mocha', 'chai', 'pix-
     });
   });
 });
-define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -692,12 +591,12 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('b4.1 It should render challenge instruction', function () {
@@ -710,7 +609,7 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix
       (0, _chai.expect)($('.challenge-response__proposal-input')).to.have.lengthOf(3);
     });
 
-    (0, _mocha.it)('b4.3 Error alert box should be displayed if user validate without checking a checkbox', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('b4.3 Error alert box should be displayed if user validate without checking a checkbox', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -735,7 +634,7 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix
     })));
   });
 });
-define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function visitTimedChallenge() {
@@ -750,11 +649,11 @@ define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['mocha', 'chai', 'pix-li
     var $ATTACHMENT_LINK = $('.challenge-statement__action-link');
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.describe)('Quand l\'épreuve contient une pièce jointe en consigne', function () {
@@ -796,7 +695,7 @@ define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['mocha', 'chai', 'pix-li
     });
   });
 });
-define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   (0, _mocha.describe)('Acceptance | b7 - Points communs a toutes les épreuves | ', function () {
@@ -804,12 +703,12 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'ch
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('b7.0 Le nom du test est affiché', function () {
@@ -862,7 +761,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'ch
     });
   });
 });
-define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   (0, _mocha.describe)('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function () {
@@ -870,12 +769,12 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visit('/assessments/ref_assessment_id/results');
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('c1.0 se fait en accédant à l\'URL /assessments/:assessment_id/results', function () {
@@ -916,7 +815,532 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
     });
   });
 });
-define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Espace compte', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.describe)('Success cases', function () {
+      (0, _mocha.beforeEach)(function () {
+        server.create('user', {
+          id: 1,
+          firstName: 'François',
+          lastName: 'Hisquin',
+          email: 'fhi@octo.com',
+          password: 'FHI4EVER',
+          cgu: true,
+          recaptchaToken: 'recaptcha-token-xxxxxx',
+          competenceIds: []
+        });
+      });
+
+      (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
+        (0, _mocha.it)('should redirect to the connexion page', function () {
+          // when
+          visit('/compte');
+
+          // then
+          return andThen(function () {
+            (0, _chai.expect)(currentURL()).to.equal('/');
+          });
+        });
+      });
+
+      (0, _mocha.describe)('m1.2 Log-in phase', function () {
+
+        function seedDatabaseForUsualUser() {
+          server.loadFixtures('areas');
+          server.loadFixtures('competences');
+          server.create('user', {
+            id: 1,
+            firstName: 'Samurai',
+            lastName: 'Jack',
+            email: 'samurai.jack@aku.world',
+            password: 'B@ck2past',
+            cgu: true,
+            recaptchaToken: 'recaptcha-token-xxxxxx',
+            competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+          });
+        }
+
+        function seedDatabaseForUserWithOrganization() {
+          server.loadFixtures('organizations');
+          server.create('user', {
+            id: 1,
+            firstName: 'Samurai',
+            lastName: 'Jack',
+            email: 'samurai.jack@aku.world',
+            password: 'B@ck2past',
+            cgu: true,
+            recaptchaToken: 'recaptcha-token-xxxxxx',
+            organizationIds: [1]
+          });
+        }
+
+        function authenticateUser() {
+          // given
+          visit('/connexion');
+          fillIn('#pix-email', 'samurai.jack@aku.world');
+          fillIn('#pix-password', 'B@ck2past');
+
+          // when
+          click('.signin-form__submit_button');
+        }
+
+        (0, _mocha.it)('should redirect to the /compte after connexion for usual users', function () {
+          // given
+          seedDatabaseForUsualUser();
+          authenticateUser();
+
+          // then
+          return andThen(function () {
+            (0, _chai.expect)(currentURL()).to.equal('/compte');
+          });
+        });
+
+        (0, _mocha.it)('should redirect to the /board after connexion for users with organization', function () {
+          // given
+          seedDatabaseForUserWithOrganization();
+          authenticateUser();
+
+          // then
+          return andThen(function () {
+            (0, _chai.expect)(currentURL()).to.equal('/board');
+          });
+        });
+      });
+    });
+
+    (0, _mocha.describe)('Error case', function () {
+
+      function authenticateUnknownUser() {
+        // given
+        visit('/connexion');
+        fillIn('#pix-email', 'anyone@pix.world');
+        fillIn('#pix-password', 'Pix20!!');
+
+        // when
+        click('.signin-form__submit_button');
+      }
+
+      (0, _mocha.it)('should stay in /connexion , when authentication failed', function () {
+        // given
+        authenticateUnknownUser();
+
+        return andThen(function () {
+          (0, _chai.expect)(currentURL()).to.equal('/connexion');
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'chai', 'pix-live/tests/helpers/seeds', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _seeds, _application) {
+  'use strict';
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
+
+  (0, _mocha.describe)('Acceptance | Compte | competence profile', function () {
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    function seedDatabase() {
+      _seeds.default.injectUserAccount();
+    }
+
+    function authenticateUser() {
+      visit('/connexion');
+      fillIn('#pix-email', 'samurai.jack@aku.world');
+      fillIn('#pix-password', 'B@ck2past');
+      click('.signin-form__submit_button');
+    }
+
+    (0, _mocha.it)('can visit /compte', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              // given
+              seedDatabase();
+              authenticateUser();
+
+              // when
+              _context.next = 4;
+              return visit('/compte');
+
+            case 4:
+              return _context.abrupt('return', andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/compte');
+              }));
+
+            case 5:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })));
+
+    (0, _mocha.it)('should redirect to home, when user is not found', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return visit('/compte');
+
+            case 2:
+              return _context2.abrupt('return', andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/');
+              }));
+
+            case 3:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
+
+    (0, _mocha.it)('should display user competences (with level) grouped by area', function () {
+      // given
+      seedDatabase();
+      authenticateUser();
+
+      // when
+      visit('/compte');
+
+      // then
+      return andThen(function () {
+        (0, _chai.expect)(find('.competence-by-area-item').length).to.equal(5);
+        (0, _chai.expect)(find('.competence').length).to.equal(16);
+      });
+    });
+
+    (0, _mocha.it)('should display a link ’commencer’ with the correct url to start an adaptive course, for the first competence', function () {
+      // given
+      seedDatabase();
+      authenticateUser();
+
+      // when
+      visit('/compte');
+
+      // then
+      return andThen(function () {
+        (0, _chai.expect)(find('.competence-level-progress-bar__start-link:first').attr('href')).to.be.equal('/courses/ref_course_id');
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/seeds', 'pix-live/tests/helpers/testing'], function (_mocha, _chai, _application, _seeds, _testing) {
+  'use strict';
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
+
+  (0, _mocha.describe)('Acceptance | Compte | share profile', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('display an error when the organization does not exists', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              // given
+              _seeds.default.injectUserAccount();
+              _testing.default.authenticateUser();
+
+              // when
+              _context.next = 4;
+              return visit('/compte');
+
+            case 4:
+
+              click('.share-profile__share-button');
+              fillIn('.ember-modal-dialog #code', 'ABCD01');
+              click('.pix-modal__button--primary');
+
+              return _context.abrupt('return', andThen(function () {
+                (0, _chai.expect)(find('.ember-modal-dialog h1').text()).to.equal('Partage de votre profil');
+                (0, _chai.expect)(find('.ember-modal-dialog #code').val()).to.equal('ABCD01');
+                (0, _chai.expect)(find('.share-profile__modal-form > .share-profile__form-error').length).to.equal(1);
+                (0, _chai.expect)(find('.share-profile__modal-form > .share-profile__form-error').text()).to.equal('Ce code ne correspond à aucune organisation.');
+              }));
+
+            case 8:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })));
+
+    (0, _mocha.it)('should switch to another display', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var organization;
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              // given
+              _seeds.default.injectUserAccount();
+              organization = _seeds.default.injectOrganization('ABCD00');
+
+              _testing.default.authenticateUser();
+
+              // when
+              _context2.next = 5;
+              return visit('/compte');
+
+            case 5:
+
+              click('.share-profile__share-button');
+              fillIn('.ember-modal-dialog #code', 'ABCD00');
+              click('.pix-modal__button--primary');
+
+              return _context2.abrupt('return', andThen(function () {
+                var MODAL_CONTENT = find('.share-profile__modal-content-organization-details');
+
+                (0, _chai.expect)(find('.ember-modal-dialog h1').text()).to.equal('Partage de votre profil');
+                (0, _chai.expect)(find('.ember-modal-dialog #code')).to.have.length(0);
+                (0, _chai.expect)(MODAL_CONTENT.find('.share-profile__modal-organization-name').text()).to.equal(organization.name);
+              }));
+
+            case 9:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
+  });
+});
+define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+  'use strict';
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
+
+  (0, _mocha.describe)('Acceptance | courseGroups', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.describe)('Access to the page', function () {
+
+      (0, _mocha.it)('should display the historic of the weekly courses courseGroups by the url /defis-pix', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return visit('/defis-pix');
+
+              case 2:
+
+                // then
+                (0, _chai.expect)(currentURL()).to.equal('/defis-pix');
+
+              case 3:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      })));
+    });
+
+    (0, _mocha.describe)('Rendering', function () {
+
+      (0, _mocha.it)('should display a navbar and a footer', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return visit('/defis-pix');
+
+              case 2:
+
+                // then
+                (0, _chai.expect)(find('.navbar-header')).to.have.lengthOf(1);
+                (0, _chai.expect)(find('.app-footer')).to.have.lengthOf(1);
+
+              case 4:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      })));
+
+      (0, _mocha.it)('should display a header section', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return visit('/defis-pix');
+
+              case 2:
+
+                // then
+                (0, _chai.expect)(find('.course-groups-page__header')).to.have.lengthOf(1);
+
+              case 3:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      })));
+
+      (0, _mocha.it)('should display a list of (weekly courses) course-groups', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        var courses;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                // given
+                courses = server.createList('course', 2, { name: 'course name' });
+
+                server.createList('courseGroup', 3, { courses: courses });
+
+                // when
+                _context4.next = 4;
+                return visit('/defis-pix');
+
+              case 4:
+
+                // then
+                (0, _chai.expect)(find('.course-item__name')[0].innerText).to.equal('course name');
+
+                (0, _chai.expect)(find('.course-groups-page__course-groups')).to.have.lengthOf(1);
+                (0, _chai.expect)(find('.course-groups-page__course-group-item')).to.have.lengthOf(3);
+                (0, _chai.expect)(find('.course-list')).to.have.lengthOf(3);
+                (0, _chai.expect)(find('.course-item')).to.have.lengthOf(6);
+
+              case 9:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      })));
+    });
+  });
+});
+define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -949,7 +1373,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
   }
 
   var visitTimedChallenge = function () {
-    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -982,16 +1406,17 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
   (0, _mocha.describe)('Acceptance | d1 - Valider une épreuve |', function () {
 
     var application = void 0;
+    var PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
-    (0, _mocha.it)('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -1010,7 +1435,8 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
       }, _callee2, this);
     })));
 
-    (0, _mocha.it)('d1.0b La barre de progression commence à 1, si j\'accède au challenge depuis depuis le lien Airtable', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+    (0, _mocha.it)('d1.0b La barre de progression commence à 1, si j\'accède directement à un course', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      var $progressBar;
       return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
@@ -1019,9 +1445,13 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
               return visit('/courses/ref_course_id');
 
             case 2:
-              (0, _chai.expect)(progressBarText()).to.equal('1 / 5');
 
-            case 3:
+              // Then
+              $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
+
+              (0, _chai.expect)($progressBar.text().trim()).to.equal('1 / 5');
+
+            case 4:
             case 'end':
               return _context3.stop();
           }
@@ -1029,7 +1459,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
       }, _callee3, this);
     })));
 
-    (0, _mocha.it)('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+    (0, _mocha.it)('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
       return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
@@ -1049,7 +1479,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
     })));
 
     (0, _mocha.describe)('quand je valide ma réponse à une épreuve', function () {
-      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -1073,7 +1503,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
         }, _callee5, this);
       })));
 
-      (0, _mocha.it)('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+      (0, _mocha.it)('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -1088,14 +1518,19 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
         }, _callee6, this);
       })));
 
-      (0, _mocha.it)('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+      (0, _mocha.it)('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        var expectedText;
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                (0, _chai.expect)(progressBarText()).to.equal('2 / 5');
 
-              case 1:
+                // Then
+                expectedText = '2';
+
+                (0, _chai.expect)(findWithAssert('.pix-progress-bar').text()).to.contain(expectedText);
+
+              case 2:
               case 'end':
                 return _context7.stop();
             }
@@ -1103,7 +1538,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
         }, _callee7, this);
       })));
 
-      (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
+      (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
         return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
@@ -1132,7 +1567,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
     });
   });
 });
-define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -1169,11 +1604,11 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'cha
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.describe)('Prévisualiser la première page d\'un test |', function () {
@@ -1214,7 +1649,7 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'cha
 
     (0, _mocha.describe)('Prévisualiser une épreuve dans le cadre d\'un test |', function () {
 
-      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1251,7 +1686,7 @@ define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'cha
     });
   });
 });
-define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -1291,14 +1726,14 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['moch
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
-    (0, _mocha.it)('g1.1 le bandeau doit être affiché si l\'usage d\'Internet ou d\'outils est interdit dans le cadre de l\'épreuve', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    (0, _mocha.it)('g1.1 le bandeau doit être affiché si l\'usage d\'Internet ou d\'outils est interdit dans le cadre de l\'épreuve', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -1323,7 +1758,7 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['moch
     });
   });
 });
-define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function visitTimedChallenge() {
@@ -1342,11 +1777,11 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['mocha', 'chai', 'pix
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.describe)('Test affichage ou non de la jauge', function () {
@@ -1364,7 +1799,7 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['mocha', 'chai', 'pix
     });
   });
 });
-define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -1405,11 +1840,11 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.describe)('h2- Test affichage ou non de la page avec le warning', function () {
@@ -1419,7 +1854,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
       });
 
       //XXX: Deux cas car on test aussi une absence d'affichage
-      (0, _mocha.it)('h2.1- doit cacher le contenu du challenge si l\'épreuve est timée mais l\'afficher dans le cas contraire ', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('h2.1- doit cacher le contenu du challenge si l\'épreuve est timée mais l\'afficher dans le cas contraire ', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1439,7 +1874,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
         }, _callee, this);
       })));
 
-      (0, _mocha.it)('h2.2- doit afficher le warning si l\'épreuve est timée mais ne pas l\'afficher dans le cas contraire ', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('h2.2- doit afficher le warning si l\'épreuve est timée mais ne pas l\'afficher dans le cas contraire ', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -1497,7 +1932,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
       var ASSESSMENT_WITH_TWO_TIMED_CHALLENGE = '/assessments/ref_timed_challenge_assessment_id/challenges/ref_timed_challenge_id';
       var PASS_BUTTON = '.challenge-actions__action-skip';
 
-      (0, _mocha.it)('doit afficher la \'warning page\' même si deux epreuves du même type et timées s\'enchaînent', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      (0, _mocha.it)('doit afficher la \'warning page\' même si deux epreuves du même type et timées s\'enchaînent', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -1528,7 +1963,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
     });
   });
 });
-define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -1579,15 +2014,15 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.describe)('j1.1 Affiche sur la ligne de l\'épreuve le mot REPONSE pour un QCM sur l\'écran des résultats', function () {
-      (0, _mocha.it)('j1.1.1 il l\'affiche pour un QCM, un QCU mais pas pour les autres types d\'épreuves', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('j1.1.1 il l\'affiche pour un QCM, un QCU mais pas pour les autres types d\'épreuves', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1613,7 +2048,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
 
     (0, _mocha.describe)('j1.2 Accès à la modale', function () {
 
-      (0, _mocha.it)('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -1643,7 +2078,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
         }, _callee2, this);
       })));
 
-      (0, _mocha.it)('j1.2.2 On peut accèder directement à la modale via URL et fermer la modale', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      (0, _mocha.it)('j1.2.2 On peut accèder directement à la modale via URL et fermer la modale', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -1671,7 +2106,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
 
     (0, _mocha.describe)('j1.3 Contenu de la modale : résultat & instruction', function () {
 
-      (0, _mocha.it)('j1.3.1 Vérification de l\'index, ainsi que l\'image et le texte du résultat dans le header', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+      (0, _mocha.it)('j1.3.1 Vérification de l\'index, ainsi que l\'image et le texte du résultat dans le header', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -1704,7 +2139,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
         }, _callee4, this);
       })));
 
-      (0, _mocha.it)('j1.3.2 Vérification de la présence de l\'instruction, texte et image', _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+      (0, _mocha.it)('j1.3.2 Vérification de la présence de l\'instruction, texte et image', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -1740,7 +2175,7 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
     });
   });
 });
-define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -1786,16 +2221,16 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.describe)('j2.1 Depuis la page résultat', function () {
 
-      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1811,7 +2246,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee, this);
       })));
 
-      (0, _mocha.it)('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -1826,7 +2261,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee2, this);
       })));
 
-      (0, _mocha.it)('On n\'affiche pas encore la modale, ni son contenu', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      (0, _mocha.it)('On n\'affiche pas encore la modale, ni son contenu', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -1846,7 +2281,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
 
     (0, _mocha.describe)('j2.2 Contenu de la modale de correction pour un QROC', function () {
 
-      (0, _mocha.beforeEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -1862,7 +2297,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee4, this);
       })));
 
-      (0, _mocha.afterEach)(_asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+      (0, _mocha.afterEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -1883,7 +2318,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee5, this);
       })));
 
-      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+      (0, _mocha.it)('possible d\'accéder à la modale depuis l\'URL', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -1898,7 +2333,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee6, this);
       })));
 
-      (0, _mocha.it)('contient un header', _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+      (0, _mocha.it)('contient un header', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
@@ -1913,7 +2348,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee7, this);
       })));
 
-      (0, _mocha.it)('contient une instruction', _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
+      (0, _mocha.it)('contient une instruction', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
         return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
@@ -1928,7 +2363,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee8, this);
       })));
 
-      (0, _mocha.it)('contient une zone de correction', _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
+      (0, _mocha.it)('contient une zone de correction', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
         return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
@@ -1943,7 +2378,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee9, this);
       })));
 
-      (0, _mocha.it)('contient une zone reservé au feedback panel', _asyncToGenerator(regeneratorRuntime.mark(function _callee10() {
+      (0, _mocha.it)('contient une zone reservé au feedback panel', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
         return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
@@ -1958,7 +2393,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
         }, _callee10, this);
       })));
 
-      (0, _mocha.it)('on peut fermer la modale', _asyncToGenerator(regeneratorRuntime.mark(function _callee11() {
+      (0, _mocha.it)('on peut fermer la modale', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
         return regeneratorRuntime.wrap(function _callee11$(_context11) {
           while (1) {
             switch (_context11.prev = _context11.next) {
@@ -1979,7 +2414,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
     });
   });
 });
-define('pix-live/tests/acceptance/k1-competences-page-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/k1-competences-page-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   (0, _mocha.describe)('Acceptance | competences page', function () {
@@ -1987,12 +2422,12 @@ define('pix-live/tests/acceptance/k1-competences-page-test', ['mocha', 'chai', '
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
       visit('/competences');
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.it)('can visit /competences', function () {
@@ -2020,7 +2455,7 @@ define('pix-live/tests/acceptance/k1-competences-page-test', ['mocha', 'chai', '
     });
   });
 });
-define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
+define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -2073,17 +2508,17 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     }
 
     (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
+      application = (0, _application.startApp)();
     });
 
     (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
+      (0, _application.destroyApp)(application);
     });
 
     (0, _mocha.describe)('l1.1 Depuis une epreuve', function () {
       var _this = this;
 
-      (0, _mocha.it)('Je peux signaler une épreuve directement', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('Je peux signaler une épreuve directement', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2102,7 +2537,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
         }, _callee, _this);
       })));
 
-      (0, _mocha.it)('Le formulaire de signalement d\'une épreuve est remis à zéro dès que je change d\'épreuve', _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('Le formulaire de signalement d\'une épreuve est remis à zéro dès que je change d\'épreuve', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -2133,7 +2568,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
         }, _callee2, _this);
       })));
 
-      (0, _mocha.it)('Le formulaire de signalement est remis à zéro même quand les 2 épreuves qui s\'enchaînent utilisent le même composant challenge-item-* (ex : q1 est de type "QCU" et q2 "QRU" ; toutes deux utilisent le composant challenge-item-qcu)', _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      (0, _mocha.it)('Le formulaire de signalement est remis à zéro même quand les 2 épreuves qui s\'enchaînent utilisent le même composant challenge-item-* (ex : q1 est de type "QCU" et q2 "QRU" ; toutes deux utilisent le composant challenge-item-qcu)', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -2168,7 +2603,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     (0, _mocha.describe)('l1.2 Depuis la fenêtre de comparaison', function () {
       var _this2 = this;
 
-      (0, _mocha.it)('Je peux signaler une épreuve (page de résultat du test)', _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+      (0, _mocha.it)('Je peux signaler une épreuve (page de résultat du test)', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -2192,7 +2627,7 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     });
   });
 });
-define('pix-live/tests/acceptance/m1-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app', 'ember-test-helpers/wait'], function (_mocha, _chai, _startApp, _destroyApp, _wait) {
+define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -2224,61 +2659,198 @@ define('pix-live/tests/acceptance/m1-authentication-and-profile-test', ['mocha',
     };
   }
 
-  (0, _mocha.describe)('Acceptance | Espace compte', function () {
+  (0, _mocha.describe)('Acceptance | o1 - board organization', function () {
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    function seedDatabase() {
+      server.loadFixtures('organizations');
+      server.create('user', {
+        id: 1,
+        firstName: 'Benjamin',
+        lastName: 'Marteau',
+        email: 'benjamin.marteau@pix.com',
+        password: '1024pix!',
+        organizationIds: [1]
+      });
+    }
+
+    function authenticateUser() {
+      visit('/connexion');
+      fillIn('#pix-email', 'benjamin.marteau@pix.com');
+      fillIn('#pix-password', '1024pix!');
+      click('.signin-form__submit_button');
+    }
+
+    (0, _mocha.it)('can visit /board', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              // given
+              seedDatabase();
+              authenticateUser();
+
+              // when
+              _context.next = 4;
+              return visit('/board');
+
+            case 4:
+              return _context.abrupt('return', andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/board');
+              }));
+
+            case 5:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })));
+
+    (0, _mocha.it)('should display the name and the code of my organization', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              // given
+              seedDatabase();
+              authenticateUser();
+
+              // when
+              _context2.next = 4;
+              return visit('/board');
+
+            case 4:
+
+              // then
+              (0, _chai.expect)(find('.board-page__header-organisation__name').length).to.equal(1);
+              (0, _chai.expect)(find('.board-page__header-organisation__name').text().trim()).to.equal('LexCorp');
+              (0, _chai.expect)(find('.board-page__header-code__text').length).to.equal(1);
+              (0, _chai.expect)(find('.board-page__header-code__text').text().trim()).to.equal('ABCD66');
+
+            case 8:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
+  });
+});
+define('pix-live/tests/acceptance/page-accueil-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | La page d\'accueil', function () {
 
     var application = void 0;
 
-    (0, _mocha.before)(function () {
-      application = (0, _startApp.default)();
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+      visit('/');
     });
 
-    (0, _mocha.after)(function () {
-      (0, _destroyApp.default)(application);
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
     });
 
-    (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
-      (0, _mocha.it)('should redirect to the connexion page', function () {
-        visit('/compte');
+    (0, _mocha.it)('should be accessible from "/"', function () {
+      (0, _chai.expect)(currentURL()).to.equal('/');
+    });
 
-        return andThen(function () {
-          (0, _chai.expect)(currentURL()).to.equal('/connexion');
-        });
+    (0, _mocha.describe)('the "Hero" section', function () {
+
+      (0, _mocha.it)('should have a navigation bar', function () {
+        findWithAssert('.index-page-hero__navbar-header');
+      });
+
+      (0, _mocha.it)('should have a title', function () {
+        var $title = findWithAssert('.index-page-hero__title');
+        (0, _chai.expect)($title.text().trim()).to.equal('Développez vos compétences numériques');
+      });
+
+      (0, _mocha.it)('should have a description', function () {
+        var $description = findWithAssert('.index-page-hero__description');
+        (0, _chai.expect)($description.text().trim()).to.equal('PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.');
       });
     });
 
-    (0, _mocha.describe)('m1.2 Log-in phase', function () {
-      var _this = this;
+    (0, _mocha.describe)('the "Challenges" section', function () {
 
-      (0, _mocha.it)('should redirect to the /compte after connexion', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return visit('/connexion');
+      (0, _mocha.it)('should have a title', function () {
+        var $title = findWithAssert('.index-page-challenges__presentation-title');
+        (0, _chai.expect)($title.text().trim()).to.equal('Les défis Pix de la semaine');
+      });
 
-              case 2:
-
-                _fillConnexionForm('pix@contact.com', 'PasswordPix#');
-                $('form').submit();
-
-                return _context.abrupt('return', (0, _wait.default)().then(function () {
-                  (0, _chai.expect)(currentURL()).to.equal('/compte');
-                }));
-
-              case 5:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, _this);
-      })));
+      (0, _mocha.it)('should have a description', function () {
+        var $description = findWithAssert('.index-page-challenges__presentation-text');
+        (0, _chai.expect)($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
+      });
     });
 
-    function _fillConnexionForm(email, password) {
-      $('input[type=email]').val(email);
-      $('input[type=password]').val(password);
-    }
+    (0, _mocha.describe)('contains a section with a bbutton to save new partners', function () {
+
+      (0, _mocha.it)('a1.16 with a title', function () {
+        var $title = findWithAssert('.partners-enrollment__title');
+        (0, _chai.expect)($title.text().trim()).to.equal('Collèges, lycées, établissements d’enseignement supérieur : rejoignez l’aventure Pix dès l’année 2017-2018 !');
+      });
+
+      (0, _mocha.it)('a1.17 with a description', function () {
+        var $title = findWithAssert('.partners-enrollment__description');
+        (0, _chai.expect)($title.text().trim()).to.equal('Je veux que mon établissement propose la certification Pix dès cette année');
+      });
+
+      (0, _mocha.it)('a1.17 with a link to registering page', function () {
+        var $title = findWithAssert('.partners-enrollment__link');
+        findWithAssert('.partners-enrollment__link-container');
+        (0, _chai.expect)($title.attr('href').trim()).to.equal('/rejoindre');
+      });
+    });
+
+    (0, _mocha.describe)('the "Courses" section', function () {
+
+      (0, _mocha.it)('should have a title', function () {
+        var $title = findWithAssert('.index-page-courses__title');
+        (0, _chai.expect)($title.text().trim()).to.equal('Découvrez nos épreuves et aidez‑nous à les améliorer !');
+      });
+
+      (0, _mocha.it)('should have a list of challenge', function () {
+        findWithAssert('.index-page-courses__course-list');
+      });
+    });
+
+    (0, _mocha.describe)('The "Community" section', function () {
+
+      (0, _mocha.it)('should have a title', function () {
+        findWithAssert('.index-page-community__title');
+      });
+
+      (0, _mocha.it)('should have a description', function () {
+        findWithAssert('.index-page-community__description');
+      });
+
+      (0, _mocha.it)('should a "beta" user inscription form', function () {
+        findWithAssert('.index-page-community__form');
+      });
+    });
+
+    (0, _mocha.describe)('the "Features" section', function () {
+
+      (0, _mocha.it)('should contain a list of features', function () {
+        findWithAssert('.index-page-features__list');
+      });
+
+      (0, _mocha.it)('should have a link to the "projet" page', function () {
+        findWithAssert('.index-page-features__project-button[href="/projet"]');
+      });
+    });
   });
 });
 define('pix-live/tests/app.lint-test', [], function () {
@@ -2295,6 +2867,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('adapters/solution.js', function () {
+      // test passed
+    });
+
+    it('adapters/user.js', function () {
       // test passed
     });
 
@@ -2350,6 +2926,18 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/competence-area-list.js', function () {
+      // test passed
+    });
+
+    it('components/competence-by-area-item.js', function () {
+      // test passed
+    });
+
+    it('components/competence-level-progress-bar.js', function () {
+      // test passed
+    });
+
     it('components/corner-ribbon.js', function () {
       // test passed
     });
@@ -2398,7 +2986,19 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/partners-enrollment-panel.js', function () {
+      // test passed
+    });
+
     it('components/pix-logo.js', function () {
+      // test passed
+    });
+
+    it('components/pix-modale.js', function () {
+      // test passed
+    });
+
+    it('components/profile-panel.js', function () {
       // test passed
     });
 
@@ -2442,11 +3042,19 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/score-pastille.js', function () {
+      // test passed
+    });
+
     it('components/scoring-panel-tantpix.js', function () {
       // test passed
     });
 
     it('components/scoring-panel.js', function () {
+      // test passed
+    });
+
+    it('components/share-profile.js', function () {
       // test passed
     });
 
@@ -2467,6 +3075,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('components/trophy-item.js', function () {
+      // test passed
+    });
+
+    it('components/user-logged-menu.js', function () {
       // test passed
     });
 
@@ -2518,11 +3130,23 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('models/area.js', function () {
+      // test passed
+    });
+
     it('models/assessment.js', function () {
       // test passed
     });
 
     it('models/challenge.js', function () {
+      // test passed
+    });
+
+    it('models/competence.js', function () {
+      // test passed
+    });
+
+    it('models/course-group.js', function () {
       // test passed
     });
 
@@ -2535,6 +3159,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('models/follower.js', function () {
+      // test passed
+    });
+
+    it('models/organization.js', function () {
       // test passed
     });
 
@@ -2574,6 +3202,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('routes/board.js', function () {
+      // test passed
+    });
+
     it('routes/challenges/get-preview.js', function () {
       // test passed
     });
@@ -2586,7 +3218,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/connexion.js', function () {
+    it('routes/course-groups.js', function () {
       // test passed
     });
 
@@ -2610,7 +3242,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/deconnexion.js', function () {
+    it('routes/enrollment.js', function () {
       // test passed
     });
 
@@ -2619,6 +3251,14 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/inscription.js', function () {
+      // test passed
+    });
+
+    it('routes/login.js', function () {
+      // test passed
+    });
+
+    it('routes/logout.js', function () {
       // test passed
     });
 
@@ -2715,27 +3355,76 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
   });
 });
-define('pix-live/tests/helpers/destroy-app', ['exports', 'ember'], function (exports, _ember) {
+define('pix-live/tests/helpers/application', ['exports', 'pix-live/app', 'pix-live/config/environment'], function (exports, _app, _environment) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = destroyApp;
+  exports.startApp = startApp;
+  exports.destroyApp = destroyApp;
+  function startApp(attrs) {
+    var attributes = Ember.merge({}, _environment.default.APP);
+    attributes = Ember.merge(attributes, attrs); // use defaults, but you can override;
+
+    return Ember.run(function () {
+      var application = _app.default.create(attributes);
+      application.setupForTesting();
+      application.injectTestHelpers();
+      return application;
+    });
+  }
+
   function destroyApp(application) {
-    _ember.default.run(application, 'destroy');
+    Ember.run(application, 'destroy');
     if (window.server) {
       window.server.shutdown();
     }
     // Sanity check
-    assertModalIsClosed();
+    _assertModalIsClosed();
   }
 
-  function assertModalIsClosed() {
+  function _assertModalIsClosed() {
     if (document.body.classList.contains('routable-modal--open')) {
       throw new Error('The body element still has a `routable-modal--open` class, although the app just has been destroyed. ' + 'This probably means that an acceptance test finished while a modal window was still open. ' + 'It will cause subtle issues, like the scroll of the test runner window being blocked. ' + 'To fix this assertion, please close the modal window manually before the test finishes. ');
     }
   }
+});
+define('pix-live/tests/helpers/ember-keyboard/register-test-helpers', ['exports', 'ember-keyboard', 'ember-keyboard/fixtures/modifiers-array', 'ember-keyboard/utils/get-cmd-key'], function (exports, _emberKeyboard, _modifiersArray, _getCmdKey) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  exports.default = function () {
+    Ember.Test.registerAsyncHelper('keyDown', function (app, attributes, element) {
+      return keyEvent(app, attributes, 'keydown', element);
+    });
+
+    Ember.Test.registerAsyncHelper('keyUp', function (app, attributes, element) {
+      return keyEvent(app, attributes, 'keyup', element);
+    });
+
+    Ember.Test.registerAsyncHelper('keyPress', function (app, attributes, element) {
+      return keyEvent(app, attributes, 'keypress', element);
+    });
+  };
+
+  var keyEvent = function keyEvent(app, attributes, type, element) {
+    var event = attributes.split('+').reduce(function (event, attribute) {
+      if (_modifiersArray.default.indexOf(attribute) > -1) {
+        attribute = attribute === 'cmd' ? (0, _getCmdKey.default)() : attribute;
+        event[attribute + 'Key'] = true;
+      } else {
+        event.keyCode = (0, _emberKeyboard.getKeyCode)(attribute);
+      }
+
+      return event;
+    }, {});
+
+    return app.testHelpers.triggerEvent(element || document, type, event);
+  };
 });
 define('pix-live/tests/helpers/ember-simple-auth', ['exports', 'ember-simple-auth/authenticators/test'], function (exports, _test) {
   'use strict';
@@ -2778,37 +3467,6 @@ define('pix-live/tests/helpers/ember-simple-auth', ['exports', 'ember-simple-aut
     return wait();
   }
 });
-define('pix-live/tests/helpers/module-for-acceptance', ['exports', 'qunit', 'ember', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (exports, _qunit, _ember, _startApp, _destroyApp) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-
-  exports.default = function (name) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    (0, _qunit.module)(name, {
-      beforeEach: function beforeEach() {
-        this.application = (0, _startApp.default)();
-
-        if (options.beforeEach) {
-          return options.beforeEach.apply(this, arguments);
-        }
-      },
-      afterEach: function afterEach() {
-        var _this = this;
-
-        var afterEach = options.afterEach && options.afterEach.apply(this, arguments);
-        return Promise.resolve(afterEach).then(function () {
-          return (0, _destroyApp.default)(_this.application);
-        });
-      }
-    });
-  };
-
-  var Promise = _ember.default.RSVP.Promise;
-});
 define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-live/config/environment'], function (exports, _resolver, _environment) {
   'use strict';
 
@@ -2826,23 +3484,46 @@ define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-
 
   exports.default = resolver;
 });
-define('pix-live/tests/helpers/start-app', ['exports', 'ember', 'pix-live/app', 'pix-live/config/environment'], function (exports, _ember, _app, _environment) {
+define('pix-live/tests/helpers/seeds', ['exports'], function (exports) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = startApp;
-  function startApp(attrs) {
-    var attributes = _ember.default.merge({}, _environment.default.APP);
-    attributes = _ember.default.merge(attributes, attrs); // use defaults, but you can override;
+  exports.injectUserAccount = injectUserAccount;
+  exports.injectOrganization = injectOrganization;
+  function injectUserAccount() {
+    server.loadFixtures('areas');
+    server.loadFixtures('competences');
 
-    return _ember.default.run(function () {
-      var application = _app.default.create(attributes);
-      application.setupForTesting();
-      application.injectTestHelpers();
-      return application;
+    return server.create('user', {
+      id: 1,
+      firstName: 'Samurai',
+      lastName: 'Jack',
+      email: 'samurai.jack@aku.world',
+      password: 'B@ck2past',
+      cgu: true,
+      recaptchaToken: 'recaptcha-token-xxxxxx',
+      competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     });
+  }
+
+  function injectOrganization(code) {
+    return server.create('organization', { code: code });
+  }
+});
+define('pix-live/tests/helpers/testing', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.authenticateUser = authenticateUser;
+  function authenticateUser() {
+    visit('/connexion');
+    fillIn('#pix-email', 'samurai.jack@aku.world');
+    fillIn('#pix-password', 'B@ck2past');
+    click('.signin-form__submit_button');
   }
 });
 define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
@@ -2956,7 +3637,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
     });
   });
 });
-define('pix-live/tests/integration/components/challenge-statement-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/challenge-statement-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | ChallengeStatement', function () {
@@ -2970,7 +3651,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['ember
     }
 
     function renderChallengeStatement(component) {
-      component.render(_ember.default.HTMLBars.template({
+      component.render(Ember.HTMLBars.template({
         "id": "ucxCcrbv",
         "block": "{\"statements\":[[1,[33,[\"challenge-statement\"],null,[[\"challenge\"],[[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -2995,7 +3676,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['ember
         renderChallengeStatement(this);
 
         // then
-        (0, _chai.expect)(_ember.default.$.trim(this.$('.challenge-statement__instruction').text())).to.equal('La consigne de mon test');
+        (0, _chai.expect)(Ember.$.trim(this.$('.challenge-statement__instruction').text())).to.equal('La consigne de mon test');
       });
 
       (0, _mocha.it)('should not render challenge instruction if it does not exist', function () {
@@ -3217,7 +3898,7 @@ define('pix-live/tests/integration/components/challenge-stay-test', ['chai', 'mo
     });
   });
 });
-define('pix-live/tests/integration/components/comparison-window-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+define('pix-live/tests/integration/components/comparison-window-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   var FEEDBACK_FORM = '.feedback-panel__view--form';
@@ -3236,12 +3917,12 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
       var solution = void 0;
 
       (0, _mocha.beforeEach)(function () {
-        answer = _ember.default.Object.create({ value: '1,2', result: 'ko' });
-        challenge = _ember.default.Object.create({
+        answer = Ember.Object.create({ value: '1,2', result: 'ko' });
+        challenge = Ember.Object.create({
           instruction: 'This is the instruction',
           proposals: '' + '- 1ere possibilite\n ' + '- 2eme possibilite\n ' + '- 3eme possibilite\n' + '- 4eme possibilite'
         });
-        solution = _ember.default.Object.create({ value: '2,3' });
+        solution = Ember.Object.create({ value: '2,3' });
 
         this.set('answer', answer);
         this.set('challenge', challenge);
@@ -3251,7 +3932,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('renders', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3262,7 +3943,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should render challenge result in the header', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3273,7 +3954,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should render challenge instruction', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3284,7 +3965,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should not render corrected answers when challenge has no type', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3295,10 +3976,10 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should render corrected answers when challenge type is QROC', function () {
         // given
-        challenge = _ember.default.Object.create({ type: 'QROC' });
+        challenge = Ember.Object.create({ type: 'QROC' });
         this.set('challenge', challenge);
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3309,12 +3990,12 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should render corrected answers when challenge type is QROCM-ind', function () {
         // given
-        challenge = _ember.default.Object.create({ type: 'QROCM-ind', proposals: '' });
-        solution = _ember.default.Object.create({ value: '' });
+        challenge = Ember.Object.create({ type: 'QROCM-ind', proposals: '' });
+        solution = Ember.Object.create({ value: '' });
         this.set('challenge', challenge);
         this.set('solution', solution);
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3325,10 +4006,10 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should render corrected answers when challenge type is QCM', function () {
         // given
-        challenge = _ember.default.Object.create({ type: 'QCM' });
+        challenge = Ember.Object.create({ type: 'QCM' });
         this.set('challenge', challenge);
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3339,7 +4020,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should render a feedback panel already opened', function () {
         //when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "tusRoHTL",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3352,7 +4033,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
       (0, _mocha.it)('should have a max width of 900px and a margin auto in order to quit by clicking beside', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "XPYTajZT",
           "block": "{\"statements\":[[1,[33,[\"comparison-window\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]],null],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3368,7 +4049,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           answer.set('result', data.status);
 
           // when
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "tusRoHTL",
             "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -3379,6 +4060,363 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           (0, _chai.expect)(this.$('.comparison-window__result-icon--' + data.status)).to.have.lengthOf(1);
           (0, _chai.expect)($icon.attr('src')).to.equal('/images/answer-validation/icon-' + data.status + '.svg');
         });
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/competence-area-list-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | competence area list', function () {
+    (0, _emberMocha.setupComponentTest)('competence-area-list', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('Component rendering', function () {
+      (0, _mocha.it)('renders', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "1Zu65Rsf",
+          "block": "{\"statements\":[[1,[26,[\"competence-area-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render a wrapper', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "1Zu65Rsf",
+          "block": "{\"statements\":[[1,[26,[\"competence-area-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        var WRAPPER_CLASS = '.competence-area-list';
+        (0, _chai.expect)(this.$(WRAPPER_CLASS)).to.have.length(1);
+      });
+
+      (0, _mocha.describe)('Rendering when different areas', function () {
+
+        (0, _mocha.it)('should render 5 competence areas, when there are 5 competences with different area for each one', function () {
+          // given
+          var competencesWithDifferentAreas = [Ember.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }), Ember.Object.create({ id: 2, name: 'competence-2', areaName: 'area-B' }), Ember.Object.create({ id: 3, name: 'competence-3', areaName: 'area-C' }), Ember.Object.create({ id: 4, name: 'competence-4', areaName: 'area-D' }), Ember.Object.create({ id: 5, name: 'competence-5', areaName: 'area-E' })];
+          this.set('competences', competencesWithDifferentAreas);
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "izE4TL0M",
+            "block": "{\"statements\":[[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$('.competence-area-list__item')).to.have.lengthOf(5);
+        });
+
+        (0, _mocha.it)('should render 2 competence areas, when there are 5 competences related to 2 different areas', function () {
+          // given
+          var competencesWithDifferentAreas = [Ember.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }), Ember.Object.create({ id: 2, name: 'competence-2', areaName: 'area-A' }), Ember.Object.create({ id: 3, name: 'competence-3', areaName: 'area-A' }), Ember.Object.create({ id: 4, name: 'competence-4', areaName: 'area-B' }), Ember.Object.create({ id: 5, name: 'competence-5', areaName: 'area-B' })];
+          this.set('competences', competencesWithDifferentAreas);
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "izE4TL0M",
+            "block": "{\"statements\":[[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$('.competence-area-list__item')).to.have.lengthOf(2);
+        });
+      });
+
+      (0, _mocha.describe)('Rendering when same area', function () {
+        (0, _mocha.it)('should render only 1 competence area, when there are 5 competences with the same area', function () {
+          // given
+          var competencesWithSameArea = [Ember.Object.create({ id: 1, name: 'competence-1', areaName: 'area-A' }), Ember.Object.create({ id: 2, name: 'competence-2', areaName: 'area-A' }), Ember.Object.create({ id: 3, name: 'competence-3', areaName: 'area-A' }), Ember.Object.create({ id: 4, name: 'competence-4', areaName: 'area-A' }), Ember.Object.create({ id: 5, name: 'competence-5', areaName: 'area-A' })];
+
+          // when
+          this.set('competences', competencesWithSameArea);
+          this.render(Ember.HTMLBars.template({
+            "id": "izE4TL0M",
+            "block": "{\"statements\":[[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+          // then
+          (0, _chai.expect)(this.$('.competence-area-list__item')).to.have.lengthOf(1);
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/competence-by-area-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | competence area item', function () {
+    (0, _emberMocha.setupComponentTest)('competence-by-area-item', {
+      integration: true
+    });
+
+    (0, _mocha.it)('should render', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "VrjYY9DC",
+        "block": "{\"statements\":[[1,[26,[\"competence-by-area-item\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.competence-by-area-item')).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should render a title', function () {
+      // Given
+      var competence = Ember.Object.create({ name: 'competence-A', level: 1 });
+      var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
+      this.set('competenceArea', areaWithOnlyOneCompetence);
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "7jLygV5q",
+        "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+      // then
+      (0, _chai.expect)(this.$('.area__name').text().trim()).to.equal('Information et données');
+    });
+
+    (0, _mocha.it)('should render as many competences as received', function () {
+      // given
+      var competencesWithSameArea = [Ember.Object.create({ id: 1, name: 'competence-name-1', area: 'area-id-1' }), Ember.Object.create({ id: 2, name: 'competence-name-2', area: 'area-id-1' }), Ember.Object.create({ id: 3, name: 'competence-name-3', area: 'area-id-1' }), Ember.Object.create({ id: 4, name: 'competence-name-4', area: 'area-id-1' }), Ember.Object.create({ id: 5, name: 'competence-name-5', area: 'area-id-1' })];
+      var areaWithManyCompetences = {
+        property: 'area',
+        value: 'Information et données',
+        items: competencesWithSameArea
+      };
+
+      this.set('competenceArea', areaWithManyCompetences);
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "7jLygV5q",
+        "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.competence__name')).to.have.length(5);
+    });
+
+    (0, _mocha.describe)('Competence rendering', function () {
+      (0, _mocha.it)('should render its name', function () {
+        // given
+        var competence = Ember.Object.create({ name: 'Mener une recherche et une veille d’information' });
+        var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
+        this.set('competenceArea', areaWithOnlyOneCompetence);
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "7jLygV5q",
+          "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence__name').text().trim()).to.equal('Mener une recherche et une veille d’information');
+      });
+
+      (0, _mocha.it)('should render the relative level progress bar for user', function () {
+        // given
+        var competence = Ember.Object.create();
+        var areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
+        this.set('competenceArea', areaWithOnlyOneCompetence);
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "7jLygV5q",
+          "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence__progress-bar')).to.have.lengthOf(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/competence-level-progress-bar-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | competence level progress bar', function () {
+    (0, _emberMocha.setupComponentTest)('competence-level-progress-bar', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      this.render(Ember.HTMLBars.template({
+        "id": "KsF1SyH6",
+        "block": "{\"statements\":[[1,[26,[\"competence-level-progress-bar\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "meta": {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.describe)('if the level is not defined', function () {
+
+      (0, _mocha.it)('should not display the background of progress bar which display limit and max level', function () {
+        //Given
+        var givenLevel = -1;
+        this.set('level', givenLevel);
+
+        //When
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        //Then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background')).to.have.length(0);
+      });
+
+      (0, _mocha.it)('should not display a progress bar if level is not defined (-1)', function () {
+        //Given
+        var givenLevel = undefined;
+        this.set('level', givenLevel);
+
+        //When
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        //Then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.length(0);
+      });
+    });
+
+    (0, _mocha.describe)('if the level is defined', function () {
+
+      (0, _mocha.it)('should indicate the limit level and the max level reachable in the progress bar', function () {
+        // given
+        var MAX_LEVEL = 8;
+        var LIMIT_LEVEL = 5;
+        var level = 4;
+        this.set('level', level);
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator')).to.have.length(1);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator').text().trim()).to.equal(LIMIT_LEVEL.toString());
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator')).to.have.length(1);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator').text().trim()).to.equal(MAX_LEVEL.toString());
+      });
+
+      (0, _mocha.it)('should display a progress bar if level is defined (equal or more than 0)', function () {
+        //Given
+        var givenLevel = 1;
+        this.set('level', givenLevel);
+
+        //When
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        //Then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should indicate the level passed to the component at the end of the progress bar', function () {
+        // given
+        var level = 5;
+        this.set('level', level);
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "CApsTCe7",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__level-indicator').text().trim()).to.be.equal(level.toString());
+      });
+    });
+
+    (0, _mocha.describe)('when there is an associated course', function () {
+
+      (0, _mocha.it)('should display ’commencer’ in progress bar, when the level is not defined (-1)', function () {
+        // given
+        var courseId = 'rec123';
+        var level = -1;
+
+        this.set('courseId', courseId);
+        this.set('level', level);
+        this.set('name', 'Premier test de positionnement');
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "JPWaav0d",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"name\",\"level\",\"courseId\"],[[28,[\"name\"]],[28,[\"level\"]],[28,[\"courseId\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(1);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(1);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link').text().trim()).to.be.equal('Commencer le test "Premier test de positionnement"');
+      });
+
+      (0, _mocha.it)('should not display ’commencer’ in progress bar, when the level is already defined', function () {
+        // given
+        var courseId = 'rec123';
+        var level = 3;
+
+        this.set('courseId', courseId);
+        this.set('level', level);
+        this.set('name', 'Premier test de positionnement');
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "ho6d9bbw",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\",\"courseId\",\"name\"],[[28,[\"level\"]],[28,[\"courseId\"]],[28,[\"name\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(0);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(0);
+      });
+    });
+
+    (0, _mocha.describe)('when there is no associated course', function () {
+
+      (0, _mocha.it)('should not display ’commencer’ in progress bar', function () {
+        // given
+        var level = 3;
+        this.set('level', level);
+        this.set('name', 'Premier test de positionnement');
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "PLyX0nTE",
+          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\",\"name\"],[[28,[\"level\"]],[28,[\"name\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(0);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(0);
       });
     });
   });
@@ -3402,7 +4440,7 @@ define('pix-live/tests/integration/components/corner-ribbon-test', ['chai', 'emb
     });
   });
 });
-define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | course item', function () {
@@ -3414,7 +4452,7 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
     (0, _mocha.describe)('rendering:', function () {
 
       (0, _mocha.it)('renders', function () {
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "IlH0PQOd",
           "block": "{\"statements\":[[1,[26,[\"course-item\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3424,11 +4462,11 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render course picture if it is defined', function () {
         // given
-        var course = _ember.default.Object.create({ imageUrl: '/images/pix-logo.svg' });
+        var course = Ember.Object.create({ imageUrl: '/images/pix-logo.svg' });
         this.set('course', course);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Ig9hFQ2w",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3441,11 +4479,11 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render default picture if course picture is not defined', function () {
         // given
-        var course = _ember.default.Object.create();
+        var course = Ember.Object.create();
         this.set('course', course);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Ig9hFQ2w",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3458,11 +4496,11 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render course name', function () {
         // given
-        var course = _ember.default.Object.create({ name: 'name_value' });
+        var course = Ember.Object.create({ name: 'name_value' });
         this.set('course', course);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Ig9hFQ2w",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3475,11 +4513,11 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render course description', function () {
         // given
-        var course = _ember.default.Object.create({ description: 'description_value' });
+        var course = Ember.Object.create({ description: 'description_value' });
         this.set('course', course);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Ig9hFQ2w",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3492,11 +4530,11 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render the number of challenges', function () {
         // given
-        var course = _ember.default.Object.create({ challenges: ['c1', 'c2', 'c3', 'c4'] });
+        var course = Ember.Object.create({ challenges: ['c1', 'c2', 'c3', 'c4'] });
         this.set('course', course);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Ig9hFQ2w",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3507,13 +4545,30 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
         (0, _chai.expect)($nbChallenges.text().trim()).to.equal('4 épreuves');
       });
 
-      (0, _mocha.it)('should render a link to begin the course', function () {
+      (0, _mocha.it)('should render the number of challenges', function () {
         // given
-        var course = _ember.default.Object.create();
+        var course = Ember.Object.create({ challenges: [], nbChallenges: 2 });
         this.set('course', course);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
+          "id": "Ig9hFQ2w",
+          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        var $nbChallenges = this.$('.course-item__challenges-number');
+        (0, _chai.expect)($nbChallenges.text().trim()).to.equal('2 épreuves');
+      });
+
+      (0, _mocha.it)('should render a link to begin the course', function () {
+        // given
+        var course = Ember.Object.create();
+        this.set('course', course);
+
+        // when
+        this.render(Ember.HTMLBars.template({
           "id": "Ig9hFQ2w",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3526,11 +4581,11 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should render a link containing the course name in title', function () {
         // given
-        var course = _ember.default.Object.create({ name: 'My course' });
+        var course = Ember.Object.create({ name: 'My course' });
         this.set('course', course);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "Ig9hFQ2w",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3546,7 +4601,7 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
 
       (0, _mocha.it)('should send action "startCourse" with course in argument when clicking on "start" button', function () {
         // given
-        var course = _ember.default.Object.create({ id: 'course_id' });
+        var course = Ember.Object.create({ id: 'course_id' });
         this.set('course', course);
         var actualCourse = void 0;
         this.on('actionHandler', function (receivedCourse) {
@@ -3554,7 +4609,7 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
         });
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "1Ht5d7Cr",
           "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\",\"startCourse\"],[[28,[\"course\"]],\"actionHandler\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3568,7 +4623,7 @@ define('pix-live/tests/integration/components/course-item-test', ['ember', 'chai
     });
   });
 });
-define('pix-live/tests/integration/components/course-list-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/course-list-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | course list', function () {
@@ -3580,7 +4635,7 @@ define('pix-live/tests/integration/components/course-list-test', ['ember', 'chai
     (0, _mocha.describe)('rendering:', function () {
 
       (0, _mocha.it)('renders', function () {
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "ZbjKlqif",
           "block": "{\"statements\":[[1,[26,[\"course-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3590,11 +4645,11 @@ define('pix-live/tests/integration/components/course-list-test', ['ember', 'chai
 
       (0, _mocha.it)('should render as many course-item as courses elements', function () {
         // given
-        var courses = [_ember.default.Object.create({ id: '1' }), _ember.default.Object.create({ id: '2' }), _ember.default.Object.create({ id: '3' })];
+        var courses = [Ember.Object.create({ id: '1' }), Ember.Object.create({ id: '2' }), Ember.Object.create({ id: '3' })];
         this.set('courses', courses);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "LDBKp7if",
           "block": "{\"statements\":[[1,[33,[\"course-list\"],null,[[\"courses\"],[[28,[\"courses\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3703,7 +4758,7 @@ define('pix-live/tests/integration/components/feature-list-test', ['chai', 'moch
     });
   });
 });
-define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait', 'pix-live/utils/lodash-custom'], function (_ember, _chai, _mocha, _emberMocha, _wait, _lodashCustom) {
+define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait', 'pix-live/utils/lodash-custom'], function (_chai, _mocha, _emberMocha, _wait, _lodashCustom) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -3782,7 +4837,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should display the feedback Panel', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "vYG6y2lL",
           "block": "{\"statements\":[[1,[26,[\"feedback-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3796,7 +4851,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
     (0, _mocha.describe)('Link view (available only when form is closed by default)', function () {
 
       beforeEach(function () {
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "vYG6y2lL",
           "block": "{\"statements\":[[1,[26,[\"feedback-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3821,7 +4876,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
     (0, _mocha.describe)('Form view', function () {
 
-      var storeStub = _ember.default.Service.extend({
+      var storeStub = Ember.Service.extend({
         createRecord: function createRecord() {
           var createRecordArgs = arguments;
           return Object.create({
@@ -3829,7 +4884,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
               isSaveMethodCalled = true;
               saveMethodUrl = createRecordArgs[0];
               saveMethodBody = createRecordArgs[1];
-              return _ember.default.RSVP.resolve();
+              return Ember.RSVP.resolve();
             }
           });
         }
@@ -3841,8 +4896,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       beforeEach(function () {
         // configure answer & cie. model object
-        var assessment = _ember.default.Object.extend({ id: 'assessment_id' }).create();
-        var challenge = _ember.default.Object.extend({ id: 'challenge_id' }).create();
+        var assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
+        var challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
 
         // render component
         this.set('assessment', assessment);
@@ -3856,7 +4911,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
         this.register('service:store', storeStub);
         this.inject.service('store', { as: 'store' });
 
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "qFA+EGeX",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\"],[[28,[\"assessment\"]],[28,[\"challenge\"]],false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3922,8 +4977,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       beforeEach(function () {
         // configure answer & cie. model object
-        var assessment = _ember.default.Object.extend({ id: 'assessment_id' }).create();
-        var challenge = _ember.default.Object.extend({ id: 'challenge_id' }).create();
+        var assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
+        var challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
 
         // render component
         this.set('assessment', assessment);
@@ -3932,7 +4987,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should not be visible if feedback-panel is not collapsible', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "qFA+EGeX",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\"],[[28,[\"assessment\"]],[28,[\"challenge\"]],false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3944,7 +4999,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should not be visible if status is not FORM_OPENED', function () {
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "LwVlgJUd",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\",\"_status\"],[[28,[\"assessment\"]],[28,[\"challenge\"]],true,\"FORM_CLOSED\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3954,13 +5009,13 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
         (0, _chai.expect)(this.$(BUTTON_CANCEL)).to.have.lengthOf(0);
       });
 
-      (0, _mocha.it)('should be visible only if component is collapsible and form is opened', _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('should be visible only if component is collapsible and form is opened', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 // given
-                this.render(_ember.default.HTMLBars.template({
+                this.render(Ember.HTMLBars.template({
                   "id": "5kGcVXmC",
                   "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\"],[[28,[\"assessment\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
                   "meta": {}
@@ -3982,7 +5037,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should contain "cancel" button with label "Annuler" and placeholder "Votre message"', function () {
         // given
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "5kGcVXmC",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\"],[[28,[\"assessment\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -3999,7 +5054,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('clicking on "cancel" button should close the "form" view and and display the "link" view', function () {
         // given
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "5kGcVXmC",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\"],[[28,[\"assessment\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4017,7 +5072,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should display error if "content" is empty', function () {
         // given
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "hpJwRXcm",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4033,7 +5088,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should display error if "content" is blank', function () {
         // given
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "hpJwRXcm",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4050,7 +5105,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should display error if "email" is set but invalid', function () {
         // given
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "hpJwRXcm",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4067,7 +5122,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should not display error if "form" view (with error) was closed and re-opened', function () {
         // given
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "vYG6y2lL",
           "block": "{\"statements\":[[1,[26,[\"feedback-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4089,7 +5144,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
 
       (0, _mocha.it)('should display an error even if the user did not focus on email or content', function () {
         // given
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "hpJwRXcm",
           "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4104,7 +5159,7 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['ember', 'c
     });
   });
 });
-define('pix-live/tests/integration/components/follower-form-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _ember, _wait) {
+define('pix-live/tests/integration/components/follower-form-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _wait) {
   'use strict';
 
   var BUTTON_SEND = '.follower-form__button';
@@ -4117,7 +5172,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
     });
 
     (0, _mocha.it)('renders', function () {
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "3KqB2opg",
         "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -4128,7 +5183,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
     (0, _mocha.describe)('Test Component form', function () {
       (0, _mocha.it)('should render submit button', function () {
         //When
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "3KqB2opg",
           "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4139,7 +5194,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
 
       (0, _mocha.it)('should return true if input exist', function () {
         //When
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "3KqB2opg",
           "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4159,7 +5214,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
       var saveMethodBody = void 0;
       var saveMethodUrl = void 0;
 
-      var storeStub = _ember.default.Service.extend({
+      var storeStub = Ember.Service.extend({
         createRecord: function createRecord() {
           var createRecordArgs = arguments;
           return Object.create({
@@ -4167,19 +5222,19 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
               isSaveMethodCalled = true;
               saveMethodUrl = createRecordArgs[0];
               saveMethodBody = createRecordArgs[1];
-              return _ember.default.RSVP.resolve();
+              return Ember.RSVP.resolve();
             }
           });
         }
       });
 
-      var errorObject = _ember.default.Object.create({
+      var errorObject = Ember.Object.create({
         errors: [{
           status: 409
         }]
       });
 
-      var storeStubRejection = _ember.default.Service.extend({
+      var storeStubRejection = Ember.Service.extend({
         createRecord: function createRecord() {
           var createRecordArgs = arguments;
           return Object.create({
@@ -4187,7 +5242,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
               isSaveMethodCalled = true;
               saveMethodUrl = createRecordArgs[0];
               saveMethodBody = createRecordArgs[1];
-              return _ember.default.RSVP.reject(errorObject);
+              return Ember.RSVP.reject(errorObject);
             }
           });
         }
@@ -4205,7 +5260,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
         this.register('service:store', storeStub);
         this.inject.service('store', { as: 'store' });
 
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "3KqB2opg",
           "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4235,7 +5290,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
         // given
         this.register('service:store', storeStubRejection);
 
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "3KqB2opg",
           "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4262,13 +5317,13 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
     });
   });
 });
-define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
-  var RSVP = _ember.default.RSVP;
+  var RSVP = Ember.RSVP;
 
 
-  var StubGoogleRecaptchaService = _ember.default.Service.extend({
+  var StubGoogleRecaptchaService = Ember.Service.extend({
     loadScript: function loadScript() {
       return RSVP.resolve();
     },
@@ -4295,7 +5350,7 @@ define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha
     });
 
     (0, _mocha.it)('renders', function () {
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "BuJ6Tpul",
         "block": "{\"statements\":[[1,[26,[\"g-recaptcha\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -4306,7 +5361,7 @@ define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha
     // XXX Inspired of https://guides.emberjs.com/v2.13.0/tutorial/service/#toc_integration-testing-the-map-component
     (0, _mocha.it)('should append recaptcha element to container element', function () {
       // when
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "BuJ6Tpul",
         "block": "{\"statements\":[[1,[26,[\"g-recaptcha\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -4418,29 +5473,109 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
       integration: true
     });
 
-    (0, _mocha.beforeEach)(function () {
-      this.render(Ember.HTMLBars.template({
-        "id": "Jj0Mqu5s",
-        "block": "{\"statements\":[[1,[26,[\"navbar-header\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-        "meta": {}
-      }));
+    (0, _mocha.describe)('Rendering when user is not logged', function () {
+      (0, _mocha.beforeEach)(function () {
+        this.register('service:session', Ember.Service.extend({ isAuthenticated: false }));
+        this.inject.service('session', { as: 'session' });
+
+        this.render(Ember.HTMLBars.template({
+          "id": "Jj0Mqu5s",
+          "block": "{\"statements\":[[1,[26,[\"navbar-header\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+      });
+
+      (0, _mocha.it)('renders', function () {
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should display the Pix logo', function () {
+        (0, _chai.expect)(this.$('.navbar-header-logo')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.pix-logo')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should display a link to "project" page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--project')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should display a link to "referential" page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.length(0);
+      });
+    });
+    (0, _mocha.describe)('Rendering for logged user', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        this.register('service:session', Ember.Service.extend({ isAuthenticated: true }));
+        this.inject.service('session', { as: 'session' });
+
+        this.render(Ember.HTMLBars.template({
+          "id": "Jj0Mqu5s",
+          "block": "{\"statements\":[[1,[26,[\"navbar-header\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+      });
+
+      (0, _mocha.it)('should display logged user details informations', function () {
+        // then
+        (0, _chai.expect)(this.$('.logged-user-details')).to.have.lengthOf(1);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/partners-enrollment-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | partners enrollment panel', function () {
+    (0, _emberMocha.setupComponentTest)('partners-enrollment-panel', {
+      integration: true
     });
 
-    (0, _mocha.it)('renders', function () {
-      (0, _chai.expect)(this.$()).to.have.length(1);
-    });
+    (0, _mocha.describe)('Component rendering', function () {
 
-    (0, _mocha.it)('should display the Pix logo', function () {
-      (0, _chai.expect)(this.$('.navbar-header-logo')).to.have.lengthOf(1);
-      (0, _chai.expect)(this.$('.pix-logo')).to.have.lengthOf(1);
-    });
+      (0, _mocha.it)('should render', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "T/2+/GR4",
+          "block": "{\"statements\":[[1,[26,[\"partners-enrollment-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
 
-    (0, _mocha.it)('should display a link to "project" page', function () {
-      (0, _chai.expect)(this.$('.navbar-header-links__link--project')).to.have.lengthOf(1);
-    });
+        // then
+        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$('.partners-enrollment-panel')).to.have.length(1);
+      });
 
-    (0, _mocha.it)('should display a link to "referential" page', function () {
-      (0, _chai.expect)(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
+      [{ itemClass: '.partners-enrollment__title', type: 'title' }, { itemClass: '.partners-enrollment__description', type: 'description' }, { itemClass: '.partners-enrollment__link-container', type: 'link container' }].forEach(function (_ref2) {
+        var itemClass = _ref2.itemClass,
+            type = _ref2.type;
+
+        (0, _mocha.it)('should display a ' + type, function () {
+          // given
+          this.render(Ember.HTMLBars.template({
+            "id": "T/2+/GR4",
+            "block": "{\"statements\":[[1,[26,[\"partners-enrollment-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$(itemClass)).to.have.length(1);
+        });
+      });
+
+      (0, _mocha.it)('should contain a link to enrollment', function () {
+        // given
+        this.set('_enrollment', { title: 'toto' });
+        this.render(Ember.HTMLBars.template({
+          "id": "T/2+/GR4",
+          "block": "{\"statements\":[[1,[26,[\"partners-enrollment-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.partners-enrollment__link')).to.have.length(1);
+        (0, _chai.expect)(this.$('.partners-enrollment__link').text().trim()).to.equal('En savoir plus');
+      });
     });
   });
 });
@@ -4482,6 +5617,89 @@ define('pix-live/tests/integration/components/pix-logo-test', ['chai', 'mocha', 
     });
   });
 });
+define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | profile panel', function () {
+    (0, _emberMocha.setupComponentTest)('profile-panel', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('(Rendering behavior) Component: ', function () {
+
+      (0, _mocha.it)('should be rendered', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "hj/2/1ZO",
+          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render a wrapper', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "hj/2/1ZO",
+          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        var WRAPPER_CLASS = '.profile-panel';
+        (0, _chai.expect)(this.$(WRAPPER_CLASS)).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should render a profile header', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "hj/2/1ZO",
+          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // Then
+        var HEADER_CLASS = '.profile-panel__header';
+        var HEADER_TITLE = '.profile-header__title';
+        (0, _chai.expect)(this.$(HEADER_CLASS)).to.have.length(1);
+        (0, _chai.expect)(this.$(HEADER_TITLE).text().trim()).to.be.equal('Votre profil');
+      });
+
+      (0, _mocha.it)('should render a competence profile block', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "hj/2/1ZO",
+          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // Then
+        var COMPETENCY_BLOCK = '.profile-panel__competence-areas';
+        (0, _chai.expect)(this.$(COMPETENCY_BLOCK)).to.have.length(1);
+      });
+
+      (0, _mocha.describe)('behavior according to totalPixScore value', function () {
+        (0, _mocha.it)('should display two dashes instead of zero in total pix score, when user has’nt yet assessed on placement test', function () {
+          // given
+          var totalPixScore = '';
+
+          this.set('totalPixScore', totalPixScore);
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "HTqT+ym1",
+            "block": "{\"statements\":[[1,[33,[\"profile-panel\"],null,[[\"totalPixScore\"],[[28,[\"totalPixScore\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$('.profile-header__score-pastille-wrapper')).to.have.length(1);
+        });
+      });
+    });
+  });
+});
 define('pix-live/tests/integration/components/qcm-proposals-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -4501,7 +5719,7 @@ define('pix-live/tests/integration/components/qcm-proposals-test', ['chai', 'moc
     });
   });
 });
-define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'pix-live/utils/lodash-custom'], function (_chai, _mocha, _emberMocha, _ember, _lodashCustom) {
+define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai', 'mocha', 'ember-mocha', 'pix-live/utils/lodash-custom'], function (_chai, _mocha, _emberMocha, _lodashCustom) {
   'use strict';
 
   var CHECKBOX_CORRECT_AND_CHECKED = 'input[type=checkbox]:eq(1)';
@@ -4540,7 +5758,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
     (0, _mocha.describe)('#Component should renders: ', function () {
 
       (0, _mocha.it)('Should renders', function () {
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "lMfyMGVi",
           "block": "{\"statements\":[[1,[26,[\"qcm-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4559,17 +5777,17 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
         };
 
         (0, _mocha.before)(function () {
-          challenge = _ember.default.Object.create({
+          challenge = Ember.Object.create({
             id: 'challenge_id',
             proposals: '-foo\n- bar\n- qix\n- yon',
             type: 'QCM'
           });
 
-          solution = _ember.default.Object.create({
+          solution = Ember.Object.create({
             id: 'solution_id', value: '2,3'
           });
 
-          answer = _ember.default.Object.create(correctAnswer);
+          answer = Ember.Object.create(correctAnswer);
         });
 
         (0, _mocha.it)('QCM, la réponse correcte est cochée', function () {
@@ -4579,7 +5797,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "6bxZetM3",
             "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -4603,7 +5821,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "6bxZetM3",
             "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -4618,14 +5836,14 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
         (0, _mocha.it)('QCM, Au moins l\'une des réponse correcte n\'est pas cochée', function () {
           //Given
-          answer = _ember.default.Object.create(unCorrectAnswer);
+          answer = Ember.Object.create(unCorrectAnswer);
 
           this.set('answer', answer);
           this.set('solution', solution);
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "6bxZetM3",
             "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -4640,14 +5858,14 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
         (0, _mocha.it)('QCM, au moins l\'une des réponse incorrecte est cochée', function () {
           //Given
-          answer = _ember.default.Object.create(unCorrectAnswer);
+          answer = Ember.Object.create(unCorrectAnswer);
 
           this.set('answer', answer);
           this.set('solution', solution);
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "6bxZetM3",
             "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -4668,7 +5886,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "6bxZetM3",
             "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -4733,7 +5951,7 @@ define('pix-live/tests/integration/components/qcu-proposals-test', ['chai', 'moc
     });
   });
 });
-define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'pix-live/utils/lodash-custom'], function (_chai, _mocha, _emberMocha, _ember, _lodashCustom) {
+define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai', 'mocha', 'ember-mocha', 'pix-live/utils/lodash-custom'], function (_chai, _mocha, _emberMocha, _lodashCustom) {
   'use strict';
 
   var RADIO_CORRECT_AND_CHECKED = '.picture-radio-proposal--qcu:eq(1)';
@@ -4781,7 +5999,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
     (0, _mocha.describe)('#Component should renders: ', function () {
 
       (0, _mocha.it)('Should renders', function () {
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "ImJDD4J6",
           "block": "{\"statements\":[[1,[26,[\"qcu-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -4793,17 +6011,17 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
       (0, _mocha.describe)('Radio state', function () {
 
         before(function () {
-          challenge = _ember.default.Object.create({
+          challenge = Ember.Object.create({
             id: 'challenge_id',
             proposals: '-foo\n- bar\n- qix\n- yon',
             type: 'QCM'
           });
 
-          solution = _ember.default.Object.create({
+          solution = Ember.Object.create({
             id: 'solution_id', value: '2'
           });
 
-          answer = _ember.default.Object.create(correctAnswer);
+          answer = Ember.Object.create(correctAnswer);
         });
 
         (0, _mocha.it)('QCU,la réponse correcte est cochée', function () {
@@ -4812,7 +6030,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           this.set('solution', solution);
           this.set('challenge', challenge);
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "YHeVDTOT",
             "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -4831,14 +6049,14 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
 
         (0, _mocha.it)('QCU, la réponse correcte n\'est pas cochée', function () {
           //Given
-          answer = _ember.default.Object.create(unCorrectAnswer);
+          answer = Ember.Object.create(unCorrectAnswer);
 
           this.set('answer', answer);
           this.set('solution', solution);
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "YHeVDTOT",
             "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -4860,7 +6078,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "YHeVDTOT",
             "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -4876,14 +6094,14 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
 
         (0, _mocha.it)('QCU,la réponse incorrecte est cochée', function () {
           //Given
-          answer = _ember.default.Object.create(unCorrectAnswer);
+          answer = Ember.Object.create(unCorrectAnswer);
 
           this.set('answer', answer);
           this.set('solution', solution);
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "YHeVDTOT",
             "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -4904,7 +6122,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           this.set('challenge', challenge);
 
           // When
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "YHeVDTOT",
             "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -4982,7 +6200,7 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['chai', 'moc
     });
   });
 });
-define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   var ANSWER_BLOCK = '.correction-qroc-box__answer';
@@ -5000,7 +6218,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
     });
 
     (0, _mocha.it)('renders', function () {
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "NpKj63LV",
         "block": "{\"statements\":[[1,[26,[\"qroc-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -5010,7 +6228,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
 
     (0, _mocha.it)('should disabled all inputs', function () {
       // given
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "NpKj63LV",
         "block": "{\"statements\":[[1,[26,[\"qroc-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -5022,14 +6240,14 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
 
     (0, _mocha.describe)('comparison when the answer is right', function () {
 
-      var assessment = _ember.default.Object.create({ id: 'assessment_id' });
-      var challenge = _ember.default.Object.create({ id: 'challenge_id' });
-      var answer = _ember.default.Object.create({ id: 'answer_id', result: 'ok', assessment: assessment, challenge: challenge });
+      var assessment = Ember.Object.create({ id: 'assessment_id' });
+      var challenge = Ember.Object.create({ id: 'challenge_id' });
+      var answer = Ember.Object.create({ id: 'answer_id', result: 'ok', assessment: assessment, challenge: challenge });
 
       (0, _mocha.it)('should diplay the answer in bold green and not the solution', function () {
         // given
         this.set('answer', answer);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "MvdjYNn/",
           "block": "{\"statements\":[[1,[33,[\"qroc-solution-panel\"],null,[[\"answer\"],[[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5051,12 +6269,12 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
     (0, _mocha.describe)('comparison when the answer is false', function () {
 
       (0, _mocha.beforeEach)(function () {
-        var assessment = _ember.default.Object.create({ id: 'assessment_id' });
-        var challenge = _ember.default.Object.create({ id: 'challenge_id' });
-        var answer = _ember.default.Object.create({ id: 'answer_id', result: 'ko', assessment: assessment, challenge: challenge });
+        var assessment = Ember.Object.create({ id: 'assessment_id' });
+        var challenge = Ember.Object.create({ id: 'challenge_id' });
+        var answer = Ember.Object.create({ id: 'answer_id', result: 'ko', assessment: assessment, challenge: challenge });
 
         this.set('answer', answer);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "MvdjYNn/",
           "block": "{\"statements\":[[1,[33,[\"qroc-solution-panel\"],null,[[\"answer\"],[[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5088,13 +6306,13 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
       (0, _mocha.describe)('comparison when the answer was not given', function () {
 
         (0, _mocha.beforeEach)(function () {
-          var assessment = _ember.default.Object.create({ id: 'assessment_id' });
-          var challenge = _ember.default.Object.create({ id: 'challenge_id' });
-          var answer = _ember.default.Object.create({ id: 'answer_id', result: 'aband', assessment: assessment, challenge: challenge });
+          var assessment = Ember.Object.create({ id: 'assessment_id' });
+          var challenge = Ember.Object.create({ id: 'challenge_id' });
+          var answer = Ember.Object.create({ id: 'answer_id', result: 'aband', assessment: assessment, challenge: challenge });
 
           this.set('answer', answer);
           this.set('isResultWithoutAnswer', true);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "MvdjYNn/",
             "block": "{\"statements\":[[1,[33,[\"qroc-solution-panel\"],null,[[\"answer\"],[[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5114,7 +6332,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
     });
   });
 });
-define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['chai', 'mocha', 'ember-mocha', 'ember'], function (_chai, _mocha, _emberMocha, _ember) {
+define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   var FIRST_CORRECTION_BLOCK = '.correction-qrocm:nth-child(1)';
@@ -5134,16 +6352,16 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
       integration: true
     });
 
-    var assessment = _ember.default.Object.create({ id: 'assessment_id' });
-    var challenge = _ember.default.Object.create({ id: 'challenge_id', proposals: 'answer1 : ${key1}\nCarte mémoire (SD) : ${key2}\nblabla : ${key3}' });
-    var answer = _ember.default.Object.create({
+    var assessment = Ember.Object.create({ id: 'assessment_id' });
+    var challenge = Ember.Object.create({ id: 'challenge_id', proposals: 'answer1 : ${key1}\nCarte mémoire (SD) : ${key2}\nblabla : ${key3}' });
+    var answer = Ember.Object.create({
       id: 'answer_id',
       value: 'key1: \'rightAnswer1\' key2: \'wrongAnswer2\' key3: \'\'',
       resultDetails: 'key1: true\nkey2: false\nkey3: false',
       assessment: assessment,
       challenge: challenge
     });
-    var solution = _ember.default.Object.create({ value: 'key1:\n- rightAnswer1\nkey2:\n- rightAnswer20\n- rightAnswer21\nkey3 :\n- rightAnswer3' });
+    var solution = Ember.Object.create({ value: 'key1:\n- rightAnswer1\nkey2:\n- rightAnswer20\n- rightAnswer21\nkey3 :\n- rightAnswer3' });
 
     (0, _mocha.beforeEach)(function () {
       this.set('answer', answer);
@@ -5152,7 +6370,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
     });
 
     (0, _mocha.it)('renders', function () {
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "AQ8byhGY",
         "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[28,[\"answer\"]],[28,[\"solution\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -5162,7 +6380,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
     (0, _mocha.it)('should disabled all inputs', function () {
       // given
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "AQ8byhGY",
         "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[28,[\"answer\"]],[28,[\"solution\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -5174,7 +6392,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
     (0, _mocha.it)('should contains three labels', function () {
       // given
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "AQ8byhGY",
         "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[28,[\"answer\"]],[28,[\"solution\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -5190,7 +6408,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
         (0, _mocha.it)('should display the right answer in green bold', function () {
           // given
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "18Tupy2D",
             "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5213,7 +6431,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
         (0, _mocha.it)('should not display the solution', function () {
           // given
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "18Tupy2D",
             "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5229,7 +6447,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
         (0, _mocha.it)('should display the wrong answer in the second div line-throughed bold', function () {
           // given
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "18Tupy2D",
             "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5250,7 +6468,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
         (0, _mocha.it)('should display one solution in bold green below the input', function () {
           // given
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "18Tupy2D",
             "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5272,7 +6490,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
         (0, _mocha.it)('should display the empty answer in the third div with "pas de réponse" in italic', function () {
           // given
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "18Tupy2D",
             "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5293,7 +6511,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
         (0, _mocha.it)('should display one solution in bold green below the input', function () {
           // given
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "18Tupy2D",
             "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5333,7 +6551,7 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['chai', 'mo
     });
   });
 });
-define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember', 'mocha', 'ember-mocha'], function (_chai, _ember, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/result-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | result item', function () {
@@ -5346,13 +6564,13 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
 
       var providedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)';
 
-      var emberChallengeObject = _ember.default.Object.create({
+      var emberChallengeObject = Ember.Object.create({
         type: 'QCM',
         instruction: providedChallengeInstruction,
         proposals: '- soit possibilite A, et/ou' + '\n - soit possibilite B, et/ou' + '\n - soit possibilite C, et/ou' + '\n - soit possibilite D'
       });
 
-      var answer = _ember.default.Object.create({
+      var answer = Ember.Object.create({
         value: '2,4',
         result: 'ko',
         id: 1,
@@ -5371,7 +6589,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         this.set('answer', '');
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5386,7 +6604,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         this.set('answer', '');
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5402,7 +6620,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         this.set('answer', '');
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5418,7 +6636,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         this.set('answer', answer);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5433,7 +6651,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         // given
         this.set('answer', answer);
 
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5447,7 +6665,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         this.set('answer', answer);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5462,7 +6680,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         this.set('answer', null);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5475,7 +6693,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
       (0, _mocha.it)('should update the tooltip when the answer is eventually retrieved', function () {
         // given
         this.set('answer', null);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5493,7 +6711,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
         this.set('answer', answer);
 
         // when
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "f8lT9MrH",
           "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5511,7 +6729,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
           this.set('answer', answer);
 
           // when
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "f8lT9MrH",
             "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -5522,6 +6740,58 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'ember
           (0, _chai.expect)(this.$('.result-item__icon-img--' + data.status)).to.have.lengthOf(1);
           (0, _chai.expect)($icon.attr('src')).to.equal('/images/answer-validation/icon-' + data.status + '.svg');
         });
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/score-pastille-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | score pastille', function () {
+    (0, _emberMocha.setupComponentTest)('score-pastille', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('Component rendering', function () {
+
+      (0, _mocha.it)('should render component', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "JpjlFNjP",
+          "block": "{\"statements\":[[1,[26,[\"score-pastille\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.describe)('Component dashes rendering instead of zero cases:', function () {
+
+        (0, _mocha.it)('should display two dashes, when no pixScore provided', function () {
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "JpjlFNjP",
+            "block": "{\"statements\":[[1,[26,[\"score-pastille\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+          // then
+          (0, _chai.expect)(this.$('.score-pastille__pix-score').text().trim()).to.equal('--');
+        });
+      });
+
+      (0, _mocha.it)('should display provided score in pastille', function () {
+        // given
+        var pixScore = '777';
+        this.set('pixScore', pixScore);
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "czvYLqz+",
+          "block": "{\"statements\":[[1,[33,[\"score-pastille\"],null,[[\"pixScore\"],[[28,[\"pixScore\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+        // then
+        (0, _chai.expect)(this.$('.score-pastille__pix-score').text().trim()).to.equal(pixScore);
       });
     });
   });
@@ -5646,7 +6916,7 @@ define('pix-live/tests/integration/components/scoring-panel-tantpix-test', ['cha
     });
   });
 });
-define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/scoring-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   var TANTPIX_CONTAINER_CLASS = '.scoring-panel-tantpix';
@@ -5657,12 +6927,12 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'ch
       integration: true
     });
 
-    var assessmentWithTrophy = _ember.default.Object.create({ estimatedLevel: 1, pixScore: 67, course: { isAdaptive: true } });
-    var assessmentWithNoTrophyAndSomePix = _ember.default.Object.create({ estimatedLevel: 0, pixScore: 20, course: { isAdaptive: true } });
-    var assessmentWithNoTrophyAndNoPix = _ember.default.Object.create({ estimatedLevel: 0, pixScore: 0, course: { isAdaptive: true } });
+    var assessmentWithTrophy = Ember.Object.create({ estimatedLevel: 1, pixScore: 67, course: { isAdaptive: true } });
+    var assessmentWithNoTrophyAndSomePix = Ember.Object.create({ estimatedLevel: 0, pixScore: 20, course: { isAdaptive: true } });
+    var assessmentWithNoTrophyAndNoPix = Ember.Object.create({ estimatedLevel: 0, pixScore: 0, course: { isAdaptive: true } });
 
     (0, _mocha.it)('renders', function () {
-      this.render(_ember.default.HTMLBars.template({
+      this.render(Ember.HTMLBars.template({
         "id": "WOCk/+rI",
         "block": "{\"statements\":[[1,[26,[\"scoring-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
         "meta": {}
@@ -5674,7 +6944,7 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'ch
 
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithNoTrophyAndNoPix);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "2eDn5awa",
           "block": "{\"statements\":[[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5697,7 +6967,7 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'ch
 
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithTrophy);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "2eDn5awa",
           "block": "{\"statements\":[[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5729,7 +6999,7 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'ch
 
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithNoTrophyAndSomePix);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "2eDn5awa",
           "block": "{\"statements\":[[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5756,7 +7026,7 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'ch
 
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithTrophy);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "2eDn5awa",
           "block": "{\"statements\":[[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5766,6 +7036,35 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['ember', 'ch
       (0, _mocha.it)('should not have a blue border when the user clicks on its', function () {
         // then
         (0, _chai.expect)(this.$('.scoring-panel__index-link__element').css('outline')).to.equal('rgb(255, 255, 255) none 0px');
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/share-profile-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | share profile', function () {
+    (0, _emberMocha.setupComponentTest)('share-profile', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('when the organization is found', function () {
+
+      (0, _mocha.it)('should render a wrapper', function () {
+        // given
+        var organization = Ember.Object.create({ name: 'Université de la côte d\'Opale' });
+        this.set('organization', organization);
+        this.set('isShowingModal', true);
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "BOAdfkfF",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"isShowingModal\",\"organization\"],[true,[28,[\"organization\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$.find('.share-profile__modal-organization-name')[0].innerText).to.equal('Université de la côte d\'Opale');
       });
     });
   });
@@ -5874,7 +7173,7 @@ define('pix-live/tests/integration/components/signin-form-test', ['chai', 'mocha
     }
   });
 });
-define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha', 'ember-mocha', 'ember', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _ember, _wait) {
+define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait', 'sinon'], function (_chai, _mocha, _emberMocha, _wait, _sinon) {
   'use strict';
 
   var FORM_CONTAINER = '.signup-form-container';
@@ -5908,7 +7207,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var ICON_ERROR_CLASS = 'signup-textfield__icon--error';
   var ICON_SUCCESS_CLASS = 'signup-textfield__icon--success';
 
-  var userEmpty = _ember.default.Object.create({});
+  var userEmpty = Ember.Object.create({});
   var CAPTCHA_CONTAINER = '.signup-form__captcha-container';
 
   (0, _mocha.describe)('Integration | Component | signup form', function () {
@@ -5921,7 +7220,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
       beforeEach(function () {
         this.set('user', userEmpty);
-        this.render(_ember.default.HTMLBars.template({
+        this.render(Ember.HTMLBars.template({
           "id": "1MFHuc1Q",
           "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
@@ -5978,38 +7277,106 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
     (0, _mocha.describe)('Behaviors', function () {
 
       beforeEach(function () {
-        this.register('component:g-recaptcha', _ember.default.Component.extend());
+        this.register('component:g-recaptcha', Ember.Component.extend());
       });
 
-      (0, _mocha.it)('should return true if action <Signup> is handled', function () {
-        // given
-        var isFormSubmitted = false;
-        var user = _ember.default.Object.create({
-          email: 'toto@pix.fr',
-          firstName: 'Marion',
-          lastName: 'Yade',
-          password: 'gipix2017',
-          cgu: true,
+      (0, _mocha.describe)('behavior when signup successful (test external calls)', function () {
+        (0, _mocha.it)('should return true if action <Signup> is handled', function () {
+          // given
+          var isFormSubmitted = false;
+          var user = Ember.Object.create({
+            email: 'toto@pix.fr',
+            firstName: 'Marion',
+            lastName: 'Yade',
+            password: 'gipix2017',
+            cgu: true,
 
-          save: function save() {
-            isFormSubmitted = true;
-            return _ember.default.RSVP.resolve();
-          }
+            save: function save() {
+              isFormSubmitted = true;
+              return Ember.RSVP.resolve();
+            }
+          });
+
+          this.set('user', user);
+          this.render(Ember.HTMLBars.template({
+            "id": "IuLTjz0W",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // when
+          $(SUBMIT_BUTTON).click();
+
+          // then
+          return (0, _wait.default)().then(function () {
+            (0, _chai.expect)(isFormSubmitted).to.be.true;
+          });
         });
 
-        this.set('user', user);
-        this.render(_ember.default.HTMLBars.template({
-          "id": "IuLTjz0W",
-          "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-          "meta": {}
-        }));
+        (0, _mocha.it)('should refresh all fields on form', function () {
+          // given
+          var hasRefreshBeenCalled = false;
+          this.set('refresh', function () {
+            hasRefreshBeenCalled = true;
+          });
 
-        // when
-        $(SUBMIT_BUTTON).click();
+          var user = Ember.Object.create({
+            email: 'toto@pix.fr',
+            firstName: 'Marion',
+            lastName: 'Yade',
+            password: 'gipix2017',
+            cgu: true,
 
-        // then
-        return (0, _wait.default)().then(function () {
-          (0, _chai.expect)(isFormSubmitted).to.be.true;
+            save: function save() {
+              return Ember.RSVP.resolve();
+            }
+          });
+          this.set('user', user);
+          this.render(Ember.HTMLBars.template({
+            "id": "wzHVeIzf",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\",\"refresh\"],[[28,[\"user\"]],\"signup\",[33,[\"action\"],[[28,[null]],[28,[\"refresh\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // when
+          $(SUBMIT_BUTTON).click();
+
+          // then
+          (0, _chai.expect)(hasRefreshBeenCalled).to.be.true;
+        });
+
+        (0, _mocha.it)('should redirect automatically to user compte', function () {
+          // given
+          var redirectToProfileRouteStub = _sinon.default.stub();
+
+          this.set('redirectToProfileRoute', redirectToProfileRouteStub);
+
+          var user = Ember.Object.create({
+            email: 'toto@pix.fr',
+            firstName: 'Marion',
+            lastName: 'Yade',
+            password: 'gipix2017',
+            cgu: true,
+
+            save: function save() {
+              return Ember.RSVP.resolve();
+            }
+          });
+          this.set('user', user);
+          this.render(Ember.HTMLBars.template({
+            "id": "oROc76vC",
+            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\",\"redirectToProfileRoute\"],[[28,[\"user\"]],\"signup\",[33,[\"action\"],[[28,[null]],[28,[\"redirectToProfileRoute\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "meta": {}
+          }));
+
+          // when
+          $(SUBMIT_BUTTON).click();
+
+          // then
+          return (0, _wait.default)().then(function () {
+            _sinon.default.assert.calledOnce(redirectToProfileRouteStub);
+            _sinon.default.assert.calledWith(redirectToProfileRouteStub, { email: 'toto@pix.fr', password: 'gipix2017' });
+          });
         });
       });
 
@@ -6020,7 +7387,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6046,7 +7413,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6072,7 +7439,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6098,7 +7465,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6123,7 +7490,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           var _this5 = this;
 
           // given
-          var userWithCguNotAccepted = _ember.default.Object.create({
+          var userWithCguNotAccepted = Ember.Object.create({
             cgu: false,
             errors: {
               content: [{
@@ -6135,12 +7502,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
               }]
             },
             save: function save() {
-              return new _ember.default.RSVP.reject();
+              return new Ember.RSVP.reject();
             }
           });
 
           this.set('user', userWithCguNotAccepted);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6158,7 +7525,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
         (0, _mocha.it)('should not display success notification message when an error occurred during the form submission', function () {
           var _this6 = this;
 
-          var userThatThrowAnErrorDuringSaving = _ember.default.Object.create({
+          var userThatThrowAnErrorDuringSaving = Ember.Object.create({
             errors: {
               content: [{
                 attribute: 'email',
@@ -6166,12 +7533,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
               }]
             },
             save: function save() {
-              return new _ember.default.RSVP.reject();
+              return new Ember.RSVP.reject();
             }
           });
 
           this.set('user', userThatThrowAnErrorDuringSaving);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6190,7 +7557,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           var UNCHECKED_CHECKBOX_RECAPTCHA_ERROR = 'Veuillez cocher le recaptcha.';
-          var userWithCaptchaNotValid = _ember.default.Object.create({
+          var userWithCaptchaNotValid = Ember.Object.create({
             cgu: true,
             recaptchaToken: null,
             errors: {
@@ -6203,12 +7570,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
               }]
             },
             save: function save() {
-              return new _ember.default.RSVP.reject();
+              return new Ember.RSVP.reject();
             }
           });
 
           this.set('user', userWithCaptchaNotValid);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6230,7 +7597,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6256,7 +7623,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6282,7 +7649,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6308,7 +7675,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // given
           this.set('user', userEmpty);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6333,16 +7700,16 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           var _this12 = this;
 
           // given
-          var userWithCguAccepted = _ember.default.Object.create({
+          var userWithCguAccepted = Ember.Object.create({
             cgu: true,
 
             save: function save() {
-              return new _ember.default.RSVP.resolve();
+              return new Ember.RSVP.resolve();
             }
           });
 
           this.set('user', userWithCguAccepted);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6361,7 +7728,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           var _this13 = this;
 
           // given
-          var validUser = _ember.default.Object.create({
+          var validUser = Ember.Object.create({
             email: 'toto@pix.fr',
             firstName: 'Marion',
             lastName: 'Yade',
@@ -6369,12 +7736,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             cgu: true,
 
             save: function save() {
-              return new _ember.default.RSVP.resolve();
+              return new Ember.RSVP.resolve();
             }
           });
 
           this.set('user', validUser);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6393,7 +7760,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           var _this14 = this;
 
           // given
-          var validUser = _ember.default.Object.create({
+          var validUser = Ember.Object.create({
             email: 'toto@pix.fr',
             firstName: 'Marion',
             lastName: 'Yade',
@@ -6401,12 +7768,12 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
             cgu: true,
 
             save: function save() {
-              return new _ember.default.RSVP.resolve();
+              return new Ember.RSVP.resolve();
             }
           });
 
           this.set('user', validUser);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "1MFHuc1Q",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6429,14 +7796,14 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           var _this15 = this;
 
           // given
-          var user = _ember.default.Object.create({
+          var user = Ember.Object.create({
             save: function save() {
-              return _ember.default.RSVP.resolve();
+              return Ember.RSVP.resolve();
             }
           });
 
           this.set('user', user);
-          this.render(_ember.default.HTMLBars.template({
+          this.render(Ember.HTMLBars.template({
             "id": "IuLTjz0W",
             "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
             "meta": {}
@@ -6752,6 +8119,146 @@ define('pix-live/tests/integration/components/trophy-item-test', ['chai', 'mocha
     });
   });
 });
+define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _wait) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | user logged menu', function () {
+    (0, _emberMocha.setupComponentTest)('user-logged-menu', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('Default rendering for logged user', function () {
+
+      beforeEach(function () {
+        // given
+        this.register('service:store', Ember.Service.extend({
+          queryRecord: function queryRecord() {
+            return Ember.RSVP.resolve({
+              firstName: 'FHI',
+              lastName: '4EVER',
+              email: 'FHI@4EVER.fr'
+            });
+          }
+        }));
+        this.inject.service('store', { as: 'store' });
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "uJXA+F5m",
+          "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+      });
+
+      (0, _mocha.it)('should render component', function () {
+        // then
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should display logged user name ', function () {
+        // then
+        (0, _chai.expect)(this.$('.logged-user-name')).to.have.length(1);
+        (0, _chai.expect)(this.$('.logged-user-name__link')).to.have.length(1);
+        (0, _chai.expect)(this.$('.logged-user-name__link').text().trim()).to.be.equal('FHI 4EVER');
+      });
+    });
+
+    (0, _mocha.describe)('behavior on user menu', function () {
+
+      (0, _mocha.it)('should hide user menu, when no action on user-name', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "uJXA+F5m",
+          "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.logged-user-menu')).to.have.length(0);
+      });
+
+      beforeEach(function () {
+        this.register('service:store', Ember.Service.extend({
+          queryRecord: function queryRecord() {
+            return Ember.RSVP.resolve({
+              firstName: 'FHI',
+              lastName: '4EVER',
+              email: 'FHI@4EVER.fr'
+            });
+          }
+        }));
+        this.inject.service('store', { as: 'store' });
+      });
+
+      (0, _mocha.it)('should display a user menu, when user-name is clicked', function () {
+        var _this = this;
+
+        // given
+        this.render(Ember.HTMLBars.template({
+          "id": "uJXA+F5m",
+          "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        this.$('.logged-user-name').click();
+
+        return (0, _wait.default)().then(function () {
+          // then
+          (0, _chai.expect)(_this.$('.logged-user-menu')).to.have.length(1);
+          (0, _chai.expect)(_this.$('.user-menu-item__details-firstname').text().trim()).to.equal('FHI');
+          (0, _chai.expect)(_this.$('.user-menu-item__details-email').text().trim()).to.equal('FHI@4EVER.fr');
+        });
+      });
+
+      (0, _mocha.it)('should hide user menu, when it was previously open and user-name is clicked one more time', function () {
+        var _this2 = this;
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "uJXA+F5m",
+          "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+        this.$('.logged-user-name').click();
+        this.$('.logged-user-name').click();
+
+        return (0, _wait.default)().then(function () {
+          // then
+          (0, _chai.expect)(_this2.$('.logged-user-menu')).to.have.length(0);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('behavior when user is unlogged or not found', function () {
+
+      beforeEach(function () {
+        this.register('service:store', Ember.Service.extend({
+          queryRecord: function queryRecord() {
+            return Ember.RSVP.reject();
+          }
+        }));
+        this.inject.service('store', { as: 'store' });
+      });
+
+      (0, _mocha.it)('should not display user information, for unlogged', function () {
+        var _this3 = this;
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "uJXA+F5m",
+          "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        return (0, _wait.default)().then(function () {
+          (0, _chai.expect)(_this3.$('.logged-user-name')).to.have.length(0);
+        });
+      });
+    });
+  });
+});
 define('pix-live/tests/test-helper', ['pix-live/tests/helpers/resolver', 'ember-mocha', 'mocha'], function (_resolver, _emberMocha, _mocha) {
   'use strict';
 
@@ -6777,10 +8284,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
   'use strict';
 
   describe('ESLint | tests', function () {
-
-    it('acceptance/a1-page-accueil-test.js', function () {
-      // test passed
-    });
 
     it('acceptance/a4-demarrer-un-test-test.js', function () {
       // test passed
@@ -6815,6 +8318,22 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('acceptance/c1-recapitulatif-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/compte-authentication-and-profile-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/compte-display-competence-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/compte-share-profile-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/course-groups-test.js', function () {
       // test passed
     });
 
@@ -6854,15 +8373,15 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('acceptance/m1-authentication-and-profile-test.js', function () {
+    it('acceptance/o1-board-organization-test.js', function () {
       // test passed
     });
 
-    it('helpers/destroy-app.js', function () {
+    it('acceptance/page-accueil-test.js', function () {
       // test passed
     });
 
-    it('helpers/module-for-acceptance.js', function () {
+    it('helpers/application.js', function () {
       // test passed
     });
 
@@ -6870,7 +8389,11 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('helpers/start-app.js', function () {
+    it('helpers/seeds.js', function () {
+      // test passed
+    });
+
+    it('helpers/testing.js', function () {
       // test passed
     });
 
@@ -6887,6 +8410,18 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/comparison-window-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/competence-area-list-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/competence-by-area-item-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/competence-level-progress-bar-test.js', function () {
       // test passed
     });
 
@@ -6934,7 +8469,15 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/partners-enrollment-panel-test.js', function () {
+      // test passed
+    });
+
     it('integration/components/pix-logo-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/profile-panel-test.js', function () {
       // test passed
     });
 
@@ -6974,11 +8517,19 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/score-pastille-test.js', function () {
+      // test passed
+    });
+
     it('integration/components/scoring-panel-tantpix-test.js', function () {
       // test passed
     });
 
     it('integration/components/scoring-panel-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/share-profile-test.js', function () {
       // test passed
     });
 
@@ -7002,6 +8553,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/user-logged-menu-test.js', function () {
+      // test passed
+    });
+
     it('test-helper.js', function () {
       // test passed
     });
@@ -7014,11 +8569,27 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/adapters/user-test.js', function () {
+      // test passed
+    });
+
     it('unit/authenticators/simple-test.js', function () {
       // test passed
     });
 
     it('unit/components/comparison-window-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/competence-area-list-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/competence-by-area-item-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/competence-level-progress-bar-test.js', function () {
       // test passed
     });
 
@@ -7042,6 +8613,14 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/components/navbar-header-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/pix-modal-test.js', function () {
+      // test passed
+    });
+
     it('unit/components/qcu-proposals-test.js', function () {
       // test passed
     });
@@ -7058,7 +8637,15 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/components/score-pastille-test.js', function () {
+      // test passed
+    });
+
     it('unit/components/scoring-panel-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/share-profile-test.js', function () {
       // test passed
     });
 
@@ -7067,6 +8654,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/components/timeout-jauge-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/user-logged-menu-test.js', function () {
       // test passed
     });
 
@@ -7102,7 +8693,19 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/models/area-test.js', function () {
+      // test passed
+    });
+
     it('unit/models/challenge-test.js', function () {
+      // test passed
+    });
+
+    it('unit/models/competence-test.js', function () {
+      // test passed
+    });
+
+    it('unit/models/course-group-test.js', function () {
       // test passed
     });
 
@@ -7115,6 +8718,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/models/follower-test.js', function () {
+      // test passed
+    });
+
+    it('unit/models/organization-test.js', function () {
       // test passed
     });
 
@@ -7134,6 +8741,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/routes/board-test.js', function () {
+      // test passed
+    });
+
     it('unit/routes/challenges/get-preview-test.js', function () {
       // test passed
     });
@@ -7143,10 +8754,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/compte-test.js', function () {
-      // test passed
-    });
-
-    it('unit/routes/connexion-test.js', function () {
       // test passed
     });
 
@@ -7162,7 +8769,7 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/routes/deconnexion-test.js', function () {
+    it('unit/routes/enrollment-test.js', function () {
       // test passed
     });
 
@@ -7174,11 +8781,23 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/routes/login-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/logout-test.js', function () {
+      // test passed
+    });
+
     it('unit/routes/placement-tests-test.js', function () {
       // test passed
     });
 
     it('unit/routes/project-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/series-test.js', function () {
       // test passed
     });
 
@@ -7298,61 +8917,52 @@ define('pix-live/tests/unit/adapters/solution-test', ['chai', 'mocha', 'ember-mo
     });
   });
 });
-define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'ember-mocha'], function (_mocha, _chai, _emberMocha) {
+define('pix-live/tests/unit/adapters/user-test', ['chai', 'mocha', 'sinon', 'ember-mocha'], function (_chai, _mocha, _sinon, _emberMocha) {
   'use strict';
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
+  (0, _mocha.describe)('Unit | Route | subscribers', function () {
+    (0, _emberMocha.setupTest)('adapter:user', {
+      needs: ['service:session']
+    });
 
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
+    (0, _mocha.describe)('#queryRecord', function () {
 
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
+      var adapter = void 0;
+
+      beforeEach(function () {
+        adapter = this.subject();
+        adapter.ajax = _sinon.default.stub().resolves();
+      });
+
+      (0, _mocha.it)('should exist', function () {
+        // when
+        var adapter = this.subject();
+        // then
+        return (0, _chai.expect)(adapter.queryRecord()).to.be.ok;
+      });
+
+      (0, _mocha.it)('should return a resolved promise', function (done) {
+        // when
+        var promise = adapter.queryRecord();
+        // then
+        promise.then(done);
+      });
+
+      (0, _mocha.it)('should called GET /api/users/me', function () {
+        // when
+        adapter.queryRecord();
+
+        // then
+        _sinon.default.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/me');
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'ember-mocha', 'sinon'], function (_mocha, _chai, _emberMocha, _sinon) {
+  'use strict';
 
   var expectedUserId = 1;
   var expectedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6InBpeEBjb250YWN0LmNvbSIsImlhdCI6MTQ5Njg0NTY3OSwiZXhwIjoxNDk3NDUwNDc5fQ.6Mkkstj-9SjXX4lsXrsZ2KL91Ol3kbxn6tlus2apGVY';
-
-  var AjaxStub = function () {
-    function AjaxStub() {
-      _classCallCheck(this, AjaxStub);
-    }
-
-    _createClass(AjaxStub, [{
-      key: 'request',
-      value: function request() {
-        this.callArgs = Array.from(arguments);
-        return Promise.resolve({
-          'data': {
-            'type': 'authentication',
-            'attributes': {
-              'user-id': expectedUserId,
-              'token': expectedToken,
-              'password': ''
-            },
-            'id': expectedUserId
-          }
-        });
-      }
-    }]);
-
-    return AjaxStub;
-  }();
 
   (0, _mocha.describe)('Unit | Authenticator | simple', function () {
 
@@ -7360,21 +8970,39 @@ define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'embe
       needs: ['service:ajax']
     });
 
+    var requestStub = _sinon.default.stub().resolves({
+      'data': {
+        'type': 'authentication',
+        'attributes': {
+          'user-id': expectedUserId,
+          'token': expectedToken,
+          'password': ''
+        },
+        'id': expectedUserId
+      }
+    });
+
+    beforeEach(function () {
+      this.register('service:ajax', Ember.Service.extend({
+        request: requestStub
+      }));
+      this.inject.service('ajax', { as: 'ajax' });
+    });
+
     (0, _mocha.it)('should post a request to retrieve token', function () {
       // Given
       var email = 'test@example.net';
       var password = 'Hx523è9#';
-      var ajaxStub = new AjaxStub();
       var authenticator = this.subject();
-      authenticator.set('ajax', ajaxStub);
 
       // When
       var promise = authenticator.authenticate(email, password);
 
       // Then
       return promise.then(function (_) {
-        (0, _chai.expect)(ajaxStub.callArgs[0]).to.deep.equal('/api/authentications');
-        (0, _chai.expect)(ajaxStub.callArgs[1]).to.deep.equal({
+
+        _sinon.default.assert.calledWith(requestStub, '/api/authentications');
+        (0, _chai.expect)(requestStub.getCall(0).args[1]).to.deep.equal({
           method: 'POST',
           data: '{"data":{"attributes":{"password":"Hx523è9#","email":"test@example.net"}}}'
         });
@@ -7385,9 +9013,7 @@ define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'embe
       // Given
       var email = 'test@example.net';
       var password = 'Hx523è9#';
-      var ajaxStub = new AjaxStub();
       var authenticator = this.subject();
-      authenticator.set('ajax', ajaxStub);
 
       // When
       var promise = authenticator.authenticate(email, password);
@@ -7400,7 +9026,7 @@ define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'embe
     });
   });
 });
-define('pix-live/tests/unit/components/comparison-window-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/components/comparison-window-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   function _assertResultItemTitle(resultItem, expected) {
@@ -7428,7 +9054,7 @@ define('pix-live/tests/unit/components/comparison-window-test', ['ember', 'chai'
 
     (0, _mocha.beforeEach)(function () {
       component = this.subject();
-      answer = _ember.default.Object.create();
+      answer = Ember.Object.create();
       component.set('answer', answer);
     });
 
@@ -7613,6 +9239,257 @@ define('pix-live/tests/unit/components/comparison-window-test', ['ember', 'chai'
         // then
         _assertResultItemTitle(resultItem, 'Vous avez dépassé le temps imparti');
         _assertResultItemTooltip(resultItem, 'Temps dépassé');
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/competence-area-list-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | Competence area list Component', function () {
+
+    (0, _emberMocha.setupTest)('component:competence-area-list', {});
+
+    (0, _mocha.describe)('Computed Properties behaviors: ', function () {
+
+      (0, _mocha.describe)('#_sanitizedCompetences', function () {
+        (0, _mocha.it)('should not return competences', function () {
+          // given
+          var component = this.subject();
+
+          // when
+          component.set('competences', []);
+
+          // then
+          (0, _chai.expect)(component.get('_sanitizedCompetences')).to.deep.equal([]);
+        });
+
+        (0, _mocha.it)('should return as many competences as provided', function () {
+          // given
+          var component = this.subject();
+
+          // when
+          component.set('competences', [{
+            id: 1,
+            name: 'competence-A'
+          }, {
+            id: 2,
+            name: 'competence-B'
+          }]);
+
+          // then
+          (0, _chai.expect)(component.get('_sanitizedCompetences')).to.have.lengthOf(2);
+        });
+      });
+
+      (0, _mocha.describe)('#_competencesGroupedByArea', function () {
+        (0, _mocha.it)('should return some competences grouped by areas', function () {
+          // given
+          var component = this.subject();
+          var expectedGroupedCompetences = [{
+            property: 'areaName',
+            value: 'area-A',
+            items: [{ id: 1, name: 'competence-1', areaName: 'area-A' }, {
+              id: 2,
+              name: 'competence-2',
+              areaName: 'area-A'
+            }]
+          }, { property: 'areaName', value: 'area-B', items: [{ id: 4, name: 'competence-4', areaName: 'area-B' }] }];
+          // when
+          component.set('competences', [{ id: 1, name: 'competence-1', areaName: 'area-A' }, { id: 2, name: 'competence-2', areaName: 'area-A' }, { id: 4, name: 'competence-4', areaName: 'area-B' }]);
+
+          // then
+          (0, _chai.expect)(component.get('_competencesGroupedByArea')).to.deep.equal(expectedGroupedCompetences);
+        });
+      });
+
+      (0, _mocha.describe)('#_competencesByAreaSorted', function () {
+        (0, _mocha.it)('should return some competences grouped by areas and asc sorted', function () {
+          // given
+          var component = this.subject();
+          var expectedGroupedCompetences = [{ property: 'areaName', value: '2. area-A', items: [{ id: 2, name: 'competence-2', areaName: '2. area-A' }] }, { property: 'areaName', value: '4. area-B', items: [{ id: 4, name: 'competence-4', areaName: '4. area-B' }] }, { property: 'areaName', value: '5. area-C', items: [{ id: 5, name: 'competence-5', areaName: '5. area-C' }] }];
+          // when
+          component.set('competences', [{ id: 4, name: 'competence-4', areaName: '4. area-B' }, { id: 5, name: 'competence-5', areaName: '5. area-C' }, { id: 2, name: 'competence-2', areaName: '2. area-A' }]);
+
+          // then
+          (0, _chai.expect)(component.get('_competencesByAreaSorted')).to.deep.equal(expectedGroupedCompetences);
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/competence-by-area-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | Competence area item Component', function () {
+
+    (0, _emberMocha.setupTest)('component:competence-by-area-item', {});
+
+    (0, _mocha.describe)('#Computed Properties behaviors: ', function () {
+
+      (0, _mocha.describe)('#_competencesAreaName', function () {
+        (0, _mocha.it)('should return Area name related to competences without index number', function () {
+          // given
+          var component = this.subject();
+
+          // when
+          component.set('competenceArea', {
+            property: 'areaName',
+            value: '2. area-A',
+            items: [{ id: 2, name: 'competence-2', areaName: '2. area-A' }]
+          });
+
+          // then
+          (0, _chai.expect)(component.get('_competencesAreaName')).to.equal('area-A');
+        });
+
+        (0, _mocha.it)('should return empty Area name related to competences when it does not exist', function () {
+          // given
+          var component = this.subject();
+
+          // when
+          component.set('competenceArea', {});
+
+          // then
+          (0, _chai.expect)(component.get('_competencesAreaName')).to.equal('');
+        });
+      });
+
+      (0, _mocha.describe)('#_competencesSortedList', function () {
+
+        (0, _mocha.it)('should display sorted competences', function () {
+          // given
+          var component = this.subject();
+
+          var competencesWithSameArea = [Ember.Object.create({ id: 2, name: 'competence-name-2', index: '1.2', area: 'area-id-1', level: -1 }), Ember.Object.create({ id: 3, name: 'competence-name-3', index: '1.3', area: 'area-id-1', level: -1 }), Ember.Object.create({ id: 1, name: 'competence-name-1', index: '1.1', area: 'area-id-1', level: -1 })];
+          var areaWithManyCompetences = {
+            property: 'area',
+            value: 'Information et données',
+            items: competencesWithSameArea
+          };
+
+          // when
+          component.set('competenceArea', areaWithManyCompetences);
+          // then
+          (0, _chai.expect)(component.get('_competencesSortedList')).to.deep.equal([Ember.Object.create({
+            id: 1,
+            name: 'competence-name-1',
+            index: '1.1',
+            area: 'area-id-1',
+            level: -1
+          }), Ember.Object.create({
+            id: 2,
+            name: 'competence-name-2',
+            index: '1.2',
+            area: 'area-id-1',
+            level: -1
+          }), Ember.Object.create({
+            id: 3,
+            name: 'competence-name-3',
+            index: '1.3',
+            area: 'area-id-1',
+            level: -1
+          })]);
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/competence-level-progress-bar-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | Competence-level-progress-bar ', function () {
+
+    (0, _emberMocha.setupTest)('component:competence-level-progress-bar', {});
+
+    (0, _mocha.describe)('#Computed Properties behaviors: ', function () {
+
+      (0, _mocha.describe)('#hasLevel', function () {
+
+        [{ level: 1, expectedValue: true }, { level: 0, expectedValue: true }, { level: -1, expectedValue: false }, { level: undefined, expectedValue: false }].forEach(function (_ref) {
+          var level = _ref.level,
+              expectedValue = _ref.expectedValue;
+
+
+          (0, _mocha.it)('should return ' + expectedValue + ' when the level of the competence is ' + level, function () {
+            // given
+            var component = this.subject();
+
+            // when
+            component.set('level', level);
+
+            // then
+            (0, _chai.expect)(component.get('hasLevel')).to.equal(expectedValue);
+          });
+        });
+      });
+
+      (0, _mocha.describe)('#widthOfProgressBar', function () {
+        [{ level: 0, expectedValue: 'width : 24px' }, { level: 1, expectedValue: 'width : 12.5%' }, { level: 2, expectedValue: 'width : 25%' }, { level: 3, expectedValue: 'width : 37.5%' }, { level: 4, expectedValue: 'width : 50%' }, { level: 5, expectedValue: 'width : 62.5%' }].forEach(function (_ref2) {
+          var level = _ref2.level,
+              expectedValue = _ref2.expectedValue;
+
+
+          (0, _mocha.it)('should return ' + expectedValue + ' when the level is ' + level, function () {
+            // given
+            var component = this.subject();
+
+            // when
+            component.set('level', level);
+
+            // then
+            (0, _chai.expect)(component.get('widthOfProgressBar').string).to.equal(expectedValue);
+          });
+        });
+      });
+
+      (0, _mocha.describe)('#canUserStartCourse', function () {
+        [{ level: null, expected: true }, { level: undefined, expected: true }, { level: -1, expected: true }, { level: 1, expected: false }, { level: 0, expected: false }].forEach(function (_ref3) {
+          var level = _ref3.level,
+              expected = _ref3.expected;
+
+          (0, _mocha.it)('should return ' + expected + ', when there is associated course and level is ' + level, function () {
+            // given
+            var component = this.subject();
+            var courseId = 'REC123';
+            // when
+            component.set('level', level);
+            component.set('courseId', courseId);
+
+            // then
+            (0, _chai.expect)(component.get('canUserStartCourse')).to.be.equal(expected);
+          });
+        });
+
+        [{ courseId: null }, { courseId: undefined }, { courseId: '' }, { courseId: 0 }].forEach(function (_ref4) {
+          var courseId = _ref4.courseId;
+
+
+          (0, _mocha.it)('should return false, when there is no associated course', function () {
+            // given
+            var component = this.subject();
+            var level = -1;
+            // when
+            component.set('level', level);
+            component.set('courseId', courseId);
+
+            // then
+            (0, _chai.expect)(component.get('canUserStartCourse')).to.be.false;
+          });
+        });
+
+        (0, _mocha.it)('should return false, when there is associated course but have already level', function () {
+          // given
+          var component = this.subject();
+          var level = 777;
+          var courseId = 'REC123';
+          // when
+          component.set('level', level);
+          component.set('courseId', courseId);
+
+          // then
+          (0, _chai.expect)(component.get('canUserStartCourse')).to.be.false;
+        });
       });
     });
   });
@@ -7871,7 +9748,7 @@ define('pix-live/tests/unit/components/feedback-panel-test', ['chai', 'mocha', '
     });
   });
 });
-define('pix-live/tests/unit/components/follower-form-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/components/follower-form-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   var errorMessages = {
@@ -7897,7 +9774,7 @@ define('pix-live/tests/unit/components/follower-form-test', ['ember', 'chai', 'm
             var component = this.subject();
             // when
             component.set('status', 'error');
-            component.set('follower', _ember.default.Object.create());
+            component.set('follower', Ember.Object.create());
             // then
             (0, _chai.expect)(component.get(attribute)).to.equal(expected);
           });
@@ -7914,7 +9791,7 @@ define('pix-live/tests/unit/components/follower-form-test', ['ember', 'chai', 'm
             var component = this.subject();
             // when
             component.set('status', 'success');
-            component.set('follower', _ember.default.Object.create());
+            component.set('follower', Ember.Object.create());
             // then
             (0, _chai.expect)(component.get(attribute)).to.equal(expected);
           });
@@ -7923,10 +9800,10 @@ define('pix-live/tests/unit/components/follower-form-test', ['ember', 'chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'ember-mocha', 'ember'], function (_mocha, _chai, _emberMocha, _ember) {
+define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'ember-mocha'], function (_mocha, _chai, _emberMocha) {
   'use strict';
 
-  var RSVP = _ember.default.RSVP;
+  var RSVP = Ember.RSVP;
 
 
   (0, _mocha.describe)('Unit | Component | g-recaptcha', function () {
@@ -7939,7 +9816,7 @@ define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'emb
 
       serviceResetCalled = false;
 
-      this.register('service:googleRecaptcha', _ember.default.Service.extend({
+      this.register('service:googleRecaptcha', Ember.Service.extend({
         loadScript: function loadScript() {
           return RSVP.resolve();
         },
@@ -8014,6 +9891,89 @@ define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'emb
         // then
         (0, _chai.expect)(component.get('recaptchaToken')).to.be.null;
         (0, _chai.expect)(component.get('tokenHasBeenUsed')).to.be.false;
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | Navbar Header Component', function () {
+    (0, _emberMocha.setupTest)('component:navbar-header', {});
+    var sessionStubResolve = Ember.Service.extend({ isAuthenticated: true });
+    var sessionStubReject = Ember.Service.extend({ isAuthenticated: false });
+
+    (0, _mocha.describe)('#isUserLogged true case', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        this.register('service:session', sessionStubResolve);
+        this.inject.service('session', { as: 'session' });
+      });
+
+      (0, _mocha.it)('should return true, when user is authenticated', function () {
+        // when
+        var component = this.subject();
+
+        // then
+        (0, _chai.expect)(component.get('isUserLogged')).to.equal(true);
+      });
+    });
+
+    (0, _mocha.describe)('#isUserLogged false case', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        this.register('service:session', sessionStubReject);
+        this.inject.service('session', { as: 'session' });
+      });
+
+      (0, _mocha.it)('should return false, when user is unauthenticated', function () {
+        // when
+        var component = this.subject();
+
+        // then
+        (0, _chai.expect)(component.get('isUserLogged')).to.equal(false);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/pix-modal-test', ['chai', 'mocha', 'ember-mocha', 'sinon', 'ember-keyboard'], function (_chai, _mocha, _emberMocha, _sinon, _emberKeyboard) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | pix-modal', function () {
+
+    (0, _emberMocha.setupTest)('component:pix-modale', {
+      needs: ['service:keyboard', 'service:modal-dialog']
+    });
+
+    (0, _mocha.describe)('#init', function () {
+      (0, _mocha.it)('should set the overlay as translucent', function () {
+        // Given
+        var component = this.subject();
+
+        // then
+        (0, _chai.expect)(component.get('translucentOverlay')).to.be.equal(true);
+      });
+
+      (0, _mocha.it)('should activate keyboard events', function () {
+        // Given
+        var component = this.subject();
+
+        // then
+        (0, _chai.expect)(component.get('keyboardActivated')).to.be.equal(true);
+      });
+    });
+
+    (0, _mocha.describe)('#closeOnEsc', function () {
+      (0, _mocha.it)('should use the "close" action', function () {
+        // Given
+        var sendActionStub = _sinon.default.stub();
+
+        var component = this.subject();
+        component.sendAction = sendActionStub;
+        component.trigger((0, _emberKeyboard.keyDown)('Escape'));
+
+        // then
+        _sinon.default.assert.calledWith(sendActionStub, 'close');
       });
     });
   });
@@ -8460,7 +10420,7 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['chai', 
     });
   });
 });
-define('pix-live/tests/unit/components/result-item-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/components/result-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   var undefinedAnswer = 'undefined';
@@ -8531,14 +10491,47 @@ define('pix-live/tests/unit/components/result-item-test', ['ember', 'chai', 'moc
 
         (0, _mocha.it)('should return ' + data.expected + ' when challenge type is ' + data.challengeType, function () {
           // given
-          var challenge = _ember.default.Object.create({ type: data.challengeType });
-          var answer = _ember.default.Object.create({ challenge: challenge });
+          var challenge = Ember.Object.create({ type: data.challengeType });
+          var answer = Ember.Object.create({ challenge: challenge });
 
           // when
           component.set('answer', answer);
 
           // then
           (0, _chai.expect)(component.get('validationImplementedForChallengeType')).to.equal(data.expected);
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/score-pastille-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | score-pastille-component ', function () {
+
+    (0, _emberMocha.setupTest)('component:score-pastille', {});
+
+    var component = void 0;
+
+    beforeEach(function () {
+      component = this.subject();
+    });
+
+    (0, _mocha.describe)('#Test computed Property', function () {
+
+      (0, _mocha.describe)('#score', function () {
+        [{ pixScore: undefined, expectedScore: '--' }, { pixScore: null, expectedScore: '--' }, { pixScore: 0, expectedScore: 0 }, { pixScore: 1, expectedScore: 1 }, { pixScore: 130, expectedScore: 130 }].forEach(function (data) {
+
+          (0, _mocha.it)('should return "' + data.expectedScore + '" when ' + data.pixScore + ' is provided', function () {
+            // given
+            component.set('pixScore', data.pixScore);
+
+            // when
+            var score = component.get('score');
+
+            // then
+            (0, _chai.expect)(score).to.equal(data.expectedScore);
+          });
         });
       });
     });
@@ -8606,6 +10599,106 @@ define('pix-live/tests/unit/components/scoring-panel-test', ['chai', 'mocha', 'e
 
         // then
         (0, _chai.expect)(hasSomePix).to.be.equal(false);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | share-profile', function () {
+
+    (0, _emberMocha.setupTest)('component:share-profile', {});
+
+    (0, _mocha.describe)('#init', function () {
+      (0, _mocha.it)('should set the overlay as translucent', function () {
+        // Given
+        var component = this.subject();
+
+        // then
+        (0, _chai.expect)(component.get('isShowingModal')).to.be.equal(false);
+      });
+
+      (0, _mocha.it)('should set the organizationExists as true', function () {
+        // Given
+        var component = this.subject();
+
+        // then
+        (0, _chai.expect)(component.get('organizationExists')).to.be.equal(true);
+      });
+    });
+
+    (0, _mocha.describe)('#placeholder', function () {
+      (0, _mocha.it)('should leave the placeholder empty with "focusIn"', function () {
+        // Given
+        var component = this.subject();
+
+        // Then
+        component.send('focusIn');
+
+        // When
+        (0, _chai.expect)(component.get('placeholder')).to.be.equal('');
+      });
+
+      (0, _mocha.it)('should reset the placeholder to its default value with "focusOut"', function () {
+        // Given
+        var component = this.subject();
+        component.set('placeholder', 'Ex: EFGH89');
+
+        // Then
+        component.send('focusOut');
+
+        // When
+        (0, _chai.expect)(component.get('placeholder')).to.be.equal('Ex: ABCD12');
+      });
+    });
+
+    (0, _mocha.describe)('#toggleSharingModal', function () {
+      (0, _mocha.it)('should use the "close" action', function () {
+        // Given
+        var component = this.subject();
+
+        // when
+        component.send('toggleSharingModal');
+
+        // then
+        (0, _chai.expect)(component.get('isShowingModal')).to.equal(true);
+      });
+
+      (0, _mocha.it)('should reset the code to default value', function () {
+        // Given
+        var component = this.subject();
+        component.set('code', 'ABCD01');
+
+        // when
+        component.send('toggleSharingModal');
+
+        // then
+        (0, _chai.expect)(component.get('code')).to.equal('');
+      });
+
+      (0, _mocha.it)('should the organizationExists to true', function () {
+        // Given
+        var component = this.subject();
+        component.set('organizationExists', false);
+
+        // when
+        component.send('toggleSharingModal');
+
+        // then
+        (0, _chai.expect)(component.get('organizationExists')).to.equal(true);
+      });
+
+      (0, _mocha.it)('should reset the organization to default value', function () {
+        // Given
+        var component = this.subject();
+        component.set('organization', {});
+
+        // when
+        component.send('toggleSharingModal');
+
+        // then
+        (0, _chai.expect)(component.get('organization')).to.equal(null);
       });
     });
   });
@@ -8817,6 +10910,81 @@ define('pix-live/tests/unit/components/timeout-jauge-test', ['chai', 'mocha', 'e
     });
   });
 });
+define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | User logged Menu', function () {
+    (0, _emberMocha.setupTest)('component:user-logged-menu', {});
+
+    (0, _mocha.describe)('action#toggleUserMenu', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        this.register('service:store', Ember.Service.extend({
+          queryRecord: function queryRecord() {
+            return Ember.RSVP.resolve({});
+          }
+        }));
+        this.inject.service('store', { as: 'store' });
+      });
+
+      (0, _mocha.it)('should return true, when user details is clicked', function () {
+        // given
+        var component = this.subject();
+        // when
+        component.send('toggleUserMenu');
+        // then
+        (0, _chai.expect)(component.get('_canDisplayMenu')).to.equal(true);
+      });
+
+      (0, _mocha.it)('should return false as default value', function () {
+        // when
+        var component = this.subject();
+
+        // then
+        (0, _chai.expect)(component.get('_canDisplayMenu')).to.equal(false);
+      });
+
+      (0, _mocha.it)('should return false, when _canDisplayMenu was previously true', function () {
+        // given
+        var component = this.subject();
+        // when
+        component.send('toggleUserMenu');
+        component.send('toggleUserMenu');
+        // then
+        (0, _chai.expect)(component.get('_canDisplayMenu')).to.equal(false);
+      });
+    });
+
+    (0, _mocha.describe)('Display user details', function () {
+      var queryRecordArgs = void 0;
+
+      (0, _mocha.describe)('When user is logged', function () {
+
+        (0, _mocha.beforeEach)(function () {
+          this.register('service:store', Ember.Service.extend({
+            queryRecord: function queryRecord() {
+              queryRecordArgs = Array.from(arguments);
+              return Ember.RSVP.resolve({
+                firstName: 'FHI',
+                lastName: '4EVER',
+                email: 'FHI@4EVER.fr'
+              });
+            }
+          }));
+          this.inject.service('store', { as: 'store' });
+        });
+
+        (0, _mocha.it)('should correctly call store', function () {
+          // when
+          this.subject();
+
+          // then
+          (0, _chai.expect)(queryRecordArgs).to.deep.equal(['user', {}]);
+        });
+      });
+    });
+  });
+});
 define('pix-live/tests/unit/components/warning-time-page-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -8909,7 +11077,7 @@ define('pix-live/tests/unit/helpers/extract-extension-test', ['chai', 'mocha', '
     });
   });
 });
-define('pix-live/tests/unit/helpers/get-challenge-component-class-test', ['ember', 'chai', 'mocha', 'pix-live/helpers/get-challenge-component-class'], function (_ember, _chai, _mocha, _getChallengeComponentClass) {
+define('pix-live/tests/unit/helpers/get-challenge-component-class-test', ['chai', 'mocha', 'pix-live/helpers/get-challenge-component-class'], function (_chai, _mocha, _getChallengeComponentClass) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Helper | get challenge component class', function () {
@@ -8918,7 +11086,7 @@ define('pix-live/tests/unit/helpers/get-challenge-component-class-test', ['ember
 
       (0, _mocha.it)('should return component class "' + useCase.expectedClass + '" when challenge type is "' + useCase.challengeType + '"', function () {
         // given
-        var challenge = _ember.default.Object.create({ type: useCase.challengeType });
+        var challenge = Ember.Object.create({ type: useCase.challengeType });
         var params = [challenge];
 
         // when
@@ -8959,7 +11127,7 @@ define('pix-live/tests/unit/helpers/strip-instruction-test', ['chai', 'mocha', '
     });
   });
 });
-define('pix-live/tests/unit/models/answer-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/models/answer-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Model | Answer', function () {
@@ -8979,7 +11147,7 @@ define('pix-live/tests/unit/models/answer-test', ['ember', 'chai', 'mocha', 'emb
       (0, _mocha.it)('should return bool', function () {
         var _this = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this.store();
           var answer = store.createRecord('answer', { 'result': 'ok' });
@@ -8990,7 +11158,21 @@ define('pix-live/tests/unit/models/answer-test', ['ember', 'chai', 'mocha', 'emb
     });
   });
 });
-define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/models/area-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Model | area', function () {
+    (0, _emberMocha.setupModelTest)('area', {
+      needs: []
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var model = this.subject();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/models/challenge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Model | Challenge', function () {
@@ -9009,7 +11191,7 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
       (0, _mocha.it)('Should be true when challenge has at least one attachment file', function () {
         var _this = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this.store();
           var challenge = store.createRecord('challenge', { attachments: ['file.url'] });
@@ -9025,7 +11207,7 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
       (0, _mocha.it)('Should be false when challenge has multiple attachment files', function () {
         var _this2 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this2.store();
           var challenge = store.createRecord('challenge', { attachments: [] });
@@ -9044,7 +11226,7 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
       (0, _mocha.it)('Should be true when challenge has only one attachment file', function () {
         var _this3 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this3.store();
           var challenge = store.createRecord('challenge', { attachments: ['file.url'] });
@@ -9060,7 +11242,7 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
       (0, _mocha.it)('Should be false when challenge has multiple attachment files', function () {
         var _this4 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this4.store();
           var challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
@@ -9079,7 +11261,7 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
       (0, _mocha.it)('Should be false when challenge has no attachment file', function () {
         var _this5 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this5.store();
           var challenge = store.createRecord('challenge', { attachments: [] });
@@ -9095,7 +11277,7 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
       (0, _mocha.it)('Should be false when challenge has only one attachment file', function () {
         var _this6 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this6.store();
           var challenge = store.createRecord('challenge', { attachments: ['file.url'] });
@@ -9111,7 +11293,7 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
       (0, _mocha.it)('Should be true when challenge has multiple attachments files', function () {
         var _this7 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this7.store();
           var challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
@@ -9126,7 +11308,71 @@ define('pix-live/tests/unit/models/challenge-test', ['ember', 'chai', 'mocha', '
     });
   });
 });
-define('pix-live/tests/unit/models/course-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/models/competence-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Model | competence model', function () {
+    (0, _emberMocha.setupModelTest)('competence', {
+      needs: ['model:area']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var model = this.subject();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+
+    (0, _mocha.describe)('#area relationship', function () {
+
+      (0, _mocha.it)('should exist', function () {
+        // given
+        var Competence = this.store().modelFor('competence');
+
+        // when
+        var relationship = Ember.get(Competence, 'relationshipsByName').get('area');
+
+        // then
+        (0, _chai.expect)(relationship.key).to.equal('area');
+        (0, _chai.expect)(relationship.kind).to.equal('belongsTo');
+      });
+    });
+
+    (0, _mocha.describe)('#areaName computed property', function () {
+
+      (0, _mocha.it)('should be an alias for "area" relationship on "name" property', function () {
+        var _this = this;
+
+        Ember.run(function () {
+          // given
+          var store = _this.store();
+          var area = store.createRecord('area', { name: 'coucou' });
+          var competence = _this.subject({ area: area });
+
+          // when
+          var areaName = competence.get('areaName');
+
+          // then
+          (0, _chai.expect)(areaName).to.equal('coucou');
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/models/course-group-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Model | Course-group', function () {
+
+    (0, _emberMocha.setupModelTest)('course-group', {
+      needs: ['model:course']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var model = this.subject();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/models/course-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Model | Course', function () {
@@ -9145,7 +11391,7 @@ define('pix-live/tests/unit/models/course-test', ['ember', 'chai', 'mocha', 'emb
       (0, _mocha.it)('currentStep start at 1', function () {
         var _this = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this.store();
           var challenge = store.createRecord('challenge', {});
@@ -9158,7 +11404,7 @@ define('pix-live/tests/unit/models/course-test', ['ember', 'chai', 'mocha', 'emb
       (0, _mocha.it)('maxStep is 2 when there is 2 challenges in the course', function () {
         var _this2 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this2.store();
           var challenge1 = store.createRecord('challenge', {});
@@ -9173,7 +11419,7 @@ define('pix-live/tests/unit/models/course-test', ['ember', 'chai', 'mocha', 'emb
       (0, _mocha.it)('currentStep is 2 when there is 2 challenges in the course and called with 2nd test', function () {
         var _this3 = this;
 
-        _ember.default.run(function () {
+        Ember.run(function () {
           // given
           var store = _this3.store();
           var challenge1 = store.createRecord('challenge', {});
@@ -9181,22 +11427,6 @@ define('pix-live/tests/unit/models/course-test', ['ember', 'chai', 'mocha', 'emb
           var course = _this3.subject({ challenges: [challenge1, challenge2] });
 
           (0, _chai.expect)(course.getProgress(challenge2)).to.have.property('currentStep', 2);
-        });
-      });
-
-      (0, _mocha.it)('throw an Error when challenge is not part of course', function () {
-        var _this4 = this;
-
-        _ember.default.run(function () {
-          // given
-          var store = _this4.store();
-          var challengeInCourse = store.createRecord('challenge', {});
-          var challengeOutsideCourse = store.createRecord('challenge', {});
-          var course = _this4.subject({ challenges: [challengeInCourse] });
-
-          (0, _chai.expect)(function () {
-            return course.getProgress(challengeOutsideCourse);
-          }).to.throw(RangeError);
         });
       });
     });
@@ -9234,13 +11464,27 @@ define('pix-live/tests/unit/models/follower-test', ['chai', 'mocha', 'ember-moch
     });
   });
 });
+define('pix-live/tests/unit/models/organization-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Model | organization', function () {
+    (0, _emberMocha.setupModelTest)('organization', {
+      needs: []
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var model = this.subject();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
 define('pix-live/tests/unit/models/user-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
-  (0, _mocha.describe)('user', function () {
+  (0, _mocha.describe)('Unit | Model | user model', function () {
     (0, _emberMocha.setupModelTest)('user', {
       // Specify the other units that are required for this test.
-      needs: []
+      needs: ['model:competence', 'model:organization']
     });
     // Replace this with your real tests.
     (0, _mocha.it)('exists', function () {
@@ -9250,10 +11494,10 @@ define('pix-live/tests/unit/models/user-test', ['chai', 'mocha', 'ember-mocha'],
     });
   });
 });
-define('pix-live/tests/unit/routes/application-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/application-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
-  var SplashServiceStub = _ember.default.Object.extend({
+  var SplashServiceStub = Ember.Object.extend({
     hideCount: 0,
     hide: function hide() {
       this.hideCount++;
@@ -9308,6 +11552,80 @@ define('pix-live/tests/unit/routes/assessments/get-results-test', ['chai', 'moch
     });
   });
 });
+define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | board', function () {
+    (0, _emberMocha.setupTest)('route:board', {
+      // Specify the other units that are required for this test.
+      needs: ['service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+
+    var queryRecordStub = _sinon.default.stub();
+
+    beforeEach(function () {
+      this.register('service:store', Ember.Service.extend({
+        queryRecord: queryRecordStub
+      }));
+      this.inject.service('store', { as: 'store' });
+    });
+
+    (0, _mocha.it)('should correctly call the store', function () {
+      // given
+      var route = this.subject();
+      route.transitionTo = function () {};
+
+      queryRecordStub.resolves();
+
+      // when
+      route.model();
+
+      // then
+      _sinon.default.assert.calledOnce(queryRecordStub);
+      _sinon.default.assert.calledWith(queryRecordStub, 'user', {});
+    });
+
+    (0, _mocha.it)('should return user first organization informations', function () {
+      // given
+      var user = Ember.Object.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
+
+      var route = this.subject();
+      route.transitionTo = function () {};
+
+      queryRecordStub.resolves(user);
+
+      // when
+      var promise = route.model();
+
+      // then
+      return promise.then(function (organization) {
+        (0, _chai.expect)(organization.id).to.equal(1);
+      });
+    });
+
+    (0, _mocha.it)('should return to home page if no user was found', function () {
+      // given
+      var route = this.subject();
+      route.transitionTo = _sinon.default.spy();
+
+      queryRecordStub.rejects();
+
+      // when
+      var promise = route.model();
+
+      // then
+      return promise.then(function (_) {
+        _sinon.default.assert.calledOnce(route.transitionTo);
+        _sinon.default.assert.calledWith(route.transitionTo, 'index');
+      });
+    });
+  });
+});
 define('pix-live/tests/unit/routes/challenges/get-preview-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -9338,7 +11656,7 @@ define('pix-live/tests/unit/routes/competences-test', ['chai', 'mocha', 'ember-m
     });
   });
 });
-define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | compte', function () {
@@ -9351,79 +11669,85 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
       (0, _chai.expect)(route).to.be.ok;
     });
 
-    (0, _mocha.it)('should redirect to /connexion', function () {
+    (0, _mocha.it)('should redirect to / (Home)', function () {
       // Given
       var route = this.subject();
 
       // Then
-      (0, _chai.expect)(route.authenticationRoute).to.equal('/connexion');
-    });
-  });
-});
-define('pix-live/tests/unit/routes/connexion-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  var SessionStub = function () {
-    function SessionStub() {
-      _classCallCheck(this, SessionStub);
-    }
-
-    _createClass(SessionStub, [{
-      key: 'authenticate',
-      value: function authenticate() {
-        this.callArgs = Array.from(arguments);
-        return Promise.resolve();
-      }
-    }]);
-
-    return SessionStub;
-  }();
-
-  (0, _mocha.describe)('Unit | Route | connexion', function () {
-    (0, _emberMocha.setupTest)('route:connexion', {
-      needs: ['service:current-routed-modal', 'service:session']
+      (0, _chai.expect)(route.authenticationRoute).to.equal('/');
     });
 
-    var expectedEmail = 'email@example.net';
-    var expectedPassword = 'azerty';
-    var sessionStub = new SessionStub();
+    (0, _mocha.describe)('searchForOrganization', function () {
 
-    (0, _mocha.it)('should authenticate the user', function () {
-      // Given
-      var route = this.subject();
-      route.set('session', sessionStub);
-      route.transitionTo = function () {};
+      var storeQueryStub = void 0;
+      var storyStub = void 0;
+      var organizations = void 0;
+      var organizationCollectionStub = void 0;
 
-      // When
-      var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+      beforeEach(function () {
+        organizationCollectionStub = _sinon.default.stub();
+        organizations = { get: organizationCollectionStub, content: [{}] };
 
-      // Then
-      return promise.then(function () {
-        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
+        storeQueryStub = _sinon.default.stub().resolves(organizations);
+        storyStub = Ember.Service.extend({
+          query: storeQueryStub
+        });
+      });
+
+      (0, _mocha.it)('should search for an organization', function () {
+        // Given
+        this.register('service:store', storyStub);
+        this.inject.service('store', { as: 'store' });
+
+        var route = this.subject();
+
+        // When
+        route.actions.searchForOrganization.call(route, 'RVSG44');
+
+        // Then
+        _sinon.default.assert.calledOnce(storeQueryStub);
+        _sinon.default.assert.calledWith(storeQueryStub, 'organization', {
+          filter: {
+            code: 'RVSG44'
+          }
+        });
+      });
+
+      (0, _mocha.describe)('when there is only one result', function () {
+        (0, _mocha.it)('should return the organization', function () {
+          // Given
+          organizationCollectionStub.returns('THE FIRST OBJECT');
+
+          this.register('service:store', storyStub);
+          this.inject.service('store', { as: 'store' });
+          var route = this.subject();
+
+          // When
+          var routeActionResult = route.actions.searchForOrganization.call(route, 'RVSG44');
+
+          return routeActionResult.then(function (organization) {
+            (0, _chai.expect)(organization).to.equal('THE FIRST OBJECT');
+          });
+        });
+      });
+
+      (0, _mocha.describe)('when there is no organization found', function () {
+        (0, _mocha.it)('should null', function () {
+          // Given
+          organizations.content = [];
+          organizationCollectionStub.returns('THE FIRST OBJECT');
+
+          this.register('service:store', storyStub);
+          this.inject.service('store', { as: 'store' });
+          var route = this.subject();
+
+          // When
+          var routeActionResult = route.actions.searchForOrganization.call(route, 'RVSG44');
+
+          return routeActionResult.then(function (organization) {
+            (0, _chai.expect)(organization).to.equal(null);
+          });
+        });
       });
     });
   });
@@ -9473,7 +11797,202 @@ define('pix-live/tests/unit/routes/courses/get-course-preview-test', ['chai', 'm
     });
   });
 });
-define('pix-live/tests/unit/routes/deconnexion-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/enrollment-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | enrollment', function () {
+    (0, _emberMocha.setupTest)('route:enrollment', {
+      needs: ['service:panelActions', 'service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | index', function () {
+
+    (0, _emberMocha.setupTest)('route:index', {
+      needs: ['service:current-routed-modal', 'service:session']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
+  var SessionStub = function () {
+    function SessionStub() {
+      _classCallCheck(this, SessionStub);
+    }
+
+    _createClass(SessionStub, [{
+      key: 'authenticate',
+      value: function authenticate() {
+        this.callArgs = Array.from(arguments);
+        return Promise.resolve();
+      }
+    }]);
+
+    return SessionStub;
+  }();
+
+  (0, _mocha.describe)('Unit | Route | inscription', function () {
+    (0, _emberMocha.setupTest)('route:inscription', {
+      needs: ['service:current-routed-modal', 'service:session']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.it)('should automatically redirect authenticated user to compte page', function () {
+      // Given
+      var expectedEmail = 'email@example.net';
+      var expectedPassword = 'Azertya1!';
+      var sessionStub = new SessionStub();
+
+      var route = this.subject();
+      route.set('session', sessionStub);
+      var transitionToArg = void 0;
+      route.transitionTo = function () {
+        transitionToArg = Array.from(arguments);
+      };
+
+      // When
+      var promise = route.actions.redirectToProfileRoute.call(route, {
+        email: expectedEmail,
+        password: expectedPassword
+      });
+
+      return promise.then(function () {
+        // Then
+        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
+        (0, _chai.expect)(transitionToArg).to.deep.equal(['compte']);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/routes/login-test', ['mocha', 'ember-mocha', 'sinon'], function (_mocha, _emberMocha, _sinon) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | login page', function () {
+    (0, _emberMocha.setupTest)('route:login', {
+      needs: ['service:current-routed-modal', 'service:session']
+    });
+
+    var authenticatedStub = _sinon.default.stub();
+    var queryRecordStub = _sinon.default.stub();
+    var expectedEmail = 'email@example.net';
+    var expectedPassword = 'azerty';
+
+    (0, _mocha.beforeEach)(function () {
+      this.register('service:session', Ember.Service.extend({
+        authenticate: authenticatedStub
+      }));
+      this.inject.service('session', { as: 'session' });
+
+      this.register('service:store', Ember.Service.extend({
+        queryRecord: queryRecordStub
+      }));
+      this.inject.service('store', { as: 'store' });
+    });
+
+    (0, _mocha.it)('should authenticate the user', function () {
+      // Given
+      authenticatedStub.resolves();
+
+      var foundUser = Ember.Object.create({ id: 12 });
+      queryRecordStub.resolves(foundUser);
+      var route = this.subject();
+      route.transitionTo = function () {};
+
+      // When
+      var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+
+      // Then
+      return promise.then(function () {
+        _sinon.default.assert.calledWith(authenticatedStub, 'authenticator:simple', expectedEmail, expectedPassword);
+      });
+    });
+
+    (0, _mocha.describe)('Route behavior according to organization belong status (authenticated user)', function () {
+
+      (0, _mocha.it)('should redirect to /compte, when user is not linked to an Organization', function () {
+        //Given
+        var route = this.subject();
+        authenticatedStub.resolves();
+
+        var foundUser = Ember.Object.create({ id: 12 });
+        queryRecordStub.resolves(foundUser);
+
+        route.transitionTo = _sinon.default.stub();
+
+        //When
+        var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+
+        return promise.then(function () {
+          //Then
+          _sinon.default.assert.calledWith(route.transitionTo, 'compte');
+        });
+      });
+
+      (0, _mocha.it)('should redirect to /board, when user is linked to an Organization', function () {
+        //Given
+        var route = this.subject();
+        authenticatedStub.resolves();
+
+        var linkedOrganization = Ember.Object.create({ id: 1 });
+        var foundUser = Ember.Object.create({ organizations: [linkedOrganization] });
+        queryRecordStub.resolves(foundUser);
+
+        route.transitionTo = _sinon.default.stub();
+
+        //When
+        var promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+
+        return promise.then(function () {
+          //Then
+          _sinon.default.assert.calledWith(route.transitionTo, 'board');
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/routes/logout-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   function _classCallCheck(instance, Constructor) {
@@ -9517,8 +12036,8 @@ define('pix-live/tests/unit/routes/deconnexion-test', ['chai', 'mocha', 'ember-m
     return SessionStub;
   }();
 
-  (0, _mocha.describe)('Unit | Route | deconnexion', function () {
-    (0, _emberMocha.setupTest)('route:deconnexion', {
+  (0, _mocha.describe)('Unit | Route | logout', function () {
+    (0, _emberMocha.setupTest)('route:logout', {
       needs: ['service:current-routed-modal', 'service:session']
     });
 
@@ -9563,35 +12082,6 @@ define('pix-live/tests/unit/routes/deconnexion-test', ['chai', 'mocha', 'ember-m
     });
   });
 });
-define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | index', function () {
-
-    (0, _emberMocha.setupTest)('route:index', {
-      needs: ['service:current-routed-modal', 'service:session']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | inscription', function () {
-    (0, _emberMocha.setupTest)('route:inscription', {
-      needs: ['service:current-routed-modal']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
 define('pix-live/tests/unit/routes/placement-tests-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -9622,7 +12112,22 @@ define('pix-live/tests/unit/routes/project-test', ['chai', 'mocha', 'ember-mocha
     });
   });
 });
-define('pix-live/tests/unit/services/assessment-test', ['ember', 'chai', 'mocha', 'ember-mocha'], function (_ember, _chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/series-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | courseGroups', function () {
+    (0, _emberMocha.setupTest)('route:courseGroups', {
+      // Specify the other units that are required for this test.
+      needs: ['service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/services/assessment-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Service | AssessmentService', function () {
@@ -9647,7 +12152,7 @@ define('pix-live/tests/unit/services/assessment-test', ['ember', 'chai', 'mocha'
       (0, _mocha.it)('returns a promise', function () {
         var _this = this;
 
-        return _ember.default.run(function () {
+        return Ember.run(function () {
           var store = _this.container.lookup('service:store');
 
           var _instantiateModels = instantiateModels(store, [{ id: 1 }, { id: 2 }]),
@@ -9661,7 +12166,7 @@ define('pix-live/tests/unit/services/assessment-test', ['ember', 'chai', 'mocha'
       (0, _mocha.it)('return the next challenge when current challenge is not the assessment\'s last one', function () {
         var _this2 = this;
 
-        return _ember.default.run(function () {
+        return Ember.run(function () {
           // given
           var store = _this2.container.lookup('service:store');
 
@@ -9680,7 +12185,7 @@ define('pix-live/tests/unit/services/assessment-test', ['ember', 'chai', 'mocha'
       (0, _mocha.it)('return the next challenge when current challenge is the assessment\'s latest', function () {
         var _this3 = this;
 
-        return _ember.default.run(function () {
+        return Ember.run(function () {
           // given
           var store = _this3.container.lookup('service:store');
 
@@ -9699,7 +12204,7 @@ define('pix-live/tests/unit/services/assessment-test', ['ember', 'chai', 'mocha'
       (0, _mocha.it)('return challenge model objects well formed', function () {
         var _this4 = this;
 
-        return _ember.default.run(function () {
+        return Ember.run(function () {
           // given
           var store = _this4.container.lookup('service:store');
 
