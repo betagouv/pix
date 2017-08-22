@@ -11,12 +11,9 @@ function _setFocusOnFirstTabbableElement(modalId) {
 
 export default ModalDialog.extend(EmberKeyboardMixin, {
 
-  init() {
-    this._super(...arguments);
-
-    this.set('keyboardActivated', true);
-    this.set('translucentOverlay', true);
-  },
+  containerClass: 'pix-modal',
+  keyboardActivated: true,
+  translucentOverlay: true,
 
   didInsertElement() {
     this._super(...arguments);
