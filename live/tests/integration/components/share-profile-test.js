@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import RSVP from 'rsvp';
 
-describe.only('Integration | Component | share profile', function() {
+describe('Integration | Component | share profile', function() {
 
   setupComponentTest('share-profile', {
     integration: true,
@@ -146,12 +146,12 @@ describe.only('Integration | Component | share profile', function() {
       expect(Ember.$('.share-profile__organization-name').text().trim()).to.equal('Pix');
     });
 
-    it('should contain a "Continue" button to valid the profile sharing', function() {
+    it('should contain a "Confirm" button to valid the profile sharing', function() {
       // when
       this.render(hbs`{{share-profile _showingModal=true _view="sharing-confirmation"}}`);
 
       // then
-      expect(Ember.$('.share-profile__continue-button')).to.have.length(1);
+      expect(Ember.$('.share-profile__confirm-button')).to.have.length(1);
     });
 
     it('should contain a "Cancel" button to cancel the profile sharing for the given organization', function() {
@@ -182,7 +182,7 @@ describe.only('Integration | Component | share profile', function() {
       this.render(hbs`{{share-profile _showingModal=true _view="sharing-confirmation" _organization=organization shareProfileSnapshot=shareProfileSnapshot}}`);
 
       // when
-      Ember.run(() => document.querySelector('.share-profile__continue-button').click());
+      Ember.run(() => document.querySelector('.share-profile__confirm-button').click());
 
       // then
       expectToBeOnSuccessNotificationView();
