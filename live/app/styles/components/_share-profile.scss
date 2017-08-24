@@ -1,6 +1,18 @@
+.share-profile__modal {
+  width: 1077px;
+}
+
+.share-profile__section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Wrapper */
+
 .share-profile__share-button {
   flex-grow: 0;
-
   background: $pix-blue;
   text-transform: uppercase;
   padding: 12px 17px;
@@ -16,55 +28,41 @@
   padding-left: 5px;
 }
 
-.share-profile__modal-content-organization-form {
-  text-align: center;
+/* "Organization code entry" view */
 
-  @include device-is('tablet') {
-    font-size: 22px;
-  }
-}
-
-.share-profile__modal-informations-evolutions {
-  font-size: 16px;
-}
-
-.share-profile__modal-content-organization-details {
-  padding: 20px;
+.share-profile__statement {
+  height: 59px;
+  width: 545px;
+  color: #3E4149;
+  font-family: $font-lato;
+  font-size: 22px;
+  line-height: 27px;
   text-align: center;
 }
 
-.share-profile__modal-transmission {
-  font-size: 18px;
-}
-
-.share-profile__modal-organization-name {
-  font-weight: $font-bold;
-  font-size: 16px;
+.share-profile__organization-code-input {
+  height: 60px;
+  width: 265px;
+  border-radius: 5px;
+  background-color: #FFFFFF;
+  border: 1px solid $pix-blue;
+  color: #6A6D76;
+  font-family: $font-lato;
+  font-size: 24px;
+  letter-spacing: 2px;
+  line-height: 29px;
   text-align: center;
-
-  @include device-is('tablet') {
-    font-size: 24px;
-  }
-}
-
-p.share-profile__modal-informations-shared {
-  font-size: 16px;
-}
-
-ul.share-profile__modal-informations-shared {
-  font-size: 16px;
-  display: inline-block;
-  text-align: left;
-  list-style: none;
+  box-sizing: border-box;
 }
 
 .share-profile__modal-form {
   display: flex;
   flex-direction: column;
-
   max-width: 380px;
   padding: 30px 16px 16px;
   margin: auto;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .share-profile__modal-input {
@@ -81,16 +79,53 @@ ul.share-profile__modal-informations-shared {
 .share-profile__form-error {
   color: $pure-orange;
   font-size: 16px;
+  margin-top: 10px;
 }
 
 .share-profile__share-modal-buttons {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
-
-  margin-top: 30px;
+  margin-top: 20px;
+  width: 265px;
+  box-sizing: border-box;
 }
 
 .share-profile__share-modal-button {
   flex-grow: 1;
 }
+
+/* "Sharing confirmation" view */
+
+.share-profile__transmission {
+  font-size: 18px;
+}
+
+.share-profile__organization-name {
+  font-weight: $font-bold;
+  font-size: 16px;
+  text-align: center;
+
+  @include device-is('tablet') {
+    font-size: 24px;
+  }
+}
+
+p.share-profile__informations-shared {
+  font-size: 16px;
+}
+
+ul.share-profile__informations-shared {
+  font-size: 16px;
+  display: inline-block;
+  text-align: left;
+  list-style: none;
+}
+
+.share-profile__informations-evolutions {
+  font-size: 16px;
+}
+
+
+/* "Success notification" view */
+

@@ -47,15 +47,20 @@
   right: 0;
 }
 
+.pix-modale__close-button:hover,
+.pix-modale__close-button:active,
+.pix-modale__close-button:focus {
+  color: $white;
+}
+
 .pix-modal__button {
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
-
   text-transform: uppercase;
   color: $white;
-
   box-sizing: border-box;
+  width: 126px;
 }
 
 .pix-modal__button--primary {

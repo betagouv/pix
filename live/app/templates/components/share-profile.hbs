@@ -4,7 +4,7 @@
 </button>
 
 {{#if _showingModal}}
-  {{#pix-modale onClose="closeModal"}}
+  {{#pix-modale containerClass="share-profile__modal" onClose="closeModal"}}
 
     <a href="#" class="pix-modale__close-button" {{action "closeModal"}}>Fermer
       <img src="/images/comparison-window/icon-close-modal.svg" alt="Fermer la fenêtre modale" width="24" height="24">
@@ -15,19 +15,19 @@
     {{#if stepOrganizationCodeEntry}}
 
       <section class="pix-modale__content share-profile__section share-profile__section--organization-code-entry">
-        <div>Veuillez saisir le code correspondant à votre organisation (collège, lycée, université, école, entreprise).</div>
+        <p class="share-profile__statement">Veuillez saisir le code correspondant à votre organisation (collège, lycée, université, école, entreprise).</p>
 
         <div class="share-profile__modal-form">
-          {{input id="code"
+          {{input class="share-profile__organization-code-input"
+                  id="code"
                   placeholder=_placeholder
                   focus-in="focusInOrganizationCodeInput"
                   focus-out="focusOutOrganizationCodeInput"
                   value=_code
-                  class="share-profile__organization-code-input"
                   enter="findOrganizationAndGoToSharingConfirmationView"}}
 
           {{#if _organizationNotFound}}
-            <div class="share-profile__form-error">Ce code ne correspond à aucune organisation.</div>
+            <p class="share-profile__form-error">Ce code ne correspond à aucune organisation.</p>
           {{/if}}
 
           <div class="share-profile__share-modal-buttons">
@@ -40,7 +40,7 @@
 
     {{else if stepProfileSharingConfirmation}}
 
-      <section class="pix-modale__content share-profile__section--sharing-confirmation">
+      <section class="pix-modale__content share-profile__section share-profile__section--sharing-confirmation">
         <p class="share-profile__transmission">Vous vous apprêtez à transmettre une copie de votre profil Pix à l'organisation:</p>
         <p class="share-profile__organization-name">{{_organization.name}}</p>
         <p class="share-profile__informations-shared">En cliquant sur le bouton «Envoyer», elle recevra les informations suivantes:</p>
@@ -60,7 +60,7 @@
     {{else}}
 
       <section class="pix-modale__content share-profile__section share-profile__section--success-notification">
-        <div>Votre profil a été envoyé avec succès.</div>
+        <p class="share-profile__statement">Votre profil a été envoyé avec succès.</p>
         <button class="pix-modal__button pix-modal__button--primary share-profile__close-button" {{action "closeModal"}}>Fermer</button>
       </section>
 
