@@ -40,7 +40,7 @@ describe('Unit | Route | index', function() {
     beforeEach(function() {
 
       storeServiceStub = {
-        findRecordLazily: sinon.stub().resolves(Ember.Object.create({ organizations: [] }))
+        findRecord: sinon.stub().resolves(Ember.Object.create({ organizations: [] }))
       };
       this.register('service:store', Ember.Service.extend(storeServiceStub));
       this.inject.service('store', { as: 'store' });
@@ -93,14 +93,14 @@ describe('Unit | Route | index', function() {
 
       // Then
       return promise.then(() => {
-        sinon.assert.calledOnce(storeServiceStub.findRecordLazily);
-        sinon.assert.calledWith(storeServiceStub.findRecordLazily, 'user', 1435);
+        sinon.assert.calledOnce(storeServiceStub.findRecord);
+        sinon.assert.calledWith(storeServiceStub.findRecord, 'user', 1435);
       });
     });
 
     it('should redirect to board when the user is linked to an organization', function() {
       // Given
-      storeServiceStub.findRecordLazily.resolves(Ember.Object.create({
+      storeServiceStub.findRecord.resolves(Ember.Object.create({
         organizations: [Ember.Object.create()]
       }));
 

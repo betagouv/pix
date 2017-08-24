@@ -10,7 +10,7 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
   beforeModel() {
     if(this.get('session.isAuthenticated')) {
       return this.get('store')
-        .findRecordLazily('user', this.get('session.data.authenticated.userId'))
+        .findRecord('user', this.get('session.data.authenticated.userId'))
         .then((connectedUser) => {
 
           if(connectedUser.get('organizations.length')) {

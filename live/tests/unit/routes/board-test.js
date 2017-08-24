@@ -15,13 +15,18 @@ describe('Unit | Route | board', function() {
     expect(route).to.be.ok;
   });
 
-  const queryRecordStub = sinon.stub();
+  const findRecord = sinon.stub();
 
   beforeEach(function() {
     this.register('service:store', Ember.Service.extend({
-      queryRecord: queryRecordStub
+      findRecord: findRecord
     }));
     this.inject.service('store', { as: 'store' });
+
+    this.register('service:session', Ember.Service.extend({
+      data: { authenticated: { userId: 12 } }
+    }));
+    this.inject.service('session', { as: 'session' });
   });
 
   it('should correctly call the store', function() {
@@ -29,14 +34,14 @@ describe('Unit | Route | board', function() {
     const route = this.subject();
     route.transitionTo = () => {};
 
-    queryRecordStub.resolves();
+    findRecord.resolves();
 
     // when
     route.model();
 
     // then
-    sinon.assert.calledOnce(queryRecordStub);
-    sinon.assert.calledWith(queryRecordStub, 'user', {});
+    sinon.assert.calledOnce(findRecord);
+    sinon.assert.calledWith(findRecord, 'user', 12);
   });
 
   it('should return user first organization informations', function() {
@@ -46,7 +51,7 @@ describe('Unit | Route | board', function() {
     const route = this.subject();
     route.transitionTo = () => {};
 
-    queryRecordStub.resolves(user);
+    findRecord.resolves(user);
 
     // when
     const promise = route.model();
@@ -62,7 +67,7 @@ describe('Unit | Route | board', function() {
     const route = this.subject();
     route.transitionTo = sinon.spy();
 
-    queryRecordStub.rejects();
+    findRecord.rejects();
 
     // when
     const promise = route.model();
