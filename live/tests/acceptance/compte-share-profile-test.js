@@ -25,37 +25,71 @@ describe('Acceptance | Sharing a Profile Snapshot with a given Organization', fu
     await visit('/compte');
   }
 
+  function expectModalToBeOpened() {
+    findWithAssert('.pix-modal');
+  }
+
+  function expectToBeOnOrganizationCodeEntryView() {
+    findWithAssert('.share-profile__section--organization-code-entry');
+  }
+
   async function openShareProfileModal() {
     await click('.share-profile__share-button');
-    findWithAssert('.pix-modal');
-    findWithAssert('.share-profile__section--organization-code-entry');
+  }
+
+  function expectToBeOnSharingConfirmationView() {
+    findWithAssert('.share-profile__section--sharing-confirmation');
   }
 
   async function fillInAndSubmitOrganizationCode() {
     await fillIn('.share-profile__organization-code-input', 'ABCD00');
     await click('.share-profile__continue-button');
-    findWithAssert('.share-profile__section--sharing-confirmation');
+  }
+
+  function expectOrganizationNameToBeDisplayed() {
+    expect(find('.share-profile__organization-name').text().trim()).to.equal('Organization 0');
+  }
+
+  function expectToBeOnSuccessNotificationView() {
+    findWithAssert('.share-profile__section--success-notification');
+  }
+
+  function expectSnapshotToHaveBeenCreated() {
+    expect(server.db.snapshots.length).to.equal(1);
   }
 
   async function confirmProfileSnapshotSharing() {
-    expect(find('.share-profile__organization-name').text().trim()).to.equal('Organization 0');
     await click('.share-profile__confirm-button');
-    findWithAssert('.share-profile__section--success-notification');
+  }
+
+  function expectModalToBeClosed() {
+    expect(find('.pix-modal')).to.have.length(0);
   }
 
   async function closeModal() {
     await click('.share-profile__close-button');
-    expect(find('.pix-modal')).to.have.length(0);
   }
 
   it('should be possible to share a snapshot of her own profile to a given organization', async function() {
     populateDatabaseWithAUserAndAnOrganization();
     authenticateUser();
+
     await visitAccountPage();
+
     await openShareProfileModal();
+    expectModalToBeOpened();
+    expectToBeOnOrganizationCodeEntryView();
+
     await fillInAndSubmitOrganizationCode();
+    expectToBeOnSharingConfirmationView();
+    expectOrganizationNameToBeDisplayed();
+
     await confirmProfileSnapshotSharing();
+    expectToBeOnSuccessNotificationView();
+    expectSnapshotToHaveBeenCreated();
+
     await closeModal();
+    expectModalToBeClosed();
   });
 
 });
