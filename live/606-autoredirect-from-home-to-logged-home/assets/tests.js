@@ -8913,6 +8913,46 @@ define('pix-live/tests/unit/adapters/user-test', ['chai', 'mocha', 'sinon', 'emb
         _sinon.default.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/me');
       });
     });
+
+    (0, _mocha.describe)('#findRecord', function () {
+
+      var adapter = void 0;
+
+      beforeEach(function () {
+        adapter = this.subject();
+        adapter.ajax = _sinon.default.stub().resolves();
+      });
+
+      (0, _mocha.it)('should exist', function () {
+        // when
+        var adapter = this.subject();
+        // then
+        return (0, _chai.expect)(adapter.findRecord()).to.be.ok;
+      });
+
+      (0, _mocha.it)('should not reload data from API when already in store', function () {
+        // when
+        var adapter = this.subject();
+
+        // then
+        (0, _chai.expect)(adapter.shouldBackgroundReloadRecord()).to.equal(false);
+      });
+
+      (0, _mocha.it)('should return a resolved promise', function (done) {
+        // when
+        var promise = adapter.findRecord();
+        // then
+        promise.then(done);
+      });
+
+      (0, _mocha.it)('should called GET /api/users/me', function () {
+        // when
+        adapter.findRecord();
+
+        // then
+        _sinon.default.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/me');
+      });
+    });
   });
 });
 define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'ember-mocha', 'sinon'], function (_mocha, _chai, _emberMocha, _sinon) {
@@ -11545,7 +11585,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
 
     var findRecord = _sinon.default.stub();
 
-    beforeEach(function () {
+    (0, _mocha.beforeEach)(function () {
       this.register('service:store', Ember.Service.extend({
         findRecord: findRecord
       }));
@@ -11606,6 +11646,24 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
         _sinon.default.assert.calledWith(route.transitionTo, 'index');
       });
     });
+
+    (0, _mocha.it)('should return to /compte when the user has no organization', function () {
+      // given
+      var route = this.subject();
+      route.transitionTo = _sinon.default.spy();
+      var user = Ember.Object.create({ id: 1, organizations: [] });
+
+      findRecord.resolves(user);
+
+      // when
+      var promise = route.model();
+
+      // then
+      return promise.then(function (_) {
+        _sinon.default.assert.calledOnce(route.transitionTo);
+        _sinon.default.assert.calledWith(route.transitionTo, 'compte');
+      });
+    });
   });
 });
 define('pix-live/tests/unit/routes/challenges/get-preview-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
@@ -11657,6 +11715,78 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
 
       // Then
       (0, _chai.expect)(route.authenticationRoute).to.equal('/');
+    });
+
+    (0, _mocha.describe)('model', function () {
+
+      var storyStub = void 0;
+      var findRecordStub = void 0;
+
+      (0, _mocha.before)(function () {
+        findRecordStub = _sinon.default.stub();
+        storyStub = Ember.Service.extend({
+          findRecord: findRecordStub
+        });
+      });
+
+      (0, _mocha.it)('should redirect to logout when unable to find user details', function () {
+        // Given
+        this.register('service:store', storyStub);
+        this.inject.service('store', { as: 'store' });
+
+        findRecordStub.rejects();
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.model();
+
+        // Then
+        return promise.catch(function () {
+          _sinon.default.assert.calledWith(route.transitionTo, 'logout');
+        });
+      });
+
+      (0, _mocha.it)('should redirect to /board when the user as an organization', function () {
+        // Given
+        var linkedOrganization = Ember.Object.create({ id: 1 });
+        var foundUser = Ember.Object.create({ organizations: [linkedOrganization] });
+
+        this.register('service:store', storyStub);
+        this.inject.service('store', { as: 'store' });
+
+        findRecordStub.resolves(foundUser);
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.model();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.calledWith(route.transitionTo, 'board');
+        });
+      });
+
+      (0, _mocha.it)('should remain on /compte when the user as no organization linked', function () {
+        // Given
+        var foundUser = Ember.Object.create({});
+
+        this.register('service:store', storyStub);
+        this.inject.service('store', { as: 'store' });
+
+        findRecordStub.resolves(foundUser);
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.model();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.notCalled(route.transitionTo);
+        });
+      });
     });
 
     (0, _mocha.describe)('searchForOrganization', function () {

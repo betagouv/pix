@@ -6295,6 +6295,11 @@ define('pix-live/routes/board', ['exports'], function (exports) {
       var _this = this;
 
       return this.get('store').findRecord('user', this.get('session.data.authenticated.userId')).then(function (user) {
+
+        if (user.get('organizations.length') <= 0) {
+          return _this.transitionTo('compte');
+        }
+
         return user.get('organizations.firstObject');
       }).catch(function (_) {
         _this.transitionTo('index');
@@ -6446,7 +6451,13 @@ define('pix-live/routes/compte', ['exports', 'ember-simple-auth/mixins/authentic
       var _this = this;
 
       var store = this.get('store');
-      return store.findRecord('user', this.get('session.data.authenticated.userId')).catch(function (_) {
+      return store.findRecord('user', this.get('session.data.authenticated.userId')).then(function (user) {
+        if (user.get('organizations.length') > 0) {
+          return _this.transitionTo('board');
+        }
+
+        return user;
+      }).catch(function (_) {
         _this.transitionTo('logout');
       });
     },
@@ -8792,6 +8803,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.18.0+062b1c1d"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.18.0+87f84950"});
 }
 //# sourceMappingURL=pix-live.map
