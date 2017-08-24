@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import Ember from 'ember';
 import sinon from 'sinon';
@@ -76,6 +76,24 @@ describe('Unit | Route | board', function() {
     return promise.then(_ => {
       sinon.assert.calledOnce(route.transitionTo);
       sinon.assert.calledWith(route.transitionTo, 'index');
+    });
+  });
+
+  it('should return to /compte when the user has no organization', function() {
+    // given
+    const route = this.subject();
+    route.transitionTo = sinon.spy();
+    const user = Ember.Object.create({ id: 1, organizations: [] });
+
+    findRecord.resolves(user);
+
+    // when
+    const promise = route.model();
+
+    // then
+    return promise.then(_ => {
+      sinon.assert.calledOnce(route.transitionTo);
+      sinon.assert.calledWith(route.transitionTo, 'compte');
     });
   });
 

@@ -9,7 +9,15 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
   model() {
     const store = this.get('store');
-    return store.findRecord('user', this.get('session.data.authenticated.userId')).catch(_ => {
+    return store.findRecord('user', this.get('session.data.authenticated.userId'))
+    .then(user => {
+      if(user.get('organizations.length') > 0) {
+        return this.transitionTo('board');
+      }
+
+      return user;
+    })
+    .catch(_ => {
       this.transitionTo('logout');
     });
   },

@@ -10,6 +10,11 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
   model() {
     return this.get('store').findRecord('user', this.get('session.data.authenticated.userId'))
       .then((user) => {
+
+        if(user.get('organizations.length') <= 0) {
+          return this.transitionTo('compte');
+        }
+
         return user.get('organizations.firstObject');
       })
       .catch(_ => {
