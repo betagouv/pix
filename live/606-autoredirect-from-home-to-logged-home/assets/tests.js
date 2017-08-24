@@ -815,7 +815,7 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
     });
   });
 });
-define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/seeds', 'pix-live/tests/helpers/testing'], function (_mocha, _chai, _application, _seeds, _testing) {
   'use strict';
 
   (0, _mocha.describe)('Acceptance | Espace compte', function () {
@@ -831,21 +831,11 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
     });
 
     (0, _mocha.describe)('Success cases', function () {
-      (0, _mocha.beforeEach)(function () {
-        server.create('user', {
-          id: 1,
-          firstName: 'François',
-          lastName: 'Hisquin',
-          email: 'fhi@octo.com',
-          password: 'FHI4EVER',
-          cgu: true,
-          recaptchaToken: 'recaptcha-token-xxxxxx',
-          competenceIds: []
-        });
-      });
-
       (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
         (0, _mocha.it)('should redirect to the connexion page', function () {
+          // given
+          _seeds.default.injectUserAccount();
+
           // when
           visit('/compte');
 
@@ -857,21 +847,6 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
       });
 
       (0, _mocha.describe)('m1.2 Log-in phase', function () {
-
-        function seedDatabaseForUsualUser() {
-          server.loadFixtures('areas');
-          server.loadFixtures('competences');
-          server.create('user', {
-            id: 1,
-            firstName: 'Samurai',
-            lastName: 'Jack',
-            email: 'samurai.jack@aku.world',
-            password: 'B@ck2past',
-            cgu: true,
-            recaptchaToken: 'recaptcha-token-xxxxxx',
-            competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-          });
-        }
 
         function seedDatabaseForUserWithOrganization() {
           server.loadFixtures('organizations');
@@ -887,20 +862,10 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
           });
         }
 
-        function authenticateUser() {
-          // given
-          visit('/connexion');
-          fillIn('#pix-email', 'samurai.jack@aku.world');
-          fillIn('#pix-password', 'B@ck2past');
-
-          // when
-          click('.signin-form__submit_button');
-        }
-
         (0, _mocha.it)('should redirect to the /compte after connexion for usual users', function () {
           // given
-          seedDatabaseForUsualUser();
-          authenticateUser();
+          _seeds.default.injectUserAccount();
+          _testing.default.authenticateUser();
 
           // then
           return andThen(function () {
@@ -911,7 +876,7 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
         (0, _mocha.it)('should redirect to the /board after connexion for users with organization', function () {
           // given
           seedDatabaseForUserWithOrganization();
-          authenticateUser();
+          _testing.default.authenticateUser();
 
           // then
           return andThen(function () {
@@ -922,8 +887,7 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
     });
 
     (0, _mocha.describe)('Error case', function () {
-
-      function authenticateUnknownUser() {
+      (0, _mocha.it)('should stay in /connexion , when authentication failed', function () {
         // given
         visit('/connexion');
         fillIn('#pix-email', 'anyone@pix.world');
@@ -931,12 +895,8 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
 
         // when
         click('.signin-form__submit_button');
-      }
 
-      (0, _mocha.it)('should stay in /connexion , when authentication failed', function () {
-        // given
-        authenticateUnknownUser();
-
+        // then
         return andThen(function () {
           (0, _chai.expect)(currentURL()).to.equal('/connexion');
         });
@@ -3294,10 +3254,6 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('services/store.js', function () {
-      // test passed
-    });
-
     it('transforms/array.js', function () {
       // test passed
     });
@@ -5510,7 +5466,14 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
     (0, _mocha.describe)('Rendering for logged user', function () {
 
       (0, _mocha.beforeEach)(function () {
-        this.register('service:session', Ember.Service.extend({ isAuthenticated: true }));
+        this.register('service:session', Ember.Service.extend({
+          isAuthenticated: true,
+          data: {
+            authenticated: {
+              userId: 1435
+            }
+          }
+        }));
         this.inject.service('session', { as: 'session' });
 
         this.render(Ember.HTMLBars.template({
@@ -8131,12 +8094,12 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
       integration: true
     });
 
-    (0, _mocha.describe)('Default rendering for logged user', function () {
+    (0, _mocha.describe)('when rendering for logged user', function () {
 
       beforeEach(function () {
         // given
         this.register('service:store', Ember.Service.extend({
-          queryRecord: function queryRecord() {
+          findRecord: function findRecord() {
             return Ember.RSVP.resolve({
               firstName: 'FHI',
               lastName: '4EVER',
@@ -8144,7 +8107,13 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
             });
           }
         }));
+
+        this.register('service:session', Ember.Service.extend({
+          data: { authenticated: { userId: 123 } }
+        }));
+
         this.inject.service('store', { as: 'store' });
+        this.inject.service('session', { as: 'session' });
 
         // when
         this.render(Ember.HTMLBars.template({
@@ -8165,9 +8134,6 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         (0, _chai.expect)(this.$('.logged-user-name__link')).to.have.length(1);
         (0, _chai.expect)(this.$('.logged-user-name__link').text().trim()).to.be.equal('FHI 4EVER');
       });
-    });
-
-    (0, _mocha.describe)('behavior on user menu', function () {
 
       (0, _mocha.it)('should hide user menu, when no action on user-name', function () {
         // when
@@ -8179,19 +8145,6 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         // then
         (0, _chai.expect)(this.$('.logged-user-menu')).to.have.length(0);
-      });
-
-      beforeEach(function () {
-        this.register('service:store', Ember.Service.extend({
-          queryRecord: function queryRecord() {
-            return Ember.RSVP.resolve({
-              firstName: 'FHI',
-              lastName: '4EVER',
-              email: 'FHI@4EVER.fr'
-            });
-          }
-        }));
-        this.inject.service('store', { as: 'store' });
       });
 
       (0, _mocha.it)('should display a user menu, when user-name is clicked', function () {
@@ -8234,14 +8187,14 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
       });
     });
 
-    (0, _mocha.describe)('behavior when user is unlogged or not found', function () {
-
+    (0, _mocha.describe)('when user is unlogged or not found', function () {
       beforeEach(function () {
         this.register('service:store', Ember.Service.extend({
-          queryRecord: function queryRecord() {
+          findRecord: function findRecord() {
             return Ember.RSVP.reject();
           }
         }));
+
         this.inject.service('store', { as: 'store' });
       });
 
@@ -8814,10 +8767,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/services/splash-test.js', function () {
-      // test passed
-    });
-
-    it('unit/services/store-test.js', function () {
       // test passed
     });
 
@@ -10928,11 +10877,21 @@ define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha',
 
       (0, _mocha.beforeEach)(function () {
         this.register('service:store', Ember.Service.extend({
-          queryRecord: function queryRecord() {
+          findRecord: function findRecord() {
             return Ember.RSVP.resolve({});
           }
         }));
         this.inject.service('store', { as: 'store' });
+
+        this.register('service:session', Ember.Service.extend({
+          isAuthenticated: true,
+          data: {
+            authenticated: {
+              userId: 1435
+            }
+          }
+        }));
+        this.inject.service('session', { as: 'session' });
       });
 
       (0, _mocha.it)('should return true, when user details is clicked', function () {
@@ -10964,14 +10923,24 @@ define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha',
     });
 
     (0, _mocha.describe)('Display user details', function () {
-      var queryRecordArgs = void 0;
+      var findRecordArgs = void 0;
 
       (0, _mocha.describe)('When user is logged', function () {
 
         (0, _mocha.beforeEach)(function () {
+          this.register('service:session', Ember.Service.extend({
+            isAuthenticated: true,
+            data: {
+              authenticated: {
+                userId: 1435
+              }
+            }
+          }));
+          this.inject.service('session', { as: 'session' });
+
           this.register('service:store', Ember.Service.extend({
-            queryRecord: function queryRecord() {
-              queryRecordArgs = Array.from(arguments);
+            findRecord: function findRecord() {
+              findRecordArgs = Array.from(arguments);
               return Ember.RSVP.resolve({
                 firstName: 'FHI',
                 lastName: '4EVER',
@@ -10987,7 +10956,7 @@ define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha',
           this.subject();
 
           // then
-          (0, _chai.expect)(queryRecordArgs).to.deep.equal(['user', {}]);
+          (0, _chai.expect)(findRecordArgs).to.deep.equal(['user', 1435]);
         });
       });
     });
@@ -11574,13 +11543,18 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       (0, _chai.expect)(route).to.be.ok;
     });
 
-    var queryRecordStub = _sinon.default.stub();
+    var findRecord = _sinon.default.stub();
 
     beforeEach(function () {
       this.register('service:store', Ember.Service.extend({
-        queryRecord: queryRecordStub
+        findRecord: findRecord
       }));
       this.inject.service('store', { as: 'store' });
+
+      this.register('service:session', Ember.Service.extend({
+        data: { authenticated: { userId: 12 } }
+      }));
+      this.inject.service('session', { as: 'session' });
     });
 
     (0, _mocha.it)('should correctly call the store', function () {
@@ -11588,14 +11562,14 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       var route = this.subject();
       route.transitionTo = function () {};
 
-      queryRecordStub.resolves();
+      findRecord.resolves();
 
       // when
       route.model();
 
       // then
-      _sinon.default.assert.calledOnce(queryRecordStub);
-      _sinon.default.assert.calledWith(queryRecordStub, 'user', {});
+      _sinon.default.assert.calledOnce(findRecord);
+      _sinon.default.assert.calledWith(findRecord, 'user', 12);
     });
 
     (0, _mocha.it)('should return user first organization informations', function () {
@@ -11605,7 +11579,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       var route = this.subject();
       route.transitionTo = function () {};
 
-      queryRecordStub.resolves(user);
+      findRecord.resolves(user);
 
       // when
       var promise = route.model();
@@ -11621,7 +11595,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       var route = this.subject();
       route.transitionTo = _sinon.default.spy();
 
-      queryRecordStub.rejects();
+      findRecord.rejects();
 
       // when
       var promise = route.model();
@@ -11858,7 +11832,7 @@ define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha',
       beforeEach(function () {
 
         storeServiceStub = {
-          findRecordLazily: _sinon.default.stub().resolves(Ember.Object.create({ organizations: [] }))
+          findRecord: _sinon.default.stub().resolves(Ember.Object.create({ organizations: [] }))
         };
         this.register('service:store', Ember.Service.extend(storeServiceStub));
         this.inject.service('store', { as: 'store' });
@@ -11911,14 +11885,14 @@ define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha',
 
         // Then
         return promise.then(function () {
-          _sinon.default.assert.calledOnce(storeServiceStub.findRecordLazily);
-          _sinon.default.assert.calledWith(storeServiceStub.findRecordLazily, 'user', 1435);
+          _sinon.default.assert.calledOnce(storeServiceStub.findRecord);
+          _sinon.default.assert.calledWith(storeServiceStub.findRecord, 'user', 1435);
         });
       });
 
       (0, _mocha.it)('should redirect to board when the user is linked to an organization', function () {
         // Given
-        storeServiceStub.findRecordLazily.resolves(Ember.Object.create({
+        storeServiceStub.findRecord.resolves(Ember.Object.create({
           organizations: [Ember.Object.create()]
         }));
 
@@ -12413,82 +12387,6 @@ define('pix-live/tests/unit/services/splash-test', ['chai', 'mocha', 'ember-moch
 
       afterEach(function () {
         removeSplash();
-      });
-    });
-  });
-});
-define('pix-live/tests/unit/services/store-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Service | Store', function () {
-
-    (0, _emberMocha.setupTest)('service:store', {
-      needs: []
-    });
-
-    (0, _mocha.describe)('#findRecordLazily', function () {
-
-      var service = void 0;
-
-      (0, _mocha.beforeEach)(function () {
-        service = this.subject();
-        service.peekRecord = _sinon.default.stub().returns(null);
-        service.queryRecord = _sinon.default.stub();
-      });
-
-      (0, _mocha.it)('should call try to find the record in the store', function () {
-        // Given;
-        service.peekRecord.returns({});
-
-        // When
-        var promise = service.findRecordLazily('model', 1);
-
-        // Then
-        return promise.then(function () {
-          _sinon.default.assert.calledWith(service.peekRecord, 'model', 1);
-        });
-      });
-
-      (0, _mocha.it)('should call return the model found in the store', function () {
-        // Given;
-        var foundObjectInTheStore = Ember.Object.create({});
-        service.peekRecord.returns(foundObjectInTheStore);
-
-        // When
-        var promise = service.findRecordLazily('model', 1);
-
-        // Then
-        return promise.then(function (result) {
-          (0, _chai.expect)(result).to.deep.equal(foundObjectInTheStore);
-        });
-      });
-
-      (0, _mocha.describe)('when the model is not in the store', function () {
-        (0, _mocha.it)('should query the record', function () {
-          service.queryRecord = _sinon.default.stub().resolves(null);
-
-          // When
-          var promise = service.findRecordLazily('model', 1);
-
-          // Then
-          return promise.then(function () {
-            _sinon.default.assert.calledWith(service.queryRecord);
-            _sinon.default.assert.calledWith(service.queryRecord, 'model', 1);
-          });
-        });
-
-        (0, _mocha.it)('should return the model from backend', function () {
-          var foundObjectInBackend = Ember.Object.create({});
-          service.queryRecord = _sinon.default.stub().resolves(foundObjectInBackend);
-
-          // When
-          var promise = service.findRecordLazily('model', 1);
-
-          // Then
-          return promise.then(function (result) {
-            (0, _chai.expect)(result).to.be.deep.equal(foundObjectInBackend);
-          });
-        });
       });
     });
   });
