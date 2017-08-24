@@ -1140,10 +1140,6 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
                 return click('.share-profile__share-button');
 
               case 2:
-                findWithAssert('.pix-modal');
-                findWithAssert('.share-profile__section--organization-code-entry');
-
-              case 4:
               case 'end':
                 return _context2.stop();
             }
@@ -1170,9 +1166,6 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
                 return click('.share-profile__continue-button');
 
               case 4:
-                findWithAssert('.share-profile__section--sharing-confirmation');
-
-              case 5:
               case 'end':
                 return _context3.stop();
             }
@@ -1191,14 +1184,10 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                (0, _chai.expect)(find('.share-profile__organization-name').text().trim()).to.equal('Organization 0');
-                _context4.next = 3;
+                _context4.next = 2;
                 return click('.share-profile__confirm-button');
 
-              case 3:
-                findWithAssert('.share-profile__section--success-notification');
-
-              case 4:
+              case 2:
               case 'end':
                 return _context4.stop();
             }
@@ -1221,9 +1210,6 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
                 return click('.share-profile__close-button');
 
               case 2:
-                (0, _chai.expect)(find('.pix-modal')).to.have.length(0);
-
-              case 3:
               case 'end':
                 return _context5.stop();
             }
@@ -1251,6 +1237,34 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
       _seeds.default.injectOrganization('ABCD00');
     }
 
+    function expectModalToBeOpened() {
+      findWithAssert('.pix-modal');
+    }
+
+    function expectToBeOnOrganizationCodeEntryView() {
+      findWithAssert('.share-profile__section--organization-code-entry');
+    }
+
+    function expectToBeOnSharingConfirmationView() {
+      findWithAssert('.share-profile__section--sharing-confirmation');
+    }
+
+    function expectOrganizationNameToBeDisplayed() {
+      (0, _chai.expect)(find('.share-profile__organization-name').text().trim()).to.equal('Organization 0');
+    }
+
+    function expectToBeOnSuccessNotificationView() {
+      findWithAssert('.share-profile__section--success-notification');
+    }
+
+    function expectSnapshotToHaveBeenCreated() {
+      (0, _chai.expect)(server.db.snapshots.length).to.equal(1);
+    }
+
+    function expectModalToBeClosed() {
+      (0, _chai.expect)(find('.pix-modal')).to.have.length(0);
+    }
+
     (0, _mocha.it)('should be possible to share a snapshot of her own profile to a given organization', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
       return regeneratorRuntime.wrap(function _callee6$(_context6) {
         while (1) {
@@ -1258,6 +1272,7 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
             case 0:
               populateDatabaseWithAUserAndAnOrganization();
               (0, _testing.authenticateUser)();
+
               _context6.next = 4;
               return visitAccountPage();
 
@@ -1266,18 +1281,30 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
               return openShareProfileModal();
 
             case 6:
-              _context6.next = 8;
+              expectModalToBeOpened();
+              expectToBeOnOrganizationCodeEntryView();
+
+              _context6.next = 10;
               return fillInAndSubmitOrganizationCode();
 
-            case 8:
-              _context6.next = 10;
+            case 10:
+              expectToBeOnSharingConfirmationView();
+              expectOrganizationNameToBeDisplayed();
+
+              _context6.next = 14;
               return confirmProfileSnapshotSharing();
 
-            case 10:
-              _context6.next = 12;
+            case 14:
+              expectToBeOnSuccessNotificationView();
+              expectSnapshotToHaveBeenCreated();
+
+              _context6.next = 18;
               return closeModal();
 
-            case 12:
+            case 18:
+              expectModalToBeClosed();
+
+            case 19:
             case 'end':
               return _context6.stop();
           }
@@ -3257,6 +3284,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('models/organization.js', function () {
+      // test passed
+    });
+
+    it('models/snapshot.js', function () {
       // test passed
     });
 
@@ -9137,6 +9168,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/models/snapshot-test.js', function () {
+      // test passed
+    });
+
     it('unit/models/user-test.js', function () {
       // test passed
     });
@@ -11875,6 +11910,23 @@ define('pix-live/tests/unit/models/organization-test', ['chai', 'mocha', 'ember-
 
     (0, _mocha.it)('exists', function () {
       var model = this.subject();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/models/snapshot-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Model | snapshot', function () {
+    (0, _emberMocha.setupModelTest)('snapshot', {
+      // Specify the other units that are required for this test.
+      needs: []
+    });
+
+    // Replace this with your real tests.
+    (0, _mocha.it)('exists', function () {
+      var model = this.subject();
+      // var store = this.store();
       (0, _chai.expect)(model).to.be.ok;
     });
   });

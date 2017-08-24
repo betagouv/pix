@@ -4391,6 +4391,8 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
 
       return schema.organizations.all();
     });
+
+    this.post('/snapshots');
   };
 });
 define('pix-live/mirage/data/answers/ref-qcm-answer', ['exports', 'pix-live/mirage/data/challenges/ref-qcm-challenge'], function (exports, _refQcmChallenge) {
@@ -5325,6 +5327,14 @@ define('pix-live/mirage/models/organization', ['exports', 'ember-cli-mirage'], f
     user: (0, _emberCliMirage.belongsTo)('user', { inverse: null })
   });
 });
+define('pix-live/mirage/models/snapshot', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberCliMirage.Model.extend({});
+});
 define('pix-live/mirage/models/user', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
   'use strict';
 
@@ -6008,6 +6018,15 @@ define('pix-live/models/organization', ['exports', 'ember-data'], function (expo
     user: belongsTo('user')
   });
 });
+define('pix-live/models/snapshot', ['exports', 'ember-data'], function (exports, _emberData) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var Model = _emberData.default.Model;
+  exports.default = Model.extend({});
+});
 define('pix-live/models/solution', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
 
@@ -6459,7 +6478,6 @@ define('pix-live/routes/compte', ['exports', 'ember-simple-auth/mixins/authentic
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var RSVP = Ember.RSVP;
   exports.default = Ember.Route.extend(_authenticatedRouteMixin.default, {
 
     authenticationRoute: '/',
@@ -6486,7 +6504,7 @@ define('pix-live/routes/compte', ['exports', 'ember-simple-auth/mixins/authentic
         });
       },
       shareProfileSnapshot: function shareProfileSnapshot(organization) {
-        return RSVP.resolve(organization);
+        return this.get('store').createRecord('snapshot', { organization: organization }).save();
       }
     }
 
@@ -8164,6 +8182,10 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
       // test passed
     });
 
+    it('mirage/models/snapshot.js', function () {
+      // test passed
+    });
+
     it('mirage/models/user.js', function () {
       // test passed
     });
@@ -8801,6 +8823,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.17.0+0bf3040c"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.17.0+ebad0e51"});
 }
 //# sourceMappingURL=pix-live.map
