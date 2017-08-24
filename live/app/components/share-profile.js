@@ -7,6 +7,7 @@ const STEP_3_SUCCESS_NOTIFICATION = 'success-notification';
 
 export default Ember.Component.extend({
 
+
   classNames: ['share-profile'],
 
   // Actions

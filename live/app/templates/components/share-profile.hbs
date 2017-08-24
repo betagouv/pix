@@ -6,18 +6,19 @@
 {{#if _showingModal}}
   {{#pix-modale containerClass="share-profile__modal" onClose="closeModal"}}
 
-    <a href="#" class="pix-modale__close-button" {{action "closeModal"}}>Fermer
-      <img src="/images/comparison-window/icon-close-modal.svg" alt="Fermer la fenêtre modale" width="24" height="24">
-    </a>
+    <div class="pix-modal__container">
 
-    <h1>Partage de votre profil</h1>
+      <a href="#" class="pix-modal__close-link" {{action "closeModal"}}>Fermer
+        <img src="/images/comparison-window/icon-close-modal.svg" alt="Fermer la fenêtre modale" width="24" height="24">
+      </a>
 
-    {{#if stepOrganizationCodeEntry}}
+      <h1>Partage de votre profil</h1>
 
-      <section class="pix-modale__content share-profile__section share-profile__section--organization-code-entry">
-        <p class="share-profile__statement">Veuillez saisir le code correspondant à votre organisation (collège, lycée, université, école, entreprise).</p>
+      {{#if stepOrganizationCodeEntry}}
 
-        <div class="share-profile__modal-form">
+        <section class="pix-modal__bodyshare-profile__section share-profile__section--organization-code-entry">
+          <p>Veuillez saisir le code correspondant à votre organisation (collège, lycée, université, école, entreprise).</p>
+
           {{input class="share-profile__organization-code-input"
                   id="code"
                   placeholder=_placeholder
@@ -31,40 +32,41 @@
           {{/if}}
 
           <div class="share-profile__share-modal-buttons">
-            <button class="pix-modal__button pix-modal__button--primary share-profile__continue-button" {{action "findOrganizationAndGoToSharingConfirmationView"}}>Continuer</button>
-            <button class="pix-modal__button share-profile__cancel-button" {{action "closeModal"}}>Annuler</button>
+            <button class="pix-modal__primary-button share-profile__continue-button" {{action "findOrganizationAndGoToSharingConfirmationView"}}>Continuer</button>
+            <button class="pix-modal__secondary-button share-profile__cancel-button" {{action "closeModal"}}>Annuler</button>
           </div>
-        </div>
 
-      </section>
+        </section>
 
-    {{else if stepProfileSharingConfirmation}}
+      {{else if stepProfileSharingConfirmation}}
 
-      <section class="pix-modale__content share-profile__section share-profile__section--sharing-confirmation">
-        <p class="share-profile__transmission">Vous vous apprêtez à transmettre une copie de votre profil Pix à l'organisation:</p>
-        <p class="share-profile__organization-name">{{_organization.name}}</p>
-        <p class="share-profile__informations-shared">En cliquant sur le bouton «Envoyer», elle recevra les informations suivantes:</p>
-        <ul class="share-profile__informations-shared">
-          <li>› votre nom et prénom</li>
-          <li>› l'état actuel de votre profil</li>
-        </ul>
-        <p class="share-profile__informations-evolutions">Elle ne recevra pas les évolutions futures de votre profil.</p>
+        <section class="share-profile__section share-profile__section--sharing-confirmation">
+          <p>Vous vous apprêtez à transmettre une copie de votre profil Pix à l'organisation :</p>
+          <p class="share-profile__organization-name">{{_organization.name}}</p>
+          <p class="share-profile__informations-shared">En cliquant sur le bouton «Envoyer», elle recevra les informations suivantes:</p>
+          <ul class="share-profile__informations-shared">
+            <li>› votre nom et prénom</li>
+            <li>› l'état actuel de votre profil</li>
+          </ul>
+          <p class="share-profile__informations-evolutions">Elle ne recevra pas les évolutions futures de votre profil.</p>
 
-        <div class="share-profile__share-modal-buttons">
-          <button class="pix-modal__button pix-modal__button--primary share-profile__confirm-button" {{action "shareSnapshotAndGoToSuccessNotificationView"}}>Continuer</button>
-          <button class="pix-modal__button pix-modal__button--cancel share-profile__cancel-button" {{action "cancelSharingAndGoBackToOrganizationCodeEntryView"}}>Annuler</button>
-        </div>
+          <div class="share-profile__share-modal-buttons">
+            <button class="pix-modal__primary-button share-profile__confirm-button" {{action "shareSnapshotAndGoToSuccessNotificationView"}}>Continuer</button>
+            <button class="pix-modal__secondary-button share-profile__cancel-button" {{action "cancelSharingAndGoBackToOrganizationCodeEntryView"}}>Annuler</button>
+          </div>
 
-      </section>
+        </section>
 
-    {{else}}
+      {{else}}
 
-      <section class="pix-modale__content share-profile__section share-profile__section--success-notification">
-        <p class="share-profile__statement">Votre profil a été envoyé avec succès.</p>
-        <button class="pix-modal__button pix-modal__button--primary share-profile__close-button" {{action "closeModal"}}>Fermer</button>
-      </section>
+        <section class="share-profile__section share-profile__section--success-notification">
+          <p class="share-profile__statement">Votre profil a été envoyé avec succès.</p>
+          <button class="pix-modal__primary-button share-profile__close-button" {{action "closeModal"}}>Fermer</button>
+        </section>
 
-    {{/if}}
+      {{/if}}
+
+    </div>
 
   {{/pix-modale}}
 {{/if}}
