@@ -12040,48 +12040,8 @@ define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha',
     });
   });
 });
-define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  var SessionStub = function () {
-    function SessionStub() {
-      _classCallCheck(this, SessionStub);
-    }
-
-    _createClass(SessionStub, [{
-      key: 'authenticate',
-      value: function authenticate() {
-        this.callArgs = Array.from(arguments);
-        return Promise.resolve();
-      }
-    }]);
-
-    return SessionStub;
-  }();
 
   (0, _mocha.describe)('Unit | Route | inscription', function () {
     (0, _emberMocha.setupTest)('route:inscription', {
@@ -12097,14 +12057,15 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
       // Given
       var expectedEmail = 'email@example.net';
       var expectedPassword = 'Azertya1!';
-      var sessionStub = new SessionStub();
+      var authenticateStub = _sinon.default.stub().resolves();
+      var queryRecordStub = _sinon.default.stub().resolves();
+      var sessionStub = { authenticate: authenticateStub };
+      var storeStub = { queryRecord: queryRecordStub };
 
       var route = this.subject();
+      route.transitionTo = _sinon.default.stub();
       route.set('session', sessionStub);
-      var transitionToArg = void 0;
-      route.transitionTo = function () {
-        transitionToArg = Array.from(arguments);
-      };
+      route.set('store', storeStub);
 
       // When
       var promise = route.actions.redirectToProfileRoute.call(route, {
@@ -12114,8 +12075,9 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
 
       return promise.then(function () {
         // Then
-        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
-        (0, _chai.expect)(transitionToArg).to.deep.equal(['compte']);
+        _sinon.default.assert.calledWith(authenticateStub, 'authenticator:simple', expectedEmail, expectedPassword);
+        _sinon.default.assert.calledWith(queryRecordStub, 'user', {});
+        _sinon.default.assert.calledWith(route.transitionTo, 'compte');
       });
     });
   });
