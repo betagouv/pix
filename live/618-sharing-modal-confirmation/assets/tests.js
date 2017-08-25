@@ -11053,7 +11053,7 @@ define('pix-live/tests/unit/components/scoring-panel-test', ['chai', 'mocha', 'e
 define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
-  _mocha.describe.skip('Unit | Component | share-profile', function () {
+  (0, _mocha.describe)('Unit | Component | share-profile', function () {
 
     (0, _emberMocha.setupTest)('component:share-profile', {});
 
@@ -11066,21 +11066,21 @@ define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'e
     (0, _mocha.describe)('#init', function () {
 
       (0, _mocha.it)('should set the overlay as translucent', function () {
-        (0, _chai.expect)(component.get('isShowingModal')).to.be.equal(false);
+        (0, _chai.expect)(component.get('_showingModal')).to.be.equal(false);
       });
 
-      (0, _mocha.it)('should set the organizationExists as true', function () {
-        (0, _chai.expect)(component.get('organizationExists')).to.be.equal(true);
+      (0, _mocha.it)('should set the organizationExists as false', function () {
+        (0, _chai.expect)(component.get('_organizationNotFound')).to.be.equal(false);
       });
     });
 
     (0, _mocha.describe)('#placeholder', function () {
       (0, _mocha.it)('should leave the placeholder empty with "focusIn"', function () {
         // then
-        component.send('focusIn');
+        component.send('focusInOrganizationCodeInput');
 
         // when
-        (0, _chai.expect)(component.get('placeholder')).to.be.null;
+        (0, _chai.expect)(component.get('_placeholder')).to.be.null;
       });
 
       (0, _mocha.it)('should reset the placeholder to its default value with "focusOut"', function () {
@@ -11088,42 +11088,31 @@ define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'e
         component.set('placeholder', 'Ex: EFGH89');
 
         // then
-        component.send('focusOut');
+        component.send('focusOutOrganizationCodeInput');
 
         // when
-        (0, _chai.expect)(component.get('placeholder')).to.be.equal('Ex: ABCD12');
+        (0, _chai.expect)(component.get('_placeholder')).to.be.equal('Ex: ABCD12');
       });
     });
 
     (0, _mocha.describe)('#toggleSharingModal', function () {
-      (0, _mocha.it)('should use the "close" action', function () {
+      (0, _mocha.it)('should use the "open" action', function () {
         // when
-        component.send('toggleSharingModal');
+        component.send('openModal');
 
         // then
-        (0, _chai.expect)(component.get('isShowingModal')).to.equal(true);
+        (0, _chai.expect)(component.get('_showingModal')).to.equal(true);
       });
 
       (0, _mocha.it)('should reset the code to default value', function () {
         // Given
-        component.set('code', 'ABCD01');
+        component.set('_code', 'ABCD01');
 
         // when
-        component.send('toggleSharingModal');
+        component.send('closeModal');
 
         // then
-        (0, _chai.expect)(component.get('code')).to.equal('');
-      });
-
-      (0, _mocha.it)('should the organizationExists to true', function () {
-        // Given
-        component.set('organizationExists', false);
-
-        // when
-        component.send('toggleSharingModal');
-
-        // then
-        (0, _chai.expect)(component.get('organizationExists')).to.equal(true);
+        (0, _chai.expect)(component.get('_code')).to.be.null;
       });
 
       (0, _mocha.it)('should reset the organization to default value', function () {
@@ -11131,10 +11120,10 @@ define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'e
         component.set('organization', {});
 
         // when
-        component.send('toggleSharingModal');
+        component.send('closeModal');
 
         // then
-        (0, _chai.expect)(component.get('organization')).to.equal(null);
+        (0, _chai.expect)(component.get('_organization')).to.equal(null);
       });
     });
   });
