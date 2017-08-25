@@ -44,7 +44,6 @@
 .share-profile__organization-code-input {
   width: 100%;
   text-align: center;
-  margin-bottom: 15px;
 
   @include device-is('desktop') {
     width: 265px;
@@ -53,6 +52,11 @@
 
 .share-profile__form-error {
   color: $pure-orange;
+  margin-bottom: 5px;
+
+  @include device-is('desktop') {
+    font-size: 16px;
+  }
 }
 
 .share-profile__share-modal-buttons {
@@ -73,6 +77,12 @@
 
 /* "Sharing confirmation" view */
 
+.share-profile__informations-shared {
+  @include device-is('tablet') {
+    font-size: 18px;
+  }
+}
+
 .share-profile__organization-name {
   font-weight: $font-bold;
   font-size: 20px;
@@ -83,16 +93,14 @@
   }
 }
 
-ul.share-profile__informations-shared {
-  display: inline-block;
-  text-align: left;
-  list-style: none;
+.share-profile__advertisement {
+  @include device-is('tablet') {
+    font-size: 16px;
+  }
 }
-
-.share-profile__informations-evolutions {
-  font-size: 16px;
-}
-
 
 /* "Success notification" view */
 
+.share-profile__statement {
+  margin-bottom: 5px;
+}

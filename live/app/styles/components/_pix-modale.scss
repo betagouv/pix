@@ -22,20 +22,32 @@
   background-color: $porcelain-grey;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
   font-size: 16px;
+  position: relative;
+  margin: auto;
+  max-width: 1170px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   @include device-is('tablet') {
-    width: 80%;
     font-size: 22px;
   }
 }
 
-.pix-modal section {
+.pix-modal__body {
   padding: 15px;
   text-align: left;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @include device-is('tablet') {
+    max-width: 680px;
+    text-align: center;
+    padding: 30px;
+  }
 }
 
 /* Text & content
@@ -51,6 +63,7 @@
   border-radius: 5px 5px 0 0;
   text-align: center;
   padding: 15px;
+  width: 100%;
 
   @include device-is('tablet') {
     padding: 20px 0;
@@ -58,26 +71,33 @@
   }
 }
 
-.pix-modal p {
+.pix-modal__text {
   margin-bottom: 15px;
+
+  @include device-is('tablet') {
+    margin-bottom: 30px;
+  }
 }
 
-.pix-modal ul,
-.pix-modal ol {
+.pix-modal__text:last-child {
+  margin-bottom: 5px;
+}
+
+.pix-modal__list {
   width: 100%;
   list-style: none;
   padding: 0 0 0 30px;
   margin: 0 0 15px;
 }
 
-.pix-modal li {
+.pix-modal__list-item {
   margin-bottom: 5px;
 }
 
   /* Form & input
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-.pix-modal input {
+.pix-modal__input {
   padding: 15px;
   border-radius: 5px;
   background-color: #FFFFFF;
@@ -85,30 +105,33 @@
   color: #6A6D76;
   letter-spacing: 2px;
   box-sizing: border-box;
+  margin-bottom: 5px;
 }
 
 /* Buttons
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-.pix-modal button {
+.pix-modal__button {
   border: none;
   border-radius: 5px;
   padding: 15px;
   text-transform: uppercase;
   color: $white;
   box-sizing: border-box;
+  font-size: 13px;
   width: 126px;
+  margin-top: 25px;
 
   @include device-is('tablet') {
-
+    margin-top: 35px;
   }
 }
 
-.pix-modal__primary-button {
+.pix-modal__button--primary {
   background-color: $pix-blue;
 }
 
-.pix-modal__secondary-button {
+.pix-modal__button--secondary {
 
 }
 
@@ -120,6 +143,7 @@
   position: absolute;
   top: -30px;
   right: 0;
+  font-size: 16px;
 }
 .pix-modal__close-link:hover,
 .pix-modal__close-link:active,
