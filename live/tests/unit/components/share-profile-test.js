@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe.skip('Unit | Component | share-profile', function() {
+describe('Unit | Component | share-profile', function() {
 
   setupTest('component:share-profile', {});
 
@@ -15,11 +15,11 @@ describe.skip('Unit | Component | share-profile', function() {
   describe('#init', () => {
 
     it('should set the overlay as translucent', function() {
-      expect(component.get('isShowingModal')).to.be.equal(false);
+      expect(component.get('_showingModal')).to.be.equal(false);
     });
 
-    it('should set the organizationExists as true', function() {
-      expect(component.get('organizationExists')).to.be.equal(true);
+    it('should set the organizationExists as false', function() {
+      expect(component.get('_organizationNotFound')).to.be.equal(false);
     });
 
   });
@@ -27,10 +27,10 @@ describe.skip('Unit | Component | share-profile', function() {
   describe('#placeholder', function() {
     it('should leave the placeholder empty with "focusIn"', function() {
       // then
-      component.send('focusIn');
+      component.send('focusInOrganizationCodeInput');
 
       // when
-      expect(component.get('placeholder')).to.be.null;
+      expect(component.get('_placeholder')).to.be.null;
     });
 
     it('should reset the placeholder to its default value with "focusOut"', function() {
@@ -38,42 +38,31 @@ describe.skip('Unit | Component | share-profile', function() {
       component.set('placeholder', 'Ex: EFGH89');
 
       // then
-      component.send('focusOut');
+      component.send('focusOutOrganizationCodeInput');
 
       // when
-      expect(component.get('placeholder')).to.be.equal('Ex: ABCD12');
+      expect(component.get('_placeholder')).to.be.equal('Ex: ABCD12');
     });
   });
 
   describe('#toggleSharingModal', () => {
-    it('should use the "close" action', function() {
+    it('should use the "open" action', function() {
       // when
-      component.send('toggleSharingModal');
+      component.send('openModal');
 
       // then
-      expect(component.get('isShowingModal')).to.equal(true);
+      expect(component.get('_showingModal')).to.equal(true);
     });
 
     it('should reset the code to default value', function() {
       // Given
-      component.set('code', 'ABCD01');
+      component.set('_code', 'ABCD01');
 
       // when
-      component.send('toggleSharingModal');
+      component.send('closeModal');
 
       // then
-      expect(component.get('code')).to.equal('');
-    });
-
-    it('should the organizationExists to true', function() {
-      // Given
-      component.set('organizationExists', false);
-
-      // when
-      component.send('toggleSharingModal');
-
-      // then
-      expect(component.get('organizationExists')).to.equal(true);
+      expect(component.get('_code')).to.be.null;
     });
 
     it('should reset the organization to default value', function() {
@@ -81,10 +70,10 @@ describe.skip('Unit | Component | share-profile', function() {
       component.set('organization', {});
 
       // when
-      component.send('toggleSharingModal');
+      component.send('closeModal');
 
       // then
-      expect(component.get('organization')).to.equal(null);
+      expect(component.get('_organization')).to.equal(null);
     });
 
   });
