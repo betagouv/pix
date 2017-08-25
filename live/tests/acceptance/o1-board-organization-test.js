@@ -20,7 +20,7 @@ describe('Acceptance | o1 - board organization', function() {
       firstName: 'Benjamin',
       lastName: 'Marteau',
       email: 'benjamin.marteau@pix.com',
-      password: '1024pix!', 
+      password: '1024pix!',
       organizationIds: [1]
     });
   }
@@ -41,8 +41,23 @@ describe('Acceptance | o1 - board organization', function() {
     await visit('/board');
 
     // then
-    return andThen(() => {
+    andThen(() => {
       expect(currentURL()).to.equal('/board');
+    });
+
+    await visit('/deconnexion');
+  });
+
+  it('should not be accessible while the user is not connected', async function() {
+    // given
+    seedDatabase();
+
+    // when
+    await visit('/board');
+
+    // then
+    andThen(() => {
+      expect(currentURL()).to.equal('/connexion');
     });
   });
 
