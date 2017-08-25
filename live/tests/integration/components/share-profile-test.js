@@ -217,7 +217,7 @@ describe('Integration | Component | share profile', function() {
     it('should open the modal on default "organization code entry" view even if modal was previously closed on "sharing confirmation" view', function() {
       // given
       this.render(hbs`{{share-profile _showingModal=true _view="sharing-confirmation"}}`);
-      Ember.run(() => document.querySelector('.pix-modale__close-button').click());
+      Ember.run(() => document.querySelector('.pix-modal__close-link').click());
 
       // when
       Ember.run(() => document.querySelector('.share-profile__share-button').click());
@@ -229,7 +229,7 @@ describe('Integration | Component | share profile', function() {
     it('should open the modal on default "organization code entry" view even if modal was previously closed on "success notification" view', function() {
       // given
       this.render(hbs`{{share-profile _showingModal=true _view="success-notification"}}`);
-      Ember.run(() => document.querySelector('.pix-modale__close-button').click());
+      Ember.run(() => document.querySelector('.pix-modal__close-link').click());
 
       // when
       Ember.run(() => document.querySelector('.share-profile__share-button').click());
