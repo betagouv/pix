@@ -5,7 +5,7 @@ import { setupModelTest } from 'ember-mocha';
 describe('Unit | Model | snapshot', function() {
   setupModelTest('snapshot', {
     // Specify the other units that are required for this test.
-    needs: []
+    needs: ['model:organization']
   });
 
   // Replace this with your real tests.
