@@ -462,7 +462,7 @@ button.routable-modal--close:active {
   margin-bottom: 15px; }
   @media (min-width: 768px) {
     .pix-modal__text {
-      margin-bottom: 30px; } }
+      margin-bottom: 10px; } }
 
 .pix-modal__text:last-child {
   margin-bottom: 5px; }
