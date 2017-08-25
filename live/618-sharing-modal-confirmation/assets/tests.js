@@ -7461,7 +7461,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
           "meta": {}
         }));
         Ember.run(function () {
-          return document.querySelector('.pix-modale__close-button').click();
+          return document.querySelector('.pix-modal__close-link').click();
         });
 
         // when
@@ -7481,7 +7481,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
           "meta": {}
         }));
         Ember.run(function () {
-          return document.querySelector('.pix-modale__close-button').click();
+          return document.querySelector('.pix-modal__close-link').click();
         });
 
         // when
@@ -11920,7 +11920,7 @@ define('pix-live/tests/unit/models/snapshot-test', ['chai', 'mocha', 'ember-moch
   (0, _mocha.describe)('Unit | Model | snapshot', function () {
     (0, _emberMocha.setupModelTest)('snapshot', {
       // Specify the other units that are required for this test.
-      needs: []
+      needs: ['model:organization']
     });
 
     // Replace this with your real tests.
