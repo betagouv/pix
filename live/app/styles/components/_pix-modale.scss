@@ -46,7 +46,6 @@
   @include device-is('tablet') {
     max-width: 680px;
     text-align: center;
-    padding: 30px;
   }
 }
 
@@ -94,8 +93,8 @@
   margin-bottom: 5px;
 }
 
-  /* Form & input
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
+/* Form & input
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .pix-modal__input {
   padding: 15px;
@@ -145,6 +144,7 @@
   right: 0;
   font-size: 16px;
 }
+
 .pix-modal__close-link:hover,
 .pix-modal__close-link:active,
 .pix-modal__close-link:focus {
