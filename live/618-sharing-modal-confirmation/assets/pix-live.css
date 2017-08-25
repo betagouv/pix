@@ -438,8 +438,7 @@ button.routable-modal--close:active {
   @media (min-width: 768px) {
     .pix-modal__body {
       max-width: 680px;
-      text-align: center;
-      padding: 30px; } }
+      text-align: center; } }
 
 /* Text & content
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -478,7 +477,7 @@ button.routable-modal--close:active {
   margin-bottom: 5px; }
 
 /* Form & input
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
 .pix-modal__input {
   padding: 15px;
   border-radius: 5px;
