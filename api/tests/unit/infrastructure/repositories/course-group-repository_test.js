@@ -1,40 +1,40 @@
-const {describe, it, beforeEach, afterEach, expect, sinon} = require('../../../test-helper');
+const { describe, it, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
 const airtable = require('../../../../lib/infrastructure/airtable');
 const cache = require('../../../../lib/infrastructure/cache');
 const courseGroupRepository = require('../../../../lib/infrastructure/repositories/course-group-repository');
 const courseGroupSerializer = require('../../../../lib/infrastructure/serializers/airtable/course-group-serializer');
 
-describe('Unit | Repository | course-group-repository', function () {
+describe('Unit | Repository | course-group-repository', function() {
 
   const cacheKey = 'course-group-repository_list';
   let getRecords;
 
-  beforeEach(function () {
+  beforeEach(function() {
     cache.flushAll();
     getRecords = sinon.stub(airtable, 'getRecords');
   });
 
-  afterEach(function () {
+  afterEach(function() {
     cache.flushAll();
     getRecords.restore();
   });
 
   const courseGroupsFromAirTable = [
-    {name: 'courseGroups 1'},
-    {name: 'courseGroups 2'}
+    { name: 'courseGroups 1' },
+    { name: 'courseGroups 2' }
   ];
 
-  describe('#list', function () {
+  describe('#list', function() {
 
-    describe('in the case data from airtable are not cached', function () {
+    describe('in the case data from airtable are not cached', function() {
 
-      beforeEach(function () {
+      beforeEach(function() {
         getRecords.resolves(courseGroupsFromAirTable);
       });
 
-      it('should query correctly airtable in order to get courseGroups in the same order than defined in airtable', function () {
+      it('should query correctly airtable in order to get courseGroups in the same order than defined in airtable', function() {
         // Given
-        const expectedQuery = {view: 'Grid view'};
+        const expectedQuery = { view: 'Grid view' };
 
         // When
         courseGroupRepository.list();
@@ -44,7 +44,7 @@ describe('Unit | Repository | course-group-repository', function () {
 
       });
 
-      it('should resolve course groups fetched from airtable', function () {
+      it('should resolve course groups fetched from airtable', function() {
 
         // When
         const result = courseGroupRepository.list();
@@ -53,7 +53,7 @@ describe('Unit | Repository | course-group-repository', function () {
         expect(result).to.eventually.deep.equal(courseGroupsFromAirTable);
       });
 
-      it('should cache the challenge fetched from airtable', function (done) {
+      it('should cache the challenge fetched from airtable', function(done) {
 
         // when
         courseGroupRepository.list().then(() => {
@@ -68,14 +68,14 @@ describe('Unit | Repository | course-group-repository', function () {
 
     });
 
-    describe('in the case data from airtable were cached before', function () {
+    describe('in the case data from airtable were cached before', function() {
 
       const courseGroupsFromCache = [
-        {name: 'cached courseGroups 1'},
-        {name: 'cached courseGroups 1'}
+        { name: 'cached courseGroups 1' },
+        { name: 'cached courseGroups 1' }
       ];
 
-      it('should return data from the cache', function (done) {
+      it('should return data from the cache', function(done) {
         // given
         cache.set(cacheKey, courseGroupsFromCache);
 
@@ -88,19 +88,19 @@ describe('Unit | Repository | course-group-repository', function () {
         done();
       });
 
-      describe('in the case cache reject an error', function () {
+      describe('in the case cache reject an error', function() {
 
         const cacheErrorMessage = 'Cache error';
 
-        beforeEach(function () {
+        beforeEach(function() {
           sinon.stub(cache, 'get').callsFake((key, callback) => callback(new Error(cacheErrorMessage)));
         });
 
-        afterEach(function () {
+        afterEach(function() {
           cache.get.restore();
         });
 
-        it('should reject with an error when the cache throw an error', function (done) {
+        it('should reject with an error when the cache throw an error', function(done) {
           // When
           const result = courseGroupRepository.list();
 
