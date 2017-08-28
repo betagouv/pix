@@ -1819,12 +1819,12 @@ define('pix-live/components/pix-modale', ['exports', 'ember-modal-dialog/compone
   }
 
   exports.default = _modalDialog.default.extend(_emberKeyboard.EKMixin, {
-    init: function init() {
-      this._super.apply(this, arguments);
 
-      this.set('keyboardActivated', true);
-      this.set('translucentOverlay', true);
-    },
+    wrapperClassNames: ['pix-modal-wrapper'],
+    containerClassNames: ['pix-modal'],
+    keyboardActivated: true,
+    translucentOverlay: true,
+
     didInsertElement: function didInsertElement() {
       this._super.apply(this, arguments);
 
@@ -2337,40 +2337,74 @@ define('pix-live/components/share-profile', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+
+
+  var ORGANIZATION_CODE_PLACEHOLDER = 'Ex: ABCD12';
+  var STEP_1_ORGANIZATION_CODE_ENTRY = 'organization-code-entry';
+  var STEP_2_SHARING_CONFIRMATION = 'sharing-confirmation';
+  var STEP_3_SUCCESS_NOTIFICATION = 'success-notification';
+
   exports.default = Ember.Component.extend({
-    isShowingModal: false,
 
-    code: '',
-    placeholder: 'Ex: ABCD12',
+    classNames: ['share-profile'],
 
-    organizationExists: true,
-    organization: null,
+    // Actions
+    searchForOrganization: null,
+    shareProfileSnapshot: null,
+
+    // Internals
+    _showingModal: false,
+    _view: STEP_1_ORGANIZATION_CODE_ENTRY,
+    _placeholder: ORGANIZATION_CODE_PLACEHOLDER,
+    _code: null,
+    _organization: null,
+    _organizationNotFound: false,
+
+    // Computed
+    stepOrganizationCodeEntry: Ember.computed.equal('_view', STEP_1_ORGANIZATION_CODE_ENTRY),
+    stepProfileSharingConfirmation: Ember.computed.equal('_view', STEP_2_SHARING_CONFIRMATION),
 
     actions: {
-      toggleSharingModal: function toggleSharingModal() {
-        this.toggleProperty('isShowingModal');
-        this.set('code', '');
-        this.set('organizationExists', true);
-        this.set('organization', null);
+      openModal: function openModal() {
+        this.set('_showingModal', true);
       },
-      searchFromCode: function searchFromCode() {
+      closeModal: function closeModal() {
+        this.set('_showingModal', false);
+        this.set('_view', STEP_1_ORGANIZATION_CODE_ENTRY);
+        this.set('_code', null);
+        this.set('_organization', null);
+        this.set('_organizationNotFound', false);
+      },
+      cancelSharingAndGoBackToOrganizationCodeEntryView: function cancelSharingAndGoBackToOrganizationCodeEntryView() {
+        this.set('_view', STEP_1_ORGANIZATION_CODE_ENTRY);
+        this.set('_organization', null);
+        this.set('_organizationNotFound', false);
+      },
+      findOrganizationAndGoToSharingConfirmationView: function findOrganizationAndGoToSharingConfirmationView() {
         var _this = this;
 
-        this.get('searchForOrganization')(this.get('code')).then(function (organization) {
-
+        this.get('searchForOrganization')(this.get('_code')).then(function (organization) {
           if (organization) {
-            _this.set('organizationExists', true);
-            _this.set('organization', organization);
+            _this.set('_view', STEP_2_SHARING_CONFIRMATION);
+            _this.set('_organization', organization);
+            _this.set('_organizationNotFound', false);
           } else {
-            _this.set('organizationExists', false);
+            _this.set('_organizationNotFound', true);
           }
         });
       },
-      focusIn: function focusIn() {
-        this.set('placeholder', '');
+      shareSnapshotAndGoToSuccessNotificationView: function shareSnapshotAndGoToSuccessNotificationView() {
+        var _this2 = this;
+
+        this.get('shareProfileSnapshot')(this.get('_organization')).then(function () {
+          _this2.set('_view', STEP_3_SUCCESS_NOTIFICATION);
+        });
       },
-      focusOut: function focusOut() {
-        this.set('placeholder', 'Ex: ABCD12');
+      focusInOrganizationCodeInput: function focusInOrganizationCodeInput() {
+        this.set('_placeholder', null);
+      },
+      focusOutOrganizationCodeInput: function focusOutOrganizationCodeInput() {
+        this.set('_placeholder', ORGANIZATION_CODE_PLACEHOLDER);
       }
     }
   });
@@ -4361,6 +4395,8 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
 
       return schema.organizations.all();
     });
+
+    this.post('/snapshots');
   };
 });
 define('pix-live/mirage/data/answers/ref-qcm-answer', ['exports', 'pix-live/mirage/data/challenges/ref-qcm-challenge'], function (exports, _refQcmChallenge) {
@@ -5295,6 +5331,14 @@ define('pix-live/mirage/models/organization', ['exports', 'ember-cli-mirage'], f
     user: (0, _emberCliMirage.belongsTo)('user', { inverse: null })
   });
 });
+define('pix-live/mirage/models/snapshot', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberCliMirage.Model.extend({});
+});
 define('pix-live/mirage/models/user', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
   'use strict';
 
@@ -5978,6 +6022,18 @@ define('pix-live/models/organization', ['exports', 'ember-data'], function (expo
     user: belongsTo('user')
   });
 });
+define('pix-live/models/snapshot', ['exports', 'ember-data'], function (exports, _emberData) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var Model = _emberData.default.Model,
+      belongsTo = _emberData.default.belongsTo;
+  exports.default = Model.extend({
+    organization: belongsTo('organization')
+  });
+});
 define('pix-live/models/solution', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
 
@@ -6454,12 +6510,13 @@ define('pix-live/routes/compte', ['exports', 'ember-simple-auth/mixins/authentic
           }
         }).then(function (organisations) {
           var isOrganizationFound = organisations.content.length === 1;
-
           return isOrganizationFound ? organisations.get('firstObject') : null;
         });
+      },
+      shareProfileSnapshot: function shareProfileSnapshot(organization) {
+        return this.get('store').createRecord('snapshot', { organization: organization }).save();
       }
     }
-
   });
 });
 define('pix-live/routes/course-groups', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
@@ -7638,7 +7695,7 @@ define("pix-live/templates/components/profile-panel", ["exports"], function (exp
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "f93NkAae", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"profile-panel__header\"],[13],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"profile-header__left-bloc\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"profile-header__title\"],[13],[0,\"\\n      Votre profil\\n    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"profile-header__details\"],[13],[0,\"\\n      5 domaines / 16 compétences\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"profile-header__score-pastille-wrapper\"],[13],[0,\"\\n    \"],[1,[33,[\"score-pastille\"],null,[[\"pixScore\"],[[28,[\"totalPixScore\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"profile-header__share\"],[13],[0,\"\\n    \"],[1,[33,[\"share-profile\"],null,[[\"searchForOrganization\"],[[28,[\"searchForOrganization\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"profile-panel__competence-areas\"],[13],[0,\"\\n  \"],[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false],[0,\"\\n\"],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/profile-panel.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "iIDibgQj", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"profile-panel__header\"],[13],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"profile-header__left-bloc\"],[13],[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"profile-header__title\"],[13],[0,\"\\n      Votre profil\\n    \"],[14],[0,\"\\n\\n    \"],[11,\"div\",[]],[15,\"class\",\"profile-header__details\"],[13],[0,\"\\n      5 domaines / 16 compétences\\n    \"],[14],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"profile-header__score-pastille-wrapper\"],[13],[0,\"\\n    \"],[1,[33,[\"score-pastille\"],null,[[\"pixScore\"],[[28,[\"totalPixScore\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n  \"],[11,\"div\",[]],[15,\"class\",\"profile-header__share\"],[13],[0,\"\\n    \"],[1,[33,[\"share-profile\"],null,[[\"searchForOrganization\",\"shareProfileSnapshot\"],[[28,[\"searchForOrganization\"]],[28,[\"shareProfileSnapshot\"]]]]],false],[0,\"\\n  \"],[14],[0,\"\\n\\n\"],[14],[0,\"\\n\\n\"],[11,\"div\",[]],[15,\"class\",\"profile-panel__competence-areas\"],[13],[0,\"\\n  \"],[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false],[0,\"\\n\"],[14]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/profile-panel.hbs" } });
 });
 define("pix-live/templates/components/progress-bar", ["exports"], function (exports) {
   "use strict";
@@ -7782,7 +7839,7 @@ define("pix-live/templates/components/share-profile", ["exports"], function (exp
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "zTV5M8dn", "block": "{\"statements\":[[11,\"button\",[]],[15,\"class\",\"share-profile__share-button\"],[5,[\"action\"],[[28,[null]],\"toggleSharingModal\"]],[13],[0,\"\\n  Partager \"],[11,\"span\",[]],[15,\"class\",\"sr-only\"],[13],[0,\"mon profile\"],[14],[0,\"\\n  \"],[11,\"img\",[]],[15,\"class\",\"share-profile__share-button-image\"],[15,\"src\",\"/images/icon-partager.svg\"],[15,\"alt\",\"\"],[13],[14],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"isShowingModal\"]]],null,{\"statements\":[[6,[\"pix-modale\"],null,[[\"onClose\"],[\"toggleSharingModal\"]],{\"statements\":[[0,\"    \"],[11,\"a\",[]],[15,\"href\",\"#\"],[15,\"class\",\"pix-modale__close-button\"],[5,[\"action\"],[[28,[null]],\"toggleSharingModal\"]],[13],[0,\"Fermer\\n      \"],[11,\"img\",[]],[15,\"src\",\"/images/comparison-window/icon-close-modal.svg\"],[15,\"alt\",\"Fermer la fenêtre modale\"],[15,\"width\",\"24\"],[15,\"height\",\"24\"],[13],[14],[0,\"\\n    \"],[14],[0,\"\\n\\n    \"],[11,\"h1\",[]],[13],[0,\"Partage de votre profil\"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"organization\"]]],null,{\"statements\":[[0,\"      \"],[11,\"section\",[]],[15,\"class\",\"pix-modale__content share-profile__modal-content-organization-details\"],[13],[0,\"\\n        \"],[11,\"p\",[]],[15,\"class\",\"share-profile__modal-transmission\"],[13],[0,\"Vous vous apprêtez à transmettre une copie de votre profil Pix à\\n          l'organisation:\"],[14],[0,\"\\n        \"],[11,\"p\",[]],[15,\"class\",\"share-profile__modal-organization-name\"],[13],[1,[28,[\"organization\",\"name\"]],false],[14],[0,\"\\n        \"],[11,\"p\",[]],[15,\"class\",\"share-profile__modal-informations-shared\"],[13],[0,\"En cliquant sur le bouton «Envoyer», elle recevra les\\n          informations suivantes:\"],[14],[0,\"\\n        \"],[11,\"ul\",[]],[15,\"class\",\"share-profile__modal-informations-shared\"],[13],[0,\"\\n          \"],[11,\"li\",[]],[13],[0,\"› votre nom et prénom\"],[14],[0,\"\\n          \"],[11,\"li\",[]],[13],[0,\"› l'état actuel de votre profil\"],[14],[0,\"\\n        \"],[14],[0,\"\\n        \"],[11,\"p\",[]],[15,\"class\",\"share-profile__modal-informations-evolutions\"],[13],[0,\"Elle ne recevra pas les évolutions futures de votre\\n          profil.\"],[14],[0,\"\\n      \"],[14],[0,\"\\n\"]],\"locals\":[]},{\"statements\":[[0,\"\\n      \"],[11,\"section\",[]],[15,\"class\",\"pix-modale__content share-profile__modal-content-organization-form\"],[13],[0,\"\\n        \"],[11,\"div\",[]],[13],[0,\"Veuillez saisir le code correspondant à votre organisation (collège, lycée, université, école,\\n          entreprise).\\n        \"],[14],[0,\"\\n\\n        \"],[11,\"div\",[]],[15,\"class\",\"share-profile__modal-form\"],[13],[0,\"\\n          \"],[1,[33,[\"input\"],null,[[\"id\",\"placeholder\",\"focus-in\",\"focus-out\",\"value\",\"class\",\"enter\"],[\"code\",[28,[\"placeholder\"]],\"focusIn\",\"focusOut\",[28,[\"code\"]],\"share-profile__modal-input\",\"searchFromCode\"]]],false],[0,\"\\n\\n\"],[6,[\"unless\"],[[28,[\"organizationExists\"]]],null,{\"statements\":[[0,\"            \"],[11,\"div\",[]],[15,\"class\",\"share-profile__form-error\"],[13],[0,\"Ce code ne correspond à aucune organisation.\"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n          \"],[11,\"div\",[]],[15,\"class\",\"share-profile__share-modal-buttons\"],[13],[0,\"\\n            \"],[11,\"button\",[]],[15,\"class\",\"pix-modal__button pix-modal__button--primary\"],[5,[\"action\"],[[28,[null]],\"searchFromCode\"]],[13],[0,\"Continuer\\n            \"],[14],[0,\"\\n            \"],[11,\"button\",[]],[15,\"class\",\"pix-modal__button\"],[5,[\"action\"],[[28,[null]],\"toggleSharingModal\"]],[13],[0,\"Annuler\"],[14],[0,\"\\n          \"],[14],[0,\"\\n        \"],[14],[0,\"\\n      \"],[14],[0,\"\\n\\n\"]],\"locals\":[]}],[0,\"\\n\"]],\"locals\":[]},null]],\"locals\":[]},null],[0,\"\\n\\n\"],[18,\"default\"],[0,\"\\n\\n\"]],\"locals\":[],\"named\":[],\"yields\":[\"default\"],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/share-profile.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Ut8h+k1w", "block": "{\"statements\":[[11,\"button\",[]],[15,\"class\",\"share-profile__share-button\"],[5,[\"action\"],[[28,[null]],\"openModal\"]],[13],[0,\"\\n  Partager \"],[11,\"span\",[]],[15,\"class\",\"sr-only\"],[13],[0,\"mon profile\"],[14],[0,\"\\n  \"],[11,\"img\",[]],[15,\"class\",\"share-profile__share-button-image\"],[15,\"src\",\"/images/icon-partager.svg\"],[15,\"alt\",\"\"],[13],[14],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"_showingModal\"]]],null,{\"statements\":[[6,[\"pix-modale\"],null,[[\"containerClass\",\"onClose\"],[\"share-profile__modal\",\"closeModal\"]],{\"statements\":[[0,\"\\n    \"],[11,\"div\",[]],[15,\"class\",\"pix-modal__container\"],[13],[0,\"\\n\\n      \"],[11,\"a\",[]],[15,\"href\",\"#\"],[15,\"class\",\"pix-modal__close-link\"],[5,[\"action\"],[[28,[null]],\"closeModal\"]],[13],[0,\"Fermer\\n        \"],[11,\"img\",[]],[15,\"src\",\"/images/comparison-window/icon-close-modal.svg\"],[15,\"alt\",\"Fermer la fenêtre modale\"],[15,\"width\",\"24\"],[15,\"height\",\"24\"],[13],[14],[0,\"\\n      \"],[14],[0,\"\\n\\n      \"],[11,\"h1\",[]],[13],[0,\"Partage de votre profil\"],[14],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"stepOrganizationCodeEntry\"]]],null,{\"statements\":[[0,\"\\n        \"],[11,\"section\",[]],[15,\"class\",\"pix-modal__body share-profile__section share-profile__section--organization-code-entry\"],[13],[0,\"\\n          \"],[11,\"p\",[]],[15,\"class\",\"pix-modal__text\"],[13],[0,\"Veuillez saisir le code correspondant à votre organisation (collège, lycée, université, école, entreprise).\"],[14],[0,\"\\n\\n          \"],[1,[33,[\"input\"],null,[[\"class\",\"id\",\"placeholder\",\"focus-in\",\"focus-out\",\"value\",\"enter\"],[\"pix-modal__input share-profile__organization-code-input\",\"code\",[28,[\"_placeholder\"]],\"focusInOrganizationCodeInput\",\"focusOutOrganizationCodeInput\",[28,[\"_code\"]],\"findOrganizationAndGoToSharingConfirmationView\"]]],false],[0,\"\\n\\n\"],[6,[\"if\"],[[28,[\"_organizationNotFound\"]]],null,{\"statements\":[[0,\"            \"],[11,\"p\",[]],[15,\"class\",\"pix-modal__text share-profile__form-error\"],[13],[0,\"Ce code ne correspond à aucune organisation.\"],[14],[0,\"\\n\"]],\"locals\":[]},null],[0,\"\\n          \"],[11,\"div\",[]],[15,\"class\",\"share-profile__share-modal-buttons\"],[13],[0,\"\\n            \"],[11,\"button\",[]],[15,\"class\",\"pix-modal__button pix-modal__button--primary share-profile__continue-button\"],[5,[\"action\"],[[28,[null]],\"findOrganizationAndGoToSharingConfirmationView\"]],[13],[0,\"Continuer\"],[14],[0,\"\\n            \"],[11,\"button\",[]],[15,\"class\",\"pix-modal__button pix-modal__button--secondary share-profile__cancel-button\"],[5,[\"action\"],[[28,[null]],\"closeModal\"]],[13],[0,\"Annuler\"],[14],[0,\"\\n          \"],[14],[0,\"\\n\\n        \"],[14],[0,\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[6,[\"if\"],[[28,[\"stepProfileSharingConfirmation\"]]],null,{\"statements\":[[0,\"\\n        \"],[11,\"section\",[]],[15,\"class\",\"pix-modal__body share-profile__section share-profile__section--sharing-confirmation\"],[13],[0,\"\\n          \"],[11,\"p\",[]],[15,\"class\",\"pix-modal__text\"],[13],[0,\"Vous vous apprêtez à transmettre une copie de votre profil Pix à l'organisation :\"],[14],[0,\"\\n          \"],[11,\"p\",[]],[15,\"class\",\"pix-modal__text share-profile__organization-name\"],[13],[1,[28,[\"_organization\",\"name\"]],false],[14],[0,\"\\n\\n          \"],[11,\"div\",[]],[15,\"class\",\"share-profile__disclaimer\"],[13],[0,\"\\n            \"],[11,\"p\",[]],[15,\"class\",\"pix-modal__text\"],[13],[0,\"En cliquant sur le bouton «Envoyer», elle recevra les informations suivantes:\"],[14],[0,\"\\n            \"],[11,\"ul\",[]],[15,\"class\",\"pix-modal__list\"],[13],[0,\"\\n              \"],[11,\"li\",[]],[15,\"class\",\"pix-modal__list-item\"],[13],[0,\"› votre nom et prénom\"],[14],[0,\"\\n              \"],[11,\"li\",[]],[15,\"class\",\"pix-modal__list-item\"],[13],[0,\"› l'état actuel de votre profil\"],[14],[0,\"\\n            \"],[14],[0,\"\\n            \"],[11,\"p\",[]],[15,\"class\",\"pix-modal__text\"],[13],[0,\"Elle ne recevra pas les évolutions futures de votre profil.\"],[14],[0,\"\\n          \"],[14],[0,\"\\n\\n          \"],[11,\"div\",[]],[15,\"class\",\"share-profile__share-modal-buttons\"],[13],[0,\"\\n            \"],[11,\"button\",[]],[15,\"class\",\"pix-modal__button pix-modal__button--primary share-profile__confirm-button\"],[5,[\"action\"],[[28,[null]],\"shareSnapshotAndGoToSuccessNotificationView\"]],[13],[0,\"Continuer\"],[14],[0,\"\\n            \"],[11,\"button\",[]],[15,\"class\",\"pix-modal__button pix-modal__button--secondary share-profile__cancel-button\"],[5,[\"action\"],[[28,[null]],\"cancelSharingAndGoBackToOrganizationCodeEntryView\"]],[13],[0,\"Annuler\"],[14],[0,\"\\n          \"],[14],[0,\"\\n\\n        \"],[14],[0,\"\\n\\n\"]],\"locals\":[]},{\"statements\":[[0,\"\\n        \"],[11,\"section\",[]],[15,\"class\",\"pix-modal__body share-profile__section share-profile__section--success-notification\"],[13],[0,\"\\n          \"],[11,\"p\",[]],[15,\"class\",\"pix-modal__text share-profile__statement\"],[13],[0,\"Votre profil a été envoyé avec succès.\"],[14],[0,\"\\n          \"],[11,\"button\",[]],[15,\"class\",\"pix-modal__button pix-modal__button--primary share-profile__close-button\"],[5,[\"action\"],[[28,[null]],\"closeModal\"]],[13],[0,\"Fermer\"],[14],[0,\"\\n        \"],[14],[0,\"\\n\\n      \"]],\"locals\":[]}]],\"locals\":[]}],[0,\"\\n    \"],[14],[0,\"\\n\\n\"]],\"locals\":[]},null]],\"locals\":[]},null],[0,\"\\n\\n\"],[18,\"default\"],[0,\"\\n\\n\"]],\"locals\":[],\"named\":[],\"yields\":[\"default\"],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/components/share-profile.hbs" } });
 });
 define("pix-live/templates/components/signin-form", ["exports"], function (exports) {
   "use strict";
@@ -7846,7 +7903,7 @@ define("pix-live/templates/compte", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "0j2S6LoU", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"compte-page\"],[13],[0,\"\\n\\n  \"],[1,[33,[\"navbar-header\"],null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[1,[33,[\"profile-panel\"],null,[[\"competences\",\"totalPixScore\",\"searchForOrganization\"],[[28,[\"model\",\"competences\"]],[28,[\"model\",\"totalPixScore\"]],[33,[\"route-action\"],[\"searchForOrganization\"],null]]]],false],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[1,[26,[\"app-footer\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/compte.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "l9efUmVe", "block": "{\"statements\":[[11,\"div\",[]],[15,\"class\",\"compte-page\"],[13],[0,\"\\n\\n  \"],[1,[33,[\"navbar-header\"],null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[1,[33,[\"profile-panel\"],null,[[\"competences\",\"totalPixScore\",\"searchForOrganization\",\"shareProfileSnapshot\"],[[28,[\"model\",\"competences\"]],[28,[\"model\",\"totalPixScore\"]],[33,[\"route-action\"],[\"searchForOrganization\"],null],[33,[\"route-action\"],[\"shareProfileSnapshot\"],null]]]],false],[0,\"\\n\"],[14],[0,\"\\n\\n\"],[1,[26,[\"app-footer\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}", "meta": { "moduleName": "pix-live/templates/compte.hbs" } });
 });
 define("pix-live/templates/course-groups", ["exports"], function (exports) {
   "use strict";
@@ -8130,6 +8187,10 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
     });
 
     it('mirage/models/organization.js', function () {
+      // test passed
+    });
+
+    it('mirage/models/snapshot.js', function () {
       // test passed
     });
 
@@ -8771,6 +8832,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.18.0+1c3bef40"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.18.0+29e1735a"});
 }
 //# sourceMappingURL=pix-live.map
