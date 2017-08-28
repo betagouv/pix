@@ -481,9 +481,9 @@ button.routable-modal--close:active {
 .pix-modal__input {
   padding: 15px;
   border-radius: 5px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border: 1px solid #3d68ff;
-  color: #6A6D76;
+  color: #6a6d76;
   letter-spacing: 2px;
   box-sizing: border-box;
   margin-bottom: 5px; }
@@ -3390,7 +3390,7 @@ input.qcm-panel__proposal-checkbox {
       font-size: 24px; } }
 
 @media (min-width: 768px) {
-  .share-profile__advertisement {
+  .share-profile__disclaimer {
     font-size: 16px; } }
 
 /* "Success notification" view */

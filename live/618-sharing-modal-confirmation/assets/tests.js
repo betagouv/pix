@@ -5083,8 +5083,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
           (0, _chai.expect)(isSaveMethodCalled).to.be.true;
           (0, _chai.expect)(saveMethodUrl).to.equal('feedback');
           (0, _chai.expect)(_lodashCustom.default.isObject(saveMethodBody)).to.equal(true);
-          (0, _chai.expect)(saveMethodBody.assessement).to.exists;
-          (0, _chai.expect)(saveMethodBody.challenge).to.exists;
+          (0, _chai.expect)(saveMethodBody.assessment).to.exist;
+          (0, _chai.expect)(saveMethodBody.challenge).to.exist;
           (0, _chai.expect)(saveMethodBody.content).to.equal(CONTENT_VALUE);
           (0, _chai.expect)(saveMethodBody.email).to.equal(EMAIL_VALUE);
           expectMercixViewToBeVisible(_this);
@@ -7286,8 +7286,8 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
           return RSVP.resolve(organization);
         });
         this.render(Ember.HTMLBars.template({
-          "id": "Gw67Lqg9",
-          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\",\"_code\",\"searchForOrganization\"],[true,\"ABCD1234\",[28,[\"searchForOrganization\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "OhQm9KIg",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\",\"_code\",\"searchForOrganization\"],[true,\"ABCD01\",[28,[\"searchForOrganization\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
@@ -9972,7 +9972,7 @@ define('pix-live/tests/unit/components/course-item-test', ['chai', 'mocha', 'emb
         var imageUrl = component.get('imageUrl');
 
         // then
-        (0, _chai.expect)(imageUrl).to.exists;
+        (0, _chai.expect)(imageUrl).to.exist;
         (0, _chai.expect)(imageUrl).to.equal('any_image.png');
       });
 
@@ -9984,7 +9984,7 @@ define('pix-live/tests/unit/components/course-item-test', ['chai', 'mocha', 'emb
         var imageUrl = component.get('imageUrl');
 
         // then
-        (0, _chai.expect)(imageUrl).to.exists;
+        (0, _chai.expect)(imageUrl).to.exist;
         (0, _chai.expect)(imageUrl).to.equal('/images/course-default-image.png');
       });
     });
@@ -12106,11 +12106,6 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
       needs: ['service:current-routed-modal', 'service:session']
     });
 
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-
     (0, _mocha.it)('should redirect to / (Home)', function () {
       // Given
       var route = this.subject();
@@ -12119,10 +12114,10 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
       (0, _chai.expect)(route.authenticationRoute).to.equal('/');
     });
 
-    (0, _mocha.describe)('searchForOrganization', function () {
+    (0, _mocha.describe)('#searchForOrganization', function () {
 
       var storeQueryStub = void 0;
-      var storyStub = void 0;
+      var storeStub = void 0;
       var organizations = void 0;
       var organizationCollectionStub = void 0;
 
@@ -12131,14 +12126,14 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
         organizations = { get: organizationCollectionStub, content: [{}] };
 
         storeQueryStub = _sinon.default.stub().resolves(organizations);
-        storyStub = Ember.Service.extend({
+        storeStub = Ember.Service.extend({
           query: storeQueryStub
         });
       });
 
       (0, _mocha.it)('should search for an organization', function () {
         // Given
-        this.register('service:store', storyStub);
+        this.register('service:store', storeStub);
         this.inject.service('store', { as: 'store' });
 
         var route = this.subject();
@@ -12160,7 +12155,7 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
           // Given
           organizationCollectionStub.returns('THE FIRST OBJECT');
 
-          this.register('service:store', storyStub);
+          this.register('service:store', storeStub);
           this.inject.service('store', { as: 'store' });
           var route = this.subject();
 
@@ -12179,7 +12174,7 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
           organizations.content = [];
           organizationCollectionStub.returns('THE FIRST OBJECT');
 
-          this.register('service:store', storyStub);
+          this.register('service:store', storeStub);
           this.inject.service('store', { as: 'store' });
           var route = this.subject();
 
@@ -12189,6 +12184,39 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
           return routeActionResult.then(function (organization) {
             (0, _chai.expect)(organization).to.equal(null);
           });
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#shareProfileSnapshot', function () {
+
+      var storeStub = void 0;
+      var storeCreateRecordStub = void 0;
+      var storeSaveStub = void 0;
+      var organization = void 0;
+
+      beforeEach(function () {
+        storeSaveStub = _sinon.default.stub().resolves();
+        organization = Ember.Object.create({ id: 1234, name: 'ACME', code: 'RVSG44', save: storeSaveStub });
+        storeCreateRecordStub = _sinon.default.stub().returns(organization);
+        storeStub = Ember.Service.extend({
+          createRecord: storeCreateRecordStub
+        });
+      });
+
+      (0, _mocha.it)('should create and save a new Snapshot', function () {
+        // given
+        this.register('service:store', storeStub);
+        this.inject.service('store', { as: 'store' });
+        var route = this.subject();
+
+        // when
+        var promise = route.actions.shareProfileSnapshot.call(route, organization);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.called(storeCreateRecordStub);
+          _sinon.default.assert.called(storeSaveStub);
         });
       });
     });
