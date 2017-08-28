@@ -11586,9 +11586,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
     var findRecord = _sinon.default.stub();
 
     (0, _mocha.beforeEach)(function () {
-      this.register('service:store', Ember.Service.extend({
-        findRecord: findRecord
-      }));
+      this.register('service:store', Ember.Service.extend({ findRecord: findRecord }));
       this.inject.service('store', { as: 'store' });
 
       this.register('service:session', Ember.Service.extend({
