@@ -9,6 +9,7 @@
 /bower_components
 /api/node_modules/
 /scripts/
+package-lock.json
 
 # misc
 /.sass-cache
