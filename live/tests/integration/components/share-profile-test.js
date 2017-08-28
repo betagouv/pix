@@ -96,7 +96,7 @@ describe('Integration | Component | share profile', function() {
         const organization = Ember.Object.create({ name: 'Pix' });
         return RSVP.resolve(organization);
       });
-      this.render(hbs`{{share-profile _showingModal=true _code="ABCD1234" searchForOrganization=searchForOrganization}}`);
+      this.render(hbs`{{share-profile _showingModal=true _code="ABCD01" searchForOrganization=searchForOrganization}}`);
 
       // when
       Ember.run(() => document.querySelector('.share-profile__continue-button').click());
