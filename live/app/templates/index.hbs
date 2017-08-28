@@ -9,6 +9,10 @@
     <div class="index-page-hero__content">
       <h1 class="index-page-hero__title">Développez vos compétences numériques</h1>
       <p class="index-page-hero__description">PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.</p>
+
+      {{#unless session.isAuthenticated}}
+        {{#link-to 'inscription' class="index-page-hero__inscription-link"}}Je m'inscris gratuitement{{/link-to}}
+      {{/unless}}
     </div>
   </section>
 

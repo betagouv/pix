@@ -106,5 +106,4 @@ describe('Acceptance | La page d\'accueil', function() {
       findWithAssert('.index-page-features__project-button[href="/projet"]');
     });
   });
-
 });
