@@ -28,7 +28,5 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     shareProfileSnapshot(organization) {
       return this.get('store').createRecord('snapshot', { organization }).save();
     }
-
   }
-
 });
