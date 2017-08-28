@@ -851,7 +851,7 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
 
           // then
           return andThen(function () {
-            (0, _chai.expect)(currentURL()).to.equal('/');
+            (0, _chai.expect)(currentURL()).to.equal('/connexion');
           });
         });
       });
@@ -874,7 +874,13 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
         }
 
         function seedDatabaseForUserWithOrganization() {
-          server.loadFixtures('organizations');
+          server.create('organization', {
+            id: 1,
+            name: 'LexCorp',
+            email: 'lex@lexcorp.com',
+            type: 'PRO',
+            code: 'ABCD66'
+          });
           server.create('user', {
             id: 1,
             firstName: 'Samurai',
@@ -1034,7 +1040,7 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
 
             case 2:
               return _context2.abrupt('return', andThen(function () {
-                (0, _chai.expect)(currentURL()).to.equal('/');
+                (0, _chai.expect)(currentURL()).to.equal('/connexion');
               }));
 
             case 3:
@@ -2671,7 +2677,13 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
     });
 
     function seedDatabase() {
-      server.loadFixtures('organizations');
+      server.create('organization', {
+        id: 1,
+        name: 'LexCorp',
+        email: 'lex@lexcorp.com',
+        type: 'PRO',
+        code: 'ABCD66'
+      });
       server.create('user', {
         id: 1,
         firstName: 'Benjamin',
@@ -2703,11 +2715,16 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
               return visit('/board');
 
             case 4:
-              return _context.abrupt('return', andThen(function () {
-                (0, _chai.expect)(currentURL()).to.equal('/board');
-              }));
 
-            case 5:
+              // then
+              andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/board');
+              });
+
+              _context.next = 7;
+              return visit('/deconnexion');
+
+            case 7:
             case 'end':
               return _context.stop();
           }
@@ -2715,17 +2732,44 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('should display the name and the code of my organization', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('should not be accessible while the user is not connected', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               // given
               seedDatabase();
+
+              // when
+              _context2.next = 3;
+              return visit('/board');
+
+            case 3:
+
+              // then
+              andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/connexion');
+              });
+
+            case 4:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
+
+    (0, _mocha.it)('should display the name and the code of my organization', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              // given
+              seedDatabase();
               authenticateUser();
 
               // when
-              _context2.next = 4;
+              _context3.next = 4;
               return visit('/board');
 
             case 4:
@@ -2738,10 +2782,10 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
 
             case 8:
             case 'end':
-              return _context2.stop();
+              return _context3.stop();
           }
         }
-      }, _callee2, this);
+      }, _callee3, this);
     })));
   });
 });
@@ -4593,7 +4637,7 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
 
         // then
         var $startAction = this.$('.course-item__begin-button');
-        (0, _chai.expect)($startAction.attr('title')).to.equal('Commencer le test \"My course\"');
+        (0, _chai.expect)($startAction.attr('title')).to.equal('Commencer le test "My course"');
       });
     });
 
@@ -11558,7 +11602,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
   (0, _mocha.describe)('Unit | Route | board', function () {
     (0, _emberMocha.setupTest)('route:board', {
       // Specify the other units that are required for this test.
-      needs: ['service:current-routed-modal']
+      needs: ['service:current-routed-modal', 'service:session']
     });
 
     (0, _mocha.it)('exists', function () {
@@ -11674,7 +11718,7 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
       var route = this.subject();
 
       // Then
-      (0, _chai.expect)(route.authenticationRoute).to.equal('/');
+      (0, _chai.expect)(route.authenticationRoute).to.equal('/connexion');
     });
 
     (0, _mocha.describe)('searchForOrganization', function () {

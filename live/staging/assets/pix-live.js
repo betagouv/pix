@@ -3187,7 +3187,7 @@ define('pix-live/helpers/clz32', ['exports', 'ember-math-helpers/helpers/clz32']
     }
   });
 });
-define('pix-live/helpers/convert-to-html', ['exports', 'pix-live/utils/lodash-custom'], function (exports, _lodashCustom) {
+define('pix-live/helpers/convert-to-html', ['exports', 'showdown', 'pix-live/utils/lodash-custom'], function (exports, _showdown, _lodashCustom) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -3196,7 +3196,7 @@ define('pix-live/helpers/convert-to-html', ['exports', 'pix-live/utils/lodash-cu
   exports.convertToHtml = convertToHtml;
   function convertToHtml(params) {
     if (_lodashCustom.default.isArray(params) && params.length > 0) {
-      var converter = new showdown.Converter();
+      var converter = new _showdown.default.Converter();
       return converter.makeHtml(params[0]);
     }
     return '';
@@ -3999,6 +3999,9 @@ define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember-cli-mirage/u
   }
 
   function _shouldUseMirage(env, addonConfig) {
+    if (typeof FastBoot !== 'undefined') {
+      return false;
+    }
     var userDeclaredEnabled = typeof addonConfig.enabled !== 'undefined';
     var defaultEnabled = _defaultEnabled(env, addonConfig);
 
@@ -4016,7 +4019,7 @@ define('pix-live/initializers/ember-cli-mirage', ['exports', 'ember-cli-mirage/u
     return usingInDev || usingInTest;
   }
 });
-define('pix-live/initializers/ember-data', ['exports', 'ember-data/setup-container', 'ember-data/index'], function (exports, _setupContainer) {
+define('pix-live/initializers/ember-data', ['exports', 'ember-data/setup-container', 'ember-data'], function (exports, _setupContainer) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -4259,7 +4262,7 @@ define('pix-live/initializers/transforms', ['exports'], function (exports) {
     initialize: function initialize() {}
   };
 });
-define("pix-live/instance-initializers/ember-data", ["exports", "ember-data/-private/instance-initializers/initialize-store-service"], function (exports, _initializeStoreService) {
+define("pix-live/instance-initializers/ember-data", ["exports", "ember-data/instance-initializers/initialize-store-service"], function (exports, _initializeStoreService) {
   "use strict";
 
   Object.defineProperty(exports, "__esModule", {
@@ -6273,13 +6276,16 @@ define('pix-live/routes/base-route', ['exports'], function (exports) {
     }
   });
 });
-define('pix-live/routes/board', ['exports'], function (exports) {
+define('pix-live/routes/board', ['exports', 'ember-simple-auth/mixins/authenticated-route-mixin'], function (exports, _authenticatedRouteMixin) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend({
+  exports.default = Ember.Route.extend(_authenticatedRouteMixin.default, {
+
+    authenticationRoute: '/connexion',
+
     model: function model() {
       var _this = this;
 
@@ -6428,7 +6434,7 @@ define('pix-live/routes/compte', ['exports', 'ember-simple-auth/mixins/authentic
   });
   exports.default = Ember.Route.extend(_authenticatedRouteMixin.default, {
 
-    authenticationRoute: '/',
+    authenticationRoute: '/connexion',
 
     model: function model() {
       var _this = this;
@@ -6930,9 +6936,8 @@ define('pix-live/services/current-routed-modal', ['exports', 'ember-routable-mod
             }
         },
         close: function close() {
-            var routerMain = this.get('routing.router');
-            var routerLib = routerMain._routerMicrolib || routerMain.router;
-            var handlerInfos = routerLib.state.handlerInfos;
+            var rout = this.get('routing.router.router');
+            var handlerInfos = this.get('routing.router.router.state.handlerInfos');
             var currentController = handlerInfos[handlerInfos.length - 1]._handler.controller;
 
             this.set('routeName', null);
@@ -6940,11 +6945,11 @@ define('pix-live/services/current-routed-modal', ['exports', 'ember-routable-mod
             if (currentController._isModalRoute) {
                 var parentRoute = handlerInfos[handlerInfos.length - 2].name;
 
-                routerLib.transitionTo(parentRoute);
+                rout.transitionTo(parentRoute);
             } else {
                 var url = this.get('routing').generateURL(this.get('routing.currentPath'));
 
-                routerLib.updateURL(url);
+                rout.updateURL(url);
             }
         }
     });
@@ -8297,6 +8302,7 @@ define("pix-live/utils/email-validator", ["exports"], function (exports) {
       return false;
     }
     // From http://stackoverflow.com/a/46181/5430854
+    // eslint-disable-next-line no-useless-escape
     var pattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     return pattern.test(email.trim());
   }
@@ -8765,6 +8771,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.18.0+7d6770c7"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.18.0+1c3bef40"});
 }
 //# sourceMappingURL=pix-live.map
