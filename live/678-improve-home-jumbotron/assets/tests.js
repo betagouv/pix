@@ -2105,7 +2105,16 @@ define('pix-live/tests/acceptance/index-page-test', ['mocha', 'chai', 'pix-live/
       (0, _application.destroyApp)(application);
     });
 
-    (0, _mocha.describe)('Hero section', function () {
+    function authenticateUser() {
+      server.create('user');
+
+      visit('/connexion');
+      fillIn('#pix-email', 'samurai.jack@aku.world');
+      fillIn('#pix-password', 'B@ck2past');
+      click('.signin-form__submit_button');
+    }
+
+    (0, _mocha.describe)('"Hero" section', function () {
 
       (0, _mocha.it)('should have a link to sign-up page when user is not authenticated', function () {
         // when
@@ -2118,15 +2127,6 @@ define('pix-live/tests/acceptance/index-page-test', ['mocha', 'chai', 'pix-live/
         });
       });
 
-      function authenticateUser() {
-        server.create('user');
-
-        visit('/connexion');
-        fillIn('#pix-email', 'samurai.jack@aku.world');
-        fillIn('#pix-password', 'B@ck2past');
-        click('.signin-form__submit_button');
-      }
-
       (0, _mocha.it)('should not have a link to sign-up page when user is yet authenticated', function () {
         // given
         authenticateUser();
@@ -2137,6 +2137,46 @@ define('pix-live/tests/acceptance/index-page-test', ['mocha', 'chai', 'pix-live/
         // then
         return andThen(function () {
           (0, _chai.expect)(find('.index-page-hero__inscription-link')).to.have.lengthOf(0);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('"Weekly challenges" section', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        visit('/deconnexion');
+      });
+
+      (0, _mocha.describe)('when user is not authenticated', function () {
+
+        (0, _mocha.beforeEach)(function () {
+          visit('/');
+        });
+
+        (0, _mocha.it)('should not be rendered when user is not authenticated', function () {
+          (0, _chai.expect)(find('.index-page__section--challenges')).to.have.lengthOf(0);
+        });
+      });
+
+      (0, _mocha.describe)('when user is authenticated', function () {
+
+        (0, _mocha.beforeEach)(function () {
+          authenticateUser();
+          visit('/');
+        });
+
+        (0, _mocha.it)('should be rendered when user is yet authenticated', function () {
+          findWithAssert('.index-page__section--challenges');
+        });
+
+        (0, _mocha.it)('should have a title', function () {
+          var $title = findWithAssert('.index-page-challenges__presentation-title');
+          (0, _chai.expect)($title.text().trim()).to.equal('Les défis Pix de la semaine');
+        });
+
+        (0, _mocha.it)('should have a description', function () {
+          var $description = findWithAssert('.index-page-challenges__presentation-text');
+          (0, _chai.expect)($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
         });
       });
     });
@@ -2999,20 +3039,7 @@ define('pix-live/tests/acceptance/page-accueil-test', ['mocha', 'chai', 'pix-liv
       });
     });
 
-    (0, _mocha.describe)('the "Challenges" section', function () {
-
-      (0, _mocha.it)('should have a title', function () {
-        var $title = findWithAssert('.index-page-challenges__presentation-title');
-        (0, _chai.expect)($title.text().trim()).to.equal('Les défis Pix de la semaine');
-      });
-
-      (0, _mocha.it)('should have a description', function () {
-        var $description = findWithAssert('.index-page-challenges__presentation-text');
-        (0, _chai.expect)($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
-      });
-    });
-
-    (0, _mocha.describe)('contains a section with a bbutton to save new partners', function () {
+    (0, _mocha.describe)('contains a section with a button to save new partners', function () {
 
       (0, _mocha.it)('a1.16 with a title', function () {
         var $title = findWithAssert('.partners-enrollment__title');
@@ -12562,93 +12589,62 @@ define('pix-live/tests/unit/routes/login-test', ['mocha', 'ember-mocha', 'sinon'
     });
   });
 });
-define('pix-live/tests/unit/routes/logout-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/logout-test', ['sinon', 'mocha', 'ember-mocha'], function (_sinon, _mocha, _emberMocha) {
   'use strict';
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  var SessionStub = function () {
-    function SessionStub() {
-      _classCallCheck(this, SessionStub);
-
-      this.isInvalidateCalled = false;
-    }
-
-    _createClass(SessionStub, [{
-      key: 'invalidate',
-      value: function invalidate() {
-        this.isInvalidateCalled = true;
-      }
-    }]);
-
-    return SessionStub;
-  }();
 
   (0, _mocha.describe)('Unit | Route | logout', function () {
     (0, _emberMocha.setupTest)('route:logout', {
-      needs: ['service:current-routed-modal', 'service:session']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
+      needs: ['service:current-routed-modal']
     });
 
     (0, _mocha.it)('should disconnect the user', function () {
       // Given
+      var invalidateStub = _sinon.default.stub();
+      this.register('service:session', Ember.Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+      this.inject.service('session', { as: 'session' });
+
       var route = this.subject();
-      var sessionStub = new SessionStub();
-      route.set('session', sessionStub);
       route.transitionTo = function () {};
 
       // When
       route.beforeModel();
 
       // Then
-      (0, _chai.expect)(sessionStub.isInvalidateCalled).to.be.true;
+      _sinon.default.assert.calledOnce(invalidateStub);
     });
 
     (0, _mocha.it)('should redirect after disconnection', function () {
       // Given
-      var isTransitionToCalled = false;
-      var isTransitionToArgs = [];
+      var invalidateStub = _sinon.default.stub();
+      this.register('service:session', Ember.Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+      this.inject.service('session', { as: 'session' });
 
-      var sessionStub = new SessionStub();
       var route = this.subject();
-      route.set('session', sessionStub);
-      route.transitionTo = function () {
-        isTransitionToCalled = true;
-        isTransitionToArgs = Array.from(arguments);
-      };
+      route.transitionTo = _sinon.default.stub();
 
       // When
       route.beforeModel();
 
       // Then
-      (0, _chai.expect)(isTransitionToCalled).to.be.true;
-      (0, _chai.expect)(isTransitionToArgs).to.deep.equal(['/']);
+      _sinon.default.assert.calledOnce(route.transitionTo);
+      _sinon.default.assert.calledWith(route.transitionTo, '/');
+    });
+
+    (0, _mocha.it)('should redirect even if user was not authenticated', function () {
+      // Given
+      var invalidateStub = _sinon.default.stub();
+      this.register('service:session', Ember.Service.extend({ isAuthenticated: false, invalidate: invalidateStub }));
+      this.inject.service('session', { as: 'session' });
+
+      var route = this.subject();
+      route.transitionTo = _sinon.default.stub();
+
+      // When
+      route.beforeModel();
+
+      // Then
+      _sinon.default.assert.calledOnce(route.transitionTo);
+      _sinon.default.assert.calledWith(route.transitionTo, '/');
     });
   });
 });
