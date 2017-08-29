@@ -818,7 +818,7 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
 define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/seeds', 'pix-live/tests/helpers/testing'], function (_mocha, _chai, _application, _seeds, _testing) {
   'use strict';
 
-  (0, _mocha.describe)('Acceptance | Espace compte', function () {
+  (0, _mocha.describe)('Acceptance | Espace compte | Authentication', function () {
 
     var application = void 0;
 
