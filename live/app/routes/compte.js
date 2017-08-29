@@ -4,22 +4,22 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
-  authenticationRoute: '/',
+  authenticationRoute: '/connexion',
   session: Ember.inject.service(),
 
   model() {
     const store = this.get('store');
     return store.findRecord('user', this.get('session.data.authenticated.userId'))
-    .then(user => {
-      if(user.get('organizations.length') > 0) {
-        return this.transitionTo('board');
-      }
+      .then(user => {
+        if(user.get('organizations.length') > 0) {
+          return this.transitionTo('board');
+        }
 
-      return user;
-    })
-    .catch(_ => {
-      this.transitionTo('logout');
-    });
+        return user;
+      })
+      .catch(_ => {
+        this.transitionTo('logout');
+      });
   },
 
   actions: {
