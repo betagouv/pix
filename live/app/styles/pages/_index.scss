@@ -78,14 +78,14 @@
 }
 
 .index-page-hero__inscription-link {
-  background-color: #3d68ff;
-  color: white;
+  background-color: $pix-blue;
+  color: $white;
   border-radius: 25px;
   -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   text-align: center;
   font-size: 13px;
-  font-family: "Lato", Arial, sans-serif;
+  font-family: $font-lato;
   text-transform: uppercase;
   letter-spacing: 1px;
   padding: 11px 35px;
