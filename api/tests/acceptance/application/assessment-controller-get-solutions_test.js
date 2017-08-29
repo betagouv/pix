@@ -300,7 +300,6 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
       // Then
       return promise.then((response) => {
-        console.error(response.result);
         expect(response.result).to.equal('null');
       });
     });
