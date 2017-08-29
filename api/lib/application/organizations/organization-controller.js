@@ -20,7 +20,7 @@ module.exports = {
     const userValidationErrors = userRepository.validateData(userRawData);
     const organizationValidationErrors = organization.validationErrors();
 
-    if (userValidationErrors || organizationValidationErrors) {
+    if(userValidationErrors || organizationValidationErrors) {
       const errors = _.merge(userValidationErrors, organizationValidationErrors);
       return reply(validationErrorSerializer.serialize({ data: errors })).code(400);
     }
@@ -43,7 +43,7 @@ module.exports = {
         reply(organizationSerializer.serialize(organization));
       })
       .catch((err) => {
-        if (err instanceof AlreadyRegisteredEmailError) {
+        if(err instanceof AlreadyRegisteredEmailError) {
           return reply(validationErrorSerializer.serialize(_buildAlreadyExistingEmailError(organization.get('email')))).code(400);
         }
 
@@ -66,6 +66,10 @@ module.exports = {
         logger.error(err);
         reply().code(500);
       });
+  },
+
+  getSharedProfiles: (request, reply) => {
+    reply();
   }
 };
 
@@ -98,7 +102,7 @@ function _generateUniqueOrganizationCode() {
 function _extractFilters(request) {
   return _.reduce(request.query, (result, queryFilterValue, queryFilterKey) => {
     const field = queryFilterKey.match(/filter\[([a-z]*)]/)[1];
-    if (field) {
+    if(field) {
       result[field] = queryFilterValue;
     }
     return result;
