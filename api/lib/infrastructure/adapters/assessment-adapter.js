@@ -1,12 +1,19 @@
+/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const Skill = require('../../cat/skill');
 const Challenge = require('../../cat/challenge');
 const Course = require('../../cat/course');
 const Answer = require('../../cat/answer');
 const Assessment = require('../../cat/assessment');
+const skillRepository = require('../repositories/skill-repository');
 
 function getAdaptedAssessment(answersPix, challengesPix) {
   const challenges = [];
   const challengesById = {};
+
+  skillRepository
+    .getFromCompetence('recsvLz0W2ShyfD63')
+    .then(skills => console.error(skills))
+    .catch(err => console.error('snif', err));
 
   challengesPix.forEach(challengePix => {
     const skills = [];
