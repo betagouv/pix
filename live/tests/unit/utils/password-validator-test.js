@@ -14,9 +14,7 @@ describe('Unit | Utility | password validator', function() {
       'password',
       '12345678&',
       '+!@)-=`"#&',
-      '1a      a1',
       '+!@)-=`"#&1',
-      'null 1' + null,
     ].forEach(function(badPassword) {
       it(`should return false when password is invalid: ${badPassword}`, function() {
         expect(isPasswordvalid(badPassword)).to.be.false;
@@ -37,6 +35,8 @@ describe('Unit | Utility | password validator', function() {
       '12345678ab+!@)-=`',
       '12345678ab+!@)-=`"',
       '12345678ab+!@)-=`"#&',
+      '1234Password avec espace',
+      '1A      A1'
     ].forEach(function(validPassword) {
       it(`should return true if provided password is valid: ${validPassword}`, function() {
         expect(isPasswordvalid(validPassword)).to.be.true;
