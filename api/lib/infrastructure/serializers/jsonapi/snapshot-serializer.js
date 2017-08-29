@@ -10,6 +10,10 @@ class SnapshotSerializer {
       }
     }).serialize(snapshot);
   }
+
+  serializeArray() {
+
+  }
 }
 
 module.exports = new SnapshotSerializer();

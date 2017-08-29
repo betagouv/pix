@@ -1,4 +1,4 @@
-const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const {describe, it, expect, sinon, beforeEach, afterEach} = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/data/user');
 const Organisation = require('../../../../lib/domain/models/data/organization');
@@ -7,11 +7,13 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const organizationService = require('../../../../lib/domain/services/organization-service');
+const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
+const snapshotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
 
 const logger = require('../../../../lib/infrastructure/logger');
-const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
+const {AlreadyRegisteredEmailError} = require('../../../../lib/domain/errors');
 
-describe('Unit | Controller | organizationController', () => {
+describe.only('Unit | Controller | organizationController', () => {
 
   let sandbox;
   let codeStub;
@@ -20,12 +22,12 @@ describe('Unit | Controller | organizationController', () => {
 
   describe('#create', () => {
 
-    const organization = new Organisation({ email: 'existing-email@example.net', type: 'PRO' });
-    const user = new User({ email: 'existing-email@example.net', id: 12 });
+    const organization = new Organisation({email: 'existing-email@example.net', type: 'PRO'});
+    const user = new User({email: 'existing-email@example.net', id: 12});
 
     beforeEach(() => {
       codeStub = sinon.stub();
-      replyStub = sinon.stub().returns({ code: codeStub });
+      replyStub = sinon.stub().returns({code: codeStub});
 
       sandbox = sinon.sandbox.create();
 
@@ -145,7 +147,7 @@ describe('Unit | Controller | organizationController', () => {
 
       it('should serialize the response', () => {
         // Given
-        const serializedOrganization = { message: 'serialized organization' };
+        const serializedOrganization = {message: 'serialized organization'};
         organizationSerializer.serialize.returns(serializedOrganization);
 
         // When
@@ -288,11 +290,11 @@ describe('Unit | Controller | organizationController', () => {
     let replyStub;
     let codeStub;
     const arrayOfSerializedOrganization = [{}, {}];
-    const arrayOfOrganizations = { models: [ new Organisation(), new Organisation() ] };
+    const arrayOfOrganizations = {models: [new Organisation(), new Organisation()]};
 
     beforeEach(() => {
       codeStub = sinon.stub();
-      replyStub = sinon.stub().returns({ code: codeStub });
+      replyStub = sinon.stub().returns({code: codeStub});
       sandbox = sinon.sandbox.create();
 
       sandbox.stub(logger, 'error');
@@ -319,11 +321,11 @@ describe('Unit | Controller | organizationController', () => {
     describe('when filters are given', () => {
       it('should retrieve organizations with one filter', () => {
         // when
-        const promise = controller.search({ query: { 'filter[query]': 'my search' } }, replyStub);
+        const promise = controller.search({query: {'filter[query]': 'my search'}}, replyStub);
 
         // then
         return promise.then(() => {
-          sinon.assert.calledWith(organisationRepository.findBy, { query: 'my search' });
+          sinon.assert.calledWith(organisationRepository.findBy, {query: 'my search'});
         });
       });
 
@@ -338,7 +340,7 @@ describe('Unit | Controller | organizationController', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledWith(organisationRepository.findBy, { first: 'my search', second: 'with params' });
+          sinon.assert.calledWith(organisationRepository.findBy, {first: 'my search', second: 'with params'});
         });
       });
 
@@ -348,7 +350,7 @@ describe('Unit | Controller | organizationController', () => {
         organisationRepository.findBy.rejects(error);
 
         // when
-        const promise = controller.search({ query: { 'filter[first]': 'with params' } }, replyStub);
+        const promise = controller.search({query: {'filter[first]': 'with params'}}, replyStub);
 
         // then
         return promise.then(() => {
@@ -362,7 +364,7 @@ describe('Unit | Controller | organizationController', () => {
         organisationRepository.findBy.rejects(error);
 
         // when
-        const promise = controller.search({ query: { 'filter[first]': 'with params' } }, replyStub);
+        const promise = controller.search({query: {'filter[first]': 'with params'}}, replyStub);
 
         // then
         return promise.then(() => {
@@ -373,7 +375,7 @@ describe('Unit | Controller | organizationController', () => {
 
       it('should serialize results', () => {
         // when
-        const promise = controller.search({ query: { 'filter[first]': 'with params' } }, replyStub);
+        const promise = controller.search({query: {'filter[first]': 'with params'}}, replyStub);
 
         // then
         return promise.then(() => {
@@ -385,4 +387,90 @@ describe('Unit | Controller | organizationController', () => {
     });
 
   });
+
+  describe('#getSharedProfiles', () => {
+
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
+      sandbox.stub(snapshotSerializer, 'serializeArray');
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should be an existing function', () => {
+      // then
+      expect(controller.getSharedProfiles).to.be.a('function');
+    });
+
+    it('should call snapshot repository', () => {
+      // given
+      snapshotRepository.getSnapshotsByOrganizationId.resolves();
+      const request = {
+        params: {
+          id: 7
+        }
+      };
+      const reply = () => {
+      };
+      // when
+      const promise = controller.getSharedProfiles(request, reply);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(snapshotRepository.getSnapshotsByOrganizationId);
+        sinon.assert.calledWith(snapshotRepository.getSnapshotsByOrganizationId, 7);
+      });
+    });
+
+    it('should call snapshot serializer', () => {
+      // given
+      const snapshots = [];
+      snapshotRepository.getSnapshotsByOrganizationId.resolves(snapshots);
+      const request = {
+        params: {
+          id: 7
+        }
+      };
+      const reply = () => {
+      };
+
+      // when
+      const promise = controller.getSharedProfiles(request, reply);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(snapshotSerializer.serializeArray);
+        sinon.assert.calledWith(snapshotSerializer.serializeArray, snapshots);
+      });
+    });
+
+    it('should call a reply function', () => {
+      const snapshots = [];
+      const serializedSnapshots = {data: []};
+      snapshotRepository.getSnapshotsByOrganizationId.resolves(snapshots);
+      snapshotSerializer.serializeArray.resolves(serializedSnapshots);
+      const request = {
+        params: {
+          id: 7
+        }
+      };
+      const reply = sinon.stub();
+
+      // when
+      const promise = controller.getSharedProfiles(request, reply);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(reply);
+        sinon.assert.calledWith(reply, serializedSnapshots);
+      });
+    });
+
+  });
+
 });

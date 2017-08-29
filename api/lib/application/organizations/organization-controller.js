@@ -1,7 +1,9 @@
 const userRepository = require('../../infrastructure/repositories/user-repository');
 
 const organisationRepository = require('../../infrastructure/repositories/organization-repository');
+const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
+const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
 const organizationService = require('../../domain/services/organization-service');
 
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -9,7 +11,7 @@ const validationErrorSerializer = require('../../infrastructure/serializers/json
 const _ = require('lodash');
 const logger = require('../../infrastructure/logger');
 
-const { AlreadyRegisteredEmailError } = require('../../domain/errors');
+const {AlreadyRegisteredEmailError} = require('../../domain/errors');
 
 module.exports = {
   create: (request, reply) => {
@@ -22,7 +24,7 @@ module.exports = {
 
     if(userValidationErrors || organizationValidationErrors) {
       const errors = _.merge(userValidationErrors, organizationValidationErrors);
-      return reply(validationErrorSerializer.serialize({ data: errors })).code(400);
+      return reply(validationErrorSerializer.serialize({data: errors})).code(400);
     }
 
     return userRepository
@@ -69,13 +71,16 @@ module.exports = {
   },
 
   getSharedProfiles: (request, reply) => {
-    reply();
+    return snapshotRepository
+      .getSnapshotsByOrganizationId(request.params.id)
+      .then(snapshotSerializer.serializeArray)
+      .then(reply);
   }
 };
 
 function _buildAlreadyExistingEmailError(email) {
   return {
-    data: { email: [`L'adresse ${email} est déjà associée à un utilisateur.`] }
+    data: {email: [`L'adresse ${email} est déjà associée à un utilisateur.`]}
   };
 }
 
