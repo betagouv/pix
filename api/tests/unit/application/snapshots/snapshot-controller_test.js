@@ -1,4 +1,4 @@
-const {describe, it, expect, sinon, beforeEach, afterEach} = require('../../../test-helper');
+const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
 const profileService = require('../../../../lib/domain/services/profile-service');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const SnapshotService = require('../../../../lib/domain/services/snapshot-service');
@@ -10,7 +10,7 @@ const OrganizationRepository = require('../../../../lib/infrastructure/repositor
 const profileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const snapshotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
 const logger = require('../../../../lib/infrastructure/logger');
-const {InvalidTokenError, NotFoundError} = require('../../../../lib/domain/errors');
+const { InvalidTokenError, NotFoundError } = require('../../../../lib/domain/errors');
 
 const user = {
   id: 3,
@@ -31,8 +31,8 @@ const serializedUserProfile = {
     relationships: {
       competences: {
         data: [
-          {type: 'competences', id: 'recCompA'},
-          {type: 'competences', id: 'recCompB'}
+          { type: 'competences', id: 'recCompA' },
+          { type: 'competences', id: 'recCompB' }
         ]
       }
     },
