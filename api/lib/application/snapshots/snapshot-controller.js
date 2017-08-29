@@ -6,8 +6,9 @@ const snapshotSerializer = require('../../../lib/infrastructure/serializers/json
 const profileSerializer = require('../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const SnapshotService = require('../../../lib/domain/services/snapshot-service');
 const profileService = require('../../domain/services/profile-service');
+const profileCompletionService = require('../../domain/services/profile-completion-service');
 const logger = require('../../../lib/infrastructure/logger');
-const { InvalidTokenError, NotFoundError, InvaliOrganizationIdError } = require('../../domain/errors');
+const {InvalidTokenError, NotFoundError, InvaliOrganizationIdError} = require('../../domain/errors');
 
 function _assertThatOrganizationExists(organizationId) {
   return OrganizationRepository.isOrganizationIdExist(organizationId)
@@ -67,12 +68,19 @@ function create(request, reply) {
     .verify(token)
     .then(UserRepository.findUserById)
     .then((foundUser) => _assertThatOrganizationExists(organizationId).then(() => foundUser))
-    .then(({ id }) => profileService.getByUserId(id))
+    .then(({id}) => profileService.getByUserId(id))
     .then((profile) => profileSerializer.serialize(profile))
-    .then((profile) => SnapshotService.create({ organizationId, profile }))
-    .then((snapshotId) => snapshotSerializer.serialize({ id: snapshotId }))
+    .then((profile) => {
+      return profileCompletionService
+        .getPercentage(profile)
+        .then((completionPercentage) => {
+          return {profile, completionPercentage};
+        });
+    })
+    .then(({profile, completionPercentage}) => SnapshotService.create({organizationId, completionPercentage, profile}))
+    .then((snapshotId) => snapshotSerializer.serialize({id: snapshotId}))
     .then(snapshotSerialized => reply(snapshotSerialized).code(201))
     .catch((err) => _replyError(err, reply));
 }
 
-module.exports = { create };
+module.exports = {create};
