@@ -79,7 +79,14 @@ define('pix-live/adapters/user', ['exports', 'pix-live/adapters/application'], f
     value: true
   });
   exports.default = _application.default.extend({
+    shouldBackgroundReloadRecord: function shouldBackgroundReloadRecord() {
+      return false;
+    },
     queryRecord: function queryRecord() {
+      var url = this.buildURL('user', 'me');
+      return this.ajax(url, 'GET');
+    },
+    findRecord: function findRecord() {
       var url = this.buildURL('user', 'me');
       return this.ajax(url, 'GET');
     }
@@ -2797,6 +2804,8 @@ define('pix-live/components/user-logged-menu', ['exports'], function (exports) {
     value: true
   });
   exports.default = Ember.Component.extend({
+
+    session: Ember.inject.service(),
     store: Ember.inject.service(),
 
     classNames: ['logged-user-details'],
@@ -2809,7 +2818,7 @@ define('pix-live/components/user-logged-menu', ['exports'], function (exports) {
       var _this = this;
 
       this._super.apply(this, arguments);
-      this.get('store').queryRecord('user', {}).then(function (user) {
+      this.get('store').findRecord('user', this.get('session.data.authenticated.userId')).then(function (user) {
         return _this.set('_user', user);
       });
     },
@@ -4705,7 +4714,7 @@ define('pix-live/mirage/data/authentications/index', ['exports'], function (expo
     data: {
       type: 'authentication',
       attributes: {
-        user_id: 1,
+        'user-id': 1,
         token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6InBpeEBjb250YWN0LmNvbSIsImlhdCI6MTQ5Njc0MjQwNywiZXhwIjoxNDk3MzQ3MjA3fQ.KateqHWs9Qaq5zxUxEcOATaPPPh72_HeZIBmCgmtWDo'
       },
       id: 1
@@ -5757,7 +5766,6 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
       recaptchaToken: 'recaptcha-token-xxxxxx',
       totalPixScore: '777',
       competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-      //organizationIds: [1]
     });
 
     server.create('organization', {
@@ -6342,10 +6350,17 @@ define('pix-live/routes/board', ['exports', 'ember-simple-auth/mixins/authentica
 
     authenticationRoute: '/connexion',
 
+    session: Ember.inject.service(),
+
     model: function model() {
       var _this = this;
 
-      return this.get('store').queryRecord('user', {}).then(function (user) {
+      return this.get('store').findRecord('user', this.get('session.data.authenticated.userId')).then(function (user) {
+
+        if (user.get('organizations.length') <= 0) {
+          return _this.transitionTo('compte');
+        }
+
         return user.get('organizations.firstObject');
       }).catch(function (_) {
         _this.transitionTo('index');
@@ -6491,12 +6506,19 @@ define('pix-live/routes/compte', ['exports', 'ember-simple-auth/mixins/authentic
   exports.default = Ember.Route.extend(_authenticatedRouteMixin.default, {
 
     authenticationRoute: '/connexion',
+    session: Ember.inject.service(),
 
     model: function model() {
       var _this = this;
 
       var store = this.get('store');
-      return store.queryRecord('user', {}).catch(function (_) {
+      return store.findRecord('user', this.get('session.data.authenticated.userId')).then(function (user) {
+        if (user.get('organizations.length') > 0) {
+          return _this.transitionTo('board');
+        }
+
+        return user;
+      }).catch(function (_) {
         _this.transitionTo('logout');
       });
     },
@@ -6757,16 +6779,31 @@ define('pix-live/routes/enrollment', ['exports', 'pix-live/routes/base-route'], 
     }
   });
 });
-define('pix-live/routes/index', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
+define('pix-live/routes/index', ['exports', 'pix-live/routes/base-route', 'ember-simple-auth/mixins/unauthenticated-route-mixin'], function (exports, _baseRoute, _unauthenticatedRouteMixin) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = _baseRoute.default.extend({
+  exports.default = _baseRoute.default.extend(_unauthenticatedRouteMixin.default, {
 
     session: Ember.inject.service(),
+    store: Ember.inject.service(),
 
+    beforeModel: function beforeModel() {
+      var _this = this;
+
+      if (this.get('session.isAuthenticated')) {
+        return this.get('store').findRecord('user', this.get('session.data.authenticated.userId')).then(function (connectedUser) {
+
+          if (connectedUser.get('organizations.length')) {
+            _this.transitionTo('board');
+          } else {
+            _this.transitionTo('compte');
+          }
+        });
+      }
+    },
     model: function model() {
       return {
         coursesOfTheWeek: this.get('store').query('course', { isCourseOfTheWeek: true }),
@@ -6816,6 +6853,8 @@ define('pix-live/routes/inscription', ['exports', 'ember-simple-auth/mixins/unau
             password = _ref.password;
 
         return this.get('session').authenticate('authenticator:simple', email, password).then(function () {
+          return _this.get('store').queryRecord('user', {});
+        }).then(function () {
           _this.transitionTo('compte');
         });
       }
@@ -8832,6 +8871,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.18.0+4e3a20ea"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.18.0+626d0b88"});
 }
 //# sourceMappingURL=pix-live.map

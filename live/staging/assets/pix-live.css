@@ -5012,7 +5012,8 @@ hr.project-page__presentation-header-line {
   letter-spacing: 0.5px; }
   @media (min-width: 768px) {
     .board-page__header-organisation {
-      margin-bottom: 0px; } }
+      margin-bottom: 0px;
+      padding-right: 10px; } }
 
 .board-page__header-organisation__text {
   font-size: 12px;
