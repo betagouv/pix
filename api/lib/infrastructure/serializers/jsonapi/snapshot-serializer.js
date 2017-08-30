@@ -12,7 +12,7 @@ class SnapshotSerializer {
   }
 
   serializeArray() {
-
+    
   }
 }
 
