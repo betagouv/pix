@@ -5,7 +5,8 @@ module.exports = {
     return new Snapshot(snapshotRawData).save();
   },
 
-  getSnapshotsByOrganizationId() {
-
+  getSnapshotsByOrganizationId(organizationId) {
+    return Snapshot.where('organizationId', organizationId)
+      .fetch({ require: false });
   }
 };
