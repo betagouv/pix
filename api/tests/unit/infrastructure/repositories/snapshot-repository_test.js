@@ -138,6 +138,24 @@ describe('Unit | Repository | SnapshotRepository', function() {
       });
     });
 
+    it('should fetch snapshots with theirs related user', () => {
+      // then
+      const fetchStub = sinon.stub().resolves({});
+      Snapshot.prototype.where.returns({
+        fetch: fetchStub
+      });
+      const organizationId = 123;
+
+      // when
+      const promise = snapshotRepository.getSnapshotsByOrganizationId(organizationId);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(fetchStub);
+        sinon.assert.calledWith(fetchStub, { require: false, withRelated: ['users'] });
+      });
+    });
+
   });
 
 });
