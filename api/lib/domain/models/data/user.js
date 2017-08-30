@@ -25,7 +25,7 @@ module.exports = Bookshelf.Model.extend({
     password: [
       {
         method: 'matches', error: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.',
-        args: /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&-]{8,}/
+        args: /(?=.*[A-Za-z])(?=.*\d).{8,}/
       }
     ],
     cgu: [
