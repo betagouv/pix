@@ -743,7 +743,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'ch
 
     (0, _mocha.it)('b7.5 Il existe un bouton "Revenir à la liste des tests"', function () {
       var $courseListButton = findWithAssert('.course-banner__home-link');
-      (0, _chai.expect)($courseListButton.text()).to.equal('Revenir à l\'accueil');
+      (0, _chai.expect)($courseListButton.text()).to.equal('Retour à la liste des tests');
     });
 
     (0, _mocha.it)('b7.6 Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers l\'index', function () {
