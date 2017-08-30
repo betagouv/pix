@@ -743,7 +743,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'ch
 
     (0, _mocha.it)('b7.5 Il existe un bouton "Revenir à la liste des tests"', function () {
       var $courseListButton = findWithAssert('.course-banner__home-link');
-      (0, _chai.expect)($courseListButton.text()).to.equal('Retour à la liste des tests');
+      (0, _chai.expect)($courseListButton.text()).to.equal('Revenir à l\'accueil');
     });
 
     (0, _mocha.it)('b7.6 Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers l\'index', function () {
@@ -815,7 +815,7 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
     });
   });
 });
-define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/seeds', 'pix-live/tests/helpers/testing'], function (_mocha, _chai, _application, _seeds, _testing) {
   'use strict';
 
   (0, _mocha.describe)('Acceptance | Espace compte', function () {
@@ -831,50 +831,31 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
     });
 
     (0, _mocha.describe)('Success cases', function () {
-      (0, _mocha.beforeEach)(function () {
-        server.create('user', {
-          id: 1,
-          firstName: 'François',
-          lastName: 'Hisquin',
-          email: 'fhi@octo.com',
-          password: 'FHI4EVER',
-          cgu: true,
-          recaptchaToken: 'recaptcha-token-xxxxxx',
-          competenceIds: []
-        });
-      });
-
       (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
         (0, _mocha.it)('should redirect to the connexion page', function () {
+          // given
+          _seeds.default.injectUserAccount();
+
           // when
           visit('/compte');
 
           // then
           return andThen(function () {
-            (0, _chai.expect)(currentURL()).to.equal('/');
+            (0, _chai.expect)(currentURL()).to.equal('/connexion');
           });
         });
       });
 
       (0, _mocha.describe)('m1.2 Log-in phase', function () {
 
-        function seedDatabaseForUsualUser() {
-          server.loadFixtures('areas');
-          server.loadFixtures('competences');
-          server.create('user', {
-            id: 1,
-            firstName: 'Samurai',
-            lastName: 'Jack',
-            email: 'samurai.jack@aku.world',
-            password: 'B@ck2past',
-            cgu: true,
-            recaptchaToken: 'recaptcha-token-xxxxxx',
-            competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-          });
-        }
-
         function seedDatabaseForUserWithOrganization() {
-          server.loadFixtures('organizations');
+          server.create('organization', {
+            id: 1,
+            name: 'LexCorp',
+            email: 'lex@lexcorp.com',
+            type: 'PRO',
+            code: 'ABCD66'
+          });
           server.create('user', {
             id: 1,
             firstName: 'Samurai',
@@ -887,20 +868,10 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
           });
         }
 
-        function authenticateUser() {
-          // given
-          visit('/connexion');
-          fillIn('#pix-email', 'samurai.jack@aku.world');
-          fillIn('#pix-password', 'B@ck2past');
-
-          // when
-          click('.signin-form__submit_button');
-        }
-
         (0, _mocha.it)('should redirect to the /compte after connexion for usual users', function () {
           // given
-          seedDatabaseForUsualUser();
-          authenticateUser();
+          _seeds.default.injectUserAccount();
+          _testing.default.authenticateUser();
 
           // then
           return andThen(function () {
@@ -911,7 +882,7 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
         (0, _mocha.it)('should redirect to the /board after connexion for users with organization', function () {
           // given
           seedDatabaseForUserWithOrganization();
-          authenticateUser();
+          _testing.default.authenticateUser();
 
           // then
           return andThen(function () {
@@ -922,8 +893,7 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
     });
 
     (0, _mocha.describe)('Error case', function () {
-
-      function authenticateUnknownUser() {
+      (0, _mocha.it)('should stay in /connexion , when authentication failed', function () {
         // given
         visit('/connexion');
         fillIn('#pix-email', 'anyone@pix.world');
@@ -931,12 +901,8 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
 
         // when
         click('.signin-form__submit_button');
-      }
 
-      (0, _mocha.it)('should stay in /connexion , when authentication failed', function () {
-        // given
-        authenticateUnknownUser();
-
+        // then
         return andThen(function () {
           (0, _chai.expect)(currentURL()).to.equal('/connexion');
         });
@@ -1034,7 +1000,7 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
 
             case 2:
               return _context2.abrupt('return', andThen(function () {
-                (0, _chai.expect)(currentURL()).to.equal('/');
+                (0, _chai.expect)(currentURL()).to.equal('/connexion');
               }));
 
             case 3:
@@ -1107,7 +1073,120 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
     };
   }
 
-  (0, _mocha.describe)('Acceptance | Compte | share profile', function () {
+  (0, _mocha.describe)('Acceptance | Sharing a Profile Snapshot with a given Organization', function () {
+    var visitAccountPage = function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return visit('/compte');
+
+              case 2:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      return function visitAccountPage() {
+        return _ref.apply(this, arguments);
+      };
+    }();
+
+    var openShareProfileModal = function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return click('.share-profile__share-button');
+
+              case 2:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      return function openShareProfileModal() {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+
+    var fillInAndSubmitOrganizationCode = function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return fillIn('.share-profile__organization-code-input', 'ABCD00');
+
+              case 2:
+                _context3.next = 4;
+                return click('.share-profile__continue-button');
+
+              case 4:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      return function fillInAndSubmitOrganizationCode() {
+        return _ref3.apply(this, arguments);
+      };
+    }();
+
+    var confirmProfileSnapshotSharing = function () {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return click('.share-profile__confirm-button');
+
+              case 2:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      return function confirmProfileSnapshotSharing() {
+        return _ref4.apply(this, arguments);
+      };
+    }();
+
+    var closeModal = function () {
+      var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return click('.share-profile__close-button');
+
+              case 2:
+              case 'end':
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      return function closeModal() {
+        return _ref5.apply(this, arguments);
+      };
+    }();
 
     var application = void 0;
 
@@ -1119,76 +1198,84 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
       (0, _application.destroyApp)(application);
     });
 
-    (0, _mocha.it)('display an error when the organization does not exists', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              // given
-              _seeds.default.injectUserAccount();
-              _testing.default.authenticateUser();
+    function populateDatabaseWithAUserAndAnOrganization() {
+      _seeds.default.injectUserAccount();
+      _seeds.default.injectOrganization('ABCD00');
+    }
 
-              // when
-              _context.next = 4;
-              return visit('/compte');
+    function expectModalToBeOpened() {
+      findWithAssert('.pix-modal');
+    }
+
+    function expectToBeOnOrganizationCodeEntryView() {
+      findWithAssert('.share-profile__section--organization-code-entry');
+    }
+
+    function expectToBeOnSharingConfirmationView() {
+      findWithAssert('.share-profile__section--sharing-confirmation');
+    }
+
+    function expectOrganizationNameToBeDisplayed() {
+      (0, _chai.expect)(find('.share-profile__organization-name').text().trim()).to.equal('Organization 0');
+    }
+
+    function expectToBeOnSuccessNotificationView() {
+      findWithAssert('.share-profile__section--success-notification');
+    }
+
+    function expectSnapshotToHaveBeenCreated() {
+      (0, _chai.expect)(server.db.snapshots.length).to.equal(1);
+    }
+
+    function expectModalToBeClosed() {
+      (0, _chai.expect)(find('.pix-modal')).to.have.length(0);
+    }
+
+    (0, _mocha.it)('should be possible to share a snapshot of her own profile to a given organization', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+      return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              populateDatabaseWithAUserAndAnOrganization();
+              (0, _testing.authenticateUser)();
+
+              _context6.next = 4;
+              return visitAccountPage();
 
             case 4:
+              _context6.next = 6;
+              return openShareProfileModal();
 
-              click('.share-profile__share-button');
-              fillIn('.ember-modal-dialog #code', 'ABCD01');
-              click('.pix-modal__button--primary');
+            case 6:
+              expectModalToBeOpened();
+              expectToBeOnOrganizationCodeEntryView();
 
-              return _context.abrupt('return', andThen(function () {
-                (0, _chai.expect)(find('.ember-modal-dialog h1').text()).to.equal('Partage de votre profil');
-                (0, _chai.expect)(find('.ember-modal-dialog #code').val()).to.equal('ABCD01');
-                (0, _chai.expect)(find('.share-profile__modal-form > .share-profile__form-error').length).to.equal(1);
-                (0, _chai.expect)(find('.share-profile__modal-form > .share-profile__form-error').text()).to.equal('Ce code ne correspond à aucune organisation.');
-              }));
+              _context6.next = 10;
+              return fillInAndSubmitOrganizationCode();
 
-            case 8:
+            case 10:
+              expectToBeOnSharingConfirmationView();
+              expectOrganizationNameToBeDisplayed();
+
+              _context6.next = 14;
+              return confirmProfileSnapshotSharing();
+
+            case 14:
+              expectToBeOnSuccessNotificationView();
+              expectSnapshotToHaveBeenCreated();
+
+              _context6.next = 18;
+              return closeModal();
+
+            case 18:
+              expectModalToBeClosed();
+
+            case 19:
             case 'end':
-              return _context.stop();
+              return _context6.stop();
           }
         }
-      }, _callee, this);
-    })));
-
-    (0, _mocha.it)('should switch to another display', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-      var organization;
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              // given
-              _seeds.default.injectUserAccount();
-              organization = _seeds.default.injectOrganization('ABCD00');
-
-              _testing.default.authenticateUser();
-
-              // when
-              _context2.next = 5;
-              return visit('/compte');
-
-            case 5:
-
-              click('.share-profile__share-button');
-              fillIn('.ember-modal-dialog #code', 'ABCD00');
-              click('.pix-modal__button--primary');
-
-              return _context2.abrupt('return', andThen(function () {
-                var MODAL_CONTENT = find('.share-profile__modal-content-organization-details');
-
-                (0, _chai.expect)(find('.ember-modal-dialog h1').text()).to.equal('Partage de votre profil');
-                (0, _chai.expect)(find('.ember-modal-dialog #code')).to.have.length(0);
-                (0, _chai.expect)(MODAL_CONTENT.find('.share-profile__modal-organization-name').text()).to.equal(organization.name);
-              }));
-
-            case 9:
-            case 'end':
-              return _context2.stop();
-          }
-        }
-      }, _callee2, this);
+      }, _callee6, this);
     })));
   });
 });
@@ -2671,7 +2758,13 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
     });
 
     function seedDatabase() {
-      server.loadFixtures('organizations');
+      server.create('organization', {
+        id: 1,
+        name: 'LexCorp',
+        email: 'lex@lexcorp.com',
+        type: 'PRO',
+        code: 'ABCD66'
+      });
       server.create('user', {
         id: 1,
         firstName: 'Benjamin',
@@ -2703,11 +2796,16 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
               return visit('/board');
 
             case 4:
-              return _context.abrupt('return', andThen(function () {
-                (0, _chai.expect)(currentURL()).to.equal('/board');
-              }));
 
-            case 5:
+              // then
+              andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/board');
+              });
+
+              _context.next = 7;
+              return visit('/deconnexion');
+
+            case 7:
             case 'end':
               return _context.stop();
           }
@@ -2715,17 +2813,44 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('should display the name and the code of my organization', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('should not be accessible while the user is not connected', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               // given
               seedDatabase();
+
+              // when
+              _context2.next = 3;
+              return visit('/board');
+
+            case 3:
+
+              // then
+              andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/connexion');
+              });
+
+            case 4:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
+
+    (0, _mocha.it)('should display the name and the code of my organization', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              // given
+              seedDatabase();
               authenticateUser();
 
               // when
-              _context2.next = 4;
+              _context3.next = 4;
               return visit('/board');
 
             case 4:
@@ -2738,10 +2863,10 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
 
             case 8:
             case 'end':
-              return _context2.stop();
+              return _context3.stop();
           }
         }
-      }, _callee2, this);
+      }, _callee3, this);
     })));
   });
 });
@@ -3163,6 +3288,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('models/organization.js', function () {
+      // test passed
+    });
+
+    it('models/snapshot.js', function () {
       // test passed
     });
 
@@ -4593,7 +4722,7 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
 
         // then
         var $startAction = this.$('.course-item__begin-button');
-        (0, _chai.expect)($startAction.attr('title')).to.equal('Commencer le test \"My course\"');
+        (0, _chai.expect)($startAction.attr('title')).to.equal('Commencer le test "My course"');
       });
     });
 
@@ -4958,8 +5087,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
           (0, _chai.expect)(isSaveMethodCalled).to.be.true;
           (0, _chai.expect)(saveMethodUrl).to.equal('feedback');
           (0, _chai.expect)(_lodashCustom.default.isObject(saveMethodBody)).to.equal(true);
-          (0, _chai.expect)(saveMethodBody.assessement).to.exists;
-          (0, _chai.expect)(saveMethodBody.challenge).to.exists;
+          (0, _chai.expect)(saveMethodBody.assessment).to.exist;
+          (0, _chai.expect)(saveMethodBody.challenge).to.exist;
           (0, _chai.expect)(saveMethodBody.content).to.equal(CONTENT_VALUE);
           (0, _chai.expect)(saveMethodBody.email).to.equal(EMAIL_VALUE);
           expectMercixViewToBeVisible(_this);
@@ -5506,7 +5635,14 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
     (0, _mocha.describe)('Rendering for logged user', function () {
 
       (0, _mocha.beforeEach)(function () {
-        this.register('service:session', Ember.Service.extend({ isAuthenticated: true }));
+        this.register('service:session', Ember.Service.extend({
+          isAuthenticated: true,
+          data: {
+            authenticated: {
+              userId: 1435
+            }
+          }
+        }));
         this.inject.service('session', { as: 'session' });
 
         this.render(Ember.HTMLBars.template({
@@ -7043,28 +7179,346 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['chai', 'moc
 define('pix-live/tests/integration/components/share-profile-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
+  var RSVP = Ember.RSVP;
+
+
   (0, _mocha.describe)('Integration | Component | share profile', function () {
+
     (0, _emberMocha.setupComponentTest)('share-profile', {
-      integration: true
+      integration: true,
+
+      beforeSetup: function beforeSetup() {
+        $.extend($.expr[':'], {
+          tabbable: function tabbable() {
+            return true;
+          }
+        });
+      }
     });
 
-    (0, _mocha.describe)('when the organization is found', function () {
+    function expectToBeOnOrganizationCodeEntryView() {
+      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(1);
+      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.length(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.length(0);
+    }
 
-      (0, _mocha.it)('should render a wrapper', function () {
+    function expectToBeSharingConfirmationView() {
+      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.length(1);
+      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.length(0);
+    }
+
+    function expectToBeOnSuccessNotificationView() {
+      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.length(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.length(1);
+    }
+
+    function expectModalToBeClosed() {
+      (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(0);
+    }
+
+    (0, _mocha.describe)('Step 0 - "Share" button on modal wrapper', function () {
+
+      (0, _mocha.it)('should open profile sharing modal on "organization code entry" view', function () {
         // given
-        var organization = Ember.Object.create({ name: 'Université de la côte d\'Opale' });
-        this.set('organization', organization);
-        this.set('isShowingModal', true);
+        this.render(Ember.HTMLBars.template({
+          "id": "CVwjfvnW",
+          "block": "{\"statements\":[[1,[26,[\"share-profile\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(0);
 
         // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__share-button').click();
+        });
+
+        // then
+        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(1);
+      });
+    });
+
+    (0, _mocha.describe)('Step 1 - "Organization code entry" view', function () {
+
+      (0, _mocha.it)('should be the modal default view', function () {
+        // when
         this.render(Ember.HTMLBars.template({
-          "id": "BOAdfkfF",
-          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"isShowingModal\",\"organization\"],[true,[28,[\"organization\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "xpUDm9vL",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\"],[true]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
           "meta": {}
         }));
 
         // then
-        (0, _chai.expect)(Ember.$.find('.share-profile__modal-organization-name')[0].innerText).to.equal('Université de la côte d\'Opale');
+        expectToBeOnOrganizationCodeEntryView();
+      });
+
+      (0, _mocha.it)('should contain a text input for the organization code', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "xpUDm9vL",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\"],[true]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__organization-code-input')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should contain a "Continue" button to find the organization', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "xpUDm9vL",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\"],[true]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__continue-button')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should contain a "Cancel" button to cancel the profile sharing', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "xpUDm9vL",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\"],[true]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__cancel-button')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should redirect to "sharing confirmation" view when clicking on "Continue" button', function () {
+        // given
+        this.set('searchForOrganization', function () {
+          var organization = Ember.Object.create({ name: 'Pix' });
+          return RSVP.resolve(organization);
+        });
+        this.render(Ember.HTMLBars.template({
+          "id": "OhQm9KIg",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\",\"_code\",\"searchForOrganization\"],[true,\"ABCD01\",[28,[\"searchForOrganization\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__continue-button').click();
+        });
+
+        // then
+        expectToBeSharingConfirmationView();
+      });
+
+      (0, _mocha.it)('should display an error message when no organization was found for the given code', function () {
+        // given
+        this.set('searchForOrganization', function () {
+          return RSVP.resolve(null);
+        });
+        this.render(Ember.HTMLBars.template({
+          "id": "fEgzodDM",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\",\"searchForOrganization\"],[true,[28,[\"searchForOrganization\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__continue-button').click();
+        });
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__form-error')).to.have.length(1);
+        expectToBeOnOrganizationCodeEntryView();
+      });
+
+      (0, _mocha.it)('should close the modal when clicking on "Cancel" button', function () {
+        // given
+        this.render(Ember.HTMLBars.template({
+          "id": "xpUDm9vL",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\"],[true]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__cancel-button').click();
+        });
+
+        // then
+        expectModalToBeClosed();
+      });
+    });
+
+    (0, _mocha.describe)('Step 2 - "Sharing confirmation" view', function () {
+
+      (0, _mocha.it)('should display the name of the found organization', function () {
+        // given
+        this.set('organization', Ember.Object.create({ name: 'Pix' }));
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "BryvqSCf",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\",\"_view\",\"_organization\"],[true,\"sharing-confirmation\",[28,[\"organization\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__organization-name').text().trim()).to.equal('Pix');
+      });
+
+      (0, _mocha.it)('should contain a "Confirm" button to valid the profile sharing', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "vuOGWQQH",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\",\"_view\"],[true,\"sharing-confirmation\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__confirm-button')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should contain a "Cancel" button to cancel the profile sharing for the given organization', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "vuOGWQQH",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\",\"_view\"],[true,\"sharing-confirmation\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__cancel-button')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should return back to "organization code entry" view when clicking on "Cancel" button', function () {
+        // given
+        this.render(Ember.HTMLBars.template({
+          "id": "vuOGWQQH",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\",\"_view\"],[true,\"sharing-confirmation\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__cancel-button').click();
+        });
+
+        // then
+        expectToBeOnOrganizationCodeEntryView();
+      });
+
+      (0, _mocha.it)('should create a Snapshot and send it to the organization previously found when clicking on "Continue" button', function () {
+        // given
+        this.set('organization', Ember.Object.create({ name: 'Pix' }));
+        this.set('shareProfileSnapshot', function () {
+          return RSVP.resolve(null);
+        });
+        this.render(Ember.HTMLBars.template({
+          "id": "8yafHzRB",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\",\"_view\",\"_organization\",\"shareProfileSnapshot\"],[true,\"sharing-confirmation\",[28,[\"organization\"]],[28,[\"shareProfileSnapshot\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__confirm-button').click();
+        });
+
+        // then
+        expectToBeOnSuccessNotificationView();
+      });
+    });
+
+    (0, _mocha.describe)('Step 3 - "Success notification" view', function () {
+
+      (0, _mocha.it)('should contain a "Close" button that hide the modal', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "Fpnj0S2c",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\",\"_view\"],[true,\"success-notification\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__close-button')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should close the modal when clicking on "Cancel" button', function () {
+        // given
+        this.render(Ember.HTMLBars.template({
+          "id": "Fpnj0S2c",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\",\"_view\"],[true,\"success-notification\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__close-button').click();
+        });
+
+        // then
+        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(0);
+      });
+    });
+
+    (0, _mocha.describe)('Borderline cases', function () {
+
+      (0, _mocha.it)('should open the modal on default "organization code entry" view even if modal was previously closed on "sharing confirmation" view', function () {
+        // given
+        this.render(Ember.HTMLBars.template({
+          "id": "vuOGWQQH",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\",\"_view\"],[true,\"sharing-confirmation\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+        Ember.run(function () {
+          return document.querySelector('.pix-modal__close-link').click();
+        });
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__share-button').click();
+        });
+
+        // then
+        expectToBeOnOrganizationCodeEntryView();
+      });
+
+      (0, _mocha.it)('should open the modal on default "organization code entry" view even if modal was previously closed on "success notification" view', function () {
+        // given
+        this.render(Ember.HTMLBars.template({
+          "id": "Fpnj0S2c",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\",\"_view\"],[true,\"success-notification\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+        Ember.run(function () {
+          return document.querySelector('.pix-modal__close-link').click();
+        });
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__share-button').click();
+        });
+
+        // then
+        expectToBeOnOrganizationCodeEntryView();
+      });
+
+      (0, _mocha.it)('should display the code input filled with the previously set organization code even after canceling sharing (step 2)', function () {
+        // given
+        this.render(Ember.HTMLBars.template({
+          "id": "r6zgCjpf",
+          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"_showingModal\",\"_code\",\"_view\"],[true,\"ORGA00\",\"sharing-confirmation\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__cancel-button').click();
+        });
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__organization-code-input').val()).to.equal('ORGA00');
       });
     });
   });
@@ -8127,12 +8581,12 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
       integration: true
     });
 
-    (0, _mocha.describe)('Default rendering for logged user', function () {
+    (0, _mocha.describe)('when rendering for logged user', function () {
 
       beforeEach(function () {
         // given
         this.register('service:store', Ember.Service.extend({
-          queryRecord: function queryRecord() {
+          findRecord: function findRecord() {
             return Ember.RSVP.resolve({
               firstName: 'FHI',
               lastName: '4EVER',
@@ -8140,7 +8594,13 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
             });
           }
         }));
+
+        this.register('service:session', Ember.Service.extend({
+          data: { authenticated: { userId: 123 } }
+        }));
+
         this.inject.service('store', { as: 'store' });
+        this.inject.service('session', { as: 'session' });
 
         // when
         this.render(Ember.HTMLBars.template({
@@ -8161,9 +8621,6 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         (0, _chai.expect)(this.$('.logged-user-name__link')).to.have.length(1);
         (0, _chai.expect)(this.$('.logged-user-name__link').text().trim()).to.be.equal('FHI 4EVER');
       });
-    });
-
-    (0, _mocha.describe)('behavior on user menu', function () {
 
       (0, _mocha.it)('should hide user menu, when no action on user-name', function () {
         // when
@@ -8175,19 +8632,6 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         // then
         (0, _chai.expect)(this.$('.logged-user-menu')).to.have.length(0);
-      });
-
-      beforeEach(function () {
-        this.register('service:store', Ember.Service.extend({
-          queryRecord: function queryRecord() {
-            return Ember.RSVP.resolve({
-              firstName: 'FHI',
-              lastName: '4EVER',
-              email: 'FHI@4EVER.fr'
-            });
-          }
-        }));
-        this.inject.service('store', { as: 'store' });
       });
 
       (0, _mocha.it)('should display a user menu, when user-name is clicked', function () {
@@ -8230,14 +8674,14 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
       });
     });
 
-    (0, _mocha.describe)('behavior when user is unlogged or not found', function () {
-
+    (0, _mocha.describe)('when user is unlogged or not found', function () {
       beforeEach(function () {
         this.register('service:store', Ember.Service.extend({
-          queryRecord: function queryRecord() {
+          findRecord: function findRecord() {
             return Ember.RSVP.reject();
           }
         }));
+
         this.inject.service('store', { as: 'store' });
       });
 
@@ -8725,6 +9169,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/models/snapshot-test.js', function () {
+      // test passed
+    });
+
     it('unit/models/user-test.js', function () {
       // test passed
     });
@@ -8951,6 +9399,46 @@ define('pix-live/tests/unit/adapters/user-test', ['chai', 'mocha', 'sinon', 'emb
       (0, _mocha.it)('should called GET /api/users/me', function () {
         // when
         adapter.queryRecord();
+
+        // then
+        _sinon.default.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/me');
+      });
+    });
+
+    (0, _mocha.describe)('#findRecord', function () {
+
+      var adapter = void 0;
+
+      beforeEach(function () {
+        adapter = this.subject();
+        adapter.ajax = _sinon.default.stub().resolves();
+      });
+
+      (0, _mocha.it)('should exist', function () {
+        // when
+        var adapter = this.subject();
+        // then
+        return (0, _chai.expect)(adapter.findRecord()).to.be.ok;
+      });
+
+      (0, _mocha.it)('should not reload data from API when already in store', function () {
+        // when
+        var adapter = this.subject();
+
+        // then
+        (0, _chai.expect)(adapter.shouldBackgroundReloadRecord()).to.equal(false);
+      });
+
+      (0, _mocha.it)('should return a resolved promise', function (done) {
+        // when
+        var promise = adapter.findRecord();
+        // then
+        promise.then(done);
+      });
+
+      (0, _mocha.it)('should called GET /api/users/me', function () {
+        // when
+        adapter.findRecord();
 
         // then
         _sinon.default.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/me');
@@ -9525,7 +10013,7 @@ define('pix-live/tests/unit/components/course-item-test', ['chai', 'mocha', 'emb
         var imageUrl = component.get('imageUrl');
 
         // then
-        (0, _chai.expect)(imageUrl).to.exists;
+        (0, _chai.expect)(imageUrl).to.exist;
         (0, _chai.expect)(imageUrl).to.equal('any_image.png');
       });
 
@@ -9537,7 +10025,7 @@ define('pix-live/tests/unit/components/course-item-test', ['chai', 'mocha', 'emb
         var imageUrl = component.get('imageUrl');
 
         // then
-        (0, _chai.expect)(imageUrl).to.exists;
+        (0, _chai.expect)(imageUrl).to.exist;
         (0, _chai.expect)(imageUrl).to.equal('/images/course-default-image.png');
       });
     });
@@ -10610,95 +11098,73 @@ define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'e
 
     (0, _emberMocha.setupTest)('component:share-profile', {});
 
-    (0, _mocha.describe)('#init', function () {
-      (0, _mocha.it)('should set the overlay as translucent', function () {
-        // Given
-        var component = this.subject();
+    var component = void 0;
 
-        // then
-        (0, _chai.expect)(component.get('isShowingModal')).to.be.equal(false);
+    beforeEach(function () {
+      component = this.subject();
+    });
+
+    (0, _mocha.describe)('#init', function () {
+
+      (0, _mocha.it)('should set the overlay as translucent', function () {
+        (0, _chai.expect)(component.get('_showingModal')).to.be.equal(false);
       });
 
-      (0, _mocha.it)('should set the organizationExists as true', function () {
-        // Given
-        var component = this.subject();
-
-        // then
-        (0, _chai.expect)(component.get('organizationExists')).to.be.equal(true);
+      (0, _mocha.it)('should set the organizationExists as false', function () {
+        (0, _chai.expect)(component.get('_organizationNotFound')).to.be.equal(false);
       });
     });
 
     (0, _mocha.describe)('#placeholder', function () {
       (0, _mocha.it)('should leave the placeholder empty with "focusIn"', function () {
-        // Given
-        var component = this.subject();
+        // then
+        component.send('focusInOrganizationCodeInput');
 
-        // Then
-        component.send('focusIn');
-
-        // When
-        (0, _chai.expect)(component.get('placeholder')).to.be.equal('');
+        // when
+        (0, _chai.expect)(component.get('_placeholder')).to.be.null;
       });
 
       (0, _mocha.it)('should reset the placeholder to its default value with "focusOut"', function () {
         // Given
-        var component = this.subject();
         component.set('placeholder', 'Ex: EFGH89');
 
-        // Then
-        component.send('focusOut');
+        // then
+        component.send('focusOutOrganizationCodeInput');
 
-        // When
-        (0, _chai.expect)(component.get('placeholder')).to.be.equal('Ex: ABCD12');
+        // when
+        (0, _chai.expect)(component.get('_placeholder')).to.be.equal('Ex: ABCD12');
       });
     });
 
     (0, _mocha.describe)('#toggleSharingModal', function () {
-      (0, _mocha.it)('should use the "close" action', function () {
-        // Given
-        var component = this.subject();
-
+      (0, _mocha.it)('should use the "open" action', function () {
         // when
-        component.send('toggleSharingModal');
+        component.send('openModal');
 
         // then
-        (0, _chai.expect)(component.get('isShowingModal')).to.equal(true);
+        (0, _chai.expect)(component.get('_showingModal')).to.equal(true);
       });
 
       (0, _mocha.it)('should reset the code to default value', function () {
         // Given
-        var component = this.subject();
-        component.set('code', 'ABCD01');
+        component.set('_code', 'ABCD01');
 
         // when
-        component.send('toggleSharingModal');
+        component.send('closeModal');
 
         // then
-        (0, _chai.expect)(component.get('code')).to.equal('');
-      });
-
-      (0, _mocha.it)('should the organizationExists to true', function () {
-        // Given
-        var component = this.subject();
-        component.set('organizationExists', false);
-
-        // when
-        component.send('toggleSharingModal');
-
-        // then
-        (0, _chai.expect)(component.get('organizationExists')).to.equal(true);
+        (0, _chai.expect)(component.get('_code')).to.be.null;
       });
 
       (0, _mocha.it)('should reset the organization to default value', function () {
         // Given
-        var component = this.subject();
         component.set('organization', {});
 
         // when
-        component.send('toggleSharingModal');
+        component.send('closeModal');
 
         // then
-        (0, _chai.expect)(component.get('organization')).to.equal(null);
+        (0, _chai.expect)(component.get('_organization')).to.equal(null);
       });
     });
   });
@@ -10920,11 +11386,21 @@ define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha',
 
       (0, _mocha.beforeEach)(function () {
         this.register('service:store', Ember.Service.extend({
-          queryRecord: function queryRecord() {
+          findRecord: function findRecord() {
             return Ember.RSVP.resolve({});
           }
         }));
         this.inject.service('store', { as: 'store' });
+
+        this.register('service:session', Ember.Service.extend({
+          isAuthenticated: true,
+          data: {
+            authenticated: {
+              userId: 1435
+            }
+          }
+        }));
+        this.inject.service('session', { as: 'session' });
       });
 
       (0, _mocha.it)('should return true, when user details is clicked', function () {
@@ -10956,14 +11432,24 @@ define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha',
     });
 
     (0, _mocha.describe)('Display user details', function () {
-      var queryRecordArgs = void 0;
+      var findRecordArgs = void 0;
 
       (0, _mocha.describe)('When user is logged', function () {
 
         (0, _mocha.beforeEach)(function () {
+          this.register('service:session', Ember.Service.extend({
+            isAuthenticated: true,
+            data: {
+              authenticated: {
+                userId: 1435
+              }
+            }
+          }));
+          this.inject.service('session', { as: 'session' });
+
           this.register('service:store', Ember.Service.extend({
-            queryRecord: function queryRecord() {
-              queryRecordArgs = Array.from(arguments);
+            findRecord: function findRecord() {
+              findRecordArgs = Array.from(arguments);
               return Ember.RSVP.resolve({
                 firstName: 'FHI',
                 lastName: '4EVER',
@@ -10979,7 +11465,7 @@ define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha',
           this.subject();
 
           // then
-          (0, _chai.expect)(queryRecordArgs).to.deep.equal(['user', {}]);
+          (0, _chai.expect)(findRecordArgs).to.deep.equal(['user', 1435]);
         });
       });
     });
@@ -11478,6 +11964,23 @@ define('pix-live/tests/unit/models/organization-test', ['chai', 'mocha', 'ember-
     });
   });
 });
+define('pix-live/tests/unit/models/snapshot-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Model | snapshot', function () {
+    (0, _emberMocha.setupModelTest)('snapshot', {
+      // Specify the other units that are required for this test.
+      needs: ['model:organization']
+    });
+
+    // Replace this with your real tests.
+    (0, _mocha.it)('exists', function () {
+      var model = this.subject();
+      // var store = this.store();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
 define('pix-live/tests/unit/models/user-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -11558,7 +12061,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
   (0, _mocha.describe)('Unit | Route | board', function () {
     (0, _emberMocha.setupTest)('route:board', {
       // Specify the other units that are required for this test.
-      needs: ['service:current-routed-modal']
+      needs: ['service:current-routed-modal', 'service:session']
     });
 
     (0, _mocha.it)('exists', function () {
@@ -11566,13 +12069,18 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       (0, _chai.expect)(route).to.be.ok;
     });
 
-    var queryRecordStub = _sinon.default.stub();
+    var findRecord = _sinon.default.stub();
 
-    beforeEach(function () {
+    (0, _mocha.beforeEach)(function () {
       this.register('service:store', Ember.Service.extend({
-        queryRecord: queryRecordStub
+        findRecord: findRecord
       }));
       this.inject.service('store', { as: 'store' });
+
+      this.register('service:session', Ember.Service.extend({
+        data: { authenticated: { userId: 12 } }
+      }));
+      this.inject.service('session', { as: 'session' });
     });
 
     (0, _mocha.it)('should correctly call the store', function () {
@@ -11580,14 +12088,14 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       var route = this.subject();
       route.transitionTo = function () {};
 
-      queryRecordStub.resolves();
+      findRecord.resolves();
 
       // when
       route.model();
 
       // then
-      _sinon.default.assert.calledOnce(queryRecordStub);
-      _sinon.default.assert.calledWith(queryRecordStub, 'user', {});
+      _sinon.default.assert.calledOnce(findRecord);
+      _sinon.default.assert.calledWith(findRecord, 'user', 12);
     });
 
     (0, _mocha.it)('should return user first organization informations', function () {
@@ -11597,7 +12105,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       var route = this.subject();
       route.transitionTo = function () {};
 
-      queryRecordStub.resolves(user);
+      findRecord.resolves(user);
 
       // when
       var promise = route.model();
@@ -11613,7 +12121,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       var route = this.subject();
       route.transitionTo = _sinon.default.spy();
 
-      queryRecordStub.rejects();
+      findRecord.rejects();
 
       // when
       var promise = route.model();
@@ -11622,6 +12130,24 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       return promise.then(function (_) {
         _sinon.default.assert.calledOnce(route.transitionTo);
         _sinon.default.assert.calledWith(route.transitionTo, 'index');
+      });
+    });
+
+    (0, _mocha.it)('should return to /compte when the user has no organization', function () {
+      // given
+      var route = this.subject();
+      route.transitionTo = _sinon.default.spy();
+      var user = Ember.Object.create({ id: 1, organizations: [] });
+
+      findRecord.resolves(user);
+
+      // when
+      var promise = route.model();
+
+      // then
+      return promise.then(function (_) {
+        _sinon.default.assert.calledOnce(route.transitionTo);
+        _sinon.default.assert.calledWith(route.transitionTo, 'compte');
       });
     });
   });
@@ -11664,23 +12190,90 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
       needs: ['service:current-routed-modal', 'service:session']
     });
 
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-
     (0, _mocha.it)('should redirect to / (Home)', function () {
       // Given
       var route = this.subject();
 
       // Then
-      (0, _chai.expect)(route.authenticationRoute).to.equal('/');
+      (0, _chai.expect)(route.authenticationRoute).to.equal('/connexion');
     });
 
-    (0, _mocha.describe)('searchForOrganization', function () {
+    (0, _mocha.describe)('model', function () {
+
+      var storyStub = void 0;
+      var findRecordStub = void 0;
+
+      (0, _mocha.before)(function () {
+        findRecordStub = _sinon.default.stub();
+        storyStub = Ember.Service.extend({
+          findRecord: findRecordStub
+        });
+      });
+
+      (0, _mocha.it)('should redirect to logout when unable to find user details', function () {
+        // Given
+        this.register('service:store', storyStub);
+        this.inject.service('store', { as: 'store' });
+
+        findRecordStub.rejects();
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.model();
+
+        // Then
+        return promise.catch(function () {
+          _sinon.default.assert.calledWith(route.transitionTo, 'logout');
+        });
+      });
+
+      (0, _mocha.it)('should redirect to /board when the user as an organization', function () {
+        // Given
+        var linkedOrganization = Ember.Object.create({ id: 1 });
+        var foundUser = Ember.Object.create({ organizations: [linkedOrganization] });
+
+        this.register('service:store', storyStub);
+        this.inject.service('store', { as: 'store' });
+
+        findRecordStub.resolves(foundUser);
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.model();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.calledWith(route.transitionTo, 'board');
+        });
+      });
+
+      (0, _mocha.it)('should remain on /compte when the user as no organization linked', function () {
+        // Given
+        var foundUser = Ember.Object.create({});
+
+        this.register('service:store', storyStub);
+        this.inject.service('store', { as: 'store' });
+
+        findRecordStub.resolves(foundUser);
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.model();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.notCalled(route.transitionTo);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#searchForOrganization', function () {
 
       var storeQueryStub = void 0;
-      var storyStub = void 0;
+      var storeStub = void 0;
       var organizations = void 0;
       var organizationCollectionStub = void 0;
 
@@ -11689,14 +12282,14 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
         organizations = { get: organizationCollectionStub, content: [{}] };
 
         storeQueryStub = _sinon.default.stub().resolves(organizations);
-        storyStub = Ember.Service.extend({
+        storeStub = Ember.Service.extend({
           query: storeQueryStub
         });
       });
 
       (0, _mocha.it)('should search for an organization', function () {
         // Given
-        this.register('service:store', storyStub);
+        this.register('service:store', storeStub);
         this.inject.service('store', { as: 'store' });
 
         var route = this.subject();
@@ -11718,7 +12311,7 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
           // Given
           organizationCollectionStub.returns('THE FIRST OBJECT');
 
-          this.register('service:store', storyStub);
+          this.register('service:store', storeStub);
           this.inject.service('store', { as: 'store' });
           var route = this.subject();
 
@@ -11737,7 +12330,7 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
           organizations.content = [];
           organizationCollectionStub.returns('THE FIRST OBJECT');
 
-          this.register('service:store', storyStub);
+          this.register('service:store', storeStub);
           this.inject.service('store', { as: 'store' });
           var route = this.subject();
 
@@ -11747,6 +12340,39 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
           return routeActionResult.then(function (organization) {
             (0, _chai.expect)(organization).to.equal(null);
           });
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#shareProfileSnapshot', function () {
+
+      var storeStub = void 0;
+      var storeCreateRecordStub = void 0;
+      var storeSaveStub = void 0;
+      var organization = void 0;
+
+      beforeEach(function () {
+        storeSaveStub = _sinon.default.stub().resolves();
+        organization = Ember.Object.create({ id: 1234, name: 'ACME', code: 'RVSG44', save: storeSaveStub });
+        storeCreateRecordStub = _sinon.default.stub().returns(organization);
+        storeStub = Ember.Service.extend({
+          createRecord: storeCreateRecordStub
+        });
+      });
+
+      (0, _mocha.it)('should create and save a new Snapshot', function () {
+        // given
+        this.register('service:store', storeStub);
+        this.inject.service('store', { as: 'store' });
+        var route = this.subject();
+
+        // when
+        var promise = route.actions.shareProfileSnapshot.call(route, organization);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.called(storeCreateRecordStub);
+          _sinon.default.assert.called(storeSaveStub);
         });
       });
     });
@@ -11811,7 +12437,7 @@ define('pix-live/tests/unit/routes/enrollment-test', ['chai', 'mocha', 'ember-mo
     });
   });
 });
-define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | index', function () {
@@ -11824,50 +12450,112 @@ define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha']
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
     });
+
+    (0, _mocha.describe)('when the user is not logged id', function () {
+
+      (0, _mocha.it)('should leave the user on the current location', function () {
+        // Given
+        this.register('service:session', Ember.Service.extend({ isAuthenticated: false }));
+        this.inject.service('session', { as: 'session' });
+
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        route.beforeModel();
+
+        // Then
+        _sinon.default.assert.notCalled(route.transitionTo);
+      });
+    });
+
+    (0, _mocha.describe)('when the user is authenticated', function () {
+
+      var storeServiceStub = void 0;
+
+      beforeEach(function () {
+
+        storeServiceStub = {
+          findRecord: _sinon.default.stub().resolves(Ember.Object.create({ organizations: [] }))
+        };
+        this.register('service:store', Ember.Service.extend(storeServiceStub));
+        this.inject.service('store', { as: 'store' });
+
+        this.register('service:session', Ember.Service.extend({
+          isAuthenticated: true,
+          data: {
+            authenticated: {
+              userId: 1435
+            }
+          }
+        }));
+        this.inject.service('session', { as: 'session' });
+      });
+
+      (0, _mocha.it)('should redirect the user somewhere else', function () {
+        // Given
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.beforeModel();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(route.transitionTo);
+        });
+      });
+
+      (0, _mocha.it)('should redirect the user to /compte by default', function () {
+        // Given
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.beforeModel();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.calledWith(route.transitionTo, 'compte');
+        });
+      });
+
+      (0, _mocha.it)('should load user details from the store', function () {
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.beforeModel();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(storeServiceStub.findRecord);
+          _sinon.default.assert.calledWith(storeServiceStub.findRecord, 'user', 1435);
+        });
+      });
+
+      (0, _mocha.it)('should redirect to board when the user is linked to an organization', function () {
+        // Given
+        storeServiceStub.findRecord.resolves(Ember.Object.create({
+          organizations: [Ember.Object.create()]
+        }));
+
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.beforeModel();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.calledWith(route.transitionTo, 'board');
+        });
+      });
+    });
   });
 });
-define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  var SessionStub = function () {
-    function SessionStub() {
-      _classCallCheck(this, SessionStub);
-    }
-
-    _createClass(SessionStub, [{
-      key: 'authenticate',
-      value: function authenticate() {
-        this.callArgs = Array.from(arguments);
-        return Promise.resolve();
-      }
-    }]);
-
-    return SessionStub;
-  }();
 
   (0, _mocha.describe)('Unit | Route | inscription', function () {
     (0, _emberMocha.setupTest)('route:inscription', {
@@ -11883,14 +12571,15 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
       // Given
       var expectedEmail = 'email@example.net';
       var expectedPassword = 'Azertya1!';
-      var sessionStub = new SessionStub();
+      var authenticateStub = _sinon.default.stub().resolves();
+      var queryRecordStub = _sinon.default.stub().resolves();
+      var sessionStub = { authenticate: authenticateStub };
+      var storeStub = { queryRecord: queryRecordStub };
 
       var route = this.subject();
+      route.transitionTo = _sinon.default.stub();
       route.set('session', sessionStub);
-      var transitionToArg = void 0;
-      route.transitionTo = function () {
-        transitionToArg = Array.from(arguments);
-      };
+      route.set('store', storeStub);
 
       // When
       var promise = route.actions.redirectToProfileRoute.call(route, {
@@ -11900,8 +12589,9 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
 
       return promise.then(function () {
         // Then
-        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
-        (0, _chai.expect)(transitionToArg).to.deep.equal(['compte']);
+        _sinon.default.assert.calledWith(authenticateStub, 'authenticator:simple', expectedEmail, expectedPassword);
+        _sinon.default.assert.calledWith(queryRecordStub, 'user', {});
+        _sinon.default.assert.calledWith(route.transitionTo, 'compte');
       });
     });
   });
