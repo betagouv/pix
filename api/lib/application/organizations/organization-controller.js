@@ -5,13 +5,14 @@ const snapshotRepository = require('../../infrastructure/repositories/snapshot-r
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
 const organizationService = require('../../domain/services/organization-service');
+const Snapshot = require('../../domain/models/data/snapshot');
 
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
 const _ = require('lodash');
 const logger = require('../../infrastructure/logger');
 
-const {AlreadyRegisteredEmailError} = require('../../domain/errors');
+const { AlreadyRegisteredEmailError } = require('../../domain/errors');
 
 module.exports = {
   create: (request, reply) => {
@@ -24,7 +25,7 @@ module.exports = {
 
     if(userValidationErrors || organizationValidationErrors) {
       const errors = _.merge(userValidationErrors, organizationValidationErrors);
-      return reply(validationErrorSerializer.serialize({data: errors})).code(400);
+      return reply(validationErrorSerializer.serialize({ data: errors })).code(400);
     }
 
     return userRepository
@@ -74,13 +75,21 @@ module.exports = {
     return snapshotRepository
       .getSnapshotsByOrganizationId(request.params.id)
       .then(snapshotSerializer.serializeArray)
-      .then(reply);
+      .then(reply)
+      .catch((err) => {
+        if(err === Snapshot.NotFoundError) {
+          return reply(validationErrorSerializer.serialize(err));
+        }
+
+        logger.error(err);
+        return reply(validationErrorSerializer.serialize(err));
+      });
   }
 };
 
 function _buildAlreadyExistingEmailError(email) {
   return {
-    data: {email: [`L'adresse ${email} est déjà associée à un utilisateur.`]}
+    data: { email: [`L'adresse ${email} est déjà associée à un utilisateur.`] }
   };
 }
 
