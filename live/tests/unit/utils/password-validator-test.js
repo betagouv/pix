@@ -4,21 +4,17 @@ import isPasswordvalid from 'pix-live/utils/password-validator';
 
 describe('Unit | Utility | password validator', function() {
   describe('Invalid password', function() {
-    [
-      '',
-      ' ',
-      null,
-      '@pix',
-      '@pix.fr',
-      '1      1',
-      'password',
-      '12345678&',
-      '+!@)-=`"#&',
-      '+!@)-=`"#&1',
-    ].forEach(function(badPassword) {
-      it(`should return false when password is invalid: ${badPassword}`, function() {
-        expect(isPasswordvalid(badPassword)).to.be.false;
-      });
+    it('should contains at least 8 characters:', function() {
+      const password = 'F26251J';
+      expect(isPasswordvalid(password)).to.be.false;
+    });
+    it('should contains at least one letter ', function() {
+      const password = '227729827';
+      expect(isPasswordvalid(password)).to.be.false;
+    });
+    it('should contains at least a figure', function() {
+      const password = 'FFFFFFFF';
+      expect(isPasswordvalid(password)).to.be.false;
     });
   });
 
