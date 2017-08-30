@@ -1,8 +1,13 @@
+const validator = require('validator');
+
 const Bookshelf = require('../../../infrastructure/bookshelf');
 const encrypt = require('../../services/encryption-service');
+const passwordValidator = require('../../../infrastructure/validators/password-validator');
 
 const Assessment = require('./assessment');
 const Organization = require('./organization');
+
+validator.isPassword = passwordValidator;
 
 module.exports = Bookshelf.Model.extend({
   tableName: 'users',
@@ -24,8 +29,8 @@ module.exports = Bookshelf.Model.extend({
     ],
     password: [
       {
-        method: 'matches', error: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.',
-        args: /(?=.*[A-Za-z])(?=.*\d).{8,}/
+        method: 'isPassword', error: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.',
+        args: [/(?=.*[A-Za-zÀ-ÿ])(?=.*\d).{8,}/, ]
       }
     ],
     cgu: [
