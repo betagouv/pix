@@ -13,22 +13,18 @@ class SnapshotSerializer {
 
   serializeArray(snapshots) {
     return new JSONAPISerializer('snapshot', {
-      attributes: ['score', 'creationDate', 'completionPercentage'],
-      //keyForAttribute: 'dash-case',
+      attributes: ['score', 'creationDate', 'completionPercentage', 'user'],
       user: {
         ref: 'id',
-        included: false,
         attributes: ['firstName', 'lastName']
+      },
+      transform(snapshot) {
+        snapshot.id = snapshot.id.toString();
+        snapshot.completionPercentage = snapshot.completionPercentage.toString();
+        snapshot.score = snapshot.score.toString();
+        return snapshot;
       }
     }).serialize(snapshots);
-    /* return new JSONAPISerializer('user', {
-       attributes: ['firstName', 'lastName', 'address'],
-       address: {
-         ref: 'id',
-         included: false,
-         attributes: ['addressLine1', 'zipCode', 'country']
-       }
-     }).serialize(snapshots);*/
   }
 }
 
