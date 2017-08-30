@@ -13324,10 +13324,17 @@ define('pix-live/tests/unit/utils/password-validator-test', ['chai', 'mocha', 'p
 
   (0, _mocha.describe)('Unit | Utility | password validator', function () {
     (0, _mocha.describe)('Invalid password', function () {
-      ['', ' ', null, '@pix', '@pix.fr', '1      1', 'password', '12345678&', '+!@)-=`"#&', '+!@)-=`"#&1'].forEach(function (badPassword) {
-        (0, _mocha.it)('should return false when password is invalid: ' + badPassword, function () {
-          (0, _chai.expect)((0, _passwordValidator.default)(badPassword)).to.be.false;
-        });
+      (0, _mocha.it)('should contains at least 8 characters:', function () {
+        var password = 'F26251J';
+        (0, _chai.expect)((0, _passwordValidator.default)(password)).to.be.false;
+      });
+      (0, _mocha.it)('should contains at least one letter ', function () {
+        var password = '227729827';
+        (0, _chai.expect)((0, _passwordValidator.default)(password)).to.be.false;
+      });
+      (0, _mocha.it)('should contains at least a figure', function () {
+        var password = 'FFFFFFFF';
+        (0, _chai.expect)((0, _passwordValidator.default)(password)).to.be.false;
       });
     });
 
