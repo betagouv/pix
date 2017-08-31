@@ -2,8 +2,57 @@ body{
   background-color:  "black";
 }
 
-.legal-notices{
-  background-color: "black";
-  border :1px solid gray;
-
+.legal-notices-page{
+  background-color: #FBF9FB;
+  display:flex;
+  flex-direction:column;
 }
+.legal-notices-page_container {
+  padding: 15px;
+  @include device-is('desktop') {
+    // flex:1;
+    margin : 68px auto;
+    padding: 40px 30px;
+    width: 940px;
+    border-radius: 5px;
+    background-color: $white;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.3);
+  }
+  & h1 {
+    color :$pix-blue;
+    font : $font-raleway;
+  }
+  & hr {
+    background-color:$gainsboro;
+    box-sizing: border-box;
+    height : 1px;
+    margin: 30px auto ;
+  }
+  & h2 {
+    color :$pix-blue;
+    font : $font-raleway;
+  }
+  & h3 {
+    font-weight: $font-bold;
+    font-family: $font-lato;
+  }
+  & p {
+    font-family:  $font-lato;
+    text-align: justify;
+  }
+}
+.legal-notices-page_container_logo-group {
+  display: flex;
+  list-style-type: none;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  width:70%;
+}
+
+.legal-notices-page_container_logo-group_cell{
+  width : 32%;
+  padding: 30px 30px;
+  box-sizing: border-box;
+}
+
