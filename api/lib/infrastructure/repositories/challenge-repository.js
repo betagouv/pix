@@ -33,7 +33,7 @@ module.exports = {
       cache.get(cacheKey, (err, cachedValue) => {
         if (err) return reject(err);
         if (cachedValue) return resolve(cachedValue);
-        return _fetchChallenges(cacheKey, resolve, reject, true);
+        return _fetchChallenges(cacheKey, resolve, reject, () => true);
       });
     });
   },

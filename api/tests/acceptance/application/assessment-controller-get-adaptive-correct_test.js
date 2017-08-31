@@ -15,12 +15,46 @@ describe('Acceptance | API | Assessments', function() {
         'fields': {
           // a bunch of fields
           'Adaptatif ?': true,
+          'Competence': ['competence_id'],
           '\u00c9preuves': [
             'w_third_challenge',
             'w_second_challenge',
             'w_first_challenge'
           ]
         }
+      });
+
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Epreuves')
+      .query(true)
+      .times(3)
+      .reply(200, {
+        'records': [
+          {
+            'id': 'w_first_challenge',
+            'fields': {
+              'Statut': 'validé',
+              'competences': ['competence_id'],
+              'acquis': ['@web2']
+            }
+          },
+          {
+            'id': 'w_second_challenge',
+            'fields': {
+              'Statut': 'validé',
+              'competences': ['competence_id'],
+              'acquis': ['@web3']
+            },
+          },
+          {
+            'id': 'w_third_challenge',
+            'fields': {
+              'Statut': 'validé',
+              'competences': ['competence_id'],
+              'acquis': ['@web1']
+            },
+          }
+        ]
       });
 
     nock('https://api.airtable.com')

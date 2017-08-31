@@ -1,4 +1,5 @@
 const { describe, it, after, before, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
+const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 
 describe('Acceptance | API | assessment-controller-get-solutions', () => {
@@ -34,6 +35,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
             'fields': {
               // a bunch of fields
               'Adaptatif ?': true,
+              'Competence': ['competence_id'],
               '\u00c9preuves': [
                 'q_third_challenge',
                 'q_second_challenge',
@@ -43,12 +45,46 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           }
           );
         nock('https://api.airtable.com')
+          .get('/v0/test-base/Epreuves')
+          .query(true)
+          .times(3)
+          .reply(200, {
+            'records': [
+              {
+                'id': 'q_first_challenge',
+                'fields': {
+                  'Statut': 'validé',
+                  'competences': ['competence_id'],
+                  'acquis': ['@web3']
+                }
+              },
+              {
+                'id': 'q_second_challenge',
+                'fields': {
+                  'Statut': 'validé',
+                  'competences': ['competence_id'],
+                  'acquis': ['@web2']
+                },
+              },
+              {
+                'id': 'q_third_challenge',
+                'fields': {
+                  'Statut': 'validé',
+                  'competences': ['competence_id'],
+                  'acquis': ['@web1']
+                },
+              }
+            ]
+          });
+        nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/q_first_challenge')
           .query(true)
           .times(2)
           .reply(200, {
             'id': 'q_first_challenge',
             'fields': {
+              'Statut': 'validé',
+              'competences': ['competence_id'],
               'acquis': ['web3'],
               'Statut': 'validé',
               'Bonnes réponses': 'fromage'
@@ -85,6 +121,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
   });
 
   after((done) => {
+    cache.flushAll();
     nock.cleanAll();
     server.stop(done);
   });

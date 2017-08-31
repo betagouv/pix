@@ -115,6 +115,17 @@ class Assessment {
       return bestChallenge; // May be undefined, in which case the adaptive test should be ended
     }
   }
+
+  get pixScore() {
+    const pixScoreOfSkills = this.course.computePixScoreOfSkills();
+    return [...this.validatedSkills]
+      .map(skill => pixScoreOfSkills[skill.name] || 0)
+      .reduce((a, b) => a + b, 0);
+  }
+
+  get obtainedLevel() {
+    return 0;
+  }
 }
 
 module.exports = Assessment;

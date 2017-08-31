@@ -16,9 +16,9 @@ describe('Unit | Model | Course', function() {
 
     it('should return a dictionary of tubes when all challenges require only one skill', function() {
       // given
-      const web4 = new Skill('web', 4);
-      const web5 = new Skill('web', 5);
-      const url1 = new Skill('url', 1);
+      const web4 = new Skill('web4');
+      const web5 = new Skill('web5');
+      const url1 = new Skill('url1');
       const ch1 = new Challenge('a', 'validé', [web4]);
       const ch2 = new Challenge('b', 'validé', [web5]);
       const ch3 = new Challenge('c', 'validé', [url1]);
@@ -35,10 +35,10 @@ describe('Unit | Model | Course', function() {
 
     it('should return a dictionary of tubes when some challenges require multiple skills', function() {
       // given
-      const web4 = new Skill('web', 4);
-      const web5 = new Skill('web', 5);
-      const url1 = new Skill('url', 1);
-      const url2 = new Skill('url', 2);
+      const web4 = new Skill('web4');
+      const web5 = new Skill('web5');
+      const url1 = new Skill('url1');
+      const url2 = new Skill('url2');
       const ch1 = new Challenge('a', 'validé', [web4, url1]);
       const ch2 = new Challenge('b', 'validé', [web5]);
       const ch3 = new Challenge('c', 'validé', [url2]);
@@ -55,11 +55,11 @@ describe('Unit | Model | Course', function() {
 
     it('should return a dictionary of tubes which difficulties are ordered by value', function() {
       // given
-      const web1 = new Skill('web', 1);
-      const web4 = new Skill('web', 4);
-      const web5 = new Skill('web', 5);
-      const url1 = new Skill('url', 1);
-      const url2 = new Skill('url', 2);
+      const web1 = new Skill('web1');
+      const web4 = new Skill('web4');
+      const web5 = new Skill('web5');
+      const url1 = new Skill('url1');
+      const url2 = new Skill('url2');
       const ch1 = new Challenge('a', 'validé', [web5, url2]);
       const ch2 = new Challenge('b', 'validé', [web4, url1, web1]);
       const challenges = [ch1, ch2];

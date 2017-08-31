@@ -58,7 +58,7 @@ describe('Unit | Repository | challenge-repository', function() {
       done();
     });
 
-    it('should resolve with the callenges directly retrieved from the cache without calling airtable when the challenge has been cached', function(done) {
+    it('should resolve with the challenges directly retrieved from the cache without calling airtable when the challenge has been cached', function(done) {
       // given
       getRecords.resolves(true);
       cache.set(cacheKey, challenges);
@@ -72,7 +72,7 @@ describe('Unit | Repository | challenge-repository', function() {
       done();
     });
 
-    describe('when challenges have not been previsously cached', function() {
+    describe('when challenges have not been previously cached', function() {
 
       beforeEach(function() {
         getRecords.resolves(challenges);
