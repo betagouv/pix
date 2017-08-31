@@ -14,7 +14,7 @@ exports.register = function(server, options, next) {
     },
     {
       method: 'GET',
-      path: '/api/organizations/:id/snapshots',
+      path: '/api/organizations/{id}/snapshots',
       config: { handler: organisationController.getSharedProfiles, tags: ['api'] }
     }
   ]);
