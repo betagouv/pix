@@ -5,7 +5,6 @@ const snapshotRepository = require('../../infrastructure/repositories/snapshot-r
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
 const organizationService = require('../../domain/services/organization-service');
-const Snapshot = require('../../domain/models/data/snapshot');
 
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
@@ -74,16 +73,19 @@ module.exports = {
   getSharedProfiles: (request, reply) => {
     return snapshotRepository
       .getSnapshotsByOrganizationId(request.params.id)
-      .then(snapshotSerializer.serializeArray)
-      .then(_convertWithRelationToJson)
-      .then(reply)
+      .then(snapshots => snapshots.load(['user']))
+      .then((snapshotsWithRelatedUsers) => {
+        const jsonSnapshots = snapshotsWithRelatedUsers.toJSON();
+        return snapshotSerializer.serializeArray(jsonSnapshots);
+      })
+      .then((SerializedSnapshots) => reply(SerializedSnapshots).code(200))
       .catch((err) => {
-        if(err === Snapshot.NotFoundError) {
-          return reply(validationErrorSerializer.serialize(err));
+        if(err.name === 'CustomError') {
+          return reply(validationErrorSerializer.serialize(_buildErrorMessage('Aucun profile profil n’a été partagé avec cette organisation'))).code(404);
         }
 
         logger.error(err);
-        return reply(validationErrorSerializer.serialize(err));
+        return reply(validationErrorSerializer.serialize(_buildErrorMessage('une erreur est survenue lors de la récupération des profils'))).code(500);
       });
   }
 };
@@ -124,6 +126,10 @@ function _extractFilters(request) {
   }, {});
 }
 
-function _convertWithRelationToJson(snapshot) {
-  return snapshot.related('users').toJSON();
+function _buildErrorMessage(errorMessage) {
+  return {
+    data: {
+      authorization: [errorMessage]
+    }
+  };
 }
