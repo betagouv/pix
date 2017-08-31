@@ -13,7 +13,7 @@ class SnapshotSerializer {
 
   serializeArray(snapshots) {
     return new JSONAPISerializer('snapshot', {
-      attributes: ['score', 'creationDate', 'completionPercentage', 'user'],
+      attributes: ['score', 'createdAt', 'completionPercentage', 'user'],
       user: {
         ref: 'id',
         attributes: ['firstName', 'lastName']

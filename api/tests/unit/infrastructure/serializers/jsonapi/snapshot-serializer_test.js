@@ -44,7 +44,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       const snapshot = {
         id: '1',
         score: '10',
-        creationDate: '2017-08-23 12:52:33',
+        createdAt: '2017-08-23 12:52:33',
         completionPercentage: '12',
         user: {
           id: '2',
@@ -60,7 +60,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
             type: 'snapshots',
             attributes: {
               score: '10',
-              'creation-date': '2017-08-23 12:52:33',
+              'created-at': '2017-08-23 12:52:33',
               'completion-percentage': '12',
             },
             relationships: {
@@ -96,14 +96,14 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       const snapshot1 = {
         id: 1,
         score: 10,
-        creationDate: '2017-08-23 12:52:33',
+        createdAt: '2017-08-23 12:52:33',
         completionPercentage: 12,
         user: { id: 1, firstName: 'Barack', lastName: 'Afrite' }
       };
       const snapshot2 = {
         id: 2,
         score: 12,
-        creationDate: '2017-07-29 12:52:44',
+        createdAt: '2017-07-29 12:52:44',
         completionPercentage: 25,
         user: { id: 2, firstName: 'Sandro', lastName: 'Mancuso' }
       };
@@ -115,8 +115,8 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
             type: 'snapshots',
             attributes: {
               score: '10',
-              'creation-date': '2017-08-23 12:52:33',
-              'completion-percentage': '12',
+              'created-at': '2017-08-23 12:52:33',
+              'completion-percentage': '12'
             },
             relationships: {
               user: {
@@ -132,8 +132,8 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
             type: 'snapshots',
             attributes: {
               score: '12',
-              'creation-date': '2017-07-29 12:52:44',
               'completion-percentage': '25',
+              'created-at': '2017-07-29 12:52:44'
             },
             relationships: {
               user: {
