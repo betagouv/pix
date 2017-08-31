@@ -3528,19 +3528,16 @@ input.qcm-panel__proposal-checkbox {
   height: 17px; }
 
 .user-menu-item__account-link {
-  margin-top: 14px;
-  width: 100%; }
+  margin-top: 14px; }
 
-.user-menu-item__account-link button {
-  min-width: 103px;
-  height: 32px;
+.user-menu-item__account-link a {
   border-radius: 4px;
-  border: none;
+  padding: 7px 12px 8px 12px;
   background-color: #3d68ff;
+  font-size: 14px;
   font-family: "Lato", Arial, sans-serif;
   color: #ffffff;
-  text-transform: capitalize;
-  font-size: 14px; }
+  text-transform: capitalize; }
 
 .user-menu__item--logout {
   display: -webkit-box;
