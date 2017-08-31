@@ -1,22 +1,20 @@
-body{
-  background-color:  "black";
-}
-
 .legal-notices-page{
-  background-color: #FBF9FB;
+  background-color: $alabaster-grey;
   display:flex;
   flex-direction:column;
 }
-.legal-notices-page_container {
+.legal-notices-page__container {
   padding: 15px;
   @include device-is('desktop') {
-    // flex:1;
     margin : 68px auto;
     padding: 40px 30px;
     width: 940px;
     border-radius: 5px;
     background-color: $white;
     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.3);
+  }
+  & a {
+    text-decoration: underline;
   }
   & h1 {
     color :$pix-blue;
@@ -35,24 +33,63 @@ body{
   & h3 {
     font-weight: $font-bold;
     font-family: $font-lato;
+    font-size:1em;
+    text-transform: uppercase;
   }
   & p {
     font-family:  $font-lato;
     text-align: justify;
   }
 }
-.legal-notices-page_container_logo-group {
+.list-images{
   display: flex;
   list-style-type: none;
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
-  width:70%;
+  padding : 0px;
+  @include device-is('desktop') {
+    width:60%;
+  }
+  @include device-is('tablet') {
+    width : 100%;
+  }
+  @include device-is('mobile') {
+    width : 100%;
+  }
 }
 
-.legal-notices-page_container_logo-group_cell{
-  width : 32%;
-  padding: 30px 30px;
+.list-images__cell{
+  padding: 10px 10px;
   box-sizing: border-box;
+
+  @include device-is('desktop') {
+    width : 30%;
+    padding : 0 0;
+    & img {
+      display : block;
+      width :40%;
+      margin: 20px auto;
+    }
+  }
+  @include device-is('tablet') {
+    width : 50%;
+    padding : 0 0;
+    & img {
+      display : block;
+      width :100px;
+      margin: 20px auto;
+    }
+  }
+
+  @include device-is('mobile') {
+    width : 50%;
+    margin: auto;
+    & img {
+      display : block;
+      width :100px;
+      margin: 0 auto;
+    }
+  }
 }
 
