@@ -64,8 +64,5 @@
     "release:perform": "./scripts/release/perform.sh",
     "release:publish": "./scripts/release/publish.sh",
     "preview:update": "./scripts/release/update-preview.sh"
-  },
-  "dependencies": {
-    "epimetheus": "^1.0.54"
   }
 }
