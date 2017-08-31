@@ -7,6 +7,6 @@ module.exports = {
 
   getSnapshotsByOrganizationId(organizationId) {
     return Snapshot.where('organizationId', organizationId)
-      .fetch({ require: false, withRelated: ['users'] });
+      .fetch({ require: true });
   }
 };
