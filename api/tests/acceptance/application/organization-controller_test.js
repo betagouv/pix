@@ -145,7 +145,8 @@ describe('Acceptance | Controller | organization-controller', function() {
             id: snapshotId.toString(),
             attributes: {
               score: '15',
-              'completion-percentage': '70'
+              'completion-percentage': '70',
+              'created-at': '2017-08-31 15:57:06'
             },
             relationships: {
               user: {
@@ -297,7 +298,8 @@ function _insertSnapshot(organizationId, userId) {
     completionPercentage: 70,
     userId,
     score: 15,
-    profile: JSON.stringify(serializedUserProfile)
+    profile: JSON.stringify(serializedUserProfile),
+    createdAt: '2017-08-31 15:57:06'
   };
   return knex('snapshots').insert(snapshotRaw);
 }
