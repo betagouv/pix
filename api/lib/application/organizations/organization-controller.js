@@ -75,6 +75,7 @@ module.exports = {
     return snapshotRepository
       .getSnapshotsByOrganizationId(request.params.id)
       .then(snapshotSerializer.serializeArray)
+      .then(_convertWithRelationToJson)
       .then(reply)
       .catch((err) => {
         if(err === Snapshot.NotFoundError) {
@@ -121,4 +122,8 @@ function _extractFilters(request) {
     }
     return result;
   }, {});
+}
+
+function _convertWithRelationToJson(snapshot) {
+  return snapshot.related('users').toJSON();
 }
