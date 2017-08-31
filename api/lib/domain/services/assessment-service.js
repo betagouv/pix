@@ -103,7 +103,7 @@ function getScoredAssessment(assessmentId) {
           const assessment = assessmentAdapter.getAdaptedAssessment(coursePix, answersPix, challengesPix, skillNames);
 
           assessmentPix.set('estimatedLevel', assessment.obtainedLevel);
-          assessmentPix.set('pixScore', assessment.pixScore);
+          assessmentPix.set('pixScore', assessment.displayedPixScore);
         } else {
           assessmentPix.set('estimatedLevel', 0);
           assessmentPix.set('pixScore', 0);

@@ -123,8 +123,12 @@ class Assessment {
       .reduce((a, b) => a + b, 0);
   }
 
+  get displayedPixScore() {
+    return Math.floor(this.pixScore);
+  }
+
   get obtainedLevel() {
-    return 0;
+    return Math.floor(this.pixScore / 8);
   }
 }
 

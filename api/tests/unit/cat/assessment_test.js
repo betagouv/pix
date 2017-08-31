@@ -1,4 +1,4 @@
-const expect = require('chai').expect;
+const { expect, sinon } = require('../../test-helper');
 const Course = require('../../../lib/cat/course');
 const Assessment = require('../../../lib/cat/assessment');
 const Answer = require('../../../lib/cat/answer');
@@ -443,6 +443,52 @@ describe('Unit | Model | Assessment', function() {
 
       // then
       expect(assessment.pixScore).to.be.equal(6);
+    });
+  });
+
+  describe('#displayedPixScore', function() {
+
+    it('should be 7 if pixScore is 7.98', function() {
+      // given
+      const course = new Course([], []);
+      const assessment = new Assessment(course, []);
+      sinon.stub(assessment, 'pixScore').get(() => 7.98);
+
+      // then
+      expect(assessment.displayedPixScore).to.equal(7);
+    });
+
+    it('should be 8 if pixScore is 8.02', function() {
+      // given
+      const course = new Course([], []);
+      const assessment = new Assessment(course, []);
+      sinon.stub(assessment, 'pixScore').get(() => 8.02);
+
+      // then
+      expect(assessment.displayedPixScore).to.equal(8);
+    });
+  });
+
+  describe('#obtainedLevel', function() {
+
+    it('should be 0 if pixScore is 7.98', function() {
+      // given
+      const course = new Course([], []);
+      const assessment = new Assessment(course, []);
+      sinon.stub(assessment, 'pixScore').get(() => 7.98);
+
+      // then
+      expect(assessment.obtainedLevel).to.equal(0);
+    });
+
+    it('should be 1 if pixScore is 8.02', function() {
+      // given
+      const course = new Course([], []);
+      const assessment = new Assessment(course, []);
+      sinon.stub(assessment, 'pixScore').get(() => 8.02);
+
+      // then
+      expect(assessment.obtainedLevel).to.equal(1);
     });
   });
 

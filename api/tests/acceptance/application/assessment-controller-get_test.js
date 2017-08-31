@@ -265,7 +265,7 @@ describe('Acceptance | API | Assessments GET', function() {
           'type': 'assessment',
           'id': inserted_assessment_id,
           'attributes': {
-            'estimated-level': 0,
+            'estimated-level': 1,
             'pix-score': 8
           },
           'relationships': {
