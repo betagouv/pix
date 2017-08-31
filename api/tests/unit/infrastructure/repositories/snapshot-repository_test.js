@@ -152,7 +152,7 @@ describe('Unit | Repository | SnapshotRepository', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(fetchStub);
-        sinon.assert.calledWith(fetchStub, { require: false, withRelated: ['users'] });
+        sinon.assert.calledWith(fetchStub, { require: true });
       });
     });
 
