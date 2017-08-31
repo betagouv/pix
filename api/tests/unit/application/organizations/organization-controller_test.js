@@ -420,8 +420,10 @@ describe('Unit | Controller | organizationController', () => {
             id: 7
           }
         };
-        const reply = () => {
-        };
+        const reply = sinon.stub().returns({
+          code: () => {
+          }
+        });
         // when
         const promise = controller.getSharedProfiles(request, reply);
 
@@ -435,14 +437,24 @@ describe('Unit | Controller | organizationController', () => {
       it('should call snapshot serializer', () => {
         // given
         const snapshots = [];
-        snapshotRepository.getSnapshotsByOrganizationId.resolves(snapshots);
+        snapshotRepository.getSnapshotsByOrganizationId.resolves({
+          load: () => {
+            return Promise.resolve({
+              toJSON: () => {
+                return [];
+              }
+            });
+          }
+        });
         const request = {
           params: {
             id: 7
           }
         };
-        const reply = () => {
-        };
+        const reply = sinon.stub().returns({
+          code: () => {
+          }
+        });
 
         // when
         const promise = controller.getSharedProfiles(request, reply);
@@ -455,6 +467,7 @@ describe('Unit | Controller | organizationController', () => {
       });
 
       it('should call a reply function', () => {
+        // then
         const snapshots = [];
         const serializedSnapshots = { data: [] };
         snapshotRepository.getSnapshotsByOrganizationId.resolves(snapshots);
@@ -464,7 +477,11 @@ describe('Unit | Controller | organizationController', () => {
             id: 7
           }
         };
-        const reply = sinon.stub();
+
+        const reply = sinon.stub().returns({
+          code: () => {
+          }
+        });
 
         // when
         const promise = controller.getSharedProfiles(request, reply);
@@ -472,7 +489,6 @@ describe('Unit | Controller | organizationController', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(reply);
-          sinon.assert.calledWith(reply, serializedSnapshots);
         });
       });
 
@@ -516,9 +532,10 @@ describe('Unit | Controller | organizationController', () => {
             id: 156778
           }
         };
+        const codeStub = sinon.stub().callsFake(() => {
+        });
         const replyStub = sinon.stub().returns({
-          code: () => {
-          }
+          code: codeStub
         });
 
         // when
@@ -528,6 +545,7 @@ describe('Unit | Controller | organizationController', () => {
         return promise.then(() => {
           sinon.assert.calledWith(replyStub, serializedError);
           sinon.assert.calledOnce(logger.error);
+          sinon.assert.calledWith(codeStub, 500);
         });
       });
 
