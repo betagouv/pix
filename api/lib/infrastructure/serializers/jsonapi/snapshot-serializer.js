@@ -21,7 +21,7 @@ class SnapshotSerializer {
       transform(snapshot) {
         snapshot.id = snapshot.id.toString();
         snapshot.completionPercentage = snapshot.completionPercentage.toString();
-        snapshot.score = snapshot.score.toString();
+        snapshot.score = snapshot.score && snapshot.score.toString() || null;
         return snapshot;
       }
     }).serialize(snapshots);

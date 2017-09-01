@@ -91,6 +91,58 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       expect(result).to.eql(expectedJson);
     });
 
+    it('should return a serialized a snapshot score set to null when its not defined', () => {
+      // given
+      const snapshot = {
+        id: '1',
+        score: null,
+        createdAt: '2017-08-23 12:52:33',
+        completionPercentage: '12',
+        user: {
+          id: '2',
+          firstName: 'Barack',
+          lastName: 'Afrite'
+        }
+      };
+
+      const expectedJson = {
+        data:
+          {
+            id: '1',
+            type: 'snapshots',
+            attributes: {
+              'created-at': '2017-08-23 12:52:33',
+              'completion-percentage': '12',
+              'score': null
+            },
+            relationships: {
+              user: {
+                data: {
+                  id: '2',
+                  type: 'users'
+                }
+              }
+            }
+          },
+        included: [
+          {
+            type: 'users',
+            id: '2',
+            attributes: {
+              'first-name': 'Barack',
+              'last-name': 'Afrite'
+            }
+          }
+        ]
+      };
+
+      // when
+      const result = serializer.serializeArray(snapshot);
+
+      // then
+      expect(result).to.eql(expectedJson);
+    });
+
     it('should serialize array of snapshots', () => {
       // given
       const snapshot1 = {
