@@ -11,6 +11,7 @@ const snapshotRepository = require('../../../../lib/infrastructure/repositories/
 const snapshotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const Snapshot = require('../../../../lib/domain/models/data/snapshot');
+const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-utils');
 
 const logger = require('../../../../lib/infrastructure/logger');
 const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
@@ -400,6 +401,7 @@ describe('Unit | Controller | organizationController', () => {
       sandbox.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
       sandbox.stub(snapshotSerializer, 'serializeArray');
       sandbox.stub(validationErrorSerializer, 'serialize');
+      sandbox.stub(bookshelfUtils, 'mergeModelWithRelationship');
     });
 
     afterEach(() => {
@@ -436,16 +438,13 @@ describe('Unit | Controller | organizationController', () => {
 
       it('should call snapshot serializer', () => {
         // given
-        const snapshots = [];
-        snapshotRepository.getSnapshotsByOrganizationId.resolves({
-          load: () => {
-            return Promise.resolve({
-              toJSON: () => {
-                return [];
-              }
-            });
+        const snapshots = [{
+          toJSON: () => {
+            return {};
           }
-        });
+        }];
+        snapshotRepository.getSnapshotsByOrganizationId.resolves({});
+        bookshelfUtils.mergeModelWithRelationship.resolves(snapshots);
         const request = {
           params: {
             id: 7
@@ -462,7 +461,7 @@ describe('Unit | Controller | organizationController', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(snapshotSerializer.serializeArray);
-          sinon.assert.calledWith(snapshotSerializer.serializeArray, snapshots);
+          sinon.assert.calledWith(snapshotSerializer.serializeArray, [{}]);
         });
       });
 

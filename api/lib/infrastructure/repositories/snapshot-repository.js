@@ -6,7 +6,9 @@ module.exports = {
   },
 
   getSnapshotsByOrganizationId(organizationId) {
-    return Snapshot.where('organizationId', organizationId)
-      .fetch({ require: true });
+    return Snapshot
+      .where('organizationId', organizationId)
+      .orderBy('-createdAt')
+      .fetchAll({ require: true });
   }
 };
