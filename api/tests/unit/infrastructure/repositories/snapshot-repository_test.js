@@ -121,12 +121,17 @@ describe('Unit | Repository | SnapshotRepository', function() {
     });
 
     it('should query snapshot model', () => {
+      // given
+      const fetchAllStub = sinon.stub().resolves();
+      const orderByStub = sinon.stub().returns({
+        fetchAll: fetchAllStub
+      });
+
       // then
       Snapshot.prototype.where.returns({
-        fetch: () => {
-          return Promise.resolve({});
-        }
+        orderBy: orderByStub
       });
+
       const organizationId = 123;
 
       // when
@@ -135,24 +140,10 @@ describe('Unit | Repository | SnapshotRepository', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(Snapshot.prototype.where);
-      });
-    });
-
-    it('should fetch snapshots with theirs related user', () => {
-      // then
-      const fetchStub = sinon.stub().resolves({});
-      Snapshot.prototype.where.returns({
-        fetch: fetchStub
-      });
-      const organizationId = 123;
-
-      // when
-      const promise = snapshotRepository.getSnapshotsByOrganizationId(organizationId);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(fetchStub);
-        sinon.assert.calledWith(fetchStub, { require: true });
+        sinon.assert.calledOnce(orderByStub);
+        sinon.assert.calledWith(orderByStub, '-createdAt');
+        sinon.assert.calledWith(fetchAllStub, { require: true });
+        sinon.assert.calledOnce(fetchAllStub);
       });
     });
 

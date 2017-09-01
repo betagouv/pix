@@ -5,7 +5,7 @@ const snapshotRepository = require('../../infrastructure/repositories/snapshot-r
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
 const organizationService = require('../../domain/services/organization-service');
-
+const bookshelfUtils = require('../../../lib/infrastructure/utils/bookshelf-utils');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
 const _ = require('lodash');
@@ -73,9 +73,9 @@ module.exports = {
   getSharedProfiles: (request, reply) => {
     return snapshotRepository
       .getSnapshotsByOrganizationId(request.params.id)
-      .then(snapshots => snapshots.load(['user']))
+      .then((snapshots) => bookshelfUtils.mergeModelWithRelationship(snapshots, 'user'))
       .then((snapshotsWithRelatedUsers) => {
-        const jsonSnapshots = snapshotsWithRelatedUsers.toJSON();
+        const jsonSnapshots = snapshotsWithRelatedUsers.map((collection) => collection.toJSON());
         return snapshotSerializer.serializeArray(jsonSnapshots);
       })
       .then((SerializedSnapshots) => reply(SerializedSnapshots).code(200))

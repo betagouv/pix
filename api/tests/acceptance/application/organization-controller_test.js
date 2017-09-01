@@ -135,12 +135,12 @@ describe('Acceptance | Controller | organization-controller', function() {
       return Promise.all([knex('users').delete(), knex('organizations').delete(), knex('snapshots').delete()]);
     });
 
-    it('should return 200 HTTP status code', () => {
+    it('should return 200 HTTP status code', (done) => {
       // given
       const url = `/api/organizations/${organizationId}/snapshots`;
       const expectedSnapshots = {
         data:
-          {
+          [{
             type: 'snapshots',
             id: snapshotId.toString(),
             attributes: {
@@ -156,7 +156,7 @@ describe('Acceptance | Controller | organization-controller', function() {
                 }
               }
             }
-          },
+          }],
         included: [
           {
             type: 'users',
@@ -173,10 +173,11 @@ describe('Acceptance | Controller | organization-controller', function() {
       };
 
       // when
-      return server.inject(options).then((response) => {
+      server.inject(options).then((response) => {
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.eql(expectedSnapshots);
+        done();
       });
     });
 
@@ -301,5 +302,7 @@ function _insertSnapshot(organizationId, userId) {
     profile: JSON.stringify(serializedUserProfile),
     createdAt: '2017-08-31 15:57:06'
   };
-  return knex('snapshots').insert(snapshotRaw);
+
+  return knex('snapshots')
+    .insert(snapshotRaw);
 }
