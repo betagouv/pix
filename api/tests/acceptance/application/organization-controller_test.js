@@ -199,7 +199,7 @@ function _insertOrganization(userId) {
   const organizationRaw = {
     name: 'The name of the organization',
     email: 'organization@email.com',
-    type: 'PRO',
+    type: 'SUP',
     userId
   };
 
