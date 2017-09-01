@@ -12287,7 +12287,7 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
         });
       });
 
-      (0, _mocha.it)('should remain on /compte when the user as no organization linked', function () {
+      (0, _mocha.it)('should remain on /compte when the user as no organization linked (with a forced data reload)', function () {
         // Given
         var foundUser = Ember.Object.create({});
 
@@ -12304,6 +12304,7 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
         // Then
         return promise.then(function () {
           _sinon.default.assert.notCalled(route.transitionTo);
+          _sinon.default.assert.calledWith(findRecordStub, 'user', undefined, { reload: true });
         });
       });
     });
@@ -13361,8 +13362,27 @@ define('pix-live/tests/unit/utils/password-validator-test', ['chai', 'mocha', 'p
   'use strict';
 
   (0, _mocha.describe)('Unit | Utility | password validator', function () {
+
+    (0, _mocha.describe)('Validation rules', function () {
+
+      (0, _mocha.it)('should contain at least 8 characters:', function () {
+        (0, _chai.expect)((0, _passwordValidator.default)('ABCD1234')).to.be.true;
+        (0, _chai.expect)((0, _passwordValidator.default)('A1')).to.be.false;
+      });
+
+      (0, _mocha.it)('should contain at least one letter ', function () {
+        (0, _chai.expect)((0, _passwordValidator.default)('ABCD1234')).to.be.true;
+        (0, _chai.expect)((0, _passwordValidator.default)('12345678')).to.be.false;
+      });
+
+      (0, _mocha.it)('should contain at least one digit', function () {
+        (0, _chai.expect)((0, _passwordValidator.default)('ABCD1234')).to.be.true;
+        (0, _chai.expect)((0, _passwordValidator.default)('ABCDEFGH')).to.be.false;
+      });
+    });
+
     (0, _mocha.describe)('Invalid password', function () {
-      ['', ' ', null, '@pix', '@pix.fr', '1      1', 'password', '12345678&', '+!@)-=`"#&', '1a      a1', '+!@)-=`"#&1', 'null 1' + null].forEach(function (badPassword) {
+      ['', ' ', null, '@pix', '@pix.fr', '1      1', 'password', '12345678&', '+!@)-=`"#&', '+!@)-=`"#&1'].forEach(function (badPassword) {
         (0, _mocha.it)('should return false when password is invalid: ' + badPassword, function () {
           (0, _chai.expect)((0, _passwordValidator.default)(badPassword)).to.be.false;
         });
@@ -13370,7 +13390,7 @@ define('pix-live/tests/unit/utils/password-validator-test', ['chai', 'mocha', 'p
     });
 
     (0, _mocha.describe)('Valid password', function () {
-      ['PIXBETA1', 'PIXBETA12', 'NULLNULL1', '12345678a', '12345678ab', '12345678ab+', '12345678ab+!', '12345678ab+!@', '12345678ab+!@)-=`', '12345678ab+!@)-=`"', '12345678ab+!@)-=`"#&'].forEach(function (validPassword) {
+      ['PIXBETA1', 'PIXBETA12', 'NULLNULL1', '12345678a', '12345678ab', '12345678ab+', '12345678ab+!', '12345678ab+!@', '12345678ab+!@)-=`', '12345678ab+!@)-=`"', '12345678ab+!@)-=`"#&', '1234Password avec espace', '1A      A1', 'à1      '].forEach(function (validPassword) {
         (0, _mocha.it)('should return true if provided password is valid: ' + validPassword, function () {
           (0, _chai.expect)((0, _passwordValidator.default)(validPassword)).to.be.true;
         });
