@@ -5,6 +5,7 @@
 }
 .legal-notices-page__container {
   padding: 15px;
+
   @include device-is('desktop') {
     margin : 68px auto;
     padding: 40px 30px;
@@ -15,16 +16,6 @@
   }
   & a {
     text-decoration: underline;
-  }
-  & h1 {
-    color :$pix-blue;
-    font : $font-raleway;
-  }
-  & hr {
-    background-color:$gainsboro;
-    box-sizing: border-box;
-    height : 1px;
-    margin: 30px auto ;
   }
   & h2 {
     color :$pix-blue;
@@ -47,49 +38,22 @@
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
-  padding : 0px;
-  @include device-is('desktop') {
-    width:60%;
-  }
-  @include device-is('tablet') {
-    width : 100%;
-  }
-  @include device-is('mobile') {
-    width : 100%;
-  }
+  flex-grow: 1;
 }
 
 .list-images__cell{
   padding: 10px 10px;
   box-sizing: border-box;
-
-  @include device-is('desktop') {
-    width : 30%;
-    padding : 0 0;
-    & img {
-      display : block;
-      width :40%;
-      margin: 20px auto;
-    }
-  }
-  @include device-is('tablet') {
-    width : 50%;
-    padding : 0 0;
-    & img {
-      display : block;
-      width :100px;
-      margin: 20px auto;
-    }
-  }
-
-  @include device-is('mobile') {
-    width : 50%;
-    margin: auto;
-    & img {
-      display : block;
-      width :100px;
-      margin: 0 auto;
-    }
-  }
 }
 
+.legal-notices-page__title {
+  color :$pix-blue;
+  font : $font-raleway;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+.legal-notices-page__section {
+  border-top: 1px solid $gainsboro;
+  margin-bottom: 30px;
+}
