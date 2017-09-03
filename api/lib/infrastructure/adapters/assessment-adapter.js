@@ -21,7 +21,7 @@ function getAdaptedAssessment(coursePix, answersPix, challengesPix, skillNames) 
         }
         challengeSkills.push(skills[skillName]);
       });
-      const challenge = new Challenge(challengePix.id, challengePix.status, skills);
+      const challenge = new Challenge(challengePix.id, challengePix.status, challengeSkills);
       challenges.push(challenge);
       challengesById[challengePix.id] = challenge;
     }

@@ -85,8 +85,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
             'fields': {
               'Statut': 'validé',
               'competences': ['competence_id'],
-              'acquis': ['web3'],
-              'Statut': 'validé',
+              'acquis': ['@web3'],
               'Bonnes réponses': 'fromage'
             },
           }
@@ -98,7 +97,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           .reply(200, {
             'id': 'q_second_challenge',
             'fields': {
-              'acquis': ['web2'],
+              'acquis': ['@web2'],
               'Statut': 'validé',
               'Bonnes réponses': 'truite'
             },
@@ -111,7 +110,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           .reply(200, {
             'id': 'q_third_challenge',
             'fields': {
-              'acquis': ['web1'],
+              'acquis': ['@web1'],
               'Statut': 'validé',
               'Bonnes réponses': 'dromadaire'
             },

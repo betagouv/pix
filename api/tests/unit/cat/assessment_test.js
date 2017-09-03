@@ -398,8 +398,8 @@ describe('Unit | Model | Assessment', function() {
       const skills = {};
       skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
       const competenceSkills = new Set(Object.values(skills));
-      const ch1 = new Challenge('a', [skills['web1'], skills['web2']]);
-      const ch2 = new Challenge('b', [skills['web3']]);
+      const ch1 = new Challenge('a', 'validé', [skills['web1'], skills['web2']]);
+      const ch2 = new Challenge('b', 'validé', [skills['web3']]);
       const course = new Course([ch1, ch2], competenceSkills);
       const answer1 = new Answer(ch1, 'ko');
       const answer2 = new Answer(ch2, 'ko');
@@ -415,8 +415,8 @@ describe('Unit | Model | Assessment', function() {
       const skills = {};
       skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
       const competenceSkills = new Set(Object.values(skills));
-      const ch1 = new Challenge('a', [skills['web1'], skills['web2']]);
-      const ch2 = new Challenge('b', [skills['web3']]);
+      const ch1 = new Challenge('a', 'validé', [skills['web1'], skills['web2']]);
+      const ch2 = new Challenge('b', 'validé', [skills['web3']]);
       const course = new Course([ch1, ch2], competenceSkills);
       const answer1 = new Answer(ch1, 'ok');
       const answer2 = new Answer(ch2, 'ko');
@@ -432,9 +432,9 @@ describe('Unit | Model | Assessment', function() {
       const skills = {};
       skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
       const competenceSkills = new Set(Object.values(skills));
-      const ch1 = new Challenge('a', [skills['web1']]);
-      const ch2 = new Challenge('b', [skills['web2']]);
-      const ch3 = new Challenge('c', [skills['fou3']]);
+      const ch1 = new Challenge('a', 'validé', [skills['web1']]);
+      const ch2 = new Challenge('b', 'validé', [skills['web2']]);
+      const ch3 = new Challenge('c', 'validé', [skills['fou3']]);
       const course = new Course([ch1, ch2, ch3], competenceSkills);
       const answer1 = new Answer(ch1, 'ok');
       const answer2 = new Answer(ch2, 'ko');

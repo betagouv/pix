@@ -64,7 +64,7 @@ describe('Acceptance | API | Assessments', function() {
         'id': 'w_first_challenge',
         'fields': {
           'Statut': 'validé',
-          'acquis': ['web2']
+          'acquis': ['@web2']
         }
       });
     nock('https://api.airtable.com')
@@ -74,7 +74,7 @@ describe('Acceptance | API | Assessments', function() {
         'id': 'w_second_challenge',
         'fields': {
           'Statut': 'validé',
-          'acquis': ['web3']
+          'acquis': ['@web3']
         }
       });
     nock('https://api.airtable.com')
@@ -84,7 +84,7 @@ describe('Acceptance | API | Assessments', function() {
         'id': 'w_third_challenge',
         'fields': {
           'Statut': 'validé',
-          'acquis': ['web1']
+          'acquis': ['@web1']
         }
       });
 
@@ -104,16 +104,6 @@ describe('Acceptance | API | Assessments', function() {
       courseId: 'w_adaptive_course_id'
     };
 
-    const insertedScenarios = [{
-      courseId: 'w_adaptive_course_id',
-      path: 'ok',
-      nextChallengeId: 'w_second_challenge'
-    }, {
-      courseId: 'w_adaptive_course_id',
-      path: 'ko',
-      nextChallengeId: 'w_third_challenge'
-    }];
-
     beforeEach(function(done) {
       knex('assessments').insert([insertedAssessment])
         .then((rows) => {
@@ -130,9 +120,6 @@ describe('Acceptance | API | Assessments', function() {
           return knex('answers').insert([inserted_answer]);
         })
         .then(() => {
-          return knex('scenarios').insert(insertedScenarios);
-        })
-        .then(() => {
           done();
         });
     });
@@ -140,7 +127,6 @@ describe('Acceptance | API | Assessments', function() {
     afterEach(function(done) {
       knex('assessments').delete()
         .then(() => knex('assessments').delete())
-        .then(() => knex('scenarios').delete())
         .then(() => done());
     });
 
@@ -162,16 +148,6 @@ describe('Acceptance | API | Assessments', function() {
       courseId: 'w_adaptive_course_id'
     };
 
-    const insertedScenarios = [{
-      courseId: 'w_adaptive_course_id',
-      path: 'ok',
-      nextChallengeId: 'w_second_challenge'
-    }, {
-      courseId: 'w_adaptive_course_id',
-      path: 'ko',
-      nextChallengeId: 'w_third_challenge'
-    }];
-
     beforeEach(function(done) {
       knex('assessments').insert([insertedAssessment])
         .then((rows) => {
@@ -188,9 +164,6 @@ describe('Acceptance | API | Assessments', function() {
           return knex('answers').insert([inserted_answer]);
         })
         .then(() => {
-          return knex('scenarios').insert(insertedScenarios);
-        })
-        .then(() => {
           done();
         });
     });
@@ -198,7 +171,6 @@ describe('Acceptance | API | Assessments', function() {
     afterEach(function(done) {
       knex('assessments').delete()
         .then(() => knex('assessments').delete())
-        .then(() => knex('scenarios').delete())
         .then(() => done());
     });
 
@@ -219,16 +191,6 @@ describe('Acceptance | API | Assessments', function() {
     const insertedAssessment = {
       courseId: 'w_adaptive_course_id'
     };
-
-    const insertedScenarios = [{
-      courseId: 'w_adaptive_course_id',
-      path: 'ok',
-      nextChallengeId: 'w_second_challenge'
-    }, {
-      courseId: 'w_adaptive_course_id',
-      path: 'ko',
-      nextChallengeId: 'w_third_challenge'
-    }];
 
     beforeEach(function(done) {
       knex('assessments').insert([insertedAssessment])
@@ -251,9 +213,6 @@ describe('Acceptance | API | Assessments', function() {
           return knex('answers').insert(insertedAnswers);
         })
         .then(() => {
-          return knex('scenarios').insert(insertedScenarios);
-        })
-        .then(() => {
           done();
         });
     });
@@ -261,7 +220,6 @@ describe('Acceptance | API | Assessments', function() {
     afterEach(function(done) {
       knex('assessments').delete()
         .then(() => knex('assessments').delete())
-        .then(() => knex('scenarios').delete())
         .then(() => done());
     });
 
