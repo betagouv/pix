@@ -1852,7 +1852,7 @@ h1.course-banner__name {
 
 .legal-notices-page__title {
   color: #3d68ff;
-  font: "Raleway", Arial, sans-serif;
+  font-family: "Raleway", Arial, sans-serif;
   font-size: 34px;
   margin-top: 0;
   margin-bottom: 30px; }
@@ -1863,7 +1863,7 @@ h1.course-banner__name {
 
 .legal-notices-section__title {
   color: #3d68ff;
-  font: "Raleway", Arial, sans-serif;
+  font-family: "Raleway", Arial, sans-serif;
   margin-top: 30px;
   margin-bottom: 20px; }
 
