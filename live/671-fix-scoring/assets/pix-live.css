@@ -5,6 +5,11 @@
     - http://www.colorhexa.com
     - http://chir.ag/projects/name-that-color
 */
+/* Breakpoints definition */
+/*
+  - Breakpoint mixin
+  - From: https://css-tricks.com/snippets/sass/mixin-manage-breakpoints/
+*/
 .alert {
   outline: none;
   border-radius: 0.3125em;
@@ -91,6 +96,29 @@
   border-color: #989a9e;
   border-bottom-color: #7e8086;
   text-decoration: none; }
+
+.app-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center; }
+
+.app-loader__text {
+  font-size: 26px; }
 
 /**
  *
@@ -269,11 +297,6 @@ input[type=radio]:focus:before {
   padding-left: 20px;
   position: relative; }
 
-/* Breakpoints definition */
-/*
-  - Breakpoint mixin
-  - From: https://css-tricks.com/snippets/sass/mixin-manage-breakpoints/
-*/
 /* 3rd-party */
 .routable-modal--open {
   overflow: hidden; }
@@ -1070,7 +1093,7 @@ button.routable-modal--close:active {
   margin-left: 22px; }
 
 .comparison-window__feedback-panel {
-  background-color: #dedede;
+  background-color: #DADADA;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 20px 40px; }
@@ -1160,8 +1183,8 @@ button.routable-modal--close:active {
   width: 62.5%;
   padding-right: 2px;
   border-radius: 12px;
-  background-image: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0.5)), to(rgba(0, 0, 0, 0.5))), -webkit-gradient(linear, left top, left bottom, from(#f2f3f4), to(#f2f3f4));
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(#f2f3f4, #f2f3f4); }
+  background: -webkit-gradient(linear, left top, right top, from(#f2f3f4), to(#DADADA));
+  background: linear-gradient(90deg, #f2f3f4 0%, #DADADA 100%); }
 
 .competence-level-progress-bar__background-level-limit-indicator {
   height: 20px;
@@ -1587,7 +1610,7 @@ h1.course-banner__name {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   padding: 10px 20px;
-  background-color: #dedede;
+  background-color: #DADADA;
   border: 1px solid #7d808a;
   margin-right: 10px; }
 
@@ -2768,7 +2791,7 @@ h1.course-banner__name {
   margin-left: 22px; }
 
 .comparison-window__feedback-panel {
-  background-color: #dedede;
+  background-color: #DADADA;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 20px 40px; }
@@ -3528,19 +3551,16 @@ input.qcm-panel__proposal-checkbox {
   height: 17px; }
 
 .user-menu-item__account-link {
-  margin-top: 14px;
-  width: 100%; }
+  margin-top: 14px; }
 
-.user-menu-item__account-link button {
-  min-width: 103px;
-  height: 32px;
+.user-menu-item__account-link a {
   border-radius: 4px;
-  border: none;
+  padding: 7px 12px 8px 12px;
   background-color: #3d68ff;
+  font-size: 14px;
   font-family: "Lato", Arial, sans-serif;
   color: #ffffff;
-  text-transform: capitalize;
-  font-size: 14px; }
+  text-transform: capitalize; }
 
 .user-menu__item--logout {
   display: -webkit-box;
