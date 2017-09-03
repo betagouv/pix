@@ -2735,6 +2735,31 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     });
   });
 });
+define('pix-live/tests/acceptance/legal-notices-page-test', ['mocha', 'pix-live/tests/helpers/application'], function (_mocha, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Page | Legal notices', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('should be accessible from "/mentions-legales"', function () {
+
+      visit('/mentions-legales');
+
+      return andThen(function () {
+        findWithAssert('.legal-notices-page');
+      });
+    });
+  });
+});
 define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
@@ -3401,6 +3426,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/inscription.js', function () {
+      // test passed
+    });
+
+    it('routes/legal-notices.js', function () {
       // test passed
     });
 
@@ -8855,6 +8884,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('acceptance/legal-notices-page-test.js', function () {
+      // test passed
+    });
+
     it('acceptance/o1-board-organization-test.js', function () {
       // test passed
     });
@@ -9264,6 +9297,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/inscription-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/legal-notices-test.js', function () {
       // test passed
     });
 
@@ -12632,6 +12669,22 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
         _sinon.default.assert.calledWith(queryRecordStub, 'user', {});
         _sinon.default.assert.calledWith(route.transitionTo, 'compte');
       });
+    });
+  });
+});
+define('pix-live/tests/unit/routes/legal-notices-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | legal notices', function () {
+    (0, _emberMocha.setupTest)('route:legal-notices', {
+      // Specify the other units that are required for this test.
+      // needs: ['controller:foo']
+      needs: ['service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
     });
   });
 });

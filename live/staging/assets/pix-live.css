@@ -602,7 +602,8 @@ button.routable-modal--close:active {
       -ms-flex-pack: distribute;
       justify-content: space-around;
       margin: 0 auto;
-      height: 150px; } }
+      height: 150px;
+      width: 100%; } }
 
 .app-footer__section {
   margin-bottom: 20px; }
@@ -1802,6 +1803,113 @@ h1.course-banner__name {
   border: solid 2px #0BA86D;
   padding: 14px 91px;
   color: #0BA86D; }
+
+.legal-notices-page {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: column;
+  flex-flow: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #FAFAFA;
+  color: #3e4149;
+  text-rendering: optimizeLegibility;
+  line-height: 24px; }
+
+.legal-notices-page .rounded-panel {
+  margin-left: 10px;
+  margin-right: 10px; }
+  @media (min-width: 980px) {
+    .legal-notices-page .rounded-panel {
+      margin-bottom: 50px;
+      margin-left: auto;
+      margin-right: auto; } }
+
+.legal-notices-page__container {
+  background-color: #ffffff;
+  margin: 50px auto;
+  padding: 20px; }
+  @media (min-width: 980px) {
+    .legal-notices-page__container {
+      padding: 40px 30px;
+      width: 940px;
+      margin-bottom: 50px;
+      margin-left: auto;
+      margin-right: auto; } }
+
+.legal-notices-page p {
+  font-size: 20px;
+  line-height: 28px;
+  margin-bottom: 20px; }
+  @media (min-width: 980px) {
+    .legal-notices-page p {
+      font-size: 16px;
+      line-height: 24px; } }
+
+.legal-notices-page__title {
+  color: #3d68ff;
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 34px;
+  margin-top: 0;
+  margin-bottom: 30px; }
+
+.legal-notices-section {
+  border-top: 1px solid #D8D8D8;
+  margin-bottom: 30px; }
+
+.legal-notices-section__title {
+  color: #3d68ff;
+  font-family: "Raleway", Arial, sans-serif;
+  margin-top: 30px;
+  margin-bottom: 20px; }
+
+.legal-notices-section__subtitle {
+  margin-top: 60px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 600; }
+
+.legal-notices-members {
+  list-style-type: none;
+  padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 0 0 40px; }
+  @media (min-width: 980px) {
+    .legal-notices-members {
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+      flex-direction: row; } }
+
+.legal-notices-member {
+  padding: 30px; }
+  @media (min-width: 980px) {
+    .legal-notices-member {
+      width: 26%; } }
+
+.legal-notices-data-restriction-means {
+  list-style-type: none;
+  padding: 0;
+  margin: 0; }
 
 /* XXX : Forces bootstrap's default by including bootstrap props into .modal-mobile  container */
 .modal-mobile .modal-header {
