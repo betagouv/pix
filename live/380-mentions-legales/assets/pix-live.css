@@ -5,6 +5,11 @@
     - http://www.colorhexa.com
     - http://chir.ag/projects/name-that-color
 */
+/* Breakpoints definition */
+/*
+  - Breakpoint mixin
+  - From: https://css-tricks.com/snippets/sass/mixin-manage-breakpoints/
+*/
 .alert {
   outline: none;
   border-radius: 0.3125em;
@@ -91,6 +96,29 @@
   border-color: #989a9e;
   border-bottom-color: #7e8086;
   text-decoration: none; }
+
+.app-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center; }
+
+.app-loader__text {
+  font-size: 26px; }
 
 /**
  *
@@ -269,11 +297,6 @@ input[type=radio]:focus:before {
   padding-left: 20px;
   position: relative; }
 
-/* Breakpoints definition */
-/*
-  - Breakpoint mixin
-  - From: https://css-tricks.com/snippets/sass/mixin-manage-breakpoints/
-*/
 /* 3rd-party */
 .routable-modal--open {
   overflow: hidden; }
@@ -579,7 +602,8 @@ button.routable-modal--close:active {
       -ms-flex-pack: distribute;
       justify-content: space-around;
       margin: 0 auto;
-      height: 150px; } }
+      height: 150px;
+      width: 100%; } }
 
 .app-footer__section {
   margin-bottom: 20px; }
@@ -1070,7 +1094,7 @@ button.routable-modal--close:active {
   margin-left: 22px; }
 
 .comparison-window__feedback-panel {
-  background-color: #dedede;
+  background-color: #DADADA;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 20px 40px; }
@@ -1160,8 +1184,8 @@ button.routable-modal--close:active {
   width: 62.5%;
   padding-right: 2px;
   border-radius: 12px;
-  background-image: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0.5)), to(rgba(0, 0, 0, 0.5))), -webkit-gradient(linear, left top, left bottom, from(#f2f3f4), to(#f2f3f4));
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(#f2f3f4, #f2f3f4); }
+  background: -webkit-gradient(linear, left top, right top, from(#f2f3f4), to(#DADADA));
+  background: linear-gradient(90deg, #f2f3f4 0%, #DADADA 100%); }
 
 .competence-level-progress-bar__background-level-limit-indicator {
   height: 20px;
@@ -1587,7 +1611,7 @@ h1.course-banner__name {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   padding: 10px 20px;
-  background-color: #dedede;
+  background-color: #DADADA;
   border: 1px solid #7d808a;
   margin-right: 10px; }
 
@@ -1780,70 +1804,112 @@ h1.course-banner__name {
   padding: 14px 91px;
   color: #0BA86D; }
 
-body {
-  background-color: "black"; }
-
 .legal-notices-page {
-  background-color: #FBF9FB;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: column;
+  flex-flow: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #FAFAFA;
+  color: #3e4149;
+  text-rendering: optimizeLegibility;
+  line-height: 24px; }
+
+.legal-notices-page .rounded-panel {
+  margin-left: 10px;
+  margin-right: 10px; }
+  @media (min-width: 980px) {
+    .legal-notices-page .rounded-panel {
+      margin-bottom: 50px;
+      margin-left: auto;
+      margin-right: auto; } }
+
+.legal-notices-page__container {
+  background-color: #ffffff;
+  margin: 50px auto;
+  padding: 20px; }
+  @media (min-width: 980px) {
+    .legal-notices-page__container {
+      padding: 40px 30px;
+      width: 940px;
+      margin-bottom: 50px;
+      margin-left: auto;
+      margin-right: auto; } }
+
+.legal-notices-page p {
+  font-size: 20px;
+  line-height: 28px;
+  margin-bottom: 20px; }
+  @media (min-width: 980px) {
+    .legal-notices-page p {
+      font-size: 16px;
+      line-height: 24px; } }
+
+.legal-notices-page__title {
+  color: #3d68ff;
+  font: "Raleway", Arial, sans-serif;
+  font-size: 34px;
+  margin-top: 0;
+  margin-bottom: 30px; }
+
+.legal-notices-section {
+  border-top: 1px solid #D8D8D8;
+  margin-bottom: 30px; }
+
+.legal-notices-section__title {
+  color: #3d68ff;
+  font: "Raleway", Arial, sans-serif;
+  margin-top: 30px;
+  margin-bottom: 20px; }
+
+.legal-notices-section__subtitle {
+  margin-top: 60px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 600; }
+
+.legal-notices-members {
+  list-style-type: none;
+  padding: 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
-  flex-direction: column; }
-
-.legal-notices-page_container {
-  padding: 15px; }
-  @media (min-width: 980px) {
-    .legal-notices-page_container {
-      margin: 68px auto;
-      padding: 40px 30px;
-      width: 940px;
-      border-radius: 5px;
-      background-color: #ffffff;
-      -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3); } }
-  .legal-notices-page_container h1 {
-    color: #3d68ff;
-    font: "Raleway", Arial, sans-serif; }
-  .legal-notices-page_container hr {
-    background-color: #D8D8D8;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    height: 1px;
-    margin: 30px auto; }
-  .legal-notices-page_container h2 {
-    color: #3d68ff;
-    font: "Raleway", Arial, sans-serif; }
-  .legal-notices-page_container h3 {
-    font-weight: 700;
-    font-family: "Lato", Arial, sans-serif; }
-  .legal-notices-page_container p {
-    font-family: "Lato", Arial, sans-serif;
-    text-align: justify; }
-
-.legal-notices-page_container_logo-group {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  list-style-type: none;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
+  flex-direction: column;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  width: 70%; }
+  margin: 0 0 40px; }
+  @media (min-width: 980px) {
+    .legal-notices-members {
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+      flex-direction: row; } }
 
-.legal-notices-page_container_logo-group_cell {
-  width: 32%;
-  padding: 30px 30px;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box; }
+.legal-notices-member {
+  padding: 30px; }
+  @media (min-width: 980px) {
+    .legal-notices-member {
+      width: 26%; } }
+
+.legal-notices-data-restriction-means {
+  list-style-type: none;
+  padding: 0;
+  margin: 0; }
 
 /* XXX : Forces bootstrap's default by including bootstrap props into .modal-mobile  container */
 .modal-mobile .modal-header {
@@ -2833,7 +2899,7 @@ body {
   margin-left: 22px; }
 
 .comparison-window__feedback-panel {
-  background-color: #dedede;
+  background-color: #DADADA;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 20px 40px; }
@@ -3593,19 +3659,16 @@ input.qcm-panel__proposal-checkbox {
   height: 17px; }
 
 .user-menu-item__account-link {
-  margin-top: 14px;
-  width: 100%; }
+  margin-top: 14px; }
 
-.user-menu-item__account-link button {
-  min-width: 103px;
-  height: 32px;
+.user-menu-item__account-link a {
   border-radius: 4px;
-  border: none;
+  padding: 7px 12px 8px 12px;
   background-color: #3d68ff;
+  font-size: 14px;
   font-family: "Lato", Arial, sans-serif;
   color: #ffffff;
-  text-transform: capitalize;
-  font-size: 14px; }
+  text-transform: capitalize; }
 
 .user-menu__item--logout {
   display: -webkit-box;
