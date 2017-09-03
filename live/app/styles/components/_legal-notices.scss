@@ -21,7 +21,7 @@
 
 .legal-notices-page__container {
   background-color: $white;
-  margin : 50px auto;
+  margin: 50px auto;
   padding: 20px;
 
   @include device-is('desktop') {
@@ -45,8 +45,8 @@
 }
 
 .legal-notices-page__title {
-  color :$pix-blue;
-  font : $font-raleway;
+  color: $pix-blue;
+  font-family: $font-raleway;
   font-size: 34px;
   margin-top: 0;
   margin-bottom: 30px;
@@ -58,8 +58,8 @@
 }
 
 .legal-notices-section__title {
-  color :$pix-blue;
-  font : $font-raleway;
+  color: $pix-blue;
+  font-family: $font-raleway;
   margin-top: 30px;
   margin-bottom: 20px;
 }
