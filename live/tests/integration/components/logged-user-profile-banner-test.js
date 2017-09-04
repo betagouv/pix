@@ -34,4 +34,5 @@ describe('Integration | Component | logged user profile banner', function() {
     expect(this.$('.button-scroll-to-profile')).to.have.lengthOf(1);
     expect(this.$('.button-scroll-to-profile').text()).to.equal('choisir un test');
   });
+
 });
