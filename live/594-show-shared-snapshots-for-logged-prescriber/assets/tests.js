@@ -743,7 +743,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'ch
 
     (0, _mocha.it)('b7.5 Il existe un bouton "Revenir à la liste des tests"', function () {
       var $courseListButton = findWithAssert('.course-banner__home-link');
-      (0, _chai.expect)($courseListButton.text()).to.equal('Retour à la liste des tests');
+      (0, _chai.expect)($courseListButton.text()).to.equal('Revenir à l\'accueil');
     });
 
     (0, _mocha.it)('b7.6 Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers l\'index', function () {
@@ -818,7 +818,7 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
 define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/seeds', 'pix-live/tests/helpers/testing'], function (_mocha, _chai, _application, _seeds, _testing) {
   'use strict';
 
-  (0, _mocha.describe)('Acceptance | Espace compte', function () {
+  (0, _mocha.describe)('Acceptance | Espace compte | Authentication', function () {
 
     var application = void 0;
 
@@ -830,7 +830,49 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
       (0, _application.destroyApp)(application);
     });
 
+    function seedDatabaseForUserWithOrganization() {
+      server.create('organization', {
+        id: 1,
+        name: 'LexCorp',
+        email: 'lex@lexcorp.com',
+        type: 'PRO',
+        code: 'ABCD66'
+      });
+      server.create('user', {
+        id: 1,
+        firstName: 'Samurai',
+        lastName: 'Jack',
+        email: 'samurai.jack@aku.world',
+        password: 'B@ck2past',
+        cgu: true,
+        recaptchaToken: 'recaptcha-token-xxxxxx',
+        organizationIds: [1]
+      });
+    }
+
+    (0, _mocha.describe)('Logged Menu', function () {
+      (0, _mocha.describe)('after visiting the project page', function () {
+        (0, _mocha.it)('should redirect to /compte user "Mon compte"', function () {
+          // given
+          _seeds.default.injectUserAccount();
+          _testing.default.authenticateUser();
+
+          visit('/projet');
+
+          // when
+          click('.logged-user-name');
+          click('a:contains("Mon compte")');
+
+          // then
+          return andThen(function () {
+            (0, _chai.expect)(currentURL()).to.equal('/compte');
+          });
+        });
+      });
+    });
+
     (0, _mocha.describe)('Success cases', function () {
+
       (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
         (0, _mocha.it)('should redirect to the connexion page', function () {
           // given
@@ -846,28 +888,7 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
         });
       });
 
-      (0, _mocha.describe)('m1.2 Log-in phase', function () {
-
-        function seedDatabaseForUserWithOrganization() {
-          server.create('organization', {
-            id: 1,
-            name: 'LexCorp',
-            email: 'lex@lexcorp.com',
-            type: 'PRO',
-            code: 'ABCD66'
-          });
-          server.create('user', {
-            id: 1,
-            firstName: 'Samurai',
-            lastName: 'Jack',
-            email: 'samurai.jack@aku.world',
-            password: 'B@ck2past',
-            cgu: true,
-            recaptchaToken: 'recaptcha-token-xxxxxx',
-            organizationIds: [1]
-          });
-        }
-
+      (0, _mocha.describe)('Log-in phase', function () {
         (0, _mocha.it)('should redirect to the /compte after connexion for usual users', function () {
           // given
           _seeds.default.injectUserAccount();
@@ -2714,6 +2735,31 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     });
   });
 });
+define('pix-live/tests/acceptance/legal-notices-page-test', ['mocha', 'pix-live/tests/helpers/application'], function (_mocha, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Page | Legal notices', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('should be accessible from "/mentions-legales"', function () {
+
+      visit('/mentions-legales');
+
+      return andThen(function () {
+        findWithAssert('.legal-notices-page');
+      });
+    });
+  });
+});
 define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
@@ -3380,6 +3426,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/inscription.js', function () {
+      // test passed
+    });
+
+    it('routes/legal-notices.js', function () {
       // test passed
     });
 
@@ -8672,6 +8722,23 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
           (0, _chai.expect)(_this2.$('.logged-user-menu')).to.have.length(0);
         });
       });
+
+      (0, _mocha.it)('should render a button to the profile', function () {
+        var _this3 = this;
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "pah6OdLO",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+        this.$('.logged-user-name').click();
+
+        return (0, _wait.default)().then(function () {
+          // then
+          (0, _chai.expect)(_this3.$('.user-menu-item__account-link').text().trim()).to.equal('Mon compte');
+        });
+      });
     });
 
     (0, _mocha.describe)('when user is unlogged or not found', function () {
@@ -8686,7 +8753,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
       });
 
       (0, _mocha.it)('should not display user information, for unlogged', function () {
-        var _this3 = this;
+        var _this4 = this;
 
         // when
         this.render(Ember.HTMLBars.template({
@@ -8697,7 +8764,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         // then
         return (0, _wait.default)().then(function () {
-          (0, _chai.expect)(_this3.$('.logged-user-name')).to.have.length(0);
+          (0, _chai.expect)(_this4.$('.logged-user-name')).to.have.length(0);
         });
       });
     });
@@ -8814,6 +8881,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('acceptance/l1-signaler-une-epreuve-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/legal-notices-page-test.js', function () {
       // test passed
     });
 
@@ -9226,6 +9297,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/inscription-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/legal-notices-test.js', function () {
       // test passed
     });
 
@@ -12249,7 +12324,7 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
         });
       });
 
-      (0, _mocha.it)('should remain on /compte when the user as no organization linked', function () {
+      (0, _mocha.it)('should remain on /compte when the user as no organization linked (with a forced data reload)', function () {
         // Given
         var foundUser = Ember.Object.create({});
 
@@ -12266,6 +12341,7 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
         // Then
         return promise.then(function () {
           _sinon.default.assert.notCalled(route.transitionTo);
+          _sinon.default.assert.calledWith(findRecordStub, 'user', undefined, { reload: true });
         });
       });
     });
@@ -12596,6 +12672,22 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
     });
   });
 });
+define('pix-live/tests/unit/routes/legal-notices-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | legal notices', function () {
+    (0, _emberMocha.setupTest)('route:legal-notices', {
+      // Specify the other units that are required for this test.
+      // needs: ['controller:foo']
+      needs: ['service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
 define('pix-live/tests/unit/routes/login-test', ['mocha', 'ember-mocha', 'sinon'], function (_mocha, _emberMocha, _sinon) {
   'use strict';
 
@@ -12682,93 +12774,62 @@ define('pix-live/tests/unit/routes/login-test', ['mocha', 'ember-mocha', 'sinon'
     });
   });
 });
-define('pix-live/tests/unit/routes/logout-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/logout-test', ['sinon', 'mocha', 'ember-mocha'], function (_sinon, _mocha, _emberMocha) {
   'use strict';
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  var SessionStub = function () {
-    function SessionStub() {
-      _classCallCheck(this, SessionStub);
-
-      this.isInvalidateCalled = false;
-    }
-
-    _createClass(SessionStub, [{
-      key: 'invalidate',
-      value: function invalidate() {
-        this.isInvalidateCalled = true;
-      }
-    }]);
-
-    return SessionStub;
-  }();
 
   (0, _mocha.describe)('Unit | Route | logout', function () {
     (0, _emberMocha.setupTest)('route:logout', {
-      needs: ['service:current-routed-modal', 'service:session']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
+      needs: ['service:current-routed-modal']
     });
 
     (0, _mocha.it)('should disconnect the user', function () {
       // Given
+      var invalidateStub = _sinon.default.stub();
+      this.register('service:session', Ember.Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+      this.inject.service('session', { as: 'session' });
+
       var route = this.subject();
-      var sessionStub = new SessionStub();
-      route.set('session', sessionStub);
       route.transitionTo = function () {};
 
       // When
       route.beforeModel();
 
       // Then
-      (0, _chai.expect)(sessionStub.isInvalidateCalled).to.be.true;
+      _sinon.default.assert.calledOnce(invalidateStub);
     });
 
     (0, _mocha.it)('should redirect after disconnection', function () {
       // Given
-      var isTransitionToCalled = false;
-      var isTransitionToArgs = [];
+      var invalidateStub = _sinon.default.stub();
+      this.register('service:session', Ember.Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+      this.inject.service('session', { as: 'session' });
 
-      var sessionStub = new SessionStub();
       var route = this.subject();
-      route.set('session', sessionStub);
-      route.transitionTo = function () {
-        isTransitionToCalled = true;
-        isTransitionToArgs = Array.from(arguments);
-      };
+      route.transitionTo = _sinon.default.stub();
 
       // When
       route.beforeModel();
 
       // Then
-      (0, _chai.expect)(isTransitionToCalled).to.be.true;
-      (0, _chai.expect)(isTransitionToArgs).to.deep.equal(['/']);
+      _sinon.default.assert.calledOnce(route.transitionTo);
+      _sinon.default.assert.calledWith(route.transitionTo, '/');
+    });
+
+    (0, _mocha.it)('should redirect even if user was not authenticated', function () {
+      // Given
+      var invalidateStub = _sinon.default.stub();
+      this.register('service:session', Ember.Service.extend({ isAuthenticated: false, invalidate: invalidateStub }));
+      this.inject.service('session', { as: 'session' });
+
+      var route = this.subject();
+      route.transitionTo = _sinon.default.stub();
+
+      // When
+      route.beforeModel();
+
+      // Then
+      _sinon.default.assert.calledOnce(route.transitionTo);
+      _sinon.default.assert.calledWith(route.transitionTo, '/');
     });
   });
 });
@@ -13323,8 +13384,27 @@ define('pix-live/tests/unit/utils/password-validator-test', ['chai', 'mocha', 'p
   'use strict';
 
   (0, _mocha.describe)('Unit | Utility | password validator', function () {
+
+    (0, _mocha.describe)('Validation rules', function () {
+
+      (0, _mocha.it)('should contain at least 8 characters:', function () {
+        (0, _chai.expect)((0, _passwordValidator.default)('ABCD1234')).to.be.true;
+        (0, _chai.expect)((0, _passwordValidator.default)('A1')).to.be.false;
+      });
+
+      (0, _mocha.it)('should contain at least one letter ', function () {
+        (0, _chai.expect)((0, _passwordValidator.default)('ABCD1234')).to.be.true;
+        (0, _chai.expect)((0, _passwordValidator.default)('12345678')).to.be.false;
+      });
+
+      (0, _mocha.it)('should contain at least one digit', function () {
+        (0, _chai.expect)((0, _passwordValidator.default)('ABCD1234')).to.be.true;
+        (0, _chai.expect)((0, _passwordValidator.default)('ABCDEFGH')).to.be.false;
+      });
+    });
+
     (0, _mocha.describe)('Invalid password', function () {
-      ['', ' ', null, '@pix', '@pix.fr', '1      1', 'password', '12345678&', '+!@)-=`"#&', '1a      a1', '+!@)-=`"#&1', 'null 1' + null].forEach(function (badPassword) {
+      ['', ' ', null, '@pix', '@pix.fr', '1      1', 'password', '12345678&', '+!@)-=`"#&', '+!@)-=`"#&1'].forEach(function (badPassword) {
         (0, _mocha.it)('should return false when password is invalid: ' + badPassword, function () {
           (0, _chai.expect)((0, _passwordValidator.default)(badPassword)).to.be.false;
         });
@@ -13332,7 +13412,7 @@ define('pix-live/tests/unit/utils/password-validator-test', ['chai', 'mocha', 'p
     });
 
     (0, _mocha.describe)('Valid password', function () {
-      ['PIXBETA1', 'PIXBETA12', 'NULLNULL1', '12345678a', '12345678ab', '12345678ab+', '12345678ab+!', '12345678ab+!@', '12345678ab+!@)-=`', '12345678ab+!@)-=`"', '12345678ab+!@)-=`"#&'].forEach(function (validPassword) {
+      ['PIXBETA1', 'PIXBETA12', 'NULLNULL1', '12345678a', '12345678ab', '12345678ab+', '12345678ab+!', '12345678ab+!@', '12345678ab+!@)-=`', '12345678ab+!@)-=`"', '12345678ab+!@)-=`"#&', '1234Password avec espace', '1A      A1', 'à1      '].forEach(function (validPassword) {
         (0, _mocha.it)('should return true if provided password is valid: ' + validPassword, function () {
           (0, _chai.expect)((0, _passwordValidator.default)(validPassword)).to.be.true;
         });
