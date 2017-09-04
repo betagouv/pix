@@ -5291,7 +5291,7 @@ hr.project-page__presentation-header-line {
   color: #3d68ff;
   font-family: "Raleway", Arial, sans-serif;
   font-size: 22px;
-  font-weight: bold;
+  font-weight: 700;
   line-height: 26px; }
 
 .terms-of-service-page__subtitle {
@@ -5316,13 +5316,13 @@ hr.project-page__presentation-header-line {
   margin-bottom: 15px; }
 
 .terms-of-service__definition {
-  font-weight: bold; }
+  font-weight: 700; }
 
 .terms-of-service-section__title {
   color: #3e4149;
   font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 700;
   line-height: 19px; }
 
 .terms-of-service-section__subtitle {
@@ -5336,7 +5336,7 @@ hr.project-page__presentation-header-line {
   color: #3e4149;
   font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 700;
   line-height: 19px; }
 
 body {

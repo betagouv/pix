@@ -2071,6 +2071,32 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
     });
   });
 });
+define('pix-live/tests/acceptance/inscription-page-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Page | Inscription', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('should contain a link to "Terms of service" page', function () {
+
+      visit('/inscription');
+
+      return andThen(function () {
+        var $termsOfServiceLink = findWithAssert('.signup__cgu-link');
+        (0, _chai.expect)($termsOfServiceLink.attr('href').trim()).to.equal('/conditions-generales-d-utilisation');
+      });
+    });
+  });
+});
 define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
@@ -8894,6 +8920,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('acceptance/h2-page-warning-timee-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/inscription-page-test.js', function () {
       // test passed
     });
 
