@@ -2071,6 +2071,138 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
     });
   });
 });
+define('pix-live/tests/acceptance/index-page-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | index page', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    function authenticateUser() {
+      server.create('user');
+
+      visit('/connexion');
+      fillIn('#pix-email', 'samurai.jack@aku.world');
+      fillIn('#pix-password', 'B@ck2past');
+      click('.signin-form__submit_button');
+    }
+
+    (0, _mocha.describe)('"Hero" section', function () {
+
+      (0, _mocha.it)('should have a link to sign-up page when user is not authenticated', function () {
+        // when
+        visit('/');
+
+        // then
+        return andThen(function () {
+          var signUpLink = findWithAssert('.index-page-hero__inscription-link');
+          (0, _chai.expect)(signUpLink.attr('href').trim()).to.equal('/inscription');
+        });
+      });
+
+      (0, _mocha.it)('should not have a link to sign-up page when user is yet authenticated', function () {
+        // given
+        authenticateUser();
+
+        // when
+        visit('/');
+
+        // then
+        return andThen(function () {
+          (0, _chai.expect)(find('.index-page-hero__inscription-link')).to.have.lengthOf(0);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('"Weekly challenges" section', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        visit('/deconnexion');
+      });
+
+      (0, _mocha.describe)('when user is not authenticated', function () {
+
+        (0, _mocha.beforeEach)(function () {
+          visit('/');
+        });
+
+        (0, _mocha.it)('should not be rendered when user is not authenticated', function () {
+          (0, _chai.expect)(find('.index-page__section--challenges')).to.have.lengthOf(0);
+        });
+      });
+
+      (0, _mocha.describe)('when user is authenticated', function () {
+
+        (0, _mocha.beforeEach)(function () {
+          authenticateUser();
+          visit('/');
+        });
+
+        (0, _mocha.it)('should be rendered when user is yet authenticated', function () {
+          findWithAssert('.index-page__section--challenges');
+        });
+
+        (0, _mocha.it)('should have a title', function () {
+          var $title = findWithAssert('.index-page-challenges__presentation-title');
+          (0, _chai.expect)($title.text().trim()).to.equal('Les défis Pix de la semaine');
+        });
+
+        (0, _mocha.it)('should have a description', function () {
+          var $description = findWithAssert('.index-page-challenges__presentation-text');
+          (0, _chai.expect)($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/index-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | index page', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.describe)('Navbar header section', function () {
+      (0, _mocha.it)('should have a link to sign-up page when user is not authenticated', function () {
+        // when
+        visit('/');
+
+        // then
+        return andThen(function () {
+          var signUpLink = findWithAssert('.navbar-header-links__link--inscription');
+          (0, _chai.expect)(signUpLink.attr('href').trim()).to.equal('/inscription');
+        });
+      });
+
+      (0, _mocha.it)('should have a link to log-in page when user is not authenticated', function () {
+        // when
+        visit('/');
+
+        // then
+        return andThen(function () {
+          var logInLink = findWithAssert('.navbar-header-links__link--connection');
+          (0, _chai.expect)(logInLink.attr('href').trim()).to.equal('/connexion');
+        });
+      });
+    });
+  });
+});
 define('pix-live/tests/acceptance/inscription-page-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
@@ -2979,20 +3111,7 @@ define('pix-live/tests/acceptance/page-accueil-test', ['mocha', 'chai', 'pix-liv
       });
     });
 
-    (0, _mocha.describe)('the "Challenges" section', function () {
-
-      (0, _mocha.it)('should have a title', function () {
-        var $title = findWithAssert('.index-page-challenges__presentation-title');
-        (0, _chai.expect)($title.text().trim()).to.equal('Les défis Pix de la semaine');
-      });
-
-      (0, _mocha.it)('should have a description', function () {
-        var $description = findWithAssert('.index-page-challenges__presentation-text');
-        (0, _chai.expect)($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
-      });
-    });
-
-    (0, _mocha.describe)('contains a section with a bbutton to save new partners', function () {
+    (0, _mocha.describe)('contains a section with a button to save new partners', function () {
 
       (0, _mocha.it)('a1.16 with a title', function () {
         var $title = findWithAssert('.partners-enrollment__title');
@@ -5736,6 +5855,14 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
         (0, _chai.expect)(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.length(0);
       });
+
+      (0, _mocha.it)('should display link to inscription page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should display link to connection page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(1);
+      });
     });
     (0, _mocha.describe)('Rendering for logged user', function () {
 
@@ -5760,6 +5887,14 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
       (0, _mocha.it)('should display logged user details informations', function () {
         // then
         (0, _chai.expect)(this.$('.logged-user-details')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should not display link to inscription page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('should not display link to connection page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(0);
       });
     });
   });
@@ -8920,6 +9055,14 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('acceptance/h2-page-warning-timee-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/index-page-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/index-test.js', function () {
       // test passed
     });
 
