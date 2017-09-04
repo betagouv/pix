@@ -28,5 +28,6 @@ export default function(server) {
   });
 
   server.createList('organization', 2, { user });
+  server.createList('snapshot', 3, { organizationIds: [1] });
 
 }

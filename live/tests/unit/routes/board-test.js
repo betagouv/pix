@@ -32,7 +32,8 @@ describe('Unit | Route | board', function() {
   it('should correctly call the store', function() {
     // given
     const route = this.subject();
-    route.transitionTo = () => {};
+    route.transitionTo = () => {
+    };
 
     findRecord.resolves();
 
@@ -44,12 +45,13 @@ describe('Unit | Route | board', function() {
     sinon.assert.calledWith(findRecord, 'user', 12);
   });
 
-  it('should return user first organization informations', function() {
+  it.only('should return user first organization informations', function() {
     // given
     const user = Ember.Object.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
 
     const route = this.subject();
-    route.transitionTo = () => {};
+    route.transitionTo = () => {
+    };
 
     findRecord.resolves(user);
 
@@ -57,9 +59,11 @@ describe('Unit | Route | board', function() {
     const promise = route.model();
 
     // then
-    return promise.then((organization) => {
-      expect(organization.id).to.equal(1);
-    });
+    return promise.then((model) => {
+      console.log(model);
+      expect(model.organization.id).to.equal(1);
+    })
+
   });
 
   it('should return to home page if no user was found', function() {
