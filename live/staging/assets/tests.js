@@ -2071,98 +2071,6 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
     });
   });
 });
-define('pix-live/tests/acceptance/index-page-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
-  'use strict';
-
-  (0, _mocha.describe)('Acceptance | index page', function () {
-
-    var application = void 0;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _application.startApp)();
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _application.destroyApp)(application);
-    });
-
-    function authenticateUser() {
-      server.create('user');
-
-      visit('/connexion');
-      fillIn('#pix-email', 'samurai.jack@aku.world');
-      fillIn('#pix-password', 'B@ck2past');
-      click('.signin-form__submit_button');
-    }
-
-    (0, _mocha.describe)('"Hero" section', function () {
-
-      (0, _mocha.it)('should have a link to sign-up page when user is not authenticated', function () {
-        // when
-        visit('/');
-
-        // then
-        return andThen(function () {
-          var signUpLink = findWithAssert('.index-page-hero__inscription-link');
-          (0, _chai.expect)(signUpLink.attr('href').trim()).to.equal('/inscription');
-        });
-      });
-
-      (0, _mocha.it)('should not have a link to sign-up page when user is yet authenticated', function () {
-        // given
-        authenticateUser();
-
-        // when
-        visit('/');
-
-        // then
-        return andThen(function () {
-          (0, _chai.expect)(find('.index-page-hero__inscription-link')).to.have.lengthOf(0);
-        });
-      });
-    });
-
-    (0, _mocha.describe)('"Weekly challenges" section', function () {
-
-      (0, _mocha.beforeEach)(function () {
-        visit('/deconnexion');
-      });
-
-      (0, _mocha.describe)('when user is not authenticated', function () {
-
-        (0, _mocha.beforeEach)(function () {
-          visit('/');
-        });
-
-        (0, _mocha.it)('should not be rendered when user is not authenticated', function () {
-          (0, _chai.expect)(find('.index-page__section--challenges')).to.have.lengthOf(0);
-        });
-      });
-
-      (0, _mocha.describe)('when user is authenticated', function () {
-
-        (0, _mocha.beforeEach)(function () {
-          authenticateUser();
-          visit('/');
-        });
-
-        (0, _mocha.it)('should be rendered when user is yet authenticated', function () {
-          findWithAssert('.index-page__section--challenges');
-        });
-
-        (0, _mocha.it)('should have a title', function () {
-          var $title = findWithAssert('.index-page-challenges__presentation-title');
-          (0, _chai.expect)($title.text().trim()).to.equal('Les défis Pix de la semaine');
-        });
-
-        (0, _mocha.it)('should have a description', function () {
-          var $description = findWithAssert('.index-page-challenges__presentation-text');
-          (0, _chai.expect)($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
-        });
-      });
-    });
-  });
-});
 define('pix-live/tests/acceptance/index-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
@@ -9055,10 +8963,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('acceptance/h2-page-warning-timee-test.js', function () {
-      // test passed
-    });
-
-    it('acceptance/index-page-test.js', function () {
       // test passed
     });
 
