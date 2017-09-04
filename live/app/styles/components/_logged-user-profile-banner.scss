@@ -1,0 +1,91 @@
+.logged-user-profile-banner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 64px;
+  padding-bottom: 25px;
+  background: url('/images/banners/welcome-profile-banner.png') no-repeat;
+  background-position: center;
+  background-size: contain;
+
+  @include device-is('desktop') {
+    padding: 128px 120px 50px;
+    background-size: cover;
+    align-items: stretch;
+  }
+}
+
+.profile-banner__content-text-container {
+
+  @include device-is('desktop') {
+    width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+.profile-banner__title {
+  max-width: 290px;
+  opacity: 0.8;
+  background-color: $blue-ribbon;
+  margin-bottom: 8px;
+
+  font-family: $font-raleway;
+  font-size: 30px;
+  font-weight: $font-bold;
+  text-align: center;
+  color: $white;
+
+  @include device-is('desktop') {
+    font-size: 50px;
+    height: 76px;
+  }
+}
+
+.profile-banner__description {
+  max-width: 350px;
+  opacity: 0.8;
+  background-color: $blue-ribbon;
+  margin-top: 3px;
+
+  font-family: $font-raleway;
+  font-size: 16px;
+  font-weight: $font-medium;
+  text-align: left;
+  color: $white;
+  padding: 3px 20px;
+
+  @include device-is('desktop') {
+    font-size: 32px;
+    height: 45px;
+    line-height: 45px;
+    max-width: 576px;
+  }
+}
+
+.profile-banner__button-scroll-container {
+  margin-top: 60px;
+  text-align: center;
+
+  @include device-is('desktop') {
+    margin-top: 110px;
+  }
+}
+
+.button-scroll-to-profile {
+  width: 276px;
+  height: 40px;
+  border-radius: 25px;
+  border: none;
+  background: $pix-blue;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+
+  text-transform: uppercase;
+  font-family: $font-lato;
+  font-size: 13px;
+  font-weight: $font-bold;
+  letter-spacing: 1.5px;
+  text-align: center;
+  color: $white;
+}
