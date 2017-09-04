@@ -7915,38 +7915,6 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           });
         });
 
-        (0, _mocha.it)('should refresh all fields on form', function () {
-          // given
-          var hasRefreshBeenCalled = false;
-          this.set('refresh', function () {
-            hasRefreshBeenCalled = true;
-          });
-
-          var user = Ember.Object.create({
-            email: 'toto@pix.fr',
-            firstName: 'Marion',
-            lastName: 'Yade',
-            password: 'gipix2017',
-            cgu: true,
-
-            save: function save() {
-              return Ember.RSVP.resolve();
-            }
-          });
-          this.set('user', user);
-          this.render(Ember.HTMLBars.template({
-            "id": "sLJ23ouW",
-            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\",\"signup\",\"refresh\"],[[19,0,[\"user\"]],\"signup\",[25,\"action\",[[19,0,[]],[19,0,[\"refresh\"]]],null]]]],false]],\"hasEval\":false}",
-            "meta": {}
-          }));
-
-          // when
-          $(SUBMIT_BUTTON).click();
-
-          // then
-          (0, _chai.expect)(hasRefreshBeenCalled).to.be.true;
-        });
-
         (0, _mocha.it)('should redirect automatically to user compte', function () {
           // given
           var redirectToProfileRouteStub = _sinon.default.stub();
@@ -8326,7 +8294,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           });
         });
 
-        (0, _mocha.it)('should display an success message on form title, when all things are ok and form is submited', function () {
+        (0, _mocha.it)('should reset validation property, when all things are ok and form is submitted', function () {
           var _this13 = this;
 
           // given
@@ -8351,74 +8319,11 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // when
           this.$('.signup__submit-button').click();
-          // then
-          return (0, _wait.default)().then(function () {
-            var $notificationMessage = _this13.$('.signup-form__notification-message').text();
-            (0, _chai.expect)($notificationMessage.trim()).to.equal('Votre compte a bien été créé !');
-          });
-        });
-
-        (0, _mocha.it)('should reset validation property, when all things are ok and form is submitted', function () {
-          var _this14 = this;
-
-          // given
-          var validUser = Ember.Object.create({
-            email: 'toto@pix.fr',
-            firstName: 'Marion',
-            lastName: 'Yade',
-            password: 'gipix2017',
-            cgu: true,
-
-            save: function save() {
-              return new Ember.RSVP.resolve();
-            }
-          });
-
-          this.set('user', validUser);
-          this.render(Ember.HTMLBars.template({
-            "id": "+G/9hwVS",
-            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
-            "meta": {}
-          }));
-
-          // when
-          this.$('.signup__submit-button').click();
 
           // then
           return (0, _wait.default)().then(function () {
-            var inputFirst = _this14.$('.signup-textfield__input-field-container').first();
+            var inputFirst = _this13.$('.signup-textfield__input-field-container').first();
             (0, _chai.expect)(inputFirst.prop('class')).to.includes(INPUT_TEXT_FIELD_CLASS_DEFAULT);
-          });
-        });
-      });
-
-      (0, _mocha.describe)('Accessibility', function () {
-
-        (0, _mocha.it)('should render an accessible notification message when the account was successfully created', function () {
-          var _this15 = this;
-
-          // given
-          var user = Ember.Object.create({
-            save: function save() {
-              return Ember.RSVP.resolve();
-            }
-          });
-
-          this.set('user', user);
-          this.render(Ember.HTMLBars.template({
-            "id": "v5AueqXQ",
-            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\",\"signup\"],[[19,0,[\"user\"]],\"signup\"]]],false]],\"hasEval\":false}",
-            "meta": {}
-          }));
-
-          // when
-          $(SUBMIT_BUTTON).click();
-
-          // then
-          return (0, _wait.default)().then(function () {
-
-            var $notificationMessage = _this15.$('.signup-form__notification-message');
-            (0, _chai.expect)($notificationMessage.attr('aria-live')).to.equal('polite');
           });
         });
       });
