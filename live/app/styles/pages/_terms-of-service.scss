@@ -38,7 +38,7 @@
   color: $pix-blue;
   font-family: $font-raleway;
   font-size: 22px;
-  font-weight: bold;
+  font-weight: $font-bold;
   line-height: 26px;
 }
 
@@ -69,21 +69,21 @@
 }
 
 .terms-of-service__definition {
-  font-weight: bold;
+  font-weight: $font-bold;
 }
 
 .terms-of-service-section__title {
   color: $charcoal-grey;
   font-family: $font-lato;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: $font-bold;
   line-height: 19px;
 }
 
 .terms-of-service-section__subtitle {
   color: $charcoal-grey;
   font-family: $font-lato;
-  font-weight: 500;
+  font-weight: $font-medium;
   font-size: 14px;
   text-decoration: underline;
 }
@@ -92,7 +92,7 @@
   color: $charcoal-grey;
   font-family: $font-lato;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: $font-bold;
   line-height: 19px;
 }
 
