@@ -5249,6 +5249,96 @@ hr.project-page__presentation-header-line {
       -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
       box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3); } }
 
+.terms-of-service-page {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: column;
+  flex-flow: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #FAFAFA;
+  color: #3e4149;
+  text-rendering: optimizeLegibility;
+  font-size: 14px; }
+
+.terms-of-service-page .rounded-panel {
+  margin-left: 10px;
+  margin-right: 10px; }
+  @media (min-width: 980px) {
+    .terms-of-service-page .rounded-panel {
+      margin-bottom: 50px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 40px; } }
+
+.terms-of-service-page__content {
+  background-color: #ffffff;
+  margin: 50px auto;
+  padding: 20px; }
+  @media (min-width: 980px) {
+    .terms-of-service-page__content {
+      padding: 40px 30px;
+      width: 940px;
+      margin-bottom: 50px;
+      margin-left: auto;
+      margin-right: auto; } }
+
+.terms-of-service-page__title {
+  color: #3d68ff;
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 26px; }
+
+.terms-of-service-page__subtitle {
+  color: #3e4149;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 19px; }
+
+.terms-of-service-section {
+  margin-top: 60px; }
+
+.terms-of-service-section__subsection {
+  margin-left: 20px;
+  margin-top: 20px; }
+  @media (min-width: 980px) {
+    .terms-of-service-section__subsection {
+      margin-left: 40px;
+      margin-top: 40px; } }
+
+.terms-of-service-section p,
+.terms-of-service-section ul {
+  margin-bottom: 15px; }
+
+.terms-of-service__definition {
+  font-weight: 700; }
+
+.terms-of-service-section__title {
+  color: #3e4149;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19px; }
+
+.terms-of-service-section__subtitle {
+  color: #3e4149;
+  font-family: "Lato", Arial, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  text-decoration: underline; }
+
+.terms-of-service-section__subsection-title {
+  color: #3e4149;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19px; }
+
 body {
   font-family: "Lato", Arial, sans-serif;
   background-color: #f2f3f4; }

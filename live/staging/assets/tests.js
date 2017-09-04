@@ -2071,6 +2071,32 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
     });
   });
 });
+define('pix-live/tests/acceptance/inscription-page-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Page | Inscription', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('should contain a link to "Terms of service" page', function () {
+
+      visit('/inscription');
+
+      return andThen(function () {
+        var $termsOfServiceLink = findWithAssert('.signup__cgu-link');
+        (0, _chai.expect)($termsOfServiceLink.attr('href').trim()).to.equal('/conditions-generales-d-utilisation');
+      });
+    });
+  });
+});
 define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
@@ -3024,6 +3050,31 @@ define('pix-live/tests/acceptance/page-accueil-test', ['mocha', 'chai', 'pix-liv
     });
   });
 });
+define('pix-live/tests/acceptance/terms-of-service-page-test', ['mocha', 'pix-live/tests/helpers/application'], function (_mocha, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Page | Terms of service', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('should be accessible from "/conditions-generales-d-utilisation"', function () {
+
+      visit('/conditions-generales-d-utilisation');
+
+      return andThen(function () {
+        findWithAssert('.terms-of-service-page');
+      });
+    });
+  });
+});
 define('pix-live/tests/app.lint-test', [], function () {
   'use strict';
 
@@ -3446,6 +3497,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/project.js', function () {
+      // test passed
+    });
+
+    it('routes/terms-of-service.js', function () {
       // test passed
     });
 
@@ -8868,6 +8923,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('acceptance/inscription-page-test.js', function () {
+      // test passed
+    });
+
     it('acceptance/j1-compare-answer-solution-test.js', function () {
       // test passed
     });
@@ -8893,6 +8952,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('acceptance/page-accueil-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/terms-of-service-page-test.js', function () {
       // test passed
     });
 
@@ -9321,6 +9384,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/series-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/terms-of-service-test.js', function () {
       // test passed
     });
 
@@ -12868,6 +12935,21 @@ define('pix-live/tests/unit/routes/series-test', ['chai', 'mocha', 'ember-mocha'
 
   (0, _mocha.describe)('Unit | Route | courseGroups', function () {
     (0, _emberMocha.setupTest)('route:courseGroups', {
+      // Specify the other units that are required for this test.
+      needs: ['service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/terms-of-service-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | terms of service', function () {
+    (0, _emberMocha.setupTest)('route:terms-of-service', {
       // Specify the other units that are required for this test.
       needs: ['service:current-routed-modal']
     });
