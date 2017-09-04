@@ -2163,46 +2163,6 @@ define('pix-live/tests/acceptance/index-page-test', ['mocha', 'chai', 'pix-live/
     });
   });
 });
-define('pix-live/tests/acceptance/index-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
-  'use strict';
-
-  (0, _mocha.describe)('Acceptance | index page', function () {
-
-    var application = void 0;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _application.startApp)();
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _application.destroyApp)(application);
-    });
-
-    (0, _mocha.describe)('Navbar header section', function () {
-      (0, _mocha.it)('should have a link to sign-up page when user is not authenticated', function () {
-        // when
-        visit('/');
-
-        // then
-        return andThen(function () {
-          var signUpLink = findWithAssert('.navbar-header-links__link--inscription');
-          (0, _chai.expect)(signUpLink.attr('href').trim()).to.equal('/inscription');
-        });
-      });
-
-      (0, _mocha.it)('should have a link to log-in page when user is not authenticated', function () {
-        // when
-        visit('/');
-
-        // then
-        return andThen(function () {
-          var logInLink = findWithAssert('.navbar-header-links__link--connection');
-          (0, _chai.expect)(logInLink.attr('href').trim()).to.equal('/connexion');
-        });
-      });
-    });
-  });
-});
 define('pix-live/tests/acceptance/inscription-page-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
@@ -5855,14 +5815,6 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
         (0, _chai.expect)(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.length(0);
       });
-
-      (0, _mocha.it)('should display link to inscription page', function () {
-        (0, _chai.expect)(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(1);
-      });
-
-      (0, _mocha.it)('should display link to connection page', function () {
-        (0, _chai.expect)(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(1);
-      });
     });
     (0, _mocha.describe)('Rendering for logged user', function () {
 
@@ -5887,14 +5839,6 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
       (0, _mocha.it)('should display logged user details informations', function () {
         // then
         (0, _chai.expect)(this.$('.logged-user-details')).to.have.lengthOf(1);
-      });
-
-      (0, _mocha.it)('should not display link to inscription page', function () {
-        (0, _chai.expect)(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(0);
-      });
-
-      (0, _mocha.it)('should not display link to connection page', function () {
-        (0, _chai.expect)(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(0);
       });
     });
   });
@@ -9059,10 +9003,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('acceptance/index-page-test.js', function () {
-      // test passed
-    });
-
-    it('acceptance/index-test.js', function () {
       // test passed
     });
 

@@ -2129,13 +2129,7 @@ h1.course-banner__name {
   display: flex;
   -webkit-box-pack: end;
   -ms-flex-pack: end;
-  justify-content: flex-end;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap; }
+  justify-content: flex-end; }
 
 .navbar-header-links__item {
   margin-left: 20px;
@@ -2159,17 +2153,6 @@ h1.course-banner__name {
   .navbar-header-links__link:hover, .navbar-header-links__link:focus, .navbar-header-links__link:active {
     color: #ffbe00;
     text-decoration: none; }
-
-.navbar-header-links__link--inscription {
-  border-radius: 20px;
-  border: 2px solid #ffffff;
-  width: 140px;
-  padding: 10px;
-  text-align: center; }
-  .navbar-header-links__link--inscription:hover, .navbar-header-links__link--inscription:focus, .navbar-header-links__link--inscription:active {
-    color: #3d68ff;
-    text-decoration: none;
-    background-color: #ffffff; }
 
 .pix-logo {
   display: inline-block;
