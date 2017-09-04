@@ -1,5 +1,7 @@
 const JSONAPIDeserializer = require('jsonapi-serializer').Deserializer;
 
+const TOTAL_NUMBER_OF_COMPETENCES = 16;
+
 module.exports = {
 
   getPercentage(profile) {
@@ -8,7 +10,7 @@ module.exports = {
       .deserialize(profile)
       .then((deserializedProfile) => {
         const numberOfEvaluatedCompetences = _getEvalutedCompetences(deserializedProfile.competences);
-        return Math.round((numberOfEvaluatedCompetences / 16) * 100);
+        return Math.round((numberOfEvaluatedCompetences / TOTAL_NUMBER_OF_COMPETENCES) * 100);
       });
   }
 };
