@@ -5,9 +5,9 @@ function isUniqConstraintViolated(err) {
   return (err.code === SQLITE_UNIQ_CONSTRAINT || err.code === PGSQL_UNIQ_CONSTRAINT);
 }
 
-function mergeModelWithRelationship(model, relatedModel) {
-  const pendingMerge = model.reduce((promises, collection) => {
-    promises.push(collection.load([relatedModel]));
+function mergeModelWithRelationship(snapshots, userModelName) {
+  const pendingMerge = snapshots.reduce((promises, snapshot) => {
+    promises.push(snapshot.load([userModelName]));
     return promises;
   }, []);
 

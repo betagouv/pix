@@ -22,7 +22,7 @@ module.exports = {
     const userValidationErrors = userRepository.validateData(userRawData);
     const organizationValidationErrors = organization.validationErrors();
 
-    if(userValidationErrors || organizationValidationErrors) {
+    if (userValidationErrors || organizationValidationErrors) {
       const errors = _.merge(userValidationErrors, organizationValidationErrors);
       return reply(validationErrorSerializer.serialize({ data: errors })).code(400);
     }
@@ -45,7 +45,7 @@ module.exports = {
         reply(organizationSerializer.serialize(organization));
       })
       .catch((err) => {
-        if(err instanceof AlreadyRegisteredEmailError) {
+        if (err instanceof AlreadyRegisteredEmailError) {
           return reply(validationErrorSerializer.serialize(_buildAlreadyExistingEmailError(organization.get('email')))).code(400);
         }
 
@@ -75,12 +75,12 @@ module.exports = {
       .getSnapshotsByOrganizationId(request.params.id)
       .then((snapshots) => bookshelfUtils.mergeModelWithRelationship(snapshots, 'user'))
       .then((snapshotsWithRelatedUsers) => {
-        const jsonSnapshots = snapshotsWithRelatedUsers.map((collection) => collection.toJSON());
+        const jsonSnapshots = snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON());
         return snapshotSerializer.serializeArray(jsonSnapshots);
       })
-      .then((SerializedSnapshots) => reply(SerializedSnapshots).code(200))
+      .then((serializedSnapshots) => reply(serializedSnapshots).code(200))
       .catch((err) => {
-        if(err.name === 'CustomError') {
+        if (err.name === 'CustomError') {
           return reply(validationErrorSerializer.serialize(_buildErrorMessage('Aucun profile profil n’a été partagé avec cette organisation'))).code(404);
         }
 
@@ -119,7 +119,7 @@ function _generateUniqueOrganizationCode() {
 function _extractFilters(request) {
   return _.reduce(request.query, (result, queryFilterValue, queryFilterKey) => {
     const field = queryFilterKey.match(/filter\[([a-z]*)]/)[1];
-    if(field) {
+    if (field) {
       result[field] = queryFilterValue;
     }
     return result;
