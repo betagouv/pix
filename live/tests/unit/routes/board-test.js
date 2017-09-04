@@ -45,7 +45,7 @@ describe('Unit | Route | board', function() {
     sinon.assert.calledWith(findRecord, 'user', 12);
   });
 
-  it.only('should return user first organization informations', function() {
+  it('should return user first organization informations', function() {
     // given
     const user = Ember.Object.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
 
@@ -60,10 +60,8 @@ describe('Unit | Route | board', function() {
 
     // then
     return promise.then((model) => {
-      console.log(model);
       expect(model.organization.id).to.equal(1);
-    })
-
+    });
   });
 
   it('should return to home page if no user was found', function() {

@@ -1,0 +1,15 @@
+{{#unless _hasSnapshots }}
+  <div class="snapshot-list__no-profile">Aucun profil partagé pour le moment</div>
+{{/unless}}
+
+{{#each _snapshots as |snapshot|}}
+  <div class="snapshot-list__snapshot-item">
+    <tr>
+      <td>{{snapshot.user.lastName}}</td>
+      <td>{{snapshot.user.firstName}}</td>
+      <td>{{snapshot.createdAt}}</td>
+      <td>{{snapshot.score}}</td>
+      <td>{{snapshot.completionPercentage}}%</td>
+    </tr>
+  </div>
+{{/each}}

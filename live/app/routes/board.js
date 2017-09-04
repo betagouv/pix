@@ -18,8 +18,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         }
 
         return RSVP.hash({
-          organization: user.get('organizations.firstObject'),
-          //snapshots: applicationAdapter.querySnap(store, 'snapshot', { organizationId: user.get('organizations.firstObject.id') })
+          organization: user.get('organizations.firstObject')
         });
       })
       .catch(_ => {
