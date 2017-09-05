@@ -3482,6 +3482,66 @@ input.qcm-panel__proposal-checkbox {
   line-height: normal;
   margin: -4px 25.9px 15.5px; }
 
+.snapshot-list {
+  background: #FAFAFA; }
+  @media (min-width: 768px) {
+    .snapshot-list {
+      max-width: 750px;
+      margin: auto;
+      margin-bottom: 40px; } }
+  @media (min-width: 980px) {
+    .snapshot-list {
+      max-width: 970px;
+      margin: auto;
+      margin-bottom: 40px; } }
+
+.snapshot-list__body-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0px 5px; }
+
+.snapshot-list__body-table__header {
+  background-color: #f2f3f4;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase; }
+
+.snapshot-list__table-header-cell {
+  text-align: center;
+  padding: 15px 0; }
+
+.snapshot-list__no-profile {
+  height: 200px;
+  padding: 0 30px;
+  background: #ffffff;
+  text-align: center;
+  font-size: 32px;
+  font-family: "Lato", Arial, sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.7px;
+  -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3); }
+
+.snapshot-list__snapshot-item {
+  background-color: #ffffff;
+  font-family: "Lato", Arial, sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.7px;
+  text-align: center; }
+  @media (min-width: 768px) {
+    .snapshot-list__snapshot-item {
+      -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3); } }
+
+.snapshot-list__snapshot-item-cell {
+  text-align: center;
+  padding: 15px 0;
+  font-size: 16px;
+  font-family: "Lato", Arial, sans-serif;
+  color: #3e4149; }
+
 .profile-panel {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -5231,72 +5291,13 @@ hr.project-page__presentation-header-line {
     .board-page__profiles-title {
       max-width: 750px;
       margin: auto;
-      margin-bottom: 20px;
       padding-left: 0px;
       font-size: 40px;
       background: #FAFAFA; } }
   @media (min-width: 980px) {
     .board-page__profiles-title {
       margin: auto;
-      margin-bottom: 20px;
       max-width: 970px; } }
-
-.board-page__body {
-  background: #FAFAFA; }
-  @media (min-width: 768px) {
-    .board-page__body {
-      max-width: 750px;
-      margin: auto;
-      margin-bottom: 40px; } }
-  @media (min-width: 980px) {
-    .board-page__body {
-      max-width: 970px;
-      margin: auto;
-      margin-bottom: 40px; } }
-
-.board-page__body-table__header {
-  display: none; }
-  @media (min-width: 768px) {
-    .board-page__body-table__header {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -ms-flex-pack: distribute;
-      justify-content: space-around;
-      -webkit-box-align: center;
-      -ms-flex-align: center;
-      align-items: center;
-      margin-bottom: 10px;
-      height: 50px;
-      background-color: #f2f3f4;
-      font-family: "Lato", Arial, sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase; } }
-
-.board-page__body-table__body {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: 0 30px;
-  height: 200px;
-  background: #ffffff;
-  font-family: "Lato", Arial, sans-serif;
-  font-size: 32px;
-  font-weight: 300;
-  letter-spacing: 0.7px;
-  text-align: center; }
-  @media (min-width: 768px) {
-    .board-page__body-table__body {
-      -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3); } }
 
 .terms-of-service-page {
   display: -webkit-box;

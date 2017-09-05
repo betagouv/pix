@@ -2071,98 +2071,6 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
     });
   });
 });
-define('pix-live/tests/acceptance/index-page-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
-  'use strict';
-
-  (0, _mocha.describe)('Acceptance | index page', function () {
-
-    var application = void 0;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _application.startApp)();
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _application.destroyApp)(application);
-    });
-
-    function authenticateUser() {
-      server.create('user');
-
-      visit('/connexion');
-      fillIn('#pix-email', 'samurai.jack@aku.world');
-      fillIn('#pix-password', 'B@ck2past');
-      click('.signin-form__submit_button');
-    }
-
-    (0, _mocha.describe)('"Hero" section', function () {
-
-      (0, _mocha.it)('should have a link to sign-up page when user is not authenticated', function () {
-        // when
-        visit('/');
-
-        // then
-        return andThen(function () {
-          var signUpLink = findWithAssert('.index-page-hero__inscription-link');
-          (0, _chai.expect)(signUpLink.attr('href').trim()).to.equal('/inscription');
-        });
-      });
-
-      (0, _mocha.it)('should not have a link to sign-up page when user is yet authenticated', function () {
-        // given
-        authenticateUser();
-
-        // when
-        visit('/');
-
-        // then
-        return andThen(function () {
-          (0, _chai.expect)(find('.index-page-hero__inscription-link')).to.have.lengthOf(0);
-        });
-      });
-    });
-
-    (0, _mocha.describe)('"Weekly challenges" section', function () {
-
-      (0, _mocha.beforeEach)(function () {
-        visit('/deconnexion');
-      });
-
-      (0, _mocha.describe)('when user is not authenticated', function () {
-
-        (0, _mocha.beforeEach)(function () {
-          visit('/');
-        });
-
-        (0, _mocha.it)('should not be rendered when user is not authenticated', function () {
-          (0, _chai.expect)(find('.index-page__section--challenges')).to.have.lengthOf(0);
-        });
-      });
-
-      (0, _mocha.describe)('when user is authenticated', function () {
-
-        (0, _mocha.beforeEach)(function () {
-          authenticateUser();
-          visit('/');
-        });
-
-        (0, _mocha.it)('should be rendered when user is yet authenticated', function () {
-          findWithAssert('.index-page__section--challenges');
-        });
-
-        (0, _mocha.it)('should have a title', function () {
-          var $title = findWithAssert('.index-page-challenges__presentation-title');
-          (0, _chai.expect)($title.text().trim()).to.equal('Les défis Pix de la semaine');
-        });
-
-        (0, _mocha.it)('should have a description', function () {
-          var $description = findWithAssert('.index-page-challenges__presentation-text');
-          (0, _chai.expect)($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
-        });
-      });
-    });
-  });
-});
 define('pix-live/tests/acceptance/index-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
@@ -3073,7 +2981,7 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
       }, _callee3, this);
     })));
 
-    (0, _mocha.it)('should display shared snapshots from this organizations', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+    (0, _mocha.it)('should display an empty list of snapshot', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
       return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
@@ -3081,16 +2989,16 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
               // given
               seedDatabase();
               authenticateUser();
-              server.createList('snapshot', 3, { organizationIds: [1] });
 
               // when
-              _context4.next = 5;
+              _context4.next = 4;
               return visit('/board');
 
-            case 5:
+            case 4:
 
               // then
-              (0, _chai.expect)(find('.board-page__body-table__row-snapshot').length).to.equal(3);
+              (0, _chai.expect)(find('.snapshot-list').length).to.equal(1);
+              (0, _chai.expect)(find('.snapshot-list__no-profile').text()).to.equal('Aucun profil partagé pour le moment');
 
             case 6:
             case 'end':
@@ -8038,38 +7946,6 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           });
         });
 
-        (0, _mocha.it)('should refresh all fields on form', function () {
-          // given
-          var hasRefreshBeenCalled = false;
-          this.set('refresh', function () {
-            hasRefreshBeenCalled = true;
-          });
-
-          var user = Ember.Object.create({
-            email: 'toto@pix.fr',
-            firstName: 'Marion',
-            lastName: 'Yade',
-            password: 'gipix2017',
-            cgu: true,
-
-            save: function save() {
-              return Ember.RSVP.resolve();
-            }
-          });
-          this.set('user', user);
-          this.render(Ember.HTMLBars.template({
-            "id": "sLJ23ouW",
-            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\",\"signup\",\"refresh\"],[[19,0,[\"user\"]],\"signup\",[25,\"action\",[[19,0,[]],[19,0,[\"refresh\"]]],null]]]],false]],\"hasEval\":false}",
-            "meta": {}
-          }));
-
-          // when
-          $(SUBMIT_BUTTON).click();
-
-          // then
-          (0, _chai.expect)(hasRefreshBeenCalled).to.be.true;
-        });
-
         (0, _mocha.it)('should redirect automatically to user compte', function () {
           // given
           var redirectToProfileRouteStub = _sinon.default.stub();
@@ -8449,7 +8325,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           });
         });
 
-        (0, _mocha.it)('should display an success message on form title, when all things are ok and form is submited', function () {
+        (0, _mocha.it)('should reset validation property, when all things are ok and form is submitted', function () {
           var _this13 = this;
 
           // given
@@ -8474,74 +8350,11 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // when
           this.$('.signup__submit-button').click();
-          // then
-          return (0, _wait.default)().then(function () {
-            var $notificationMessage = _this13.$('.signup-form__notification-message').text();
-            (0, _chai.expect)($notificationMessage.trim()).to.equal('Votre compte a bien été créé !');
-          });
-        });
-
-        (0, _mocha.it)('should reset validation property, when all things are ok and form is submitted', function () {
-          var _this14 = this;
-
-          // given
-          var validUser = Ember.Object.create({
-            email: 'toto@pix.fr',
-            firstName: 'Marion',
-            lastName: 'Yade',
-            password: 'gipix2017',
-            cgu: true,
-
-            save: function save() {
-              return new Ember.RSVP.resolve();
-            }
-          });
-
-          this.set('user', validUser);
-          this.render(Ember.HTMLBars.template({
-            "id": "+G/9hwVS",
-            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
-            "meta": {}
-          }));
-
-          // when
-          this.$('.signup__submit-button').click();
 
           // then
           return (0, _wait.default)().then(function () {
-            var inputFirst = _this14.$('.signup-textfield__input-field-container').first();
+            var inputFirst = _this13.$('.signup-textfield__input-field-container').first();
             (0, _chai.expect)(inputFirst.prop('class')).to.includes(INPUT_TEXT_FIELD_CLASS_DEFAULT);
-          });
-        });
-      });
-
-      (0, _mocha.describe)('Accessibility', function () {
-
-        (0, _mocha.it)('should render an accessible notification message when the account was successfully created', function () {
-          var _this15 = this;
-
-          // given
-          var user = Ember.Object.create({
-            save: function save() {
-              return Ember.RSVP.resolve();
-            }
-          });
-
-          this.set('user', user);
-          this.render(Ember.HTMLBars.template({
-            "id": "v5AueqXQ",
-            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\",\"signup\"],[[19,0,[\"user\"]],\"signup\"]]],false]],\"hasEval\":false}",
-            "meta": {}
-          }));
-
-          // when
-          $(SUBMIT_BUTTON).click();
-
-          // then
-          return (0, _wait.default)().then(function () {
-
-            var $notificationMessage = _this15.$('.signup-form__notification-message');
-            (0, _chai.expect)($notificationMessage.attr('aria-live')).to.equal('polite');
           });
         });
       });
@@ -8751,7 +8564,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
   var RSVP = Ember.RSVP;
 
 
-  _mocha.describe.only('Integration | Component | snapshot list', function () {
+  (0, _mocha.describe)('Integration | Component | snapshot list', function () {
     (0, _emberMocha.setupComponentTest)('snapshot-list', {
       integration: true
     });
@@ -8813,7 +8626,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
         id: 1,
         score: 10,
         completionPercentage: '25',
-        createdAt: '09/04/2017',
+        createdAt: '09/25/2017',
         user: user
       });
       var organization = Ember.Object.create({ id: 1, snapshots: RSVP.resolve([snapshot]) });
@@ -8831,7 +8644,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.length(1);
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(0)').text().trim()).to.equal('Heisenberg');
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(1)').text().trim()).to.equal('Werner');
-        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('09/04/2017');
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('25/09/2017');
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(3)').text().trim()).to.equal('10');
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal('25%');
       }.bind(this));
@@ -9182,10 +8995,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('acceptance/index-page-test.js', function () {
-      // test passed
-    });
-
     it('acceptance/index-test.js', function () {
       // test passed
     });
@@ -9391,10 +9200,7 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/snapshot-list-test.js', function () {
-      // test failed
-      var error = new chai.AssertionError('integration/components/snapshot-list-test.js should pass ESLint\n\n14:26 - \'Ember\' is not defined. (no-undef)\n23:26 - \'Ember\' is not defined. (no-undef)\n36:23 - \'Ember\' is not defined. (no-undef)\n37:23 - \'Ember\' is not defined. (no-undef)\n38:26 - \'Ember\' is not defined. (no-undef)\n53:18 - \'Ember\' is not defined. (no-undef)\n54:22 - \'Ember\' is not defined. (no-undef)\n61:26 - \'Ember\' is not defined. (no-undef)');
-      error.stack = undefined;
-      throw error;
+      // test passed
     });
 
     it('integration/components/timeout-jauge-test.js', function () {
