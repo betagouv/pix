@@ -2576,9 +2576,6 @@ define('pix-live/components/signup-form', ['exports', 'pix-live/utils/email-vali
         this.get('user').save().then(function () {
           var credentials = { email: _this3.get('user.email'), password: _this3.get('user.password') };
           _this3.sendAction('redirectToProfileRoute', credentials);
-          _this3.set('_notificationMessage', 'Votre compte a bien été créé !');
-          _this3._resetValidationFields();
-          _this3.sendAction('refresh');
           _this3.set('_tokenHasBeenUsed', true);
         }).catch(function () {
           _this3._updateInputsStatus();
@@ -7957,6 +7954,14 @@ define("pix-live/templates/components/warning-page", ["exports"], function (expo
   });
   exports.default = Ember.HTMLBars.template({ "id": "utdrbRLc", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"challenge-item-warning\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"challenge-item-warning__instruction-primary\"],[7],[0,\"\\n    Vous disposerez de \"],[6,\"span\"],[9,\"class\",\"challenge-item-warning__instruction-time\"],[7],[1,[18,\"allocatedHumanTime\"],false],[8],[0,\" pour\\n    réussir l’épreuve.\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"challenge-item-warning__intruction-secondary\"],[7],[0,\"\\n    Vous pourrez continuer à répondre ensuite, mais l’épreuve ne sera pas considérée comme réussie.\\n  \"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"challenge-item-warning__allocated-time\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"challenge__allocated-time__jauge\"],[7],[0,\"\\n      \"],[6,\"img\"],[9,\"class\",\"challenge__allocated-time__warning-icon\"],[9,\"src\",\"/images/icon-timed-challenge.svg\"],[9,\"alt\",\"Message d'avertissement\"],[7],[8],[0,\"\\n      \"],[6,\"span\"],[9,\"class\",\"challenge__allocated-time__value\"],[7],[1,[18,\"allocatedTime\"],false],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"challenge-item-warning__action\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"challenge-item-warning__confirm-btn\"],[3,\"action\",[[19,0,[]],\"confirmWarning\"]],[7],[0,\"Commencer l'épreuve\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/warning-page.hbs" } });
 });
+define("pix-live/templates/compte-loading", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "lkRQhoQi", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"app-loader\"],[7],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__image\"],[7],[6,\"img\"],[9,\"src\",\"/images/interwind.gif\"],[7],[8],[8],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__text\"],[7],[0,\"Votre compte est en cours de chargement...\"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/compte-loading.hbs" } });
+});
 define("pix-live/templates/compte", ["exports"], function (exports) {
   "use strict";
 
@@ -8916,6 +8921,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.20.0+9067dee2"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.20.0+79f13153"});
 }
 //# sourceMappingURL=pix-live.map
