@@ -27,8 +27,14 @@ const ChallengeItemGeneric = Ember.Component.extend({
     this._super(...arguments);
     if (!this.get('_isUserAwareThatChallengeIsTimed')) {
       this.set('hasUserConfirmWarning', false);
-      this.set('hasChallengeTimer', this.hasTimerDefined());
+      this.set('hasChallengeTimer', _.isInteger(this.get('challenge.timer')));
     }
+  },
+
+  didRender() {
+    this._super(...arguments);
+    const _canDisplayFeedbackPanel = this.get('challenge.timer') ? !!this.get('_isUserAwareThatChallengeIsTimed') : true;
+    this.set('canDisplayFeedbackPanel', _canDisplayFeedbackPanel);
   },
 
   willDestroyElement() {
@@ -43,10 +49,6 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
   hasChallengeTimer: Ember.computed('challenge', function() {
     return this.hasTimerDefined();
-  }),
-
-  canDisplayFeedbackPanel: Ember.computed('_isUserAwareThatChallengeIsTimed', function() {
-    return !this.hasTimerDefined() || (this.hasTimerDefined() && this.get('_isUserAwareThatChallengeIsTimed'));
   }),
 
   hasTimerDefined() {
