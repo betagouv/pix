@@ -125,7 +125,7 @@ class ProfileSerializer extends JSONAPISerializer {
         relationships: {
           snapshots: {
             links: {
-              related: `/organizations/${organizationJson.id}/snapshots`
+              related: `/api/organizations/${organizationJson.id}/snapshots`
             }
           }
         }

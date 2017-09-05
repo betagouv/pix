@@ -208,7 +208,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             relationships : {
               snapshots : {
                 links : {
-                  related : '/organizations/organizationId1/snapshots'
+                  related : '/api/organizations/organizationId1/snapshots'
                 }
               }
             }
@@ -225,7 +225,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             relationships : {
               snapshots : {
                 links : {
-                  related : '/organizations/organizationId2/snapshots'
+                  related : '/api/organizations/organizationId2/snapshots'
                 }
               }
             }
