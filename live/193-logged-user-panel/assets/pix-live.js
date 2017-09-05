@@ -7723,7 +7723,7 @@ define("pix-live/templates/components/logged-user-profile-banner", ["exports"], 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "RZrymTJL", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"profile-banner__content-text-container\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"profile-banner__title\"],[7],[0,\"\\n    Bienvenue\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"profile-banner__description\"],[7],[0,\"\\n    Vous avez 16 compétences à tester.\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"profile-banner__description\"],[7],[0,\"\\n    On se concentre et c’est partix !\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"profile-banner__button-scroll-container\"],[7],[0,\"\\n  \"],[6,\"button\"],[9,\"class\",\"button-scroll-to-profile\"],[3,\"action\",[[19,0,[]],\"_scrollToProfile\"]],[7],[0,\"choisir un test\"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/logged-user-profile-banner.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "B8vPJukY", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"profile-banner__content-text-container\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"profile-banner__title\"],[7],[0,\"\\n    Bienvenue\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"profile-banner__description\"],[7],[0,\"\\n    Vous avez 12 compétences à tester.\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"profile-banner__description\"],[7],[0,\"\\n    On se concentre et c’est partix !\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"profile-banner__button-scroll-container\"],[7],[0,\"\\n  \"],[6,\"button\"],[9,\"class\",\"button-scroll-to-profile\"],[3,\"action\",[[19,0,[]],\"_scrollToProfile\"]],[7],[0,\"choisir un test\"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/logged-user-profile-banner.hbs" } });
 });
 define("pix-live/templates/components/medal-item", ["exports"], function (exports) {
   "use strict";
@@ -8924,6 +8924,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.20.0+23f5a51f"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.20.0+0aabd9b6"});
 }
 //# sourceMappingURL=pix-live.map
