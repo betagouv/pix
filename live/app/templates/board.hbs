@@ -18,19 +18,7 @@
 
   <div class="board-page__profiles-title">Profils Partagés</div>
 
-  <div class="board-page__body">
-    <div class="board-page__body-table">
-      <div class="board-page__body-table__header">
-        <div>Nom</div>
-        <div>Prénom</div>
-        <div>Score Pix</div>
-        <div>% d'avancement</div>
-      </div>
-      <div class="board-page__body-table__body">
-        {{snapshot-list organization=model.organization}}
-      </div>
-    </div>
-  </div>
+  {{snapshot-list organization=model.organization}}
 
   {{app-footer}}
 

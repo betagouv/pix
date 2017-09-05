@@ -4,8 +4,9 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import wait from 'ember-test-helpers/wait';
 import hbs from 'htmlbars-inline-precompile';
+import Ember from 'ember';
 
-describe.only('Integration | Component | snapshot list', function() {
+describe('Integration | Component | snapshot list', function() {
   setupComponentTest('snapshot-list', {
     integration: true
   });
@@ -55,7 +56,7 @@ describe.only('Integration | Component | snapshot list', function() {
       id: 1,
       score: 10,
       completionPercentage: '25',
-      createdAt: '09/04/2017',
+      createdAt: '09/25/2017',
       user
     });
     const organization = Ember.Object.create({ id: 1, snapshots: RSVP.resolve([snapshot]) });
@@ -69,7 +70,7 @@ describe.only('Integration | Component | snapshot list', function() {
       expect(this.$('.snapshot-list__snapshot-item')).to.have.length(1);
       expect(this.$('.snapshot-list__snapshot-item td:eq(0)').text().trim()).to.equal('Heisenberg');
       expect(this.$('.snapshot-list__snapshot-item td:eq(1)').text().trim()).to.equal('Werner');
-      expect(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('09/04/2017');
+      expect(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('25/09/2017');
       expect(this.$('.snapshot-list__snapshot-item td:eq(3)').text().trim()).to.equal('10');
       expect(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal('25%');
     }.bind(this));

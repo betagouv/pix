@@ -83,17 +83,18 @@ describe('Acceptance | o1 - board organization', function() {
     expect(find('.board-page__header-code__text').text().trim()).to.equal('ABCD66');
   });
 
-  it('should display shared snapshots from this organizations', async function() {
+  it('should display an empty list of snapshot', async function() {
     // given
     seedDatabase();
     authenticateUser();
-    server.createList('snapshot', 3, { organizationIds: [1],  });
 
     // when
     await visit('/board');
 
     // then
-    expect(find('.board-page__body-table__row-snapshot').length).to.equal(3);
+    expect(find('.snapshot-list').length).to.equal(1);
+    expect(find('.snapshot-list__no-profile').text()).to.equal('Aucun profil partagé pour le moment');
+
   });
 
 });
