@@ -1,6 +1,6 @@
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { startApp, destroyApp } from '../helpers/application';
+import { destroyApp, startApp } from '../helpers/application';
 
 const FEEDBACK_FORM = '.feedback-panel__form';
 
@@ -58,6 +58,18 @@ describe('Acceptance | Signaler une épreuve', function() {
 
       await click('.challenge-actions__action-skip');
       assertThatFeedbackFormIsClosed();
+    });
+
+    it('Je peux signaler une épreuve même si l’épreuve précedente était timée', async () => {
+      // given
+      await visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      await click('.challenge-item-warning__confirm-btn');
+
+      // when
+      await click('.challenge-actions__action-validate');
+
+      // then
+      assertThatFeedbackPanelExist();
     });
   });
 
