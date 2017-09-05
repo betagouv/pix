@@ -177,7 +177,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       it('should return 404  HTTP status code, when authorization is valid but user not found', () => {
         // given
         authorizationToken.verify.resolves(4);
-        UserRepository.findUserById.returns(Promise.reject(new Bookshelf.Model.NotFoundError()))
+        UserRepository.findUserById.returns(Promise.reject(new Bookshelf.Model.NotFoundError()));
         options['headers'] = { authorization: 'Bearer VALID_TOKEN' };
 
         // when
