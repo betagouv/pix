@@ -3607,7 +3607,8 @@ input.qcm-panel__proposal-checkbox {
 .logged-user-menu {
   position: absolute;
   right: 0;
-  top: 30px; }
+  top: 30px;
+  z-index: 1; }
 
 .logged-user-menu__list {
   margin: 0px;
