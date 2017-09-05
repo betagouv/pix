@@ -12646,6 +12646,22 @@ define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha',
           _sinon.default.assert.calledWith(route.transitionTo, 'board');
         });
       });
+
+      (0, _mocha.it)('should redirect to logout when we cannot retrieve user informations', function () {
+        // Given
+        storeServiceStub.findRecord.rejects();
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.beforeModel();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(route.transitionTo);
+          _sinon.default.assert.calledWith(route.transitionTo, 'logout');
+        });
+      });
     });
   });
 });
