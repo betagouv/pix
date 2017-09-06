@@ -12,9 +12,12 @@
         <li class="logged-user-menu__item user-menu-item">
           <div class="user-menu-item__details-firstname"> {{_user.firstName}}</div>
           <div class="user-menu-item__details-email">{{_user.email}}</div>
+
+          {{#if canDisplayLinkToProfile}}
           <div class="user-menu-item__account-link">
             {{#link-to 'index'}}Mon compte{{/link-to}}
           </div>
+          {{/if}}
 
         </li>
         <li class="logged-user-menu__item user-menu__item--logout">

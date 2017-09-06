@@ -4,12 +4,17 @@ export default Ember.Component.extend({
 
   session: Ember.inject.service(),
   store: Ember.inject.service(),
+  routing: Ember.inject.service('-routing'),
 
   classNames: ['logged-user-details'],
 
   _canDisplayMenu: false,
 
   _user: null,
+
+  canDisplayLinkToProfile: Ember.computed(function() {
+    return this.get('routing.currentRouteName') !== 'compte';
+  }),
 
   init() {
     this._super(...arguments);
