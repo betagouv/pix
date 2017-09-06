@@ -11,7 +11,7 @@ jobs:
           name: save SHA to a file
           command: echo $CIRCLE_SHA1 > .circle-sha
       - save_cache:
-          key: v1-repo-{{ checksum ".circle-sha" }}
+          key: v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
           paths:
             - ~/pix
 
@@ -24,40 +24,66 @@ jobs:
           name: save SHA to a file
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
-          keys:
-            - v1-repo-{{ checksum ".circle-sha" }}
+          keys: v1-npm-cache-{{ .Branch }}
       - restore_cache:
           keys:
-            - v1-dependencies-npm-root-{{ checksum "package.json" }}
+            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-dependencies-npm-live-{{ checksum "live/package.json" }}
+            - v1-dependencies-npm-root-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1-dependencies-npm-root-{{ .Branch }}
       - restore_cache:
           keys:
-            - v1-dependencies-bower-live-{{ checksum "live/bower.json" }}
+            - v1-dependencies-npm-live-{{ .Branch }}-{{ checksum "live/package.json" }}
+            - v1-dependencies-npm-live-{{ .Branch }}
       - restore_cache:
           keys:
-            - v1-dependencies-npm-api-{{ checksum "api/package.json" }}
+            - v1-dependencies-bower-live-{{ .Branch }}-{{ checksum "live/bower.json" }}
+            - v1-dependencies-bower-live-{{ .Branch }}
+      - restore_cache:
+          keys:
+            - v1-dependencies-npm-api-{{ .Branch }}-{{ checksum "api/package.json" }}
+            - v1-dependencies-npm-api-{{ .Branch }}
       - run: npm install bower
       - run: npm install
       - save_cache:
-          key: v1-dependencies-npm-root-{{ checksum "package.json" }}
+          key: v1-npm-cache-{{ .Branch }}
+          paths:
+            - ~/.npm
+      - save_cache:
+          key: v1-dependencies-npm-root-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - ~/pix/node_modules
       - save_cache:
-          key: v1-dependencies-npm-live-{{ checksum "live/package.json" }}
+          key: v1-dependencies-npm-root-{{ .Branch }}
+          paths:
+            - ~/pix/node_modules
+      - save_cache:
+          key: v1-dependencies-npm-live-{{ .Branch }}-{{ checksum "live/package.json" }}
           paths:
             - ~/pix/api/node_modules
       - save_cache:
-          key: v1-dependencies-bower-live-{{ checksum "live/bower.json" }}
+          key: v1-dependencies-npm-live-{{ .Branch }}
+          paths:
+            - ~/pix/api/node_modules
+      - save_cache:
+          key: v1-dependencies-bower-live-{{ .Branch }}-{{ checksum "live/bower.json" }}
           paths:
             - ~/pix/api/bower_components
       - save_cache:
-          key: v1-dependencies-npm-api-{{ checksum "api/package.json" }}
+          key: v1-dependencies-bower-live-{{ .Branch }}
+          paths:
+            - ~/pix/api/bower_components
+      - save_cache:
+          key: v1-dependencies-npm-api-{{ .Branch }}-{{ checksum "api/package.json" }}
           paths:
             - ~/pix/live/node_modules
       - save_cache:
-          key: v1-bundle-{{ checksum ".circle-sha" }}
+          key: v1-dependencies-npm-api-{{ .Branch }}
+          paths:
+            - ~/pix/live/node_modules
+      - save_cache:
+          key: v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
           paths:
             - ~/pix/node_modules
             - ~/pix/api/node_modules
@@ -74,10 +100,10 @@ jobs:
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - v1-repo-{{ checksum ".circle-sha" }}
+            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-bundle-{{ checksum ".circle-sha" }}
+            - v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - run:
           name: Lint files
           command: npm run lint
@@ -92,18 +118,18 @@ jobs:
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - v1-repo-{{ checksum ".circle-sha" }}
+            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-bundle-{{ checksum ".circle-sha" }}
+            - v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-build-live-{{ checksum ".circle-sha" }}
+            - v1-build-live-{{ .Branch }}-{{ checksum ".circle-sha" }}
 
       - run: ./node_modules/.bin/ember build
 
       - save_cache:
-          key: v1-build-live-{{ checksum ".circle-sha" }}
+          key: v1-build-live-{{ .Branch }}-{{ checksum ".circle-sha" }}
           paths:
             - dist
 
@@ -117,10 +143,10 @@ jobs:
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - v1-repo-{{ checksum ".circle-sha" }}
+            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-bundle-{{ checksum ".circle-sha" }}
+            - v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - run:
           name: Run Tests
           command: npm run test:api
@@ -135,13 +161,13 @@ jobs:
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - v1-repo-{{ checksum ".circle-sha" }}
+            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-bundle-{{ checksum ".circle-sha" }}
+            - v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-build-live-{{ checksum ".circle-sha" }}
+            - v1-build-live-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - run:
           name: Run Tests
           command: ./node_modules/.bin/ember exam --path dist --split=4 --partition=1
@@ -156,13 +182,13 @@ jobs:
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - v1-repo-{{ checksum ".circle-sha" }}
+            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-bundle-{{ checksum ".circle-sha" }}
+            - v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-build-live-{{ checksum ".circle-sha" }}
+            - v1-build-live-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - run:
           name: Run Tests
           command: ./node_modules/.bin/ember exam --path dist --split=4 --partition=2
@@ -177,18 +203,18 @@ jobs:
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - v1-repo-{{ checksum ".circle-sha" }}
+            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-bundle-{{ checksum ".circle-sha" }}
+            - v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-build-live-{{ checksum ".circle-sha" }}
+            - v1-build-live-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - run:
           name: Run Tests
           command: ./node_modules/.bin/ember exam --path dist --split=4 --partition=3
 
-  npm_test_live_2:
+  npm_test_live_4:
     docker:
       - image: circleci/node:8-browsers
     working_directory: ~/pix/live
@@ -198,13 +224,13 @@ jobs:
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - v1-repo-{{ checksum ".circle-sha" }}
+            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-bundle-{{ checksum ".circle-sha" }}
+            - v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-build-live-{{ checksum ".circle-sha" }}
+            - v1-build-live-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - run:
           name: Run Tests
           command: ./node_modules/.bin/ember exam --path dist --split=4 --partition=4
