@@ -80,9 +80,9 @@ jobs:
             - v1-bundle-{{ checksum ".circle-sha" }}
       - run:
           name: Lint files
-          command: npm lint
+          command: npm run lint
 
-  npm_test:
+  npm_test_api:
     docker:
       - image: circleci/node:8
     working_directory: ~/pix
@@ -98,7 +98,25 @@ jobs:
             - v1-bundle-{{ checksum ".circle-sha" }}
       - run:
           name: Run Tests
-          command: npm test
+          command: npm run test:api
+
+  npm_test_live:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/pix
+    steps:
+      - run:
+          name: save SHA to a file
+          command: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-repo-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-bundle-{{ checksum ".circle-sha" }}
+      - run:
+          name: Run Tests
+          command: npm run test:live
 
 
 workflows:
@@ -112,6 +130,9 @@ workflows:
       - lint:
           requires:
             - bundle_dependencies
-      - npm_test:
+      - npm_test_api:
+          requires:
+            - bundle_dependencies
+      - npm_test_live:
           requires:
             - bundle_dependencies
