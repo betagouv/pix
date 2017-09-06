@@ -102,7 +102,7 @@ jobs:
 
   npm_test_live:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:8-browsers
     working_directory: ~/pix
     steps:
       - run:
