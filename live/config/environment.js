@@ -44,8 +44,13 @@ module.exports = function(environment) {
 
     // Set or update content security policies
     contentSecurityPolicy: {
+      // Google fonts: https://github.com/damiencaselli/ember-cli-google-fonts#declare-fonts
       'font-src': '\'self\' fonts.gstatic.com',
-      'style-src': '\'self\' fonts.googleapis.com'
+      'style-src': '\'self\' fonts.googleapis.com',
+      // Sentry.io: https://github.com/damiencaselli/ember-cli-sentry/tree/3.0.0-beta#content-security-policy
+      'script-src': "'self' 'unsafe-inline' 'unsafe-eval' cdn.ravenjs.com",
+      'img-src': "data: app.getsentry.com",
+      'connect-src': "'self' app.getsentry.com"
     },
 
     showdown: {
