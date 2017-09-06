@@ -1,0 +1,117 @@
+version: 2.0
+
+jobs:
+  checkout_code:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/pix
+    steps:
+      - checkout
+      - run:
+          name: save SHA to a file
+          command: echo $CIRCLE_SHA1 > .circle-sha
+      - save_cache:
+          key: v1-repo-{{ checksum ".circle-sha" }}
+          paths:
+            - ~/pix
+
+  bundle_dependencies:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/pix
+    steps:
+      - run:
+          name: save SHA to a file
+          command: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-repo-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-dependencies-npm-root-{{ checksum "package.json" }}
+      - restore_cache:
+          keys:
+            - v1-dependencies-npm-live-{{ checksum "live/package.json" }}
+      - restore_cache:
+          keys:
+            - v1-dependencies-bower-live-{{ checksum "live/bower.json" }}
+      - restore_cache:
+          keys:
+            - v1-dependencies-npm-api-{{ checksum "api/package.json" }}
+      - run: npm install bower
+      - run: npm install
+      - save_cache:
+          key: v1-dependencies-npm-root-{{ checksum "package.json" }}
+          paths:
+            - ~/pix/node_modules
+      - save_cache:
+          key: v1-dependencies-npm-live-{{ checksum "live/package.json" }}
+          paths:
+            - ~/pix/api/node_modules
+      - save_cache:
+          key: v1-dependencies-bower-live-{{ checksum "live/bower.json" }}
+          paths:
+            - ~/pix/api/bower_components
+      - save_cache:
+          key: v1-dependencies-npm-api-{{ checksum "api/package.json" }}
+          paths:
+            - ~/pix/live/node_modules
+      - save_cache:
+          key: v1-bundle-{{ checksum ".circle-sha" }}
+          paths:
+            - ~/pix/node_modules
+            - ~/pix/api/node_modules
+            - ~/pix/live/node_modules
+            - ~/pix/live/bower_components
+
+  lint:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/pix
+    steps:
+      - run:
+          name: save SHA to a file
+          command: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-repo-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-bundle-{{ checksum ".circle-sha" }}
+      - run:
+          name: Lint files
+          command: npm lint
+
+  npm_test:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/pix
+    steps:
+      - run:
+          name: save SHA to a file
+          command: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-repo-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-bundle-{{ checksum ".circle-sha" }}
+      - run:
+          name: Run Tests
+          command: npm test
+
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - checkout_code
+      - bundle_dependencies:
+          requires:
+            - checkout_code
+      - lint:
+          requires:
+            - bundle_dependencies
+      - npm_test:
+          requires:
+            - bundle_dependencies
