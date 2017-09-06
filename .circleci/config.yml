@@ -82,6 +82,31 @@ jobs:
           name: Lint files
           command: npm run lint
 
+  build_pix_live:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/pix/live
+    steps:
+      - run:
+          name: save SHA to a file
+          command: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-repo-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-bundle-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-build-live-{{ checksum ".circle-sha" }}
+
+      - run: ./node_modules/.bin/ember build
+
+      - save_cache:
+          key: v1-build-live-{{ checksum ".circle-sha" }}
+          paths:
+            - dist
+
   npm_test_api:
     docker:
       - image: circleci/node:8
@@ -100,10 +125,10 @@ jobs:
           name: Run Tests
           command: npm run test:api
 
-  npm_test_live:
+  npm_test_live_1:
     docker:
       - image: circleci/node:8-browsers
-    working_directory: ~/pix
+    working_directory: ~/pix/live
     steps:
       - run:
           name: save SHA to a file
@@ -114,9 +139,33 @@ jobs:
       - restore_cache:
           keys:
             - v1-bundle-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-build-live-{{ checksum ".circle-sha" }}
       - run:
           name: Run Tests
-          command: npm run test:live
+          command: ./node_modules/.bin/ember test --path dist --filter='Integration |'
+
+  npm_test_live_2:
+    docker:
+      - image: circleci/node:8-browsers
+    working_directory: ~/pix/live
+    steps:
+      - run:
+          name: save SHA to a file
+          command: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-repo-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-bundle-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-build-live-{{ checksum ".circle-sha" }}
+      - run:
+          name: Run Tests
+          command: ./node_modules/.bin/ember test --path dist --filter='Acceptance |'
 
 
 workflows:
@@ -127,12 +176,18 @@ workflows:
       - bundle_dependencies:
           requires:
             - checkout_code
+      - build_pix_live:
+          requires:
+            - bundle_dependencies
       - lint:
           requires:
             - bundle_dependencies
       - npm_test_api:
           requires:
             - bundle_dependencies
-      - npm_test_live:
+      - npm_test_live_1:
           requires:
-            - bundle_dependencies
+            - build_pix_live
+      - npm_test_live_2:
+          requires:
+            - build_pix_live
