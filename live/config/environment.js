@@ -50,6 +50,11 @@ module.exports = function(environment) {
 
     showdown: {
       openLinksInNewWindow: true
+    },
+
+    sentry: {
+      dsn: 'https://4b60c9f39a844832956f840b9d0d1359@sentry.io/99479',
+      development: true
     }
   };
 
@@ -123,6 +128,7 @@ module.exports = function(environment) {
         }
       }
     ];
+    ENV.sentry.development = false;
   }
 
   return ENV;
