@@ -84,7 +84,7 @@ describe('Integration | Component | user logged menu', function() {
 
     describe('button rendering', function() {
 
-      it('should render a button to the profile when the user is not on compte page', function() {
+      it('should not render a button link to the profile when the user is on compte page', function() {
         this.register('service:-routing', Ember.Service.extend({
           currentRouteName : 'compte',
           generateURL : function() {
@@ -103,7 +103,26 @@ describe('Integration | Component | user logged menu', function() {
         });
       });
 
-      it('should render a button to the profile when the user is not on compte page', function() {
+      it('should not render a button link to the profile when the user is on compte page', function() {
+        this.register('service:-routing', Ember.Service.extend({
+          currentRouteName : 'board',
+          generateURL : function() {
+            return '/board';
+          }
+        }));
+        this.inject.service('-routing', { as: '-routing' });
+
+        // when
+        this.render(hbs`{{user-logged-menu}}`);
+        this.$('.logged-user-name').click();
+
+        return wait().then(() => {
+          // then
+          expect(this.$('.user-menu-item__account-link').length).to.equal(0);
+        });
+      });
+
+      it('should render a button link to the profile when the user is not on compte page', function() {
         this.register('service:-routing', Ember.Service.extend({
           generateURL : function() {
             return '/autreRoute';

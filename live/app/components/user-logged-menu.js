@@ -13,7 +13,7 @@ export default Ember.Component.extend({
   _user: null,
 
   canDisplayLinkToProfile: Ember.computed(function() {
-    return this.get('routing.currentRouteName') !== 'compte';
+    return this.get('routing.currentRouteName') !== 'compte' && this.get('routing.currentRouteName') !== 'board';
   }),
 
   init() {
