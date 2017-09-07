@@ -31,55 +31,35 @@ jobs:
             - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-dependencies-npm-root-{{ .Branch }}-{{ checksum "package.json" }}
-            - v1-dependencies-npm-root-{{ .Branch }}
+            - v1-dependencies-npm-root-{{ checksum "package.json" }}
       - restore_cache:
           keys:
-            - v1-dependencies-npm-live-{{ .Branch }}-{{ checksum "live/package.json" }}
-            - v1-dependencies-npm-live-{{ .Branch }}
+            - v1-dependencies-npm-live-{{ checksum "live/package.json" }}
       - restore_cache:
           keys:
-            - v1-dependencies-bower-live-{{ .Branch }}-{{ checksum "live/bower.json" }}
-            - v1-dependencies-bower-live-{{ .Branch }}
+            - v1-dependencies-bower-live-{{ checksum "live/bower.json" }}
       - restore_cache:
           keys:
-            - v1-dependencies-npm-api-{{ .Branch }}-{{ checksum "api/package.json" }}
-            - v1-dependencies-npm-api-{{ .Branch }}
+            - v1-dependencies-npm-api-{{ checksum "api/package.json" }}
       - run: npm install
       - save_cache:
           key: v1-npm-cache-{{ .Branch }}
           paths:
             - ~/.npm
       - save_cache:
-          key: v1-dependencies-npm-root-{{ .Branch }}-{{ checksum "package.json" }}
+          key: v1-dependencies-npm-root-{{ checksum "package.json" }}
           paths:
             - ~/pix/node_modules
       - save_cache:
-          key: v1-dependencies-npm-root-{{ .Branch }}
-          paths:
-            - ~/pix/node_modules
-      - save_cache:
-          key: v1-dependencies-npm-live-{{ .Branch }}-{{ checksum "live/package.json" }}
+          key: v1-dependencies-npm-live-{{ checksum "live/package.json" }}
           paths:
             - ~/pix/api/node_modules
       - save_cache:
-          key: v1-dependencies-npm-live-{{ .Branch }}
-          paths:
-            - ~/pix/api/node_modules
-      - save_cache:
-          key: v1-dependencies-bower-live-{{ .Branch }}-{{ checksum "live/bower.json" }}
+          key: v1-dependencies-bower-live-{{ checksum "live/bower.json" }}
           paths:
             - ~/pix/api/bower_components
       - save_cache:
-          key: v1-dependencies-bower-live-{{ .Branch }}
-          paths:
-            - ~/pix/api/bower_components
-      - save_cache:
-          key: v1-dependencies-npm-api-{{ .Branch }}-{{ checksum "api/package.json" }}
-          paths:
-            - ~/pix/live/node_modules
-      - save_cache:
-          key: v1-dependencies-npm-api-{{ .Branch }}
+          key: v1-dependencies-npm-api-{{ checksum "api/package.json" }}
           paths:
             - ~/pix/live/node_modules
       - save_cache:
@@ -170,7 +150,7 @@ jobs:
             - v1-build-live-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - run:
           name: Run Tests
-          command: ./node_modules/.bin/ember exam --path dist --split=4 --partition=1
+          command: ./node_modules/.bin/ember exam --path dist --split=2 --partition=1
 
   npm_test_live_2:
     docker:
@@ -191,49 +171,7 @@ jobs:
             - v1-build-live-{{ .Branch }}-{{ checksum ".circle-sha" }}
       - run:
           name: Run Tests
-          command: ./node_modules/.bin/ember exam --path dist --split=4 --partition=2
-
-  npm_test_live_3:
-    docker:
-      - image: circleci/node:8-browsers
-    working_directory: ~/pix/live
-    steps:
-      - run:
-          name: save SHA to a file
-          command: echo $CIRCLE_SHA1 > .circle-sha
-      - restore_cache:
-          keys:
-            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
-      - restore_cache:
-          keys:
-            - v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
-      - restore_cache:
-          keys:
-            - v1-build-live-{{ .Branch }}-{{ checksum ".circle-sha" }}
-      - run:
-          name: Run Tests
-          command: ./node_modules/.bin/ember exam --path dist --split=4 --partition=3
-
-  npm_test_live_4:
-    docker:
-      - image: circleci/node:8-browsers
-    working_directory: ~/pix/live
-    steps:
-      - run:
-          name: save SHA to a file
-          command: echo $CIRCLE_SHA1 > .circle-sha
-      - restore_cache:
-          keys:
-            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
-      - restore_cache:
-          keys:
-            - v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
-      - restore_cache:
-          keys:
-            - v1-build-live-{{ .Branch }}-{{ checksum ".circle-sha" }}
-      - run:
-          name: Run Tests
-          command: ./node_modules/.bin/ember exam --path dist --split=4 --partition=4
+          command: ./node_modules/.bin/ember exam --path dist --split=2 --partition=2
 
 
 workflows:
@@ -257,11 +195,5 @@ workflows:
           requires:
             - build_pix_live
       - npm_test_live_2:
-          requires:
-            - build_pix_live
-      - npm_test_live_3:
-          requires:
-            - build_pix_live
-      - npm_test_live_4:
           requires:
             - build_pix_live
