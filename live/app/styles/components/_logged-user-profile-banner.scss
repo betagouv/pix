@@ -7,6 +7,7 @@
   height: 469px;
   position: relative;
   padding-bottom: 25px;
+  margin-bottom: 20px;
 
   @include device-is('desktop') {
     align-items: stretch;
