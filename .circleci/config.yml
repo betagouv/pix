@@ -15,7 +15,7 @@ jobs:
           paths:
             - ~/pix
 
-  bundle_dependencies:
+  bundle_dependencies_root:
     docker:
       - image: circleci/node:8
     working_directory: ~/pix
@@ -25,23 +25,11 @@ jobs:
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - v1-npm-cache-{{ .Branch }}
-      - restore_cache:
-          keys:
             - v1-repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
             - v1-dependencies-npm-root-{{ checksum "package.json" }}
-      - restore_cache:
-          keys:
-            - v1-dependencies-npm-live-{{ checksum "live/package.json" }}
-      - restore_cache:
-          keys:
-            - v1-dependencies-bower-live-{{ checksum "live/bower.json" }}
-      - restore_cache:
-          keys:
-            - v1-dependencies-npm-api-{{ checksum "api/package.json" }}
-      - run: npm install
+      - run: npm install --ignore-scripts
       - save_cache:
           key: v1-npm-cache-{{ .Branch }}
           paths:
@@ -50,27 +38,68 @@ jobs:
           key: v1-dependencies-npm-root-{{ checksum "package.json" }}
           paths:
             - ~/pix/node_modules
-      - save_cache:
-          key: v1-dependencies-npm-live-{{ checksum "live/package.json" }}
-          paths:
-            - ~/pix/api/node_modules
-      - save_cache:
-          key: v1-dependencies-bower-live-{{ checksum "live/bower.json" }}
-          paths:
-            - ~/pix/api/bower_components
+            - ~/.npm
+
+  bundle_dependencies_api:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/pix/api
+    steps:
+      - run:
+          name: save SHA to a file
+          command: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-repo-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-dependencies-npm-api-{{ checksum "api/package.json" }}
+      - run: npm install
       - save_cache:
           key: v1-dependencies-npm-api-{{ checksum "api/package.json" }}
           paths:
             - ~/pix/live/node_modules
-      - save_cache:
-          key: v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
-          paths:
-            - ~/pix/node_modules
-            - ~/pix/api/node_modules
-            - ~/pix/live/node_modules
-            - ~/pix/live/bower_components
+            - ~/pix/.npm
 
-  lint:
+  bundle_dependencies_live:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/pix/live
+    steps:
+      - run:
+          name: save SHA to a file
+          command: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-repo-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-dependencies-live-{{ checksum "live/package.json" }}-{{ checksum "live/bower.json" }}
+      - run: npm install
+      - save_cache:
+          key: v1-dependencies-live-{{ checksum "live/package.json" }}-{{ checksum "live/bower.json" }}
+          paths:
+            - ~/pix/api/node_modules
+            - ~/pix/api/bower_components
+            - ~/.npm
+            - ~/.cache/bower
+
+  lint_api:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/pix/api
+    steps:
+      - run:
+          name: save SHA to a file
+          command: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-dependencies-npm-api-{{ checksum "api/package.json" }}
+      - run:
+          name: Lint files
+          command: npm run lint
+
+  lint_live:
     docker:
       - image: circleci/node:8
     working_directory: ~/pix
@@ -83,7 +112,7 @@ jobs:
             - v1-repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
+            - v1-dependencies-live-{{ checksum "live/package.json" }}-{{ checksum "live/bower.json" }}
       - run:
           name: Lint files
           command: npm run lint
@@ -179,18 +208,27 @@ workflows:
   build-and-deploy:
     jobs:
       - checkout_code
-      - bundle_dependencies:
+      - bundle_dependencies_root:
           requires:
             - checkout_code
+      - bundle_dependencies_api:
+          requires:
+            - checkout_code
+      - bundle_dependencies_live:
+          requires:
+            - checkout_code
+      - lint_api:
+          requires:
+            - bundle_dependencies_api
+      - lint_live:
+          requires:
+            - bundle_dependencies_live
       - build_pix_live:
           requires:
-            - bundle_dependencies
-      - lint:
-          requires:
-            - bundle_dependencies
+            - bundle_dependencies_live
       - npm_test_api:
           requires:
-            - bundle_dependencies
+            - bundle_dependencies_api
       - npm_test_live_1:
           requires:
             - build_pix_live
