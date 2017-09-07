@@ -8561,16 +8561,13 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
 define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _wait) {
   'use strict';
 
-  var RSVP = Ember.RSVP;
-
-
   (0, _mocha.describe)('Integration | Component | snapshot list', function () {
     (0, _emberMocha.setupComponentTest)('snapshot-list', {
       integration: true
     });
 
     (0, _mocha.it)('renders', function () {
-      var organization = Ember.Object.create({ id: 1, snapshots: RSVP.resolve([]) });
+      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([]) });
       this.set('organization', organization);
 
       this.render(Ember.HTMLBars.template({
@@ -8583,7 +8580,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
 
     (0, _mocha.it)('should inform the user when no profile', function () {
       // Given
-      var organization = Ember.Object.create({ id: 1, snapshots: RSVP.resolve([]) });
+      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([]) });
       this.set('organization', organization);
 
       // When
@@ -8598,11 +8595,11 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
       (0, _chai.expect)(this.$('.snapshot-list__no-profile').text()).to.equal('Aucun profil partagé pour le moment');
     });
 
-    (0, _mocha.it)('should display two snapshot items if two snapshots items shared', function () {
+    (0, _mocha.it)('it should display as many snapshot items as shared', function () {
       // Given
       var snapshot1 = Ember.Object.create({ id: 1 });
       var snapshot2 = Ember.Object.create({ id: 2 });
-      var organization = Ember.Object.create({ id: 1, snapshots: RSVP.resolve([snapshot1, snapshot2]) });
+      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([snapshot1, snapshot2]) });
       this.set('organization', organization);
 
       // When
@@ -8629,7 +8626,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
         createdAt: '09/25/2017',
         user: user
       });
-      var organization = Ember.Object.create({ id: 1, snapshots: RSVP.resolve([snapshot]) });
+      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([snapshot]) });
       this.set('organization', organization);
 
       // When
@@ -8642,11 +8639,11 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
       // Then
       return (0, _wait.default)().then(function () {
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.length(1);
-        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(0)').text().trim()).to.equal('Heisenberg');
-        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(1)').text().trim()).to.equal('Werner');
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(0)').text().trim()).to.equal(user.get('lastName'));
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(1)').text().trim()).to.equal(user.get('firstName'));
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('25/09/2017');
-        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(3)').text().trim()).to.equal('10');
-        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal('25%');
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(3)').text().trim()).to.equal(snapshot.get('score').toString());
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal(snapshot.get('completionPercentage') + '%');
       }.bind(this));
     });
   });
@@ -12282,7 +12279,6 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
 
   (0, _mocha.describe)('Unit | Route | board', function () {
     (0, _emberMocha.setupTest)('route:board', {
-      // Specify the other units that are required for this test.
       needs: ['service:current-routed-modal', 'service:session']
     });
 
@@ -12292,6 +12288,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
     });
 
     var findRecord = _sinon.default.stub();
+    var route = void 0;
 
     (0, _mocha.beforeEach)(function () {
       this.register('service:store', Ember.Service.extend({
@@ -12303,13 +12300,12 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
         data: { authenticated: { userId: 12 } }
       }));
       this.inject.service('session', { as: 'session' });
+      route = this.subject();
+      route.transitionTo = _sinon.default.spy();
     });
 
     (0, _mocha.it)('should correctly call the store', function () {
       // given
-      var route = this.subject();
-      route.transitionTo = function () {};
-
       findRecord.resolves();
 
       // when
@@ -12323,10 +12319,6 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
     (0, _mocha.it)('should return user first organization informations', function () {
       // given
       var user = Ember.Object.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
-
-      var route = this.subject();
-      route.transitionTo = function () {};
-
       findRecord.resolves(user);
 
       // when
@@ -12340,9 +12332,6 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
 
     (0, _mocha.it)('should return to home page if no user was found', function () {
       // given
-      var route = this.subject();
-      route.transitionTo = _sinon.default.spy();
-
       findRecord.rejects();
 
       // when
@@ -12357,10 +12346,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
 
     (0, _mocha.it)('should return to /compte when the user has no organization', function () {
       // given
-      var route = this.subject();
-      route.transitionTo = _sinon.default.spy();
       var user = Ember.Object.create({ id: 1, organizations: [] });
-
       findRecord.resolves(user);
 
       // when
