@@ -211,15 +211,6 @@ jobs:
           name: Run Tests
           command: ./node_modules/.bin/ember exam --path dist --split=2 --partition=2
 
-  empty_container:
-    docker:
-      - image: circleci/node:8-browsers
-    working_directory: ~/pix/live
-    steps:
-      - run:
-          command: true
-
-
 
 workflows:
   version: 2
@@ -239,16 +230,13 @@ workflows:
           requires:
             - bundle_dependencies_root
             - bundle_dependencies_live
-      - empty:
+      - lint_api:
           requires:
             - bundle_dependencies_root
             - bundle_dependencies_api
-      - lint_api:
-          requires:
-            - empty
       - npm_test_api:
           requires:
-            - empty
+            - lint_api
       - npm_test_live_1:
           requires:
             - build_pix_live
