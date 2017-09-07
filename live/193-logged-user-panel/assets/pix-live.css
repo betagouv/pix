@@ -2041,7 +2041,7 @@ h1.course-banner__name {
   width: 100%; }
 
 .navbar-header--white {
-  background-color: white;
+  background-color: #ffffff;
   color: #6a6d76; }
 
 .navbar-header__container {
@@ -2050,34 +2050,28 @@ h1.course-banner__name {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center; }
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0px 26px; }
   @media (min-width: 980px) {
     .navbar-header__container {
       -webkit-box-pack: justify;
       -ms-flex-pack: justify;
       justify-content: space-between;
-      -webkit-box-orient: horizontal;
-      -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-      flex-direction: row;
       padding: 0 100px; } }
   @media (min-width: 1261px) {
     .navbar-header__container {
       padding: 0; } }
 
-.navbar-header-right {
-  width: 90%;
-  margin: 30px auto 5px; }
-  @media (min-width: 980px) {
-    .navbar-header-right {
-      padding: 0;
-      margin: 0; } }
+@media (min-width: 980px) {
+  .navbar-header-right {
+    padding: 0;
+    margin: 0; } }
 
 /* Logo
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -3872,50 +3866,61 @@ input.qcm-panel__proposal-checkbox {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding-top: 64px;
-  padding-bottom: 25px;
-  background: url("/images/banners/welcome-profile-banner.png") no-repeat;
-  background-position: center;
-  background-size: contain; }
+  height: 469px;
+  position: relative;
+  padding-bottom: 25px; }
   @media (min-width: 980px) {
     .logged-user-profile-banner {
-      padding: 128px 120px 50px;
-      background-size: cover;
       -webkit-box-align: stretch;
       -ms-flex-align: stretch;
-      align-items: stretch; } }
+      align-items: stretch;
+      height: 500px; } }
 
-@media (min-width: 980px) {
-  .profile-banner__content-text-container {
-    width: 1200px;
-    margin: 0 auto; } }
+.profile-banner__background {
+  position: absolute;
+  background: url("/images/banners/welcome-profile-banner.png") center;
+  background-size: cover;
+  height: 100%;
+  width: 100%; }
+
+.profile-banner__content-text-container {
+  margin-top: 100px;
+  max-width: 330px; }
+  @media (min-width: 980px) {
+    .profile-banner__content-text-container {
+      margin-left: 15%;
+      max-width: 1200px;
+      position: relative; } }
 
 .profile-banner__title {
-  max-width: 290px;
-  opacity: 0.8;
-  background-color: #2549FF;
+  position: relative;
+  width: 100%;
+  background-color: rgba(37, 73, 255, 0.8);
+  padding-left: 14px;
   margin-bottom: 8px;
   font-family: "Raleway", Arial, sans-serif;
-  font-size: 30px;
+  font-size: 50px;
   font-weight: 700;
-  text-align: center;
+  text-align: left;
+  height: 76px;
   color: #ffffff; }
   @media (min-width: 980px) {
     .profile-banner__title {
-      font-size: 50px;
-      height: 76px; } }
+      max-width: 290px; } }
 
 .profile-banner__description {
-  max-width: 350px;
-  opacity: 0.8;
-  background-color: #2549FF;
+  position: relative;
+  height: 38px;
+  width: 100%;
+  line-height: 38px;
+  background-color: rgba(37, 73, 255, 0.8);
   margin-top: 3px;
   font-family: "Raleway", Arial, sans-serif;
   font-size: 16px;
   font-weight: 500;
   text-align: left;
   color: #ffffff;
-  padding: 3px 20px; }
+  padding: 0 14px 0 17px; }
   @media (min-width: 980px) {
     .profile-banner__description {
       font-size: 32px;
@@ -3924,8 +3929,9 @@ input.qcm-panel__proposal-checkbox {
       max-width: 576px; } }
 
 .profile-banner__button-scroll-container {
-  margin-top: 60px;
-  text-align: center; }
+  margin-top: 102px;
+  text-align: center;
+  position: relative; }
   @media (min-width: 980px) {
     .profile-banner__button-scroll-container {
       margin-top: 110px; } }
