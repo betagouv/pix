@@ -185,7 +185,7 @@ jobs:
             - build-live-{{ checksum ".circle-sha" }}
       - run:
           name: Run Tests
-          command: ./node_modules/.bin/ember exam --path dist --split=2 --partition=1
+          command: ./node_modules/.bin/ember exam --path dist --split=1 --partition=1
 
   npm_test_live_2:
     docker:
@@ -209,7 +209,31 @@ jobs:
             - build-live-{{ checksum ".circle-sha" }}
       - run:
           name: Run Tests
-          command: ./node_modules/.bin/ember exam --path dist --split=2 --partition=2
+          command: ./node_modules/.bin/ember exam --path dist --split=3 --partition=2
+
+  npm_test_live_3:
+    docker:
+      - image: circleci/node:8-browsers
+    working_directory: ~/pix/live
+    steps:
+      - run:
+          name: save SHA to a file
+          command: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - repo-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - dependencies-root-{{ checksum "../package.json" }}-v1
+      - restore_cache:
+          keys:
+            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v1
+      - restore_cache:
+          keys:
+            - build-live-{{ checksum ".circle-sha" }}
+      - run:
+          name: Run Tests
+          command: ./node_modules/.bin/ember exam --path dist --split=3 --partition=3
 
 
 workflows:
@@ -241,5 +265,8 @@ workflows:
           requires:
             - build_pix_live
       - npm_test_live_2:
+          requires:
+            - build_pix_live
+      - npm_test_live_3:
           requires:
             - build_pix_live
