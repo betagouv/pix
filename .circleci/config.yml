@@ -24,7 +24,8 @@ jobs:
           name: save SHA to a file
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
-          keys: v1-npm-cache-{{ .Branch }}
+          keys:
+            - v1-npm-cache-{{ .Branch }}
       - restore_cache:
           keys:
             - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
