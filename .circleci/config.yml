@@ -11,7 +11,7 @@ jobs:
           name: save SHA to a file
           command: echo $CIRCLE_SHA1 > .circle-sha
       - save_cache:
-          key: v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
+          key: v1-repo-{{ checksum ".circle-sha" }}
           paths:
             - ~/pix
 
@@ -28,7 +28,7 @@ jobs:
             - v1-npm-cache-{{ .Branch }}
       - restore_cache:
           keys:
-            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
+            - v1-repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
             - v1-dependencies-npm-root-{{ checksum "package.json" }}
@@ -80,7 +80,7 @@ jobs:
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
+            - v1-repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
             - v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
@@ -98,7 +98,7 @@ jobs:
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
+            - v1-repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
             - v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
@@ -123,7 +123,7 @@ jobs:
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
+            - v1-repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
             - v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
@@ -141,7 +141,7 @@ jobs:
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
+            - v1-repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
             - v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
@@ -162,7 +162,7 @@ jobs:
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - v1-repo-{{ .Branch }}-{{ checksum ".circle-sha" }}
+            - v1-repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
             - v1-bundle-{{ .Branch }}-{{ checksum ".circle-sha" }}
