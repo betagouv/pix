@@ -4,49 +4,60 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  padding-top: 64px;
+  height: 469px;
+  position: relative;
   padding-bottom: 25px;
-  background: url('/images/banners/welcome-profile-banner.png') no-repeat;
-  background-position: center;
-  background-size: contain;
 
   @include device-is('desktop') {
-    padding: 128px 120px 50px;
-    background-size: cover;
     align-items: stretch;
+    height: 500px;
   }
 }
 
+.profile-banner__background {
+  position: absolute;
+  background: url('/images/banners/welcome-profile-banner.png') center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
 .profile-banner__content-text-container {
+  margin-top: 100px;
+  max-width: 330px;
 
   @include device-is('desktop') {
-    width: 1200px;
-    margin: 0 auto;
+    margin-left: 15%;
+    max-width: 1200px;
+    position: relative;
   }
 }
 
 .profile-banner__title {
-  max-width: 290px;
-  opacity: 0.8;
-  background-color: $blue-ribbon;
+  position: relative;
+  width: 100%;
+  background-color: rgba(37, 73, 255, .8);
+  padding-left: 14px;
   margin-bottom: 8px;
 
   font-family: $font-raleway;
-  font-size: 30px;
+  font-size: 50px;
   font-weight: $font-bold;
-  text-align: center;
+  text-align: left;
+  height: 76px;
   color: $white;
 
   @include device-is('desktop') {
-    font-size: 50px;
-    height: 76px;
+    max-width: 290px;
   }
 }
 
 .profile-banner__description {
-  max-width: 350px;
-  opacity: 0.8;
-  background-color: $blue-ribbon;
+  position: relative;
+  height: 38px;
+  width: 100%;
+  line-height: 38px;
+  background-color: rgba(37, 73, 255, .8);
   margin-top: 3px;
 
   font-family: $font-raleway;
@@ -54,7 +65,7 @@
   font-weight: $font-medium;
   text-align: left;
   color: $white;
-  padding: 3px 20px;
+  padding: 0 14px 0 17px;
 
   @include device-is('desktop') {
     font-size: 32px;
@@ -65,8 +76,9 @@
 }
 
 .profile-banner__button-scroll-container {
-  margin-top: 60px;
+  margin-top: 102px;
   text-align: center;
+  position: relative;
 
   @include device-is('desktop') {
     margin-top: 110px;
