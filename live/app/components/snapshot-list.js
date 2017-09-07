@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   organization: null,
   _snapshots: null,
   _hasSnapshots: Ember.computed('_snapshots', function() {
-    return this.get('_snapshots') != null && this.get('_snapshots.length') > 0;
+    return Ember.isPresent(this.get('_snapshots.length')) && this.get('_snapshots.length') > 0;
   }),
 
   init() {

@@ -6,7 +6,6 @@ import sinon from 'sinon';
 
 describe('Unit | Route | board', function() {
   setupTest('route:board', {
-    // Specify the other units that are required for this test.
     needs: ['service:current-routed-modal', 'service:session']
   });
 
@@ -16,6 +15,7 @@ describe('Unit | Route | board', function() {
   });
 
   const findRecord = sinon.stub();
+  let route;
 
   beforeEach(function() {
     this.register('service:store', Ember.Service.extend({
@@ -27,14 +27,12 @@ describe('Unit | Route | board', function() {
       data: { authenticated: { userId: 12 } }
     }));
     this.inject.service('session', { as: 'session' });
+    route = this.subject();
+    route.transitionTo = sinon.spy();
   });
 
   it('should correctly call the store', function() {
     // given
-    const route = this.subject();
-    route.transitionTo = () => {
-    };
-
     findRecord.resolves();
 
     // when
@@ -48,11 +46,6 @@ describe('Unit | Route | board', function() {
   it('should return user first organization informations', function() {
     // given
     const user = Ember.Object.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
-
-    const route = this.subject();
-    route.transitionTo = () => {
-    };
-
     findRecord.resolves(user);
 
     // when
@@ -66,9 +59,6 @@ describe('Unit | Route | board', function() {
 
   it('should return to home page if no user was found', function() {
     // given
-    const route = this.subject();
-    route.transitionTo = sinon.spy();
-
     findRecord.rejects();
 
     // when
@@ -83,10 +73,7 @@ describe('Unit | Route | board', function() {
 
   it('should return to /compte when the user has no organization', function() {
     // given
-    const route = this.subject();
-    route.transitionTo = sinon.spy();
     const user = Ember.Object.create({ id: 1, organizations: [] });
-
     findRecord.resolves(user);
 
     // when
