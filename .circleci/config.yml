@@ -45,7 +45,6 @@ jobs:
           keys:
             - v1-dependencies-npm-api-{{ .Branch }}-{{ checksum "api/package.json" }}
             - v1-dependencies-npm-api-{{ .Branch }}
-      - run: npm install bower
       - run: npm install
       - save_cache:
           key: v1-npm-cache-{{ .Branch }}
