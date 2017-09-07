@@ -3868,7 +3868,8 @@ input.qcm-panel__proposal-checkbox {
   align-items: center;
   height: 469px;
   position: relative;
-  padding-bottom: 25px; }
+  padding-bottom: 25px;
+  margin-bottom: 20px; }
   @media (min-width: 980px) {
     .logged-user-profile-banner {
       -webkit-box-align: stretch;
