@@ -91,8 +91,8 @@ jobs:
       - save_cache:
           key: dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
           paths:
-            - ~/pix/api/node_modules
-            - ~/pix/api/bower_components
+            - ~/pix/live/node_modules
+            - ~/pix/live/bower_components
             - ~/.npm
             - ~/.cache/bower
 
@@ -104,6 +104,9 @@ jobs:
       - run:
           name: save SHA to a file
           command: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
             - dependencies-npm-root-{{ checksum "../package.json" }}
@@ -152,9 +155,6 @@ jobs:
       - restore_cache:
           keys:
             - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
-      - restore_cache:
-          keys:
-            - build-live-{{ checksum ".circle-sha" }}
 
       - run: ./node_modules/.bin/ember build
 
@@ -166,7 +166,7 @@ jobs:
   npm_test_api:
     docker:
       - image: circleci/node:8
-    working_directory: ~/pix
+    working_directory: ~/pix/api
     steps:
       - run:
           name: save SHA to a file
@@ -176,13 +176,13 @@ jobs:
             - repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - dependencies-npm-root-{{ checksum "package.json" }}
+            - dependencies-npm-root-{{ checksum "../package.json" }}
       - restore_cache:
           keys:
-            - dependencies-npm-api-{{ checksum "api/package.json" }}
+            - dependencies-npm-api-{{ checksum "package.json" }}
       - run:
           name: Run Tests
-          command: npm run test:api
+          command: npm run test
 
   npm_test_live_1:
     docker:
