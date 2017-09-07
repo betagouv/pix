@@ -67,7 +67,7 @@ jobs:
       - save_cache:
           key: dependencies-npm-api-{{ checksum "package.json" }}
           paths:
-            - ~/pix/live/node_modules
+            - ~/pix/api/node_modules
             - ~/pix/.npm
 
   bundle_dependencies_live:
