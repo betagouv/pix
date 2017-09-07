@@ -117,27 +117,6 @@ jobs:
           name: Lint files
           command: npm run lint
 
-  lint_live:
-    docker:
-      - image: circleci/node:8
-    working_directory: ~/pix/live
-    steps:
-      - run:
-          name: save SHA to a file
-          command: echo $CIRCLE_SHA1 > .circle-sha
-      - restore_cache:
-          keys:
-            - repo-{{ checksum ".circle-sha" }}
-      - restore_cache:
-          keys:
-            - dependencies-root-{{ checksum "../package.json" }}-v1
-      - restore_cache:
-          keys:
-            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v1
-      - run:
-          name: Lint files
-          command: npm run lint
-
   build_pix_live:
     docker:
       - image: circleci/node:8
