@@ -8,8 +8,14 @@ jobs:
     steps:
       - checkout
       - run:
-          name: save SHA to a file
+          name: save SHA to a file (root)
           command: echo $CIRCLE_SHA1 > .circle-sha
+      - run:
+          name: save SHA to a file (api)
+          command: echo $CIRCLE_SHA1 > api/.circle-sha
+      - run:
+          name: save SHA to a file (live)
+          command: echo $CIRCLE_SHA1 > live/.circle-sha
       - save_cache:
           key: repo-{{ checksum ".circle-sha" }}
           paths:
@@ -53,13 +59,13 @@ jobs:
             - repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - dependencies-npm-root-{{ checksum "package.json" }}
+            - dependencies-npm-root-{{ checksum "../package.json" }}
       - restore_cache:
           keys:
-            - dependencies-npm-api-{{ checksum "api/package.json" }}
+            - dependencies-npm-api-{{ checksum "package.json" }}
       - run: npm install
       - save_cache:
-          key: dependencies-npm-api-{{ checksum "api/package.json" }}
+          key: dependencies-npm-api-{{ checksum "package.json" }}
           paths:
             - ~/pix/live/node_modules
             - ~/pix/.npm
@@ -77,13 +83,13 @@ jobs:
             - repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - dependencies-npm-root-{{ checksum "package.json" }}
+            - dependencies-npm-root-{{ checksum "../package.json" }}
       - restore_cache:
           keys:
-            - dependencies-live-{{ checksum "live/package.json" }}-{{ checksum "live/bower.json" }}
+            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
       - run: npm install
       - save_cache:
-          key: dependencies-live-{{ checksum "live/package.json" }}-{{ checksum "live/bower.json" }}
+          key: dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
           paths:
             - ~/pix/api/node_modules
             - ~/pix/api/bower_components
@@ -100,10 +106,10 @@ jobs:
           command: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - dependencies-npm-root-{{ checksum "package.json" }}
+            - dependencies-npm-root-{{ checksum "../package.json" }}
       - restore_cache:
           keys:
-            - dependencies-npm-api-{{ checksum "api/package.json" }}
+            - dependencies-npm-api-{{ checksum "package.json" }}
       - run:
           name: Lint files
           command: npm run lint
@@ -111,7 +117,7 @@ jobs:
   lint_live:
     docker:
       - image: circleci/node:8
-    working_directory: ~/pix
+    working_directory: ~/pix/live
     steps:
       - run:
           name: save SHA to a file
@@ -121,10 +127,10 @@ jobs:
             - repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - dependencies-npm-root-{{ checksum "package.json" }}
+            - dependencies-npm-root-{{ checksum "../package.json" }}
       - restore_cache:
           keys:
-            - dependencies-live-{{ checksum "live/package.json" }}-{{ checksum "live/bower.json" }}
+            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
       - run:
           name: Lint files
           command: npm run lint
@@ -142,10 +148,10 @@ jobs:
             - repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - dependencies-npm-root-{{ checksum "package.json" }}
+            - dependencies-npm-root-{{ checksum "../package.json" }}
       - restore_cache:
           keys:
-            - dependencies-live-{{ checksum "live/package.json" }}-{{ checksum "live/bower.json" }}
+            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
       - restore_cache:
           keys:
             - build-live-{{ checksum ".circle-sha" }}
@@ -191,10 +197,10 @@ jobs:
             - repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - dependencies-npm-root-{{ checksum "package.json" }}
+            - dependencies-npm-root-{{ checksum "../package.json" }}
       - restore_cache:
           keys:
-            - dependencies-live-{{ checksum "live/package.json" }}-{{ checksum "live/bower.json" }}
+            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
       - restore_cache:
           keys:
             - build-live-{{ checksum ".circle-sha" }}
@@ -215,10 +221,10 @@ jobs:
             - repo-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - dependencies-npm-root-{{ checksum "package.json" }}
+            - dependencies-npm-root-{{ checksum "../package.json" }}
       - restore_cache:
           keys:
-            - dependencies-live-{{ checksum "live/package.json" }}-{{ checksum "live/bower.json" }}
+            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
       - restore_cache:
           keys:
             - build-live-{{ checksum ".circle-sha" }}
