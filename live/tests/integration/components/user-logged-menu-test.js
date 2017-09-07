@@ -60,7 +60,7 @@ describe('Integration | Component | user logged menu', function() {
       this.render(hbs`{{user-logged-menu}}`);
 
       // when
-      this.$('.logged-user-name').click();
+      this.$('.logged-user-name__link').click();
 
       return wait().then(() => {
         // then
@@ -73,6 +73,28 @@ describe('Integration | Component | user logged menu', function() {
     it('should hide user menu, when it was previously open and user-name is clicked one more time', function() {
       // when
       this.render(hbs`{{user-logged-menu}}`);
+      this.$('.logged-user-name').click();
+      this.$('.logged-user-name').click();
+
+      return wait().then(() => {
+        // then
+        expect(this.$('.logged-user-menu')).to.have.length(0);
+      });
+    });
+
+    it('should hide user menu, when it was previously open and user press key escape', function() {
+      // when
+      this.$('.logged-user-name').click();
+      this.$('.logged-user-name').trigger($.Event('keydown', { keyCode: 27 }));
+
+      return wait().then(() => {
+        // then
+        expect(this.$('.logged-user-menu')).to.have.length(0);
+      });
+    });
+
+    it('should hide user menu, when it was previously open and user press key escape', function() {
+      // when
       this.$('.logged-user-name').click();
       this.$('.logged-user-name').click();
 
@@ -132,7 +154,7 @@ describe('Integration | Component | user logged menu', function() {
 
         // when
         this.render(hbs`{{user-logged-menu}}`);
-        this.$('.logged-user-name').click();
+        this.$('.logged-user-name__link').click();
 
         return wait().then(() => {
           // then

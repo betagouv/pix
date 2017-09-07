@@ -1,7 +1,7 @@
 {{#if _user}}
-  <div class="logged-user-name" {{action 'toggleUserMenu'}} role="button" aria-haspopup="true"
-       aria-expanded="{{_canDisplayMenu}}">
-    <a href="#" role="button" class="logged-user-name__link">
+  <div class="logged-user-name" aria-haspopup="true"
+       aria-expanded="{{_canDisplayMenu}}" onkeydown={{action 'closeIfEscape'}}>
+    <a href="#" class="logged-user-name__link" {{action 'toggleUserMenu'}}>
       {{concat  _user.firstName ' '  _user.lastName}}
       <span class="caret"></span>
     </a>

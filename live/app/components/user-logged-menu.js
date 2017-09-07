@@ -9,7 +9,6 @@ export default Ember.Component.extend({
   classNames: ['logged-user-details'],
 
   _canDisplayMenu: false,
-
   _user: null,
 
   canDisplayLinkToProfile: Ember.computed(function() {
@@ -25,6 +24,12 @@ export default Ember.Component.extend({
   actions: {
     toggleUserMenu() {
       this.toggleProperty('_canDisplayMenu');
+    },
+
+    closeIfEscape(e) {
+      if (e.keyCode == 27) {
+        this.set('_canDisplayMenu', false);
+      }
     }
   }
 });
