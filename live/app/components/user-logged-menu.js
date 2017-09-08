@@ -30,6 +30,10 @@ export default Ember.Component.extend({
       if (e.keyCode == 27) {
         this.set('_canDisplayMenu', false);
       }
+    },
+
+    closeMenu() {
+      this.set('_canDisplayMenu', false);
     }
   }
 });
