@@ -1,3 +1,26 @@
+# .circleci/config.yml
+#
+# This file configures the CircleCI 2.0 build. /!\ it's very complex /!\
+#
+# Documentation:
+# - Overview: https://circleci.com/docs/2.0/workflows/
+# - Caching: https://circleci.com/docs/2.0/caching/
+#
+# Things to know:
+# - every job is a container
+# - the file `.circle-sha` is used to have a common key between different containers of same build
+# - we need cache, everywhere for everything
+# - cache is immutable. Sometimes we need to flush the cache, but we can't. That's why there is this
+# `-v1` at the end. Increment it to `-v2` when you need to change the cache content
+#
+# Cached entries:
+# - `repo-{{ checksum ".circle-sha" }}`                  => the source code
+# - `dependencies-root-{{ checksum "package.json" }}-v1` => `pix/node_modules` directory
+# - `dependencies-api-{{ checksum "package.json" }}-v1`  => `pix/api/node_modules` directory
+# - `dependencies-live-{{ checksum "package.json" }}-v1` => 
+#   `pix/live/{node_modules,bower_components}` directories
+# - `build-live-{{ checksum ".circle-sha" }}`            => `pix/live/dist` directory
+#
 version: 2.0
 
 jobs:
@@ -36,10 +59,6 @@ jobs:
           keys:
             - dependencies-root-{{ checksum "package.json" }}-v1
       - run: npm install --ignore-scripts
-      - save_cache:
-          key: npm-cache-{{ .Branch }}
-          paths:
-            - ~/.npm
       - save_cache:
           key: dependencies-root-{{ checksum "package.json" }}-v1
           paths:
