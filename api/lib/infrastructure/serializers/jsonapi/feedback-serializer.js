@@ -1,33 +1,21 @@
-const JSONAPISerializer = require('./jsonapi-serializer');
+const oldJSONAPISerializer = require('./jsonapi-serializer');
+const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 const Feedback = require('../../../domain/models/data/feedback');
 
-class FeedbackSerializer extends JSONAPISerializer {
+class FeedbackSerializer extends oldJSONAPISerializer {
 
-  constructor() {
-    super('feedback');
-  }
-
-  serializeAttributes(model, data) {
-    data.attributes.email = model.email;
-    data.attributes.content = model.content;
-  }
-
-  serializeRelationships(model, data) {
-    data.relationships = {};
-
-    data.relationships.assessment = {
-      data: {
-        type: 'assessments',
-        id: model.assessmentId
+  serialize(feedback) {
+    return new JSONAPISerializer('feedbacks', {
+      attributes: ['createdAt', 'email', 'content', 'assessment', 'challenge'],
+      assessment: { ref: 'id' },
+      challenge: { ref: 'id' },
+      transform(feedback) {
+        feedback.id = feedback.id.toString();
+        feedback.assessment = { id: feedback.assessmentId };
+        feedback.challenge = { id: feedback.challengeId };
+        return feedback;
       }
-    };
-
-    data.relationships.challenge = {
-      data: {
-        type: 'challenges',
-        id: model.challengeId
-      }
-    };
+    }).serialize(feedback);
   }
 
   deserialize(json) {
