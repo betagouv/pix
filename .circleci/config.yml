@@ -262,7 +262,7 @@ jobs:
       - deploy:
           name: Deploy client
           command: |
-            echo "COUCOU"
+            npm run deploy:integration
 
 workflows:
   version: 2
