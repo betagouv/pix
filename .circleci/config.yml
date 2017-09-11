@@ -9,6 +9,11 @@ jobs:
     working_directory: ~/pix
     steps:
       - checkout
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - save_cache:
+          key: pix-{{ checksum ".circle-sha" }}-v4
+          paths:
+            - ~/pix
 
   install_client_dependencies:
     docker:
