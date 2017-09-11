@@ -6,82 +6,60 @@ jobs:
       - image: circleci/node:8-browsers
     working_directory: ~/pix
     steps:
-      - checkout
       - run: echo $CIRCLE_SHA1 > .circle-sha
+      - checkout
       - save_cache:
           key: pix-{{ checksum ".circle-sha" }}
           paths:
             - ~/pix
 
-  bundle_dependencies_root:
-    docker:
-      - image: circleci/node:8-browsers
-    working_directory: ~/pix
-    steps:
-      - run: echo $CIRCLE_SHA1 > .circle-sha
-      - restore_cache:
-          keys:
-            - pix-{{ checksum ".circle-sha" }}
-            - dependencies-root-{{ checksum "package.json" }}-v2
-      - run: npm install --ignore-scripts
-      - save_cache:
-          key: dependencies-root-{{ checksum "package.json" }}-v2
-          paths:
-            - ~/pix/node_modules
-            - ~/.npm
-
-  bundle_dependencies_live:
-    docker:
-      - image: circleci/node:8-browsers
+  install_client_dependencies:
     working_directory: ~/pix/live
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
             - pix-{{ checksum ".circle-sha" }}
-            - dependencies-root-{{ checksum "../package.json" }}-v2
-            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v2
+            - pix-
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+            - client-dependencies-
       - run: npm install
       - save_cache:
-          key: dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v2
+          key: client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
           paths:
             - ~/pix/live/node_modules
             - ~/pix/live/bower_components
             - ~/.npm
             - ~/.cache/bower
 
-  build_pix_live:
-    docker:
-      - image: circleci/node:8-browsers
+  build_client:
     working_directory: ~/pix/live
     steps:
-      - run:
-          name: save SHA to a file
-          command: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
             - pix-{{ checksum ".circle-sha" }}
-            - dependencies-root-{{ checksum "../package.json" }}-v2
-            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v2
-
+            - pix-
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+            - client-dependencies-
       - run: ./node_modules/.bin/ember build
 
       - save_cache:
-          key: build-live-{{ checksum ".circle-sha" }}
+          key: client_app-{{ checksum ".circle-sha" }}
           paths:
             - dist
 
-  deploy:
-    docker:
-      - image: circleci/node:8
+  deploy_client:
     working_directory: ~/pix/live
     steps:
       - restore_cache:
           keys:
             - pix-{{ checksum ".circle-sha" }}
-            - dependencies-root-{{ checksum "../package.json" }}-v2
-            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v2
-            - build-live-{{ checksum ".circle-sha" }}
+            - pix-
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+            - client-dependencies-
+            - client_app-{{ checksum ".circle-sha" }}
+            - client_app-
       - run: npm run deploy:integration
 
 workflows:
@@ -89,19 +67,15 @@ workflows:
   build-and-deploy:
     jobs:
       - checkout_code
-      - bundle_dependencies_root:
+      - install_client_dependencies:
           requires:
             - checkout_code
-      - bundle_dependencies_live:
+      - build_client:
           requires:
-            - checkout_code
-      - build_pix_live:
+            - install_client_dependencies
+      - deploy_client:
           requires:
-            - bundle_dependencies_root
-            - bundle_dependencies_live
-      - deploy:
-          requires:
-            - build_pix_live
+            - build_client
           filters:
             branches:
               ignore:
