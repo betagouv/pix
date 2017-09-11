@@ -64,7 +64,13 @@ jobs:
       - restore_cache:
           keys:
             - server-dependencies-{{ checksum "package.json" }}-v9
+      - add-ssh-keys:
+         fingerprints:
+           - "35:db:1e:4a:c2:e7:10:6f:6d:c4:35:75:7e:90:78:8a"
       - run: |
+          ssh-keyscan pix-app.ovh > ~/.ssh/known_hosts
+          git config user.email "jbuget@gmail.com"
+          git config user.name "Jérémy Buget"
           npm run deploy:integration
 
   # Client side
