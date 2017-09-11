@@ -303,6 +303,8 @@ workflows:
 #            - npm_test_live_1
 #            - npm_test_live_2
 #            - npm_test_live_3
+          requires:
+            - build_pix_live
           filters:
             branches:
               ignore:
