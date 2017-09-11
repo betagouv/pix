@@ -1,3 +1,13 @@
+server_properties: &server_properties
+  docker:
+    - image: circleci/node:8
+  working_directory: ~/pix/api
+
+client_properties: &client_properties
+  docker:
+    - image: circleci/node:8-browsers
+  working_directory: ~/pix/live
+
 version: 2.0
 
 jobs:
@@ -20,9 +30,7 @@ jobs:
   # Server side
 
   install_server_dependencies:
-    docker:
-      - image: circleci/node:8
-    working_directory: ~/pix/api
+    <<: *server_properties
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
@@ -39,16 +47,12 @@ jobs:
             - ~/pix/.npm
 
   build_server:
-    docker:
-      - image: circleci/node:8
-    working_directory: ~/pix/api
+    <<: *server_properties
     steps:
       - run: echo "Nothing to do for building the API"
 
   test_server:
-    docker:
-      - image: circleci/node:8
-    working_directory: ~/pix/api
+    <<: *server_properties
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
@@ -62,9 +66,7 @@ jobs:
           npm test
 
   deploy_server:
-    docker:
-      - image: circleci/node:8
-    working_directory: ~/pix/api
+    <<: *server_properties
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
@@ -85,9 +87,7 @@ jobs:
   # Client side
 
   install_client_dependencies:
-    docker:
-      - image: circleci/node:8
-    working_directory: ~/pix/live
+    <<: *client_properties
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
@@ -106,9 +106,7 @@ jobs:
             - ~/.cache/bower
 
   build_client:
-    docker:
-      - image: circleci/node:8
-    working_directory: ~/pix/live
+    <<: *client_properties
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
@@ -124,9 +122,7 @@ jobs:
             - dist
 
   test_client_1:
-    docker:
-      - image: circleci/node:8-browsers
-    working_directory: ~/pix/live
+    <<: *client_properties
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
@@ -141,9 +137,7 @@ jobs:
       - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=1
 
   test_client_2:
-    docker:
-      - image: circleci/node:8-browsers
-    working_directory: ~/pix/live
+    <<: *client_properties
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
@@ -158,9 +152,7 @@ jobs:
       - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=2
 
   test_client_3:
-    docker:
-      - image: circleci/node:8-browsers
-    working_directory: ~/pix/live
+    <<: *client_properties
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
@@ -175,9 +167,7 @@ jobs:
       - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=3
 
   deploy_client:
-    docker:
-      - image: circleci/node:8
-    working_directory: ~/pix/live
+    <<: *client_properties
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
