@@ -9,7 +9,7 @@ jobs:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - checkout
       - save_cache:
-          key: pix-{{ checksum ".circle-sha" }}
+          key: pix-{{ checksum ".circle-sha" }}-v3
           paths:
             - ~/pix
 
@@ -23,11 +23,11 @@ jobs:
           keys:
             - pix-{{ checksum ".circle-sha" }}
             - pix-
-            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v3
             - client-dependencies-
       - run: npm install
       - save_cache:
-          key: client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+          key: client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v3
           paths:
             - ~/pix/live/node_modules
             - ~/pix/live/bower_components
@@ -44,7 +44,7 @@ jobs:
           keys:
             - pix-{{ checksum ".circle-sha" }}
             - pix-
-            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v3
             - client-dependencies-
       - run: ./node_modules/.bin/ember build
 
@@ -62,7 +62,7 @@ jobs:
           keys:
             - pix-{{ checksum ".circle-sha" }}
             - pix-
-            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v3
             - client-dependencies-
             - client_app-{{ checksum ".circle-sha" }}
             - client_app-
