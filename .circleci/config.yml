@@ -22,10 +22,10 @@ jobs:
       - restore_cache:
           keys:
             - pix-{{ checksum ".circle-sha" }}
-            - dependencies-root-{{ checksum "package.json" }}-v1
+            - dependencies-root-{{ checksum "package.json" }}-v2
       - run: npm install --ignore-scripts
       - save_cache:
-          key: dependencies-root-{{ checksum "package.json" }}-v1
+          key: dependencies-root-{{ checksum "package.json" }}-v2
           paths:
             - ~/pix/node_modules
             - ~/.npm
@@ -39,11 +39,11 @@ jobs:
       - restore_cache:
           keys:
             - pix-{{ checksum ".circle-sha" }}
-            - dependencies-root-{{ checksum "../package.json" }}-v1
-            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v1
+            - dependencies-root-{{ checksum "../package.json" }}-v2
+            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v2
       - run: npm install
       - save_cache:
-          key: dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v1
+          key: dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v2
           paths:
             - ~/pix/live/node_modules
             - ~/pix/live/bower_components
@@ -61,8 +61,8 @@ jobs:
       - restore_cache:
           keys:
             - pix-{{ checksum ".circle-sha" }}
-            - dependencies-root-{{ checksum "../package.json" }}-v1
-            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v1
+            - dependencies-root-{{ checksum "../package.json" }}-v2
+            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v2
 
       - run: ./node_modules/.bin/ember build
 
@@ -79,8 +79,8 @@ jobs:
       - restore_cache:
           keys:
             - pix-{{ checksum ".circle-sha" }}
-            - dependencies-root-{{ checksum "../package.json" }}-v1
-            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v1
+            - dependencies-root-{{ checksum "../package.json" }}-v2
+            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v2
             - build-live-{{ checksum ".circle-sha" }}
       - run: npm run deploy:integration
 
