@@ -74,8 +74,11 @@ jobs:
       - add-ssh-keys:
          fingerprints:
            - "c3:0d:1b:26:62:f1:89:98:d8:8c:f2:6c:b1:25:7b:6b"
-      - run: ssh-keyscan github.com > ~/.ssh/known_hosts
-      - run: npm run deploy:integration
+      - run: |
+          ssh-keyscan github.com > ~/.ssh/known_hosts
+          git config user.email "jbuget@gmail.com"
+          git config user.name "Jérémy Buget"
+          npm run deploy:integration
 
 workflows:
   version: 2
