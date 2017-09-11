@@ -11,7 +11,7 @@ jobs:
       - checkout
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - save_cache:
-          key: pix-{{ checksum ".circle-sha" }}-v7
+          key: pix-{{ checksum ".circle-sha" }}-v8
           paths:
             - ~/pix
 
@@ -23,13 +23,13 @@ jobs:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - pix-{{ checksum ".circle-sha" }}-v7
+            - pix-{{ checksum ".circle-sha" }}-v8
       - restore_cache:
           keys:
-            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v7
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v8
       - run: npm install
       - save_cache:
-          key: client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v7
+          key: client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v8
           paths:
             - ~/pix/live/node_modules
             - ~/pix/live/bower_components
@@ -44,14 +44,14 @@ jobs:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - pix-{{ checksum ".circle-sha" }}-v7
+            - pix-{{ checksum ".circle-sha" }}-v8
       - restore_cache:
           keys:
-            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v7
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v8
       - run: ./node_modules/.bin/ember build
 
       - save_cache:
-          key: client_app-{{ checksum ".circle-sha" }}-v7
+          key: client_app-{{ checksum ".circle-sha" }}-v8
           paths:
             - dist
 
@@ -63,13 +63,13 @@ jobs:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - pix-{{ checksum ".circle-sha" }}-v7
+            - pix-{{ checksum ".circle-sha" }}-v8
       - restore_cache:
           keys:
             - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
       - restore_cache:
           keys:
-            - client_app-{{ checksum ".circle-sha" }}-v7
+            - client_app-{{ checksum ".circle-sha" }}-v8
       # cf. https://circleci.com/docs/2.0/gh-bb-integration/#adding-readwrite-deployment-keys-to-github-or-bitbucket
       - add-ssh-keys:
           fingerprints:
