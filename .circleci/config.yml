@@ -3,19 +3,20 @@ version: 2.0
 jobs:
   checkout_code:
     docker:
+      - image: circleci/node:8
       - image: circleci/node:8-browsers
     working_directory: ~/pix
     steps:
-      - run: echo $CIRCLE_SHA1 > .circle-sha
       - checkout
+      - run: echo $CIRCLE_SHA1 > .circle-sha
       - save_cache:
-          key: pix-{{ checksum ".circle-sha" }}-v3
+          key: pix-{{ checksum ".circle-sha" }}-v4
           paths:
             - ~/pix
 
   install_client_dependencies:
     docker:
-      - image: circleci/node:8-browsers
+      - image: circleci/node:8
     working_directory: ~/pix/live
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
@@ -23,11 +24,11 @@ jobs:
           keys:
             - pix-{{ checksum ".circle-sha" }}
             - pix-
-            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v3
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v4
             - client-dependencies-
       - run: npm install
       - save_cache:
-          key: client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v3
+          key: client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v4
           paths:
             - ~/pix/live/node_modules
             - ~/pix/live/bower_components
@@ -36,7 +37,7 @@ jobs:
 
   build_client:
     docker:
-      - image: circleci/node:8-browsers
+      - image: circleci/node:8
     working_directory: ~/pix/live
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
@@ -44,7 +45,7 @@ jobs:
           keys:
             - pix-{{ checksum ".circle-sha" }}
             - pix-
-            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v3
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v4
             - client-dependencies-
       - run: ./node_modules/.bin/ember build
 
@@ -55,14 +56,14 @@ jobs:
 
   deploy_client:
     docker:
-      - image: circleci/node:8-browsers
+      - image: circleci/node:8
     working_directory: ~/pix/live
     steps:
       - restore_cache:
           keys:
             - pix-{{ checksum ".circle-sha" }}
             - pix-
-            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v3
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v4
             - client-dependencies-
             - client_app-{{ checksum ".circle-sha" }}
             - client_app-
@@ -72,7 +73,7 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - checkout_code
+     - checkout_code
       - install_client_dependencies:
           requires:
             - checkout_code
