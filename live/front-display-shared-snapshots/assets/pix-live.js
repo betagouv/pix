@@ -6450,13 +6450,13 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
 
   exports.default = Router;
 });
-define('pix-live/routes/application', ['exports'], function (exports) {
+define('pix-live/routes/application', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend({
+  exports.default = _baseRoute.default.extend({
     splash: Ember.inject.service(),
 
     activate: function activate() {
@@ -6624,14 +6624,14 @@ define('pix-live/routes/base-route', ['exports'], function (exports) {
     }
   });
 });
-define('pix-live/routes/board', ['exports', 'ember-simple-auth/mixins/authenticated-route-mixin'], function (exports, _authenticatedRouteMixin) {
+define('pix-live/routes/board', ['exports', 'ember-simple-auth/mixins/authenticated-route-mixin', 'pix-live/routes/base-route'], function (exports, _authenticatedRouteMixin, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
   var RSVP = Ember.RSVP;
-  exports.default = Ember.Route.extend(_authenticatedRouteMixin.default, {
+  exports.default = _baseRoute.default.extend(_authenticatedRouteMixin.default, {
 
     authenticationRoute: '/connexion',
 
@@ -6784,13 +6784,13 @@ define('pix-live/routes/competences', ['exports', 'pix-live/routes/base-route'],
     }
   });
 });
-define('pix-live/routes/compte', ['exports', 'ember-simple-auth/mixins/authenticated-route-mixin'], function (exports, _authenticatedRouteMixin) {
+define('pix-live/routes/compte', ['exports', 'ember-simple-auth/mixins/authenticated-route-mixin', 'pix-live/routes/base-route'], function (exports, _authenticatedRouteMixin, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend(_authenticatedRouteMixin.default, {
+  exports.default = _baseRoute.default.extend(_authenticatedRouteMixin.default, {
 
     authenticationRoute: '/connexion',
     session: Ember.inject.service(),
@@ -7087,6 +7087,8 @@ define('pix-live/routes/index', ['exports', 'pix-live/routes/base-route', 'ember
           } else {
             _this.transitionTo('compte');
           }
+        }).catch(function (_) {
+          _this.transitionTo('logout');
         });
       }
     },
@@ -7107,13 +7109,13 @@ define('pix-live/routes/index', ['exports', 'pix-live/routes/base-route', 'ember
 
   });
 });
-define('pix-live/routes/inscription', ['exports', 'ember-simple-auth/mixins/unauthenticated-route-mixin'], function (exports, _unauthenticatedRouteMixin) {
+define('pix-live/routes/inscription', ['exports', 'ember-simple-auth/mixins/unauthenticated-route-mixin', 'pix-live/routes/base-route'], function (exports, _unauthenticatedRouteMixin, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend(_unauthenticatedRouteMixin.default, {
+  exports.default = _baseRoute.default.extend(_unauthenticatedRouteMixin.default, {
 
     session: Ember.inject.service(),
 
@@ -7148,21 +7150,21 @@ define('pix-live/routes/inscription', ['exports', 'ember-simple-auth/mixins/unau
     }
   });
 });
-define('pix-live/routes/legal-notices', ['exports'], function (exports) {
+define('pix-live/routes/legal-notices', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend({});
+  exports.default = _baseRoute.default.extend({});
 });
-define('pix-live/routes/login', ['exports', 'ember-simple-auth/mixins/unauthenticated-route-mixin'], function (exports, _unauthenticatedRouteMixin) {
+define('pix-live/routes/login', ['exports', 'ember-simple-auth/mixins/unauthenticated-route-mixin', 'pix-live/routes/base-route'], function (exports, _unauthenticatedRouteMixin, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend(_unauthenticatedRouteMixin.default, {
+  exports.default = _baseRoute.default.extend(_unauthenticatedRouteMixin.default, {
 
     session: Ember.inject.service(),
 
@@ -7192,13 +7194,13 @@ define('pix-live/routes/login', ['exports', 'ember-simple-auth/mixins/unauthenti
     return user.get('organizations.length') > 0;
   }
 });
-define('pix-live/routes/logout', ['exports'], function (exports) {
+define('pix-live/routes/logout', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend({
+  exports.default = _baseRoute.default.extend({
 
     session: Ember.inject.service(),
 
@@ -7242,13 +7244,13 @@ define('pix-live/routes/project', ['exports', 'pix-live/routes/base-route'], fun
   });
   exports.default = _baseRoute.default.extend({});
 });
-define('pix-live/routes/terms-of-service', ['exports'], function (exports) {
+define('pix-live/routes/terms-of-service', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend({});
+  exports.default = _baseRoute.default.extend({});
 });
 define('pix-live/serializers/challenge', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
@@ -9231,6 +9233,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.21.0+f97ac752"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.21.0+9d68c35e"});
 }
 //# sourceMappingURL=pix-live.map
