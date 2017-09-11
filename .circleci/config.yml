@@ -118,10 +118,6 @@ jobs:
           keys:
             - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
       - run: ./node_modules/.bin/ember build
-      - save_cache:
-          key: v1-client_app-{{ checksum ".circle-sha" }}
-          paths:
-            - dist
       - persist_to_workspace:
           root: ~/pix/live
           paths:
