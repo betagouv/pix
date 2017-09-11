@@ -25,6 +25,8 @@ jobs:
           keys:
             - pix-{{ checksum ".circle-sha" }}
             - pix-
+      - restore_cache:
+          keys:
             - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
             - client-dependencies-
       - run: npm install
@@ -44,8 +46,10 @@ jobs:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - pix-{{ checksum ".circle-sha" }}-v4
+            - pix-{{ checksum ".circle-sha" }}
             - pix-
+      - restore_cache:
+          keys:
             - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
             - client-dependencies-
       - run: ./node_modules/.bin/ember build
@@ -60,12 +64,17 @@ jobs:
       - image: circleci/node:8
     working_directory: ~/pix/live
     steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
             - pix-{{ checksum ".circle-sha" }}
             - pix-
+      - restore_cache:
+          keys:
             - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
             - client-dependencies-
+      - restore_cache:
+          keys:
             - client_app-{{ checksum ".circle-sha" }}
             - client_app-
       - run: npm run deploy:integration
