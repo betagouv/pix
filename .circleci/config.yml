@@ -10,19 +10,6 @@ client_properties: &client_properties
     - image: circleci/node:8-browsers
   working_directory: ~/pix/live
 
-test_client_steps: &test_client_steps
-  steps:
-    - run: echo $CIRCLE_SHA1 > .circle-sha
-    - restore_cache:
-        keys:
-          - v1-pix-{{ checksum ".circle-sha" }}
-    - restore_cache:
-        keys:
-          - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
-    - restore_cache:
-        keys:
-          - v1-client_app-{{ checksum ".circle-sha" }}
-
 version: 2.0
 
 jobs:
@@ -135,23 +122,51 @@ jobs:
           key: v1-client_app-{{ checksum ".circle-sha" }}
           paths:
             - dist
+      - persist_to_workspace:
+          root: ~/pix/live
+          paths:
+            - dist
 
   test_client_1:
     <<: *client_properties
-    <<: *test_client_steps
     steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+      - attach_workspace:
+          at: ~/pix/live
       - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=1
 
   test_client_2:
     <<: *client_properties
-    <<: *test_client_steps
     steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+      - attach_workspace:
+          at: ~/pix/live
       - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=2
 
   test_client_3:
     <<: *client_properties
-    <<: *test_client_steps
     steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+      - attach_workspace:
+          at: ~/pix/live
       - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=3
 
   deploy_client:
