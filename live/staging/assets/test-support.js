@@ -22099,6 +22099,12 @@ self.expect = self.chai.expect;
   define('chai', [], vendorModule);
 })();
 
+/* globals jQuery, require */
+
+jQuery(document).ready(function() {
+  require('ember-exam/test-support/load').default();
+});
+
 /* Sinon.JS 3.2.1, 2017-08-17, @license BSD-3 */(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.sinon = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
@@ -35323,6 +35329,196 @@ define('ember-cli-test-loader/test-support/index', ['exports'], function (export
 
   exports.default = TestLoader;
   ;
+});
+define('ember-exam/test-support/-private/get-test-loader', ['exports'], function (exports) {
+  exports['default'] = getTestLoader;
+  /* globals require, requirejs */
+
+  function getTestLoader() {
+    var testLoaderModulePath = 'ember-cli-test-loader/test-support/index';
+
+    if (!requirejs.entries[testLoaderModulePath]) {
+      testLoaderModulePath = 'ember-cli/test-loader';
+    }
+
+    var TestLoaderModule = require(testLoaderModulePath);
+    return TestLoaderModule['default'];
+  }
+});
+define('ember-exam/test-support/-private/get-url-params', ['exports'], function (exports) {
+  exports['default'] = getUrlParams;
+  function decodeQueryParam(param) {
+    return decodeURIComponent(param.replace(/\+/g, '%20'));
+  }
+
+  function getUrlParams() {
+    var urlParams = Object.create(null);
+    var params = location.search.slice(1).split('&');
+
+    for (var i = 0; i < params.length; i++) {
+      if (params[i]) {
+        var param = params[i].split('=');
+        var _name = decodeQueryParam(param[0]);
+
+        // Allow just a key to turn on a flag, e.g., test.html?noglobals
+        var value = param.length === 1 || decodeQueryParam(param.slice(1).join('='));
+        if (_name in urlParams) {
+          urlParams[_name] = [].concat(urlParams[_name], value);
+        } else {
+          urlParams[_name] = value;
+        }
+      }
+    }
+
+    return urlParams;
+  }
+});
+define('ember-exam/test-support/-private/patch-test-loader', ['exports', 'ember-exam/test-support/-private/get-url-params', 'ember-exam/test-support/-private/split-test-modules'], function (exports, _emberExamTestSupportPrivateGetUrlParams, _emberExamTestSupportPrivateSplitTestModules) {
+  exports['default'] = patchTestLoader;
+
+  function patchTestLoader(TestLoader) {
+    TestLoader._urlParams = (0, _emberExamTestSupportPrivateGetUrlParams['default'])();
+
+    var _super = {
+      require: TestLoader.prototype.require,
+      unsee: TestLoader.prototype.unsee,
+      loadModules: TestLoader.prototype.loadModules
+    };
+
+    // "Require" the module by adding it to the array of test modules to load
+    TestLoader.prototype.require = function _emberExamRequire(name) {
+      this._testModules.push(name);
+    };
+
+    // Make unsee a no-op to avoid any unwanted resets
+    TestLoader.prototype.unsee = function _emberExamUnsee() {};
+
+    TestLoader.prototype.loadModules = function _emberExamLoadModules() {
+      var urlParams = TestLoader._urlParams;
+      var partitions = urlParams._partition;
+      var split = parseInt(urlParams._split, 10);
+
+      split = isNaN(split) ? 1 : split;
+
+      if (partitions === undefined) {
+        partitions = [1];
+      } else if (!Array.isArray(partitions)) {
+        partitions = [partitions];
+      }
+
+      var testLoader = this;
+
+      testLoader._testModules = [];
+      _super.loadModules.apply(testLoader, arguments);
+
+      var splitModules = (0, _emberExamTestSupportPrivateSplitTestModules['default'])(testLoader._testModules, split, partitions);
+
+      splitModules.forEach(function (moduleName) {
+        _super.require.call(testLoader, moduleName);
+        _super.unsee.call(testLoader, moduleName);
+      });
+    };
+  }
+});
+define('ember-exam/test-support/-private/patch-testem-output', ['exports'], function (exports) {
+  exports['default'] = patchTestemOutput;
+  /* globals Testem */
+
+  // Add the partition number for better debugging when reading the reporter
+
+  function patchTestemOutput(TestLoader) {
+    Testem.on('test-result', function prependPartition(test) {
+      var urlParams = TestLoader._urlParams;
+      var split = urlParams._split;
+
+      if (split) {
+        var partition = urlParams._partition || 1;
+        test.name = 'Exam Partition #' + partition + ' - ' + test.name;
+      }
+    });
+  }
+});
+define('ember-exam/test-support/-private/split-test-modules', ['exports'], function (exports) {
+  exports['default'] = splitTestModules;
+
+  function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+
+  function createGroups(num) {
+    var groups = new Array(num);
+
+    for (var i = 0; i < num; i++) {
+      groups[i] = [];
+    }
+
+    return groups;
+  }
+
+  function filterIntoGroups(arr, filter, numGroups) {
+    var filtered = arr.filter(filter);
+    var groups = createGroups(numGroups);
+
+    for (var i = 0; i < filtered.length; i++) {
+      groups[i % numGroups].push(filtered[i]);
+    }
+
+    return groups;
+  }
+
+  function isLintTest(name) {
+    return name.match(/\.(jshint|(es)?lint-test)$/);
+  }
+
+  function isNotLintTest(name) {
+    return !isLintTest(name);
+  }
+
+  function splitTestModules(modules, split, partitions) {
+    if (split < 1) {
+      throw new Error('You must specify a split greater than 0');
+    }
+
+    var lintTestGroups = filterIntoGroups(modules, isLintTest, split);
+    var otherTestGroups = filterIntoGroups(modules, isNotLintTest, split);
+    var tests = [];
+
+    for (var i = 0; i < partitions.length; i++) {
+      var partition = parseInt(partitions[i], 10);
+      if (isNaN(partition)) {
+        throw new Error('You must specify numbers for partition (you specified \'' + partitions + '\')');
+      }
+
+      if (split < partition) {
+        throw new Error('You must specify partitions numbered less than or equal to your split value of ' + split);
+      } else if (partition < 1) {
+        throw new Error('You must specify partitions numbered greater than 0');
+      }
+
+      var group = partition - 1;
+      tests.push.apply(tests, _toConsumableArray(lintTestGroups[group]).concat(_toConsumableArray(otherTestGroups[group])));
+    }
+
+    return tests;
+  }
+});
+define('ember-exam/test-support/load', ['exports', 'ember-exam/test-support/-private/get-test-loader', 'ember-exam/test-support/-private/patch-test-loader', 'ember-exam/test-support/-private/patch-testem-output'], function (exports, _emberExamTestSupportPrivateGetTestLoader, _emberExamTestSupportPrivatePatchTestLoader, _emberExamTestSupportPrivatePatchTestemOutput) {
+  exports['default'] = loadEmberExam;
+
+  var loaded = false;
+
+  function loadEmberExam() {
+    if (loaded) {
+      return;
+    }
+
+    loaded = true;
+
+    var TestLoader = (0, _emberExamTestSupportPrivateGetTestLoader['default'])();
+    (0, _emberExamTestSupportPrivatePatchTestLoader['default'])(TestLoader);
+
+    if (window.Testem) {
+      (0, _emberExamTestSupportPrivatePatchTestemOutput['default'])(TestLoader);
+    }
+  }
 });
 define('ember-mocha', ['exports', 'ember-mocha/describe-module', 'ember-mocha/describe-component', 'ember-mocha/describe-model', 'ember-mocha/setup-test-factory', 'mocha', 'ember-test-helpers'], function (exports, _describeModule, _describeComponent, _describeModel, _setupTestFactory, _mocha, _emberTestHelpers) {
   'use strict';

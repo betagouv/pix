@@ -2670,6 +2670,28 @@ define('pix-live/components/signup-textfield', ['exports'], function (exports) {
     }
   });
 });
+define('pix-live/components/snapshot-list', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.Component.extend({
+
+    organization: null,
+    _snapshots: null,
+    _hasSnapshots: Ember.computed('_snapshots', function () {
+      return Ember.isPresent(this.get('_snapshots.length')) && this.get('_snapshots.length') > 0;
+    }),
+
+    init: function init() {
+      this._super.apply(this, arguments);
+      this.get('organization.snapshots').then(function (snapshots) {
+        this.set('_snapshots', snapshots);
+      }.bind(this));
+    }
+  });
+});
 define('pix-live/components/tether-dialog', ['exports', 'ember-modal-dialog/components/deprecated-tether-dialog'], function (exports, _deprecatedTetherDialog) {
   'use strict';
 
@@ -3504,6 +3526,66 @@ define('pix-live/helpers/inc', ['exports'], function (exports) {
 
   exports.default = Ember.Helper.helper(inc);
 });
+define('pix-live/helpers/is-after', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/is-after'], function (exports, _environment, _isAfter) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _isAfter.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('pix-live/helpers/is-before', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/is-before'], function (exports, _environment, _isBefore) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _isBefore.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('pix-live/helpers/is-between', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/is-between'], function (exports, _environment, _isBetween) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _isBetween.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('pix-live/helpers/is-same-or-after', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/is-same-or-after'], function (exports, _environment, _isSameOrAfter) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _isSameOrAfter.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('pix-live/helpers/is-same-or-before', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/is-same-or-before'], function (exports, _environment, _isSameOrBefore) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _isSameOrBefore.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('pix-live/helpers/is-same', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/is-same'], function (exports, _environment, _isSame) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _isSame.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
 define('pix-live/helpers/log-e', ['exports', 'ember-math-helpers/helpers/log-e'], function (exports, _logE) {
   'use strict';
 
@@ -3637,6 +3719,151 @@ define('pix-live/helpers/mod', ['exports', 'ember-math-helpers/helpers/mod'], fu
     }
   });
 });
+define('pix-live/helpers/moment-add', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/moment-add'], function (exports, _environment, _momentAdd) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _momentAdd.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('pix-live/helpers/moment-calendar', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/moment-calendar'], function (exports, _environment, _momentCalendar) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _momentCalendar.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('pix-live/helpers/moment-diff', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/moment-diff'], function (exports, _environment, _momentDiff) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _momentDiff.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('pix-live/helpers/moment-duration', ['exports', 'ember-moment/helpers/moment-duration'], function (exports, _momentDuration) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function () {
+      return _momentDuration.default;
+    }
+  });
+});
+define('pix-live/helpers/moment-format', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/moment-format'], function (exports, _environment, _momentFormat) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _momentFormat.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('pix-live/helpers/moment-from-now', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/moment-from-now'], function (exports, _environment, _momentFromNow) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _momentFromNow.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('pix-live/helpers/moment-from', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/moment-from'], function (exports, _environment, _momentFrom) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _momentFrom.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('pix-live/helpers/moment-subtract', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/moment-subtract'], function (exports, _environment, _momentSubtract) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _momentSubtract.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('pix-live/helpers/moment-to-date', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/moment-to-date'], function (exports, _environment, _momentToDate) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _momentToDate.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('pix-live/helpers/moment-to-now', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/moment-to-now'], function (exports, _environment, _momentToNow) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _momentToNow.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('pix-live/helpers/moment-to', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/moment-to'], function (exports, _environment, _momentTo) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _momentTo.default.extend({
+    globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('pix-live/helpers/moment-unix', ['exports', 'ember-moment/helpers/unix'], function (exports, _unix) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function () {
+      return _unix.default;
+    }
+  });
+  Object.defineProperty(exports, 'unix', {
+    enumerable: true,
+    get: function () {
+      return _unix.unix;
+    }
+  });
+});
+define('pix-live/helpers/moment', ['exports', 'ember-moment/helpers/moment'], function (exports, _moment) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function () {
+      return _moment.default;
+    }
+  });
+});
 define('pix-live/helpers/mult', ['exports', 'ember-math-helpers/helpers/mult'], function (exports, _mult) {
   'use strict';
 
@@ -3653,6 +3880,19 @@ define('pix-live/helpers/mult', ['exports', 'ember-math-helpers/helpers/mult'], 
     enumerable: true,
     get: function () {
       return _mult.mult;
+    }
+  });
+});
+define('pix-live/helpers/now', ['exports', 'ember-moment/helpers/now'], function (exports, _now) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function () {
+      return _now.default;
     }
   });
 });
@@ -3929,6 +4169,25 @@ define('pix-live/helpers/trunc', ['exports', 'ember-math-helpers/helpers/trunc']
     enumerable: true,
     get: function () {
       return _trunc.trunc;
+    }
+  });
+});
+define('pix-live/helpers/unix', ['exports', 'ember-moment/helpers/unix'], function (exports, _unix) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function () {
+      return _unix.default;
+    }
+  });
+  Object.defineProperty(exports, 'unix', {
+    enumerable: true,
+    get: function () {
+      return _unix.unix;
     }
   });
 });
@@ -4403,6 +4662,11 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
     });
 
     this.post('/snapshots');
+    this.get('/organizations/:id/snapshots', function (schema, request) {
+      var organizationId = request.params.id;
+
+      return schema.snapshots.where({ organizationId: organizationId });
+    });
   };
 });
 define('pix-live/mirage/data/answers/ref-qcm-answer', ['exports', 'pix-live/mirage/data/challenges/ref-qcm-challenge'], function (exports, _refQcmChallenge) {
@@ -5113,6 +5377,24 @@ define('pix-live/mirage/factories/organization', ['exports', 'ember-cli-mirage']
     }
   });
 });
+define('pix-live/mirage/factories/snapshot', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberCliMirage.Factory.extend({
+
+    score: _emberCliMirage.faker.random.number(),
+
+    creationDate: _emberCliMirage.faker.date.recent(),
+
+    completionPercentage: function completionPercentage() {
+      return _emberCliMirage.faker.list.random(12, 25, 37, 50, 62, 75)();
+    }
+
+  });
+});
 define('pix-live/mirage/factories/user', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
   'use strict';
 
@@ -5334,7 +5616,8 @@ define('pix-live/mirage/models/organization', ['exports', 'ember-cli-mirage'], f
     value: true
   });
   exports.default = _emberCliMirage.Model.extend({
-    user: (0, _emberCliMirage.belongsTo)('user', { inverse: null })
+    user: (0, _emberCliMirage.belongsTo)('user', { inverse: null }),
+    snapshots: (0, _emberCliMirage.hasMany)('snapshot')
   });
 });
 define('pix-live/mirage/models/snapshot', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
@@ -5343,7 +5626,9 @@ define('pix-live/mirage/models/snapshot', ['exports', 'ember-cli-mirage'], funct
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = _emberCliMirage.Model.extend({});
+  exports.default = _emberCliMirage.Model.extend({
+    organization: (0, _emberCliMirage.belongsTo)('organization')
+  });
 });
 define('pix-live/mirage/models/user', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
   'use strict';
@@ -5751,7 +6036,6 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
 
     server.loadFixtures('areas');
     server.loadFixtures('competences');
-    server.loadFixtures('organizations');
 
     var user = server.create('user', {
       id: 1,
@@ -5765,15 +6049,10 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
       competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     });
 
-    server.create('organization', {
-      id: 1,
-      name: 'LexCorp',
-      email: 'lex@lexcorp.com',
-      type: 'PRO',
-      code: 'ABCD66'
-    });
+    server.create('organization', { snapshots: snapshots, userId: 1 });
+    var snapshots = server.createList('snapshot', 3, { organizationId: 1 });
 
-    server.createList('organization', 2, { user: user });
+    user.organizationsIds = [1];
   };
 });
 define('pix-live/mirage/serializers/application', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
@@ -6017,14 +6296,15 @@ define('pix-live/models/organization', ['exports', 'ember-data'], function (expo
   });
   var Model = _emberData.default.Model,
       attr = _emberData.default.attr,
-      belongsTo = _emberData.default.belongsTo;
+      belongsTo = _emberData.default.belongsTo,
+      hasMany = _emberData.default.hasMany;
   exports.default = Model.extend({
-
     name: attr('string'),
     email: attr('string'),
     type: attr('string'),
     code: attr('string'),
-    user: belongsTo('user')
+    user: belongsTo('user'),
+    snapshots: hasMany('snapshot')
   });
 });
 define('pix-live/models/snapshot', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -6034,9 +6314,14 @@ define('pix-live/models/snapshot', ['exports', 'ember-data'], function (exports,
     value: true
   });
   var Model = _emberData.default.Model,
-      belongsTo = _emberData.default.belongsTo;
+      belongsTo = _emberData.default.belongsTo,
+      attr = _emberData.default.attr;
   exports.default = Model.extend({
-    organization: belongsTo('organization')
+    completionPercentage: attr('string'),
+    score: attr('number'),
+    createdAt: attr('date'),
+    organization: belongsTo('organization'),
+    user: belongsTo('user')
   });
 });
 define('pix-live/models/solution', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -6165,13 +6450,13 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
 
   exports.default = Router;
 });
-define('pix-live/routes/application', ['exports'], function (exports) {
+define('pix-live/routes/application', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend({
+  exports.default = _baseRoute.default.extend({
     splash: Ember.inject.service(),
 
     activate: function activate() {
@@ -6339,13 +6624,14 @@ define('pix-live/routes/base-route', ['exports'], function (exports) {
     }
   });
 });
-define('pix-live/routes/board', ['exports', 'ember-simple-auth/mixins/authenticated-route-mixin'], function (exports, _authenticatedRouteMixin) {
+define('pix-live/routes/board', ['exports', 'ember-simple-auth/mixins/authenticated-route-mixin', 'pix-live/routes/base-route'], function (exports, _authenticatedRouteMixin, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend(_authenticatedRouteMixin.default, {
+  var RSVP = Ember.RSVP;
+  exports.default = _baseRoute.default.extend(_authenticatedRouteMixin.default, {
 
     authenticationRoute: '/connexion',
 
@@ -6360,7 +6646,9 @@ define('pix-live/routes/board', ['exports', 'ember-simple-auth/mixins/authentica
           return _this.transitionTo('compte');
         }
 
-        return user.get('organizations.firstObject');
+        return RSVP.hash({
+          organization: user.get('organizations.firstObject')
+        });
       }).catch(function (_) {
         _this.transitionTo('index');
       });
@@ -6496,13 +6784,13 @@ define('pix-live/routes/competences', ['exports', 'pix-live/routes/base-route'],
     }
   });
 });
-define('pix-live/routes/compte', ['exports', 'ember-simple-auth/mixins/authenticated-route-mixin'], function (exports, _authenticatedRouteMixin) {
+define('pix-live/routes/compte', ['exports', 'ember-simple-auth/mixins/authenticated-route-mixin', 'pix-live/routes/base-route'], function (exports, _authenticatedRouteMixin, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend(_authenticatedRouteMixin.default, {
+  exports.default = _baseRoute.default.extend(_authenticatedRouteMixin.default, {
 
     authenticationRoute: '/connexion',
     session: Ember.inject.service(),
@@ -6799,6 +7087,8 @@ define('pix-live/routes/index', ['exports', 'pix-live/routes/base-route', 'ember
           } else {
             _this.transitionTo('compte');
           }
+        }).catch(function (_) {
+          _this.transitionTo('logout');
         });
       }
     },
@@ -6819,13 +7109,13 @@ define('pix-live/routes/index', ['exports', 'pix-live/routes/base-route', 'ember
 
   });
 });
-define('pix-live/routes/inscription', ['exports', 'ember-simple-auth/mixins/unauthenticated-route-mixin'], function (exports, _unauthenticatedRouteMixin) {
+define('pix-live/routes/inscription', ['exports', 'ember-simple-auth/mixins/unauthenticated-route-mixin', 'pix-live/routes/base-route'], function (exports, _unauthenticatedRouteMixin, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend(_unauthenticatedRouteMixin.default, {
+  exports.default = _baseRoute.default.extend(_unauthenticatedRouteMixin.default, {
 
     session: Ember.inject.service(),
 
@@ -6860,21 +7150,21 @@ define('pix-live/routes/inscription', ['exports', 'ember-simple-auth/mixins/unau
     }
   });
 });
-define('pix-live/routes/legal-notices', ['exports'], function (exports) {
+define('pix-live/routes/legal-notices', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend({});
+  exports.default = _baseRoute.default.extend({});
 });
-define('pix-live/routes/login', ['exports', 'ember-simple-auth/mixins/unauthenticated-route-mixin'], function (exports, _unauthenticatedRouteMixin) {
+define('pix-live/routes/login', ['exports', 'ember-simple-auth/mixins/unauthenticated-route-mixin', 'pix-live/routes/base-route'], function (exports, _unauthenticatedRouteMixin, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend(_unauthenticatedRouteMixin.default, {
+  exports.default = _baseRoute.default.extend(_unauthenticatedRouteMixin.default, {
 
     session: Ember.inject.service(),
 
@@ -6904,13 +7194,13 @@ define('pix-live/routes/login', ['exports', 'ember-simple-auth/mixins/unauthenti
     return user.get('organizations.length') > 0;
   }
 });
-define('pix-live/routes/logout', ['exports'], function (exports) {
+define('pix-live/routes/logout', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend({
+  exports.default = _baseRoute.default.extend({
 
     session: Ember.inject.service(),
 
@@ -6954,13 +7244,13 @@ define('pix-live/routes/project', ['exports', 'pix-live/routes/base-route'], fun
   });
   exports.default = _baseRoute.default.extend({});
 });
-define('pix-live/routes/terms-of-service', ['exports'], function (exports) {
+define('pix-live/routes/terms-of-service', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend({});
+  exports.default = _baseRoute.default.extend({});
 });
 define('pix-live/serializers/challenge', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
@@ -7198,6 +7488,16 @@ define('pix-live/services/modal-dialog', ['exports', 'pix-live/config/environmen
     })
   });
 });
+define('pix-live/services/moment', ['exports', 'pix-live/config/environment', 'ember-moment/services/moment'], function (exports, _environment, _moment) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _moment.default.extend({
+    defaultFormat: Ember.get(_environment.default, 'moment.outputFormat')
+  });
+});
 define('pix-live/services/panel-actions', ['exports', 'ember-collapsible-panel/services/panel-actions'], function (exports, _panelActions) {
   'use strict';
 
@@ -7280,7 +7580,7 @@ define("pix-live/templates/board", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "OqCqiYpV", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"board-page\"],[7],[0,\"\\n\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"board-page__header\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation__text\"],[7],[0,\"Votre Organisation\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation__name\"],[7],[1,[20,[\"model\",\"name\"]],false],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"board-page__header-code\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__title\"],[7],[0,\"Code Organisation\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__text\"],[7],[1,[20,[\"model\",\"code\"]],false],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__comment\"],[7],[0,\"Communiquez ce code à vos élèves, étudiants ou collaborateurs et ils\\n        pourront partager leurs profils Pix avec vous.\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"board-page__profiles-title\"],[7],[0,\"Profils Partagés\"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"board-page__body\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"board-page__body-table\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__body-table__header\"],[7],[0,\"\\n        \"],[6,\"div\"],[7],[0,\"Nom\"],[8],[0,\"\\n        \"],[6,\"div\"],[7],[0,\"Prénom\"],[8],[0,\"\\n        \"],[6,\"div\"],[7],[0,\"Score Pix\"],[8],[0,\"\\n        \"],[6,\"div\"],[7],[0,\"% d'avancement\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__body-table__body\"],[7],[0,\"\\n        Aucun profil partagé pour le moment\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[1,[18,\"app-footer\"],false],[0,\"\\n\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/board.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "2VghSWu4", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"board-page\"],[7],[0,\"\\n\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"board-page__header\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation__text\"],[7],[0,\"Votre Organisation\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation__name\"],[7],[1,[20,[\"model\",\"organization\",\"name\"]],false],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"board-page__header-code\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__title\"],[7],[0,\"Code Organisation\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__text\"],[7],[1,[20,[\"model\",\"organization\",\"code\"]],false],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__comment\"],[7],[0,\"Communiquez ce code à vos élèves, étudiants ou collaborateurs et ils\\n        pourront partager leurs profils Pix avec vous.\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"board-page__profiles-title\"],[7],[0,\"Profils Partagés\"],[8],[0,\"\\n\\n  \"],[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"model\",\"organization\"]]]]],false],[0,\"\\n\\n  \"],[1,[18,\"app-footer\"],false],[0,\"\\n\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/board.hbs" } });
 });
 define("pix-live/templates/challenges/get-preview", ["exports"], function (exports) {
   "use strict";
@@ -7922,6 +8222,14 @@ define("pix-live/templates/components/signup-textfield", ["exports"], function (
   });
   exports.default = Ember.HTMLBars.template({ "id": "hPrgFICB", "block": "{\"symbols\":[],\"statements\":[[6,\"label\"],[10,\"for\",[26,[[18,\"textfieldName\"]]]],[9,\"class\",\"signup-textfield__label\"],[7],[1,[18,\"label\"],false],[8],[0,\"\\n\"],[4,\"if\",[[19,0,[\"hasIcon\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",[26,[\"signup-textfield__message \",[18,\"validationMessageClass\"],\" signup-textfield__message-\",[18,\"textfieldType\"],\"\\n\"]]],[9,\"role\",\"alert\"],[7],[1,[18,\"validationMessage\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[6,\"div\"],[10,\"class\",[26,[\"signup-textfield__input-field-container \",[18,\"inputContainerStatusClass\"]]]],[7],[0,\"\\n  \"],[1,[25,\"input\",[[25,\"-input-type\",[[19,0,[\"textfieldType\"]]],null]],[[\"type\",\"id\",\"value\",\"focus-out\",\"class\"],[[19,0,[\"textfieldType\"]],[19,0,[\"textfieldName\"]],[19,0,[\"inputBindingValue\"]],[25,\"action\",[[19,0,[]],\"validate\"],null],[25,\"concat\",[\"signup-textfield__input\",\" \",[25,\"if\",[[19,0,[\"inputValidationStatus\"]],[25,\"-normalize-class\",[\"inputValidationStatus\",[19,0,[\"inputValidationStatus\"]]],null]],null],\" \"],null]]]],false],[0,\"\\n\\n\\n\"],[4,\"if\",[[19,0,[\"hasIcon\"]]],null,{\"statements\":[[4,\"if\",[[25,\"eq\",[[19,0,[\"validationStatus\"]],\"error\"],null]],null,{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"src\",\"/images/icons/icon-error.svg\"],[9,\"class\",\"signup-textfield__icon signup-textfield__icon--error\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"src\",\"/images/icons/icon-success.svg\"],[9,\"class\",\"signup-textfield__icon signup-textfield__icon--success validation-icon-success\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-textfield.hbs" } });
 });
+define("pix-live/templates/components/snapshot-list", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "xgu7a6Uf", "block": "{\"symbols\":[\"snapshot\"],\"statements\":[[6,\"div\"],[9,\"class\",\"snapshot-list\"],[7],[0,\"\\n  \"],[6,\"table\"],[9,\"class\",\"snapshot-list__body-table\"],[7],[0,\"\\n    \"],[6,\"thead\"],[9,\"class\",\"snapshot-list__body-table__header\"],[7],[0,\"\\n    \"],[6,\"tr\"],[7],[0,\"\\n      \"],[6,\"td\"],[9,\"class\",\"snapshot-list__table-header-cell\"],[7],[0,\"Nom\"],[8],[0,\"\\n      \"],[6,\"td\"],[9,\"class\",\"snapshot-list__table-header-cell\"],[7],[0,\"Prénom\"],[8],[0,\"\\n      \"],[6,\"td\"],[9,\"class\",\"snapshot-list__table-header-cell\"],[7],[0,\"Date d'envoi\"],[8],[0,\"\\n      \"],[6,\"td\"],[9,\"class\",\"snapshot-list__table-header-cell\"],[7],[0,\"Score Pix\"],[8],[0,\"\\n      \"],[6,\"td\"],[9,\"class\",\"snapshot-list__table-header-cell\"],[7],[0,\"% d'avancement\"],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"tbody\"],[9,\"class\",\"snapshot-list__body-table__body\"],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"_hasSnapshots\"]]],null,{\"statements\":[[4,\"each\",[[19,0,[\"_snapshots\"]]],null,{\"statements\":[[0,\"          \"],[6,\"tr\"],[9,\"class\",\"snapshot-list__snapshot-item\"],[7],[0,\"\\n            \"],[6,\"td\"],[9,\"class\",\"snapshot-list__snapshot-item-cell\"],[7],[1,[19,1,[\"user\",\"lastName\"]],false],[8],[0,\"\\n            \"],[6,\"td\"],[9,\"class\",\"snapshot-list__snapshot-item-cell\"],[7],[1,[19,1,[\"user\",\"firstName\"]],false],[8],[0,\"\\n            \"],[6,\"td\"],[9,\"class\",\"snapshot-list__snapshot-item-cell\"],[7],[1,[25,\"moment-format\",[[19,1,[\"createdAt\"]],\"DD/MM/YYYY\"],null],false],[8],[0,\"\\n            \"],[6,\"td\"],[9,\"class\",\"snapshot-list__snapshot-item-cell\"],[7],[1,[19,1,[\"score\"]],false],[8],[0,\"\\n            \"],[6,\"td\"],[9,\"class\",\"snapshot-list__snapshot-item-cell\"],[7],[1,[19,1,[\"completionPercentage\"]],false],[0,\"%\"],[8],[0,\"\\n          \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[6,\"tr\"],[7],[0,\"\\n      \"],[6,\"td\"],[9,\"colspan\",\"5\"],[9,\"class\",\"snapshot-list__no-profile\"],[7],[0,\"Aucun profil partagé pour le moment\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"\\n    \"],[8],[0,\"\\n\\n  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/snapshot-list.hbs" } });
+});
 define("pix-live/templates/components/timeout-jauge", ["exports"], function (exports) {
   "use strict";
 
@@ -8088,7 +8396,7 @@ define("pix-live/templates/terms-of-service", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "xmITvWko", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"terms-of-service-page\"],[7],[0,\"\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"rounded-panel terms-of-service-page__content\"],[7],[0,\"\\n\\n    \"],[6,\"h1\"],[9,\"class\",\"terms-of-service-page__title\"],[7],[0,\"Conditions générales d'utilisation du site Pix\"],[8],[0,\"\\n    \"],[6,\"p\"],[9,\"class\",\"terms-of-service-page__subtitle\"],[7],[0,\"Toute utilisation du Site est soumise au préalable à la prise de connaissance et à l’acceptation des présentes Conditions Générales d’Utilisation.\"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--legal-notice\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"1. Notice légale\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le Site est édité par Groupement d’intérêt public « Pix »\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"SIRET : 130 023 435 00014\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Adresse : 110 rue de Grenelle 75007 PARIS\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Téléphone : 01 43 40 00 18\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Email :  contact@pix.beta.gouv.fr\"],[8],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"p\"],[7],[6,\"b\"],[7],[0,\"Directeur de publication :\"],[8],[0,\" M. Benjamin MARTEAU, Directeur du GIP Pix\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[6,\"b\"],[7],[0,\"Objet\"],[8],[8],[0,\"\\n      \"],[6,\"p\"],[7],[6,\"b\"],[7],[0,\"Pix\"],[8],[0,\" \"],[6,\"a\"],[9,\"href\",\"https://pix.beta.gouv.fr\"],[7],[0,\"https://pix.beta.gouv.fr\"],[8],[0,\" est un site visant à permettre l’évaluation et la certification des compétences numériques, et à faciliter l’accès à la formation sur ces compétences.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les conditions générales d’utilisation ont pour objet de définir les droits et obligations de tout Utilisateur du Site et de l’Éditeur.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--definitions\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"2. Définitions\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les termes ci-après définis ont le sens et la portée donnés dans leur définition dans le cadre de la conclusion et l’exécution des présentes Conditions Générales d’Utilisation.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Conditions Générales d’Utilisation » ou « CGU\"],[8],[0,\" » : les présentes Conditions Générales d’Utilisation, destinées à encadrer au plan contractuel l’utilisation du Site par tout Utilisateur.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Contenus informationnels\"],[8],[0,\" » : l’ensemble des textes, photographies, illustrations, à l’exception des contenus de test.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Contenus de test » ou « épreuves\"],[8],[0,\" » : les épreuves (énoncés, consignes, illustrations, documents à télécharger, etc.).\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Éditeur\"],[8],[0,\" » : désigne \"],[6,\"b\"],[7],[0,\"Groupement d’intérêt public « Pix »\"],[8],[0,\" qui édite le Site.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Hébergeur\"],[8],[0,\" » : désigne l’entreprise qui héberge les données pour le Service indiqué dans les \"],[4,\"link-to\",[\"legal-notices\"],null,{\"statements\":[[0,\"mentions légales\"]],\"parameters\":[]},null],[0,\".\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Site\"],[8],[0,\" » : le site internet Pix accessible à partir du lien \"],[6,\"a\"],[9,\"href\",\"https://pix.beta.gouv.fr\"],[7],[0,\"https://pix.beta.gouv.fr.\"],[8],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Service\"],[8],[0,\" » : le service Pix incluant le Service standard et le Service prescripteur.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Service standard\"],[8],[0,\" » : le service standard est celui qui permet à l’utilisateur de bénéficier directement de la fonction première du Site, c’est-à-dire évaluer et préparer la certification de ses propres compétences numériques et disposer d’un accès facilité à la formation permettant de les développer.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Service prescripteur\"],[8],[0,\" » : le service prescripteur est celui qui permet à un acteur d’opérer le suivi pédagogique de cohortes d’utilisateurs du Service standard.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Visiteur\"],[8],[0,\" » : tout usager du Site non doté d’un compte ou non connecté à son compte.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Utilisateur\"],[8],[0,\" » : tout usager du Site doté d’un compte et utilisant tout ou partie du Service.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Utilisateur standard\"],[8],[0,\" » : tout usager du Site doté d’un Compte standard.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Compte standard\"],[8],[0,\" » : compte utilisateur donnant accès au Service standard.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Utilisateur prescripteur\"],[8],[0,\" » : tout usager du Site doté d’un Compte prescripteur.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Compte prescripteur\"],[8],[0,\" » : compte utilisateur donnant accès au Service prescripteur.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--site-access\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"3. Accès au site\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le présent article a vocation à décrire les modalités et conditions d’accès au Site et au Service.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le Site est mis gratuitement à disposition de tout Visiteur et tout Utilisateur standard à partir de l’adresse \"],[6,\"a\"],[9,\"href\",\"https://pix.beta.gouv.fr\"],[7],[6,\"b\"],[7],[0,\"https://pix.beta.gouv.fr\"],[8],[8],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le Visiteur peut naviguer sur le Site pour la consultation des contenus informationnels d’ordre général sans nécessité de disposer d’un compte.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le Visiteur peut créer gratuitement un Compte standard et s’y connecter pour accéder au Service standard. Seule une personne physique peut créer un Compte standard, et elle doit en faire un usage personnel.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Pour accéder au Service prescripteur, le Visiteur doit obligatoirement s’adresser à l'Éditeur pour obtenir un Compte prescripteur dans le cadre d’une convention établie à cette occasion, après quoi il aura accès au Service prescripteur. L’Editeur se réserve le droit discrétionnaire de ne pas donner suite aux demandes de création de Compte prescripteur. Même si l’accès au Service prescripteur fait l’objet d’une convention avec une organisation ou entité, tout Compte prescripteur est associé à au moins une personne physique.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L'accès au Site et son utilisation par tout Utilisateur ou Visiteur sont soumis aux présentes CGU, aux lois en vigueur concernant l'utilisation d'Internet, et plus généralement au respect de toutes les lois applicables.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"La navigation au sein du Site emporte acceptation inconditionnelle des présentes CGU.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’accès d’un Utilisateur au Service pourra être révoqué s’il contrevient à l’une de ces dispositions.\"],[8],[0,\"\\n\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--headings-and-warnings\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"4. Rubriques et mises en garde associées\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le présent article a vocation à décrire et à émettre des mises en garde concernant les différents espaces du Site, les rubriques et les fonctionnalités associées, le cas échéant.\"],[8],[0,\"\\n\\n      \"],[6,\"h4\"],[9,\"class\",\"terms-of-service-section__subtitle\"],[7],[0,\"Mises en garde générales relatives au Site :\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les Utilisateurs ne peuvent utiliser le Site à d’autres fins que pour sa destination définie en objet des présentes CGU.\"],[8],[0,\"\\n\\n      \"],[6,\"h4\"],[9,\"class\",\"terms-of-service-section__subtitle\"],[7],[0,\"Mises en garde générales relatives aux contenus informationnels du Site :\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les Contenus informationnels du Site permettent de s’informer sur le projet Pix et sur le Service.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les informations formalisées et organisées dans le cadre des différentes rubriques du Site ont une vocation synthétique et ne sont en aucun cas présentées à titre exhaustif.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Malgré le soin apporté au traitement des informations, l’Editeur décline toute responsabilité concernant les erreurs, omissions ou défauts d’actualisation portant sur les informations diffusées sur ce Site. L’Editeur ne peut être tenu responsable de l'interprétation ou de l’utilisation des Contenus informationnels diffusés par l’intermédiaire du Site, ni des conséquences.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Utilisateur est seul responsable de l’utilisation des informations proposées via le Site, de toute décision prise et de toute action mise en œuvre à partir des informations contenues au sein du Site.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’utilisation des supports d’information accessibles dans le cadre du site se fait dans le respect des modalités d’utilisation du site, de ses contenus et de ses fonctionnalités.\"],[8],[0,\"\\n\\n      \"],[6,\"h4\"],[9,\"class\",\"terms-of-service-section__subtitle\"],[7],[0,\"Mises en garde relatives aux contenus de test du Site :\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les Contenus de test du Site sont soumis à un processus d'amélioration continue. L’Editeur utilise les statistiques issues du passage des tests par les Utilisateurs pour contribuer à ce processus.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur se réserve le droit de mettre à jour les Contenus de tests sans publicité ni préavis. L’Editeur ne pourra pas être tenu pour responsable des dommages éventuels faisant suite à ces modifications.\"],[8],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"terms-of-service-section__subsection\"],[7],[0,\"\\n        \"],[6,\"h3\"],[9,\"class\",\"terms-of-service-section__subsection-title\"],[7],[0,\"4.1. Accueil\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Dans cet espace, le Visiteur a accès à un ensemble d’informations sur le projet et le Service.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"terms-of-service-section__subsection\"],[7],[0,\"\\n        \"],[6,\"h3\"],[9,\"class\",\"terms-of-service-section__subsection-title\"],[7],[0,\"4.2. Ressources\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"L’Utilisateur standard a accès à des contenus de tests, vidéos, publications (actualités, informations, ...), liens vers des formations en ligne et tout autre contenu relatif aux compétences numériques.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"L’Utilisateur standard peut utiliser ces ressources à titre personnel pour appuyer sa démarche de développement de compétences numériques.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"terms-of-service-section__subsection\"],[7],[0,\"\\n        \"],[6,\"h3\"],[9,\"class\",\"terms-of-service-section__subsection-title\"],[7],[0,\"4.3. Abonnement à des lettres d’informations\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"L’Utilisateur peut bénéficier de lettres d’informations d’actualités, sur les différentes thématiques abordées dans le cadre du Site.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Les lettres d’informations sont accessibles sur inscription, laquelle nécessite de renseigner des données personnelles, dans le respect des dispositions de l’article relatif à la protection des données personnelles.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--obligations-and-responsabilities\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"5. Obligations générales et responsabilités  des Utilisateurs ou Visisiteurs\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"De manière générale, tout Utilisateur ou Visiteur s’engage à faire du Site un usage conforme à sa destination et à respecter de manière inconditionnelle l'ensemble de la législation applicable, et notamment :\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"le droit de la propriété intellectuelle et de la propriété industrielle ayant notamment prises sur les créations multimédias, les textes, les images de toute nature auxquels il a accès dans le cadre du Site ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"la loi n° 78-17 du 6 janvier 1978 relative à l'informatique, aux fichiers et aux libertés modifiée, dite loi Informatique et Libertés ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"le dispositif légal de protection contre la fraude informatique.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"En conséquence, l’Utilisateur ou Visiteur s’abstient de toute action ou tentative susceptible de porter atteinte à l’intégrité du Site, à sa disponibilité, ainsi plus généralement qu’aux droits de l’Editeur et à ce titre s’interdit :\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"de transmettre des virus, un cheval de Troie, des bombes logiques ou tout autre programme nuisible ou destructeur ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"d’entraver le Site par quelque moyen que ce soit ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"de reproduire et/ou utiliser la marque, la dénomination sociale, le logo ou tout signe distinctif et de manière générale toute donnée de quelque nature qu’elle soit, rédactionnel, graphique ou autre appartenant à l’Editeur, un de ses partenaires ou un tiers, sauf autorisation expresse de l’Editeur ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"de procéder ou même de tenter une intrusion au sein du Site ou du système d’information d’administration du Site, ou de modifier, totalement ou partiellement les éléments qui y sont contenus.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Utilisateur est, en tout état de cause, exclusivement responsable de l’utilisation qu’il fait du Site et de ses Contenus, et, de manière générale, de toute décision prise sur la base de ces Contenus.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--hypertext-links\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"6. Liens hypertexte\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"terms-of-service-section__subsection\"],[7],[0,\"\\n        \"],[6,\"h3\"],[9,\"class\",\"terms-of-service-section__subsection-title\"],[7],[0,\"6.1. A partir du Site\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"L’Editeur n’est en aucun cas responsable du contenu des sites vers lesquels des liens sont faits.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Leur présence ne signifie en aucune manière que l’Editeur adhère ou valide leur contenu ou accepte une responsabilité quelconque pour le contenu ou l'utilisation de ces sites tiers.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Les liens sont proposés à titre strictement indicatif par l’Editeur, et utilisés par les Utilisateurs sous leur responsabilité exclusive, sans aucune démarche de certification des sites concernés de la part de l’Editeur.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Chaque Utilisateur accède aux sites tiers sous sa seule et entière responsabilité, y compris lorsque des liens ont été proposés à partir du Site.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"terms-of-service-section__subsection\"],[7],[0,\"\\n        \"],[6,\"h3\"],[9,\"class\",\"terms-of-service-section__subsection-title\"],[7],[0,\"6.2. Vers le Site\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Toute mise en œuvre d’un lien vers une page du Site correspondant à un Contenu de test requiert l’autorisation expresse et préalable de l’Editeur qui peut être sollicité à l’adresse électronique suivante : contact@pix.beta.gouv.fr.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--intellectual-property\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"7. Propriété intellectuelle\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"La marque, l’ensemble des Contenus de test et les bases de données sont la propriété exclusive de l’Editeur et sont protégés par le Code français de la propriété intellectuelle et plus généralement par les traités et accords internationaux comportant des dispositions relatives à la protection des droits d'auteur, des producteurs de bases de données et des droits de propriété intellectuelle.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’ensemble des Contenus informationnels du Site peuvent être utilisés par les Visiteurs et Utilisateurs pour leur information et usage personnels, et à des fins de promotion du Site et du Service. Les contenus informationnels relatifs à la description des compétences (notamment le référentiel) sont soumis à la licence Creative Commons CC BY (l’auteur à citer est pix.beta.gouv.fr).\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Toute autre forme d'utilisation des contenus en fraude des droits de l’Editeur constituerait une contrefaçon sanctionnée notamment par les articles L.335-2 et suivants du Code de la propriété intellectuelle français susceptible d’exposer les auteurs de ces agissements à des poursuites judiciaires civiles et pénales.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur se réserve le droit de prendre toutes les mesures qu'il juge adéquates afin d'empêcher ou de mettre un terme à l'atteinte à ses droits d'auteurs ou aux droits d'auteurs de tiers, sans qu'aucune responsabilité ne puisse lui être imputée en raison de ces mesures.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--data-protection\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"8. Protection des données\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Des données à caractère personnel concernant l’Utilisateur (en ce compris des données relatives à l’état civil et éventuellement portant sur la vie personnelle, à l’exclusion de toute donnée de santé au sens de l’article 8 de la loi n° 78-17 du 6 janvier 1978 relative à l'informatique, aux fichiers et aux libertés modifiée, dite loi Informatique et Libertés et de l’article L.1111-8 du Code de la santé publique) sont collectées et traitées :\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"dans le cadre de la création d’un Compte standard ou prescripteur ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"dans le cadre de l’utilisation du Service ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"dans le cadre de l’inscription à une lettre d’information.\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"dans le cadre de l’émission de commentaires (retours d’usage ou feedback utilisateur) ;\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"À ce titre, \"],[6,\"b\"],[7],[0,\"l’Editeur\"],[8],[0,\" revêt la qualité de responsable de traitement au sens de la Loi Informatique et Libertés et a procédé à une formalité de désignation d’un Correspondant Informatique et Libertés auprès de la Commission Nationale de l’Informatique et des Libertés.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les informations concernant les Utilisateurs sont destinées exclusivement :\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"à leur propre usage conformément à l’objet du Site ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"à l’amélioration des performances du Site et du Service ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"à leur donner accès, de façon optionnelle et à leur discrétion, à des fonctionnalités de partage en direction de tiers ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"à des fins de statistiques anonymes.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Lorsqu’un Utilisateur standard décide du partage de données personnelles depuis son Compte standard vers un Compte prescripteur, le transfert est opéré par l’Editeur dans le cadre suivant :\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"le tiers titulaire du Compte prescripteur s’engage à respecter la charte dressée dans la convention établie en amont lors de la création du Compte prescripteur ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"cette charte est  accessible à l’Utilisateur standard qui peut la consulter avant de déclencher l’opération de partage.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les données personnelles sont stockées sur les bases de données de l’Editeur chez l’Hébergeur. L’Editeur s’engage à ce que les données personnelles soient stockées en France.\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"La durée de conservation des données personnelles est établie de façon différenciée selon la finalité de leur collecte, et selon les principes suivants :\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"les données personnelles nécessaires à la création d’un compte sont conservées pour la durée d’utilisation du Service ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"les données personnelles résultant de l’évaluation des compétences numériques de l’Utilisateur standard sont conservées pour la durée d’utilisation du Service ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"les données personnelles résultant de la certification des compétences numériques de l’Utilisateur standard sont conservées pour une durée cohérente avec la valeur probante du document qui les recèle.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Conformément à la loi Informatique et Libertés, l’Utilisateur dispose d'un droit d'accès, d’opposition,  de rectification et de suppression des données à caractère personnel le concernant.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Pour exercer ces droits, l’Utilisateur doit contacter le Correspondant Informatique et Libertés habilité à répondre aux demandes d’exercice des droits des Utilisateurs, via l’adresse électronique suivante : cil.pix@beta.gouv.fr.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"La demande doit préciser les noms, prénom, et adresse électronique de l’Utilisateur et être accompagnée d’une copie de la pièce d’identité de l’Utilisateur, conformément à la réglementation en vigueur.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur met en œuvre toutes les mesures de sécurité afin de garantir la protection et la sécurité des données des Utilisateurs.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Utilisateur dispose également du droit de définir des directives générales relatives à la conservation, à l'effacement et à la communication de ses données à caractère personnel après son décès qui peuvent être enregistrées auprès d'un tiers de confiance numérique certifié par la CNIL, et de directives particulières, concernant les traitements de données à caractère personnel mentionnées par ces directives, qui peuvent être enregistrées auprès de l’Editeur à l’adresse susmentionnée et qui font l’objet de son consentement spécifique à ce titre.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--cookies\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"9. Cookies\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"terms-of-service-section__subsection\"],[7],[0,\"\\n        \"],[6,\"h3\"],[9,\"class\",\"terms-of-service-section__subsection-title\"],[7],[0,\"9.1. Cookies utilisés\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Un cookie est un petit fichier alphanumérique qui est déposé dans le terminal de l’ordinateur, smartphone, tablette, mobile, etc, de l’Utilisateur, lors de sa connexion au Site.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Le Site n’utilise pas les Cookies pour son fonctionnement à l’exception d’un suivi statistique des visites.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"L’Utilisateur ou Visiteur peut à tout moment désactiver l’usage des cookies dans son navigateur sans altérer le fonctionnement du Site.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Les informations collectées sont à l’usage exclusif de l’Editeur, et ne sont en aucun cas cédées à des tiers.\"],[8],[0,\"\\n\\n      \"],[8],[0,\"\\n\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--limitations-of-liability\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"10. Limitations de responsabilité\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Autant que possible, l’Editeur intègre au sein du Site des Contenus précis et fiables mais ne fournit aucune garantie quant à leur exhaustivité et leur mise à jour. Ces contenus sont fournis à titre indicatif.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le Site ne saurait être tenu responsable des dommages directs ou indirects, qui pourraient résulter de l’accès au Site ou de l’utilisation et/ou de l’interprétation de ses Contenus, et de ses fonctionnalités, quelle qu’en soit la nature.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"En outre, l’Editeur décline toute responsabilité en cas de dommages subis par l’Utilisateur à raison notamment de la perte, de la détérioration ou de l’altération de fichiers ou tout autre bien à l’occasion de la connexion et/ou de la consultation et/ou de l’utilisation du Site, de ses fonctionnalités et de ses Contenus.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"S’agissant de l’accès aux supports d’information, compte tenu des aléas techniques inhérents à l’Internet, l’Editeur ne fournit aucune garantie d’accès et de continuité au Site.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"En cas d’interruption de l’accès au Site, quelle qu’en soit la cause (opération de maintenance en cours, incident sur le réseau Internet ou autre), l’Editeur s’engage à mettre en œuvre les actions nécessaires au rétablissement de l’accès au Site, dans les meilleurs délais et à la bonne information des utilisateurs ou visiteurs.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur fera ses meilleurs efforts pour rendre le Site accessible 24 heures sur 24 et 7 jours sur 7, mais ne saurait en aucun cas engager sa responsabilité à ce titre.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--security\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"11. Sécurité\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"D’une manière générale, la sécurité du Site impose aux Utilisateurs d'avertir l’Editeur à l’adresse \"],[6,\"a\"],[9,\"href\",\"mailto:contact@pix.beta.gouv.fr\"],[7],[0,\"contact@pix.beta.gouv.fr\"],[8],[0,\" de tout dysfonctionnement technique constaté et de toute anomalie découverte, telle que les intrusions.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur ne pourra pas être tenu pour responsable des dommages résultant des défauts de communication entre les serveurs loués chez l’Hébergeur et le dispositif utilisé pour accéder au Site.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur ne pourra pas être tenu pour responsable des dommages résultant des défauts des dispositifs logiciels et matériels utilisés pour accéder au Site.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur ne pourra être tenu pour responsable des dommages résultant de bug(s), voire de tout programme ou d'application qui serait incompatible avec l'infrastructure utilisée par l'Utilisateur, ni des dommages subis par l'Utilisateur par le fait d'une panne, interruption ou erreur, évolution, remise en état, contrôle, maintenance, problème technique, coupure du réseau internet ou des réseaux ou services liés, surcharge, négligence ou faute de tiers ou de l'Utilisateur, ainsi qu'en cas d'évènements indépendants de la volonté de l’Editeur.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Chaque Utilisateur est responsable de la mise en œuvre au sein de son ordinateur ou de son équipement mobile une solution et des mesures de sécurité de nature à prévenir la propagation de virus.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--modifications\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"12. Modifications\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur se réserve le droit de modifier à tout moment les présentes CGU ou les règles concernant l’utilisation du Site ainsi que le Site et ses Contenus. Chaque nouvelle version des présentes CGU sera mise en ligne au sein du Site. L’Editeur s’engager à assurer la bonne information des Utilisateurs sur ces modifications. Le fait de continuer à utiliser le Site après toute modification des CGU entraîne l’acceptation des modifications des CGU.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur se réserve en outre le droit de faire évoluer le Site et ses Contenus. Des modifications techniques pourront intervenir sans préavis de la part de l’Editeur. L’Editeur s’engage à rendre publique chacune des modifications et améliorations techniques apportées.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur se réserve le droit de suspendre provisoirement ou définitivement l’accès au Site, sans délai, ni contrepartie de quelque nature que ce soit.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--french-law\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"13. Loi française\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le Site et les Contenus sont destinés à l’Utilisation de résidents français et sont créés conformément aux règles applicables en France.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les présentes CGU sont régies par la loi française. Les résidents étrangers acceptent expressément l’application de la loi française en visitant le Site et en utilisant tout ou partie des fonctionnalités du Site et sont informés que les autres pays peuvent avoir des réglementations différentes de la réglementation française.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"En conséquence, les Utilisateurs reconnaissent que toute information y figurant est susceptible de ne pas être complète ou compatible ou appropriée en dehors de la France.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Tout litige relatif au Site ou en relation avec son utilisation sera soumis, à défaut de règlement amiable, aux tribunaux français.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Si une ou plusieurs stipulations des CGU sont tenues pour non valides ou déclarées telle en application d'une loi, d'un règlement ou à la suite d'une décision définitive d'une juridiction compétente, les autres stipulations gardent toute leur force et leur portée.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/terms-of-service.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "nZtYCV1b", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"terms-of-service-page\"],[7],[0,\"\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"rounded-panel terms-of-service-page__content\"],[7],[0,\"\\n\\n    \"],[6,\"h1\"],[9,\"class\",\"terms-of-service-page__title\"],[7],[0,\"Conditions générales d'utilisation du site Pix\"],[8],[0,\"\\n    \"],[6,\"p\"],[9,\"class\",\"terms-of-service-page__subtitle\"],[7],[0,\"Toute utilisation du Site est soumise au préalable à la prise de connaissance et à l’acceptation des présentes Conditions Générales d’Utilisation.\"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--legal-notice\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"1. Notice légale\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le Site est édité par Groupement d’intérêt public « Pix »\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"SIRET : 130 023 435 00014\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Adresse : 110 rue de Grenelle 75007 PARIS\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Téléphone : 01 43 40 00 18\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Email :  contact@pix.beta.gouv.fr\"],[8],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"p\"],[7],[6,\"b\"],[7],[0,\"Directeur de publication :\"],[8],[0,\" M. Benjamin MARTEAU, Directeur du GIP Pix\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[6,\"b\"],[7],[0,\"Objet\"],[8],[8],[0,\"\\n      \"],[6,\"p\"],[7],[6,\"b\"],[7],[0,\"Pix\"],[8],[0,\" \"],[6,\"a\"],[9,\"href\",\"https://pix.beta.gouv.fr\"],[7],[0,\"https://pix.beta.gouv.fr\"],[8],[0,\" est un site visant à permettre l’évaluation et la certification des compétences numériques, et à faciliter l’accès à la formation sur ces compétences.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les conditions générales d’utilisation ont pour objet de définir les droits et obligations de tout Utilisateur du Site et de l’Éditeur.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--definitions\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"2. Définitions\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les termes ci-après définis ont le sens et la portée donnés dans leur définition dans le cadre de la conclusion et l’exécution des présentes Conditions Générales d’Utilisation.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Conditions Générales d’Utilisation » ou « CGU\"],[8],[0,\" » : les présentes Conditions Générales d’Utilisation, destinées à encadrer au plan contractuel l’utilisation du Site par tout Utilisateur.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Contenus informationnels\"],[8],[0,\" » : l’ensemble des textes, photographies, illustrations, à l’exception des contenus de test.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Contenus de test » ou « épreuves\"],[8],[0,\" » : les épreuves (énoncés, consignes, illustrations, documents à télécharger, etc.).\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Éditeur\"],[8],[0,\" » : désigne \"],[6,\"b\"],[7],[0,\"Groupement d’intérêt public « Pix »\"],[8],[0,\" qui édite le Site.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Hébergeur\"],[8],[0,\" » : désigne l’entreprise qui héberge les données pour le Service indiqué dans les \"],[4,\"link-to\",[\"legal-notices\"],null,{\"statements\":[[0,\"mentions légales\"]],\"parameters\":[]},null],[0,\".\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Site\"],[8],[0,\" » : le site internet Pix accessible à partir du lien \"],[6,\"a\"],[9,\"href\",\"https://pix.beta.gouv.fr\"],[7],[0,\"https://pix.beta.gouv.fr.\"],[8],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Service\"],[8],[0,\" » : le service Pix incluant le Service standard et le Service prescripteur.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Service standard\"],[8],[0,\" » : le service standard est celui qui permet à l’utilisateur de bénéficier directement de la fonction première du Site, c’est-à-dire évaluer et préparer la certification de ses propres compétences numériques et disposer d’un accès facilité à la formation permettant de les développer.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Service prescripteur\"],[8],[0,\" » : le service prescripteur est celui qui permet à un acteur d’opérer le suivi pédagogique de cohortes d’utilisateurs du Service standard.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Visiteur\"],[8],[0,\" » : tout usager du Site non doté d’un compte ou non connecté à son compte.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Utilisateur\"],[8],[0,\" » : tout usager du Site doté d’un compte et utilisant tout ou partie du Service.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Utilisateur standard\"],[8],[0,\" » : tout usager du Site doté d’un Compte standard.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Compte standard\"],[8],[0,\" » : compte utilisateur donnant accès au Service standard.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Utilisateur prescripteur\"],[8],[0,\" » : tout usager du Site doté d’un Compte prescripteur.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"« \"],[6,\"span\"],[9,\"class\",\"terms-of-service__definition\"],[7],[0,\"Compte prescripteur\"],[8],[0,\" » : compte utilisateur donnant accès au Service prescripteur.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--site-access\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"3. Accès au site\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le présent article a vocation à décrire les modalités et conditions d’accès au Site et au Service.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le Site est mis gratuitement à disposition de tout Visiteur et tout Utilisateur standard à partir de l’adresse \"],[6,\"a\"],[9,\"href\",\"https://pix.beta.gouv.fr\"],[7],[6,\"b\"],[7],[0,\"https://pix.beta.gouv.fr\"],[8],[8],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le Visiteur peut naviguer sur le Site pour la consultation des contenus informationnels d’ordre général sans nécessité de disposer d’un compte.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le Visiteur peut créer gratuitement un Compte standard et s’y connecter pour accéder au Service standard. Seule une personne physique peut créer un Compte standard, et elle doit en faire un usage personnel.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Pour accéder au Service prescripteur, le Visiteur doit obligatoirement s’adresser à l'Éditeur pour obtenir un Compte prescripteur dans le cadre d’une convention établie à cette occasion, après quoi il aura accès au Service prescripteur. L’Editeur se réserve le droit discrétionnaire de ne pas donner suite aux demandes de création de Compte prescripteur. Même si l’accès au Service prescripteur fait l’objet d’une convention avec une organisation ou entité, tout Compte prescripteur est associé à au moins une personne physique.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L'accès au Site et son utilisation par tout Utilisateur ou Visiteur sont soumis aux présentes CGU, aux lois en vigueur concernant l'utilisation d'Internet, et plus généralement au respect de toutes les lois applicables.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"La navigation au sein du Site emporte acceptation inconditionnelle des présentes CGU.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’accès d’un Utilisateur au Service pourra être révoqué s’il contrevient à l’une de ces dispositions.\"],[8],[0,\"\\n\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--headings-and-warnings\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"4. Rubriques et mises en garde associées\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le présent article a vocation à décrire et à émettre des mises en garde concernant les différents espaces du Site, les rubriques et les fonctionnalités associées, le cas échéant.\"],[8],[0,\"\\n\\n      \"],[6,\"h4\"],[9,\"class\",\"terms-of-service-section__subtitle\"],[7],[0,\"Mises en garde générales relatives au Site :\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les Utilisateurs ne peuvent utiliser le Site à d’autres fins que pour sa destination définie en objet des présentes CGU.\"],[8],[0,\"\\n\\n      \"],[6,\"h4\"],[9,\"class\",\"terms-of-service-section__subtitle\"],[7],[0,\"Mises en garde générales relatives aux contenus informationnels du Site :\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les Contenus informationnels du Site permettent de s’informer sur le projet Pix et sur le Service.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les informations formalisées et organisées dans le cadre des différentes rubriques du Site ont une vocation synthétique et ne sont en aucun cas présentées à titre exhaustif.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Malgré le soin apporté au traitement des informations, l’Editeur décline toute responsabilité concernant les erreurs, omissions ou défauts d’actualisation portant sur les informations diffusées sur ce Site. L’Editeur ne peut être tenu responsable de l'interprétation ou de l’utilisation des Contenus informationnels diffusés par l’intermédiaire du Site, ni des conséquences.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Utilisateur est seul responsable de l’utilisation des informations proposées via le Site, de toute décision prise et de toute action mise en œuvre à partir des informations contenues au sein du Site.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’utilisation des supports d’information accessibles dans le cadre du site se fait dans le respect des modalités d’utilisation du site, de ses contenus et de ses fonctionnalités.\"],[8],[0,\"\\n\\n      \"],[6,\"h4\"],[9,\"class\",\"terms-of-service-section__subtitle\"],[7],[0,\"Mises en garde relatives aux contenus de test du Site :\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les Contenus de test du Site sont soumis à un processus d'amélioration continue. L’Editeur utilise les statistiques issues du passage des tests par les Utilisateurs pour contribuer à ce processus.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur se réserve le droit de mettre à jour les Contenus de tests sans publicité ni préavis. L’Editeur ne pourra pas être tenu pour responsable des dommages éventuels faisant suite à ces modifications.\"],[8],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"terms-of-service-section__subsection\"],[7],[0,\"\\n        \"],[6,\"h3\"],[9,\"class\",\"terms-of-service-section__subsection-title\"],[7],[0,\"4.1. Accueil\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Dans cet espace, le Visiteur a accès à un ensemble d’informations sur le projet et le Service.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"terms-of-service-section__subsection\"],[7],[0,\"\\n        \"],[6,\"h3\"],[9,\"class\",\"terms-of-service-section__subsection-title\"],[7],[0,\"4.2. Ressources\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"L’Utilisateur standard a accès à des contenus de tests, vidéos, publications (actualités, informations, ...), liens vers des formations en ligne et tout autre contenu relatif aux compétences numériques.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"L’Utilisateur standard peut utiliser ces ressources à titre personnel pour appuyer sa démarche de développement de compétences numériques.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"terms-of-service-section__subsection\"],[7],[0,\"\\n        \"],[6,\"h3\"],[9,\"class\",\"terms-of-service-section__subsection-title\"],[7],[0,\"4.3. Abonnement à des lettres d’informations\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"L’Utilisateur peut bénéficier de lettres d’informations d’actualités, sur les différentes thématiques abordées dans le cadre du Site.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Les lettres d’informations sont accessibles sur inscription, laquelle nécessite de renseigner des données personnelles, dans le respect des dispositions de l’article relatif à la protection des données personnelles.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--obligations-and-responsabilities\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"5. Obligations générales et responsabilités  des Utilisateurs ou Visisiteurs\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"De manière générale, tout Utilisateur ou Visiteur s’engage à faire du Site un usage conforme à sa destination et à respecter de manière inconditionnelle l'ensemble de la législation applicable, et notamment :\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"le droit de la propriété intellectuelle et de la propriété industrielle ayant notamment prises sur les créations multimédias, les textes, les images de toute nature auxquels il a accès dans le cadre du Site ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"la loi n° 78-17 du 6 janvier 1978 relative à l'informatique, aux fichiers et aux libertés modifiée, dite loi Informatique et Libertés ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"le dispositif légal de protection contre la fraude informatique.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"En conséquence, l’Utilisateur ou Visiteur s’abstient de toute action ou tentative susceptible de porter atteinte à l’intégrité du Site, à sa disponibilité, ainsi plus généralement qu’aux droits de l’Editeur et à ce titre s’interdit :\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"de transmettre des virus, un cheval de Troie, des bombes logiques ou tout autre programme nuisible ou destructeur ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"d’entraver le Site par quelque moyen que ce soit ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"de reproduire et/ou utiliser la marque, la dénomination sociale, le logo ou tout signe distinctif et de manière générale toute donnée de quelque nature qu’elle soit, rédactionnel, graphique ou autre appartenant à l’Editeur, un de ses partenaires ou un tiers, sauf autorisation expresse de l’Editeur ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"de procéder ou même de tenter une intrusion au sein du Site ou du système d’information d’administration du Site, ou de modifier, totalement ou partiellement les éléments qui y sont contenus.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Utilisateur est, en tout état de cause, exclusivement responsable de l’utilisation qu’il fait du Site et de ses Contenus, et, de manière générale, de toute décision prise sur la base de ces Contenus.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--hypertext-links\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"6. Liens hypertexte\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"terms-of-service-section__subsection\"],[7],[0,\"\\n        \"],[6,\"h3\"],[9,\"class\",\"terms-of-service-section__subsection-title\"],[7],[0,\"6.1. A partir du Site\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"L’Editeur n’est en aucun cas responsable du contenu des sites vers lesquels des liens sont faits.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Leur présence ne signifie en aucune manière que l’Editeur adhère ou valide leur contenu ou accepte une responsabilité quelconque pour le contenu ou l'utilisation de ces sites tiers.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Les liens sont proposés à titre strictement indicatif par l’Editeur, et utilisés par les Utilisateurs sous leur responsabilité exclusive, sans aucune démarche de certification des sites concernés de la part de l’Editeur.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Chaque Utilisateur accède aux sites tiers sous sa seule et entière responsabilité, y compris lorsque des liens ont été proposés à partir du Site.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"terms-of-service-section__subsection\"],[7],[0,\"\\n        \"],[6,\"h3\"],[9,\"class\",\"terms-of-service-section__subsection-title\"],[7],[0,\"6.2. Vers le Site\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Toute mise en œuvre d’un lien vers une page du Site correspondant à un Contenu de test requiert l’autorisation expresse et préalable de l’Editeur qui peut être sollicité à l’adresse électronique suivante : contact@pix.beta.gouv.fr.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--intellectual-property\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"7. Propriété intellectuelle\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"La marque, l’ensemble des Contenus de test et les bases de données sont la propriété exclusive de l’Editeur et sont protégés par le Code français de la propriété intellectuelle et plus généralement par les traités et accords internationaux comportant des dispositions relatives à la protection des droits d'auteur, des producteurs de bases de données et des droits de propriété intellectuelle.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’ensemble des Contenus informationnels du Site peuvent être utilisés par les Visiteurs et Utilisateurs pour leur information et usage personnels, et à des fins de promotion du Site et du Service. Les contenus informationnels relatifs à la description des compétences (notamment le référentiel) sont soumis à la licence Creative Commons CC BY (l’auteur à citer est pix.beta.gouv.fr).\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Toute autre forme d'utilisation des contenus en fraude des droits de l’Editeur constituerait une contrefaçon sanctionnée notamment par les articles L.335-2 et suivants du Code de la propriété intellectuelle français susceptible d’exposer les auteurs de ces agissements à des poursuites judiciaires civiles et pénales.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur se réserve le droit de prendre toutes les mesures qu'il juge adéquates afin d'empêcher ou de mettre un terme à l'atteinte à ses droits d'auteurs ou aux droits d'auteurs de tiers, sans qu'aucune responsabilité ne puisse lui être imputée en raison de ces mesures.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--data-protection\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"8. Protection des données\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Des données à caractère personnel concernant l’Utilisateur (en ce compris des données relatives à l’état civil et éventuellement portant sur la vie personnelle, à l’exclusion de toute donnée de santé au sens de l’article 8 de la loi n° 78-17 du 6 janvier 1978 relative à l'informatique, aux fichiers et aux libertés modifiée, dite loi Informatique et Libertés et de l’article L.1111-8 du Code de la santé publique) sont collectées et traitées :\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"dans le cadre de la création d’un Compte standard ou prescripteur ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"dans le cadre de l’utilisation du Service ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"dans le cadre de l’inscription à une lettre d’information.\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"dans le cadre de l’émission de commentaires (retours d’usage ou feedback utilisateur) ;\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"À ce titre, \"],[6,\"b\"],[7],[0,\"l’Editeur\"],[8],[0,\" revêt la qualité de responsable de traitement au sens de la Loi Informatique et Libertés et a procédé à une formalité de désignation d’un Correspondant Informatique et Libertés auprès de la Commission Nationale de l’Informatique et des Libertés.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les informations concernant les Utilisateurs sont destinées exclusivement :\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"à leur propre usage conformément à l’objet du Site ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"à l’amélioration des performances du Site et du Service ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"à leur donner accès, de façon optionnelle et à leur discrétion, à des fonctionnalités de partage en direction de tiers ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"à des fins de statistiques anonymes.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Lorsqu’un Utilisateur standard décide du partage de données personnelles depuis son Compte standard vers un Compte prescripteur, le transfert est opéré par l’Editeur dans le cadre suivant :\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"le tiers titulaire du Compte prescripteur s’engage à respecter la charte dressée dans la convention établie en amont lors de la création du Compte prescripteur ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"cette charte est  accessible à l’Utilisateur standard qui peut la consulter avant de déclencher l’opération de partage.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les données personnelles sont stockées sur les bases de données de l’Editeur chez l’Hébergeur. L’Editeur s’engage à ce que les données personnelles soient stockées en France.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"La durée de conservation des données personnelles est établie de façon différenciée selon la finalité de leur collecte, et selon les principes suivants :\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"les données personnelles nécessaires à la création d’un compte sont conservées pour la durée d’utilisation du Service ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"les données personnelles résultant de l’évaluation des compétences numériques de l’Utilisateur standard sont conservées pour la durée d’utilisation du Service ;\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"les données personnelles résultant de la certification des compétences numériques de l’Utilisateur standard sont conservées pour une durée cohérente avec la valeur probante du document qui les recèle.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Conformément à la loi Informatique et Libertés, l’Utilisateur dispose d'un droit d'accès, d’opposition,  de rectification et de suppression des données à caractère personnel le concernant.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Pour exercer ces droits, l’Utilisateur doit contacter le Correspondant Informatique et Libertés habilité à répondre aux demandes d’exercice des droits des Utilisateurs, via l’adresse électronique suivante : cil.pix@beta.gouv.fr.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"La demande doit préciser les noms, prénom, et adresse électronique de l’Utilisateur et être accompagnée d’une copie de la pièce d’identité de l’Utilisateur, conformément à la réglementation en vigueur.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur met en œuvre toutes les mesures de sécurité afin de garantir la protection et la sécurité des données des Utilisateurs.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Utilisateur dispose également du droit de définir des directives générales relatives à la conservation, à l'effacement et à la communication de ses données à caractère personnel après son décès qui peuvent être enregistrées auprès d'un tiers de confiance numérique certifié par la CNIL, et de directives particulières, concernant les traitements de données à caractère personnel mentionnées par ces directives, qui peuvent être enregistrées auprès de l’Editeur à l’adresse susmentionnée et qui font l’objet de son consentement spécifique à ce titre.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--cookies\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"9. Cookies\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"terms-of-service-section__subsection\"],[7],[0,\"\\n        \"],[6,\"h3\"],[9,\"class\",\"terms-of-service-section__subsection-title\"],[7],[0,\"9.1. Cookies utilisés\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Un cookie est un petit fichier alphanumérique qui est déposé dans le terminal de l’ordinateur, smartphone, tablette, mobile, etc, de l’Utilisateur, lors de sa connexion au Site.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Le Site n’utilise pas les Cookies pour son fonctionnement à l’exception d’un suivi statistique des visites.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"L’Utilisateur ou Visiteur peut à tout moment désactiver l’usage des cookies dans son navigateur sans altérer le fonctionnement du Site.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Les informations collectées sont à l’usage exclusif de l’Editeur, et ne sont en aucun cas cédées à des tiers.\"],[8],[0,\"\\n\\n      \"],[8],[0,\"\\n\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--limitations-of-liability\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"10. Limitations de responsabilité\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Autant que possible, l’Editeur intègre au sein du Site des Contenus précis et fiables mais ne fournit aucune garantie quant à leur exhaustivité et leur mise à jour. Ces contenus sont fournis à titre indicatif.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le Site ne saurait être tenu responsable des dommages directs ou indirects, qui pourraient résulter de l’accès au Site ou de l’utilisation et/ou de l’interprétation de ses Contenus, et de ses fonctionnalités, quelle qu’en soit la nature.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"En outre, l’Editeur décline toute responsabilité en cas de dommages subis par l’Utilisateur à raison notamment de la perte, de la détérioration ou de l’altération de fichiers ou tout autre bien à l’occasion de la connexion et/ou de la consultation et/ou de l’utilisation du Site, de ses fonctionnalités et de ses Contenus.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"S’agissant de l’accès aux supports d’information, compte tenu des aléas techniques inhérents à l’Internet, l’Editeur ne fournit aucune garantie d’accès et de continuité au Site.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"En cas d’interruption de l’accès au Site, quelle qu’en soit la cause (opération de maintenance en cours, incident sur le réseau Internet ou autre), l’Editeur s’engage à mettre en œuvre les actions nécessaires au rétablissement de l’accès au Site, dans les meilleurs délais et à la bonne information des utilisateurs ou visiteurs.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur fera ses meilleurs efforts pour rendre le Site accessible 24 heures sur 24 et 7 jours sur 7, mais ne saurait en aucun cas engager sa responsabilité à ce titre.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--security\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"11. Sécurité\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"D’une manière générale, la sécurité du Site impose aux Utilisateurs d'avertir l’Editeur à l’adresse \"],[6,\"a\"],[9,\"href\",\"mailto:contact@pix.beta.gouv.fr\"],[7],[0,\"contact@pix.beta.gouv.fr\"],[8],[0,\" de tout dysfonctionnement technique constaté et de toute anomalie découverte, telle que les intrusions.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur ne pourra pas être tenu pour responsable des dommages résultant des défauts de communication entre les serveurs loués chez l’Hébergeur et le dispositif utilisé pour accéder au Site.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur ne pourra pas être tenu pour responsable des dommages résultant des défauts des dispositifs logiciels et matériels utilisés pour accéder au Site.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur ne pourra être tenu pour responsable des dommages résultant de bug(s), voire de tout programme ou d'application qui serait incompatible avec l'infrastructure utilisée par l'Utilisateur, ni des dommages subis par l'Utilisateur par le fait d'une panne, interruption ou erreur, évolution, remise en état, contrôle, maintenance, problème technique, coupure du réseau internet ou des réseaux ou services liés, surcharge, négligence ou faute de tiers ou de l'Utilisateur, ainsi qu'en cas d'évènements indépendants de la volonté de l’Editeur.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Chaque Utilisateur est responsable de la mise en œuvre au sein de son ordinateur ou de son équipement mobile une solution et des mesures de sécurité de nature à prévenir la propagation de virus.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--modifications\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"12. Modifications\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur se réserve le droit de modifier à tout moment les présentes CGU ou les règles concernant l’utilisation du Site ainsi que le Site et ses Contenus. Chaque nouvelle version des présentes CGU sera mise en ligne au sein du Site. L’Editeur s’engage à assurer la bonne information des Utilisateurs sur ces modifications. Le fait de continuer à utiliser le Site après toute modification des CGU entraîne l’acceptation des modifications des CGU.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur se réserve en outre le droit de faire évoluer le Site et ses Contenus. Des modifications techniques pourront intervenir sans préavis de la part de l’Editeur. L’Editeur s’engage à rendre publique chacune des modifications et améliorations techniques apportées.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"L’Editeur se réserve le droit de suspendre provisoirement ou définitivement l’accès au Site, sans délai, ni contrepartie de quelque nature que ce soit.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"section\"],[9,\"class\",\"terms-of-service-section terms-of-service-section--french-law\"],[7],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"terms-of-service-section__title\"],[7],[0,\"13. Loi française\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Le Site et les Contenus sont destinés à l’Utilisation de résidents français et sont créés conformément aux règles applicables en France.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les présentes CGU sont régies par la loi française. Les résidents étrangers acceptent expressément l’application de la loi française en visitant le Site et en utilisant tout ou partie des fonctionnalités du Site et sont informés que les autres pays peuvent avoir des réglementations différentes de la réglementation française.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"En conséquence, les Utilisateurs reconnaissent que toute information y figurant est susceptible de ne pas être complète ou compatible ou appropriée en dehors de la France.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Tout litige relatif au Site ou en relation avec son utilisation sera soumis, à défaut de règlement amiable, aux tribunaux français.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Si une ou plusieurs stipulations des CGU sont tenues pour non valides ou déclarées telle en application d'une loi, d'un règlement ou à la suite d'une décision définitive d'une juridiction compétente, les autres stipulations gardent toute leur force et leur portée.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/terms-of-service.hbs" } });
 });
 define('pix-live/tests/mirage/mirage.lint-test', [], function () {
   'use strict';
@@ -8216,6 +8524,10 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
     });
 
     it('mirage/factories/organization.js', function () {
+      // test passed
+    });
+
+    it('mirage/factories/snapshot.js', function () {
       // test passed
     });
 
@@ -8921,6 +9233,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.21.0+5558225c"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.21.0+67ad0844"});
 }
 //# sourceMappingURL=pix-live.map

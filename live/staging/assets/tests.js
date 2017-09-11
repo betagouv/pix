@@ -2980,6 +2980,33 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
         }
       }, _callee3, this);
     })));
+
+    (0, _mocha.it)('should display an empty list of snapshot', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              // given
+              seedDatabase();
+              authenticateUser();
+
+              // when
+              _context4.next = 4;
+              return visit('/board');
+
+            case 4:
+
+              // then
+              (0, _chai.expect)(find('.snapshot-list').length).to.equal(1);
+              (0, _chai.expect)(find('.snapshot-list__no-profile').text()).to.equal('Aucun profil partagé pour le moment');
+
+            case 6:
+            case 'end':
+              return _context4.stop();
+          }
+        }
+      }, _callee4, this);
+    })));
   });
 });
 define('pix-live/tests/acceptance/page-accueil-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
@@ -3316,6 +3343,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('components/signup-textfield.js', function () {
+      // test passed
+    });
+
+    it('components/snapshot-list.js', function () {
       // test passed
     });
 
@@ -8527,6 +8558,96 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
     });
   });
 });
+define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _wait) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | snapshot list', function () {
+    (0, _emberMocha.setupComponentTest)('snapshot-list', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([]) });
+      this.set('organization', organization);
+
+      this.render(Ember.HTMLBars.template({
+        "id": "hqqvwQ67",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should inform the user when no profile', function () {
+      // Given
+      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([]) });
+      this.set('organization', organization);
+
+      // When
+      this.render(Ember.HTMLBars.template({
+        "id": "hqqvwQ67",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // Then
+      (0, _chai.expect)(this.$('.snapshot-list__no-profile')).to.have.length(1);
+      (0, _chai.expect)(this.$('.snapshot-list__no-profile').text()).to.equal('Aucun profil partagé pour le moment');
+    });
+
+    (0, _mocha.it)('it should display as many snapshot items as shared', function () {
+      // Given
+      var snapshot1 = Ember.Object.create({ id: 1 });
+      var snapshot2 = Ember.Object.create({ id: 2 });
+      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([snapshot1, snapshot2]) });
+      this.set('organization', organization);
+
+      // When
+      this.render(Ember.HTMLBars.template({
+        "id": "hqqvwQ67",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // Then
+      return (0, _wait.default)().then(function () {
+        (0, _chai.expect)(this.$('.snapshot-list__no-profile')).to.have.length(0);
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.length(2);
+      }.bind(this));
+    });
+
+    (0, _mocha.it)('should display snapshot informations', function () {
+      // Given
+      var user = Ember.Object.create({ id: 1, firstName: 'Werner', lastName: 'Heisenberg' });
+      var snapshot = Ember.Object.create({
+        id: 1,
+        score: 10,
+        completionPercentage: '25',
+        createdAt: '09/25/2017',
+        user: user
+      });
+      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([snapshot]) });
+      this.set('organization', organization);
+
+      // When
+      this.render(Ember.HTMLBars.template({
+        "id": "hqqvwQ67",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // Then
+      return (0, _wait.default)().then(function () {
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.length(1);
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(0)').text().trim()).to.equal(user.get('lastName'));
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(1)').text().trim()).to.equal(user.get('firstName'));
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('25/09/2017');
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(3)').text().trim()).to.equal(snapshot.get('score').toString());
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal(snapshot.get('completionPercentage') + '%');
+      }.bind(this));
+    });
+  });
+});
 define('pix-live/tests/integration/components/timeout-jauge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -9072,6 +9193,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/signup-textfield-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/snapshot-list-test.js', function () {
       // test passed
     });
 
@@ -12154,7 +12279,6 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
 
   (0, _mocha.describe)('Unit | Route | board', function () {
     (0, _emberMocha.setupTest)('route:board', {
-      // Specify the other units that are required for this test.
       needs: ['service:current-routed-modal', 'service:session']
     });
 
@@ -12164,6 +12288,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
     });
 
     var findRecord = _sinon.default.stub();
+    var route = void 0;
 
     (0, _mocha.beforeEach)(function () {
       this.register('service:store', Ember.Service.extend({
@@ -12175,13 +12300,12 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
         data: { authenticated: { userId: 12 } }
       }));
       this.inject.service('session', { as: 'session' });
+      route = this.subject();
+      route.transitionTo = _sinon.default.spy();
     });
 
     (0, _mocha.it)('should correctly call the store', function () {
       // given
-      var route = this.subject();
-      route.transitionTo = function () {};
-
       findRecord.resolves();
 
       // when
@@ -12195,26 +12319,19 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
     (0, _mocha.it)('should return user first organization informations', function () {
       // given
       var user = Ember.Object.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
-
-      var route = this.subject();
-      route.transitionTo = function () {};
-
       findRecord.resolves(user);
 
       // when
       var promise = route.model();
 
       // then
-      return promise.then(function (organization) {
-        (0, _chai.expect)(organization.id).to.equal(1);
+      return promise.then(function (model) {
+        (0, _chai.expect)(model.organization.id).to.equal(1);
       });
     });
 
     (0, _mocha.it)('should return to home page if no user was found', function () {
       // given
-      var route = this.subject();
-      route.transitionTo = _sinon.default.spy();
-
       findRecord.rejects();
 
       // when
@@ -12229,10 +12346,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
 
     (0, _mocha.it)('should return to /compte when the user has no organization', function () {
       // given
-      var route = this.subject();
-      route.transitionTo = _sinon.default.spy();
       var user = Ember.Object.create({ id: 1, organizations: [] });
-
       findRecord.resolves(user);
 
       // when
@@ -12644,6 +12758,22 @@ define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha',
         // Then
         return promise.then(function () {
           _sinon.default.assert.calledWith(route.transitionTo, 'board');
+        });
+      });
+
+      (0, _mocha.it)('should redirect to logout when we cannot retrieve user informations', function () {
+        // Given
+        storeServiceStub.findRecord.rejects();
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.beforeModel();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(route.transitionTo);
+          _sinon.default.assert.calledWith(route.transitionTo, 'logout');
         });
       });
     });
