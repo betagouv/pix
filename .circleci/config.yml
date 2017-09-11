@@ -70,6 +70,10 @@ jobs:
       - restore_cache:
           keys:
             - client_app-{{ checksum ".circle-sha" }}-v7
+      # cf. https://circleci.com/docs/2.0/gh-bb-integration/#adding-readwrite-deployment-keys-to-github-or-bitbucket
+      - add-ssh-keys:
+          fingerprints:
+            - "c3:0d:1b:26:62:f1:89:98:d8:8c:f2:6c:b1:25:7b:6b"
       - run: npm run deploy:integration
 
 workflows:
