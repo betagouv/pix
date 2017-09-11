@@ -17,7 +17,7 @@
 # - `repo-{{ checksum ".circle-sha" }}`                  => the source code
 # - `dependencies-root-{{ checksum "package.json" }}-v1` => `pix/node_modules` directory
 # - `dependencies-api-{{ checksum "package.json" }}-v1`  => `pix/api/node_modules` directory
-# - `dependencies-live-{{ checksum "package.json" }}-v1` => 
+# - `dependencies-live-{{ checksum "package.json" }}-v1` =>
 #   `pix/live/{node_modules,bower_components}` directories
 # - `build-live-{{ checksum ".circle-sha" }}`            => `pix/live/dist` directory
 #
@@ -254,6 +254,21 @@ jobs:
           name: Run Tests
           command: ./node_modules/.bin/ember exam --path dist --split=3 --partition=3
 
+  deploy_client_app:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/pix/live
+    steps:
+      - deploy:
+          name: Deploy client
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              npm run deploy:production
+            elif [ "${CIRCLE_BRANCH}" == "dev" ]; then
+              npm run deploy:staging
+            else
+              npm run deploy:integration
+            fi
 
 workflows:
   version: 2
@@ -289,3 +304,8 @@ workflows:
       - npm_test_live_3:
           requires:
             - build_pix_live
+      - deploy_client_app:
+          requires:
+            - npm_test_live_1
+            - npm_test_live_2
+            - npm_test_live_3
