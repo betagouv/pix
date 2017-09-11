@@ -272,9 +272,9 @@ workflows:
       - bundle_dependencies_root:
           requires:
             - checkout_code
-      - bundle_dependencies_api:
-          requires:
-            - checkout_code
+#      - bundle_dependencies_api:
+#          requires:
+#            - checkout_code
       - bundle_dependencies_live:
           requires:
             - checkout_code
@@ -282,27 +282,27 @@ workflows:
           requires:
             - bundle_dependencies_root
             - bundle_dependencies_live
-      - lint_api:
-          requires:
-            - bundle_dependencies_root
-            - bundle_dependencies_api
-      - npm_test_api:
-          requires:
-            - lint_api
-      - npm_test_live_1:
-          requires:
-            - build_pix_live
-      - npm_test_live_2:
-          requires:
-            - build_pix_live
-      - npm_test_live_3:
-          requires:
-            - build_pix_live
+#      - lint_api:
+#          requires:
+#            - bundle_dependencies_root
+#            - bundle_dependencies_api
+#      - npm_test_api:
+#          requires:
+#            - lint_api
+#      - npm_test_live_1:
+#          requires:
+#            - build_pix_live
+#      - npm_test_live_2:
+#          requires:
+#            - build_pix_live
+#      - npm_test_live_3:
+#          requires:
+#            - build_pix_live
       - deploy_integration_client_app:
-          requires:
-            - npm_test_live_1
-            - npm_test_live_2
-            - npm_test_live_3
+#          requires:
+#            - npm_test_live_1
+#            - npm_test_live_2
+#            - npm_test_live_3
           filters:
             branches:
               ignore:
