@@ -2,6 +2,8 @@ version: 2.0
 
 jobs:
 
+  # Common
+
   checkout_code:
     docker:
       - image: circleci/node:8
@@ -11,9 +13,46 @@ jobs:
       - checkout
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - save_cache:
-          key: pix-{{ checksum ".circle-sha" }}-v8
+          key: pix-{{ checksum ".circle-sha" }}-v9
           paths:
             - ~/pix
+
+  # Server side
+
+  install_server_dependencies:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/pix/api
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - pix-{{ checksum ".circle-sha" }}-v9
+      - restore_cache:
+          keys:
+            - server-dependencies-{{ checksum "package.json" }}-v9
+      - run: npm install
+      - save_cache:
+          key: server-dependencies-{{ checksum "package.json" }}-v9
+          paths:
+            - ~/pix/api/node_modules
+            - ~/pix/.npm
+
+  test_server:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/pix/api
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - pix-{{ checksum ".circle-sha" }}-v9
+      - restore_cache:
+          keys:
+            - server-dependencies-{{ checksum "package.json" }}-v9
+      - run: npm test
+
+  # Client side
 
   install_client_dependencies:
     docker:
@@ -23,13 +62,13 @@ jobs:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - pix-{{ checksum ".circle-sha" }}-v8
+            - pix-{{ checksum ".circle-sha" }}-v9
       - restore_cache:
           keys:
-            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v8
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v9
       - run: npm install
       - save_cache:
-          key: client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v8
+          key: client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v9
           paths:
             - ~/pix/live/node_modules
             - ~/pix/live/bower_components
@@ -44,16 +83,49 @@ jobs:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - pix-{{ checksum ".circle-sha" }}-v8
+            - pix-{{ checksum ".circle-sha" }}-v9
       - restore_cache:
           keys:
-            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v8
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v9
       - run: ./node_modules/.bin/ember build
-
       - save_cache:
-          key: client_app-{{ checksum ".circle-sha" }}-v8
+          key: client_app-{{ checksum ".circle-sha" }}-v9
           paths:
             - dist
+
+  test_client_1:
+    docker:
+      - image: circleci/node:8-browsers
+    working_directory: ~/pix/live
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - pix-{{ checksum ".circle-sha" }}-v9
+      - restore_cache:
+          keys:
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v9
+      - restore_cache:
+          keys:
+            - client_app-{{ checksum ".circle-sha" }}-v9
+      - run: ./node_modules/.bin/ember exam --path dist --split=2 --partition=1
+
+  test_client_2:
+    docker:
+      - image: circleci/node:8-browsers
+    working_directory: ~/pix/live
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - pix-{{ checksum ".circle-sha" }}-v9
+      - restore_cache:
+          keys:
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v9
+      - restore_cache:
+          keys:
+            - client_app-{{ checksum ".circle-sha" }}-v9
+      - run: ./node_modules/.bin/ember exam --path dist --split=2 --partition=2
 
   deploy_client:
     docker:
@@ -63,13 +135,13 @@ jobs:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - pix-{{ checksum ".circle-sha" }}-v8
+            - pix-{{ checksum ".circle-sha" }}-v9
       - restore_cache:
           keys:
             - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
       - restore_cache:
           keys:
-            - client_app-{{ checksum ".circle-sha" }}-v8
+            - client_app-{{ checksum ".circle-sha" }}-v9
       # cf. https://circleci.com/docs/2.0/gh-bb-integration/#adding-readwrite-deployment-keys-to-github-or-bitbucket
       - add-ssh-keys:
          fingerprints:
@@ -84,16 +156,34 @@ workflows:
   version: 2
   build-test-and-deploy:
     jobs:
+      # Common
       - checkout_code
+
+      # Server side
+      - install_server_dependencies:
+          requires:
+            - checkout_code
+      - test_server:
+          requires:
+            - install_server_dependencies
+
+      # Client side
       - install_client_dependencies:
           requires:
             - checkout_code
       - build_client:
           requires:
             - install_client_dependencies
-      - deploy_client:
+      - test_client_1:
           requires:
             - build_client
+      - test_client_2:
+          requires:
+            - build_client
+      - deploy_client:
+          requires:
+            - test_client_1
+            - test_client_2
           filters:
             branches:
               ignore:
