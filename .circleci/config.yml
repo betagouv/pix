@@ -14,6 +14,8 @@ jobs:
             - ~/pix
 
   install_client_dependencies:
+    docker:
+      - image: circleci/node:8-browsers
     working_directory: ~/pix/live
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
@@ -33,6 +35,8 @@ jobs:
             - ~/.cache/bower
 
   build_client:
+    docker:
+      - image: circleci/node:8-browsers
     working_directory: ~/pix/live
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
@@ -50,6 +54,8 @@ jobs:
             - dist
 
   deploy_client:
+    docker:
+      - image: circleci/node:8-browsers
     working_directory: ~/pix/live
     steps:
       - restore_cache:
