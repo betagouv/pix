@@ -259,10 +259,9 @@ jobs:
       - image: circleci/node:8
     working_directory: ~/pix/live
     steps:
-      - deploy:
+      - run:
           name: Deploy client
-          command: |
-            npm run deploy:integration
+          command: npm run deploy:integration
 
 workflows:
   version: 2
