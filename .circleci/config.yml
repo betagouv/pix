@@ -38,6 +38,13 @@ jobs:
             - ~/pix/api/node_modules
             - ~/pix/.npm
 
+  build_server:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/pix/api
+    steps:
+      - run: echo "Nothing to do for building the API"
+
   test_server:
     docker:
       - image: circleci/node:8
@@ -50,7 +57,9 @@ jobs:
       - restore_cache:
           keys:
             - server-dependencies-{{ checksum "package.json" }}
-      - run: npm test
+      - run: |
+          npm run lint
+          npm test
 
   deploy_server:
     docker:
@@ -201,9 +210,12 @@ workflows:
       - install_server_dependencies:
           requires:
             - checkout_code
-      - test_server:
+      - build_server:
           requires:
             - install_server_dependencies
+      - test_server:
+          requires:
+            - build_server
       - deploy_server:
           requires:
             - test_server
