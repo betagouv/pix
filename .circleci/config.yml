@@ -84,7 +84,13 @@ jobs:
           ssh-keyscan pix-app.ovh > ~/.ssh/known_hosts
           git config user.email "jbuget@gmail.com"
           git config user.name "Jérémy Buget"
-          npm run deploy:integration
+      - deploy:
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "dev" ]; then
+              npm run deploy:staging
+            else
+              npm run deploy:integration
+            fi
 
   # Client side
 
@@ -182,7 +188,13 @@ jobs:
           ssh-keyscan github.com > ~/.ssh/known_hosts
           git config user.email "jbuget@gmail.com"
           git config user.name "Jérémy Buget"
-          npm run deploy:integration
+      - deploy:
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "dev" ]; then
+              npm run deploy:staging
+            else
+              npm run deploy:integration
+            fi
 
 workflows:
   version: 2
