@@ -11,7 +11,7 @@ jobs:
       - checkout
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - save_cache:
-          key: pix-{{ checksum ".circle-sha" }}
+          key: pix-{{ checksum ".circle-sha" }}-v5
           paths:
             - ~/pix
 
@@ -23,15 +23,13 @@ jobs:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - pix-{{ checksum ".circle-sha" }}
-            - pix-
+            - pix-{{ checksum ".circle-sha" }}-v5
       - restore_cache:
           keys:
-            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
-            - client-dependencies-
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v5
       - run: npm install
       - save_cache:
-          key: client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+          key: client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v5
           paths:
             - ~/pix/live/node_modules
             - ~/pix/live/bower_components
@@ -46,16 +44,14 @@ jobs:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - pix-{{ checksum ".circle-sha" }}
-            - pix-
+            - pix-{{ checksum ".circle-sha" }}-v5
       - restore_cache:
           keys:
-            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
-            - client-dependencies-
+            - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v5
       - run: ./node_modules/.bin/ember build
 
       - save_cache:
-          key: client_app-{{ checksum ".circle-sha" }}
+          key: client_app-{{ checksum ".circle-sha" }}-v5
           paths:
             - dist
 
@@ -67,16 +63,13 @@ jobs:
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - pix-{{ checksum ".circle-sha" }}
-            - pix-
+            - pix-{{ checksum ".circle-sha" }}-v5
       - restore_cache:
           keys:
             - client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
-            - client-dependencies-
       - restore_cache:
           keys:
-            - client_app-{{ checksum ".circle-sha" }}
-            - client_app-
+            - client_app-{{ checksum ".circle-sha" }}-v5
       - run: npm run deploy:integration
 
 workflows:
