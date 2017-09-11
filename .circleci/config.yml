@@ -71,7 +71,7 @@ jobs:
           keys:
             - client_app-{{ checksum ".circle-sha" }}-v8
       # cf. https://circleci.com/docs/2.0/gh-bb-integration/#adding-readwrite-deployment-keys-to-github-or-bitbucket
-      - add-ssh-keys
+      - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run: npm run deploy:integration
 
 workflows:
