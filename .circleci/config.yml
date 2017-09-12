@@ -1,3 +1,27 @@
+# .circleci/config.yml
+#
+# This file configures the CircleCI 2.0 build.
+#
+# Documentation:
+# - Overview: https://circleci.com/docs/2.0/workflows/
+# - Caching: https://circleci.com/docs/2.0/caching/
+#
+# Things to know:
+# - every job is a container
+# - the file `.circle-sha` is used to have a common key between different containers of same build
+# - we need cache, everywhere for everything
+# - cache is immutable. Sometimes we need to flush the cache, but we can't. That's why there is this
+# `v1-` at the beginning. Increment it to `v2-` when you need to change the cache content
+#
+# Cached entries (lifetime = months):
+# - `v1-pix-{{ checksum ".circle-sha" }}`                  => the source code
+# - `v1-server-dependencies-{{ checksum "package.json" }}` => `pix/api/node_modules` directory
+# - `v1-client-dependencies-{{ checksum "package.json" }}` => `pix/live/{node_modules, bower_components}` directories
+#
+# Workspace entries (lifetime = workflow):
+# - `~/pix/live/dist`                                      => `pix/live/dist` directory
+
+
 # Properties shared by all server-side jobs
 server_properties: &server_properties
   docker:
