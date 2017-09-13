@@ -27,3 +27,6 @@
 
 # system
 .DS_Store
+
+# CircleCI 2.0
+*.circle-sha
