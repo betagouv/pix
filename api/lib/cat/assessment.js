@@ -128,6 +128,9 @@ class Assessment {
   }
 
   get obtainedLevel() {
+    if (this.pixScore >= 48) {
+      return 5;
+    }
     return Math.floor(this.pixScore / 8);
   }
 }
