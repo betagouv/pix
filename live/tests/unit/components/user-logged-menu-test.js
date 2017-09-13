@@ -4,7 +4,9 @@ import { setupTest } from 'ember-mocha';
 import Ember from 'ember';
 
 describe('Unit | Component | User logged Menu', function() {
-  setupTest('component:user-logged-menu', {});
+  setupTest('component:user-logged-menu', {
+    needs: ['service:keyboard']
+  });
 
   describe('action#toggleUserMenu', function() {
 
