@@ -22,3 +22,6 @@ testem.log
 .idea
 
 *.iml
+
+# CircleCI 2.0
+*.circle-sha
