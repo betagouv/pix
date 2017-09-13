@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import { EKMixin as EmberKeyboardMixin, keyDown } from 'ember-keyboard';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(EmberKeyboardMixin, {
 
   session: Ember.inject.service(),
   store: Ember.inject.service(),
@@ -8,6 +9,7 @@ export default Ember.Component.extend({
 
   classNames: ['logged-user-details'],
 
+  keyboardActivated: true,
   _canDisplayMenu: false,
   _user: null,
 
@@ -21,15 +23,13 @@ export default Ember.Component.extend({
       .then((user) => this.set('_user', user));
   },
 
+  closeOnEsc: Ember.on(keyDown('Escape'), function() {
+    this.set('_canDisplayMenu', false);
+  }),
+
   actions: {
     toggleUserMenu() {
       this.toggleProperty('_canDisplayMenu');
-    },
-
-    closeIfEscape(e) {
-      if (e.keyCode == 27) {
-        this.set('_canDisplayMenu', false);
-      }
     },
 
     closeMenu() {
