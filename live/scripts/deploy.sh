@@ -61,7 +61,6 @@ GIT_HASH=`git rev-parse HEAD`
 ({ if [ ! -d $EMBER_DIST ]; then ember build --environment $BUILD_ENV; fi } \
     && cp -R $EMBER_DIST $tmpdir                                            \
     && git checkout gh-pages                                                \
-    && { git pull origin gh-pages }                                            \
     && { if [ -d ./$BUILD_OUTPUT ]; then rm -rf ./$BUILD_OUTPUT; fi }       \
     && mv $tmpdir ./$BUILD_OUTPUT                                           \
     && git add -A ./$BUILD_OUTPUT                                           \
