@@ -1060,20 +1060,6 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
         (0, _chai.expect)(find('.competence-level-progress-bar__start-link:first').attr('href')).to.be.equal('/courses/ref_course_id');
       });
     });
-
-    (0, _mocha.it)('should display a hero banner for logged user', function () {
-      // given
-      seedDatabase();
-      authenticateUser();
-
-      // when
-      visit('/compte');
-
-      // then
-      return andThen(function () {
-        (0, _chai.expect)(find('.logged-user-profile-banner')).to.have.lengthOf(1);
-      });
-    });
   });
 });
 define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/seeds', 'pix-live/tests/helpers/testing'], function (_mocha, _chai, _application, _seeds, _testing) {
@@ -3261,10 +3247,6 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('components/g-recaptcha.js', function () {
-      // test passed
-    });
-
-    it('components/logged-user-profile-banner.js', function () {
       // test passed
     });
 
@@ -5679,54 +5661,6 @@ define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha
       // then
       (0, _chai.expect)(this.$('#g-recaptcha-container').children()).to.have.lengthOf(1);
       (0, _chai.expect)(this.get('googleRecaptchaService.calledWithContainerId')).to.equal('g-recaptcha-container');
-    });
-  });
-});
-define('pix-live/tests/integration/components/logged-user-profile-banner-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Integration | Component | logged user profile banner', function () {
-    (0, _emberMocha.setupComponentTest)('logged-user-profile-banner', {
-      integration: true
-    });
-
-    (0, _mocha.it)('should display a banner', function () {
-      // when
-      this.render(Ember.HTMLBars.template({
-        "id": "YZH61OIE",
-        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"logged-user-profile-banner\"],false]],\"hasEval\":false}",
-        "meta": {}
-      }));
-
-      // then
-      (0, _chai.expect)(this.$()).to.have.length(1);
-      (0, _chai.expect)(this.$('.logged-user-profile-banner')).to.have.lengthOf(1);
-    });
-
-    (0, _mocha.it)('should have a content text container', function () {
-      // when
-      this.render(Ember.HTMLBars.template({
-        "id": "YZH61OIE",
-        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"logged-user-profile-banner\"],false]],\"hasEval\":false}",
-        "meta": {}
-      }));
-
-      // then
-      (0, _chai.expect)(this.$('.profile-banner__content-text-container')).to.have.lengthOf(1);
-    });
-
-    (0, _mocha.it)('should a button cta to scroll to profile section', function () {
-      // when
-      this.render(Ember.HTMLBars.template({
-        "id": "YZH61OIE",
-        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"logged-user-profile-banner\"],false]],\"hasEval\":false}",
-        "meta": {}
-      }));
-
-      // then
-      (0, _chai.expect)(this.$('.profile-banner__button-scroll-container')).to.have.lengthOf(1);
-      (0, _chai.expect)(this.$('.button-scroll-to-profile')).to.have.lengthOf(1);
-      (0, _chai.expect)(this.$('.button-scroll-to-profile').text()).to.equal('choisir un test');
     });
   });
 });
@@ -9258,10 +9192,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/g-recaptcha-test.js', function () {
-      // test passed
-    });
-
-    it('integration/components/logged-user-profile-banner-test.js', function () {
       // test passed
     });
 

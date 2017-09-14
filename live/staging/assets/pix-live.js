@@ -1519,7 +1519,7 @@ define('pix-live/components/feedback-panel', ['exports', 'pix-live/utils/email-v
     _scrollToPanel: function _scrollToPanel() {
       Ember.$('body').animate({
         scrollTop: Ember.$('.feedback-panel__view').offset().top - 15
-      }, _environment.default.APP.SCROLL_DURATION);
+      }, _environment.default.APP.FEEDBACK_PANEL_SCROLL_DURATION);
     },
 
     actions: {
@@ -1690,24 +1690,6 @@ define('pix-live/components/g-recaptcha', ['exports'], function (exports) {
     expiredCallback: function expiredCallback() {
       this.set('recaptchaToken', null);
       this.set('tokenHasBeenUsed', false);
-    }
-  });
-});
-define('pix-live/components/logged-user-profile-banner', ['exports', 'pix-live/config/environment'], function (exports, _environment) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.Component.extend({
-    classNames: ['logged-user-profile-banner'],
-
-    actions: {
-      scrollToProfile: function scrollToProfile() {
-        Ember.$('body').animate({
-          scrollTop: Ember.$('.profile-panel__header').offset().top - 15
-        }, _environment.default.APP.SCROLL_DURATION);
-      }
     }
   });
 });
@@ -8052,14 +8034,6 @@ define("pix-live/templates/components/g-recaptcha", ["exports"], function (expor
   });
   exports.default = Ember.HTMLBars.template({ "id": "xCoH9gQh", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"id\",\"g-recaptcha-container\"],[7],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/g-recaptcha.hbs" } });
 });
-define("pix-live/templates/components/logged-user-profile-banner", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "oV+rG1lB", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"profile-banner__background\"],[7],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"profile-banner__content-text-container\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"profile-banner__title\"],[7],[0,\"\\n    Bienvenue\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"profile-banner__description\"],[7],[0,\"\\n    Vous avez 12 compétences à tester.\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"profile-banner__description\"],[7],[0,\"\\n    On se concentre et c’est partix !\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"profile-banner__button-scroll-container\"],[7],[0,\"\\n  \"],[6,\"button\"],[9,\"class\",\"button-scroll-to-profile\"],[3,\"action\",[[19,0,[]],\"scrollToProfile\"]],[7],[0,\"choisir un test\"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/logged-user-profile-banner.hbs" } });
-});
 define("pix-live/templates/components/medal-item", ["exports"], function (exports) {
   "use strict";
 
@@ -8330,7 +8304,7 @@ define("pix-live/templates/compte", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "LTnp2XYl", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"compte-page\"],[7],[0,\"\\n\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n  \"],[1,[18,\"logged-user-profile-banner\"],false],[0,\"\\n\\n  \"],[1,[25,\"profile-panel\",null,[[\"competences\",\"totalPixScore\",\"searchForOrganization\",\"shareProfileSnapshot\"],[[19,0,[\"model\",\"competences\"]],[19,0,[\"model\",\"totalPixScore\"]],[25,\"route-action\",[\"searchForOrganization\"],null],[25,\"route-action\",[\"shareProfileSnapshot\"],null]]]],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/compte.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "BW4YVXF1", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"compte-page\"],[7],[0,\"\\n\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[1,[25,\"profile-panel\",null,[[\"competences\",\"totalPixScore\",\"searchForOrganization\",\"shareProfileSnapshot\"],[[19,0,[\"model\",\"competences\"]],[19,0,[\"model\",\"totalPixScore\"]],[25,\"route-action\",[\"searchForOrganization\"],null],[25,\"route-action\",[\"shareProfileSnapshot\"],null]]]],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/compte.hbs" } });
 });
 define("pix-live/templates/course-groups", ["exports"], function (exports) {
   "use strict";
@@ -9287,6 +9261,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.22.0+56f09372"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","FEEDBACK_PANEL_SCROLL_DURATION":800,"name":"pix-live","version":"1.22.0+006917ee"});
 }
 //# sourceMappingURL=pix-live.map
