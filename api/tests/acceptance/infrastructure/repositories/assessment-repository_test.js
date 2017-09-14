@@ -10,36 +10,31 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
       userId: 1,
       courseId: 'course_A',
       pixScore: null,
-      estimatedLevel: null,
-      createdAt: '2017-09-01'
+      estimatedLevel: null
     }, {
       id: 2,
       userId: 1,
       courseId: 'course_A',
       pixScore: 26,
-      estimatedLevel: 4,
-      createdAt: '2017-09-02'
+      estimatedLevel: 4
     }, {
       id: 3,
       userId: 1,
       courseId: 'course_A',
       pixScore: null,
-      estimatedLevel: null,
-      createdAt: '2017-09-03'
+      estimatedLevel: null
     }, {
       id: 4,
       userId: 1,
       courseId: 'course_B',
       pixScore: 46,
-      estimatedLevel: 5,
-      createdAt: '2017-09-04'
+      estimatedLevel: 5
     }, {
       id: 5,
       userId: 1,
       courseId: 'course_B',
       pixScore: null,
-      estimatedLevel: 5,
-      createdAt: '2017-09-05'
+      estimatedLevel: 5
     }]);
   });
 
@@ -59,7 +54,7 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
       // then
       return promise.then(assessments => {
         expect(assessments).to.have.lengthOf(2);
-        expect(assessments.map(assessment => assessment.id)).to.deep.equal([4, 2]);
+        expect(assessments.map(assessment => assessment.id)).to.deep.equal([2, 4]);
       });
     });
   });
