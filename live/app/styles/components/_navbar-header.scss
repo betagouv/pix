@@ -30,8 +30,6 @@
 }
 
 .navbar-header-right {
-  // width: 90%;
-  //margin: 30px auto 5px;
 
   @include device-is('desktop') {
     padding: 0;

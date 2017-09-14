@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   classNames: ['logged-user-profile-banner'],
 
   actions: {
-    _scrollToProfile() {
+    scrollToProfile() {
       Ember.$('body').animate({
         scrollTop: Ember.$('.profile-panel__header').offset().top - 15
       }, config.APP.SCROLL_DURATION);
