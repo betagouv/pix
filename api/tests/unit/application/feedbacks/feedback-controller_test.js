@@ -4,6 +4,7 @@ const _ = require('lodash');
 const Feedback = require('../../../../lib/domain/models/data/feedback');
 const feedbackController = require('../../../../lib/application/feedbacks/feedback-controller');
 const feedbackRepository = require('../../../../lib/infrastructure/repositories/feedback-repository');
+const feedbackSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/feedback-serializer');
 
 describe('Unit | Controller | feedback-controller', function() {
 
@@ -99,14 +100,18 @@ describe('Unit | Controller | feedback-controller', function() {
 
   describe('#find', () => {
 
-    const reply = sinon.stub().returns(true);
+    let sandbox;
+    let reply;
 
     beforeEach(() => {
-      sinon.stub(feedbackRepository, 'find');
+      reply = sinon.stub().returns(true);
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(feedbackRepository, 'find');
+      sandbox.stub(feedbackSerializer, 'serialize');
     });
 
     afterEach(() => {
-      feedbackRepository.find.restore();
+      sandbox.restore();
     });
 
     it('should fetch all the feedbacks from the DB when no query params are passed', function() {
@@ -162,61 +167,24 @@ describe('Unit | Controller | feedback-controller', function() {
         assessmentId: 1,
         challengeId: 12
       });
-      const matchingDatesFeedback = new Feedback({
-        id: 'matching_dates_feedback',
-        content: 'Matching dates feedback',
-        createdAt: '2017-09-06 17:00:00',
-        assessmentId: 2,
-        challengeId: 21
-      });
-      const persistedFeedbacks = Feedback.collection([simpleFeedback, otherFeedback, matchingDatesFeedback]);
+      const persistedFeedbacks = Feedback.collection([simpleFeedback, otherFeedback]);
       feedbackRepository.find.resolves(persistedFeedbacks);
+      const serializedFeedback = 'The Dragon and The Wolf';
+      feedbackSerializer.serialize.returns(serializedFeedback);
       const request = { query: {} };
 
       // when
       const promise = feedbackController.find(request, reply);
 
       // then
-      const expectedResponse = {
-        data: [{
-          type: 'feedbacks',
-          id: simpleFeedback.get('id'),
-          attributes: {
-            content: simpleFeedback.get('content'),
-            'created-at': simpleFeedback.get('createdAt')
-          },
-          relationships: {
-            assessment: { data: { id: '1', type: 'assessments' } },
-            challenge: { data: { id: '11', type: 'challenges' } }
-          }
-        }, {
-          type: 'feedbacks',
-          id: otherFeedback.get('id'),
-          attributes: {
-            content: otherFeedback.get('content'),
-            'created-at': otherFeedback.get('createdAt')
-          },
-          relationships: {
-            assessment: { data: { id: '1', type: 'assessments' } },
-            challenge: { data: { id: '12', type: 'challenges' } }
-          }
-        }, {
-          type: 'feedbacks',
-          id: matchingDatesFeedback.get('id'),
-          attributes: {
-            content: matchingDatesFeedback.get('content'),
-            'created-at': matchingDatesFeedback.get('createdAt')
-          },
-          relationships: {
-            assessment: { data: { id: '2', type: 'assessments' } },
-            challenge: { data: { id: '21', type: 'challenges' } }
-          }
-        }]
-      };
-
       return promise.then(() => {
-        sinon.assert.calledWithExactly(reply, expectedResponse);
+        sinon.assert.calledOnce(reply);
+        sinon.assert.calledWith(reply, serializedFeedback);
+        sinon.assert.calledOnce(feedbackSerializer.serialize);
+        sinon.assert.calledWithExactly(feedbackSerializer.serialize, persistedFeedbacks.toJSON());
       });
+
     });
+
   });
 });

@@ -3,7 +3,7 @@ const JSONAPIDeserializer = require('jsonapi-serializer').Deserializer;
 const Feedback = require('../../../domain/models/data/feedback');
 
 module.exports = {
-  
+
   serialize(feedback) {
     return new JSONAPISerializer('feedbacks', {
       attributes: ['createdAt', 'email', 'content', 'assessment', 'challenge'],

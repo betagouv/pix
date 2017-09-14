@@ -50,6 +50,76 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
       expect(response).to.deep.equal(serializedFeedback);
     });
 
+    it('should serialize array of feedbacks', function() {
+      // given
+      const simpleFeedback = {
+        id: 'simple_feedback',
+        content: 'Simple feedback',
+        createdAt: '2015-09-06 15:00:00',
+        assessmentId: 1,
+        challengeId: 11
+      };
+      const otherFeedback = {
+        id: 'other_feedback',
+        content: 'Other feedback',
+        createdAt: '2016-09-06 16:00:00',
+        assessmentId: 1,
+        challengeId: 12
+      };
+      const matchingDatesFeedback = {
+        id: 'matching_dates_feedback',
+        content: 'Matching dates feedback',
+        createdAt: '2017-09-06 17:00:00',
+        assessmentId: 2,
+        challengeId: 21
+      };
+      const persistedFeedbacks = [simpleFeedback, otherFeedback, matchingDatesFeedback];
+
+      // when
+      const result = serializer.serialize(persistedFeedbacks);
+
+      // then
+      const expectedResponse = {
+        data: [{
+          type: 'feedbacks',
+          id: simpleFeedback.id,
+          attributes: {
+            content: simpleFeedback.content,
+            'created-at': simpleFeedback.createdAt
+          },
+          relationships: {
+            assessment: { data: { id: '1', type: 'assessments' } },
+            challenge: { data: { id: '11', type: 'challenges' } }
+          }
+        }, {
+          type: 'feedbacks',
+          id: otherFeedback.id,
+          attributes: {
+            content: otherFeedback.content,
+            'created-at': otherFeedback.createdAt
+          },
+          relationships: {
+            assessment: { data: { id: '1', type: 'assessments' } },
+            challenge: { data: { id: '12', type: 'challenges' } }
+          }
+        }, {
+          type: 'feedbacks',
+          id: matchingDatesFeedback.id,
+          attributes: {
+            content: matchingDatesFeedback.content,
+            'created-at': matchingDatesFeedback.createdAt
+          },
+          relationships: {
+            assessment: { data: { id: '2', type: 'assessments' } },
+            challenge: { data: { id: '21', type: 'challenges' } }
+          }
+        }]
+      };
+
+      expect(result).to.deep.equal(expectedResponse);
+
+    });
+
   });
 
   describe('#deserialize()', function() {
@@ -91,7 +161,6 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
         expect(feedback.get('content')).to.equal(serializedFeedback.data.attributes.content);
         expect(feedback.get('assessmentId')).to.equal(serializedFeedback.data.relationships.assessment.data.id);
         expect(feedback.get('challengeId')).to.equal(serializedFeedback.data.relationships.challenge.data.id);
-
       });
     });
 
