@@ -6,9 +6,9 @@ const logger = require('../../infrastructure/logger');
 
 module.exports = {
 
-  save(request, reply) {
+  save : async(request, reply) => {
 
-    const newFeedback = serializer.deserialize(request.payload);
+    const newFeedback = await serializer.deserialize(request.payload);
 
     if (_.isBlank(newFeedback.get('content'))) {
       return reply(Boom.badRequest('Feedback content must not be blank'));
@@ -35,4 +35,3 @@ module.exports = {
   }
 
 };
-

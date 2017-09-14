@@ -82,14 +82,17 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
       };
 
       // when
-      const feedback = serializer.deserialize(serializedFeedback);
+      const promise = serializer.deserialize(serializedFeedback);
 
       // then
-      expect(feedback.id).to.equal(serializedFeedback.data.id);
-      expect(feedback.get('assessmentId')).to.equal(serializedFeedback.data.relationships.assessment.data.id);
-      expect(feedback.get('challengeId')).to.equal(serializedFeedback.data.relationships.challenge.data.id);
-      expect(feedback.get('email')).to.equal(serializedFeedback.data.attributes.email);
-      expect(feedback.get('content')).to.equal(serializedFeedback.data.attributes.content);
+      return promise.then((feedback) => {
+        expect(feedback.get('id')).to.equal(serializedFeedback.data.id);
+        expect(feedback.get('email')).to.equal(serializedFeedback.data.attributes.email);
+        expect(feedback.get('content')).to.equal(serializedFeedback.data.attributes.content);
+        expect(feedback.get('assessmentId')).to.equal(serializedFeedback.data.relationships.assessment.data.id);
+        expect(feedback.get('challengeId')).to.equal(serializedFeedback.data.relationships.challenge.data.id);
+
+      });
     });
 
   });
