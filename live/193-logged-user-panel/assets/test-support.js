@@ -22099,72 +22099,46 @@ self.expect = self.chai.expect;
   define('chai', [], vendorModule);
 })();
 
-/* Sinon.JS 2.4.1, 2017-07-26, @license BSD-3 */(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.sinon = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/* globals jQuery, require */
+
+jQuery(document).ready(function() {
+  require('ember-exam/test-support/load').default();
+});
+
+/* Sinon.JS 3.2.1, 2017-08-17, @license BSD-3 */(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.sinon = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
-
-var match = require("./sinon/match");
-var deepEqual = require("./sinon/util/core/deep-equal");
-var deprecated = require("./sinon/util/core/deprecated");
-
-function exposeCoreUtils(target, utils) {
-    var keys = Object.keys(utils);
-
-    keys.forEach(function (key) {
-        var value = utils[key];
-
-        // allow deepEqual to check equality of matchers through dependency injection. Otherwise we get a circular
-        // dependency
-        if (key === "deepEqual") {
-            value = deepEqual.use(match);
-        }
-        if (typeof value === "function") {
-            value = deprecated.wrap(value, deprecated.defaultMsg(key));
-        }
-        target[key] = value;
-    });
-}
-
-function exposeEventTarget(target, eventTarget) {
-    var keys = Object.keys(eventTarget);
-
-    keys.forEach(function (key) {
-        target[key] = deprecated.wrap(eventTarget[key], deprecated.defaultMsg("EventTarget"));
-    });
-}
-
-// Expose internal utilities on `sinon` global for backwards compatibility.
-exposeCoreUtils(exports, require("./sinon/util/core/index"));
 
 exports.assert = require("./sinon/assert");
 exports.collection = require("./sinon/collection");
-exports.match = match;
+exports.match = require("./sinon/match");
 exports.spy = require("./sinon/spy");
 exports.spyCall = require("./sinon/call");
 exports.stub = require("./sinon/stub");
 exports.mock = require("./sinon/mock");
-exports.sandbox = require("./sinon/sandbox");
+
+var sandbox = require("./sinon/sandbox");
+exports.sandbox = sandbox;
 exports.expectation = require("./sinon/mock-expectation");
 exports.createStubInstance = require("./sinon/stub").createStubInstance;
+
+exports.defaultConfig = require("./sinon/util/core/default-config");
 
 var fakeTimers = require("./sinon/util/fake_timers");
 exports.useFakeTimers = fakeTimers.useFakeTimers;
 exports.clock = fakeTimers.clock;
 exports.timers = fakeTimers.timers;
 
-var event = require("./sinon/util/event");
-exports.Event = deprecated.wrap(event.Event, deprecated.defaultMsg("Event"));
-exports.CustomEvent = deprecated.wrap(event.CustomEvent, deprecated.defaultMsg("CustomEvent"));
-exports.ProgressEvent = deprecated.wrap(event.ProgressEvent, deprecated.defaultMsg("ProgressEvent"));
-exports.EventTarget = {};
-exposeEventTarget(exports.EventTarget, event.EventTarget);
+var nise = require("nise");
+exports.xhr = nise.fakeXhr.xhr;
+exports.FakeXMLHttpRequest = nise.fakeXhr.FakeXMLHttpRequest;
+exports.useFakeXMLHttpRequest = nise.fakeXhr.useFakeXMLHttpRequest;
 
-var fakeXhr = require("./sinon/util/fake_xml_http_request");
-exports.xhr = fakeXhr.xhr;
-exports.FakeXMLHttpRequest = fakeXhr.FakeXMLHttpRequest;
-exports.useFakeXMLHttpRequest = fakeXhr.useFakeXMLHttpRequest;
+exports.fakeServer = nise.fakeServer;
+exports.fakeServerWithClock = nise.fakeServerWithClock;
 
-exports.fakeServer = require("./sinon/util/fake_server");
-exports.fakeServerWithClock = require("./sinon/util/fake_server_with_clock");
+exports.createSandbox = sandbox.create;
+exports.createFakeServer = nise.fakeServer.create.bind(nise.fakeServer);
+exports.createFakeServerWithClock = nise.fakeServerWithClock.create.bind(nise.fakeServerWithClock);
 
 var behavior = require("./sinon/behavior");
 
@@ -22172,7 +22146,10 @@ exports.addBehavior = function (name, fn) {
     behavior.addBehavior(exports.stub, name, fn);
 };
 
-},{"./sinon/assert":2,"./sinon/behavior":3,"./sinon/call":5,"./sinon/collection":7,"./sinon/match":10,"./sinon/mock":12,"./sinon/mock-expectation":11,"./sinon/sandbox":14,"./sinon/spy":16,"./sinon/stub":20,"./sinon/util/core/deep-equal":23,"./sinon/util/core/deprecated":25,"./sinon/util/core/index":33,"./sinon/util/event":43,"./sinon/util/fake_server":44,"./sinon/util/fake_server_with_clock":45,"./sinon/util/fake_timers":46,"./sinon/util/fake_xml_http_request":47}],2:[function(require,module,exports){
+var format = require("./sinon/util/core/format");
+exports.setFormatter = format.setFormatter;
+
+},{"./sinon/assert":2,"./sinon/behavior":3,"./sinon/call":4,"./sinon/collection":6,"./sinon/match":9,"./sinon/mock":11,"./sinon/mock-expectation":10,"./sinon/sandbox":12,"./sinon/spy":14,"./sinon/stub":16,"./sinon/util/core/default-config":20,"./sinon/util/core/format":23,"./sinon/util/fake_timers":34,"nise":50}],2:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -22380,7 +22357,7 @@ module.exports = assert;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"./match":10,"./util/core/called-in-order":22,"./util/core/format":28,"./util/core/order-by-first-call":36,"./util/core/times-in-words":38}],3:[function(require,module,exports){
+},{"./match":9,"./util/core/called-in-order":18,"./util/core/format":23,"./util/core/order-by-first-call":28,"./util/core/times-in-words":29}],3:[function(require,module,exports){
 (function (process){
 "use strict";
 
@@ -22499,8 +22476,10 @@ var proto = {
     isPresent: function isPresent() {
         return (typeof this.callArgAt === "number" ||
                 this.exception ||
+                this.exceptionCreator ||
                 typeof this.returnArgAt === "number" ||
                 this.returnThis ||
+                this.resolveThis ||
                 typeof this.throwArgAt === "number" ||
                 this.fakeFn ||
                 this.returnValueDefined);
@@ -22510,6 +22489,10 @@ var proto = {
         callCallback(this, args);
 
         if (this.exception) {
+            throw this.exception;
+        } else if (this.exceptionCreator) {
+            this.exception = this.exceptionCreator();
+            this.exceptionCreator = undefined;
             throw this.exception;
         } else if (typeof this.returnArgAt === "number") {
             return args[this.returnArgAt];
@@ -22526,6 +22509,8 @@ var proto = {
             throw args[this.throwArgAt];
         } else if (this.fakeFn) {
             return this.fakeFn.apply(context, args);
+        } else if (this.resolveThis) {
+            return (this.promiseLibrary || Promise).resolve(context);
         } else if (this.resolve) {
             return (this.promiseLibrary || Promise).resolve(this.returnValue);
         } else if (this.reject) {
@@ -22600,19 +22585,7 @@ module.exports = proto;
 
 }).call(this,require('_process'))
 
-},{"./util/core/extend":27,"./util/core/function-name":29,"./util/core/value-to-string":40,"_process":53}],4:[function(require,module,exports){
-/*global Blob */
-"use strict";
-
-exports.isSupported = (function () {
-    try {
-        return !!new Blob();
-    } catch (e) {
-        return false;
-    }
-}());
-
-},{}],5:[function(require,module,exports){
+},{"./util/core/extend":22,"./util/core/function-name":24,"./util/core/value-to-string":31,"_process":54}],4:[function(require,module,exports){
 "use strict";
 
 var sinonMatch = require("./match");
@@ -22621,6 +22594,7 @@ var functionName = require("./util/core/function-name");
 var sinonFormat = require("./util/core/format");
 var valueToString = require("./util/core/value-to-string");
 var slice = Array.prototype.slice;
+var filter = Array.prototype.filter;
 
 function throwYieldError(proxy, text, args) {
     var msg = functionName(proxy) + text;
@@ -22746,7 +22720,7 @@ var callProto = {
 
     yieldOn: function (thisValue) {
         var args = slice.call(this.args);
-        var yieldFn = args.filter(function (arg) {
+        var yieldFn = filter.call(args, function (arg) {
             return typeof arg === "function";
         })[0];
 
@@ -22763,7 +22737,7 @@ var callProto = {
 
     yieldToOn: function (prop, thisValue) {
         var args = slice.call(this.args);
-        var yieldArg = args.filter(function (arg) {
+        var yieldArg = filter.call(args, function (arg) {
             return arg && typeof arg[prop] === "function";
         })[0];
         var yieldFn = yieldArg && yieldArg[prop];
@@ -22838,7 +22812,7 @@ createSpyCall.toString = callProto.toString; // used by mocks
 
 module.exports = createSpyCall;
 
-},{"./match":10,"./util/core/deep-equal":23,"./util/core/format":28,"./util/core/function-name":29,"./util/core/value-to-string":40}],6:[function(require,module,exports){
+},{"./match":9,"./util/core/deep-equal":19,"./util/core/format":23,"./util/core/function-name":24,"./util/core/value-to-string":31}],5:[function(require,module,exports){
 "use strict";
 
 var walk = require("./util/core/walk");
@@ -22864,16 +22838,17 @@ function collectOwnMethods(object) {
 
 module.exports = collectOwnMethods;
 
-},{"./util/core/get-property-descriptor":32,"./util/core/walk":41}],7:[function(require,module,exports){
+},{"./util/core/get-property-descriptor":26,"./util/core/walk":32}],6:[function(require,module,exports){
 "use strict";
 
 var sinonSpy = require("./spy");
 var sinonStub = require("./stub");
 var sinonMock = require("./mock");
-var sandboxStub = require("./sandbox-stub");
 var collectOwnMethods = require("./collect-own-methods");
+var valueToString = require("./util/core/value-to-string");
 
-var push = [].push;
+var push = Array.prototype.push;
+var filter = Array.prototype.filter;
 
 function getFakes(fakeCollection) {
     if (!fakeCollection.fakes) {
@@ -22885,7 +22860,7 @@ function getFakes(fakeCollection) {
 
 function each(fakeCollection, method) {
     var fakes = getFakes(fakeCollection);
-    var matchingFakes = fakes.filter(function (fake) {
+    var matchingFakes = filter.call(fakes, function (fake) {
         return typeof fake[method] === "function";
     });
 
@@ -22952,9 +22927,10 @@ var collection = {
         return this.add(sinonSpy.apply(sinonSpy, arguments));
     },
 
-    stub: function stub(object, property/*, value*/) {
-        if (arguments.length > 2) {
-            return sandboxStub.apply(this, arguments);
+    stub: function stub(object, property) {
+        if (object && typeof property !== "undefined"
+            && !(property in object)) {
+            throw new TypeError("Cannot stub non-existent own property " + valueToString(property));
         }
 
         var stubbed = sinonStub.apply(null, arguments);
@@ -23001,7 +22977,7 @@ var collection = {
 
 module.exports = collection;
 
-},{"./collect-own-methods":6,"./mock":12,"./sandbox-stub":13,"./spy":16,"./stub":20}],8:[function(require,module,exports){
+},{"./collect-own-methods":5,"./mock":11,"./spy":14,"./stub":16,"./util/core/value-to-string":31}],7:[function(require,module,exports){
 (function (process){
 "use strict";
 
@@ -23025,7 +23001,7 @@ exports.green = function (str) {
 
 }).call(this,require('_process'))
 
-},{"_process":53}],9:[function(require,module,exports){
+},{"_process":54}],8:[function(require,module,exports){
 "use strict";
 
 var getPropertyDescriptor = require("./util/core/get-property-descriptor");
@@ -23035,11 +23011,18 @@ var useLeftMostCallback = -1;
 var useRightMostCallback = -2;
 
 function throwsException(fake, error, message) {
-    if (typeof error === "string") {
-        fake.exception = new Error(message || "");
-        fake.exception.name = error;
+    if (typeof error === "function") {
+        fake.exceptionCreator = error;
+    } else if (typeof error === "string") {
+        fake.exceptionCreator = function () {
+            var newException = new Error(message || "");
+            newException.name = error;
+            return newException;
+        };
     } else if (!error) {
-        fake.exception = new Error("Error");
+        fake.exceptionCreator = function () {
+            return new Error("Error");
+        };
     } else {
         fake.exception = error;
     }
@@ -23157,6 +23140,7 @@ module.exports = {
         fake.reject = false;
         fake.returnValueDefined = true;
         fake.exception = undefined;
+        fake.exceptionCreator = undefined;
         fake.fakeFn = undefined;
     },
 
@@ -23183,9 +23167,11 @@ module.exports = {
     resolves: function resolves(fake, value) {
         fake.returnValue = value;
         fake.resolve = true;
+        fake.resolveThis = false;
         fake.reject = false;
         fake.returnValueDefined = true;
         fake.exception = undefined;
+        fake.exceptionCreator = undefined;
         fake.fakeFn = undefined;
     },
 
@@ -23201,12 +23187,25 @@ module.exports = {
         }
         fake.returnValue = reason;
         fake.resolve = false;
+        fake.resolveThis = false;
         fake.reject = true;
         fake.returnValueDefined = true;
         fake.exception = undefined;
+        fake.exceptionCreator = undefined;
         fake.fakeFn = undefined;
 
         return fake;
+    },
+
+    resolvesThis: function resolvesThis(fake) {
+        fake.returnValue = undefined;
+        fake.resolve = false;
+        fake.resolveThis = true;
+        fake.reject = false;
+        fake.returnValueDefined = false;
+        fake.exception = undefined;
+        fake.exceptionCreator = undefined;
+        fake.fakeFn = undefined;
     },
 
     callThrough: function callThrough(fake) {
@@ -23264,7 +23263,7 @@ Object.keys(module.exports).forEach(function (method) {
     }
 });
 
-},{"./util/core/get-property-descriptor":32}],10:[function(require,module,exports){
+},{"./util/core/get-property-descriptor":26}],9:[function(require,module,exports){
 "use strict";
 
 var deepEqual = require("./util/core/deep-equal").use(match); // eslint-disable-line no-use-before-define
@@ -23572,7 +23571,7 @@ match.symbol = match.typeOf("symbol");
 
 module.exports = match;
 
-},{"./util/core/deep-equal":23,"./util/core/every":26,"./util/core/function-name":29,"./util/core/iterable-to-string":34,"./util/core/typeOf":39,"./util/core/value-to-string":40}],11:[function(require,module,exports){
+},{"./util/core/deep-equal":19,"./util/core/every":21,"./util/core/function-name":24,"./util/core/iterable-to-string":27,"./util/core/typeOf":30,"./util/core/value-to-string":31}],10:[function(require,module,exports){
 "use strict";
 
 var spyInvoke = require("./spy").invoke;
@@ -23862,7 +23861,7 @@ var mockExpectation = {
 
 module.exports = mockExpectation;
 
-},{"./assert":2,"./call":5,"./match":10,"./spy":16,"./stub":20,"./util/core/deep-equal":23,"./util/core/extend":27,"./util/core/format":28,"./util/core/times-in-words":38,"./util/core/value-to-string":40}],12:[function(require,module,exports){
+},{"./assert":2,"./call":4,"./match":9,"./spy":14,"./stub":16,"./util/core/deep-equal":19,"./util/core/extend":22,"./util/core/format":23,"./util/core/times-in-words":29,"./util/core/value-to-string":31}],11:[function(require,module,exports){
 "use strict";
 
 var mockExpectation = require("./mock-expectation");
@@ -23873,6 +23872,7 @@ var deepEqual = require("./util/core/deep-equal").use(match);
 var wrapMethod = require("./util/core/wrap-method");
 
 var push = Array.prototype.push;
+var filter = Array.prototype.filter;
 
 function mock(object) {
     if (!object || typeof object === "string") {
@@ -23983,13 +23983,13 @@ extend(mock, {
         var currentArgs = args || [];
         var available;
 
-        var expectationsWithMatchingArgs = expectations.filter(function (expectation) {
+        var expectationsWithMatchingArgs = filter.call(expectations, function (expectation) {
             var expectedArgs = expectation.expectedArguments || [];
 
             return arrayEquals(expectedArgs, currentArgs, expectation.expectsExactArgCount);
         });
 
-        var expectationsToApply = expectationsWithMatchingArgs.filter(function (expectation) {
+        var expectationsToApply = filter.call(expectationsWithMatchingArgs, function (expectation) {
             return !expectation.met() && expectation.allowsCall(thisValue, args);
         });
 
@@ -24040,60 +24040,7 @@ extend(mock, {
 
 module.exports = mock;
 
-},{"./call":5,"./match":10,"./mock-expectation":11,"./util/core/deep-equal":23,"./util/core/extend":27,"./util/core/wrap-method":42}],13:[function(require,module,exports){
-"use strict";
-
-var collectOwnMethods = require("./collect-own-methods");
-var deprecated = require("./util/core/deprecated");
-var getPropertyDescriptor = require("./util/core/get-property-descriptor");
-var stubNonFunctionProperty = require("./stub-non-function-property");
-var sinonStub = require("./stub");
-var throwOnFalsyObject = require("./throw-on-falsy-object");
-
-// This is deprecated and will be removed in a future version of sinon.
-// We will only consider pull requests that fix serious bugs in the implementation
-function sandboxStub(object, property/*, value*/) {
-    deprecated.printWarning(
-      "sandbox.stub(obj, 'meth', val) is deprecated and will be removed from " +
-      "the public API in a future version of sinon." +
-      "\n Use sandbox.stub(obj, 'meth').callsFake(fn) instead in order to stub a function." +
-      "\n Use sandbox.stub(obj, 'meth').value(fn) instead in order to stub a non-function value."
-    );
-
-    throwOnFalsyObject.apply(null, arguments);
-
-    var actualDescriptor = getPropertyDescriptor(object, property);
-    var isStubbingEntireObject = typeof property === "undefined" && typeof object === "object";
-    var isStubbingNonFuncProperty = typeof object === "object"
-                                    && typeof property !== "undefined"
-                                    && (typeof actualDescriptor === "undefined"
-                                    || typeof actualDescriptor.value !== "function");
-
-
-    // When passing a value as third argument it will be applied to stubNonFunctionProperty
-    var stubbed = isStubbingNonFuncProperty ?
-                    stubNonFunctionProperty.apply(null, arguments) :
-                    sinonStub.apply(null, arguments);
-
-    if (isStubbingEntireObject) {
-        var ownMethods = collectOwnMethods(stubbed);
-        ownMethods.forEach(this.add.bind(this));
-        if (this.promiseLibrary) {
-            ownMethods.forEach(this.addUsingPromise.bind(this));
-        }
-    } else {
-        this.add(stubbed);
-        if (this.promiseLibrary) {
-            stubbed.usingPromise(this.promiseLibrary);
-        }
-    }
-
-    return stubbed;
-}
-
-module.exports = sandboxStub;
-
-},{"./collect-own-methods":6,"./stub":20,"./stub-non-function-property":19,"./throw-on-falsy-object":21,"./util/core/deprecated":25,"./util/core/get-property-descriptor":32}],14:[function(require,module,exports){
+},{"./call":4,"./match":9,"./mock-expectation":10,"./util/core/deep-equal":19,"./util/core/extend":22,"./util/core/wrap-method":33}],12:[function(require,module,exports){
 "use strict";
 
 var extend = require("./util/core/extend");
@@ -24101,9 +24048,9 @@ var sinonCollection = require("./collection");
 var sinonMatch = require("./match");
 var sinonAssert = require("./assert");
 var sinonClock = require("./util/fake_timers");
-var fakeServer = require("./util/fake_server");
-var fakeXhr = require("./util/fake_xml_http_request");
-var fakeServerWithClock = require("./util/fake_server_with_clock");
+var fakeServer = require("nise").fakeServer;
+var fakeXhr = require("nise").fakeXhr;
+var fakeServerWithClock = require("nise").fakeServerWithClock;
 
 var push = [].push;
 
@@ -24135,7 +24082,7 @@ function prepareSandboxFromConfig(config) {
 
     if (config.useFakeTimers) {
         if (typeof config.useFakeTimers === "object") {
-            sandbox.useFakeTimers.apply(sandbox, config.useFakeTimers);
+            sandbox.useFakeTimers.call(sandbox, config.useFakeTimers);
         } else {
             sandbox.useFakeTimers();
         }
@@ -24145,8 +24092,8 @@ function prepareSandboxFromConfig(config) {
 }
 
 extend(sinonSandbox, {
-    useFakeTimers: function useFakeTimers() {
-        this.clock = sinonClock.useFakeTimers.apply(null, arguments);
+    useFakeTimers: function (args) {
+        this.clock = sinonClock.useFakeTimers.call(null, args);
 
         return this.add(this.clock);
     },
@@ -24247,7 +24194,7 @@ extend(sinonSandbox, {
 
 module.exports = sinonSandbox;
 
-},{"./assert":2,"./collection":7,"./match":10,"./util/core/extend":27,"./util/fake_server":44,"./util/fake_server_with_clock":45,"./util/fake_timers":46,"./util/fake_xml_http_request":47}],15:[function(require,module,exports){
+},{"./assert":2,"./collection":6,"./match":9,"./util/core/extend":22,"./util/fake_timers":34,"nise":50}],13:[function(require,module,exports){
 "use strict";
 
 var color = require("./color");
@@ -24349,7 +24296,7 @@ module.exports = {
     }
 };
 
-},{"./color":8,"./match":10,"./util/core/format":28,"./util/core/times-in-words":38,"diff":48}],16:[function(require,module,exports){
+},{"./color":7,"./match":9,"./util/core/format":23,"./util/core/times-in-words":29,"diff":35}],14:[function(require,module,exports){
 "use strict";
 
 var createBehavior = require("./behavior").create;
@@ -24364,10 +24311,13 @@ var wrapMethod = require("./util/core/wrap-method");
 var sinonFormat = require("./util/core/format");
 var valueToString = require("./util/core/value-to-string");
 
+/* cache references to library methods so that they also can be stubbed without problems */
 var push = Array.prototype.push;
 var slice = Array.prototype.slice;
-var callId = 0;
+var filter = Array.prototype.filter;
 var ErrorConstructor = Error.prototype.constructor;
+
+var callId = 0;
 
 function spy(object, property, types) {
     var descriptor, methodDesc;
@@ -24572,6 +24522,9 @@ var spyApi = {
 
         // Make return value and exception available in the calls:
         createCallProperties.call(this);
+        matchings.forEach(function (matching) {
+            createCallProperties.call(matching);
+        });
 
         if (exception !== undefined) {
             throw exception;
@@ -24689,7 +24642,7 @@ var spyApi = {
     },
 
     matchingFakes: function (args, strict) {
-        return (this.fakes || []).filter(function (fake) {
+        return filter.call(this.fakes || [], function (fake) {
             return fake.matches(args, strict);
         });
     },
@@ -24804,50 +24757,7 @@ extend(spy, spyApi);
 spy.spyCall = spyCall;
 module.exports = spy;
 
-},{"./behavior":3,"./call":5,"./match":10,"./spy-formatters":15,"./util/core/deep-equal":23,"./util/core/extend":27,"./util/core/format":28,"./util/core/function-name":29,"./util/core/function-to-string":30,"./util/core/get-property-descriptor":32,"./util/core/value-to-string":40,"./util/core/wrap-method":42}],17:[function(require,module,exports){
-"use strict";
-
-var deprecated = require("./util/core/deprecated");
-var spy = require("./spy");
-var wrapMethod = require("./util/core/wrap-method");
-
-// This is deprecated and will be removed in a future version of sinon.
-// We will only consider pull requests that fix serious bugs in the implementation
-function stubDescriptor(object, property, descriptor) {
-    var wrapper;
-
-    deprecated.printWarning(
-      "sinon.stub(obj, 'meth', fn) is deprecated and will be removed from " +
-      "the public API in a future version of sinon." +
-      "\n Use stub(obj, 'meth').callsFake(fn)." +
-      "\n Codemod available at https://github.com/hurrymaplelad/sinon-codemod"
-    );
-
-    if (!!descriptor && typeof descriptor !== "function" && typeof descriptor !== "object") {
-        throw new TypeError("Custom stub should be a property descriptor");
-    }
-
-    if (typeof descriptor === "object" && Object.keys(descriptor).length === 0) {
-        throw new TypeError("Expected property descriptor to have at least one key");
-    }
-
-    if (typeof descriptor === "function") {
-        wrapper = spy && spy.create ? spy.create(descriptor) : descriptor;
-    } else {
-        wrapper = descriptor;
-        if (spy && spy.create) {
-            Object.keys(wrapper).forEach(function (type) {
-                wrapper[type] = spy.create(wrapper[type]);
-            });
-        }
-    }
-
-    return wrapMethod(object, property, wrapper);
-}
-
-module.exports = stubDescriptor;
-
-},{"./spy":16,"./util/core/deprecated":25,"./util/core/wrap-method":42}],18:[function(require,module,exports){
+},{"./behavior":3,"./call":4,"./match":9,"./spy-formatters":13,"./util/core/deep-equal":19,"./util/core/extend":22,"./util/core/format":23,"./util/core/function-name":24,"./util/core/function-to-string":25,"./util/core/get-property-descriptor":26,"./util/core/value-to-string":31,"./util/core/wrap-method":33}],15:[function(require,module,exports){
 "use strict";
 
 var getPropertyDescriptor = require("./util/core/get-property-descriptor");
@@ -24871,31 +24781,7 @@ function stubEntireObject(stub, object) {
 
 module.exports = stubEntireObject;
 
-},{"./util/core/get-property-descriptor":32,"./util/core/walk":41}],19:[function(require,module,exports){
-"use strict";
-
-var valueToString = require("./util/core/value-to-string");
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-function stubNonFunctionProperty(object, property, value) {
-    var original = object[property];
-
-    if (!hasOwnProperty.call(object, property)) {
-        throw new TypeError("Cannot stub non-existent own property " + valueToString(property));
-    }
-
-    object[property] = value;
-
-    return {
-        restore: function restore() {
-            object[property] = original;
-        }
-    };
-}
-
-module.exports = stubNonFunctionProperty;
-
-},{"./util/core/value-to-string":40}],20:[function(require,module,exports){
+},{"./util/core/get-property-descriptor":26,"./util/core/walk":32}],16:[function(require,module,exports){
 "use strict";
 
 var behavior = require("./behavior");
@@ -24906,35 +24792,32 @@ var functionToString = require("./util/core/function-to-string");
 var getPropertyDescriptor = require("./util/core/get-property-descriptor");
 var wrapMethod = require("./util/core/wrap-method");
 var stubEntireObject = require("./stub-entire-object");
-var stubDescriptor = require("./stub-descriptor");
 var throwOnFalsyObject = require("./throw-on-falsy-object");
 
 var slice = Array.prototype.slice;
 
-function stub(object, property, descriptor) {
+function stub(object, property) {
+    if (arguments.length > 2) {
+        throw new TypeError("stub(obj, 'meth', fn) has been removed, see documentation");
+    }
+
     throwOnFalsyObject.apply(null, arguments);
 
     var actualDescriptor = getPropertyDescriptor(object, property);
     var isStubbingEntireObject = typeof property === "undefined" && typeof object === "object";
     var isCreatingNewStub = !object && typeof property === "undefined";
-    var isStubbingDescriptor = object && property && Boolean(descriptor);
     var isStubbingNonFuncProperty = (typeof object === "object" || typeof object === "function")
                                     && typeof property !== "undefined"
                                     && (typeof actualDescriptor === "undefined"
                                     || typeof actualDescriptor.value !== "function")
                                     && typeof descriptor === "undefined";
-    var isStubbingExistingMethod = !isStubbingDescriptor
-                                    && typeof object === "object"
+    var isStubbingExistingMethod = typeof object === "object"
                                     && typeof actualDescriptor !== "undefined"
                                     && typeof actualDescriptor.value === "function";
     var arity = isStubbingExistingMethod ? object[property].length : 0;
 
     if (isStubbingEntireObject) {
         return stubEntireObject(stub, object);
-    }
-
-    if (isStubbingDescriptor) {
-        return stubDescriptor.apply(null, arguments);
     }
 
     if (isCreatingNewStub) {
@@ -25021,6 +24904,7 @@ var proto = {
         delete this.throwArgAt;
         delete this.fakeFn;
         this.returnThis = false;
+        this.resolveThis = false;
 
         fakes.forEach(function (fake) {
             fake.resetBehavior();
@@ -25074,7 +24958,7 @@ Object.keys(behaviors).forEach(function (method) {
 extend(stub, proto);
 module.exports = stub;
 
-},{"./behavior":3,"./default-behaviors":9,"./spy":16,"./stub-descriptor":17,"./stub-entire-object":18,"./throw-on-falsy-object":21,"./util/core/extend":27,"./util/core/function-to-string":30,"./util/core/get-property-descriptor":32,"./util/core/wrap-method":42}],21:[function(require,module,exports){
+},{"./behavior":3,"./default-behaviors":8,"./spy":14,"./stub-entire-object":15,"./throw-on-falsy-object":17,"./util/core/extend":22,"./util/core/function-to-string":25,"./util/core/get-property-descriptor":26,"./util/core/wrap-method":33}],17:[function(require,module,exports){
 "use strict";
 var valueToString = require("./util/core/value-to-string");
 
@@ -25087,7 +24971,7 @@ function throwOnFalsyObject(object, property) {
 
 module.exports = throwOnFalsyObject;
 
-},{"./util/core/value-to-string":40}],22:[function(require,module,exports){
+},{"./util/core/value-to-string":31}],18:[function(require,module,exports){
 "use strict";
 
 var every = Array.prototype.every;
@@ -25123,7 +25007,7 @@ module.exports = function calledInOrder(spies) {
     });
 };
 
-},{}],23:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 "use strict";
 
 var div = typeof document !== "undefined" && document.createElement("div");
@@ -25238,7 +25122,7 @@ deepEqual.use = function (match) {
     };
 };
 
-},{}],24:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -25249,41 +25133,7 @@ module.exports = {
     useFakeServer: true
 };
 
-},{}],25:[function(require,module,exports){
-/*eslint no-console: 0 */
-"use strict";
-
-// wrap returns a function that will invoke the supplied function and print a deprecation warning to the console each
-// time it is called.
-exports.wrap = function (func, msg) {
-    var wrapped = function () {
-        exports.printWarning(msg);
-        return func.apply(this, arguments);
-    };
-    if (func.prototype) {
-        wrapped.prototype = func.prototype;
-    }
-    return wrapped;
-};
-
-// defaultMsg returns a string which can be supplied to `wrap()` to notify the user that a particular part of the
-// sinon API has been deprecated.
-exports.defaultMsg = function (funcName) {
-    return "sinon." + funcName + " is deprecated and will be removed from the public API in a future version of sinon.";
-};
-
-exports.printWarning = function (msg) {
-    // Watch out for IE7 and below! :(
-    if (typeof console !== "undefined") {
-        if (console.info) {
-            console.info(msg);
-        } else {
-            console.log(msg);
-        }
-    }
-};
-
-},{}],26:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 "use strict";
 
 // This is an `every` implementation that works for all iterables
@@ -25304,7 +25154,7 @@ module.exports = function every(obj, fn) {
     return pass;
 };
 
-},{}],27:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 "use strict";
 
 // Adapted from https://developer.mozilla.org/en/docs/ECMAScript_DontEnum_attribute#JScript_DontEnum_Bug
@@ -25382,7 +25232,7 @@ module.exports = function extend(target /*, sources */) {
     return target;
 };
 
-},{}],28:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 "use strict";
 
 var formatio = require("formatio");
@@ -25392,11 +25242,27 @@ var formatter = formatio.configure({
     limitChildrenCount: 250
 });
 
-module.exports = function format() {
+var customFormatter;
+
+function format() {
+    if (customFormatter) {
+        return customFormatter.apply(null, arguments);
+    }
+
     return formatter.ascii.apply(formatter, arguments);
+}
+
+format.setFormatter = function (aCustomFormatter) {
+    if (typeof aCustomFormatter !== "function") {
+        throw new Error("format.setFormatter must be called with a function");
+    }
+
+    customFormatter = aCustomFormatter;
 };
 
-},{"formatio":49}],29:[function(require,module,exports){
+module.exports = format;
+
+},{"formatio":36}],24:[function(require,module,exports){
 "use strict";
 
 module.exports = function functionName(func) {
@@ -25415,7 +25281,7 @@ module.exports = function functionName(func) {
 };
 
 
-},{}],30:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 "use strict";
 
 module.exports = function toString() {
@@ -25437,27 +25303,7 @@ module.exports = function toString() {
     return this.displayName || "sinon fake";
 };
 
-},{}],31:[function(require,module,exports){
-"use strict";
-
-var defaultConfig = require("./default-config");
-
-module.exports = function getConfig(custom) {
-    var config = {};
-    var prop;
-
-    custom = custom || {};
-
-    for (prop in defaultConfig) {
-        if (defaultConfig.hasOwnProperty(prop)) {
-            config[prop] = custom.hasOwnProperty(prop) ? custom[prop] : defaultConfig[prop];
-        }
-    }
-
-    return config;
-};
-
-},{"./default-config":24}],32:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 "use strict";
 
 module.exports = function getPropertyDescriptor(object, property) {
@@ -25470,31 +25316,7 @@ module.exports = function getPropertyDescriptor(object, property) {
     return descriptor;
 };
 
-},{}],33:[function(require,module,exports){
-"use strict";
-
-module.exports = {
-    calledInOrder: require("./called-in-order"),
-    configureLogError: require("./log_error"),
-    defaultConfig: require("./default-config"),
-    deepEqual: require("./deep-equal"),
-    every: require("./every"),
-    extend: require("./extend"),
-    format: require("./format"),
-    functionName: require("./function-name"),
-    functionToString: require("./function-to-string"),
-    getConfig: require("./get-config"),
-    getPropertyDescriptor: require("./get-property-descriptor"),
-    iterableToString: require("./iterable-to-string"),
-    orderByFirstCall: require("./order-by-first-call"),
-    restore: require("./restore"),
-    timesInWords: require("./times-in-words"),
-    typeOf: require("./typeOf"),
-    walk: require("./walk"),
-    wrapMethod: require("./wrap-method")
-};
-
-},{"./called-in-order":22,"./deep-equal":23,"./default-config":24,"./every":26,"./extend":27,"./format":28,"./function-name":29,"./function-to-string":30,"./get-config":31,"./get-property-descriptor":32,"./iterable-to-string":34,"./log_error":35,"./order-by-first-call":36,"./restore":37,"./times-in-words":38,"./typeOf":39,"./walk":41,"./wrap-method":42}],34:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 "use strict";
 var typeOf = require("./typeOf");
 
@@ -25530,56 +25352,7 @@ module.exports = function iterableToString(obj) {
     return genericIterableToString(obj);
 };
 
-},{"./typeOf":39}],35:[function(require,module,exports){
-"use strict";
-
-// cache a reference to setTimeout, so that our reference won't be stubbed out
-// when using fake timers and errors will still get logged
-// https://github.com/cjohansen/Sinon.JS/issues/381
-var realSetTimeout = setTimeout;
-
-function configure(config) {
-    config = config || {};
-    // Function which prints errors.
-    if (!config.hasOwnProperty("logger")) {
-        config.logger = function () { };
-    }
-    // When set to true, any errors logged will be thrown immediately;
-    // If set to false, the errors will be thrown in separate execution frame.
-    if (!config.hasOwnProperty("useImmediateExceptions")) {
-        config.useImmediateExceptions = true;
-    }
-    // wrap realSetTimeout with something we can stub in tests
-    if (!config.hasOwnProperty("setTimeout")) {
-        config.setTimeout = realSetTimeout;
-    }
-
-    return function logError(label, e) {
-        var msg = label + " threw exception: ";
-        var err = { name: e.name || label, message: e.message || e.toString(), stack: e.stack };
-
-        function throwLoggedError() {
-            err.message = msg + err.message;
-            throw err;
-        }
-
-        config.logger(msg + "[" + err.name + "] " + err.message);
-
-        if (err.stack) {
-            config.logger(err.stack);
-        }
-
-        if (config.useImmediateExceptions) {
-            throwLoggedError();
-        } else {
-            config.setTimeout(throwLoggedError, 0);
-        }
-    };
-}
-
-module.exports = configure;
-
-},{}],36:[function(require,module,exports){
+},{"./typeOf":30}],28:[function(require,module,exports){
 "use strict";
 
 module.exports = function orderByFirstCall(spies) {
@@ -25594,28 +25367,7 @@ module.exports = function orderByFirstCall(spies) {
     });
 };
 
-},{}],37:[function(require,module,exports){
-"use strict";
-
-var walk = require("./walk");
-
-function isRestorable(obj) {
-    return typeof obj === "function" && typeof obj.restore === "function" && obj.restore.sinon;
-}
-
-module.exports = function restore(object) {
-    if (object !== null && typeof object === "object") {
-        walk(object, function (prop) {
-            if (isRestorable(object[prop])) {
-                object[prop].restore();
-            }
-        });
-    } else if (isRestorable(object)) {
-        object.restore();
-    }
-};
-
-},{"./walk":41}],38:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 "use strict";
 
 var array = [null, "once", "twice", "thrice"];
@@ -25624,7 +25376,7 @@ module.exports = function timesInWords(count) {
     return array[count] || (count || 0) + " times";
 };
 
-},{}],39:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 "use strict";
 
 var type = require("type-detect");
@@ -25633,7 +25385,7 @@ module.exports = function typeOf(value) {
     return type(value).toLowerCase();
 };
 
-},{"type-detect":58}],40:[function(require,module,exports){
+},{"type-detect":59}],31:[function(require,module,exports){
 "use strict";
 
 module.exports = function (value) {
@@ -25643,7 +25395,7 @@ module.exports = function (value) {
     return String(value);
 };
 
-},{}],41:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 "use strict";
 
 function walkInternal(obj, iterator, context, originalObj, seen) {
@@ -25690,7 +25442,7 @@ module.exports = function walk(obj, iterator, context) {
     return walkInternal(obj, iterator, context, obj, {});
 };
 
-},{}],42:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 "use strict";
 
 var getPropertyDescriptor = require("./get-property-descriptor");
@@ -25843,464 +25595,33 @@ module.exports = function wrapMethod(object, property, method) {
     return method;
 };
 
-},{"./get-property-descriptor":32,"./value-to-string":40}],43:[function(require,module,exports){
-"use strict";
-
-var push = [].push;
-
-function Event(type, bubbles, cancelable, target) {
-    this.initEvent(type, bubbles, cancelable, target);
-}
-
-Event.prototype = {
-    initEvent: function (type, bubbles, cancelable, target) {
-        this.type = type;
-        this.bubbles = bubbles;
-        this.cancelable = cancelable;
-        this.target = target;
-    },
-
-    stopPropagation: function () {},
-
-    preventDefault: function () {
-        this.defaultPrevented = true;
-    }
-};
-
-function ProgressEvent(type, progressEventRaw, target) {
-    this.initEvent(type, false, false, target);
-    this.loaded = typeof progressEventRaw.loaded === "number" ? progressEventRaw.loaded : null;
-    this.total = typeof progressEventRaw.total === "number" ? progressEventRaw.total : null;
-    this.lengthComputable = !!progressEventRaw.total;
-}
-
-ProgressEvent.prototype = new Event();
-
-ProgressEvent.prototype.constructor = ProgressEvent;
-
-function CustomEvent(type, customData, target) {
-    this.initEvent(type, false, false, target);
-    this.detail = customData.detail || null;
-}
-
-CustomEvent.prototype = new Event();
-
-CustomEvent.prototype.constructor = CustomEvent;
-
-var EventTarget = {
-    addEventListener: function addEventListener(event, listener) {
-        this.eventListeners = this.eventListeners || {};
-        this.eventListeners[event] = this.eventListeners[event] || [];
-        push.call(this.eventListeners[event], listener);
-    },
-
-    removeEventListener: function removeEventListener(event, listener) {
-        var listeners = this.eventListeners && this.eventListeners[event] || [];
-        var index = listeners.indexOf(listener);
-
-        if (index === -1) {
-            return;
-        }
-
-        listeners.splice(index, 1);
-    },
-
-    dispatchEvent: function dispatchEvent(event) {
-        var self = this;
-        var type = event.type;
-        var listeners = self.eventListeners && self.eventListeners[type] || [];
-
-        listeners.forEach(function (listener) {
-            if (typeof listener === "function") {
-                listener.call(self, event);
-            } else {
-                listener.handleEvent(event);
-            }
-        });
-
-        return !!event.defaultPrevented;
-    }
-};
-
-module.exports = {
-    Event: Event,
-    ProgressEvent: ProgressEvent,
-    CustomEvent: CustomEvent,
-    EventTarget: EventTarget
-};
-
-},{}],44:[function(require,module,exports){
-"use strict";
-
-var fakeXhr = require("./fake_xml_http_request");
-var push = [].push;
-var format = require("./core/format");
-var configureLogError = require("./core/log_error");
-var pathToRegexp = require("path-to-regexp");
-
-function responseArray(handler) {
-    var response = handler;
-
-    if (Object.prototype.toString.call(handler) !== "[object Array]") {
-        response = [200, {}, handler];
-    }
-
-    if (typeof response[2] !== "string") {
-        throw new TypeError("Fake server response body should be string, but was " +
-                            typeof response[2]);
-    }
-
-    return response;
-}
-
-function getDefaultWindowLocation() {
-    return { "host": "localhost", "protocol": "http" };
-}
-
-function getWindowLocation() {
-    if (typeof window === "undefined") {
-        // Fallback
-        return getDefaultWindowLocation();
-    }
-
-    if (typeof window.location !== "undefined") {
-        // Browsers place location on window
-        return window.location;
-    }
-
-    if ((typeof window.window !== "undefined") && (typeof window.window.location !== "undefined")) {
-        // React Native on Android places location on window.window
-        return window.window.location;
-    }
-
-    return getDefaultWindowLocation();
-}
-
-var wloc = getWindowLocation();
-
-var rCurrLoc = new RegExp("^" + wloc.protocol + "//" + wloc.host);
-
-function matchOne(response, reqMethod, reqUrl) {
-    var rmeth = response.method;
-    var matchMethod = !rmeth || rmeth.toLowerCase() === reqMethod.toLowerCase();
-    var url = response.url;
-    var matchUrl = !url || url === reqUrl || (typeof url.test === "function" && url.test(reqUrl));
-
-    return matchMethod && matchUrl;
-}
-
-function match(response, request) {
-    var requestUrl = request.url;
-
-    if (!/^https?:\/\//.test(requestUrl) || rCurrLoc.test(requestUrl)) {
-        requestUrl = requestUrl.replace(rCurrLoc, "");
-    }
-
-    if (matchOne(response, this.getHTTPMethod(request), requestUrl)) {
-        if (typeof response.response === "function") {
-            var ru = response.url;
-            var args = [request].concat(ru && typeof ru.exec === "function" ? ru.exec(requestUrl).slice(1) : []);
-            return response.response.apply(response, args);
-        }
-
-        return true;
-    }
-
-    return false;
-}
-
-function incrementRequestCount() {
-    var count = ++this.requestCount;
-
-    this.requested = true;
-
-    this.requestedOnce = count === 1;
-    this.requestedTwice = count === 2;
-    this.requestedThrice = count === 3;
-
-    this.firstRequest = this.getRequest(0);
-    this.secondRequest = this.getRequest(1);
-    this.thirdRequest = this.getRequest(2);
-
-    this.lastRequest = this.getRequest(count - 1);
-}
-
-var fakeServer = {
-    create: function (config) {
-        var server = Object.create(this);
-        server.configure(config);
-        this.xhr = fakeXhr.useFakeXMLHttpRequest();
-        server.requests = [];
-        server.requestCount = 0;
-        server.queue = [];
-        server.responses = [];
-
-
-        this.xhr.onCreate = function (xhrObj) {
-            xhrObj.unsafeHeadersEnabled = function () {
-                return !(server.unsafeHeadersEnabled === false);
-            };
-            server.addRequest(xhrObj);
-        };
-
-        return server;
-    },
-
-    configure: function (config) {
-        var self = this;
-        var whitelist = {
-            "autoRespond": true,
-            "autoRespondAfter": true,
-            "respondImmediately": true,
-            "fakeHTTPMethods": true,
-            "logger": true,
-            "unsafeHeadersEnabled": true
-        };
-
-        config = config || {};
-
-        Object.keys(config).forEach(function (setting) {
-            if (setting in whitelist) {
-                self[setting] = config[setting];
-            }
-        });
-
-        self.logError = configureLogError(config);
-    },
-
-    addRequest: function addRequest(xhrObj) {
-        var server = this;
-        push.call(this.requests, xhrObj);
-
-        incrementRequestCount.call(this);
-
-        xhrObj.onSend = function () {
-            server.handleRequest(this);
-
-            if (server.respondImmediately) {
-                server.respond();
-            } else if (server.autoRespond && !server.responding) {
-                setTimeout(function () {
-                    server.responding = false;
-                    server.respond();
-                }, server.autoRespondAfter || 10);
-
-                server.responding = true;
-            }
-        };
-    },
-
-    getHTTPMethod: function getHTTPMethod(request) {
-        if (this.fakeHTTPMethods && /post/i.test(request.method)) {
-            var matches = (request.requestBody || "").match(/_method=([^\b;]+)/);
-            return matches ? matches[1] : request.method;
-        }
-
-        return request.method;
-    },
-
-    handleRequest: function handleRequest(xhr) {
-        if (xhr.async) {
-            push.call(this.queue, xhr);
-        } else {
-            this.processRequest(xhr);
-        }
-    },
-
-    logger: function () {
-        // no-op; override via configure()
-    },
-
-    logError: configureLogError({}),
-
-    log: function log(response, request) {
-        var str;
-
-        str = "Request:\n" + format(request) + "\n\n";
-        str += "Response:\n" + format(response) + "\n\n";
-
-        if (typeof this.logger === "function") {
-            this.logger(str);
-        }
-    },
-
-    respondWith: function respondWith(method, url, body) {
-        if (arguments.length === 1 && typeof method !== "function") {
-            this.response = responseArray(method);
-            return;
-        }
-
-        if (arguments.length === 1) {
-            body = method;
-            url = method = null;
-        }
-
-        if (arguments.length === 2) {
-            body = url;
-            url = method;
-            method = null;
-        }
-
-        push.call(this.responses, {
-            method: method,
-            url: typeof url === "string" && url !== "" ? pathToRegexp(url) : url,
-            response: typeof body === "function" ? body : responseArray(body)
-        });
-    },
-
-    respond: function respond() {
-        if (arguments.length > 0) {
-            this.respondWith.apply(this, arguments);
-        }
-
-        var queue = this.queue || [];
-        var requests = queue.splice(0, queue.length);
-        var self = this;
-
-        requests.forEach(function (request) {
-            self.processRequest(request);
-        });
-    },
-
-    processRequest: function processRequest(request) {
-        try {
-            if (request.aborted) {
-                return;
-            }
-
-            var response = this.response || [404, {}, ""];
-
-            if (this.responses) {
-                for (var l = this.responses.length, i = l - 1; i >= 0; i--) {
-                    if (match.call(this, this.responses[i], request)) {
-                        response = this.responses[i].response;
-                        break;
-                    }
-                }
-            }
-
-            if (request.readyState !== 4) {
-                this.log(response, request);
-
-                request.respond(response[0], response[1], response[2]);
-            }
-        } catch (e) {
-            this.logError("Fake server request processing", e);
-        }
-    },
-
-    restore: function restore() {
-        return this.xhr.restore && this.xhr.restore.apply(this.xhr, arguments);
-    },
-
-    getRequest: function getRequest(index) {
-        return this.requests[index] || null;
-    },
-
-    reset: function reset() {
-        this.resetBehavior();
-        this.resetHistory();
-    },
-
-    resetBehavior: function resetBehavior() {
-        this.responses.length = this.queue.length = 0;
-    },
-
-    resetHistory: function resetHistory() {
-        this.requests.length = this.requestCount = 0;
-
-        this.requestedOnce = this.requestedTwice = this.requestedThrice = this.requested = false;
-
-        this.firstRequest = this.secondRequest = this.thirdRequest = this.lastRequest = null;
-    }
-};
-
-module.exports = fakeServer;
-
-},{"./core/format":28,"./core/log_error":35,"./fake_xml_http_request":47,"path-to-regexp":52}],45:[function(require,module,exports){
-"use strict";
-
-var fakeServer = require("./fake_server");
-var fakeTimers = require("./fake_timers");
-
-function Server() {}
-Server.prototype = fakeServer;
-
-var fakeServerWithClock = new Server();
-
-fakeServerWithClock.addRequest = function addRequest(xhr) {
-    if (xhr.async) {
-        if (typeof setTimeout.clock === "object") {
-            this.clock = setTimeout.clock;
-        } else {
-            this.clock = fakeTimers.useFakeTimers();
-            this.resetClock = true;
-        }
-
-        if (!this.longestTimeout) {
-            var clockSetTimeout = this.clock.setTimeout;
-            var clockSetInterval = this.clock.setInterval;
-            var server = this;
-
-            this.clock.setTimeout = function (fn, timeout) {
-                server.longestTimeout = Math.max(timeout, server.longestTimeout || 0);
-
-                return clockSetTimeout.apply(this, arguments);
-            };
-
-            this.clock.setInterval = function (fn, timeout) {
-                server.longestTimeout = Math.max(timeout, server.longestTimeout || 0);
-
-                return clockSetInterval.apply(this, arguments);
-            };
-        }
-    }
-
-    return fakeServer.addRequest.call(this, xhr);
-};
-
-fakeServerWithClock.respond = function respond() {
-    var returnVal = fakeServer.respond.apply(this, arguments);
-
-    if (this.clock) {
-        this.clock.tick(this.longestTimeout || 0);
-        this.longestTimeout = 0;
-
-        if (this.resetClock) {
-            this.clock.restore();
-            this.resetClock = false;
-        }
-    }
-
-    return returnVal;
-};
-
-fakeServerWithClock.restore = function restore() {
-    if (this.clock) {
-        this.clock.restore();
-    }
-
-    return fakeServer.restore.apply(this, arguments);
-};
-
-module.exports = fakeServerWithClock;
-
-},{"./fake_server":44,"./fake_timers":46}],46:[function(require,module,exports){
+},{"./get-property-descriptor":26,"./value-to-string":31}],34:[function(require,module,exports){
 "use strict";
 
 var llx = require("lolex");
 
-exports.useFakeTimers = function () {
-    var now;
-    var methods = Array.prototype.slice.call(arguments);
+/**
+ * @param config {number|Date|Object} the unix epoch value to install with (default 0) or
+ */
+exports.useFakeTimers = function (args) {
+    var config = {};
 
-    if (typeof methods[0] === "string") {
-        now = 0;
+    if (typeof args === "undefined" || args === null) {
+        config.now = 0;
+    } else if ((typeof args === "number" || args instanceof Date) && arguments.length === 1) {
+        config.now = args;
+    } else if (args !== null && typeof args === "object" && arguments.length === 1) {
+        var keys = Object.keys(args);
+        for (var i = 0; i < keys.length; i++) {
+            if (args.hasOwnProperty(keys[i])) {
+                config[keys[i]] = args[keys[i]];
+            }
+        }
     } else {
-        now = methods.shift();
+        throw new TypeError("useFakeTimers expected epoch or config object. See https://github.com/sinonjs/sinon");
     }
 
-    var clock = llx.install(now || 0, methods);
+    var clock = llx.install(config);
     clock.restore = clock.uninstall;
     return clock;
 };
@@ -26321,657 +25642,7 @@ exports.timers = {
     Date: Date
 };
 
-},{"lolex":51}],47:[function(require,module,exports){
-(function (global){
-"use strict";
-
-var TextEncoder = require("text-encoding").TextEncoder;
-
-var configureLogError = require("./core/log_error");
-var sinonEvent = require("./event");
-var extend = require("./core/extend");
-
-function getWorkingXHR(globalScope) {
-    var supportsXHR = typeof globalScope.XMLHttpRequest !== "undefined";
-    if (supportsXHR) {
-        return globalScope.XMLHttpRequest;
-    }
-
-    var supportsActiveX = typeof globalScope.ActiveXObject !== "undefined";
-    if (supportsActiveX) {
-        return function () {
-            return new globalScope.ActiveXObject("MSXML2.XMLHTTP.3.0");
-        };
-    }
-
-    return false;
-}
-
-var supportsProgress = typeof ProgressEvent !== "undefined";
-var supportsCustomEvent = typeof CustomEvent !== "undefined";
-var supportsFormData = typeof FormData !== "undefined";
-var supportsArrayBuffer = typeof ArrayBuffer !== "undefined";
-var supportsBlob = require("../blob").isSupported;
-var isReactNative = global.navigator && global.navigator.product === "ReactNative";
-var sinonXhr = { XMLHttpRequest: global.XMLHttpRequest };
-sinonXhr.GlobalXMLHttpRequest = global.XMLHttpRequest;
-sinonXhr.GlobalActiveXObject = global.ActiveXObject;
-sinonXhr.supportsActiveX = typeof sinonXhr.GlobalActiveXObject !== "undefined";
-sinonXhr.supportsXHR = typeof sinonXhr.GlobalXMLHttpRequest !== "undefined";
-sinonXhr.workingXHR = getWorkingXHR(global);
-sinonXhr.supportsCORS = isReactNative ||
-    (sinonXhr.supportsXHR && "withCredentials" in (new sinonXhr.GlobalXMLHttpRequest()));
-
-var unsafeHeaders = {
-    "Accept-Charset": true,
-    "Accept-Encoding": true,
-    "Connection": true,
-    "Content-Length": true,
-    "Cookie": true,
-    "Cookie2": true,
-    "Content-Transfer-Encoding": true,
-    "Date": true,
-    "Expect": true,
-    "Host": true,
-    "Keep-Alive": true,
-    "Referer": true,
-    "TE": true,
-    "Trailer": true,
-    "Transfer-Encoding": true,
-    "Upgrade": true,
-    "User-Agent": true,
-    "Via": true
-};
-
-
-function EventTargetHandler() {
-    var self = this;
-    var events = ["loadstart", "progress", "abort", "error", "load", "timeout", "loadend"];
-
-    function addEventListener(eventName) {
-        self.addEventListener(eventName, function (event) {
-            var listener = self["on" + eventName];
-
-            if (listener && typeof listener === "function") {
-                listener.call(this, event);
-            }
-        });
-    }
-
-    events.forEach(addEventListener);
-}
-
-EventTargetHandler.prototype = sinonEvent.EventTarget;
-
-// Note that for FakeXMLHttpRequest to work pre ES5
-// we lose some of the alignment with the spec.
-// To ensure as close a match as possible,
-// set responseType before calling open, send or respond;
-function FakeXMLHttpRequest(config) {
-    EventTargetHandler.call(this);
-    this.readyState = FakeXMLHttpRequest.UNSENT;
-    this.requestHeaders = {};
-    this.requestBody = null;
-    this.status = 0;
-    this.statusText = "";
-    this.upload = new EventTargetHandler();
-    this.responseType = "";
-    this.response = "";
-    this.logError = configureLogError(config);
-    if (sinonXhr.supportsCORS) {
-        this.withCredentials = false;
-    }
-
-    if (typeof FakeXMLHttpRequest.onCreate === "function") {
-        FakeXMLHttpRequest.onCreate(this);
-    }
-}
-
-function verifyState(xhr) {
-    if (xhr.readyState !== FakeXMLHttpRequest.OPENED) {
-        throw new Error("INVALID_STATE_ERR");
-    }
-
-    if (xhr.sendFlag) {
-        throw new Error("INVALID_STATE_ERR");
-    }
-}
-
-function getHeader(headers, header) {
-    var foundHeader = Object.keys(headers).filter(function (h) {
-        return h.toLowerCase() === header.toLowerCase();
-    });
-
-    return foundHeader[0] || null;
-}
-
-function excludeSetCookie2Header(header) {
-    return !/^Set-Cookie2?$/i.test(header);
-}
-
-// largest arity in XHR is 5 - XHR#open
-var apply = function (obj, method, args) {
-    switch (args.length) {
-        case 0: return obj[method]();
-        case 1: return obj[method](args[0]);
-        case 2: return obj[method](args[0], args[1]);
-        case 3: return obj[method](args[0], args[1], args[2]);
-        case 4: return obj[method](args[0], args[1], args[2], args[3]);
-        case 5: return obj[method](args[0], args[1], args[2], args[3], args[4]);
-        default: throw new Error("Unhandled case");
-    }
-};
-
-FakeXMLHttpRequest.filters = [];
-FakeXMLHttpRequest.addFilter = function addFilter(fn) {
-    this.filters.push(fn);
-};
-FakeXMLHttpRequest.defake = function defake(fakeXhr, xhrArgs) {
-    var xhr = new sinonXhr.workingXHR(); // eslint-disable-line new-cap
-
-    [
-        "open",
-        "setRequestHeader",
-        "send",
-        "abort",
-        "getResponseHeader",
-        "getAllResponseHeaders",
-        "addEventListener",
-        "overrideMimeType",
-        "removeEventListener"
-    ].forEach(function (method) {
-        fakeXhr[method] = function () {
-            return apply(xhr, method, arguments);
-        };
-    });
-
-    var copyAttrs = function (args) {
-        args.forEach(function (attr) {
-            fakeXhr[attr] = xhr[attr];
-        });
-    };
-
-    var stateChange = function stateChange() {
-        fakeXhr.readyState = xhr.readyState;
-        if (xhr.readyState >= FakeXMLHttpRequest.HEADERS_RECEIVED) {
-            copyAttrs(["status", "statusText"]);
-        }
-        if (xhr.readyState >= FakeXMLHttpRequest.LOADING) {
-            copyAttrs(["responseText", "response"]);
-        }
-        if (xhr.readyState === FakeXMLHttpRequest.DONE) {
-            copyAttrs(["responseXML"]);
-        }
-        if (fakeXhr.onreadystatechange) {
-            fakeXhr.onreadystatechange.call(fakeXhr, { target: fakeXhr });
-        }
-    };
-
-    if (xhr.addEventListener) {
-        Object.keys(fakeXhr.eventListeners).forEach(function (event) {
-            /*eslint-disable no-loop-func*/
-            fakeXhr.eventListeners[event].forEach(function (handler) {
-                xhr.addEventListener(event, handler);
-            });
-            /*eslint-enable no-loop-func*/
-        });
-
-        xhr.addEventListener("readystatechange", stateChange);
-    } else {
-        xhr.onreadystatechange = stateChange;
-    }
-    apply(xhr, "open", xhrArgs);
-};
-FakeXMLHttpRequest.useFilters = false;
-
-function verifyRequestOpened(xhr) {
-    if (xhr.readyState !== FakeXMLHttpRequest.OPENED) {
-        throw new Error("INVALID_STATE_ERR - " + xhr.readyState);
-    }
-}
-
-function verifyRequestSent(xhr) {
-    if (xhr.readyState === FakeXMLHttpRequest.DONE) {
-        throw new Error("Request done");
-    }
-}
-
-function verifyHeadersReceived(xhr) {
-    if (xhr.async && xhr.readyState !== FakeXMLHttpRequest.HEADERS_RECEIVED) {
-        throw new Error("No headers received");
-    }
-}
-
-function verifyResponseBodyType(body) {
-    if (typeof body !== "string") {
-        var error = new Error("Attempted to respond to fake XMLHttpRequest with " +
-                             body + ", which is not a string.");
-        error.name = "InvalidBodyException";
-        throw error;
-    }
-}
-
-function convertToArrayBuffer(body, encoding) {
-    return new TextEncoder(encoding || "utf-8").encode(body).buffer;
-}
-
-function isXmlContentType(contentType) {
-    return !contentType || /(text\/xml)|(application\/xml)|(\+xml)/.test(contentType);
-}
-
-function convertResponseBody(responseType, contentType, body) {
-    if (responseType === "" || responseType === "text") {
-        return body;
-    } else if (supportsArrayBuffer && responseType === "arraybuffer") {
-        return convertToArrayBuffer(body);
-    } else if (responseType === "json") {
-        try {
-            return JSON.parse(body);
-        } catch (e) {
-            // Return parsing failure as null
-            return null;
-        }
-    } else if (supportsBlob && responseType === "blob") {
-        var blobOptions = {};
-        if (contentType) {
-            blobOptions.type = contentType;
-        }
-        return new Blob([convertToArrayBuffer(body)], blobOptions);
-    } else if (responseType === "document") {
-        if (isXmlContentType(contentType)) {
-            return FakeXMLHttpRequest.parseXML(body);
-        }
-        return null;
-    }
-    throw new Error("Invalid responseType " + responseType);
-}
-
-function clearResponse(xhr) {
-    if (xhr.responseType === "" || xhr.responseType === "text") {
-        xhr.response = xhr.responseText = "";
-    } else {
-        xhr.response = xhr.responseText = null;
-    }
-    xhr.responseXML = null;
-}
-
-FakeXMLHttpRequest.parseXML = function parseXML(text) {
-    // Treat empty string as parsing failure
-    if (text !== "") {
-        try {
-            if (typeof DOMParser !== "undefined") {
-                var parser = new DOMParser();
-                return parser.parseFromString(text, "text/xml");
-            }
-            var xmlDoc = new window.ActiveXObject("Microsoft.XMLDOM");
-            xmlDoc.async = "false";
-            xmlDoc.loadXML(text);
-            return xmlDoc;
-        } catch (e) {
-            // Unable to parse XML - no biggie
-        }
-    }
-
-    return null;
-};
-
-FakeXMLHttpRequest.statusCodes = {
-    100: "Continue",
-    101: "Switching Protocols",
-    200: "OK",
-    201: "Created",
-    202: "Accepted",
-    203: "Non-Authoritative Information",
-    204: "No Content",
-    205: "Reset Content",
-    206: "Partial Content",
-    207: "Multi-Status",
-    300: "Multiple Choice",
-    301: "Moved Permanently",
-    302: "Found",
-    303: "See Other",
-    304: "Not Modified",
-    305: "Use Proxy",
-    307: "Temporary Redirect",
-    400: "Bad Request",
-    401: "Unauthorized",
-    402: "Payment Required",
-    403: "Forbidden",
-    404: "Not Found",
-    405: "Method Not Allowed",
-    406: "Not Acceptable",
-    407: "Proxy Authentication Required",
-    408: "Request Timeout",
-    409: "Conflict",
-    410: "Gone",
-    411: "Length Required",
-    412: "Precondition Failed",
-    413: "Request Entity Too Large",
-    414: "Request-URI Too Long",
-    415: "Unsupported Media Type",
-    416: "Requested Range Not Satisfiable",
-    417: "Expectation Failed",
-    422: "Unprocessable Entity",
-    500: "Internal Server Error",
-    501: "Not Implemented",
-    502: "Bad Gateway",
-    503: "Service Unavailable",
-    504: "Gateway Timeout",
-    505: "HTTP Version Not Supported"
-};
-
-extend(FakeXMLHttpRequest.prototype, sinonEvent.EventTarget, {
-    async: true,
-
-    open: function open(method, url, async, username, password) {
-        this.method = method;
-        this.url = url;
-        this.async = typeof async === "boolean" ? async : true;
-        this.username = username;
-        this.password = password;
-        clearResponse(this);
-        this.requestHeaders = {};
-        this.sendFlag = false;
-
-        if (FakeXMLHttpRequest.useFilters === true) {
-            var xhrArgs = arguments;
-            var defake = FakeXMLHttpRequest.filters.some(function (filter) {
-                return filter.apply(this, xhrArgs);
-            });
-            if (defake) {
-                FakeXMLHttpRequest.defake(this, arguments);
-                return;
-            }
-        }
-        this.readyStateChange(FakeXMLHttpRequest.OPENED);
-    },
-
-    readyStateChange: function readyStateChange(state) {
-        this.readyState = state;
-
-        var readyStateChangeEvent = new sinonEvent.Event("readystatechange", false, false, this);
-        var event, progress;
-
-        if (typeof this.onreadystatechange === "function") {
-            try {
-                this.onreadystatechange(readyStateChangeEvent);
-            } catch (e) {
-                this.logError("Fake XHR onreadystatechange handler", e);
-            }
-        }
-
-        if (this.readyState === FakeXMLHttpRequest.DONE) {
-            if (this.aborted || this.status === 0) {
-                progress = {loaded: 0, total: 0};
-                event = this.aborted ? "abort" : "error";
-            } else {
-                progress = {loaded: 100, total: 100};
-                event = "load";
-            }
-
-            if (supportsProgress) {
-                this.upload.dispatchEvent(new sinonEvent.ProgressEvent("progress", progress, this));
-                this.upload.dispatchEvent(new sinonEvent.ProgressEvent(event, progress, this));
-                this.upload.dispatchEvent(new sinonEvent.ProgressEvent("loadend", progress, this));
-            }
-
-            this.dispatchEvent(new sinonEvent.ProgressEvent("progress", progress, this));
-            this.dispatchEvent(new sinonEvent.ProgressEvent(event, progress, this));
-            this.dispatchEvent(new sinonEvent.ProgressEvent("loadend", progress, this));
-        }
-
-        this.dispatchEvent(readyStateChangeEvent);
-    },
-
-    setRequestHeader: function setRequestHeader(header, value) {
-        verifyState(this);
-
-        var checkUnsafeHeaders = true;
-        if (typeof this.unsafeHeadersEnabled === "function") {
-            checkUnsafeHeaders = this.unsafeHeadersEnabled();
-        }
-
-        if (checkUnsafeHeaders && (unsafeHeaders[header] || /^(Sec-|Proxy-)/.test(header))) {
-            throw new Error("Refused to set unsafe header \"" + header + "\"");
-        }
-
-        if (this.requestHeaders[header]) {
-            this.requestHeaders[header] += "," + value;
-        } else {
-            this.requestHeaders[header] = value;
-        }
-    },
-
-    setStatus: function setStatus(status) {
-        var sanitizedStatus = typeof status === "number" ? status : 200;
-
-        verifyRequestOpened(this);
-        this.status = sanitizedStatus;
-        this.statusText = FakeXMLHttpRequest.statusCodes[sanitizedStatus];
-    },
-
-    // Helps testing
-    setResponseHeaders: function setResponseHeaders(headers) {
-        verifyRequestOpened(this);
-
-        var responseHeaders = this.responseHeaders = {};
-
-        Object.keys(headers).forEach(function (header) {
-            responseHeaders[header] = headers[header];
-        });
-
-        if (this.async) {
-            this.readyStateChange(FakeXMLHttpRequest.HEADERS_RECEIVED);
-        } else {
-            this.readyState = FakeXMLHttpRequest.HEADERS_RECEIVED;
-        }
-    },
-
-    // Currently treats ALL data as a DOMString (i.e. no Document)
-    send: function send(data) {
-        verifyState(this);
-
-        if (!/^(head)$/i.test(this.method)) {
-            var contentType = getHeader(this.requestHeaders, "Content-Type");
-            if (this.requestHeaders[contentType]) {
-                var value = this.requestHeaders[contentType].split(";");
-                this.requestHeaders[contentType] = value[0] + ";charset=utf-8";
-            } else if (supportsFormData && !(data instanceof FormData)) {
-                this.requestHeaders["Content-Type"] = "text/plain;charset=utf-8";
-            }
-
-            this.requestBody = data;
-        }
-
-        this.errorFlag = false;
-        this.sendFlag = this.async;
-        clearResponse(this);
-        this.readyStateChange(FakeXMLHttpRequest.OPENED);
-
-        if (typeof this.onSend === "function") {
-            this.onSend(this);
-        }
-
-        this.dispatchEvent(new sinonEvent.Event("loadstart", false, false, this));
-    },
-
-    abort: function abort() {
-        this.aborted = true;
-        clearResponse(this);
-        this.errorFlag = true;
-        this.requestHeaders = {};
-        this.responseHeaders = {};
-
-        if (this.readyState !== FakeXMLHttpRequest.UNSENT && this.sendFlag
-            && this.readyState !== FakeXMLHttpRequest.DONE) {
-            this.readyStateChange(FakeXMLHttpRequest.DONE);
-            this.sendFlag = false;
-        }
-
-        this.readyState = FakeXMLHttpRequest.UNSENT;
-    },
-
-    error: function () {
-        clearResponse(this);
-        this.errorFlag = true;
-        this.requestHeaders = {};
-        this.responseHeaders = {};
-
-        this.readyStateChange(FakeXMLHttpRequest.DONE);
-    },
-
-    getResponseHeader: function getResponseHeader(header) {
-        if (this.readyState < FakeXMLHttpRequest.HEADERS_RECEIVED) {
-            return null;
-        }
-
-        if (/^Set-Cookie2?$/i.test(header)) {
-            return null;
-        }
-
-        header = getHeader(this.responseHeaders, header);
-
-        return this.responseHeaders[header] || null;
-    },
-
-    getAllResponseHeaders: function getAllResponseHeaders() {
-        if (this.readyState < FakeXMLHttpRequest.HEADERS_RECEIVED) {
-            return "";
-        }
-
-        var responseHeaders = this.responseHeaders;
-        var headers = Object.keys(responseHeaders)
-            .filter(excludeSetCookie2Header)
-            .reduce(function (prev, header) {
-                var value = responseHeaders[header];
-
-                return prev + (header + ": " + value + "\r\n");
-            }, "");
-
-        return headers;
-    },
-
-    setResponseBody: function setResponseBody(body) {
-        verifyRequestSent(this);
-        verifyHeadersReceived(this);
-        verifyResponseBodyType(body);
-        var contentType = this.overriddenMimeType || this.getResponseHeader("Content-Type");
-
-        var isTextResponse = this.responseType === "" || this.responseType === "text";
-        clearResponse(this);
-        if (this.async) {
-            var chunkSize = this.chunkSize || 10;
-            var index = 0;
-
-            do {
-                this.readyStateChange(FakeXMLHttpRequest.LOADING);
-
-                if (isTextResponse) {
-                    this.responseText = this.response += body.substring(index, index + chunkSize);
-                }
-                index += chunkSize;
-            } while (index < body.length);
-        }
-
-        this.response = convertResponseBody(this.responseType, contentType, body);
-        if (isTextResponse) {
-            this.responseText = this.response;
-        }
-
-        if (this.responseType === "document") {
-            this.responseXML = this.response;
-        } else if (this.responseType === "" && isXmlContentType(contentType)) {
-            this.responseXML = FakeXMLHttpRequest.parseXML(this.responseText);
-        }
-        this.readyStateChange(FakeXMLHttpRequest.DONE);
-    },
-
-    respond: function respond(status, headers, body) {
-        this.setStatus(status);
-        this.setResponseHeaders(headers || {});
-        this.setResponseBody(body || "");
-    },
-
-    uploadProgress: function uploadProgress(progressEventRaw) {
-        if (supportsProgress) {
-            this.upload.dispatchEvent(new sinonEvent.ProgressEvent("progress", progressEventRaw));
-        }
-    },
-
-    downloadProgress: function downloadProgress(progressEventRaw) {
-        if (supportsProgress) {
-            this.dispatchEvent(new sinonEvent.ProgressEvent("progress", progressEventRaw));
-        }
-    },
-
-    uploadError: function uploadError(error) {
-        if (supportsCustomEvent) {
-            this.upload.dispatchEvent(new sinonEvent.CustomEvent("error", {detail: error}));
-        }
-    },
-
-    overrideMimeType: function overrideMimeType(type) {
-        if (this.readyState >= FakeXMLHttpRequest.LOADING) {
-            throw new Error("INVALID_STATE_ERR");
-        }
-        this.overriddenMimeType = type;
-    }
-});
-
-var states = {
-    UNSENT: 0,
-    OPENED: 1,
-    HEADERS_RECEIVED: 2,
-    LOADING: 3,
-    DONE: 4
-};
-
-extend(FakeXMLHttpRequest, states);
-extend(FakeXMLHttpRequest.prototype, states);
-
-function useFakeXMLHttpRequest() {
-    FakeXMLHttpRequest.restore = function restore(keepOnCreate) {
-        if (sinonXhr.supportsXHR) {
-            global.XMLHttpRequest = sinonXhr.GlobalXMLHttpRequest;
-        }
-
-        if (sinonXhr.supportsActiveX) {
-            global.ActiveXObject = sinonXhr.GlobalActiveXObject;
-        }
-
-        delete FakeXMLHttpRequest.restore;
-
-        if (keepOnCreate !== true) {
-            delete FakeXMLHttpRequest.onCreate;
-        }
-    };
-    if (sinonXhr.supportsXHR) {
-        global.XMLHttpRequest = FakeXMLHttpRequest;
-    }
-
-    if (sinonXhr.supportsActiveX) {
-        global.ActiveXObject = function ActiveXObject(objId) {
-            if (objId === "Microsoft.XMLHTTP" || /^Msxml2\.XMLHTTP/i.test(objId)) {
-
-                return new FakeXMLHttpRequest();
-            }
-
-            return new sinonXhr.GlobalActiveXObject(objId);
-        };
-    }
-
-    return FakeXMLHttpRequest;
-}
-
-module.exports = {
-    xhr: sinonXhr,
-    FakeXMLHttpRequest: FakeXMLHttpRequest,
-    useFakeXMLHttpRequest: useFakeXMLHttpRequest
-};
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
-},{"../blob":4,"./core/extend":27,"./core/log_error":35,"./event":43,"text-encoding":55}],48:[function(require,module,exports){
+},{"lolex":38}],35:[function(require,module,exports){
 /*!
 
  diff v3.3.0
@@ -28811,7 +27482,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-},{}],49:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 (function (global){
 ((typeof define === "function" && define.amd && function (m) {
     define("formatio", ["samsam"], m);
@@ -29045,12 +27716,1989 @@ return /******/ (function(modules) { // webpackBootstrap
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"samsam":54}],50:[function(require,module,exports){
-module.exports = Array.isArray || function (arr) {
-  return Object.prototype.toString.call(arr) == '[object Array]';
+},{"samsam":55}],37:[function(require,module,exports){
+module.exports = extend;
+
+/*
+  var obj = {a: 3, b: 5};
+  extend(obj, {a: 4, c: 8}); // {a: 4, b: 5, c: 8}
+  obj; // {a: 4, b: 5, c: 8}
+
+  var obj = {a: 3, b: 5};
+  extend({}, obj, {a: 4, c: 8}); // {a: 4, b: 5, c: 8}
+  obj; // {a: 3, b: 5}
+
+  var arr = [1, 2, 3];
+  var obj = {a: 3, b: 5};
+  extend(obj, {c: arr}); // {a: 3, b: 5, c: [1, 2, 3]}
+  arr.push[4];
+  obj; // {a: 3, b: 5, c: [1, 2, 3, 4]}
+
+  var arr = [1, 2, 3];
+  var obj = {a: 3, b: 5};
+  extend(true, obj, {c: arr}); // {a: 3, b: 5, c: [1, 2, 3]}
+  arr.push[4];
+  obj; // {a: 3, b: 5, c: [1, 2, 3]}
+*/
+
+function extend(obj1, obj2 /*, [objn]*/) {
+  var args = [].slice.call(arguments);
+  var deep = false;
+  if (typeof args[0] === 'boolean') {
+    deep = args.shift();
+  }
+  var result = args[0];
+  var extenders = args.slice(1);
+  var len = extenders.length;
+  for (var i = 0; i < len; i++) {
+    var extender = extenders[i];
+    for (var key in extender) {
+      // include prototype properties
+      var value = extender[key];
+      if (deep && value && (typeof value == 'object')) {
+        var base = Array.isArray(value) ? [] : {};
+        result[key] = extend(true, result[key] || base, value);
+      } else {
+        result[key] = value;
+      }
+    }
+  }
+  return result;
+}
+
+},{}],38:[function(require,module,exports){
+(function (global){
+"use strict";
+
+var userAgent = global.navigator && global.navigator.userAgent;
+var isRunningInIE = userAgent && userAgent.indexOf("MSIE ") > -1;
+var maxTimeout = Math.pow(2, 31) - 1; //see https://heycam.github.io/webidl/#abstract-opdef-converttoint
+
+// Make properties writable in IE, as per
+// http://www.adequatelygood.com/Replacing-setTimeout-Globally.html
+if (isRunningInIE) {
+    global.setTimeout = global.setTimeout;
+    global.clearTimeout = global.clearTimeout;
+    global.setInterval = global.setInterval;
+    global.clearInterval = global.clearInterval;
+    global.Date = global.Date;
+}
+
+// setImmediate is not a standard function
+// avoid adding the prop to the window object if not present
+if (global.setImmediate !== undefined) {
+    global.setImmediate = global.setImmediate;
+    global.clearImmediate = global.clearImmediate;
+}
+
+// node expects setTimeout/setInterval to return a fn object w/ .ref()/.unref()
+// browsers, a number.
+// see https://github.com/cjohansen/Sinon.JS/pull/436
+
+var NOOP = function () { return undefined; };
+var timeoutResult = setTimeout(NOOP, 0);
+var addTimerReturnsObject = typeof timeoutResult === "object";
+var hrtimePresent = (global.process && typeof global.process.hrtime === "function");
+var nextTickPresent = (global.process && typeof global.process.nextTick === "function");
+var performancePresent = (global.performance && typeof global.performance.now === "function");
+
+clearTimeout(timeoutResult);
+
+var NativeDate = Date;
+var uniqueTimerId = 1;
+
+/**
+ * Parse strings like "01:10:00" (meaning 1 hour, 10 minutes, 0 seconds) into
+ * number of milliseconds. This is used to support human-readable strings passed
+ * to clock.tick()
+ */
+function parseTime(str) {
+    if (!str) {
+        return 0;
+    }
+
+    var strings = str.split(":");
+    var l = strings.length;
+    var i = l;
+    var ms = 0;
+    var parsed;
+
+    if (l > 3 || !/^(\d\d:){0,2}\d\d?$/.test(str)) {
+        throw new Error("tick only understands numbers, 'm:s' and 'h:m:s'. Each part must be two digits");
+    }
+
+    while (i--) {
+        parsed = parseInt(strings[i], 10);
+
+        if (parsed >= 60) {
+            throw new Error("Invalid time " + str);
+        }
+
+        ms += parsed * Math.pow(60, (l - i - 1));
+    }
+
+    return ms * 1000;
+}
+
+/**
+ * Floor function that also works for negative numbers
+ */
+function fixedFloor(n) {
+    return (n >= 0 ? Math.floor(n) : Math.ceil(n));
+}
+
+/**
+ * % operator that also works for negative numbers
+ */
+function fixedModulo(n, m) {
+    return ((n % m) + m) % m;
+}
+
+/**
+ * Used to grok the `now` parameter to createClock.
+ * @param epoch {Date|number} the system time
+ */
+function getEpoch(epoch) {
+    if (!epoch) { return 0; }
+    if (typeof epoch.getTime === "function") { return epoch.getTime(); }
+    if (typeof epoch === "number") { return epoch; }
+    throw new TypeError("now should be milliseconds since UNIX epoch");
+}
+
+function inRange(from, to, timer) {
+    return timer && timer.callAt >= from && timer.callAt <= to;
+}
+
+function mirrorDateProperties(target, source) {
+    var prop;
+    for (prop in source) {
+        if (source.hasOwnProperty(prop)) {
+            target[prop] = source[prop];
+        }
+    }
+
+    // set special now implementation
+    if (source.now) {
+        target.now = function now() {
+            return target.clock.now;
+        };
+    } else {
+        delete target.now;
+    }
+
+    // set special toSource implementation
+    if (source.toSource) {
+        target.toSource = function toSource() {
+            return source.toSource();
+        };
+    } else {
+        delete target.toSource;
+    }
+
+    // set special toString implementation
+    target.toString = function toString() {
+        return source.toString();
+    };
+
+    target.prototype = source.prototype;
+    target.parse = source.parse;
+    target.UTC = source.UTC;
+    target.prototype.toUTCString = source.prototype.toUTCString;
+
+    return target;
+}
+
+function createDate() {
+    function ClockDate(year, month, date, hour, minute, second, ms) {
+        // Defensive and verbose to avoid potential harm in passing
+        // explicit undefined when user does not pass argument
+        switch (arguments.length) {
+            case 0:
+                return new NativeDate(ClockDate.clock.now);
+            case 1:
+                return new NativeDate(year);
+            case 2:
+                return new NativeDate(year, month);
+            case 3:
+                return new NativeDate(year, month, date);
+            case 4:
+                return new NativeDate(year, month, date, hour);
+            case 5:
+                return new NativeDate(year, month, date, hour, minute);
+            case 6:
+                return new NativeDate(year, month, date, hour, minute, second);
+            default:
+                return new NativeDate(year, month, date, hour, minute, second, ms);
+        }
+    }
+
+    return mirrorDateProperties(ClockDate, NativeDate);
+}
+
+
+function enqueueJob(clock, job) {
+    // enqueues a microtick-deferred task - ecma262/#sec-enqueuejob
+    if (!clock.jobs) {
+        clock.jobs = [];
+    }
+    clock.jobs.push(job);
+}
+
+function runJobs(clock) {
+    // runs all microtick-deferred tasks - ecma262/#sec-runjobs
+    if (!clock.jobs) {
+        return;
+    }
+    for (var i = 0; i < clock.jobs.length; i++) {
+        var job = clock.jobs[i];
+        job.func.apply(null, job.args);
+    }
+    clock.jobs = [];
+}
+
+function addTimer(clock, timer) {
+    if (timer.func === undefined) {
+        throw new Error("Callback must be provided to timer calls");
+    }
+
+    if (timer.hasOwnProperty("delay")) {
+        timer.delay = timer.delay > maxTimeout ? 1 : timer.delay;
+    }
+
+    if (timer.hasOwnProperty("interval")) {
+        timer.interval = timer.interval > maxTimeout ? 1 : timer.interval;
+    }
+
+    if (!clock.timers) {
+        clock.timers = {};
+    }
+
+    timer.id = uniqueTimerId++;
+    timer.createdAt = clock.now;
+    timer.callAt = clock.now + (parseInt(timer.delay) || (clock.duringTick ? 1 : 0));
+
+    clock.timers[timer.id] = timer;
+
+    if (addTimerReturnsObject) {
+        return {
+            id: timer.id,
+            ref: NOOP,
+            unref: NOOP
+        };
+    }
+
+    return timer.id;
+}
+
+
+/* eslint consistent-return: "off" */
+function compareTimers(a, b) {
+    // Sort first by absolute timing
+    if (a.callAt < b.callAt) {
+        return -1;
+    }
+    if (a.callAt > b.callAt) {
+        return 1;
+    }
+
+    // Sort next by immediate, immediate timers take precedence
+    if (a.immediate && !b.immediate) {
+        return -1;
+    }
+    if (!a.immediate && b.immediate) {
+        return 1;
+    }
+
+    // Sort next by creation time, earlier-created timers take precedence
+    if (a.createdAt < b.createdAt) {
+        return -1;
+    }
+    if (a.createdAt > b.createdAt) {
+        return 1;
+    }
+
+    // Sort next by id, lower-id timers take precedence
+    if (a.id < b.id) {
+        return -1;
+    }
+    if (a.id > b.id) {
+        return 1;
+    }
+
+    // As timer ids are unique, no fallback `0` is necessary
+}
+
+function firstTimerInRange(clock, from, to) {
+    var timers = clock.timers;
+    var timer = null;
+    var id, isInRange;
+
+    for (id in timers) {
+        if (timers.hasOwnProperty(id)) {
+            isInRange = inRange(from, to, timers[id]);
+
+            if (isInRange && (!timer || compareTimers(timer, timers[id]) === 1)) {
+                timer = timers[id];
+            }
+        }
+    }
+
+    return timer;
+}
+
+function firstTimer(clock) {
+    var timers = clock.timers;
+    var timer = null;
+    var id;
+
+    for (id in timers) {
+        if (timers.hasOwnProperty(id)) {
+            if (!timer || compareTimers(timer, timers[id]) === 1) {
+                timer = timers[id];
+            }
+        }
+    }
+
+    return timer;
+}
+
+function lastTimer(clock) {
+    var timers = clock.timers;
+    var timer = null;
+    var id;
+
+    for (id in timers) {
+        if (timers.hasOwnProperty(id)) {
+            if (!timer || compareTimers(timer, timers[id]) === -1) {
+                timer = timers[id];
+            }
+        }
+    }
+
+    return timer;
+}
+
+function callTimer(clock, timer) {
+    if (typeof timer.interval === "number") {
+        clock.timers[timer.id].callAt += timer.interval;
+    } else {
+        delete clock.timers[timer.id];
+    }
+
+    if (typeof timer.func === "function") {
+        timer.func.apply(null, timer.args);
+    } else {
+        /* eslint no-eval: "off" */
+        eval(timer.func);
+    }
+}
+
+function timerType(timer) {
+    if (timer.immediate) {
+        return "Immediate";
+    }
+    if (timer.interval !== undefined) {
+        return "Interval";
+    }
+    return "Timeout";
+}
+
+function clearTimer(clock, timerId, ttype) {
+    if (!timerId) {
+        // null appears to be allowed in most browsers, and appears to be
+        // relied upon by some libraries, like Bootstrap carousel
+        return;
+    }
+
+    if (!clock.timers) {
+        clock.timers = [];
+    }
+
+    // in Node, timerId is an object with .ref()/.unref(), and
+    // its .id field is the actual timer id.
+    if (typeof timerId === "object") {
+        timerId = timerId.id;
+    }
+
+    if (clock.timers.hasOwnProperty(timerId)) {
+        // check that the ID matches a timer of the correct type
+        var timer = clock.timers[timerId];
+        if (timerType(timer) === ttype) {
+            delete clock.timers[timerId];
+        } else {
+            throw new Error("Cannot clear timer: timer created with set" + timerType(timer)
+                            + "() but cleared with clear" + ttype + "()");
+        }
+    }
+}
+
+function uninstall(clock, target, config) {
+    var method,
+        i,
+        l;
+    var installedHrTime = "_hrtime";
+    var installedNextTick = "_nextTick";
+
+    for (i = 0, l = clock.methods.length; i < l; i++) {
+        method = clock.methods[i];
+        if (method === "hrtime" && target.process) {
+            target.process.hrtime = clock[installedHrTime];
+        } else if (method === "nextTick" && target.process) {
+            target.process.nextTick = clock[installedNextTick];
+        } else {
+            if (target[method] && target[method].hadOwnProperty) {
+                target[method] = clock["_" + method];
+                if (method === "clearInterval" && config.shouldAdvanceTime === true) {
+                    target[method](clock.attachedInterval);
+                }
+            } else {
+                try {
+                    delete target[method];
+                } catch (ignore) { /* eslint empty-block: "off" */ }
+            }
+        }
+    }
+
+    // Prevent multiple executions which will completely remove these props
+    clock.methods = [];
+}
+
+function hijackMethod(target, method, clock) {
+    var prop;
+    clock[method].hadOwnProperty = Object.prototype.hasOwnProperty.call(target, method);
+    clock["_" + method] = target[method];
+
+    if (method === "Date") {
+        var date = mirrorDateProperties(clock[method], target[method]);
+        target[method] = date;
+    } else {
+        target[method] = function () {
+            return clock[method].apply(clock, arguments);
+        };
+
+        for (prop in clock[method]) {
+            if (clock[method].hasOwnProperty(prop)) {
+                target[method][prop] = clock[method][prop];
+            }
+        }
+    }
+
+    target[method].clock = clock;
+}
+
+function doIntervalTick(clock, advanceTimeDelta) {
+    clock.tick(advanceTimeDelta);
+}
+
+var timers = {
+    setTimeout: setTimeout,
+    clearTimeout: clearTimeout,
+    setImmediate: global.setImmediate,
+    clearImmediate: global.clearImmediate,
+    setInterval: setInterval,
+    clearInterval: clearInterval,
+    Date: Date
 };
 
-},{}],51:[function(require,module,exports){
+if (hrtimePresent) {
+    timers.hrtime = global.process.hrtime;
+}
+
+if (nextTickPresent) {
+    timers.nextTick = global.process.nextTick;
+}
+
+if (performancePresent) {
+    timers.performance = global.performance;
+}
+
+var keys = Object.keys || function (obj) {
+    var ks = [];
+    var key;
+
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            ks.push(key);
+        }
+    }
+
+    return ks;
+};
+
+exports.timers = timers;
+
+/**
+ * @param now {Date|number} the system time
+ * @param loopLimit {number}  maximum number of timers that will be run when calling runAll()
+ */
+function createClock(now, loopLimit) {
+    loopLimit = loopLimit || 1000;
+
+    var clock = {
+        now: getEpoch(now),
+        hrNow: 0,
+        timeouts: {},
+        Date: createDate(),
+        loopLimit: loopLimit
+    };
+
+    clock.Date.clock = clock;
+
+    clock.setTimeout = function setTimeout(func, timeout) {
+        return addTimer(clock, {
+            func: func,
+            args: Array.prototype.slice.call(arguments, 2),
+            delay: timeout
+        });
+    };
+
+    clock.clearTimeout = function clearTimeout(timerId) {
+        return clearTimer(clock, timerId, "Timeout");
+    };
+    clock.nextTick = function nextTick(func) {
+        return enqueueJob(clock, {
+            func: func,
+            args: Array.prototype.slice.call(arguments, 1)
+        });
+    };
+    clock.setInterval = function setInterval(func, timeout) {
+        return addTimer(clock, {
+            func: func,
+            args: Array.prototype.slice.call(arguments, 2),
+            delay: timeout,
+            interval: timeout
+        });
+    };
+
+    clock.clearInterval = function clearInterval(timerId) {
+        return clearTimer(clock, timerId, "Interval");
+    };
+
+    clock.setImmediate = function setImmediate(func) {
+        return addTimer(clock, {
+            func: func,
+            args: Array.prototype.slice.call(arguments, 1),
+            immediate: true
+        });
+    };
+
+    clock.clearImmediate = function clearImmediate(timerId) {
+        return clearTimer(clock, timerId, "Immediate");
+    };
+
+    function updateHrTime(newNow) {
+        clock.hrNow += (newNow - clock.now);
+    }
+
+    clock.tick = function tick(ms) {
+        ms = typeof ms === "number" ? ms : parseTime(ms);
+        var tickFrom = clock.now;
+        var tickTo = clock.now + ms;
+        var previous = clock.now;
+        var timer = firstTimerInRange(clock, tickFrom, tickTo);
+        var oldNow, firstException;
+
+        clock.duringTick = true;
+        runJobs(clock);
+
+        while (timer && tickFrom <= tickTo) {
+            if (clock.timers[timer.id]) {
+                updateHrTime(timer.callAt);
+                tickFrom = timer.callAt;
+                clock.now = timer.callAt;
+                try {
+                    runJobs(clock);
+                    oldNow = clock.now;
+                    callTimer(clock, timer);
+                } catch (e) {
+                    firstException = firstException || e;
+                }
+
+                // compensate for any setSystemTime() call during timer callback
+                if (oldNow !== clock.now) {
+                    tickFrom += clock.now - oldNow;
+                    tickTo += clock.now - oldNow;
+                    previous += clock.now - oldNow;
+                }
+            }
+
+            timer = firstTimerInRange(clock, previous, tickTo);
+            previous = tickFrom;
+        }
+
+        runJobs(clock);
+        clock.duringTick = false;
+        updateHrTime(tickTo);
+        clock.now = tickTo;
+
+        if (firstException) {
+            throw firstException;
+        }
+
+        return clock.now;
+    };
+
+    clock.next = function next() {
+        runJobs(clock);
+        var timer = firstTimer(clock);
+        if (!timer) {
+            return clock.now;
+        }
+
+        clock.duringTick = true;
+        try {
+            updateHrTime(timer.callAt);
+            clock.now = timer.callAt;
+            callTimer(clock, timer);
+            runJobs(clock);
+            return clock.now;
+        } finally {
+            clock.duringTick = false;
+        }
+    };
+
+    clock.runAll = function runAll() {
+        var numTimers, i;
+        runJobs(clock);
+        for (i = 0; i < clock.loopLimit; i++) {
+            if (!clock.timers) {
+                return clock.now;
+            }
+
+            numTimers = keys(clock.timers).length;
+            if (numTimers === 0) {
+                return clock.now;
+            }
+
+            clock.next();
+        }
+
+        throw new Error("Aborting after running " + clock.loopLimit + " timers, assuming an infinite loop!");
+    };
+
+    clock.runToLast = function runToLast() {
+        var timer = lastTimer(clock);
+        if (!timer) {
+            runJobs(clock);
+            return clock.now;
+        }
+
+        return clock.tick(timer.callAt);
+    };
+
+    clock.reset = function reset() {
+        clock.timers = {};
+    };
+
+    clock.setSystemTime = function setSystemTime(systemTime) {
+        // determine time difference
+        var newNow = getEpoch(systemTime);
+        var difference = newNow - clock.now;
+        var id, timer;
+
+        // update 'system clock'
+        clock.now = newNow;
+
+        // update timers and intervals to keep them stable
+        for (id in clock.timers) {
+            if (clock.timers.hasOwnProperty(id)) {
+                timer = clock.timers[id];
+                timer.createdAt += difference;
+                timer.callAt += difference;
+            }
+        }
+    };
+
+    if (performancePresent) {
+        clock.performance = Object.create(global.performance);
+        clock.performance.now = function lolexNow() {
+            return clock.hrNow;
+        };
+    }
+    if (hrtimePresent) {
+        clock.hrtime = function (prev) {
+            if (Array.isArray(prev)) {
+                var oldSecs = (prev[0] + prev[1] / 1e9);
+                var newSecs = (clock.hrNow / 1000);
+                var difference = (newSecs - oldSecs);
+                var secs = fixedFloor(difference);
+                var nanosecs = fixedModulo(difference * 1e9, 1e9);
+                return [
+                    secs,
+                    nanosecs
+                ];
+            }
+            return [
+                fixedFloor(clock.hrNow / 1000),
+                fixedModulo(clock.hrNow * 1e6, 1e9)
+            ];
+        };
+    }
+
+    return clock;
+}
+exports.createClock = createClock;
+
+/**
+ * @param config {Object} optional config
+ * @param config.target {Object} the target to install timers in (default `window`)
+ * @param config.now {number|Date}  a number (in milliseconds) or a Date object (default epoch)
+ * @param config.toFake {string[]} names of the methods that should be faked.
+ * @param config.loopLimit {number} the maximum number of timers that will be run when calling runAll()
+ * @param config.shouldAdvanceTime {Boolean} tells lolex to increment mocked time automatically (default false)
+ * @param config.advanceTimeDelta {Number} increment mocked time every <<advanceTimeDelta>> ms (default: 20ms)
+ */
+exports.install = function install(config) {
+    if ( arguments.length > 1 || config instanceof Date || Array.isArray(config) || typeof config === "number") {
+        throw new TypeError("lolex.install called with " + String(config) +
+            " lolex 2.0+ requires an object parameter - see https://github.com/sinonjs/lolex");
+    }
+    config = typeof config !== "undefined" ? config : {};
+    config.shouldAdvanceTime = config.shouldAdvanceTime || false;
+    config.advanceTimeDelta = config.advanceTimeDelta || 20;
+
+    var i, l;
+    var target = config.target || global;
+    var clock = createClock(config.now, config.loopLimit);
+
+    clock.uninstall = function () {
+        uninstall(clock, target, config);
+    };
+
+    clock.methods = config.toFake || [];
+
+    if (clock.methods.length === 0) {
+        // do not fake nextTick by default - GitHub#126
+        clock.methods = keys(timers).filter(function (key) {return key !== "nextTick";});
+    }
+
+    for (i = 0, l = clock.methods.length; i < l; i++) {
+        if (clock.methods[i] === "hrtime") {
+            if (target.process && typeof target.process.hrtime === "function") {
+                hijackMethod(target.process, clock.methods[i], clock);
+            }
+        } else if (clock.methods[i] === "nextTick") {
+            if (target.process && typeof target.process.nextTick === "function") {
+                hijackMethod(target.process, clock.methods[i], clock);
+            }
+        } else {
+            if (clock.methods[i] === "setInterval" && config.shouldAdvanceTime === true) {
+                var intervalTick = doIntervalTick.bind(null, clock, config.advanceTimeDelta);
+                var intervalId = target[clock.methods[i]](
+                    intervalTick,
+                    config.advanceTimeDelta);
+                clock.attachedInterval = intervalId;
+            }
+            hijackMethod(target, clock.methods[i], clock);
+        }
+    }
+
+    return clock;
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
+},{}],39:[function(require,module,exports){
+"use strict";
+
+// cache a reference to setTimeout, so that our reference won't be stubbed out
+// when using fake timers and errors will still get logged
+// https://github.com/cjohansen/Sinon.JS/issues/381
+var realSetTimeout = setTimeout;
+
+function configureLogger(config) {
+    config = config || {};
+    // Function which prints errors.
+    if (!config.hasOwnProperty("logger")) {
+        config.logger = function () { };
+    }
+    // When set to true, any errors logged will be thrown immediately;
+    // If set to false, the errors will be thrown in separate execution frame.
+    if (!config.hasOwnProperty("useImmediateExceptions")) {
+        config.useImmediateExceptions = true;
+    }
+    // wrap realSetTimeout with something we can stub in tests
+    if (!config.hasOwnProperty("setTimeout")) {
+        config.setTimeout = realSetTimeout;
+    }
+
+    return function logError(label, e) {
+        var msg = label + " threw exception: ";
+        var err = { name: e.name || label, message: e.message || e.toString(), stack: e.stack };
+
+        function throwLoggedError() {
+            err.message = msg + err.message;
+            throw err;
+        }
+
+        config.logger(msg + "[" + err.name + "] " + err.message);
+
+        if (err.stack) {
+            config.logger(err.stack);
+        }
+
+        if (config.useImmediateExceptions) {
+            throwLoggedError();
+        } else {
+            config.setTimeout(throwLoggedError, 0);
+        }
+    };
+}
+
+module.exports = configureLogger;
+
+},{}],40:[function(require,module,exports){
+"use strict";
+
+var Event = require("./event");
+
+function CustomEvent(type, customData, target) {
+    this.initEvent(type, false, false, target);
+    this.detail = customData.detail || null;
+}
+
+CustomEvent.prototype = new Event();
+
+CustomEvent.prototype.constructor = CustomEvent;
+
+module.exports = CustomEvent;
+
+},{"./event":42}],41:[function(require,module,exports){
+"use strict";
+
+var push = Array.prototype.push;
+
+var EventTarget = {
+    addEventListener: function addEventListener(event, listener) {
+        this.eventListeners = this.eventListeners || {};
+        this.eventListeners[event] = this.eventListeners[event] || [];
+        push.call(this.eventListeners[event], listener);
+    },
+
+    removeEventListener: function removeEventListener(event, listener) {
+        var listeners = this.eventListeners && this.eventListeners[event] || [];
+        var index = listeners.indexOf(listener);
+
+        if (index === -1) {
+            return;
+        }
+
+        listeners.splice(index, 1);
+    },
+
+    dispatchEvent: function dispatchEvent(event) {
+        var self = this;
+        var type = event.type;
+        var listeners = self.eventListeners && self.eventListeners[type] || [];
+
+        listeners.forEach(function (listener) {
+            if (typeof listener === "function") {
+                listener.call(self, event);
+            } else {
+                listener.handleEvent(event);
+            }
+        });
+
+        return !!event.defaultPrevented;
+    }
+};
+
+module.exports = EventTarget;
+
+},{}],42:[function(require,module,exports){
+"use strict";
+
+function Event(type, bubbles, cancelable, target) {
+    this.initEvent(type, bubbles, cancelable, target);
+}
+
+Event.prototype = {
+    initEvent: function (type, bubbles, cancelable, target) {
+        this.type = type;
+        this.bubbles = bubbles;
+        this.cancelable = cancelable;
+        this.target = target;
+    },
+
+    stopPropagation: function () {},
+
+    preventDefault: function () {
+        this.defaultPrevented = true;
+    }
+};
+
+module.exports = Event;
+
+},{}],43:[function(require,module,exports){
+"use strict";
+
+module.exports = {
+    Event: require("./event"),
+    ProgressEvent: require("./progress-event"),
+    CustomEvent: require("./custom-event"),
+    EventTarget: require("./event-target")
+};
+
+},{"./custom-event":40,"./event":42,"./event-target":41,"./progress-event":44}],44:[function(require,module,exports){
+"use strict";
+
+var Event = require("./event");
+
+function ProgressEvent(type, progressEventRaw, target) {
+    this.initEvent(type, false, false, target);
+    this.loaded = typeof progressEventRaw.loaded === "number" ? progressEventRaw.loaded : null;
+    this.total = typeof progressEventRaw.total === "number" ? progressEventRaw.total : null;
+    this.lengthComputable = !!progressEventRaw.total;
+}
+
+ProgressEvent.prototype = new Event();
+
+ProgressEvent.prototype.constructor = ProgressEvent;
+
+module.exports = ProgressEvent;
+
+},{"./event":42}],45:[function(require,module,exports){
+"use strict";
+
+var lolex = require("lolex");
+var fakeServer = require("./index");
+
+function Server() {}
+Server.prototype = fakeServer;
+
+var fakeServerWithClock = new Server();
+
+fakeServerWithClock.addRequest = function addRequest(xhr) {
+    if (xhr.async) {
+        if (typeof setTimeout.clock === "object") {
+            this.clock = setTimeout.clock;
+        } else {
+            this.clock = lolex.install();
+            this.resetClock = true;
+        }
+
+        if (!this.longestTimeout) {
+            var clockSetTimeout = this.clock.setTimeout;
+            var clockSetInterval = this.clock.setInterval;
+            var server = this;
+
+            this.clock.setTimeout = function (fn, timeout) {
+                server.longestTimeout = Math.max(timeout, server.longestTimeout || 0);
+
+                return clockSetTimeout.apply(this, arguments);
+            };
+
+            this.clock.setInterval = function (fn, timeout) {
+                server.longestTimeout = Math.max(timeout, server.longestTimeout || 0);
+
+                return clockSetInterval.apply(this, arguments);
+            };
+        }
+    }
+
+    return fakeServer.addRequest.call(this, xhr);
+};
+
+fakeServerWithClock.respond = function respond() {
+    var returnVal = fakeServer.respond.apply(this, arguments);
+
+    if (this.clock) {
+        this.clock.tick(this.longestTimeout || 0);
+        this.longestTimeout = 0;
+
+        if (this.resetClock) {
+            this.clock.uninstall();
+            this.resetClock = false;
+        }
+    }
+
+    return returnVal;
+};
+
+fakeServerWithClock.restore = function restore() {
+    if (this.clock) {
+        this.clock.uninstall();
+    }
+
+    return fakeServer.restore.apply(this, arguments);
+};
+
+module.exports = fakeServerWithClock;
+
+},{"./index":47,"lolex":51}],46:[function(require,module,exports){
+"use strict";
+
+var formatio = require("formatio");
+
+var formatter = formatio.configure({
+    quoteStrings: false,
+    limitChildrenCount: 250
+});
+
+module.exports = function format() {
+    return formatter.ascii.apply(formatter, arguments);
+};
+
+},{"formatio":36}],47:[function(require,module,exports){
+"use strict";
+
+var fakeXhr = require("../fake-xhr");
+var push = [].push;
+var format = require("./format");
+var configureLogError = require("../configure-logger");
+var pathToRegexp = require("path-to-regexp");
+
+function responseArray(handler) {
+    var response = handler;
+
+    if (Object.prototype.toString.call(handler) !== "[object Array]") {
+        response = [200, {}, handler];
+    }
+
+    if (typeof response[2] !== "string") {
+        throw new TypeError("Fake server response body should be string, but was " +
+                            typeof response[2]);
+    }
+
+    return response;
+}
+
+function getDefaultWindowLocation() {
+    return { "host": "localhost", "protocol": "http" };
+}
+
+function getWindowLocation() {
+    if (typeof window === "undefined") {
+        // Fallback
+        return getDefaultWindowLocation();
+    }
+
+    if (typeof window.location !== "undefined") {
+        // Browsers place location on window
+        return window.location;
+    }
+
+    if ((typeof window.window !== "undefined") && (typeof window.window.location !== "undefined")) {
+        // React Native on Android places location on window.window
+        return window.window.location;
+    }
+
+    return getDefaultWindowLocation();
+}
+
+function matchOne(response, reqMethod, reqUrl) {
+    var rmeth = response.method;
+    var matchMethod = !rmeth || rmeth.toLowerCase() === reqMethod.toLowerCase();
+    var url = response.url;
+    var matchUrl = !url || url === reqUrl || (typeof url.test === "function" && url.test(reqUrl));
+
+    return matchMethod && matchUrl;
+}
+
+function match(response, request) {
+    var wloc = getWindowLocation();
+
+    var rCurrLoc = new RegExp("^" + wloc.protocol + "//" + wloc.host);
+
+    var requestUrl = request.url;
+
+    if (!/^https?:\/\//.test(requestUrl) || rCurrLoc.test(requestUrl)) {
+        requestUrl = requestUrl.replace(rCurrLoc, "");
+    }
+
+    if (matchOne(response, this.getHTTPMethod(request), requestUrl)) {
+        if (typeof response.response === "function") {
+            var ru = response.url;
+            var args = [request].concat(ru && typeof ru.exec === "function" ? ru.exec(requestUrl).slice(1) : []);
+            return response.response.apply(response, args);
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+function incrementRequestCount() {
+    var count = ++this.requestCount;
+
+    this.requested = true;
+
+    this.requestedOnce = count === 1;
+    this.requestedTwice = count === 2;
+    this.requestedThrice = count === 3;
+
+    this.firstRequest = this.getRequest(0);
+    this.secondRequest = this.getRequest(1);
+    this.thirdRequest = this.getRequest(2);
+
+    this.lastRequest = this.getRequest(count - 1);
+}
+
+var fakeServer = {
+    create: function (config) {
+        var server = Object.create(this);
+        server.configure(config);
+        this.xhr = fakeXhr.useFakeXMLHttpRequest();
+        server.requests = [];
+        server.requestCount = 0;
+        server.queue = [];
+        server.responses = [];
+
+
+        this.xhr.onCreate = function (xhrObj) {
+            xhrObj.unsafeHeadersEnabled = function () {
+                return !(server.unsafeHeadersEnabled === false);
+            };
+            server.addRequest(xhrObj);
+        };
+
+        return server;
+    },
+
+    configure: function (config) {
+        var self = this;
+        var whitelist = {
+            "autoRespond": true,
+            "autoRespondAfter": true,
+            "respondImmediately": true,
+            "fakeHTTPMethods": true,
+            "logger": true,
+            "unsafeHeadersEnabled": true
+        };
+
+        config = config || {};
+
+        Object.keys(config).forEach(function (setting) {
+            if (setting in whitelist) {
+                self[setting] = config[setting];
+            }
+        });
+
+        self.logError = configureLogError(config);
+    },
+
+    addRequest: function addRequest(xhrObj) {
+        var server = this;
+        push.call(this.requests, xhrObj);
+
+        incrementRequestCount.call(this);
+
+        xhrObj.onSend = function () {
+            server.handleRequest(this);
+
+            if (server.respondImmediately) {
+                server.respond();
+            } else if (server.autoRespond && !server.responding) {
+                setTimeout(function () {
+                    server.responding = false;
+                    server.respond();
+                }, server.autoRespondAfter || 10);
+
+                server.responding = true;
+            }
+        };
+    },
+
+    getHTTPMethod: function getHTTPMethod(request) {
+        if (this.fakeHTTPMethods && /post/i.test(request.method)) {
+            var matches = (request.requestBody || "").match(/_method=([^\b;]+)/);
+            return matches ? matches[1] : request.method;
+        }
+
+        return request.method;
+    },
+
+    handleRequest: function handleRequest(xhr) {
+        if (xhr.async) {
+            push.call(this.queue, xhr);
+        } else {
+            this.processRequest(xhr);
+        }
+    },
+
+    logger: function () {
+        // no-op; override via configure()
+    },
+
+    logError: configureLogError({}),
+
+    log: function log(response, request) {
+        var str;
+
+        str = "Request:\n" + format(request) + "\n\n";
+        str += "Response:\n" + format(response) + "\n\n";
+
+        if (typeof this.logger === "function") {
+            this.logger(str);
+        }
+    },
+
+    respondWith: function respondWith(method, url, body) {
+        if (arguments.length === 1 && typeof method !== "function") {
+            this.response = responseArray(method);
+            return;
+        }
+
+        if (arguments.length === 1) {
+            body = method;
+            url = method = null;
+        }
+
+        if (arguments.length === 2) {
+            body = url;
+            url = method;
+            method = null;
+        }
+
+        push.call(this.responses, {
+            method: method,
+            url: typeof url === "string" && url !== "" ? pathToRegexp(url) : url,
+            response: typeof body === "function" ? body : responseArray(body)
+        });
+    },
+
+    respond: function respond() {
+        if (arguments.length > 0) {
+            this.respondWith.apply(this, arguments);
+        }
+
+        var queue = this.queue || [];
+        var requests = queue.splice(0, queue.length);
+        var self = this;
+
+        requests.forEach(function (request) {
+            self.processRequest(request);
+        });
+    },
+
+    processRequest: function processRequest(request) {
+        try {
+            if (request.aborted) {
+                return;
+            }
+
+            var response = this.response || [404, {}, ""];
+
+            if (this.responses) {
+                for (var l = this.responses.length, i = l - 1; i >= 0; i--) {
+                    if (match.call(this, this.responses[i], request)) {
+                        response = this.responses[i].response;
+                        break;
+                    }
+                }
+            }
+
+            if (request.readyState !== 4) {
+                this.log(response, request);
+
+                request.respond(response[0], response[1], response[2]);
+            }
+        } catch (e) {
+            this.logError("Fake server request processing", e);
+        }
+    },
+
+    restore: function restore() {
+        return this.xhr.restore && this.xhr.restore.apply(this.xhr, arguments);
+    },
+
+    getRequest: function getRequest(index) {
+        return this.requests[index] || null;
+    },
+
+    reset: function reset() {
+        this.resetBehavior();
+        this.resetHistory();
+    },
+
+    resetBehavior: function resetBehavior() {
+        this.responses.length = this.queue.length = 0;
+    },
+
+    resetHistory: function resetHistory() {
+        this.requests.length = this.requestCount = 0;
+
+        this.requestedOnce = this.requestedTwice = this.requestedThrice = this.requested = false;
+
+        this.firstRequest = this.secondRequest = this.thirdRequest = this.lastRequest = null;
+    }
+};
+
+module.exports = fakeServer;
+
+},{"../configure-logger":39,"../fake-xhr":49,"./format":46,"path-to-regexp":52}],48:[function(require,module,exports){
+/*global Blob */
+"use strict";
+
+exports.isSupported = (function () {
+    try {
+        return !!new Blob();
+    } catch (e) {
+        return false;
+    }
+}());
+
+},{}],49:[function(require,module,exports){
+(function (global){
+"use strict";
+
+var TextEncoder = require("text-encoding").TextEncoder;
+
+var configureLogError = require("../configure-logger");
+var sinonEvent = require("../event");
+var extend = require("just-extend");
+
+function getWorkingXHR(globalScope) {
+    var supportsXHR = typeof globalScope.XMLHttpRequest !== "undefined";
+    if (supportsXHR) {
+        return globalScope.XMLHttpRequest;
+    }
+
+    var supportsActiveX = typeof globalScope.ActiveXObject !== "undefined";
+    if (supportsActiveX) {
+        return function () {
+            return new globalScope.ActiveXObject("MSXML2.XMLHTTP.3.0");
+        };
+    }
+
+    return false;
+}
+
+var supportsProgress = typeof ProgressEvent !== "undefined";
+var supportsCustomEvent = typeof CustomEvent !== "undefined";
+var supportsFormData = typeof FormData !== "undefined";
+var supportsArrayBuffer = typeof ArrayBuffer !== "undefined";
+var supportsBlob = require("./blob").isSupported;
+var isReactNative = global.navigator && global.navigator.product === "ReactNative";
+var sinonXhr = { XMLHttpRequest: global.XMLHttpRequest };
+sinonXhr.GlobalXMLHttpRequest = global.XMLHttpRequest;
+sinonXhr.GlobalActiveXObject = global.ActiveXObject;
+sinonXhr.supportsActiveX = typeof sinonXhr.GlobalActiveXObject !== "undefined";
+sinonXhr.supportsXHR = typeof sinonXhr.GlobalXMLHttpRequest !== "undefined";
+sinonXhr.workingXHR = getWorkingXHR(global);
+sinonXhr.supportsCORS = isReactNative ||
+    (sinonXhr.supportsXHR && "withCredentials" in (new sinonXhr.GlobalXMLHttpRequest()));
+
+var unsafeHeaders = {
+    "Accept-Charset": true,
+    "Accept-Encoding": true,
+    "Connection": true,
+    "Content-Length": true,
+    "Cookie": true,
+    "Cookie2": true,
+    "Content-Transfer-Encoding": true,
+    "Date": true,
+    "Expect": true,
+    "Host": true,
+    "Keep-Alive": true,
+    "Referer": true,
+    "TE": true,
+    "Trailer": true,
+    "Transfer-Encoding": true,
+    "Upgrade": true,
+    "User-Agent": true,
+    "Via": true
+};
+
+
+function EventTargetHandler() {
+    var self = this;
+    var events = ["loadstart", "progress", "abort", "error", "load", "timeout", "loadend"];
+
+    function addEventListener(eventName) {
+        self.addEventListener(eventName, function (event) {
+            var listener = self["on" + eventName];
+
+            if (listener && typeof listener === "function") {
+                listener.call(this, event);
+            }
+        });
+    }
+
+    events.forEach(addEventListener);
+}
+
+EventTargetHandler.prototype = sinonEvent.EventTarget;
+
+// Note that for FakeXMLHttpRequest to work pre ES5
+// we lose some of the alignment with the spec.
+// To ensure as close a match as possible,
+// set responseType before calling open, send or respond;
+function FakeXMLHttpRequest(config) {
+    EventTargetHandler.call(this);
+    this.readyState = FakeXMLHttpRequest.UNSENT;
+    this.requestHeaders = {};
+    this.requestBody = null;
+    this.status = 0;
+    this.statusText = "";
+    this.upload = new EventTargetHandler();
+    this.responseType = "";
+    this.response = "";
+    this.logError = configureLogError(config);
+    if (sinonXhr.supportsCORS) {
+        this.withCredentials = false;
+    }
+
+    if (typeof FakeXMLHttpRequest.onCreate === "function") {
+        FakeXMLHttpRequest.onCreate(this);
+    }
+}
+
+function verifyState(xhr) {
+    if (xhr.readyState !== FakeXMLHttpRequest.OPENED) {
+        throw new Error("INVALID_STATE_ERR");
+    }
+
+    if (xhr.sendFlag) {
+        throw new Error("INVALID_STATE_ERR");
+    }
+}
+
+function getHeader(headers, header) {
+    var foundHeader = Object.keys(headers).filter(function (h) {
+        return h.toLowerCase() === header.toLowerCase();
+    });
+
+    return foundHeader[0] || null;
+}
+
+function excludeSetCookie2Header(header) {
+    return !/^Set-Cookie2?$/i.test(header);
+}
+
+// largest arity in XHR is 5 - XHR#open
+var apply = function (obj, method, args) {
+    switch (args.length) {
+        case 0: return obj[method]();
+        case 1: return obj[method](args[0]);
+        case 2: return obj[method](args[0], args[1]);
+        case 3: return obj[method](args[0], args[1], args[2]);
+        case 4: return obj[method](args[0], args[1], args[2], args[3]);
+        case 5: return obj[method](args[0], args[1], args[2], args[3], args[4]);
+        default: throw new Error("Unhandled case");
+    }
+};
+
+FakeXMLHttpRequest.filters = [];
+FakeXMLHttpRequest.addFilter = function addFilter(fn) {
+    this.filters.push(fn);
+};
+FakeXMLHttpRequest.defake = function defake(fakeXhr, xhrArgs) {
+    var xhr = new sinonXhr.workingXHR(); // eslint-disable-line new-cap
+
+    [
+        "open",
+        "setRequestHeader",
+        "send",
+        "abort",
+        "getResponseHeader",
+        "getAllResponseHeaders",
+        "addEventListener",
+        "overrideMimeType",
+        "removeEventListener"
+    ].forEach(function (method) {
+        fakeXhr[method] = function () {
+            return apply(xhr, method, arguments);
+        };
+    });
+
+    var copyAttrs = function (args) {
+        args.forEach(function (attr) {
+            fakeXhr[attr] = xhr[attr];
+        });
+    };
+
+    var stateChange = function stateChange() {
+        fakeXhr.readyState = xhr.readyState;
+        if (xhr.readyState >= FakeXMLHttpRequest.HEADERS_RECEIVED) {
+            copyAttrs(["status", "statusText"]);
+        }
+        if (xhr.readyState >= FakeXMLHttpRequest.LOADING) {
+            copyAttrs(["responseText", "response"]);
+        }
+        if (xhr.readyState === FakeXMLHttpRequest.DONE) {
+            copyAttrs(["responseXML"]);
+        }
+        if (fakeXhr.onreadystatechange) {
+            fakeXhr.onreadystatechange.call(fakeXhr, { target: fakeXhr });
+        }
+    };
+
+    if (xhr.addEventListener) {
+        Object.keys(fakeXhr.eventListeners).forEach(function (event) {
+            /*eslint-disable no-loop-func*/
+            fakeXhr.eventListeners[event].forEach(function (handler) {
+                xhr.addEventListener(event, handler);
+            });
+            /*eslint-enable no-loop-func*/
+        });
+
+        xhr.addEventListener("readystatechange", stateChange);
+    } else {
+        xhr.onreadystatechange = stateChange;
+    }
+    apply(xhr, "open", xhrArgs);
+};
+FakeXMLHttpRequest.useFilters = false;
+
+function verifyRequestOpened(xhr) {
+    if (xhr.readyState !== FakeXMLHttpRequest.OPENED) {
+        throw new Error("INVALID_STATE_ERR - " + xhr.readyState);
+    }
+}
+
+function verifyRequestSent(xhr) {
+    if (xhr.readyState === FakeXMLHttpRequest.DONE) {
+        throw new Error("Request done");
+    }
+}
+
+function verifyHeadersReceived(xhr) {
+    if (xhr.async && xhr.readyState !== FakeXMLHttpRequest.HEADERS_RECEIVED) {
+        throw new Error("No headers received");
+    }
+}
+
+function verifyResponseBodyType(body) {
+    if (typeof body !== "string") {
+        var error = new Error("Attempted to respond to fake XMLHttpRequest with " +
+                             body + ", which is not a string.");
+        error.name = "InvalidBodyException";
+        throw error;
+    }
+}
+
+function convertToArrayBuffer(body, encoding) {
+    return new TextEncoder(encoding || "utf-8").encode(body).buffer;
+}
+
+function isXmlContentType(contentType) {
+    return !contentType || /(text\/xml)|(application\/xml)|(\+xml)/.test(contentType);
+}
+
+function convertResponseBody(responseType, contentType, body) {
+    if (responseType === "" || responseType === "text") {
+        return body;
+    } else if (supportsArrayBuffer && responseType === "arraybuffer") {
+        return convertToArrayBuffer(body);
+    } else if (responseType === "json") {
+        try {
+            return JSON.parse(body);
+        } catch (e) {
+            // Return parsing failure as null
+            return null;
+        }
+    } else if (supportsBlob && responseType === "blob") {
+        var blobOptions = {};
+        if (contentType) {
+            blobOptions.type = contentType;
+        }
+        return new Blob([convertToArrayBuffer(body)], blobOptions);
+    } else if (responseType === "document") {
+        if (isXmlContentType(contentType)) {
+            return FakeXMLHttpRequest.parseXML(body);
+        }
+        return null;
+    }
+    throw new Error("Invalid responseType " + responseType);
+}
+
+function clearResponse(xhr) {
+    if (xhr.responseType === "" || xhr.responseType === "text") {
+        xhr.response = xhr.responseText = "";
+    } else {
+        xhr.response = xhr.responseText = null;
+    }
+    xhr.responseXML = null;
+}
+
+FakeXMLHttpRequest.parseXML = function parseXML(text) {
+    // Treat empty string as parsing failure
+    if (text !== "") {
+        try {
+            if (typeof DOMParser !== "undefined") {
+                var parser = new DOMParser();
+                return parser.parseFromString(text, "text/xml");
+            }
+            var xmlDoc = new window.ActiveXObject("Microsoft.XMLDOM");
+            xmlDoc.async = "false";
+            xmlDoc.loadXML(text);
+            return xmlDoc;
+        } catch (e) {
+            // Unable to parse XML - no biggie
+        }
+    }
+
+    return null;
+};
+
+FakeXMLHttpRequest.statusCodes = {
+    100: "Continue",
+    101: "Switching Protocols",
+    200: "OK",
+    201: "Created",
+    202: "Accepted",
+    203: "Non-Authoritative Information",
+    204: "No Content",
+    205: "Reset Content",
+    206: "Partial Content",
+    207: "Multi-Status",
+    300: "Multiple Choice",
+    301: "Moved Permanently",
+    302: "Found",
+    303: "See Other",
+    304: "Not Modified",
+    305: "Use Proxy",
+    307: "Temporary Redirect",
+    400: "Bad Request",
+    401: "Unauthorized",
+    402: "Payment Required",
+    403: "Forbidden",
+    404: "Not Found",
+    405: "Method Not Allowed",
+    406: "Not Acceptable",
+    407: "Proxy Authentication Required",
+    408: "Request Timeout",
+    409: "Conflict",
+    410: "Gone",
+    411: "Length Required",
+    412: "Precondition Failed",
+    413: "Request Entity Too Large",
+    414: "Request-URI Too Long",
+    415: "Unsupported Media Type",
+    416: "Requested Range Not Satisfiable",
+    417: "Expectation Failed",
+    422: "Unprocessable Entity",
+    500: "Internal Server Error",
+    501: "Not Implemented",
+    502: "Bad Gateway",
+    503: "Service Unavailable",
+    504: "Gateway Timeout",
+    505: "HTTP Version Not Supported"
+};
+
+extend(FakeXMLHttpRequest.prototype, sinonEvent.EventTarget, {
+    async: true,
+
+    open: function open(method, url, async, username, password) {
+        this.method = method;
+        this.url = url;
+        this.async = typeof async === "boolean" ? async : true;
+        this.username = username;
+        this.password = password;
+        clearResponse(this);
+        this.requestHeaders = {};
+        this.sendFlag = false;
+
+        if (FakeXMLHttpRequest.useFilters === true) {
+            var xhrArgs = arguments;
+            var defake = FakeXMLHttpRequest.filters.some(function (filter) {
+                return filter.apply(this, xhrArgs);
+            });
+            if (defake) {
+                FakeXMLHttpRequest.defake(this, arguments);
+                return;
+            }
+        }
+        this.readyStateChange(FakeXMLHttpRequest.OPENED);
+    },
+
+    readyStateChange: function readyStateChange(state) {
+        this.readyState = state;
+
+        var readyStateChangeEvent = new sinonEvent.Event("readystatechange", false, false, this);
+        var event, progress;
+
+        if (typeof this.onreadystatechange === "function") {
+            try {
+                this.onreadystatechange(readyStateChangeEvent);
+            } catch (e) {
+                this.logError("Fake XHR onreadystatechange handler", e);
+            }
+        }
+
+        if (this.readyState === FakeXMLHttpRequest.DONE) {
+            if (this.aborted || this.status === 0) {
+                progress = {loaded: 0, total: 0};
+                event = this.aborted ? "abort" : "error";
+            } else {
+                progress = {loaded: 100, total: 100};
+                event = "load";
+            }
+
+            if (supportsProgress) {
+                this.upload.dispatchEvent(new sinonEvent.ProgressEvent("progress", progress, this));
+                this.upload.dispatchEvent(new sinonEvent.ProgressEvent(event, progress, this));
+                this.upload.dispatchEvent(new sinonEvent.ProgressEvent("loadend", progress, this));
+            }
+
+            this.dispatchEvent(new sinonEvent.ProgressEvent("progress", progress, this));
+            this.dispatchEvent(new sinonEvent.ProgressEvent(event, progress, this));
+            this.dispatchEvent(new sinonEvent.ProgressEvent("loadend", progress, this));
+        }
+
+        this.dispatchEvent(readyStateChangeEvent);
+    },
+
+    setRequestHeader: function setRequestHeader(header, value) {
+        verifyState(this);
+
+        var checkUnsafeHeaders = true;
+        if (typeof this.unsafeHeadersEnabled === "function") {
+            checkUnsafeHeaders = this.unsafeHeadersEnabled();
+        }
+
+        if (checkUnsafeHeaders && (unsafeHeaders[header] || /^(Sec-|Proxy-)/.test(header))) {
+            throw new Error("Refused to set unsafe header \"" + header + "\"");
+        }
+
+        if (this.requestHeaders[header]) {
+            this.requestHeaders[header] += "," + value;
+        } else {
+            this.requestHeaders[header] = value;
+        }
+    },
+
+    setStatus: function setStatus(status) {
+        var sanitizedStatus = typeof status === "number" ? status : 200;
+
+        verifyRequestOpened(this);
+        this.status = sanitizedStatus;
+        this.statusText = FakeXMLHttpRequest.statusCodes[sanitizedStatus];
+    },
+
+    // Helps testing
+    setResponseHeaders: function setResponseHeaders(headers) {
+        verifyRequestOpened(this);
+
+        var responseHeaders = this.responseHeaders = {};
+
+        Object.keys(headers).forEach(function (header) {
+            responseHeaders[header] = headers[header];
+        });
+
+        if (this.async) {
+            this.readyStateChange(FakeXMLHttpRequest.HEADERS_RECEIVED);
+        } else {
+            this.readyState = FakeXMLHttpRequest.HEADERS_RECEIVED;
+        }
+    },
+
+    // Currently treats ALL data as a DOMString (i.e. no Document)
+    send: function send(data) {
+        verifyState(this);
+
+        if (!/^(head)$/i.test(this.method)) {
+            var contentType = getHeader(this.requestHeaders, "Content-Type");
+            if (this.requestHeaders[contentType]) {
+                var value = this.requestHeaders[contentType].split(";");
+                this.requestHeaders[contentType] = value[0] + ";charset=utf-8";
+            } else if (supportsFormData && !(data instanceof FormData)) {
+                this.requestHeaders["Content-Type"] = "text/plain;charset=utf-8";
+            }
+
+            this.requestBody = data;
+        }
+
+        this.errorFlag = false;
+        this.sendFlag = this.async;
+        clearResponse(this);
+        this.readyStateChange(FakeXMLHttpRequest.OPENED);
+
+        if (typeof this.onSend === "function") {
+            this.onSend(this);
+        }
+
+        this.dispatchEvent(new sinonEvent.Event("loadstart", false, false, this));
+    },
+
+    abort: function abort() {
+        this.aborted = true;
+        clearResponse(this);
+        this.errorFlag = true;
+        this.requestHeaders = {};
+        this.responseHeaders = {};
+
+        if (this.readyState !== FakeXMLHttpRequest.UNSENT && this.sendFlag
+            && this.readyState !== FakeXMLHttpRequest.DONE) {
+            this.readyStateChange(FakeXMLHttpRequest.DONE);
+            this.sendFlag = false;
+        }
+
+        this.readyState = FakeXMLHttpRequest.UNSENT;
+    },
+
+    error: function () {
+        clearResponse(this);
+        this.errorFlag = true;
+        this.requestHeaders = {};
+        this.responseHeaders = {};
+
+        this.readyStateChange(FakeXMLHttpRequest.DONE);
+    },
+
+    getResponseHeader: function getResponseHeader(header) {
+        if (this.readyState < FakeXMLHttpRequest.HEADERS_RECEIVED) {
+            return null;
+        }
+
+        if (/^Set-Cookie2?$/i.test(header)) {
+            return null;
+        }
+
+        header = getHeader(this.responseHeaders, header);
+
+        return this.responseHeaders[header] || null;
+    },
+
+    getAllResponseHeaders: function getAllResponseHeaders() {
+        if (this.readyState < FakeXMLHttpRequest.HEADERS_RECEIVED) {
+            return "";
+        }
+
+        var responseHeaders = this.responseHeaders;
+        var headers = Object.keys(responseHeaders)
+            .filter(excludeSetCookie2Header)
+            .reduce(function (prev, header) {
+                var value = responseHeaders[header];
+
+                return prev + (header + ": " + value + "\r\n");
+            }, "");
+
+        return headers;
+    },
+
+    setResponseBody: function setResponseBody(body) {
+        verifyRequestSent(this);
+        verifyHeadersReceived(this);
+        verifyResponseBodyType(body);
+        var contentType = this.overriddenMimeType || this.getResponseHeader("Content-Type");
+
+        var isTextResponse = this.responseType === "" || this.responseType === "text";
+        clearResponse(this);
+        if (this.async) {
+            var chunkSize = this.chunkSize || 10;
+            var index = 0;
+
+            do {
+                this.readyStateChange(FakeXMLHttpRequest.LOADING);
+
+                if (isTextResponse) {
+                    this.responseText = this.response += body.substring(index, index + chunkSize);
+                }
+                index += chunkSize;
+            } while (index < body.length);
+        }
+
+        this.response = convertResponseBody(this.responseType, contentType, body);
+        if (isTextResponse) {
+            this.responseText = this.response;
+        }
+
+        if (this.responseType === "document") {
+            this.responseXML = this.response;
+        } else if (this.responseType === "" && isXmlContentType(contentType)) {
+            this.responseXML = FakeXMLHttpRequest.parseXML(this.responseText);
+        }
+        this.readyStateChange(FakeXMLHttpRequest.DONE);
+    },
+
+    respond: function respond(status, headers, body) {
+        this.setStatus(status);
+        this.setResponseHeaders(headers || {});
+        this.setResponseBody(body || "");
+    },
+
+    uploadProgress: function uploadProgress(progressEventRaw) {
+        if (supportsProgress) {
+            this.upload.dispatchEvent(new sinonEvent.ProgressEvent("progress", progressEventRaw));
+        }
+    },
+
+    downloadProgress: function downloadProgress(progressEventRaw) {
+        if (supportsProgress) {
+            this.dispatchEvent(new sinonEvent.ProgressEvent("progress", progressEventRaw));
+        }
+    },
+
+    uploadError: function uploadError(error) {
+        if (supportsCustomEvent) {
+            this.upload.dispatchEvent(new sinonEvent.CustomEvent("error", {detail: error}));
+        }
+    },
+
+    overrideMimeType: function overrideMimeType(type) {
+        if (this.readyState >= FakeXMLHttpRequest.LOADING) {
+            throw new Error("INVALID_STATE_ERR");
+        }
+        this.overriddenMimeType = type;
+    }
+});
+
+var states = {
+    UNSENT: 0,
+    OPENED: 1,
+    HEADERS_RECEIVED: 2,
+    LOADING: 3,
+    DONE: 4
+};
+
+extend(FakeXMLHttpRequest, states);
+extend(FakeXMLHttpRequest.prototype, states);
+
+function useFakeXMLHttpRequest() {
+    FakeXMLHttpRequest.restore = function restore(keepOnCreate) {
+        if (sinonXhr.supportsXHR) {
+            global.XMLHttpRequest = sinonXhr.GlobalXMLHttpRequest;
+        }
+
+        if (sinonXhr.supportsActiveX) {
+            global.ActiveXObject = sinonXhr.GlobalActiveXObject;
+        }
+
+        delete FakeXMLHttpRequest.restore;
+
+        if (keepOnCreate !== true) {
+            delete FakeXMLHttpRequest.onCreate;
+        }
+    };
+    if (sinonXhr.supportsXHR) {
+        global.XMLHttpRequest = FakeXMLHttpRequest;
+    }
+
+    if (sinonXhr.supportsActiveX) {
+        global.ActiveXObject = function ActiveXObject(objId) {
+            if (objId === "Microsoft.XMLHTTP" || /^Msxml2\.XMLHTTP/i.test(objId)) {
+
+                return new FakeXMLHttpRequest();
+            }
+
+            return new sinonXhr.GlobalActiveXObject(objId);
+        };
+    }
+
+    return FakeXMLHttpRequest;
+}
+
+module.exports = {
+    xhr: sinonXhr,
+    FakeXMLHttpRequest: FakeXMLHttpRequest,
+    useFakeXMLHttpRequest: useFakeXMLHttpRequest
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
+},{"../configure-logger":39,"../event":43,"./blob":48,"just-extend":37,"text-encoding":56}],50:[function(require,module,exports){
+"use strict";
+
+module.exports = {
+    fakeServer: require("./fake-server"),
+    fakeServerWithClock: require("./fake-server/fake-server-with-clock"),
+    fakeXhr: require("./fake-xhr")
+};
+
+},{"./fake-server":47,"./fake-server/fake-server-with-clock":45,"./fake-xhr":49}],51:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -30139,7 +30787,12 @@ function pathToRegexp (path, keys, options) {
   return stringToRegexp(/** @type {string} */ (path), /** @type {!Array} */ (keys), options)
 }
 
-},{"isarray":50}],53:[function(require,module,exports){
+},{"isarray":53}],53:[function(require,module,exports){
+module.exports = Array.isArray || function (arr) {
+  return Object.prototype.toString.call(arr) == '[object Array]';
+};
+
+},{}],54:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -30325,7 +30978,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 ((typeof define === "function" && define.amd && function (m) { define("samsam", m); }) ||
  (typeof module === "object" &&
       function (m) { module.exports = m(); }) || // Node
@@ -30764,7 +31417,7 @@ process.umask = function() { return 0; };
     };
 });
 
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 // This is free and unencumbered software released into the public domain.
 // See LICENSE.md for more information.
 
@@ -30775,7 +31428,7 @@ module.exports = {
   TextDecoder: encoding.TextDecoder,
 };
 
-},{"./lib/encoding.js":57}],56:[function(require,module,exports){
+},{"./lib/encoding.js":58}],57:[function(require,module,exports){
 (function(global) {
   'use strict';
 
@@ -30823,7 +31476,7 @@ module.exports = {
 // For strict environments where `this` inside the global scope
 // is `undefined`, take a pure object instead
 }(this || {}));
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 // This is free and unencumbered software released into the public domain.
 // See LICENSE.md for more information.
 
@@ -34137,7 +34790,7 @@ module.exports = {
 // For strict environments where `this` inside the global scope
 // is `undefined`, take a pure object instead
 }(this || {}));
-},{"./encoding-indexes.js":56}],58:[function(require,module,exports){
+},{"./encoding-indexes.js":57}],59:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -34676,6 +35329,196 @@ define('ember-cli-test-loader/test-support/index', ['exports'], function (export
 
   exports.default = TestLoader;
   ;
+});
+define('ember-exam/test-support/-private/get-test-loader', ['exports'], function (exports) {
+  exports['default'] = getTestLoader;
+  /* globals require, requirejs */
+
+  function getTestLoader() {
+    var testLoaderModulePath = 'ember-cli-test-loader/test-support/index';
+
+    if (!requirejs.entries[testLoaderModulePath]) {
+      testLoaderModulePath = 'ember-cli/test-loader';
+    }
+
+    var TestLoaderModule = require(testLoaderModulePath);
+    return TestLoaderModule['default'];
+  }
+});
+define('ember-exam/test-support/-private/get-url-params', ['exports'], function (exports) {
+  exports['default'] = getUrlParams;
+  function decodeQueryParam(param) {
+    return decodeURIComponent(param.replace(/\+/g, '%20'));
+  }
+
+  function getUrlParams() {
+    var urlParams = Object.create(null);
+    var params = location.search.slice(1).split('&');
+
+    for (var i = 0; i < params.length; i++) {
+      if (params[i]) {
+        var param = params[i].split('=');
+        var _name = decodeQueryParam(param[0]);
+
+        // Allow just a key to turn on a flag, e.g., test.html?noglobals
+        var value = param.length === 1 || decodeQueryParam(param.slice(1).join('='));
+        if (_name in urlParams) {
+          urlParams[_name] = [].concat(urlParams[_name], value);
+        } else {
+          urlParams[_name] = value;
+        }
+      }
+    }
+
+    return urlParams;
+  }
+});
+define('ember-exam/test-support/-private/patch-test-loader', ['exports', 'ember-exam/test-support/-private/get-url-params', 'ember-exam/test-support/-private/split-test-modules'], function (exports, _emberExamTestSupportPrivateGetUrlParams, _emberExamTestSupportPrivateSplitTestModules) {
+  exports['default'] = patchTestLoader;
+
+  function patchTestLoader(TestLoader) {
+    TestLoader._urlParams = (0, _emberExamTestSupportPrivateGetUrlParams['default'])();
+
+    var _super = {
+      require: TestLoader.prototype.require,
+      unsee: TestLoader.prototype.unsee,
+      loadModules: TestLoader.prototype.loadModules
+    };
+
+    // "Require" the module by adding it to the array of test modules to load
+    TestLoader.prototype.require = function _emberExamRequire(name) {
+      this._testModules.push(name);
+    };
+
+    // Make unsee a no-op to avoid any unwanted resets
+    TestLoader.prototype.unsee = function _emberExamUnsee() {};
+
+    TestLoader.prototype.loadModules = function _emberExamLoadModules() {
+      var urlParams = TestLoader._urlParams;
+      var partitions = urlParams._partition;
+      var split = parseInt(urlParams._split, 10);
+
+      split = isNaN(split) ? 1 : split;
+
+      if (partitions === undefined) {
+        partitions = [1];
+      } else if (!Array.isArray(partitions)) {
+        partitions = [partitions];
+      }
+
+      var testLoader = this;
+
+      testLoader._testModules = [];
+      _super.loadModules.apply(testLoader, arguments);
+
+      var splitModules = (0, _emberExamTestSupportPrivateSplitTestModules['default'])(testLoader._testModules, split, partitions);
+
+      splitModules.forEach(function (moduleName) {
+        _super.require.call(testLoader, moduleName);
+        _super.unsee.call(testLoader, moduleName);
+      });
+    };
+  }
+});
+define('ember-exam/test-support/-private/patch-testem-output', ['exports'], function (exports) {
+  exports['default'] = patchTestemOutput;
+  /* globals Testem */
+
+  // Add the partition number for better debugging when reading the reporter
+
+  function patchTestemOutput(TestLoader) {
+    Testem.on('test-result', function prependPartition(test) {
+      var urlParams = TestLoader._urlParams;
+      var split = urlParams._split;
+
+      if (split) {
+        var partition = urlParams._partition || 1;
+        test.name = 'Exam Partition #' + partition + ' - ' + test.name;
+      }
+    });
+  }
+});
+define('ember-exam/test-support/-private/split-test-modules', ['exports'], function (exports) {
+  exports['default'] = splitTestModules;
+
+  function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+
+  function createGroups(num) {
+    var groups = new Array(num);
+
+    for (var i = 0; i < num; i++) {
+      groups[i] = [];
+    }
+
+    return groups;
+  }
+
+  function filterIntoGroups(arr, filter, numGroups) {
+    var filtered = arr.filter(filter);
+    var groups = createGroups(numGroups);
+
+    for (var i = 0; i < filtered.length; i++) {
+      groups[i % numGroups].push(filtered[i]);
+    }
+
+    return groups;
+  }
+
+  function isLintTest(name) {
+    return name.match(/\.(jshint|(es)?lint-test)$/);
+  }
+
+  function isNotLintTest(name) {
+    return !isLintTest(name);
+  }
+
+  function splitTestModules(modules, split, partitions) {
+    if (split < 1) {
+      throw new Error('You must specify a split greater than 0');
+    }
+
+    var lintTestGroups = filterIntoGroups(modules, isLintTest, split);
+    var otherTestGroups = filterIntoGroups(modules, isNotLintTest, split);
+    var tests = [];
+
+    for (var i = 0; i < partitions.length; i++) {
+      var partition = parseInt(partitions[i], 10);
+      if (isNaN(partition)) {
+        throw new Error('You must specify numbers for partition (you specified \'' + partitions + '\')');
+      }
+
+      if (split < partition) {
+        throw new Error('You must specify partitions numbered less than or equal to your split value of ' + split);
+      } else if (partition < 1) {
+        throw new Error('You must specify partitions numbered greater than 0');
+      }
+
+      var group = partition - 1;
+      tests.push.apply(tests, _toConsumableArray(lintTestGroups[group]).concat(_toConsumableArray(otherTestGroups[group])));
+    }
+
+    return tests;
+  }
+});
+define('ember-exam/test-support/load', ['exports', 'ember-exam/test-support/-private/get-test-loader', 'ember-exam/test-support/-private/patch-test-loader', 'ember-exam/test-support/-private/patch-testem-output'], function (exports, _emberExamTestSupportPrivateGetTestLoader, _emberExamTestSupportPrivatePatchTestLoader, _emberExamTestSupportPrivatePatchTestemOutput) {
+  exports['default'] = loadEmberExam;
+
+  var loaded = false;
+
+  function loadEmberExam() {
+    if (loaded) {
+      return;
+    }
+
+    loaded = true;
+
+    var TestLoader = (0, _emberExamTestSupportPrivateGetTestLoader['default'])();
+    (0, _emberExamTestSupportPrivatePatchTestLoader['default'])(TestLoader);
+
+    if (window.Testem) {
+      (0, _emberExamTestSupportPrivatePatchTestemOutput['default'])(TestLoader);
+    }
+  }
 });
 define('ember-mocha', ['exports', 'ember-mocha/describe-module', 'ember-mocha/describe-component', 'ember-mocha/describe-model', 'ember-mocha/setup-test-factory', 'mocha', 'ember-test-helpers'], function (exports, _describeModule, _describeComponent, _describeModel, _setupTestFactory, _mocha, _emberTestHelpers) {
   'use strict';

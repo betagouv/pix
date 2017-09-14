@@ -2123,7 +2123,13 @@ h1.course-banner__name {
   display: flex;
   -webkit-box-pack: end;
   -ms-flex-pack: end;
-  justify-content: flex-end; }
+  justify-content: flex-end;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap; }
 
 .navbar-header-links__item {
   margin-left: 20px;
@@ -2147,6 +2153,17 @@ h1.course-banner__name {
   .navbar-header-links__link:hover, .navbar-header-links__link:focus, .navbar-header-links__link:active {
     color: #ffbe00;
     text-decoration: none; }
+
+.navbar-header-links__link--inscription {
+  border-radius: 20px;
+  border: 2px solid #ffffff;
+  width: 140px;
+  padding: 10px;
+  text-align: center; }
+  .navbar-header-links__link--inscription:hover, .navbar-header-links__link--inscription:focus, .navbar-header-links__link--inscription:active {
+    color: #3d68ff;
+    text-decoration: none;
+    background-color: #ffffff; }
 
 .pix-logo {
   display: inline-block;
@@ -3459,6 +3476,66 @@ input.qcm-panel__proposal-checkbox {
   line-height: normal;
   margin: -4px 25.9px 15.5px; }
 
+.snapshot-list {
+  background: #FAFAFA; }
+  @media (min-width: 768px) {
+    .snapshot-list {
+      max-width: 750px;
+      margin: auto;
+      margin-bottom: 40px; } }
+  @media (min-width: 980px) {
+    .snapshot-list {
+      max-width: 970px;
+      margin: auto;
+      margin-bottom: 40px; } }
+
+.snapshot-list__body-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0px 5px; }
+
+.snapshot-list__body-table__header {
+  background-color: #f2f3f4;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase; }
+
+.snapshot-list__table-header-cell {
+  text-align: center;
+  padding: 15px 0; }
+
+.snapshot-list__no-profile {
+  height: 200px;
+  padding: 0 30px;
+  background: #ffffff;
+  text-align: center;
+  font-size: 32px;
+  font-family: "Lato", Arial, sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.7px;
+  -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3); }
+
+.snapshot-list__snapshot-item {
+  background-color: #ffffff;
+  font-family: "Lato", Arial, sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.7px;
+  text-align: center; }
+  @media (min-width: 768px) {
+    .snapshot-list__snapshot-item {
+      -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3); } }
+
+.snapshot-list__snapshot-item-cell {
+  text-align: center;
+  padding: 15px 0;
+  font-size: 16px;
+  font-family: "Lato", Arial, sans-serif;
+  color: #3e4149; }
+
 .profile-panel {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3990,7 +4067,20 @@ input.qcm-panel__proposal-checkbox {
 
 .index-page-hero__content {
   margin: 0 auto;
-  max-width: 1200px; }
+  max-width: 1200px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center; }
 
 .index-page-hero__title {
   margin-top: 60px;
@@ -4011,10 +4101,29 @@ input.qcm-panel__proposal-checkbox {
   font-size: 22px;
   font-weight: 300;
   padding-top: 20px;
-  line-height: 1.2; }
+  line-height: 1.2;
+  margin-bottom: 26px; }
   @media (min-width: 980px) {
     .index-page-hero__description {
-      padding: 0 200px; } }
+      padding: 0 200px;
+      margin-bottom: 32px; } }
+
+.index-page-hero__inscription-link {
+  background-color: #3d68ff;
+  color: #ffffff;
+  border-radius: 25px;
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-size: 13px;
+  font-family: "Lato", Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 11px 35px; }
+  .index-page-hero__inscription-link:hover {
+    background-color: #2549FF;
+    color: white;
+    text-decoration: none; }
 
 /* Challenges
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -5279,72 +5388,103 @@ hr.project-page__presentation-header-line {
     .board-page__profiles-title {
       max-width: 750px;
       margin: auto;
-      margin-bottom: 20px;
       padding-left: 0px;
       font-size: 40px;
       background: #FAFAFA; } }
   @media (min-width: 980px) {
     .board-page__profiles-title {
       margin: auto;
-      margin-bottom: 20px;
       max-width: 970px; } }
 
-.board-page__body {
-  background: #FAFAFA; }
-  @media (min-width: 768px) {
-    .board-page__body {
-      max-width: 750px;
-      margin: auto;
-      margin-bottom: 40px; } }
-  @media (min-width: 980px) {
-    .board-page__body {
-      max-width: 970px;
-      margin: auto;
-      margin-bottom: 40px; } }
-
-.board-page__body-table__header {
-  display: none; }
-  @media (min-width: 768px) {
-    .board-page__body-table__header {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -ms-flex-pack: distribute;
-      justify-content: space-around;
-      -webkit-box-align: center;
-      -ms-flex-align: center;
-      align-items: center;
-      margin-bottom: 10px;
-      height: 50px;
-      background-color: #f2f3f4;
-      font-family: "Lato", Arial, sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase; } }
-
-.board-page__body-table__body {
+.terms-of-service-page {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: column;
+  flex-flow: column;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: 0 30px;
-  height: 200px;
-  background: #ffffff;
+  background-color: #FAFAFA;
+  color: #3e4149;
+  text-rendering: optimizeLegibility;
+  font-size: 14px; }
+
+.terms-of-service-page .rounded-panel {
+  margin-left: 10px;
+  margin-right: 10px; }
+  @media (min-width: 980px) {
+    .terms-of-service-page .rounded-panel {
+      margin-bottom: 50px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 40px; } }
+
+.terms-of-service-page__content {
+  background-color: #ffffff;
+  margin: 50px auto;
+  padding: 20px; }
+  @media (min-width: 980px) {
+    .terms-of-service-page__content {
+      padding: 40px 30px;
+      width: 940px;
+      margin-bottom: 50px;
+      margin-left: auto;
+      margin-right: auto; } }
+
+.terms-of-service-page__title {
+  color: #3d68ff;
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 26px; }
+
+.terms-of-service-page__subtitle {
+  color: #3e4149;
   font-family: "Lato", Arial, sans-serif;
-  font-size: 32px;
-  font-weight: 300;
-  letter-spacing: 0.7px;
-  text-align: center; }
-  @media (min-width: 768px) {
-    .board-page__body-table__body {
-      -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3); } }
+  font-size: 16px;
+  line-height: 19px; }
+
+.terms-of-service-section {
+  margin-top: 60px; }
+
+.terms-of-service-section__subsection {
+  margin-left: 20px;
+  margin-top: 20px; }
+  @media (min-width: 980px) {
+    .terms-of-service-section__subsection {
+      margin-left: 40px;
+      margin-top: 40px; } }
+
+.terms-of-service-section p,
+.terms-of-service-section ul {
+  margin-bottom: 15px; }
+
+.terms-of-service__definition {
+  font-weight: 700; }
+
+.terms-of-service-section__title {
+  color: #3e4149;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19px; }
+
+.terms-of-service-section__subtitle {
+  color: #3e4149;
+  font-family: "Lato", Arial, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  text-decoration: underline; }
+
+.terms-of-service-section__subsection-title {
+  color: #3e4149;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19px; }
 
 body {
   font-family: "Lato", Arial, sans-serif;
