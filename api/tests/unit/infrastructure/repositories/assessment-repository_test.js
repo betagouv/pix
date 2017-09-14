@@ -5,7 +5,7 @@ const Assessment = require('../../../../lib/domain/models/data/assessment');
 
 describe('Unit | Repository | assessmentRepository', () => {
 
-  describe('#getByUserId', () => {
+  describe('#findCompletedAssessmentsByUserId', () => {
 
     const JOHN = 2;
     const LAYLA = 3;
@@ -36,12 +36,12 @@ describe('Unit | Repository | assessmentRepository', () => {
     });
 
     it('should be a function', () => {
-      expect(assessmentRepository.getByUserId).to.be.a('function');
+      expect(assessmentRepository.findCompletedAssessmentsByUserId).to.be.a('function');
     });
 
     it('should return the list of assessments from JOHN', () => {
       // When
-      const promise = assessmentRepository.getByUserId(JOHN);
+      const promise = assessmentRepository.findCompletedAssessmentsByUserId(JOHN);
 
       // Then
       return promise.then((assessments) => {
@@ -65,7 +65,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       });
 
       // When
-      const promise = assessmentRepository.getByUserId(JOHN);
+      const promise = assessmentRepository.findCompletedAssessmentsByUserId(JOHN);
 
       // Then
       whereStub.restore();

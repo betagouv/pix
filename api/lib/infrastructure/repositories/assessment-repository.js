@@ -8,7 +8,7 @@ module.exports = {
       .fetch({ withRelated: ['answers'] });
   },
 
-  getByUserId(id) {
+  findCompletedAssessmentsByUserId(id) {
     return new Promise((resolve, reject) => {
       Assessment
         .where('userId', id)
