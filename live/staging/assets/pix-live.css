@@ -3649,12 +3649,12 @@ input.qcm-panel__proposal-checkbox {
 
 .logged-user-details {
   margin-top: 0px;
-  cursor: pointer;
   position: relative; }
 
 .logged-user-name__link {
   text-decoration: none;
-  color: #3e4149; }
+  color: #3e4149;
+  cursor: pointer; }
   .logged-user-name__link:hover, .logged-user-name__link:visited, .logged-user-name__link:focus, .logged-user-name__link:active {
     text-decoration: none;
     color: #3e4149; }
@@ -3995,7 +3995,7 @@ input.qcm-panel__proposal-checkbox {
   @media (min-width: 980px) {
     .index-page-hero__title {
       font-size: 50px;
-      margin-top: 250px; } }
+      margin-top: 170px; } }
 
 .index-page-hero__description {
   font-family: "Raleway", Arial, sans-serif;

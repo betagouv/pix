@@ -860,7 +860,7 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
           visit('/projet');
 
           // when
-          click('.logged-user-name');
+          click('.logged-user-name__link');
           click('a:contains("Mon compte")');
 
           // then
@@ -8819,7 +8819,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         }));
 
         // when
-        this.$('.logged-user-name').click();
+        this.$('.logged-user-name__link').click();
 
         return (0, _wait.default)().then(function () {
           // then
@@ -8847,20 +8847,107 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         });
       });
 
-      (0, _mocha.it)('should render a button to the profile', function () {
+      (0, _mocha.it)('should hide user menu, when it was previously open and user press key escape', function () {
         var _this3 = this;
 
         // when
-        this.render(Ember.HTMLBars.template({
-          "id": "pah6OdLO",
-          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
-          "meta": {}
-        }));
+        this.$('.logged-user-name').click();
+        this.$('.logged-user-name').trigger($.Event('keydown', { keyCode: 27 }));
+
+        return (0, _wait.default)().then(function () {
+          // then
+          (0, _chai.expect)(_this3.$('.logged-user-menu')).to.have.length(0);
+        });
+      });
+
+      (0, _mocha.it)('should hide user menu, when it was previously open and user press key escape', function () {
+        var _this4 = this;
+
+        // when
+        this.$('.logged-user-name').click();
         this.$('.logged-user-name').click();
 
         return (0, _wait.default)().then(function () {
           // then
-          (0, _chai.expect)(_this3.$('.user-menu-item__account-link').text().trim()).to.equal('Mon compte');
+          (0, _chai.expect)(_this4.$('.logged-user-menu')).to.have.length(0);
+        });
+      });
+
+      (0, _mocha.describe)('button rendering', function () {
+
+        (0, _mocha.it)('should not render a button link to the profile when the user is on compte page', function () {
+          var _this5 = this;
+
+          this.register('service:-routing', Ember.Service.extend({
+            currentRouteName: 'compte',
+            generateURL: function generateURL() {
+              return '/compte';
+            }
+          }));
+          this.inject.service('-routing', { as: '-routing' });
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "pah6OdLO",
+            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+          this.$('.logged-user-name').click();
+
+          return (0, _wait.default)().then(function () {
+            // then
+            (0, _chai.expect)(_this5.$('.user-menu-item__account-link').length).to.equal(0);
+          });
+        });
+
+        (0, _mocha.it)('should not render a button link to the profile when the user is on compte page', function () {
+          var _this6 = this;
+
+          this.register('service:-routing', Ember.Service.extend({
+            currentRouteName: 'board',
+            generateURL: function generateURL() {
+              return '/board';
+            }
+          }));
+          this.inject.service('-routing', { as: '-routing' });
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "pah6OdLO",
+            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+          this.$('.logged-user-name').click();
+
+          return (0, _wait.default)().then(function () {
+            // then
+            (0, _chai.expect)(_this6.$('.user-menu-item__account-link').length).to.equal(0);
+          });
+        });
+
+        (0, _mocha.it)('should render a button link to the profile when the user is not on compte page', function () {
+          var _this7 = this;
+
+          this.register('service:-routing', Ember.Service.extend({
+            generateURL: function generateURL() {
+              return '/autreRoute';
+            }
+          }));
+          this.inject.service('-routing', { as: '-routing' });
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "pah6OdLO",
+            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+          this.$('.logged-user-name__link').click();
+
+          return (0, _wait.default)().then(function () {
+            // then
+            (0, _chai.expect)(_this7.$('.user-menu-item__account-link').text().trim()).to.equal('Mon compte');
+            (0, _chai.expect)(_this7.$('.user-menu-item__account-link').length).to.equal(1);
+          });
         });
       });
     });
@@ -8877,7 +8964,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
       });
 
       (0, _mocha.it)('should not display user information, for unlogged', function () {
-        var _this4 = this;
+        var _this8 = this;
 
         // when
         this.render(Ember.HTMLBars.template({
@@ -8888,7 +8975,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         // then
         return (0, _wait.default)().then(function () {
-          (0, _chai.expect)(_this4.$('.logged-user-name')).to.have.length(0);
+          (0, _chai.expect)(_this8.$('.logged-user-name')).to.have.length(0);
         });
       });
     });
@@ -11599,7 +11686,9 @@ define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha',
   'use strict';
 
   (0, _mocha.describe)('Unit | Component | User logged Menu', function () {
-    (0, _emberMocha.setupTest)('component:user-logged-menu', {});
+    (0, _emberMocha.setupTest)('component:user-logged-menu', {
+      needs: ['service:keyboard']
+    });
 
     (0, _mocha.describe)('action#toggleUserMenu', function () {
 
@@ -11686,6 +11775,70 @@ define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha',
           // then
           (0, _chai.expect)(findRecordArgs).to.deep.equal(['user', 1435]);
         });
+      });
+    });
+
+    (0, _mocha.describe)('canDisplayLinkToProfile', function () {
+
+      (0, _mocha.beforeEach)(function () {
+
+        this.register('service:session', Ember.Service.extend({}));
+        this.inject.service('session', { as: 'session' });
+
+        this.register('service:current-routed-modal', Ember.Service.extend({}));
+        this.inject.service('current-routed-modal', { as: 'current-routed-modal' });
+
+        this.register('service:store', Ember.Service.extend({
+          findRecord: function findRecord() {
+            return Ember.RSVP.resolve({});
+          }
+        }));
+        this.inject.service('store', { as: 'store' });
+      });
+
+      (0, _mocha.it)('should be false if the current route is /compte', function () {
+        // given
+        this.register('service:-routing', Ember.Service.extend({
+          currentRouteName: 'compte'
+        }));
+        this.inject.service('-routing', { as: '-routing' });
+        var component = this.subject();
+
+        // when
+        var result = component.get('canDisplayLinkToProfile');
+
+        // then
+        (0, _chai.expect)(result).to.be.false;
+      });
+
+      (0, _mocha.it)('should be false if the current route is /board', function () {
+        // given
+        this.register('service:-routing', Ember.Service.extend({
+          currentRouteName: 'board'
+        }));
+        this.inject.service('-routing', { as: '-routing' });
+        var component = this.subject();
+
+        // when
+        var result = component.get('canDisplayLinkToProfile');
+
+        // then
+        (0, _chai.expect)(result).to.be.false;
+      });
+
+      (0, _mocha.it)('should be true if the current route is not /compte', function () {
+        // given
+        this.register('service:-routing', Ember.Service.extend({
+          currentRouteName: 'autreRoute'
+        }));
+        this.inject.service('-routing', { as: '-routing' });
+        var component = this.subject();
+
+        // when
+        var result = component.get('canDisplayLinkToProfile');
+
+        // then
+        (0, _chai.expect)(result).to.be.true;
       });
     });
   });
