@@ -14,7 +14,6 @@ module.exports = {
         qb.where({ userId });
         qb.whereNotNull('estimatedLevel');
         qb.whereNotNull('pixScore');
-        qb.orderBy('createdAt', 'desc');
       })
       .fetchAll()
       .then(assessments => assessments.models);
