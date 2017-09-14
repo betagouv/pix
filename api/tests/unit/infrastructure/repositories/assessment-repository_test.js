@@ -9,23 +9,25 @@ describe('Unit | Repository | assessmentRepository', () => {
 
     const JOHN = 2;
     const LAYLA = 3;
-    const assessmentsInDb = [
-      {
-        id: 1,
-        userId: JOHN,
-        courseId: 'courseId'
-      },
-      {
-        id: 2,
-        userId: LAYLA,
-        courseId: 'courseId'
-      },
-      {
-        id: 3,
-        userId: JOHN,
-        courseId: 'courseId'
-      }
-    ];
+    const assessmentsInDb = [{
+      id: 1,
+      userId: JOHN,
+      courseId: 'courseId',
+      estimatedLevel: 1,
+      pixScore: 10
+    }, {
+      id: 2,
+      userId: LAYLA,
+      courseId: 'courseId',
+      estimatedLevel: 2,
+      pixScore: 20
+    }, {
+      id: 3,
+      userId: JOHN,
+      courseId: 'courseId',
+      estimatedLevel: 3,
+      pixScore: 30
+    }];
 
     before(() => {
       return knex('assessments').insert(assessmentsInDb);
@@ -33,10 +35,6 @@ describe('Unit | Repository | assessmentRepository', () => {
 
     after(() => {
       return knex('assessments').delete();
-    });
-
-    it('should be a function', () => {
-      expect(assessmentRepository.findCompletedAssessmentsByUserId).to.be.a('function');
     });
 
     it('should return the list of assessments from JOHN', () => {
