@@ -30,7 +30,7 @@ module.exports = {
 
   getByUserIdAndAssessmentId(assessmentId, userId) {
     return Assessment
-      .query({ where: { id: assessmentId }, andWhere: { userId }, orWhere: { userId: null } })
+      .query({ where: { id: assessmentId }, andWhere: { userId } })
       .fetch({ require: true });
   }
 };
