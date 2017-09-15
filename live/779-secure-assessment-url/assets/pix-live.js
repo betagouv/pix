@@ -6587,6 +6587,7 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'pix-live/routes
     assessmentService: Ember.inject.service('assessment'),
 
     model: function model(params) {
+      var _this = this;
 
       var store = this.get('store');
 
@@ -6597,6 +6598,9 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'pix-live/routes
         assessment: store.findRecord('assessment', assessmentId),
         challenge: store.findRecord('challenge', challengeId),
         answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
+      }).catch(function (err) {
+        var meta = 'errors' in err ? err.errors.get('firstObject').meta : null;
+        return meta.field === 'authorization' && _this.transitionTo('index');
       });
     },
     afterModel: function afterModel(model) {
@@ -6625,14 +6629,14 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'pix-live/routes
       return adapter.buildURL('assessment', assessmentId) + '/next/' + challengeId;
     },
     _navigateToNextView: function _navigateToNextView(challenge, assessment) {
-      var _this = this;
+      var _this2 = this;
 
       var adapter = this.get('store').adapterFor('application');
       return adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), challenge.get('id')), 'GET').then(function (nextChallenge) {
         if (nextChallenge) {
-          return _this.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
+          return _this2.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
         } else {
-          return _this.transitionTo('assessments.get-results', assessment.get('id'));
+          return _this2.transitionTo('assessments.get-results', assessment.get('id'));
         }
       });
     },
@@ -6640,7 +6644,7 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'pix-live/routes
 
     actions: {
       saveAnswerAndNavigate: function saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
-        var _this2 = this;
+        var _this3 = this;
 
         var answer = this._findOrCreateAnswer(challenge, assessment);
         answer.setProperties({
@@ -6649,7 +6653,7 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'pix-live/routes
           elapsedTime: answerElapsedTime
         });
         return answer.save().then(function () {
-          return _this2._navigateToNextView(challenge, assessment);
+          return _this3._navigateToNextView(challenge, assessment);
         }).catch(function (err) {
           alert('Erreur lors de l\u2019enregistrement de la r\xE9ponse : ' + err);
           return err;
@@ -9365,6 +9369,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+4563dc46"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+0071b057"});
 }
 //# sourceMappingURL=pix-live.map
