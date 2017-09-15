@@ -22099,9 +22099,8 @@ self.expect = self.chai.expect;
   define('chai', [], vendorModule);
 })();
 
-/* globals jQuery, require */
-
-jQuery(document).ready(function() {
+/* globals require */
+document.addEventListener('DOMContentLoaded', function() {
   require('ember-exam/test-support/load').default();
 });
 
