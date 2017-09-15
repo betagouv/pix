@@ -1,4 +1,4 @@
-const { describe, it, expect, before, after, knex, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const { describe, it, expect, before, after, knex, sinon, beforeEach } = require('../../../test-helper');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Assessment = require('../../../../lib/domain/models/data/assessment');
@@ -101,8 +101,7 @@ describe('Unit | Repository | assessmentRepository', () => {
         });
         const expectedParams = {
           where: { id: fakeAssessmentId },
-          andWhere: { userId: fakeUserId },
-          orWhere: { userId: null }
+          andWhere: { userId: fakeUserId }
         };
 
         // when
@@ -117,75 +116,6 @@ describe('Unit | Repository | assessmentRepository', () => {
       });
     });
 
-    describe('test successfuly query', () => {
-
-      describe('when userId is provided,', () => {
-        const fakeUserId = 3;
-        let assessmentId;
-        const assessment =
-          {
-            userId: fakeUserId,
-            courseId: 'courseId'
-          };
-
-        beforeEach(() => {
-          return knex('assessments')
-            .insert(assessment)
-            .then((insertedAssessment) => {
-              assessmentId = insertedAssessment.shift();
-            });
-        });
-
-        afterEach(() => {
-          return knex('assessments').delete();
-        });
-
-        it('should fetch relative assessment ', () => {
-          // when
-          const promise = assessmentRepository.getByUserIdAndAssessmentId(assessmentId, fakeUserId);
-
-          // then
-          return promise.then((res) => {
-            expect(res.get('id')).to.equal(assessmentId);
-            expect(res.get('userId')).to.equal(fakeUserId);
-          });
-        });
-      });
-
-      describe('when userId is null,', () => {
-        const fakeUserId = null;
-        let assessmentId;
-        const assessment =
-          {
-            userId: fakeUserId,
-            courseId: 'courseId'
-          };
-
-        beforeEach(() => {
-          return knex('assessments')
-            .insert(assessment)
-            .then((insertedAssessment) => {
-              assessmentId = insertedAssessment.shift();
-            });
-        });
-
-        afterEach(() => {
-          return knex('assessments').delete();
-        });
-
-        it('should fetch relative assessment, , ', () => {
-          // when
-          const promise = assessmentRepository.getByUserIdAndAssessmentId(assessmentId, fakeUserId);
-
-          // then
-          return promise.then((res) => {
-            expect(res.get('id')).to.equal(assessmentId);
-            expect(res.get('userId')).to.equal(fakeUserId);
-          });
-        });
-      });
-
-    });
   });
 });
 
