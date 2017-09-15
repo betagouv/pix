@@ -860,7 +860,7 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
           visit('/projet');
 
           // when
-          click('.logged-user-name');
+          click('.logged-user-name__link');
           click('a:contains("Mon compte")');
 
           // then
@@ -1058,6 +1058,20 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
       // then
       return andThen(function () {
         (0, _chai.expect)(find('.competence-level-progress-bar__start-link:first').attr('href')).to.be.equal('/courses/ref_course_id');
+      });
+    });
+
+    (0, _mocha.it)('should display a hero banner for logged user', function () {
+      // given
+      seedDatabase();
+      authenticateUser();
+
+      // when
+      visit('/compte');
+
+      // then
+      return andThen(function () {
+        (0, _chai.expect)(find('.logged-user-profile-banner')).to.have.lengthOf(1);
       });
     });
   });
@@ -2071,6 +2085,72 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
     });
   });
 });
+define('pix-live/tests/acceptance/index-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | index page', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.describe)('Navbar header section', function () {
+      (0, _mocha.it)('should have a link to sign-up page when user is not authenticated', function () {
+        // when
+        visit('/');
+
+        // then
+        return andThen(function () {
+          var signUpLink = findWithAssert('.navbar-header-links__link--inscription');
+          (0, _chai.expect)(signUpLink.attr('href').trim()).to.equal('/inscription');
+        });
+      });
+
+      (0, _mocha.it)('should have a link to log-in page when user is not authenticated', function () {
+        // when
+        visit('/');
+
+        // then
+        return andThen(function () {
+          var logInLink = findWithAssert('.navbar-header-links__link--connection');
+          (0, _chai.expect)(logInLink.attr('href').trim()).to.equal('/connexion');
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/inscription-page-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Page | Inscription', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('should contain a link to "Terms of service" page', function () {
+
+      visit('/inscription');
+
+      return andThen(function () {
+        var $termsOfServiceLink = findWithAssert('.signup__cgu-link');
+        (0, _chai.expect)($termsOfServiceLink.attr('href').trim()).to.equal('/conditions-generales-d-utilisation');
+      });
+    });
+  });
+});
 define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
@@ -2735,6 +2815,31 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     });
   });
 });
+define('pix-live/tests/acceptance/legal-notices-page-test', ['mocha', 'pix-live/tests/helpers/application'], function (_mocha, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Page | Legal notices', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('should be accessible from "/mentions-legales"', function () {
+
+      visit('/mentions-legales');
+
+      return andThen(function () {
+        findWithAssert('.legal-notices-page');
+      });
+    });
+  });
+});
 define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
@@ -2889,6 +2994,33 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
         }
       }, _callee3, this);
     })));
+
+    (0, _mocha.it)('should display an empty list of snapshot', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              // given
+              seedDatabase();
+              authenticateUser();
+
+              // when
+              _context4.next = 4;
+              return visit('/board');
+
+            case 4:
+
+              // then
+              (0, _chai.expect)(find('.snapshot-list').length).to.equal(1);
+              (0, _chai.expect)(find('.snapshot-list__no-profile').text()).to.equal('Aucun profil partagé pour le moment');
+
+            case 6:
+            case 'end':
+              return _context4.stop();
+          }
+        }
+      }, _callee4, this);
+    })));
   });
 });
 define('pix-live/tests/acceptance/page-accueil-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
@@ -2928,20 +3060,7 @@ define('pix-live/tests/acceptance/page-accueil-test', ['mocha', 'chai', 'pix-liv
       });
     });
 
-    (0, _mocha.describe)('the "Challenges" section', function () {
-
-      (0, _mocha.it)('should have a title', function () {
-        var $title = findWithAssert('.index-page-challenges__presentation-title');
-        (0, _chai.expect)($title.text().trim()).to.equal('Les défis Pix de la semaine');
-      });
-
-      (0, _mocha.it)('should have a description', function () {
-        var $description = findWithAssert('.index-page-challenges__presentation-text');
-        (0, _chai.expect)($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
-      });
-    });
-
-    (0, _mocha.describe)('contains a section with a bbutton to save new partners', function () {
+    (0, _mocha.describe)('contains a section with a button to save new partners', function () {
 
       (0, _mocha.it)('a1.16 with a title', function () {
         var $title = findWithAssert('.partners-enrollment__title');
@@ -2995,6 +3114,31 @@ define('pix-live/tests/acceptance/page-accueil-test', ['mocha', 'chai', 'pix-liv
 
       (0, _mocha.it)('should have a link to the "projet" page', function () {
         findWithAssert('.index-page-features__project-button[href="/projet"]');
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/terms-of-service-page-test', ['mocha', 'pix-live/tests/helpers/application'], function (_mocha, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Page | Terms of service', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('should be accessible from "/conditions-generales-d-utilisation"', function () {
+
+      visit('/conditions-generales-d-utilisation');
+
+      return andThen(function () {
+        findWithAssert('.terms-of-service-page');
       });
     });
   });
@@ -3120,6 +3264,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/logged-user-profile-banner.js', function () {
+      // test passed
+    });
+
     it('components/medal-item.js', function () {
       // test passed
     });
@@ -3213,6 +3361,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('components/signup-textfield.js', function () {
+      // test passed
+    });
+
+    it('components/snapshot-list.js', function () {
       // test passed
     });
 
@@ -3404,6 +3556,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('routes/legal-notices.js', function () {
+      // test passed
+    });
+
     it('routes/login.js', function () {
       // test passed
     });
@@ -3417,6 +3573,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/project.js', function () {
+      // test passed
+    });
+
+    it('routes/terms-of-service.js', function () {
       // test passed
     });
 
@@ -3437,6 +3597,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('services/google-recaptcha.js', function () {
+      // test passed
+    });
+
+    it('services/raven.js', function () {
       // test passed
     });
 
@@ -5522,6 +5686,54 @@ define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha
     });
   });
 });
+define('pix-live/tests/integration/components/logged-user-profile-banner-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | logged user profile banner', function () {
+    (0, _emberMocha.setupComponentTest)('logged-user-profile-banner', {
+      integration: true
+    });
+
+    (0, _mocha.it)('should display a banner', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "YZH61OIE",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"logged-user-profile-banner\"],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$('.logged-user-profile-banner')).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.it)('should have a content text container', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "YZH61OIE",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"logged-user-profile-banner\"],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.profile-banner__content-text-container')).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.it)('should a button cta to scroll to profile section', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "YZH61OIE",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"logged-user-profile-banner\"],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.profile-banner__button-scroll-container')).to.have.lengthOf(1);
+      (0, _chai.expect)(this.$('.button-scroll-to-profile')).to.have.lengthOf(1);
+      (0, _chai.expect)(this.$('.button-scroll-to-profile').text()).to.equal('choisir un test');
+    });
+  });
+});
 define('pix-live/tests/integration/components/medal-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -5652,6 +5864,14 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
         (0, _chai.expect)(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.length(0);
       });
+
+      (0, _mocha.it)('should display link to inscription page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should display link to connection page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(1);
+      });
     });
     (0, _mocha.describe)('Rendering for logged user', function () {
 
@@ -5676,6 +5896,14 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
       (0, _mocha.it)('should display logged user details informations', function () {
         // then
         (0, _chai.expect)(this.$('.logged-user-details')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should not display link to inscription page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('should not display link to connection page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(0);
       });
     });
   });
@@ -7788,38 +8016,6 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           });
         });
 
-        (0, _mocha.it)('should refresh all fields on form', function () {
-          // given
-          var hasRefreshBeenCalled = false;
-          this.set('refresh', function () {
-            hasRefreshBeenCalled = true;
-          });
-
-          var user = Ember.Object.create({
-            email: 'toto@pix.fr',
-            firstName: 'Marion',
-            lastName: 'Yade',
-            password: 'gipix2017',
-            cgu: true,
-
-            save: function save() {
-              return Ember.RSVP.resolve();
-            }
-          });
-          this.set('user', user);
-          this.render(Ember.HTMLBars.template({
-            "id": "sLJ23ouW",
-            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\",\"signup\",\"refresh\"],[[19,0,[\"user\"]],\"signup\",[25,\"action\",[[19,0,[]],[19,0,[\"refresh\"]]],null]]]],false]],\"hasEval\":false}",
-            "meta": {}
-          }));
-
-          // when
-          $(SUBMIT_BUTTON).click();
-
-          // then
-          (0, _chai.expect)(hasRefreshBeenCalled).to.be.true;
-        });
-
         (0, _mocha.it)('should redirect automatically to user compte', function () {
           // given
           var redirectToProfileRouteStub = _sinon.default.stub();
@@ -8199,7 +8395,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           });
         });
 
-        (0, _mocha.it)('should display an success message on form title, when all things are ok and form is submited', function () {
+        (0, _mocha.it)('should reset validation property, when all things are ok and form is submitted', function () {
           var _this13 = this;
 
           // given
@@ -8224,74 +8420,11 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // when
           this.$('.signup__submit-button').click();
-          // then
-          return (0, _wait.default)().then(function () {
-            var $notificationMessage = _this13.$('.signup-form__notification-message').text();
-            (0, _chai.expect)($notificationMessage.trim()).to.equal('Votre compte a bien été créé !');
-          });
-        });
-
-        (0, _mocha.it)('should reset validation property, when all things are ok and form is submitted', function () {
-          var _this14 = this;
-
-          // given
-          var validUser = Ember.Object.create({
-            email: 'toto@pix.fr',
-            firstName: 'Marion',
-            lastName: 'Yade',
-            password: 'gipix2017',
-            cgu: true,
-
-            save: function save() {
-              return new Ember.RSVP.resolve();
-            }
-          });
-
-          this.set('user', validUser);
-          this.render(Ember.HTMLBars.template({
-            "id": "+G/9hwVS",
-            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
-            "meta": {}
-          }));
-
-          // when
-          this.$('.signup__submit-button').click();
 
           // then
           return (0, _wait.default)().then(function () {
-            var inputFirst = _this14.$('.signup-textfield__input-field-container').first();
+            var inputFirst = _this13.$('.signup-textfield__input-field-container').first();
             (0, _chai.expect)(inputFirst.prop('class')).to.includes(INPUT_TEXT_FIELD_CLASS_DEFAULT);
-          });
-        });
-      });
-
-      (0, _mocha.describe)('Accessibility', function () {
-
-        (0, _mocha.it)('should render an accessible notification message when the account was successfully created', function () {
-          var _this15 = this;
-
-          // given
-          var user = Ember.Object.create({
-            save: function save() {
-              return Ember.RSVP.resolve();
-            }
-          });
-
-          this.set('user', user);
-          this.render(Ember.HTMLBars.template({
-            "id": "v5AueqXQ",
-            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\",\"signup\"],[[19,0,[\"user\"]],\"signup\"]]],false]],\"hasEval\":false}",
-            "meta": {}
-          }));
-
-          // when
-          $(SUBMIT_BUTTON).click();
-
-          // then
-          return (0, _wait.default)().then(function () {
-
-            var $notificationMessage = _this15.$('.signup-form__notification-message');
-            (0, _chai.expect)($notificationMessage.attr('aria-live')).to.equal('polite');
           });
         });
       });
@@ -8495,6 +8628,96 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
     });
   });
 });
+define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _wait) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | snapshot list', function () {
+    (0, _emberMocha.setupComponentTest)('snapshot-list', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([]) });
+      this.set('organization', organization);
+
+      this.render(Ember.HTMLBars.template({
+        "id": "hqqvwQ67",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should inform the user when no profile', function () {
+      // Given
+      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([]) });
+      this.set('organization', organization);
+
+      // When
+      this.render(Ember.HTMLBars.template({
+        "id": "hqqvwQ67",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // Then
+      (0, _chai.expect)(this.$('.snapshot-list__no-profile')).to.have.length(1);
+      (0, _chai.expect)(this.$('.snapshot-list__no-profile').text()).to.equal('Aucun profil partagé pour le moment');
+    });
+
+    (0, _mocha.it)('it should display as many snapshot items as shared', function () {
+      // Given
+      var snapshot1 = Ember.Object.create({ id: 1 });
+      var snapshot2 = Ember.Object.create({ id: 2 });
+      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([snapshot1, snapshot2]) });
+      this.set('organization', organization);
+
+      // When
+      this.render(Ember.HTMLBars.template({
+        "id": "hqqvwQ67",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // Then
+      return (0, _wait.default)().then(function () {
+        (0, _chai.expect)(this.$('.snapshot-list__no-profile')).to.have.length(0);
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.length(2);
+      }.bind(this));
+    });
+
+    (0, _mocha.it)('should display snapshot informations', function () {
+      // Given
+      var user = Ember.Object.create({ id: 1, firstName: 'Werner', lastName: 'Heisenberg' });
+      var snapshot = Ember.Object.create({
+        id: 1,
+        score: 10,
+        completionPercentage: '25',
+        createdAt: '09/25/2017',
+        user: user
+      });
+      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([snapshot]) });
+      this.set('organization', organization);
+
+      // When
+      this.render(Ember.HTMLBars.template({
+        "id": "hqqvwQ67",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // Then
+      return (0, _wait.default)().then(function () {
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.length(1);
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(0)').text().trim()).to.equal(user.get('lastName'));
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(1)').text().trim()).to.equal(user.get('firstName'));
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('25/09/2017');
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(3)').text().trim()).to.equal(snapshot.get('score').toString());
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal(snapshot.get('completionPercentage') + '%');
+      }.bind(this));
+    });
+  });
+});
 define('pix-live/tests/integration/components/timeout-jauge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -8666,7 +8889,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         }));
 
         // when
-        this.$('.logged-user-name').click();
+        this.$('.logged-user-name__link').click();
 
         return (0, _wait.default)().then(function () {
           // then
@@ -8694,20 +8917,107 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         });
       });
 
-      (0, _mocha.it)('should render a button to the profile', function () {
+      (0, _mocha.it)('should hide user menu, when it was previously open and user press key escape', function () {
         var _this3 = this;
 
         // when
-        this.render(Ember.HTMLBars.template({
-          "id": "pah6OdLO",
-          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
-          "meta": {}
-        }));
+        this.$('.logged-user-name').click();
+        this.$('.logged-user-name').trigger($.Event('keydown', { keyCode: 27 }));
+
+        return (0, _wait.default)().then(function () {
+          // then
+          (0, _chai.expect)(_this3.$('.logged-user-menu')).to.have.length(0);
+        });
+      });
+
+      (0, _mocha.it)('should hide user menu, when it was previously open and user press key escape', function () {
+        var _this4 = this;
+
+        // when
+        this.$('.logged-user-name').click();
         this.$('.logged-user-name').click();
 
         return (0, _wait.default)().then(function () {
           // then
-          (0, _chai.expect)(_this3.$('.user-menu-item__account-link').text().trim()).to.equal('Mon compte');
+          (0, _chai.expect)(_this4.$('.logged-user-menu')).to.have.length(0);
+        });
+      });
+
+      (0, _mocha.describe)('button rendering', function () {
+
+        (0, _mocha.it)('should not render a button link to the profile when the user is on compte page', function () {
+          var _this5 = this;
+
+          this.register('service:-routing', Ember.Service.extend({
+            currentRouteName: 'compte',
+            generateURL: function generateURL() {
+              return '/compte';
+            }
+          }));
+          this.inject.service('-routing', { as: '-routing' });
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "pah6OdLO",
+            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+          this.$('.logged-user-name').click();
+
+          return (0, _wait.default)().then(function () {
+            // then
+            (0, _chai.expect)(_this5.$('.user-menu-item__account-link').length).to.equal(0);
+          });
+        });
+
+        (0, _mocha.it)('should not render a button link to the profile when the user is on compte page', function () {
+          var _this6 = this;
+
+          this.register('service:-routing', Ember.Service.extend({
+            currentRouteName: 'board',
+            generateURL: function generateURL() {
+              return '/board';
+            }
+          }));
+          this.inject.service('-routing', { as: '-routing' });
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "pah6OdLO",
+            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+          this.$('.logged-user-name').click();
+
+          return (0, _wait.default)().then(function () {
+            // then
+            (0, _chai.expect)(_this6.$('.user-menu-item__account-link').length).to.equal(0);
+          });
+        });
+
+        (0, _mocha.it)('should render a button link to the profile when the user is not on compte page', function () {
+          var _this7 = this;
+
+          this.register('service:-routing', Ember.Service.extend({
+            generateURL: function generateURL() {
+              return '/autreRoute';
+            }
+          }));
+          this.inject.service('-routing', { as: '-routing' });
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "pah6OdLO",
+            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+          this.$('.logged-user-name__link').click();
+
+          return (0, _wait.default)().then(function () {
+            // then
+            (0, _chai.expect)(_this7.$('.user-menu-item__account-link').text().trim()).to.equal('Mon compte');
+            (0, _chai.expect)(_this7.$('.user-menu-item__account-link').length).to.equal(1);
+          });
         });
       });
     });
@@ -8724,7 +9034,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
       });
 
       (0, _mocha.it)('should not display user information, for unlogged', function () {
-        var _this4 = this;
+        var _this8 = this;
 
         // when
         this.render(Ember.HTMLBars.template({
@@ -8735,7 +9045,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         // then
         return (0, _wait.default)().then(function () {
-          (0, _chai.expect)(_this4.$('.logged-user-name')).to.have.length(0);
+          (0, _chai.expect)(_this8.$('.logged-user-name')).to.have.length(0);
         });
       });
     });
@@ -8839,6 +9149,14 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('acceptance/index-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/inscription-page-test.js', function () {
+      // test passed
+    });
+
     it('acceptance/j1-compare-answer-solution-test.js', function () {
       // test passed
     });
@@ -8855,11 +9173,19 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('acceptance/legal-notices-page-test.js', function () {
+      // test passed
+    });
+
     it('acceptance/o1-board-organization-test.js', function () {
       // test passed
     });
 
     it('acceptance/page-accueil-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/terms-of-service-page-test.js', function () {
       // test passed
     });
 
@@ -8936,6 +9262,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/g-recaptcha-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/logged-user-profile-banner-test.js', function () {
       // test passed
     });
 
@@ -9024,6 +9354,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/signup-textfield-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/snapshot-list-test.js', function () {
       // test passed
     });
 
@@ -9267,6 +9601,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/routes/legal-notices-test.js', function () {
+      // test passed
+    });
+
     it('unit/routes/login-test.js', function () {
       // test passed
     });
@@ -9284,6 +9622,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/series-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/terms-of-service-test.js', function () {
       // test passed
     });
 
@@ -11418,7 +11760,9 @@ define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha',
   'use strict';
 
   (0, _mocha.describe)('Unit | Component | User logged Menu', function () {
-    (0, _emberMocha.setupTest)('component:user-logged-menu', {});
+    (0, _emberMocha.setupTest)('component:user-logged-menu', {
+      needs: ['service:keyboard']
+    });
 
     (0, _mocha.describe)('action#toggleUserMenu', function () {
 
@@ -11505,6 +11849,70 @@ define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha',
           // then
           (0, _chai.expect)(findRecordArgs).to.deep.equal(['user', 1435]);
         });
+      });
+    });
+
+    (0, _mocha.describe)('canDisplayLinkToProfile', function () {
+
+      (0, _mocha.beforeEach)(function () {
+
+        this.register('service:session', Ember.Service.extend({}));
+        this.inject.service('session', { as: 'session' });
+
+        this.register('service:current-routed-modal', Ember.Service.extend({}));
+        this.inject.service('current-routed-modal', { as: 'current-routed-modal' });
+
+        this.register('service:store', Ember.Service.extend({
+          findRecord: function findRecord() {
+            return Ember.RSVP.resolve({});
+          }
+        }));
+        this.inject.service('store', { as: 'store' });
+      });
+
+      (0, _mocha.it)('should be false if the current route is /compte', function () {
+        // given
+        this.register('service:-routing', Ember.Service.extend({
+          currentRouteName: 'compte'
+        }));
+        this.inject.service('-routing', { as: '-routing' });
+        var component = this.subject();
+
+        // when
+        var result = component.get('canDisplayLinkToProfile');
+
+        // then
+        (0, _chai.expect)(result).to.be.false;
+      });
+
+      (0, _mocha.it)('should be false if the current route is /board', function () {
+        // given
+        this.register('service:-routing', Ember.Service.extend({
+          currentRouteName: 'board'
+        }));
+        this.inject.service('-routing', { as: '-routing' });
+        var component = this.subject();
+
+        // when
+        var result = component.get('canDisplayLinkToProfile');
+
+        // then
+        (0, _chai.expect)(result).to.be.false;
+      });
+
+      (0, _mocha.it)('should be true if the current route is not /compte', function () {
+        // given
+        this.register('service:-routing', Ember.Service.extend({
+          currentRouteName: 'autreRoute'
+        }));
+        this.inject.service('-routing', { as: '-routing' });
+        var component = this.subject();
+
+        // when
+        var result = component.get('canDisplayLinkToProfile');
+
+        // then
+        (0, _chai.expect)(result).to.be.true;
       });
     });
   });
@@ -12098,7 +12506,6 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
 
   (0, _mocha.describe)('Unit | Route | board', function () {
     (0, _emberMocha.setupTest)('route:board', {
-      // Specify the other units that are required for this test.
       needs: ['service:current-routed-modal', 'service:session']
     });
 
@@ -12108,6 +12515,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
     });
 
     var findRecord = _sinon.default.stub();
+    var route = void 0;
 
     (0, _mocha.beforeEach)(function () {
       this.register('service:store', Ember.Service.extend({
@@ -12119,13 +12527,12 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
         data: { authenticated: { userId: 12 } }
       }));
       this.inject.service('session', { as: 'session' });
+      route = this.subject();
+      route.transitionTo = _sinon.default.spy();
     });
 
     (0, _mocha.it)('should correctly call the store', function () {
       // given
-      var route = this.subject();
-      route.transitionTo = function () {};
-
       findRecord.resolves();
 
       // when
@@ -12139,26 +12546,19 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
     (0, _mocha.it)('should return user first organization informations', function () {
       // given
       var user = Ember.Object.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
-
-      var route = this.subject();
-      route.transitionTo = function () {};
-
       findRecord.resolves(user);
 
       // when
       var promise = route.model();
 
       // then
-      return promise.then(function (organization) {
-        (0, _chai.expect)(organization.id).to.equal(1);
+      return promise.then(function (model) {
+        (0, _chai.expect)(model.organization.id).to.equal(1);
       });
     });
 
     (0, _mocha.it)('should return to home page if no user was found', function () {
       // given
-      var route = this.subject();
-      route.transitionTo = _sinon.default.spy();
-
       findRecord.rejects();
 
       // when
@@ -12173,10 +12573,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
 
     (0, _mocha.it)('should return to /compte when the user has no organization', function () {
       // given
-      var route = this.subject();
-      route.transitionTo = _sinon.default.spy();
       var user = Ember.Object.create({ id: 1, organizations: [] });
-
       findRecord.resolves(user);
 
       // when
@@ -12590,6 +12987,22 @@ define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha',
           _sinon.default.assert.calledWith(route.transitionTo, 'board');
         });
       });
+
+      (0, _mocha.it)('should redirect to logout when we cannot retrieve user informations', function () {
+        // Given
+        storeServiceStub.findRecord.rejects();
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.beforeModel();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(route.transitionTo);
+          _sinon.default.assert.calledWith(route.transitionTo, 'logout');
+        });
+      });
     });
   });
 });
@@ -12632,6 +13045,22 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
         _sinon.default.assert.calledWith(queryRecordStub, 'user', {});
         _sinon.default.assert.calledWith(route.transitionTo, 'compte');
       });
+    });
+  });
+});
+define('pix-live/tests/unit/routes/legal-notices-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | legal notices', function () {
+    (0, _emberMocha.setupTest)('route:legal-notices', {
+      // Specify the other units that are required for this test.
+      // needs: ['controller:foo']
+      needs: ['service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
     });
   });
 });
@@ -12721,93 +13150,62 @@ define('pix-live/tests/unit/routes/login-test', ['mocha', 'ember-mocha', 'sinon'
     });
   });
 });
-define('pix-live/tests/unit/routes/logout-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/logout-test', ['sinon', 'mocha', 'ember-mocha'], function (_sinon, _mocha, _emberMocha) {
   'use strict';
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  var SessionStub = function () {
-    function SessionStub() {
-      _classCallCheck(this, SessionStub);
-
-      this.isInvalidateCalled = false;
-    }
-
-    _createClass(SessionStub, [{
-      key: 'invalidate',
-      value: function invalidate() {
-        this.isInvalidateCalled = true;
-      }
-    }]);
-
-    return SessionStub;
-  }();
 
   (0, _mocha.describe)('Unit | Route | logout', function () {
     (0, _emberMocha.setupTest)('route:logout', {
-      needs: ['service:current-routed-modal', 'service:session']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
+      needs: ['service:current-routed-modal']
     });
 
     (0, _mocha.it)('should disconnect the user', function () {
       // Given
+      var invalidateStub = _sinon.default.stub();
+      this.register('service:session', Ember.Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+      this.inject.service('session', { as: 'session' });
+
       var route = this.subject();
-      var sessionStub = new SessionStub();
-      route.set('session', sessionStub);
       route.transitionTo = function () {};
 
       // When
       route.beforeModel();
 
       // Then
-      (0, _chai.expect)(sessionStub.isInvalidateCalled).to.be.true;
+      _sinon.default.assert.calledOnce(invalidateStub);
     });
 
     (0, _mocha.it)('should redirect after disconnection', function () {
       // Given
-      var isTransitionToCalled = false;
-      var isTransitionToArgs = [];
+      var invalidateStub = _sinon.default.stub();
+      this.register('service:session', Ember.Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+      this.inject.service('session', { as: 'session' });
 
-      var sessionStub = new SessionStub();
       var route = this.subject();
-      route.set('session', sessionStub);
-      route.transitionTo = function () {
-        isTransitionToCalled = true;
-        isTransitionToArgs = Array.from(arguments);
-      };
+      route.transitionTo = _sinon.default.stub();
 
       // When
       route.beforeModel();
 
       // Then
-      (0, _chai.expect)(isTransitionToCalled).to.be.true;
-      (0, _chai.expect)(isTransitionToArgs).to.deep.equal(['/']);
+      _sinon.default.assert.calledOnce(route.transitionTo);
+      _sinon.default.assert.calledWith(route.transitionTo, '/');
+    });
+
+    (0, _mocha.it)('should redirect even if user was not authenticated', function () {
+      // Given
+      var invalidateStub = _sinon.default.stub();
+      this.register('service:session', Ember.Service.extend({ isAuthenticated: false, invalidate: invalidateStub }));
+      this.inject.service('session', { as: 'session' });
+
+      var route = this.subject();
+      route.transitionTo = _sinon.default.stub();
+
+      // When
+      route.beforeModel();
+
+      // Then
+      _sinon.default.assert.calledOnce(route.transitionTo);
+      _sinon.default.assert.calledWith(route.transitionTo, '/');
     });
   });
 });
@@ -12846,6 +13244,21 @@ define('pix-live/tests/unit/routes/series-test', ['chai', 'mocha', 'ember-mocha'
 
   (0, _mocha.describe)('Unit | Route | courseGroups', function () {
     (0, _emberMocha.setupTest)('route:courseGroups', {
+      // Specify the other units that are required for this test.
+      needs: ['service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/terms-of-service-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | terms of service', function () {
+    (0, _emberMocha.setupTest)('route:terms-of-service', {
       // Specify the other units that are required for this test.
       needs: ['service:current-routed-modal']
     });
