@@ -1,8 +1,6 @@
 /* eslint-env node */
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-/* postcss plugins */
-
 module.exports = function(defaults) {
   const app = new EmberApp(defaults, {
     // To start using async / await in your Ember
@@ -10,13 +8,6 @@ module.exports = function(defaults) {
     'ember-cli-babel': {
       includePolyfill: true
     },
-
-    autoprefixer: {
-      browsers: ['last 2 versions'],
-      cascade: false
-    },
-
-    sassOptions: {}
 
   });
 
