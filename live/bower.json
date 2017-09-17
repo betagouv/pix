@@ -3,8 +3,6 @@
   "dependencies": {
     "pretender": "~1.1.0",
     "bootstrap": "~3.3.7",
-    "animate.css": "^3.5.2",
-    "loaders.css": "^0.1.2",
     "js-yaml": "^3.7.0"
   }
 }
