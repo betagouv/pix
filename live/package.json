@@ -27,12 +27,12 @@
     "deploy:production": "./scripts/deploy.sh production"
   },
   "devDependencies": {
+    "bootstrap": "^3.3.7",
     "bower": "^1.8.0",
     "broccoli-asset-rev": "^2.6.0",
     "codeclimate-test-reporter": "^0.5.0",
     "coveralls": "^2.13.1",
     "ember-ajax": "^3.0.0",
-    "ember-bootstrap": "0.9.0",
     "ember-cli": "^2.15.0",
     "ember-cli-app-version": "^3.1.0",
     "ember-cli-autoprefixer": "^0.8.0",
@@ -80,6 +80,7 @@
     "ember-xregexp": "^1.0.2",
     "eslint": "^4.6.1",
     "loader.js": "^4.6.0",
+    "js-yaml": "^3.7.0",
     "phantomjs-prebuilt": "^2.1.15",
     "showdown": "^1.7.3"
   },
