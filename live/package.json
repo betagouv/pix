@@ -9,9 +9,8 @@
     "test": "tests"
   },
   "scripts": {
-    "postinstall": "bower install",
     "build": "ember build",
-    "clean": "rm -rf tmp dist bower_components node_modules",
+    "clean": "rm -rf tmp dist node_modules",
     "start": "ember server",
     "test": "ember test",
     "lint": "./node_modules/.bin/eslint app mirage tests",
@@ -28,7 +27,6 @@
   },
   "devDependencies": {
     "bootstrap": "^3.3.7",
-    "bower": "^1.8.0",
     "broccoli-asset-rev": "^2.6.0",
     "codeclimate-test-reporter": "^0.5.0",
     "coveralls": "^2.13.1",

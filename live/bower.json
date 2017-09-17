@@ -1,7 +1,0 @@
-{
-  "name": "pix-live",
-  "dependencies": {
-    "bootstrap": "~3.3.7",
-    "js-yaml": "^3.7.0"
-  }
-}
