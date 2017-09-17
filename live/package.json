@@ -79,7 +79,6 @@
     "eslint": "^4.6.1",
     "loader.js": "^4.6.0",
     "js-yaml": "^3.7.0",
-    "phantomjs-prebuilt": "^2.1.15",
     "showdown": "^1.7.3"
   },
   "engines": {

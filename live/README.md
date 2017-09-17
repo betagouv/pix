@@ -15,7 +15,6 @@ You will need the following things properly installed on your computer.
 * [Git](http://git-scm.com/)
 * [Node.js](http://nodejs.org/) (with NPM)
 * [Ember CLI](http://ember-cli.com/)
-* [PhantomJS](http://phantomjs.org/) !! Be sure to install at least PhantomJS 2.X
 
 Installation
 -------------
