@@ -3,8 +3,8 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 /* postcss plugins */
 
-module.exports = function (defaults) {
-  var app = new EmberApp(defaults, {
+module.exports = function(defaults) {
+  const app = new EmberApp(defaults, {
     // To start using async / await in your Ember
     // XXX https://karolgalanciak.com/blog/2015/12/18/ember-and-es7-async-slash-await/
     'ember-cli-babel': {
@@ -35,7 +35,6 @@ module.exports = function (defaults) {
 
   app.import('bower_components/bootstrap/dist/js/bootstrap.js');
   app.import('bower_components/js-yaml/dist/js-yaml.js');
-  app.import('bower_components/lodash/dist/lodash.js');
 
   if (app.env !== 'test') {
     // css animations
