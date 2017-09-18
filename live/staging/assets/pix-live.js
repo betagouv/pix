@@ -168,412 +168,6 @@ define('pix-live/components/beta-logo', ['exports'], function (exports) {
     classNames: ['beta-logo']
   });
 });
-define('pix-live/components/bs-accordion-item', ['exports', 'ember-bootstrap/components/bs-accordion-item'], function (exports, _bsAccordionItem) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsAccordionItem.default;
-    }
-  });
-});
-define('pix-live/components/bs-accordion', ['exports', 'ember-bootstrap/components/bs-accordion'], function (exports, _bsAccordion) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsAccordion.default;
-    }
-  });
-});
-define('pix-live/components/bs-alert', ['exports', 'ember-bootstrap/components/bs-alert'], function (exports, _bsAlert) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsAlert.default;
-    }
-  });
-});
-define('pix-live/components/bs-button-group', ['exports', 'ember-bootstrap/components/bs-button-group'], function (exports, _bsButtonGroup) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = _bsButtonGroup.default;
-});
-define('pix-live/components/bs-button', ['exports', 'ember-bootstrap/components/bs-button'], function (exports, _bsButton) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = _bsButton.default;
-});
-define('pix-live/components/bs-collapse', ['exports', 'ember-bootstrap/components/bs-collapse'], function (exports, _bsCollapse) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsCollapse.default;
-    }
-  });
-});
-define('pix-live/components/bs-dropdown-button', ['exports', 'ember-bootstrap/components/bs-dropdown-button'], function (exports, _bsDropdownButton) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsDropdownButton.default;
-    }
-  });
-});
-define('pix-live/components/bs-dropdown-menu', ['exports', 'ember-bootstrap/components/bs-dropdown-menu'], function (exports, _bsDropdownMenu) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsDropdownMenu.default;
-    }
-  });
-});
-define('pix-live/components/bs-dropdown-toggle', ['exports', 'ember-bootstrap/components/bs-dropdown-toggle'], function (exports, _bsDropdownToggle) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsDropdownToggle.default;
-    }
-  });
-});
-define('pix-live/components/bs-dropdown', ['exports', 'ember-bootstrap/components/bs-dropdown'], function (exports, _bsDropdown) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsDropdown.default;
-    }
-  });
-});
-define('pix-live/components/bs-form-element', ['exports', 'ember-bootstrap/components/bs-form-element'], function (exports, _bsFormElement) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsFormElement.default;
-    }
-  });
-});
-define('pix-live/components/bs-form-group', ['exports', 'ember-bootstrap/components/bs-form-group'], function (exports, _bsFormGroup) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsFormGroup.default;
-    }
-  });
-});
-define('pix-live/components/bs-form', ['exports', 'ember-bootstrap/components/bs-form'], function (exports, _bsForm) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsForm.default;
-    }
-  });
-});
-define('pix-live/components/bs-input', ['exports', 'ember-bootstrap/components/bs-input'], function (exports, _bsInput) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsInput.default;
-    }
-  });
-});
-define('pix-live/components/bs-modal-backdrop', ['exports', 'ember-bootstrap/components/bs-modal-backdrop'], function (exports, _bsModalBackdrop) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsModalBackdrop.default;
-    }
-  });
-});
-define('pix-live/components/bs-modal-body', ['exports', 'ember-bootstrap/components/bs-modal-body'], function (exports, _bsModalBody) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsModalBody.default;
-    }
-  });
-});
-define('pix-live/components/bs-modal-dialog', ['exports', 'ember-bootstrap/components/bs-modal-dialog'], function (exports, _bsModalDialog) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsModalDialog.default;
-    }
-  });
-});
-define('pix-live/components/bs-modal-footer', ['exports', 'ember-bootstrap/components/bs-modal-footer'], function (exports, _bsModalFooter) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsModalFooter.default;
-    }
-  });
-});
-define('pix-live/components/bs-modal-header', ['exports', 'ember-bootstrap/components/bs-modal-header'], function (exports, _bsModalHeader) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsModalHeader.default;
-    }
-  });
-});
-define('pix-live/components/bs-modal', ['exports', 'ember-bootstrap/components/bs-modal'], function (exports, _bsModal) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsModal.default;
-    }
-  });
-});
-define('pix-live/components/bs-nav-item', ['exports', 'ember-bootstrap/components/bs-nav-item'], function (exports, _bsNavItem) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsNavItem.default;
-    }
-  });
-});
-define('pix-live/components/bs-nav', ['exports', 'ember-bootstrap/components/bs-nav'], function (exports, _bsNav) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsNav.default;
-    }
-  });
-});
-define('pix-live/components/bs-navbar-content', ['exports', 'ember-bootstrap/components/bs-navbar-content'], function (exports, _bsNavbarContent) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsNavbarContent.default;
-    }
-  });
-});
-define('pix-live/components/bs-navbar-nav', ['exports', 'ember-bootstrap/components/bs-navbar-nav'], function (exports, _bsNavbarNav) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsNavbarNav.default;
-    }
-  });
-});
-define('pix-live/components/bs-navbar-toggle', ['exports', 'ember-bootstrap/components/bs-navbar-toggle'], function (exports, _bsNavbarToggle) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsNavbarToggle.default;
-    }
-  });
-});
-define('pix-live/components/bs-navbar', ['exports', 'ember-bootstrap/components/bs-navbar'], function (exports, _bsNavbar) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsNavbar.default;
-    }
-  });
-});
-define('pix-live/components/bs-progress-bar', ['exports', 'ember-bootstrap/components/bs-progress-bar'], function (exports, _bsProgressBar) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsProgressBar.default;
-    }
-  });
-});
-define('pix-live/components/bs-progress', ['exports', 'ember-bootstrap/components/bs-progress'], function (exports, _bsProgress) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsProgress.default;
-    }
-  });
-});
-define('pix-live/components/bs-select', ['exports', 'ember-bootstrap/components/bs-select'], function (exports, _bsSelect) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsSelect.default;
-    }
-  });
-});
-define('pix-live/components/bs-tab-pane', ['exports', 'ember-bootstrap/components/bs-tab-pane'], function (exports, _bsTabPane) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsTabPane.default;
-    }
-  });
-});
-define('pix-live/components/bs-tab', ['exports', 'ember-bootstrap/components/bs-tab'], function (exports, _bsTab) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsTab.default;
-    }
-  });
-});
-define('pix-live/components/bs-textarea', ['exports', 'ember-bootstrap/components/bs-textarea'], function (exports, _bsTextarea) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsTextarea.default;
-    }
-  });
-});
 define('pix-live/components/challenge-actions', ['exports'], function (exports) {
   'use strict';
 
@@ -3156,82 +2750,6 @@ define('pix-live/helpers/atanh', ['exports', 'ember-math-helpers/helpers/atanh']
     }
   });
 });
-define('pix-live/helpers/bs-contains', ['exports', 'ember-bootstrap/helpers/bs-contains'], function (exports, _bsContains) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsContains.default;
-    }
-  });
-  Object.defineProperty(exports, 'bsContains', {
-    enumerable: true,
-    get: function () {
-      return _bsContains.bsContains;
-    }
-  });
-});
-define('pix-live/helpers/bs-eq', ['exports', 'ember-bootstrap/helpers/bs-eq'], function (exports, _bsEq) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsEq.default;
-    }
-  });
-  Object.defineProperty(exports, 'eq', {
-    enumerable: true,
-    get: function () {
-      return _bsEq.eq;
-    }
-  });
-});
-define('pix-live/helpers/bs-not', ['exports', 'ember-bootstrap/helpers/bs-not'], function (exports, _bsNot) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsNot.default;
-    }
-  });
-  Object.defineProperty(exports, 'not', {
-    enumerable: true,
-    get: function () {
-      return _bsNot.not;
-    }
-  });
-});
-define('pix-live/helpers/bs-read-path', ['exports', 'ember-bootstrap/helpers/bs-read-path'], function (exports, _bsReadPath) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bsReadPath.default;
-    }
-  });
-  Object.defineProperty(exports, 'readPath', {
-    enumerable: true,
-    get: function () {
-      return _bsReadPath.readPath;
-    }
-  });
-});
 define('pix-live/helpers/cbrt', ['exports', 'ember-math-helpers/helpers/cbrt'], function (exports, _cbrt) {
   'use strict';
 
@@ -4256,25 +3774,6 @@ define('pix-live/initializers/app-version', ['exports', 'ember-cli-app-version/i
     initialize: (0, _initializerFactory.default)(name, version)
   };
 });
-define('pix-live/initializers/bootstrap-linkto', ['exports', 'ember-bootstrap/initializers/bootstrap-linkto'], function (exports, _bootstrapLinkto) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _bootstrapLinkto.default;
-    }
-  });
-  Object.defineProperty(exports, 'initialize', {
-    enumerable: true,
-    get: function () {
-      return _bootstrapLinkto.initialize;
-    }
-  });
-});
 define('pix-live/initializers/container-debug-adapter', ['exports', 'ember-resolver/resolvers/classic/container-debug-adapter'], function (exports, _containerDebugAdapter) {
   'use strict';
 
@@ -4509,22 +4008,6 @@ define('pix-live/initializers/jquery-tabbable', ['exports', 'ember-tabbable/init
     }
   });
 });
-define('pix-live/initializers/load-bootstrap-config', ['exports', 'pix-live/config/environment', 'ember-bootstrap/config'], function (exports, _environment, _config) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.initialize = initialize;
-  function initialize() /* container, application */{
-    _config.default.load(_environment.default['ember-bootstrap'] || {});
-  }
-
-  exports.default = {
-    name: 'load-bootstrap-config',
-    initialize: initialize
-  };
-});
 define('pix-live/initializers/metrics', ['exports', 'pix-live/config/environment'], function (exports, _environment) {
   'use strict';
 
@@ -4549,14 +4032,6 @@ define('pix-live/initializers/metrics', ['exports', 'pix-live/config/environment
     name: 'metrics',
     initialize: initialize
   };
-});
-define('pix-live/initializers/modals-container', ['exports', 'ember-bootstrap/initializers/modals-container'], function (exports, _modalsContainer) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = _modalsContainer.default;
 });
 define('pix-live/initializers/raven', ['exports', 'pix-live/config/environment'], function (exports, _environment) {
   'use strict';
@@ -7738,110 +7213,6 @@ define("pix-live/templates/components/beta-logo", ["exports"], function (exports
   });
   exports.default = Ember.HTMLBars.template({ "id": "+zVyqkkk", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[7],[0,\"Bêta\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/beta-logo.hbs" } });
 });
-define("pix-live/templates/components/bs-accordion-item", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "/ZeJ/u3R", "block": "{\"symbols\":[\"&default\"],\"statements\":[[6,\"div\"],[9,\"role\",\"tab\"],[10,\"class\",[26,[\"panel-heading \",[25,\"if\",[[19,0,[\"collapsed\"]],\"collapsed\",\"expanded\"],null]]]],[3,\"action\",[[19,0,[]],\"toggleActive\"]],[7],[0,\"\\n    \"],[6,\"h4\"],[9,\"class\",\"panel-title\"],[7],[0,\"\\n        \"],[6,\"a\"],[9,\"href\",\"#\"],[7],[0,\"\\n            \"],[1,[18,\"title\"],false],[0,\"\\n        \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"],[4,\"bs-collapse\",null,[[\"collapsed\",\"class\"],[[19,0,[\"collapsed\"]],\"panel-collapse\"]],{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"panel-body\"],[7],[0,\"\\n        \"],[11,1],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/bs-accordion-item.hbs" } });
-});
-define("pix-live/templates/components/bs-alert", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "/dQFr3U8", "block": "{\"symbols\":[\"&default\"],\"statements\":[[4,\"unless\",[[19,0,[\"hidden\"]]],null,{\"statements\":[[4,\"if\",[[19,0,[\"dismissible\"]]],null,{\"statements\":[[0,\"    \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"close\"],[9,\"aria-label\",\"Close\"],[3,\"action\",[[19,0,[]],\"dismiss\"]],[7],[6,\"span\"],[9,\"aria-hidden\",\"true\"],[7],[0,\"×\"],[8],[8],[0,\"\\n\"]],\"parameters\":[]},null],[11,1],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/bs-alert.hbs" } });
-});
-define("pix-live/templates/components/bs-button", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "5lGbR+en", "block": "{\"symbols\":[\"&default\"],\"statements\":[[4,\"if\",[[19,0,[\"icon\"]]],null,{\"statements\":[[6,\"i\"],[10,\"class\",[26,[[18,\"icon\"]]]],[7],[8],[0,\" \"]],\"parameters\":[]},null],[1,[18,\"text\"],false],[11,1]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/bs-button.hbs" } });
-});
-define("pix-live/templates/components/bs-form-element", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "tG5Z7MMu", "block": "{\"symbols\":[],\"statements\":[[12,[19,0,[\"formElementTemplate\"]],[]]],\"hasEval\":true}", "meta": { "moduleName": "pix-live/templates/components/bs-form-element.hbs" } });
-});
-define("pix-live/templates/components/bs-form-group", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "VshoZR/Y", "block": "{\"symbols\":[\"&default\"],\"statements\":[[11,1],[0,\"\\n\"],[4,\"if\",[[19,0,[\"hasFeedback\"]]],null,{\"statements\":[[0,\"    \"],[6,\"span\"],[10,\"class\",[26,[\"form-control-feedback \",[18,\"iconName\"]]]],[9,\"aria-hidden\",\"true\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/bs-form-group.hbs" } });
-});
-define("pix-live/templates/components/bs-form", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "3AxHNNSu", "block": "{\"symbols\":[\"&default\"],\"statements\":[[11,1]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/bs-form.hbs" } });
-});
-define("pix-live/templates/components/bs-modal-dialog", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "Y+UCGooc", "block": "{\"symbols\":[\"&default\"],\"statements\":[[6,\"div\"],[10,\"class\",[26,[\"modal-dialog \",[18,\"sizeClass\"]]]],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"modal-content\"],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"header\"]]],null,{\"statements\":[[0,\"            \"],[1,[25,\"bs-modal-header\",null,[[\"title\",\"closeButton\"],[[19,0,[\"title\"]],[19,0,[\"closeButton\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[19,0,[\"body\"]]],null,{\"statements\":[[4,\"bs-modal-body\",null,null,{\"statements\":[[0,\"                \"],[11,1],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},{\"statements\":[[0,\"            \"],[11,1],[0,\"\\n\"]],\"parameters\":[]}],[0,\"\\n\"],[4,\"if\",[[19,0,[\"footer\"]]],null,{\"statements\":[[0,\"            \"],[1,[18,\"bs-modal-footer\"],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/bs-modal-dialog.hbs" } });
-});
-define("pix-live/templates/components/bs-modal-footer", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "kUTTN24b", "block": "{\"symbols\":[\"&default\"],\"statements\":[[4,\"if\",[[22,1]],null,{\"statements\":[[0,\"    \"],[11,1,[[19,0,[]]]],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[19,0,[\"hasSubmitButton\"]]],null,{\"statements\":[[0,\"        \"],[4,\"bs-button\",null,[[\"type\",\"action\"],[\"default\",\"close\"]],{\"statements\":[[1,[18,\"closeTitle\"],false]],\"parameters\":[]},null],[0,\"\\n        \"],[4,\"bs-button\",null,[[\"type\",\"buttonType\",\"disabled\"],[\"primary\",\"submit\",[19,0,[\"submitDisabled\"]]]],{\"statements\":[[1,[18,\"submitTitle\"],false]],\"parameters\":[]},null],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"        \"],[4,\"bs-button\",null,[[\"type\",\"action\"],[\"primary\",\"close\"]],{\"statements\":[[1,[18,\"closeTitle\"],false]],\"parameters\":[]},null],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/bs-modal-footer.hbs" } });
-});
-define("pix-live/templates/components/bs-modal-header", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "QTOgOVmz", "block": "{\"symbols\":[\"&default\"],\"statements\":[[4,\"if\",[[19,0,[\"closeButton\"]]],null,{\"statements\":[[0,\"    \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"close\"],[9,\"aria-label\",\"Close\"],[3,\"action\",[[19,0,[]],\"close\"]],[7],[6,\"span\"],[9,\"aria-hidden\",\"true\"],[7],[0,\"×\"],[8],[8],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,1]],null,{\"statements\":[[0,\"    \"],[11,1,[[19,0,[]]]],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[6,\"h4\"],[9,\"class\",\"modal-title\"],[7],[1,[18,\"title\"],false],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/bs-modal-header.hbs" } });
-});
-define("pix-live/templates/components/bs-modal", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "S5s9OxCB", "block": "{\"symbols\":[\"&default\"],\"statements\":[[4,\"ember-wormhole\",null,[[\"to\",\"renderInPlace\"],[\"ember-bootstrap-modal-container\",[19,0,[\"renderInPlace\"]]]],{\"statements\":[[0,\"\\n\"],[4,\"bs-modal-dialog\",null,[[\"close\",\"fade\",\"in\",\"id\",\"title\",\"closeButton\",\"keyboard\",\"header\",\"body\",\"footer\",\"size\",\"backdropClose\"],[[25,\"action\",[[19,0,[]],\"close\"],null],[19,0,[\"fade\"]],[19,0,[\"in\"]],[19,0,[\"modalId\"]],[19,0,[\"title\"]],[19,0,[\"closeButton\"]],[19,0,[\"keyboard\"]],[19,0,[\"header\"]],[19,0,[\"body\"]],[19,0,[\"footer\"]],[19,0,[\"size\"]],[19,0,[\"backdropClose\"]]]],{\"statements\":[[0,\"  \"],[11,1,[[19,0,[]]]],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[19,0,[\"showBackdrop\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",[26,[\"modal-backdrop \",[25,\"if\",[[19,0,[\"fade\"]],\"fade\"],null],\" \",[25,\"if\",[[19,0,[\"in\"]],\"in\"],null]]]],[10,\"id\",[26,[[18,\"backdropId\"]]]],[7],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/bs-modal.hbs" } });
-});
-define("pix-live/templates/components/bs-progress-bar", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "JTzKZ5JO", "block": "{\"symbols\":[\"&default\"],\"statements\":[[0,\"\\n\"],[4,\"if\",[[19,0,[\"showLabel\"]]],null,{\"statements\":[[4,\"if\",[[22,1]],null,{\"statements\":[[0,\"        \"],[11,1,[[19,0,[\"percentRounded\"]]]],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"        \"],[1,[18,\"percentRounded\"],false],[0,\"%\\n\"]],\"parameters\":[]}]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[22,1]],null,{\"statements\":[[0,\"        \"],[6,\"span\"],[9,\"class\",\"sr-only\"],[7],[11,1,[[19,0,[\"percentRounded\"]]]],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"        \"],[6,\"span\"],[9,\"class\",\"sr-only\"],[7],[1,[18,\"percentRounded\"],false],[0,\"%\"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/bs-progress-bar.hbs" } });
-});
-define("pix-live/templates/components/bs-progress", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "TRGkaTrJ", "block": "{\"symbols\":[\"&default\"],\"statements\":[[11,1],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/bs-progress.hbs" } });
-});
-define("pix-live/templates/components/bs-select", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "rsyPKdmA", "block": "{\"symbols\":[\"item\"],\"statements\":[[4,\"if\",[[19,0,[\"prompt\"]]],null,{\"statements\":[[0,\"    \"],[6,\"option\"],[9,\"disabled\",\"\"],[10,\"selected\",[25,\"bs-not\",[[19,0,[\"value\"]]],null],null],[7],[0,\"\\n        \"],[1,[18,\"prompt\"],false],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"each\",[[19,0,[\"content\"]]],[[\"key\"],[\"@identity\"]],{\"statements\":[[0,\"    \"],[6,\"option\"],[10,\"value\",[26,[[25,\"bs-read-path\",[[19,1,[]],[19,0,[\"optionValuePath\"]]],null]]]],[10,\"selected\",[25,\"bs-eq\",[[19,1,[]],[19,0,[\"value\"]]],null],null],[7],[0,\"\\n        \"],[1,[25,\"bs-read-path\",[[19,1,[]],[19,0,[\"optionLabelPath\"]]],null],false],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/bs-select.hbs" } });
-});
 define("pix-live/templates/components/challenge-actions", ["exports"], function (exports) {
   "use strict";
 
@@ -8009,118 +7380,6 @@ define("pix-live/templates/components/follower-form", ["exports"], function (exp
     value: true
   });
   exports.default = Ember.HTMLBars.template({ "id": "Zk2mWrf/", "block": "{\"symbols\":[],\"statements\":[[6,\"form\"],[9,\"class\",\"follower__form\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"follower__form-container\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"follower__form-item follower__form-input-container\"],[7],[0,\"\\n      \"],[1,[25,\"input\",null,[[\"class\",\"placeholder\",\"type\",\"value\"],[\"follower-email\",\"Saisissez votre email\",\"email\",[19,0,[\"_followerEmail\"]]]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"follower__form-item\"],[7],[0,\"\\n      \"],[6,\"button\"],[10,\"class\",[26,[\"follower-form__button \",[25,\"if\",[[19,0,[\"isPending\"]],\"follower-form__button--pending\",\"follower-form__button--default\"],null]]]],[3,\"action\",[[19,0,[]],\"submit\"],[[\"allowedKeys\"],[\"enter\"]]],[7],[1,[18,\"submitButtonText\"],false],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"hasMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[10,\"class\",[26,[\"follower-info-message \",[18,\"messageClassName\"]]]],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"hasError\"]]],null,{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"class\",\"follower-form__icon follower-form__icon--error\"],[9,\"style\",\"width:15px;height:15px;\"],[9,\"src\",\"/images/icons/icon-error.svg\"],[9,\"alt\",\"\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"class\",\"follower-form__icon follower-form__icon--success\"],[9,\"style\",\"width:12px;height:15px\"],[9,\"src\",\"/images/icons/icon-success.svg\"],[9,\"alt\",\"\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"    \"],[6,\"span\"],[7],[1,[18,\"infoMessage\"],false],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/follower-form.hbs" } });
-});
-define("pix-live/templates/components/form-element/errors", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "fkITMaso", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[19,0,[\"showValidationMessages\"]]],null,{\"statements\":[[0,\"    \"],[6,\"span\"],[9,\"class\",\"help-block\"],[7],[1,[20,[\"validationMessages\",\"firstObject\"]],false],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/form-element/errors.hbs" } });
-});
-define("pix-live/templates/components/form-element/feedback-icon", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "vgNQMI5S", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[19,0,[\"hasFeedback\"]]],null,{\"statements\":[[0,\"    \"],[6,\"span\"],[10,\"class\",[26,[\"form-control-feedback \",[18,\"iconName\"]]]],[9,\"aria-hidden\",\"true\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/form-element/feedback-icon.hbs" } });
-});
-define("pix-live/templates/components/form-element/horizontal/checkbox", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "bufszJyd", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[10,\"class\",[26,[[18,\"horizontalInputGridClass\"],\" \",[18,\"horizontalInputOffsetGridClass\"]]]],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"checkbox\"],[7],[0,\"\\n        \"],[6,\"label\"],[7],[0,\"\\n            \"],[1,[25,\"input\",null,[[\"name\",\"type\",\"checked\",\"disabled\",\"required\"],[[19,0,[\"name\"]],\"checkbox\",[19,0,[\"value\"]],[19,0,[\"disabled\"]],[19,0,[\"required\"]]]]],false],[0,\" \"],[1,[18,\"label\"],false],[0,\"\\n        \"],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[12,\"components/form-element/errors\",[]],[0,\"\\n\"],[8]],\"hasEval\":true}", "meta": { "moduleName": "pix-live/templates/components/form-element/horizontal/checkbox.hbs" } });
-});
-define("pix-live/templates/components/form-element/horizontal/default", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "FotqbX9/", "block": "{\"symbols\":[\"&default\"],\"statements\":[[4,\"if\",[[19,0,[\"hasLabel\"]]],null,{\"statements\":[[0,\"    \"],[6,\"label\"],[10,\"class\",[26,[\"control-label \",[18,\"horizontalLabelGridClass\"],\" \",[25,\"if\",[[19,0,[\"invisibleLabel\"]],\"sr-only\"],null]]]],[10,\"for\",[26,[[18,\"formElementId\"]]]],[7],[1,[18,\"label\"],false],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",[26,[[18,\"horizontalInputGridClass\"]]]],[7],[0,\"\\n\"],[4,\"if\",[[22,1]],null,{\"statements\":[[0,\"            \"],[11,1,[[19,0,[\"value\"]],[19,0,[\"formElementId\"]],[19,0,[\"validation\"]]]],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"            \"],[1,[25,\"bs-input\",null,[[\"id\",\"name\",\"type\",\"value\",\"placeholder\",\"autofocus\",\"disabled\",\"required\"],[[19,0,[\"formElementId\"]],[19,0,[\"name\"]],[19,0,[\"controlType\"]],[19,0,[\"value\"]],[19,0,[\"placeholder\"]],[19,0,[\"autofocus\"]],[19,0,[\"disabled\"]],[19,0,[\"required\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]}],[0,\"        \"],[12,\"components/form-element/feedback-icon\",[]],[0,\"\\n        \"],[12,\"components/form-element/errors\",[]],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[6,\"div\"],[10,\"class\",[26,[[18,\"horizontalInputGridClass\"],\" \",[18,\"horizontalInputOffsetGridClass\"]]]],[7],[0,\"\\n\"],[4,\"if\",[[22,1]],null,{\"statements\":[[0,\"            \"],[11,1,[[19,0,[\"value\"]],[19,0,[\"formElementId\"]],[19,0,[\"validation\"]]]],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"            \"],[1,[25,\"bs-input\",null,[[\"name\",\"type\",\"value\",\"placeholder\",\"autofocus\",\"disabled\",\"required\"],[[19,0,[\"name\"]],[19,0,[\"controlType\"]],[19,0,[\"value\"]],[19,0,[\"placeholder\"]],[19,0,[\"autofocus\"]],[19,0,[\"disabled\"]],[19,0,[\"required\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]}],[0,\"        \"],[12,\"components/form-element/feedback-icon\",[]],[0,\"\\n        \"],[12,\"components/form-element/errors\",[]],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":true}", "meta": { "moduleName": "pix-live/templates/components/form-element/horizontal/default.hbs" } });
-});
-define("pix-live/templates/components/form-element/horizontal/select", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "8vGEmLdI", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[19,0,[\"hasLabel\"]]],null,{\"statements\":[[0,\"    \"],[6,\"label\"],[10,\"class\",[26,[\"control-label \",[18,\"horizontalLabelGridClass\"],\" \",[25,\"if\",[[19,0,[\"invisibleLabel\"]],\"sr-only\"],null]]]],[10,\"for\",[26,[[18,\"formElementId\"]]]],[7],[1,[18,\"label\"],false],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",[26,[[18,\"horizontalInputGridClass\"]]]],[7],[0,\"\\n        \"],[1,[25,\"bs-select\",null,[[\"id\",\"name\",\"content\",\"optionValuePath\",\"optionLabelPath\",\"value\",\"disabled\",\"required\"],[[19,0,[\"formElementId\"]],[19,0,[\"name\"]],[19,0,[\"choices\"]],[19,0,[\"choiceValueProperty\"]],[19,0,[\"choiceLabelProperty\"]],[19,0,[\"value\"]],[19,0,[\"disabled\"]],[19,0,[\"required\"]]]]],false],[0,\"\\n        \"],[12,\"components/form-element/feedback-icon\",[]],[0,\"\\n        \"],[12,\"components/form-element/errors\",[]],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[6,\"div\"],[10,\"class\",[26,[[18,\"horizontalInputGridClass\"],\" \",[18,\"horizontalInputOffsetGridClass\"]]]],[7],[0,\"\\n        \"],[1,[25,\"bs-select\",null,[[\"name\",\"content\",\"optionValuePath\",\"optionLabelPath\",\"value\"],[[19,0,[\"name\"]],[19,0,[\"choices\"]],[19,0,[\"choiceValueProperty\"]],[19,0,[\"choiceLabelProperty\"]],[19,0,[\"value\"]]]]],false],[0,\"\\n        \"],[12,\"components/form-element/feedback-icon\",[]],[0,\"\\n        \"],[12,\"components/form-element/errors\",[]],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":true}", "meta": { "moduleName": "pix-live/templates/components/form-element/horizontal/select.hbs" } });
-});
-define("pix-live/templates/components/form-element/horizontal/textarea", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "VIJSTAQX", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[19,0,[\"hasLabel\"]]],null,{\"statements\":[[0,\"    \"],[6,\"label\"],[10,\"class\",[26,[\"control-label \",[18,\"horizontalLabelGridClass\"],\" \",[25,\"if\",[[19,0,[\"invisibleLabel\"]],\"sr-only\"],null]]]],[10,\"for\",[26,[[18,\"formElementId\"]]]],[7],[1,[18,\"label\"],false],[8],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",[26,[[18,\"horizontalInputGridClass\"]]]],[7],[0,\"\\n        \"],[1,[25,\"bs-textarea\",null,[[\"id\",\"name\",\"value\",\"placeholder\",\"autofocus\",\"cols\",\"rows\",\"disabled\",\"required\"],[[19,0,[\"formElementId\"]],[19,0,[\"name\"]],[19,0,[\"value\"]],[19,0,[\"placeholder\"]],[19,0,[\"autofocus\"]],[19,0,[\"cols\"]],[19,0,[\"rows\"]],[19,0,[\"disabled\"]],[19,0,[\"required\"]]]]],false],[0,\"\\n        \"],[12,\"components/form-element/feedback-icon\",[]],[0,\"\\n        \"],[12,\"components/form-element/errors\",[]],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[6,\"div\"],[10,\"class\",[26,[[18,\"horizontalInputGridClass\"],\" \",[18,\"horizontalInputOffsetGridClass\"]]]],[7],[0,\"\\n        \"],[1,[25,\"bs-textarea\",null,[[\"name\",\"value\",\"placeholder\",\"autofocus\",\"cols\",\"rows\",\"disabled\",\"required\"],[[19,0,[\"name\"]],[19,0,[\"value\"]],[19,0,[\"placeholder\"]],[19,0,[\"autofocus\"]],[19,0,[\"cols\"]],[19,0,[\"rows\"]],[19,0,[\"disabled\"]],[19,0,[\"required\"]]]]],false],[0,\"\\n        \"],[12,\"components/form-element/feedback-icon\",[]],[0,\"\\n        \"],[12,\"components/form-element/errors\",[]],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":true}", "meta": { "moduleName": "pix-live/templates/components/form-element/horizontal/textarea.hbs" } });
-});
-define("pix-live/templates/components/form-element/inline/checkbox", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "1MqoK45Z", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"checkbox\"],[7],[0,\"\\n    \"],[6,\"label\"],[7],[0,\"\\n        \"],[1,[25,\"input\",null,[[\"name\",\"type\",\"checked\",\"disabled\",\"required\"],[[19,0,[\"name\"]],\"checkbox\",[19,0,[\"value\"]],[19,0,[\"disabled\"]],[19,0,[\"required\"]]]]],false],[0,\" \"],[1,[18,\"label\"],false],[0,\"\\n    \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/form-element/inline/checkbox.hbs" } });
-});
-define("pix-live/templates/components/form-element/inline/default", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "nWYttDVc", "block": "{\"symbols\":[\"&default\"],\"statements\":[[4,\"if\",[[19,0,[\"hasLabel\"]]],null,{\"statements\":[[0,\"    \"],[6,\"label\"],[10,\"class\",[26,[\"control-label \",[25,\"if\",[[19,0,[\"invisibleLabel\"]],\"sr-only\"],null]]]],[10,\"for\",[26,[[18,\"formElementId\"]]]],[7],[1,[18,\"label\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,1]],null,{\"statements\":[[0,\"    \"],[11,1,[[19,0,[\"value\"]],[19,0,[\"formElementId\"]],[19,0,[\"validation\"]]]],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[1,[25,\"bs-input\",null,[[\"id\",\"name\",\"type\",\"value\",\"placeholder\",\"autofocus\",\"disabled\",\"required\"],[[19,0,[\"formElementId\"]],[19,0,[\"name\"]],[19,0,[\"controlType\"]],[19,0,[\"value\"]],[19,0,[\"placeholder\"]],[19,0,[\"autofocus\"]],[19,0,[\"disabled\"]],[19,0,[\"required\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]}],[12,\"components/form-element/feedback-icon\",[]],[0,\"\\n\"]],\"hasEval\":true}", "meta": { "moduleName": "pix-live/templates/components/form-element/inline/default.hbs" } });
-});
-define("pix-live/templates/components/form-element/inline/select", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "5/3YTYXT", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[19,0,[\"hasLabel\"]]],null,{\"statements\":[[0,\"    \"],[6,\"label\"],[10,\"class\",[26,[\"control-label \",[25,\"if\",[[19,0,[\"invisibleLabel\"]],\"sr-only\"],null]]]],[10,\"for\",[26,[[18,\"formElementId\"]]]],[7],[1,[18,\"label\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[1,[25,\"bs-select\",null,[[\"id\",\"name\",\"content\",\"optionValuePath\",\"optionLabelPath\",\"value\",\"disabled\",\"required\"],[[19,0,[\"formElementId\"]],[19,0,[\"name\"]],[19,0,[\"choices\"]],[19,0,[\"choiceValueProperty\"]],[19,0,[\"choiceLabelProperty\"]],[19,0,[\"value\"]],[19,0,[\"disabled\"]],[19,0,[\"required\"]]]]],false],[0,\"\\n\"],[12,\"components/form-element/feedback-icon\",[]],[0,\"\\n\"]],\"hasEval\":true}", "meta": { "moduleName": "pix-live/templates/components/form-element/inline/select.hbs" } });
-});
-define("pix-live/templates/components/form-element/inline/textarea", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "yPeWF4W+", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[19,0,[\"hasLabel\"]]],null,{\"statements\":[[0,\"    \"],[6,\"label\"],[10,\"class\",[26,[\"control-label \",[25,\"if\",[[19,0,[\"invisibleLabel\"]],\"sr-only\"],null]]]],[10,\"for\",[26,[[18,\"formElementId\"]]]],[7],[1,[18,\"label\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[1,[25,\"bs-textarea\",null,[[\"id\",\"name\",\"value\",\"placeholder\",\"autofocus\",\"cols\",\"rows\",\"disabled\",\"required\"],[[19,0,[\"formElementId\"]],[19,0,[\"name\"]],[19,0,[\"value\"]],[19,0,[\"placeholder\"]],[19,0,[\"autofocus\"]],[19,0,[\"cols\"]],[19,0,[\"rows\"]],[19,0,[\"disabled\"]],[19,0,[\"required\"]]]]],false],[0,\"\\n\"],[12,\"components/form-element/feedback-icon\",[]],[0,\"\\n\"],[12,\"components/form-element/errors\",[]],[0,\"\\n\"]],\"hasEval\":true}", "meta": { "moduleName": "pix-live/templates/components/form-element/inline/textarea.hbs" } });
-});
-define("pix-live/templates/components/form-element/vertical/checkbox", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "8zhmH+2N", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"checkbox\"],[7],[0,\"\\n    \"],[6,\"label\"],[7],[0,\"\\n        \"],[1,[25,\"input\",null,[[\"name\",\"type\",\"checked\",\"disabled\",\"required\"],[[19,0,[\"name\"]],\"checkbox\",[19,0,[\"value\"]],[19,0,[\"disabled\"]],[19,0,[\"required\"]]]]],false],[0,\" \"],[1,[18,\"label\"],false],[0,\"\\n    \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"],[12,\"components/form-element/errors\",[]]],\"hasEval\":true}", "meta": { "moduleName": "pix-live/templates/components/form-element/vertical/checkbox.hbs" } });
-});
-define("pix-live/templates/components/form-element/vertical/default", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "pIAp1G5W", "block": "{\"symbols\":[\"&default\"],\"statements\":[[4,\"if\",[[19,0,[\"hasLabel\"]]],null,{\"statements\":[[0,\"    \"],[6,\"label\"],[10,\"class\",[26,[\"control-label \",[25,\"if\",[[19,0,[\"invisibleLabel\"]],\"sr-only\"],null]]]],[10,\"for\",[26,[[18,\"formElementId\"]]]],[7],[1,[18,\"label\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[22,1]],null,{\"statements\":[[0,\"    \"],[11,1,[[19,0,[\"value\"]],[19,0,[\"formElementId\"]],[19,0,[\"validation\"]]]],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[1,[25,\"bs-input\",null,[[\"id\",\"name\",\"type\",\"value\",\"placeholder\",\"autofocus\",\"disabled\",\"required\"],[[19,0,[\"formElementId\"]],[19,0,[\"name\"]],[19,0,[\"controlType\"]],[19,0,[\"value\"]],[19,0,[\"placeholder\"]],[19,0,[\"autofocus\"]],[19,0,[\"disabled\"]],[19,0,[\"required\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]}],[12,\"components/form-element/feedback-icon\",[]],[0,\"\\n\"],[12,\"components/form-element/errors\",[]],[0,\"\\n\"]],\"hasEval\":true}", "meta": { "moduleName": "pix-live/templates/components/form-element/vertical/default.hbs" } });
-});
-define("pix-live/templates/components/form-element/vertical/select", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "5I0fpzf8", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[19,0,[\"hasLabel\"]]],null,{\"statements\":[[0,\"    \"],[6,\"label\"],[10,\"class\",[26,[\"control-label \",[25,\"if\",[[19,0,[\"invisibleLabel\"]],\"sr-only\"],null]]]],[10,\"for\",[26,[[18,\"formElementId\"]]]],[7],[1,[18,\"label\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[1,[25,\"bs-select\",null,[[\"id\",\"name\",\"content\",\"optionValuePath\",\"optionLabelPath\",\"value\",\"disabled\",\"required\"],[[19,0,[\"formElementId\"]],[19,0,[\"name\"]],[19,0,[\"choices\"]],[19,0,[\"choiceValueProperty\"]],[19,0,[\"choiceLabelProperty\"]],[19,0,[\"value\"]],[19,0,[\"disabled\"]],[19,0,[\"required\"]]]]],false],[0,\"\\n\"],[12,\"components/form-element/feedback-icon\",[]],[0,\"\\n\"],[12,\"components/form-element/errors\",[]],[0,\"\\n\"]],\"hasEval\":true}", "meta": { "moduleName": "pix-live/templates/components/form-element/vertical/select.hbs" } });
-});
-define("pix-live/templates/components/form-element/vertical/textarea", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "WS40KhyY", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[19,0,[\"hasLabel\"]]],null,{\"statements\":[[0,\"    \"],[6,\"label\"],[10,\"class\",[26,[\"control-label \",[25,\"if\",[[19,0,[\"invisibleLabel\"]],\"sr-only\"],null]]]],[10,\"for\",[26,[[18,\"formElementId\"]]]],[7],[1,[18,\"label\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[1,[25,\"bs-textarea\",null,[[\"id\",\"value\",\"name\",\"placeholder\",\"autofocus\",\"disabled\",\"required\",\"cols\",\"rows\"],[[19,0,[\"formElementId\"]],[19,0,[\"value\"]],[19,0,[\"name\"]],[19,0,[\"placeholder\"]],[19,0,[\"autofocus\"]],[19,0,[\"disabled\"]],[19,0,[\"required\"]],[19,0,[\"cols\"]],[19,0,[\"rows\"]]]]],false],[0,\"\\n\"],[12,\"components/form-element/feedback-icon\",[]],[0,\"\\n\"],[12,\"components/form-element/errors\",[]],[0,\"\\n\"]],\"hasEval\":true}", "meta": { "moduleName": "pix-live/templates/components/form-element/vertical/textarea.hbs" } });
 });
 define("pix-live/templates/components/g-recaptcha", ["exports"], function (exports) {
   "use strict";
@@ -9024,24 +8283,24 @@ define('pix-live/utils/listener-name', ['exports', 'ember-keyboard/utils/listene
     }
   });
 });
-define('pix-live/utils/lodash-custom', ['exports'], function (exports) {
+define('pix-live/utils/lodash-custom', ['exports', 'lodash'], function (exports, _lodash) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  /* global _ */
 
-  _.mixin({
+
+  _lodash.default.mixin({
 
     // Simple alias for includes, last arg fromIndex excluded.
     // Therefore, no test on this function.
     /* istanbul ignore next */
     isAmongst: function isAmongst(element, collection) {
-      return _.includes(collection, element);
+      return _lodash.default.includes(collection, element);
     },
     forceString: function forceString(x) {
-      if (_(x).isNonEmptyString()) {
+      if ((0, _lodash.default)(x).isNonEmptyString()) {
         return x;
       } else {
         return '';
@@ -9055,30 +8314,30 @@ define('pix-live/utils/lodash-custom', ['exports'], function (exports) {
     },
     // Just an alias, ignore test
     /* istanbul ignore next */
-    checkPoint: _.thru,
+    checkPoint: _lodash.default.thru,
     isTrue: function isTrue(x) {
       return x === true;
     },
     removeFirstElement: function removeFirstElement(x) {
-      return _.drop(x, 1);
+      return _lodash.default.drop(x, 1);
     },
     isArrayOfString: function isArrayOfString(x) {
-      return _.isArray(x) && _.every(x, _.isString);
+      return _lodash.default.isArray(x) && _lodash.default.every(x, _lodash.default.isString);
     },
     isNotString: function isNotString(x) {
-      return !_.isString(x);
+      return !_lodash.default.isString(x);
     },
     isNotArrayOfString: function isNotArrayOfString(x) {
-      return !_.isArrayOfString(x);
+      return !_lodash.default.isArrayOfString(x);
     },
     isNotArray: function isNotArray(x) {
-      return !_.isArray(x);
+      return !_lodash.default.isArray(x);
     },
     isArrayOfBoolean: function isArrayOfBoolean(x) {
-      return _.isArray(x) && _.every(x, _.isBoolean);
+      return _lodash.default.isArray(x) && _lodash.default.every(x, _lodash.default.isBoolean);
     },
     isNotArrayOfBoolean: function isNotArrayOfBoolean(x) {
-      return !_.isArrayOfBoolean(x);
+      return !_lodash.default.isArrayOfBoolean(x);
     },
     isTruthy: function isTruthy(x) {
       return x !== false // not the boolean false
@@ -9086,31 +8345,31 @@ define('pix-live/utils/lodash-custom', ['exports'], function (exports) {
       && x !== undefined // not an undefined value
       && x !== null // not a null value
       && x !== '' // not an empty string
-      && !_.isNaN(x) // not a NaN
-      && !(_.isArray(x) && _.isEmpty(x)) // not an empty array
-      && !(_.isObject(x) && _.isEmpty(x)); // not an empty object
+      && !_lodash.default.isNaN(x) // not a NaN
+      && !(_lodash.default.isArray(x) && _lodash.default.isEmpty(x)) // not an empty array
+      && !(_lodash.default.isObject(x) && _lodash.default.isEmpty(x)); // not an empty object
     },
     // Not enough value to test a one line function, mainly an alias here.
     /* istanbul ignore next */
     isFalsy: function isFalsy(x) {
-      return !_.isTruthy(x);
+      return !_lodash.default.isTruthy(x);
     },
     isNonEmptyString: function isNonEmptyString(x) {
-      return _.isString(x) && !_.isEmpty(x);
+      return _lodash.default.isString(x) && !_lodash.default.isEmpty(x);
     },
     isNonEmptyArray: function isNonEmptyArray(x) {
-      return _.isArray(x) && !_.isEmpty(x);
+      return _lodash.default.isArray(x) && !_lodash.default.isEmpty(x);
     },
     hasSomeTruthyProps: function hasSomeTruthyProps(x) {
-      if (!_.isObject(x)) return false;
-      if (_.isEmpty(x)) return false;
-      return _.some(x, function (value) {
-        return _.isTruthy(value);
+      if (!_lodash.default.isObject(x)) return false;
+      if (_lodash.default.isEmpty(x)) return false;
+      return _lodash.default.some(x, function (value) {
+        return _lodash.default.isTruthy(value);
       });
     },
 
     isNotInteger: function isNotInteger(x) {
-      return !_.isInteger(x);
+      return !_lodash.default.isInteger(x);
     },
 
     isNumeric: function isNumeric(value) {
@@ -9131,7 +8390,7 @@ define('pix-live/utils/lodash-custom', ['exports'], function (exports) {
 
   }, { chain: false });
 
-  exports.default = _;
+  exports.default = _lodash.default;
 });
 define('pix-live/utils/object-transforms', ['exports', 'ember-metrics/utils/object-transforms'], function (exports, _objectTransforms) {
   'use strict';
@@ -9365,6 +8624,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+6f66ea4e"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+22a74645"});
 }
 //# sourceMappingURL=pix-live.map
