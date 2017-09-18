@@ -20,12 +20,14 @@ describe('Unit | Controller | PasswordController', () => {
     describe('Payload bad format cases: ', () => {
 
       let replyStub;
+      let codeSpy;
       let sandbox;
 
       beforeEach(() => {
         sandbox = sinon.sandbox.create();
         replyStub = sandbox.stub();
         sandbox.stub(Boom, 'badRequest').returns({});
+        codeSpy = sandbox.spy();
       });
 
       afterEach(() => {
@@ -38,13 +40,13 @@ describe('Unit | Controller | PasswordController', () => {
         { request: { payload: { key: 'value' } }, description: 'no email or hostEnv key in payload' },
         { request: { payload: { email: 'value' } }, description: 'email is provided but no hostEnv key in payload' },
         { request: { payload: { hostEnv: 'value' } }, description: 'hostEnv is provided but no email key in payload' },
+        { request: { payload: { key: 'value' } }, description: 'no email key in payload' }
 
       ].forEach(({ request, description }) => {
         it(`should reply with 400 status, when ${description} provided`, () => {
           // given
           replyStub.returns({
-            code: () => {
-            }
+            code: codeSpy
           });
           // when
           passwordController.resetDemand(request, replyStub);
@@ -52,6 +54,7 @@ describe('Unit | Controller | PasswordController', () => {
           // then
           sinon.assert.calledOnce(Boom.badRequest);
           sinon.assert.calledWith(replyStub, Boom.badRequest());
+          sinon.assert.calledWith(codeSpy, 400);
         });
       });
     });
@@ -61,6 +64,7 @@ describe('Unit | Controller | PasswordController', () => {
       const request = { payload: { email: 'shi@fu.me', hostEnv: 'dev' } };
 
       let replyStub;
+      let codeSpy;
       let sandbox;
 
       beforeEach(() => {
@@ -72,6 +76,8 @@ describe('Unit | Controller | PasswordController', () => {
         sandbox.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
         sandbox.stub(resetPasswordRepository, 'create');
         sandbox.stub(errorSerializer, 'serialize');
+        codeSpy = sandbox.spy();
+        sandbox.stub(userService, 'isUserExisting');
       });
 
       afterEach(() => {
@@ -242,6 +248,7 @@ describe('Unit | Controller | PasswordController', () => {
           });
         });
       });
+
     });
   });
 
