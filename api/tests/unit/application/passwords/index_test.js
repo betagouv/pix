@@ -25,19 +25,17 @@ describe('Unit | Router | Password router', () => {
       passwordController.resetDemand.restore();
     });
 
-    it('should exist', (done) => {
+    it('should exist', () => {
       // given
       passwordController.resetDemand.callsFake((request, reply) => {
         reply('ok');
       });
 
       // when
-      server
-        .inject({ method: 'POST', url: '/api/reset-password' })
+      return server.inject({ method: 'POST', url: '/api/reset-password' })
         .then((res) => {
           // then
           expect(res.statusCode).to.equal(200);
-          done();
         });
     });
   });
