@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 const User = require('../../../../lib/domain/models/data/user');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const { NotFoundError, AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
+const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Repository | UserRepository', function() {
 
@@ -81,7 +81,8 @@ describe('Unit | Repository | UserRepository', function() {
       // Then
       return promise
         .catch((err) => {
-          expect(err).to.be.an.instanceof(NotFoundError);
+          expect(err).exist;
+          expect(err.name).to.equal('CustomError');
         });
     });
 
