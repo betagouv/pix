@@ -16,7 +16,7 @@ describe('Unit | Router | Password router', () => {
     server.stop();
   });
 
-  describe('POST /api/reset-password', () => {
+  describe('POST /api/password-reset', () => {
     before(() => {
       sinon.stub(passwordController, 'resetDemand');
     });
@@ -32,7 +32,8 @@ describe('Unit | Router | Password router', () => {
       });
 
       // when
-      return server.inject({ method: 'POST', url: '/api/reset-password' })
+      return server
+        .inject({ method: 'POST', url: '/api/password-reset' })
         .then((res) => {
           // then
           expect(res.statusCode).to.equal(200);
