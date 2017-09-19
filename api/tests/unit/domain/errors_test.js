@@ -15,12 +15,12 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.InvaliOrganizationIdError).to.exist;
   });
 
-  describe('#userNotFoundError', () => {
-    it('should export a userNotFoundError', () => {
-      expect(errors.userNotFoundError).to.exist;
+  describe('#UserNotFoundError', () => {
+    it('should export a UserNotFoundError', () => {
+      expect(errors.UserNotFoundError).to.exist;
     });
 
-    it('should have a getErrorMessage method', (done) => {
+    it('should have a getErrorMessage method', () => {
       // given
       const expectedErrorMessage = {
         data: {
@@ -29,19 +29,18 @@ describe('Unit | Domain | Errors', () => {
       };
 
       // then
-      const userNotFoundError = errors.userNotFoundError;
+      const userNotFoundError = errors.UserNotFoundError;
       expect(userNotFoundError.getErrorMessage).to.be.a('function');
       expect(userNotFoundError.getErrorMessage()).to.eql(expectedErrorMessage);
-      done();
     });
   });
 
   describe('#internalError', () => {
     it('should export a internalError', () => {
-      expect(errors.internalError).to.exist;
+      expect(errors.InternalError).to.exist;
     });
 
-    it('should have a getErrorMessage method', (done) => {
+    it('should have a getErrorMessage method', () => {
       // given
       const expectedErrorMessage = {
         data: {
@@ -50,10 +49,9 @@ describe('Unit | Domain | Errors', () => {
       };
 
       // then
-      const internalError = errors.internalError;
+      const internalError = errors.InternalError;
       expect(internalError.getErrorMessage).to.be.a('function');
       expect(internalError.getErrorMessage()).to.eql(expectedErrorMessage);
-      done();
     });
   });
 
