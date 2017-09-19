@@ -1,7 +1,6 @@
 const TABLE_NAME = 'reset-password-demands';
 
 exports.up = function(knex) {
-
   function table(t) {
     t.increments().primary();
     t.string('email');
