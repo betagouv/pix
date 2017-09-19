@@ -34,7 +34,7 @@ class AlreadyRegisteredEmailError extends Error {
   }
 }
 
-class userNotFoundError extends Error {
+class UserNotFoundError extends Error {
   constructor() {
     super();
   }
@@ -48,7 +48,7 @@ class userNotFoundError extends Error {
   }
 }
 
-class internalError extends Error {
+class InternalError extends Error {
   constructor() {
     super();
   }
@@ -69,6 +69,6 @@ module.exports = {
   InvalidTokenError,
   AlreadyRegisteredEmailError,
   InvaliOrganizationIdError,
-  userNotFoundError,
-  internalError
+  UserNotFoundError,
+  InternalError
 };
