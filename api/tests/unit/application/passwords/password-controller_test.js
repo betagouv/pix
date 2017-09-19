@@ -8,7 +8,7 @@ const resetPasswordRepository = require('../../../../lib/infrastructure/reposito
 const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const { UserNotFoundError, InternalError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Controller | PasswordController', () => {
+describe.only('Unit | Controller | PasswordController', () => {
 
   describe('#resetDemand', () => {
 
@@ -20,7 +20,6 @@ describe('Unit | Controller | PasswordController', () => {
     describe('Payload bad format cases: ', () => {
 
       let replyStub;
-      let codeSpy;
       let sandbox;
 
       beforeEach(() => {
@@ -46,7 +45,8 @@ describe('Unit | Controller | PasswordController', () => {
         it(`should reply with 400 status, when ${description} provided`, () => {
           // given
           replyStub.returns({
-            code: codeSpy
+            code: () => {
+            }
           });
           // when
           passwordController.resetDemand(request, replyStub);
@@ -64,7 +64,6 @@ describe('Unit | Controller | PasswordController', () => {
       const request = { payload: { email: 'shi@fu.me', hostEnv: 'dev' } };
 
       let replyStub;
-      let codeSpy;
       let sandbox;
 
       beforeEach(() => {
@@ -78,6 +77,8 @@ describe('Unit | Controller | PasswordController', () => {
         sandbox.stub(errorSerializer, 'serialize');
         codeSpy = sandbox.spy();
         sandbox.stub(userService, 'isUserExisting');
+        sandbox.stub(tokenService, 'generateTemporaryKey');
+        sandbox.stub(errorSerializer, 'serialize');
       });
 
       afterEach(() => {
@@ -248,7 +249,6 @@ describe('Unit | Controller | PasswordController', () => {
           });
         });
       });
-
     });
   });
 
