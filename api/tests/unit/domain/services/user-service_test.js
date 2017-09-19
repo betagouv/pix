@@ -1,6 +1,7 @@
 const { describe, it, expect, beforeEach, afterEach, sinon } = require('../../../test-helper');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const userService = require('../../../../lib/domain/services/user-service');
+const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | User Service', () => {
 
@@ -45,7 +46,7 @@ describe('Unit | Service | User Service', () => {
       });
     });
 
-    it('should return false when no user found', () => {
+    it('should throw an error, when no user found', () => {
       // given
       userRepository.findByEmail.rejects();
 
@@ -53,8 +54,8 @@ describe('Unit | Service | User Service', () => {
       const promise = userService.isUserExisting(email);
 
       // then
-      return promise.then((result) => {
-        expect(result).to.equal(false);
+      return promise.catch((result) => {
+        expect(result).to.be.an.instanceOf(UserNotFoundError);
       });
     });
   });
