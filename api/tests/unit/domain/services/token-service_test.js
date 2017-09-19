@@ -66,13 +66,5 @@ describe('Unit | Service | Token Service', function() {
       sinon.assert.calledOnce(jsonwebtoken.sign);
       sinon.assert.calledWith(jsonwebtoken.sign, signParams.payload, signParams.secret, signParams.expiration);
     });
-
-    it('should return a token generated from jsonWebToken', function() {
-      // given
-
-      // when
-
-      // then
-    });
   });
 });
