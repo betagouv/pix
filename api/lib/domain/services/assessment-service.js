@@ -15,16 +15,17 @@ function _selectNextInAdaptiveMode(assessmentPix, coursePix) {
   return new Promise((resolve, reject) => {
     let answersPix, challengesPix;
 
+    const competenceId = coursePix.competences[0];
+
     answerRepository.findByAssessment(assessmentPix.get('id'))
       .then(answers => {
         answersPix = answers;
+        const challengePromises = challengeRepository.getFromCompetence(competenceId);
 
-        const challengePromises = coursePix.challenges.map(challengeId => challengeRepository.get(challengeId));
-        return Promise.all(challengePromises);
+        return challengePromises;
       }).then(challenges => {
         challengesPix = challenges;
 
-        const competenceId = coursePix.competences[0];
         return skillRepository.getFromCompetence(competenceId);
       }).then(skillNames => {
         return assessmentUtils.getNextChallengeInAdaptiveCourse(coursePix, answersPix, challengesPix, skillNames);
@@ -53,13 +54,19 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
 
     const challenges = course.challenges;
 
-    if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
-      return resolve(challenges[0]);
-    }
-
     if (course.isAdaptive) {
+
+      if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
+        return resolve(challenges[0]);
+      }
+
       return resolve(_selectNextInAdaptiveMode(assessment, course));
     } else {
+
+      if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
+        return resolve(challenges[0]);
+      }
+
       return resolve(_selectNextInNormalMode(currentChallengeId, challenges));
     }
   });
@@ -68,7 +75,7 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
 function getScoredAssessment(assessmentId) {
   return new Promise((resolve, reject) => {
 
-    let assessmentPix, answersPix, challengesPix, coursePix;
+    let assessmentPix, answersPix, challengesPix, coursePix, competenceId;
 
     assessmentRepository
       .get(assessmentId)
@@ -90,12 +97,12 @@ function getScoredAssessment(assessmentId) {
       })
       .then(course => {
         coursePix = course;
-        const challengePromises = coursePix.challenges.map(challengeId => challengeRepository.get(challengeId));
-        return Promise.all(challengePromises);
+        competenceId = coursePix.competences[0];
+        const challengePromises = challengeRepository.getFromCompetence(competenceId);
+        return challengePromises;
       })
       .then(challenges => {
         challengesPix = challenges;
-        const competenceId = coursePix.competences[0];
         return skillRepository.getFromCompetence(competenceId);
       })
       .then(skillNames => {
