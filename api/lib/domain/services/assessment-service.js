@@ -54,6 +54,7 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
   }
 
   return Promise.resolve(_selectNextInNormalMode(currentChallengeId, challenges));
+
 }
 
 function getScoredAssessment(assessmentId) {
