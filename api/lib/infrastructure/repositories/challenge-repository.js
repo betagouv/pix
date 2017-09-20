@@ -15,9 +15,14 @@ function _fetchChallenge(id, cacheKey, resolve, reject) {
 }
 
 function _fetchChallenges(cacheKey, resolve, reject, filterFunction) {
+  const query = {
+    'filterByFormula':
+      'OR({Statut} = "validé", {Statut} = "validé sans test", {Statut} = "pré-validé")'
+  };
   airtable
-    .getRecords(AIRTABLE_TABLE_NAME, {}, serializer)
+    .getRecords(AIRTABLE_TABLE_NAME, query, serializer)
     .then(challenges => {
+      console.error('hop', challenges);
       const filteredChallenges = challenges.filter(filterFunction);
       cache.set(cacheKey, filteredChallenges);
       return resolve(filteredChallenges);
@@ -45,8 +50,7 @@ module.exports = {
         if (err) return reject(err);
         if (cachedValue) return resolve(cachedValue);
         return _fetchChallenges(cacheKey, resolve, reject,
-          challenge => ['validé', 'validé sans test', 'pré-validé'].includes(challenge.status)
-            && challenge.competence == competenceId);
+          challenge => challenge.competence == competenceId);
       });
     });
   },
