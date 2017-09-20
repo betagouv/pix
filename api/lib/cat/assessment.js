@@ -92,7 +92,15 @@ class Assessment {
 
   get filteredChallenges() {
     const answeredChallenges = this.answers.map(answer => answer.challenge);
-    return this.course.challenges.filter(challenge => !answeredChallenges.includes(challenge) && ['validé', 'validé sans test', 'pré-validé'].includes(challenge.status));
+    const lastAnswer = this.answers[answeredChallenges.length - 1];
+    let availableChallenges = this.course.challenges.filter(
+      challenge => !answeredChallenges.includes(challenge)
+        && ['validé', 'validé sans test', 'pré-validé'].includes(challenge.status)
+    );
+    if (lastAnswer && lastAnswer.challenge.timer !== undefined) {
+      availableChallenges = availableChallenges.filter(challenge => challenge.timer === undefined);
+    }
+    return availableChallenges;
   }
 
   get nextChallenge() {

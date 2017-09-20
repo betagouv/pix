@@ -239,6 +239,23 @@ describe('Unit | Model | Assessment', function() {
       expect(assessment.filteredChallenges).to.deep.equal([]);
     });
 
+    it('should not return any timed challenge if previous challenge was timed', function() {
+      // given
+      const ch1 = new Challenge('a', 'validé', [], undefined);
+      const ch2 = new Challenge('b', 'validé', [], 30);
+      const ch3 = new Challenge('c', 'validé', [], undefined);
+      const ch4 = new Challenge('d', 'validé', [], 30);
+      const answerCh1 = new Answer(ch1, 'ok');
+      const answerCh2 = new Answer(ch2, 'ok');
+      const challenges = [ch1, ch2, ch3, ch4];
+      const course = new Course(challenges);
+      const assessment = new Assessment(course, [answerCh1, answerCh2]);
+
+      // then
+      expect(assessment.filteredChallenges).to.deep.equal([ch3]);
+
+    });
+
     it('should return only challenges that are validated, prevalidated, or validated without test', function() {
       // given
       const drop1 = new Challenge('a', 'poubelle', []);
