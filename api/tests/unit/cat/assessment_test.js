@@ -328,7 +328,6 @@ describe('Unit | Model | Assessment', function() {
     });
   });
 
-
   describe('#nextChallenge', function() {
     it('should exist', function() {
       // given
@@ -424,11 +423,8 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, answers);
       const firstChallengeStub = sinon.stub(assessment, '_firstChallenge').get(() => firstChallenge);
 
-      // when
-      let resultNextChallenge = assessment.nextChallenge;
-
       // then
-      expect(resultNextChallenge).to.be.equal(firstChallenge);
+      expect(assessment.nextChallenge).to.be.equal(firstChallenge);
       firstChallengeStub.restore();
     });
   });
