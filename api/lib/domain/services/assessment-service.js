@@ -60,6 +60,7 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
     if (course.isAdaptive) {
       return resolve(_selectNextInAdaptiveMode(assessment, course));
     } else {
+
       return resolve(_selectNextInNormalMode(currentChallengeId, challenges));
     }
   });

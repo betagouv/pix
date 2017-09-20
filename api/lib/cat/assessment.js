@@ -95,7 +95,18 @@ class Assessment {
     return this.course.challenges.filter(challenge => !answeredChallenges.includes(challenge) && ['validé', 'validé sans test', 'pré-validé'].includes(challenge.status));
   }
 
+  get _firstChallenge() {
+    const filteredFirstChallenges = this.filteredChallenges.filter(
+      challenge => challenge.hardestSkill.difficulty == 2 && challenge.timer === undefined
+    );
+    filteredFirstChallenges.sort((a, b) => 0.5 - Math.random());
+    return filteredFirstChallenges[0];
+  }
+
   get nextChallenge() {
+    if (this.answers.length == 0) {
+      return this._firstChallenge;
+    }
     if (this.answers.length == 20) {
       return null;
     }
