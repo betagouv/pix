@@ -6,6 +6,9 @@ module.exports = {
   },
 
   markAsBeingUsed(email) {
-    return new ResetPasswordDemand({ email }).save({ used: true }, { patch: true });
+    return ResetPasswordDemand.where({ email: email }).save({ used: true }, {
+      patch: true,
+      require: false
+    });
   }
 };
