@@ -18,13 +18,14 @@ function _formatPayload(options) {
     'Subject': configuration.subject,
     'MJ-TemplateID': configuration.template,
     'MJ-TemplateLanguage': 'true',
-    'Recipients': [ { 'Email': configuration.to } ]
+    'Recipients': [{ 'Email': configuration.to }],
+    'Variables': configuration.variables || {}
   };
 }
 
 function sendEmail(options) {
   const mailjet = nodeMailjet.connect(mailjetConfig.apiKey, mailjetConfig.apiSecret);
-
+  
   return mailjet
     .post('send')
     .request(_formatPayload(options));
