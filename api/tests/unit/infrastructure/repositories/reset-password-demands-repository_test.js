@@ -66,7 +66,7 @@ describe('Unit | Repository | Reset Password Demand Repository', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(ResetPasswordDemand.prototype.save);
-        sinon.assert.calledWith(ResetPasswordDemand.prototype.save, { used: true }, { patch: true });
+        sinon.assert.calledWith(ResetPasswordDemand.prototype.save, { used: true }, { patch: true, require: false });
       });
     });
   });
