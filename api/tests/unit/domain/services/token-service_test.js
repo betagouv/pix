@@ -1,8 +1,6 @@
-const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const { describe, it, expect } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const User = require('../../../../lib/domain/models/data/user');
-const settings = require('../../../../lib/settings');
-const jsonwebtoken = require('jsonwebtoken');
 
 describe('Unit | Service | Token Service', function() {
 
@@ -35,36 +33,5 @@ describe('Unit | Service | Token Service', function() {
       expect(result).to.equal(null);
     });
 
-  });
-
-  describe('#generateTemporaryKey', function() {
-
-    beforeEach(() => {
-      sinon.stub(jsonwebtoken, 'sign');
-    });
-
-    afterEach(() => {
-      jsonwebtoken.sign.restore();
-    });
-
-    it('should be a function', () => {
-      expect(tokenService.generateTemporaryKey).to.exist.and.to.be.a('function');
-    });
-
-    it('should call sign function from jwt', () => {
-      // given
-      const signParams = {
-        payload: { data: settings.temporaryKey.payload },
-        secret: settings.temporaryKey.secret,
-        expiration: { expiresIn: settings.temporaryKey.tokenLifespan }
-      };
-
-      // when
-      tokenService.generateTemporaryKey();
-
-      // then
-      sinon.assert.calledOnce(jsonwebtoken.sign);
-      sinon.assert.calledWith(jsonwebtoken.sign, signParams.payload, signParams.secret, signParams.expiration);
-    });
   });
 });
